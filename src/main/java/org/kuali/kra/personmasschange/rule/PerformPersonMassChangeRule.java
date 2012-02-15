@@ -44,7 +44,6 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
     private static final String UNIT_ADMINISTRATOR_ID = "unitAdministrator";
     private static final String MAILING_INFORMATION_ID = "mailingInformation";
     private static final String IP_REVIEWER_ID = "ipReviewer";
-    private static final String BUDGET_PERSON_ID = "budgetPerson";
     private static final String REQUISITIONER_ID = "requisitioner";
     private static final String NEGOTIATOR_ID = "negotiator";
     private static final String ADMINISTRATIVE_OFFICER_ID = "administrativeOfficer";
@@ -61,7 +60,6 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
     private static final String INSTITUTIONAL_PROPOSAL_MAILING_INFORMATION_FIELD = INSTITUTIONAL_PROPOSAL_FIELD + MAILING_INFORMATION_ID;
     private static final String INSTITUTIONAL_PROPOSAL_IP_REVIEWER_FIELD = INSTITUTIONAL_PROPOSAL_FIELD + IP_REVIEWER_ID;
     private static final String PROPOSAL_DEVELOPMENT_MAILING_INFORMATION_FIELD = PROPOSAL_DEVELOPMENT_FIELD + MAILING_INFORMATION_ID;
-    private static final String PROPOSAL_DEVELOPMENT_BUDGET_PERSON_FIELD = PROPOSAL_DEVELOPMENT_FIELD + BUDGET_PERSON_ID;
     private static final String SUBAWARD_CONTACT_PERSON_FIELD = SUBAWARD_FIELD + CONTACT_PERSON_ID;
     private static final String SUBAWARD_REQUISITIONER_FIELD = SUBAWARD_FIELD + REQUISITIONER_ID;
     private static final String NEGOTIATION_NEGOTIATOR_FIELD = NEGOTIATION_FIELD + NEGOTIATOR_ID;
@@ -82,7 +80,6 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
     private static final String INSTITUTIONAL_PROPOSAL_MAILING_INFORMATION = "Institutional Proposal Mailing Information";
     private static final String INSTITUTIONAL_PROPOSAL_IP_REVIEWER = "Institutional Proposal IP Reviewer";
     private static final String PROPOSAL_DEVELOPMENT_MAILING_INFORMATION = "Proposal Development Mailing Information";
-    private static final String PROPOSAL_DEVELOPMENT_BUDGET_PERSON = "Proposal Development Budget Person";
     private static final String SUBAWARD_CONTACT_PERSON = "SubAward Contact Person";
     private static final String SUBAWARD_REQUISITIONER = "SubAward Requisitioner";
     private static final String NEGOTIATION_NEGOTIATOR = "Negotiation Negotiator";
@@ -182,10 +179,6 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
         
         if (proposalDevelopmentPersonMassChange.isMailingInformation()) {
             isValid &= validateRolodex(personMassChange, PROPOSAL_DEVELOPMENT_MAILING_INFORMATION_FIELD, PROPOSAL_DEVELOPMENT_MAILING_INFORMATION);
-        }
-        
-        if (proposalDevelopmentPersonMassChange.isBudgetPerson()) {
-            isValid &= validatePerson(personMassChange, PROPOSAL_DEVELOPMENT_BUDGET_PERSON_FIELD, PROPOSAL_DEVELOPMENT_BUDGET_PERSON);
         }
         
         return isValid;

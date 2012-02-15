@@ -92,7 +92,7 @@ public class UnitAdministratorPersonMassChangeServiceImpl implements UnitAdminis
     private boolean isUnitAdministratorTypeChangeCandidate(PersonMassChange personMassChange, UnitAdministrator unitAdministrator, 
             String... unitAdministratorTypes) {
         
-        return isUnitAdministratorOfType(unitAdministrator, unitAdministratorTypes) && isPersonIdMassChange(personMassChange, unitAdministrator);
+        return isUnitAdministratorOfType(unitAdministrator, unitAdministratorTypes) && isPersonIdMassChange(personMassChange, unitAdministrator.getPersonId());
     }
     
     private boolean isUnitAdministratorOfType(UnitAdministrator unitAdministrator, String... unitAdministratorTypes) {
@@ -115,17 +115,15 @@ public class UnitAdministratorPersonMassChangeServiceImpl implements UnitAdminis
             newUnitAdministrator.setUnitNumber(unitAdministratorChangeCandidate.getUnitNumber());
             newUnitAdministrator.setPersonId(personMassChange.getReplacerPersonId());
             newUnitAdministrator.setUnitAdministratorTypeCode(unitAdministratorChangeCandidate.getUnitAdministratorTypeCode());
-            newUnitAdministrator.setUnit(unitAdministratorChangeCandidate.getUnit());
-            newUnitAdministrator.setUnitAdministratorType(unitAdministratorChangeCandidate.getUnitAdministratorType());
-
+            
             getBusinessObjectService().delete(unitAdministratorChangeCandidate);
             getBusinessObjectService().save(newUnitAdministrator);
         }
     }
     
-    private boolean isPersonIdMassChange(PersonMassChange personMassChange, UnitAdministrator unitAdministrator) {
+    private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
         String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && StringUtils.equals(replaceePersonId, unitAdministrator.getPersonId());
+        return replaceePersonId != null && StringUtils.equals(replaceePersonId, personId);
     }
     
     public BusinessObjectService getBusinessObjectService() {
