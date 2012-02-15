@@ -124,6 +124,9 @@
 		<property name="permissionService">
 			<ref bean="permissionService" />
 		</property>		
+		<property name="kimTypeInfoService">
+			<ref bean="kimTypeInfoService"/>
+		</property>
 	</bean>
 
 	<bean id="unitAuthorizationService" class="org.kuali.kra.service.impl.UnitAuthorizationServiceImpl">
