@@ -2183,35 +2183,4 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         // TODO Auto-generated method stub
         return getProtocolNumber();
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Protocol other = (Protocol) obj;
-        if (protocolId == null) {
-            if (other.protocolId != null) {
-                return false;
-            }
-        } else if (!protocolId.equals(other.protocolId)) {
-            return false;
-        }
-        return true;
-    }
-    
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((protocolId == null) ? 0 : protocolId.hashCode());
-        return result;
-    }
-    
 }

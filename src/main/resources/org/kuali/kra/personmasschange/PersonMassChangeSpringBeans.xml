@@ -46,6 +46,9 @@
     </bean>
     
     <bean id="awardPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.AwardPersonMassChangeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="rolodexService" ref="rolodexService" />
     </bean>
     
     <bean id="iacucProtocolPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.IacucProtocolPersonMassChangeServiceImpl">
@@ -55,15 +58,20 @@
     </bean>
     
     <bean id="proposalDevelopmentPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.ProposalDevelopmentPersonMassChangeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="personEditableService" ref="personEditableService" />
     </bean>
     
     <bean id="proposalLogPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.ProposalLogPersonMassChangeServiceImpl">
     </bean>
     
     <bean id="subawardPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.SubawardPersonMassChangeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
     <bean id="negotiationPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.NegotiationPersonMassChangeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="kcPersonService" ref="kcPersonService" />
     </bean>
     
     <bean id="committeePersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.CommitteePersonMassChangeServiceImpl">

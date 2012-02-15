@@ -28,6 +28,12 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 public class ProposalPersonRole extends KraPersistableBusinessObjectBase implements ContactRole {
 
+    public static final String PRINCIPAL_INVESTIGATOR = "PI";
+
+    public static final String CO_INVESTIGATOR = "COI";
+
+    public static final String KEY_PERSON = "KP";
+    
     private static final long serialVersionUID = -2184772940618843909L;
 
     private String proposalPersonRoleId;
