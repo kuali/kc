@@ -80,6 +80,11 @@
         			'type' : 'iframe',
         			'autoscale' : 'false',
         		});
+        		// added this so that after editing and submitting, the scrollbar moves back to the top
+        		$j("a[href='#top']").click(function() {
+        			  $j("html, body").animate({ scrollTop: 0 }, "slow");
+        			  return true;
+        		});
 				
         	})
         </script>
@@ -176,8 +181,11 @@
                           -->
                                 <c:if test="${KualiForm.financialEntityHelper.editEntityIndex != -1}">
                                     <input type="image" name="methodToCall.save.line${KualiForm.financialEntityHelper.editEntityIndex}.anchor" src="kr/static/images/buttonsmall_save.gif" class="globalbuttons" title="Save Edit" alt="Save Edit">
-                                    <input type="image" name="methodToCall.submit.line${KualiForm.financialEntityHelper.editEntityIndex}.anchor" src="kr/static/images/buttonsmall_submit.gif" class="globalbuttons" title="Submit Edit" alt="Submit Edit">
-                                </c:if>
+                                   <!--added this so that after editing and submitting, the scrollbar moves back to the top-->
+                                   <a href="#top">
+                                   	<input type="image" name="methodToCall.submit.line${KualiForm.financialEntityHelper.editEntityIndex}.anchor" src="kr/static/images/buttonsmall_submit.gif" class="globalbuttons" title="Submit Edit" alt="Submit Edit">
+                                	</a>
+                                	</c:if>
                                     <input type="image" name="methodToCall.editList" src="kr/static/images/buttonsmall_refresh.gif" class="globalbuttons" title="Refresh" alt="Refresh">
                                     <input type="image" name="methodToCall.close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
                             <!--    
