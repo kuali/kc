@@ -36,7 +36,7 @@ public class ModifyCoiDisclosureAuthorizer extends CoiDisclosureAuthorizer {
             // We have to consider the case when we are saving the coi disclosure for the first time.
             
            // hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.MAINTAIN_COI_DISCLOSURE);
-            hasPermission = getCoiDisclosureService().isReporter() 
+            hasPermission = getCoiDisclosureService().isReporter() || hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.REPORT_COI_DISCLOSURE)
                     || hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.MAINTAIN_COI_DISCLOSURE);
         } 
         else {
