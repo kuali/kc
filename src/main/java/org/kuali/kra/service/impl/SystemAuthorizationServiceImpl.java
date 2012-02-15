@@ -27,6 +27,8 @@ import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleQueryResults;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.type.KimType;
+import org.kuali.rice.kim.api.type.KimTypeInfoService;
 
 /**
  * The System Authorization Service Implementation.
@@ -36,6 +38,7 @@ import org.kuali.rice.kim.api.role.RoleService;
 public class SystemAuthorizationServiceImpl implements SystemAuthorizationService {  
     private PermissionService permissionService;
     private RoleService roleManagementService;
+    private KimTypeInfoService kimTypeInfoService;
     
     public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
@@ -44,6 +47,15 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
     public void setRoleManagementService(RoleService roleManagementService) {
         this.roleManagementService = roleManagementService;
     }
+    
+    protected KimTypeInfoService getKimTypeInfoService() {
+        return kimTypeInfoService;
+    }
+
+    public void setKimTypeInfoService(KimTypeInfoService kimTypeInfoService) {
+        this.kimTypeInfoService = kimTypeInfoService;
+    }
+    
 
     public List<Role> getRolesForPermission(String permissionName, String namespaceCode) {
         List<String> roleResults = permissionService.getRoleIdsForPermission(namespaceCode, permissionName, new HashMap<String, String>());
@@ -80,5 +92,8 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
         RoleQueryResults roleResults = roleManagementService.findRoles(queryBuilder.build());
         return roleResults.getResults();
     }
-
+    
+    public KimType getKimTypeInfoForRole(Role role) {
+        return getKimTypeInfoService().getKimType(role.getKimTypeId());
+    }
 }
