@@ -493,7 +493,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         // clear out the extra buttons array
         extraButtons.clear();
 
-        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        String externalImageURL = Constants.KR_EXTERNALIZABLE_IMAGES_URI_KEY;
         ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
         
         boolean suppressRoutingControls = getActionHelper().getCanApproveFull() || !getActionHelper().getCanApproveOther();
@@ -501,6 +501,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
             String sendAdHocRequestsImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_sendadhocreq.gif";
             addExtraButton("methodToCall.sendAdHocRequests", sendAdHocRequestsImage, "Send AdHoc Requests");
         }
+        externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         
         String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
         addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
