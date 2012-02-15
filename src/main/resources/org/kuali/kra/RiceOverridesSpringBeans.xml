@@ -260,7 +260,11 @@
 	
 	<bean id="groupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="kimGroupService" />
-	</bean>	
+	</bean>
+	
+	<bean id="kimTypeInfoService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kimTypeInfoService" />
+	</bean>
 	
 	<bean id="criteriaLookupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="criteriaLookupService" />
