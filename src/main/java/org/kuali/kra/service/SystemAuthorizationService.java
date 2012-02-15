@@ -18,6 +18,7 @@ package org.kuali.kra.service;
 import java.util.List;
 
 import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.type.KimType;
 
 /**
  * The System Authorization Service handles authorization in the global space.
@@ -41,5 +42,7 @@ public interface SystemAuthorizationService {
     public List<String> getRoleNamesForPermission(String permissionName, String namespaceCode);
     
     public List<String> getRoleIdsForPermission(String permissionName, String namespaceCode);
+    
+    public KimType getKimTypeInfoForRole(Role role);
     
 }

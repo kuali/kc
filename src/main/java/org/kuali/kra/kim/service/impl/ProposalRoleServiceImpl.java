@@ -16,6 +16,7 @@
 package org.kuali.kra.kim.service.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -23,6 +24,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.type.KimType;
 
 public class ProposalRoleServiceImpl implements ProposalRoleService {
     private SystemAuthorizationService systemAuthorizationService;
@@ -65,8 +67,21 @@ public class ProposalRoleServiceImpl implements ProposalRoleService {
                 finalRoleList.add(role);
             }
         }
+        
+        filterDerivedRoles(finalRoleList);
 
         return finalRoleList;
+    }
+    
+    protected void filterDerivedRoles(List<Role> roles) {
+        Iterator<Role> iter = roles.iterator();
+        while (iter.hasNext()) {
+            Role role = iter.next();
+            KimType type = systemAuthorizationService.getKimTypeInfoForRole(role);
+            if (StringUtils.startsWith(type.getName(), "Derived Role")) {
+                iter.remove();
+            }
+        }
     }
     
 }
