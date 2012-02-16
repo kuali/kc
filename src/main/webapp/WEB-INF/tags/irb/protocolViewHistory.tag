@@ -138,6 +138,9 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
                                                                       <html:image property="methodToCall.regenerateCorrespondence.line${status.index}.attachment${attachmentStatus.index}.anchor${currentTabIndex}"
                                                                           src='${ConfigProperties.kra.externalizable.images.url}tinybutton-regenerate.gif' styleClass="tinybutton"
                                                                           alt="Regenerate Correspondence" title="Regenerate Correspondence" onclick="excludeSubmitRestriction = true;"/>
+                                                                      <html:image property="methodToCall.updateCorrespondence.line${status.index}.attachment${attachmentStatus.index}.anchor${currentTabIndex}"
+                                                                          src='${ConfigProperties.kra.externalizable.images.url}tinybutton-update.gif' styleClass="tinybutton"
+                                                                          alt="Update Correspondence" title="Update Correspondence" onclick="excludeSubmitRestriction = true;"/>
                                                                    </c:if>
 								                               </div>
 							                                 </td>
