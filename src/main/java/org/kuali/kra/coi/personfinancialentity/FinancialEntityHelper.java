@@ -22,11 +22,13 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -58,7 +60,8 @@ public class FinancialEntityHelper implements Serializable {
     private List<PersonFinIntDisclosure> versions;
     private String editCoiEntityId;
     private String reporterId;
-
+    private BusinessObjectService businessObjectService;
+    
     public String getEditType() {
         return editType;
     }
@@ -91,6 +94,7 @@ public class FinancialEntityHelper implements Serializable {
         newRolodexId = -1;
         prevSponsorCode = Constants.EMPTY_STRING;
         prevNewSponsorCode = Constants.EMPTY_STRING;
+        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         this.form = form;
     }
     
@@ -355,27 +359,27 @@ public class FinancialEntityHelper implements Serializable {
          */
         syncNewFile(getNewFinEntityAttachment());
 
-            newFinEntityAttachment.setFinancialEntityId(getNewPersonFinancialEntity().getPersonFinIntDisclosureId()); 
-            newFinEntityAttachment.setSequenceNumber(getNewPersonFinancialEntity().getSequenceNumber());
-            newFinEntityAttachment.updateParms();
-            getFinEntityAttachmentList().add(newFinEntityAttachment);
-            newFinEntityAttachment = new FinancialEntityAttachment();
-        }
+        newFinEntityAttachment.setFinancialEntityId(getNewPersonFinancialEntity().getPersonFinIntDisclosureId()); 
+        newFinEntityAttachment.setSequenceNumber(getNewPersonFinancialEntity().getSequenceNumber());
+        newFinEntityAttachment.updateParms();
+        getFinEntityAttachmentList().add(newFinEntityAttachment);
+        newFinEntityAttachment = new FinancialEntityAttachment();
+    }
 
     protected void syncNewFile(FinancialEntityAttachment attachment) {
         assert attachment != null : "the attachment is null";
 
-            if (doesNewFileExist(attachment)) {
-                AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
-                //setting the sequence number to the old file sequence number
-                if (attachment.getFile() != null) {
-                    newFile.setSequenceNumber(attachment.getFile().getSequenceNumber());
-                }
-                attachment.setFile(newFile);
-            // set to null, so the subsequent post will not create new file again
-                attachment.setNewFile(null);
+        if (doesNewFileExist(attachment)) {
+            AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
+            //setting the sequence number to the old file sequence number
+            if (attachment.getAttachmentFile() != null) {
+                newFile.setSequenceNumber(new Integer(1));
             }
+            attachment.setFile(newFile);
+            // set to null, so the subsequent post will not create new file again
+            attachment.setNewFile(null);
         }
+    }
 
     private static boolean doesNewFileExist(FinancialEntityAttachment attachment) {
         assert attachment != null : "the attachment was null";
@@ -391,4 +395,21 @@ public class FinancialEntityHelper implements Serializable {
         this.finEntityAttachmentList = finEntityAttachmentList;
     }
 
- }
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
+    private void refreshAttachmentReferences(List<FinancialEntityAttachment> attachments) {
+        assert attachments != null : "the attachments were null";
+
+        for (final FinancialEntityAttachment attachment : attachments) {   
+            if (attachment instanceof FinancialEntityAttachment) {
+                attachment.refreshReferenceObject("attachmentFile");   
+            }
+
+        }
+
+    }
+
+
+}
