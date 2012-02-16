@@ -3785,6 +3785,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 //        ProtocolCorrespondence correspondence = getProtocolCorrespondence(protocol);
         if (dataSource != null) {
             protocolCorrespondence.setCorrespondence(dataSource.getContent());
+            protocolCorrespondence.setFinalFlag(false);
             protocolCorrespondence.setForwardName(PROTOCOL_ACTIONS_TAB);
             protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
             getBusinessObjectService().save(protocolCorrespondence);
@@ -3814,6 +3815,28 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
     private ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
         return KraServiceLocator.getService(ProtocolActionCorrespondenceGenerationService.class);
+    }
+
+    public ActionForward updateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        int actionIndex = getSelectedLine(request);
+        int attachmentIndex = getSelectedAttachment(request);
+        org.kuali.kra.irb.actions.ProtocolAction protocolAction = protocolForm.getActionHelper().getProtocol().getProtocolActions().get(actionIndex);
+        protocolAction.refreshReferenceObject("protocolCorrespondences");
+        ProtocolCorrespondence protocolCorrespondence = protocolAction.getProtocolCorrespondences().get(attachmentIndex);
+
+        if (protocolCorrespondence == null) {
+            LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolCorrespondence: " + attachmentIndex);
+            // may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        protocolCorrespondence.setForwardName(PROTOCOL_ACTIONS_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
+
+        return mapping.findForward(CORRESPONDENCE);
+
     }
 
 }
