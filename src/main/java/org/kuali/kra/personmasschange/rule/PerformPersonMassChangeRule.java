@@ -40,7 +40,6 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
     private static final String UNIT_ADMINISTRATOR_FIELD = "document.personMassChange.unitAdministratorPersonMassChange.";
 
     private static final String CONTACT_PERSON_ID = "contactPerson";
-    private static final String FOREIGN_TRIP_ID = "foreignTrip";
     private static final String UNIT_ADMINISTRATOR_ID = "unitAdministrator";
     private static final String MAILING_INFORMATION_ID = "mailingInformation";
     private static final String IP_REVIEWER_ID = "ipReviewer";
@@ -54,7 +53,6 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
     private static final String ADMINISTRATOR_ID = "administrator";
     
     private static final String AWARD_CONTACT_PERSON_FIELD = AWARD_FIELD + CONTACT_PERSON_ID;
-    private static final String AWARD_FOREIGN_TRIP_FIELD = AWARD_FIELD + FOREIGN_TRIP_ID;
     private static final String AWARD_UNIT_ADMINISTRATOR_FIELD = AWARD_FIELD + UNIT_ADMINISTRATOR_ID;
     private static final String INSTITUTIONAL_PROPOSAL_UNIT_ADMINISTRATOR_FIELD = INSTITUTIONAL_PROPOSAL_FIELD + UNIT_ADMINISTRATOR_ID;
     private static final String INSTITUTIONAL_PROPOSAL_MAILING_INFORMATION_FIELD = INSTITUTIONAL_PROPOSAL_FIELD + MAILING_INFORMATION_ID;
@@ -74,7 +72,6 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
     private static final String NON_EMPLOYEE = "Non-Employee";
     
     private static final String AWARD_CONTACT_PERSON = "Award Contact Person";
-    private static final String AWARD_FOREIGN_TRIP = "Award Foreign Trip";
     private static final String AWARD_UNIT_ADMINISTRATOR = "Award Unit Administrator";
     private static final String INSTITUTIONAL_PROPOSAL_UNIT_ADMINISTRATOR = "Institutional Proposal Unit Administrator";
     private static final String INSTITUTIONAL_PROPOSAL_MAILING_INFORMATION = "Institutional Proposal Mailing Information";
@@ -139,10 +136,6 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
         
         if (awardPersonMassChange.isContactPerson()) {
             isValid &= validateRolodex(personMassChange, AWARD_CONTACT_PERSON_FIELD, AWARD_CONTACT_PERSON);
-        }
-        
-        if (awardPersonMassChange.isForeignTrip()) {
-            isValid &= validatePerson(personMassChange, AWARD_FOREIGN_TRIP_FIELD, AWARD_FOREIGN_TRIP);
         }
         
         if (awardPersonMassChange.isUnitAdministrator()) {
