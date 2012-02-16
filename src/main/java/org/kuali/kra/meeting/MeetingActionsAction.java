@@ -407,6 +407,7 @@ public class MeetingActionsAction extends MeetingAction {
 //                ProtocolCorrespondence correspondence = getProtocolCorrespondence(protocol);
                 if (dataSource != null) {
                     protocolCorrespondence.setCorrespondence(dataSource.getContent());
+                    protocolCorrespondence.setFinalFlag(false);
                 }
 //                meetingHelper.setProtocolCorrespondence(protocolCorrespondence);
                 meetingHelper.getRegeneratedCorrespondences().add(protocolCorrespondence);
