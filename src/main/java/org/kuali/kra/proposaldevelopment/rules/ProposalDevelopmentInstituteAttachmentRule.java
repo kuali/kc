@@ -38,6 +38,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -79,7 +80,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
             rulePassed = false;
         
         GlobalVariables.getMessageMap().addToErrorPath(NEW_INSTITUTE_ATTACHMENT);
-        DictionaryValidationService dictionaryValidationService = (DictionaryValidationService) getDictionaryValidationService();
+        DictionaryValidationService dictionaryValidationService = getKnsDictionaryValidationService();
         dictionaryValidationService.validateAttributeFormat(narrative.getClass().getName(), "moduleTitle", narrative.getModuleTitle(), "moduleTitle");
 
         if (GlobalVariables.getMessageMap().getPropertiesWithErrors().size() > 0) rulePassed = false;

@@ -28,6 +28,7 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.rules.MaintenanceDocumentRule;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -291,6 +292,6 @@ public abstract class MaintenanceRuleTestBase extends KcUnitTestBase {
      * @return DictionaryValidationService
      */
     protected DictionaryValidationService getDictionaryValidationService() {
-        return KraServiceLocator.getService(DictionaryValidationService.class);
+        return KNSServiceLocator.getKNSDictionaryValidationService();
     }
 }

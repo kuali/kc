@@ -36,6 +36,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.DocumentRuleBase;
@@ -59,6 +60,7 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
 
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
+    private DictionaryValidationService knsDictionaryValidationService;
 
     /**
      * Delegates to {@link ErrorReporter#reportError(String, String, String...) ErrorReporter#reportError(String, String, String...)}
@@ -145,7 +147,7 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
         final MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean finalVersionFound = false;
 
-        final DictionaryValidationService dictionaryValidationService = (DictionaryValidationService) this.getDictionaryValidationService();
+        final DictionaryValidationService dictionaryValidationService = getKnsDictionaryValidationService();
 
         int index = 0;
         for (BudgetDocumentVersion budgetDocumentVersion: budgetParentDocument.getBudgetDocumentVersions()) {
@@ -323,4 +325,13 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     public ErrorReporter getErrorReporter() {
         return this.errorReporter;
     }
+
+    protected DictionaryValidationService getKnsDictionaryValidationService() {
+        if (this.knsDictionaryValidationService == null) {
+            this.knsDictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();       
+        }
+        return this.knsDictionaryValidationService;
+    }
+    
+
 }

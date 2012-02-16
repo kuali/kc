@@ -34,6 +34,7 @@ import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -163,7 +164,7 @@ public class FinancialEntityAction extends KualiAction {
     }
 
     private DictionaryValidationService getDictionaryValidationService() {
-        return KraServiceLocator.getService(DictionaryValidationService.class);
+        return KNSServiceLocator.getKNSDictionaryValidationService();
     }
 
     protected BusinessObjectService getBusinessObjectService() {

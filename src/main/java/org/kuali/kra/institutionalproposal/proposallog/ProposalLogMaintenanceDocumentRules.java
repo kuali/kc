@@ -174,7 +174,6 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
                 GlobalVariables.getUserSession().getPrincipalId(), 
                 InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
                 KraAuthorizationConstants.PERMISSION_SUBMIT_PROPOSAL_LOG, 
-                permissionDetails, 
                 qualifications);
     }
     

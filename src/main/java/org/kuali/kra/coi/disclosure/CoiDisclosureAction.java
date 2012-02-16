@@ -382,7 +382,7 @@ public class CoiDisclosureAction extends CoiAction {
     }
 
     protected DictionaryValidationService getDictionaryValidationService() {
-        return KNSServiceLocator.getDictionaryValidationService();
+        return KNSServiceLocator.getKNSDictionaryValidationService();
     }
     
     protected ActionForward confirmDeleteAttachment(ActionMapping mapping, CoiDisclosureForm form, HttpServletRequest request,

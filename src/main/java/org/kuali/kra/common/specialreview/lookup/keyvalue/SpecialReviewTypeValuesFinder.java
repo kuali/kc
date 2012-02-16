@@ -76,7 +76,7 @@ public abstract class SpecialReviewTypeValuesFinder extends KeyValuesBase {
         final List<KeyValue> filteredKeyValues = new ArrayList<KeyValue>();
         
         boolean canViewNonGlobalSpecialReviewTypes = getPermissionService().hasPermission(
-                GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE , PERMISSION_NAME,new HashMap<String,String>());
+                GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE , PERMISSION_NAME);
         
         Collection<SpecialReviewUsage> specialReviewUsages = getSpecialReviewUsages();
         for (KeyValue item : unfilteredKeyValues) {

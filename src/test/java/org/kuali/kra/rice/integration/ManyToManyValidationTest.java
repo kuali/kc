@@ -30,6 +30,7 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.irb.test.ProtocolTestUtil;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -65,7 +66,7 @@ public class ManyToManyValidationTest extends KcUnitTestBase { //KraWebTestBase 
      */
     @Before
     public void setupServices() {
-        this.dictionaryValidationService = KraServiceLocator.getService(DictionaryValidationService.class);
+        this.dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
     }
     
     /**

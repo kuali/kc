@@ -37,7 +37,13 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.action.RoutingReportCriteria;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
@@ -89,8 +95,17 @@ public class ProtocolRouteTest extends KcUnitTestBase {
 
         documentService.routeDocument(protocolDocument, null, null);
         documentService.blanketApproveDocument(protocolDocument, null, null);
-        
-        assertTrue(getWorkflowDocument(protocolDocument).isFinal());
+        WorkflowDocument workflowDoc = getWorkflowDocument(protocolDocument);
+        WorkflowDocumentActionsService info = GlobalResourceLoader.getService("rice.kew.workflowDocumentActionsService");
+        RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(workflowDoc.getDocumentId());
+        DocumentDetail results1 = info.executeSimulation(reportCriteriaBuilder.build());
+        for(ActionRequest actionRequest : results1.getActionRequests() ){
+            if(actionRequest.isPending() && actionRequest.getActionRequested().getCode().equalsIgnoreCase(KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ)) {
+                System.out.println(actionRequest.getPrincipalId() + " | " + actionRequest.getGroupId());
+                System.out.println(actionRequest.getNodeName());
+            }
+        }
+        assertTrue(workflowDoc.isFinal());
         
         //the status update is not happening within doRouteStatusChange anymore
         //assertEquals(protocolDocument.getProtocol().getProtocolStatusCode(), ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
@@ -193,6 +208,7 @@ public class ProtocolRouteTest extends KcUnitTestBase {
                 }
             }
         }
+        
         return workflowDocument;
     }
     

@@ -89,7 +89,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
             qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, unitNumber);
             
             //The UnitHierarchyRoleTypeService takes care of traversing the Unit tree.
-            userHasPermission = permissionService.isAuthorized(userId, namespaceCode, permissionName, permissionAttributes, qualifiedRoleAttributes); 
+            userHasPermission = permissionService.isAuthorized(userId, namespaceCode, permissionName, qualifiedRoleAttributes); 
         }
         return userHasPermission;
     }
@@ -103,7 +103,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*"); 
-        userHasPermission = permissionService.isAuthorized(userId, namespaceCode, permissionName, permissionAttributes, qualifiedRoleAttributes);
+        userHasPermission = permissionService.isAuthorized(userId, namespaceCode, permissionName, qualifiedRoleAttributes);
         return userHasPermission;
     }
     
