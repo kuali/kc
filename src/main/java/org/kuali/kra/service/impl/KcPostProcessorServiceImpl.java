@@ -16,15 +16,21 @@
 package org.kuali.kra.service.impl;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ojb.broker.OptimisticLockException;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.PostProcessorService;
 import org.kuali.rice.krad.service.impl.PostProcessorServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -38,10 +44,9 @@ public class KcPostProcessorServiceImpl extends PostProcessorServiceImpl impleme
     
     private WorkflowDocumentService workflowDocumentService;
     
-    @Override
-    public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
+    protected void performKCWorkaround(DocumentRouteStatusChange statusChangeEvent) throws Exception {
         try {
-            establishGlobalVariables();
+            establishPostProcessorUserSession();
             
             String routeHeaderId = statusChangeEvent.getDocumentId();
             
@@ -63,9 +68,84 @@ public class KcPostProcessorServiceImpl extends PostProcessorServiceImpl impleme
 
             throw new RuntimeException("post processor caught exception while handling route status change: " + e.getMessage(), e);
         }
-        
-        return super.doRouteStatusChange(statusChangeEvent);
-        
+    }
+    
+    @Override
+    public ProcessDocReport doRouteStatusChange(final DocumentRouteStatusChange statusChangeEvent) throws Exception {
+        return GlobalVariables.doInNewGlobalVariables(establishPostProcessorUserSession(),
+                new Callable<ProcessDocReport>() {
+                    public ProcessDocReport call() throws Exception {
+                        DocumentService documentService = KRADServiceLocatorWeb.getDocumentService();
+                        try {
+                            if (LOG.isInfoEnabled()) {
+                                LOG.info(new StringBuffer("started handling route status change from ").append(
+                                        statusChangeEvent.getOldRouteStatus()).append(" to ").append(
+                                        statusChangeEvent.getNewRouteStatus()).append(" for document ").append(
+                                        statusChangeEvent.getDocumentId()));
+                            }
+
+                            Document document = documentService.getByDocumentHeaderId(
+                                    statusChangeEvent.getDocumentId());
+                            if (document == null) {
+                                if (!KewApiConstants.ROUTE_HEADER_CANCEL_CD.equals(
+                                        statusChangeEvent.getNewRouteStatus())) {
+                                    throw new RuntimeException(
+                                            "unable to load document " + statusChangeEvent.getDocumentId());
+                                }
+                            } else {
+                                performKCWorkaround(statusChangeEvent);
+                                document.doRouteStatusChange(statusChangeEvent);
+                                // PLEASE READ BEFORE YOU MODIFY:
+                                // we dont want to update the document on a Save, as this will cause an
+                                // OptimisticLockException in many cases, because the DB versionNumber will be
+                                // incremented one higher than the document in the browser, so when the user then
+                                // hits Submit or Save again, the versionNumbers are out of synch, and the
+                                // OptimisticLockException is thrown. This is not the optimal solution, and will
+                                // be a problem anytime where the user can continue to edit the document after a
+                                // workflow state change, without reloading the form.
+                                if (!document.getDocumentHeader().getWorkflowDocument().isSaved()) {
+                                    documentService.updateDocument(document);
+                                }
+                            }
+                            if (LOG.isInfoEnabled()) {
+                                LOG.info(new StringBuffer("finished handling route status change from ").append(
+                                        statusChangeEvent.getOldRouteStatus()).append(" to ").append(
+                                        statusChangeEvent.getNewRouteStatus()).append(" for document ").append(
+                                        statusChangeEvent.getDocumentId()));
+                            }
+                        } catch (Exception e) {
+                            logAndRethrow("route status", e);
+                        }
+                        return new ProcessDocReport(true, "");
+                    }
+                });
+    }
+    
+    /* Replicating utilitity methods from super class */
+    /* will request for those to be made protected */
+    private void logAndRethrow(String changeType, Exception e) throws RuntimeException {
+        LOG.error("caught exception while handling " + changeType + " change", e);
+        logOptimisticDetails(5, e);
+
+        throw new RuntimeException("post processor caught exception while handling " + changeType + " change: " + e.getMessage(), e);
+    }
+
+    /* Replicating utilitity methods from super class */
+    /* will request for those to be made protected */
+    private void logOptimisticDetails(int depth, Throwable t) {
+        if ((depth > 0) && (t != null)) {
+            if (t instanceof OptimisticLockException) {
+                OptimisticLockException o = (OptimisticLockException) t;
+
+                LOG.error("source of OptimisticLockException = " + o.getSourceObject().getClass().getName() + " ::= " + o.getSourceObject());
+            }
+            else {
+                Throwable cause = t.getCause();
+                if (cause != t) {
+                    logOptimisticDetails(--depth, cause);
+                }
+            }
+        }
     }
     
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {

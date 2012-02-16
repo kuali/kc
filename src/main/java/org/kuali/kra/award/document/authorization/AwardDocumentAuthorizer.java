@@ -165,7 +165,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         set.put("documentAction", "Create award account");
         // if the user has permission.
         hasPermission = getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
-                                                                "KC-AWARD", "Create Award Account",set);
+                                                                "KC-AWARD", "Create Award Account");
         return hasPermission;    
     }
     

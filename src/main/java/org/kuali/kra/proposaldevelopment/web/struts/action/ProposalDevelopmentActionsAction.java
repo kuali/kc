@@ -357,10 +357,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 forward = mapping.findForward("notificationEditor");
             } else {
                 getNotificationService().sendNotification(context);                
-            }                
-
         }
         
+    }
+    
         return forward;
     }
     
@@ -793,8 +793,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         permissionDetails.put(PermissionConstants.DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER, InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_DOCUMENT_NAME);
         if (!getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
                 InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
-                PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL, 
-                permissionDetails)) {
+                PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL)) {
             hasPermission = false;
             GlobalVariables.getMessageMap().putError("emptyProp", 
                     KeyConstants.ERROR_SUBMIT_TO_SPONSOR_PERMISSONS, 
@@ -803,8 +802,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         if (!getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
                 InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
-                PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL, 
-                permissionDetails)) {
+                PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL)) {
             hasPermission = false;
             GlobalVariables.getMessageMap().putError("emptyProp", 
                     KeyConstants.ERROR_SUBMIT_TO_SPONSOR_PERMISSONS, 

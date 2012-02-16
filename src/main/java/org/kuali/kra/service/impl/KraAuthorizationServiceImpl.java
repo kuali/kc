@@ -137,7 +137,7 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
         String unitNumber = permissionable.getLeadUnitNumber();
         
         if(StringUtils.isNotEmpty(permissionable.getDocumentNumberForPermission())) {
-            userHasPermission = permissionService.isAuthorized(userId, permissionable.getNamespace(), permissionName, permissionAttributes, qualifiedRoleAttributes); 
+            userHasPermission = permissionService.isAuthorized(userId, permissionable.getNamespace(), permissionName, qualifiedRoleAttributes); 
         }
         if (!userHasPermission && StringUtils.isNotEmpty(unitNumber)) {
             userHasPermission = unitAuthorizationService.hasPermission(userId, unitNumber, permissionable.getNamespace(), permissionName);
@@ -151,7 +151,7 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
     public boolean hasRole(String userId, Permissionable permissionable, String roleName) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-        Role role = roleManagementService.getRoleByNameAndNamespaceCode(permissionable.getNamespace(), roleName);
+        Role role = roleManagementService.getRoleByNamespaceCodeAndName(permissionable.getNamespace(), roleName);
         if(role != null) {
             return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()),new HashMap<String,String>(qualifiedRoleAttributes));
         }
@@ -181,7 +181,7 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
             List<String> roleIds = new ArrayList<String>();
             Map<String, String> roleNameIdMap = new HashMap<String, String>();
             for(String role : permissionable.getRoleNames()) {
-                String roleId = roleManagementService.getRoleIdByNameAndNamespaceCode(permissionable.getNamespace(), role);
+                String roleId = roleManagementService.getRoleIdByNamespaceCodeAndName(permissionable.getNamespace(), role);
                 roleNameIdMap.put(roleId, role);
                 roleIds.add(roleId);
             }
@@ -246,7 +246,7 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
 
     
     public boolean hasRole(String userId, String namespace, String roleName) {
-        Role role = roleManagementService.getRoleByNameAndNamespaceCode(namespace, roleName);
+        Role role = roleManagementService.getRoleByNamespaceCodeAndName(namespace, roleName);
         if(role != null) {
             return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()), null);
         }

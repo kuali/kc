@@ -22,12 +22,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -45,7 +45,7 @@ public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
     public void setUp() throws Exception {
         super.setUp();
         rule = new ProtocolDocumentRule();
-        dictionaryValidationService = KraServiceLocator.getService(DictionaryValidationService.class);
+        dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
     }
 
     @After

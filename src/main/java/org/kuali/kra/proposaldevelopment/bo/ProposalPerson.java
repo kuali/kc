@@ -1985,11 +1985,6 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         return homeUnitRef;
     }
 
-    public String getPassword() {
-        final KcPerson person = this.getPerson();
-        return person != null ? person.getPassword() : null;
-    }
-
     /**
      * @see org.kuali.kra.bo.Contactable#getIdentifier()
      */

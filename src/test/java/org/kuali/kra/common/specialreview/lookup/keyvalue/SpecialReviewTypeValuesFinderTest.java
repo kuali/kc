@@ -192,7 +192,7 @@ public class SpecialReviewTypeValuesFinderTest extends KcUnitTestBase {
         
         context.checking(new Expectations() {{
             allowing(service).hasPermission(
-                GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE , PERMISSION_NAME,new HashMap<String,String>());
+                GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE , PERMISSION_NAME);
             will(returnValue(canViewNonGlobalSpecialReviewTypes));
         }});
         

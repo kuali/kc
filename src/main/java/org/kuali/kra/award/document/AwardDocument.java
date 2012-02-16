@@ -583,7 +583,6 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
                 GlobalVariables.getUserSession().getPrincipalId(), 
                 KraAuthorizationConstants.KC_AWARD_NAMESPACE, 
                 KraAuthorizationConstants.PERMISSION_MODIFY_AWARD, 
-                permissionDetails, 
                 qualifications);
     }
     

@@ -166,7 +166,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     }
 
     protected DictionaryValidationService getDictionaryValidationService() {
-            return (DictionaryValidationService) KNSServiceLocator.getDictionaryValidationService();
+            return KNSServiceLocator.getKNSDictionaryValidationService();
     }
 
     /**
