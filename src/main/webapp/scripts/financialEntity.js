@@ -210,26 +210,26 @@
 
     function updateStateOnClick(countryCodeFieldName) {
     	var stateField = findElPrefix( countryCodeFieldName )+".state";
-	    var countryCode = DWRUtil.getValue( countryCodeFieldName );
+	    var countryCode = dwr.util.getValue( countryCodeFieldName );
         updateStateCode(countryCodeFieldName, $(stateField).value);
     }
     
     function updateStateCode(countryCodeFieldName, state) {
     var stateField = findElPrefix( countryCodeFieldName )+".state";
-    var countryCode = DWRUtil.getValue( countryCodeFieldName);
+    var countryCode = dwr.util.getValue( countryCodeFieldName);
     
     var dwrReply = {
         callback:function(data) {
             	if ( data != null && data.length > 0 ) {
             		$(stateField).disabled = false;
-                	DWRUtil.removeAllOptions( stateField );
+                	dwr.util.removeAllOptions( stateField );
                 	$(stateField).options[0] = new Option('', '');
-                	DWRUtil.addOptions( stateField, data, 'postalStateCode', 'postalStateName' );
+                	dwr.util.addOptions( stateField, data, 'postalStateCode', 'postalStateName' );
                 	if (state != '') {
-                        DWRUtil.setValue(stateField, state);
+                        dwr.util.setValue(stateField, state);
                 	}
 	            } else { 
-	                DWRUtil.setValue(stateField, '');
+	                dwr.util.setValue(stateField, '');
        	    		$(stateField).disabled = true;
             } 
         },
@@ -242,20 +242,20 @@
     }
     
     function loadEntityContactInfoFromRolodex(rolodexId, prefix) {
-//        var rolodexId = DWRUtil.getValue( rolodexFieldName );
+//        var rolodexId = dwr.util.getValue( rolodexFieldName );
  
         if (rolodexId != '') {
             var dwrReply = {
                 callback:function(data) {
                     if ( data != null ) {
-                        DWRUtil.setValue(prefix+".addressLine1", data.addressLine1);
-                        DWRUtil.setValue(prefix+".addressLine2", data.addressLine2);
-                        DWRUtil.setValue(prefix+".addressLine3", data.addressLine3);
-                        DWRUtil.setValue(prefix+".city", data.city);
-                        DWRUtil.setValue(prefix+".countryCode", data.countryCode);
+                        dwr.util.setValue(prefix+".addressLine1", data.addressLine1);
+                        dwr.util.setValue(prefix+".addressLine2", data.addressLine2);
+                        dwr.util.setValue(prefix+".addressLine3", data.addressLine3);
+                        dwr.util.setValue(prefix+".city", data.city);
+                        dwr.util.setValue(prefix+".countryCode", data.countryCode);
                         updateStateCode(prefix+".countryCode", data.state)
-                        DWRUtil.setValue(prefix+".state", data.state);
-                        DWRUtil.setValue(prefix+".postalCode", data.postalCode);
+                        dwr.util.setValue(prefix+".state", data.state);
+                        dwr.util.setValue(prefix+".postalCode", data.postalCode);
                     }
                 },
                 errorHandler:function( errorMessage ) {
