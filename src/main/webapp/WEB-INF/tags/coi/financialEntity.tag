@@ -24,7 +24,8 @@
     </c:choose>
     <c:forEach var="financialEntity" items="${financialEntityList}" varStatus="status">
         <tr id="hdrrow${status.index}${idsufix}"> 
-            <td nowrap class="tab-subhead1"><a href="#" id="A${status.index}${idsufix}" onclick="rend(this, false)"><img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-show.gif" alt="show/hide this panel" width=45 height=15 border=0 align=absmiddle id="F${status.index}${idsufix}"></a></td> 
+            <td nowrap class="tab-subhead1">
+            </td> 
             <td align="left" valign="middle" class="tab-subhead1">
                 <div align="left"> ${financialEntity.entityName} </div>
             </td>
@@ -34,6 +35,7 @@
             <td align="left" valign="middle" class="tab-subhead1">
                 <fmt:formatDate value="${financialEntity.updateTimestamp}" pattern="MM/dd/yyyy hh:mm a" />
             </td>
+            <!-- All the buttons required for viewing summary details and activating/deactivating -->
             <td class="tab-subhead1">
                     <div align=center>&nbsp;                               
                          <a class="iframe" id="viewEntitySummary" title="${financialEntity.entityName} Summary" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=viewFinancialEntity&status=${activeFlag}&index=${status.index}" scrolling="no" noresize>
@@ -61,11 +63,10 @@
 					</div>
             </td>
         </tr> 
-        <tr id="G${status.index}${idsufix}" style="display: none;"> 
+           <c:if test="${KualiForm.financialEntityHelper.editEntityIndex == status.index and KualiForm.financialEntityHelper.editType == activeFlag}">     
+        	<tr>
             <td colspan="5">
-                <table id="active-hist-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
- 
-                    <c:if test="${KualiForm.financialEntityHelper.editEntityIndex == status.index and KualiForm.financialEntityHelper.editType == activeFlag}">
+                <table id="active-hist-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">                   
                         <tr> 
                             <td colspan="5">
                                 <div class="tab-container" align="center">
@@ -143,20 +144,19 @@
                                             <%-- contact info --%>
                                             <kra-coi:financialEntityContactInfo  prop="${prop}[${status.index}]" />
                                         </table>
-                                    </div>          
-                                </div>
+                                    </div>                                            
+                                </div>                                
                             </td>
                         </tr>
-                
+                		
                         <tr>
                             <td colspan="5">
                             	<kra-coi:financialEntityRelationshipDetails prop="financialEntityHelper.editRelationDetails" detailList="${KualiForm.financialEntityHelper.editRelationDetails}"/>
 								<kra-coi:financialEntityAttachments/>
                             </td>
                         </tr>     
-                    </c:if>
-                </table> 
-            </td>
-        </tr>
-              
+                </table>                    
+          </td>
+       </tr>
+       </c:if>
     </c:forEach>   
