@@ -36,6 +36,8 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
 
     private static final long serialVersionUID = 8999619585664343780L;
 
+    private Long id;
+    
     private String name;
 
     private String type;
@@ -225,5 +227,13 @@ public class AttachmentFile extends SeparateAssociate implements KcAttachment {
 
     public String getIconPath() {
         return KraServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
