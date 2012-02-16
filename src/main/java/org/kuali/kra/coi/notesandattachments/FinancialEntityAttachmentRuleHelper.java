@@ -57,12 +57,12 @@ public class FinancialEntityAttachmentRuleHelper {
     public boolean validFile(FinancialEntityAttachment newFinancialEntityAttachment) {
         final boolean valid;
         
-        if (newFinancialEntityAttachment.getFile() == null) {
+        if (newFinancialEntityAttachment.getAttachmentFile() == null) {
             valid = false;
             this.errorReporter.reportError(this.propertyPrefix + ".newFile",
                 KeyConstants.ERROR_COI_ATTACHMENT_MISSING_FILE);
         } else {
-            valid = this.validationService.isBusinessObjectValid(newFinancialEntityAttachment.getFile());
+            valid = this.validationService.isBusinessObjectValid(newFinancialEntityAttachment.getAttachmentFile());
         }
         
         return valid;
