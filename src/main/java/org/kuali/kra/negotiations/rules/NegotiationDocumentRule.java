@@ -16,10 +16,6 @@
 package org.kuali.kra.negotiations.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.customdata.AwardCustomDataRuleImpl;
-import org.kuali.kra.award.customdata.AwardSaveCustomDataRuleEvent;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
@@ -31,9 +27,7 @@ import org.kuali.kra.negotiations.customdata.NegotiationCustomDataRuleImpl;
 import org.kuali.kra.negotiations.customdata.NegotiationSaveCustomDataRuleEvent;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.service.DataDictionaryService;

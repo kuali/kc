@@ -24,7 +24,7 @@ function jq_escape(myid) {
 
 
 function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName) {
-	var fundingSourceTypeCode = DWRUtil.getValue( fundingSourceTypeCodeFieldName );
+	var fundingSourceTypeCode = dwr.util.getValue( fundingSourceTypeCodeFieldName );
 	var allowEdit;
 	
 	clearRecipients( fundingSourceNameFieldName);
@@ -59,12 +59,12 @@ function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceN
  * Load the Funding Source Name field based on the source and type passed in.
  */
 function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName ) {
-	var fundingSourceTypeCode = DWRUtil.getValue( fundingSourceTypeCodeField );
+	var fundingSourceTypeCode = dwr.util.getValue( fundingSourceTypeCodeField );
 	var fundingSource = "";
-	var fundingSourceNumber = DWRUtil.getValue ( fundingSourceNumberFieldName );
-	var fundingSourceName = DWRUtil.getValue( fundingSourceNameFieldName );
-	var fundingSourceTitle = DWRUtil.getValue( fundingSourceTitleFieldName );
-	var docFormKey = DWRUtil.getValue( "docFormKey" );
+	var fundingSourceNumber = dwr.util.getValue ( fundingSourceNumberFieldName );
+	var fundingSourceName = dwr.util.getValue( fundingSourceNameFieldName );
+	var fundingSourceTitle = dwr.util.getValue( fundingSourceTitleFieldName );
+	var docFormKey = dwr.util.getValue( "docFormKey" );
 
 	changeObjectVisibility( fundingSourceNumberFieldName + ".lookup.div", "inline" );
 	if (fundingSourceTypeCode != '') {
@@ -352,7 +352,7 @@ function setComment() {
 // dwr functions
 // this is a sample function for sponsor code
 function loadSponsorCode( sponsorCodeFieldName) {
-	var sponsorCode = DWRUtil.getValue( sponsorCodeFieldName );
+	var sponsorCode = dwr.util.getValue( sponsorCodeFieldName );
 
 	//if (sponsorCode == "") {
 	//	clearRecipients( sponsorCodeFieldName, "" );
@@ -385,7 +385,7 @@ function loadSponsorCode( sponsorCodeFieldName) {
  * Load the Sponsor Name field based on the Sponsor Code passed in.
  */
 function loadSponsorName(sponsorCodeFieldName, sponsorNameFieldName ) {
-	var sponsorCode = DWRUtil.getValue( sponsorCodeFieldName );
+	var sponsorCode = dwr.util.getValue( sponsorCodeFieldName );
 
 	if (sponsorCode=='') {
 		clearRecipients( sponsorNameFieldName, "" );
@@ -413,7 +413,7 @@ function loadSponsorName(sponsorCodeFieldName, sponsorNameFieldName ) {
  
 
 function checkGrantsGovStatusOnSponsorChange(proposalNumber, sponsorCodeFieldName) {
-	var sponsorCode = DWRUtil.getValue( sponsorCodeFieldName );
+	var sponsorCode = dwr.util.getValue( sponsorCodeFieldName );
 	var dwrReply = {
 			callback:function(data) {
 				enableGrantsGov(data);
@@ -431,7 +431,7 @@ function enableGrantsGov(enable) {
 
 function showS2SAppSubmissionStatusDetails(proposalNumber,trackingId) {
 	//alert(proposalNumber);
-	var docFormKey = DWRUtil.getValue( "docFormKey" );
+	var docFormKey = dwr.util.getValue( "docFormKey" );
 	var dwrReply = {
 			callback:function(data) {
 				//alert(data);
@@ -462,7 +462,7 @@ function hideStatusDetails(){
  * Load the Budget Category Code based on Object Code(Cost Element)
  */ 
 function loadBudgetCategoryCode(objectCode,budgetCategoryCode){
-	var objectCodeValue = DWRUtil.getValue( objectCode );
+	var objectCodeValue = dwr.util.getValue( objectCode );
 
 	if (objectCodeValue=='') {
 		clearRecipients( budgetCategoryCode, "" );
@@ -492,7 +492,7 @@ function loadBudgetCategoryCode(objectCode,budgetCategoryCode){
  * Load Start and End Dates based on the Fiscal Year
  */ 
 function loadStartAndEndDates(fiscalYear,startDate,endDate){
-	var fiscalYearValue = DWRUtil.getValue( fiscalYear );
+	var fiscalYearValue = dwr.util.getValue( fiscalYear );
 
 	if (fiscalYearValue=='') {
 		clearRecipients( startDate, "" );
@@ -526,7 +526,7 @@ function loadStartAndEndDates(fiscalYear,startDate,endDate){
  * Load the Unit Name field based on the Unit Number passed in.
  */
 function loadUnitName(unitNumberFieldName) {
-	var unitNumber = DWRUtil.getValue( unitNumberFieldName );
+	var unitNumber = dwr.util.getValue( unitNumberFieldName );
     var elPrefix = findElPrefix( unitNumberFieldName );
 	var unitNameFieldName = elPrefix + ".unitName";
 	if (unitNumber=='') {
@@ -557,7 +557,7 @@ function loadUnitName(unitNumberFieldName) {
  * Load the Unit Name field based on the Unit Number passed in.
  */
 function loadUnitNameTo(unitNumberFieldName, unitNameFieldName) {
-	var unitNumber = DWRUtil.getValue( unitNumberFieldName );
+	var unitNumber = dwr.util.getValue( unitNumberFieldName );
 	if (unitNumber=='') {
 		setRecipientValue( unitNameFieldName, "(select)" );
 	} else {
@@ -586,7 +586,7 @@ function loadUnitNameTo(unitNumberFieldName, unitNameFieldName) {
  * Load the JobCode Title field based on the Job Code passed in.
  */
 function loadJobCodeTitle(jobCodeFieldName, jobCodeTitleFieldName ) {
-	var jobCode = DWRUtil.getValue( jobCodeFieldName );
+	var jobCode = dwr.util.getValue( jobCodeFieldName );
 
 	if (jobCode=='') {
 		clearRecipients( jobCodeTitleFieldName, "" );
@@ -614,17 +614,17 @@ function loadJobCodeTitle(jobCodeFieldName, jobCodeTitleFieldName ) {
 
 function loadSponsorCode_1( sponsorCodeFieldName) {
     // alternative, delete later
-	var sponsorCode = DWRUtil.getValue( sponsorCodeFieldName );
+	var sponsorCode = dwr.util.getValue( sponsorCodeFieldName );
 	//alert(sponsorCodeFieldName+" "+sponsorCode)
 	//SponsorService.getSponsorCode(sponsorCode,function(data) {
-    //DWRUtil.setValue(sponsorCodeFieldName, data);});
+    //dwr.util.setValue(sponsorCodeFieldName, data);});
 	SponsorService.getSponsorCode(sponsorCode,loadinfo);
 
 }
 
 function loadinfo(data) {
   //alert("loadinfo "+data)
-  DWRUtil.setValue("document.sponsorCode", data);
+  dwr.util.setValue("document.sponsorCode", data);
 }
 var propAttRightWindow;
 function proposalAttachmentRightsPop(lineNumber,docFormKey, sessionDocument){
@@ -1009,7 +1009,7 @@ function getUsers() {
 function loadPersonName(usernameFieldName, fullnameElementId, 
 						unitNumberElementId, unitNameElementId) {
     if (document.getElementById(fullnameElementId) != null) {
-		var username = DWRUtil.getValue( usernameFieldName );
+		var username = dwr.util.getValue( usernameFieldName );
 		var fullNameElement = document.getElementById(fullnameElementId);
 		var unitNumberElement= document.getElementById(unitNumberElementId);
 		var unitNameElement= document.getElementById(unitNameElementId);
@@ -1049,7 +1049,7 @@ function loadPersonName(usernameFieldName, fullnameElementId,
 function loadContactPersonName(usernameFieldName, fullnameElementId, 
 						unitNumberElementId, phoneNumberElementId, emailElementId , personIdElementId) {
     if (document.getElementById(fullnameElementId) != null) {
-		var username = DWRUtil.getValue( usernameFieldName );
+		var username = dwr.util.getValue( usernameFieldName );
 		var fullNameElement = document.getElementById(fullnameElementId);
 		var unitNumberElement= document.getElementById(unitNumberElementId);
 		var phoneNumberElement = document.getElementById(phoneNumberElementId);
@@ -1096,7 +1096,7 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 	function loadRolodexInfo(rolodexFieldName, fullnameElementId, 
 							 phoneNumberElementId, emailElementId, rolodexElementId) {
 	    if (document.getElementById(fullnameElementId) != null) {			
-	    var rolodexId = DWRUtil.getValue( rolodexFieldName );
+	    var rolodexId = dwr.util.getValue( rolodexFieldName );
 		var fullNameElement = document.getElementById(fullnameElementId);
 		var phoneNumberElement = document.getElementById(phoneNumberElementId);
 		var emailElement = document.getElementById(emailElementId);
@@ -1134,7 +1134,7 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 	function loadRolodexInfo2(rolodexFieldName, fullnameElementId, 
 				unitNumberElementId, phoneNumberElementId, emailElementId, rolodexElementId) {
 		if (document.getElementById(fullnameElementId) != null) {			
-		var rolodexId = DWRUtil.getValue( rolodexFieldName );
+		var rolodexId = dwr.util.getValue( rolodexFieldName );
 		var fullNameElement = document.getElementById(fullnameElementId);
 		var unitNumberElement= document.getElementById(unitNumberElementId);
 		var phoneNumberElement = document.getElementById(phoneNumberElementId);
@@ -1372,7 +1372,7 @@ var comments;
 var lookupReturn;
 
 function updateOtherFields(editableColumnNameField, proposalNumberFieldId, callbackFunction ) {
-	var proposalNumber = DWRUtil.getValue( proposalNumberFieldId );
+	var proposalNumber = dwr.util.getValue( proposalNumberFieldId );
 
 	fieldPrefix = findElPrefix( editableColumnNameField.name );
 	oldDisplayValue =  fieldPrefix + ".oldDisplayValue" ;
@@ -1390,7 +1390,7 @@ function updateOtherFields(editableColumnNameField, proposalNumberFieldId, callb
 	
 	var editableColumnName = editableColumnNameField.value;
 	if (editableColumnName != "") {
-		var docFormKey = DWRUtil.getValue( "docFormKey" );
+		var docFormKey = dwr.util.getValue( "docFormKey" );
 		var dwrReply = {
 			callback:callbackFunction,
 			errorHandler:function( errorMessage ) { 
@@ -1868,7 +1868,7 @@ function selectAllInstitutionalProposalKeywords(document) {
  */
 function loadOrganizationName(organizationIdFieldName, organizationNameFieldName ) {
 	
-	var organizationId = DWRUtil.getValue( organizationIdFieldName );
+	var organizationId = dwr.util.getValue( organizationIdFieldName );
 	if (organizationId=='') {
 		clearRecipients( organizationNameFieldName, "" );
 	} else {
@@ -1933,7 +1933,7 @@ function loadAwardBasisOfPaymentCodes( awardTypeCode, basisOfPaymentCodeFieldNam
 
 
 function loadAwardMethodOfPaymentCodes( basisOfPaymentCodeFieldName, methodOfPaymentCodeFieldName) {    
-    var basisOfPaymentCode = DWRUtil.getValue( basisOfPaymentCodeFieldName );
+    var basisOfPaymentCode = dwr.util.getValue( basisOfPaymentCodeFieldName );
 	if ( basisOfPaymentCode=='' || basisOfPaymentCode== "") {
 		//clearMethodOfPaymentCodes( methodOfPaymentCodeFieldName, "" );
 	} else {
@@ -1974,7 +1974,7 @@ function loadAwardMethodOfPaymentCodes( basisOfPaymentCodeFieldName, methodOfPay
 }
 
 function loadFrequencyCode(reportClassCode, reportCodeFieldName,frequencyCodeFieldName) {    
-    var reportCode = DWRUtil.getValue( reportCodeFieldName );
+    var reportCode = dwr.util.getValue( reportCodeFieldName );
 	if (reportClassCode=='' || reportCode == "") {
 		clearRecipients( frequencyCodeFieldName, "" );
 	} else {
@@ -2015,7 +2015,7 @@ function loadFrequencyCode(reportClassCode, reportCodeFieldName,frequencyCodeFie
 }
 
 function loadFrequencyBaseCode(frequencyCodeFieldName, frequencyBaseCodeFieldName) {    
-    var frequencyCode = DWRUtil.getValue( frequencyCodeFieldName );
+    var frequencyCode = dwr.util.getValue( frequencyCodeFieldName );
 	if (frequencyCode=='') {
 		clearRecipients( frequencyBaseCodeFieldName, "" );
 	} else {
@@ -2128,7 +2128,7 @@ function loadScheduleDates(committeeElementId, protocolElementId, scheduleElemen
 }
 
 function onlyLoadScheduleDates(committeeElementId, protocolId, scheduleElementId) {
-	var committeeId = DWRUtil.getValue(committeeElementId);
+	var committeeId = dwr.util.getValue(committeeElementId);
 	var scheduleElement = document.getElementsByName(scheduleElementId);
 	var dwrReply = {
 		callback:function(data) {
@@ -2189,7 +2189,7 @@ function protocolCheckListItemPop(methodName, lineNum, docFormKey, sessionDocume
  * make one of the CheckList visible or both invisible.
  */
 function updateCheckList(protocolReviewTypeCodeElementId) {
-	var protocolReviewTypeCode = DWRUtil.getValue(protocolReviewTypeCodeElementId);
+	var protocolReviewTypeCode = dwr.util.getValue(protocolReviewTypeCodeElementId);
 	if (protocolReviewTypeCode == "2") {
 	    document.getElementById('expeditedReviewCheckList').style.display = '';
 	}
@@ -2235,9 +2235,9 @@ function protocolFundingSourcePop(name, docFormKey, sessionDocument, line, curre
  */
 function displayReviewers(protocolId) {
 	
-    var committeeId = DWRUtil.getValue('actionHelper.protocolSubmitAction.committeeId');
-    var scheduleId = DWRUtil.getValue('actionHelper.protocolSubmitAction.scheduleId');
-	var docFormKey = DWRUtil.getValue( "docFormKey" );
+    var committeeId = dwr.util.getValue('actionHelper.protocolSubmitAction.committeeId');
+    var scheduleId = dwr.util.getValue('actionHelper.protocolSubmitAction.scheduleId');
+	var docFormKey = dwr.util.getValue( "docFormKey" );
     
     if (scheduleId == "select") {
     	document.getElementById("reviewers").style.display = 'none';
@@ -2455,7 +2455,7 @@ var costElementFieldName;
 
  function updateCostElement(budgetId, costElement, personSequenceNumberField, budgetCategoryTypeCode, callbackFunction ) {
 	var personSequenceNumber = personSequenceNumberField.value;
-	var docFormKey = DWRUtil.getValue( "docFormKey" );
+	var docFormKey = dwr.util.getValue( "docFormKey" );
 	costElementFieldName = costElement;
 	if ( personSequenceNumber != "") {
 		var dwrReply = {
@@ -2571,8 +2571,8 @@ function unselectAllFundedAwards(document) {
  * get standard review comment for meeting from ProtocolContingency table
  */
 function loadStandardReviewComment(protocolContingencyCodeFieldName, protocolContingencyDescriptionFieldName ) {
-	// TODO : not sure why dwrutil.getvalue is not working
-	//var protocolContingencyCode = DWRUtil.getValue( protocolContingencyCodeFieldName );
+	// TODO : not sure why dwr.util.getvalue is not working
+	//var protocolContingencyCode = dwr.util.getValue( protocolContingencyCodeFieldName );
 	var protocolContingencyCode = document.getElementById(protocolContingencyCodeFieldName).value;
 
 	//alert(protocolContingencyCodeFieldName+"-"+document.getElementById(protocolContingencyCodeFieldName).value);
@@ -2926,14 +2926,14 @@ function specialReviewProtocolPop(sessionDocument, action, methodToCall, line, d
 		"width=800, height=750, scrollbars=yes, resizable=yes");   
 }
 function setRateOverrideFlag(budgetPeriod){
-	DWRUtil.setValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].rateOverrideFlag","true");
+	dwr.util.setValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].rateOverrideFlag","true");
 }
 function updateFringeCalcAmounts(budgetPeriodFringeTotal,budgetPeriod,calcAmontsCount){
-	var fringeTotal = DWRUtil.getValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].totalFringeAmount");
+	var fringeTotal = dwr.util.getValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].totalFringeAmount");
 	if(budgetPeriodFringeTotal!=fringeTotal){
 		setRateOverrideFlag(budgetPeriod);
 		for(var i= 0; i < calcAmontsCount; i++) {
-			DWRUtil.setValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].awardBudgetPeriodFringeAmounts["+i+"].calculatedCost","");
+			dwr.util.setValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].awardBudgetPeriodFringeAmounts["+i+"].calculatedCost","");
 		}
 		changeObjectVisibility("personnelFringeCalc"+(budgetPeriod-1)+".div.object","none");
 		changeObjectVisibility("personnelFringeTotal.div.object","none");
@@ -2942,24 +2942,24 @@ function updateFringeCalcAmounts(budgetPeriodFringeTotal,budgetPeriod,calcAmonts
 function updateFringeTotal(budgetPeriod,calcAmontsCount){
 	var fringeTotal=0;
 	for(var i= 0; i < calcAmontsCount; i++) {
-		var fringeAmount = DWRUtil.getValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].awardBudgetPeriodFringeAmounts["+i+"].calculatedCost");
+		var fringeAmount = dwr.util.getValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].awardBudgetPeriodFringeAmounts["+i+"].calculatedCost");
 		fringeTotal+=parseFloat(fringeAmount);
 	}
 	setRateOverrideFlag(budgetPeriod);
-	DWRUtil.setValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].totalFringeAmount",fringeTotal);
+	dwr.util.setValue("document.budget.budgetPeriods["+(budgetPeriod-1)+"].totalFringeAmount",fringeTotal);
 	changeObjectVisibility("personnelFringeCalc"+(budgetPeriod-1)+".div.object","none");
 	changeObjectVisibility("personnelFringeTotal.div.object","none");
 }
 
 function updateStateFromCountry() {
-	var countryCode = DWRUtil.getValue( 'document.newMaintainableObject.countryCode' );
+	var countryCode = dwr.util.getValue( 'document.newMaintainableObject.countryCode' );
 	
 	var dwrReply = {
 		callback:function(data) {
 			if ( data != null ) {
-				DWRUtil.removeAllOptions( 'document.newMaintainableObject.state' );
+				dwr.util.removeAllOptions( 'document.newMaintainableObject.state' );
 				$('document.newMaintainableObject.state').options[0] = new Option('', '');
-				DWRUtil.addOptions( 'document.newMaintainableObject.state', data, 'postalStateCode', 'postalStateName' );
+				dwr.util.addOptions( 'document.newMaintainableObject.state', data, 'postalStateCode', 'postalStateName' );
 			} 
 		},
 		errorHandler:function( errorMessage ) {
@@ -2976,12 +2976,12 @@ function updateStateFromCountry() {
  * Load the Sponsor Name field based on the Sponsor Code passed in.
  */
 function loadSponsor(sponsorCodeFieldName, sponsorNameFieldName, entityNameFieldName, prevSponsorCodeFieldName ) {
-    var sponsorCode = DWRUtil.getValue( sponsorCodeFieldName );
-    var prevSponsorCode = DWRUtil.getValue( prevSponsorCodeFieldName );
+    var sponsorCode = dwr.util.getValue( sponsorCodeFieldName );
+    var prevSponsorCode = dwr.util.getValue( prevSponsorCodeFieldName );
 
     if (sponsorCode=='') {
         clearRecipients( sponsorNameFieldName, "" );
-        DWRUtil.setValue(prevSponsorCodeFieldName, "");
+        dwr.util.setValue(prevSponsorCodeFieldName, "");
     } else {
         var dwrReply = {
             callback:function(data) {
@@ -2990,7 +2990,7 @@ function loadSponsor(sponsorCodeFieldName, sponsorNameFieldName, entityNameField
                         setRecipientValue( sponsorNameFieldName, data.sponsorName );
                         setRecipientValue(entityNameFieldName, data.sponsorName);
                      //   if (sponsorCode!=prevSponsorCode) {
-                            DWRUtil.setValue(prevSponsorCodeFieldName, data.sponsorCode);
+                            dwr.util.setValue(prevSponsorCodeFieldName, data.sponsorCode);
                             loadEntityContactInfoFromRolodex(data.rolodexId, findElPrefix( sponsorCodeFieldName )+".finEntityContactInfos[0]");
                      //   }
                     }

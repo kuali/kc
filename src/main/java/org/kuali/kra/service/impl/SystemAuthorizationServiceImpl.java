@@ -47,7 +47,7 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
     public void setRoleManagementService(RoleService roleManagementService) {
         this.roleManagementService = roleManagementService;
     }
-    
+
     protected KimTypeInfoService getKimTypeInfoService() {
         return kimTypeInfoService;
     }
@@ -58,7 +58,7 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
     
 
     public List<Role> getRolesForPermission(String permissionName, String namespaceCode) {
-        List<String> roleResults = permissionService.getRoleIdsForPermission(namespaceCode, permissionName, new HashMap<String, String>());
+        List<String> roleResults = permissionService.getRoleIdsForPermission(namespaceCode, permissionName);
         return roleManagementService.getRoles(roleResults);
     }
 
@@ -92,7 +92,7 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
         RoleQueryResults roleResults = roleManagementService.findRoles(queryBuilder.build());
         return roleResults.getResults();
     }
-    
+
     public KimType getKimTypeInfoForRole(Role role) {
         return getKimTypeInfoService().getKimType(role.getKimTypeId());
     }

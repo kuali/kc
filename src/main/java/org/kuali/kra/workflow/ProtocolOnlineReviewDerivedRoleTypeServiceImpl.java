@@ -135,7 +135,7 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends DerivedRoleT
      */
     private List<RoleMembership> getIRBAdmins(String leadUnitNumber) {    
         List<String> roleIds = new ArrayList<String>();
-        String roleId = getRoleService().getRoleIdByNameAndNamespaceCode(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
+        String roleId = getRoleService().getRoleIdByNamespaceCodeAndName(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
         roleIds.add(roleId);
         
         Map<String,String> attrSet =new HashMap<String,String>();

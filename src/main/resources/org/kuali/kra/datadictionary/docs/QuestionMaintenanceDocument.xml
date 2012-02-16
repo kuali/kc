@@ -76,7 +76,8 @@
                     p:name="categoryTypeCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="questionTypeId" />
+                    p:name="questionTypeId" 
+                    p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="lookupClass" />
                 <bean parent="MaintainableFieldDefinition"
