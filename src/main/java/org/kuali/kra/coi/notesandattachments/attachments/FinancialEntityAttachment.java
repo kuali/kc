@@ -25,9 +25,13 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.coi.PersonFinIntDisclosureAssociate;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+
 
 public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate implements Comparable<FinancialEntityAttachment>{
     /**
@@ -39,7 +43,7 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
     private Long financialEntityId;
     private PersonFinIntDisclosure financialEntity;
     
-    private transient AttachmentFile file;
+    private transient AttachmentFile attachmentFile;
     private transient FormFile newFile;
     @SkipVersioning
     private transient String updateUserFullName;   
@@ -68,7 +72,7 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
         this.comments = oldAtt.comments;
         this.statusCode = oldAtt.statusCode;
         this.updateTimestamp = oldAtt.updateTimestamp;
-        
+        this.attachmentFile = (AttachmentFile)ObjectUtils.deepCopy(oldAtt.getAttachmentFile());
     }
     public FinancialEntityAttachment(PersonFinIntDisclosure personFinIntDisclosure) {
         this.setPersonFinIntDisclosure(personFinIntDisclosure);
@@ -134,14 +138,14 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
     public void setFileId(Long fileId) {
         this.fileId = fileId;
     }
-    public AttachmentFile getFile() {
-        return file;
+    public AttachmentFile getAttachmentFile() {
+        return attachmentFile;
     }
     public String getFileName() {
-        return (file == null) ? "" : file.getName();
+        return (attachmentFile == null) ? "" : attachmentFile.getName();
     }
-    public void setFile(AttachmentFile file) {
-        this.file = file;
+    public void setFile(AttachmentFile attachmentFile) {
+        this.attachmentFile = attachmentFile;
     }
     public FormFile getNewFile() {
         return newFile;
@@ -207,11 +211,11 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
             return false;
         }
        
-        if (this.file == null) {
-            if (other.file != null) {
+        if (this.attachmentFile == null) {
+            if (other.attachmentFile != null) {
                 return false;
             }
-        } else if (!this.file.equals(other.file)) {
+        } else if (!this.attachmentFile.equals(other.attachmentFile)) {
             return false;
         }
         if (this.fileId == null) {
@@ -230,7 +234,7 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((this.file == null) ? 0 : this.file.hashCode());
+        result = prime * result + ((this.attachmentFile == null) ? 0 : this.attachmentFile.hashCode());
         result = prime * result + ((this.fileId == null) ? 0 : this.fileId.hashCode());
         return result;
     }
@@ -246,5 +250,17 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
             newList.add(new FinancialEntityAttachment(att));
         }
         return newList;
+    }
+    
+    @Override
+    public void prePersist() {
+        super.prePersist();
+        if (getAttachmentFile() != null) {
+System.out.println("\nFFFFFF file ID before = " + getAttachmentFile().getId());        
+            KraServiceLocator.getService(BusinessObjectService.class).save(getAttachmentFile());
+            getAttachmentFile().refreshReferenceObject("id");   
+System.out.println("\nFFFFFF file ID after = " + getAttachmentFile().getId());        
+            setFileId(getAttachmentFile().getId());
+        }
     }
 }
