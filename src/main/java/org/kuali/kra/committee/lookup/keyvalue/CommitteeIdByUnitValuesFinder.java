@@ -136,7 +136,7 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
      */
     private void getIRBAdminUnitIds() {        
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        Role roleInfo = getRoleService().getRoleByNameAndNamespaceCode(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
+        Role roleInfo = getRoleService().getRoleByNamespaceCodeAndName(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
         List<String> roleIds = new ArrayList<String>();
         roleIds.add(roleInfo.getId());
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();

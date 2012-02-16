@@ -99,12 +99,15 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, document);
-        ProposalRoleTemplateService proposalRoleTemplateService = KraServiceLocator.getService(ProposalRoleTemplateService.class);
-        proposalRoleTemplateService.addUsers(document);
 
         try {
             KraServiceLocator.getService(DocumentService.class).saveDocument(document);
+            if(!kraAuthService.hasRole(userId, document, RoleConstants.AGGREGATOR)) {
+                kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, document);
+            }
+            ProposalRoleTemplateService proposalRoleTemplateService = KraServiceLocator.getService(ProposalRoleTemplateService.class);
+            proposalRoleTemplateService.addUsers(document);
+
             KraServiceLocator.getService(DocumentService.class).routeDocument(document, "just testing", null);
         }
         catch (org.kuali.rice.krad.exception.ValidationException ex) {

@@ -383,8 +383,7 @@ public class AwardFundingProposalBean implements Serializable {
         permissionDetails.put(PermissionConstants.DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER, InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_DOCUMENT_NAME);
         return getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
                 InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
-                PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL, 
-                permissionDetails);
+                PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL);
     }
     
     private boolean userCanSubmitProposal() {
@@ -392,8 +391,7 @@ public class AwardFundingProposalBean implements Serializable {
         permissionDetails.put(PermissionConstants.DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER, InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_DOCUMENT_NAME);
         return getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
                 InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
-                PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL, 
-                permissionDetails);
+                PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL);
     }
     
     protected InstitutionalProposalService getInstitutionalProposalService() {

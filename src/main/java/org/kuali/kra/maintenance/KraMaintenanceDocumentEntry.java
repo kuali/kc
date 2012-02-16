@@ -33,7 +33,7 @@ public class KraMaintenanceDocumentEntry extends MaintenanceDocumentEntry {
         }
     
         /**
-         * @see org.kuali.rice.kns.datadictionary.DocumentEntry#setDocumentClass(java.lang.Class)
+         * @see org.kuali.rice.krad.datadictionary.DocumentEntry#setDocumentClass(java.lang.Class)
          */
         @Override
         public void setDocumentClass(Class<? extends Document> documentClass) {

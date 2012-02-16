@@ -841,14 +841,6 @@ public class KcPerson implements Contactable, BusinessObject {
         return Boolean.valueOf(this.entity.isActive());
     }
 
-    /**
-     * Gets the password.
-     * @return the password
-     */ 
-    public String getPassword() {
-        return (this.getPrincipal() != null && this.getPrincipal().getPassword() != null) ? this.getPrincipal().getPassword() : "";
-    }
-
     /** {@inheritDoc} */
     public String getIdentifier() {
         return this.getPersonId();

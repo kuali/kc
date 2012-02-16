@@ -19,7 +19,6 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -222,22 +221,6 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
 
     public void setMinuteEntry(String minuteEntry) {
         this.minuteEntry = minuteEntry;
-    }
-
-    @Override
-    public String toString() {
-        StringBuffer retVal = new StringBuffer(50);
-        LinkedHashMap hm = toStringMapper();
-        for (Object key : hm.keySet()) {
-            retVal.append(key.toString()).append(" : ");
-            try {
-                retVal.append(hm.get(key).toString());
-            } catch (Exception e) {
-                retVal.append("NPE problem");
-            }
-            retVal.append("\n");
-        }
-        return retVal.toString();
     }
 
     public Long getCommScheduleMinutesId() {

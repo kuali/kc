@@ -102,7 +102,7 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
     */
    public DictionaryValidationService getDictionaryValidationService() {
        if (dictionaryValidationService == null) {
-           dictionaryValidationService = (DictionaryValidationService) KNSServiceLocator.getDictionaryValidationService();
+           dictionaryValidationService =  KNSServiceLocator.getKNSDictionaryValidationService();
        }
        return dictionaryValidationService;
    }

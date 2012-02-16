@@ -36,6 +36,7 @@ import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -340,7 +341,7 @@ public class MeetingAction extends KualiAction {
     }
 
     protected DictionaryValidationService getDictionaryValidationService() {
-        return KraServiceLocator.getService(DictionaryValidationService.class);
+        return KNSServiceLocator.getKNSDictionaryValidationService();
     }
 
     /**

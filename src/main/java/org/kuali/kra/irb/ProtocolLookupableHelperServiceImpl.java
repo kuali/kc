@@ -293,7 +293,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
      */
     public DictionaryValidationService getDictionaryValidationService() {
         if (dictionaryValidationService == null) {
-            dictionaryValidationService = KNSServiceLocator.getDictionaryValidationService();
+            dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
         }
         return dictionaryValidationService;
     }
