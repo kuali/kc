@@ -28,6 +28,10 @@ public class ProtocolAttachmentStatus extends KraPersistableBusinessObjectBase {
 
     private String description;
 
+    public static final String DRAFT = "1";
+    public static final String FINALIZED = "2";
+    public static final String DELETED = "3";
+
     /**
      * empty ctor to satisfy JavaBean convention.
      */
