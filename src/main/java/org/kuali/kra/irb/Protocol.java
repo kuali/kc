@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -58,6 +57,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentFilter;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -109,7 +109,6 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private static final CharSequence RENEWAL_LETTER = "R";
     private static final String DEFAULT_PROTOCOL_TYPE_CODE = "1";
     private static final String NEXT_ACTION_ID_KEY = "actionId";
-    private static final String DELETED_DOCUMENT = "3";
     
     private Long protocolId; 
     private String protocolNumber; 
@@ -1222,7 +1221,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private boolean isRenewalWithNewAttachment(Protocol renewal) {
         boolean hasNewAttachment = false;
         for (ProtocolAttachmentProtocol attachment : renewal.getAttachmentProtocols()) {
-            if ("1".equals(attachment.getDocumentStatusCode())) {
+            if (attachment.isDraft()) {
                 hasNewAttachment = true;
                 break;
             }
@@ -1445,13 +1444,15 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             attachment.setSequenceNumber(this.getSequenceNumber());
             attachment.setProtocolId(this.getProtocolId());
             attachment.setId(null);
-            if ("1".equals(attachment.getDocumentStatusCode())) {
-                attachment.setDocumentStatusCode("2");
+            if (attachment.getFile() != null ) { 
+                attachment.getFile().setId(null);
+            }
+            if (attachment.isDraft()) {
+                attachment.setDocumentStatusCode(ProtocolAttachmentStatus.FINALIZED);
                 attachmentProtocols.add(attachment);
                 attachment.setProtocol(this);
             }
-            if (DELETED_DOCUMENT.equals(attachment.getDocumentStatusCode()) 
-                    && KraServiceLocator.getService(ProtocolAttachmentService.class).isNewAttachmentVersion((ProtocolAttachmentProtocol) attachment)) {
+            if (attachment.isDeleted() && KraServiceLocator.getService(ProtocolAttachmentService.class).isNewAttachmentVersion((ProtocolAttachmentProtocol) attachment)) {
                 attachmentProtocols.add(attachment);
                 attachment.setProtocol(this);
             }
@@ -1469,7 +1470,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         List<ProtocolAttachmentProtocol> attachments = new ArrayList<ProtocolAttachmentProtocol>();
         for (ProtocolAttachmentProtocol attachment : this.getAttachmentProtocols()) {
             attachment.setProtocol(this);
-            if ("3".equals(attachment.getDocumentStatusCode())) {
+            if (attachment.isDeleted()) {
                 documentIds.add(attachment.getDocumentId());
             }
         }
@@ -1493,18 +1494,17 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
      *  - if the 'file' is also used in other 'finalized' attachment, then should remove this file reference from attachment
      *    otherwise, the delete will also delete any attachment that reference to this file
      */
-    @SuppressWarnings("unchecked")
     private void restoreAttachments(Protocol protocol) {
         List<ProtocolAttachmentProtocol> attachmentProtocols = new ArrayList<ProtocolAttachmentProtocol>();
         List<ProtocolAttachmentProtocol> deleteAttachments = new ArrayList<ProtocolAttachmentProtocol>();
         List<AttachmentFile> deleteFiles = new ArrayList<AttachmentFile>();
         
         for (ProtocolAttachmentProtocol attachment : this.getAttachmentProtocols()) {
-            if ("2".equals(attachment.getDocumentStatusCode())) {
+            if (attachment.isFinal()) {
                 attachmentProtocols.add(attachment);
-           // } else if ("1".equals(attachment.getDocumentStatusCode())) {
+           // } else if (attachment.isDraft()) {
             } else {
-                // in amendment, "1" & "3" must be new attachment because "3"
+                // in amendment, DRAFT & DELETED must be new attachment because DELETED
                 // will not be copied from original protocol
                 deleteAttachments.add(attachment);
                 if (!fileIsReferencedByOther(attachment.getFileId())) {
@@ -1692,7 +1692,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
     private void addAttachmentSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolAttachmentProtocol attachment : getActiveAttachmentProtocols()) {
-            if (!StringUtils.equals(attachment.getDocumentStatusCode(), DELETED_DOCUMENT)) {
+            if (!attachment.isDeleted()) {
                 AttachmentSummary attachmentSummary = new AttachmentSummary();
                 attachmentSummary.setAttachmentId(attachment.getId());
                 attachmentSummary.setFileType(attachment.getFile().getType());
@@ -1891,10 +1891,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public List<ProtocolAttachmentProtocol> getActiveAttachmentProtocols() {
         List<ProtocolAttachmentProtocol> activeAttachments = new ArrayList<ProtocolAttachmentProtocol>();
         for (ProtocolAttachmentProtocol attachment1 : getAttachmentProtocols()) {
-            if ("1".equals(attachment1.getDocumentStatusCode())) {
+            if (attachment1.isDraft()) {
                 activeAttachments.add(attachment1);
-            } else if ("2".equals(attachment1.getDocumentStatusCode()) || DELETED_DOCUMENT.equals(attachment1.getDocumentStatusCode())) {
-            //else if ("2".equals(attachment1.getDocumentStatusCode())) {
+            } else if (attachment1.isFinal() || attachment1.isDeleted()) {
+            //else if (attachment1.isFinal())) {
                 boolean isActive = true;
                 for (ProtocolAttachmentProtocol attachment2 : getAttachmentProtocols()) {
                     if (attachment1.getDocumentId().equals(attachment2.getDocumentId()) 
@@ -1928,7 +1928,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         List<Integer> documentIds = new ArrayList<Integer>();
         List<ProtocolAttachmentProtocol> activeAttachments = new ArrayList<ProtocolAttachmentProtocol>();
         for (ProtocolAttachmentProtocol attachment : getActiveAttachmentProtocols()) {
-            if (DELETED_DOCUMENT.equals(attachment.getDocumentStatusCode())) {
+            if (attachment.isDeleted()) {
                 documentIds.add(attachment.getDocumentId());
             }
         }
