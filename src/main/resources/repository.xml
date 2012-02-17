@@ -519,6 +519,9 @@
 		<collection-descriptor name="personAppointments" proxy="true" element-class-ref="org.kuali.kra.bo.PersonAppointment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="personId"/>
 		</collection-descriptor>
+		<collection-descriptor name="personCustomDataList" proxy="true" element-class-ref="org.kuali.kra.bo.PersonCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="personId"/>
+        </collection-descriptor>
 		
 		<reference-descriptor name="citizenshipType" class-ref="org.kuali.kra.bo.CitizenshipType" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<foreignkey field-ref="citizenshipTypeCode"/>
@@ -2493,5 +2496,19 @@
         </reference-descriptor>
     </class-descriptor>
 
+    <class-descriptor class="org.kuali.kra.bo.PersonCustomData" table="PERSON_CUSTOM_DATA">
+        <field-descriptor name="personCustomDataId" column="PERSON_CUSTOM_DATA_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_CUSTOM_DATA_ID" />
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" access="anonymous" />
+        <field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
+        <reference-descriptor name="customAttribute" class-ref="org.kuali.kra.bo.CustomAttribute" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="customAttributeId" />
+        </reference-descriptor>
+    </class-descriptor>
     
 </descriptor-repository>

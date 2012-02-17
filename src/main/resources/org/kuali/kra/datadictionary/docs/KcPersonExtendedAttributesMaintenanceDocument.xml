@@ -10,9 +10,10 @@
         <ref bean="KcPersonExtendedAttributesMaintenanceDocument-EditPerson"/>
         <ref bean="PersonDegreeMaintenanceDocument-EditPersonDegreeList"/>
         <ref bean="PersonAppointmentMaintenanceDocument-EditPersonAppointmentList"/>
+        <ref bean="PersonCustomDataMaintenanceDocument-EditPersonCustomDataList"/>
       </list>
     </property>
-	<property name="businessRulesClass" value="org.kuali.kra.rules.KcPersonExtendedAttributesPersonIdExistenceRule"/>
+	<property name="businessRulesClass" value="org.kuali.kra.rules.KcPersonExtendedAttributesMaintenanceDocumentRule"/>
     <property name="lockingKeys">
       <list>
         <value>personId</value>
@@ -21,7 +22,7 @@
     
     <property name="documentTypeName" value="KcPersonExtendedAttributesMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-  
+    <property name="additionalSectionsFile" value="/WEB-INF/jsp/person/PersonCustomData.jsp"></property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
