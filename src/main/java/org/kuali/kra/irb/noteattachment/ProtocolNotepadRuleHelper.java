@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 /**
  * This class contains methods to "help" in validating {@link ProtocolNotepad ProtocolNotepad}.
@@ -31,7 +31,7 @@ class ProtocolNotepadRuleHelper {
      * Creates helper deferring the setting of the prefix to later.
      */
     ProtocolNotepadRuleHelper() {
-        this(KraServiceLocator.getService(DictionaryValidationService.class));
+        this(KNSServiceLocator.getKNSDictionaryValidationService());
     }
     
     /**
