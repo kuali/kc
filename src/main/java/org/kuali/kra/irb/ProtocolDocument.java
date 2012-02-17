@@ -38,6 +38,7 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.service.KcPersonService;
@@ -300,10 +301,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         
         this.getProtocol().setActive(false);
         
-        finalizeAttachmentProtocol(this.getProtocol());
-        getBusinessObjectService().save(this);
-
-        // now that we've saved the approved protocol, we must find all others under modification and update them too.
+        // now that we've updated the approved protocol, we must find all others under modification and update them too.
         for (Protocol otherProtocol: getProtocolFinder().findProtocols(getOriginalProtocolNumber())) {
             String status = otherProtocol.getProtocolStatus().getProtocolStatusCode();
             if (isEligibleForMerging(status, otherProtocol)) {
@@ -318,7 +316,9 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
                 getBusinessObjectService().save(otherProtocol);
             }
         }
-   
+
+        finalizeAttachmentProtocol(this.getProtocol());
+        getBusinessObjectService().save(this);
     }
     
     private boolean isEligibleForMerging(String status, Protocol otherProtocol) {
@@ -331,8 +331,8 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     private void finalizeAttachmentProtocol(Protocol protocol) {
         for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
             attachment.setProtocol(protocol);
-            if ("1".equals(attachment.getDocumentStatusCode())) {
-                attachment.setDocumentStatusCode("2");
+            if (attachment.isDraft()) {
+                attachment.setDocumentStatusCode(ProtocolAttachmentStatus.FINALIZED);
             }
         }
     }
