@@ -48,7 +48,6 @@ import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -124,7 +123,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         }
         
         map.addToErrorPath("newNarrative");
-        getService(DictionaryValidationService.class).validateBusinessObject(narrative,false);
+        getKnsDictionaryValidationService().validateBusinessObject(narrative,false);
         map.removeFromErrorPath("newNarrative");
         int size = map.getErrorMessages().keySet().size();
         rulePassed &= size<=0;
