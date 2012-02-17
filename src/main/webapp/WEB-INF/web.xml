@@ -17,14 +17,11 @@
       <param-value>classpath:kc-bootstrap-springbeans.xml</param-value>
     </context-param>
     
-	  <filter>
+	<filter>
 	    <filter-name>HttpRequestLogger</filter-name>
 	    <filter-class>org.kuali.rice.core.RequestLoggingFilter</filter-class>
-	  </filter>
+	</filter>
 	
-	  ${monitoring.filter}
-    
-
 	<filter>
         <filter-name>HideWebInfFilter</filter-name>
         <filter-class>org.kuali.rice.krad.web.filter.HideWebInfFilter</filter-class>
@@ -50,12 +47,10 @@
     	<filter-class>org.kuali.rice.kew.web.UserPreferencesFilter</filter-class>
     </filter>
 
-	  ${monitoring.mapping}
-	
-	  <filter-mapping>
+    <filter-mapping>
 	    <filter-name>HttpRequestLogger</filter-name>
 	    <url-pattern>/*</url-pattern>
-	  </filter-mapping>
+	</filter-mapping>
 
 	<filter-mapping>
         <filter-name>HideWebInfFilter</filter-name>
