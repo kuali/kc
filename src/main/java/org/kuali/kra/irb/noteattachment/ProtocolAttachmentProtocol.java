@@ -58,7 +58,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     // All new files are 'Draft'.  When protocol is versioned, all 'Draft' become 'Finalized'  
     // 'delete' will set this code to 'Deleted'.  
     private String documentStatusCode;
-
+    
     private Integer attachmentVersion;
 
     private Timestamp createTimestamp;
@@ -277,6 +277,30 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
         return true;
     }
 
+    public boolean isDraft() {
+        return ProtocolAttachmentStatus.DRAFT.equals(documentStatusCode);
+    }
+    
+    public void setDraft() {
+        documentStatusCode = ProtocolAttachmentStatus.DRAFT;
+    }
+    
+    public boolean isFinal() {
+        return ProtocolAttachmentStatus.FINALIZED.equals(documentStatusCode);
+    }
+    
+    public void setFinal() {
+        documentStatusCode = ProtocolAttachmentStatus.FINALIZED;
+    }
+    
+    public boolean isDeleted() {
+        return ProtocolAttachmentStatus.DELETED.equals(documentStatusCode);
+    }
+    
+    public void setDeleted() {
+        documentStatusCode = ProtocolAttachmentStatus.DELETED;
+    }
+    
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
@@ -436,7 +460,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
      * utility method to see if this attachment has been updated.
      */
     private boolean isAttachmentUpdated() {
-        return (("1".equals(getDocumentStatusCode()) || "3".equals(getDocumentStatusCode())) && isChanged());
+        return ((isDraft() || isDeleted()) && isChanged());
     }
 
     public Integer getAttachmentVersion() {
