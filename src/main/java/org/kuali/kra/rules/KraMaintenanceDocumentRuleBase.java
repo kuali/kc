@@ -17,12 +17,20 @@ package org.kuali.kra.rules;
 
 import java.util.Map;
 
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class KraMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
+    
+    public boolean processRules(KraDocumentEventBaseExtension event) {
+        boolean retVal = false;
+        retVal = event.getRule().processRules(event);
+        return retVal;
+    }
+    
     /**
      * 
      * This method to check pk does exist in table.  Maybe this should be in service instead in this rule base ?

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="PersonCustomDataMaintenanceDocument" parent="PersonCustomDataMaintenanceDocument-parentBean"/>
+
+  <bean id="PersonCustomDataMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.bo.PersonCustomData"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="PersonCustomDataMaintenanceDocument-EditPersonCustomData"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>personCustomDataId</value>
+      </list>
+    </property>
+    
+    
+    
+    
+    <property name="documentTypeName" value="PersonCustomDataMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    
+    
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="PersonCustomDataMaintenanceDocument-EditPersonCustomData" parent="PersonCustomDataMaintenanceDocument-EditPersonCustomData-parentBean"/>
+
+  <bean id="PersonCustomDataMaintenanceDocument-EditPersonCustomData-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Person Custom Data"/>
+    <property name="title" value="Edit Person Custom Data"/>
+    <property name="hidden" value="false"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="customAttributeId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="value"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+      </list>
+    </property>
+  </bean>
+  <bean id="PersonCustomDataMaintenanceDocument-EditPersonCustomDataList" parent="PersonCustomDataMaintenanceDocument-EditPersonCustomDataList-parentBean"/>
+
+  <bean id="PersonCustomDataMaintenanceDocument-EditPersonCustomDataList-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Person Custom Data"/>
+    <property name="title" value="Edit Person Custom Data"/>
+    <property name="hidden" value="false"/>
+ 	<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="businessObjectClass" value="org.kuali.kra.bo.PersonCustomData"/>
+					<property name="name" value="personCustomDataList"/>
+					<property name="sourceClassName" value="org.kuali.kra.bo.PersonCustomData"/>
+					<property name="alwaysAllowCollectionDeletion" value="false"/>
+					<property name="includeAddLine" value="false"/>
+					<property name="includeMultipleLookupLine" value="false"/>
+					<property name="summaryTitle" value="Person Custom Data"/>
+					<property name="maintainableFields">
+						<list>
+					        <bean parent="MaintainableFieldDefinition" p:name="customAttributeId" p:required="true"/>
+					        <bean parent="MaintainableFieldDefinition" p:name="value"/>
+					        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+						
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+  </bean>  
+</beans>
