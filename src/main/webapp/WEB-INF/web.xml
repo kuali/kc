@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"  
+    version="2.5"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	<display-name>KCRA Application</display-name>
 
@@ -15,6 +17,12 @@
       <param-value>classpath:kc-bootstrap-springbeans.xml</param-value>
     </context-param>
     
+	  <filter>
+	    <filter-name>HttpRequestLogger</filter-name>
+	    <filter-class>org.kuali.rice.core.RequestLoggingFilter</filter-class>
+	  </filter>
+	
+	  ${monitoring.filter}
     
 
 	<filter>
@@ -41,6 +49,13 @@
     	<filter-name>UserPreferencesFilter</filter-name>
     	<filter-class>org.kuali.rice.kew.web.UserPreferencesFilter</filter-class>
     </filter>
+
+	  ${monitoring.mapping}
+	
+	  <filter-mapping>
+	    <filter-name>HttpRequestLogger</filter-name>
+	    <url-pattern>/*</url-pattern>
+	  </filter-mapping>
 
 	<filter-mapping>
         <filter-name>HideWebInfFilter</filter-name>
@@ -168,6 +183,9 @@
   </listener>
 
 <!-- Rice content Start -->
+  	<listener>
+    	<listener-class>org.kuali.rice.krad.web.session.NonSerializableSessionListener</listener-class>
+ 	</listener>
   
     <listener>
         <listener-class>org.kuali.rice.core.web.listener.BootstrapListener</listener-class>
