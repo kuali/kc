@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
-import org.kuali.kra.rules.KcPersonExtendedAttributesPersonIdExistenceRule;
+import org.kuali.kra.rules.KcPersonExtendedAttributesMaintenanceDocumentRule;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;
@@ -29,13 +29,13 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.AutoPopulatingList;
 
-public class KcPersonExtendedAttributesPersonIdExistenceRuleTest extends MaintenanceRuleTestBase {
-    private KcPersonExtendedAttributesPersonIdExistenceRule rule = null;
+public class KcPersonExtendedAttributesMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
+    private KcPersonExtendedAttributesMaintenanceDocumentRule rule = null;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        rule = new KcPersonExtendedAttributesPersonIdExistenceRule();
+        rule = new KcPersonExtendedAttributesMaintenanceDocumentRule();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
@@ -48,7 +48,7 @@ public class KcPersonExtendedAttributesPersonIdExistenceRuleTest extends Mainten
     @Test
     public void testExists() throws Exception {
         KcPersonExtendedAttributes kcPersonEA= new KcPersonExtendedAttributes();
-        kcPersonEA.setPersonId("10000000060");   // admin's id, should exists
+        kcPersonEA.setPersonId("10000000001");   // quickstart's id, should exists
         MaintenanceDocument kcPesonExtendedAttribuesDocument = newMaintDoc(kcPersonEA);
         MessageMap eMap = GlobalVariables.getMessageMap();
         assertEquals(0, eMap.getErrorCount());

@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.bo;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -32,8 +34,52 @@ import org.kuali.rice.kns.web.ui.Section;
  * This class...
  */
 public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableImpl implements Maintainable {
+    
+    private CustomDataHelper customDataHelper;
+    
+    public KcPersonExtendedAttributesMaintainableImpl() {
+        customDataHelper = new CustomDataHelper();
+    }
 
-    private static final long serialVersionUID = -1883173375053057062L;
+    public CustomDataHelper getCustomDataHelper() {
+        return customDataHelper;
+    }
+
+    public void setCustomDataHelper(CustomDataHelper customDataHelper) {
+        this.customDataHelper = customDataHelper;
+    }
+    
+    @Override 
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        initializeCustomData();
+    }
+    
+    @Override
+    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        loadCustomData();
+    }
+    
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        loadCustomData();
+    }
+    
+    @Override
+    public void processAfterRetrieve() {
+        loadCustomData();
+    }
+    
+    private void initializeCustomData() {
+        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.businessObject;
+
+        getCustomDataHelper().initializeCustomAttributeGroups(kcPersonExtendedAttributes);
+    }
+    
+    private void loadCustomData() {
+        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.businessObject;
+
+        getCustomDataHelper().populateCustomAttributeGroups(kcPersonExtendedAttributes);
+    }
 
     @Override
     public void prepareForSave() {
@@ -46,6 +92,7 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
         if (!isValidCitizenshipTypeCode(kcPersonExtendedAttributes)) {
             reportInvalidCitizenshipTypeCode(kcPersonExtendedAttributes);
         }
+
         super.prepareForSave();
     }
     
@@ -110,6 +157,19 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
             }
         }
 
-        return sections;
+        return filterPersonCustomDataSection(sections);
     }
+    
+    private List<Section> filterPersonCustomDataSection(List<Section> sections) {
+        List<Section> filteredSections = new ArrayList<Section>();
+        
+        for (Section section : sections) {
+            if (!StringUtils.equals(section.getSectionTitle(), "Edit Person Custom Data")) {
+                filteredSections.add(section);
+            }
+        }
+        
+        return filteredSections;
+    }
+
 }

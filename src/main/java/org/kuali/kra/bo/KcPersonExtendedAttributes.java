@@ -27,7 +27,7 @@ import org.springframework.util.AutoPopulatingList;
  */
 public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase implements PersistableAttachment {
 
-    private static final long serialVersionUID = -6236580785268966391L;
+    private static final long serialVersionUID = 4705483839362366571L;
 
     private String personId;
 
@@ -102,7 +102,10 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
 
     private List<PersonAppointment> personAppointments = new AutoPopulatingList<PersonAppointment>(PersonAppointment.class);
 
+    private List<PersonCustomData> personCustomDataList = new AutoPopulatingList<PersonCustomData>(PersonCustomData.class);
+
     private CitizenshipType citizenshipType;
+    
 
     /**
      * Gets the value of personId which is actually the KIM principal id.
@@ -534,6 +537,14 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
 
     public void setPersonAppointments(List<PersonAppointment> personAppointments) {
         this.personAppointments = personAppointments;
+    }
+
+    public List<PersonCustomData> getPersonCustomDataList() {
+        return personCustomDataList;
+    }
+
+    public void setPersonCustomDataList(List<PersonCustomData> personCustomDataList) {
+        this.personCustomDataList = personCustomDataList;
     }
 
     public String getFileName() {
