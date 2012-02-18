@@ -92,12 +92,8 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
     protected boolean isConflictValueSelectedForAnnual(CoiDisclosure coiDisclosure) {
         boolean isSelected = true;
         int i = 0;
-        if (coiDisclosure.getCoiDisclEventProjects().isEmpty()) {
-            addErrorToAuditErrors(i, Constants.DISCLOSURE_ANNUAL_FINANCIAL_ENTITY_KEY, 
-                                    Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR, 
-                                    KeyConstants.ERROR_COI_PROJECT_REQUIRED);
-            isSelected = false;
-        } else {
+        // Allow annual disclosures to be attached without projects. This is a likely scenario
+        if (!coiDisclosure.getCoiDisclEventProjects().isEmpty()) {
             for (CoiDisclEventProject disclProject : coiDisclosure.getCoiDisclEventProjects()) {
                 int j = 0;
                 for (CoiDiscDetail coiDiscDetail : disclProject.getCoiDiscDetails()) {
