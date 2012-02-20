@@ -49,21 +49,17 @@ public class PermissionsHelper extends PermissionsHelperBase {
     private static final String VIEWER_NAME = "Viewer";
     private static final String UNASSIGNED_NAME = "unassigned";
     
-    public static final String PROTOCOL_ONLINE_REVIEW_ROLE_TYPE = "1016";
-    public static final String ACTIVE_COMMITTEE_MEMBER_ROLE_TYPE = "10002";
-    public static final String ACTIVE_COMMITTEE_MEMBER_SCHEDULED_DATE_ROLE_TYPE = "10003";
-    public static final String PROTOCOL_APPROVER_ROLE_TYPE = "10001";
-    
     //A collection of role names within the namespace that should not be assignable 
     //in the permissions page.
-    private static final Collection<String> excludeRoleTypes;
+    private static final Collection<String> excludeRoles;
     
     static {
-        excludeRoleTypes = new HashSet<String>();
-        excludeRoleTypes.add(PROTOCOL_ONLINE_REVIEW_ROLE_TYPE);
-        excludeRoleTypes.add(ACTIVE_COMMITTEE_MEMBER_ROLE_TYPE);
-        excludeRoleTypes.add(ACTIVE_COMMITTEE_MEMBER_SCHEDULED_DATE_ROLE_TYPE);
-        excludeRoleTypes.add(PROTOCOL_APPROVER_ROLE_TYPE);
+        excludeRoles = new HashSet<String>();
+        excludeRoles.add(RoleConstants.IRB_PROTOCOL_ONLINE_REVIEWER);
+        excludeRoles.add(RoleConstants.ACTIVE_COMMITTEE_MEMBER);
+        excludeRoles.add(RoleConstants.ACTIVE_COMMITTEE_MEMBER_SCHEDULED_DATE);
+        excludeRoles.add(RoleConstants.PROTOCOL_APPROVER);
+        excludeRoles.add(RoleConstants.ACTIVE_COMMITTEE_MEMBER_ON_PROTOCOL);
     }
     
     
@@ -146,10 +142,12 @@ public class PermissionsHelper extends PermissionsHelperBase {
      */
     @Override
     protected void buildRoles(String roleType) {
+       
         List<Role> roles = new ArrayList<Role>();
         List<org.kuali.rice.kim.api.role.Role> kimRoles = getSortedKimRoles(roleType);
         for (org.kuali.rice.kim.api.role.Role kimRole : kimRoles) {
-            if ( !excludeRoleTypes.contains(kimRole.getKimTypeId()) ) {
+            
+            if ( !excludeRoles.contains(kimRole.getName()) ) {
                 QueryByCriteria.Builder queryBuilder = QueryByCriteria.Builder.create();
                 List<Predicate> predicates = new ArrayList<Predicate>();
                 predicates.add(PredicateFactory.equal("rolePermissions.roleId", kimRole.getId()));
