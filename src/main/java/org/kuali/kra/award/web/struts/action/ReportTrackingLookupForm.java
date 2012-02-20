@@ -64,6 +64,20 @@ public class ReportTrackingLookupForm extends LookupForm {
         setCustomGroupByFields(new ArrayList<String>(customView.getGroupByDisplayCols()));
         setCustomDetailFields(new ArrayList<String>(customView.getDetailCols()));
     }
+    
+    /**
+     * The Ajax details contain an open award button and as we don't know all the award numbers
+     * beforehand we have to check for the openAwardReports link here.
+     * @see org.kuali.rice.kns.web.struts.form.pojo.PojoFormBase#isPropertyEditable(java.lang.String)
+     */
+    @Override
+    public boolean isPropertyEditable(String propertyName) {
+        if (propertyName.startsWith("methodToCall.openAwardReports.awardNumber")) {
+            return true;
+        } else {
+            return super.isPropertyEditable(propertyName);
+        }
+    }    
 
     public List<String> getGroupedByFields() {
         return groupedByFields;
