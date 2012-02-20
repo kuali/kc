@@ -58,10 +58,11 @@ public class QuestionnairePostProcessor extends KcPostProcessor {
         ActionTaken lastActionTaken = null;
         for (ActionTakenValue actionTakenValue : document.getActionsTaken()) {
             ActionTaken actionTaken = ActionTakenValue.to(actionTakenValue);
-            if (actionTaken.getActionTaken().equals(ActionType.APPROVE) || actionTaken.getActionTaken().equals(ActionType.BLANKET_APPROVE)) {
-                if (lastActionTaken == null || actionTaken.getActionDate().toDate().after(lastActionTaken.getActionDate().toDate())) {
-                    lastActionTaken = actionTaken;
-                }
+            ActionType actionTakenType = actionTaken.getActionTaken();
+            boolean isApprovalAction = actionTakenType.equals(ActionType.APPROVE) || actionTakenType.equals(ActionType.BLANKET_APPROVE);
+            boolean isLaterAction = actionTaken.getActionDate().toDate().after(lastActionTaken.getActionDate().toDate());
+            if (lastActionTaken == null || (isApprovalAction && isLaterAction)) {
+                lastActionTaken = actionTaken;
             }
         }
 
