@@ -16,9 +16,13 @@
 package org.kuali.kra.questionnaire;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.workflow.KcPostProcessor;
+import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
@@ -48,12 +52,20 @@ public class QuestionnairePostProcessor extends KcPostProcessor {
     }
 
     private boolean isApproveByInitiator(String docId) {
-        boolean isInitiator = true;
         DocumentRouteHeaderValue document = getRouteHeaderService().getRouteHeader(docId);
-        if (CollectionUtils.isNotEmpty(document.getActionsTaken())) {
-            isInitiator = document.getActionsTaken().get(0).getPrincipalId().equals(GlobalVariables.getUserSession().getPrincipalId());
+        String initiatorId = document.getInitiatorWorkflowId();
+        
+        ActionTaken lastActionTaken = null;
+        for (ActionTakenValue actionTakenValue : document.getActionsTaken()) {
+            ActionTaken actionTaken = ActionTakenValue.to(actionTakenValue);
+            if (actionTaken.getActionTaken().equals(ActionType.APPROVE) || actionTaken.getActionTaken().equals(ActionType.BLANKET_APPROVE)) {
+                if (lastActionTaken == null || actionTaken.getActionDate().toDate().after(lastActionTaken.getActionDate().toDate())) {
+                    lastActionTaken = actionTaken;
+                }
+            }
         }
-        return isInitiator;
+
+        return StringUtils.equals(initiatorId, lastActionTaken.getPrincipalId());
     }
 
     private RouteHeaderService getRouteHeaderService() {
