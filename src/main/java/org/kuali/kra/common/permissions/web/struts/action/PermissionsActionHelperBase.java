@@ -52,6 +52,7 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -287,7 +288,7 @@ public abstract class PermissionsActionHelperBase implements Serializable {
         retval.setQuestionId(questionId);
         retval.setQuestionType(CONFIRMATION_QUESTION);
 
-        ConfigurationService kualiConfiguration = getService(ConfigurationService.class);
+        ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService(); 
         String questionText = kualiConfiguration.getPropertyValueAsString(configurationId);
 
         for (int i = 0; i < params.length; i++) {
