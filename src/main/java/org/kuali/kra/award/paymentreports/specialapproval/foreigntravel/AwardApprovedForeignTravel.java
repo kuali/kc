@@ -78,7 +78,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate implements Compar
     private int instanceNumber;
 
     // used in tag 
-    private KcPersonService kcPersonService;
+    private transient KcPersonService kcPersonService;
 
     /**
      * Constructs a AwardApprovedForeignTravel
