@@ -60,7 +60,7 @@ public class QuestionnairePostProcessor extends KcPostProcessor {
             ActionTaken actionTaken = ActionTakenValue.to(actionTakenValue);
             ActionType actionTakenType = actionTaken.getActionTaken();
             boolean isApprovalAction = actionTakenType.equals(ActionType.APPROVE) || actionTakenType.equals(ActionType.BLANKET_APPROVE);
-            boolean isLaterAction = actionTaken.getActionDate().toDate().after(lastActionTaken.getActionDate().toDate());
+            boolean isLaterAction = lastActionTaken != null && actionTaken.getActionDate().toDate().after(lastActionTaken.getActionDate().toDate());
             if (lastActionTaken == null || (isApprovalAction && isLaterAction)) {
                 lastActionTaken = actionTaken;
             }
