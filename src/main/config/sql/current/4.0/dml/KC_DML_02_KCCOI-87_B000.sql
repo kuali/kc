@@ -46,7 +46,7 @@ UPDATE COI_DISCLOSURE_EVENT_TYPE
         LNG_TXT_FLD_1_LABEL = 'Protocol Name',
         USE_SHRT_TXT_FLD_1 = 'Y',
         REQ_SHRT_TXT_FLD_1 = 'Y',
-        SHRT_TXT_FLD_1_LABEL = 'Protocol Number'
+        SHRT_TXT_FLD_1_LABEL = 'Protocol Number',
         USE_SLCT_BOX_1 = 'Y',
         REQ_SLCT_BOX_1 = 'Y',
         SLCT_BOX_1_LABEL = 'Protocol Type',
