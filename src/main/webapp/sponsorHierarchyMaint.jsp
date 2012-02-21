@@ -110,7 +110,10 @@ tbody tr:hover {
 	enctype="" onsubmit="return hasFormAlreadyBeenSubmitted();">
 
 	<div class="headerarea-small" id="headerarea-small">
-	<h1 align="center">Sponsor Hierarchy <kul:help businessObjectClassName="org.kuali.kra.bo.SponsorHierarchy" altText="help"/></h1>
+	<h1 align="center">
+		Sponsor Hierarchy 
+		&nbsp; 
+		<kul:help parameterNamespace="KC-M" parameterDetailType="Document" parameterName="sponsorHierarchyHelp" altText="help"/>
 	</div>
 	<!--  initial data here -->
 	<input type="hidden" id="topSponsorHierarchies"
