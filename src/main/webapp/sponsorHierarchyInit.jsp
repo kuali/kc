@@ -19,6 +19,8 @@
           docTitle="Copy Sponsor Hierarchy" 
           transactionalDocument="false" 
           htmlFormAction="sponsorHierarchy">
+
+	<div align="left"><kul:help parameterNamespace="KC-M" parameterDetailType="Document" parameterName="sponsorHierarchyCreateNewHelp" altText="help"/>
           
     <script language="javascript" src="scripts/kuali_application.js"></script>
     <c:set var="newHierarchyNameStyle" value="" scope="request"/>

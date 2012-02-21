@@ -14,10 +14,13 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="helpRef" value="${ConfigProperties.application.url}/kr/help.do?methodToCall=getHelpUrlByNamespace&amp;helpParameterNamespace=KC-M&amp;helpParameterDetailType=Document&amp;helpParameterName=researchAreaHierarchyHelp" /> 
 
 <kul:page showDocumentInfo="false" docTitle="Area Of Research"
 	htmlFormAction="researchAreas" transactionalDocument="false"
 	headerTitle="Area Of Research" auditCount="0">
+
+	<div align="left"><kul:help parameterNamespace="KC-M" parameterDetailType="Document" parameterName="researchAreaHelp" altText="help"/>
 
 	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css"
