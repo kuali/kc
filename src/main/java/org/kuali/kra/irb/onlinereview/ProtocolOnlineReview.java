@@ -299,6 +299,9 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
      * @return Returns the protocolReviewer.
      */
     public ProtocolReviewer getProtocolReviewer() {
+        if (protocolReviewer == null) {
+            protocolReviewer = new ProtocolReviewer();
+        }
         return protocolReviewer;
     }
 
