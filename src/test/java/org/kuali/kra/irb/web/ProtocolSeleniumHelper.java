@@ -25,7 +25,7 @@ public class ProtocolSeleniumHelper extends KcSeleniumHelper {
     
     private static final String PAGE_TITLE = "Kuali :: KC Protocol";
     
-    private static final String CREATE_PROTOCOL_LINK_NAME = "Create Protocol";
+    private static final String CREATE_PROTOCOL_LINK_NAME = "Create IRB Protocol";
     private static final String PROTOCOL_LINK_NAME = "protocol";
     private static final String PERSONNEL_LINK_NAME = "personnel";
     private static final String QUESTIONNAIRE_LINK_NAME = "questionnaire";
