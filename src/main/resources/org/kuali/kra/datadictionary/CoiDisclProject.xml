@@ -36,15 +36,18 @@
                 <ref bean="CoiDisclProject-coiDisclosureId" />
                 <ref bean="CoiDisclProject-coiDisclosureNumber" />
                 <ref bean="CoiDisclProject-sequenceNumber" />
-                <ref bean="CoiDisclProject-coiProjectId" />
-                <ref bean="CoiDisclProject-coiProjectTitle" />
-                <ref bean="CoiDisclProject-coiProjectType" />
+                <ref bean="CoiDisclProject-shortTextField1" />
+                <ref bean="CoiDisclProject-longTextField1" />
+                <ref bean="CoiDisclProject-shortTextField2" />
                 <ref bean="CoiDisclProject-disclosureEventType" />
-                <ref bean="CoiDisclProject-coiProjectSponsor" />
-                <ref bean="CoiDisclProject-coiProjectStartDate" />
-                <ref bean="CoiDisclProject-coiProjectEndDate" />
-                <ref bean="CoiDisclProject-coiProjectFundingAmount" />
-                <ref bean="CoiDisclProject-coiProjectRole" />
+                <ref bean="CoiDisclProject-longTextField2" />
+                <ref bean="CoiDisclProject-dateField1" />
+                <ref bean="CoiDisclProject-dateField2" />
+                <ref bean="CoiDisclProject-numberField1" />
+                <ref bean="CoiDisclProject-numberField2" />                
+                <ref bean="CoiDisclProject-shortTextField3" />
+                <ref bean="CoiDisclProject-longTextField3" />
+                <ref bean="CoiDisclProject-selectBox1" />                
                 <ref bean="CoiDisclProject-versionNumber" />
                 
             </list>
@@ -125,13 +128,12 @@
         <property name="description" value="Sequence Number" />
     </bean>
 
-    <bean id="CoiDisclProject-coiProjectId" parent="CoiDisclProject-coiProjectId-parentBean" />
-    <bean id="CoiDisclProject-coiProjectId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="coiProjectId" />
+    <bean id="CoiDisclProject-shortTextField1" parent="CoiDisclProject-shortTextField1-parentBean" />
+    <bean id="CoiDisclProject-shortTextField1-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="shortTextField1" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Project Id" />
-        <property name="shortLabel" value="Project Id" />
-    	<property name="required" value="true" />
+        <property name="label" value="Short Text Field 1" />
+        <property name="shortLabel" value="Short Text Field 1" />
         <property name="maxLength" value="20" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
@@ -140,17 +142,16 @@
             <bean parent="TextControlDefinition"
                 p:size="20" />
         </property>
-        <property name="summary" value="Coi Project Id" />
-        <property name="description" value="Coi Project Id" />
+        <property name="summary" value="Short Text Field 1" />
+        <property name="description" value="Short Text Field 1" />
     </bean>
 
-    <bean id="CoiDisclProject-coiProjectTitle" parent="CoiDisclProject-coiProjectTitle-parentBean" />
-    <bean id="CoiDisclProject-coiProjectTitle-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="coiProjectTitle" />
+    <bean id="CoiDisclProject-longTextField1" parent="CoiDisclProject-longTextField1-parentBean" />
+    <bean id="CoiDisclProject-longTextField1-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="longTextField1" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Project Title" />
-        <property name="shortLabel" value="Project Title" />
-    	<property name="required" value="true" />
+        <property name="label" value="Long Text Field 1" />
+        <property name="shortLabel" value="Long Text Field 1" />
         <property name="maxLength" value="200" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
@@ -159,31 +160,26 @@
             <bean parent="TextControlDefinition"
                 p:size="60" />
         </property>
-        <property name="summary" value="Coi Project Title" />
-        <property name="description" value="Coi Project Title" />
+        <property name="summary" value="Long Text Field 1" />
+        <property name="description" value="Long Text Field 1" />
     </bean>
 
-    <bean id="CoiDisclProject-coiProjectType" parent="CoiDisclProject-coiProjectType-parentBean" />
-    <bean id="CoiDisclProject-coiProjectType-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="coiProjectType" />
+    <bean id="CoiDisclProject-shortTextField2" parent="CoiDisclProject-shortTextField2-parentBean" />
+    <bean id="CoiDisclProject-shortTextField2-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="shortTextField2" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Project Type" />
-        <property name="shortLabel" value="Project Type" />
+        <property name="label" value="Short Text Field 2" />
+        <property name="shortLabel" value="Short Text Field 2" />
         <property name="maxLength" value="20" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern" />
         </property>
-    	<property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalType"
-            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false"
-            	p:includeBlankRow="false"
-            	p:keyAttribute="proposalTypeCode"
-            	p:labelAttribute="description" />
-    	</property>
-        <property name="summary" value="Coi Project Type" />
-        <property name="description" value="Coi Project Type" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>        
+        <property name="summary" value="Short Text Field 2" />
+        <property name="description" value="Short Text Field 2" />
     </bean>
     
     <bean id="CoiDisclProject-disclosureEventType" parent="CoiDisclProject-disclosureEventType-parentBean" />
@@ -199,7 +195,7 @@
         </property>
     	<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.coi.disclosure.DisclosureEventTypeValuesFinder"
+            	p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureManualEventTypesValuesFinder"
             	p:includeKeyInLabel="false"
 	            p:script="updateTable(this)"/>
     	</property>
@@ -208,12 +204,12 @@
     </bean>
     
 
-    <bean id="CoiDisclProject-coiProjectSponsor" parent="CoiDisclProject-coiProjectSponsor-parentBean" />
-    <bean id="CoiDisclProject-coiProjectSponsor-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="coiProjectSponsor" />
+    <bean id="CoiDisclProject-longTextField2" parent="CoiDisclProject-longTextField2-parentBean" />
+    <bean id="CoiDisclProject-longTextField2-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="longTextField2" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Sponsor" />
-        <property name="shortLabel" value="Sponsor" />
+        <property name="label" value="Long Text Field 2" />
+        <property name="shortLabel" value="Long Text Field 2" />
         <property name="maxLength" value="200" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
@@ -222,43 +218,52 @@
             <bean parent="TextControlDefinition"
                 p:size="60" />
         </property>
-        <property name="summary" value="Coi Project Sponsor" />
-        <property name="description" value="Coi Project Sponsor" />
+        <property name="summary" value="Long Text Field 2" />
+        <property name="description" value="Long Text Field 2" />
     </bean>
 
-    <bean id="CoiDisclProject-coiProjectStartDate" parent="CoiDisclProject-coiProjectStartDate-parentBean" />
-    <bean id="CoiDisclProject-coiProjectStartDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-        <property name="name" value="coiProjectStartDate" />
-        <property name="label" value="Project Start Date" />
-        <property name="shortLabel" value="Project Start Date" />
-        <property name="summary" value="Coi Project Start Date" />
-        <property name="description" value="Coi Project Start Date" />
+    <bean id="CoiDisclProject-dateField1" parent="CoiDisclProject-dateField1-parentBean" />
+    <bean id="CoiDisclProject-dateField1-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="dateField1" />
+        <property name="label" value="Date Field 1" />
+        <property name="shortLabel" value="Date Field 1" />
+        <property name="summary" value="Date Field 1" />
+        <property name="description" value="Date Field 1" />
     </bean>
 
-    <bean id="CoiDisclProject-coiProjectEndDate" parent="CoiDisclProject-coiProjectEndDate-parentBean" />
-    <bean id="CoiDisclProject-coiProjectEndDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-        <property name="name" value="coiProjectEndDate" />
-        <property name="label" value="Project End Date" />
-        <property name="shortLabel" value="Project End Date" />
-        <property name="summary" value="Coi Project End Date" />
-        <property name="description" value="Coi Project End Date" />
+    <bean id="CoiDisclProject-dateField2" parent="CoiDisclProject-dateField2-parentBean" />
+    <bean id="CoiDisclProject-dateField2-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="dateField2" />
+        <property name="label" value="Date Field 2" />
+        <property name="shortLabel" value="Date Field 2" />
+        <property name="summary" value="Date Field 2" />
+        <property name="description" value="Date Field 2" />
     </bean>
 
-    <bean id="CoiDisclProject-coiProjectFundingAmount" parent="CoiDisclProject-coiProjectFundingAmount-parentBean" />
-    <bean id="CoiDisclProject-coiProjectFundingAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount" >
-        <property name="name" value="coiProjectFundingAmount" />
-        <property name="label" value="Project Funding Amount" />
-        <property name="shortLabel" value="Project Funding Amount" />
-        <property name="summary" value="Coi Project Funding Amount" />
-        <property name="description" value="Coi Project Funding Amount" />
+    <bean id="CoiDisclProject-numberField1" parent="CoiDisclProject-numberField1-parentBean" />
+    <bean id="CoiDisclProject-numberField1-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount" >
+        <property name="name" value="numberField1" />
+        <property name="label" value="Number Field 1" />
+        <property name="shortLabel" value="Number Field 1" />
+        <property name="summary" value="Number Field 1" />
+        <property name="description" value="Number Field 1" />
     </bean>
 
-    <bean id="CoiDisclProject-coiProjectRole" parent="CoiDisclProject-coiProjectRole-parentBean" />
-    <bean id="CoiDisclProject-coiProjectRole-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="coiProjectRole" />
+    <bean id="CoiDisclProject-numberField2" parent="CoiDisclProject-numberField2-parentBean" />
+    <bean id="CoiDisclProject-numberField2-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount" >
+        <property name="name" value="numberField2" />
+        <property name="label" value="Number Field 2" />
+        <property name="shortLabel" value="Number Field 2" />
+        <property name="summary" value="Number Field 2" />
+        <property name="description" value="Number Field 2" />
+    </bean>
+
+    <bean id="CoiDisclProject-shortTextField3" parent="CoiDisclProject-shortTextField3-parentBean" />
+    <bean id="CoiDisclProject-shortTextField3-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="shortTextField3" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Project Role" />
-        <property name="shortLabel" value="Project Role" />
+        <property name="label" value="Short Text Field 3" />
+        <property name="shortLabel" value="Short Text Field 3" />
         <property name="maxLength" value="20" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
@@ -267,14 +272,50 @@
             <bean parent="TextControlDefinition"
                 p:size="20" />
         </property>
-        <property name="summary" value="Coi Project Role" />
-        <property name="description" value="Coi Project Role" />
+        <property name="summary" value="Short Text Field 3" />
+        <property name="description" value="Short Text Field 3" />
+    </bean>
+
+    <bean id="CoiDisclProject-longTextField3" parent="CoiDisclProject-longTextField3-parentBean" />
+    <bean id="CoiDisclProject-longTextField3-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="longTextField3" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Long Text Field 3" />
+        <property name="shortLabel" value="Long Text Field 3" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+        <property name="summary" value="Long Text Field 3" />
+        <property name="description" value="Long Text Field 3" />
+    </bean>
+
+    <bean id="CoiDisclProject-selectBox1" parent="CoiDisclProject-selectBox1-parentBean" />
+    <bean id="CoiDisclProject-selectBox1-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="selectBox1" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Select Box 1" />
+        <property name="shortLabel" value="Select Box 1" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Select Box 1" />
+        <property name="description" value="Select Box 1" />
     </bean>
 
     <bean id="CoiDisclProject-versionNumber" parent="CoiDisclProject-versionNumber-parentBean" />
     <bean id="CoiDisclProject-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
-
+    
     <!-- Business Object Inquiry Definition -->
     <bean id="CoiDisclProject-inquiryDefinition" parent="CoiDisclProject-inquiryDefinition-parentBean" />
     <bean id="CoiDisclProject-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -296,21 +337,27 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="sequenceNumber" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="coiProjectId" />
+                                p:attributeName="shortTextField1" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="coiProjectTitle" />
+                                p:attributeName="longTextField1" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="coiProjectType" />
+                                p:attributeName="shortTextField2" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="coiProjectSponsor" />
+                                p:attributeName="longTextField2" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="coiProjectStartDate" />
+                                p:attributeName="dateField1" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="coiProjectEndDate" />
+                                p:attributeName="dateField2" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="coiProjectFundingAmount" />
+                                p:attributeName="numberField1" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="coiProjectRole" />
+                                p:attributeName="numberField2" />                                
+                            <bean parent="FieldDefinition"
+                                p:attributeName="shortTextField3" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="longTextField3" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="selectBox1" />                                
                         </list>
                     </property>
                 </bean>
@@ -339,21 +386,27 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="sequenceNumber" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectId" />
+                    p:attributeName="shortTextField1" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectTitle" />
+                    p:attributeName="longTextField1" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectType" />
+                    p:attributeName="shortTextField2" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectSponsor" />
+                    p:attributeName="longTextField2" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectStartDate" />
+                    p:attributeName="dateField1" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectEndDate" />
+                    p:attributeName="dateField2" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectFundingAmount" />
+                    p:attributeName="numberField1" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectRole" />
+                    p:attributeName="numberField2" />                    
+                <bean parent="FieldDefinition"
+                    p:attributeName="shortTextField3" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="longTextField3" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="selectBox1" />                     
             </list>
         </property>
         <property name="resultFields" >
@@ -368,21 +421,27 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="sequenceNumber" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectId" />
+                    p:attributeName="shortTextField1" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectTitle" />
+                    p:attributeName="longTextField1" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectType" />
+                    p:attributeName="shortTextField2" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectSponsor" />
+                    p:attributeName="longTextField2" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectStartDate" />
+                    p:attributeName="dateField1" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectEndDate" />
+                    p:attributeName="dateField2" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectFundingAmount" />
+                    p:attributeName="numberField1" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="coiProjectRole" />
+                    p:attributeName="numberField2" />                    
+                <bean parent="FieldDefinition"
+                    p:attributeName="shortTextField3" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="longTextField3" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="selectBox1" />                       
             </list>
         </property>
     </bean>

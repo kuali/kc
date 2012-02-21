@@ -40,17 +40,20 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private Long coiDisclosureId; 
     private String coiDisclosureNumber; 
     private Integer sequenceNumber; 
-    private String coiProjectId; 
-    private String coiProjectTitle; 
-    private String coiProjectType; 
+    private String shortTextField1; 
+    private String longTextField1; 
+    private String shortTextField2; 
     // TODO : event type is still not certain because we still have not new schema from coeus
     // this should come from a table eventually I think ?
     private String disclosureEventType; 
-    private String coiProjectSponsor; 
-    private Date coiProjectStartDate; 
-    private Date coiProjectEndDate; 
-    private KualiDecimal coiProjectFundingAmount; 
-    private String coiProjectRole; 
+    private String longTextField2; 
+    private Date dateField1; 
+    private Date dateField2; 
+    private KualiDecimal numberField1; 
+    private KualiDecimal numberField2;
+    private String shortTextField3;
+    private String longTextField3;
+    private String selectBox1;
     private ProposalType proposalType;
     private ProtocolType protocolType;
     
@@ -99,70 +102,6 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         this.sequenceNumber = sequenceNumber;
     }
 
-    public String getCoiProjectId() {
-        return coiProjectId;
-    }
-
-    public void setCoiProjectId(String coiProjectId) {
-        this.coiProjectId = coiProjectId;
-    }
-
-    public String getCoiProjectTitle() {
-        return coiProjectTitle;
-    }
-
-    public void setCoiProjectTitle(String coiProjectTitle) {
-        this.coiProjectTitle = coiProjectTitle;
-    }
-
-    public String getCoiProjectType() {
-        return coiProjectType;
-    }
-
-    public void setCoiProjectType(String coiProjectType) {
-        this.coiProjectType = coiProjectType;
-    }
-
-    public String getCoiProjectSponsor() {
-        return coiProjectSponsor;
-    }
-
-    public void setCoiProjectSponsor(String coiProjectSponsor) {
-        this.coiProjectSponsor = coiProjectSponsor;
-    }
-
-    public Date getCoiProjectStartDate() {
-        return coiProjectStartDate;
-    }
-
-    public void setCoiProjectStartDate(Date coiProjectStartDate) {
-        this.coiProjectStartDate = coiProjectStartDate;
-    }
-
-    public Date getCoiProjectEndDate() {
-        return coiProjectEndDate;
-    }
-
-    public void setCoiProjectEndDate(Date coiProjectEndDate) {
-        this.coiProjectEndDate = coiProjectEndDate;
-    }
-
-    public KualiDecimal getCoiProjectFundingAmount() {
-        return coiProjectFundingAmount;
-    }
-
-    public void setCoiProjectFundingAmount(KualiDecimal coiProjectFundingAmount) {
-        this.coiProjectFundingAmount = coiProjectFundingAmount;
-    }
-
-    public String getCoiProjectRole() {
-        return coiProjectRole;
-    }
-
-    public void setCoiProjectRole(String coiProjectRole) {
-        this.coiProjectRole = coiProjectRole;
-    }
-
     public CoiDisclosure getCoiDisclosure() {
         return coiDisclosure;
     }
@@ -192,6 +131,72 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         this.disclosureEventType = disclosureEventType;
     }
     
+    public String getShortTextField1() {
+        return shortTextField1;
+    }
+    public void setShortTextField1(String shortTextField1) {
+        this.shortTextField1 = shortTextField1;
+    }
+    public String getLongTextField1() {
+        return longTextField1;
+    }
+    public void setLongTextField1(String longTextField1) {
+        this.longTextField1 = longTextField1;
+    }
+    public String getShortTextField2() {
+        return shortTextField2;
+    }
+    public void setShortTextField2(String shortTextField2) {
+        this.shortTextField2 = shortTextField2;
+    }
+    public String getLongTextField2() {
+        return longTextField2;
+    }
+    public void setLongTextField2(String longTextField2) {
+        this.longTextField2 = longTextField2;
+    }
+    public Date getDateField1() {
+        return dateField1;
+    }
+    public void setDateField1(Date dateField1) {
+        this.dateField1 = dateField1;
+    }
+    public Date getDateField2() {
+        return dateField2;
+    }
+    public void setDateField2(Date dateField2) {
+        this.dateField2 = dateField2;
+    }
+    public KualiDecimal getNumberField1() {
+        return numberField1;
+    }
+    public void setNumberField1(KualiDecimal numberField1) {
+        this.numberField1 = numberField1;
+    }
+    public KualiDecimal getNumberField2() {
+        return numberField2;
+    }
+    public void setNumberField2(KualiDecimal numberField2) {
+        this.numberField2 = numberField2;
+    }
+    public String getShortTextField3() {
+        return shortTextField3;
+    }
+    public void setShortTextField3(String shortTextField3) {
+        this.shortTextField3 = shortTextField3;
+    }
+    public String getLongTextField3() {
+        return longTextField3;
+    }
+    public void setLongTextField3(String longTextField3) {
+        this.longTextField3 = longTextField3;
+    }
+    public String getSelectBox1() {
+        return selectBox1;
+    }
+    public void setSelectBox1(String selectBox1) {
+        this.selectBox1 = selectBox1;
+    }
     public boolean isProposalEvent() {
         return StringUtils.equals(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, this.disclosureEventType);
     }
@@ -251,7 +256,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
 
     }
     public ProtocolType getProtocolType() {
-        if (StringUtils.isNotBlank(coiProjectType) && protocolType == null) {
+        if (StringUtils.isNotBlank(shortTextField2) && protocolType == null) {
             this.refreshReferenceObject("protocolType");
         }
         return protocolType;
@@ -288,15 +293,18 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         }
         return isComplete;
     }
+    
+
     @Override
     public String getProjectName() {
         // TODO Auto-generated method stub
-        return getCoiProjectTitle();
+        return getLongTextField1();
     }
     @Override
     public String getProjectId() {
         // TODO Auto-generated method stub
-        return getCoiProjectId();
+        return getShortTextField1();
     }
+
 
 }

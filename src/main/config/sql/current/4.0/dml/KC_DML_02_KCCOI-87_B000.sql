@@ -21,7 +21,11 @@ UPDATE COI_DISCLOSURE_EVENT_TYPE
         DATE_FLD_1_LABEL = 'Project Start Date',
         USE_DATE_FLD_2 = 'Y',
         REQ_DATE_FLD_2 = 'Y',
-        DATE_FLD_2_LABEL = 'Project End Date'
+        DATE_FLD_2_LABEL = 'Project End Date',
+        USE_SLCT_BOX_1 = 'Y',
+        REQ_SLCT_BOX_1 = 'Y',
+        SLCT_BOX_1_LABEL = 'Project Type',
+        SLCT_BOX_1_VAL_FNDR = 'org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectsProjectTypeValuesFinder'
     WHERE DESCRIPTION = 'Manual Proposal'
 /
 UPDATE COI_DISCLOSURE_EVENT_TYPE 
@@ -43,5 +47,9 @@ UPDATE COI_DISCLOSURE_EVENT_TYPE
         USE_SHRT_TXT_FLD_1 = 'Y',
         REQ_SHRT_TXT_FLD_1 = 'Y',
         SHRT_TXT_FLD_1_LABEL = 'Protocol Number'
+        USE_SLCT_BOX_1 = 'Y',
+        REQ_SLCT_BOX_1 = 'Y',
+        SLCT_BOX_1_LABEL = 'Protocol Type',
+        SLCT_BOX_1_VAL_FNDR = 'org.kuali.kra.irb.protocol.ProtocolTypeValuesFinder'            
     WHERE DESCRIPTION = 'Manual IRB Protocol'
 /

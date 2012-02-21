@@ -517,15 +517,18 @@
 		<field-descriptor name="coiDisclosureId" column="COI_DISCLOSURE_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="coiDisclosureNumber" column="COI_DISCLOSURE_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="coiProjectId" column="COI_PROJECT_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="coiProjectTitle" column="COI_PROJECT_TITLE" jdbc-type="VARCHAR" />
-		<field-descriptor name="coiProjectType" column="COI_PROJECT_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="shortTextField1" column="SHRT_TXT_FLD_1" jdbc-type="VARCHAR" />
+		<field-descriptor name="longTextField1" column="LNG_TXT_FLD_1" jdbc-type="VARCHAR" />
+		<field-descriptor name="shortTextField2" column="SHRT_TXT_FLD_2" jdbc-type="VARCHAR" />
 		<field-descriptor name="disclosureEventType" column="COI_DISCLOSURE_EVENT_TYPE" jdbc-type="VARCHAR" />
-		<field-descriptor name="coiProjectSponsor" column="COI_PROJECT_SPONSOR" jdbc-type="VARCHAR" />
-		<field-descriptor name="coiProjectStartDate" column="COI_PROJECT_START_DATE" jdbc-type="DATE" />
-		<field-descriptor name="coiProjectEndDate" column="COI_PROJECT_END_DATE" jdbc-type="DATE" />
-		<field-descriptor name="coiProjectFundingAmount" column="COI_PROJECT_FUNDING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="coiProjectRole" column="COI_PROJECT_ROLE" jdbc-type="VARCHAR" />
+		<field-descriptor name="longTextField2" column="LNG_TXT_FLD_2" jdbc-type="VARCHAR" />
+		<field-descriptor name="dateField1" column="DATE_FLD_1" jdbc-type="DATE" />
+		<field-descriptor name="dateField2" column="DATE_FLD_2" jdbc-type="DATE" />
+		<field-descriptor name="numberField1" column="NMBR_FLD_1" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="numberField2" column="NMBR_FLD_2" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="shortTextField3" column="SHRT_TXT_FLD_3" jdbc-type="VARCHAR" />
+		<field-descriptor name="longTextField3" column="LNG_TXT_FLD_3" jdbc-type="VARCHAR" />
+		<field-descriptor name="selectBox1" column="SLCT_BOX_1" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -602,7 +605,11 @@
         <field-descriptor name="dateField1Label" column="DATE_FLD_1_LABEL" jdbc-type="VARCHAR" />          
         <field-descriptor name="useDateField2" column="USE_DATE_FLD_2" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="requireDateField2" column="REQ_DATE_FLD_2" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />                                
-        <field-descriptor name="dateField2Label" column="DATE_FLD_2_LABEL" jdbc-type="VARCHAR" />                 
+        <field-descriptor name="dateField2Label" column="DATE_FLD_2_LABEL" jdbc-type="VARCHAR" />
+        <field-descriptor name="useSelectBox1" column="USE_SLCT_BOX_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="requireSelectBox1" column="REQ_SLCT_BOX_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />                                
+        <field-descriptor name="selectBox1Label" column="SLCT_BOX_1_LABEL" jdbc-type="VARCHAR" />
+        <field-descriptor name="selectBox1ValuesFinder" column="SLCT_BOX_1_VAL_FNDR" jdbc-type="VARCHAR" />                                                      
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
