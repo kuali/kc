@@ -98,11 +98,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
 
     private static final Log LOG = LogFactory.getLog(RRFedNonFedBudgetV1_0Generator.class);
     private static final String EXTRA_KEYPERSON_ATTACHMENT_NON_FED_XSL = "/org/kuali/kra/s2s/stylesheet/ExtraKeyPersonAttachmentNonFed.xsl";
-	private static final String EXTRA_KEYPERSONS = "RRFEDNONFED_EXTRA_KEYPERSONS";
-	private static final int EXTRA_KEYPERSONS_TYPE = 11;
-	private static final String EXTRA_KEYPERSONS_COMMENT = "RRFEDNONFED_EXTRA_KEYPERSONS";
-	private static final String ADDITIONAL_EQUIPMENT_NARRATIVE_TYPE_CODE ="12";
-	private static final String ADDITIONAL_EQUIPMENT_NARRATIVE_COMMENT = "RRFEDNONFED_ADDITIONAL_EQUIPMENT";
+    private static final String EXTRA_KEYPERSONS = "RRFEDNONFED_EXTRA_KEYPERSONS";
+    private static final int EXTRA_KEYPERSONS_TYPE = 11;
+    private static final String EXTRA_KEYPERSONS_COMMENT = "RRFEDNONFED_EXTRA_KEYPERSONS";
+    private static final String ADDITIONAL_EQUIPMENT_NARRATIVE_TYPE_CODE ="12";
+    private static final String ADDITIONAL_EQUIPMENT_NARRATIVE_COMMENT = "RRFEDNONFED_ADDITIONAL_EQUIPMENT";
     /**
      * This method returns RRFedNonFedBudgetDocument object based on proposal development document which contains the informations
      * such as DUNSID,OrganizationName,BudgetType,BudgetYear and BudgetSummary.
@@ -169,6 +169,9 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
      */
     private BudgetYearDataType getBudgetYearDataType(BudgetPeriodInfo periodInfo) {
 
+        BudgetDecimal totalDirectCostSharing = BudgetDecimal.ZERO;
+        BudgetDecimal totalIndirectCostSharing = BudgetDecimal.ZERO;
+        BudgetDecimal directCostsTotal = BudgetDecimal.ZERO;
         BudgetYearDataType budgetYear = BudgetYearDataType.Factory.newInstance();
         if (periodInfo != null) {
             budgetYear.setBudgetPeriodStartDate(s2sUtilService.convertDateToCalendar(periodInfo.getStartDate()));
@@ -199,38 +202,41 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             budgetYear.setOtherDirectCosts(getOtherDirectCosts(periodInfo));
             SummaryDataType summaryDirect = SummaryDataType.Factory.newInstance();
             if (periodInfo.getDirectCostsTotal() != null) {
-                summaryDirect.setFederalSummary(periodInfo.getDirectCostsTotal().bigDecimalValue());
+                directCostsTotal = periodInfo.getDirectCostsTotal();
+                summaryDirect.setFederalSummary( directCostsTotal.bigDecimalValue());
             }
-            if (periodInfo.getCostSharingAmount() != null) {
-                BudgetDecimal totalDirectCostSharing = periodInfo.getTotalDirectCostSharing();
+            
+                if (periodInfo.getTotalDirectCostSharing() != null) {
+                totalDirectCostSharing = periodInfo.getTotalDirectCostSharing();
+                }
                 summaryDirect.setNonFederalSummary(totalDirectCostSharing.bigDecimalValue());
-                if (periodInfo.getDirectCostsTotal() != null) {
-                    summaryDirect.setTotalFedNonFedSummary(periodInfo.getDirectCostsTotal().add(totalDirectCostSharing).bigDecimalValue());
+                if (directCostsTotal != null) {
+                    summaryDirect.setTotalFedNonFedSummary(directCostsTotal.add(totalDirectCostSharing).bigDecimalValue());
                 }
                 else {
                     summaryDirect.setTotalFedNonFedSummary(totalDirectCostSharing.bigDecimalValue());
                 }
-            }
+            
             budgetYear.setDirectCosts(summaryDirect);
             IndirectCosts indirectCosts = getIndirectCosts(periodInfo);
             if (indirectCosts != null) {
                 budgetYear.setIndirectCosts(indirectCosts);
             }
             budgetYear.setCognizantFederalAgency(periodInfo.getCognizantFedAgency());
+            if (periodInfo.getIndirectCosts().getTotalIndirectCostSharing() != null){
+            totalIndirectCostSharing = periodInfo.getIndirectCosts().getTotalIndirectCostSharing();
+            }
             SummaryDataType summaryTotal = SummaryDataType.Factory.newInstance();
             if (periodInfo.getTotalCosts() != null) {
                 summaryTotal.setFederalSummary(periodInfo.getTotalCosts().bigDecimalValue());
             }
-            summaryTotal.setNonFederalSummary(periodInfo.getCostSharingAmount().bigDecimalValue());
-            if (periodInfo.getCostSharingAmount() != null) {
-                if (periodInfo.getTotalCosts() != null) {
-                    summaryTotal.setTotalFedNonFedSummary(periodInfo.getTotalCosts().add(periodInfo.getCostSharingAmount())
-                            .bigDecimalValue());
-                }
-                else {
-                    summaryTotal.setTotalFedNonFedSummary(periodInfo.getCostSharingAmount().bigDecimalValue());
-                }
-            }
+            summaryTotal.setNonFederalSummary(totalDirectCostSharing.bigDecimalValue().add(totalIndirectCostSharing.bigDecimalValue()));
+             if (periodInfo.getTotalCosts() != null) {
+                 summaryTotal.setTotalFedNonFedSummary(periodInfo.getTotalCosts().add(totalDirectCostSharing).bigDecimalValue().add(totalIndirectCostSharing.bigDecimalValue()));
+             }
+             else {
+                 summaryTotal.setTotalFedNonFedSummary(totalDirectCostSharing.bigDecimalValue().add(totalIndirectCostSharing.bigDecimalValue()));
+             }
             budgetYear.setTotalCosts(summaryTotal);
         }
         return budgetYear;
@@ -327,11 +333,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                         budgetSummaryData.getCumTotalIndirectCostSharing()).bigDecimalValue());
                 budgetSummary.setCumulativeTotalFundsRequestedIndirectCost(summary);
             }
-            if (budgetSummaryData.getCumTotalCosts() != null && budgetSummaryData.getCumTotalCostSharing() != null) {
+            if (budgetSummaryData.getCumTotalCosts() != null && budgetSummaryData.getCumTotalDirectCostSharing() != null) {
                 directIndirectCosts.setFederalSummary(budgetSummaryData.getCumTotalCosts().bigDecimalValue());
-                directIndirectCosts.setNonFederalSummary(budgetSummaryData.getCumTotalCostSharing().bigDecimalValue());
+                directIndirectCosts.setNonFederalSummary(budgetSummaryData.getCumTotalDirectCostSharing().bigDecimalValue().add(budgetSummaryData.getCumTotalIndirectCostSharing().bigDecimalValue()));
                 directIndirectCosts.setTotalFedNonFedSummary(budgetSummaryData.getCumTotalCosts().add(
-                        budgetSummaryData.getCumTotalCostSharing()).bigDecimalValue());
+                        budgetSummaryData.getCumTotalDirectCostSharing()).add(budgetSummaryData.getCumTotalIndirectCostSharing()).bigDecimalValue());
             }
         }
         budgetSummary.setCumulativeTotalFundsRequestedSeniorKeyPerson(summarySeniorKey);
@@ -710,6 +716,8 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
     private BudgetYear1DataType getBudgetYear1DataType(BudgetPeriodInfo periodInfo) {
 
         BudgetYear1DataType budgetYear = BudgetYear1DataType.Factory.newInstance();
+        BudgetDecimal totalDirectCostSharing = BudgetDecimal.ZERO;
+        BudgetDecimal totalIndirectCostSharing = BudgetDecimal.ZERO;
         if (periodInfo != null) {
             budgetYear.setBudgetPeriodStartDate(s2sUtilService.convertDateToCalendar(periodInfo.getStartDate()));
             budgetYear.setBudgetPeriodEndDate(s2sUtilService.convertDateToCalendar(periodInfo.getEndDate()));
@@ -741,7 +749,9 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             if (periodInfo.getDirectCostsTotal() != null) {
                 summaryDirect.setFederalSummary(periodInfo.getDirectCostsTotal().bigDecimalValue());
             }
-            BudgetDecimal totalDirectCostSharing = periodInfo.getTotalDirectCostSharing();
+            if (periodInfo.getTotalDirectCostSharing() != null){
+            totalDirectCostSharing = periodInfo.getTotalDirectCostSharing();
+            }
             summaryDirect.setNonFederalSummary(totalDirectCostSharing.bigDecimalValue());
             if (periodInfo.getDirectCostsTotal() != null) {
                 summaryDirect.setTotalFedNonFedSummary(periodInfo.getDirectCostsTotal().add(totalDirectCostSharing).bigDecimalValue());
@@ -752,18 +762,21 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             budgetYear.setDirectCosts(summaryDirect);
             budgetYear.setIndirectCosts(getIndirectCosts(periodInfo));
             budgetYear.setCognizantFederalAgency(periodInfo.getCognizantFedAgency());
+            if (periodInfo.getIndirectCosts().getTotalIndirectCostSharing() != null){
+                totalIndirectCostSharing = periodInfo.getIndirectCosts().getTotalIndirectCostSharing();
+            }
             SummaryDataType summaryTotal = SummaryDataType.Factory.newInstance();
             if (periodInfo.getTotalCosts() != null) {
                 summaryTotal.setFederalSummary(periodInfo.getTotalCosts().bigDecimalValue());
             }
             if (periodInfo.getCostSharingAmount() != null) {
-                summaryTotal.setNonFederalSummary(periodInfo.getCostSharingAmount().bigDecimalValue());
+                summaryTotal.setNonFederalSummary(totalDirectCostSharing.bigDecimalValue().add(totalIndirectCostSharing.bigDecimalValue()));
                 if (periodInfo.getTotalCosts() != null) {
-                    summaryTotal.setTotalFedNonFedSummary(periodInfo.getTotalCosts().add(periodInfo.getCostSharingAmount())
+                    summaryTotal.setTotalFedNonFedSummary(periodInfo.getTotalCosts().add(totalDirectCostSharing).add(totalIndirectCostSharing)
                             .bigDecimalValue());
                 }
                 else {
-                    summaryTotal.setTotalFedNonFedSummary(periodInfo.getCostSharingAmount().bigDecimalValue());
+                    summaryTotal.setTotalFedNonFedSummary(totalDirectCostSharing.bigDecimalValue().add(totalIndirectCostSharing.bigDecimalValue()));
                 }
             }
             budgetYear.setTotalCosts(summaryTotal);
@@ -779,11 +792,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
-            	attachedFileDataType = getAttachedFileType(narrative);
-            	if(attachedFileDataType != null){
-            		budgetYear.setBudgetJustificationAttachment(attachedFileDataType);
-            		break;
-            	}
+                attachedFileDataType = getAttachedFileType(narrative);
+                if(attachedFileDataType != null){
+                    budgetYear.setBudgetJustificationAttachment(attachedFileDataType);
+                    break;
+                }
             }
         }
         return budgetYear;
@@ -1235,11 +1248,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 totalFundForExtraEquipment.setFederal(equipmentInfo.getTotalExtraFund().bigDecimalValue());
                 totalFundForExtraEquipment.setNonFederal(equipmentInfo.getTotalExtraNonFund().bigDecimalValue());
                 if (equipmentInfo.getTotalExtraFund() != null) {
-                	totalFundForExtraEquipment.setTotalFedNonFed(equipmentInfo.getTotalExtraFund().add(equipmentInfo.getTotalExtraNonFund())
+                    totalFundForExtraEquipment.setTotalFedNonFed(equipmentInfo.getTotalExtraFund().add(equipmentInfo.getTotalExtraNonFund())
                             .bigDecimalValue());
                 }
                 else {
-                	totalFundForExtraEquipment.setTotalFedNonFed(equipmentInfo.getTotalExtraNonFund().bigDecimalValue());
+                    totalFundForExtraEquipment.setTotalFedNonFed(equipmentInfo.getTotalExtraNonFund().bigDecimalValue());
                 }
                 equipment.setTotalFundForAttachedEquipment(totalFundForExtraEquipment);
                 // Save Total Fund.
@@ -1264,128 +1277,128 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
         Narrative narrative = saveExtraEquipment(periodInfo);
         AttachedFileDataType attachedFileDataType = null;
         if(narrative!=null){
-        	attachedFileDataType = getAttachedFileType(narrative);
-        	if(attachedFileDataType != null){
-        		equipment.setAdditionalEquipmentsAttachment(attachedFileDataType);
-        	}
+            attachedFileDataType = getAttachedFileType(narrative);
+            if(attachedFileDataType != null){
+                equipment.setAdditionalEquipmentsAttachment(attachedFileDataType);
+            }
         }
         return equipment;
     }
 
 
-	private Narrative saveExtraEquipment(BudgetPeriodInfo periodInfo) {
-	    Narrative narrative=null;
-		List<CostInfo> extraEquipmentList = periodInfo.getEquipment().get(0).getExtraEquipmentList();
-		if (extraEquipmentList.size() > 0) {
-			AdditionalEquipmentList additionalEquipmentList = AdditionalEquipmentList.Factory
-					.newInstance();
-			additionalEquipmentList.setProposalNumber(pdDoc
-					.getDevelopmentProposal().getProposalNumber());
-			additionalEquipmentList.setBudgetPeriod(new BigInteger(Integer
-					.toString(periodInfo.getBudgetPeriod())));
+    private Narrative saveExtraEquipment(BudgetPeriodInfo periodInfo) {
+        Narrative narrative=null;
+        List<CostInfo> extraEquipmentList = periodInfo.getEquipment().get(0).getExtraEquipmentList();
+        if (extraEquipmentList.size() > 0) {
+            AdditionalEquipmentList additionalEquipmentList = AdditionalEquipmentList.Factory
+                    .newInstance();
+            additionalEquipmentList.setProposalNumber(pdDoc
+                    .getDevelopmentProposal().getProposalNumber());
+            additionalEquipmentList.setBudgetPeriod(new BigInteger(Integer
+                    .toString(periodInfo.getBudgetPeriod())));
 
-			additionalEquipmentList
-					.setEquipmentListArray(getEquipmentListArray(extraEquipmentList));
+            additionalEquipmentList
+                    .setEquipmentListArray(getEquipmentListArray(extraEquipmentList));
 
-			AdditionalEquipmentListDocument additionalEquipmentDoc = AdditionalEquipmentListDocument.Factory
-					.newInstance();
-			additionalEquipmentDoc
-					.setAdditionalEquipmentList(additionalEquipmentList);
-			Source xsltSource = new StreamSource(
-					getClass()
-							.getResourceAsStream(
-									"/org/kuali/kra/s2s/stylesheet/AdditionalEquipmentAttachmentNonFed.xsl"));
-			Map<String, Source> xSLTemplateWithBookmarks = new HashMap<String, Source>();
-			xSLTemplateWithBookmarks.put("", xsltSource);
+            AdditionalEquipmentListDocument additionalEquipmentDoc = AdditionalEquipmentListDocument.Factory
+                    .newInstance();
+            additionalEquipmentDoc
+                    .setAdditionalEquipmentList(additionalEquipmentList);
+            Source xsltSource = new StreamSource(
+                    getClass()
+                            .getResourceAsStream(
+                                    "/org/kuali/kra/s2s/stylesheet/AdditionalEquipmentAttachmentNonFed.xsl"));
+            Map<String, Source> xSLTemplateWithBookmarks = new HashMap<String, Source>();
+            xSLTemplateWithBookmarks.put("", xsltSource);
 
-			String xmlData = additionalEquipmentDoc.xmlText();
-			Map<String, byte[]> streamMap = new HashMap<String, byte[]>();
-			streamMap.put("", xmlData.getBytes());
-			GenericPrintable printable = new GenericPrintable();
-			printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
-			printable.setStreamMap(streamMap);
-			PrintingService printingService = KraServiceLocator
-					.getService(PrintingService.class);
-			try {
-				AttachmentDataSource printData = printingService
-						.print(printable);
-				String fileName = pdDoc.getDevelopmentProposal()
-						.getProposalNumber()
-						+ "_ADDITIONAL_EQUIPMENT.pdf";
-				narrative = saveNarrative(printData.getContent(),
-						ADDITIONAL_EQUIPMENT_NARRATIVE_TYPE_CODE, fileName,
-						ADDITIONAL_EQUIPMENT_NARRATIVE_COMMENT);
-			} catch (PrintingException e) {
-				e.printStackTrace();
-			}
-		}
-		return narrative;
-	}
-	private gov.grants.apply.coeus.additionalEquipment.AdditionalEquipmentListDocument.AdditionalEquipmentList.EquipmentList[] getEquipmentListArray(
-			List<CostInfo> extraEquipmentArrayList) {
-		List<AdditionalEquipmentList.EquipmentList> additionalEquipmentListList = new ArrayList<AdditionalEquipmentList.EquipmentList>();
-		AdditionalEquipmentList.EquipmentList equipmentList = null;
-		for (CostInfo costInfo : extraEquipmentArrayList) {
-			equipmentList = AdditionalEquipmentList.EquipmentList.Factory
-					.newInstance();
-			equipmentList.setFundsRequested(costInfo.getCost()
-					.bigDecimalValue());			
-			equipmentList.setNonFederal(costInfo.getCostSharing().bigDecimalValue());
-			equipmentList.setTotalFedNonFed(costInfo.getCost().add(costInfo.getCostSharing()).bigDecimalValue());        
-	
-			equipmentList
-					.setEquipmentItem(costInfo.getDescription() != null ? costInfo
-							.getDescription()
-							: costInfo.getCategory());
-			additionalEquipmentListList.add(equipmentList);
-		}
-		return additionalEquipmentListList
-				.toArray(new gov.grants.apply.coeus.additionalEquipment.AdditionalEquipmentListDocument.AdditionalEquipmentList.EquipmentList[0]);
-	}
-	private Narrative saveExtraKeyPersons(BudgetPeriodInfo periodInfo) {
-	    Narrative extraKPNarrative = null;
-		if (periodInfo.getExtraKeyPersons() != null && !periodInfo.getExtraKeyPersons().isEmpty()) {
-			ExtraKeyPersonListDocument  extraKeyPersonListDocument = ExtraKeyPersonListDocument.Factory.newInstance();
-			ExtraKeyPersonList extraKeyPersonList = ExtraKeyPersonList.Factory.newInstance(); 
-			extraKeyPersonList.setProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
-			extraKeyPersonList.setBudgetPeriod(new BigInteger(""+periodInfo.getBudgetPeriod()));
-			extraKeyPersonList.setKeyPersonsArray(getExtraKeyPersons(periodInfo.getExtraKeyPersons()));
-			extraKeyPersonListDocument.setExtraKeyPersonList(extraKeyPersonList);
-			String xmlData = extraKeyPersonListDocument.xmlText();
-			Map<String, byte[]> streamMap = new HashMap<String, byte[]>();
-			streamMap.put("", xmlData.getBytes());
-			Source xsltSource = new StreamSource(getClass()
-					.getResourceAsStream(EXTRA_KEYPERSON_ATTACHMENT_NON_FED_XSL));
-			Map<String, Source> xSLTemplateWithBookmarks = new HashMap<String, Source>();
-			xSLTemplateWithBookmarks.put("", xsltSource);
-			
-			GenericPrintable printable = new GenericPrintable();
-			printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
-			printable.setStreamMap(streamMap);
-			PrintingService printingService= KraServiceLocator.getService(PrintingService.class);
-			try {
-				AttachmentDataSource printData = printingService.print(printable);
-				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+"_"+periodInfo.getBudgetPeriod()+"_"+EXTRA_KEYPERSONS+".pdf";
-				extraKPNarrative = saveNarrative(printData.getContent(), ""+EXTRA_KEYPERSONS_TYPE, fileName, EXTRA_KEYPERSONS_COMMENT);
-			} catch (PrintingException e) {
-				e.printStackTrace();
-			}
-		}
-		return extraKPNarrative;
-	}
-	private gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons[] getExtraKeyPersons(List<KeyPersonInfo> keyPersonList) {
-		List<gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons> keypersonslist = new ArrayList<gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons>();
-		for(KeyPersonInfo keyPersonInfo : keyPersonList){
-			gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons keyPerson = gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons.Factory.newInstance();
-			keyPerson.setFirstName(keyPersonInfo.getFirstName());
-			keyPerson.setMiddleName(keyPersonInfo.getMiddleName());
-			keyPerson.setLastName(keyPersonInfo.getLastName());
-			keyPerson.setProjectRole(keyPersonInfo.getRole());
-			keyPerson.setCompensation(getExtraKeyPersonCompensation(keyPersonInfo));
-			keypersonslist.add(keyPerson);
-		}
-		return keypersonslist.toArray(new gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons[0]);
-	}
+            String xmlData = additionalEquipmentDoc.xmlText();
+            Map<String, byte[]> streamMap = new HashMap<String, byte[]>();
+            streamMap.put("", xmlData.getBytes());
+            GenericPrintable printable = new GenericPrintable();
+            printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
+            printable.setStreamMap(streamMap);
+            PrintingService printingService = KraServiceLocator
+                    .getService(PrintingService.class);
+            try {
+                AttachmentDataSource printData = printingService
+                        .print(printable);
+                String fileName = pdDoc.getDevelopmentProposal()
+                        .getProposalNumber()
+                        + "_ADDITIONAL_EQUIPMENT.pdf";
+                narrative = saveNarrative(printData.getContent(),
+                        ADDITIONAL_EQUIPMENT_NARRATIVE_TYPE_CODE, fileName,
+                        ADDITIONAL_EQUIPMENT_NARRATIVE_COMMENT);
+            } catch (PrintingException e) {
+                e.printStackTrace();
+            }
+        }
+        return narrative;
+    }
+    private gov.grants.apply.coeus.additionalEquipment.AdditionalEquipmentListDocument.AdditionalEquipmentList.EquipmentList[] getEquipmentListArray(
+            List<CostInfo> extraEquipmentArrayList) {
+        List<AdditionalEquipmentList.EquipmentList> additionalEquipmentListList = new ArrayList<AdditionalEquipmentList.EquipmentList>();
+        AdditionalEquipmentList.EquipmentList equipmentList = null;
+        for (CostInfo costInfo : extraEquipmentArrayList) {
+            equipmentList = AdditionalEquipmentList.EquipmentList.Factory
+                    .newInstance();
+            equipmentList.setFundsRequested(costInfo.getCost()
+                    .bigDecimalValue());            
+            equipmentList.setNonFederal(costInfo.getCostSharing().bigDecimalValue());
+            equipmentList.setTotalFedNonFed(costInfo.getCost().add(costInfo.getCostSharing()).bigDecimalValue());        
+    
+            equipmentList
+                    .setEquipmentItem(costInfo.getDescription() != null ? costInfo
+                            .getDescription()
+                            : costInfo.getCategory());
+            additionalEquipmentListList.add(equipmentList);
+        }
+        return additionalEquipmentListList
+                .toArray(new gov.grants.apply.coeus.additionalEquipment.AdditionalEquipmentListDocument.AdditionalEquipmentList.EquipmentList[0]);
+    }
+    private Narrative saveExtraKeyPersons(BudgetPeriodInfo periodInfo) {
+        Narrative extraKPNarrative = null;
+        if (periodInfo.getExtraKeyPersons() != null && !periodInfo.getExtraKeyPersons().isEmpty()) {
+            ExtraKeyPersonListDocument  extraKeyPersonListDocument = ExtraKeyPersonListDocument.Factory.newInstance();
+            ExtraKeyPersonList extraKeyPersonList = ExtraKeyPersonList.Factory.newInstance(); 
+            extraKeyPersonList.setProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
+            extraKeyPersonList.setBudgetPeriod(new BigInteger(""+periodInfo.getBudgetPeriod()));
+            extraKeyPersonList.setKeyPersonsArray(getExtraKeyPersons(periodInfo.getExtraKeyPersons()));
+            extraKeyPersonListDocument.setExtraKeyPersonList(extraKeyPersonList);
+            String xmlData = extraKeyPersonListDocument.xmlText();
+            Map<String, byte[]> streamMap = new HashMap<String, byte[]>();
+            streamMap.put("", xmlData.getBytes());
+            Source xsltSource = new StreamSource(getClass()
+                    .getResourceAsStream(EXTRA_KEYPERSON_ATTACHMENT_NON_FED_XSL));
+            Map<String, Source> xSLTemplateWithBookmarks = new HashMap<String, Source>();
+            xSLTemplateWithBookmarks.put("", xsltSource);
+            
+            GenericPrintable printable = new GenericPrintable();
+            printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
+            printable.setStreamMap(streamMap);
+            PrintingService printingService= KraServiceLocator.getService(PrintingService.class);
+            try {
+                AttachmentDataSource printData = printingService.print(printable);
+                String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+"_"+periodInfo.getBudgetPeriod()+"_"+EXTRA_KEYPERSONS+".pdf";
+                extraKPNarrative = saveNarrative(printData.getContent(), ""+EXTRA_KEYPERSONS_TYPE, fileName, EXTRA_KEYPERSONS_COMMENT);
+            } catch (PrintingException e) {
+                e.printStackTrace();
+            }
+        }
+        return extraKPNarrative;
+    }
+    private gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons[] getExtraKeyPersons(List<KeyPersonInfo> keyPersonList) {
+        List<gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons> keypersonslist = new ArrayList<gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons>();
+        for(KeyPersonInfo keyPersonInfo : keyPersonList){
+            gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons keyPerson = gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons.Factory.newInstance();
+            keyPerson.setFirstName(keyPersonInfo.getFirstName());
+            keyPerson.setMiddleName(keyPersonInfo.getMiddleName());
+            keyPerson.setLastName(keyPersonInfo.getLastName());
+            keyPerson.setProjectRole(keyPersonInfo.getRole());
+            keyPerson.setCompensation(getExtraKeyPersonCompensation(keyPersonInfo));
+            keypersonslist.add(keyPerson);
+        }
+        return keypersonslist.toArray(new gov.grants.apply.coeus.extraKeyPerson.ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons[0]);
+    }
     private Compensation getExtraKeyPersonCompensation(KeyPersonInfo keyPersonInfo) {
         ExtraKeyPersonList.KeyPersons.Compensation compensation = ExtraKeyPersonListDocument.ExtraKeyPersonList.KeyPersons.Compensation.Factory.newInstance();
         compensation.setAcademicMonths(keyPersonInfo.getAcademicMonths().bigDecimalValue());
@@ -1693,8 +1706,8 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             BigDecimal totalFederalSummary = BigDecimal.ZERO;
             BigDecimal totalNonFederalSummary = BigDecimal.ZERO;
             for(KeyPersonInfo keyPersonInfo : periodInfo.getExtraKeyPersons()){
-            	totalFederalSummary = totalFederalSummary.add(keyPersonInfo.getFundsRequested().bigDecimalValue());
-            	totalNonFederalSummary = totalNonFederalSummary.add(keyPersonInfo.getNonFundsRequested().bigDecimalValue());
+                totalFederalSummary = totalFederalSummary.add(keyPersonInfo.getFundsRequested().bigDecimalValue());
+                totalNonFederalSummary = totalNonFederalSummary.add(keyPersonInfo.getNonFundsRequested().bigDecimalValue());
             }
             summaryAttachedKey.setFederalSummary(totalFederalSummary);
             summaryAttachedKey.setNonFederalSummary(totalNonFederalSummary);
@@ -1707,11 +1720,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
 //            if (narrative.getNarrativeTypeCode() != null
 //                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == ADDITIONAL_KEYPERSONS_ATTACHMENT) {
         if(extraKeyPersonNarr!=null){
-        	attachedFileDataType = getAttachedFileType(extraKeyPersonNarr);
-        	if(attachedFileDataType != null){
-        		keyPersons.setAttachedKeyPersons(attachedFileDataType);
-//        		break;
-        	}
+            attachedFileDataType = getAttachedFileType(extraKeyPersonNarr);
+            if(attachedFileDataType != null){
+                keyPersons.setAttachedKeyPersons(attachedFileDataType);
+//              break;
+            }
         }
 //        }
         return keyPersons;
