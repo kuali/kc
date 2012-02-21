@@ -799,10 +799,10 @@ AbstractResearchAndRelatedStream {
         nsfSeniorPersonnelType.setRownumber(BigInteger.valueOf(rowNumber));
     }
     
-    public void setNSFSeniorPersonnel(KeyPersonInfo seniorPersonnelBean,NSFSeniorPersonnelType nsfSeniorPersonnelType, int rowNumber){    
+    public void setNSFSeniorPersonnel(KeyPersonInfo seniorPersonnelBean,NSFSeniorPersonnelType nsfSeniorPersonnelType, int rowNumber){
         nsfSeniorPersonnelType.setFullName(getFullName(seniorPersonnelBean));
         nsfSeniorPersonnelType.setTitle(seniorPersonnelBean.getRole());      
-        nsfSeniorPersonnelType.setAcademicMonthsFunded( seniorPersonnelBean.getAcademicMonths().bigDecimalValue());     
+        nsfSeniorPersonnelType.setAcademicMonthsFunded( seniorPersonnelBean.getAcademicMonths().bigDecimalValue()); 
         nsfSeniorPersonnelType.setCalendarMonthsFunded(cumulativeCalendarMonthsFunded.bigDecimalValue());         
         nsfSeniorPersonnelType.setSummerMonthsFunded(seniorPersonnelBean.getSummerMonths().bigDecimalValue()); 
         nsfSeniorPersonnelType.setFundsRequested(seniorPersonnelBean.getRequestedSalary().bigDecimalValue());
@@ -1121,6 +1121,7 @@ AbstractResearchAndRelatedStream {
         List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
         OtherPersonInfo otherPersonInfo = new OtherPersonInfo();
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+            Integer quantity = 0;
             boolean lineItemMatchesCategory = false;
             for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
                 if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode())) {
@@ -1134,7 +1135,10 @@ AbstractResearchAndRelatedStream {
                     for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetailsList) {
                         if(!isPersonExistsInProposal(developmentProposal,budgetPersonnelDetails)){
                             otherPersonInfo.setFund(otherPersonInfo.getFund().add(budgetPersonnelDetails.getSalaryRequested()));
-                            otherPersonInfo.setCount(otherPersonInfo.getCount()+budgetPersonnelDetails.getQuantity().intValue());
+                            if (budgetPersonnelDetails.getQuantity()!=null){
+                                quantity = budgetPersonnelDetails.getQuantity(); 
+                            }
+                            otherPersonInfo.setCount(otherPersonInfo.getCount()+quantity.intValue());
                         }
                     }
                 }else{
