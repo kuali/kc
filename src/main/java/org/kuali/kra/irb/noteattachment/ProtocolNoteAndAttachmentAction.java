@@ -290,8 +290,12 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         attachmentFileType=attachmentFileType.replace("\\", "");
         if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
             attachmentFile=getProtocolAttachmentFile(form,attachment);
-            if(attachmentFile!=null){
-                 this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);}
+            if(attachmentFile!=null) {
+                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+            }
+            else {
+                this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
+            }
             return RESPONSE_ALREADY_HANDLED;
         }        
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
@@ -317,9 +321,12 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             if(printableArtifacts.isWatermarkEnabled()){
                 int currentAttachmentSequence=attachment.getSequenceNumber();
                 String docStatusCode=attachment.getDocumentStatusCode();
+                String statusCode=attachment.getStatusCode();
                 // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
                 if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
-                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
+                    if (ProtocolAttachmentProtocol.COMPLETE_STATUS_CODE.equals(statusCode)) {
+                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
+                    }
                 }else{
                     attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
                     LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());

@@ -1061,10 +1061,11 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
            attachmentFileType=attachmentFileType.replace("\\", "");           
            if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
                attachmentFile=getProtocolAttachmentFile(form,attachment);
-               if(attachmentFile!=null){          
-                   this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
-               else{
-                   this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
+               if(attachmentFile!=null) {          
+                   this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
+               } else {
+                   this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
+               }
                return RESPONSE_ALREADY_HANDLED;
            }
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
