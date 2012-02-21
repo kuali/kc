@@ -24,6 +24,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentType;
 import org.kuali.kra.irb.noteattachment.TypedAttachment;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class CoiDisclosureAttachmentRuleHelper {
     private final DictionaryValidationService validationService;
@@ -32,7 +33,7 @@ public class CoiDisclosureAttachmentRuleHelper {
 
 
     CoiDisclosureAttachmentRuleHelper() {
-        this(KraServiceLocator.getService(DictionaryValidationService.class));
+        this(KNSServiceLocator.getKNSDictionaryValidationService());
     }
     
     public CoiDisclosureAttachmentRuleHelper(final DictionaryValidationService validationService) {
