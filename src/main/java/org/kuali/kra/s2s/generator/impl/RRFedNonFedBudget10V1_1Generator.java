@@ -157,6 +157,8 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
      */
     private void setBudgetYearDataType(RRFedNonFedBudget10 rrFedNonFedBudget,BudgetPeriodInfo periodInfo) {
 
+        BudgetDecimal totalDirectCostSharing = BudgetDecimal.ZERO;
+        BudgetDecimal totalIndirectCostSharing = BudgetDecimal.ZERO;
         BudgetYearDataType budgetYear = rrFedNonFedBudget.addNewBudgetYear();
         if (periodInfo != null) {
             budgetYear.setBudgetPeriodStartDate(s2sUtilService.convertDateToCalendar(periodInfo.getStartDate()));
@@ -189,8 +191,8 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
             if (periodInfo.getDirectCostsTotal() != null) {
                 summaryDirect.setFederalSummary(periodInfo.getDirectCostsTotal().bigDecimalValue());
             }
-            if (periodInfo.getCostSharingAmount() != null) {
-                BudgetDecimal totalDirectCostSharing = periodInfo.getTotalDirectCostSharing();
+            if (periodInfo.getTotalDirectCostSharing() != null) {
+                totalDirectCostSharing = periodInfo.getTotalDirectCostSharing();
                 summaryDirect.setNonFederalSummary(totalDirectCostSharing.bigDecimalValue());
                 if (periodInfo.getDirectCostsTotal() != null) {
                     summaryDirect.setTotalFedNonFedSummary(periodInfo.getDirectCostsTotal().add(totalDirectCostSharing).bigDecimalValue());
@@ -205,18 +207,20 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
                 budgetYear.setIndirectCosts(indirectCosts);
             }
             budgetYear.setCognizantFederalAgency(periodInfo.getCognizantFedAgency());
+            if (periodInfo.getIndirectCosts().getTotalIndirectCostSharing() != null){
+                totalIndirectCostSharing = periodInfo.getIndirectCosts().getTotalIndirectCostSharing();
+             }
             SummaryDataType summaryTotal = SummaryDataType.Factory.newInstance();
             if (periodInfo.getTotalCosts() != null) {
                 summaryTotal.setFederalSummary(periodInfo.getTotalCosts().bigDecimalValue());
             }
-            summaryTotal.setNonFederalSummary(periodInfo.getCostSharingAmount().bigDecimalValue());
+            summaryTotal.setNonFederalSummary(totalDirectCostSharing.bigDecimalValue().add(totalIndirectCostSharing.bigDecimalValue()));
             if (periodInfo.getCostSharingAmount() != null) {
                 if (periodInfo.getTotalCosts() != null) {
-                    summaryTotal.setTotalFedNonFedSummary(periodInfo.getTotalCosts().add(periodInfo.getCostSharingAmount())
-                            .bigDecimalValue());
+                    summaryTotal.setTotalFedNonFedSummary(periodInfo.getTotalCosts().add(totalDirectCostSharing).bigDecimalValue().add(totalIndirectCostSharing.bigDecimalValue()));
                 }
                 else {
-                    summaryTotal.setTotalFedNonFedSummary(periodInfo.getCostSharingAmount().bigDecimalValue());
+                    summaryTotal.setTotalFedNonFedSummary(totalDirectCostSharing.bigDecimalValue().add(totalIndirectCostSharing.bigDecimalValue()));
                 }
             }
             
@@ -315,11 +319,11 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
                         budgetSummaryData.getCumTotalIndirectCostSharing()).bigDecimalValue());
                 budgetSummary.setCumulativeTotalFundsRequestedIndirectCost(summary);
             }
-            if (budgetSummaryData.getCumTotalCosts() != null && budgetSummaryData.getCumTotalCostSharing() != null) {
+            if (budgetSummaryData.getCumTotalCosts() != null && budgetSummaryData.getCumTotalDirectCostSharing() != null) {
                 directIndirectCosts.setFederalSummary(budgetSummaryData.getCumTotalCosts().bigDecimalValue());
-                directIndirectCosts.setNonFederalSummary(budgetSummaryData.getCumTotalCostSharing().bigDecimalValue());
+                directIndirectCosts.setNonFederalSummary(budgetSummaryData.getCumTotalDirectCostSharing().bigDecimalValue().add(budgetSummaryData.getCumTotalIndirectCostSharing().bigDecimalValue()));;
                 directIndirectCosts.setTotalFedNonFedSummary(budgetSummaryData.getCumTotalCosts().add(
-                        budgetSummaryData.getCumTotalCostSharing()).bigDecimalValue());
+                        budgetSummaryData.getCumTotalDirectCostSharing()).add(budgetSummaryData.getCumTotalIndirectCostSharing()).bigDecimalValue());
             }
         }
         budgetSummary.setCumulativeTotalFundsRequestedSeniorKeyPerson(summarySeniorKey);
