@@ -1140,7 +1140,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         Map<String, String> categoryMap = new HashMap<String, String>();
         categoryMap.put(KEY_TARGET_CATEGORY_CODE, categoryCode);
         categoryMap.put(KEY_MAPPING_NAME, categoryMappingName);
-        CompensationInfo compensationInfo = new CompensationInfo();
         List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             boolean lineItemIsSeniorPersonnel = false;
@@ -1180,6 +1179,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
         for (KeyPersonInfo keyPersonInfo : keyPersons) {
             KeyPersonInfo keyPersonComp = keyPersonInfo;
+            CompensationInfo compensationInfo = new CompensationInfo();
             setCompensation(keyPersonComp, budgetPeriod,compensationInfo);
             keyPersonComp.setAcademicMonths(compensationInfo.getAcademicMonths());
             keyPersonComp.setCalendarMonths(compensationInfo.getCalendarMonths());
