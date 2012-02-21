@@ -23,6 +23,9 @@
           transactionalDocument="false"
           renderMultipart="true" 
           htmlFormAction="batchCorrespondenceDetail">
+
+	<div align="left"><kul:help parameterNamespace="KC-M" parameterDetailType="Document" parameterName="batchCorrespondenceHelp" altText="help"/>
+	<br />
           
     <script language="javascript" src="scripts/kuali_application.js"></script>
     
