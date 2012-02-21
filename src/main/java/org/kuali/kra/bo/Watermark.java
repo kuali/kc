@@ -38,17 +38,6 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
     private boolean watermarkStatus;
     private String fontSize;
     private String positionFontSize;
-
-    public String getPositionFontSize() {
-        return positionFontSize;
-    }
-
-
-    public void setPositionFontSize(String positionFontSize) {
-        this.positionFontSize = positionFontSize;
-    }
-
-
     private String fontColor;
     private String watermarkType;
     private transient FormFile templateFile;
@@ -86,6 +75,14 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
 
     public void setFontSize(String fontSize) {
         this.fontSize = fontSize;
+    }
+
+    public String getPositionFontSize() {
+        return positionFontSize;
+    }
+
+    public void setPositionFontSize(String positionFontSize) {
+        this.positionFontSize = positionFontSize;
     }
 
     public String getFontColor() {
