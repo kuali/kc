@@ -35,6 +35,9 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
 
     private static final String GROUP_CODE = "1";
 
+    public static final String INCOMPLETE_STATUS_CODE = "1";
+    public static final String COMPLETE_STATUS_CODE = "2";
+    
     // 1-Complete, 2-Incomplete.  an attachment status must be 'complete' before this protocol can be submitted.  
     private String statusCode;
 
