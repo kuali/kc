@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
@@ -747,9 +748,12 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
     
     protected HeaderField getHeaderDocInitiator(WorkflowDocument parentWorkflowDocument) {
+        KcPerson initiator = null;
+        if (parentWorkflowDocument != null) {
+            initiator = KcPerson.fromPersonId(parentWorkflowDocument.getInitiatorPrincipalId());
+        }
         return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", 
-                               parentWorkflowDocument != null? parentWorkflowDocument.getInitiatorPrincipalId() : null, 
-                               parentWorkflowDocument != null? "<kul:inquiry boClassName='org.kuali.rice.kns.bo.user.UniversalUser' keyValues='${PropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER}=" + parentWorkflowDocument.getInitiatorPrincipalId() + "' render='true'>" + parentWorkflowDocument.getInitiatorPrincipalId() + "</kul:inquiry>" : null);
+                initiator != null ? initiator.getUserName() : null);
     }
     
     protected HeaderField getHeaderDocCreateDate(WorkflowDocument parentWorkflowDocument) {
