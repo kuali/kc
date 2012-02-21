@@ -19,17 +19,17 @@
     <property name="attributes" >
       <list>
         <ref bean="Watermark-watermarkId" />
-         <ref bean="Watermark-statusCode" />
-           <ref bean="Watermark-watermarkPosition" />
-            <ref bean="Watermark-watermarkAlignment" /> 
-              <ref bean="Watermark-positionFontSize" />
-          <ref bean="Watermark-watermarkText" />
-           <ref bean="Watermark-watermarkStatus" />
-            <ref bean="Watermark-watermarkType" />
-             <ref bean="Watermark-fontSize" />
-              <ref bean="Watermark-fontColor" />
-  			   <ref bean="Watermark-templateFile" />
-        	   <ref bean="Watermark-versionNumber" />
+        <ref bean="Watermark-statusCode" />
+        <ref bean="Watermark-watermarkPosition" />
+        <ref bean="Watermark-watermarkAlignment" /> 
+        <ref bean="Watermark-positionFontSize" />
+        <ref bean="Watermark-watermarkText" />
+        <ref bean="Watermark-watermarkStatus" />
+        <ref bean="Watermark-watermarkType" />
+        <ref bean="Watermark-fontSize" />
+        <ref bean="Watermark-fontColor" />
+  		<ref bean="Watermark-templateFile" />
+        <ref bean="Watermark-versionNumber" />
       </list>
     </property>
   </bean>
@@ -64,7 +64,7 @@
         class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition"
         abstract="true"
     />
- <bean id="Watermark-templateFile" parent="Watermark-templateFile-parentBean" />
+  <bean id="Watermark-templateFile" parent="Watermark-templateFile-parentBean" />
   <bean id="Watermark-templateFile-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="templateFile" />
     <property name="forceUppercase" value="false" />
@@ -115,9 +115,10 @@
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Font Size" />
-    <property name="description" value="Font Size" />
+     <property name="description" value="Font Size" />
   </bean>
-   <bean id="Watermark-positionFontSize" parent="Watermark-positionFontSize-parentBean" />
+  
+  <bean id="Watermark-positionFontSize" parent="Watermark-positionFontSize-parentBean" />
   <bean id="Watermark-positionFontSize-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionFontSize" />
     <property name="forceUppercase" value="false" />
@@ -157,7 +158,7 @@
     <property name="description" value="Font Color" />
   </bean>
   
-    <bean id="Watermark-watermarkPosition" parent="Watermark-watermarkPosition-parentBean" />
+  <bean id="Watermark-watermarkPosition" parent="Watermark-watermarkPosition-parentBean" />
   <bean id="Watermark-watermarkPosition-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="watermarkPosition" />
     <property name="forceUppercase" value="true" />
@@ -188,7 +189,7 @@
       <bean parent="AnyCharacterValidationPattern"
             p:allowWhitespace="true" />
     </property>
-   <property name="control" >
+    <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkAlignmentValuesFinder"
             p:includeKeyInLabel="false" />
@@ -196,8 +197,8 @@
     <property name="summary" value="Alignment" />
     <property name="description" value="Alignment" />
   </bean>
+  
   <bean id="Watermark-watermarkText" parent="Watermark-watermarkText-parentBean" />
-
   <bean id="Watermark-watermarkText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="watermarkText" />
     <property name="forceUppercase" value="false" />
@@ -233,14 +234,14 @@
     <property name="description" value="Watermark Type" />
   </bean>
   
- <bean id="Watermark-watermarkStatus" parent="Watermark-watermarkStatus-parentBean" />
-    <bean id="Watermark-watermarkStatus-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+  <bean id="Watermark-watermarkStatus" parent="Watermark-watermarkStatus-parentBean" />
+  <bean id="Watermark-watermarkStatus-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="watermarkStatus" />
 	    <property name="label" value="Watermark Active Status" />
 	    <property name="shortLabel" value="Watermark Active Flag" />
 	    <property name="summary" value="Watermark Active Status" />
 	    <property name="description" value="Validate Watermark Status is Active or not" />
-    </bean>
+  </bean>
   
   
   <bean id="Watermark-versionNumber" parent="Watermark-versionNumber-parentBean" />
@@ -250,7 +251,6 @@
 <!-- Business Object Inquiry Definition -->
 
   <bean id="Watermark-inquiryDefinition" parent="Watermark-inquiryDefinition-parentBean" />
-
   <bean id="Watermark-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Watermark" />
     <property name="inquirySections" >
@@ -336,7 +336,6 @@
               p:attributeName="fontColor" />
          <bean parent="FieldDefinition"
               p:attributeName="templateFile" />
-        
       </list>
     </property>
   </bean>
