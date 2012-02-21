@@ -23,6 +23,7 @@ import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CommitteeScheduleDataDictionaryValidationRule {
@@ -133,7 +134,7 @@ public class CommitteeScheduleDataDictionaryValidationRule {
     }
     
     private DictionaryValidationService getService() {
-        return KraServiceLocator.getService(DictionaryValidationService.class);
+        return KNSServiceLocator.getKNSDictionaryValidationService();
     }
     
 }
