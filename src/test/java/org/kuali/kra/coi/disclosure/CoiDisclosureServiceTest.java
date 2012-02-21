@@ -516,7 +516,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
         });
         final CoiDisclProject coiDisclProject = new CoiDisclProject();
         coiDisclProject.setCoiDisclosureId(1L);
-        coiDisclProject.setCoiProjectId(PROJECT_ID);
+        coiDisclProject.setShortTextField1(PROJECT_ID);
 
         CoiDiscDetail coiDisDetail = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
         CoiDisclosure coiDisclosure = new CoiDisclosure() {
@@ -546,7 +546,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
                 Map <String, Object> fieldValues = new HashMap<String, Object>();
                 fieldValues.put("coiDisclosureId", coiDisclProject.getCoiDisclosureId());
                 fieldValues.put("moduleCode", CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
-                fieldValues.put("moduleItemKey", coiDisclProject.getCoiProjectId());
+                fieldValues.put("moduleItemKey", coiDisclProject.getShortTextField1());
                 one(businessObjectService).findMatching(CoiDiscDetail.class, fieldValues);
                 will(returnValue(coiDisDetails));
 
@@ -572,7 +572,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
 
         final CoiDisclProject coiDisclProject = new CoiDisclProject();
         coiDisclProject.setCoiDisclosureId(1L);
-        coiDisclProject.setCoiProjectId(PROJECT_ID);
+        coiDisclProject.setShortTextField1(PROJECT_ID);
 
         CoiDiscDetail coiDisDetail = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
         CoiDiscDetail coiDisDetail1 = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure1, CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
@@ -927,7 +927,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
         CoiDisclProject coiDisclProject = new CoiDisclProject();
         coiDisclProject.setCoiDisclosureId(coiDisclosureId);
         coiDisclProject.setCoiDisclosureNumber("1");
-        coiDisclProject.setCoiProjectId("1");
+        coiDisclProject.setShortTextField1("1");
         return coiDisclProject;
     
     }
