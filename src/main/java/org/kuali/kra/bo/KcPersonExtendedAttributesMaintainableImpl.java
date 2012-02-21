@@ -51,7 +51,7 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
     
     @Override 
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        initializeCustomData();
+        loadCustomData();
     }
     
     @Override
@@ -69,21 +69,15 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
         loadCustomData();
     }
     
-    private void initializeCustomData() {
-        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.businessObject;
-
-        getCustomDataHelper().initializeCustomAttributeGroups(kcPersonExtendedAttributes);
-    }
-    
     private void loadCustomData() {
-        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.businessObject;
+        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) getDataObject();
 
         getCustomDataHelper().populateCustomAttributeGroups(kcPersonExtendedAttributes);
     }
 
     @Override
     public void prepareForSave() {
-        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.getDataObject();
+        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) getDataObject();
 
         if (!isValidPrincipalId(kcPersonExtendedAttributes.getPersonId())) {
             reportInvalidPrincipalId(kcPersonExtendedAttributes);
@@ -98,11 +92,15 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
     
     @Override
     public void saveDataObject() {
-        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) this.getDataObject();
+        KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) getDataObject();
+        
         if (kcPersonExtendedAttributes.getCitizenshipType() == null && kcPersonExtendedAttributes.getCitizenshipTypeCode() != null) {
             kcPersonExtendedAttributes.refreshReferenceObject("citizenshipType");
         }
+        
         super.saveDataObject();
+        
+        getCustomDataHelper().saveCustomAttributesToWorkflow(kcPersonExtendedAttributes, getDocumentNumber());
     }
 
     private void reportInvalidPrincipalId(KcPersonExtendedAttributes kcPersonExtendedAttributes) {

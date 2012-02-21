@@ -23,4 +23,6 @@
 <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
 <script>var jsContextPath = "${pageContext.request.contextPath}";</script>
 
+<c:set var="readOnly" value="${KualiForm.document.documentHeader.workflowDocument.status.code eq 'F'}" scope="request" />
+
 <kra-person:customDataTab />
