@@ -229,7 +229,8 @@ public class ProtocolPersonnelAction extends ProtocolAction {
             List<ProtocolAttachmentProtocol> protocolAttachmentList=form.getDocument().getProtocol().getAttachmentProtocols();
             if(protocolAttachmentList.size()>0){
                 for (ProtocolAttachmentProtocol personnelAttachment : protocolAttachmentList) {
-                    if(attachmentDocumentId.equals(personnelAttachment.getDocumentId())){
+                    if(attachmentDocumentId.equals(personnelAttachment.getDocumentId()) && 
+                            ProtocolAttachmentProtocol.COMPLETE_STATUS_CODE.equals(personnelAttachment.getStatusCode())) {
                         if(getProtocolAttachmentService().isNewAttachmentVersion(personnelAttachment)){
                             attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
                         }else{
