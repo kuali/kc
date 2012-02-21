@@ -45,6 +45,9 @@ public interface RoleConstants {
     public static final String PROTOCOL_VIEWER = "Protocol Viewer";
     public static final String PROTOCOL_UNASSIGNED = "Protocol Unassigned";
     public static final String PROTOCOL_APPROVER = "ProtocolApprover";
+    public static final String ACTIVE_COMMITTEE_MEMBER = "Active Committee Member";
+    public static final String ACTIVE_COMMITTEE_MEMBER_SCHEDULED_DATE = "Active Committee Member On Scheduled Date";
+    public static final String ACTIVE_COMMITTEE_MEMBER_ON_PROTOCOL = "Active Committee Member On Protocol";
     
     public static final String IRB_ADMINISTRATOR = "IRB Administrator";
     public static final String FUNDING_SOURCE_MONITOR = "Funding Source Monitor";
