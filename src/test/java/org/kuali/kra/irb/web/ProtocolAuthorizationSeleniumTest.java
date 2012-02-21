@@ -25,7 +25,7 @@ import org.kuali.kra.test.infrastructure.KcSeleniumTestBase;
  */
 public class ProtocolAuthorizationSeleniumTest extends KcSeleniumTestBase {
     
-    private static final String CREATE_PROTOCOL_LINK_NAME = "Create Protocol";
+    private static final String CREATE_PROTOCOL_LINK_NAME = "Create IRB Protocol";
     
     private static final String ERROR_ID = "font[color = 'red']";
     

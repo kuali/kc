@@ -28,7 +28,7 @@ public class ProtocolRequiredFieldsPanelSeleniumTest extends KcSeleniumTestBase 
     
     private static final String PAGE_TITLE = "Kuali :: KC Protocol";
     
-    private static final String CREATE_PROTOCOL_LINK_NAME = "Create Protocol";
+    private static final String CREATE_PROTOCOL_LINK_NAME = "Create IRB Protocol";
     
     private static final String HEADER_STATUS_ID = "table[class='headerinfo'] tbody tr:nth-child(1) td:nth-child(4)";
     private static final String PRINCIPAL_INVESTIGATOR_NAME_DIV_ID = "div[id='principalInvestigatorName.div']";

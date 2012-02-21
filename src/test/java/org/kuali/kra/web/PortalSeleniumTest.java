@@ -43,19 +43,6 @@ public class PortalSeleniumTest extends KcSeleniumTestBase {
     }
     
     /**
-     * Test that the IFrame exists on the page.
-     * @throws Exception
-     */
-    @Test
-    public void testIFrame() throws Exception {
-        helper.clickResearcherTab();
-        
-        helper.click("Document Search");
-        
-        helper.assertElementExists("iframeportlet");  
-    }
-    
-    /**
      * Test that the Action List and Outbox links show up.
      * @throws Exception
      */

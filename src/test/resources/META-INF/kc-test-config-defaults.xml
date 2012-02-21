@@ -21,9 +21,6 @@
 	<param name="kns.test.port">9925</param>
 	<param name="http.port">${kns.test.port}</param>
 
-	<!-- html unit fails for some reason -->
-	<param name="workflow.documentsearch.base.url">/${app.context.name}/kew/DocumentSearch.do?backLocation=${application.url}</param>
-	
 	<param name="datasource.username">KRAUNT</param>
 	
 	<param name="ActionList.norefresh">true</param>
