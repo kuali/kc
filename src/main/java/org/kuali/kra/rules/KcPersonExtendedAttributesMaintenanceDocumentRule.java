@@ -47,7 +47,7 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KraMainte
         }
         KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) maintenanceDocument.getNewMaintainableObject().getDataObject();
         
-        rulePassed &= rulePassed &= new PersonCustomDataAuditRule().processRunAuditBusinessRules(maintenanceDocument);
+        rulePassed &= new PersonCustomDataAuditRule().processRunAuditBusinessRules(maintenanceDocument);
 
         return rulePassed;
     }
@@ -65,7 +65,7 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KraMainte
         }
         KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) maintenanceDocument.getNewMaintainableObject().getDataObject();
         
-        rulePassed &= rulePassed &= new PersonCustomDataAuditRule().processRunAuditBusinessRules(maintenanceDocument);
+        rulePassed &= new PersonCustomDataAuditRule().processRunAuditBusinessRules(maintenanceDocument);
 
         return rulePassed;
     }

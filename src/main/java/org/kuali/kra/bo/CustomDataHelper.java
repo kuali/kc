@@ -26,14 +26,21 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PropertyConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.document.attribute.WorkflowAttributeDefinition;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CustomDataHelper implements Serializable {
 
     private static final long serialVersionUID = -6829522940099878931L;
+    
+    private static final String CUSTOM_ATTRIBUTE_NAME = "PersonCustomDataAttribute";
 
     private SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups;
     
@@ -46,37 +53,16 @@ public class CustomDataHelper implements Serializable {
     public void setCustomAttributeGroups(SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups) {
         this.customAttributeGroups = customAttributeGroups;
     }
-
-    public boolean canModifyCustomData() {
-        return true;
-    }
-    
-    public void initializeCustomAttributeGroups(KcPersonExtendedAttributes kcPersonExtendedAttributes) {
-        Map<String, CustomAttributeDocument> customAttributeDocuments = getCustomAttributeDocuments();
-        
-        customAttributeGroups = new TreeMap<String, List<CustomAttributeDocument>>();
-        for (CustomAttributeDocument customAttributeDocument : customAttributeDocuments.values()) {
-            String groupName = StringUtils.defaultIfBlank(customAttributeDocument.getCustomAttribute().getGroupName(), "No Group");
-            List<CustomAttributeDocument> groupCustomAttributeDocuments = customAttributeGroups.get(groupName);
-            if (groupCustomAttributeDocuments == null) {
-                groupCustomAttributeDocuments = new ArrayList<CustomAttributeDocument>();
-                customAttributeGroups.put(groupName, groupCustomAttributeDocuments);
-            }
-            groupCustomAttributeDocuments.add(customAttributeDocuments.get(String.valueOf(customAttributeDocument.getCustomAttributeId())));
-            Collections.sort(groupCustomAttributeDocuments, new LabelComparator());
-        }
-        
-        initializeCustomData(customAttributeDocuments.values(), kcPersonExtendedAttributes);
-    }
     
     public void populateCustomAttributeGroups(KcPersonExtendedAttributes kcPersonExtendedAttributes) {
         Map<String, CustomAttributeDocument> customAttributeDocuments = getCustomAttributeDocuments();
         
         customAttributeGroups = new TreeMap<String, List<CustomAttributeDocument>>();
-        for (PersonCustomData personCustomData : kcPersonExtendedAttributes.getPersonCustomDataList()) {
-            CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(String.valueOf(personCustomData.getCustomAttributeId()));
-            String groupName = customAttributeDocument.getCustomAttribute().getGroupName();
-            List<CustomAttributeDocument> groupCustomAttributeDocuments = customAttributeGroups.get(groupName);   
+        for (CustomAttributeDocument customAttributeDocument : customAttributeDocuments.values()) {
+            PersonCustomData personCustomData = getPersonCustomData(customAttributeDocument, kcPersonExtendedAttributes);
+            personCustomData.refreshReferenceObject("customAttribute");
+            String groupName = StringUtils.defaultIfBlank(personCustomData.getCustomAttribute().getGroupName(), "No Group");
+            List<CustomAttributeDocument> groupCustomAttributeDocuments = customAttributeGroups.get(groupName);
             if (groupCustomAttributeDocuments == null) {
                 groupCustomAttributeDocuments = new ArrayList<CustomAttributeDocument>();
                 customAttributeGroups.put(groupName, groupCustomAttributeDocuments);
@@ -84,6 +70,25 @@ public class CustomDataHelper implements Serializable {
             groupCustomAttributeDocuments.add(customAttributeDocument);
             Collections.sort(groupCustomAttributeDocuments, new LabelComparator());
         }
+    }
+    
+    public void saveCustomAttributesToWorkflow(KcPersonExtendedAttributes kcPersonExtendedAttributes, String documentNumber) {
+        WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(GlobalVariables.getUserSession().getPrincipalId(), documentNumber); 
+        
+        workflowDocument.clearAttributeContent();
+        WorkflowAttributeDefinition customDataDef = WorkflowAttributeDefinition.Builder.create(CUSTOM_ATTRIBUTE_NAME).build();
+        WorkflowAttributeDefinition.Builder refToUpdate = WorkflowAttributeDefinition.Builder.create(customDataDef);
+        
+        for (PersonCustomData personCustomData : kcPersonExtendedAttributes.getPersonCustomDataList()) {
+            String value = personCustomData.getValue();
+            personCustomData.refreshReferenceObject("customAttribute");
+            if (StringUtils.isNotBlank(value)) {
+                refToUpdate.addPropertyDefinition(personCustomData.getCustomAttribute().getName(), StringEscapeUtils.escapeXml(value));
+            }
+        }
+        
+        workflowDocument.addAttributeDefinition(refToUpdate.build());
+        workflowDocument.saveDocumentData();
     }
     
     private Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
@@ -101,20 +106,31 @@ public class CustomDataHelper implements Serializable {
         return customAttributeDocuments;
     }
     
-    private void initializeCustomData(Collection<CustomAttributeDocument> customAttributeDocuments, KcPersonExtendedAttributes kcPersonExtendedAttributes) {
-        for (CustomAttributeDocument customAttributeDocument : customAttributeDocuments) {
-            int customAttributeId = customAttributeDocument.getCustomAttributeId(); 
+    private PersonCustomData getPersonCustomData(CustomAttributeDocument customAttributeDocument, KcPersonExtendedAttributes kcPersonExtendedAttributes) {
+        PersonCustomData personCustomData = null;
+        
+        for (PersonCustomData personCustomDataListItem : kcPersonExtendedAttributes.getPersonCustomDataList()) {
+            if (customAttributeDocument.getCustomAttributeId().longValue() == personCustomDataListItem.getCustomAttributeId().longValue()) {
+                personCustomData = personCustomDataListItem;
+                break;
+            }
+        }
+        
+        if (personCustomData == null) {
+            int customAttributeId = customAttributeDocument.getCustomAttributeId();
             String customAttributeDefaultValue = customAttributeDocument.getCustomAttribute().getDefaultValue();
             String customAttributeValue = customAttributeDocument.getCustomAttribute().getValue();
             
-            PersonCustomData personCustomData = new PersonCustomData();
+            personCustomData = new PersonCustomData();
             personCustomData.setCustomAttributeId((long) customAttributeId);
             personCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
             personCustomData.setPersonId(kcPersonExtendedAttributes.getPersonId());
             personCustomData.setValue(StringUtils.defaultString(StringUtils.defaultString(customAttributeValue, customAttributeDefaultValue)));
-
+        
             kcPersonExtendedAttributes.getPersonCustomDataList().add(personCustomData);
         }
+        
+        return personCustomData;
     }
     
     /**
