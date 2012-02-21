@@ -64,76 +64,174 @@
                         }
                );
                $j(".financialEntitySubpanel").click();
+               
            }
-        		
-                 // hide protocol type list
-                 protocolType = $j("#disclosureHelper\\.protocolType").html();
-                 $j("#disclosureHelper\\.protocolType").hide();
-                 proposalType=$j("#disclosureHelper\\.newCoiDisclProject\\.coiProjectType").html();
-        		 updateTable($j("#disclosureHelper\\.newCoiDisclProject\\.disclosureEventType"));
+        	                
+    
+                 //populate form
+        		 handleEventType($j("#disclosureHelper\\.newCoiDisclProject\\.disclosureEventType"));
         	}) // end document ready
-        	
-           function updateTable(eventType) {
-               // alert($j(eventType).attr("value"));
-               if ($j(eventType).attr("value") == '11') {
-               // Award
-                   $j("#newpEvent-table tr:eq(3) td:eq(1) input").show();                
-                   $j("#newpEvent-table tr:eq(2)").show();
-                   $j("#newpEvent-table tr:eq(4)").show();
-                   $j("#newpEvent-table tr:eq(1) th:eq(0)").html("Award Title:");
-                   $j("#newpEvent-table tr:eq(1) th:eq(1)").html("Award Number:");
-                   $j("#newpEvent-table tr:eq(4) th:eq(0)").html("Award Date:");
-                   $j("#newpEvent-table tr:eq(4) th:eq(1)").html("");
-                   $j("#newpEvent-table tr:eq(4) td:eq(1) input").hide();
-                   $j("#newpEvent-table tr:eq(4) td:eq(1) img").hide();
-                
-                   $j("#newpEvent-table tr:eq(2)").hide();
-                   $j("#newpEvent-table tr:eq(3)").hide();
-                }
-                
-               if ($j(eventType).attr("value") == '12') {
-               // Proposal
-                   $j("#newpEvent-table tr:eq(4) td:eq(1) input").show();
-                   $j("#newpEvent-table tr:eq(4) td:eq(1) img").show();
-                
-                   $j("#newpEvent-table tr:eq(2)").show();
-                   $j("#newpEvent-table tr:eq(3)").show();
-                   $j("#newpEvent-table tr:eq(3) td:eq(1) input").show();                
-                   $j("#newpEvent-table tr:eq(2)").show();
-                   $j("#newpEvent-table tr:eq(4)").show();
-                   $j("#newpEvent-table tr:eq(1) th:eq(0)").html("Project Title:");
-                   $j("#newpEvent-table tr:eq(1) th:eq(1)").html("Project Id:");
-                   $j("#newpEvent-table tr:eq(2) th:eq(0)").html("Project Role:");
-                   $j("#newpEvent-table tr:eq(2) th:eq(1)").html("Sponsor:");
-                   $j("#newpEvent-table tr:eq(3) th:eq(0)").html("Project Type:");
-                   $j("#newpEvent-table tr:eq(3) th:eq(1)").html("Project Funding Amount");
-                   $j("#newpEvent-table tr:eq(4) th:eq(0)").html("Project Start Date:");
-                   $j("#newpEvent-table tr:eq(4) th:eq(1)").html("Project End Date:");
-                   $j("#disclosureHelper\\.newCoiDisclProject\\.coiProjectType").html(proposalType);
-                }
-                
-               if ($j(eventType).attr("value") == '13') {
-               //IRB Protocol
-                   $j("#newpEvent-table tr:eq(4) td:eq(1) input").show();
-                   $j("#newpEvent-table tr:eq(4) td:eq(1) img").show();
-                
-                   $j("#newpEvent-table tr:eq(2)").show();
-                   $j("#newpEvent-table tr:eq(3)").show();
-                   $j("#newpEvent-table tr:eq(1) th:eq(0)").html("Protocol Name:");
-                   $j("#newpEvent-table tr:eq(1) th:eq(1)").html("Protocol Number:");
-                   $j("#newpEvent-table tr:eq(3) th:eq(0)").html("Protocol Type:");
-                   $j("#newpEvent-table tr:eq(3) th:eq(1)").html("");
-                   // if use "id", then need "\\" to escape "."
-                   $j("#disclosureHelper\\.newCoiDisclProject\\.coiProjectType").html(protocolType);
-                  // $j("select[name^=disclosureHelper.newCoiDisclProject.coiProjectType]").html($j("#disclosureHelper\\.protocolType").html());
-                   $j("#newpEvent-table tr:eq(3) td:eq(1) input").hide();
-                
-                   $j("#newpEvent-table tr:eq(2)").hide();
-                   $j("#newpEvent-table tr:eq(4)").hide();
-                }
-                
-           }
 
+           function handleEventType(eventType) {
+        	   var eventTypeValue = $j(eventType).attr("value");
+               if (eventTypeValue == "") {
+            	   hideProjectFields();
+               } else {
+        	       $j.getJSON("coiDisclosure.do?methodToCall=getDisclosureEventTypeInfo&eventType=" + eventTypeValue,
+        			         function(data) {
+        		                 //alert("JSON data: " + data.useShortTextField1);
+        		                 
+        		                 if (data.disclosureEventType.useShortTextField1) {
+                                     $j("#newpEvent-table tr:eq(1)").show();
+                                     if (data.disclosureEventType.requireShortTextField1) {
+        		                         $j("#newpEvent-table tr:eq(1) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.shortTextField1Label + ":");
+                                     } else {
+                                    	 $j("#newpEvent-table tr:eq(1) th:eq(0) span").html(data.disclosureEventType.shortTextField1Label + ":");
+                                     }
+        		                 } else {
+                                     $j("#newpEvent-table tr:eq(1)").hide();
+        		                 }
+        		                 
+        		                 if (data.disclosureEventType.useLongTextField1) {
+                                     $j("#newpEvent-table tr:eq(2)").show();
+                                     if (data.disclosureEventType.requireLongTextField1) {
+                                         $j("#newpEvent-table tr:eq(2) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.longTextField1Label + ":");
+                                     } else {
+                                         $j("#newpEvent-table tr:eq(2) th:eq(0) span").html(data.disclosureEventType.longTextField1Label + ":");
+                                     }
+        		                 } else {
+                                     $j("#newpEvent-table tr:eq(2)").hide();
+        		                 }
+        		                 
+                                 if (data.disclosureEventType.useShortTextField3) {
+                                     $j("#newpEvent-table tr:eq(3)").show();
+                                     if (data.disclosureEventType.requireShortTextField3) {
+                                         $j("#newpEvent-table tr:eq(3) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.shortTextField3Label + ":"); 
+                                     } else {
+                                        $j("#newpEvent-table tr:eq(3) th:eq(0) span").html(data.disclosureEventType.shortTextField3Label + ":");
+                                     }
+                                 } else {
+                                     $j("#newpEvent-table tr:eq(3)").hide();
+                                 }
+                                 
+                                 if (data.disclosureEventType.useLongTextField2) {
+                                     $j("#newpEvent-table tr:eq(4)").show();
+                                     if (data.disclosureEventType.requireLongTextField2) {
+                                         $j("#newpEvent-table tr:eq(4) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.longTextField2Label + ":");
+                                     } else {
+                                         $j("#newpEvent-table tr:eq(4) th:eq(0) span").html(data.disclosureEventType.longTextField2Label + ":");
+                                     }
+                                 } else {
+                                     $j("#newpEvent-table tr:eq(4)").hide();
+                                 } 
+                                 
+                                 if (data.disclosureEventType.useShortTextField2) {
+                                     $j("#newpEvent-table tr:eq(5)").show();
+                                     if (data.disclosureEventType.requireShortTextField2) {
+                                         $j("#newpEvent-table tr:eq(5) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.shortTextField2Label + ":");
+                                     } else {
+                                         $j("#newpEvent-table tr:eq(5) th:eq(0) span").html(data.disclosureEventType.shortTextField2Label + ":");
+                                     }
+                                 } else {
+                                     $j("#newpEvent-table tr:eq(5)").hide();
+                                 }
+                                 
+                                 if (data.disclosureEventType.useNumberField1) {
+                                     $j("#newpEvent-table tr:eq(6)").show();
+                                     if (data.disclosureEventType.requireNumberField1) {
+                                         $j("#newpEvent-table tr:eq(6) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.numberField1Label + ":");
+                                     } else {
+                                         $j("#newpEvent-table tr:eq(6) th:eq(0) span").html(data.disclosureEventType.numberField1Label + ":");
+                                     }
+                                 } else {
+                                     $j("#newpEvent-table tr:eq(6)").hide();                              	 
+                                 }
+                                 
+                                 if (data.disclosureEventType.longTextField3) {
+                                     $j("#newpEvent-table tr:eq(7)").show();
+                                     if (data.disclosureEventType.requireLongTextField3) {
+                                         $j("#newpEvent-table tr:eq(7) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.longTextField3Label + ":");
+                                     } else {
+                                         $j("#newpEvent-table tr:eq(7) th:eq(0) span").html(data.disclosureEventType.longTextField3Label + ":");
+                                     }
+                                 } else {
+                                     $j("#newpEvent-table tr:eq(7)").hide();                                 
+                                 }
+                                 
+                                 if (data.disclosureEventType.useNumberField2) {
+                                     $j("#newpEvent-table tr:eq(8)").show();
+                                     if (data.disclosureEventType.requireNumberField2) {
+                                         $j("#newpEvent-table tr:eq(8) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.numberField2Label + ":");
+                                     } else {
+                                         $j("#newpEvent-table tr:eq(8) th:eq(0) span").html(data.disclosureEventType.numberField2Label + ":");
+                                     }
+                                 } else {
+                                     $j("#newpEvent-table tr:eq(8)").hide();                           
+                                 }
+                                 
+                                 if (data.disclosureEventType.longTextField3) {
+                                     $j("#newpEvent-table tr:eq(9)").show();
+                                     if (data.disclosureEventType.requireLongTextField3) {
+                                         $j("#newpEvent-table tr:eq(9) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.dateField1Label + ":");
+                                     } else {
+                                         $j("#newpEvent-table tr:eq(9) th:eq(0) span").html(data.disclosureEventType.dateField1Label + ":");
+                                     }
+                                 } else {
+                                     $j("#newpEvent-table tr:eq(9)").hide();
+                                 }
+                                 
+                                 if (data.disclosureEventType.useNumberField2) {
+                                     $j("#newpEvent-table tr:eq(10)").show();
+                                     if (data.disclosureEventType.requireNumberField2) {
+                                         $j("#newpEvent-table tr:eq(10) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.dateField2Label +":");
+                                     } else {
+                                         $j("#newpEvent-table tr:eq(10) th:eq(0) span").html(data.disclosureEventType.dateField2Label +":");
+                                     }
+                                 } else {
+                                     $j("#newpEvent-table tr:eq(10)").hide();                   
+                                 }
+                                 
+                                 if (data.disclosureEventType.useSelectBox1) {
+                                     $j("#newpEvent-table tr:eq(11)").show();
+                                     if (data.disclosureEventType.requireSelectBox1) {
+                                         $j("#newpEvent-table tr:eq(11) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.selectBox1Label +":");
+                                     } else {
+                                         $j("#newpEvent-table tr:eq(11) th:eq(0) span").html(data.disclosureEventType.selectBox1Label +":");
+                                     }
+                                     
+                                     var mySelectValue = document.getElementById("selectBox1-placeholder");
+                                     var mySelect = document.getElementById("disclosureHelper.newCoiDisclProject.selectBox1");
+                                     mySelect.options.length = 0;
+                                     
+                                     mySelect.options[mySelect.length]=new Option("select", "", true, false);
+                                     for (var i = 0; i < data.keyValues.length; i++) {
+                                       if (mySelectValue == data.keyValues[i].key) {
+                                           mySelect.options[mySelect.length]=new Option(data.keyValues[i].value, data.keyValues[i].key, false, true);
+                                       } else {
+                                           mySelect.options[mySelect.length]=new Option(data.keyValues[i].value, data.keyValues[i].key);
+                                       }
+                                     }
+                                 } else {
+                                     $j("#newpEvent-table tr:eq(11)").hide();                                	 
+                                 }
+        	                 }
+        	             );
+               }
+           }
+        	
+            function hideProjectFields() {
+                $j("#newpEvent-table tr:eq(1)").hide();                   
+                $j("#newpEvent-table tr:eq(2)").hide();                   
+                $j("#newpEvent-table tr:eq(3)").hide();                   
+                $j("#newpEvent-table tr:eq(4)").hide();                   
+                $j("#newpEvent-table tr:eq(5)").hide();                   
+                $j("#newpEvent-table tr:eq(6)").hide();                   
+                $j("#newpEvent-table tr:eq(7)").hide();                   
+                $j("#newpEvent-table tr:eq(8)").hide();                   
+                $j("#newpEvent-table tr:eq(9)").hide();                   
+                $j("#newpEvent-table tr:eq(10)").hide();
+                $j("#newpEvent-table tr:eq(11)").hide();                   
+            }
         </script>
  
 <kul:documentPage

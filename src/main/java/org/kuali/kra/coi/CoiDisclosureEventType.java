@@ -75,6 +75,11 @@ public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase {
     private String dateField1Label;
     private String dateField2Label;
     
+    private boolean useSelectBox1;
+    private boolean requireSelectBox1;
+    private String selectBox1Label;
+    private String selectBox1ValuesFinder;
+    
     
     public CoiDisclosureEventType() { 
 
@@ -418,6 +423,46 @@ public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase {
     public void setRequireDateField2(boolean requireDateField2) {
         this.requireDateField2 = requireDateField2;
     }   
+
+    public boolean isUseSelectBox1() {
+        return useSelectBox1;
+    }
+
+
+    public void setUseSelectBox1(boolean useSelectBox1) {
+        this.useSelectBox1 = useSelectBox1;
+    }
+
+
+    public boolean isRequireSelectBox1() {
+        return requireSelectBox1;
+    }
+
+
+    public void setRequireSelectBox1(boolean requireSelectBox1) {
+        this.requireSelectBox1 = requireSelectBox1;
+    }
+
+
+    public String getSelectBox1Label() {
+        return selectBox1Label;
+    }
+
+
+    public void setSelectBox1Label(String selectBox1Label) {
+        this.selectBox1Label = selectBox1Label;
+    }
+
+
+    public String getSelectBox1ValuesFinder() {
+        return selectBox1ValuesFinder;
+    }
+
+
+    public void setSelectBox1ValuesFinder(String selectBox1ValuesFinder) {
+        this.selectBox1ValuesFinder = selectBox1ValuesFinder;
+    }
+
 
     public boolean isManualDisclosureType() {
         //Using any of the custom labels indicates a manual disclosure...

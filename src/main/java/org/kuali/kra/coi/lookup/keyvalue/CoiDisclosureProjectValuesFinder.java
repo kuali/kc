@@ -63,8 +63,8 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
             } else {
                 // manual disclosure
                 if (!coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclProjects().isEmpty()) {
-                String projectId = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclProjects().get(0).getCoiProjectId();
-                keyLabels.add(new ConcreteKeyValue(projectId, coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclProjects().get(0).getCoiProjectTitle() + "--"
+                String projectId = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclProjects().get(0).getProjectId();
+                keyLabels.add(new ConcreteKeyValue(projectId, coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclProjects().get(0).getProjectName() + "--"
                                                           + projectId));
                 }
                 

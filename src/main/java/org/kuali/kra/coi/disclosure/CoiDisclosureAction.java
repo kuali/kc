@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.coi.CoiAction;
 import org.kuali.kra.coi.CoiDisclProject;
@@ -51,10 +55,12 @@ import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -255,7 +261,7 @@ public class CoiDisclosureAction extends CoiAction {
             getCoiDisclosureService().initializeDisclosureDetails(disclosureHelper.getNewCoiDisclProject());
             disclosureHelper.getNewCoiDisclProject().setSequenceNumber(coiDisclosure.getSequenceNumber());
             coiDisclosure.getCoiDisclProjects().add(disclosureHelper.getNewCoiDisclProject());
-            coiDisclosure.setModuleItemKey(disclosureHelper.getNewCoiDisclProject().getCoiProjectId());
+            coiDisclosure.setModuleItemKey(disclosureHelper.getNewCoiDisclProject().getProjectId());
             coiDisclosure.setEventTypeCode(disclosureHelper.getNewCoiDisclProject().getDisclosureEventType());
             disclosureHelper.setNewCoiDisclProject(new CoiDisclProject(coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getSequenceNumber()));
         }
@@ -609,6 +615,61 @@ public class CoiDisclosureAction extends CoiAction {
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
 
+    }
+    
+    /**
+     * 
+     * This method is for use with a JSON/AJAX call and should not be used as a post method
+     * 
+     */
+    public ActionForward getDisclosureEventTypeInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+      
+        String eventType = request.getParameter("eventType");
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("eventTypeCode", eventType);
+
+        List<CoiDisclosureEventType> disclosureEventTypes = 
+            (List<CoiDisclosureEventType>) getBusinessObjectService().findMatching(CoiDisclosureEventType.class, fieldValues);
+        StringWriter writer = new StringWriter();
+        if (!CollectionUtils.isEmpty(disclosureEventTypes)) {
+            CoiDisclosureEventType disclosureEventType = disclosureEventTypes.get(0);
+            CoiDisclosureEventTypeAjaxBean disclosureEventTypeAjaxBean = new CoiDisclosureEventTypeAjaxBean();
+            disclosureEventTypeAjaxBean.setDisclosureEventType(disclosureEventType);
+            
+            //Special code to handle select box
+            if (disclosureEventType.isUseSelectBox1()) {
+                try {
+                    String valuesFinder = disclosureEventType.getSelectBox1ValuesFinder();
+                    if (StringUtils.isNotBlank(valuesFinder)) {
+                        Class valuesFinderClass = Class.forName(valuesFinder);
+                        KeyValuesFinder keyValuesFinder = (KeyValuesFinder)valuesFinderClass.newInstance();
+                        List<KeyValue> keyValues = keyValuesFinder.getKeyValues();
+                        if (!CollectionUtils.isEmpty(keyValues)) {
+                            disclosureEventTypeAjaxBean.setKeyValues(keyValues);
+                        }
+                    }
+                } catch (Exception e) { 
+                    //Failed to load select box 
+                }
+            }
+            
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(writer, disclosureEventTypeAjaxBean);
+            
+            response.setContentType("application/json");
+            ServletOutputStream out = response.getOutputStream();
+
+            try {
+                out.write(writer.getBuffer().toString().getBytes());
+                out.flush();
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace(new PrintWriter(out));
+            }
+        
+        }        
+        return null;
     }
 
 
