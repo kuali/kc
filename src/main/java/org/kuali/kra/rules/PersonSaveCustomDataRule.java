@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonCustomData;
 import org.kuali.kra.infrastructure.Constants;
@@ -67,32 +66,15 @@ public class PersonSaveCustomDataRule extends PersonCustomDataRuleBase implement
     @Override
     public boolean processRules(PersonSaveCustomDataEvent event) {
         boolean rulePassed = true;
-        
-        Map<String, CustomAttributeDocument> customAttributeDocuments = getCustomAttributeDocuments();
-        
+
         int i = 0;
         for (PersonCustomData personCustomData : event.getPersonCustomDataList()) {
-            CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(String.valueOf(personCustomData.getCustomAttributeId()));
             String errorKey = event.getErrorPathPrefix() + Constants.LEFT_SQUARE_BRACKET + i++ + Constants.RIGHT_SQUARE_BRACKET + ".value";
-            rulePassed &= validateRequired(personCustomData, customAttributeDocument, errorKey);
             if (StringUtils.isNotBlank(personCustomData.getValue())) {
                 rulePassed &= validateFormat(personCustomData, errorKey);
             }
         }
 
-        return rulePassed;
-    }
-    
-    private boolean validateRequired(PersonCustomData personCustomData, CustomAttributeDocument customAttributeDocument, String errorKey) {
-        boolean rulePassed = true;
-        
-        if (customAttributeDocument.isRequired()) {
-            if (StringUtils.isBlank(personCustomData.getValue())) {
-                reportError(errorKey, RiceKeyConstants.ERROR_REQUIRED, personCustomData.getCustomAttribute().getLabel());
-                rulePassed = false;
-            }
-        }
-        
         return rulePassed;
     }
 
