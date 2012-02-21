@@ -501,7 +501,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables
                 .getUserSession().getPrincipalId(), true);
         for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
-            CoiDiscDetail disclosureDetail =createNewCoiDiscDetail(coiDisclProject.getCoiDisclosure(), personFinIntDisclosure, coiDisclProject.getCoiProjectId(), coiDisclProject.getCoiProjectId(), coiDisclProject.getDisclosureEventType());
+            CoiDiscDetail disclosureDetail =createNewCoiDiscDetail(coiDisclProject.getCoiDisclosure(), personFinIntDisclosure, coiDisclProject.getProjectId(), coiDisclProject.getProjectId(), coiDisclProject.getDisclosureEventType());
             disclosureDetails.add(disclosureDetail);
 //            disclosureDetail.setProjectType(coiDisclProject.getDisclosureEventType());
         }
@@ -716,7 +716,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         Map <String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("coiDisclosureId", coiDisclProject.getCoiDisclosureId());
         fieldValues.put("moduleCode", CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
-        fieldValues.put("moduleItemKey", coiDisclProject.getCoiProjectId());
+        fieldValues.put("moduleItemKey", coiDisclProject.getProjectId());
         List<String> disclEntityNumbers = new ArrayList<String>();
         List<CoiDiscDetail> activeDetails = new ArrayList<CoiDiscDetail>();
         List<CoiDiscDetail> coiDiscDetails = (List<CoiDiscDetail>) businessObjectService.findMatching(CoiDiscDetail.class, fieldValues);
@@ -734,7 +734,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 activeDetails.add(coiDiscDetail);
             }            
         }
-        checkToAddNewFinancialEntity(financialEntities, activeDetails, disclEntityNumbers, coiDisclProject.getCoiProjectId().toString(), coiDisclProject.getCoiDisclosure(), coiDisclProject.getDisclosureEventType(), coiDisclProject.getCoiProjectId());
+        checkToAddNewFinancialEntity(financialEntities, activeDetails, disclEntityNumbers, coiDisclProject.getProjectId().toString(), coiDisclProject.getCoiDisclosure(), coiDisclProject.getDisclosureEventType(), coiDisclProject.getProjectId());
 
         coiDisclProject.setCoiDiscDetails(activeDetails);
 

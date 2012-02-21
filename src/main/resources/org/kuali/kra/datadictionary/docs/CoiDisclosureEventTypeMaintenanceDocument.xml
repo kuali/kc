@@ -91,7 +91,11 @@
                 <bean parent="MaintainableFieldDefinition" p:name="dateField1Label"/> 
                 <bean parent="MaintainableFieldDefinition" p:name="useDateField2"/>
                 <bean parent="MaintainableFieldDefinition" p:name="requireDateField2"/>
-                <bean parent="MaintainableFieldDefinition" p:name="dateField2Label"/>                          
+                <bean parent="MaintainableFieldDefinition" p:name="dateField2Label"/>
+                <bean parent="MaintainableFieldDefinition" p:name="useSelectBox1"/>
+                <bean parent="MaintainableFieldDefinition" p:name="requireSelectBox1"/>
+                <bean parent="MaintainableFieldDefinition" p:name="selectBox1Label"/>
+                <bean parent="MaintainableFieldDefinition" p:name="selectBox1ValuesFinder"/>                      
             </list>
         </property>
     </bean>    

@@ -37,13 +37,15 @@ public class AddManualProjectRule extends ResearchDocumentRuleBase implements Bu
 
         CoiDisclProject coiDisclProject = event.getCoiDisclProject();
         GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
-        boolean valid = validateRequiredFields(coiDisclProject);
-
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
 
+        /*
+        boolean valid = validateRequiredFields(coiDisclProject);
+
+
         if (coiDisclProject.isProposalEvent()) {
-            if (coiDisclProject.getCoiProjectStartDate() != null && coiDisclProject.getCoiProjectEndDate() != null) {
-                if (coiDisclProject.getCoiProjectStartDate().after(coiDisclProject.getCoiProjectEndDate())) {
+            if (coiDisclProject.getDateField1() != null && coiDisclProject.getDateField2() != null) {
+                if (coiDisclProject.getDateField1().after(coiDisclProject.getDateField2())) {
                     valid = false;
                     GlobalVariables.getMessageMap().putError(
                             "coiProjectStartDate",
@@ -54,18 +56,21 @@ public class AddManualProjectRule extends ResearchDocumentRuleBase implements Bu
                 }
             }
         }
-        if (StringUtils.isNotBlank(coiDisclProject.getCoiProjectId())) {
+        if (StringUtils.isNotBlank(coiDisclProject.getShortTextField1())) {
             valid &= validateUniqueProjectId(coiDisclProject);
         }
         return valid;
+        */
+        return true;
     }
     
     private boolean validateUniqueProjectId(CoiDisclProject coiDisclProject) {
         boolean valid = true;
+        /*
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("coiDisclosureNumber", coiDisclProject.getCoiDisclosureNumber());
         fieldValues.put("sequenceNumber", coiDisclProject.getSequenceNumber());
-        fieldValues.put("coiProjectId", coiDisclProject.getCoiProjectId());
+        fieldValues.put("shortTextField1", coiDisclProject.getShortTextField1());
 
         if (getBusinessObjectService().countMatching(CoiDisclProject.class, fieldValues) > 0) {
             valid = false;
@@ -74,41 +79,44 @@ public class AddManualProjectRule extends ResearchDocumentRuleBase implements Bu
         }
         else {
             for (CoiDisclProject disclProject : coiDisclProject.getCoiDisclosure().getCoiDisclProjects()) {
-                if (StringUtils.equals(disclProject.getCoiProjectId(), coiDisclProject.getCoiProjectId())) {
+                if (StringUtils.equals(disclProject.getShortTextField1(), coiDisclProject.getShortTextField1())) {
                     valid = false;
                     GlobalVariables.getMessageMap().putError("coiProjectId", KeyConstants.ERROR_COI_DUPLICATE_PROJECT_ID);
                     break;
                 }
             }
         }
+        */
         return valid;
         
     }
     
     private boolean validateRequiredFields(CoiDisclProject coiDisclProject) {
         boolean valid = true;
+        /*
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
         valid &= validateRequiredField("disclosureEventType", coiDisclProject.getDisclosureEventType(),
                 dataDictionaryService.getAttributeErrorLabel(CoiDisclProject.class, "disclosureEventType"));
-        valid &= validateRequiredField("coiProjectId", coiDisclProject.getCoiProjectId(), coiDisclProject.getProjectIdLabel());
-        valid &= validateRequiredField("coiProjectTitle", coiDisclProject.getCoiProjectTitle(),
+        valid &= validateRequiredField("coiProjectId", coiDisclProject.getShortTextField1(), coiDisclProject.getProjectIdLabel());
+        valid &= validateRequiredField("coiProjectTitle", coiDisclProject.getLongTextField1(),
                 coiDisclProject.getProjectTitleLabel());
         if (StringUtils.isNotBlank(coiDisclProject.getDisclosureEventType())) {
             if (!coiDisclProject.isAwardEvent()) {
-                valid &= validateRequiredField("coiProjectType", coiDisclProject.getCoiProjectType(),
+                valid &= validateRequiredField("coiProjectType", coiDisclProject.getShortTextField2(),
                         coiDisclProject.getProjectTypeLabel());
             }
             if (!coiDisclProject.isProtocolEvent()) {
-                valid &= validateRequiredDateField("coiProjectStartDate", coiDisclProject.getCoiProjectStartDate(),
+                valid &= validateRequiredDateField("coiProjectStartDate", coiDisclProject.getDateField1(),
                         coiDisclProject.getProjectStartDateLabel());
             }
             if (coiDisclProject.isProposalEvent()) {
-                valid &= validateRequiredDateField("coiProjectEndDate", coiDisclProject.getCoiProjectEndDate(),
+                valid &= validateRequiredDateField("coiProjectEndDate", coiDisclProject.getDateField2(),
                         dataDictionaryService.getAttributeErrorLabel(CoiDisclProject.class, "coiProjectEndDate"));
-                valid &= validateRequiredField("coiProjectSponsor", coiDisclProject.getCoiProjectSponsor(),
+                valid &= validateRequiredField("coiProjectSponsor", coiDisclProject.getLongTextField2(),
                         dataDictionaryService.getAttributeErrorLabel(CoiDisclProject.class, "coiProjectSponsor"));
             }
         }
+        */
         return valid;
     }
     
