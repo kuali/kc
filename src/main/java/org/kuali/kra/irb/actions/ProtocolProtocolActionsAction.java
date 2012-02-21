@@ -1104,14 +1104,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             if(printableArtifacts.isWatermarkEnabled()){
                 int currentAttachmentSequence=attachment.getSequenceNumber();
                 String docStatusCode=attachment.getDocumentStatusCode();
+                String statusCode=attachment.getStatusCode();
                 // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
                 if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
-                            attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                        }else{
-                            attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-                            LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
-                        }
+                    if (ProtocolAttachmentProtocol.COMPLETE_STATUS_CODE.equals(statusCode)) {
+                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
                     }
+                }else{
+                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
+                    LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
+                }
+            }
         }catch (Exception e) {
             LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
         }        
