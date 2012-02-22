@@ -126,7 +126,12 @@
     </bean>
     
     <bean id="ReportTracking-reportCode" parent="ReportTracking-reportCode-parentBean" />
-    <bean id="ReportTracking-reportCode-parentBean" abstract="true" parent="AwardReportTerm-reportCode" />
+    <bean id="ReportTracking-reportCode-parentBean" abstract="true" parent="AwardReportTerm-reportCode">
+    	<property name="label" value="Report" />
+		<property name="shortLabel" value="Report" />
+		<property name="summary" value="Report" />
+		<property name="description" value="Report" />
+    </bean>
 
     <bean id="ReportTracking-report.description" parent="ReportTracking-report.description-parentBean" />
     <bean id="ReportTracking-report.description-parentBean" abstract="true" parent="Report-description">
