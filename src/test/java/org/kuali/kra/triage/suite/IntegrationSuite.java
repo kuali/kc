@@ -19,7 +19,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.kuali.kra.award.web.AwardAttachmentsPanelSeleniumTest;
-import org.kuali.kra.award.web.AwardBudgetBasicSeleniumTest;
 import org.kuali.kra.award.web.AwardCommentsPanelSeleniumTest;
 import org.kuali.kra.award.web.AwardCompleteSeleniumTest;
 import org.kuali.kra.award.web.AwardDataValidationPanelSeleniumTest;
@@ -88,7 +87,7 @@ import org.kuali.kra.workflow.test.ProposalDevelopmentDocumentRoutingSeleniumTes
     PortalSeleniumTest.class,
     ActivityTypeMaintenanceDocumentSeleniumTest.class,
     AwardAttachmentsPanelSeleniumTest.class,
-    AwardBudgetBasicSeleniumTest.class,
+    //AwardBudgetBasicSeleniumTest.class,
     AwardCommentsPanelSeleniumTest.class,
     AwardCompleteSeleniumTest.class,
     AwardDataValidationPanelSeleniumTest.class,
