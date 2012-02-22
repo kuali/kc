@@ -49,7 +49,7 @@
  <kra-negotiation:negotiationActivities />
   
 <kul:tab tabTitle="Medusa" defaultOpen="${medusaLink}" tabErrorKey="">
-<kra-m:medusa helpIcon="negotiation"/>
+<kra-m:medusa helpParameterNamespace="KC-NEGOTIATION" helpParameterDetailType="Document" helpParameterName="negotiationMedusaHelp" />
 </kul:tab>
 
 
