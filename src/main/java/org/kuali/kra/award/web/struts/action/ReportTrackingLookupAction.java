@@ -45,6 +45,7 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.web.struts.action.KualiLookupAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -83,6 +84,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         if (lookupForm.isViewRawResults()) {
             return super.search(mapping, lookupForm, request, response);
         } else {
+            LookupUtils.preProcessRangeFields(lookupForm.getFields());
             List<ReportTracking> groupedResults = 
                 getReportTrackingDao().getResultsGroupedBy(lookupForm.getFields(), lookupForm.getGroupedByFields(), lookupForm.getGroupedByDisplayFields());
             lookupForm.setGroupedByResults(groupedResults);
