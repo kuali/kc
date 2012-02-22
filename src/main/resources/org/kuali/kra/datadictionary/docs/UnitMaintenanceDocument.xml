@@ -21,7 +21,7 @@
     
     <property name="documentTypeName" value="UnitMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.rules.UnitMaintenanceDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.authorizer.UnitMaintenanceDocumentAuthorizer"/>
     
     
   </bean>
@@ -40,6 +40,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="parentUnitNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationIdForMaintenance"/>
         <bean parent="MaintainableFieldDefinition" p:name="unitName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>

@@ -90,14 +90,27 @@
 	<bean id="unitLookupDao" parent="platformAwareDao"
 		class="org.kuali.kra.dao.ojb.UnitLookupDaoOjb" />
     
-    <bean id="unitLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="unitLookupable" class="org.kuali.kra.lookup.UnitLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="unitLookupableHelperService" />
         </property>
+        <property name="kcPersonService">
+            <ref bean="kcPersonService" />
+        </property>
+        <property name="unitAuthorizationService">
+            <ref bean="unitAuthorizationService" />
+        </property>
     </bean>
     
-    <bean id="unitLookupableHelperService" class="org.kuali.kra.lookup.UnitLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
-
+    <bean id="unitLookupableHelperService" class="org.kuali.kra.lookup.UnitLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+        <property name="kcPersonService">
+            <ref bean="kcPersonService" />
+        </property>
+        <property name="unitAuthorizationService">
+            <ref bean="unitAuthorizationService" />
+        </property>
+    </bean>  
+    
 	<bean id="ynqService" class="org.kuali.kra.service.impl.YnqServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
