@@ -904,7 +904,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
                 will(returnValue(coiDisclProjects1));
                 Map<String, Object> fieldValues2 = new HashMap<String, Object>();
                 fieldValues2.put("coiDisclosureNumber", "1");
-                fieldValues2.put("disclosureDispositionStatus", CoiDispositionStatus.APPROVED);
+                fieldValues2.put("disclosureDispositionStatus", CoiDispositionStatus.DISCLOSED_INTERESTS_MANAGED);
                 one(businessObjectService).findMatchingOrderBy(CoiDisclosureHistory.class, fieldValues2,
                         "sequenceNumber", true);
                 will(returnValue(histories));
@@ -961,8 +961,8 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
         history.setCoiDisclosureHistoryId(coiDisclosureId);
         history.setCoiDisclosureNumber("1");
         history.setSequenceNumber(sequenceNumber);
-        history.setDisclosureStatus(CoiDisclosureStatus.RESOLVED);
-        history.setDisclosureDispositionStatus(CoiDispositionStatus.APPROVED);
+        history.setDisclosureStatus(CoiDisclosureStatus.APPROVED);
+        history.setDisclosureDispositionStatus(CoiDispositionStatus.DISCLOSED_INTERESTS_MANAGED);
         history.setUpdateTimestamp(new Timestamp(new java.util.Date().getTime()));
         return history;
     }

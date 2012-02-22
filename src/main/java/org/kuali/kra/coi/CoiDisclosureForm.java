@@ -47,8 +47,8 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     
     //TODO : coiDisclosureStatusCode : this is just a quick set up here for 'approve' action to test 'master disclosure'
     // this should be moved to disclosureactionhelper when 'action' is really implemented
-    private String coiDisclosureStatusCode; 
-
+    private String coiDispositionCode; 
+    
     
     public CoiDisclosureForm() {
         super();
@@ -157,12 +157,12 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         return KRADServiceLocator.getBusinessObjectService();
     }
 
-    public String getCoiDisclosureStatusCode() {
-        return coiDisclosureStatusCode;
+    public String getCoiDispositionCode() {
+        return coiDispositionCode;
     }
 
-    public void setCoiDisclosureStatusCode(String coiDisclosureStatusCode) {
-        this.coiDisclosureStatusCode = coiDisclosureStatusCode;
+    public void setCoiDispositionCode(String coiDispositionCode) {
+        this.coiDispositionCode = coiDispositionCode;
     }
 
     public DisclosureActionHelper getDisclosureActionHelper() {

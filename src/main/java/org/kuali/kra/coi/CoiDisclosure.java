@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.coi;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -23,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,8 +61,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1056040995591476518L;
-    public static final String DISPOSITION_PENDING = "3";
-    public static final String DISCLOSURE_PENDING = "100";
+    
     public static final String MANUAL_DISCL_MODULE_CODE = "14";
     public static final String PROPOSAL_DISCL_MODULE_CODE = "11";
     public static final String INSTITUTIONAL_PROPOSAL_DISCL_MODULE_CODE = "15";
@@ -345,8 +342,9 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
 
     public void initRequiredFields() {
-        this.setDisclosureDispositionCode(DISPOSITION_PENDING);
-        this.setDisclosureStatusCode(DISCLOSURE_PENDING);
+        // is pending equivalent to in progress?
+        this.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
+        this.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);
         this.setPersonId(this.getDisclosureReporter().getPersonId());
         initCoiDisclosureNumber();
         this.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 365).getTime()));
@@ -710,7 +708,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     public boolean isApprovedDisclosure() {
 
     	
-        return StringUtils.equals(CoiDispositionStatus.APPROVED, disclosureDispositionCode);
+        return StringUtils.equals(CoiDisclosureStatus.APPROVED, disclosureStatusCode);
     }
 
     public CoiDispositionStatus getCoiDispositionStatus() {
@@ -725,6 +723,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
     public CoiDisclosureStatus getCoiDisclosureStatus() {
+        this.refreshReferenceObject("coiDisclosureStatus");
         return coiDisclosureStatus;
     }
 
