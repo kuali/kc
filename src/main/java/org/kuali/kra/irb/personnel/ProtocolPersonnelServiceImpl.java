@@ -78,8 +78,8 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID").intValue();
         protocolPerson.setProtocolPersonId(nextPersonId);
         //TODO - How to handle protocol number and sequence number
-        protocolPerson.setProtocolNumber("0");
-        protocolPerson.setSequenceNumber(0);
+        protocolPerson.setProtocolNumber(protocol.getProtocolNumber());
+        protocolPerson.setSequenceNumber(protocol.getSequenceNumber());
         //Refresh Rolodex
         if(StringUtils.isBlank(protocolPerson.getPersonId())) {
             protocolPerson.refreshReferenceObject(REFERENCE_ROLODEX);
