@@ -27,16 +27,11 @@ public class CoiDisclosureStatus extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -204509679832775700L;
-    public static final String DISCLOSURE_PENDING = "100";
-    public static final String RESOLVED = "201";                                
-    public static final String NO_CONFLICT = "200";                                
-//    public static final List<String> APPROVE_DISCLOSURE_CODES;
-//    static {
-//        final List<String> codes = new ArrayList<String>();     
-//        codes.add(RESOLVED);
-//        codes.add(NO_CONFLICT);
-//        APPROVE_DISCLOSURE_CODES = codes;
-//    }
+  
+    public static final String IN_PROGRESS = "1";
+    public static final String ROUTED_FOR_REVIEW = "2";
+    public static final String APPROVED = "3";
+    public static final String DISAPPROVED = "4";
 
     private String coiDisclosureStatusCode;
 

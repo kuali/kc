@@ -92,14 +92,14 @@ public class CoiDisclosureActionServiceTest extends KcUnitTestBase {
 
 //       coiDisclosureService.setBusinessObjectService(businessObjectService);
        coiDisclosureActionService.setBusinessObjectService(new MockBusinessObjectService());
-       coiDisclosureActionService.approveDisclosure(coiDisclosure2,CoiDisclosureStatus.RESOLVED);
+       coiDisclosureActionService.approveDisclosure(coiDisclosure2,CoiDisclosureStatus.APPROVED);
        Assert.assertFalse(coiDisclosure1.isCurrentDisclosure());
        Assert.assertTrue(coiDisclosure2.isCurrentDisclosure());
-       Assert.assertEquals(coiDisclosure2.getDisclosureStatusCode(),CoiDisclosureStatus.RESOLVED);
+       Assert.assertEquals(coiDisclosure2.getDisclosureStatusCode(),CoiDisclosureStatus.APPROVED);
        // previous master disc's detail also copied over
        Assert.assertEquals(coiDisclosure2.getCoiDiscDetails().size(),2);
        // history record created
-       Assert.assertEquals(coiDisclosureHistory.getDisclosureStatus(),CoiDisclosureStatus.RESOLVED);
+       Assert.assertEquals(coiDisclosureHistory.getDisclosureStatus(),CoiDisclosureStatus.APPROVED);
    }
 
     private CoiDisclosureHistory createDisclosureHistory(CoiDisclosure coiDisclosure) {
@@ -108,7 +108,7 @@ public class CoiDisclosureActionServiceTest extends KcUnitTestBase {
         coiDisclosureHistory.setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
         coiDisclosureHistory.setSequenceNumber(coiDisclosure.getSequenceNumber());
         coiDisclosureHistory.setDisclosureDispositionStatus(coiDisclosure.getDisclosureDispositionCode());
-        coiDisclosureHistory.setDisclosureStatus(CoiDisclosureStatus.RESOLVED);
+        coiDisclosureHistory.setDisclosureStatus(CoiDisclosureStatus.APPROVED);
         return coiDisclosureHistory;
 
     }

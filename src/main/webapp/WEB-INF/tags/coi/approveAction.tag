@@ -15,27 +15,27 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="attributes" value="${DataDictionary.CoiDisclosureStatus.attributes}" />
+<c:set var="attributes" value="${DataDictionary.CoiDispositionStatus.attributes}" />
 
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 
 
-<kul:innerTab tabTitle="Approve" parentTab="" defaultOpen="false" tabErrorKey="coiDisclosureStatusCode">
+<kul:innerTab tabTitle="Approve" parentTab="" defaultOpen="false" tabErrorKey="coiDispositionCode">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
                 <tr>
 	                <th style="width: 300px"> 
 	                    <div align="right">
-	                        <kul:htmlAttributeLabel attributeEntry="${attributes.coiDisclosureStatusCode}" />
+	                        <kul:htmlAttributeLabel attributeEntry="${attributes.coiDispositionCode}" />
 	                    </div>
 	                </th>
 	                <td style="width : 150px">
                         <c:set target="${paramMap}" property="actionType" value="Approve" />
-                         <html:select property="coiDisclosureStatusCode"  >                               
-                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.CoiDisclosureStatusValuesFinder', paramMap)}" var="option" >
+                         <html:select property="coiDispositionCode"  >                               
+                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.CoiDispositionStatusValuesFinder', paramMap)}" var="option" >
                                 <c:choose>                      
-                                    <c:when test="${KualiForm.coiDisclosureStatusCode == option.key}">
+                                    <c:when test="${KualiForm.coiDispositionCode == option.key}">
                                         <option value="${option.key}" selected="selected">${option.value}</option>
                                     </c:when>
                                     <c:otherwise>                               

@@ -89,22 +89,22 @@ public class CoiDisclosureActionsAction extends CoiAction {
          * 3. need to check disclosurestatus is selected   
          */
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        if (StringUtils.isNotBlank(coiDisclosureForm.getCoiDisclosureStatusCode())) {
-            AuditActionHelper auditActionHelper = new AuditActionHelper();
-            if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {                
-                getCoiDisclosureActionService().approveDisclosure(coiDisclosureDocument.getCoiDisclosure(), coiDisclosureForm.getCoiDisclosureStatusCode());
-                coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
-                        getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
+        if (StringUtils.isNotBlank(coiDisclosureForm.getCoiDispositionCode())) {
+            boolean approved = coiDisclosureForm.getDisclosureActionHelper().approveDisclosure();
+            // Once a disclosure is approved it becomes the master disclosure, so redirect to the
+            // master disclosure
+            if (approved) {                
                 forward = mapping.findForward(MASTER_DISCLOSURE);
             } else {
-                GlobalVariables.getMessageMap().clearErrorMessages();
-                GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_FINANCIAL_ENTITY_STATUS_INCOMPLETE,  new String[] {});
-                new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, true);            }
+                // Do we need an error message for the audit errors? Usually the messages in the datavalidation box suffice.
+               // GlobalVariables.getMessageMap().clearErrorMessages();
+                //GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_FINANCIAL_ENTITY_STATUS_INCOMPLETE,  new String[] {});
+                new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, true);            
+            }
         } else {
-            GlobalVariables.getMessageMap().putError("coiDisclosureStatusCode", 
-                    KeyConstants.ERROR_COI_DISCLOSURE_STATUS_REQUIRED);        }
+            GlobalVariables.getMessageMap().putError("coiDispositionCode", KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED);        
+        }
 
         return forward;
 
