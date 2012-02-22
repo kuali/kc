@@ -21,10 +21,8 @@
 	tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
 		<h3>
-			<span class="subhead-left">Report Classes</span> <span
-				class="subhead-right"> <kul:help
-					businessObjectClassName="org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm"
-					altText="help" /> </span>
+			<span class="subhead-left">Report Classes</span>            
+			<span class="subhead-right"><kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardReportsHelpUrl" altText="help"/></span>      
 		</h3>
 
 		<c:forEach var="reportClass" items="${KualiForm.reportClasses}"
