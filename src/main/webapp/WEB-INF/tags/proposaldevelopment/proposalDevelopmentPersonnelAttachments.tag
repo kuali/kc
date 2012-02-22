@@ -30,8 +30,8 @@
         
         <h3>
     		<span class="subhead-left"><c:out value="${sectionLabel}" /></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
-	    </h3>
+            <span class="subhead-right"><kul:help parameterNamespace="KC-PD" parameterDetailType="Document" parameterName="proposalDevelopmentpersonnelattachmentsHelpUrl" altText="help"/></span>
+ 	    </h3>
         <table cellpadding=0 cellspacing=0 summary="">
         	<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].propPersonBios) > 0  || KualiForm.editingMode['addNarratives']}" >
           	<tr>
