@@ -59,7 +59,9 @@
     <c:set var="notesAttributes" value="${DataDictionary.Note.attributes}" />
     <div class="tab-container" align=center id="G4">
     <p align=left><jsp:doBody/>
-  <h3>${tabTitle}</h3>
+  <h3>${tabTitle}
+          xx  <span class="subhead-right"><kul:help parameterNamespace="KC-PD" parameterDetailType="Document" parameterName="proposalDevelopmentnotesHelpUrl" altText="help"/></span>
+  </h3>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="view/add notes">
             <tbody>
 

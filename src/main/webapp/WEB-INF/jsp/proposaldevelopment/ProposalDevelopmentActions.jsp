@@ -51,7 +51,10 @@ http://www.osedu.org/licenses/ECL-2.0
 		<c:if test="${hierarchyStatus != hierarchyChildStatus}">
 			<kra:dataValidation auditActivated="${KualiForm.auditActivated}"
 				categories="Validation Errors,Warnings,Grants.Gov Errors"
-				topTab="true">
+				topTab="true"
+				helpParameterNamespace="KC-PD" 
+				helpParameterDetailType="Document" 
+				helpParameterName="proposalDevelopmentDataValidation1HelpUrl">
 				<p>You can activate a Validation check to determine any errors or
 				incomplete information. The following Validations types will be
 				determined:</p>
