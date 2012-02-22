@@ -255,7 +255,10 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
     }
 
     public Committee getCommittee() {
-		return committee;
+        if (committee == null && getCommitteeIdFk() == null) {
+            committee = new Committee();
+        }
+        return committee;
 	}
 
 	public void setCommittee(Committee committee) {
