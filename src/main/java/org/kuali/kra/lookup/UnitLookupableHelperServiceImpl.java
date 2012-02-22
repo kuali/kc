@@ -22,11 +22,17 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Unit lookup that accounts for the extra parameter {@code campusCode} and filters the search results if it is defined.
@@ -38,6 +44,24 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
     private static final String CAMPUS_CODE_FIELD = "campusCode";
     private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
 
+    private KcPersonService kcPersonService;
+    private UnitAuthorizationService unitAuthorizationService;
+    
+    @Override
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        String personId = getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId()).getPersonId();
+        boolean hasModifyPermission = getUnitAuthorizationService().hasPermission(personId, "KC-UNT", PermissionConstants.MODIFY_UNIT);
+        if (hasModifyPermission) {
+            AnchorHtmlData htmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+            htmlDataList.add(htmlData);
+
+            AnchorHtmlData htmlData1 = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
+            htmlDataList.add(htmlData1);
+        }
+        return htmlDataList;
+    }
+    
     @Override
     public List<Row> getRows() {
         List<Row> rows = super.getRows();
@@ -81,6 +105,22 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
         }
 
         return filteredSearchResults;
+    }
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
+
+    public UnitAuthorizationService getUnitAuthorizationService() {
+        return unitAuthorizationService;
+    }
+
+    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
+        this.unitAuthorizationService = unitAuthorizationService;
     }
 
 }
