@@ -43,6 +43,9 @@
     	   <c:when test="${fn:contains(tabTitle,'Other Organizations')}"> 
      	  	 <span class="subhead-right"><kul:help parameterNamespace="KC-PD" parameterDetailType="Document" parameterName="otherOrganizationDocumentHelpUrl" altText="help"/></span>
 			</c:when>
+    	   <c:when test="${fn:contains(tabTitle,'Performance Site Locations')}"> 
+     	  	 <span class="subhead-right"><kul:help parameterNamespace="KC-PD" parameterDetailType="Document" parameterName="proposalDevelopmentperformancesitelocationsHelpUrl" altText="help"/></span>
+			</c:when>
 			<c:otherwise>
         		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalSite" altText="help"/></span>
  	    	</c:otherwise>
