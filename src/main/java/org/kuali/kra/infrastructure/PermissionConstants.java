@@ -203,4 +203,9 @@ public interface PermissionConstants {
      public static final String VIEW_IACUC_PROTOCOL = "View IACUC Protocol";
      public static final String VIEW_IACUC_RESTRICTED_NOTES = "View IACUC Protocol Restricted Notes";
 
+     /*
+      * Unit Permissions 
+      */
+     public static final String ADD_UNIT = "Add Unit";
+     public static final String MODIFY_UNIT = "Modify Unit";
 }

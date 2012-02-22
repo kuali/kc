@@ -27,6 +27,7 @@
         <ref bean="Unit-organization.organizationName" />
         <ref bean="Unit-unitName" />
         <ref bean="Unit-campusCode" />
+        <ref bean="Unit-active" />
         <ref bean="Unit-versionNumber" />
       </list>
     </property>
@@ -198,6 +199,15 @@
     <property name="name" value="campusCode" />
     <property name="required" value="false" />
   </bean>
+  <bean id="Unit-active" parent="Unit-active-parentBean"/>
+    
+  <bean id="Unit-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="active"/>
+        <property name="label" value="Active"/>
+        <property name="shortLabel" value="Active"/>
+        <property name="summary" value="Active"/>
+        <property name="description" value="Active"/>
+  </bean>
   <bean id="Unit-versionNumber" parent="Unit-versionNumber-parentBean" />
 
   <bean id="Unit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -281,6 +291,8 @@
               p:attributeName="unitName" />
         <bean parent="FieldDefinition"
               p:attributeName="campusCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -294,6 +306,8 @@
               p:attributeName="organization.organizationName" />
         <bean parent="FieldDefinition"
               p:attributeName="unitName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

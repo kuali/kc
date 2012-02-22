@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class Unit extends KraPersistableBusinessObjectBase {
 
-    private static final long serialVersionUID = -2473668965878807557L;
+    private static final long serialVersionUID = 7170184898996866958L;
 
     private String unitNumber;
 
@@ -34,6 +34,8 @@ public class Unit extends KraPersistableBusinessObjectBase {
     private String unitName;
 
     private String campusCode;
+    
+    private boolean active;
 
     private Unit parentUnit;
 
@@ -92,6 +94,14 @@ public class Unit extends KraPersistableBusinessObjectBase {
 
     public void setCampusCode(String campusCode) {
         this.campusCode = campusCode;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**
