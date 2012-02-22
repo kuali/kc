@@ -19,7 +19,7 @@
 <c:set var="disclosureReporter" value="document.coiDisclosureList[0].disclosurePersons[0]" />
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
 <bean:define id="disclosurePersonUnits" name="KualiForm" property="document.coiDisclosureList[0].disclosurePersons[0].disclosurePersonUnits" />
-<c:set var="readOnly" value="${!KualiForm.disclosureHelper.modifyReporter}" />
+<c:set var="readOnly" value="${!KualiForm.disclosureHelper.modifyReporter || readOnly}" />
 
 <div class="tab-container" align="center">
     <kul:innerTab tabTitle="Unit Details" parentTab="Reporter" defaultOpen="false" tabErrorKey="disclosureHelper.newDisclosurePersonUnit.*,document.coiDisclosureList[0].disclosurePersons[0]*" useCurrentTabIndexAsKey="false">
@@ -39,6 +39,7 @@
                         
                         <%-- New data --%>
                         <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
+                        <c:if test="${not readOnly}">
                              <tr>
                                 <th class="infoline">
                                     <c:out value="Add:" />
@@ -78,6 +79,7 @@
                                 </td>
                             </c:if>
                         </tr>
+                     </c:if>   
                         <%-- /kra:permission --%>
                         <%-- New data --%>
                         
