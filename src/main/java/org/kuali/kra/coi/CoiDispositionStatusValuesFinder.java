@@ -29,7 +29,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * This class is to server as a values finder for coi disclosure actions - 'Approve'/'Disapprove'/'Set Disclosure Status'
  */
-public class CoiDisclosureStatusValuesFinder extends KeyValuesBase {
+public class CoiDispositionStatusValuesFinder extends KeyValuesBase {
     private String actionType;
     private static final String APPROVE = "Approve";
     private static final String DISAPPROVE = "Disapprove";
@@ -42,33 +42,15 @@ public class CoiDisclosureStatusValuesFinder extends KeyValuesBase {
         
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select "));
-        for(CoiDisclosureStatus coiDisclosureStatus : getCoiDisclosureStatus()) {
-            if (validStatus(coiDisclosureStatus.getCoiDisclosureStatusCode())) {
-                keyValues.add(new ConcreteKeyValue(coiDisclosureStatus.getCoiDisclosureStatusCode(), coiDisclosureStatus.getDescription()));
-            }
+        for(CoiDispositionStatus coiDispositionStatus : getCoiDispositionStatus()) {
+                keyValues.add(new ConcreteKeyValue(coiDispositionStatus.getCoiDispositionCode().toString(), coiDispositionStatus.getDescription()));
         }
         return keyValues;
     }
-
-    /*
-     * based on the parameter from jsp, and check if the status code should be included in keyvalue pairs list
-     */
-    private boolean validStatus(String statusCode) {
-        boolean isValid;
-        if (StringUtils.equals(APPROVE, getActionType())) {
-            isValid = StringUtils.startsWith(statusCode, "2");
-        } else if (StringUtils.equals(DISAPPROVE, getActionType())) {
-            isValid = StringUtils.startsWith(statusCode, "3");
-        } else {
-            // for 'set disclosure status' action
-            isValid = StringUtils.startsWith(statusCode, "1");
-        }
-        return isValid;
-    }
     
-    private List<CoiDisclosureStatus> getCoiDisclosureStatus() {
+    private List<CoiDispositionStatus> getCoiDispositionStatus() {
         
-        return  (List<CoiDisclosureStatus>)KraServiceLocator.getService(BusinessObjectService.class).findAll(CoiDisclosureStatus.class);
+        return  (List<CoiDispositionStatus>)KraServiceLocator.getService(BusinessObjectService.class).findAll(CoiDispositionStatus.class);
 
     }
     public String getActionType() {

@@ -912,8 +912,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             newDisclosure.setCoiDisclosureNotepads(null);
             newDisclosure.setCurrentDisclosure(false);
             newDisclosure.setCertificationTimestamp(null);
-            newDisclosure.setDisclosureDispositionCode(CoiDisclosure.DISPOSITION_PENDING);
-            newDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.DISCLOSURE_PENDING);
+            newDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
+            newDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);
             newDisclosure.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 365).getTime()));
         }
         return newDisclosure;
@@ -1210,7 +1210,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     protected List<CoiDisclosureHistory> getDisclosureHistory(String coiDisclosureNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("coiDisclosureNumber", coiDisclosureNumber);
-        fieldValues.put("disclosureDispositionStatus", CoiDispositionStatus.APPROVED);
+        fieldValues.put("disclosureStatus", CoiDisclosureStatus.APPROVED);
         return (List<CoiDisclosureHistory>) businessObjectService.findMatchingOrderBy(CoiDisclosureHistory.class, fieldValues,
                 "sequenceNumber", true);
 

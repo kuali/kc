@@ -47,6 +47,8 @@
                 <ref bean="CoiDisclosure-reviewStatusCode" />
                 <ref bean="CoiDisclosure-discActiveStatus" />
                 <ref bean="CoiDisclosure-versionNumber" />
+                <ref bean="CoiDisclosure-leadUnitNumber" />
+                
             </list>
         </property>
     </bean>
@@ -267,6 +269,24 @@
         <property name="description" value="Event Type Code" />
     </bean>
 
+	<bean id="CoiDisclosure-leadUnitNumber" parent="CoiDisclosure-leadUnitNumber-parentBean" />
+    <bean id="CoiDisclosure-leadUnitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="leadUnitNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Lead unit number" />
+        <property name="shortLabel" value="Lead unit number" />
+        <property name="maxLength" value="150" />
+        <property name="validationPattern" >
+		  <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="8" />
+        </property>
+        <property name="summary" value="Lead unit number" />
+        <property name="description" value="Lead unit number" />
+    </bean>
+    
     <bean id="CoiDisclosure-discActiveStatus" parent="CoiDisclosure-discActiveStatus-parentBean" />
     <bean id="CoiDisclosure-discActiveStatus-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="discActiveStatus" />
@@ -329,6 +349,8 @@
                                 p:attributeName="eventTypeCode" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="discActiveStatus" />
+                            <bean parent="FieldDefinition"
+                            	p:attributeName="leadUnitNumber" />
                         </list>
                     </property>
                 </bean>
@@ -376,6 +398,8 @@
                     p:attributeName="eventTypeCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="discActiveStatus" />
+                    <bean parent="FieldDefinition"
+                    p:attributeName="leadUnitNumber" />
             </list>
         </property>
         <property name="resultFields" >
@@ -409,6 +433,8 @@
                     p:attributeName="eventTypeCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="discActiveStatus" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="leadUnitNumber" />
             </list>
         </property>
     </bean>

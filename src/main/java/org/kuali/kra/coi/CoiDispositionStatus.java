@@ -26,9 +26,17 @@ public class CoiDispositionStatus extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -7876291367875185011L;
-    public static final String APPROVED = "1";
-    public static final String DISAPPROVED = "2";
-    public static final String PENDING = "3";
+    public static final String IN_PROGRESS = "100";
+    public static final String SUBMITTED_FOR_REVIEW = "200";
+    public static final String UNDER_REVIEW_BY_COI_REVIEWER = "201";
+    public static final String BEST_PRACTICES_MEMO = "300";
+    public static final String NO_FURTHER_ACTION = "301";
+    public static final String DISCLOSED_INTERESTS_ELIMINATED = "302";
+    public static final String DISCLOSED_INTERESTS_REDUCED = "303";
+    public static final String DISCLOSED_INTERESTS_MANAGED = "304";
+    public static final String NO_CONFLICT_EXISTS = "305";
+    public static final String EXEMPT = "306";
+    public static final String DISCLOSED_INTERESTS_UNMANAGEABLE = "400";
     private Integer coiDispositionCode; 
     private String description; 
     

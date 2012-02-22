@@ -32,6 +32,7 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.CoiDisclosureHistory;
+import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
@@ -66,12 +67,13 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      * set current disclosure flag for this approved disclosure, and reset it for previous mater disclosure
      * @see org.kuali.kra.coi.actions.CoiDisclosureActionService#approveDisclosure(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
      */
-    public void approveDisclosure(CoiDisclosure coiDisclosure, String coiDisclosureStatusCode) {
+    public void approveDisclosure(CoiDisclosure coiDisclosure, String disclosureDispositionCode) {
 
         CoiDisclosure masterCoiDisclosure = getMasterDisclosure(coiDisclosure.getCoiDisclosureNumber());
         List<KraPersistableBusinessObjectBase> disclosures = new ArrayList<KraPersistableBusinessObjectBase>();
-        coiDisclosure.setDisclosureStatusCode(coiDisclosureStatusCode);
-        coiDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.APPROVED);
+        coiDisclosure.setDisclosureDispositionCode(disclosureDispositionCode);
+        // need to set disposition status code
+        coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.APPROVED);
         disclosures.add(coiDisclosure);
         if (masterCoiDisclosure != null) {
             copyCollections(masterCoiDisclosure, coiDisclosure);
@@ -84,6 +86,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         
         disclosures.add(createDisclosureHistory(coiDisclosure));
         businessObjectService.save(disclosures);
+        
     }
     
     public KcNotificationService getNotificationService() {

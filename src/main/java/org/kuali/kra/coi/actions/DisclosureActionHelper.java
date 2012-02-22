@@ -20,18 +20,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.CoiReviewer;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
+import org.kuali.kra.coi.disclosure.CoiDisclosureService;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -46,6 +51,9 @@ public class DisclosureActionHelper implements Serializable {
     
     private CoiUserRole newCoiUserRole;
     private CoiDisclosureForm coiDisclosureForm;
+    private CoiDisclosureActionService coiDisclosureActionService;
+    private CoiDisclosureService coiDisclosureService;
+
     private SubmitDisclosureAction submitDisclosureAction;
     private transient BusinessObjectService businessObjectService;
     private transient ParameterService parameterService;
@@ -55,12 +63,15 @@ public class DisclosureActionHelper implements Serializable {
     private boolean approveDisclosure;
     private boolean maintainReviewers;
 
+
     public DisclosureActionHelper(CoiDisclosureForm coiDisclosureForm) {
         this.coiDisclosureForm = coiDisclosureForm;
         newCoiUserRole = new CoiUserRole();
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         parameterService = KraServiceLocator.getService(ParameterService.class);
         taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        coiDisclosureActionService = KraServiceLocator.getService(CoiDisclosureActionService.class);
+        coiDisclosureService = KraServiceLocator.getService(CoiDisclosureService.class);
         submitDisclosureAction = new SubmitDisclosureAction(this);
         kcPersonService = KraServiceLocator.getService(KcPersonService.class);
     }
@@ -155,12 +166,38 @@ public class DisclosureActionHelper implements Serializable {
         return parameterService;
     }
 
+    public CoiDisclosureActionService getCoiDisclosureActionService() {
+        return coiDisclosureActionService;
+    }
+    
+    public CoiDisclosureService getCoiDisclosureService() {
+        return coiDisclosureService;
+    }
+    
     public CoiDisclosureForm getCoiDisclosureForm() {
         return coiDisclosureForm;
     }
     
     public void setCoiDisclosureForm(CoiDisclosureForm coiDisclosureForm) {
         this.coiDisclosureForm = coiDisclosureForm;
+    }
+
+    public boolean approveDisclosure() {
+        boolean approved = false;
+        CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
+        if (StringUtils.isNotBlank(coiDisclosureForm.getCoiDispositionCode())) {
+            AuditActionHelper auditActionHelper = new AuditActionHelper();
+            if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {                
+                getCoiDisclosureActionService().approveDisclosure(coiDisclosureDocument.getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
+                coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
+                        getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
+                approved = true;
+            } 
+        } else {
+            GlobalVariables.getMessageMap().putError("coiDispositionCode", 
+                    KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED);       
+        }  
+        return approved;
     }
 
     public SubmitDisclosureAction getSubmitDisclosureAction() {
