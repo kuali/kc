@@ -20,8 +20,8 @@
 	<div class="tab-container" align="right">
 		<h3>
 			<span class="subhead-left">Special Approval</span>
-			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment" altText="help"/></span>
-		</h3>
+		    <span class="subhead-right"><kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardSpecialApprovalHelpUrl" altText="help"/></span>      
+	</h3>
 	
 		<kra-a:awardApprovedEquipment />
 		<kra-a:awardApprovedForeignTravel />

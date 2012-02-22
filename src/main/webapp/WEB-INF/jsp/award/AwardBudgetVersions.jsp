@@ -37,7 +37,10 @@
 	<c:set var="awardBudgetPage" value="true" scope = "request"/>
   	<kul:tabTop tabTitle="Budget Overview (${KualiForm.document.award.awardIdAccount})" defaultOpen="true" tabErrorKey="budgetParameters*,document.budgetVersionOverview.totalCostLimit" auditCluster="budgetParametersOverviewWarnings,awardBudgetTypeAuditErrors" tabAuditKey="document.budgetVersionOverview.totalCostLimit,document.budget.comments">
 	<div class="tab-container" align="center">
-    	<h3>Budget Overview</h3>
+      <h3>
+    	Budget Overview
+    	<span class="subhead-right"><kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardBudgetOverviewHelpUrl" altText="help"/></span>
+      </h3>
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" /></div></th>

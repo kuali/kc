@@ -26,6 +26,11 @@
   	headerTabActive="awardActions"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
+  	<div align="right">
+  	    <kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardActionsHelpUrl" altText="help"/>    
+</div>
+  	
+  	
   	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
   	<c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request" />
   	<script>

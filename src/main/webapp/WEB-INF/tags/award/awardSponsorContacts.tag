@@ -30,7 +30,7 @@
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Sponsor Contacts</span>
-			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.contacts.AwardSponsorContact" altText="help"/></span>
+         	<span class="subhead-right"><kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardSponsorContactsHelpUrl" altText="help"/></span>
 		</h3>
 	    <table id="sponsor-contacts-table" cellpadding="0" cellspacing="0" summary="Sponsor Contacts">
 			<tr>
