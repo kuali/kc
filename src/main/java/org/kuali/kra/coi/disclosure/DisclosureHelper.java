@@ -192,8 +192,13 @@ public class DisclosureHelper implements Serializable {
         this.canEditDisclosureFinancialEntity = canEditDisclosureFinancialEntity;
     }
     private boolean hasCanEditDisclosureFinancialEntityPermission(CoiDisclosure coiDisclosure) {
-        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.MODIFY_COI_DISCLOSURE, coiDisclosure);
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+        // for now, no one can edit FE's in a master disclosure. So if it's approved, it cannot be edited.
+        if (coiDisclosure.isApprovedDisclosure()) {
+            return false;
+        } else {
+            CoiDisclosureTask task = new CoiDisclosureTask(TaskName.MODIFY_COI_DISCLOSURE, coiDisclosure);
+            return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+        }
     }
 
     public String getConflictHeaderLabel() {
