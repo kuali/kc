@@ -25,8 +25,8 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Award Closeout</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.paymentreports.closeout.AwardCloseout" altText="help"/></span>
-        </h3>
+     	    <span class="subhead-right"><kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardCloseOutHelpUrl" altText="help"/></span>      
+       </h3>
         <table cellpadding="0" cellspacing="0" summary="">
         	<tr>
         		<kul:htmlAttributeHeaderCell attributeEntry="${awardAttributes.archiveLocation}" scope="col" />

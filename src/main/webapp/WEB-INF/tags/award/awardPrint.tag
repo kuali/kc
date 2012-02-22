@@ -50,8 +50,8 @@
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Print</span>
-			<!-- <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.award.contacts.AwardUnitContact" altText="help"/></span>-->
-		</h3>
+	  	    <span class="subhead-right"><kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardPrintHelpUrl" altText="help"/></span>      
+   		</h3>
 	    <table id="print-table" cellpadding="0" cellspacing="0" summary="Print Options">
 			<tr>
 				<th scope="row" style="width:150px; text-align:left;">Award Notice</th>

@@ -25,7 +25,9 @@
   	headerTabActive="specialReview"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
 
-<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Special Review" /></div>
+<div align="right">
+  	    <kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardSpecialReviewHelpUrl" altText="help"/>    
+</div>
 
 <div id="workarea">
 	<kra-specialreview:specialReviewPage businessObjectClassName="org.kuali.kra.award.specialreview.AwardSpecialReview"
