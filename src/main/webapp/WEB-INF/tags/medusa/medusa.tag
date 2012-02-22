@@ -14,7 +14,9 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%@ attribute name="helpIcon" required="false" %>
+<%@ attribute name="helpParameterNamespace" required="false" %>
+<%@ attribute name="helpParameterDetailType" required="false" %>
+<%@ attribute name="helpParameterName" required="false" %>
 	<script src="scripts/jquery/jquery.js"></script>
 	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
 	<link rel="stylesheet" href="css/medusa.css" type="text/css" />
@@ -26,9 +28,11 @@
 	</script>	
 	
 <div class="tab-container"  align="center">
-    <c:if test="${fn:contains(helpIcon,'negotiation')}"> 
-    <span class="subhead-right"><kul:help parameterNamespace="KC-NEGOTIATION" parameterDetailType="Document" parameterName="negotiationMedusaHelp" altText="help"/></span>
-    </c:if>
+    <c:if test="${! empty helpParameterNamespace and ! empty helpParameterDetailType and ! empty helpParameterName}">
+	<span class="subhead-right">
+   		<kul:help parameterNamespace="${helpParameterNamespace}" parameterDetailType="${helpParameterDetailType}" parameterName="${helpParameterName}" altText="help"/>
+	</span>
+	</c:if>
 	<h3> 
 		<span class="subhead-left" style="display: inline;" >Medusa</span>
 		<span class="subhead-right" style="display: inline;" id="treecontrol">
