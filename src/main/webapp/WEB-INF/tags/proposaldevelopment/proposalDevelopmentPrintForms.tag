@@ -20,6 +20,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Print</span>
+    	    <span class="subhead-right"><kul:help parameterNamespace="KC-PD" parameterDetailType="Document" parameterName="proposalDevelopmentPrintFormsHelpUrl" altText="help"/></span>
         </h3>
         <kra-pd:proposalDevelopmentActionsPrintForms />
         <kra-pd:printProposalSponsorForms />

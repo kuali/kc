@@ -29,9 +29,8 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Proposal Hierarchy</span>
-        </h3>
-
-		
+      		<span class="subhead-right"><kul:help parameterNamespace="KC-PD" parameterDetailType="Document" parameterName="proposalHierarchyHelpUrl" altText="help"/></span>
+        </h3>	
 		<table cellpadding="0" cellspacing="0" summary="">
 			<tr>
 				<td colspan="3">
