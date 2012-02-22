@@ -135,7 +135,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
 
         //Following code is commented because of KCINFR-447. Once this is resolved, 
         //the following can be uncommented back
-        /*
+
         retVal = taskAuthorizationService.isAuthorized(negotiator.getPrincipalId(), task);
         assertTrue(retVal);
                 
@@ -144,7 +144,6 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         
         retVal = taskAuthorizationService.isAuthorized(ospAdmin.getPrincipalId(), task);
         assertFalse(retVal);
-        */
     }
         
     
@@ -160,7 +159,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         
         //Following code is commented because of KCINFR-447. Once this is resolved, 
         //the following can be uncommented back
-        /*
+
         retVal = taskAuthorizationService.isAuthorized(negotiator.getPrincipalId(), task);
         assertTrue(retVal);
         
@@ -169,7 +168,6 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
         
         retVal = taskAuthorizationService.isAuthorized(ospAdmin.getPrincipalId(), task);
         assertFalse(retVal);
-        */
     }
     
     @Test
