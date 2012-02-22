@@ -471,9 +471,12 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                     //Check the locks held by the user - detect user's navigation away from one lock region to another
                     //refresh locks as stale ones can exist in the document due to it being in the form
                     document.refreshPessimisticLocks();
+                    Set<String> handledLockDescriptors = new HashSet<String>();
                     for(PessimisticLock lock: document.getPessimisticLocks()) {
-                        if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && StringUtils.isNotEmpty(activeLockRegion) && !lock.getLockDescriptor().contains(activeLockRegion)) {
+                        if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && StringUtils.isNotEmpty(activeLockRegion) && !lock.getLockDescriptor().contains(activeLockRegion)
+                                && !handledLockDescriptors.contains(lock.getLockDescriptor())) {
                             getPessimisticLockService().releaseAllLocksForUser(document.getPessimisticLocks(), user, lock.getLockDescriptor());
+                            handledLockDescriptors.add(lock.getLockDescriptor());
                         }
                     }
                     editMode = getPessimisticLockService().establishLocks(document, editMode, user);
