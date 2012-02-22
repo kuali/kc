@@ -18,6 +18,7 @@ package org.kuali.kra.coi.notesandattachments;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class CoiDisclosureNotepadRuleHelper {
 private final DictionaryValidationService validationService;
@@ -28,7 +29,7 @@ private final DictionaryValidationService validationService;
      * Creates helper deferring the setting of the prefix to later.
      */
     CoiDisclosureNotepadRuleHelper() {
-        this(KraServiceLocator.getService(DictionaryValidationService.class));
+        this(KNSServiceLocator.getKNSDictionaryValidationService());
     }
     
     /**
