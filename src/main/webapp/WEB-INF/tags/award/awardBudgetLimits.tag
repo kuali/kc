@@ -61,7 +61,10 @@ function collapseAll() {
 	      <img src="static/images/jquery/minus.gif"/>Collapse All</a>  
         <table cellpadding=0 cellspacing=0 summary="" width="100%">
             <tr>
-                  <td colspan="${numOfCols}" class="subhead"><span class="subhead-left">Personnel</span></td>
+                  <td colspan="${numOfCols}" class="subhead">
+                  <span class="subhead-left">Personnel</span>
+                  <span class="subhead-right"><kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardBudgetLimitsHelpUrl" altText="help"/></span>
+                 </td>         
             </tr>
             <tr>
                 <th width="10%"><div align="center">Cost Element</div></th>

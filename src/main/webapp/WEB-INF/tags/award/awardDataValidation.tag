@@ -17,7 +17,11 @@
 
 
 
-<kra:dataValidation auditActivated="${KualiForm.auditActivated}" categories="Validation Errors,Warnings" topTab="true">
+<kra:dataValidation auditActivated="${KualiForm.auditActivated}" categories="Validation Errors,Warnings" topTab="true"
+			     	helpParameterNamespace="KC-AWARD" 
+				    helpParameterDetailType="Document" 
+				    helpParameterName="awardDataValidationHelpUrl">
+>
                     <p>You can activate a Validation check to determine any errors or incomplete information. The following Validations types will be determined:</p>
                     <ul>
                       <li>errors that prevent submission into routing</li>

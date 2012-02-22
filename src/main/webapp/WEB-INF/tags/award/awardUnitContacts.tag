@@ -32,10 +32,9 @@
 	tabTitle="Unit Contacts"
 	tabErrorKey="unitContactsBean.newAwardContact.*,unitContactsBean.unitContact.unitAdministratorTypeCode,document.awardList[0].awardUnitContacts*">
 	<div class="tab-container" align="center">
-	<h3><span class="subhead-left">Unit Contacts</span> <span
-		class="subhead-right"><kul:help
-		businessObjectClassName="org.kuali.kra.award.contacts.AwardUnitContact"
-		altText="help" /></span></h3>
+	<h3><span class="subhead-left">Unit Contacts</span>  		
+	<span class="subhead-right"><kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardUnitContactsHelpUrl" altText="help"/></span>
+	</h3>
 	<table id="contacts-table" cellpadding="0" cellspacing="0" summary="Unit Contacts">
 		<tr>
 			<th scope="row" width="5%">&nbsp;</th>
