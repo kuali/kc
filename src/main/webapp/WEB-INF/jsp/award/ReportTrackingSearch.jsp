@@ -36,10 +36,10 @@
       var kualiForm = document.forms['KualiForm'];
       var kualiElements = kualiForm.elements;
     </SCRIPT>
-    <link type="text/css" rel="stylesheet" href="krad/css/global/jquery/jquery.fancybox-1.3.4.css"></link>
+    <link type="text/css" rel="stylesheet" href="krad/plugins/fancybox/jquery.fancybox-1.3.4.css"></link>
     <script type="text/javascript" src="${pageContext.request.contextPath}/dwr/interface/DocumentTypeService.js"></script>
     <script type="text/javascript" src="scripts/jquery/jquery-ui-1.8.16.custom.min.js"></script>
-    <script type="text/javascript" src="krad/scripts/jquery/jquery.fancybox-1.3.4.pack.js"></script>
+    <script type="text/javascript" src="krad/plugins/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
     
     
 	
