@@ -143,9 +143,9 @@ public class FinancialEntitySummaryHelper implements Serializable {
         }
         Map<String, String> dataGroups = getDataGroups();
         currentSummary.setRelationshipDetails(cleanupDetails(currentRelationshipDetails, dataGroups));
-        currentSummary.setAttachmentSummary(generateAttachmentSummary(currentFinancialEntity.getFinEntityAttachments()));
+        currentSummary.setAttachmentSummary(generateAttachmentSummary(currentFinancialEntity.getFinEntityAttachments(), previousFinancialEntity.getFinEntityAttachments()));
         previousSummary.setRelationshipDetails(cleanupDetails(previousRelationshipDetails, dataGroups));
-        previousSummary.setAttachmentSummary(generateAttachmentSummary(previousFinancialEntity.getFinEntityAttachments()));
+        previousSummary.setAttachmentSummary(generateAttachmentSummary(previousFinancialEntity.getFinEntityAttachments(), null));
     }
 
     /**
@@ -227,12 +227,21 @@ public class FinancialEntitySummaryHelper implements Serializable {
         return formattedRelationshipDetails;    
     }
     
-    protected Map<String, String> generateAttachmentSummary(List<FinancialEntityAttachment> attachments) {
+    protected Map<String, String> generateAttachmentSummary(List<FinancialEntityAttachment> attachments, List<FinancialEntityAttachment> prevAttachments) {
         Map<String, String> formattedAttachments = new TreeMap<String, String>();
         for (FinancialEntityAttachment attachment: attachments) {
             String descriptionString = (!StringUtils.isEmpty(attachment.getContactName()) ? " Uploaded by " + attachment.getContactName() : "") +
                                        " at " + attachment.getUpdateTimestamp();
-            formattedAttachments.put(attachment.getFileName(), descriptionString);
+            // check to see if this is a new attachment or has otherwise been changed
+            boolean found = false;
+            if (prevAttachments != null) {
+                for (FinancialEntityAttachment oldAttachment: prevAttachments) {
+                    if (attachment.equals(oldAttachment)) {
+                        found = true;
+                    }
+                }
+            }
+            formattedAttachments.put(found ? attachment.getFileName() : addSpan(attachment.getFileName()), (found ? descriptionString : addSpan(descriptionString)));
         }
         return formattedAttachments;
     }
