@@ -114,7 +114,7 @@
 					<bean:define id="dateRequired" name="KualiForm" property="${iproposalYnq}.reviewDateRequired" />
 					<c:choose>
 					<c:when test="${dateRequired == 'No'}">
-                    	<kul:htmlControlAttribute property="${iproposalYnq}.reviewDate" attributeEntry="${reviewDateAttribute}" disabled="true"/>
+                    	<kul:htmlControlAttribute property="${iproposalYnq}.reviewDate" attributeEntry="${reviewDateAttribute}" disabled="false"/>
       					<img class="nobord" src='${ConfigProperties.kra.externalizable.images.url}cal1.gif' styleClass="tinybutton"/>
 					</c:when>
 					<c:when test="${dateRequired == 'Yes'}">
@@ -123,7 +123,7 @@
 	                	<c:if test="${hasErrors}">
 	                    	<c:set var="styleClass" value="errorField"/>
 	                	</c:if>
-                    	<kul:htmlControlAttribute property="${iproposalYnq}.reviewDate" attributeEntry="${reviewDateAttribute}"  styleClass="${styleClass}" />
+                    	<kul:htmlControlAttribute property="${iproposalYnq}.reviewDate" attributeEntry="${reviewDateAttribute}"  styleClass="${styleClass}" disabled="false"/>
 					</c:when>
 					</c:choose>
                       </span></div>
