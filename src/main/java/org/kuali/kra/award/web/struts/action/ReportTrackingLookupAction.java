@@ -94,6 +94,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
     
     public ActionForward getDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
+        LookupUtils.preProcessRangeFields(lookupForm.getFields());
         Map<String, String> allFields = new HashMap<String, String>(lookupForm.getFields());
         populateAggregateValues(lookupForm.getGroupedByResults().get(lookupForm.getGroupByResultIndex()), allFields, lookupForm.getGroupedByFields());
         List<ReportTracking> detailResults = getReportTrackingDao().getDetailResults(allFields, lookupForm.getDetailFields());
