@@ -180,7 +180,7 @@ public class Boundary {
      * @return Returns the applicableCost.
      */
     public BudgetDecimal getApplicableCost() {
-        return applicableCost;
+        return applicableCost==null?BudgetDecimal.ZERO:applicableCost;
     }
 
     /**
