@@ -46,9 +46,7 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
     private List<ProposalLogPersonMassChange> proposalLogPersonMassChangeList;
     private List<SubawardPersonMassChange> subawardPersonMassChangeList;
     private List<NegotiationPersonMassChange> negotiationPersonMassChangeList;
-    private List<CommitteePersonMassChange> committeePersonMassChangeList;
     private List<ProtocolPersonMassChange> protocolPersonMassChangeList;
-    private List<SchedulePersonMassChange> schedulePersonMassChangeList;
     private List<UnitAdministratorPersonMassChange> unitAdministratorPersonMassChangeList;
     
     public PersonMassChange() {
@@ -86,22 +84,12 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
         NegotiationPersonMassChange newNegotiationPersonMassChange = new NegotiationPersonMassChange();
         newNegotiationPersonMassChange.setPersonMassChange(this);
         negotiationPersonMassChangeList.add(newNegotiationPersonMassChange);
-        
-        committeePersonMassChangeList = new ArrayList<CommitteePersonMassChange>();
-        CommitteePersonMassChange newCommitteePersonMassChange = new CommitteePersonMassChange();
-        newCommitteePersonMassChange.setPersonMassChange(this);
-        committeePersonMassChangeList.add(newCommitteePersonMassChange);
-        
+
         protocolPersonMassChangeList = new ArrayList<ProtocolPersonMassChange>();
         ProtocolPersonMassChange newProtocolPersonMassChange = new ProtocolPersonMassChange();
         newProtocolPersonMassChange.setPersonMassChange(this);
         protocolPersonMassChangeList.add(newProtocolPersonMassChange);
-        
-        schedulePersonMassChangeList = new ArrayList<SchedulePersonMassChange>();
-        SchedulePersonMassChange newSchedulePersonMassChange = new SchedulePersonMassChange();
-        newSchedulePersonMassChange.setPersonMassChange(this);
-        schedulePersonMassChangeList.add(newSchedulePersonMassChange);
-        
+
         unitAdministratorPersonMassChangeList = new ArrayList<UnitAdministratorPersonMassChange>();
         UnitAdministratorPersonMassChange newUnitAdministratorPersonMassChange = new UnitAdministratorPersonMassChange();
         newUnitAdministratorPersonMassChange.setPersonMassChange(this);
@@ -236,14 +224,6 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
         this.negotiationPersonMassChangeList = negotiationPersonMassChangeList;
     }
 
-    public List<CommitteePersonMassChange> getCommitteePersonMassChangeList() {
-        return committeePersonMassChangeList;
-    }
-
-    public void setCommitteePersonMassChangeList(List<CommitteePersonMassChange> committeePersonMassChangeList) {
-        this.committeePersonMassChangeList = committeePersonMassChangeList;
-    }
-
     public List<ProtocolPersonMassChange> getProtocolPersonMassChangeList() {
         return protocolPersonMassChangeList;
     }
@@ -251,15 +231,7 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
     public void setProtocolPersonMassChangeList(List<ProtocolPersonMassChange> protocolPersonMassChangeList) {
         this.protocolPersonMassChangeList = protocolPersonMassChangeList;
     }
-
-    public List<SchedulePersonMassChange> getSchedulePersonMassChangeList() {
-        return schedulePersonMassChangeList;
-    }
-
-    public void setSchedulePersonMassChangeList(List<SchedulePersonMassChange> schedulePersonMassChangeList) {
-        this.schedulePersonMassChangeList = schedulePersonMassChangeList;
-    }
-
+    
     public List<UnitAdministratorPersonMassChange> getUnitAdministratorPersonMassChangeList() {
         return unitAdministratorPersonMassChangeList;
     }
@@ -324,28 +296,12 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
         negotiationPersonMassChangeList.set(0, negotiationPersonMassChange);
     }
 
-    public CommitteePersonMassChange getCommitteePersonMassChange() {
-        return committeePersonMassChangeList.isEmpty() ? null : committeePersonMassChangeList.get(0);
-    }
-
-    public void setCommitteePersonMassChange(CommitteePersonMassChange committeePersonMassChange) {
-        committeePersonMassChangeList.set(0, committeePersonMassChange);
-    }
-
     public ProtocolPersonMassChange getProtocolPersonMassChange() {
         return protocolPersonMassChangeList.isEmpty() ? null : protocolPersonMassChangeList.get(0);
     }
 
     public void setProtocolPersonMassChange(ProtocolPersonMassChange protocolPersonMassChange) {
         protocolPersonMassChangeList.set(0, protocolPersonMassChange);
-    }
-
-    public SchedulePersonMassChange getSchedulePersonMassChange() {
-        return schedulePersonMassChangeList.isEmpty() ? null : schedulePersonMassChangeList.get(0);
-    }
-
-    public void setSchedulePersonMassChange(SchedulePersonMassChange schedulePersonMassChange) {
-        schedulePersonMassChangeList.set(0, schedulePersonMassChange);
     }
 
     public UnitAdministratorPersonMassChange getUnitAdministratorPersonMassChange() {
