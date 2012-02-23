@@ -30,7 +30,7 @@
 <div class="tab-container" align="center">
 	<h3>
 		<span class="subhead-left"><c:out value="${displayName}" /></span>
-		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.CustomAttribute" altText="help"/></span>
+		<span class="subhead-right"><kul:help parameterNamespace="KC-IP" parameterDetailType="Document" parameterName="customData1HelpUrl" altText="help"/></span>
 	</h3>
 	<div align="left" style="padding:12px;"><strong> Full Group Name: </strong>${fullName}</div>
 	<table cellpadding=0 cellspacing="0" class="result-table">
