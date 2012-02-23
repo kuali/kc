@@ -18,8 +18,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class RateClassBaseInclusion extends KraPersistableBusinessObjectBase { 
     
-    private static final long serialVersionUID = 1L;
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 1079390676098311747L;
     private Long rateClassBaseInclusionId; 
     private String rateClassCode; 
     private String rateTypeCode; 
@@ -28,7 +31,14 @@ public class RateClassBaseInclusion extends KraPersistableBusinessObjectBase {
     
     private RateType rateType; 
     private RateType rateTypeInclusion;
+
+    private int rowIndex;
+    private int parentRowIndex;
+    private boolean calculated;
     
+    private Long parentRateClassBaseInclusionId;
+    
+        
     public RateClassBaseInclusion() { 
 
     } 
@@ -97,4 +107,68 @@ public class RateClassBaseInclusion extends KraPersistableBusinessObjectBase {
         this.rateTypeInclusion = rateTypeInclusion;
     }
 
-}
+    /**
+     * Gets the rowIndex attribute. 
+     * @return Returns the rowIndex.
+     */
+    public int getRowIndex() {
+        return rowIndex;
+    }
+
+    /**
+     * Sets the rowIndex attribute value.
+     * @param rowIndex The rowIndex to set.
+     */
+    public void setRowIndex(int rowIndex) {
+        this.rowIndex = rowIndex;
+    }
+
+    /**
+     * Gets the parentRowIndex attribute. 
+     * @return Returns the parentRowIndex.
+     */
+    public int getParentRowIndex() {
+        return parentRowIndex;
+    }
+
+    /**
+     * Sets the parentRowIndex attribute value.
+     * @param parentRowIndex The parentRowIndex to set.
+     */
+    public void setParentRowIndex(int parentRowIndex) {
+        this.parentRowIndex = parentRowIndex;
+    }
+
+    /**
+     * Gets the calculated attribute. 
+     * @return Returns the calculated.
+     */
+    public boolean isCalculated() {
+        return calculated;
+    }
+
+    /**
+     * Sets the calculated attribute value.
+     * @param calculated The calculated to set.
+     */
+    public void setCalculated(boolean calculated) {
+        this.calculated = calculated;
+    }
+
+    /**
+     * Gets the parentRateClassBaseInclusionId attribute. 
+     * @return Returns the parentRateClassBaseInclusionId.
+     */
+    public Long isParentRateClassBaseInclusionId() {
+        return parentRateClassBaseInclusionId;
+    }
+
+    /**
+     * Sets the parentRateClassBaseInclusionId attribute value.
+     * @param parentRateClassBaseInclusionId The parentRateClassBaseInclusionId to set.
+     */
+    public void setParentRateClassBaseInclusionId(Long parentRateClassBaseInclusionId) {
+        this.parentRateClassBaseInclusionId = parentRateClassBaseInclusionId;
+    }
+
+ }

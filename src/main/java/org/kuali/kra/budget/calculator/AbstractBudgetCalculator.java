@@ -638,19 +638,15 @@ public abstract class AbstractBudgetCalculator {
         int rateNumber = 0;
         List<BreakUpInterval> cvLIBreakupIntervals = getBreakupIntervals();
         for (BreakUpInterval breakUpInterval : cvLIBreakupIntervals) {
-            // QueryList cvRateBaseData = new QueryList();
             breakUpInterval.setRateNumber(rateNumber);
-            breakUpInterval.calculateBreakupInterval();
-            // if(breakUpInterval.getRateBase()!= null && breakUpInterval.getRateBase().size() >0){
-            // cvRateBaseData.addAll(breakUpInterval.getRateBase());
-            // rateNumber += breakUpInterval.getRateAndCosts().size();
-            // }
+            getBreakupIntervalService().calculate(breakUpInterval);
+//            breakUpInterval.calculateBreakupInterval();
         }
-        // cvRateBase = queryEngine.getDetails(key,BudgetRateBaseBean.class);
-        // cvRateBase.addAll(cvRateBaseData);
-        // queryEngine.addCollection(key,BudgetRateBaseBean.class,cvRateBase);
     }
 
+    private BreakupIntervalService getBreakupIntervalService() {
+        return KraServiceLocator.getService(BreakupIntervalService.class);
+    }
     protected List<ValidCalcType> getValidCalcTypes() {
         return (List<ValidCalcType>) businessObjectService.findAll(ValidCalcType.class);
     }
