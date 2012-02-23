@@ -305,8 +305,7 @@
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="20" />
+            <bean parent="HiddenControlDefinition"/>
         </property>
         <property name="summary" value="Select Box 1" />
         <property name="description" value="Select Box 1" />
