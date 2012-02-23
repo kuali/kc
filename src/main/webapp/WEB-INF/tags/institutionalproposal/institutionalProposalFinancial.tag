@@ -25,7 +25,7 @@
 
 <h3>
 	<span class="subhead-left">Account Info</span>
-	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" altText="help"/></span>
+    <span class="subhead-right"><kul:help parameterNamespace="KC-IP" parameterDetailType="Document" parameterName="accountInfoHelpUrl" altText="help"/></span>
 </h3>
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>
@@ -43,7 +43,7 @@
 
 <h3>
 	<span class="subhead-left">Project Periods and Amounts</span>
-	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" altText="help"/></span>
+    <span class="subhead-right"><kul:help parameterNamespace="KC-IP" parameterDetailType="Document" parameterName="projectPeriodsAndAmountsHelpUrl" altText="help"/></span>
 </h3>
 <table cellpAdding="0" cellspacing="0" summary="">
 	<tr>
