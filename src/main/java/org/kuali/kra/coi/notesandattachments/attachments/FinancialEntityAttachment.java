@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
@@ -227,6 +228,37 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
         }
         return true;
     }
+
+    public boolean matches(FinancialEntityAttachment other) {
+        if (this == other) {
+            return true;
+        }
+        else if (!this.getFileId().equals(other.getFileId())) {
+            return false;
+        }
+        else if (!StringUtils.equals(this.getUpdateUserFullName(), other.getUpdateUserFullName())) {
+            return false;
+        }
+        else if (!StringUtils.equals(this.getDescription(), other.getDescription())) {
+            return false;
+        }
+        else if (!StringUtils.equals(this.getContactName(), other.getContactName())) {
+            return false;
+        }
+        else if (!StringUtils.equals(this.getContactEmailAddress(), other.getContactEmailAddress())) {
+            return false;
+        }
+        else if (!StringUtils.equals(this.getContactPhoneNumber(), other.getContactPhoneNumber())) {
+            return false;
+        }
+        else if (!StringUtils.equals(this.getComments(), other.getComments())) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    
     
     /** {@inheritDoc} */
     @Override
@@ -256,10 +288,8 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
     public void prePersist() {
         super.prePersist();
         if (getAttachmentFile() != null) {
-System.out.println("\nFFFFFF file ID before = " + getAttachmentFile().getId());        
             KraServiceLocator.getService(BusinessObjectService.class).save(getAttachmentFile());
             getAttachmentFile().refreshReferenceObject("id");   
-System.out.println("\nFFFFFF file ID after = " + getAttachmentFile().getId());        
             setFileId(getAttachmentFile().getId());
         }
     }
