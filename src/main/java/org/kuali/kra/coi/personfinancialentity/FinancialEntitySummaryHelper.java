@@ -243,6 +243,20 @@ public class FinancialEntitySummaryHelper implements Serializable {
             }
             formattedAttachments.put(found ? attachment.getFileName() : addSpan(attachment.getFileName()), (found ? descriptionString : addSpan(descriptionString)));
         }
+        // now work backwards to see if any attachments have been deleted
+        if (prevAttachments != null) {
+            for (FinancialEntityAttachment oldAttachment: prevAttachments) {
+                boolean found = false;
+                for (FinancialEntityAttachment newAttachment: attachments) {
+                    if (oldAttachment.getFileId().equals(newAttachment.getFileId())) {
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    formattedAttachments.put(addSpan(oldAttachment.getFileName()), addSpan("deleted"));
+                }
+            }
+        }
         return formattedAttachments;
     }
     
