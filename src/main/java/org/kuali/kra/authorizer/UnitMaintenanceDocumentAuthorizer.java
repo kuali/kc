@@ -49,9 +49,12 @@ public class UnitMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthor
         
         String personId = getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId()).getPersonId();
         boolean hasModifyPermission = getUnitAuthorizationService().hasPermission(personId, "KC-UNT", PermissionConstants.MODIFY_UNIT);
-        
+        boolean hasAddPermission = getUnitAuthorizationService().hasPermission(personId, "KC-UNT", PermissionConstants.ADD_UNIT);
+
         if (hasModifyPermission) {
             documentActions = getDocumentActionsWithModifyPermission(document);
+        } else if (hasAddPermission) {
+            documentActions = getDocumentActionsWithAddPermission(document);
         } else {
             documentActions = getDocumentActionsWithViewPermission(document);
         }
@@ -73,7 +76,28 @@ public class UnitMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthor
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
         }
         return documentActions;
-
+    }
+    
+    private Set<String> getDocumentActionsWithAddPermission(Document document) {
+        Set<String> documentActions = new HashSet<String>();
+        String maintenanceAction = ((MaintenanceDocumentBase) document).getNewMaintainableObject().getMaintenanceAction();
+        if (document.getDocumentHeader().getWorkflowDocument().isInitiated()) {
+            if (maintenanceAction.equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
+                throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Copy", UNIT);
+            } else {
+                documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
+                documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
+                documentActions.add(KRADConstants.KUALI_ACTION_CAN_SAVE);
+                documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
+                documentActions.add(KRADConstants.KUALI_ACTION_CAN_CANCEL);
+                documentActions.add(KRADConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
+                documentActions.add(KRADConstants.KUALI_ACTION_CAN_ROUTE);
+            }
+        } else {
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_RELOAD);
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
+        }
+        return documentActions;
     }
 
     private Set<String> getDocumentActionsWithViewPermission(Document document) {
@@ -93,7 +117,6 @@ public class UnitMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthor
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
         }
         return documentActions;
-
     }
     
     public KcPersonService getKcPersonService() {
