@@ -115,7 +115,7 @@
             </tr>            
             <tr>
                 <th align="right" valign="middle">
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.dateField1}" />
+                   <span><kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.dateField1}" /></span>
                 </th>
                 <td align="left" valign="middle" colspan="2" >
                     <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.dateField1" 
@@ -124,7 +124,7 @@
             </tr>
             <tr>
                 <th align="right" valign="middle" >
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.dateField2}" />
+                   <span><kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.dateField2}" /></span>
                 </th>
                <td align="left" valign="middle" colspan="2" >
                        <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.dateField2" 
@@ -137,9 +137,10 @@
                     <span><kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.selectBox1}" /></span>
                 </th>
                 <td align="left" valign="middle" colspan="2" >
-                    <input type="hidden" name="selectBox1-placeholder" id="selectBox1-placeholder"
+                    ${kfunc:registerEditableProperty(KualiForm, "disclosureHelper.newCoiDisclProject.selectBox1")}
+                    <input type="hidden" name="disclosureHelper.newCoiDisclProject.selectBox1" id="disclosureHelper.newCoiDisclProject.selectBox1"
                               value="${disclosureHelpler.newCoiDisclProject.selectBox1}" />
-                    <select name="disclosureHelper.newCoiDisclProject.selectBox1" id="disclosureHelper.newCoiDisclProject.selectBox1">
+                    <select name="selectBox1-placeholder" id="selectBox1-placeholder" onchange="setSelectBox1Value(this)">
                     </select>
                 </td>
             </tr>

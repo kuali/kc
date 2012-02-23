@@ -147,7 +147,7 @@
                                      $j("#newpEvent-table tr:eq(6)").hide();                              	 
                                  }
                                  
-                                 if (data.disclosureEventType.longTextField3) {
+                                 if (data.disclosureEventType.useLongTextField3) {
                                      $j("#newpEvent-table tr:eq(7)").show();
                                      if (data.disclosureEventType.requireLongTextField3) {
                                          $j("#newpEvent-table tr:eq(7) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.longTextField3Label + ":");
@@ -169,9 +169,9 @@
                                      $j("#newpEvent-table tr:eq(8)").hide();                           
                                  }
                                  
-                                 if (data.disclosureEventType.longTextField3) {
+                                 if (data.disclosureEventType.useDateField1) {
                                      $j("#newpEvent-table tr:eq(9)").show();
-                                     if (data.disclosureEventType.requireLongTextField3) {
+                                     if (data.disclosureEventType.requireDateField1) {
                                          $j("#newpEvent-table tr:eq(9) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.dateField1Label + ":");
                                      } else {
                                          $j("#newpEvent-table tr:eq(9) th:eq(0) span").html(data.disclosureEventType.dateField1Label + ":");
@@ -180,9 +180,9 @@
                                      $j("#newpEvent-table tr:eq(9)").hide();
                                  }
                                  
-                                 if (data.disclosureEventType.useNumberField2) {
+                                 if (data.disclosureEventType.useDateField2) {
                                      $j("#newpEvent-table tr:eq(10)").show();
-                                     if (data.disclosureEventType.requireNumberField2) {
+                                     if (data.disclosureEventType.requireDateField2) {
                                          $j("#newpEvent-table tr:eq(10) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.dateField2Label +":");
                                      } else {
                                          $j("#newpEvent-table tr:eq(10) th:eq(0) span").html(data.disclosureEventType.dateField2Label +":");
@@ -199,8 +199,8 @@
                                          $j("#newpEvent-table tr:eq(11) th:eq(0) span").html(data.disclosureEventType.selectBox1Label +":");
                                      }
                                      
-                                     var mySelectValue = document.getElementById("selectBox1-placeholder");
-                                     var mySelect = document.getElementById("disclosureHelper.newCoiDisclProject.selectBox1");
+                                     var mySelect = document.getElementById("selectBox1-placeholder");
+                                     var mySelectValue = document.getElementById("disclosureHelper.newCoiDisclProject.selectBox1");
                                      mySelect.options.length = 0;
                                      
                                      mySelect.options[mySelect.length]=new Option("select", "", true, false);
@@ -231,6 +231,11 @@
                 $j("#newpEvent-table tr:eq(9)").hide();                   
                 $j("#newpEvent-table tr:eq(10)").hide();
                 $j("#newpEvent-table tr:eq(11)").hide();                   
+            }
+            
+            function setSelectBox1Value(selectBox) {
+            	var hiddenEl = document.getElementById("disclosureHelper.newCoiDisclProject.selectBox1");
+            	hiddenEl.value = selectBox.value;
             }
         </script>
  
