@@ -80,29 +80,29 @@
         	       $j.getJSON("coiDisclosure.do?methodToCall=getDisclosureEventTypeInfo&eventType=" + eventTypeValue,
         			         function(data) {
         		                 //alert("JSON data: " + data.useShortTextField1);
-        		                 
-        		                 if (data.disclosureEventType.useShortTextField1) {
+               
+        		                 if (data.disclosureEventType.useLongTextField1) {
                                      $j("#newpEvent-table tr:eq(1)").show();
-                                     if (data.disclosureEventType.requireShortTextField1) {
-        		                         $j("#newpEvent-table tr:eq(1) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.shortTextField1Label + ":");
+                                     if (data.disclosureEventType.requireLongTextField1) {
+                                         $j("#newpEvent-table tr:eq(1) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.longTextField1Label + ":");
                                      } else {
-                                    	 $j("#newpEvent-table tr:eq(1) th:eq(0) span").html(data.disclosureEventType.shortTextField1Label + ":");
+                                         $j("#newpEvent-table tr:eq(1) th:eq(0) span").html(data.disclosureEventType.longTextField1Label + ":");
                                      }
         		                 } else {
                                      $j("#newpEvent-table tr:eq(1)").hide();
         		                 }
         		                 
-        		                 if (data.disclosureEventType.useLongTextField1) {
+                                 if (data.disclosureEventType.useShortTextField1) {
                                      $j("#newpEvent-table tr:eq(2)").show();
-                                     if (data.disclosureEventType.requireLongTextField1) {
-                                         $j("#newpEvent-table tr:eq(2) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.longTextField1Label + ":");
+                                     if (data.disclosureEventType.requireShortTextField1) {
+                                         $j("#newpEvent-table tr:eq(2) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.shortTextField1Label + ":");
                                      } else {
-                                         $j("#newpEvent-table tr:eq(2) th:eq(0) span").html(data.disclosureEventType.longTextField1Label + ":");
+                                         $j("#newpEvent-table tr:eq(2) th:eq(0) span").html(data.disclosureEventType.shortTextField1Label + ":");
                                      }
-        		                 } else {
+                                 } else {
                                      $j("#newpEvent-table tr:eq(2)").hide();
-        		                 }
-        		                 
+                                 }       
+		                 
                                  if (data.disclosureEventType.useShortTextField3) {
                                      $j("#newpEvent-table tr:eq(3)").show();
                                      if (data.disclosureEventType.requireShortTextField3) {

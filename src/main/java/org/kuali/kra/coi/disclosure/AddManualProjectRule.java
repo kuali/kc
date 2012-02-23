@@ -17,15 +17,20 @@ package org.kuali.kra.coi.disclosure;
 
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclProject;
+import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -34,89 +39,71 @@ public class AddManualProjectRule extends ResearchDocumentRuleBase implements Bu
     
     @Override
     public boolean processRules(AddManualProjectEvent event) {
-
+        boolean valid = true;
         CoiDisclProject coiDisclProject = event.getCoiDisclProject();
         GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
 
-        /*
-        boolean valid = validateRequiredFields(coiDisclProject);
-
-
-        if (coiDisclProject.isProposalEvent()) {
-            if (coiDisclProject.getDateField1() != null && coiDisclProject.getDateField2() != null) {
-                if (coiDisclProject.getDateField1().after(coiDisclProject.getDateField2())) {
-                    valid = false;
-                    GlobalVariables.getMessageMap().putError(
-                            "coiProjectStartDate",
-                            KeyConstants.ERROR_START_DATE_AFTER_END_DATE,
-                            new String[] {
-                                    dataDictionaryService.getAttributeErrorLabel(CoiDisclProject.class, "coiProjectStartDate"),
-                                    dataDictionaryService.getAttributeErrorLabel(CoiDisclProject.class, "coiProjectEndDate") });
-                }
-            }
-        }
-        if (StringUtils.isNotBlank(coiDisclProject.getShortTextField1())) {
-            valid &= validateUniqueProjectId(coiDisclProject);
-        }
-        return valid;
-        */
-        return true;
-    }
-    
-    private boolean validateUniqueProjectId(CoiDisclProject coiDisclProject) {
-        boolean valid = true;
-        /*
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("coiDisclosureNumber", coiDisclProject.getCoiDisclosureNumber());
-        fieldValues.put("sequenceNumber", coiDisclProject.getSequenceNumber());
-        fieldValues.put("shortTextField1", coiDisclProject.getShortTextField1());
-
-        if (getBusinessObjectService().countMatching(CoiDisclProject.class, fieldValues) > 0) {
-            valid = false;
-            GlobalVariables.getMessageMap().putError("coiProjectId", KeyConstants.ERROR_COI_DUPLICATE_PROJECT_ID);
-
-        }
-        else {
-            for (CoiDisclProject disclProject : coiDisclProject.getCoiDisclosure().getCoiDisclProjects()) {
-                if (StringUtils.equals(disclProject.getShortTextField1(), coiDisclProject.getShortTextField1())) {
-                    valid = false;
-                    GlobalVariables.getMessageMap().putError("coiProjectId", KeyConstants.ERROR_COI_DUPLICATE_PROJECT_ID);
-                    break;
-                }
-            }
-        }
-        */
-        return valid;
+        String eventTypeId = coiDisclProject.getDisclosureEventType();
         
+        if (StringUtils.isNotBlank(eventTypeId)) {
+            CoiDisclosureEventType disclosureEventType = getDisclosureEventType(eventTypeId);
+            if (disclosureEventType != null) {
+                valid = validateRequiredFields(coiDisclProject, disclosureEventType);
+            }
+        } else {
+            GlobalVariables.getMessageMap().putError("disclosureEventType", RiceKeyConstants.ERROR_REQUIRED, "Event Type (Event Type)" );
+            valid = false;
+        }
+
+        return valid;
     }
     
-    private boolean validateRequiredFields(CoiDisclProject coiDisclProject) {
+    
+    
+    private boolean validateRequiredFields(CoiDisclProject coiDisclProject, CoiDisclosureEventType disclosureEventType) {
         boolean valid = true;
-        /*
-        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
-        valid &= validateRequiredField("disclosureEventType", coiDisclProject.getDisclosureEventType(),
-                dataDictionaryService.getAttributeErrorLabel(CoiDisclProject.class, "disclosureEventType"));
-        valid &= validateRequiredField("coiProjectId", coiDisclProject.getShortTextField1(), coiDisclProject.getProjectIdLabel());
-        valid &= validateRequiredField("coiProjectTitle", coiDisclProject.getLongTextField1(),
-                coiDisclProject.getProjectTitleLabel());
-        if (StringUtils.isNotBlank(coiDisclProject.getDisclosureEventType())) {
-            if (!coiDisclProject.isAwardEvent()) {
-                valid &= validateRequiredField("coiProjectType", coiDisclProject.getShortTextField2(),
-                        coiDisclProject.getProjectTypeLabel());
-            }
-            if (!coiDisclProject.isProtocolEvent()) {
-                valid &= validateRequiredDateField("coiProjectStartDate", coiDisclProject.getDateField1(),
-                        coiDisclProject.getProjectStartDateLabel());
-            }
-            if (coiDisclProject.isProposalEvent()) {
-                valid &= validateRequiredDateField("coiProjectEndDate", coiDisclProject.getDateField2(),
-                        dataDictionaryService.getAttributeErrorLabel(CoiDisclProject.class, "coiProjectEndDate"));
-                valid &= validateRequiredField("coiProjectSponsor", coiDisclProject.getLongTextField2(),
-                        dataDictionaryService.getAttributeErrorLabel(CoiDisclProject.class, "coiProjectSponsor"));
-            }
+
+        if (disclosureEventType.isUseShortTextField1() && disclosureEventType.isRequireShortTextField1()) {
+            valid = valid && validateRequiredField("shortTextField1", coiDisclProject.getShortTextField1(), disclosureEventType.getShortTextField1Label());
         }
-        */
+        
+        if (disclosureEventType.isUseShortTextField2() && disclosureEventType.isRequireShortTextField2()) {
+            valid = valid && validateRequiredField("shortTextField2", coiDisclProject.getShortTextField2(), disclosureEventType.getShortTextField2Label());
+        }
+
+        if (disclosureEventType.isUseShortTextField3() && disclosureEventType.isRequireShortTextField3()) {
+            valid = valid && validateRequiredField("shortTextField3", coiDisclProject.getShortTextField3(), disclosureEventType.getShortTextField3Label());
+        }
+
+        if (disclosureEventType.isUseLongTextField1() && disclosureEventType.isRequireLongTextField1()) {
+            valid = valid && validateRequiredField("longTextField1", coiDisclProject.getLongTextField1(), disclosureEventType.getLongTextField1Label());
+        }
+
+        if (disclosureEventType.isUseLongTextField2() && disclosureEventType.isRequireLongTextField2()) {
+            valid = valid && validateRequiredField("longTextField2", coiDisclProject.getLongTextField2(), disclosureEventType.getLongTextField2Label());
+        }
+
+        if (disclosureEventType.isUseLongTextField3() && disclosureEventType.isRequireLongTextField3()) {
+            valid = valid && validateRequiredField("longTextField3", coiDisclProject.getLongTextField3(), disclosureEventType.getLongTextField3Label());
+        }
+
+        if (disclosureEventType.isUseDateField1() && disclosureEventType.isRequireDateField1()) {
+            valid = valid && validateRequiredDateField("dateField1", coiDisclProject.getDateField1(), disclosureEventType.getDateField1Label());
+        }
+        
+        if (disclosureEventType.isUseDateField2() && disclosureEventType.isRequireDateField2()) {
+            valid = valid && validateRequiredDateField("dateField2", coiDisclProject.getDateField2(), disclosureEventType.getDateField2Label());
+        }
+
+        if (disclosureEventType.isUseNumberField1() && disclosureEventType.isRequireNumberField1()) {
+            valid = valid && validateRequiredNumberField("numberField1", coiDisclProject.getNumberField1(), disclosureEventType.getNumberField1Label());
+        }
+
+        if (disclosureEventType.isUseNumberField2() && disclosureEventType.isRequireNumberField2()) {
+            valid = valid && validateRequiredNumberField("numberField2", coiDisclProject.getNumberField2(), disclosureEventType.getNumberField2Label());
+        }
+        
         return valid;
     }
     
@@ -137,6 +124,28 @@ public class AddManualProjectRule extends ResearchDocumentRuleBase implements Bu
             GlobalVariables.getMessageMap().putError(fieldName, RiceKeyConstants.ERROR_REQUIRED, fieldLabel + " (" + fieldLabel + ")" );
         }
         return valid;
-
     }
+
+    private boolean validateRequiredNumberField(String fieldName, KualiDecimal fieldValue, String fieldLabel) {
+        boolean valid = true;
+        if (fieldValue != null) {
+            valid = false;
+            GlobalVariables.getMessageMap().putError(fieldName, RiceKeyConstants.ERROR_REQUIRED, fieldLabel + " (" + fieldLabel + ")" );
+        }
+        return valid;
+    }    
+    
+    private CoiDisclosureEventType getDisclosureEventType(String eventTypeId) {
+        CoiDisclosureEventType discEventType = null;
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("eventTypeCode", eventTypeId);
+
+        List<CoiDisclosureEventType> disclEventTypes = (List<CoiDisclosureEventType>)getBusinessObjectService().findMatching(CoiDisclosureEventType.class, fieldValues);
+        if (CollectionUtils.isNotEmpty(disclEventTypes)) {
+            discEventType = disclEventTypes.get(0);
+        }
+        
+        return discEventType;
+    }
+    
 }

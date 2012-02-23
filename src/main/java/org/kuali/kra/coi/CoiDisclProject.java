@@ -256,11 +256,12 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
 
     }
     public ProtocolType getProtocolType() {
-        if (StringUtils.isNotBlank(shortTextField2) && protocolType == null) {
+        if (StringUtils.isNotBlank(selectBox1) && protocolType == null) {
             this.refreshReferenceObject("protocolType");
         }
         return protocolType;
     }
+    
     public void setProtocolType(ProtocolType protocolType) {
         this.protocolType = protocolType;
     }

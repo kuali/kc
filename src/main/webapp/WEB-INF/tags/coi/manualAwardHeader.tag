@@ -22,7 +22,7 @@
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
                 <div>
                 <h3>
-    		        <span class="subhead-left"  style="${style}">Award Number: ${disclProject.coiProjectId}</span>
+    		        <span class="subhead-left"  style="${style}">Award Number: ${disclProject.shortTextField1}</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
               
@@ -33,18 +33,18 @@
                                     <th><div align="right">Title:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					    ${disclProject.coiProjectTitle}
+					    ${disclProject.longTextField1}
 					    <%-- 
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectTitle" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].longTextField1" readOnly="true" attributeEntry="${coiDisclProjectAttributes.longTextField1}" /> 
                         --%>
 					</div>
 				  </td>
                                     <th><div align="right">Award Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					    ${disclProject.coiProjectStartDate}
+					    ${disclProject.dateField1}
 					    <%-- 
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiProjectStartDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].dateField1" readOnly="true" attributeEntry="${coiDisclProjectAttributes.dateField1}" /> 
                         --%>
 					</div>
 				  </td>
