@@ -128,7 +128,7 @@ public class AddManualProjectRule extends ResearchDocumentRuleBase implements Bu
 
     private boolean validateRequiredNumberField(String fieldName, KualiDecimal fieldValue, String fieldLabel) {
         boolean valid = true;
-        if (fieldValue != null) {
+        if (fieldValue == null) {
             valid = false;
             GlobalVariables.getMessageMap().putError(fieldName, RiceKeyConstants.ERROR_REQUIRED, fieldLabel + " (" + fieldLabel + ")" );
         }
