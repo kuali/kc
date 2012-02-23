@@ -7,9 +7,7 @@
 <c:set var="proposalLogAttributes" value="${DataDictionary.ProposalLog.attributes}" />
 <c:set var="subawardAttributes" value="${DataDictionary.SubAward.attributes}" />
 <c:set var="negotiationAttributes" value="${DataDictionary.Negotiation.attributes}" />
-<c:set var="committeeAttributes" value="${DataDictionary.Committee.attributes}" />
 <c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
-<c:set var="scheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
 <c:set var="unitAdministratorAttributes" value="${DataDictionary.UnitAdministrator.attributes}" />
 <c:set var="unitAdministratorTypeAttributes" value="${DataDictionary.UnitAdministratorType.attributes}" />
 <c:set var="action" value="personMassChangeView" />
@@ -185,30 +183,6 @@
 	            </table>
 	        </div>
 	    </kul:innerTab>
-	
-	    <kul:innerTab parentTab="${parentTab}" tabTitle="Committee ${tabTitle}" defaultOpen="false" >
-	        <div class="tab-container" align="center">
-	            <table cellpadding="4" cellspacing="0" summary="">
-	                <tr>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeId}" /></div></th>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeName}" /></div></th>
-	                </tr>
-	                <c:if test="${empty KualiForm.personMassChangeViewHelper.committeeChangeCandidates}">
-                       <tr>
-                           <td colspan="2"><div align="center"><c:out value="${KualiForm.personMassChangeViewHelper.emptyCandidatesMessage}" /></div></td>
-                       </tr>
-                    </c:if>
-	                <c:forEach var="committeeChangeCandidate" items="${KualiForm.personMassChangeViewHelper.committeeChangeCandidates}" varStatus="status">
-	                    <tr>
-	                        <td style="width:50%"><kul:htmlControlAttribute property="personMassChangeViewHelper.committeeChangeCandidates[${status.index}].committeeId" 
-	                                                                        attributeEntry="${committeeAttributes.committeeId}" readOnly="true" /></td>
-	                        <td style="width:50%"><kul:htmlControlAttribute property="personMassChangeViewHelper.committeeChangeCandidates[${status.index}].committeeName" 
-	                                                                        attributeEntry="${committeeAttributes.committeeName}" readOnly="true" /></td>
-	                    </tr>
-	                </c:forEach>
-	            </table>
-	        </div>
-	    </kul:innerTab>
 	    
 	    <kul:innerTab parentTab="${parentTab}" tabTitle="Protocol ${tabTitle}" defaultOpen="false" >
 	        <div class="tab-container" align="center">
@@ -228,30 +202,6 @@
 	                                                                        attributeEntry="${protocolAttributes.protocolNumber}" readOnly="true" /></td>
 	                        <td style="width:50%"><kul:htmlControlAttribute property="personMassChangeViewHelper.protocolChangeCandidates[${status.index}].title" 
 	                                                                        attributeEntry="${protocolAttributes.title}" readOnly="true" /></td>
-	                    </tr>
-	                </c:forEach>
-	            </table>
-	        </div>
-	    </kul:innerTab>
-	    
-	    <kul:innerTab parentTab="${parentTab}" tabTitle="Schedule ${tabTitle}" defaultOpen="false" >
-	        <div class="tab-container" align="center">
-	            <table cellpadding="4" cellspacing="0" summary="">
-	                <tr>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${scheduleAttributes.id}" /></div></th>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${scheduleAttributes.scheduleId}" /></div></th>
-	                </tr>
-	                <c:if test="${empty KualiForm.personMassChangeViewHelper.scheduleChangeCandidates}">
-                       <tr>
-                           <td colspan="2"><div align="center"><c:out value="${KualiForm.personMassChangeViewHelper.emptyCandidatesMessage}" /></div></td>
-                       </tr>
-                    </c:if>
-	                <c:forEach var="scheduleChangeCandidate" items="${KualiForm.personMassChangeViewHelper.scheduleChangeCandidates}" varStatus="status">
-	                    <tr>
-	                        <td style="width:50%"><kul:htmlControlAttribute property="personMassChangeViewHelper.scheduleChangeCandidates[${status.index}].id" 
-	                                                                        attributeEntry="${scheduleAttributes.id}" readOnly="true" /></td>
-	                        <td style="width:50%"><kul:htmlControlAttribute property="personMassChangeViewHelper.scheduleChangeCandidates[${status.index}].scheduleId" 
-	                                                                        attributeEntry="${scheduleAttributes.scheduleId}" readOnly="true" /></td>
 	                    </tr>
 	                </c:forEach>
 	            </table>
