@@ -48,6 +48,7 @@ public class PaymentScheduleBean implements Serializable {
      */
     public PaymentScheduleBean(AwardForm form) {
         this.form = form;
+        init();
     }
     
     /**
