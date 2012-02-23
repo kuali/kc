@@ -7,7 +7,7 @@ VALUES ('KC-PD','Document','proposalDevelopmentpersonnelattachmentsHelpUrl',SYS_
 INSERT INTO KRCR_PARM_T (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
 VALUES ('KC-PD','Document','proposalDevelopmentinternalattachmentsHelpUrl',SYS_GUID(),1,'HELP','default.htm?turl=Documents/internalattachments.htm','PD Internal Attachment Document Help','A','KC')
 /
-INSERT INTO KRCR_PARM_TKRCR_PARM_T (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+INSERT INTO KRCR_PARM_T (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
 VALUES ('KC-PD','Document','proposalDevelopmentnotesHelpUrl',SYS_GUID(),1,'HELP','default.htm?turl=Documents/notes.htm','PD Notes Document Help','A','KC')
 /
 INSERT INTO KRCR_PARM_T (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
