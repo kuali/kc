@@ -23,6 +23,15 @@ import org.kuali.kra.budget.BudgetDecimal;
  *
  */
 public class RateAndCost{
+    @Override
+    public String toString() {
+        return "RateAndCost [rateClassType=" + rateClassType + ", rateClassCode=" + rateClassCode + ", rateTypeCode="
+                + rateTypeCode + ", applyRateFlag=" + applyRateFlag + ", appliedRate=" + appliedRate + ", calculatedCost="
+                + calculatedCost + ", calculatedCostSharing=" + calculatedCostSharing + ", underRecovery=" + underRecovery
+                + ", baseAmount=" + baseAmount + ", baseCostSharingAmount=" + baseCostSharingAmount + ", calculated=" + calculated
+                + "]";
+    }
+
     private String rateClassType;
     private String rateClassCode; 
     private String rateTypeCode; 
@@ -33,7 +42,7 @@ public class RateAndCost{
     private BudgetDecimal underRecovery; 
     private BudgetDecimal baseAmount;
     private BudgetDecimal baseCostSharingAmount;
-    
+    private boolean calculated;
 
     /** Getter for property rateClassCode.
      * @return Value of property rateClassCode.
@@ -123,7 +132,7 @@ public class RateAndCost{
      * @return Value of property underRecovery.
      */
     public BudgetDecimal getUnderRecovery() {
-        return underRecovery;
+        return underRecovery==null?BudgetDecimal.ZERO:underRecovery;
     }
     
     /** Setter for property underRecovery.
@@ -165,7 +174,7 @@ public class RateAndCost{
      * @return Value of property baseAmount.
      */
     public BudgetDecimal getBaseAmount() {
-        return baseAmount;
+        return baseAmount==null?BudgetDecimal.ZERO:baseAmount;
     }
     
     /**
@@ -181,7 +190,7 @@ public class RateAndCost{
      * @return Returns the baseCostSharingAmount.
      */
     public BudgetDecimal getBaseCostSharingAmount() {
-        return baseCostSharingAmount;
+        return baseCostSharingAmount==null?BudgetDecimal.ZERO:baseCostSharingAmount;
     }
 
     /**
@@ -190,6 +199,22 @@ public class RateAndCost{
      */
     public void setBaseCostSharingAmount(BudgetDecimal baseCostSharingAmount) {
         this.baseCostSharingAmount = baseCostSharingAmount;
+    }
+
+    /**
+     * Gets the calculated attribute. 
+     * @return Returns the calculated.
+     */
+    public boolean isCalculated() {
+        return calculated;
+    }
+
+    /**
+     * Sets the calculated attribute value.
+     * @param calculated The calculated to set.
+     */
+    public void setCalculated(boolean calculated) {
+        this.calculated = calculated;
     }
     
  }

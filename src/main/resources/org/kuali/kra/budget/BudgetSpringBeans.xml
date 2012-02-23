@@ -561,4 +561,7 @@
 			</bean>
 		</property>
 	</bean>
+	<bean id="breakupIntervalService" class="org.kuali.kra.budget.calculator.BreakupIntervalServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>	
 </beans>
