@@ -35,7 +35,7 @@
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Project Personnel</span>
-			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" altText="help"/></span>
+    		<span class="subhead-right"><kul:help parameterNamespace="KC-IP" parameterDetailType="Document" parameterName="projectPersonnel1HelpUrl" altText="help"/></span>
 		</h3>
 		
 		<table id="contacts-table" cellpadding="0" cellspacing="0" summary="Project Personnel">

@@ -22,6 +22,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Graduate Students</span>
+      		<span class="subhead-right"><kul:help parameterNamespace="KC-IP" parameterDetailType="Document" parameterName="graduateStudentsHelpUrl" altText="help"/></span>
         </h3>
         <table id="Graduate-Students" cellpadding="0" cellspacing="0" summary="Graduate Students">
         	<tr>
