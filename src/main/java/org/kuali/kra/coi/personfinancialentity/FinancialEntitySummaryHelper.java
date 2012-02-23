@@ -236,7 +236,7 @@ public class FinancialEntitySummaryHelper implements Serializable {
             boolean found = false;
             if (prevAttachments != null) {
                 for (FinancialEntityAttachment oldAttachment: prevAttachments) {
-                    if (attachment.equals(oldAttachment)) {
+                    if (attachment.matches(oldAttachment)) {
                         found = true;
                     }
                 }
@@ -465,7 +465,4 @@ public class FinancialEntitySummaryHelper implements Serializable {
     public void setRemuneration(String[] remuneration) {
         this.remuneration = remuneration;
     }
-    
-    
-    
 }
