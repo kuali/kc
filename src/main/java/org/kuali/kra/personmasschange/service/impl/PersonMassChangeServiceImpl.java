@@ -19,8 +19,6 @@ import java.util.List;
 
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.UnitAdministrator;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
@@ -28,7 +26,6 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.AwardPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.CommitteePersonMassChangeService;
 import org.kuali.kra.personmasschange.service.IacucProtocolPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.InstitutionalProposalPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.NegotiationPersonMassChangeService;
@@ -36,7 +33,6 @@ import org.kuali.kra.personmasschange.service.PersonMassChangeService;
 import org.kuali.kra.personmasschange.service.ProposalDevelopmentPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.ProposalLogPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.ProtocolPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.SchedulePersonMassChangeService;
 import org.kuali.kra.personmasschange.service.SubawardPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.UnitAdministratorPersonMassChangeService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -54,9 +50,7 @@ public class PersonMassChangeServiceImpl implements PersonMassChangeService {
     private ProposalLogPersonMassChangeService proposalLogPersonMassChangeService;
     private SubawardPersonMassChangeService subawardPersonMassChangeService;
     private NegotiationPersonMassChangeService negotiationPersonMassChangeService;
-    private CommitteePersonMassChangeService committeePersonMassChangeService;
     private ProtocolPersonMassChangeService protocolPersonMassChangeService;
-    private SchedulePersonMassChangeService schedulePersonMassChangeService;
     private UnitAdministratorPersonMassChangeService unitAdministratorPersonMassChangeService;
 
     @Override
@@ -83,16 +77,10 @@ public class PersonMassChangeServiceImpl implements PersonMassChangeService {
         
         List<Negotiation> negotiationChangeCandidates = getNegotiationPersonMassChangeService().getNegotiationChangeCandidates(personMassChange);
         getNegotiationPersonMassChangeService().performPersonMassChange(personMassChange, negotiationChangeCandidates);
-        
-        List<Committee> committeeChangeCandidates = getCommitteePersonMassChangeService().getCommitteeChangeCandidates(personMassChange);
-        getCommitteePersonMassChangeService().performPersonMassChange(personMassChange, committeeChangeCandidates);
-        
+
         List<Protocol> protocolChangeCandidates = getProtocolPersonMassChangeService().getProtocolChangeCandidates(personMassChange);
         getProtocolPersonMassChangeService().performPersonMassChange(personMassChange, protocolChangeCandidates);
-        
-        List<CommitteeSchedule> scheduleChangeCandidates = getSchedulePersonMassChangeService().getScheduleChangeCandidates(personMassChange);
-        getSchedulePersonMassChangeService().performPersonMassChange(personMassChange, scheduleChangeCandidates);
-        
+
         List<UnitAdministrator> unitAdministratorChangeCandidates 
             = getUnitAdministratorPersonMassChangeService().getUnitAdministratorChangeCandidates(personMassChange);
         getUnitAdministratorPersonMassChangeService().performPersonMassChange(personMassChange, unitAdministratorChangeCandidates);
@@ -154,28 +142,12 @@ public class PersonMassChangeServiceImpl implements PersonMassChangeService {
         this.negotiationPersonMassChangeService = negotiationPersonMassChangeService;
     }
 
-    public CommitteePersonMassChangeService getCommitteePersonMassChangeService() {
-        return committeePersonMassChangeService;
-    }
-
-    public void setCommitteePersonMassChangeService(CommitteePersonMassChangeService committeePersonMassChangeService) {
-        this.committeePersonMassChangeService = committeePersonMassChangeService;
-    }
-
     public ProtocolPersonMassChangeService getProtocolPersonMassChangeService() {
         return protocolPersonMassChangeService;
     }
 
     public void setProtocolPersonMassChangeService(ProtocolPersonMassChangeService protocolPersonMassChangeService) {
         this.protocolPersonMassChangeService = protocolPersonMassChangeService;
-    }
-
-    public SchedulePersonMassChangeService getSchedulePersonMassChangeService() {
-        return schedulePersonMassChangeService;
-    }
-
-    public void setSchedulePersonMassChangeService(SchedulePersonMassChangeService schedulePersonMassChangeService) {
-        this.schedulePersonMassChangeService = schedulePersonMassChangeService;
     }
 
     public UnitAdministratorPersonMassChangeService getUnitAdministratorPersonMassChangeService() {

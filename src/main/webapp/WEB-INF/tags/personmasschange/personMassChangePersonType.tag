@@ -8,9 +8,7 @@
 <c:set var="proposalLogPersonMassChangeAttributes" value="${DataDictionary.ProposalLogPersonMassChange.attributes}" />
 <c:set var="subawardPersonMassChangeAttributes" value="${DataDictionary.SubawardPersonMassChange.attributes}" />
 <c:set var="negotiationPersonMassChangeAttributes" value="${DataDictionary.NegotiationPersonMassChange.attributes}" />
-<c:set var="committeePersonMassChangeAttributes" value="${DataDictionary.CommitteePersonMassChange.attributes}" />
 <c:set var="protocolPersonMassChangeAttributes" value="${DataDictionary.ProtocolPersonMassChange.attributes}" />
-<c:set var="schedulePersonMassChangeAttributes" value="${DataDictionary.SchedulePersonMassChange.attributes}" />
 <c:set var="unitAdministratorPersonMassChangeAttributes" value="${DataDictionary.UnitAdministratorPersonMassChange.attributes}" />
 <c:set var="action" value="personMassChangeHome" />
 <c:set var="className" value="org.kuali.kra.personmasschange.document.PersonMassChangeDocument" />
@@ -232,26 +230,6 @@
 	        </div>
 	    </kul:innerTab>
 	    
-	    <kul:innerTab parentTab="${parentTab}" tabTitle="Committee ${tabTitle}" tabErrorKey="document.personMassChange.committeePersonMassChange.*" defaultOpen="false" >
-	        <div class="tab-container" align="center">
-	            <table cellpadding="4" cellspacing="0" summary="">
-	                <tr>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${committeePersonMassChangeAttributes.member}" /></div></th>
-	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.committeePersonMassChange.member" 
-	                                                                    attributeEntry="${committeePersonMassChangeAttributes.member}" readOnly="false" /></td>
-	                </tr>
-	                <tr>
-                        <td colspan="2"><div align="center">
-                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
-                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.committeePersonMassChange', 'member')" />
-                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
-                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.committeePersonMassChange', 'member')"/>
-                        </div></td>
-                    </tr>
-	            </table>
-	        </div>
-	    </kul:innerTab>
-	    
 	    <kul:innerTab parentTab="${parentTab}" tabTitle="Protocol ${tabTitle}" tabErrorKey="document.personMassChange.protocolPersonMassChange.*" defaultOpen="false" >
 	        <div class="tab-container" align="center">
 	            <table cellpadding="4" cellspacing="0" summary="">
@@ -281,26 +259,6 @@
                                         onclick="selectAllPersonMassChangeCategory('document.personMassChange.protocolPersonMassChange', 'investigator', 'keyStudyPerson', 'correspondents', 'reviewer')" />
                             <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
                                         onclick="unselectAllPersonMassChangeCategory('document.personMassChange.protocolPersonMassChange', 'investigator', 'keyStudyPerson', 'correspondents', 'reviewer')"/>
-                        </div></td>
-                    </tr>
-	            </table>
-	        </div>
-	    </kul:innerTab>
-	    
-	    <kul:innerTab parentTab="${parentTab}" tabTitle="Schedule ${tabTitle}" tabErrorKey="document.personMassChange.schedulePersonMassChange.*" defaultOpen="false" >
-	        <div class="tab-container" align="center">
-	            <table cellpadding="4" cellspacing="0" summary="">
-	                <tr>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${schedulePersonMassChangeAttributes.attendees}" /></div></th>
-	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.schedulePersonMassChange.attendees" 
-	                                                                    attributeEntry="${schedulePersonMassChangeAttributes.attendees}" readOnly="false" /></td>
-	                </tr>
-	                <tr>
-                        <td colspan="2"><div align="center">
-                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
-                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.schedulePersonMassChange', 'attendees')" />
-                            <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
-                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.schedulePersonMassChange', 'attendees')"/>
                         </div></td>
                     </tr>
 	            </table>

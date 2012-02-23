@@ -30,14 +30,12 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.AwardPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.CommitteePersonMassChangeService;
 import org.kuali.kra.personmasschange.service.IacucProtocolPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.InstitutionalProposalPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.NegotiationPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.ProposalDevelopmentPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.ProposalLogPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.ProtocolPersonMassChangeService;
-import org.kuali.kra.personmasschange.service.SchedulePersonMassChangeService;
 import org.kuali.kra.personmasschange.service.SubawardPersonMassChangeService;
 import org.kuali.kra.personmasschange.service.UnitAdministratorPersonMassChangeService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -70,9 +68,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
     private transient ProposalLogPersonMassChangeService proposalLogPersonMassChangeService;
     private transient SubawardPersonMassChangeService subawardPersonMassChangeService;
     private transient NegotiationPersonMassChangeService negotiationPersonMassChangeService;
-    private transient CommitteePersonMassChangeService committeePersonMassChangeService;
     private transient ProtocolPersonMassChangeService protocolPersonMassChangeService;
-    private transient SchedulePersonMassChangeService schedulePersonMassChangeService;
     private transient UnitAdministratorPersonMassChangeService unitAdministratorPersonMassChangeService;
     
     public PersonMassChangeViewHelper(PersonMassChangeForm form) {
@@ -199,9 +195,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
         setProposalLogChangeCandidates(getProposalLogPersonMassChangeService().getProposalLogChangeCandidates(personMassChange));
         setSubawardChangeCandidates(getSubawardPersonMassChangeService().getSubawardChangeCandidates(personMassChange));
         setNegotiationChangeCandidates(getNegotiationPersonMassChangeService().getNegotiationChangeCandidates(personMassChange));
-        setCommitteeChangeCandidates(getCommitteePersonMassChangeService().getCommitteeChangeCandidates(personMassChange));
         setProtocolChangeCandidates(getProtocolPersonMassChangeService().getProtocolChangeCandidates(personMassChange));
-        setScheduleChangeCandidates(getSchedulePersonMassChangeService().getScheduleChangeCandidates(personMassChange));
         setUnitAdministratorChangeCandidates(getUnitAdministratorPersonMassChangeService().getUnitAdministratorChangeCandidates(personMassChange));
     }
     
@@ -282,17 +276,6 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
         this.negotiationPersonMassChangeService = negotiationPersonMassChangeService;
     }
 
-    public CommitteePersonMassChangeService getCommitteePersonMassChangeService() {
-        if (committeePersonMassChangeService == null) {
-            committeePersonMassChangeService = KraServiceLocator.getService(CommitteePersonMassChangeService.class);
-        }
-        return committeePersonMassChangeService;
-    }
-
-    public void setCommitteePersonMassChangeService(CommitteePersonMassChangeService committeePersonMassChangeService) {
-        this.committeePersonMassChangeService = committeePersonMassChangeService;
-    }
-
     public ProtocolPersonMassChangeService getProtocolPersonMassChangeService() {
         if (protocolPersonMassChangeService == null) {
             protocolPersonMassChangeService = KraServiceLocator.getService(ProtocolPersonMassChangeService.class);
@@ -302,17 +285,6 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
 
     public void setProtocolPersonMassChangeService(ProtocolPersonMassChangeService protocolPersonMassChangeService) {
         this.protocolPersonMassChangeService = protocolPersonMassChangeService;
-    }
-
-    public SchedulePersonMassChangeService getSchedulePersonMassChangeService() {
-        if (schedulePersonMassChangeService == null) {
-            schedulePersonMassChangeService = KraServiceLocator.getService(SchedulePersonMassChangeService.class);
-        }
-        return schedulePersonMassChangeService;
-    }
-
-    public void setSchedulePersonMassChangeService(SchedulePersonMassChangeService schedulePersonMassChangeService) {
-        this.schedulePersonMassChangeService = schedulePersonMassChangeService;
     }
 
     public UnitAdministratorPersonMassChangeService getUnitAdministratorPersonMassChangeService() {
