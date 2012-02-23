@@ -1258,7 +1258,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         Map <String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("coiDisclosureNumber", coiDiscDetail.getCoiDisclosureNumber());
         // this is unique
-        fieldValues.put("coiProjectId", coiDiscDetail.getModuleItemKey());
+        fieldValues.put("shortTextField1", coiDiscDetail.getModuleItemKey());
         List<CoiDisclProject> coiDisclProjects = (List<CoiDisclProject>) businessObjectService.findMatching(CoiDisclProject.class, fieldValues);
         if (CollectionUtils.isNotEmpty(coiDisclProjects)) {
             return coiDisclProjects.get(0);

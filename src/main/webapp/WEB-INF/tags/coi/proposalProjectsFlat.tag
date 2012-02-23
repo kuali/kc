@@ -34,69 +34,69 @@
         <table id="newproposal-table" cellpadding="0" cellspacing="0" summary="">
             <tr>
                 <th align="right" valign="middle">
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" />
+                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.longTextField1}" />
                 </th>
                 <td align="left" valign="middle" colspan="2">
-                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectTitle" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
+                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.longTextField1" 
+                            attributeEntry="${coiDisclProjectAttributes.longTextField1}" /> 
                 </td>
                 <th align="right" valign="middle" >
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectRole}" />
+                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.shortTextField2}" />
                 </th>
                <td align="left" valign="middle" colspan="2" >
-                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectRole" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectRole}" />
+                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.shortTextField2" 
+                            attributeEntry="${coiDisclProjectAttributes.shortTextField2}" />
           
                  </td>
             </tr>
             <tr>
                 <th align="right" valign="middle">
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectId}" />
+                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.shortTextField1}" />
                 </th>
                 <td align="left" valign="middle" colspan="2" >
-                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectId" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
+                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.shortTextField1" 
+                            attributeEntry="${coiDisclProjectAttributes.shortTextField1}" /> 
                 </td>
                 <th align="right" valign="middle" >
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" />
+                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.longTextField2}" />
                 </th>
                <td align="left" valign="middle" colspan="2" >
-                       <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectSponsor" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" />
+                       <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.longTextField2" 
+                            attributeEntry="${coiDisclProjectAttributes.longTextField2}" />
           
                  </td>
             </tr>
             <tr>
                 <th align="right" valign="middle">
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectType}" />
+                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.selectBox1}" />
                 </th>
                 <td align="left" valign="middle" colspan="2" >
-                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectType" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectType}" /> 
+                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.selectBox1" 
+                            attributeEntry="${coiDisclProjectAttributes.selectBox1}" /> 
                 </td>
                 <th align="right" valign="middle" >
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectFundingAmount}" />
+                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.numberField1}" />
                 </th>
                <td align="left" valign="middle" colspan="2" >
-                       <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectFundingAmount" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectFundingAmount}" />
+                       <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.numberField1" 
+                            attributeEntry="${coiDisclProjectAttributes.numberField1}" />
           
                  </td>
             </tr>
             <tr>
                 <th align="right" valign="middle">
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" />
+                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.dateField1}" />
                 </th>
                 <td align="left" valign="middle" colspan="2" >
-                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectStartDate" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
+                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.dateField1" 
+                            attributeEntry="${coiDisclProjectAttributes.dateField1}" /> 
                 </td>
                 <th align="right" valign="middle" >
-                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" />
+                   <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.dateField2}" />
                 </th>
                <td align="left" valign="middle" colspan="2" >
-                       <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectEndDate" 
-                            attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" />
+                       <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.dateField2" 
+                            attributeEntry="${coiDisclProjectAttributes.dateField2}" />
           
                  </td>
             </tr>
@@ -137,27 +137,27 @@
                   <td align="left" valign="middle">
 					<div align="left">
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].disclosureFlag" attributeEntry="${coiDisclProjectAttributes.disclosureFlag}" readOnly="${readOnly}"/> 
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].coiProjectId" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].shortTextField1" readOnly="true" attributeEntry="${coiDisclProjectAttributes.shortTextField1}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].coiProjectTitle" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].longTextField1" readOnly="true" attributeEntry="${coiDisclProjectAttributes.longTextField1}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].coiProjectSponsor" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].longTextField2" readOnly="true" attributeEntry="${coiDisclProjectAttributes.longTextField2}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].coiProjectStartDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].dateField1" readOnly="true" attributeEntry="${coiDisclProjectAttributes.dateField1}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].coiProjectEndDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].dateField2" readOnly="true" attributeEntry="${coiDisclProjectAttributes.dateField2}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
