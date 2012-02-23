@@ -28,6 +28,9 @@ public class OtherPresentBean implements Serializable, Comparable<OtherPresentBe
     private boolean member;
 
     public CommitteeScheduleAttendance getAttendance() {
+        if(attendance == null) {
+            attendance = new CommitteeScheduleAttendance();
+        }
         return attendance;
     }
 
