@@ -19,8 +19,12 @@ VALUES ('KC-PD','Document','proposalDevelopmentDataValidation1HelpUrl',SYS_GUID(
 INSERT INTO KRCR_PARM_T (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
 VALUES ('KC-PD','Document','proposalDevelopmentPrintFormsHelpUrl',SYS_GUID(),1,'HELP','default.htm?turl=Documents/print.htm','PD Print Forms Help','A','KC')
 /
-INSERT INTO KRCR_PARM_T (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
-VALUES ('KC-PD','Document','proposalDevelopmentCopyCriteriaHelpUrl',SYS_GUID(),1,'HELP','default.htm?turl=Documents/copytonewdocument.htm','Proposal Copy Criteria Help','A','KC')
+UPDATE KRCR_PARM_T
+SET VAL = 'default.htm?turl=Documents/copytonewdocument.htm',
+     PARM_DESC_TXT = 'Proposal Copy Criteria Help'
+WHERE PARM_NM = 'proposalDevelopmentCopyCriteriaHelpUrl'
+ AND CMPNT_CD = 'Document' 
+ AND NMSPC_CD = 'KC-PD'
 /
 INSERT INTO KRCR_PARM_T (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
 VALUES ('KC-PD','Document','proposalDevelopmentMedusaHelpUrl',SYS_GUID(),1,'HELP','default.htm?turl=Documents/medusa.htm','PD medusa Document Help','A','KC')
