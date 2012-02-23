@@ -78,6 +78,10 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
             for (AwardReportTerm awardTerm : awardReportTermItems) {
                 List<java.util.Date> dates = new ArrayList<java.util.Date>();
                
+                awardTerm.refreshReferenceObject("reportClass");
+                if (!awardTerm.getReportClass().getGenerateReportRequirements()) {
+                    continue;
+                }
                 /**
                 * creating this secondary AwardReportTerm List as we need to pass a List of AwardReportTerms to the dates generation
                 * service below, and we only want to be concerned with the current item, the whole list that we are looping through.
