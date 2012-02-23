@@ -71,9 +71,9 @@
                             <c:when test="${KualiForm.actionHelper.reviewAttachments[status.index].displayReviewerName}">
 	                                            <td style="text-align:center; vertical-align:middle">
 	                        	                     <kul:htmlControlAttribute property="actionHelper.reviewAttachments[${status.index}].updateUserFullName" 
-	                                                      attributeEntry="${reviewAttachmentsAttributes.updateUser}"
+	                                                      attributeEntry="${reviewAttachmentsAttributes.createUser}"
 	                                                      readOnly="true" />  <kul:htmlControlAttribute property="actionHelper.reviewAttachments[${status.index}].updateTimestamp" 
-	                                                      attributeEntry="${reviewAttachmentsAttributes.updateTimestamp}"
+	                                                      attributeEntry="${reviewAttachmentsAttributes.createTimestamp}"
 	                                                      readOnly="true" />
 	                                            </td>
 	                        
