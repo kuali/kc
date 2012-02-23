@@ -56,7 +56,7 @@
 	<td colspan="3" width="70%">
 		<c:set var="finEntAttachments" value= "${bean.attachmentSummary}" />
 		<c:forEach items="${finEntAttachments}" var="entry">
-			${entry.value}:  ${entry.key}<br />
+			${entry.key}:  ${entry.value}<br />
 		</c:forEach>
 	</td>
 </tr>
