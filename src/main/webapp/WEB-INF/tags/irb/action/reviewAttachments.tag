@@ -133,17 +133,17 @@
 
                                     <td style="text-align:center; vertical-align:middle">
                                         <kul:htmlControlAttribute property="${property}.reviewAttachments[${status.index}].updateUserFullName" 
-                                                          attributeEntry="${attributes.updateUser}"
+                                                          attributeEntry="${onlineReviewAttachmentAttributes.createUser}"
                                                           readOnly="true" />  <kul:htmlControlAttribute property="${property}.reviewAttachments[${status.index}].updateTimestamp" 
-                                                          attributeEntry="${attributes.updateTimestamp}"
+                                                          attributeEntry="${onlineReviewAttachmentAttributes.createTimestamp}"
                                                           readOnly="true" />
                                     </td>
                             
                                     <td style="text-align:center; vertical-align:middle">
                                         <kul:htmlControlAttribute property="${property}.reviewAttachments[${status.index}].createUserFullName" 
-                                                          attributeEntry="${attributes.createUser}"
+                                                          attributeEntry="${onlineReviewAttachmentAttributes.createUser}"
                                                           readOnly="true" /> <kul:htmlControlAttribute property="${property}.reviewAttachments[${status.index}].createTimestamp" 
-                                                          attributeEntry="${attributes.createTimestamp}"
+                                                          attributeEntry="${onlineReviewAttachmentAttributes.createTimestamp}"
                                                           readOnly="true" />
                                     </td>
                                 </c:when>
