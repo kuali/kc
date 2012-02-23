@@ -902,12 +902,14 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
                 fieldValues1.put("shortTextField1", "2");
                 atLeast(1).of(businessObjectService).findMatching(CoiDisclProject.class, fieldValues1);
                 will(returnValue(coiDisclProjects1));
+                
                 Map<String, Object> fieldValues2 = new HashMap<String, Object>();
                 fieldValues2.put("coiDisclosureNumber", "1");
-                fieldValues2.put("disclosureDispositionStatus", CoiDispositionStatus.DISCLOSED_INTERESTS_MANAGED);
+                fieldValues2.put("disclosureStatus", "3");
                 one(businessObjectService).findMatchingOrderBy(CoiDisclosureHistory.class, fieldValues2,
                         "sequenceNumber", true);
                 will(returnValue(histories));
+                
 
             }
         });
