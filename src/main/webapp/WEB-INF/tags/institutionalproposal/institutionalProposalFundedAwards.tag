@@ -26,7 +26,7 @@
 
 <h3>
     <span class="subhead-left">Funded Awards</span>
-    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" altText="help"/></span>
+  		<span class="subhead-right"><kul:help parameterNamespace="KC-IP" parameterDetailType="Document" parameterName="fundedAwardsHelpUrl" altText="help"/></span>
 </h3>
 
 <table cellpadding="0" cellspacing="0" summary="">
