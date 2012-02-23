@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.budget;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,11 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -30,6 +36,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.web.ui.ExtraButton;
@@ -214,6 +221,51 @@ public class AwardBudgetForm extends BudgetForm {
     public boolean getCanModifyBudgetRates() {
         boolean retVal = this.getEditingMode().containsKey("modifyBudgets");
         return retVal;
+    }
+    
+    /**
+     * 
+     * This method returns the award associated with the award budget.
+     * @return
+    */ 
+    public Award getAward() {
+        AwardDocument ad = (AwardDocument) this.getAwardBudgetDocument().getParentDocument();
+        Award award = ad.getAward();
+        return award;
+    }
+    
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    protected AwardAmountInfo getApplicableAwardAmountInfo() {
+        List<AwardAmountInfo> infos = getAward().getAwardAmountInfos();
+        System.err.println("infos: " + infos.size());
+        Budget awardBudget = this.getAwardBudgetDocument().getBudget();
+        if (awardBudget.getBudgetVersionNumber() <= infos.size()) {
+            return infos.get(awardBudget.getBudgetVersionNumber());
+        } else {
+            return infos.get(infos.size() - 1);
+        }
+    }
+    
+    public KualiDecimal getObligatedPrevious() {
+        if (!getObligatedChange().equals(new KualiDecimal(0.00))) {
+            BigDecimal obligatedPrevious = getObligatedTotal().bigDecimalValue().subtract(getObligatedChange().bigDecimalValue());
+            KualiDecimal kd = new KualiDecimal(obligatedPrevious);
+            return kd;
+        } else {
+            return getObligatedChange();
+        }
+    }
+    
+    public KualiDecimal getObligatedChange() {
+        return getApplicableAwardAmountInfo().getObligatedChange() != null ? getApplicableAwardAmountInfo().getObligatedChange() : new KualiDecimal(0);
+    }
+    
+    public KualiDecimal getObligatedTotal() {
+        return getApplicableAwardAmountInfo().getObliDistributableAmount();
     }
 
     
