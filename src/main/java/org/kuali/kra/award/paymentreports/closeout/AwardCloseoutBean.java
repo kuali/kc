@@ -60,10 +60,10 @@ public class AwardCloseoutBean implements Serializable {
     /**
      * 
      * Constructs a AwardCloseoutBean.java.
-     */
+     
     public AwardCloseoutBean() {
         
-    }
+    }*/
     
     private void initializeAwardCloseoutSystemParams(){
         setCloseoutReportTypeUserDefined(getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_USER_DEFINED));
@@ -73,6 +73,7 @@ public class AwardCloseoutBean implements Serializable {
         setCloseoutReportTypeProperty(getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_PROPERTY));
         setCloseoutReportTypeInvoice(getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_INVOICE));
         getAward().setAwardCloseoutItems(getAward().getAwardCloseoutItems());
+        setNewAwardCloseout(new AwardCloseout());
     }
     
     /**
