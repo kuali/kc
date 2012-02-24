@@ -38,6 +38,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocumentRuleBase implements AddPersonnelAttachmentRule, SavePersonnelAttachmentRule {
     public static final String OTHER_DOCUMENT_TYPE_DESCRIPTION = "Other";
@@ -81,17 +82,18 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
        
         // Checking attachment file name for invalid characters.
         String attachmentFileName = proposalPersonBiography.getFileName();
-        if (attachmentService.hasInvalidCharacters(attachmentFileName)) {
+        String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
+        if (ObjectUtils.isNotNull(invalidCharacters)) {
             String parameter = getParameterService().
                 getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
             if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
                 rulePassed &= false;
                 reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, attachmentService.getInvalidCharacters());
+                        attachmentFileName, invalidCharacters);
             } else {
                 rulePassed &= true;
                 reportWarning(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, attachmentService.getInvalidCharacters());
+                        attachmentFileName, invalidCharacters);
             }
         }
         
