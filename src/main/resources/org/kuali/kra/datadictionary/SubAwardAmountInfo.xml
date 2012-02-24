@@ -117,10 +117,10 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Obligated Change" />
     <property name="shortLabel" value="Obligated Change" />
-    <property name="maxLength" value="22" />
+    <property name="maxLength" value="12" />
     <property name="validationPattern" >
      <bean parent="FixedPointValidationPattern"
-            p:precision="19"
+            p:precision="10"
             p:scale="2" />
     </property>
     <property name="required" value="false" />
@@ -159,10 +159,10 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Anticipated Change" />
     <property name="shortLabel" value="Anticipated Change" />
-    <property name="maxLength" value="22" />
+    <property name="maxLength" value="12" />
     <property name="validationPattern" >
      <bean parent="FixedPointValidationPattern"
-            p:precision="19"
+            p:precision="10"
             p:scale="2" />
     </property>
     <property name="required" value="false" />

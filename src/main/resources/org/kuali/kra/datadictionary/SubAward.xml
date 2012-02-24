@@ -226,14 +226,14 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Purchase Order ID" />
     <property name="shortLabel" value="Purchase Order ID" />
-    <property name="maxLength" value="12" />
+    <property name="maxLength" value="10" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="12" />
+            p:size="10" />
     </property>
     <property name="summary" value="Purchase Order ID" />
     <property name="description" value="Purchase Order ID" />    
