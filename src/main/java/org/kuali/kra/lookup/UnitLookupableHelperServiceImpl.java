@@ -41,7 +41,7 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
 
     private static final long serialVersionUID = -3661085880649722426L;
     
-    private static final String CAMPUS_CODE_FIELD = "campusCode";
+    private static final String CAMPUS_CODE_FIELD = "code";
     private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
 
     private KcPersonService kcPersonService;
@@ -58,7 +58,7 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
 
             AnchorHtmlData copyHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             htmlDataList.add(copyHtmlData);
-            
+
             AnchorHtmlData deleteHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_DELETE_METHOD_TO_CALL, pkNames);
             htmlDataList.add(deleteHtmlData);
         }

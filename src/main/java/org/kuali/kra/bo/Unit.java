@@ -33,7 +33,8 @@ public class Unit extends KraPersistableBusinessObjectBase {
 
     private String unitName;
 
-    private String campusCode;
+    //maps to Campus-code
+    private String code;
     
     private boolean active;
 
@@ -88,12 +89,12 @@ public class Unit extends KraPersistableBusinessObjectBase {
         this.unitName = unitName;
     }
 
-    public String getCampusCode() {
-        return campusCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setCampusCode(String campusCode) {
-        this.campusCode = campusCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public boolean isActive() {
