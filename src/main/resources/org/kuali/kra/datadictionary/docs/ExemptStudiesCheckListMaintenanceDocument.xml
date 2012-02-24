@@ -14,7 +14,7 @@
       <list>
         <value>exemptStudiesCheckListCode</value>
       </list>
-    </property>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
     
     
     

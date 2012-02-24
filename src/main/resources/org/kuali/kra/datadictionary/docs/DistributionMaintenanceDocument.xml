@@ -29,7 +29,7 @@
 			<list>
 				<value>ospDistributionCode</value>
 			</list>
-		</property>
+		</property>		<property name="allowsRecordDeletion" value="true" />	
 		
 		
 		

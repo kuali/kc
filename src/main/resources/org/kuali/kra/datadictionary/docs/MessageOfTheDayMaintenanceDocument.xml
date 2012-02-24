@@ -33,6 +33,7 @@
                 <value>messageOfTheDayId</value>
             </list>
         </property>
+        <property name="allowsRecordDeletion" value="true" />
 	    <property name="documentTypeName" value="MessageOfTheDayMaintenanceDocument"/>
 	    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     </bean>

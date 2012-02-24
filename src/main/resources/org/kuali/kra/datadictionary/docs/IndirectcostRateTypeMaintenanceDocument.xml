@@ -33,7 +33,7 @@
                 <value>indirectcostRateTypeCode</value>
             </list>
         </property>
-
+        <property name="allowsRecordDeletion" value="true" />
 
         <property name="documentTypeName" value="Indirectcost Rate Type Maintenance Document" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />

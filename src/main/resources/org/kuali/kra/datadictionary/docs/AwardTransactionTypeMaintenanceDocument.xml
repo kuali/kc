@@ -32,7 +32,8 @@
             <list>
                 <value>awardTransactionTypeCode</value>
             </list>
-        </property>        
+        </property>
+        <property name="allowsRecordDeletion" value="true" />   
         <property name="documentTypeName" value="Award Transaction Type Maintenance Document" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
         

@@ -96,27 +96,30 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
         boolean hasModifyPermission = questionAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTION);
         boolean hasViewPermission = hasModifyPermission || questionAuthorizationService.hasPermission(PermissionConstants.VIEW_QUESTION);
         if (hasModifyPermission) {
-            AnchorHtmlData htmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-            htmlData.setHref(htmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE));
-            htmlDataList.add(htmlData);
+            AnchorHtmlData editHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+            editHtmlData.setHref(editHtmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE));
+            htmlDataList.add(editHtmlData);
 
-            AnchorHtmlData htmlData1 = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
-            htmlData1.setHref(htmlData1.getHref().replace(MAINTENANCE, NEW_MAINTENANCE));
-            htmlDataList.add(htmlData1);
+            AnchorHtmlData copyHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
+            copyHtmlData.setHref(copyHtmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE));
+            htmlDataList.add(copyHtmlData);
+            
+            AnchorHtmlData deleteHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_DELETE_METHOD_TO_CALL, pkNames);
+            deleteHtmlData.setHref(deleteHtmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE));
+            htmlDataList.add(deleteHtmlData);
         } 
         // if user can view question, then if doc number exists, use doc service to view, otherwise open for editing in read-only mode
         if (hasViewPermission) {
-            AnchorHtmlData htmlData2 = new AnchorHtmlData();
-            if (((Question)businessObject).getDocumentNumber() != null) {
+            AnchorHtmlData viewHtmlData = new AnchorHtmlData();
+            if (((Question) businessObject).getDocumentNumber() != null) {
                 String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
-                htmlData2.setHref(String.format(DOCHANDLER_LINK, workflowUrl, ((Question) businessObject).getDocumentNumber()).replace("&docId", "&readOnly=true&docId"));
+                viewHtmlData.setHref(String.format(DOCHANDLER_LINK, workflowUrl, ((Question) businessObject).getDocumentNumber()).replace("&docId", "&readOnly=true&docId"));
+            } else {
+                viewHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+                viewHtmlData.setHref(viewHtmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE) + "&readOnly=true");
             }
-            else {
-                htmlData2 = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-                htmlData2.setHref(htmlData2.getHref().replace(MAINTENANCE, NEW_MAINTENANCE) + "&readOnly=true");
-            }
-            htmlData2.setDisplayText(VIEW);
-            htmlDataList.add(htmlData2);
+            viewHtmlData.setDisplayText(VIEW);
+            htmlDataList.add(viewHtmlData);
         }
         return htmlDataList;
     }

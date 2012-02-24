@@ -14,7 +14,7 @@
       <list>
         <value>specialReviewTypeCode</value>
       </list>
-    </property>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
     
     
     

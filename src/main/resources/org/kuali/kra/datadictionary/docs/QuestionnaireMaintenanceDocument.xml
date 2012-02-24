@@ -9,6 +9,7 @@
                 <value>questionnaireId</value>
             </list>
         </property>
+        <property name="allowsRecordDeletion" value="true" />
         <property name="documentTypeName" value="QuestionnaireMaintenanceDocument" />
         <property name="businessRulesClass" value="org.kuali.kra.questionnaire.QuestionnaireMaintenanceDocumentRule" />
         <property name="documentAuthorizerClass" value="org.kuali.kra.questionnaire.QuestionnaireMaintenanceDocumentAuthorizer" />

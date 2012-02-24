@@ -14,7 +14,7 @@
       <list>
         <value>proposalTypeCode</value>
       </list>
-    </property>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
     
     
     

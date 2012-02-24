@@ -18,7 +18,6 @@
 	<bean id="ValidClassReportFrequencyMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.ValidClassReportFrequency"/>
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
-		<property name="allowsRecordDeletion" value="true"/>
 		<property name="maintainableSections">
 			<list>
 				<ref bean="ValidClassReportFrequencyMaintenanceDocument-EditValidClassReportFrequency"/>
@@ -28,7 +27,7 @@
 			<list>
 				<value>validClassReportFreqId</value>
 			</list>
-		</property>
+		</property>		<property name="allowsRecordDeletion" value="true" />	
 		
 		
 		
