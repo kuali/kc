@@ -14,7 +14,7 @@
       <list>
         <value>sponsorTypeCode</value>
       </list>
-    </property>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
     
     
     

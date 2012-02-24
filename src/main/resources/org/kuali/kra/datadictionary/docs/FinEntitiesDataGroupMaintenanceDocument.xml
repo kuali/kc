@@ -33,6 +33,7 @@
                 <value>dataGroupId</value>
             </list>
         </property>
+        <property name="allowsRecordDeletion" value="true" />
         <property name="documentTypeName" value="FinEntitiesDataGroupMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
         <property name="businessRulesClass" value="org.kuali.kra.coi.personfinancialentity.FinEntitiesDataGroupMaintenanceDocumentRule"/>

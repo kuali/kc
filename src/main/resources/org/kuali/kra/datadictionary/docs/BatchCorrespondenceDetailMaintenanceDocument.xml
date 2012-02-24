@@ -33,7 +33,8 @@
                 <value>batchCorrespondenceDetailId</value>
             </list>
         </property>
-
+        <property name="allowsRecordDeletion" value="true" />
+        
         <property name="documentTypeName" value="BatchCorrespondenceDetailMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     

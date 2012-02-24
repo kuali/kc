@@ -33,6 +33,7 @@
                 <value>entityStatusCode</value>
             </list>
         </property>
+        <property name="allowsRecordDeletion" value="true" />
         <property name="documentTypeName" value="CoiEntityStatusCodeMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     </bean>

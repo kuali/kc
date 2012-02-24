@@ -31,7 +31,7 @@
 				<value>affiliationTypeCode</value>
 			</list>
 		</property>
-		 -->
+		-->		<property name="allowsRecordDeletion" value="true" />
 		
 		
 		

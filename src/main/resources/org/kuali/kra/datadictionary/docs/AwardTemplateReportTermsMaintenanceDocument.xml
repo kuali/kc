@@ -23,7 +23,7 @@
 			<list>
 				<value>templateReportTermId</value>
 			</list>
-		</property>
+		</property>		<property name="allowsRecordDeletion" value="true" />	
 		<property name="webScriptFiles">
 	      <list>
 	        <value>../dwr/interface/AwardTemplateReportTermService.js</value>

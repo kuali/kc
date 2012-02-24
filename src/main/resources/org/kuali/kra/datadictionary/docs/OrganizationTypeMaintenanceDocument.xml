@@ -16,7 +16,7 @@
         <value>organizationTypeCode</value>
       </list>
     </property>
-    
+    <property name="allowsRecordDeletion" value="true" />
     
     
     

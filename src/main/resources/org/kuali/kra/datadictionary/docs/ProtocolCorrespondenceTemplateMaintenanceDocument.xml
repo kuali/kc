@@ -40,7 +40,8 @@
                 <value>protoCorrespTemplId</value>
             </list>
         </property>
-
+        <property name="allowsRecordDeletion" value="true" />
+        
         <property name="documentTypeName" value="ProtocolCorrespondenceTemplateMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
         <property name="additionalSectionsFile" value="/WEB-INF/jsp/irb/protocolCorrespondenceTemplate.jsp" />

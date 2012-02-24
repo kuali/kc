@@ -32,7 +32,7 @@
 			<list>
 				<value>templateCode</value>
 			</list>
-		</property>
+		</property>		<property name="allowsRecordDeletion" value="true" />	
 		<property name="documentTypeName" value="AwardTemplateMaintenanceDocument"/>
 		<property name="documentAuthorizerClass" value="org.kuali.kra.award.document.authorization.AwardTemplateDocumentAuthorizer"/>
 	</bean>
