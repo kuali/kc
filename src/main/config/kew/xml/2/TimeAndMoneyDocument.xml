@@ -11,6 +11,7 @@
 			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/timeAndMoney.do?methodToCall=docHandler</docHandler>
 			<parent>KC</parent>
+		    <helpDefinitionURL>default.htm?turl=Documents/timeandmoney.htm</helpDefinitionURL>
 			<active>true</active>
 			<attributes>
 				<attribute>

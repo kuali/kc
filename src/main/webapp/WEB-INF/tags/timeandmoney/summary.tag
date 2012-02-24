@@ -22,7 +22,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Summary</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.timeandmoney.transactions.PendingTransaction" altText="help"/></span>
+     		<span class="subhead-right"><kul:help parameterNamespace="KC-T" parameterDetailType="Document" parameterName="tmSummaryHelpUrl" altText="help"/></span>
         </h3>
         <table cellpAdding="0" cellspacing="0" summary="">
 		  	<tr>
@@ -102,8 +102,8 @@
         
         <h3>
     		<span class="subhead-left">Dates &amp; Amounts</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.timeandmoney.transactions.PendingTransaction" altText="help"/></span>
-        </h3>
+     		<span class="subhead-right"><kul:help parameterNamespace="KC-T" parameterDetailType="Document" parameterName="tmDatesAmountsHelpUrl" altText="help"/></span>
+         </h3>
         <table cellpadding="0" cellspacing="0" summary="">
 	    	<tr>
 	        	<th>
@@ -163,7 +163,7 @@
         
         <h3>
     		<span class="subhead-left">Award Details Recorded</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.timeandmoney.transactions.PendingTransaction" altText="help"/></span>
+   	       	<span class="subhead-right"><kul:help parameterNamespace="KC-T" parameterDetailType="Document" parameterName="tmAwardDetailsRecordedHelpUrl" altText="help"/></span>
         </h3>
         <table cellpadding="0" cellspacing="0" summary="">
 	    	<tr>
@@ -281,8 +281,8 @@
         
         <h3>
     		<span class="subhead-left">Investigators</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.timeandmoney.transactions.PendingTransaction" altText="help"/></span>
-        </h3>
+ 	       	<span class="subhead-right"><kul:help parameterNamespace="KC-T" parameterDetailType="Document" parameterName="tmInvestigatorsHelpUrl" altText="help"/></span>
+       </h3>
         <table cellpadding="0" cellspacing="0" summary="">
 	    	<tr>
 	        	<th>
