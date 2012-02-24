@@ -10,12 +10,12 @@
     <property name="businessObjectClass" value="org.kuali.kra.subaward.customdata.SubAwardCustomData" />
 		<property name="objectLabel" value="SubAward Custom Data" />
     <property name="titleAttribute" value="SubAwardCustomData" />
- <!--    <property name="helpDefinition" >
+    <property name="helpDefinition" >
       <bean parent="HelpDefinition"
-            p:parameterNamespace="KC-contract"
-            p:parameterName="contractCustomDataHelpUrl"
+            p:parameterNamespace="KC-SUBAWARD"
+            p:parameterName="subAwardCustomDataHelpUrl"
             p:parameterDetailType="Document" />
-    </property> -->
+    </property> 
     <property name="attributes" >
       <list>
         <ref bean="SubAwardCustomData-value" />

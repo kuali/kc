@@ -28,8 +28,8 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Contacts </span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.SubAwardContact" altText="help"/></span>
-        </h3>
+    	    <div align="right"><kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardContactHelpUrl" altText="help"/></div>
+      </h3>
         
    <table id="subAward-contacts-table" cellpadding="0" cellspacing="0">
         <tr>

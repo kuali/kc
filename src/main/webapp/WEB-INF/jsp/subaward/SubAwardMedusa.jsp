@@ -28,7 +28,8 @@
   	headerTabActive="medusa">
 
 <kul:tabTop tabTitle="Medusa" defaultOpen="true" tabErrorKey="">
-<kra-m:medusa />
+<kra-m:medusa helpParameterNamespace="KC-SUBAWARD" helpParameterDetailType="Document" helpParameterName="subAwardMedusaHelpUrl" />
+
 </kul:tabTop>
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />

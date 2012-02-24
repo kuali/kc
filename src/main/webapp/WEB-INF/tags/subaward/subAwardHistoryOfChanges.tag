@@ -52,7 +52,7 @@
             </table>
     	<h3>
     		<span class="subhead-left">History of Changes</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.SubAwardAmountInfo" altText="help"/></span>
+            <div align="right"><kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardHistoryOfChangesHelpUrl" altText="help"/></div>
         </h3>
          
    <table cellpadding=0 cellspacing=0 summary="">

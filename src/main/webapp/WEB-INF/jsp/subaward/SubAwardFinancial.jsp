@@ -26,6 +26,7 @@
   	headerTabActive="financial"> 	
   	
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+	<div align="right"><kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardFinancialHelpUrl" altText="help"/></div>
 
 <div id="workarea">
 	<kra-sub:subAwardHistoryOfChanges/>	
