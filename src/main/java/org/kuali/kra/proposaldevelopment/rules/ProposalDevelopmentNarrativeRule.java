@@ -51,6 +51,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
@@ -107,18 +108,19 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         KcAttachmentService attachmentService = getKcAttachmentService();
       
         // Checking attachment file name for invalid characters.
-        if (attachmentService.hasInvalidCharacters(attachmentFileName)) {
+        String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
+        if (ObjectUtils.isNotNull(invalidCharacters)) {
             String parameter = getParameterService().
                                getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
            
             if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
                 rulePassed &= false;
                 reportError("newNarrative.narrativeFile", KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, attachmentService.getInvalidCharacters());
+                        attachmentFileName, invalidCharacters);
             } else {
                 rulePassed &= true;
                 reportWarning("newNarrative.narrativeFile", KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, attachmentService.getInvalidCharacters());
+                        attachmentFileName, invalidCharacters);
             }
         }
         
