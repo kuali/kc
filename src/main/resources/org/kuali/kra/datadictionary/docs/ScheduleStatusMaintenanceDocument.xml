@@ -27,7 +27,7 @@
 			<list>
 				<value>scheduleStatusCode</value>
 			</list>
-		</property>
+		</property>		<property name="allowsRecordDeletion" value="true" />	
 		
 		
 		

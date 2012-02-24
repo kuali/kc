@@ -15,7 +15,7 @@
       <list>
         <value>proposalNumber</value>
       </list>
-    </property>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
     
     <property name="documentTypeName" value="IntellectualPropertyReviewMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewDocumentAuthorizer"/>

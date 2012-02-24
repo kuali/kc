@@ -5,7 +5,6 @@
   <bean id="ValidCeRateTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.budget.rates.ValidCeRateType"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
-    <property name="allowsRecordDeletion" value="true"/>
     <property name="maintainableSections">
       <list>
         <ref bean="ValidCeRateTypeMaintenanceDocument-EditValidCostElementRateTypes"/>
@@ -18,7 +17,7 @@
         <value>rateTypeCode</value>
       </list>
     </property>
-    
+    <property name="allowsRecordDeletion" value="true" />
     
     
     

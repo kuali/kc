@@ -109,7 +109,7 @@ public class BreakupIntervalServiceTest  extends KcUnitTestBase{
     @Test
     public void testCalculateOverrecovery() {
         BreakUpInterval bi1 = createBreakupInterval();
-        bi1.setURRatesBean(getBudgetRate("1",40,1l,"2011",40,true,"1","2","O","07/01/2009","000001"));
+        bi1.setURRatesBean(getBudgetRate("1",40,1L,"2011",40,true,"1","2","O","07/01/2009","000001"));
         KraServiceLocator.getService(BreakupIntervalService.class).calculate(bi1);
         assertEquals(bi1.getUnderRecovery(), new BudgetDecimal(-810.0));
     }
@@ -132,7 +132,7 @@ public class BreakupIntervalServiceTest  extends KcUnitTestBase{
         bi1.setApplicableAmtCostSharing(new BudgetDecimal(1000));
         bi1.setBoundary(new Boundary(getDate("01/01/2010"),getDate("06/30/2010")));
         bi1.setBudgetPeriod(1);
-        bi1.setBudgetId(1l);
+        bi1.setBudgetId(1L);
         bi1.setBudgetProposalLaRates(getBudgetLArates());
         bi1.setBudgetProposalRates(getBudgetRates());
         bi1.setLineItemNumber(1);
@@ -183,14 +183,14 @@ public class BreakupIntervalServiceTest  extends KcUnitTestBase{
     }
     private QueryList<BudgetRate> getBudgetRates() {
         QueryList<BudgetRate> rates=new QueryList<BudgetRate>();
-        BudgetRate brO1 = getBudgetRate("1",50,1l,"2010",50,true,"1","1","O","07/01/2009","000001");
-        BudgetRate brO2 = getBudgetRate("1",45,1l,"2010",45,true,"2","1","O","07/01/2009","000001");
-        BudgetRate brO3 = getBudgetRate("1",40,1l,"2010",40,true,"3","1","O","07/01/2009","000001");
-        BudgetRate brE = getBudgetRate("1",25,1l,"2010",25,true,"5","1","E","07/01/2009","000001");
-        BudgetRate brV = getBudgetRate("1",10,1l,"2010",10,true,"8","1","V","07/01/2009","000001");
-        BudgetRate brELA = getBudgetRate("1",3,1l,"2010",3,true,"5","3","E","07/01/2009","000001");
-        BudgetRate brVLA = getBudgetRate("1",2,1l,"2010",2,true,"8","2","V","07/01/2009","000001");
-        BudgetRate brOt = getBudgetRate("1",8,1l,"2010",8,true,"9","1","X","07/01/2009","000001");
+        BudgetRate brO1 = getBudgetRate("1",50,1L,"2010",50,true,"1","1","O","07/01/2009","000001");
+        BudgetRate brO2 = getBudgetRate("1",45,1L,"2010",45,true,"2","1","O","07/01/2009","000001");
+        BudgetRate brO3 = getBudgetRate("1",40,1L,"2010",40,true,"3","1","O","07/01/2009","000001");
+        BudgetRate brE = getBudgetRate("1",25,1L,"2010",25,true,"5","1","E","07/01/2009","000001");
+        BudgetRate brV = getBudgetRate("1",10,1L,"2010",10,true,"8","1","V","07/01/2009","000001");
+        BudgetRate brELA = getBudgetRate("1",3,1L,"2010",3,true,"5","3","E","07/01/2009","000001");
+        BudgetRate brVLA = getBudgetRate("1",2,1L,"2010",2,true,"8","2","V","07/01/2009","000001");
+        BudgetRate brOt = getBudgetRate("1",8,1L,"2010",8,true,"9","1","X","07/01/2009","000001");
         rates.add(brO1);
         rates.add(brO2);
         rates.add(brO3);
@@ -203,9 +203,9 @@ public class BreakupIntervalServiceTest  extends KcUnitTestBase{
     }
     private QueryList<BudgetLaRate> getBudgetLArates() {
         QueryList<BudgetLaRate> rates=new QueryList<BudgetLaRate>();
-        BudgetLaRate br7 = getBudgetLaRate(5,1l,"2010",5,true,"10","1","Y","07/01/2009","000001");
-        BudgetLaRate br8 = getBudgetLaRate(5,1l,"2010",5,true,"11","1","L","07/01/2009","000001");
-        BudgetLaRate br9 = getBudgetLaRate(5,1l,"2010",5,true,"12","1","L","07/01/2009","000001");
+        BudgetLaRate br7 = getBudgetLaRate(5,1L,"2010",5,true,"10","1","Y","07/01/2009","000001");
+        BudgetLaRate br8 = getBudgetLaRate(5,1L,"2010",5,true,"11","1","L","07/01/2009","000001");
+        BudgetLaRate br9 = getBudgetLaRate(5,1L,"2010",5,true,"12","1","L","07/01/2009","000001");
         rates.add(br7);
         rates.add(br8);
         rates.add(br9);

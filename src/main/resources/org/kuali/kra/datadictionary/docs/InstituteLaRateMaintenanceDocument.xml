@@ -20,7 +20,7 @@
         <value>unitNumber</value>
       </list>
     </property>
-    
+    <property name="allowsRecordDeletion" value="true" />
     
     
     

@@ -14,7 +14,7 @@
       <list>
         <value>costElement</value>
       </list>
-    </property>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
     <property name="documentTypeName" value="CostElementMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.rules.BudgetCategoryExistenceRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>

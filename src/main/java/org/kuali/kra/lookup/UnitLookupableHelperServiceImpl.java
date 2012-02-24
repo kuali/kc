@@ -53,11 +53,14 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
         String personId = getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId()).getPersonId();
         boolean hasModifyPermission = getUnitAuthorizationService().hasPermission(personId, "KC-UNT", PermissionConstants.MODIFY_UNIT);
         if (hasModifyPermission) {
-            AnchorHtmlData htmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-            htmlDataList.add(htmlData);
+            AnchorHtmlData editHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+            htmlDataList.add(editHtmlData);
 
-            AnchorHtmlData htmlData1 = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
-            htmlDataList.add(htmlData1);
+            AnchorHtmlData copyHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
+            htmlDataList.add(copyHtmlData);
+            
+            AnchorHtmlData deleteHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_DELETE_METHOD_TO_CALL, pkNames);
+            htmlDataList.add(deleteHtmlData);
         }
         return htmlDataList;
     }
