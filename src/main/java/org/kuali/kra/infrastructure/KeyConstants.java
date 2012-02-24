@@ -582,6 +582,9 @@ public final class KeyConstants {
     //COI Required Fields validation messages
     public static final String ERROR_COI_ATTACHMENT_MISSING_DESC = "error.coi.attachment.description.required";
     public static final String ERROR_COI_ATTACHMENT_MISSING_FILE = "error.coi.attachment.missing.file";
+    public static final String ERROR_COI_INVALID_DISCLOSURE_STATUS_CODE = "error.coi.invalid.disclosure.status.code";
+    public static final String ERROR_COI_DUPLICATE_DISPOSITION_CODE = "error.coi.duplicate.disposition.code";
+    public static final String ERROR_COI_DUPLICATE_DISPOSITION_DESCRIPTION = "error.coi.duplicate.disposition.description";
     
     // IRB Protocol Research Area Validation messages
     public static final String ERROR_PROTOCOL_RESEARCH_AREA_REQUIRED = "error.protocol.researchArea.required";
