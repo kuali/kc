@@ -67,30 +67,17 @@
                 	<kul:htmlControlAttribute property="document.budget.budgetVersionNumber" attributeEntry="${budgetAttributes.budgetVersionNumber}" readOnly="true"/>
                 </td>
        			<th rowspan="2">
-       				<%--
-           			<div align="right">Budget Total Cost Limit:</div>
-           			 --%>
            			 <div align="right">Budget Totals:</div>
        			</th>
            		<td rowspan="2">
-           			<%--
-           			<bean:write name="KualiForm" property="document.budget.obligatedTotal"/>
-           			<td rowspan="3" width="25%">
-           			 			&nbsp;
-           			 		</td>
-           			 --%> 
            			 <table id="budgetTotalsTable">
            			 	<tr>
            			 		<th width="45%">
            			 			<div align="right">Obligated Previous:</div>
-           			 			<%--
-           			 			<div align="right"><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.totalCostLimit}" /></div>
-           			 			 --%>
            			 		</th>
            			 		<td width="30%">
            			 			<div align="right">
-           			 				<%--<kul:htmlControlAttribute property="document.budget.totalCostLimit" attributeEntry="${awardBudgetAttributes.totalCostLimit}" readOnly="true"/> --%>
-           			 				<bean:write name="KualiForm" property="obligatedPrevious"/>
+           			 				<bean:write name="KualiForm" property="document.budget.prevBudget.totalCost"/>
            			 			</div>
            			 		</td>
            			 		<td rowspan="3" width="25%">
@@ -103,7 +90,7 @@
            			 		</th>
            			 		<td>
            			 			<div align="right">
-           			 				<bean:write name="KualiForm" property="obligatedChange"/>
+           			 				<bean:write name="KualiForm" property="document.budget.totalCost"/>
            			 			</div>
            			 		</td>
            			 	</tr>
@@ -112,9 +99,8 @@
            			 			<div align="right">Obligated Total:</div>
            			 		</th>
            			 		<td>
-           			 			<%--<div align="right"><bean:write name="KualiForm" property="document.budget.obligatedTotal"/></div> --%>
            			 			<div align="right">
-           			 				<bean:write name="KualiForm" property="obligatedTotal"/>
+           			 				<bean:write name="KualiForm" property="document.budget.budgetsTotals[0]"/>
            			 			</div>
            			 		</td>
            			 	</tr>
