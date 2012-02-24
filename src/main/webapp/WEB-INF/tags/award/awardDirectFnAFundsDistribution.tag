@@ -26,6 +26,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Direct/F&A Funds Distribution</span>
+    		<div align="right"><kul:help parameterNamespace="KC-T" parameterDetailType="Document" parameterName="awardFundDistributionHelpUrl" altText="help"/></div>
         </h3>
         <table id="Direct-FandA-Funds-Distribution-table" cellpadding="0" cellspacing="0" summary="Direct F and A Distribution">
 			<tr>

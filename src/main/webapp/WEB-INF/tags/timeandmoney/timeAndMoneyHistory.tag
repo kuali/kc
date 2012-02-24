@@ -24,8 +24,8 @@
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left"> History</span>
-   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.timeandmoney.history.TransactionDetail" altText="help"/></span>
-       	</h3>
+       	    <span class="subhead-right"><kul:help parameterNamespace="KC-T" parameterDetailType="Document" parameterName="tmHistoryHelpUrl" altText="help"/></span>
+        </h3>
        	<table cellpadding="0" cellspacing="0" summary="">
         	<tr>
          		<kul:htmlAttributeHeaderCell literalLabel="Document" scope="col" />
