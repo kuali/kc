@@ -40,7 +40,7 @@ public class UnitLookupableHelperServiceImplTest extends KcUnitTestBase {
     private static final int LOOKUP_CRITERIA_FIELD_COUNT = 6;
     private static final int SEARCH_RESULTS_NO_CAMPUS_CODE_COUNT = 13;
     private static final int SEARCH_RESULTS_CAMPUS_CODE_COUNT = 4;
-    private static final String CAMPUS_CODE_FIELD = "campusCode";
+    private static final String CAMPUS_CODE_FIELD = "code";
     private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
     
     private static final String CAMPUS_CODE = "BL";
