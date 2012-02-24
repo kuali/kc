@@ -76,9 +76,6 @@ public class ProposalDevelopmentYnqSeleniumTest extends KcSeleniumTestBase {
         helper.createProposalDevelopment();
         helper.clickProposalDevelopmentQuestionsPage();
 
-        helper.openTab(GRANTS_GOV_AGENCY_SPECIFIC_QUESTIONS_TAB_ID);
-        helper.set(String.format(YNQS_ID, 20), YES_RADIO_FIELD_VALUE);
-        
         helper.openTab(PROPOSAL_QUESTIONS_TAB_ID);
         helper.set(String.format(YNQS_ID, 0), YES_RADIO_FIELD_VALUE);
         helper.set(String.format(YNQS_ID, 1), YES_RADIO_FIELD_VALUE);
@@ -100,6 +97,7 @@ public class ProposalDevelopmentYnqSeleniumTest extends KcSeleniumTestBase {
         helper.set(String.format(YNQS_ID, 17), YES_RADIO_FIELD_VALUE);
         helper.set(String.format(YNQS_ID, 18), YES_RADIO_FIELD_VALUE);
         helper.set(String.format(YNQS_ID, 19), YES_RADIO_FIELD_VALUE);
+        helper.set(String.format(YNQS_ID, 20), YES_RADIO_FIELD_VALUE);
         helper.set(String.format(YNQS_ID, 21), YES_RADIO_FIELD_VALUE);
         helper.set(String.format(YNQS_ID, 22), YES_RADIO_FIELD_VALUE);
         helper.set(String.format(YNQS_ID, 23), YES_RADIO_FIELD_VALUE);
@@ -110,7 +108,6 @@ public class ProposalDevelopmentYnqSeleniumTest extends KcSeleniumTestBase {
         helper.set(String.format(YNQS_ID, 28), YES_RADIO_FIELD_VALUE);
         helper.set(String.format(YNQS_ID, 29), YES_RADIO_FIELD_VALUE);
         helper.set(String.format(YNQS_ID, 30), YES_RADIO_FIELD_VALUE);
-        helper.set(String.format(YNQS_ID, 31), YES_RADIO_FIELD_VALUE);
         
         helper.saveDocument();
         helper.assertPageErrors();
