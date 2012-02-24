@@ -17,6 +17,8 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import java.util.List;
 
+import javax.mail.internet.HeaderTokenizer;
+import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,10 +26,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
+import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
+import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.printing.service.WatermarkService;
+import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.SponsorService;
@@ -275,5 +282,31 @@ public class FinancialEntityAction extends KualiAction {
         return forward;
     }
 
- 
+    public ActionForward viewFinancialEntityAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        FinancialEntityForm financialEntityForm = (FinancialEntityForm) form;
+        final int selection = this.getSelectedLine(request);
+        FinancialEntityAttachment attachment = financialEntityForm.getFinancialEntityHelper().getFinEntityAttachmentList().get(selection);
+
+        final AttachmentFile file = attachment.getAttachmentFile();
+        byte[] attachmentFile = file.getData();
+        if (attachmentFile != null){
+            PrintingUtils.streamToResponse(attachmentFile, getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+        }
+        return null;  // response already handled
+    }
+
+    protected CoiPrintingService getCoiPrintingService() {
+        return  KraServiceLocator.getService(CoiPrintingService.class);  
+    }
+    
+    protected WatermarkService getWatermarkService() {
+        return  KraServiceLocator.getService(WatermarkService.class);  
+    }
+
+    protected static String getValidHeaderString(String s) {
+        return MimeUtility.quote(s, HeaderTokenizer.MIME);
+    }    
+
 }
