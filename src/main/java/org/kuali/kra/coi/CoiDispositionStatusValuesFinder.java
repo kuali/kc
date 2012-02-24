@@ -31,10 +31,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class CoiDispositionStatusValuesFinder extends KeyValuesBase {
     private String actionType;
-    private static final String APPROVE = "Approve";
-    private static final String DISAPPROVE = "Disapprove";
-    private static final String SETDISCLOSURESTATUS = "SetDisclosureStatus";
-
+   
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
      */
