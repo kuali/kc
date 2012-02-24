@@ -6,6 +6,7 @@
 			<description>Create a new Proposal Log</description>
 			<label>Proposal Log</label>
 			<parent>KcMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/proposallog.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>
