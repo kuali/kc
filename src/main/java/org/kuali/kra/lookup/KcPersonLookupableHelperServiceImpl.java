@@ -36,7 +36,7 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
     
     private static final long serialVersionUID = 1L;
     
-    private static final String CAMPUS_CODE_FIELD = "campusCode";
+    private static final String CAMPUS_CODE_FIELD = "code";
     private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
 
     private KcPersonService kcPersonService;
