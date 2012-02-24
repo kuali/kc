@@ -32,8 +32,8 @@
   	
   	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
   	
-  	<div align="right"><kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Custom Data" /></div>
-
+  	<div align="right"><kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardCustomDataHelpUrl" altText="help"/></div>
+	
 	<kra-sub:subAwardCustomDataTab name="${KualiForm.actionName}" />
 	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 

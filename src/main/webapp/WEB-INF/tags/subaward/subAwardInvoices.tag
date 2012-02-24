@@ -47,8 +47,8 @@
             </table>
     	<h3>
     		<span class="subhead-left">Invoices</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.SubAwardAmountReleased" altText="help"/></span>
-        </h3>
+    	    <div align="right"><kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardInvoicesHelpUrl" altText="help"/></div>
+         </h3>
         
       <table cellpadding=0 cellspacing=0 summary="">
             <tr>
