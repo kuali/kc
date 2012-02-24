@@ -30,7 +30,6 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
     
     private Map<String, String> mimeTypeIcons;
     private String defaultIcon;
-    private String invalidCharacters;
    
     private static final String REPLACEMENT_CHARACTER = "_";
     //Exclude everything but numbers, alphabets, dots, hyphens and underscores
@@ -67,46 +66,31 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
         this.defaultIcon = defaultIcon;
     }
     
-    /**
-     * This method checks to see if string has invalid characters in it.
-     * @see org.kuali.kra.service.KcAttachmentService#hasInvalidCharacters(java.lang.String)
-     */
-    public boolean hasInvalidCharacters(String text) {
-       
+    
+    public String getInvalidCharacters(String text) {
         if (ObjectUtils.isNotNull(text)) {
             
             Pattern pattern = Pattern.compile(REGEX_TITLE_FILENAME_PATTERN);
             Matcher matcher = pattern.matcher(text);
             // Not null and invalid chars found 
             if (matcher.find()) {
-                setInvalidCharacters(matcher.group(1));
-                return true;
+                return matcher.group(1);
             }
         }
         // if text is null, return false. Null checks
         //for file names are done in other places and description
         // text can be null.
-        return false;    
-    }
-    
-    public String getInvalidCharacters() {
-        return invalidCharacters;
-    }
-
-    public void setInvalidCharacters(String invalidCharacters) {
-        this.invalidCharacters = invalidCharacters;
+        return null;    
     }
 
     /**
      * This method checks string for invalid characters and replaces with underscores.
      * @see org.kuali.kra.service.KcAttachmentService#checkAndReplaceInvalidCharacters(java.lang.String)
      */
-    public String checkAndReplaceInvalidCharacters(String text) {
-     
+    public String checkAndReplaceInvalidCharacters(String text) {     
         String cleanText = text;
         if (ObjectUtils.isNotNull(text)) {
-            String regex = REGEX_TITLE_FILENAME_PATTERN;
-            Pattern pattern = Pattern.compile(regex);
+            Pattern pattern = Pattern.compile(REGEX_TITLE_FILENAME_PATTERN);
             Matcher matcher = pattern.matcher(text);
             cleanText = matcher.replaceAll(REPLACEMENT_CHARACTER);
         }

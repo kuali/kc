@@ -76,6 +76,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.NoteType;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class...
@@ -139,16 +140,17 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
                     
                     KcAttachmentService attachmentService = getKcAttachmentService();
                     // Checking attachment file name for invalid characters.
-                    if (attachmentService.hasInvalidCharacters(attachmentFile.getFileName())) {
+                    String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFile.getFileName());
+                    if (ObjectUtils.isNotNull(invalidCharacters)) {
                         String parameter = getParameterService().
                             getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);    
                         
                         if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
                             GlobalVariables.getMessageMap().putError(Constants.INVALID_FILE_NAME_ERROR_TAB, KeyConstants.INVALID_FILE_NAME, 
-                                                                    attachmentFile.getFileName(), attachmentService.getInvalidCharacters());
+                                                                    attachmentFile.getFileName(), invalidCharacters);
                         } else {
                             GlobalVariables.getMessageMap().putWarning(Constants.INVALID_FILE_NAME_ERROR_TAB, KeyConstants.INVALID_FILE_NAME, 
-                                                                    attachmentFile.getFileName(), attachmentService.getInvalidCharacters());
+                                                                    attachmentFile.getFileName(), invalidCharacters);
                         }
                     }
                     

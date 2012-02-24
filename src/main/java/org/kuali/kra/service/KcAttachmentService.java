@@ -34,14 +34,8 @@ public interface KcAttachmentService {
      * This method returns the invalid characters in the file name.
      * @return
      */
-    String getInvalidCharacters();
+    String getInvalidCharacters(String text);
    
-    /**
-     * This method checks strings for invalid characters.
-     * @param text
-     * @return
-     */
-    boolean hasInvalidCharacters(String text);
         
     /**
      * This method checks for invalid characters in strings and replaces
