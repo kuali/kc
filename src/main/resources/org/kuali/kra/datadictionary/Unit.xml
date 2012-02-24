@@ -196,7 +196,7 @@
   <bean id="Unit-campusCode" parent="Unit-campusCode-parentBean"/>
   
   <bean id="Unit-campusCode-parentBean" abstract="true" parent="Campus-code">
-    <property name="name" value="campusCode" />
+    <property name="name" value="code" />
     <property name="required" value="false" />
   </bean>
   <bean id="Unit-active" parent="Unit-active-parentBean"/>
@@ -290,7 +290,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="unitName" />
         <bean parent="FieldDefinition"
-              p:attributeName="campusCode" />
+              p:attributeName="code" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

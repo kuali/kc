@@ -664,7 +664,7 @@
   <bean id="KcPerson-campusCode" parent="KcPerson-campusCode-parentBean"/>
   
   <bean id="KcPerson-campusCode-parentBean" abstract="true" parent="Campus-code">
-    <property name="name" value="campusCode" />
+    <property name="name" value="code" />
     <property name="required" value="false" />
   </bean>
   <bean id="KcPerson-extendedAttributes.vacationAccrualFlag" parent="KcPerson-extendedAttributes.vacationAccrualFlag-parentBean" />
@@ -1004,7 +1004,7 @@
         <bean parent="FieldDefinition" p:attributeName="officePhone" />
         <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
         <bean parent="FieldDefinition" p:attributeName="organizationIdentifier" />  
-        <bean parent="FieldDefinition" p:attributeName="campusCode" />
+        <bean parent="FieldDefinition" p:attributeName="code" />
         <!-- these aren't searchable because they don't exist in the person search inside rice 
         <bean parent="FieldDefinition" p:attributeName="extendedAttributes.directoryTitle" />
         <bean parent="FieldDefinition" p:attributeName="facultyFlag" />

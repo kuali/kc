@@ -877,7 +877,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * Gets the campus code.
      * @return the campus code
      */
-    public String getCampusCode() {
+    public String getCode() {
         return this.getCampusCode(true);
     }
     
