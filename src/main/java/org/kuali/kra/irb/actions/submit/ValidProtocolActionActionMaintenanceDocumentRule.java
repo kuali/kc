@@ -34,7 +34,7 @@ public class ValidProtocolActionActionMaintenanceDocumentRule extends KraMainten
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        ValidProtocolActionAction validProtocolActionAction = (ValidProtocolActionAction) document.getNoteTarget();
+        ValidProtocolActionAction validProtocolActionAction = (ValidProtocolActionAction) document.getDocumentBusinessObject();
         return validate(validProtocolActionAction);
     }
 
@@ -45,7 +45,7 @@ public class ValidProtocolActionActionMaintenanceDocumentRule extends KraMainten
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        ValidProtocolActionAction validProtocolActionAction = (ValidProtocolActionAction) document.getNoteTarget();
+        ValidProtocolActionAction validProtocolActionAction = (ValidProtocolActionAction) document.getDocumentBusinessObject();
         return validate(validProtocolActionAction);
     }
 
