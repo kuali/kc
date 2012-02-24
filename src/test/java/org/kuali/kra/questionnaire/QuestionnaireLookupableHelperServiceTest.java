@@ -165,7 +165,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
         pkNames.add("questionnaireRefId");
   
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
-        Assert.assertEquals(htmldata.size(), 3);
+        Assert.assertEquals(4, htmldata.size());
         Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQn.do?businessObjectClassName=org.kuali.kra.questionnaire.Questionnaire&questionnaireRefId="+questionnaire.getQuestionnaireRefId()+"&methodToCall=edit");
         Assert.assertTrue(((AnchorHtmlData)htmldata.get(1)).getHref().contains("/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+questionnaire.getDocumentNumber()));
         Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), "../maintenanceQn.do?businessObjectClassName=org.kuali.kra.questionnaire.Questionnaire&questionnaireRefId="+questionnaire.getQuestionnaireRefId()+"&methodToCall=copy");
