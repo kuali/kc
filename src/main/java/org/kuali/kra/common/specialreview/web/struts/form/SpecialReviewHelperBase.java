@@ -121,7 +121,8 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
                                 && (StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.APPROVED_AND_SUBMITTED)
                                         || StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.DISAPPROVED)
                                         || StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.APPROVED_POST_SUBMISSION)
-                                        || StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.DISAPPROVED_POST_SUBMISSION))
+                                        || StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.DISAPPROVED_POST_SUBMISSION)
+                                        || StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.APPROVAL_PENDING_SUBMITTED))
                                 && specialReview.getProtocolStatus() != null) {
                             // if the proposal is complete, do not get the fresh copy of the IRB status
                         } else {
