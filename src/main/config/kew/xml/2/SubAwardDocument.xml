@@ -10,6 +10,7 @@
 			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/subAwardHome.do?methodToCall=docHandler</docHandler>
+			<helpDefinitionURL>default.htm?turl=Documents/subaward1.htm</helpDefinitionURL>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
 			<routePaths>
