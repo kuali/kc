@@ -518,7 +518,7 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
         //only pending reports
         if (StringUtils.equals("1", getStatusCode())) {
             //only should delete report tracking records that won't be automatically deleted with the regeneration routines.
-            if (StringUtils.equals(ReportRegenerationType.ADDONLY.getDescription(), 
+            if (this.getFrequencyBase() != null && StringUtils.equals(ReportRegenerationType.ADDONLY.getDescription(), 
                     this.getFrequencyBase().getReportRegenerationType().getDescription())) {
                 retVal = true;
             }
