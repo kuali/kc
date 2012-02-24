@@ -22,8 +22,8 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Action Summary</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.timeandmoney.transactions.PendingTransaction" altText="help"/></span>
-        </h3>
+    		<span class="subhead-right"><kul:help parameterNamespace="KC-T" parameterDetailType="Document" parameterName="tmActionSummaryHelpUrl" altText="help"/></span>
+  </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">
         	<tr>
