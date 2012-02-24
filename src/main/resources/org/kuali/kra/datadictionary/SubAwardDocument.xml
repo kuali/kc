@@ -16,11 +16,17 @@
     <property name="headerNavigationList">
       <list>
         <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-SUBAWARD" p:parameterName="subAwardHomeHelpUrl" p:parameterDetailType="Document"/>
+          </property>
           <property name="headerTabDisplayName" value="Subaward"/>
           <property name="headerTabNavigateTo" value="subAward"/>
         </bean>
     
         <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-SUBAWARD" p:parameterName="subAwardFinancalHelpUrl" p:parameterDetailType="Document"/>
+          </property>
           <property name="headerTabDisplayName" value="Financial"/>
           <property name="headerTabNavigateTo" value="financial"/>
         </bean>
@@ -31,11 +37,17 @@
         </bean>
         
         <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-SUBAWARD" p:parameterName="subAwardActionsHelpUrl" p:parameterDetailType="Document"/>
+          </property>
           <property name="headerTabDisplayName" value="Subaward Actions"/>
           <property name="headerTabNavigateTo" value="subAwardActions"/>
         </bean>
         
           <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-SUBAWARD" p:parameterName="subAwardMedusaHelpUrl" p:parameterDetailType="Document"/>
+          </property>
           <property name="headerTabDisplayName" value="Medusa"/>
           <property name="headerTabNavigateTo" value="medusa"/>
         </bean>
