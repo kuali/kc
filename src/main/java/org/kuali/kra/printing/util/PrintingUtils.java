@@ -288,8 +288,8 @@ public class PrintingUtils {
 	}
 	
     /*
-     * This method is copied from KratrasactionalDocumentBase.   It is referenced by meeting.
-     * TODO : refactor other references from kratransactiondocumentbase to this method ?
+     * This method is copied from KraTransactionalDocumentBase.   It is referenced by meeting.
+     * TODO : refactor other references from KraTransactionalDocumentBase to this method ?
      */
     public static void streamToResponse(AttachmentDataSource attachmentDataSource,
             HttpServletResponse response) throws Exception {
@@ -299,10 +299,7 @@ public class PrintingUtils {
             baos = new ByteArrayOutputStream(xbts.length);
             baos.write(xbts);
 
-            WebUtils
-                    .saveMimeOutputStreamAsFile(response, attachmentDataSource
-                            .getContentType(), baos, attachmentDataSource
-                            .getFileName());
+            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
 
         } finally {
             try {
@@ -312,6 +309,32 @@ public class PrintingUtils {
                 }
             } catch (IOException ioEx) {
                 // LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }
+    }
+
+    public static void streamToResponse(byte[] fileContents, String fileName, String fileContentType, 
+            HttpServletResponse response) throws Exception {
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream(fileContents.length);
+            baos.write(fileContents);
+            try {
+                if (baos != null) {
+                    baos.close();
+                    baos = null;
+                }
+            } catch (IOException ioEx) {
+                throw new RuntimeException("IOException occurred while downloading attachment", ioEx);
+            }
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.close();
+                    baos = null;
+                }
+            } catch (IOException ioEx) {
+                throw new RuntimeException("IOException occurred while downloading attachment", ioEx);
             }
         }
     }

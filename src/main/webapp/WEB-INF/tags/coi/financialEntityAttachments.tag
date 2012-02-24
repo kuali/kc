@@ -125,9 +125,9 @@
 							</td>
 			                <td>
 								<div align=center>
-									<html:image property="methodToCall.viewPersonnelAttachment.line${attStatus.index}.anchor${currentTabIndex}"
-												src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
-												onclick="javascript: openNewWindow('proposalDevelopmentAbstractsAttachments','viewPersonnelAttachment',${attStatus.index},${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" /> 
+									<html:image property="methodToCall.viewFinancialEntityAttachment.line${attStatus.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
+										alt="View Financial Entity Attachment" onclick="excludeSubmitRestriction = true;"/>
 									<html:image property="methodToCall.deleteFinancialEntityAttachment.line${attStatus.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 								</div>
