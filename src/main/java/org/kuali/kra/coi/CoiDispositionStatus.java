@@ -41,6 +41,8 @@ public class CoiDispositionStatus extends KraPersistableBusinessObjectBase {
     private String description; 
     
     private CoiDisclosure coiDisclosure; 
+    private CoiDisclosureStatus coiDisclosureStatus;
+    private String coiDisclosureStatusCode;
     
     public CoiDispositionStatus() { 
 
@@ -68,6 +70,22 @@ public class CoiDispositionStatus extends KraPersistableBusinessObjectBase {
 
     public void setCoiDisclosure(CoiDisclosure coiDisclosure) {
         this.coiDisclosure = coiDisclosure;
+    }
+
+    public void setCoiDisclosureStatus(CoiDisclosureStatus coiDisclosureStatus) {
+        this.coiDisclosureStatus = coiDisclosureStatus;
+    }
+
+    public CoiDisclosureStatus getCoiDisclosureStatus() {
+        return coiDisclosureStatus;
+    }
+
+    public void setCoiDisclosureStatusCode(String coiDisclosureStatusCode) {
+        this.coiDisclosureStatusCode = coiDisclosureStatusCode;
+    }
+
+    public String getCoiDisclosureStatusCode() {
+        return coiDisclosureStatusCode;
     }
 
 }
