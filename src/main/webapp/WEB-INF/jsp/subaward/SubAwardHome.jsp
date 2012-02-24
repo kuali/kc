@@ -28,6 +28,7 @@
   	
 
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+<div align="right"><kul:help documentTypeName="SubAwardDocument" pageName="Subaward" /></div>
 
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 

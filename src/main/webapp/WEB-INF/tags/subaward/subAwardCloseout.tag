@@ -24,7 +24,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Closeout </span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.SubAwardCloseout" altText="help"/></span>
+   	        <div align="right"><kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardCloseOutHelpUrl" altText="help"/></div>
         </h3>
         
         <table cellpadding=0 cellspacing=0 summary="">
