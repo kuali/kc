@@ -253,8 +253,9 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         List<ReportTracking> reportTrackingReturn = new ArrayList<ReportTracking>();
         for (ReportTracking rt : reportListToClean) {
             if (StringUtils.equals(getPendingReportStatus().getReportStatusCode(), rt.getStatusCode())
-                    && StringUtils.equals(awardTerm.getFrequencyBase().getReportRegenerationType().getDescription(), 
-                            ReportRegenerationType.REGEN.getDescription())) {
+                    && (awardTerm.getFrequencyBase() != null  
+                            && StringUtils.equals(awardTerm.getFrequencyBase().getReportRegenerationType().getDescription(),
+                                    ReportRegenerationType.REGEN.getDescription()))) {
                 deleteReports.add(rt);
             } else {
                 reportTrackingReturn.add(rt);
