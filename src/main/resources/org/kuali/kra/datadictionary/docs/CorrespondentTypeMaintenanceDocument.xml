@@ -33,6 +33,7 @@
                 <value>correspondentTypeCode</value>
             </list>
         </property>
+        <property name="allowsRecordDeletion" value="true" />
 
         <property name="documentTypeName" value="CorrespondentTypeMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />

@@ -15,6 +15,7 @@
                 <value>s2sOppFormQuestionnaireId</value>
             </list>
         </property>
+        <property name="allowsRecordDeletion" value="true" />
         <property name="documentTypeName" value="S2sOppFormQuestionnaireMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
   </bean>

@@ -33,7 +33,8 @@
                 <value>validProtoSubTypeQualId</value>
             </list>
         </property>
-
+        <property name="allowsRecordDeletion" value="true" />
+        
         <property name="documentTypeName" value="ValidProtoSubTypeQualMaintenanceDocument" />
         <property name="businessRulesClass" value="org.kuali.kra.irb.actions.submit.ValidProtoSubTypeQualMaintenanceDocumentRule"/>
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />

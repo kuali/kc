@@ -147,6 +147,8 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         }
         if (hasModifyPermission && questionnaire.getQuestionnaireId() != null) {
             htmlDataList.add(getHtmlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
+            
+            htmlDataList.add(getHtmlData(businessObject, KRADConstants.MAINTENANCE_DELETE_METHOD_TO_CALL, pkNames));
         }
         return htmlDataList;
     }

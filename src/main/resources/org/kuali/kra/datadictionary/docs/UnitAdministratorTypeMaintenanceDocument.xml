@@ -14,7 +14,7 @@
       <list>
         <value>unitAdministratorTypeCode</value>
       </list>
-    </property>
+    </property>	<property name="allowsRecordDeletion" value="true" />	
     
     
     

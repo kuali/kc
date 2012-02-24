@@ -22,7 +22,7 @@
       </list>
     </property>
     <property name="preserveLockingKeysOnCopy" value="true" />
-    
+    <property name="allowsRecordDeletion" value="true" />
     
     
     

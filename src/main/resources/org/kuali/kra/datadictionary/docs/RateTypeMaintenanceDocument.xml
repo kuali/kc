@@ -16,7 +16,7 @@
         <value>rateTypeCode</value>
       </list>
     </property>
-    
+    <property name="allowsRecordDeletion" value="true" />
     
     
     

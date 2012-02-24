@@ -17,7 +17,7 @@
         <value>proposalNumber</value>
       </list>
     </property>
-    
+    <property name="allowsRecordDeletion" value="true" />
     
     
     

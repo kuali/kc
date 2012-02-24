@@ -29,7 +29,7 @@
 			<list>
 				<value>riskLevelCode</value>
 			</list>
-		</property>
+		</property>		<property name="allowsRecordDeletion" value="true" />	
 		
 		
 		

@@ -27,7 +27,7 @@
 			<list>
 				<value>accountTypeCode</value>
 			</list>
-		</property>
+		</property>		<property name="allowsRecordDeletion" value="true" />	
 		
 		
 		

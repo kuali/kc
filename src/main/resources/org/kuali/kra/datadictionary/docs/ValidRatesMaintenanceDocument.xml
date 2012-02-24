@@ -20,7 +20,6 @@
 	<bean id="ValidRatesMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.award.home.ValidRates"/>
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
-		<property name="allowsRecordDeletion" value="true"/>
 		<property name="maintainableSections">
 			<list>
 				<ref bean="ValidRatesMaintenanceDocument-EditValidRates"/>
@@ -30,7 +29,7 @@
 			<list>
 				<value>validRatesId</value>
 			</list>
-		</property>
+		</property>		<property name="allowsRecordDeletion" value="true" />	
 		
 		
 		

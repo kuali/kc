@@ -27,7 +27,7 @@
 			<list>
 				<value>protocolOnlineReviewDeterminationRecommendationCode</value>
 			</list>
-		</property>
+		</property>		<property name="allowsRecordDeletion" value="true" />	
 		
 		<property name="documentTypeName" value="ProtocolOnlineReviewDeterminRecommendMaintenanceDocument"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
