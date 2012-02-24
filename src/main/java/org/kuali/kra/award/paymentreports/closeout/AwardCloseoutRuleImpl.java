@@ -91,7 +91,7 @@ public class AwardCloseoutRuleImpl extends ResearchDocumentRuleBase implements A
      * @return
      */
     protected boolean areRequiredFieldsComplete(AwardCloseout closeoutItem) {        
-        boolean itemValid = closeoutItem.getCloseoutReportName() != null;
+        boolean itemValid = closeoutItem != null && closeoutItem.getCloseoutReportName() != null;
         
         if(!itemValid) {
             reportError(CLOSEOUT_REPORT_NAME_PROPERTY, KeyConstants.ERROR_AWARD_CLOSEOUT_REPORT_NAME_REQUIRED, REPORT_NAME_ERROR_PARM);
