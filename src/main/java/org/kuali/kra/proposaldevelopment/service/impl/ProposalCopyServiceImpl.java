@@ -78,6 +78,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.document.Document;
@@ -972,6 +973,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         objectMap.clear();
         fixNumericProperty(budgetDocument, "setVersionNumber", Integer.class, null, objectMap);
         objectMap.clear();
+
+        //Temporary workaround for fixing budget notes OptimisticLockException due to auto-added copy notes
+        fixNumericProperty(budgetDocument, "setNoteIdentifier", Long.class, null, objectMap);
+        objectMap.clear();
+        for(Note note : budgetDocument.getNotes()) {
+            note.setObjectId(null);
+        }
+        //Temporary workaround ends here
         
         ObjectUtils.materializeAllSubObjects(budgetDocument.getBudget());
 
@@ -995,6 +1004,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         budget.setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
         budget.setBudgetDocument(budgetDocument);
         budget.setDocumentNumber(budgetDocument.getDocumentNumber());
+        
         documentService.saveDocument(budgetDocument);
         
         for(BudgetPeriod tmpBudgetPeriod: budget.getBudgetPeriods()) {
