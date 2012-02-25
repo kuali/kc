@@ -76,7 +76,7 @@ public class FinancialEntityHelper implements Serializable {
         if (StringUtils.isBlank(reporterId)) {
             reporterId = GlobalVariables.getUserSession().getPrincipalId();
         }
-      newPersonFinancialEntity = new PersonFinIntDisclosure();
+        newPersonFinancialEntity = new PersonFinIntDisclosure();
         newPersonFinancialEntity.setCurrentFlag(true);
         financialEntityReporter = new FinancialEntityReporter();
         newPersonFinancialEntity.setPersonId(reporterId);
@@ -267,6 +267,7 @@ public class FinancialEntityHelper implements Serializable {
         this.setInactiveFinancialEntities(getFinancialEntities(false));
         this.refreshFinancialEntityReporter();
         this.setNewFinancialEntityReporterUnit(new FinancialEntityReporterUnit());
+        this.setFinEntityAttachmentList(new ArrayList<FinancialEntityAttachment>());
         newRelationDetails = getFinancialEntityService().getFinancialEntityDataMatrix();
         editRelationDetails = new ArrayList<FinEntityDataMatrixBean>(); 
         editEntityIndex = -1;

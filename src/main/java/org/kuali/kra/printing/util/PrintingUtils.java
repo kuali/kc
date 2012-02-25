@@ -313,29 +313,22 @@ public class PrintingUtils {
         }
     }
 
-    public static void streamToResponse(byte[] fileContents, String fileName, String fileContentType, 
-            HttpServletResponse response) throws Exception {
+    public static void streamToResponse(byte[] fileContents, String fileName, String fileContentType, HttpServletResponse response)
+    throws Exception {
         ByteArrayOutputStream baos = null;
         try {
             baos = new ByteArrayOutputStream(fileContents.length);
             baos.write(fileContents);
-            try {
-                if (baos != null) {
-                    baos.close();
-                    baos = null;
-                }
-            } catch (IOException ioEx) {
-                throw new RuntimeException("IOException occurred while downloading attachment", ioEx);
-            }
-        } finally {
-            try {
-                if (baos != null) {
-                    baos.close();
-                    baos = null;
-                }
-            } catch (IOException ioEx) {
-                throw new RuntimeException("IOException occurred while downloading attachment", ioEx);
-            }
+            baos.close();
+            response.addHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\"");
+            response.addHeader("Content-Transfer-Encoding", "binary");
+            response.setContentType(fileContentType);
+            response.setContentLength(fileContents.length);
+            response.getOutputStream().write(baos.toByteArray());
+            response.getOutputStream().flush();
+            baos = null;
+        } catch (IOException ioEx) {
+            throw new RuntimeException("IOException occurred while downloading attachment", ioEx);
         }
     }
 
