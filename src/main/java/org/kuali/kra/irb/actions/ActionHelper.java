@@ -576,15 +576,17 @@ public class ActionHelper implements Serializable {
         }
         return null;
     }
-    
+
+    // always reinitialize amendment beans, otherwise a second pass thru prepareView() will show same
+    // amendment creation options as previous passes
     public void initAmendmentBeans() throws Exception {
-        if (protocolAmendmentBean == null) {
+//        if (protocolAmendmentBean == null) {
             protocolAmendmentBean = createAmendmentBean();
-        }
-        if (protocolRenewAmendmentBean == null) {
+//        }
+//        if (protocolRenewAmendmentBean == null) {
             protocolRenewAmendmentBean = createAmendmentBean();
-        }
-}
+//        }
+    }
 
     /**
      * Create an Amendment Bean.  The modules that can be selected depends upon the
