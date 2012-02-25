@@ -125,7 +125,7 @@
 							</td>
 			                <td>
 								<div align=center>
-									<html:image property="methodToCall.viewFinancialEntityAttachment.line${attStatus.index}.anchor${currentTabIndex}"
+									<html:image property="methodToCall.viewFinancialEntityAttachment.line${attStatus.index}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 										alt="View Financial Entity Attachment" onclick="excludeSubmitRestriction = true;"/>
 									<html:image property="methodToCall.deleteFinancialEntityAttachment.line${attStatus.index}.anchor${currentTabIndex}"

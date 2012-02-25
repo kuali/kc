@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import javax.mail.internet.HeaderTokenizer;
@@ -31,6 +33,7 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.coi.service.CoiPrintingService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.service.WatermarkService;
@@ -288,13 +291,13 @@ public class FinancialEntityAction extends KualiAction {
         FinancialEntityForm financialEntityForm = (FinancialEntityForm) form;
         final int selection = this.getSelectedLine(request);
         FinancialEntityAttachment attachment = financialEntityForm.getFinancialEntityHelper().getFinEntityAttachmentList().get(selection);
-
-        final AttachmentFile file = attachment.getAttachmentFile();
-        byte[] attachmentFile = file.getData();
-        if (attachmentFile != null){
-            PrintingUtils.streamToResponse(attachmentFile, getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+        if (attachment == null) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        } else {
+            final AttachmentFile file = attachment.getAttachmentFile();
+            PrintingUtils.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+            return null;  // response already handled
         }
-        return null;  // response already handled
     }
 
     protected CoiPrintingService getCoiPrintingService() {
