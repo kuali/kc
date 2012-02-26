@@ -70,7 +70,7 @@
 							</c:otherwise>
 						</c:choose>
 					</td>
-					<td>
+					<td style="font-weight:bold">
 						${attachment.key}:  
 					</td>
 					<td>
