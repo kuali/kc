@@ -48,6 +48,7 @@ import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.dao.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -306,19 +307,20 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private void initInstitutionalProposals(List<CoiDisclEventProject> disclEventProjects, List<CoiDiscDetail> disclosureDetails, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {
         List<InstitutionalProposal> iProposals = getInstitutionalProposals(GlobalVariables.getUserSession().getPrincipalId());
         for (InstitutionalProposal proposal : iProposals) {
-            CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposal,
-                new ArrayList<CoiDiscDetail>());
-            for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
-                CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
-                        proposal.getProposalNumber(), proposal.getProposalId().toString(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL);
-//                disclosureDetail.setProjectType(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL);
-//                disclosureDetail.setProtocol(proposal);
-                disclosureDetails.add(disclosureDetail);
-                coiDisclEventProject.getCoiDiscDetails().add(disclosureDetail);
+            if (proposal.getProposalStatus().equals(ProposalStatus.FUNDED) || proposal.getProposalStatus().equals(ProposalStatus.PENDING)) {
+                CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposal,
+                        new ArrayList<CoiDiscDetail>());
+                for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+                    CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
+                                proposal.getProposalNumber(), proposal.getProposalId().toString(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL);
+//                  disclosureDetail.setProjectType(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL);
+//                  disclosureDetail.setProtocol(proposal);
+                    disclosureDetails.add(disclosureDetail);
+                    coiDisclEventProject.getCoiDiscDetails().add(disclosureDetail);
+                }
+                disclEventProjects.add(coiDisclEventProject);
             }
-            disclEventProjects.add(coiDisclEventProject);
         }
-        
     }
     
     /*
