@@ -408,6 +408,8 @@ public class MeetingActionsAction extends MeetingAction {
                 if (dataSource != null) {
                     protocolCorrespondence.setCorrespondence(dataSource.getContent());
                     protocolCorrespondence.setFinalFlag(false);
+                    protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+                    protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
                 }
 //                meetingHelper.setProtocolCorrespondence(protocolCorrespondence);
                 meetingHelper.getRegeneratedCorrespondences().add(protocolCorrespondence);

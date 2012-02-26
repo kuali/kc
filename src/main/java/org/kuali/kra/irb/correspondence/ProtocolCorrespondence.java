@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import java.sql.Timestamp;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
@@ -54,6 +56,9 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
     private ProtocolAction protocolAction;
     
     private boolean regenerateFlag;
+    private Timestamp createTimestamp; 
+    private String createUser;
+
 
     // hooks to view/save correspondence
     private ProtocolNotificationRequestBean notificationRequestBean;
@@ -196,5 +201,21 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
 
     public void setRegenerateFlag(boolean regenerateFlag) {
         this.regenerateFlag = regenerateFlag;
+    }
+
+    public Timestamp getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 }
