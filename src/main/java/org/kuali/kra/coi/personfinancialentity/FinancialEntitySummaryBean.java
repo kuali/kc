@@ -16,7 +16,10 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
+
+import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachmentSummary;
 
 public class FinancialEntitySummaryBean implements Serializable {
     /**
@@ -31,7 +34,7 @@ public class FinancialEntitySummaryBean implements Serializable {
     private String ownershipType;
     private String details;
     private Map<String, String> relationshipDetails;
-    private Map<String, String> attachmentSummary;
+    private List<FinancialEntityAttachmentSummary> attachmentSummary;
     private FinancialEntityForm financialEntityForm;
     
     
@@ -92,10 +95,10 @@ public class FinancialEntitySummaryBean implements Serializable {
     public void setOwnershipType(String ownershipType) {
         this.ownershipType = ownershipType;
     }
-    public Map<String, String> getAttachmentSummary() {
+    public List<FinancialEntityAttachmentSummary> getAttachmentSummary() {
         return attachmentSummary;
     }
-    public void setAttachmentSummary(Map<String, String> attachmentSummary) {
+    public void setAttachmentSummary(List<FinancialEntityAttachmentSummary> attachmentSummary) {
         this.attachmentSummary = attachmentSummary;
     }
     
