@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
+import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachmentSummary;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder;
@@ -222,15 +224,14 @@ public class FinancialEntitySummaryHelper implements Serializable {
                 formattedRelationshipDetails.put(dataGroups.get(group), "");
             }
         }
-       
         
         return formattedRelationshipDetails;    
     }
     
-    protected Map<String, String> generateAttachmentSummary(List<FinancialEntityAttachment> attachments, List<FinancialEntityAttachment> prevAttachments) {
-        Map<String, String> formattedAttachments = new TreeMap<String, String>();
+    protected List<FinancialEntityAttachmentSummary> generateAttachmentSummary(List<FinancialEntityAttachment> attachments, List<FinancialEntityAttachment> prevAttachments) {
+        List<FinancialEntityAttachmentSummary> formattedAttachments = new ArrayList<FinancialEntityAttachmentSummary>();
         for (FinancialEntityAttachment attachment: attachments) {
-            String descriptionString = (!StringUtils.isEmpty(attachment.getContactName()) ? " Uploaded by " + attachment.getContactName() : "") +
+            String descriptionString = (!StringUtils.isEmpty(attachment.getContactName()) ? " Uploaded by " + attachment.getContactName() : "Uploaded") +
                                        " at " + attachment.getUpdateTimestamp();
             // check to see if this is a new attachment or has otherwise been changed
             boolean found = false;
@@ -241,7 +242,10 @@ public class FinancialEntitySummaryHelper implements Serializable {
                     }
                 }
             }
-            formattedAttachments.put(found ? attachment.getFileName() : addSpan(attachment.getFileName()), (found ? descriptionString : addSpan(descriptionString)));
+            String key = found ? attachment.getFileName() : addSpan(attachment.getFileName());
+            String value = found ? descriptionString : addSpan(descriptionString);
+            String link = attachment.getFileId().toString();
+            formattedAttachments.add(new FinancialEntityAttachmentSummary(key, value, link));
         }
         // now work backwards to see if any attachments have been deleted
         if (prevAttachments != null) {
@@ -253,7 +257,7 @@ public class FinancialEntitySummaryHelper implements Serializable {
                     }
                 }
                 if (!found) {
-                    formattedAttachments.put(addSpan(oldAttachment.getFileName()), addSpan("deleted"));
+                    formattedAttachments.add(new FinancialEntityAttachmentSummary(addSpan(oldAttachment.getFileName()), addSpan("deleted"), "0"));
                 }
             }
         }
