@@ -41,6 +41,7 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.service.impl.mocks.MockKcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.kra.util.DateUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * 
@@ -59,6 +60,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
     public void setUp() {
         committeeBatchCorrespondenceServiceImpl = new CommitteeBatchCorrespondenceServiceImpl();
         committeeBatchCorrespondenceServiceImpl.setKcNotificationService(getMockKcNotificationService());
+        committeeBatchCorrespondenceServiceImpl.setDateTimeService(getMockDateTimeService());
     }
 
     /**
@@ -67,87 +69,87 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testGenerateBatchCorrespondenceForRenewalReminders() throws Exception {
-//        String batchCorrespondenceTypeCode = Constants.PROTOCOL_RENEWAL_REMINDERS;
-//        Committee committee = 
-//            ((List <Committee>)getBusinessObjectService().findAll(Committee.class)).get(0);
-//        final String committeeId = committee.getCommitteeId();
-//            final Date startDate = Date.valueOf("2010-06-01");
-//        final Date endDate = Date.valueOf("2010-06-15");
-//
-//        committeeBatchCorrespondenceServiceImpl.setBusinessObjectService(new CommitteeTestHelper.MockBusinessObjectService());
-//        committeeBatchCorrespondenceServiceImpl.setKcPersonService(new MockKcPersonService());
-//        
-//        final ProtocolDao protocolDao = context.mock(ProtocolDao.class);
-//        final List<Protocol> protocols = initProtocols();
-//        context.checking(new Expectations() {{
-//            oneOf(protocolDao).getExpiringProtocols(committeeId, startDate, endDate); will(returnValue(protocols));
-//        }});
-//        committeeBatchCorrespondenceServiceImpl.setProtocolDao(protocolDao);
-//        
-//        final ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService = context.mock(ProtocolCorrespondenceTemplateService.class);
-//        context.checking(new Expectations() {{
-//            oneOf(protocolCorrespondenceTemplateService).getProtocolCorrespondenceTemplate(with(any(String.class)), 
-//                    with(any(String.class))); will(returnValue(new ProtocolCorrespondenceTemplate()));
-//        }});
-//        committeeBatchCorrespondenceServiceImpl.setProtocolCorrespondenceTemplateService(protocolCorrespondenceTemplateService);
-//        
-//      CommitteeBatchCorrespondence committeeBatchCorrespondence = committeeBatchCorrespondenceServiceImpl.generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate);
-//
-//      // assert CommitteeBatchCorrespondence
-//      assertEquals(committeeId, committeeBatchCorrespondence.getCommitteeId());
-//      assertEquals(batchCorrespondenceTypeCode, committeeBatchCorrespondence.getBatchCorrespondenceTypeCode());
-//      assertEquals(startDate, committeeBatchCorrespondence.getTimeWindowStart());
-//      assertEquals(endDate, committeeBatchCorrespondence.getTimeWindowEnd());
-//      
-//      // assert CommitteeBatchCorrespondenceDetail
-//      assertEquals(1, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().size());
-//      assertEquals(committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getCommitteeBatchCorrespondenceId());
-//      assertEquals("Renewal Reminder Letter #1", committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getProtocolAction().getComments());
+        String batchCorrespondenceTypeCode = Constants.PROTOCOL_RENEWAL_REMINDERS;
+        Committee committee = 
+            ((List <Committee>)getBusinessObjectService().findAll(Committee.class)).get(0);
+        final String committeeId = committee.getCommitteeId();
+            final Date startDate = Date.valueOf("2010-06-01");
+        final Date endDate = Date.valueOf("2010-06-15");
+
+        committeeBatchCorrespondenceServiceImpl.setBusinessObjectService(new CommitteeTestHelper.MockBusinessObjectService());
+        committeeBatchCorrespondenceServiceImpl.setKcPersonService(new MockKcPersonService());
+        
+        final ProtocolDao protocolDao = context.mock(ProtocolDao.class);
+        final List<Protocol> protocols = initProtocols();
+        context.checking(new Expectations() {{
+            oneOf(protocolDao).getExpiringProtocols(committeeId, startDate, endDate); will(returnValue(protocols));
+        }});
+        committeeBatchCorrespondenceServiceImpl.setProtocolDao(protocolDao);
+        
+        final ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService = context.mock(ProtocolCorrespondenceTemplateService.class);
+        context.checking(new Expectations() {{
+            oneOf(protocolCorrespondenceTemplateService).getProtocolCorrespondenceTemplate(with(any(String.class)), 
+                    with(any(String.class))); will(returnValue(new ProtocolCorrespondenceTemplate()));
+        }});
+        committeeBatchCorrespondenceServiceImpl.setProtocolCorrespondenceTemplateService(protocolCorrespondenceTemplateService);
+        
+      CommitteeBatchCorrespondence committeeBatchCorrespondence = committeeBatchCorrespondenceServiceImpl.generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate);
+
+      // assert CommitteeBatchCorrespondence
+      assertEquals(committeeId, committeeBatchCorrespondence.getCommitteeId());
+      assertEquals(batchCorrespondenceTypeCode, committeeBatchCorrespondence.getBatchCorrespondenceTypeCode());
+      assertEquals(startDate, committeeBatchCorrespondence.getTimeWindowStart());
+      assertEquals(endDate, committeeBatchCorrespondence.getTimeWindowEnd());
+      
+      // assert CommitteeBatchCorrespondenceDetail
+      assertEquals(1, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().size());
+      assertEquals(committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getCommitteeBatchCorrespondenceId());
+      assertEquals("Renewal Reminder Letter #1", committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getProtocolAction().getComments());
     }
-//
-//    /**
-//     * This method tests the creation of batch correspondence
-//     * @throws Exception
-//     */
-//   @Test
-//    public void testGenerateBatchCorrespondenceForIrbNotifications() throws Exception {
-//        String batchCorrespondenceTypeCode = Constants.REMINDER_TO_IRB_NOTIFICATIONS;
-//        Committee committee = 
-//            ((List <Committee>)getBusinessObjectService().findAll(Committee.class)).get(0);
-//        final String committeeId = committee.getCommitteeId();
-//        final Date startDate = Date.valueOf("2010-06-01");
-//        final Date endDate = Date.valueOf("2010-06-15");
-//
-//        committeeBatchCorrespondenceServiceImpl.setBusinessObjectService(new CommitteeTestHelper.MockBusinessObjectService());
-//        committeeBatchCorrespondenceServiceImpl.setKcPersonService(new MockKcPersonService());
-//        
-//        final ProtocolDao protocolDao = context.mock(ProtocolDao.class);
-//        final List<Protocol> protocols = initProtocols();
-//        context.checking(new Expectations() {{
-//            oneOf(protocolDao).getIrbNotifiedProtocols(committeeId, startDate, endDate); will(returnValue(protocols));
-//        }});
-//        committeeBatchCorrespondenceServiceImpl.setProtocolDao(protocolDao);
-//        
-//        final ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService = context.mock(ProtocolCorrespondenceTemplateService.class);
-//        context.checking(new Expectations() {{
-//            oneOf(protocolCorrespondenceTemplateService).getProtocolCorrespondenceTemplate(with(any(String.class)), 
-//                    with(any(String.class))); will(returnValue(new ProtocolCorrespondenceTemplate()));
-//        }});
-//        committeeBatchCorrespondenceServiceImpl.setProtocolCorrespondenceTemplateService(protocolCorrespondenceTemplateService);
-//        
-//      CommitteeBatchCorrespondence committeeBatchCorrespondence = committeeBatchCorrespondenceServiceImpl.generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate);
-//
-//      // assert CommitteeBatchCorrespondence
-//      assertEquals(committeeId, committeeBatchCorrespondence.getCommitteeId());
-//      assertEquals(batchCorrespondenceTypeCode, committeeBatchCorrespondence.getBatchCorrespondenceTypeCode());
-//      assertEquals(startDate, committeeBatchCorrespondence.getTimeWindowStart());
-//      assertEquals(endDate, committeeBatchCorrespondence.getTimeWindowEnd());
-//      
-//      // assert CommitteeBatchCorrespondenceDetail
-//      assertEquals(1, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().size());
-//      assertEquals(committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getCommitteeBatchCorrespondenceId());
-//      assertEquals("Reminder to IRB Notification #1", committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getProtocolAction().getComments());
-//    }
+
+    /**
+     * This method tests the creation of batch correspondence
+     * @throws Exception
+     */
+   @Test
+    public void testGenerateBatchCorrespondenceForIrbNotifications() throws Exception {
+        String batchCorrespondenceTypeCode = Constants.REMINDER_TO_IRB_NOTIFICATIONS;
+        Committee committee = 
+            ((List <Committee>)getBusinessObjectService().findAll(Committee.class)).get(0);
+        final String committeeId = committee.getCommitteeId();
+        final Date startDate = Date.valueOf("2010-06-01");
+        final Date endDate = Date.valueOf("2010-06-15");
+
+        committeeBatchCorrespondenceServiceImpl.setBusinessObjectService(new CommitteeTestHelper.MockBusinessObjectService());
+        committeeBatchCorrespondenceServiceImpl.setKcPersonService(new MockKcPersonService());
+        
+        final ProtocolDao protocolDao = context.mock(ProtocolDao.class);
+        final List<Protocol> protocols = initProtocols();
+        context.checking(new Expectations() {{
+            oneOf(protocolDao).getIrbNotifiedProtocols(committeeId, startDate, endDate); will(returnValue(protocols));
+        }});
+        committeeBatchCorrespondenceServiceImpl.setProtocolDao(protocolDao);
+        
+        final ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService = context.mock(ProtocolCorrespondenceTemplateService.class);
+        context.checking(new Expectations() {{
+            oneOf(protocolCorrespondenceTemplateService).getProtocolCorrespondenceTemplate(with(any(String.class)), 
+                    with(any(String.class))); will(returnValue(new ProtocolCorrespondenceTemplate()));
+        }});
+        committeeBatchCorrespondenceServiceImpl.setProtocolCorrespondenceTemplateService(protocolCorrespondenceTemplateService);
+        
+      CommitteeBatchCorrespondence committeeBatchCorrespondence = committeeBatchCorrespondenceServiceImpl.generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate);
+
+      // assert CommitteeBatchCorrespondence
+      assertEquals(committeeId, committeeBatchCorrespondence.getCommitteeId());
+      assertEquals(batchCorrespondenceTypeCode, committeeBatchCorrespondence.getBatchCorrespondenceTypeCode());
+      assertEquals(startDate, committeeBatchCorrespondence.getTimeWindowStart());
+      assertEquals(endDate, committeeBatchCorrespondence.getTimeWindowEnd());
+      
+      // assert CommitteeBatchCorrespondenceDetail
+      assertEquals(1, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().size());
+      assertEquals(committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getCommitteeBatchCorrespondenceId());
+      assertEquals("Reminder to IRB Notification #1", committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getProtocolAction().getComments());
+    }
 
     private List<Protocol> initProtocols() {
         List<Protocol> protocols = new ArrayList<Protocol>();
@@ -226,6 +228,15 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
     
     private KcNotificationService getMockKcNotificationService() {
         final KcNotificationService service = context.mock(KcNotificationService.class);
+        
+        context.checking(new Expectations() {{
+            ignoring(service);
+        }});
+        
+        return service;
+    }
+    private DateTimeService getMockDateTimeService() {
+        final DateTimeService service = context.mock(DateTimeService.class);
         
         context.checking(new Expectations() {{
             ignoring(service);
