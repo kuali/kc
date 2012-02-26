@@ -54,9 +54,11 @@ import org.kuali.kra.service.KcEmailService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.util.EmailAttachment;
 import org.kuali.kra.util.DateUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -80,7 +82,8 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
     private KcPersonService kcPersonService;
     private KcNotificationService kcNotificationService;
     private KcEmailService kcEmailService;
-    
+    private DateTimeService dateTimeService;
+
     private int finalActionCounter;
 
     /**
@@ -364,7 +367,9 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
         protocolCorrespondence.setCorrespondence(getCommitteePrintingService().print(printableArtifactList).getContent());
 
         protocolCorrespondence.setFinalFlag(false);
-        
+        protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+        protocolCorrespondence.setCreateTimestamp(dateTimeService.getCurrentTimestamp());
+       
         protocolCorrespondence.setProtocol(protocol);
         protocolCorrespondence.setProtocolCorrespondenceType(protocolCorrespondenceType);
         
@@ -464,6 +469,10 @@ public class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCo
      */
     public void setKcNotificationService(KcNotificationService kcNotificationService) {
         this.kcNotificationService = kcNotificationService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 
 }

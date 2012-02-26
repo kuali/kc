@@ -3790,6 +3790,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (dataSource != null) {
             protocolCorrespondence.setCorrespondence(dataSource.getContent());
             protocolCorrespondence.setFinalFlag(false);
+            protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+            protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
             protocolCorrespondence.setForwardName(PROTOCOL_ACTIONS_TAB);
             protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
             getBusinessObjectService().save(protocolCorrespondence);
