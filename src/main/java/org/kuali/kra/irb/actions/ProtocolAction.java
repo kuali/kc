@@ -17,14 +17,20 @@ package org.kuali.kra.irb.actions;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
@@ -33,6 +39,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -87,6 +94,7 @@ public class ProtocolAction extends ProtocolAssociate {
     private transient int answerHeadersCount = 0;
 
     private transient QuestionnairePrintOption questionnairePrintOption;
+    private transient CommitteeService committeeService;
 
     public ProtocolAction() {
     }
@@ -480,4 +488,72 @@ public class ProtocolAction extends ProtocolAssociate {
     public void setAnswerHeadersCount(int answerHeadersCount) {
         this.answerHeadersCount = answerHeadersCount;
     }
+    
+    // TODO : this might be a concern if the protocol has lots of correspondence, and we have to verify
+    // for every single one.  We can't use a general check for this protocol because there is timing issue
+    // for each actions.  Member may be active in some actions, but inactive for other actions.
+    public boolean isActiveCommitteeMember() {
+        boolean result = false;
+        ProtocolSubmission submission = getSubmission();
+        List<CommitteeMembership> committeeMembers = 
+            getCommitteeService().getAvailableMembers(submission.getCommitteeId(),
+                    submission.getScheduleId());
+        if (CollectionUtils.isNotEmpty(committeeMembers)) {
+            for (CommitteeMembership member : committeeMembers) {
+                if (StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), member.getPersonId())) {
+                    result = true;
+                    break;
+                }
+            }
+        }        
+        
+        return result;
+    }
+
+    private ProtocolSubmission getSubmission() {
+        ProtocolSubmission submission = null;
+        this.refreshReferenceObject("protocolSubmission");
+        if (protocolSubmission != null) {
+            submission = protocolSubmission;
+        } else {
+            //  sort it by descending actionid
+            // this sort 'protocol.getProtocolActions' messed up viewhistory. because the viewhistory is coming from action.
+//            Collections.sort(getProtocol().getProtocolActions(), new Comparator<ProtocolAction>() {
+//                public int compare(ProtocolAction action1, ProtocolAction action2) {
+//                    return action1.getActionId().compareTo(action2.getActionId());
+//                }
+//            });
+            for (ProtocolAction action : this.getProtocol().getSortedActions()) {
+                if (action.getActionId() < this.actionId && action.getSubmissionNumber() != null) {
+                    submission = getSubmissionForAction(action.getSubmissionNumber());
+                }
+            }
+        }
+        return submission;	
+    }
+    
+    private ProtocolSubmission getSubmissionForAction(Integer submissionNumber) {
+
+        for (ProtocolSubmission submission : getProtocol().getProtocolSubmissions()) {
+            if (submission.getSubmissionNumber().equals(submissionNumber)) {
+                return submission;
+            }
+        }
+        return null;
+        
+        
+    }
+    
+    public CommitteeService getCommitteeService() {
+        if (committeeService == null) {
+            committeeService = KraServiceLocator.getService(CommitteeService.class);
+        }
+        return committeeService;
+    }
+
+    public void setCommitteeService(CommitteeService committeeService) {
+        this.committeeService = committeeService;
+    }   
+    
+
 }
