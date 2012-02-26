@@ -41,6 +41,8 @@
                 <ref bean="ProtocolCorrespondence-correspondence" />
                 <ref bean="ProtocolCorrespondence-versionNumber" />
                 <ref bean="ProtocolCorrespondence-finalFlag" />
+                <ref bean="ProtocolCorrespondence-createUser"/>
+                <ref bean="ProtocolCorrespondence-createTimestamp"/>
             </list>
         </property>
     </bean>
@@ -129,6 +131,31 @@
         <property name="shortLabel" value="Final" />
         <property name="summary" value="Is Final" />
         <property name="description" value="Is Final" />
+    </bean>
+    <bean id="ProtocolCorrespondence-createUser" parent="ProtocolCorrespondence-createUser-parentBean" />
+    <bean id="ProtocolCorrespondence-createUser-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="createUser" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Create User" />
+        <property name="shortLabel" value="Create User" />
+        <property name="maxLength" value="80" />
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+        <property name="summary" value="Create User" />
+        <property name="description" value="Create User" />
+    
+    </bean>
+
+    <bean id="ProtocolCorrespondence-createTimestamp" parent="ProtocolCorrespondence-createTimestamp-parentBean" />
+
+    <bean id="ProtocolCorrespondence-createTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="createTimestamp" />
+        <property name="label" value="Date Created" />
+        <property name="shortLabel" value="Date Created" />
+        <property name="summary" value="Created Time" />
+        <property name="description" value="Created Time" />
     </bean>
 
     <!-- Business Object Inquiry Definition -->

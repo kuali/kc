@@ -25,7 +25,9 @@ import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -36,6 +38,7 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
     private BusinessObjectService businessObjectService;
     private PrintingService printingService;
     private ProtocolActionTypeToCorrespondenceTemplateService protocolActionTypeToCorrespondenceTemplateService;
+    private DateTimeService dateTimeService;
 
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -72,7 +75,9 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
         //What is Final flag used for? ANSWER: the final flag is used by the IRB admin to denote correspondences 
         //that are ready to be sent/published to the PI etc.
         protocolCorrespondence.setFinalFlag(false);
-        
+        protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+        protocolCorrespondence.setCreateTimestamp(dateTimeService.getCurrentTimestamp());
+       
         if(lastAction.getProtocolCorrespondences() == null) {
             List<ProtocolCorrespondence> correspondences = new ArrayList<ProtocolCorrespondence>();
             correspondences.add(protocolCorrespondence);
@@ -117,5 +122,9 @@ public class ProtocolActionCorrespondenceGenerationServiceImpl implements Protoc
         List<ProtocolCorrespondenceTemplate> templates = 
             this.protocolActionTypeToCorrespondenceTemplateService.getTemplatesByProtocolAction(actionType);
         return templates;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }
