@@ -47,4 +47,8 @@ public class ProposalStatus extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    public boolean equals(Integer other) {
+        return proposalStatusCode.intValue() == other.intValue();
+    }
 }

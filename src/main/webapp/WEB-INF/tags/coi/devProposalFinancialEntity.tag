@@ -20,6 +20,8 @@
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <c:set var="financialEntityAttributes" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
+<c:set var="ipAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
+
 <c:set var="readOnly" value="${!KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
                 <div class="tab-container" align="left">
     	<h3>
@@ -35,13 +37,13 @@
                                     <th><div align="right">Proposal Name:</div></th> 
                   <td align="left" valign="middle" colspan="3">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.longTextField1}" /> 
 					</div>
 				  </td>
                                     <th><div align="right">Sponsor:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.sponsor.sponsorName" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.sponsor.sponsorName" readOnly="true" attributeEntry="${ipAttributes.sponsorCode}" /> 
 					</div>
 				  </td>
                                 </tr>
@@ -53,13 +55,13 @@
                         <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.requestedStartDateInitial" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.requestedStartDateInitial" readOnly="true" attributeEntry="${coiDisclProjectAttributes.dateField1}" /> 
 					</div>
 				  </td>
                                     <th><div align="right">End Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.requestedEndDateInitial" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.requestedEndDateInitial" readOnly="true" attributeEntry="${coiDisclProjectAttributes.dateField2}" /> 
 					</div>
 				  </td>
                                     <th><div align="right">PI Name:</div></th> 
