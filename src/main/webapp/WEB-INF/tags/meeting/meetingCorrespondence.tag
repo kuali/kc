@@ -31,7 +31,7 @@
 	                    <div align="left"><c:out value="${correspondence.protocolCorrespondenceType.description}" /></div>
 					</td>
 	                <td align="left" valign="middle">
-	                    <div align="left"><fmt:formatDate value="${correspondence.updateTimestamp}" pattern="MM/dd/yyyy" /> </div>
+	                    <div align="left"><fmt:formatDate value="${correspondence.createTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> </div>
 					</td>
                     <td>
                         <div align="center">

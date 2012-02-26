@@ -120,15 +120,19 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		                                        <tbody>
 		                                            <tr>
 		                                               <%--<th style="text-align:left;width:10%">File Name</th> --%>
-		                                               <th style="text-align:center">Description</th>
+                                                       <th style="text-align:center">Description</th>
+                                                       <th style="text-align:center">Date Created</th>
 		                                               <th style="text-align:center">Actions</th>
 		                                            </tr>
 		           		                            <c:forEach items="${protocolAction.protocolCorrespondences}" var="correspondence" varStatus="attachmentStatus">
 		           		    	                        <tr>
 		           		    	                            <td>${correspondence.protocolCorrespondenceType.description}</td>
+                    <td align="left" valign="middle">
+                        <div align="left"><fmt:formatDate value="${correspondence.createTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> </div>
+                    </td>
 		           		 					                <td align="center" valign="middle">
                                                                 <div align="center">
-                                                                  <c:if test="${irbAdmin or correspondence.finalFlag}">
+                                                                  <c:if test="${irbAdmin or correspondence.finalFlag or protocolAction.activeCommitteeMember}">
                                                                     <html:image property="methodToCall.viewActionCorrespondence.line${status.index}.attachment${attachmentStatus.index}.anchor${currentTabIndex}"
 										                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
 										                                        alt="View Correspondence" onclick="excludeSubmitRestriction = true;"
