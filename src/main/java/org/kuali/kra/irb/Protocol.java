@@ -177,7 +177,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private List<ProtocolSubmission> protocolSubmissions;
   
     private ProtocolSubmission protocolSubmission;
-    
+    private transient List<ProtocolAction> sortedActions;
+ 
 
     
     /*
@@ -2183,4 +2184,22 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         // TODO Auto-generated method stub
         return getProtocolNumber();
     }
+    
+    // This is for viewhistory/corespondence to search prev submission
+    public List<ProtocolAction> getSortedActions() {
+        if (sortedActions == null) {
+            sortedActions = new ArrayList<ProtocolAction>();
+            for (ProtocolAction action : getProtocolActions()) {
+                sortedActions.add((ProtocolAction) ObjectUtils.deepCopy(action));
+            }
+
+            Collections.sort(sortedActions, new Comparator<ProtocolAction>() {
+                public int compare(ProtocolAction action1, ProtocolAction action2) {
+                    return action1.getActionId().compareTo(action2.getActionId());
+                }
+            });
+        }
+        return sortedActions;
+    }
+
 }
