@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.web.bean.Role;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
@@ -37,6 +39,8 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.permission.PermissionQueryResults;
 
 /**
@@ -48,10 +52,12 @@ public class PermissionsHelper extends PermissionsHelperBase {
     private static final String AGGREGATOR_NAME = "Aggregator";
     private static final String VIEWER_NAME = "Viewer";
     private static final String UNASSIGNED_NAME = "unassigned";
-    
+    private static final Log LOG = LogFactory.getLog(PermissionsHelper.class);
+
     //A collection of role names within the namespace that should not be assignable 
     //in the permissions page.
     private static final Collection<String> excludeRoles;
+    
     
     static {
         excludeRoles = new HashSet<String>();
@@ -95,6 +101,22 @@ public class PermissionsHelper extends PermissionsHelperBase {
         }
     }
 
+    @Override
+    /*
+     * This is used to populate the drop down list in the users panel in the 
+     * permissions tab.
+     */
+    public List<KeyValue> getRoleSelection() {
+        buildDisplayNameMap();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        for (String role : displayNameMap.keySet()) {           
+            KeyValue pair = new ConcreteKeyValue(role, displayNameMap.get(role));    
+            keyValues.add(pair);
+        }
+        return keyValues;
+    }
+    
+    
     /*
      * Get the Protocol.
      */
@@ -130,6 +152,8 @@ public class PermissionsHelper extends PermissionsHelperBase {
     protected String getRoleDisplayName(String roleName) {
         buildDisplayNameMap();
         String displayName = displayNameMap.get(roleName);
+        /*Without this code the values other than aggregator, 
+         * viewer and unassigned do not appear in the assigned roles*/
         if (displayName == null) {
             displayName = roleName;
         }
