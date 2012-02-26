@@ -55,8 +55,29 @@
 	</td>
 	<td colspan="3" width="70%">
 		<c:set var="finEntAttachments" value= "${bean.attachmentSummary}" />
-		<c:forEach items="${finEntAttachments}" var="entry">
-			${entry.key}:  ${entry.value}<br />
-		</c:forEach>
+		<table border="0">
+			<c:forEach items="${bean.attachmentSummary}" var="attachment">
+				<tr>
+					<td>
+						<c:choose>
+							<c:when test="${attachment.linkId > 0}">
+								<a href="financialEntityManagement.do?methodToCall=viewFinancialEntityAttachmentFromSummary&linkId=${attachment.linkId}&financialEntityHelper.newProjectId=${award.awardId}">
+								<img src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton">
+								</a>
+							</c:when>
+							<c:otherwise>
+								&nbsp;
+							</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						${attachment.key}:  
+					</td>
+					<td>
+						${attachment.description}
+					</td>
+				</tr>
+			</c:forEach>
+		</table>
 	</td>
 </tr>

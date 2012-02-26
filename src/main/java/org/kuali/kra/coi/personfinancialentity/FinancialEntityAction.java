@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.internet.HeaderTokenizer;
 import javax.mail.internet.MimeUtility;
@@ -296,6 +296,22 @@ public class FinancialEntityAction extends KualiAction {
         } else {
             final AttachmentFile file = attachment.getAttachmentFile();
             PrintingUtils.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+            return null;  // response already handled
+        }
+    }
+
+    public ActionForward viewFinancialEntityAttachmentFromSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        final String selection = request.getParameter("linkId");
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("id", selection);
+        List<AttachmentFile> files = (List<AttachmentFile>)getBusinessObjectService().findMatching(AttachmentFile.class, fieldValues);
+        if (files.size() == 0) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        } else {
+            AttachmentFile attachmentFile = files.get(0);
+            PrintingUtils.streamToResponse(attachmentFile.getData(), getValidHeaderString(attachmentFile.getName()),  getValidHeaderString(attachmentFile.getType()), response);
             return null;  // response already handled
         }
     }
