@@ -65,8 +65,8 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
      * This method tests the creation of batch correspondence
      * @throws Exception
      */
-//    @Test
-//    public void testGenerateBatchCorrespondenceForRenewalReminders() throws Exception {
+    @Test
+    public void testGenerateBatchCorrespondenceForRenewalReminders() throws Exception {
 //        String batchCorrespondenceTypeCode = Constants.PROTOCOL_RENEWAL_REMINDERS;
 //        Committee committee = 
 //            ((List <Committee>)getBusinessObjectService().findAll(Committee.class)).get(0);
@@ -103,7 +103,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
 //      assertEquals(1, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().size());
 //      assertEquals(committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getCommitteeBatchCorrespondenceId());
 //      assertEquals("Renewal Reminder Letter #1", committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().get(0).getProtocolAction().getComments());
-//    }
+    }
 //
 //    /**
 //     * This method tests the creation of batch correspondence
