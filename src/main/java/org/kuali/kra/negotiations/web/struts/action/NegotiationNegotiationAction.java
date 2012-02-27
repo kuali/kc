@@ -217,8 +217,11 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
-        Negotiation oldNegotiation = getBusinessObjectService().findBySinglePrimaryKey(Negotiation.class,
-                negotiation.getNegotiationId());
+        Negotiation oldNegotiation = null;
+        if (negotiation.getNegotiationId() != null) {
+            oldNegotiation = getBusinessObjectService().findBySinglePrimaryKey(Negotiation.class,
+                    negotiation.getNegotiationId());
+        }
         if (oldNegotiation == null
                 || !StringUtils.equals(negotiation.getAssociatedDocumentId(), oldNegotiation.getAssociatedDocumentId())) {
             Collection<Negotiation> otherNegotiations;
