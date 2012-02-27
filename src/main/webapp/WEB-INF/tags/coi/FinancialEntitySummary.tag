@@ -55,7 +55,7 @@
 	</td>
 	<td colspan="3" width="70%">
 		<c:set var="finEntAttachments" value= "${bean.attachmentSummary}" />
-		<table border="0">
+		<table border=0 rules="all" bordercolor="lightgray">
 			<c:forEach items="${bean.attachmentSummary}" var="attachment">
 				<tr>
 					<td>
@@ -66,12 +66,12 @@
 								</a>
 							</c:when>
 							<c:otherwise>
-								&nbsp;
+								<span class="change2">&nbsp;</span>
 							</c:otherwise>
 						</c:choose>
 					</td>
 					<td style="font-weight:bold">
-						${attachment.key}:  
+						${attachment.key}
 					</td>
 					<td>
 						${attachment.description}

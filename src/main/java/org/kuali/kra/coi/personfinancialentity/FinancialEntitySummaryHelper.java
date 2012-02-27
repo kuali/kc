@@ -230,6 +230,7 @@ public class FinancialEntitySummaryHelper implements Serializable {
     
     protected List<FinancialEntityAttachmentSummary> generateAttachmentSummary(List<FinancialEntityAttachment> attachments, List<FinancialEntityAttachment> prevAttachments) {
         List<FinancialEntityAttachmentSummary> formattedAttachments = new ArrayList<FinancialEntityAttachmentSummary>();
+        boolean hideDelete = prevAttachments != null;  // we want to use an alternate class so deleted attachments don't show up except in "changed" view
         for (FinancialEntityAttachment attachment: attachments) {
             String descriptionString = (!StringUtils.isEmpty(attachment.getContactName()) ? " Uploaded by " + attachment.getContactName() : "Uploaded") +
                                        " at " + attachment.getUpdateTimestamp();
@@ -242,8 +243,8 @@ public class FinancialEntitySummaryHelper implements Serializable {
                     }
                 }
             }
-            String key = found ? attachment.getFileName() : addSpan(attachment.getFileName());
-            String value = found ? descriptionString : addSpan(descriptionString);
+            String key = found ? attachment.getFileName() : addSpan(attachment.getFileName(), false);
+            String value = found ? descriptionString : addSpan(descriptionString, false);
             String link = attachment.getFileId().toString();
             formattedAttachments.add(new FinancialEntityAttachmentSummary(key, value, link));
         }
@@ -257,7 +258,7 @@ public class FinancialEntitySummaryHelper implements Serializable {
                     }
                 }
                 if (!found) {
-                    formattedAttachments.add(new FinancialEntityAttachmentSummary(addSpan(oldAttachment.getFileName()), addSpan("deleted"), "0"));
+                    formattedAttachments.add(new FinancialEntityAttachmentSummary(addSpan(oldAttachment.getFileName(), hideDelete), addSpan("deleted", hideDelete), "0"));
                 }
             }
         }
@@ -271,6 +272,13 @@ public class FinancialEntitySummaryHelper implements Serializable {
      */
     protected String addSpan(String htmlString) {
         return "<span class=\"changed\">" + htmlString + "</span>";
+    }
+    protected String addSpan(String htmlString, boolean hideDelete) {
+        if (hideDelete) {
+            return "<span class=\"change2\">" + htmlString + "</span>";
+        } else {
+            return "<span class=\"changed\">" + htmlString + "</span>";
+        }
     }
    
     public List<PersonFinIntDisclosure> getVersions() {
