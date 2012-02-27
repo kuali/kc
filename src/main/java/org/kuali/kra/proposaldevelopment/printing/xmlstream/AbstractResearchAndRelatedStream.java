@@ -1417,11 +1417,11 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                     }
                     else if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_SUMMER_MONTHS)) {
                         BudgetDecimal summerMonths = personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new BudgetDecimal(0.01));
-                        compensationInfo.setSummerMonths(compensationInfo.getCalendarMonths().add(summerMonths));
+                        compensationInfo.setSummerMonths(compensationInfo.getSummerMonths().add(summerMonths));
                     }
                     else {
                         BudgetDecimal calendarMonths = personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new BudgetDecimal(0.01));
-                        compensationInfo.setCalendarMonths(compensationInfo.getAcademicMonths().add(calendarMonths));
+                        compensationInfo.setCalendarMonths(compensationInfo.getCalendarMonths().add(calendarMonths));
                     }
                     BudgetDecimal totalSal = personDetails.getSalaryRequested();
                     compensationInfo.setRequestedSalary(compensationInfo.getRequestedSalary().add(totalSal));
