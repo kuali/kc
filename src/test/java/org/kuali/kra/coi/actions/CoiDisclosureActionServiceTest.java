@@ -50,8 +50,8 @@ public class CoiDisclosureActionServiceTest extends KcUnitTestBase {
     Mockery context = new JUnit4Mockery();
     private CoiDisclosure coiDisclosure1 ;
     private CoiDisclosureHistory coiDisclosureHistory;
-   // @Test
-  /* public void testApproveDisclosures() throws Exception {
+    @Test
+    public void testApproveDisclosures() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         CoiDisclosureActionServiceImpl coiDisclosureActionService = new CoiDisclosureActionServiceImpl();
         coiDisclosureActionService = new CoiDisclosureActionServiceImpl();
@@ -85,7 +85,7 @@ public class CoiDisclosureActionServiceTest extends KcUnitTestBase {
        Assert.assertEquals(coiDisclosure2.getCoiDiscDetails().size(),2);
        // history record created
        Assert.assertEquals(coiDisclosureHistory.getDisclosureStatus(),CoiDisclosureStatus.APPROVED);
-   }*/
+   }
 
     private CoiDisclosureHistory createDisclosureHistory(CoiDisclosure coiDisclosure) {
         CoiDisclosureHistory coiDisclosureHistory = new CoiDisclosureHistory();
