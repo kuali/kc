@@ -16,13 +16,14 @@
 package org.kuali.kra.award.home;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
  * 
  * This class represents Distribution business object and is mapped
  * with DISTRIBUTION table.
  */
-public class Distribution extends KraPersistableBusinessObjectBase {
+public class Distribution extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
     /**
      * Comment for <code>serialVersionUID</code>

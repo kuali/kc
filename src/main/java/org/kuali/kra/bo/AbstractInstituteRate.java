@@ -22,8 +22,9 @@ import org.kuali.kra.budget.rates.AbstractBudgetRate;
 import org.kuali.kra.budget.rates.RateClass;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public abstract class AbstractInstituteRate extends KraPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>, AbstractInstituteRateKey {
+public abstract class AbstractInstituteRate extends KraPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>, AbstractInstituteRateKey, MutableInactivatable {
 
     private static final long serialVersionUID = -2136003574701633349L;
 
@@ -51,11 +52,11 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
 
     private boolean nonEditableRateFlag;
 
-    public final Boolean getActive() {
+    public final boolean isActive() {
         return active;
     }
 
-    public final void setActive(Boolean active) {
+    public final void setActive(boolean active) {
         this.active = active;
     }
 

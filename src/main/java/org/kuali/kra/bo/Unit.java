@@ -18,10 +18,12 @@ package org.kuali.kra.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+
 /**
  * This class is a Unit
  */
-public class Unit extends KraPersistableBusinessObjectBase {
+public class Unit extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
     private static final long serialVersionUID = 7170184898996866958L;
 

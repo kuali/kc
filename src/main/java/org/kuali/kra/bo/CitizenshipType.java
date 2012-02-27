@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+
 
 /**
  * This class...
  */
-public class CitizenshipType extends KraPersistableBusinessObjectBase {
+public class CitizenshipType extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
     private int citizenshipTypeCode;
 

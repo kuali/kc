@@ -62,7 +62,7 @@
                     p:name="dataGroupId"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="statusFlag"
+                    p:name="active"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="columnSortId"

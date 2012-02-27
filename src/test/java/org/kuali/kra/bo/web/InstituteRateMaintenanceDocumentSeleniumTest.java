@@ -212,7 +212,7 @@ public class InstituteRateMaintenanceDocumentSeleniumTest extends KcSeleniumTest
         assertEquals(startDate, formatter.format(instituteRate.getStartDate()));
         assertEquals(DEFAULT_UNIT_NUMBER, instituteRate.getUnitNumber());
         assertEquals(rate, instituteRate.getInstituteRate().toString());
-        assertEquals(DEFAULT_ACTIVE, instituteRate.getActive());
+        assertEquals(DEFAULT_ACTIVE, instituteRate.isActive());
     }
     
     /**

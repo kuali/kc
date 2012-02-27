@@ -41,7 +41,7 @@
                 <ref bean="Questionnaire-name" />
                 <ref bean="Questionnaire-fileName" />
                 <ref bean="Questionnaire-description" />
-                <ref bean="Questionnaire-isFinal" />
+                <ref bean="Questionnaire-active" />
                 <ref bean="Questionnaire-versionNumber" />
                 <ref bean="Questionnaire-documentNumber" />
             </list>
@@ -153,9 +153,9 @@
     	<property name="required" value="true" />
     </bean>
 
-    <bean id="Questionnaire-isFinal" parent="Questionnaire-isFinal-parentBean" />
-    <bean id="Questionnaire-isFinal-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-        <property name="name" value="isFinal" />
+    <bean id="Questionnaire-active" parent="Questionnaire-active-parentBean" />
+    <bean id="Questionnaire-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="active" />
         <property name="label" value="Active" />
         <property name="shortLabel" value="Active" />
         <property name="summary" value="Is Active" />
@@ -190,7 +190,7 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="description" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="isFinal" />
+                                p:attributeName="active" />
                         </list>
                     </property>
                 </bean>
@@ -224,7 +224,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="isFinal" />
+                    p:attributeName="active" />
             </list>
         </property>
         <property name="resultFields" >
@@ -242,7 +242,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="isFinal" />
+                    p:attributeName="active" />
             </list>
         </property>
     </bean>

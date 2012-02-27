@@ -16,8 +16,9 @@
 package org.kuali.kra.irb.protocol.reference;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class ProtocolReferenceType extends KraPersistableBusinessObjectBase {
+public class ProtocolReferenceType extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer protocolReferenceTypeCode;
 

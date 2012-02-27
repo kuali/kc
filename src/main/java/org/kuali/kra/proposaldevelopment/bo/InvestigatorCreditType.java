@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
  * Class representation of the Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
@@ -24,7 +25,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @see org.kuali.rice.krad.bo.PersistableBusinessObject
  * $Id: InvestigatorCreditType.java,v 1.6 2008-07-23 19:16:37 gmcgrego Exp $
  */
-public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
+public class InvestigatorCreditType extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
     private static final long serialVersionUID = 2881039955568764530L;
 
@@ -32,7 +33,7 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
 
     private Boolean addsToHundred;
 
-    private Boolean active;
+    private boolean active;
 
     private String description;
 
@@ -121,7 +122,7 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
      * Read access to the active flag
      * @return Boolean
      */
-    public Boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
@@ -130,7 +131,7 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
      * 
      * @param active
      */
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 

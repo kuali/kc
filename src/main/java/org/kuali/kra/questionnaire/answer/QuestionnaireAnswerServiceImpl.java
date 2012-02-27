@@ -101,7 +101,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 answerHeaders.add(answerHeaderMap.get(questionnaireId));
                 if (!questionnaireUsage.getQuestionnaire().getQuestionnaireRefId().equals(answerHeaderMap.get(questionnaireId).getQuestionnaireRefIdFk())) {
                     // the current qnaire is "Active"
-                    if (questionnaireUsage.getQuestionnaire().getIsFinal()) {
+                    if (questionnaireUsage.getQuestionnaire().isActive()) {
                         answerHeaderMap.get(questionnaireId).setNewerVersionPublished(true);
                         answerHeaderMap.get(questionnaireId).setActiveQuestionnaire(true);
                     }
@@ -112,7 +112,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             }
             else {
                 if ((!finalDoc || isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()))
-                        && questionnaireUsage.getQuestionnaire().getIsFinal()) {
+                        && questionnaireUsage.getQuestionnaire().isActive()) {
                     // filter out an not saved and usage is not include in current qn
                     answerHeaders.add(setupAnswerForQuestionnaire(questionnaireUsage.getQuestionnaire(), moduleQuestionnaireBean));
                 }
@@ -271,7 +271,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public boolean checkIfQuestionnaireIsActiveForModule(Integer questionnaireId, String moduleItemCode, String moduleSubItemCode) {
         boolean isActive = false;
         Questionnaire latestQnnrInstance = getLatestQuestionnaireVersion(questionnaireId);
-        if(null != latestQnnrInstance && latestQnnrInstance.getIsFinal()) {
+        if(null != latestQnnrInstance && latestQnnrInstance.isActive()) {
             isActive = latestQnnrInstance.hasUsageFor(moduleItemCode, moduleSubItemCode);
         }       
         return isActive;               
