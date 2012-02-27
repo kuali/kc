@@ -85,12 +85,12 @@
         <bean parent="WorkflowPropertyGroup">
           <property name="workflowProperties">
             <list>
-            <!-- TODO : add as needed when start to implement coi -->
               <bean parent="WorkflowProperty" p:path="documentHeader"/>
               <bean parent="WorkflowProperty" p:path="coiDisclosureList.coiDisclosureId"/>
               <bean parent="WorkflowProperty" p:path="coiDisclosureList.coiDisclosureNumber"/>
 			  <bean parent="WorkflowProperty" p:path="coiDisclosureList.sequenceNumber"/>
 			  <bean parent="WorkflowProperty" p:path="coiDisclosureList.certificationText"/>
+			  <bean parent="WorkflowProperty" p:path="coiDisclosureList.disclosurePersons.disclosurePersonUnits.unitNumber" />		  
             </list>
           </property>
         </bean> 
