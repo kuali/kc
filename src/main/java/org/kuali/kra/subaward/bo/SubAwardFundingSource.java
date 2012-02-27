@@ -35,6 +35,8 @@ public class SubAwardFundingSource extends SubAwardAssociate {
     private Integer statusCode;
 
     private String sponsorCode;
+    
+    private String sponsorName;
 
     private SubAward subAward;
 
@@ -163,6 +165,18 @@ public class SubAwardFundingSource extends SubAwardAssociate {
     public String getAwardNumber() {
         return awardNumber;
     }
+    
+    public String getSponsorName() {
+        if (award!=null){
+            sponsorName = award.getSponsorCode()+" "+award.getSponsorName();
+        }
+        return sponsorName;
+    }
+
+    public void setSponsorName(String sponsorName) {
+        this.sponsorName = sponsorName;
+    }
+    
     @Override
     public void resetPersistenceState() {
 

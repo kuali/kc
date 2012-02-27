@@ -803,7 +803,7 @@ AbstractResearchAndRelatedStream {
         nsfSeniorPersonnelType.setFullName(getFullName(seniorPersonnelBean));
         nsfSeniorPersonnelType.setTitle(seniorPersonnelBean.getRole());      
         nsfSeniorPersonnelType.setAcademicMonthsFunded( seniorPersonnelBean.getAcademicMonths().bigDecimalValue()); 
-        nsfSeniorPersonnelType.setCalendarMonthsFunded(cumulativeCalendarMonthsFunded.bigDecimalValue());         
+        nsfSeniorPersonnelType.setCalendarMonthsFunded(seniorPersonnelBean.getCalendarMonths().bigDecimalValue());           
         nsfSeniorPersonnelType.setSummerMonthsFunded(seniorPersonnelBean.getSummerMonths().bigDecimalValue()); 
         nsfSeniorPersonnelType.setFundsRequested(seniorPersonnelBean.getRequestedSalary().bigDecimalValue());
         nsfSeniorPersonnelType.setPersonID(seniorPersonnelBean.getPersonId());
