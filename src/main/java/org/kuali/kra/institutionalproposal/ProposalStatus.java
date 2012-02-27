@@ -48,7 +48,11 @@ public class ProposalStatus extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
     
-    public boolean equals(Integer other) {
-        return proposalStatusCode.intValue() == other.intValue();
+    public boolean isFunded() {
+        return proposalStatusCode.intValue() == FUNDED.intValue();
+    }
+
+    public boolean isPending() {
+        return proposalStatusCode.intValue() == PENDING.intValue();
     }
 }
