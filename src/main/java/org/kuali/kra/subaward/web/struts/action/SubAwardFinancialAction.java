@@ -49,11 +49,11 @@ public class SubAwardFinancialAction extends SubAwardAction{
         SubAwardForm subAwardForm = (SubAwardForm) form;
         SubAwardAmountInfo amountInfo=subAwardForm.getNewSubAwardAmountInfo(); 
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
-              
-        if(new SubAwardDocumentRule().processSaveSubAwardAmountInfoBusinessRule(subAward,amountInfo)){  
+       
+        if(new SubAwardDocumentRule().processSaveSubAwardAmountInfoBusinessRule(subAward,amountInfo)) {  
        
             ActionForward  forward = super.save(mapping, form, request, response);
-        return forward;
+            return forward;
         }
         else{ 
             return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);  
@@ -61,7 +61,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
         }
     }
     
-    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+       public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SubAwardForm subAwardForm = (SubAwardForm) form;
         ActionForward forward = super.reload(mapping, form, request, response);
         return forward;
@@ -86,14 +86,12 @@ public class SubAwardFinancialAction extends SubAwardAction{
     }
    
     public ActionForward deleteAmountInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        SubAwardForm subAwardForm = (SubAwardForm)form;
-        SubAwardAmountInfo amountInfo=subAwardForm.getNewSubAwardAmountInfo(); 
-        SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
-        
+        SubAwardForm subAwardForm = (SubAwardForm) form;
+        SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();    
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
         int selectedLineNumber = getSelectedLine(request);
-        if(new SubAwardDocumentRule().processDeleteSubAwardAmountInfoBusinessRules(amountInfo,subAward)){   
-            SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getSubAwardAmountInfoList().get(selectedLineNumber);
+        SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getSubAwardAmountInfoList().get(selectedLineNumber);
+        if(new SubAwardDocumentRule().processDeleteSubAwardAmountInfoBusinessRules(subAwardAmountInfo,subAward)) {   
             subAwardDocument.getSubAward().getSubAwardAmountInfoList().remove(selectedLineNumber);
             this.getBusinessObjectService().delete(subAwardAmountInfo);
         }
@@ -106,16 +104,15 @@ public class SubAwardFinancialAction extends SubAwardAction{
         SubAwardAmountReleased subAwardAmountReleased =subAwardForm.getNewSubAwardAmountReleased();
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
        if(new SubAwardDocumentRule().processAddSubAwardAmountReleasedBusinessRules(subAwardAmountReleased, subAward)){ 
-                addAmountReleasedToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardAmountReleased);
-                subAwardForm.setNewSubAwardAmountReleased(new SubAwardAmountReleased());
+           addAmountReleasedToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardAmountReleased);
+           subAwardForm.setNewSubAwardAmountReleased(new SubAwardAmountReleased());
        }
        subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
        subAwardForm.getSubAwardDocument().setSubAward(subAward);
-        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
+       return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
-
     boolean addAmountReleasedToSubAward(SubAward subAward,SubAwardAmountReleased subAwardAmountReleased){
-        subAwardAmountReleased.setSubAward(subAward);    
+        subAwardAmountReleased.setSubAward(subAward);  
         subAwardAmountReleased.populateAttachment();
         return subAward.getSubAwardAmountReleasedList().add(subAwardAmountReleased);
     }
