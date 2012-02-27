@@ -20,15 +20,19 @@
         	$j.fancybox.setup({ dropshadow : false, overlayShow : false});  
         	$j(document).ready(function() {       		 
         		        $j('#previousEntry').hide();
+       		       		$j(".change2").hide();
         		        $j('#previousEntry-showHide').click(function() {
             		        if ($j("#showHide").attr('src') == "${ConfigProperties.kra.externalizable.images.url}tinybutton-hide.gif") {
             		       		$j("#showHide").attr('src',"${ConfigProperties.kra.externalizable.images.url}tinybutton-show.gif"); 
             		       		$j(".changed").css({color: "#000000", 'font-weight': "normal"});
+            		       		$j(".change2").hide();
             		        	$j('#previousEntry').hide('fast');       
             		        } else {
             		        	$j("#showHide").attr('src',"${ConfigProperties.kra.externalizable.images.url}tinybutton-hide.gif"); 
             		        	$j('#previousEntry').show('fast');  
             		        	$j(".changed").css({color: "#FF0000", 'font-weight': "bold"});
+            		       		$j(".change2").show();
+            		        	$j(".change2").css({color: "#FF0000", 'font-weight': "bold"});
             		        }
                 		    return false;
         		        });      	
