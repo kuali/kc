@@ -3,6 +3,7 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>CoiDisclosureDocument</name>
+			<parent>KC</parent>
 			<description>Manage Coi Disclosure</description>
 			<label>KC Coi Disclosure</label>
 			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
@@ -15,7 +16,8 @@
 			<routingVersion>2</routingVersion>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" />
+					<start name="Initiated" nextNode="COIReview" />
+					<requests name="COIReview" /> 
 				</routePath>
 			</routePaths>
 			<routeNodes>
@@ -24,8 +26,43 @@
 					<mandatoryRoute>false</mandatoryRoute>
 					<finalApproval>false</finalApproval>
 				</start>
+				<role name="COIReview">
+					<qualifierResolver>CoiDisclosureApprover-XPathQualifierResolver</qualifierResolver>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>true</mandatoryRoute>                    
+					<finalApproval>false</finalApproval>
+	            </role>				
 			</routeNodes>
-			<parent>KC</parent>
 		</documentType>
-	</documentTypes>	
+	</documentTypes>
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+	<ruleAttribute>
+			<name>CoiDisclosureApprover-XPathQualifierResolver</name>
+			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<label>CoiDisclosureApprover-XPathQualifierResolver</label>
+			<description>To limit the Approval Request to be routed to CoiDisclosureApprovers for this protocol only</description>
+			<type>QualifierResolver</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<resolverConfig>
+				<!-- For unit hierarchy type roles, the unit number attribute needs to be sent to the resolver.
+				The attribute name here is really the KRIM_ATTR_DEFN_T name. So the attribute name SHOULD be unitNumber, 
+				not leadUnitNumber otherwise KIM will not be able to match this with the
+				KRIM_ATTR_DEFN_T type "unitNumber" that is mapped to KRIM_ROLE_MBR_ATTR_DATA_T for the members of the 
+				role COI Administrator -->
+				<attributes name="unitNumber">
+				<!-- This gigantic xpath expression is because the lead unit number is not actually stored in the disclosure
+				but in the disclosurePersonUnit which is in disclosurePerson which is in disclosure. If this results in overhead, unitNUmber
+				should be stored in the coiDisclosure itself-->
+				<xPathExpression>//document/coiDisclosureList[1]/org.kuali.kra.coi.CoiDisclosure[1]/disclosurePersons[1]/org.kuali.kra.coi.disclosure.DisclosurePerson[1]/disclosurePersonUnits[1]/org.kuali.kra.coi.disclosure.DisclosurePersonUnit[1]/unitNumber[1]</xPathExpression>
+				</attributes>
+			</resolverConfig>
+		</ruleAttribute>		
+	</ruleAttributes>
+		
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">        
+	</ruleTemplates>
+	
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+	</rules>
 </data>
