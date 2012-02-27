@@ -195,7 +195,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                 Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
                 Integer questionId = question.getQuestionIdAsInteger();
                 if (answer != null) {
-                        if( answer .equalsIgnoreCase(ANSWER_Y) || answer.equalsIgnoreCase(ANSWER_N)) {
+                        if( !answer .equalsIgnoreCase(ANSWER_YES) || !answer.equalsIgnoreCase(ANSWER_NO)) {
                     switch (questionId) {
                         case HUMAN:
                             researchTrainingPlan.setHumanSubjectsIndefinite(getYesNoEnum(answer));
