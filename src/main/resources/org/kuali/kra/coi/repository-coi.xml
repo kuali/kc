@@ -361,7 +361,7 @@
 		<field-descriptor name="guiType" column="GUI_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="lookupArgument" column="LOOKUP_ARGUMENT" jdbc-type="VARCHAR" />
 		<field-descriptor name="dataGroupId" column="DATA_GROUP_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="statusFlag" column="STATUS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="active" column="STATUS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="columnSortId" column="COLUMN_SORT_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -575,7 +575,7 @@
         <field-descriptor name="eventTypeCode" column="EVENT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="excludeFromMasterDisclosure" column="EXCLUDE_FROM_MASTER_DISCL" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="activeFlag" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />        
+        <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />        
         <field-descriptor name="useShortTextField1" column="USE_SHRT_TXT_FLD_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="requireShortTextField1" column="REQ_SHRT_TXT_FLD_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />        
         <field-descriptor name="shortTextField1Label" column="SHRT_TXT_FLD_1_LABEL" jdbc-type="VARCHAR" />

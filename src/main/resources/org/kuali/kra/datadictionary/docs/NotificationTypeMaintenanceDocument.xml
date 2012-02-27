@@ -51,7 +51,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="subject"/>
         <bean parent="MaintainableFieldDefinition" p:name="message"/>
         <bean parent="MaintainableFieldDefinition" p:name="promptUser"/>
-        <bean parent="MaintainableFieldDefinition" p:name="sendNotification"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"/>
       </list>
     </property>
   </bean>

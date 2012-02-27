@@ -16,8 +16,9 @@
 package org.kuali.kra.coi;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase { 
+public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase implements MutableInactivatable { 
     
 
     /**
@@ -40,7 +41,7 @@ public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase {
     private String eventTypeCode; 
     private String description;
     private boolean excludeFromMasterDisclosure;
-    private boolean activeFlag;
+    private boolean active;
     
     private boolean useShortTextField1;
     private boolean useShortTextField2;
@@ -115,13 +116,13 @@ public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase {
     }
 
 
-    public boolean isActiveFlag() {
-        return activeFlag;
+    public boolean isActive() {
+        return active;
     }
 
 
-    public void setActiveFlag(boolean activeFlag) {
-        this.activeFlag = activeFlag;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 

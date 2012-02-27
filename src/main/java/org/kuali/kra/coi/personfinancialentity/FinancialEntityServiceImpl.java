@@ -100,7 +100,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         Collections.sort(dataGroups);
         for (FinEntitiesDataGroup dataGroup : dataGroups) {
             for (FinEntitiesDataMatrix dataMatrix : dataGroup.getFinEntitiesDataMatrixs()) {
-                if (dataMatrix.getStatusFlag()) {
+                if (dataMatrix.isActive()) {
                     FinEntityDataMatrixBean dataMatrixBean = new FinEntityDataMatrixBean();
                     dataMatrixBean.setDataGroupId(dataGroup.getDataGroupId());
                     dataMatrixBean.setColumnLabel(dataMatrix.getColumnLabel());

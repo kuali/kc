@@ -54,19 +54,19 @@
         </tr>
         <tr>
             <th class="grid" width="25.0%" align="right">
-                <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.isFinal}" />
+                <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.active}" />
             </th>
             <td class="grid" width="25.0%">
-               <html:checkbox property="document.oldMaintainableObject.businessObject.isFinal" 
-                           styleId="document.oldMaintainableObject.businessObject.isFinal" disabled="true"/>
-                           <bean:write name="KualiForm" property="document.oldMaintainableObject.businessObject.isFinal"/>
+               <html:checkbox property="document.oldMaintainableObject.businessObject.active" 
+                           styleId="document.oldMaintainableObject.businessObject.active" disabled="true"/>
+                           <bean:write name="KualiForm" property="document.oldMaintainableObject.businessObject.active"/>
             </td>
             <th class="grid" width="25.0%" align="right">
-                <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.isFinal}" />
+                <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.active}" />
             </th>
             <td class="grid" width="25.0%">
-                <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.isFinal" 
-                                          attributeEntry="${questionnaireAttributes.isFinal}" />
+                <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.active" 
+                                          attributeEntry="${questionnaireAttributes.active}" />
             </td>
         </tr>
     </table>

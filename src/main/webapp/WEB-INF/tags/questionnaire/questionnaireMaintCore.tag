@@ -22,11 +22,11 @@
                     Version ${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber}
             </td>
             <th align="right" valign="middle" width="115">
-                <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.isFinal}" />
+                <kul:htmlAttributeLabel attributeEntry="${questionnaireAttributes.active}" />
             </th>
             <td align="left" valign="middle">
-                <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.isFinal" 
-                                          attributeEntry="${questionnaireAttributes.isFinal}" />
+                <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.active" 
+                                          attributeEntry="${questionnaireAttributes.active}" />
             </td>
             
         </tr>

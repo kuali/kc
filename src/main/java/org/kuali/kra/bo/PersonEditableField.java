@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+
 
 /**
  * Class representation of the Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
@@ -24,7 +26,7 @@ package org.kuali.kra.bo;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.3 $
  */
-public class PersonEditableField extends KraPersistableBusinessObjectBase {
+public class PersonEditableField extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
     private String fieldName;
 

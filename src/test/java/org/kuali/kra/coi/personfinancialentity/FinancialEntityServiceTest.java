@@ -445,7 +445,7 @@ public class FinancialEntityServiceTest {
         dataGroup2.getFinEntitiesDataMatrixs().add(getFinEntitiesDataMatrix(COLUMN_NAME_21, GUITYPE_CHECKBOX, "", COLUMN_LABEL_21));
         dataGroup2.getFinEntitiesDataMatrixs().add(getFinEntitiesDataMatrix(COLUMN_NAME_12, GUITYPE_CHECKBOX, "", COLUMN_LABEL_12));
         // this inactive one will not be included
-        dataGroup2.getFinEntitiesDataMatrixs().get(1).setStatusFlag(false);
+        dataGroup2.getFinEntitiesDataMatrixs().get(1).setActive(false);
         dataGroups.add(dataGroup2);
         
         return dataGroups;
@@ -458,7 +458,7 @@ public class FinancialEntityServiceTest {
         dataMatrix.setGuiType(guiType);
         dataMatrix.setLookupArgument(lookupArgument);
         dataMatrix.setColumnLabel(columnLabel);
-        dataMatrix.setStatusFlag(true);
+        dataMatrix.setActive(true);
         return dataMatrix;
     }  
     

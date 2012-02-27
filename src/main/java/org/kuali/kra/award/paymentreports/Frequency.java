@@ -16,12 +16,13 @@
 package org.kuali.kra.award.paymentreports;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
  * 
  * This class represents the Frequency Business Object.
  */
-public class Frequency extends KraPersistableBusinessObjectBase {
+public class Frequency extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -19,12 +19,13 @@ import java.util.List;
 
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.springframework.util.AutoPopulatingList;
 
 /**
  * Defines the template for Notifications.
  */
-public class NotificationType extends KraPersistableBusinessObjectBase {
+public class NotificationType extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
     private static final long serialVersionUID = 1777340179839083316L;
     
@@ -35,7 +36,7 @@ public class NotificationType extends KraPersistableBusinessObjectBase {
     private String subject;
     private String message;
     private boolean promptUser;
-    private boolean sendNotification;
+    private boolean active;
     
     private CoeusModule coeusModule;
     
@@ -98,12 +99,12 @@ public class NotificationType extends KraPersistableBusinessObjectBase {
         this.promptUser = promptUser;
     }
 
-    public boolean getSendNotification() {
-        return sendNotification;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setSendNotification(boolean sendNotification) {
-        this.sendNotification = sendNotification;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public CoeusModule getCoeusModule() {

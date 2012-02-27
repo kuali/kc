@@ -21,9 +21,10 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.springframework.util.AutoPopulatingList;
 
-public class Questionnaire extends KraPersistableBusinessObjectBase implements Comparable<Questionnaire>, SequenceOwner<Questionnaire> {
+public class Questionnaire extends KraPersistableBusinessObjectBase implements Comparable<Questionnaire>, SequenceOwner<Questionnaire>, MutableInactivatable {
 
     private static final long serialVersionUID = 8679896046435777084L;
 
@@ -35,7 +36,7 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
 
     private String description;
 
-    private boolean isFinal;
+    private boolean active;
 
     private Integer sequenceNumber;
 
@@ -97,12 +98,12 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
         this.description = description;
     }
 
-    public boolean getIsFinal() {
-        return isFinal;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setIsFinal(boolean isFinal) {
-        this.isFinal = isFinal;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public List<QuestionnaireQuestion> getQuestionnaireQuestions() {

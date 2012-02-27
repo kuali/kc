@@ -188,7 +188,7 @@ public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         assertEquals(DEFAULT_BUDGET_CATEGORY_CODE, costElement.getBudgetCategoryCode());
         assertEquals(description, costElement.getDescription());
         assertEquals(onOffCampusFlag, costElement.getOnOffCampusFlag());
-        assertEquals(DEFAULT_ACTIVE_FLAG, costElement.getActiveFlag());
+        assertEquals(DEFAULT_ACTIVE_FLAG, costElement.isActive());
     }
     
     /**

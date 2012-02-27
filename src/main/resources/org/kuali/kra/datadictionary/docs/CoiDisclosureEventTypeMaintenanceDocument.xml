@@ -49,7 +49,7 @@
                 <bean parent="MaintainableFieldDefinition" p:name="eventTypeCode" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="excludeFromMasterDisclosure"/>
-                <bean parent="MaintainableFieldDefinition" p:name="activeFlag"/>
+                <bean parent="MaintainableFieldDefinition" p:name="active"/>
                 <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
             </list>
         </property>

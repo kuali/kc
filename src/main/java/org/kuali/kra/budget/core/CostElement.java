@@ -20,8 +20,9 @@ import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.rates.ValidCeRateType;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class CostElement extends KraPersistableBusinessObjectBase implements Comparable {
+public class CostElement extends KraPersistableBusinessObjectBase implements Comparable, MutableInactivatable {
 
     private String costElement;
 
@@ -33,7 +34,7 @@ public class CostElement extends KraPersistableBusinessObjectBase implements Com
 
     private String budgetCategoryTypeCode;
 
-    private Boolean activeFlag;
+    private boolean active;
 
     private List<ValidCeRateType> validCeRateTypes;
 
@@ -85,12 +86,12 @@ public class CostElement extends KraPersistableBusinessObjectBase implements Com
         this.onOffCampusFlag = onOffCampusFlag;
     }
 
-    public Boolean getActiveFlag() {
-        return activeFlag;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setActiveFlag(Boolean activeFlag) {
-        this.activeFlag = activeFlag;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public List<ValidCeRateType> getValidCeRateTypes() {
