@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Organization;
@@ -74,6 +75,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private static final String ATTACHMENTS_INCOMPLETE = "Inomplete";
 
     private static final String ATTACHMENTS_NONE = "None";
+    
+    private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
 
     private String proposalNumber;
 
@@ -807,6 +810,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     public void setMailingAddressId(Integer mailingAddressId) {
         this.mailingAddressId = mailingAddressId;
+        refreshRolodex();
     }
 
     public String getNumberOfCopies() {
@@ -1066,6 +1070,37 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.propSpecialReviews = propSpecialReviews;
     }
 
+    /*
+     * Refreshes the rolodex from the mailingAddressId
+     */
+    protected void refreshRolodex() {
+        NonOrganizationalRolodex rolodex;
+        if (mailingAddressId != null) {
+            rolodex = (NonOrganizationalRolodex) getBusinessObjectService().findByPrimaryKey(NonOrganizationalRolodex.class, getIdentifierMap(ROLODEX_ID_FIELD_NAME, mailingAddressId));
+        } else {
+            rolodex = null;
+        }
+        setRolodex(rolodex);
+    }
+    /**
+     * Build an identifier map for the BOS lookup
+     * @param identifierField
+     * @param identifierValue
+     * @return
+     */
+    protected Map<String, Object> getIdentifierMap(String identifierField, Object identifierValue) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(identifierField, identifierValue);
+        return map;
+    }
+    
+    /**
+     * This method looks up BOS
+     * @return
+     */
+    protected BusinessObjectService getBusinessObjectService() {
+        return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
+    }
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
