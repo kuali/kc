@@ -65,13 +65,13 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      * copy disc details from previous master disclosure if it exists.
      * create a disclosure history methods.
      * set current disclosure flag for this approved disclosure, and reset it for previous mater disclosure
+     * @throws WorkflowException 
      * @see org.kuali.kra.coi.actions.CoiDisclosureActionService#approveDisclosure(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
      */
-    public void approveDisclosure(CoiDisclosure coiDisclosure, String disclosureDispositionCode) {
-
+    public void approveDisclosure(CoiDisclosure coiDisclosure, String coiDispositionCode) throws WorkflowException {
         CoiDisclosure masterCoiDisclosure = getMasterDisclosure(coiDisclosure.getCoiDisclosureNumber());
         List<KraPersistableBusinessObjectBase> disclosures = new ArrayList<KraPersistableBusinessObjectBase>();
-        coiDisclosure.setDisclosureDispositionCode(disclosureDispositionCode);
+        coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
         // need to set disposition status code
         coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.APPROVED);
         disclosures.add(coiDisclosure);
@@ -82,8 +82,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             disclosures.add(masterCoiDisclosure);
 
         } 
-            coiDisclosure.setCurrentDisclosure(true);
-        
+        coiDisclosure.setCurrentDisclosure(true);
+        documentService.approveDocument(coiDisclosure.getCoiDisclosureDocument(), "Document approved.", new ArrayList<AdHocRouteRecipient>());
+            
         disclosures.add(createDisclosureHistory(coiDisclosure));
         businessObjectService.save(disclosures);
         

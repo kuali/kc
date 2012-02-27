@@ -16,11 +16,11 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
-<kul:tab tabTitle="Administrator Action" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Administrator Actions" defaultOpen="false" tabErrorKey="">
 	<div class="tab-container"  align="center">
 		<h3> 
-			<span class="subhead-left">Disclosure Actions</span>
-			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDisclosureStatus" altText="help"/></span>
+			<span class="subhead-left">Administrator Actions</span>
+			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDispositionStatus" altText="help"/></span>
 		</h3>
 		<c:if test="${not KualiForm.document.coiDisclosureList[0].currentDisclosure}">
             <kra-coi:approveAction />

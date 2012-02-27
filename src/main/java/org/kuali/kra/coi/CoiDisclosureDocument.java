@@ -18,6 +18,7 @@ package org.kuali.kra.coi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -104,7 +105,16 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
     public boolean isProcessComplete() {
 
         boolean isComplete = true;
-
+        // if document has only been submitted for ceritification
+        if (StringUtils.equalsIgnoreCase(getCoiDisclosure().getCoiDisclosureStatus().getCoiDisclosureStatusCode(), CoiDisclosureStatus.IN_PROGRESS)) {
+            return isComplete;
+        }
+        else {
+            // approved/ disapproved
+            if (!getDocumentHeader().getWorkflowDocument().isFinal()) {           
+                isComplete = false;
+            } 
+        }
         return isComplete;
 
     }
