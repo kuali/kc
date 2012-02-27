@@ -42,7 +42,7 @@
                 <ref bean="NotificationType-subject" />
                 <ref bean="NotificationType-message" />
                 <ref bean="NotificationType-promptUser" />
-                <ref bean="NotificationType-sendNotification" />
+                <ref bean="NotificationType-active" />
                 <ref bean="NotificationType-versionNumber" />
             </list>
         </property>
@@ -168,9 +168,9 @@
         <property name="description" value="Prompt User" />
     </bean>
     
-    <bean id="NotificationType-sendNotification" parent="NotificationType-sendNotification-parentBean" />
-    <bean id="NotificationType-sendNotification-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="sendNotification" />
+    <bean id="NotificationType-active" parent="NotificationType-active-parentBean" />
+    <bean id="NotificationType-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Active" />
         <property name="shortLabel" value="Active" />
@@ -231,7 +231,7 @@
 	            <bean parent="FieldDefinition" 
 	                  p:attributeName="actionCode" />
 	            <bean parent="FieldDefinition" 
-                      p:attributeName="sendNotification" />
+                      p:attributeName="active" />
             </list>
         </property>
         <property name="resultFields" >
@@ -246,7 +246,7 @@
 	            <bean parent="FieldDefinition" 
 	                  p:attributeName="actionCode" />
 	            <bean parent="FieldDefinition" 
-                      p:attributeName="sendNotification" />
+                      p:attributeName="active" />
             </list>
         </property>
     </bean>

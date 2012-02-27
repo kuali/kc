@@ -33,7 +33,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="budgetCategoryCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="onOffCampusFlag" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="activeFlag" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>

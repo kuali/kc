@@ -17,8 +17,9 @@ package org.kuali.kra.budget.rates;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.CostElement;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class ValidCeRateType extends KraPersistableBusinessObjectBase {
+public class ValidCeRateType extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
     private String costElement;
 
@@ -32,7 +33,7 @@ public class ValidCeRateType extends KraPersistableBusinessObjectBase {
 
     private CostElement costElementBo;
 
-    private Boolean active;
+    private boolean active;
 
     /**
      * Gets the rateClass attribute. 
@@ -82,15 +83,11 @@ public class ValidCeRateType extends KraPersistableBusinessObjectBase {
         this.rateType = rateType;
     }
 
-    public Boolean getActive() {
-        return isActive();
-    }
-
-    public Boolean isActive() {
+    public boolean isActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 

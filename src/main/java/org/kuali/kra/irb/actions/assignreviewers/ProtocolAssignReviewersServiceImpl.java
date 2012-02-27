@@ -97,7 +97,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         boolean promptUser = false;
         
         NotificationType notificationType = kcNotificationService.getNotificationType(context);
-        if (notificationType != null && notificationType.getSendNotification() && notificationType.getPromptUser()) {
+        if (notificationType != null && notificationType.isActive() && notificationType.getPromptUser()) {
             promptUser = true;
         }
         

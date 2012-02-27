@@ -409,7 +409,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     protected Collection filterForActiveRatesOnly(Collection abstractInstituteRates) {        
         List filteredList = new ArrayList();
         for(AbstractInstituteRate rate: (Collection<AbstractInstituteRate>) abstractInstituteRates) {
-            if(rate.getActive()) {
+            if(rate.isActive()) {
                 filteredList.add(rate);
             } else {
                 if(LOG.isDebugEnabled()) {

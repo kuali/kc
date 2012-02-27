@@ -107,7 +107,7 @@ public class QuestionnaireAnswerServiceTest {
         Questionnaire questionnaire = new Questionnaire();
         questionnaire.setQuestionnaireIdFromInteger(questionnaireId);
         questionnaire.setQuestionnaireRefIdFromLong(id);
-        questionnaire.setIsFinal(true);
+        questionnaire.setActive(true);
         questionnaire.setSequenceNumber(sequenceNumber);
         List<QuestionnaireQuestion> questionnaireQuestions = new ArrayList<QuestionnaireQuestion>();
         questionnaireQuestions.add(createQuestionnaireQuestion(1));
@@ -472,7 +472,7 @@ public class QuestionnaireAnswerServiceTest {
         
         // case zero: set questionnaire isFinal to true and one particular usage (usage 3) to correct module code and sub-module code 
         // with all other usages set to incorrect codes
-        questionnaire.setIsFinal(true);
+        questionnaire.setActive(true);
         usage1.setModuleItemCode(INCORRECT_MODULE_CODE);
         usage1.setModuleSubItemCode(INCORRECT_SUB_MODULE_CODE);
         
@@ -489,16 +489,16 @@ public class QuestionnaireAnswerServiceTest {
         
         
         // case one: set questionnaire isFinal to false  
-        questionnaire.setIsFinal(false);
+        questionnaire.setActive(false);
         Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
         
         // case two: set questionnaire isFinal to true and set the previously correct usage to incorrect module code 
-        questionnaire.setIsFinal(true);
+        questionnaire.setActive(true);
         usage3.setModuleItemCode(INCORRECT_MODULE_CODE);
         Assert.assertFalse(questionnaireAnswerServiceImpl.checkIfQuestionnaireIsActiveForModule(questionnaireId, CORRECT_MODULE_CODE, CORRECT_SUB_MODULE_CODE));
         
         // case three: no module match amongst the usages
-        questionnaire.setIsFinal(true);
+        questionnaire.setActive(true);
         usage3.setModuleItemCode(CORRECT_MODULE_CODE);
         usage3.setModuleSubItemCode(INCORRECT_SUB_MODULE_CODE);
         questionnaires.clear();

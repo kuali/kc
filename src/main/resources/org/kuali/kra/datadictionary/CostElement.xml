@@ -25,7 +25,7 @@
         <ref bean="CostElement-budgetCategoryTypeCode" />
         <ref bean="CostElement-financialObjectCode" />
         <ref bean="CostElement-versionNumber" />
-        <ref bean="CostElement-activeFlag"/>
+        <ref bean="CostElement-active"/>
       </list>
     </property>
     <property name="relationships" >
@@ -155,9 +155,9 @@
     <property name="description" value="Budget Category Type" />
   </bean>
 
-  <bean id="CostElement-activeFlag" parent="CostElement-activeFlag-parentBean" />
-  <bean id="CostElement-activeFlag-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="activeFlag" />
+  <bean id="CostElement-active" parent="CostElement-active-parentBean" />
+  <bean id="CostElement-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Active" />
     <property name="shortLabel" value="Active" />
@@ -200,7 +200,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="onOffCampusFlag" />
               <bean parent="FieldDefinition"
-                    p:attributeName="activeFlag" />
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -244,7 +244,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="budgetCategoryTypeCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="activeFlag" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
         	  p:attributeName="financialObjectCode" />
       </list>
@@ -261,7 +261,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="onOffCampusFlag" />
         <bean parent="FieldDefinition"
-              p:attributeName="activeFlag" />
+              p:attributeName="active" />
         <bean parent="FieldDefinition"
         	  p:attributeName="financialObjectCode" />
       </list>

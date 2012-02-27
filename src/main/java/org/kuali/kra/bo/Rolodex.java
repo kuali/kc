@@ -17,7 +17,9 @@ package org.kuali.kra.bo;
 
 import java.io.Serializable;
 
-public class Rolodex extends KraPersistableBusinessObjectBase implements Contactable {
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+
+public class Rolodex extends KraPersistableBusinessObjectBase implements Contactable, MutableInactivatable {
 
     private static final long serialVersionUID = -278526635683595863L;
 
@@ -75,7 +77,7 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
 
     private String createUser;
 
-    private Boolean active;
+    private boolean active;
 
     // = Boolean.TRUE; 
     public String getCreateUser() {
@@ -320,11 +322,11 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
         return sponsor;
     }
 
-    public Boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 

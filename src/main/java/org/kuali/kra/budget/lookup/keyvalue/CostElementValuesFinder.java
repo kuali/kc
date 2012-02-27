@@ -67,7 +67,7 @@ public class CostElementValuesFinder extends KeyValuesBase{
                 BudgetCategory budgetCategory = (BudgetCategory) iter1.next();
                 if(costElement.getBudgetCategoryCode().equalsIgnoreCase(budgetCategory.getBudgetCategoryCode())){
                     if(StringUtils.equalsIgnoreCase(budgetCategory.getBudgetCategoryTypeCode(),getBudgetCategoryTypeCode())){
-                        if(costElement.getActiveFlag()) {
+                        if(costElement.isActive()) {
                             keyValues.add(new ConcreteKeyValue(costElement.getCostElement().toString(), costElement.getDescription()));
                         }
                     }

@@ -37,7 +37,7 @@
                 <ref bean="FinEntitiesDataMatrix-guiType" />
                 <ref bean="FinEntitiesDataMatrix-lookupArgument" />
                 <ref bean="FinEntitiesDataMatrix-dataGroupId" />
-                <ref bean="FinEntitiesDataMatrix-statusFlag" />
+                <ref bean="FinEntitiesDataMatrix-active" />
                 <ref bean="FinEntitiesDataMatrix-columnSortId" />
                 <ref bean="FinEntitiesDataMatrix-versionNumber" />
             </list>
@@ -137,9 +137,9 @@
         <property name="description" value="Data Group Id" />
     </bean>
 
-    <bean id="FinEntitiesDataMatrix-statusFlag" parent="FinEntitiesDataMatrix-statusFlag-parentBean" />
-    <bean id="FinEntitiesDataMatrix-statusFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
-        <property name="name" value="statusFlag" />
+    <bean id="FinEntitiesDataMatrix-active" parent="FinEntitiesDataMatrix-active-parentBean" />
+    <bean id="FinEntitiesDataMatrix-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="active" />
         <property name="label" value="Status Flag" />
         <property name="shortLabel" value="Status Flag" />
         <property name="summary" value="Status Flag" />
@@ -191,7 +191,7 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="dataGroupId" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="statusFlag" />
+                                p:attributeName="active" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="columnSortId" />
                         </list>
@@ -224,7 +224,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="dataGroupId" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="statusFlag" />
+                    p:attributeName="active" />
                 <bean parent="FieldDefinition"
                     p:attributeName="columnSortId" />
             </list>
@@ -243,7 +243,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="dataGroupId" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="statusFlag" />
+                    p:attributeName="active" />
                 <bean parent="FieldDefinition"
                     p:attributeName="columnSortId" />
             </list>
