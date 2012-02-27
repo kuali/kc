@@ -307,7 +307,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private void initInstitutionalProposals(List<CoiDisclEventProject> disclEventProjects, List<CoiDiscDetail> disclosureDetails, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {
         List<InstitutionalProposal> iProposals = getInstitutionalProposals(GlobalVariables.getUserSession().getPrincipalId());
         for (InstitutionalProposal proposal : iProposals) {
-            if (proposal.getProposalStatus().equals(ProposalStatus.FUNDED) || proposal.getProposalStatus().equals(ProposalStatus.PENDING)) {
+            if (proposal.getProposalStatus().isFunded() || proposal.getProposalStatus().isPending()) {
                 CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposal,
                         new ArrayList<CoiDiscDetail>());
                 for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
