@@ -22,6 +22,7 @@ import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.CoiUserRole;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * 
@@ -34,8 +35,9 @@ public interface CoiDisclosureActionService {
      * This method implements the business logic for approving disclosure
      * @param coiDisclosure
      * @param coiDisclosureStatusCode
+     * @throws WorkflowException 
      */
-    void approveDisclosure(CoiDisclosure coiDisclosure, String coiDisclosureStatusCode);
+    void approveDisclosure(CoiDisclosure coiDisclosure, String coiDispositionCode) throws WorkflowException;
     
     /**
      * This method adds a coi reviewer to the disclosure

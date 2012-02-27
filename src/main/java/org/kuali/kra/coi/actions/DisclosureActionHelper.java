@@ -37,6 +37,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -182,13 +183,13 @@ public class DisclosureActionHelper implements Serializable {
         this.coiDisclosureForm = coiDisclosureForm;
     }
 
-    public boolean approveDisclosure() {
+    public boolean approveDisclosure() throws WorkflowException {
         boolean approved = false;
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
         if (StringUtils.isNotBlank(coiDisclosureForm.getCoiDispositionCode())) {
             AuditActionHelper auditActionHelper = new AuditActionHelper();
             if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {                
-                getCoiDisclosureActionService().approveDisclosure(coiDisclosureDocument.getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
+                getCoiDisclosureActionService().approveDisclosure(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
                 coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
                         getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
                 approved = true;
