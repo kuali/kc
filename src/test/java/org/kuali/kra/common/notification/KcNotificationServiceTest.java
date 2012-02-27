@@ -315,7 +315,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
                 notificationType.setActionCode(actionTypeCode);
                 notificationType.setSubject(SUBJECT_VALUE);
                 notificationType.setMessage(MESSAGE_VALUE);
-                notificationType.setSendNotification(true);
+                notificationType.setActive(true);
                 
                 List<NotificationTypeRecipient> notificationTypeRecipients = new ArrayList<NotificationTypeRecipient>();
                 NotificationTypeRecipient notificationTypeRecipient = new NotificationTypeRecipient();

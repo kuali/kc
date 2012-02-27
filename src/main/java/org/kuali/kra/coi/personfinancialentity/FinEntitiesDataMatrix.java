@@ -18,12 +18,13 @@ package org.kuali.kra.coi.personfinancialentity;
 import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
  * 
  * This class is FE data matrix.
  */
-public class FinEntitiesDataMatrix extends KraPersistableBusinessObjectBase {
+public class FinEntitiesDataMatrix extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -40,7 +41,7 @@ public class FinEntitiesDataMatrix extends KraPersistableBusinessObjectBase {
 
     private Integer dataGroupId;
 
-    private boolean statusFlag;
+    private boolean active;
 
     private Integer columnSortId;
 
@@ -91,12 +92,12 @@ public class FinEntitiesDataMatrix extends KraPersistableBusinessObjectBase {
         this.dataGroupId = dataGroupId;
     }
 
-    public boolean getStatusFlag() {
-        return statusFlag;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setStatusFlag(boolean statusFlag) {
-        this.statusFlag = statusFlag;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public Integer getColumnSortId() {

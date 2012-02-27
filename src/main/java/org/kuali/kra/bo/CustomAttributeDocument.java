@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 
 /**
  * 
  * This class bo of CustomAttributeDocument.
  */
-public class CustomAttributeDocument extends KraPersistableBusinessObjectBase {
+public class CustomAttributeDocument extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer customAttributeId;
 

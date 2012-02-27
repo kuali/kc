@@ -201,7 +201,7 @@ public class NotificationHelper<T extends NotificationContext> implements Serial
         boolean promptUser = false;
         
         NotificationType notificationType = getNotificationService().getNotificationType(context);
-        if (notificationType != null && notificationType.getSendNotification() && notificationType.getPromptUser()) {
+        if (notificationType != null && notificationType.isActive() && notificationType.getPromptUser()) {
             promptUser = true;
         }
         

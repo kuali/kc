@@ -16,13 +16,14 @@
 package org.kuali.kra.award.paymentreports;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
  * 
  * This class represents the ReportClass business object and is mapped to
  * REPORT_CLASS table.
  */
-public class ReportClass extends KraPersistableBusinessObjectBase {
+public class ReportClass extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
     /**
      * Comment for <code>serialVersionUID</code>

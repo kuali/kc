@@ -35,7 +35,7 @@
 				<ref bean="CoiDisclosureEventType-eventTypeCode" />
 				<ref bean="CoiDisclosureEventType-description" />			
                 <ref bean="CoiDisclosureEventType-excludeFromMasterDisclosure" />
-                <ref bean="CoiDisclosureEventType-activeFlag" />          
+                <ref bean="CoiDisclosureEventType-active" />          
                 <ref bean="CoiDisclosureEventType-useShortTextField1" />
                 <ref bean="CoiDisclosureEventType-useShortTextField2" />
                 <ref bean="CoiDisclosureEventType-useShortTextField3" />
@@ -121,9 +121,9 @@
         <property name="description" value="Exclude From Master Disclosure" />
     </bean>
 
-    <bean id="CoiDisclosureEventType-activeFlag" parent="CoiDisclosureEventType-activeFlag-parentBean" />
-    <bean id="CoiDisclosureEventType-activeFlag-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="activeFlag" />
+    <bean id="CoiDisclosureEventType-active" parent="CoiDisclosureEventType-active-parentBean" />
+    <bean id="CoiDisclosureEventType-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Active" />
         <property name="shortLabel" value="Active" />
@@ -690,7 +690,7 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="excludeFromMasterDisclosure" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="activeFlag" />    
+                                p:attributeName="active" />    
                             <bean parent="FieldDefinition"
                                 p:attributeName="useShortTextField1" />
                             <bean parent="FieldDefinition"
@@ -787,7 +787,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="excludeFromMasterDisclosure" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="activeFlag" />					
+                    p:attributeName="active" />					
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -800,7 +800,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="excludeFromMasterDisclosure" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="activeFlag" />					
+                    p:attributeName="active" />					
 			</list>
 		</property>
 	</bean>

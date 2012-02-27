@@ -228,8 +228,8 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
                     // new questionnaire which is not approved yet.
                     Questionnaire questionnaire = (Questionnaire) doc.getNewMaintainableObject().getDataObject();
                     if (StringUtils.isBlank(isActive)
-                            || (KRADConstants.NO_INDICATOR_VALUE.equals(isActive) && !questionnaire.getIsFinal())
-                            || (KRADConstants.YES_INDICATOR_VALUE.equals(isActive) && questionnaire.getIsFinal())) {
+                            || (KRADConstants.NO_INDICATOR_VALUE.equals(isActive) && !questionnaire.isActive())
+                            || (KRADConstants.YES_INDICATOR_VALUE.equals(isActive) && questionnaire.isActive())) {
                         newQuestionnaireDocs.add(doc);
                     }
                 }

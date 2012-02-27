@@ -170,7 +170,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     public void sendNotification(NotificationContext context) {
         KcNotification notification = createNotification(context);
         
-        if (notification.getNotificationType() != null && notification.getNotificationType().getSendNotification()) {
+        if (notification.getNotificationType() != null && notification.getNotificationType().isActive()) {
             String contextName = context.getContextName();
             String subject = notification.getSubject();
             String message = notification.getMessage();
@@ -218,7 +218,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         if (isEmailEnabled()) {
             KcNotification notification = createNotification(context);
             
-            if (notification.getNotificationType() != null && notification.getNotificationType().getSendNotification()) {
+            if (notification.getNotificationType() != null && notification.getNotificationType().isActive()) {
                 String subject = notification.getSubject();
                 String message = notification.getMessage();
                 Collection<NotificationRecipient> notificationRecipients = getNotificationRecipients(context);
