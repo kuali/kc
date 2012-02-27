@@ -23,6 +23,8 @@ import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -51,6 +53,9 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
+            if (canApprove(userId, coiDisclosureDocument, TaskName.APPROVE_COI_DISCLOSURE)) {
+                editModes.add(TaskName.APPROVE_COI_DISCLOSURE);
+            }
         } 
         else {
             if (canExecuteCoiDisclosureTask(userId, coiDisclosureDocument, TaskName.MODIFY_COI_DISCLOSURE)) {  
@@ -62,10 +67,19 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
+            if (canApprove(userId, coiDisclosureDocument, TaskName.APPROVE_COI_DISCLOSURE)) {
+                editModes.add(TaskName.APPROVE_COI_DISCLOSURE);
+            }
             
         }
         
         return editModes;
+    }
+    
+    protected boolean canApprove(String userId, CoiDisclosureDocument doc, String taskName) {
+        CoiDisclosureTask task = new CoiDisclosureTask(taskName, doc.getCoiDisclosure());       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(userId, task);
     }
     
     /**
