@@ -275,8 +275,8 @@
   <bean id="Budget-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="onOffCampusFlag"/>
     <property name="forceUppercase" value="false"/>
-    <property name="label" value="On/Off CampusContract"/>
-    <property name="shortLabel" value="On/Off CampusContract"/>
+    <property name="label" value="On/Off Campus"/>
+    <property name="shortLabel" value="On/Off Campus"/>
     <property name="maxLength" value="3"/>
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
