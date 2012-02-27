@@ -573,7 +573,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 				address.setStreet1(departmentalPerson.getAddress1());
 			}
 		}
-		if (departmentalPerson.getAddress2() != null) {
+		if (departmentalPerson.getAddress2() != null && departmentalPerson.getAddress2().length() != 0) {
 			if (departmentalPerson.getAddress2().length() > 55) {
 				address.setStreet2(departmentalPerson.getAddress2().substring(
 						0, 55));
