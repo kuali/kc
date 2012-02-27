@@ -35,6 +35,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class CoiDisclosureActionsAction extends CoiAction {
     
@@ -95,11 +96,12 @@ public class CoiDisclosureActionsAction extends CoiAction {
             // Once a disclosure is approved it becomes the master disclosure, so redirect to the
             // master disclosure
             if (approved) {                
-                forward = mapping.findForward(MASTER_DISCLOSURE);
+                String routeHeaderId = coiDisclosureForm.getDocument().getDocumentNumber();
+                String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_COI_DISCLOSURE_ACTIONS_PAGE, "CoiDisclosureDocument");
+                ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
+                ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+                return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
             } else {
-                // Do we need an error message for the audit errors? Usually the messages in the datavalidation box suffice.
-               // GlobalVariables.getMessageMap().clearErrorMessages();
-                //GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_FINANCIAL_ENTITY_STATUS_INCOMPLETE,  new String[] {});
                 new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, true);            
             }
         } else {
