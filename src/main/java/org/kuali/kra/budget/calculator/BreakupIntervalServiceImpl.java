@@ -34,12 +34,12 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
- * This class is responsible for the actual calculation of the base unit <code>BreakUpInterval</code>
+ * This class is responsible for calculating the base unit <code>BreakUpInterval</code> for the budget
  */
 public class BreakupIntervalServiceImpl implements BreakupIntervalService {
     private BusinessObjectService businessObjectService;
-    List<RateClassBaseInclusion> rateClassBaseInclusions;
-    List<RateClassBaseExclusion> rateClassBaseExclusions;
+    private List<RateClassBaseInclusion> rateClassBaseInclusions;
+    private List<RateClassBaseExclusion> rateClassBaseExclusions;
 
     public List<RateClassBaseInclusion> getRateClassBaseInclusions() {
         return rateClassBaseInclusions;

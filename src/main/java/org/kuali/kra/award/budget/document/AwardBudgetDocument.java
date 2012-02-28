@@ -76,17 +76,15 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
      */
     @Override
     public BudgetParentDocument<Award> getParentDocument() {
-//        if (newestBudgetParentDocument == null) {
-            BudgetParentDocument<Award> parent = super.getParentDocument();
-            if (parent == null) {
-                return null;
-            } else if (parent.getBudgetParent() == null) {
-                return parent;
-            } else {
-                Award currentAward = getAwardBudgetService().getActiveOrNewestAward(parent.getBudgetParent().getAwardNumber());
-                newestBudgetParentDocument = currentAward.getAwardDocument();
-            }
-//        }
+        BudgetParentDocument<Award> parent = super.getParentDocument();
+        if (parent == null) {
+            return null;
+        } else if (parent.getBudgetParent() == null) {
+            return parent;
+        } else {
+            Award currentAward = getAwardBudgetService().getActiveOrNewestAward(parent.getBudgetParent().getAwardNumber());
+            newestBudgetParentDocument = currentAward.getAwardDocument();
+        }
         return newestBudgetParentDocument;
     }
     
