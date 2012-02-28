@@ -852,25 +852,24 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      */
     private boolean isProjectReported(String projectId, String projectType, String personId) {
         boolean isDisclosed = false;
-        // TODO : is checking matching moduleitemkey & expiration date sufficient
-        // TODO : uncomment this, so the criteria can be applied
-//        HashMap<String, Object> fieldValues = new HashMap<String, Object>();
-//        if (StringUtils.equals(CoiDisclosureEventType.AWARD, projectType)) {
-//            // all award numbers in that hierarchy.  so any award in that hierarchy is reported, then the others
-//            // don't have to report.
-//            fieldValues.put("moduleItemKey", getAwardNumbersForHierarchy(projectId));
-//        } else {
-//        fieldValues.put("moduleItemKey", projectId);
-//        }
-//        fieldValues.put("projectType", projectType);
-//        List<CoiDiscDetail> discDetails = (List<CoiDiscDetail>)businessObjectService.findMatching(CoiDiscDetail.class, fieldValues);
-//        Date currentDate = dateTimeService.getCurrentSqlDateMidnight();
-//        for (CoiDiscDetail discDetail : discDetails) {
-//            if (StringUtils.equals(discDetail.getCoiDisclosure().getPersonId(), personId) && discDetail.getCoiDisclosure().getExpirationDate().after(currentDate)) {
-//                isDisclosed = true;
-//                break;
-//            }
-//        }
+        HashMap<String, Object> fieldValues = new HashMap<String, Object>();
+        if (StringUtils.equals(CoiDisclosureEventType.AWARD, projectType)) {
+            // all award numbers in that hierarchy.  so any award in that hierarchy is reported, then the others
+            // don't have to report.
+            fieldValues.put("moduleItemKey", getAwardNumbersForHierarchy(projectId));
+        } else {
+            fieldValues.put("moduleItemKey", projectId);
+        }
+        fieldValues.put("projectType", projectType);
+        List<CoiDiscDetail> discDetails = (List<CoiDiscDetail>) businessObjectService.findMatching(CoiDiscDetail.class, fieldValues);
+        Date currentDate = dateTimeService.getCurrentSqlDateMidnight();
+        for (CoiDiscDetail discDetail : discDetails) {
+            if (StringUtils.equals(discDetail.getCoiDisclosure().getPersonId(), personId) 
+                    && discDetail.getCoiDisclosure().getExpirationDate().after(currentDate)) {
+                isDisclosed = true;
+                break;
+            }
+        }
         return isDisclosed;
     }
 
@@ -882,11 +881,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         awardNumbers.add(projectId);
         HashMap<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("awardNumber", projectId);
-        List<AwardHierarchy> awardHierarchies  = (List<AwardHierarchy>)businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
+        List<AwardHierarchy> awardHierarchies  = (List<AwardHierarchy>) businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
         if (CollectionUtils.isNotEmpty(awardHierarchies)) {
             fieldValues.clear();
             fieldValues.put("rootAwardNumber", awardHierarchies.get(0).getRootAwardNumber());
-            awardHierarchies  = (List<AwardHierarchy>)businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
+            awardHierarchies  = (List<AwardHierarchy>) businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
             for (AwardHierarchy awardHierarchy : awardHierarchies) {
                 awardNumbers.add(awardHierarchy.getAwardNumber());                
             }
