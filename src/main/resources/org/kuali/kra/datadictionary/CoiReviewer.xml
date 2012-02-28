@@ -48,9 +48,9 @@
         <property name="label" value="Reviewer Code" />
         <property name="shortLabel" value="Reviewer Code" />
         <property name="maxLength" value="3" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
+	    <property name="validationPattern" >
+    	  <bean parent="AlphaNumericValidationPattern" />
+    	</property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="3" />
