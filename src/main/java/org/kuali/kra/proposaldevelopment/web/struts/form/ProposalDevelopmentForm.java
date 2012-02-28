@@ -185,6 +185,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private String proposalNumberToSummarize;
     private String budgetNumberToSummarize;
     private transient boolean showSubmissionDetails;
+    private transient boolean grantsGovSubmitFlag;
     
 
     private String proposalFormTabTitle = "Print Sponsor Form Packages ";
@@ -1761,6 +1762,22 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public void setShowSubmissionDetails(boolean showSubmissionDetails) {
         this.showSubmissionDetails = showSubmissionDetails;
     }
+    
+    /**
+     * Gets the GrantsGovSubmitFlag attribute. 
+     * @return Returns the GrantsGovSubmitFlag.
+     */
+     public boolean isGrantsGovSubmitFlag() {
+         return grantsGovSubmitFlag;
+     }
+
+     /**
+      * Sets the GrantsGovSubmitFlag attribute value.
+      * @param GrantsGovSubmitFlag The GrantsGovSubmitFlag to set.
+      */
+     public void setGrantsGovSubmitFlag(boolean grantsGovSubmitFlag) {
+         this.grantsGovSubmitFlag = grantsGovSubmitFlag;
+     }
 
     /**
      * 
