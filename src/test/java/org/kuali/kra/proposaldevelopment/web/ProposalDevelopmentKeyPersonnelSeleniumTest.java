@@ -248,7 +248,7 @@ public class ProposalDevelopmentKeyPersonnelSeleniumTest extends KcSeleniumTestB
         helper.saveDocument();
         helper.assertNoPageErrors();
 
-        helper.openTab(EMPLOYEE_FULL_NAME);
+        helper.openTab(0);
         
         helper.openTab(3);
         helper.set(NEW_DEGREE_CODE_ID, DEGREE_CODE_NAME);
@@ -295,7 +295,7 @@ public class ProposalDevelopmentKeyPersonnelSeleniumTest extends KcSeleniumTestB
         helper.saveDocument();
         helper.assertNoPageErrors();
 
-        helper.openTab(EMPLOYEE_FULL_NAME);
+        helper.openTab(0);
         
         helper.openTab(4);
         helper.set(NEW_UNIT_NUMBER_ID, UNIT_NAME_IU_UNIV);
@@ -333,7 +333,7 @@ public class ProposalDevelopmentKeyPersonnelSeleniumTest extends KcSeleniumTestB
         helper.saveDocument();
         helper.assertNoPageErrors();
         
-        helper.openTab(EMPLOYEE_FULL_NAME);
+        helper.openTab(0);
         
         helper.openTab(4);
         helper.click(INSERT_UNIT_DETAILS_BUTTON);
@@ -366,7 +366,7 @@ public class ProposalDevelopmentKeyPersonnelSeleniumTest extends KcSeleniumTestB
         helper.saveDocument();
         helper.assertNoPageErrors();
         
-        helper.openTab(EMPLOYEE_FULL_NAME);
+        helper.openTab(0);
         
         helper.openTab(5);
         helper.click(INSERT_CERTIFICATION_QUESTION_BUTTON);
@@ -479,7 +479,7 @@ public class ProposalDevelopmentKeyPersonnelSeleniumTest extends KcSeleniumTestB
         helper.saveDocument();
         helper.assertNoPageErrors();
 
-        helper.openTab(EMPLOYEE_FULL_NAME);
+        helper.openTab(0);
         
         helper.assertHelpLink(KcPerson.class);
     }
