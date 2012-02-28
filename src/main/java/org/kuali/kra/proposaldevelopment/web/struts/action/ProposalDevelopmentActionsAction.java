@@ -693,7 +693,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     try{
         submitS2sApplication(proposalDevelopmentDocument);
         proposalDevelopmentForm.setShowSubmissionDetails(true);
-        forward = mapping.findForward(Constants.GRANTS_GOV_PAGE);        
+        proposalDevelopmentForm.setGrantsGovSubmitFlag(true);
+        if(proposalDevelopmentDocument.getDevelopmentProposal().getSubmitFlag() == true){
+            forward = mapping.findForward(Constants.GRANTS_GOV_PAGE);
+        }      
         
     }catch(S2SException ex){
         LOG.error(ex.getMessage(), ex);
