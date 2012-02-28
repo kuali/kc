@@ -40,7 +40,7 @@ public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
     private static final String BUDGET_CATEGORY_CODE_ID = "budgetCategoryCode";
     private static final String DESCRIPTION_ID = "description";    
     private static final String ON_OFF_CAMPUS_FLAG_ID = "onOffCampusFlag";
-    private static final String ACTIVE_FLAG_ID = "activeFlag";
+    private static final String ACTIVE_ID = "active";
 
     private static final String CREATE_DOCUMENT_DESCRIPTION = "Cost Element - Test Create";
     private static final String CREATE_DESCRIPTION = "Test Create Cost Element";
@@ -59,7 +59,7 @@ public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
     private static final boolean COPY_ON_OFF_CAMPUS_FLAG_2 = true;
     
     private static final String DEFAULT_BUDGET_CATEGORY_CODE = "3";
-    private static final boolean DEFAULT_ACTIVE_FLAG = true;
+    private static final boolean DEFAULT_ACTIVE = true;
     
     private MaintenanceDocumentSeleniumHelper helper;
     
@@ -160,7 +160,7 @@ public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         fieldValues.put(BUDGET_CATEGORY_CODE_ID, DEFAULT_BUDGET_CATEGORY_CODE);
         fieldValues.put(DESCRIPTION_ID, description);
         fieldValues.put(ON_OFF_CAMPUS_FLAG_ID, String.valueOf(onOffCampusFlag));
-        fieldValues.put(ACTIVE_FLAG_ID, String.valueOf(DEFAULT_ACTIVE_FLAG));
+        fieldValues.put(ACTIVE_ID, String.valueOf(DEFAULT_ACTIVE));
         helper.populateMaintenanceDocument(documentDescription, fieldValues);
         
         helper.routeDocument();
@@ -188,7 +188,7 @@ public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
         assertEquals(DEFAULT_BUDGET_CATEGORY_CODE, costElement.getBudgetCategoryCode());
         assertEquals(description, costElement.getDescription());
         assertEquals(onOffCampusFlag, costElement.getOnOffCampusFlag());
-        assertEquals(DEFAULT_ACTIVE_FLAG, costElement.isActive());
+        assertEquals(DEFAULT_ACTIVE, costElement.isActive());
     }
     
     /**
@@ -196,7 +196,6 @@ public class CostElementMaintenanceDocumentSeleniumTest extends KcSeleniumTestBa
      * 
      * @return a new unique cost element code
      */
-    @SuppressWarnings("unchecked")
     private String getNewCostElementCode() {
         int maxCostElementCode = 1;
         Collection<CostElement> costElements = getBusinessObjectService().findAll(CostElement.class);
