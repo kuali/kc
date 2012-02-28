@@ -68,14 +68,14 @@
         	$j.fancybox.setup({ dropshadow : false, overlayShow : false });  
         	$j(document).ready(function() {
         		$j("a#history").fancybox({ 
-        			'width':400,
+        			'width':600,
         			'height':200,
         			'type':'iframe',
         			'autoScale':'false'
         			            		
         		});
         		$j("a#viewEntitySummary").fancybox({
-        			'width' : 553,
+        			'width' : 650,
         			'height': 500,
         			'type' : 'iframe',
         			'autoscale' : 'false',
