@@ -597,18 +597,18 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @throws FormatException 
      * @see org.kuali.kra.budget.core.BudgetService#copyBudgetVersion(org.kuali.kra.budget.document.BudgetDocument)
      */
+    @SuppressWarnings("unchecked")
     public BudgetDocument copyBudgetVersion(BudgetDocument budgetDocument) throws WorkflowException {
+        String parentDocumentNumber = budgetDocument.getParentDocument().getDocumentNumber();
         budgetDocument.toCopy();
+        budgetDocument.getParentDocument().getDocumentHeader().setDocumentNumber(parentDocumentNumber);
+        budgetDocument.getParentDocument().setDocumentNumber(parentDocumentNumber);
         if(budgetDocument.getBudgets().isEmpty()) 
             throw new RuntimeException("Not able to find any Budget Version associated with this document");
         Budget budget = budgetDocument.getBudget();
         
         budget.setBudgetVersionNumber(budgetDocument.getParentDocument().getNextBudgetVersionNumber());
         try {
-//            deepCopyPostProcessor.fixProperty(budgetDocument, Long.class, null, 
-//                    new String[]{"setBudgetId","setBudgetPeriodId","setBudgetLineItemId",
-//                                    "setBudgetLineItemCalculatedAmountId","setBudgetPersonnelLineItemId",
-//                                    "setBudgetPersonnelCalculatedAmountId","setBudgetPersonnelRateAndBaseId","setBudgetRateAndBaseId"});
             Map<String, Object> objectMap = new HashMap<String, Object>();
             fixProperty(budgetDocument, "setBudgetId", Long.class, null, objectMap);
             objectMap.clear();
@@ -636,9 +636,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 //            budgetDocument = (BudgetDocument)getDeepCopyPostProcessor().processDeepCopyIgnoreAnnotation(budgetDocument);
 //            budget.setBudgetDocument(budgetDocument);
             ObjectUtils.materializeAllSubObjects(budgetDocument);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        }catch (Exception e) {
             LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }

@@ -531,13 +531,14 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
                 String budgetAdjustmentDocNbr = awardBudgetDocument.getBudget().getBudgetAdjustmentDocumentNumber();
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.BUDGET_ADJUSTMENT_DOC_EXISTS, budgetAdjustmentDocNbr);
                 LOG.info("Cannot post budget. There is already a budget adjustment document linked to this budget.");
+                return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
             }
             
         } else {
             getAwardBudgetService().post(awardBudgetDocument);   
         }
-
-        return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
+        setupDocumentExit();
+        return returnToSender(request, mapping, (AwardBudgetForm) form);
     }
   
     protected BudgetAdjustmentClient getBudgetAdjustmentClient() {
