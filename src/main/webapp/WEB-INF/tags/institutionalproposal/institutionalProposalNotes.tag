@@ -127,12 +127,12 @@
 		                            <c:if test="${kfunc:canViewNoteAttachment(KualiForm.document, attachmentTypeCode)}" >
 		                                <html:image property="methodToCall.downloadBOAttachment.attachment[${status.index}]" src="${ConfigProperties.kr.externalizable.images.url}clip.gif" title="download attachment" alt="download attachment" style="padding:5px" onclick="excludeSubmitRestriction=true"/>
 		                            </c:if>
-		                            <bean:write name="KualiForm" property="${propPrefix}boNote[0].attachment.attachmentFileName"/>
+		                            <bean:write name="KualiForm" property="${propPrefix}attachments[0].attachment.attachmentFileName"/>
 		                            &nbsp;
 		                            &nbsp;
 		                            <span style="white-space: nowrap">
 		                                <kul:fileSize byteSize="${note.attachment.attachmentFileSize}">
-		                                    (<c:out value="${fileSize} ${fileSizeUnits}" />,  <bean:write name="KualiForm" property="${propPrefix}boNote[0].attachment.attachmentMimeTypeCode"/>)
+		                                    (<c:out value="${fileSize} ${fileSizeUnits}" />,  <bean:write name="KualiForm" property="${propPrefix}attachments[0].attachment.attachmentMimeTypeCode"/>)
 		                                </kul:fileSize>
 		                            </span>
 	                            </td>

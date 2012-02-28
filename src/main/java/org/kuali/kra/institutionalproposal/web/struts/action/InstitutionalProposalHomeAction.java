@@ -175,9 +175,8 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
                         }
                         // create a new note from the data passed in
                         Note tmpNote = getNoteService().createNote(newNote, notepad, GlobalVariables.getUserSession().getPrincipalId());
-                        tmpNote.refresh();
                         tmpNote.addAttachment(attachment);
-                        getNoteService().save(tmpNote);
+                        notepad.getAttachments().add(tmpNote);
                     }
                 }
             }
@@ -534,16 +533,11 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         }
         List<InstitutionalProposalNotepad> notepads = institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalNotepads();
         
-        PersistableBusinessObject noteParent = notepads.get(attachmentIndex);
+        InstitutionalProposalNotepad noteParent = notepads.get(attachmentIndex);
 
 
         if (attachmentIndex >= 0) {
-            // each IPNotepad has only one KNS note attached to it, and a KNS attachment is attached to that note
-            Note note = getNoteService().getByRemoteObjectId(noteParent.getObjectId()).get(0);
-            Attachment attachment = note.getAttachment();
-            //make sure attachment is setup with backwards reference to note (rather then doing this we could also just call the attachment service (with a new method that took in the note)
-            attachment.setNote(note);
-
+            Attachment attachment = noteParent.getAttachments().get(0).getAttachment();
             // since we're downloading a file, all of the editable properties from the previous request will continue to be editable.
             KualiDocumentFormBase documentForm = (KualiDocumentFormBase) form;
             documentForm.copyPopulateEditablePropertiesToActionEditableProperties();
