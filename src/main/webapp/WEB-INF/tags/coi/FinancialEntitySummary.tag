@@ -53,29 +53,37 @@
 	<td class="content_grey" width="30%">
 		<p>Attachments:</p>
 	</td>
-	<td colspan="3" width="70%">
+	<td colspan="3">
 		<c:set var="finEntAttachments" value= "${bean.attachmentSummary}" />
-		<table border=0 rules="all" bordercolor="lightgray">
+		<table border=0 rules="rows">
 			<c:forEach items="${bean.attachmentSummary}" var="attachment">
 				<tr>
-					<td>
-						<c:choose>
-							<c:when test="${attachment.linkId > 0}">
+					<c:choose>
+						<c:when test="${attachment.linkId == 0}">
+							<td>
+								<span class="change2">&nbsp;</span>
+							</td>
+							<td style="font-weight:bold">
+								${attachment.key}
+							</td>
+							<td>
+								${attachment.description}
+							</td>
+						</c:when>
+						<c:otherwise>
+							<td>
 								<a href="financialEntityManagement.do?methodToCall=viewFinancialEntityAttachmentFromSummary&linkId=${attachment.linkId}&financialEntityHelper.newProjectId=${award.awardId}">
 								<img src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton">
 								</a>
-							</c:when>
-							<c:otherwise>
-								<span class="change2">&nbsp;</span>
-							</c:otherwise>
-						</c:choose>
-					</td>
-					<td style="font-weight:bold">
-						${attachment.key}
-					</td>
-					<td>
-						${attachment.description}
-					</td>
+							</td>
+							<td style="font-weight:bold">
+								${attachment.key}
+							</td>
+							<td>
+								${attachment.description}
+							</td>
+						</c:otherwise>
+					</c:choose>
 				</tr>
 			</c:forEach>
 		</table>
