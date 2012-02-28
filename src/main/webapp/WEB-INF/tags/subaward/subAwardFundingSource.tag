@@ -56,11 +56,16 @@
      					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardStatus.description" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.statusCode}" datePicker="false" />         
    					</div> 
    				</td>
-   				<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardFundingSource.sponsorName" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}" datePicker="false" />         
-   					</div> 
-   					</td>	
-   				<td><div align="center">
+					<td><div align="center">
+							<c:if
+								test="${newSubAwardFundingSource.sponsorName != 'null null'}">
+								<kul:htmlControlAttribute
+									property="newSubAwardFundingSource.sponsorName" readOnly="true"
+									attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"
+									datePicker="false" />
+							</c:if>
+						</div></td>
+					<td><div align="center">
      					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardAmountInfos[0].amountObligatedToDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.amountObligatedToDate}" datePicker="false" />         
    					</div> 
    				</td>	
