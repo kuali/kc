@@ -24,67 +24,54 @@
 	    </c:if>
 	</c:forEach>
 	<div class="tab-container" align="center">
-		<h3>
-		
-		<div style="float:left" >
-			<span align="left">Print Forms</span>
-		</div> 
-		<div style="float:left;margin-left:950px" >
-			<span align="right">Print Budget Comments</span>
-		</div> 
-		</h3>
-		  
 		<table cellspacing="0" cellpadding="0" summary="">
 			<tbody>
-		    	<c:forEach var="form" items="${KualiForm.document.budget.budgetPrintForms}" varStatus="status">
+				<tr>
+				 <td colspan="2" width="65%" style="padding: 0;border: 0">
+						<h3>
+							<div align="center">
+								<span align="left">Print Forms</span>
+							</div>
+						</h3>
+					</td>
+					<td align="center" style="padding: 0;border: 0" width="25%">
+						<h3>
+							<div align="center">
+								<span align="center">Print Budget Comments</span>
+							</div>
+						</h3>
+					</td>
+					<td style="padding: 0;border: 0" width="10%">
+						<h3>
+							<div align="center">
+								<span align="center">Actions</span>
+							</div>
+						</h3>
+					</td>
+				</tr> 
+				<c:forEach var="form" items="${KualiForm.document.budget.budgetPrintForms}" varStatus="status">
 		            <tr>	                
-		                <td width="50">
+		                <td width="3%">
 		                	<c:out value="${status.index + 1 }"/>
 		                </td>
 		                <td align="left" valign="middle">
 		                	<c:out value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportName}"/>
 						</td>
-						
-		                <td align="center" valign="middle">
+		                <td align="center" valign="middle" >
 		                	<div align="center">
-		                	<c:choose>
-		                		<c:when test="${status.index < 8}">   							
-									<html:radio property="selectedBudgetPrintFormId" value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}"/>
-		                		</c:when>
-		                		<c:otherwise>
-<%--		                		<html:multibox property="selectedBudgetPrintFormId" value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" disabled="${disableBox}"/>--%>
-		                			<html:radio property="selectedBudgetPrintFormId" value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" disabled="true"/>	
-		                		</c:otherwise>
-		                	</c:choose>			                	
+		                			<html:multibox  property="selectedToPrintComment"  value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" />
 		                	</div>
-		                </td>	
-		                <td align="center" valign="middle" width="300">
-		                	<div align="center">
-		                	<c:choose>
-		                		<c:when test="${status.index < 8}">   		
-		                		<html:radio  property="selectedToPrintComment"  value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" />
-		                		</c:when>
-		                		<c:otherwise>
-		                		<html:radio  property="selectedToPrintComment"  value="${KualiForm.document.budget.budgetPrintForms[status.index].budgetReportId}" disabled="true" />
-						</c:otherwise>
-		                	</c:choose>			                	
-		                	</div>
-		                </td>			       
-		            </tr>    	
-		    	</c:forEach>		    	
-				<tr>
-					<td colspan="4" class="infoline">
-						<div align="center">
-						<html:image property="methodToCall.printBudgetForm"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' styleClass="tinybutton" alt="Print Selected Forms" onclick="excludeSubmitRestriction=true"/>
-						</div>
-					</td>
-<%--				<td>
+		                </td>
+						<td align="center" valign="middle"">
 							<div align="center">
-							Select (<html:link href="#" onclick="javascript: selectAllBudgetForms(document);return false">all</html:link> | <html:link href="#" onclick="javascript: unselectAllBudgetForms(document);return false">none</html:link>)
-							</div>						
-					</td>--%>
-				</tr>			                         
+								<html:image
+									property="methodToCall.printBudgetForm.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif'
+									styleClass="tinybutton" alt="Print Selected Forms"
+									onclick="excludeSubmitRestriction=true" />
+							</div></td>
+					</tr>    	
+		    	</c:forEach>		    	
 			</tbody>
 			<tbody id="G" style="display: none;" />
 		</table>
