@@ -20,6 +20,7 @@
         		<kul:htmlAttributeHeaderCell literalLabel="Correspondence" scope="col" />
                 <kul:htmlAttributeHeaderCell literalLabel="Date Created" scope="col" />
                 <kul:htmlAttributeHeaderCell literalLabel="Regenerate" scope="col" />
+                <kul:htmlAttributeHeaderCell literalLabel="Final" scope="col" />
 				<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 			</tr>
         	<c:forEach var="correspondence" items="${KualiForm.meetingHelper.correspondences}" varStatus="status">
@@ -43,6 +44,9 @@
                            </c:if>                           
                         </div>
                     </td>
+                    <td align="left" valign="middle">
+                        <div align="left">${correspondence.finalFlag ? "Yes" : "No"}</div>
+                    </td>
 						<td>
 							<div align="center">&nbsp;					
                                     <html:image property="methodToCall.viewCorrespondence.line${status.index}.anchor${currentTabIndex}"
@@ -54,7 +58,7 @@
         	</c:forEach>
               <c:if test="${irbAdmin}">               
                 <tr>
-                    <td colspan="5">
+                    <td colspan="6">
                             <div align="center">&nbsp;   
                                     <html:image property="methodToCall.regenerateCorrespondence.line${status.index}.anchor${currentTabIndex}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-regenerate.gif' styleClass="tinybutton"
