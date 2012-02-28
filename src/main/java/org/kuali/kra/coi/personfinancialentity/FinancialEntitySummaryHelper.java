@@ -230,10 +230,8 @@ public class FinancialEntitySummaryHelper implements Serializable {
     
     protected List<FinancialEntityAttachmentSummary> generateAttachmentSummary(List<FinancialEntityAttachment> attachments, List<FinancialEntityAttachment> prevAttachments) {
         List<FinancialEntityAttachmentSummary> formattedAttachments = new ArrayList<FinancialEntityAttachmentSummary>();
-        boolean hideDelete = prevAttachments != null;  // we want to use an alternate class so deleted attachments don't show up except in "changed" view
         for (FinancialEntityAttachment attachment: attachments) {
-            String descriptionString = (!StringUtils.isEmpty(attachment.getContactName()) ? " Uploaded by " + attachment.getContactName() : "Uploaded") +
-                                       " at " + attachment.getUpdateTimestamp();
+            String descriptionString = (!StringUtils.isEmpty(attachment.getContactName()) ? " Contact Name: " + attachment.getContactName() + "<br />" : "") + "Uploaded " + attachment.getUpdateTimestamp();
             // check to see if this is a new attachment or has otherwise been changed
             boolean found = false;
             if (prevAttachments != null) {
@@ -243,8 +241,8 @@ public class FinancialEntitySummaryHelper implements Serializable {
                     }
                 }
             }
-            String key = found ? attachment.getFileName() : addSpan(attachment.getFileName(), false);
-            String value = found ? descriptionString : addSpan(descriptionString, false);
+            String key = found ? attachment.getFileName() : addSpan1(attachment.getFileName());
+            String value = found ? descriptionString : addSpan(descriptionString);
             String link = attachment.getFileId().toString();
             formattedAttachments.add(new FinancialEntityAttachmentSummary(key, value, link));
         }
@@ -258,7 +256,7 @@ public class FinancialEntitySummaryHelper implements Serializable {
                     }
                 }
                 if (!found) {
-                    formattedAttachments.add(new FinancialEntityAttachmentSummary(addSpan(oldAttachment.getFileName(), hideDelete), addSpan("deleted", hideDelete), "0"));
+                    formattedAttachments.add(new FinancialEntityAttachmentSummary(addSpan2(oldAttachment.getFileName()), addSpan2("deleted"), "0"));
                 }
             }
         }
@@ -273,12 +271,11 @@ public class FinancialEntitySummaryHelper implements Serializable {
     protected String addSpan(String htmlString) {
         return "<span class=\"changed\">" + htmlString + "</span>";
     }
-    protected String addSpan(String htmlString, boolean hideDelete) {
-        if (hideDelete) {
-            return "<span class=\"change2\">" + htmlString + "</span>";
-        } else {
-            return "<span class=\"changed\">" + htmlString + "</span>";
-        }
+    protected String addSpan1(String htmlString) {
+        return "<span class=\"change1\">" + htmlString + "</span>";
+    }
+    protected String addSpan2(String htmlString) {
+        return "<span class=\"change2\">" + htmlString + "</span>";
     }
    
     public List<PersonFinIntDisclosure> getVersions() {
