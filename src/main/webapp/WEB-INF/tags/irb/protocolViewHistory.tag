@@ -122,6 +122,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		                                               <%--<th style="text-align:left;width:10%">File Name</th> --%>
                                                        <th style="text-align:center">Description</th>
                                                        <th style="text-align:center">Date Created</th>
+                                                       <th style="text-align:center">Final</th>
 		                                               <th style="text-align:center">Actions</th>
 		                                            </tr>
 		           		                            <c:forEach items="${protocolAction.protocolCorrespondences}" var="correspondence" varStatus="attachmentStatus">
@@ -129,6 +130,9 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		           		    	                            <td>${correspondence.protocolCorrespondenceType.description}</td>
                     <td align="left" valign="middle">
                         <div align="left"><fmt:formatDate value="${correspondence.createTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> </div>
+                    </td>
+                    <td align="left" valign="middle">
+                        <div align="left">${correspondence.finalFlag  ? "Yes" : "No"}</div>
                     </td>
 		           		 					                <td align="center" valign="middle">
                                                                 <div align="center">
