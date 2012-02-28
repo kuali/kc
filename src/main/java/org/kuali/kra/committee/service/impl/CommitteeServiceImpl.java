@@ -278,9 +278,10 @@ public class CommitteeServiceImpl implements CommitteeService {
         return copiedSchedules;
     }
 
+    
     /*
      * copy schedules from old committee to new committee if the old schedule has meeting data.
-     * new added schedules, whose date does not exist in old committee schedules, will be automatically included in the return list.
+     * All newly added schedules, i.e. those that are present only in the new schedule listing, will be automatically included in the return list.
      */
     protected List<CommitteeSchedule> copySchedules(List<CommitteeSchedule> newSchedules, List<CommitteeSchedule> oldSchedules) {
         List<CommitteeSchedule> copiedSchedules = new ArrayList<CommitteeSchedule>();
@@ -292,6 +293,8 @@ public class CommitteeServiceImpl implements CommitteeService {
                     copiedSchedule.setScheduleStatusCode(newSchedule.getScheduleStatusCode());
                     copiedSchedule.setPlace(newSchedule.getPlace());
                     copiedSchedule.setTime(newSchedule.getTime());
+                    copiedSchedule.setScheduledDate(newSchedule.getScheduledDate());
+                    copiedSchedule.setProtocolSubDeadline(newSchedule.getProtocolSubDeadline());
                 }
                 copiedSchedules.add(copiedSchedule);
             } 
