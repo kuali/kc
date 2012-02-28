@@ -16,11 +16,17 @@
 package org.kuali.kra.institutionalproposal.home;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.NoteService;
 
 public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate implements SequenceAssociate {
 
@@ -39,10 +45,13 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
     private boolean restrictedView;
 
     private Date createTimestamp;
+    
+    private List<Note> attachments;
 
     public InstitutionalProposalNotepad() {
         Calendar cl = Calendar.getInstance();
         setCreateTimestamp(new Date(cl.getTime().getTime()));
+        attachments = new ArrayList<Note>();
     }
 
     public Long getProposalNotepadId() {
@@ -136,5 +145,26 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
      */
     public void resetPersistenceState() {
         this.proposalNotepadId = null;
+    }
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    protected void postPersist() {
+        NoteService noteService = KraServiceLocator.getService(NoteService.class);
+        for (Note note : getAttachments()) {
+            note.setRemoteObjectIdentifier(this.getObjectId());
+            noteService.save(note);
+        }
+    }
+
+    public List<Note> getAttachments() {
+        if (attachments.isEmpty() && StringUtils.isNotEmpty(getObjectId())) {
+            attachments = KraServiceLocator.getService(NoteService.class).getByRemoteObjectId(getObjectId());
+        }
+        return attachments;
+    }
+
+    public void setAttachments(List<Note> attachments) {
+        this.attachments = attachments;
     }
 }

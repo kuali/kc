@@ -40,12 +40,14 @@ public class InstitutionalProposalNotepadBean implements Serializable {
      */
     public InstitutionalProposalNotepadBean() {
         super();
+        init();
     }
     /**
      * Constructs a CostShareFormHelper
      * @param parent
      */
     public InstitutionalProposalNotepadBean(InstitutionalProposalForm parent) {
+        this();
         this.parent = parent;
     }
     
