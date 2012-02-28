@@ -323,10 +323,11 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
-        if(budgetForm.getSelectedToPrintComment()!=null && budgetForm.getSelectedBudgetPrintFormId()!=null){
+        Integer selectedLine = getSelectedLine(request);
+        String budgetFormToPrint = budget.getBudgetPrintForms().get(selectedLine).getBudgetReportId();
+        if(budgetForm.getSelectedToPrintComment()!=null && budgetFormToPrint !=null){
             String forms[]=budgetForm.getSelectedToPrintComment();
-            String selectedToPrint[]=budgetForm.getSelectedBudgetPrintFormId();
-            if(forms[0].equals(selectedToPrint[0])){
+            if(forms[0].equals(budgetFormToPrint)){
                 budget.setPrintBudgetCommentFlag("true");
             }
         }
@@ -334,16 +335,12 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         BudgetPrintService budgetPrintService = KraServiceLocator
                 .getService(BudgetPrintService.class);
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
-        if (budgetForm.getSelectedBudgetPrintFormId() != null) {
-            String[] formArray=budgetForm.getSelectedBudgetPrintFormId();
-            for (int i = 0; i < formArray.length; i++) {
-                AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budget,formArray[i]);
+        if (budgetFormToPrint != null) {
+                AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budget,budgetFormToPrint);
                 if(dataStream.getContent()!=null){
                     streamToResponse(dataStream, response);
                     forward = null;
                 }
-            }
-            budgetForm.setSelectedBudgetPrintFormId(null);
         }
         return forward;
     }
