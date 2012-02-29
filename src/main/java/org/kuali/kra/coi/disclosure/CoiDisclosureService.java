@@ -163,4 +163,9 @@ public interface CoiDisclosureService {
      * @return
      */
     MasterDisclosureBean getMasterDisclosureDetail(CoiDisclosure coiDisclosure);
+    
+    void initDisclosureFromMasterDisclosure(CoiDisclosure coiDisclosure);
+    
+    public void setDisclDetailsForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean);
+    
 }

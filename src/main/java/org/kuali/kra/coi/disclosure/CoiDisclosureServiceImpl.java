@@ -193,17 +193,24 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
                 coiDisclosure.getCoiDiscDetails().addAll(coiDisclProject.getCoiDiscDetails());
             }
-        }
-        else {
-          if (coiDisclosure.isAnnualEvent()) {
+        } else  if (coiDisclosure.isAnnualEvent()) {
             coiDisclosure.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
             for (CoiDisclEventProject coiDisclEventProject : coiDisclosure.getCoiDisclEventProjects()) {
                     coiDisclosure.getCoiDiscDetails().addAll(coiDisclEventProject.getCoiDiscDetails());
             }
+          
           }
-        }
     }
 
+    public void setDisclDetailsForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean) {
+        coiDisclosure.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
+        for (List<CoiDisclosureProjectBean> projects : masterDisclosureBean.getProjectLists()) {
+            for (CoiDisclosureProjectBean coiDisclProject : projects) {
+                coiDisclosure.getCoiDiscDetails().addAll(coiDisclProject.getProjectDiscDetails());
+            }
+        }
+
+    }
 
     /*
      * set all units leadunitflag to false
@@ -1141,7 +1148,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             disclosureProjectBean.getProjectDiscDetails().add(coiDiscDetail);            
         }
         
-        setupDisclosures(masterDisclosureBean, coiDisclosure);
+        if (!CoiDisclosureEventType.UPDATE.equals(coiDisclosure.getEventTypeCode())) {
+            setupDisclosures(masterDisclosureBean, coiDisclosure);
+        }
         return masterDisclosureBean;
     }
         
@@ -1267,4 +1276,108 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             return null;
         }
     }
+    
+    public void initDisclosureFromMasterDisclosure(CoiDisclosure coiDisclosure) {
+        CoiDisclosure masterDisclosure = getCurrentDisclosure();
+        coiDisclosure.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
+        coiDisclosure.setCoiDisclosureAttachments(new ArrayList<CoiDisclosureAttachment>());
+        coiDisclosure.setCoiDisclosureNotepads(new ArrayList<CoiDisclosureNotepad>());
+        copyCollections(masterDisclosure, coiDisclosure);
+    }
+
+    /*
+     * Return current disclosure, ie, the master disclosure
+     */
+    private CoiDisclosure getCurrentDisclosure() {
+        Map fieldValues = new HashMap();
+        fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
+        fieldValues.put("currentDisclosure", "Y");
+
+        List<CoiDisclosure> disclosures = (List<CoiDisclosure>) businessObjectService.findMatching(CoiDisclosure.class,
+                fieldValues);
+        if (CollectionUtils.isEmpty(disclosures)) {
+            return null;
+        } else {
+            return disclosures.get(0);
+        }
+
+    }
+
+    // TODO : following several copy related methods are from coidisclosureactionservice.  should try to make them sharable
+    private void  copyCollections(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
+        
+        copyDisclosureDetails(masterCoiDisclosure, coiDisclosure);
+        copyDisclosureNotePads(masterCoiDisclosure, coiDisclosure);
+        copyDisclosureAttachments(masterCoiDisclosure, coiDisclosure);
+    }
+    
+    /*
+     * copy disclosure details of current master disclosure to the disclosure that is bing approved
+     */
+    private void copyDisclosureDetails(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
+        // may also need to add note/attachment to new master disclosure
+//        CoiDisclosure copiedDisclosure = (CoiDisclosure) ObjectUtils.deepCopy(masterCoiDisclosure);
+        for (CoiDiscDetail coiDiscDetail : masterCoiDisclosure.getCoiDiscDetails()) {
+ //           if (!isDisclosureDetailExist(coiDisclosure, coiDiscDetail)) {
+                CoiDiscDetail copiedDiscDetail = (CoiDiscDetail) ObjectUtils.deepCopy(coiDiscDetail);
+                copiedDiscDetail.setCopiedCoiDiscDetailId(copiedDiscDetail.getCoiDiscDetailId());
+                copiedDiscDetail.setSequenceNumber(coiDisclosure.getSequenceNumber());
+                copiedDiscDetail.setCoiDiscDetailId(null);
+                if (copiedDiscDetail.getOriginalCoiDisclosureId() == null) {
+                    copiedDiscDetail.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                }
+                coiDisclosure.getCoiDiscDetails().add(copiedDiscDetail);
+ //           }
+        }
+    }
+
+    private void copyDisclosureNotePads(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
+        // may also need to add note/attachment to new master disclosure
+//        CoiDisclosure copiedDisclosure = (CoiDisclosure) ObjectUtils.deepCopy(masterCoiDisclosure);
+        for (CoiDisclosureNotepad coiDisclosureNotepad : masterCoiDisclosure.getCoiDisclosureNotepads()) {
+//            if (!isDisclosureNotePadExist(coiDisclosure, coiDisclosureNotepad)) {
+                // TODO implement the if check when originaldisclosureid is added to notepad
+                CoiDisclosureNotepad copiedCoiDisclosureNotepad = (CoiDisclosureNotepad) ObjectUtils.deepCopy(coiDisclosureNotepad);
+                copiedCoiDisclosureNotepad.setSequenceNumber(coiDisclosure.getSequenceNumber());
+                copiedCoiDisclosureNotepad.setId(null);
+                if (copiedCoiDisclosureNotepad.getOriginalCoiDisclosureId() == null) {
+                    copiedCoiDisclosureNotepad.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                }
+                coiDisclosure.getCoiDisclosureNotepads().add(copiedCoiDisclosureNotepad);
+//            }
+        }
+    }
+
+    private void copyDisclosureAttachments(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
+        // may also need to add note/attachment to new master disclosure
+//        CoiDisclosure copiedDisclosure = (CoiDisclosure) ObjectUtils.deepCopy(masterCoiDisclosure);
+        for (CoiDisclosureAttachment coiDisclosureAttachment : masterCoiDisclosure.getCoiDisclosureAttachments()) {
+//            if (!isDisclosureNotePadExist(coiDisclosure, coiDisclosureNotepad)) {
+                // TODO implement the if check when originaldisclosureid is added to notepad
+                CoiDisclosureAttachment copiedCoiDisclosureAttachment = (CoiDisclosureAttachment) ObjectUtils.deepCopy(coiDisclosureAttachment);
+                copiedCoiDisclosureAttachment.setSequenceNumber(coiDisclosure.getSequenceNumber());
+                copiedCoiDisclosureAttachment.setAttachmentId(null);
+                if (copiedCoiDisclosureAttachment.getOriginalCoiDisclosureId() == null) {
+                    copiedCoiDisclosureAttachment.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                }
+                coiDisclosure.getCoiDisclosureAttachments().add(copiedCoiDisclosureAttachment);
+//            }
+        }
+    }
+
+    /*
+     * check if disclosure detail is exist in the disclosure being approved
+     * if it is, then there is no need to copy over.
+     */
+    private boolean isDisclosureDetailExist(CoiDisclosure coiDisclosure,CoiDiscDetail coiDiscDetail) {
+        boolean isExist = false;
+        for (CoiDiscDetail discDetail : coiDisclosure.getCoiDiscDetails()) {
+            if (StringUtils.equals(discDetail.getProjectType(), coiDiscDetail.getProjectType()) && StringUtils.equals(discDetail.getProjectIdFk(), coiDiscDetail.getProjectIdFk()) && discDetail.getPersonFinIntDisclosureId().equals(coiDiscDetail.getPersonFinIntDisclosureId())) {
+                isExist = true;
+                break;
+            }
+        }
+        return isExist;
+    }
+
 }

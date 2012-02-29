@@ -277,6 +277,11 @@
 <kra-coi:manualProjects />
 </c:if>
 
+<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='6'}" >
+<kra-coi:updateDisclosureProjects/>
+</c:if>
+
+
 <kra-coi:coiNoteAndAttachment/>
 
 <kra-coi:coiCertification topTab="false" />
