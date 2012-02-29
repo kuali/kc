@@ -507,6 +507,12 @@ public class MeetingActionsAction extends MeetingAction {
 //            }
 //        }
         if (saveAction) {
+            for (ProtocolCorrespondence correspondence : correspondences) {
+                if (correspondence.getFinalFlag()) {
+                    correspondence.setFinalFlagTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+
+                }
+            }
             getBusinessObjectService().save(correspondences);
         }
         // reset the regenerate check box
