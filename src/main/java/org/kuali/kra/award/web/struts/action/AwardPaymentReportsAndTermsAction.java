@@ -48,7 +48,9 @@ import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutService;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.bo.SponsorTerm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.PersistenceService;
@@ -784,16 +786,28 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     public ActionForward selectAllMultEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         int awardReportTermItemsIndex = getAwardReportTermItemsIndex(request);
-        List<ReportTracking> reportTrackings = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(getAwardReportTermItemsIndex(request)).getReportTrackings();
-        getReportTrackingService().setReportTrackingListSelected(reportTrackings, true);
+        List<ReportTracking> reportTrackings = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(
+                getAwardReportTermItemsIndex(request)).getReportTrackings();
+        if (reportTrackings != null && !reportTrackings.isEmpty()) {
+            getReportTrackingService().setReportTrackingListSelected(reportTrackings, true);
+        } else {
+            String fieldName = "methodToCall.selectAllMultEdit.AwardReportTermItemsIndex" + awardReportTermItemsIndex;
+            new ErrorReporter().reportError(fieldName, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NO_REPORT_TRACKING, "select");
+        }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
     public ActionForward selectNoneMultiEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         int awardReportTermItemsIndex = getAwardReportTermItemsIndex(request);
-        List<ReportTracking> reportTrackings = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(getAwardReportTermItemsIndex(request)).getReportTrackings();
-        getReportTrackingService().setReportTrackingListSelected(reportTrackings, false);
+        List<ReportTracking> reportTrackings = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(
+                getAwardReportTermItemsIndex(request)).getReportTrackings();
+        if (reportTrackings != null && !reportTrackings.isEmpty()) {
+            getReportTrackingService().setReportTrackingListSelected(reportTrackings, false);
+        } else {
+            String fieldName = "methodToCall.selectNoneMultiEdit.AwardReportTermItemsIndex" + awardReportTermItemsIndex;
+            new ErrorReporter().reportError(fieldName, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NO_REPORT_TRACKING, "unselect");
+        }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
     
