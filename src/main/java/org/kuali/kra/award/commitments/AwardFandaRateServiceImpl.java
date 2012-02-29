@@ -87,8 +87,7 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
             criteria.put("offCampusRate", awardFandaRate.getApplicableFandaRate());
         }
         criteria.put("rateClassType", F_AND_A_RATE_CLASS_TYPE_CODE);
-        @SuppressWarnings("unchecked")
-        List<ValidRates> rates = (ArrayList<ValidRates>) businessObjectService.findMatching(ValidRates.class, criteria);
+        List<ValidRates> rates = new ArrayList<ValidRates>(businessObjectService.findMatching(ValidRates.class, criteria));
         return rates;
     }
     
