@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureEventType;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 
 public class MasterDisclosureBean implements Serializable {
 
@@ -135,5 +136,17 @@ public class MasterDisclosureBean implements Serializable {
 
     public void setAllProjects(List<CoiDisclosureProjectBean> allProjects) {
         this.allProjects = allProjects;
+    }
+    
+    public List<List<CoiDisclosureProjectBean>> getProjectLists() {
+        List<List<CoiDisclosureProjectBean>> projects = new ArrayList<List<CoiDisclosureProjectBean>> ();
+        projects.add(awardProjects);
+        projects.add(proposalProjects);
+        projects.add(protocolProjects);
+        projects.add(manualAwardProjects);
+        projects.add(manualProposalProjects);
+        projects.add(manualProtocolProjects);
+        
+        return projects;
     }
 }

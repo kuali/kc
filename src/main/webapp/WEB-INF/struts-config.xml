@@ -520,6 +520,7 @@
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiDisclosure.jsp" />
           <forward name="masterDisclosure" path="/WEB-INF/jsp/coi/MasterDisclosure.jsp" />
           <forward name="masterDisclosureNotAvailable" path="/WEB-INF/jsp/coi/MasterDisclosureNotAvailable.jsp" />
+          <forward name="updateDisclosure" path="/WEB-INF/jsp/coi/UpdateDisclosure.jsp" />
           &coi_forwards;
        </action>
       <action path="/coiCommittee" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiCommittee.jsp" type="org.kuali.kra.coi.committee.CoiCommitteeAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
