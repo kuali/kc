@@ -58,6 +58,7 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
     private boolean regenerateFlag;
     private Timestamp createTimestamp; 
     private String createUser;
+    private Timestamp finalFlagTimestamp; 
 
 
     // hooks to view/save correspondence
@@ -217,5 +218,13 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
 
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
+    }
+
+    public Timestamp getFinalFlagTimestamp() {
+        return finalFlagTimestamp;
+    }
+
+    public void setFinalFlagTimestamp(Timestamp finalFlagTimestamp) {
+        this.finalFlagTimestamp = finalFlagTimestamp;
     }
 }

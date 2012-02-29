@@ -45,7 +45,18 @@
                         </div>
                     </td>
                     <td align="left" valign="middle">
-                        <div align="left">${correspondence.finalFlag ? "Yes" : "No"}</div>
+                        <div align="left"> 
+                            <c:choose>
+                                  <c:when test="${correspondence.finalFlag}">
+                                     Yes (<fmt:formatDate value="${correspondence.finalFlagTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> )
+                                  </c:when>
+                                  <c:otherwise>
+                                      No
+                                  </c:otherwise>
+                                     
+                            </c:choose>
+                        </div>
+
                     </td>
 						<td>
 							<div align="center">&nbsp;					
