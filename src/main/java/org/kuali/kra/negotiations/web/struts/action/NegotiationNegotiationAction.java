@@ -346,30 +346,34 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     public ActionForward changeAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
-
         Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
-        if (negotiation.getNegotiationAssociationType() != null) {
-            negotiation.setOldNegotiationAssociationTypeId(negotiation.getNegotiationAssociationType().getId());
-            String oldAssociation = negotiation.getNegotiationAssociationType()
-                    .getDescription();
-            Long newAssociationTypeId = negotiation.getNegotiationAssociationTypeId();
-            NegotiationAssociationType asscType = (NegotiationAssociationType) this.getBusinessObjectService().findBySinglePrimaryKey(
-                    NegotiationAssociationType.class, newAssociationTypeId);
-            String newAssociation = asscType != null ? asscType.getDescription() : "nothing";
-            if (StringUtils.equals(negotiation.getNegotiationAssociationType()
-                    .getCode(), NegotiationAssociationType.NONE_ASSOCIATION)) {
-                newAssociation = newAssociation + ".  You will lose any Negotiation attributes that have been entered";
+        Long associationTypeId = negotiation.getNegotiationAssociationTypeId();
+        if(associationTypeId != null){
+            if (negotiation.getNegotiationAssociationType() != null) {
+                negotiation.setOldNegotiationAssociationTypeId(negotiation.getNegotiationAssociationType().getId());
+                String oldAssociation = negotiation.getNegotiationAssociationType()
+                        .getDescription();
+                NegotiationAssociationType asscType = (NegotiationAssociationType) this.getBusinessObjectService().findBySinglePrimaryKey(
+                        NegotiationAssociationType.class, associationTypeId);
+                String newAssociation = asscType != null ? asscType.getDescription() : "nothing";
+                if (StringUtils.equals(negotiation.getNegotiationAssociationType()
+                        .getCode(), NegotiationAssociationType.NONE_ASSOCIATION)) {
+                    newAssociation = newAssociation + ".  You will lose any Negotiation attributes that have been entered";
+                }
+                request.setAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE, "methodToCall.changeAssociationRedirector");
+                ActionForward confirmAction = confirm(
+                        buildParameterizedConfirmationQuestion(mapping, form, request, response, "changeAssociationKey",
+                                KeyConstants.NEGOTIATION_CHANGE_ASSOCIATION_TYPE_MESSAGE, oldAssociation, newAssociation),
+                        "confirmedChangeAssociation", "resetChangeAssociationType");
+                return confirmAction;
             }
-            request.setAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE, "methodToCall.changeAssociationRedirector");
-            ActionForward confirmAction = confirm(
-                    buildParameterizedConfirmationQuestion(mapping, form, request, response, "changeAssociationKey",
-                            KeyConstants.NEGOTIATION_CHANGE_ASSOCIATION_TYPE_MESSAGE, oldAssociation, newAssociation),
-                    "confirmedChangeAssociation", "resetChangeAssociationType");
-            return confirmAction;
+            else {
+                return confirmedChangeAssociation(mapping, negotiationForm, request, response);
+            }
+        }else{
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        else {
-            return confirmedChangeAssociation(mapping, negotiationForm, request, response);
-        }
+        
     }
 
     public ActionForward changeAssociationRedirector(ActionMapping mapping, ActionForm form, HttpServletRequest request,
