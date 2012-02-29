@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="reportTrackingReadOnly" value="${!KualiForm.permissionsHelper.maintainAwardReportTracking }"/>
 <kul:tab tabTitle="Reports" defaultOpen="false"
-	tabErrorKey="document.awardList[0].awardReportTermItems,document.award.awardTemplate.REPORTS_TAB"
+	tabErrorKey="document.awardList[0].awardReportTermItems,document.award.awardTemplate.REPORTS_TAB,methodToCall.selectAllMultEdit.AwardReportTermItemsIndex*,methodToCall.selectNoneMultiEdit.AwardReportTermItemsIndex*"
 	auditCluster="reportsAuditErrors"
 	tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
