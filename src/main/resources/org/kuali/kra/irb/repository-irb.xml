@@ -848,6 +848,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="finalFlagTimestamp" column="FINAL_FLAG_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolId"/>
         </reference-descriptor>

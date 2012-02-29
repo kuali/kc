@@ -132,7 +132,17 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
                         <div align="left"><fmt:formatDate value="${correspondence.createTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> </div>
                     </td>
                     <td align="left" valign="middle">
-                        <div align="left">${correspondence.finalFlag  ? "Yes" : "No"}</div>
+                        <div align="left"> 
+                            <c:choose>
+                                  <c:when test="${correspondence.finalFlag}">
+                                     Yes (<fmt:formatDate value="${correspondence.finalFlagTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> )
+                                  </c:when>
+                                  <c:otherwise>
+                                     No
+                                  </c:otherwise>
+                                     
+                            </c:choose>
+                        </div>
                     </td>
 		           		 					                <td align="center" valign="middle">
                                                                 <div align="center">

@@ -3746,6 +3746,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 //            }
 //        }
         if (saveAction) {
+            if (correspondence.getFinalFlag()) {
+                correspondence.setFinalFlagTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                           
+            }
             getBusinessObjectService().save(correspondence);
         }
         // TODO : this is a hack for fullapprove to resotre key
