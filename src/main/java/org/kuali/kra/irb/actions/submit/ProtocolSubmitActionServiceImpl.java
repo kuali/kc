@@ -235,10 +235,11 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         protocolAction.setPrevSubmissionStatusCode(prevSubmissionStatus);
         protocolAction.setSubmissionTypeCode(submissionTypeCode);
         protocol.getProtocolActions().add(protocolAction);
-
+        
         //TODO this is for workflow testing, but we do need to plumb the status change in here somewhere.
         ProtocolStatus protocolStatus = new ProtocolStatus();
         protocolStatus.setProtocolStatusCode(ProtocolActionType.SUBMIT_TO_IRB);
+        protocolStatus.setDescription(SUBMIT_TO_IRB);
         protocol.setProtocolStatus(protocolStatus);
         protocol.setProtocolStatusCode(ProtocolActionType.SUBMIT_TO_IRB);
         
