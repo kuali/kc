@@ -2,7 +2,9 @@
 <%@ attribute name="disclProjectBean" required="true" type="org.kuali.kra.coi.disclosure.CoiDisclosureProjectBean" description="A List of active or inactive FE" %>
 <%@ attribute name="projectDivNamePrefix" required="true" description="name for project related div" %>
 <%@ attribute name="idx" required="true" description="detail index" %>
+<%@ attribute name="projectListName" required="true" description="Project list name in master bean" %>
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
+<c:set var="financialEntityAttributes" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
               
               
                                   
@@ -55,12 +57,17 @@
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-					    ${disclosureDetail.coiEntityStatusCode.description}
+					    <%-- ${disclosureDetail.coiEntityStatusCode.description} --%>
+                        <%-- TODO need to work on property --%>
+                        <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].projectDiscDetails[${festatus.index}].entityStatusCode" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" 
+                        readOnlyAlternateDisplay="${disclosureDetail.coiEntityStatusCode.description}"/> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-					    ${disclosureDetail.comments}
+					    <%-- ${disclosureDetail.comments} --%>
+                        <%-- TODO need to work on property --%>
+                        <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].projectDiscDetails[${festatus.index}].comments" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.comments}" /> 
 					</div>
 				  </td>
 	            </tr>

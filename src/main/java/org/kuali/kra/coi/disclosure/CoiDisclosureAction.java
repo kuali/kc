@@ -71,7 +71,7 @@ public class CoiDisclosureAction extends CoiAction {
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String ATTACHMENT_PATH = "document.coiDisclosureList[0].attachmentCoiDisclosures[";
     private static final String CONFIRM_NO_DELETE = "";
-
+    private static final String UPDATE_DISCLOSURE = "updateDisclosure";
    
     public ActionForward addDisclosurePersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -113,11 +113,17 @@ public class CoiDisclosureAction extends CoiAction {
         } else {
             getCoiDisclosureService().resetLeadUnit(coiDisclosure.getDisclosureReporter());
         }
-        getCoiDisclosureService().setDisclDetailsForSave(coiDisclosure);
+        if (coiDisclosure.isUpdateEvent()) {
+            getCoiDisclosureService().setDisclDetailsForSave(coiDisclosure, coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean());
+        } else {
+            getCoiDisclosureService().setDisclDetailsForSave(coiDisclosure);
+        }
         actionForward = super.save(mapping, form, request, response);
         if (KRADConstants.SAVE_METHOD.equals(coiDisclosureForm.getMethodToCall()) && coiDisclosureForm.isAuditActivated() 
                 && GlobalVariables.getMessageMap().hasNoErrors()) {
             actionForward = mapping.findForward("disclosureActions");
+        } else if (coiDisclosure.isUpdateEvent()) {
+            actionForward = mapping.findForward(UPDATE_DISCLOSURE);
         }
 
         return actionForward;
@@ -153,6 +159,9 @@ public class CoiDisclosureAction extends CoiAction {
             }
 
         }
+//        if (coiDisclosureDocument.getCoiDisclosure().isUpdateEvent() && !StringUtils.equals("performLookup", coiDisclosureForm.getMethodToCall())) {
+//            actionForward = mapping.findForward(UPDATE_DISCLOSURE);
+//        }
         return actionForward;
 
     }
@@ -174,10 +183,21 @@ public class CoiDisclosureAction extends CoiAction {
             } else if (command.endsWith(CoiDisclosure.MANUAL_DISCL_MODULE_CODE)) {
                 // this will be reset when 'addmanualproject', and the event type will be selected at that time
                 eventTypeCode = CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL;
+            } else if (command.endsWith("_6")) {
+                // this is to update master disclosure
+                eventTypeCode = CoiDisclosureEventType.UPDATE;
             }
             coiDisclosureForm.setCommand(KewApiConstants.INITIATE_COMMAND);
             forward = super.docHandler(mapping, form, request, response);
             CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
+            if (CoiDisclosureEventType.UPDATE.equals(eventTypeCode)) {
+                 getCoiDisclosureService().initDisclosureFromMasterDisclosure(coiDisclosure);
+                 coiDisclosure.setEventTypeCode(CoiDisclosureEventType.UPDATE);
+                 ((CoiDisclosureForm)form).getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(
+                         coiDisclosure)); 
+                 forward = mapping.findForward(UPDATE_DISCLOSURE);
+            } 
+
             if (coiDisclosure != null) {
                 coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
             }
@@ -185,9 +205,16 @@ public class CoiDisclosureAction extends CoiAction {
         } else {
             coiDisclosureForm.setCommand(KewApiConstants.DOCSEARCH_COMMAND);
             super.docHandler(mapping, form, request, response);
+            if (coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().isUpdateEvent()) {
+                ((CoiDisclosureForm)form).getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(
+                        coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure())); 
+                forward = mapping.findForward("updateDisclosure");
+           } 
         }
         ((CoiDisclosureForm)form).getDisclosureHelper().prepareView();
-      checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId(), coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
+        if (!coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().isUpdateEvent()) {
+            checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId(), coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
+        }
 
         return forward;
     }
@@ -681,4 +708,5 @@ public class CoiDisclosureAction extends CoiAction {
 //        fieldValues.put("disclosureStatus", CoiDisclosureStatus.APPROVE_DISCLOSURE_CODES);
 //        return getBusinessObjectService().countMatching(CoiDisclosureHistory.class, fieldValues) > 0;
 //    }
+    
 }
