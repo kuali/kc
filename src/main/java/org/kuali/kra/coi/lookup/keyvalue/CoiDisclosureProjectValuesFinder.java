@@ -20,11 +20,14 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.disclosure.CoiDisclosureProjectBean;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
+import org.kuali.kra.coi.disclosure.MasterDisclosureBean;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
@@ -60,7 +63,9 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
                 addProposals(keyLabels, pid);
                 addIp(keyLabels, pid);
                 addProtocols(keyLabels, pid);
-            } else {
+            } else if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.UPDATE)) {
+                addManualProjects(keyLabels, coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean());
+            } else{
                 // manual disclosure
                 if (!coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclProjects().isEmpty()) {
                 String projectId = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclProjects().get(0).getProjectId();
@@ -77,6 +82,20 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
 
         return keyLabels;
 
+    }
+
+    private void addManualProjects(List<KeyValue> keyLabels, MasterDisclosureBean masterDisclosureBean) {
+        addManualProject(keyLabels, masterDisclosureBean.getManualProtocolProjects(), "Manual Protocol --");
+        addManualProject(keyLabels, masterDisclosureBean.getManualAwardProjects(), "Manual Award --");
+    }
+    
+    private void addManualProject(List<KeyValue> keyLabels, List<CoiDisclosureProjectBean> manualProtocolProjects, String projectLabel) {
+        for (CoiDisclosureProjectBean disclProjectBean : manualProtocolProjects) {
+                 CoiDisclProject disclProject = (CoiDisclProject)disclProjectBean.getDisclosureProject();
+                 keyLabels.add(new ConcreteKeyValue(disclProject.getProjectId(), 
+                        formatLabel(projectLabel + disclProject.getProjectId(), disclProject.getProjectName())));
+            }
+            
     }
 
 

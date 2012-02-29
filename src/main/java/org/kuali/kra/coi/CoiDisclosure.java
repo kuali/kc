@@ -446,6 +446,10 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         return StringUtils.equals(CoiDisclosureEventType.ANNUAL, this.getEventTypeCode());
     }
 
+    public boolean isUpdateEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.UPDATE, this.getEventTypeCode());
+    }
+
     public boolean isManualEvent() {
         return StringUtils.equals(CoiDisclosureEventType.MANUAL_AWARD, this.getEventTypeCode())
                 || StringUtils.equals(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, this.getEventTypeCode())

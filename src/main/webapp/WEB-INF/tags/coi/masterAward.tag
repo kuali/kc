@@ -14,7 +14,7 @@
         	<c:forEach var="disclProjectBean" items="${masterDisclosureProjects}" varStatus="status">
                      <kra-coi:projectStyle disclProjectBean="${disclProjectBean}"/>                    
                      <kra-coi:awardHeader disclProject="${disclProjectBean.disclosureProject}" />                    
-                     <kra-coi:masterProjectFE disclProjectBean="${disclProjectBean}" projectDivNamePrefix="masterAwardFE"  idx="${status.index}"/>                    
+                     <kra-coi:masterProjectFE disclProjectBean="${disclProjectBean}" projectDivNamePrefix="masterAwardFE"  idx="${status.index}" projectListName="awardProjects"/>                    
         	</c:forEach> 
             <%-- Existing data --%>
        </div>
