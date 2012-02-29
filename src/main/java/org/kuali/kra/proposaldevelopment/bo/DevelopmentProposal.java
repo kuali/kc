@@ -1741,35 +1741,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return null;
     }
 
-    //    public BudgetDocumentVersion getFinalBudgetVersion() {  
-    //        for (BudgetDocumentVersion version : this.getBudgetDocumentVersions()) {  
-    //            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {  
-    //                return version;  
-    //            }  
-    //        }  
-    //        return null;  
-    //    }  
-    //    public void addNewBudgetVersion(BudgetDocument budgetDocument, String name, boolean isDescriptionUpdatable) {  
-    //        BudgetDocumentVersion budgetDocumentVersion = new BudgetDocumentVersion();  
-    //        budgetDocumentVersion.setParentDocumentKey(getProposalDocument().getDocumentNumber());  
-    //        BudgetVersionOverview budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview();  
-    //        budgetVersionOverview.setDocumentNumber(budgetDocument.getDocumentNumber());  
-    ////        budget.setProposalNumber(this.getProposalNumber());  
-    //        budgetVersionOverview.setDocumentDescription(name);  
-    //        budgetVersionOverview.setBudgetVersionNumber(budgetVersionOverview.getBudgetVersionNumber());  
-    //        budgetVersionOverview.setStartDate(budgetVersionOverview.getStartDate());  
-    //        budgetVersionOverview.setEndDate(budgetVersionOverview.getEndDate());  
-    //        budgetVersionOverview.setOhRateTypeCode(budgetVersionOverview.getOhRateTypeCode());  
-    //        budgetVersionOverview.setOhRateClassCode(budgetVersionOverview.getOhRateClassCode());  
-    ////        budgetVersionOverview.setVersionNumber(budgetDocument.getVersionNumber());  
-    //        budgetVersionOverview.setDescriptionUpdatable(isDescriptionUpdatable);  
-    //  
-    //        String budgetStatusIncompleteCode = KraServiceLocator.getService(ParameterService.class).getParameterValueAsString(  
-    //                Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.DOCUMENT_COMPONENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);  
-    //        budgetVersionOverview.setBudgetStatus(budgetStatusIncompleteCode);  
-    //  
-    //        this.getBudgetDocumentVersions().add(budgetDocumentVersion);  
-    //    }  
     /**
      * Gets the creationStatusCode attribute.
      * 
@@ -1914,8 +1885,17 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public ProposalState getProposalState() {
         return proposalState;
     }
-
+    
+    /**
+     * 
+     * This method returns the linked ProposalDevelopmentDocument.  If there isn't a linked ProposalDevelopmentDocument, then a 
+     * new one is created per KRACOEUS-5304.
+     * @return
+     */
     public ProposalDevelopmentDocument getProposalDocument() {
+        if (proposalDocument == null) {
+            proposalDocument = new ProposalDevelopmentDocument();
+        }
         return proposalDocument;
     }
 
