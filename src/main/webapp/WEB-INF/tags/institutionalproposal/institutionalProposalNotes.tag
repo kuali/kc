@@ -119,7 +119,7 @@
 	                <c:if test="${allowsNoteAttachments eq true}">
 		                <%-- for the IP note implementation, if a IPNotepad object has an attachment, that attachment is linked to a KNS note, and the
 		                     KNS note is linked to the IPNotepad --%>
-		                <c:set var="note" value="${institutionalProposalNotepad.boNotes[0]}"/>
+		                <c:set var="note" value="${institutionalProposalNotepad.attachments[0]}"/>
 		                <c:set var="propPrefix" value="document.institutionalProposal.institutionalProposalNotepads[${status.index}]."/>
 	                    <c:choose>
 	                        <c:when test="${(!empty note) and (!empty note.attachment) and (note.attachment.complete)}">
