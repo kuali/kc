@@ -36,6 +36,8 @@
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${permissionsUserAttributes.userName}" skipHelpUrl="true" noColon="true" /></div></th>
                 <th><div align="center">Full Name</div></th>
                 <th><div align="center">Reviewer Type</div></th>
+                <th><div align="center">Lead Unit</div></th>
+                <th><div align="center">Date Assigned</div></th>
                 <kra:permission value="${modifyPermissions}">
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                 </kra:permission>
@@ -56,7 +58,7 @@
                                     anchor="${tabKey}" />                        
                     </td>
                     <td>&nbsp;</td>
-                    <td>
+                    <td align="center">
                         <html:select property="disclosureActionHelper.newCoiUserRole.reviewerCode">                               
                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.lookup.CoiReviewerValuesFinder', paramMap)}" var="option">   
                                <c:choose>                      
@@ -70,6 +72,8 @@
                            </c:forEach>
                        </html:select>
                     </td> 
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>                    
                     <td>
                         <div align="center">
                             <html:image property="methodToCall.addCoiUserRole.anchor${tabKey}"
@@ -85,8 +89,11 @@
                  <tr>
                     <th>${status.index + 1}</th>
                     <td align="left" valign="middle">${user.userId}</td>
-                    <td align="left" valign="middle">${user.person.fullName}</td>
-                    <td align="left" valign="middle">${user.coiReviewer.description} (${user.reviewerCode})</td>
+                    <td align="center" valign="middle">${user.person.fullName}</td>
+                    <td align="center" valign="middle">${user.coiReviewer.description} (${user.reviewerCode})</td>
+                    <td align="center" valign="middle">${user.person.unit.unitName} (${user.person.unit.unitNumber})</td>
+                    <td align="center" valign="middle">${user.updateTimestamp}</td>
+                    
                     <kra:permission value="${modifyPermissions}">
                         <td align="center" valign="middle">
                             <div align="center">
