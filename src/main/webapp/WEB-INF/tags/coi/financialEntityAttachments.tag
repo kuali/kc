@@ -22,7 +22,7 @@
     	<h3>
         	<span class="subhead-left"> 
 	        <a href="#" id ="finEntityAttachmentsControl" class="finEntityAttachmentsSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> Attachments </span>
-    	    <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment" altText="help"/> </span>
+            <span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiNotesAndAttachmentsHelp" altText="help"/></span>
 	    </h3>
     	<div id="finEntityAttachmentsContent" class="finEntityAttachmentsSubpanelContent">                    
 			<table id="attachments-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
