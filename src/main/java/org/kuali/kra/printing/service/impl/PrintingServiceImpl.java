@@ -49,6 +49,7 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
@@ -56,7 +57,7 @@ import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
@@ -104,7 +105,7 @@ public class PrintingServiceImpl implements PrintingService {
 			throws PrintingException {
 		try {
 	        Map<String, byte[]> streamMap = printableArtifact.renderXML();
-			String loggingEnable = kualiConfigurationService.getPropertyValueAsString(Constants.PRINT_LOGGING_ENABLE);
+	       String loggingEnable = getKualiConfigurationService().getPropertyValueAsString(Constants.PRINT_LOGGING_ENABLE);
 			if(loggingEnable!=null && Boolean.parseBoolean(loggingEnable))
 			   logPrintDetails(streamMap);
 			
@@ -281,8 +282,9 @@ public class PrintingServiceImpl implements PrintingService {
     }
 
     public String getReportName() {
-        String dateString = getDateTimeService().getCurrentDate().toString();
-        return StringUtils.deleteWhitespace(dateString);
+     // String dateString = getDateTimeService().getCurrentDate().toString();
+    String dateString=KraServiceLocator.getService(DateTimeService.class ).getCurrentDate().toString();
+    	return dateString;
 	}
 
 	/**
@@ -468,14 +470,14 @@ public class PrintingServiceImpl implements PrintingService {
         }
 	    }
 	}
-
+	   protected ConfigurationService getKualiConfigurationService() {
+	        return KRADServiceLocator.getKualiConfigurationService();
+	    }
     public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
-    public ConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
-    }
+  
 
     /**
      * Gets the watermarkService attribute. 
