@@ -61,12 +61,6 @@
 	<import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml"/>
 	
 	<bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
-		<property name="moduleName" value="CORE" />
-		<property name="validRunModes">
-			<list>
-				<value>LOCAL</value>
-			</list>
-		</property>
 		<property name="dataSource" ref="dataSource${connection.pool.impl}" />
 		<property name="serverDataSource" ref="riceDataSource${connection.pool.impl}" />
 		<property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
@@ -75,13 +69,6 @@
 	</bean>	
 
 	<bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
-		<property name="moduleName" value="KSB" />
-		<property name="validRunModes">
-			<list>
-				<value>REMOTE</value>
-				<value>LOCAL</value>
-			</list>
-		</property>
 		<property name="registryDataSource" ref="riceDataSource${connection.pool.impl}" />
 		<property name="messageDataSource" ref="riceDataSource${connection.pool.impl}" />
 		<property name="nonTransactionalMessageDataSource" ref="nonTransactionalDataSource" />
@@ -90,32 +77,23 @@
 	</bean>		
 	
 	<bean id="kradConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer">
-		<property name="moduleName" value="KR" />
         <property name="includeKnsSpringBeans" value="true" />
-		<property name="validRunModes">
-			<list>
-				<value>LOCAL</value>
-			</list>
-		</property>
         <property name="applicationDataSource" ref="dataSource${connection.pool.impl}" />
 	</bean>	
  
 	<bean id="coreServiceConfigurer" class="org.kuali.rice.coreservice.impl.config.CoreServiceConfigurer">
 	</bean>
 	
-    <bean id="kimConfigurer" class="org.kuali.rice.kim.config.KIMConfigurer"  
-      			p:moduleName="KIM">
+    <bean id="kimConfigurer" class="org.kuali.rice.kim.config.KIMConfigurer">
 		<property name="properties" ref="configProperties" />
 	</bean>
   	
-	<bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer"
-              p:moduleName="KEW">
+	<bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer">
 		<property name="dataSource" ref="riceDataSource${connection.pool.impl}" /> 
 		<property name="properties" ref="configProperties" />
     </bean>
 
-    <bean id="kenConfigurer" class="org.kuali.rice.ken.impl.config.KENConfigurer"  
-    			p:moduleName="KEN">
+    <bean id="kenConfigurer" class="org.kuali.rice.ken.impl.config.KENConfigurer">
 		<property name="properties" ref="configProperties" />
    </bean>
    <!-- 
@@ -123,15 +101,7 @@
     -->
    <bean id="krmsConfigurer" class="org.kuali.rice.krms.config.KRMSConfigurer"/>
 	
-	<bean id="locationConfigurer" class="org.kuali.rice.location.impl.config.LocationConfigurer">
-		<property name="moduleName" value="LOCATION" />
-		<property name="validRunModes">
-			<list>
-				<value>LOCAL</value>
-				<value>REMOTE</value>
-			</list>
-		</property>
-	</bean>
+	<bean id="locationConfigurer" class="org.kuali.rice.location.impl.config.LocationConfigurer" />
 	
 	<bean id="userTransaction" class="org.kuali.rice.core.framework.persistence.jta.UserTransactionFactoryBean" lazy-init="true" />
 
