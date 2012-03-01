@@ -108,7 +108,7 @@
 	<param name="attachment.dir.location">/opt/ears/</param>
 
 	<!-- Kuali parameters -->
-	<param name="encryption.key">7IC64w6ksLU</param>
+	<param name="encryption.key">7IC64w6kAAAA</param>
 
 	<!-- workaround until Rice resolves KULRICE-4065 -->
 	<param name="enable.nonproduction.data.unmasking">true</param>
@@ -180,5 +180,5 @@
 	 <!-- XAPool is still the default in common-config-defaults. But that might change -->
 	<param name="connection.pool.impl">XAPool</param>
 	 
-	<param name="rice.portal.allowed.regex" override="false">^${application.url}(/.*|)</param>
+	<param name="rice.portal.allowed.regex" override="false">^(${application.url}|${rice.app.url})(/.*|)</param>
 </config>
