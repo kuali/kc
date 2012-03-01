@@ -117,7 +117,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
+        getKnsDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
                document, getMaxDictionaryValidationDepth(),
                VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
@@ -127,7 +127,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
         if ((protocolDocument.getDocumentHeader().getWorkflowDocument().isInitiated() || protocolDocument.getDocumentHeader().getWorkflowDocument().isSaved()) && ProtocolStatus.IN_PROGRESS.equals(protocolDocument.getProtocol().getProtocolStatusCode())
                 && StringUtils.isBlank(protocolDocument.getDocumentHeader().getDocumentTemplateNumber())) {
             valid &= processProtocolResearchAreaBusinessRules((ProtocolDocument) document);
-        }
+        } 
         valid &= processLeadUnitBusinessRules((ProtocolDocument) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
         valid &= processProtocolPersonnelBusinessRules((ProtocolDocument) document);
