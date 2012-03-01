@@ -46,11 +46,15 @@ import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.irb.questionnaire.SaveProtocolQuestionnaireEvent;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -60,6 +64,7 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -101,13 +106,22 @@ public class CoiDisclosureAction extends CoiAction {
     public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         
-        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        // save questionnaire data first
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        Document document = coiDisclosureForm.getDocument();
+        List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
+        // TODO add a COI specific rule event to the condition below
+        if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders))) {
+            coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
+            getBusinessObjectService().save(answerHeaders);
+        }
+        
+        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         // notes and attachments
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();        
         helper.fixReloadedAttachments(request.getParameterMap());
         
-        CoiDisclosure coiDisclosure = ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure();
+        CoiDisclosure coiDisclosure = ((CoiDisclosureDocument)document).getCoiDisclosure();
         if (coiDisclosure.getCoiDisclosureId() == null) {
             coiDisclosure.initRequiredFields();            
         } else {
@@ -317,11 +331,14 @@ public class CoiDisclosureAction extends CoiAction {
         CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
         if (coiDisclosure != null) {
             coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
+            coiDisclosure.setCoiDisclosureDocument(coiDisclosureForm.getCoiDisclosureDocument());
         }
         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setEventTypeCode(coiDisclosureForm.getDisclosureHelper().getEventTypeCode());
         // dochandler may populate discdetails for new doc.  here is just to reset to reload it again.
         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setCoiDiscDetails(null);
         checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId(), coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
+        //populate Questionnaires and answers here
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView();
         return forward;
     }
 

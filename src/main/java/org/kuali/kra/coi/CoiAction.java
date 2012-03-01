@@ -30,6 +30,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     protected static final String MASTER_DISCLOSURE = "masterDisclosure";
@@ -57,6 +58,7 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
                    && !coiDisclosureForm.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
             coiDisclosure.getCoiDisclProjects().get(0).setCoiDiscDetails(coiDisclosure.getCoiDiscDetails());
         }
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView();
         return mapping.findForward("disclosure");
     }
     public ActionForward committee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -114,6 +116,16 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
 
     protected KcNotificationService getNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
+    }
+    
+    /**
+     * Use the Kuali Rule Service to apply the rules for the given event.
+     * @param event the event to process
+     * @return true if success; false if there was a validation error
+     */
+    @SuppressWarnings("deprecation")
+    protected final boolean applyRules(KualiDocumentEvent event) {
+        return getKualiRuleService().applyRules(event);
     }
     
 //    @Override

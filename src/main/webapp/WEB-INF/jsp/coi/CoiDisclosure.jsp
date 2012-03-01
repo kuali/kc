@@ -16,6 +16,15 @@
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<script type="text/javascript">
+   var $j = jQuery.noConflict();
+</script>
+	<link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+    <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
+    <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
 
 
         <script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
@@ -254,6 +263,10 @@
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
 <kra-coi:disclosureReporter />
+
+<kra-coi:disclosureQuestionnaire />
+<script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
+ 
 <c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='1'}" >
     <%-- <kra-coi:awardProjects /> --%>
     <kra-coi:newAwardFinancialEntities />
@@ -301,5 +314,5 @@ var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 
 </SCRIPT>
-
+<script language="javascript" src="scripts/kuali_application.js"></script>
 </kul:documentPage>
