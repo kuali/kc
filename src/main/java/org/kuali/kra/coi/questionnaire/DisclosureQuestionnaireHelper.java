@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.coi.questionnaire;
 
+import java.util.ArrayList;
+
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
@@ -23,6 +25,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.springframework.util.CollectionUtils;
 
@@ -37,6 +40,7 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
     private CoiDisclosureForm form;
     
     public DisclosureQuestionnaireHelper(CoiDisclosureForm coiDisclosureForm) {
+        this.setAnswerHeaders(new ArrayList<AnswerHeader>());
         this.form = coiDisclosureForm;
     }
 
@@ -65,8 +69,8 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
     }
     
     private void populateQuestionnaires() {
-           this.setAnswerHeaders(null);
-            super.populateAnswers();
+        this.setAnswerHeaders(new ArrayList<AnswerHeader>());
+        super.populateAnswers();
     }
 
 }
