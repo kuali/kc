@@ -85,7 +85,7 @@ public class ProtocolParticipantRuleTest extends ProtocolRuleTestBase {
      */
     /* Test has been marked with ignore flag due to KCINFR-445 
      * Once the related Rice issue is resolved, this can be included back */
-    @Ignore
+
     @Test
     public void testAddProtocolParticipantWithNegCount() throws Exception {
         new TemplateRuleTest<AddProtocolParticipantEvent, AddProtocolParticipantRule> (){            
@@ -132,7 +132,6 @@ public class ProtocolParticipantRuleTest extends ProtocolRuleTestBase {
      */
     /* Test has been marked with ignore flag due to KCINFR-445 
      * Once the related Rice issue is resolved, this can be included back */
-    @Ignore
     @Test
     public void testAddUnspecifiedProtocolParticipant() throws Exception {
         new TemplateRuleTest<AddProtocolParticipantEvent, AddProtocolParticipantRule> (){            
