@@ -23,7 +23,7 @@
     <div class="tab-container"  align="center">
         <h3> 
             <span class="subhead-left">Reviewer Actions</span>
-            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiUserRole" altText="help"/></span>
+            <span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiDisclosureReviewerHelp" altText="help"/></span>
         </h3>
 
         <table id="coi-user-roles" cellpadding="0" cellspacing="0" summary="">

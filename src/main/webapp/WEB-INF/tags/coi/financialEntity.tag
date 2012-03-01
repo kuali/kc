@@ -73,7 +73,7 @@
                                     <h3>
                                         <span class="subhead-left"> 
                                             <a href="#" id ="financialEntityControl" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> Financial Entity </span>
-                                        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.coi.personfinancialentityDisclosure.FinIntEntityStatus" altText="help"/> </span>
+							            <span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="financialEntity1Help" altText="help"/></span>
                                     </h3>
                                     <div id="financialEntityContent" class="financialEntitySubpanelContent">                    
 
