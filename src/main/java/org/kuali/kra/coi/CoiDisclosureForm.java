@@ -26,15 +26,18 @@ import org.kuali.kra.coi.actions.DisclosureActionHelper;
 import org.kuali.kra.coi.disclosure.DisclosureHelper;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
+import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
+import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implements Auditable  {
+public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implements Auditable, QuestionableFormInterface  {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -44,6 +47,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     private boolean auditActivated;
     private transient CoiNotesAndAttachmentsHelper coiNotesAndAttachmentsHelper;
     private transient NotificationHelper<CoiNotificationContext> notificationHelper;
+    private transient DisclosureQuestionnaireHelper disclosureQuestionnaireHelper; 
     
     //TODO : coiDisclosureStatusCode : this is just a quick set up here for 'approve' action to test 'master disclosure'
     // this should be moved to disclosureactionhelper when 'action' is really implemented
@@ -65,6 +69,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
        setDisclosureActionHelper(new DisclosureActionHelper(this));
        disclosureActionHelper.prepareView();
        setNotificationHelper(new NotificationHelper<CoiNotificationContext>());
+       setDisclosureQuestionnaireHelper(new DisclosureQuestionnaireHelper(this));
     }
     
    public void setCoiNotesAndAttachmentsHelper(CoiNotesAndAttachmentsHelper coiNotesAndAttachmentsHelper) {
@@ -75,6 +80,14 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
    public CoiNotesAndAttachmentsHelper getCoiNotesAndAttachmentsHelper() {
        return coiNotesAndAttachmentsHelper;
     }
+   
+   public DisclosureQuestionnaireHelper getDisclosureQuestionnaireHelper() {
+       return disclosureQuestionnaireHelper;
+   }
+
+   public void setDisclosureQuestionnaireHelper(DisclosureQuestionnaireHelper disclosureQuestionnaireHelper) {
+       this.disclosureQuestionnaireHelper = disclosureQuestionnaireHelper;
+   }
     
    @Override
     protected String getDefaultDocumentTypeName() {
@@ -179,6 +192,21 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
 
     public void setNotificationHelper(NotificationHelper<CoiNotificationContext> notificationHelper) {
         this.notificationHelper = notificationHelper;
+    }
+
+    @Override
+    public String getQuestionnaireFieldStarter() {
+        return "questionnaireHelper.answerHeaders[";
+    }
+    
+    @Override
+    public String getQuestionnaireFieldMiddle() {
+        return DEFAULT_MIDDLE;
+    }
+    
+    @Override
+    public String getQuestionnaireFieldEnd() {
+        return DEFAULT_END;
     }
     
 }
