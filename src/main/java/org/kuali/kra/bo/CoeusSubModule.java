@@ -29,6 +29,14 @@ public class CoeusSubModule extends KraPersistableBusinessObjectBase {
     public static final String PROPOSAL_S2S_SUBMODULE = "2";
 
     public static final String PROPOSAL_PERSON_CERTIFICATION = "3";
+    
+    public static final String COI_ANNUAL_DISCL_SUBMODULE = "1";
+    public static final String COI_UPDATE_MASTER_DISCL_SUBMODULE = "2";
+    public static final String COI_EVENT_AWARD_DISCL_SUBMODULE = "3";
+    public static final String COI_EVENT_PROPOSAL_DISCL_SUBMODULE = "4";
+    public static final String COI_EVENT_IRB_PROTOCOL_DISCL_SUBMODULE = "5";
+    public static final String COI_EVENT_IACUC_PROTOCOL_DISCL_SUBMODULE = "6";
+    public static final String COI_EVENT_TRAVEL_DISCL_SUBMODULE = "7";
 
     public static final String AMENDMENT = "4";
 
