@@ -1032,6 +1032,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                  isActive = true;
                  break;
              }
+         } 
+         // it is ok if there is no sponsor set up for protocol
+         if (CollectionUtils.isEmpty(protocol.getProtocolFundingSources())) {
+             isActive = isAllSponsorActiveForDisclose(ProtocolDocument.class, ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE);
          }
          return isActive;
          
