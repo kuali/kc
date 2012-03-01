@@ -724,7 +724,11 @@
 				<exclusion>
 		            <artifactId>commons-beanutils</artifactId>
 		            <groupId>commons-beanutils</groupId>
-		        </exclusion>		    	
+		        </exclusion>	
+				<exclusion>
+		            <artifactId>asm</artifactId>
+		            <groupId>asm</groupId>
+		        </exclusion>
 		    </exclusions>
 		</dependency>
 		<dependency>
@@ -1583,7 +1587,7 @@
 		<mysql.version>5.1.16</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
 		<quartz.version>1.8.4</quartz.version>
-		<rice.version>2.0.0-rc3</rice.version>
+		<rice.version>2.0.0</rice.version>
 		<selenium.version>2.12.0</selenium.version>
 		<servlet.version>2.5</servlet.version>
 		<slf4j.version>1.6.4</slf4j.version>
