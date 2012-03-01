@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class contains the rules to validate a <code>{@link ProtocolParticipant}</code>.
@@ -46,7 +47,9 @@ public class ProtocolParticipantRuleBase extends ResearchDocumentRuleBase {
         ProtocolParticipant newProtocolParticipant = addProtocolParticipantEvent.getNewProtocolParticipant();
         List<ProtocolParticipant> protocolParticipants = addProtocolParticipantEvent.getProtocolParticipants();
         String errorPath = addProtocolParticipantEvent.getErrorPathPrefix();
-        rulePassed &= getDictionaryValidationService().isBusinessObjectValid(newProtocolParticipant);
+        getKnsDictionaryValidationService().validateBusinessObject(newProtocolParticipant);
+        rulePassed &= GlobalVariables.getMessageMap().hasNoErrors();
+
         rulePassed &= validateUniqueParticipantType(newProtocolParticipant, protocolParticipants, errorPath);
         
         return rulePassed;
