@@ -42,6 +42,7 @@ public class DetailsAndDatesFormHelper implements Serializable {
      */
     public DetailsAndDatesFormHelper(AwardForm parent) {
         this.parent = parent;
+        init();
     }
     
     /**

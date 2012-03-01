@@ -71,7 +71,10 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
     
     // Check whether the Sponsor has a record in the system.
     private boolean isUnknownSponsor(Sponsor sponsor) {
-        Sponsor dbSponsor = (Sponsor) getBusinessObjectService().retrieve(sponsor);
+        Sponsor dbSponsor = null;
+        if (sponsor != null && sponsor.getSponsorCode() != null) {
+            dbSponsor = (Sponsor) getBusinessObjectService().retrieve(sponsor);
+        }
         return dbSponsor == null;
     }
     
