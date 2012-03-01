@@ -471,11 +471,13 @@ public class QuestionnaireXmlStream implements XmlStream {
      * object.
      */
     private PersistableBusinessObject getBusinessObjectFromXML(String xmlDocumentContents, String objectTagName) {
-        String objXml = StringUtils.substringBetween(xmlDocumentContents, "<" + objectTagName + ">", "</"+ objectTagName +">");
-        objXml = "<" + objectTagName + ">" + objXml + "</" + objectTagName + ">";
-        KualiDocumentXmlMaterializer kualiDocumentXmlMaterializer = (KualiDocumentXmlMaterializer)KRADServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
+        String beginTag = "<document class=\"org.kuali.kra.maintenance.KraMaintenanceDocument\">";
+        String endTag = "</document>";
+        String objXml = StringUtils.substringBetween(xmlDocumentContents, beginTag, endTag);
+        objXml = beginTag + objXml + endTag;
+//        KualiDocumentXmlMaterializer kualiDocumentXmlMaterializer = (KualiDocumentXmlMaterializer)KRADServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
         
-        KraMaintenanceDocument kraMaintenanceDocument = (KraMaintenanceDocument)kualiDocumentXmlMaterializer.getDocument();
+        KraMaintenanceDocument kraMaintenanceDocument = (KraMaintenanceDocument)KRADServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
         PersistableBusinessObject businessObject = (PersistableBusinessObject)kraMaintenanceDocument.getDocumentBusinessObject();
         return businessObject;
     }
