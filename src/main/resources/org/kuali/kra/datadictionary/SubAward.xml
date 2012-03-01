@@ -350,8 +350,8 @@
   <bean id="SubAward-requisitionerId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requisitionerId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Requisitioner ID" />
-    <property name="shortLabel" value="Requisitioner ID" />
+    <property name="label" value="Requisitioner User Name" />
+    <property name="shortLabel" value="Requisitioner User Name" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
