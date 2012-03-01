@@ -17,9 +17,11 @@ package org.kuali.kra.subaward.subawardrule;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -43,6 +45,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     private static final String STATUS_CODE = ".statusCode";
     private static final String SUBAWARD_TYPE_CODE = ".subAwardTypeCode";
     private static final String REQUISITIONER = ".requisitionerName";
+    private static final String REQUISITIONER_UNIT = ".requisitionerUnit";
     private static final String PURCHASE_ORDER_NUM= ".purchaseOrderNum";
     private static final String SUBCONTRACTOR_ID = ".organization.organizationName";
     private static final String NEW_SUBAWARD = "document.subAwardList[0]";
@@ -100,6 +103,12 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
             reportError(propertyPrefix+REQUISITIONER
                     , KeyConstants.ERROR_REQUIRED_REQUISITIONER); 
         }  
+        if(subAward.getRequisitionerUnit() != null){
+            Unit leadUnit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", subAward.getRequisitionerUnit()));
+            if(leadUnit == null)
+                reportError(propertyPrefix+REQUISITIONER_UNIT
+                        , KeyConstants.ERROR_REQUIRED_REQUISITIONER_UNIT); 
+        }
         if(subAward.getPurchaseOrderNum()==null ){
             rulePassed = false;
             
