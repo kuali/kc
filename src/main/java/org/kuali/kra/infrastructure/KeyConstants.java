@@ -987,6 +987,7 @@ public final class KeyConstants {
     public static final String ERROR_REQUIRED_STATUS = "error.required.statuscode";
     public static final String ERROR_REQUIRED_SUBAWARD_TYPE = "error.required.subaward.typecode";
     public static final String ERROR_REQUIRED_REQUISITIONER = "error.required.requisitioner";
+    public static final String ERROR_REQUIRED_REQUISITIONER_UNIT = "error.required.requisitioner.unit";
     public static final String ERROR_REQUIRED_PURCHASE_ORDER_NUM = "error.required.purchase.order.num";
     public static final String ERROR_REQUIRED_EFFECTIVE_DATE = "error.required.effective.date";
     public static final String ERROR_REQUIRED_INVOICE_NUMBER = "error.required.invoice.number";

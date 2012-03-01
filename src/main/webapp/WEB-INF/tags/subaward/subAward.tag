@@ -17,6 +17,7 @@
 
 <c:set var="subAwardAttributes" value="${DataDictionary.SubAward.attributes}" />
 <c:set var="action" value="subAward" />
+<script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
 
 <kul:tab tabTitle="SubAward" defaultOpen="true" tabErrorKey="document.subAwardList[0].statusCode*,document.subAwardList[0].purchaseOrderNum*,document.subAwardList[0].organization.organizationName*,document.subAwardList[0].requisitionerName*,document.subAwardList[0].subAwardTypeCode*,document.subAwardList[0].title*,document.subAwardList[0].startDate*,document.subAwardList[0].endDate*,document.subAwardList[0].accountNumber*,document.subAwardList[0].vendorNumber*,document.subAwardList[0].requisitionerUnit*,document.subAwardList[0].archiveLocation*,document.subAwardList[0].closeoutDate*,document.subAwardList[0].comments*"
  auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
@@ -100,10 +101,25 @@
               
                       
              <td>
-                <kul:htmlControlAttribute property="document.subAwardList[0].requisitionerId" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.requisitionerId}" />
+			<c:if test="${!readOnly}">
+	                    <html:text property="document.subAwardList[0].requisitionerUserName" 
+							onblur="loadContactPersonName('document.subAwardList[0].requisitionerUserName',
+										'requistioner.fullName',
+										'na',
+										'na',
+										'na',
+										'na');"
+	                    	readonly="${readOnly}" tabindex="7"/>
+						<kul:checkErrors keyMatch="document.subAwardList[0].requisitionerName" 
+							auditMatch="document.subAwardList[0].requisitionerName"/>
+					</c:if>  
+            		<c:if test="${hasErrors}">
+	 					<kul:fieldShowErrorIcon />
+			</c:if>
+
                   <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:document.subAwardList[0].requisitionerId,fullName:document.subAwardList[0].requisitionerName,unit.unitNumber:document.subAwardList[0].requisitionerUnit,unit.unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
             	  	  <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="document.subAwardList[0].requisitionerId:personId" anchor="${tabKey}" /> 
-                      <div>${KualiForm.document.subAwardList[0].requisitionerName}&nbsp;</div>
+                      <br/><span id="requistioner.fullName"><c:out value="${KualiForm.document.subAwardList[0].requisitionerName}"/>&nbsp;</span>
                 </td> 
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.requisitionerUnit}" /></div></th>
                 <td>                       

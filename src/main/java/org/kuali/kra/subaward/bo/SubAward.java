@@ -103,6 +103,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
 
     private String requisitionerName;
     private String requisitionerUnitName;
+    private String requisitionerUserName;
     private String siteInvestigatorName;
     private Organization organization;
     private Unit unit;
@@ -187,11 +188,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     }
 
     public String getRequisitionerName() {
-        if (requisitionerId != null) {
-            return requisitionerName = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(requisitionerId).getFullName();
-        } else {
-            return this.requisitionerName;
-        }
+        return this.requisitionerName;
     }
 
     public void setRequisitionerName(String requisitionerName) {
@@ -204,6 +201,27 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
 
     public void setRequisitionerUnitName(String requisitionerUnitName) {
         this.requisitionerUnitName = requisitionerUnitName;
+    }
+
+    public String getRequisitionerUserName() {
+        if (requisitionerId != null) { 
+            KcPerson requisitioner = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(requisitionerId); 
+            if(requisitioner != null){
+                requisitionerName = requisitioner.getFullName(); 
+                requisitionerUserName = requisitioner.getUserName();
+            }
+        }
+            return this.requisitionerUserName;        
+    }
+
+    public void setRequisitionerUserName(String requisitionerUserName) {
+        if (requisitionerUserName != null) { 
+            KcPerson requisitioner = KraServiceLocator.getService(KcPersonService.class).getKcPersonByUserName(requisitionerUserName);
+            if(requisitioner != null){
+                requisitionerId = requisitioner.getPersonId();
+            }
+        }
+        this.requisitionerUserName = requisitionerUserName;
     }
 
     public String getSiteInvestigatorName() {
