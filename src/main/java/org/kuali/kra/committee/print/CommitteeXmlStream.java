@@ -209,8 +209,8 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
       committeeMasterData.setMinimumMembersRequired(new BigInteger(String.valueOf(committee.getMinimumMembersRequired()))) ;
       committeeMasterData.setMaxProtocols(new BigInteger(String.valueOf(committee.getMaxProtocols()))) ;
       committeeMasterData.setAdvSubmissionDays(new BigInteger(String.valueOf(committee.getAdvancedSubmissionDaysRequired()))) ;
-      committeeMasterData.setDefaultReviewTypeCode(new BigInteger(String.valueOf(committee.getReviewTypeCode()))) ;
-      if(committee.getReviewType()!=null){
+        if(committee.getReviewType()!=null){
+        committeeMasterData.setDefaultReviewTypeCode(new BigInteger(String.valueOf(committee.getReviewTypeCode()))) ;
           committeeMasterData.setDefaultReviewTypeDesc(committee.getReviewType().getDescription()) ;
       }
     }
