@@ -542,7 +542,7 @@
       </action>
 
        
-     <action path="/projectEventDisclosure" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/ProjectEvent.jsp" type="org.kuali.kra.coi.disclosure.CoiDisclosureAction" parameter="methodToCall" validate="true" attribute="KualiForm">
+     <action path="/projectEventDisclosure" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/ProjectEvent.jsp" type="org.kuali.kra.coi.disclosure.CoiDisclosureAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/coi/ProjectEvent.jsp" />
       </action>
        
