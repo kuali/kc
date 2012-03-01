@@ -75,7 +75,13 @@ public class ReportTrackingDaoOjb extends LookupDaoOjb implements ReportTracking
                     }
                 }
             }
-            curItem.setItemCount(((BigDecimal) curLine[i]).intValue());
+            //when on mysql count(*) column is returned as long, but on oracle BigDecimal.
+            //handle here instead of looking at OJB fix.
+            if (curLine[i] instanceof Long) {
+                curItem.setItemCount(((Long) curLine[i]).intValue());
+            } else {
+                curItem.setItemCount(((BigDecimal) curLine[i]).intValue());
+            }
             curItem.refreshNonUpdateableReferences();
             searchResults.add(curItem);
         }
