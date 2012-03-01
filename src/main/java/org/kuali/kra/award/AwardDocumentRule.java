@@ -281,7 +281,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         }
         
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
+        getKnsDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
                 document, getMaxDictionaryValidationDepth(),
                 VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
