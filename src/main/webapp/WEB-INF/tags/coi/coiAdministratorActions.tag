@@ -20,8 +20,8 @@
 	<div class="tab-container"  align="center">
 		<h3> 
 			<span class="subhead-left">Administrator Actions</span>
-			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDispositionStatus" altText="help"/></span>
-		</h3>
+            <span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiAdministratorActionHelp" altText="help"/></span>
+ 		</h3>
 		<c:if test="${not KualiForm.document.coiDisclosureList[0].currentDisclosure}">
             <kra-coi:approveAction />
         </c:if>    

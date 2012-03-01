@@ -259,7 +259,7 @@
   	headerTabActive="disclosure">
   	
 <%-- --%>
-<div align="right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiDisclosureHelp" altText="help"/></div>
+<div align="right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiDisclosure1Help" altText="help"/></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
 <kra-coi:disclosureReporter />
