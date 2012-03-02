@@ -625,25 +625,48 @@
 	</bean>
 
 	<bean id="unitRoleTypeService" class="org.kuali.kra.kim.service.impl.UnitRoleTypeServiceImpl" />
+	<!-- 
 	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="unitRoleTypeService"
 				p:localServiceName="unitRoleTypeService" />
 		</property>
-	</bean>
-
+	</bean> -->
+	
+	<bean id="kc.import.serviceBus"
+        class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+    	<property name="serviceName" value="rice.ksb.serviceBus"/>
+  	</bean>
+  
+	<bean 
+      class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+      p:serviceBus-ref="kc.import.serviceBus"
+      p:callbackService-ref="unitRoleTypeService"
+      p:localServiceName="unitRoleTypeService"
+      p:serviceNameSpaceURI="" 
+      p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+      
 	<bean id="unitHierarchyRoleTypeService"
 		class="org.kuali.kra.kim.service.impl.UnitHierarchyRoleTypeServiceImpl">
 		<property name="unitService">
 			<ref bean="unitService" />
 		</property>
 	</bean>
+	<!-- 
 	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
 			<bean parent="kcService" p:service-ref="unitHierarchyRoleTypeService"
 				p:localServiceName="unitHierarchyRoleTypeService" />
 		</property>
-	</bean>
+	</bean> -->
+	
+	<bean 
+      class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+      p:serviceBus-ref="kc.import.serviceBus"
+      p:callbackService-ref="unitHierarchyRoleTypeService"
+      p:localServiceName="unitHierarchyRoleTypeService"
+      p:serviceNameSpaceURI="" 
+      p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 
 	<bean id="unitAdministratorDerivedRoleTypeService"
 		class="org.kuali.kra.kim.service.impl.UnitAdministratorDerivedRoleTypeServiceImpl">
