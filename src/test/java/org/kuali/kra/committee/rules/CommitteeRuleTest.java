@@ -15,16 +15,9 @@
  */
 package org.kuali.kra.committee.rules;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeResearchArea;
-import org.kuali.kra.committee.bo.CommitteeType;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -68,9 +61,9 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
          * any properties, each of the required fields should 
          * result in an error.
          */
-        boolean rulesPassed = rule.processSaveDocument(document);
+        boolean rulesPassed = rule.processCustomSaveDocumentBusinessRules(document);
         assertFalse(rulesPassed);
-        
+
         /*
          * There should be nine required fields.
          */
