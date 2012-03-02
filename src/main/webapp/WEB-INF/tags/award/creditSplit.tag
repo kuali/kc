@@ -43,8 +43,9 @@
         
         <%-- For each project person ... --%>
         <c:forEach items="${projectPersonnel}" var="projectPerson" varStatus="ppStatus">
-            <%-- This var is a JSTL hack to get a string that will later be evaluated--%>
-            <c:set var="projectPersonProperty" value="document.awardList[0].projectPersons[${ppStatus.index}]" />
+          <%-- This var is a JSTL hack to get a string that will later be evaluated--%>
+          <c:set var="projectPersonProperty" value="document.awardList[0].projectPersons[${ppStatus.index}]" />
+          <c:if test="${!projectPerson.keyPerson || projectPerson.optInUnitStatus}">
             
                 <tr>
                     <%-- ... show full name --%>
@@ -120,6 +121,7 @@
                     </c:forEach>
                 </tr>            
             </c:if>
+          </c:if>
         </c:forEach>
         <tr>
             <td colspan="${columnWidth}" nowrap class="tab-subhead" >
