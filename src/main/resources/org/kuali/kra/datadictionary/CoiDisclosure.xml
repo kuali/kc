@@ -41,10 +41,13 @@
                 <ref bean="CoiDisclosure-certificationTimestamp" />
                 <ref bean="CoiDisclosure-updateTimestamp" />
                 <ref bean="CoiDisclosure-disclosureDispositionCode" />
+				<ref bean="CoiDisclosure-coiDispositionStatus.description" />
                 <ref bean="CoiDisclosure-disclosureStatusCode" />
+				<ref bean="CoiDisclosure-coiDisclosureStatus.description" />
                 <ref bean="CoiDisclosure-expirationDate" />
                 <ref bean="CoiDisclosure-moduleItemKey" />
                 <ref bean="CoiDisclosure-eventTypeCode" />
+				<ref bean="CoiDisclosure-coiDisclosureEventType.description" />
                 <ref bean="CoiDisclosure-reviewStatusCode" />
                 <ref bean="CoiDisclosure-discActiveStatus" />
                 <ref bean="CoiDisclosure-versionNumber" />
@@ -319,6 +322,66 @@
     <bean id="CoiDisclosure-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
 
+	<bean id="CoiDisclosure-coiDispositionStatus.description" parent="CoiDisclosure-coiDispositionStatus.description-parentBean" />
+	<bean id="CoiDisclosure-coiDispositionStatus.description-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="coiDispositionStatus.description" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Disposition Status" />
+		<property name="shortLabel" value="Disposition Status" />
+		<property name="maxLength" value="200" />
+		<property name="validationPattern">
+			<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control">
+			<bean p:size="60" parent="TextControlDefinition" />
+		</property>
+		<property name="summary"
+			value="The disposition status for a Disclosure." />
+		<property name="description"
+			value="The disposition status for a Disclosure." />
+	</bean>
+
+	<bean id="CoiDisclosure-coiDisclosureStatus.description" parent="CoiDisclosure-coiDisclosureStatus.description-parentBean" />
+	<bean id="CoiDisclosure-coiDisclosureStatus.description-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="coiDisclosureStatus.description" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Disclosure Status" />
+		<property name="shortLabel" value="Disclosure Status" />
+		<property name="maxLength" value="200" />
+		<property name="validationPattern">
+			<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control">
+			<bean p:size="60" parent="TextControlDefinition" />
+		</property>
+		<property name="summary"
+			value="The status for a Disclosure." />
+		<property name="description"
+			value="The status for a Disclosure." />
+	</bean>
+
+	<bean id="CoiDisclosure-coiDisclosureEventType.description" parent="CoiDisclosure-coiDisclosureEventType.description-parentBean" />
+	<bean id="CoiDisclosure-coiDisclosureEventType.description-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="coiDisclosureEventType.description" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Event Type" />
+		<property name="shortLabel" value="Event Type" />
+		<property name="maxLength" value="200" />
+		<property name="validationPattern">
+			<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control">
+			<bean p:size="60" parent="TextControlDefinition" />
+		</property>
+		<property name="summary"
+			value="The EventType for a Disclosure." />
+		<property name="description"
+			value="The EventType for a Disclosure." />
+	</bean>
+
     <!-- Business Object Inquiry Definition -->
     <bean id="CoiDisclosure-inquiryDefinition" parent="CoiDisclosure-inquiryDefinition-parentBean" />
     <bean id="CoiDisclosure-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -330,37 +393,16 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="coiDisclosureId" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="coiDisclosureNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="sequenceNumber" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="personId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="certificationText" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="certifiedBy" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="certificationTimestamp" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="disclosureDispositionCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="disclosureStatusCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="expirationDate" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="moduleItemKey" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="reviewStatusCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="eventTypeCode" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="discActiveStatus" />
-                            <bean parent="FieldDefinition"
-                            	p:attributeName="leadUnitNumber" />
+                            <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" />
+                            <bean parent="FieldDefinition" p:attributeName="personId" />
+                            <bean parent="FieldDefinition" p:attributeName="certifiedBy" />
+                            <bean parent="FieldDefinition" p:attributeName="disclosureDispositionCode" />
+                            <bean parent="FieldDefinition" p:attributeName="disclosureStatusCode" />
+                            <bean parent="FieldDefinition" p:attributeName="expirationDate" />
+                            <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" />
+                            <bean parent="FieldDefinition" p:attributeName="eventTypeCode" />
+                            <bean parent="FieldDefinition" p:attributeName="discActiveStatus" />
+                            <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
                         </list>
                     </property>
                 </bean>
@@ -379,72 +421,31 @@
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiDisclosureId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiDisclosureNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="personId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="certificationText" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="certifiedBy" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="certificationTimestamp" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="disclosureDispositionCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="disclosureStatusCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="expirationDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="moduleItemKey" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="reviewStatusCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="eventTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="discActiveStatus" />
-                    <bean parent="FieldDefinition"
-                    p:attributeName="leadUnitNumber" />
+                <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" 
+					p:forceLookup="true" />
+                <bean parent="FieldDefinition" p:attributeName="personId" />
+                <bean parent="FieldDefinition" p:attributeName="certifiedBy" />
+                <bean parent="FieldDefinition" p:attributeName="disclosureDispositionCode" />
+                <bean parent="FieldDefinition" p:attributeName="disclosureStatusCode" />
+                <bean parent="FieldDefinition" p:attributeName="expirationDate" />
+                <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" />
+                <bean parent="FieldDefinition" p:attributeName="eventTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiDisclosureId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="coiDisclosureNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="personId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="certificationText" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="certifiedBy" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="certificationTimestamp" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="disclosureDispositionCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="disclosureStatusCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="expirationDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="moduleItemKey" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="reviewStatusCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="eventTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="discActiveStatus" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="leadUnitNumber" />
+                <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" 
+					p:forceInquiry="true" />
+                <bean parent="FieldDefinition" p:attributeName="personId" />
+                <bean parent="FieldDefinition" p:attributeName="certifiedBy" />
+                <bean parent="FieldDefinition" p:attributeName="certificationTimestamp" />
+                <bean parent="FieldDefinition" p:attributeName="coiDisclosureStatus.description" />
+                <bean parent="FieldDefinition" p:attributeName="coiDispositionStatus.description" />
+                <bean parent="FieldDefinition" p:attributeName="expirationDate" />
+                <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" />
+                <bean parent="FieldDefinition" p:attributeName="coiDisclosureEventType.description" />
+                <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
             </list>
         </property>
     </bean>

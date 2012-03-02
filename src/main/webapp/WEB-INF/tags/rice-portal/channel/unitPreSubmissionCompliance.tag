@@ -17,31 +17,34 @@
 
 <channel:portalChannelTop channelTitle="Pre-Submission Compliance" />
 <div class="body">
-<p>
-  <strong>Conflict of Interest</strong>
-</p>
+  <p>
+    <strong>Conflict of Interest</strong>
+  </p>
   <table border="0" cellpadding="2" cellspacing="0">
-   <tr>
-    <td nowrap class="disabled-text">Disclosure</td>
-    <td>
-      <portal:portalLink displayTitle="false" title="Disclosure" url="${ConfigProperties.application.url}/coiDisclosure.do?methodToCall=docHandler&command=initiate&docTypeName=CoiDisclosureDocument"><img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
-      <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </td>
-  </tr>
-  <tr>
-    <td nowrap class="disabled-text">Financial Entity</td>
-    <td>
-      <portal:portalLink displayTitle="false" title="Financial Entities" url="${ConfigProperties.application.url}/financialEntityManagement.do?methodToCall=management"><img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
-     	  <portal:portalLink displayTitle="false" title="Protocol" 
-		   url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" >
-            <img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle"></portal:portalLink>
-            
-    </td>
-  </tr>
+    <tr>
+      <td nowrap class="disabled-text">Disclosure</td>
+      <td>
+        <portal:portalLink displayTitle="false" title="Disclosure" url="${ConfigProperties.application.url}/coiDisclosure.do?methodToCall=docHandler&command=initiate&docTypeName=CoiDisclosureDocument"><img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
+     	<portal:portalLink displayTitle="false" title="Disclosure" 
+		    url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.coi.CoiDisclosure&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" >
+	      <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
+        </portal:portalLink>
+      </td>
+    </tr>
+    <tr>
+      <td nowrap class="disabled-text">Financial Entity</td>
+      <td>
+        <portal:portalLink displayTitle="false" title="Financial Entities" url="${ConfigProperties.application.url}/financialEntityManagement.do?methodToCall=management"><img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
+     	<portal:portalLink displayTitle="false" title="Protocol" 
+		      url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" >
+          <img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle">
+        </portal:portalLink>
+      </td>
+    </tr>
   </table>
-<p>
-  <strong>Protocols</strong>
-</p>
+  <p>
+    <strong>Protocols</strong>
+  </p>
   <table border="0" cellpadding="2" cellspacing="0">
    <tr>
     <td nowrap class="disabled-text">Animals</td>
