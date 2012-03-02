@@ -35,7 +35,7 @@
 <kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetParameters*,document.budget.totalCostLimit,document.budget.comments" auditCluster="budgetParametersOverviewWarnings,awardBudgetTypeAuditErrors" tabAuditKey="document.budget.totalCostLimit,document.budget.comments">
 	<div class="tab-container" align="center">
     	<h3>
-    		<span class="subhead-left">Buddddget Overview</span>
+    		<span class="subhead-left">Budget Overview</span>
     		<span class="subhead-right">
     			<kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardBudgetOverviewHelp" altText="help"/>
 			</span>
@@ -77,7 +77,10 @@
            			 		</th>
            			 		<td width="30%">
            			 			<div align="right">
-           			 				<bean:write name="KualiForm" property="document.budget.prevBudget.totalCost"/>
+           			 				<%--
+           			 				<bean:write name="KualiForm" property="document.budget.prevBudget.obligatedTotal"/>
+           			 				 --%>
+           			 				 <bean:write name="KualiForm" property="previousObligatedTotal"/>
            			 			</div>
            			 		</td>
            			 		<td rowspan="3" width="25%">
@@ -90,7 +93,11 @@
            			 		</th>
            			 		<td>
            			 			<div align="right">
-           			 				<bean:write name="KualiForm" property="document.budget.totalCost"/>
+           			 				<%--
+           			 				<c:set var="changeAmount" value="${document.budget.obligatedTotal - document.budget.prevBudget.obligatedTotal }"
+           			 				${changeAmount }
+           			 				 --%>
+           			 				 <bean:write name="KualiForm" property="obligatedChange"/>
            			 			</div>
            			 		</td>
            			 	</tr>
@@ -100,7 +107,7 @@
            			 		</th>
            			 		<td>
            			 			<div align="right">
-           			 				<bean:write name="KualiForm" property="document.budget.budgetsTotals[0]"/>
+           			 				<bean:write name="KualiForm" property="obligatedTotal"/>
            			 			</div>
            			 		</td>
            			 	</tr>
