@@ -41,6 +41,7 @@ public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase imp
     private String eventTypeCode; 
     private String description;
     private boolean excludeFromMasterDisclosure;
+    private boolean excludeFinancialEntities;
     private boolean active;
     
     private boolean useShortTextField1;
@@ -113,6 +114,16 @@ public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase imp
 
     public void setExcludeFromMasterDisclosure(boolean excludeFromMasterDisclosure) {
         this.excludeFromMasterDisclosure = excludeFromMasterDisclosure;
+    }
+
+
+    public boolean isExcludeFinancialEntities() {
+        return excludeFinancialEntities;
+    }
+
+
+    public void setExcludeFinancialEntities(boolean excludeFinancialEntities) {
+        this.excludeFinancialEntities = excludeFinancialEntities;
     }
 
 
