@@ -289,5 +289,15 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             pi.add(newLeadUnit);
             award.refreshReferenceObject("leadUnit");
         }
-    }    
+    }   
+    
+    public void addUnitDetails(AwardPerson person) {
+        person.setOptInUnitStatus(true);
+        person.add(new AwardPersonUnit(person, person.getPerson().getUnit(), true));
+    }
+    
+    public void removeUnitDetails(AwardPerson person) {
+        person.setOptInUnitStatus(false);
+        person.getUnits().clear();
+    }
 }

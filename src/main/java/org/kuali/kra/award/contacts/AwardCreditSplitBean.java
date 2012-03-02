@@ -97,10 +97,12 @@ public class AwardCreditSplitBean implements Serializable {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         List<AwardPerson> projectPersons = getAward().getProjectPersons();
         for(AwardPerson p: projectPersons) {
-            createDefaultCreditSplitMapForProjectPerson(creditTypes, p);
-            
-            for(AwardPersonUnit apu: p.getUnits()) {
-                createDefaultCreditSplitMapForPersonUnit(creditTypes, apu);
+            if (addToCreditSplit(p)) {
+                createDefaultCreditSplitMapForProjectPerson(creditTypes, p);
+                
+                for(AwardPersonUnit apu: p.getUnits()) {
+                    createDefaultCreditSplitMapForPersonUnit(creditTypes, apu);
+                }
             }
         }
         return getAward().getProjectPersons();
@@ -118,12 +120,18 @@ public class AwardCreditSplitBean implements Serializable {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         List<AwardPerson> investigators = getAward().getInvestigators();
         for(AwardPerson investigator: investigators) {
-            createDefaultCreditSplitMapForProjectPerson(creditTypes, investigator);
-            for(AwardPersonUnit apu: investigator.getUnits()) {
-                createDefaultCreditSplitMapForPersonUnit(creditTypes, apu);
+            if (addToCreditSplit(investigator)) {
+                createDefaultCreditSplitMapForProjectPerson(creditTypes, investigator);
+                for(AwardPersonUnit apu: investigator.getUnits()) {
+                    createDefaultCreditSplitMapForPersonUnit(creditTypes, apu);
+                }
             }
         }
         return investigators;
+    }
+    
+    public boolean addToCreditSplit(AwardPerson person) {
+        return !person.isKeyPerson() || person.isOptInUnitStatus();
     }
     
     /**

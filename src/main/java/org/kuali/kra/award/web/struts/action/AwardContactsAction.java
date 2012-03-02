@@ -460,6 +460,22 @@ public class AwardContactsAction extends AwardAction {
         AwardSponsorContact contact = award.getSponsorContacts().get(getSelectedLine(request));
         awardForm.getAwardSyncBean().addConfirmedPendingChange(AwardSyncType.ADD_SYNC, contact, "sponsorContacts");
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }    
+    }
+    
+    public ActionForward addUnitDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardPerson person = awardForm.getProjectPersonnelBean().getProjectPersonnel().get(getSelectedLine(request));
+        awardForm.getProjectPersonnelBean().addUnitDetails(person);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+    
+    public ActionForward removeUnitDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardPerson person = awardForm.getProjectPersonnelBean().getProjectPersonnel().get(getSelectedLine(request));
+        awardForm.getProjectPersonnelBean().removeUnitDetails(person);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
     
 }

@@ -81,7 +81,8 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
     boolean checkForRequiredUnitDetails(List<AwardPerson> projectPersons) {
         boolean valid = true;
         for(AwardPerson p: projectPersons) {
-            if(p.isPrincipalInvestigator() || p.isCoInvestigator()) {
+            if(p.isPrincipalInvestigator() || p.isCoInvestigator()
+                    || (p.isKeyPerson() && p.isOptInUnitStatus())) {
                 if(p.getUnits().size() == 0) {
                     valid = false;
                     GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY,

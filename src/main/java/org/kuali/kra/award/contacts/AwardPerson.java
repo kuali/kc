@@ -54,6 +54,9 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     @AwardSyncableProperty
     private String keyPersonRole;
+    
+    @AwardSyncableProperty
+    private boolean optInUnitStatus;
 
     @AwardSyncableProperty
     private List<AwardPersonUnit> units;
@@ -305,6 +308,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     protected void init() {
         units = new ArrayList<AwardPersonUnit>();
         creditSplits = new ArrayList<AwardPersonCreditSplit>();
+        optInUnitStatus = false;
     }
 
     public String getProjectRole() {
@@ -350,5 +354,13 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     public String getInvestigatorRoleDescription() {
         return KraServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
+    }
+
+    public boolean isOptInUnitStatus() {
+        return optInUnitStatus;
+    }
+
+    public void setOptInUnitStatus(boolean optInUnitStatus) {
+        this.optInUnitStatus = optInUnitStatus;
     }
 }
