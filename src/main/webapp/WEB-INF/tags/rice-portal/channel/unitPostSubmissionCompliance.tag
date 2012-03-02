@@ -23,7 +23,7 @@
     <td>
       <portal:portalLink displayTitle="false" title="Create Committee" url="${ConfigProperties.application.url}/committeeCommittee.do?methodToCall=docHandler&command=initiate&docTypeName=CommitteeDocument">
           <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
-      <portal:portalLink displayTitle="false" title="Committee Lookup" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.committee.bo.Committee&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
+      <portal:portalLink displayTitle="false" title="Committee Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.committee.bo.Committee&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
           <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
     </td>
     </td>
@@ -32,7 +32,7 @@
     <td nowrap class="disabled-text">Protocol Submissions</td>
     <td>
       <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
-      <portal:portalLink displayTitle="false" title="Protocol Submission Lookup" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.actions.submit.ProtocolSubmission&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
+      <portal:portalLink displayTitle="false" title="Protocol Submission Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.actions.submit.ProtocolSubmission&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
           <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle">
       </portal:portalLink>
     </td>
@@ -41,7 +41,7 @@
     <td nowrap class="disabled-text">Schedules</td>
     <td>
       <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
-      <portal:portalLink displayTitle="false" title="Schedule Lookup" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.committee.bo.CommitteeSchedule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
+      <portal:portalLink displayTitle="false" title="Schedule Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.committee.bo.CommitteeSchedule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
           <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle">
       </portal:portalLink>
     </td>

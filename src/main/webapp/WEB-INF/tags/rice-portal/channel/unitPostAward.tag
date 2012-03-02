@@ -22,7 +22,7 @@
     <td nowrap class="disabled-text">Awards</td>
     <td>
       <img src="static/images/pixel_clear.gif" width="16" height="16" border="0" align="absmiddle">
-      <portal:portalLink displayTitle="false" title="Award" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.Award&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"><img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle"></portal:portalLink>
+      <portal:portalLink displayTitle="false" title="Award" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.Award&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"><img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle"></portal:portalLink>
     </td>
   </tr>
   <tr>
@@ -36,7 +36,7 @@
     <td nowrap class="disabled-text">Subawards</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
-      <portal:portalLink displayTitle="false" title="SubAwards" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.subaward.bo.SubAward&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"><img src="static/images/searchicon.gif" alt="lookup" width="16"  border="0" height="16" align="absmiddle"></portal:portalLink>
+      <portal:portalLink displayTitle="false" title="SubAwards" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.subaward.bo.SubAward&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"><img src="static/images/searchicon.gif" alt="lookup" width="16"  border="0" height="16" align="absmiddle"></portal:portalLink>
     </td>
   </tr>
   </table>
