@@ -15,27 +15,37 @@
  */
 package org.kuali.kra.coi;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.actions.DisclosureActionHelper;
 import org.kuali.kra.coi.disclosure.DisclosureHelper;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implements Auditable, QuestionableFormInterface  {
     /**
@@ -156,6 +166,55 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
         resultList.toArray(result);
         return result;
+    }
+
+
+    @Override
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
+        CoiDisclosureDocument document = this.getCoiDisclosureDocument();
+        CoiDisclosure disclosure = document.getCoiDisclosure();
+        List<HeaderField>newDocInfo = new ArrayList<HeaderField>();
+        
+        // document status
+        CoiDisclosureStatus status = disclosure.getCoiDisclosureStatus();
+        String disclosureStatus = status != null ? status.getDescription() : "NEW";
+        HeaderField headerStatus = new HeaderField("DataDictionary.CoiDisclosureStatus.attributes.description", disclosureStatus);
+        newDocInfo.add(headerStatus);
+        
+        // document disposition
+        CoiDispositionStatus disposition = disclosure.getCoiDispositionStatus();
+        String disclosureDisposition = disposition != null ? disposition.getDescription() : "NEW";
+        HeaderField headerDisposition = new HeaderField("DataDictionary.CoiDispositionStatus.attributes.description", disclosureDisposition);
+        newDocInfo.add(headerDisposition);
+        
+        // reporter (initiator?)        
+        String reporter = document.getDocumentHeader().getWorkflowDocument().getPrincipalId();
+        if (reporter != null) {
+            reporter = KcPerson.fromPersonId(reporter).getUserName();
+        } else {
+            reporter = GlobalVariables.getUserSession().getPrincipalId();
+        }
+        HeaderField disclosureReporter = new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.reporter", reporter);
+        newDocInfo.add(disclosureReporter);
+        
+        // last updated 
+        Timestamp timeStamp = document.getUpdateTimestamp();
+        if (timeStamp == null) {
+            timeStamp = new Timestamp(document.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        }
+        String lastUpdatedDateStr = CoreApiServiceLocator.getDateTimeService().toString(timeStamp, "hh:mm a MM/dd/yyyy");
+        newDocInfo.add(new HeaderField("DataDictionary.CoiDisclosure.attributes.updateTimestamp", lastUpdatedDateStr));
+        
+        // disclosure number
+        String disclosureNumber = disclosure.getCoiDisclosureNumber();
+        newDocInfo.add(new HeaderField("DataDictionary.CoiDisclosure.attributes.coiDisclosureNumber", disclosureNumber));
+        
+        // creation date 
+        long creationMsecs = document.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis();
+        String disclosureCreated = CoreApiServiceLocator.getDateTimeService().toString(new Date(creationMsecs), "MM/dd/yyyy");
+        newDocInfo.add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.createTimestamp", disclosureCreated));
+        setDocInfo(newDocInfo);
     }
 
 //    private boolean isApprovedDisclosure(CoiDisclosure coiDisclosure) {

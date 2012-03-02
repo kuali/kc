@@ -29,6 +29,8 @@
         <ref bean="KraAttributeReferenceDummy-sourceAccount" />
         <ref bean="KraAttributeReferenceDummy-checkBox" />
         <ref bean="KraAttributeReferenceDummy-sortId" />
+        <ref bean="KraAttributeReferenceDummy-reporter" />
+        <ref bean="KraAttributeReferenceDummy-createTimestamp" />
       </list>
     </property>
   </bean>
@@ -374,5 +376,31 @@
               p:size="12" />
     </property>
   </bean>
+
+  <bean id="KraAttributeReferenceDummy-reporter" parent="KraAttributeReferenceDummy-reporter-parentBean" />
+  <bean id="KraAttributeReferenceDummy-reporter-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="reporter" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Reporter" />
+    <property name="shortLabel" value="Reporter" />
+    <property name="maxLength" value="60" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="User" />
+    <property name="description" value="The user who created or last modified the object." />
+  </bean>
   
+  <bean id="KraAttributeReferenceDummy-createTimestamp" parent="KraAttributeReferenceDummy-createTimestamp-parentBean" />
+  <bean id="KraAttributeReferenceDummy-createTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+    <property name="name" value="createTimestamp" />
+    <property name="label" value="Created" />
+    <property name="shortLabel" value="Created" />
+    <property name="summary" value="Created Timestamp" />
+    <property name="description" value="The creation or last modification timestamp." />
+  </bean>
 </beans>

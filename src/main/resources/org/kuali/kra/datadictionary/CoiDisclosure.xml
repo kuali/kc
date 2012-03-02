@@ -39,6 +39,7 @@
                 <ref bean="CoiDisclosure-certificationText" />
                 <ref bean="CoiDisclosure-certifiedBy" />
                 <ref bean="CoiDisclosure-certificationTimestamp" />
+                <ref bean="CoiDisclosure-updateTimestamp" />
                 <ref bean="CoiDisclosure-disclosureDispositionCode" />
                 <ref bean="CoiDisclosure-disclosureStatusCode" />
                 <ref bean="CoiDisclosure-expirationDate" />
@@ -77,8 +78,8 @@
     <bean id="CoiDisclosure-coiDisclosureNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="coiDisclosureNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Coi Disclosure Number" />
-        <property name="shortLabel" value="Coi Disclosure Number" />
+        <property name="label" value="Disclosure Number" />
+        <property name="shortLabel" value="Disclosure Number" />
         <property name="maxLength" value="20" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -168,6 +169,15 @@
         <property name="shortLabel" value="Certification Timestamp" />
         <property name="summary" value="Certification Timestamp" />
         <property name="description" value="Certification Timestamp" />
+    </bean>
+
+    <bean id="CoiDisclosure-updateTimestamp" parent="CoiDisclosure-updateTimestamp-parentBean" />
+    <bean id="CoiDisclosure-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="updateTimestamp" />
+        <property name="label" value="Last Updated" />
+        <property name="shortLabel" value="Last Updated" />
+        <property name="summary" value="Last Updated" />
+        <property name="description" value="Last Updated Timestamp" />
     </bean>
 
     <bean id="CoiDisclosure-disclosureDispositionCode" parent="CoiDisclosure-disclosureDispositionCode-parentBean" />
