@@ -220,7 +220,8 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     public void certifyDisclosure() {
         certifiedFlag = true;
         setCertificationTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-        certificationText = new String(acknowledgementStatement);
+        setCertificationText(new String(acknowledgementStatement));
+        setCertifiedBy(GlobalVariables.getUserSession().getPrincipalName());
     }
 
     public String getDisclosureDispositionCode() {
