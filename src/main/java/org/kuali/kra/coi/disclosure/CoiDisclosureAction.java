@@ -128,7 +128,7 @@ public class CoiDisclosureAction extends CoiAction {
         if(GlobalVariables.getMessageMap().hasNoErrors()) {
             List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
             // TODO add a COI questionnaire specific rule event to the condition below
-            if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders))) {
+            if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders, "disclosureQuestionnaireHelper"))) {
                 coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
                 getBusinessObjectService().save(answerHeaders);
             }
