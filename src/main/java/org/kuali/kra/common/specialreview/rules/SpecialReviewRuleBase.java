@@ -32,6 +32,7 @@ import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -125,7 +126,7 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         
         int i = 0;
         for (T specialReview : specialReviews) {
-            String errorPath = saveSpecialReviewEvent.getErrorPathPrefix() + "[" + i++ + "]";
+            String errorPath = saveSpecialReviewEvent.getArrayErrorPathPrefix() + Constants.LEFT_SQUARE_BRACKET + i++ + Constants.RIGHT_SQUARE_BRACKET;
             
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             if (validateProtocol && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {

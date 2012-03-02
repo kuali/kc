@@ -29,6 +29,7 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
@@ -41,6 +42,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  */
 public class AwardSpecialReviewAction extends AwardAction {
     
+    private static final String SAVE_SPECIAL_REVIEW_FIELD = "document.awardList[0].specialReviews";
     private static final String CONFIRM_DELETE_SPECIAL_REVIEW_KEY = "confirmDeleteSpecialReview";
     
     private SpecialReviewService specialReviewService;
@@ -156,19 +158,25 @@ public class AwardSpecialReviewAction extends AwardAction {
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         AwardForm awardForm = (AwardForm) form;
         AwardDocument document = awardForm.getAwardDocument();
         List<AwardSpecialReview> specialReviews = document.getAward().getSpecialReviews();
         List<String> linkedProtocolNumbers = awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers();
-        boolean isProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
+        boolean isAwardProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
 
-        if (isProtocolLinkingEnabled) {
+        if (isAwardProtocolLinkingEnabled) {
             if (applyRules(new SaveSpecialReviewLinkEvent<AwardSpecialReview>(document, specialReviews, linkedProtocolNumbers))) {
                 awardForm.getSpecialReviewHelper().syncProtocolFundingSourcesWithSpecialReviews();
             }
         }
 
-        return super.save(mapping, form, request, response);
+        if (applyRules(new SaveSpecialReviewEvent<AwardSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, isAwardProtocolLinkingEnabled))) {
+            forward = super.save(mapping, form, request, response);
+        }
+
+        return forward;
     }
     
     /**

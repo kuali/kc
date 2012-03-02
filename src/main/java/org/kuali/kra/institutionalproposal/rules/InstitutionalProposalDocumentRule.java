@@ -57,7 +57,6 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
     
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
-    private static final String SAVE_SPECIAL_REVIEW_FIELD = "document.institutionalProposalList[0].specialReviews";
     
     /**
      * 
@@ -84,7 +83,6 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         retval &= processSponsorProgramBusinessRule(document);
         retval &= processInstitutionalProposalBusinessRules(document);
         retval &= processInstitutionalProposalFinancialRules(document);
-        retval &= processSpecialReviewBusinessRule(document);
         retval &= processInstitutionalProposalPersonBusinessRules(errorMap, document);
 //        moved to processRunAuditBusinessRules()
 //        retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
@@ -242,23 +240,6 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
                                                                institutionalProposalDocument, institutionalProposalDocument.getInstitutionalProposal());
         valid &= new InstitutionalProposalSponsorAndProgramRuleImpl().processInstitutionalProposalSponsorAndProgramRules(event);
         return valid;
-    } 
-    
-    /**
-     * This method validates 'Proposal Special review'. It checks
-     * validSpecialReviewApproval table, and if there is a match, then checks
-     * protocalnumberflag, applicationdateflag, and approvaldataflag.
-     *
-     * @paramDocument : The institutionalProposalDocument that is being validated
-     * @return valid Does the validation pass
-     */
-    private boolean processSpecialReviewBusinessRule(Document document) {
-        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) document;
-        List<InstitutionalProposalSpecialReview> specialReviews = proposalDocument.getInstitutionalProposal().getSpecialReviews();
-        boolean isProtocolLinkingEnabled 
-            = getParameterService().getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.institute.proposal.linking.enabled");
-        return processRules(new SaveSpecialReviewEvent<InstitutionalProposalSpecialReview>(
-            SAVE_SPECIAL_REVIEW_FIELD, proposalDocument, specialReviews, isProtocolLinkingEnabled));
     }
     
     /**

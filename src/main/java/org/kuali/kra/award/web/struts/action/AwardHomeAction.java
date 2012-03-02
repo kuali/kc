@@ -16,35 +16,26 @@
 package org.kuali.kra.award.web.struts.action;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.sql.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
-import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
-import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
-import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -54,9 +45,8 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.util.ActionFormUtilMap;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -268,16 +258,7 @@ public class AwardHomeAction extends AwardAction {
         if (awardDocument.getAward().getAwardAmountInfos().get(0).getAmountObligatedToDate() == null) {
             awardDocument.getAward().getAwardAmountInfos().get(0).setAmountObligatedToDate(new KualiDecimal(0));
         }
-        
-        awardForm.getSpecialReviewHelper().prepareView();
-        List<AwardSpecialReview> specialReviews = awardDocument.getAward().getSpecialReviews();
-        List<String> linkedProtocolNumbers = awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers();
-        boolean isProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
-        if (isProtocolLinkingEnabled) {
-            if (applyRules(new SaveSpecialReviewLinkEvent<AwardSpecialReview>(awardDocument, specialReviews, linkedProtocolNumbers))) {
-                awardForm.getSpecialReviewHelper().syncProtocolFundingSourcesWithSpecialReviews();
-            }
-        }
+
         awardForm.getProjectPersonnelBean().updateLeadUnit();
         if (this.getReportTrackingService().shouldAlertReportTrackingDetailChange(awardForm.getAwardDocument().getAward())) {
             GlobalVariables.getMessageMap().putWarning("document.awardList[0].awardExecutionDate", 

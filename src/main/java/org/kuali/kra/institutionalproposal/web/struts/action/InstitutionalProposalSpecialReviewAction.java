@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
@@ -41,6 +42,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  */
 public class InstitutionalProposalSpecialReviewAction extends InstitutionalProposalAction {
     
+    private static final String SAVE_SPECIAL_REVIEW_FIELD = "document.institutionalProposalList[0].specialReviews";
     private static final String CONFIRM_DELETE_SPECIAL_REVIEW_KEY = "confirmDeleteSpecialReview";
     
     private SpecialReviewService specialReviewService;
@@ -156,30 +158,37 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
         List<InstitutionalProposalSpecialReview> specialReviews = document.getInstitutionalProposal().getSpecialReviews();
         List<String> linkedProtocolNumbers = institutionalProposalForm.getSpecialReviewHelper().getLinkedProtocolNumbers();
-        boolean isProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
+        boolean isIPProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
         
-        if (isProtocolLinkingEnabled) {
+        if (isIPProtocolLinkingEnabled) {
             if (applyRules(new SaveSpecialReviewLinkEvent<InstitutionalProposalSpecialReview>(document, specialReviews, linkedProtocolNumbers))) {
                 institutionalProposalForm.getSpecialReviewHelper().syncProtocolFundingSourcesWithSpecialReviews();
             }
         }
         
-        // For reasons unknown to me, to enforce saving special review records in order between successive saves, we must save the document before saving 
-        // anything else (like the special review indicator) on the document.  This statement can be safely removed if the special review indicator is no 
-        // longer being set at this point...
-        getDocumentService().saveDocument(document);
+        if (applyRules(new SaveSpecialReviewEvent<InstitutionalProposalSpecialReview>(
+            SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, isIPProtocolLinkingEnabled))) {
+            // For reasons unknown to me, to enforce saving special review records in order between successive saves, we must save the document before saving 
+            // anything else (like the special review indicator) on the document.  This statement can be safely removed if the special review indicator is no 
+            // longer being set at this point...
+            getDocumentService().saveDocument(document);
+            
+            if (!document.getInstitutionalProposal().getSpecialReviews().isEmpty()) {
+                document.getInstitutionalProposal().setSpecialReviewIndicator("1");
+            } else {
+                document.getInstitutionalProposal().setSpecialReviewIndicator("0");
+            }
         
-        if (!document.getInstitutionalProposal().getSpecialReviews().isEmpty()) {
-            document.getInstitutionalProposal().setSpecialReviewIndicator("1");
-        } else {
-            document.getInstitutionalProposal().setSpecialReviewIndicator("0");
+            forward = super.save(mapping, form, request, response);
         }
         
-        return super.save(mapping, form, request, response);
+        return forward;
     }
     
     /**
