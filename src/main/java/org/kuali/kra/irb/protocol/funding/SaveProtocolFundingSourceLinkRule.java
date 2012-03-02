@@ -71,12 +71,14 @@ public class SaveProtocolFundingSourceLinkRule extends ResearchDocumentRuleBase 
         String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
         if (StringUtils.equals(FundingSourceType.AWARD, String.valueOf(fundingSourceType))) {
             Award award = getAward(fundingSourceNumber);
+            award.getAwardDocument().refreshPessimisticLocks();
             if (!award.getAwardDocument().getPessimisticLocks().isEmpty()) {
                 isValid = false;
                 reportError(FUNDING_SOURCE_NUMBER, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_AWARD_LOCKED, fundingSourceNumber);
             }
         } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, String.valueOf(fundingSourceType))) {
             InstitutionalProposal institutionalProposal = getInstitutionalProposal(fundingSourceNumber);
+            institutionalProposal.getInstitutionalProposalDocument().refreshPessimisticLocks();
             if (!institutionalProposal.getInstitutionalProposalDocument().getPessimisticLocks().isEmpty()) {
                 isValid = false;
                 reportError(FUNDING_SOURCE_NUMBER, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_INSTITUTIONAL_PROPOSAL_LOCKED, fundingSourceNumber);
