@@ -16,50 +16,57 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="attributes" value="${DataDictionary.CoiDispositionStatus.attributes}" />
+<c:set var="coiDisclosureStatusAttributes" value="${DataDictionary.CoiDisclosureStatus.attributes}" />
+<c:set var="coiDispositionStatusAttributes" value="${DataDictionary.CoiDispositionStatus.attributes}" />
+<c:set var="coiDisclosureStatusCode" value="${KualiForm.coiDisclosureStatusCode}"/>  
 
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
-
-
-<kul:innerTab tabTitle="Approve" parentTab="" defaultOpen="false" tabErrorKey="coiDispositionCode">
-    <div class="innerTab-container" align="left">
+ 
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
-                <tr>
+                <tr>               
+					<th style="width: 300px">
+                		<div align="right">
+                			<kul:htmlAttributeLabel attributeEntry="${coiDisclosureStatusAttributes.coiDisclosureStatusCode}" /></div>       
+                		</div>
+                	</th>
+                	<td style="width: 150px">
+                	       
+                			<html:select property="coiDisclosureStatusCode" styleId="coiDisclosureStatusCode" onchange="populateSelect('getCoiDispositionStatus', 'coiDisclosureStatusCode', 'coiDispositionCode');">                                              
+                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.CoiDisclosureActionsValuesFinder', paramMap)}" var="option" >
+                            <c:choose>                    	
+	                			<c:when test="${coiDisclosureStatusCode == option.key}">
+	                        		<option value="${option.key}" selected>${option.value}</option>
+	                    		</c:when>
+	                    		<c:otherwise>
+	                        		<c:out value="${option.value}"/>
+                                 	<option value="${option.key}">${option.value}</option>
+                                </c:otherwise>
+	                		</c:choose>   
+                            </c:forEach>
+                            </html:select>
+                	</td>
 	                <th style="width: 300px"> 
 	                    <div align="right">
-	                        <kul:htmlAttributeLabel attributeEntry="${attributes.coiDispositionCode}" />
+	                        <kul:htmlAttributeLabel attributeEntry="${coiDispositionStatusAttributes.coiDispositionCode}" />
 	                    </div>
 	                </th>
 	                <td style="width : 150px">
-                        <c:set target="${paramMap}" property="actionType" value="Approve" />
-                         <html:select property="coiDispositionCode"  >                               
-                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.CoiDispositionStatusValuesFinder', paramMap)}" var="option" >
-                                <c:choose>                      
-                                    <c:when test="${KualiForm.coiDispositionCode == option.key}">
-                                        <option value="${option.key}" selected="selected">${option.value}</option>
-                                    </c:when>
-                                    <c:otherwise>                               
-                                        <c:out value="${option.value}"/>
-                                        <option value="${option.key}">${option.value}</option>
-                                    </c:otherwise>
-                                </c:choose>                                                
-                            </c:forEach>
-                        </html:select>
+	                    <html:select property="coiDispositionCode" styleId="coiDispositionCode">                                              	                
+							<option value="Select">select</option> 
+						</html:select>                         
 	                </td>
 	               
-	            </tr>
-                
+	            </tr>               
                 <tr>
-					<td align="center" colspan="2">
+					<td align="center" colspan="4">
 						<div align="center">
-							<html:image property="methodToCall.approveDisclosure.anchor${tabKey}"
+							<html:image property="methodToCall.performAction.anchor${tabKey}"
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
 						</div>
 	                </td>
                 </tr>
             </tbody>
         </table>
-    </div>
-    
-</kul:innerTab>
+   
 

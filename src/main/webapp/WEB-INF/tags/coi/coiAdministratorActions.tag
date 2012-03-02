@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
-<kul:tab tabTitle="Administrator Actions" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Administrator Actions" defaultOpen="false" tabErrorKey="coiAdminActionErrors">
 	<div class="tab-container"  align="center">
 		<h3> 
 			<span class="subhead-left">Administrator Actions</span>

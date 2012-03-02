@@ -183,22 +183,25 @@ public class DisclosureActionHelper implements Serializable {
         this.coiDisclosureForm = coiDisclosureForm;
     }
 
-    public boolean approveDisclosure() throws WorkflowException {
-        boolean approved = false;
+    public void approveDisclosure() throws WorkflowException {
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
-        if (StringUtils.isNotBlank(coiDisclosureForm.getCoiDispositionCode())) {
-            AuditActionHelper auditActionHelper = new AuditActionHelper();
-            if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {                
-                getCoiDisclosureActionService().approveDisclosure(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
-                coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
-                        getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
-                approved = true;
-            } 
-        } else {
-            GlobalVariables.getMessageMap().putError("coiDispositionCode", 
-                    KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED);       
-        }  
-        return approved;
+                 
+            getCoiDisclosureActionService().approveDisclosure(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
+            coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
+                    getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
+
+    }
+
+    public void disapproveDisclosure() throws Exception {
+        CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
+            getCoiDisclosureActionService().disapproveDisclosure(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
+            // does history need to be saved??
+    }
+    
+    public void setStatus() {
+       CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
+           getCoiDisclosureActionService().setStatus(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
+         
     }
 
     public SubmitDisclosureAction getSubmitDisclosureAction() {
@@ -251,4 +254,5 @@ public class DisclosureActionHelper implements Serializable {
         this.kcPersonService = kcPersonService;
     }
 
+   
 }

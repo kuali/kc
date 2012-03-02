@@ -29,6 +29,7 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
 
@@ -93,7 +94,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         boolean isSelected = true;
         int i = 0;
         // Allow annual disclosures to be attached without projects. This is a likely scenario
-        if (!coiDisclosure.getCoiDisclEventProjects().isEmpty()) {
+        if (ObjectUtils.isNotNull(coiDisclosure.getCoiDisclEventProjects()) && !coiDisclosure.getCoiDisclEventProjects().isEmpty()) {
             for (CoiDisclEventProject disclProject : coiDisclosure.getCoiDisclEventProjects()) {
                 int j = 0;
                 for (CoiDiscDetail coiDiscDetail : disclProject.getCoiDiscDetails()) {
