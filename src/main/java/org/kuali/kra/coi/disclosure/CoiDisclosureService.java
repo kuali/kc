@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -163,6 +164,8 @@ public interface CoiDisclosureService {
      * @return
      */
     MasterDisclosureBean getMasterDisclosureDetail(CoiDisclosure coiDisclosure);
+    
+    public List<CoiDispositionStatus> getDispositionStatuses(String disclosureStatusCode);
     
     void initDisclosureFromMasterDisclosure(CoiDisclosure coiDisclosure);
     
