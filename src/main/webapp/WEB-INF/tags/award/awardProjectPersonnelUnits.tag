@@ -28,6 +28,14 @@
 
 <kul:innerTab tabTitle="Unit Details" parentTab="${awardContact.fullName}" defaultOpen="false" 
 				tabErrorKey="document.award[${awardPersonUnitRowStatus.index}].awardContact*,projectPersonnelBean.newAwardPersonUnit[${ awardPersonIndex }]*">
+	<c:choose><c:when test="${awardContact.keyPerson && !awardContact.optInUnitStatus}">
+     <p><html:image property="methodToCall.addUnitDetails.line${awardPersonIndex}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-addunitdet.gif" title="Add Unit Details" alt="Add Unit Details" styleClass="tinybutton"/>
+     You have the option to add unit details for a key person.</p>
+	</c:when><c:otherwise>
+	<c:if test="${awardContact.keyPerson}">
+     <p><html:image property="methodToCall.removeUnitDetails.line${awardPersonIndex}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-remunitdet.gif" title="Remove Unit Details" alt="Remove Unit Details" styleClass="tinybutton"/>
+     You have the option to remove unit details for a key person.</p>	
+	</c:if>
 	<table cellpadding="0" cellspacing="0" summary="Project Personnel Units">
 		<tr>
 			<th class="infoline">
@@ -195,4 +203,5 @@
             </c:choose>
 		</c:forEach>
 	</table>
+	</c:otherwise></c:choose>
 </kul:innerTab>
