@@ -21,6 +21,7 @@ import org.apache.commons.collections.ListUtils;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.rule.SaveSpecialReviewRule;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
@@ -30,6 +31,8 @@ import org.kuali.rice.krad.document.Document;
  * @param <T> The subclass of Special Review
  */
 public class SaveSpecialReviewEvent<T extends SpecialReview<? extends SpecialReviewExemption>> extends KraDocumentEventBaseExtension {
+    
+    private String arrayErrorPathPrefix;
     
     private List<T> specialReviews;
     
@@ -42,10 +45,19 @@ public class SaveSpecialReviewEvent<T extends SpecialReview<? extends SpecialRev
      * @param document
      * @param specialReview
      */
-    public SaveSpecialReviewEvent(String errorPathPrefix, Document document, List<T> specialReviews, boolean validateProtocol) {
-        super("saving special review to document " + getDocumentId(document), errorPathPrefix, document);
+    public SaveSpecialReviewEvent(String arrayErrorPathPrefix, Document document, List<T> specialReviews, boolean validateProtocol) {
+        super("saving special review to document " + getDocumentId(document), Constants.EMPTY_STRING, document);
+        this.arrayErrorPathPrefix = arrayErrorPathPrefix;
         this.specialReviews = specialReviews;
         this.validateProtocol = validateProtocol;
+    }
+
+    public String getArrayErrorPathPrefix() {
+        return arrayErrorPathPrefix;
+    }
+
+    public void setArrayErrorPathPrefix(String arrayErrorPathPrefix) {
+        this.arrayErrorPathPrefix = arrayErrorPathPrefix;
     }
 
     public List<T> getSpecialReviews() {

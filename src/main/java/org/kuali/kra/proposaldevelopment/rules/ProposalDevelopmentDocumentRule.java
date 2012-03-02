@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.core.BudgetService;
-import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -71,7 +70,6 @@ import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveProposalSitesEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
-import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
@@ -103,7 +101,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_ANSWER="answer";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_REVIEW_DATE="reviewDate";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_EXPLANATION="explanation";
-    private static final String SAVE_SPECIAL_REVIEW_FIELD = "document.developmentProposalList[0].propSpecialReviews";
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -135,10 +132,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
         valid &= processProtocolCustomDataBusinessRules(proposalDevelopmentDocument);
         
-        GlobalVariables.getMessageMap().removeFromErrorPath("document.developmentProposalList[0]");
-        valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
-        GlobalVariables.getMessageMap().addToErrorPath("document.developmentProposalList[0]");
-        
         valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument, false);
         valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument, false);
         valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
@@ -151,22 +144,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     
     private boolean processProtocolCustomDataBusinessRules(ProposalDevelopmentDocument document) {
         return processRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document));
-    }
-
-    /**
-     * This method validates 'Proposal Special review'. It checks
-     * validSpecialReviewApproval table, and if there is a match, then checks
-     * protocalnumberflag, applicationdateflag, and approvaldataflag.
-     *
-     * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
-     * @return valid Does the validation pass
-     */
-    private boolean processSpecialReviewBusinessRule(ProposalDevelopmentDocument proposalDocument) {
-        List<ProposalSpecialReview> specialReviews = proposalDocument.getDevelopmentProposal().getPropSpecialReviews();
-        boolean isProtocolLinkingEnabled 
-            = getParameterService().getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
-        return processRules(new SaveSpecialReviewEvent<ProposalSpecialReview>(
-            SAVE_SPECIAL_REVIEW_FIELD, proposalDocument, specialReviews, isProtocolLinkingEnabled));
     }
 
     public boolean processDeleteProposalSiteRules(BasicProposalSiteEvent proposalSiteEvent) {

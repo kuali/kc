@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -41,6 +42,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  */
 public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentAction {
     
+    private static final String SAVE_SPECIAL_REVIEW_FIELD = "document.developmentProposalList[0].propSpecialReviews";
     private static final String CONFIRM_DELETE_SPECIAL_REVIEW_KEY = "confirmDeleteSpecialReview";
     
     private SpecialReviewService specialReviewService;
@@ -159,12 +161,21 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
         ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
+        List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
+        boolean isPDProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
         
         proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
-        return super.save(mapping, form, request, response);
+        if (applyRules(new SaveSpecialReviewEvent<ProposalSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, isPDProtocolLinkingEnabled))) {
+            forward = super.save(mapping, form, request, response);
+        }
+        
+        return forward;
     }
     
     /**
