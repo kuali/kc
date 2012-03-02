@@ -148,6 +148,7 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<SubAward> subawardChangeCandidates) {
         for (SubAward subawardChangeCandidate : subawardChangeCandidates) {
+            subawardChangeCandidate.getSubAwardDocument().refreshPessimisticLocks();
             if (subawardChangeCandidate.getSubAwardDocument().getPessimisticLocks().isEmpty()) {
                 performSubawardContactPersonMassChange(personMassChange, subawardChangeCandidate);
                 performSubawardRequistionerPersonMassChange(personMassChange, subawardChangeCandidate);
