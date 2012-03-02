@@ -136,12 +136,22 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
      
        boolean rulePassed = true;
          
-        KualiDecimal obligatedAmount=KualiDecimal.ZERO;
+       KualiDecimal obligatedAmount=KualiDecimal.ZERO;
         if( obligatedAmount!=null){
-        for(SubAwardAmountInfo subAwardAmountInfo :subAward.getSubAwardAmountInfoList()){              
-            obligatedAmount = obligatedAmount .add(subAwardAmountInfo.getObligatedChange());
-        } 
-        }  
+            int count =0;
+            for(SubAwardAmountInfo subAwardAmountInfo :subAward.getSubAwardAmountInfoList()){  
+                count=count+1;
+                if(subAwardAmountInfo.getObligatedChange()!=null){
+                    obligatedAmount = obligatedAmount .add(subAwardAmountInfo.getObligatedChange());
+                }
+                else
+                {
+                    rulePassed = false;
+                    reportError("document.subAwardList[0].subAwardAmountInfoList["+Integer.toString(count-1)+"].obligatedChange"
+                        , KeyConstants.ERROR_REQUIRED_OBLIGATED_AMOUNT);  
+                }
+            }
+        }
         if(obligatedAmount !=null){
             if(obligatedAmount .isNegative()){
                 rulePassed = false; 
@@ -151,8 +161,18 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
         }
         KualiDecimal anticipatedAmount=KualiDecimal.ZERO;
         if(anticipatedAmount!=null){
-            for(SubAwardAmountInfo subAwardAmountInfo :subAward.getSubAwardAmountInfoList()){  
-                anticipatedAmount = anticipatedAmount .add(subAwardAmountInfo.getAnticipatedChange());
+            int count=0;
+            for(SubAwardAmountInfo subAwardAmountInfo :subAward.getSubAwardAmountInfoList()){
+                count=count+1;
+                if(subAwardAmountInfo.getAnticipatedChange()!=null){
+                    anticipatedAmount = anticipatedAmount .add(subAwardAmountInfo.getAnticipatedChange());
+                }
+                else
+                {
+                    rulePassed = false;
+                    reportError("document.subAwardList[0].subAwardAmountInfoList["+Integer.toString(count-1)+"].anticipatedChange"
+                            , KeyConstants.ERROR_REQUIRED_ANTICIPATED_AMOUNT);  
+                }
             }
         }
         if(anticipatedAmount!=null){
@@ -163,48 +183,56 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
             }
         } 
         KualiDecimal amountReleased=KualiDecimal.ZERO;
-        if( amountReleased!=null){
+        if( amountReleased!=null && obligatedAmount!=null){
             int count =0;
             for(SubAwardAmountReleased subAwardAmountReleased :subAward.getSubAwardAmountReleasedList()){  
-                count=count+1; 
-                amountReleased = amountReleased .add(subAwardAmountReleased.getAmountReleased());
-                if(amountReleased.isGreaterThan(obligatedAmount)){
-                    rulePassed = false;
-                    reportError("document.subAwardList[0].subAwardAmountReleasedList["+Integer.toString(count-1)+"].amountReleased"
-                            , KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_GREATER_OBLIGATED_AMOUNT );  
+                if(subAwardAmountReleased.getAmountReleased()!=null){
+                    count=count+1; 
+                    amountReleased = amountReleased .add(subAwardAmountReleased.getAmountReleased());
+                    if(amountReleased.isGreaterThan(obligatedAmount)){
+                        rulePassed = false;
+                        reportError("document.subAwardList[0].subAwardAmountReleasedList["+Integer.toString(count-1)+"].amountReleased"
+                                , KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_GREATER_OBLIGATED_AMOUNT );  
+                    }
                 }
             } 
         }
         if( amountReleased!=null){
             int count =0;
-            for(SubAwardAmountReleased subAwardAmountReleased :subAward.getSubAwardAmountReleasedList()){  
-                count=count+1; 
-                if(subAwardAmountReleased.getAmountReleased().isNegative()){
-                    rulePassed = false;
-                    reportError("document.subAwardList[0].subAwardAmountReleasedList["+Integer.toString(count-1)+"].amountReleased"
-                            , KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_NEGATIVE );  
+            for(SubAwardAmountReleased subAwardAmountReleased :subAward.getSubAwardAmountReleasedList()){
+                if(subAwardAmountReleased.getAmountReleased()!=null){
+                    count=count+1; 
+                    if(subAwardAmountReleased.getAmountReleased().isNegative()){
+                        rulePassed = false;
+                        reportError("document.subAwardList[0].subAwardAmountReleasedList["+Integer.toString(count-1)+"].amountReleased"
+                                , KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_NEGATIVE ); 
+                    }
                 }
             } 
         }
         if( obligatedAmount!=null){
             int count =0;
             for(SubAwardAmountReleased subAwardAmountReleased :subAward.getSubAwardAmountReleasedList()){
-                count=count+1;                
-                if(subAwardAmountReleased.getStartDate().after(subAwardAmountReleased.getEndDate())){
-                    rulePassed = false;   
-                    reportError("document.subAwardList[0].subAwardAmountReleasedList["+Integer.toString(count-1)+"].startDate"
-                            , KeyConstants.SUBAWARD_ERROR_END_DATE_GREATER_THAN_START);
+                if(subAwardAmountReleased.getStartDate()!=null && subAwardAmountReleased.getEndDate()!=null ){
+                    count=count+1;                
+                    if(subAwardAmountReleased.getStartDate().after(subAwardAmountReleased.getEndDate())){
+                        rulePassed = false;   
+                        reportError("document.subAwardList[0].subAwardAmountReleasedList["+Integer.toString(count-1)+"].startDate"
+                                , KeyConstants.SUBAWARD_ERROR_END_DATE_GREATER_THAN_START);
+                    }
                 }
             }
         }
         if( obligatedAmount!=null){
             int count =0;
             for(SubAwardAmountInfo subAwardAmountInfo :subAward.getSubAwardAmountInfoList()){
-                count=count+1;
-                if(subAwardAmountInfo.getObligatedChange().isGreaterThan(subAwardAmountInfo.getAnticipatedChange())){
-                    rulePassed = false;
-                    reportError("document.subAwardList[0].subAwardAmountInfoList["+Integer.toString(count-1)+"].anticipatedChange"
-                            , KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT ); 
+                if(subAwardAmountInfo.getObligatedChange()!=null && subAwardAmountInfo.getAnticipatedChange()!=null){
+                    count=count+1;
+                    if(subAwardAmountInfo.getObligatedChange().isGreaterThan(subAwardAmountInfo.getAnticipatedChange())){
+                        rulePassed = false;
+                        reportError("document.subAwardList[0].subAwardAmountInfoList["+Integer.toString(count-1)+"].anticipatedChange"
+                                , KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT ); 
+                    }
                 }
             }
         }
@@ -212,15 +240,17 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
             int count =0;
             List<String> awardAmountReleased = new ArrayList<String>();
             for(SubAwardAmountReleased subAwardAmountReleased :subAward.getSubAwardAmountReleasedList()){
-                count=count+1;
-                if(awardAmountReleased.contains(subAwardAmountReleased.getInvoiceNumber())){
-                    rulePassed = false;
-                    reportError("document.subAwardList[0].subAwardAmountReleasedList["+Integer.toString(count-1)+"].invoiceNumber"
-                            , KeyConstants.ERROR_SUBAWARD_INVOICE_NUMBER_SHOULD_BE_UNIQUE);
-                }
-                else
-                {
-                    awardAmountReleased .add(subAwardAmountReleased.getInvoiceNumber());
+                if(subAwardAmountReleased.getInvoiceNumber()!=null){
+                    count=count+1;
+                    if(awardAmountReleased.contains(subAwardAmountReleased.getInvoiceNumber())){
+                        rulePassed = false;
+                        reportError("document.subAwardList[0].subAwardAmountReleasedList["+Integer.toString(count-1)+"].invoiceNumber"
+                                , KeyConstants.ERROR_SUBAWARD_INVOICE_NUMBER_SHOULD_BE_UNIQUE);
+                    }
+                    else
+                    {
+                        awardAmountReleased .add(subAwardAmountReleased.getInvoiceNumber());
+                    }
                 }
             }
         }
@@ -290,10 +320,10 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
         }      
          
         KualiDecimal obligatedAmount=amountInfo.getObligatedChange();
-        if( obligatedAmount!=null){
-        for(SubAwardAmountInfo subAwardAmountInfo :subAward.getSubAwardAmountInfoList()){             
-            obligatedAmount = obligatedAmount .add(subAwardAmountInfo.getObligatedChange());
-        } 
+        for(SubAwardAmountInfo subAwardAmountInfo :subAward.getSubAwardAmountInfoList()){   
+            if( obligatedAmount!=null && subAwardAmountInfo.getObligatedChange()!=null ){
+                obligatedAmount = obligatedAmount .add(subAwardAmountInfo.getObligatedChange());
+            }
         } 
         if(obligatedAmount !=null){
             if(obligatedAmount .isNegative()){
@@ -303,9 +333,9 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
             }
         }
         KualiDecimal anticipatedAmount=amountInfo.getAnticipatedChange();
-        if(anticipatedAmount!=null){
-            for(SubAwardAmountInfo subAwardAmountInfo :subAward.getSubAwardAmountInfoList()){  
-                anticipatedAmount = anticipatedAmount .add(subAwardAmountInfo.getAnticipatedChange());
+        for(SubAwardAmountInfo subAwardAmountInfo :subAward.getSubAwardAmountInfoList()){  
+            if(anticipatedAmount!=null && subAwardAmountInfo.getAnticipatedChange()!=null){
+                anticipatedAmount = anticipatedAmount .add(subAwardAmountInfo.getAnticipatedChange()); 
             }
         }
         if(anticipatedAmount!=null){
@@ -316,13 +346,13 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
             }
         }
         
-       if(subAward.getTotalObligatedAmount()!=null && subAward.getTotalAmountReleased()!=null){
-           if(obligatedAmount.isLessThan(subAward.getTotalAmountReleased())){
-               rulePassed = false;
-               reportError(AMOUNT_INFO_OBLIGATED_AMOUNT
-                       , KeyConstants.ERROR_SUBAWARD_OBLIGATED_AMOUNT_SHOULD_BE_GREATER_AMOUNT_RELEASED ); 
-           }
-       }
+        if(obligatedAmount !=null && subAward.getTotalAmountReleased()!=null){
+            if(obligatedAmount.isLessThan(subAward.getTotalAmountReleased())){
+                rulePassed = false;
+                reportError(AMOUNT_INFO_OBLIGATED_AMOUNT
+                        , KeyConstants.ERROR_SUBAWARD_OBLIGATED_AMOUNT_SHOULD_BE_GREATER_AMOUNT_RELEASED ); 
+            }
+        }
         
         return rulePassed;
     }
@@ -338,12 +368,13 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     protected boolean  processSubAwardAmountInfoBusinessRules(SubAwardAmountInfo subAwardAmountInfo,SubAward subAward){    
         
         boolean rulePassed = true;   
-
-       if((subAward.getTotalObligatedAmount().subtract(subAwardAmountInfo.getObligatedChange())).isLessThan(subAward.getTotalAmountReleased())){
-               rulePassed = false;
-               reportError(AMOUNT_INFO_OBLIGATED_AMOUNT
-                       , KeyConstants.ERROR_SUBAWARD_OBLIGATED_AMOUNT_IS_GREATER_AMOUNT_RELEASED ); 
-       }
+        if(subAward.getTotalObligatedAmount()!=null && subAwardAmountInfo.getObligatedChange()!=null && subAward.getTotalAmountReleased()!=null){
+            if((subAward.getTotalObligatedAmount().subtract(subAwardAmountInfo.getObligatedChange())).isLessThan(subAward.getTotalAmountReleased())){
+                rulePassed = false;
+                reportError(AMOUNT_INFO_OBLIGATED_AMOUNT
+                        , KeyConstants.ERROR_SUBAWARD_OBLIGATED_AMOUNT_IS_GREATER_AMOUNT_RELEASED ); 
+            }
+        }
         
         return rulePassed;
     }
@@ -370,16 +401,6 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                     , KeyConstants.ERROR_REQUIRED_INVOICE_NUMBER);
         }  
         if(amountReleased==null 
-                || amountReleased.getInvoiceNumber()!=null){
-            for(SubAwardAmountReleased subAwardAmountReleased :subAward.getSubAwardAmountReleasedList()){
-               if(amountReleased.getInvoiceNumber().contains(subAwardAmountReleased.getInvoiceNumber())){
-                   rulePassed = false; 
-                   reportError(INVOICE_NUMBER
-                           , KeyConstants.ERROR_SUBAWARD_INVOICE_NUMBER_SHOULD_BE_UNIQUE);
-               }
-            }
-        }
-        if(amountReleased==null 
                 || amountReleased.getStartDate()==null){
             rulePassed = false;            
             reportError(START_DATE
@@ -403,6 +424,17 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
             reportError(AMOUNT_RELEASED
                     , KeyConstants.ERROR_REQUIRED_AMOUNT_RELEASED);
         }  
+        if(amountReleased.getInvoiceNumber()!=null){
+            for(SubAwardAmountReleased subAwardAmountReleased :subAward.getSubAwardAmountReleasedList()){
+                if(subAwardAmountReleased.getInvoiceNumber()!=null){
+                    if(amountReleased.getInvoiceNumber().equals(subAwardAmountReleased.getInvoiceNumber())){
+                        rulePassed = false; 
+                        reportError(INVOICE_NUMBER
+                                , KeyConstants.ERROR_SUBAWARD_INVOICE_NUMBER_SHOULD_BE_UNIQUE);
+                    }
+                }
+            }
+        }
         if(amountReleased!=null && amountReleased.getStartDate()!=null && amountReleased.getEndDate()!=null){
             if(amountReleased.getStartDate().after(amountReleased.getEndDate())){
                 rulePassed = false;            
@@ -410,11 +442,16 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                         , KeyConstants.SUBAWARD_ERROR_END_DATE_GREATER_THAN_START);
             }
         }
-        KualiDecimal totalAmount=amountReleased.getAmountReleased();
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+        if(amountReleased.getAmountReleased()!=null){
+            totalAmount=amountReleased.getAmountReleased();
+        }
         if(totalAmount!=null){
-         for(SubAwardAmountReleased subAwardAmountReleased :subAward.getSubAwardAmountReleasedList()){             
-             totalAmount = totalAmount .add(subAwardAmountReleased.getAmountReleased());
-         } 
+            for(SubAwardAmountReleased subAwardAmountReleased :subAward.getSubAwardAmountReleasedList()){   
+                if(subAwardAmountReleased.getAmountReleased()!=null){
+                    totalAmount = totalAmount .add(subAwardAmountReleased.getAmountReleased());
+                }
+            } 
         }     
         if(totalAmount!=null && totalAmount.isNegative()){
             rulePassed = false;
@@ -458,15 +495,17 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
             reportError(CONTACT_TYPE_CODE
                     , KeyConstants.ERROR_REQUIRED_SUBAWARD_CONTACT_TYPE_CODE);
         }  
-         for(SubAwardContact contact : subAward.getSubAwardContactsList()){
-            if(contact.getRolodexId().equals(subAwardContact.getRolodexId())){
-               rulePassed = false;              
-               String contactName = contact.getRolodex().getFullName();
-               
-               if(contactName == null){
-                   contactName = contact.getRolodex().getOrganization();
-               }               
-               reportError(ROLODEX_ID, KeyConstants.ERROR_REQUIRED_SUBAWARD_CONTACT_PERSON_EXIST, new String[] {contactName});  
+        for(SubAwardContact contact : subAward.getSubAwardContactsList()){
+            if(contact.getRolodexId()!=null && subAwardContact.getRolodexId()!=null ){
+                if(contact.getRolodexId().equals(subAwardContact.getRolodexId())){
+                    rulePassed = false;              
+                    String contactName = contact.getRolodex().getFullName();
+
+                    if(contactName == null){
+                        contactName = contact.getRolodex().getOrganization();
+                    }               
+                    reportError(ROLODEX_ID, KeyConstants.ERROR_REQUIRED_SUBAWARD_CONTACT_PERSON_EXIST, new String[] {contactName});  
+                }
             }
         }
         return rulePassed;
