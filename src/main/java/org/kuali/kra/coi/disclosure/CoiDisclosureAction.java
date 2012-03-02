@@ -109,14 +109,6 @@ public class CoiDisclosureAction extends CoiAction {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         Document document = coiDisclosureForm.getDocument();
         
-        // save questionnaire data first
-        List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
-        // TODO add a COI questionnaire specific rule event to the condition below
-        if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders))) {
-            coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
-            getBusinessObjectService().save(answerHeaders);
-        }
-        
         // now the rest of subclass-specific custom logic for save()
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         // notes and attachments
@@ -135,6 +127,16 @@ public class CoiDisclosureAction extends CoiAction {
             getCoiDisclosureService().setDisclDetailsForSave(coiDisclosure);
         }
         actionForward = super.save(mapping, form, request, response);
+        // TODO check if this is the right way for saving questionnaire data for the disclosure
+        // save questionnaire data for the disclosure if the save went through without any validation errors
+        if(GlobalVariables.getMessageMap().hasNoErrors()) {
+            List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
+            // TODO add a COI questionnaire specific rule event to the condition below
+            if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders))) {
+                coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
+                getBusinessObjectService().save(answerHeaders);
+            }
+        }
         if (KRADConstants.SAVE_METHOD.equals(coiDisclosureForm.getMethodToCall()) && coiDisclosureForm.isAuditActivated() 
                 && GlobalVariables.getMessageMap().hasNoErrors()) {
             actionForward = mapping.findForward("disclosureActions");
@@ -155,7 +157,7 @@ public class CoiDisclosureAction extends CoiAction {
         // above super.execute() call works well for that because any such dispatched method has finished executing at the end of the call.
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         if(coiDisclosureForm.getDocument().getDocumentHeader().hasWorkflowDocument()) {
-            coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView();
+            coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView(false);
         }
         
         // now the rest of subclass-specific custom logic for execute()
@@ -727,6 +729,13 @@ public class CoiDisclosureAction extends CoiAction {
         
         }        
         return null;
+    }
+    
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.reload(mapping, form, request, response);
+        ((CoiDisclosureForm)form).getDisclosureQuestionnaireHelper().prepareView(true);
+        return actionForward;
     }
 
 

@@ -62,15 +62,16 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
         return document.getCoiDisclosure();
     }
     
-    public void prepareView() {
+    public void prepareView(boolean reload) {
         // TODO check permissions here
         setAnswerQuestionnaire(true);
-        this.populateQuestionnaires();
+        this.populateQuestionnaires(reload);
     }
     
-    private void populateQuestionnaires() {
-        this.setAnswerHeaders(new ArrayList<AnswerHeader>());
-        super.populateAnswers();
+    private void populateQuestionnaires(boolean reload) {
+        if(CollectionUtils.isEmpty(this.getAnswerHeaders()) || reload) {
+            super.populateAnswers();
+        }
     }
 
 }
