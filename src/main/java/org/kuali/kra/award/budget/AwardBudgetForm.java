@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.budget;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +22,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -31,11 +35,11 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -216,5 +220,90 @@ public class AwardBudgetForm extends BudgetForm {
     public boolean getCanModifyBudgetRates() {
         boolean retVal = this.getEditingMode().containsKey("modifyBudgets");
         return retVal;
+    }
+    
+    /**
+     * 
+     * This method returns the award associated with the award budget.
+     * @return
+    */ 
+    public Award getAward() {
+        AwardDocument ad = (AwardDocument) this.getAwardBudgetDocument().getParentDocument();
+        ad.getBudgetDocumentVersions();
+        Award award = ad.getAward();
+        return award;
+    }
+    
+    /**
+     * 
+     * This method returns the obligated total for this award budget, which is getPreviousObligatedTotal().add(getObligatedChange()).
+     * @return
+     */
+    public BudgetDecimal getObligatedTotal() {
+        // getPreviousObligatedTotal + getObligatedChange
+        return getPreviousObligatedTotal().add(getObligatedChange());
+    }
+    
+    /**
+     * 
+     * This method returns the previous budget's obligation amount.
+     * @return
+     */
+    public BudgetDecimal getPreviousObligatedTotal() {
+        //sum up all the previous changes
+        AwardBudgetExt awardBudgetExt = this.getAwardBudgetDocument().getAwardBudget();
+        AwardDocument ad = (AwardDocument) this.getAwardBudgetDocument().getParentDocument();
+        List<Budget> allBudgets = new ArrayList<Budget>();
+        for (BudgetDocumentVersion version : ad.getBudgetDocumentVersions()) {
+            allBudgets.add(version.findBudget());
+        }
+        return getSumOfAllPreviousBudgetChanges(awardBudgetExt, allBudgets);
+    }
+    
+    /**
+     * 
+     * This method sums up all the previous changes of the prior budget versions.
+     * @param curentAwardBudgetExt
+     * @param allBudgets
+     * @return
+     */
+    protected BudgetDecimal getSumOfAllPreviousBudgetChanges(AwardBudgetExt curentAwardBudgetExt, List<Budget> allBudgets) {
+        if (curentAwardBudgetExt != null && curentAwardBudgetExt.getPrevBudget() != null) {
+            BudgetDecimal previousTotalCost = curentAwardBudgetExt.getPrevBudget().getTotalCostLimit();
+            AwardBudgetExt previousAwardBudget = findAwardBudgetExt(curentAwardBudgetExt.getPrevBudget().getBudgetId(), allBudgets);
+            return previousTotalCost.add(getSumOfAllPreviousBudgetChanges(previousAwardBudget, allBudgets));
+        }
+        return BudgetDecimal.ZERO;
+    }
+    
+    /**
+     * 
+     * This method finds a particular budget in the list of budgets based on the budget id.  If no budget is found, a null is returned.
+     * @param budgetId
+     * @param allBudgets
+     * @return
+     */
+    protected AwardBudgetExt findAwardBudgetExt(Long budgetId, List<Budget> allBudgets) {
+        for (Budget budget : allBudgets) {
+            if (budget.getBudgetId().equals(budgetId)) {
+                return (AwardBudgetExt) budget;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * 
+     * This method returns the difference in the obligation total between this budget, and the previous.
+     * @return
+     */
+    public BudgetDecimal getObligatedChange() {
+        //return getObligatedTotal().subtract(getPreviousObligatedTotal());
+        AwardBudgetExt budget = this.getAwardBudgetDocument().getAwardBudget();
+        if (budget != null && budget.getTotalCostLimit() != null) {
+            return budget.getTotalCostLimit();
+        } else {
+            return BudgetDecimal.ZERO;
+        }
     }
 }
