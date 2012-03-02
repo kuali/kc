@@ -64,4 +64,8 @@ public interface CoiDisclosureActionService {
     public ActionForward sendCertificationNotifications(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, 
                                                         SubmitDisclosureAction submitDisclosureAction, ActionMapping mapping);
 
+    void disapproveDisclosure(CoiDisclosure coiDisclosure, String coiDispositionCode) throws WorkflowException, Exception;
+
+    void setStatus(CoiDisclosure coiDisclosure, String coiDispositionCode);
+
 }

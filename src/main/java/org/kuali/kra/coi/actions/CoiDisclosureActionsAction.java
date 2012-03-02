@@ -26,13 +26,14 @@ import org.kuali.kra.coi.CoiAction;
 import org.kuali.kra.coi.CoiActionType;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiUserRole;
+import org.kuali.kra.coi.disclosure.CoiDisclosureAdministratorActionRule;
 import org.kuali.kra.coi.notification.AssignReviewerNotificationRenderer;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -69,47 +70,37 @@ public class CoiDisclosureActionsAction extends CoiAction {
         return new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, false);
     }
 
-    /**
-     * 
-     * This method is for approving coi disclosure
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward approveDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        /* what include here
-         * 1. if there is previous master discl
-         *    - copy details/note/attachment
-         *    - set previous master discl's 'currentDisclosure' to false
-         *    - set this disclosure's 'currentDisclosure' to true
-         * 2. need to do audit check
-         * 3. need to check disclosurestatus is selected   
-         */
+    public ActionForward performAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        String disclosureStatus = coiDisclosureForm.getCoiDisclosureStatusCode();
+        CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
+
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        if (StringUtils.isNotBlank(coiDisclosureForm.getCoiDispositionCode())) {
-            boolean approved = coiDisclosureForm.getDisclosureActionHelper().approveDisclosure();
-            // Once a disclosure is approved it becomes the master disclosure, so redirect to the
-            // master disclosure
-            if (approved) {                
-                String routeHeaderId = coiDisclosureForm.getDocument().getDocumentNumber();
-                String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_COI_DISCLOSURE_ACTIONS_PAGE, "CoiDisclosureDocument");
+        if (new CoiDisclosureAdministratorActionRule().isValidStatus(disclosureStatus, coiDisclosureForm.getCoiDispositionCode())) {
+            AuditActionHelper auditActionHelper = new AuditActionHelper();
+            if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {   
                 ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
+                String routeHeaderId = coiDisclosureDocument.getDocumentNumber();
+                String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_COI_DISCLOSURE_ACTIONS_PAGE, "CoiDisclosureDocument");
                 ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-                return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
-            } else {
-                new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, true);            
+
+                if (StringUtils.equalsIgnoreCase(disclosureStatus, CoiDisclosureStatus.APPROVED)) {
+                    coiDisclosureForm.getDisclosureActionHelper().approveDisclosure();                          
+                    return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+                } else if (StringUtils.equalsIgnoreCase(disclosureStatus, CoiDisclosureStatus.DISAPPROVED)) {
+                    coiDisclosureForm.getDisclosureActionHelper().disapproveDisclosure();
+                    return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+                } else if (StringUtils.equalsIgnoreCase(disclosureStatus, CoiDisclosureStatus.ROUTED_FOR_REVIEW)) {
+                    coiDisclosureForm.getDisclosureActionHelper().setStatus();
+                }   
+            } else { 
+                GlobalVariables.getMessageMap().putError("coiAdminActionErrors", KeyConstants.ERROR_COI_DISCLOSURE_STATUS_REQUIRED);        
             }
-        } else {
-            GlobalVariables.getMessageMap().putError("coiDispositionCode", KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED);        
         }
 
-        return forward;
-
+        return forward;   
     }
     
     public ActionForward addCoiUserRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)

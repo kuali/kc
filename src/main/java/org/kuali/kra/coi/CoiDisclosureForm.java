@@ -32,10 +32,6 @@ import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.actions.ProtocolStatus;
-import org.kuali.kra.irb.notification.IRBNotificationContext;
-import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -45,6 +41,7 @@ import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implements Auditable, QuestionableFormInterface  {
@@ -62,7 +59,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     //TODO : coiDisclosureStatusCode : this is just a quick set up here for 'approve' action to test 'master disclosure'
     // this should be moved to disclosureactionhelper when 'action' is really implemented
     private String coiDispositionCode; 
-    
+    private String coiDisclosureStatusCode;
     
     public CoiDisclosureForm() {
         super();
@@ -137,12 +134,6 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         return (CoiDisclosureDocument)this.getDocument();
     }
 
-//    @Override
-//    public ActionErrors validate(ActionMapping mapping, ServletRequest request) {
-//        // TODO Auto-generated method stub
-//        return super.validate(mapping, request);
-//    }
-
     /**
      * for approved disclosure, only display "Disclosure" page tab
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
@@ -153,10 +144,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         HeaderNavigation[] navigation = super.getHeaderNavigationTabs();
 
         List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
-//        boolean isApproved = false;
-//        if (this.getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclosureId() != null) {
-//            isApproved = isApprovedDisclosure(this.getCoiDisclosureDocument().getCoiDisclosure());
-//        }
+
         for (HeaderNavigation nav : navigation) {
             if ((!this.getCoiDisclosureDocument().getCoiDisclosure().isApprovedDisclosure() && !StringUtils.equals("viewMasterDisclosure", this.getMethodToCall())) || StringUtils.equals(nav.getHeaderTabNavigateTo(), "disclosure")) {
                 resultList.add(nav);
@@ -167,6 +155,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         resultList.toArray(result);
         return result;
     }
+   
 
 
     @Override
@@ -251,6 +240,14 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
 
     public void setNotificationHelper(NotificationHelper<CoiNotificationContext> notificationHelper) {
         this.notificationHelper = notificationHelper;
+    }
+
+    public void setCoiDisclosureStatusCode(String coiDisclosureStatusCode) {
+        this.coiDisclosureStatusCode = coiDisclosureStatusCode;
+    }
+
+    public String getCoiDisclosureStatusCode() {
+        return coiDisclosureStatusCode;
     }
 
     @Override

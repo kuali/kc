@@ -72,9 +72,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         CoiDisclosure masterCoiDisclosure = getMasterDisclosure(coiDisclosure.getCoiDisclosureNumber());
         List<KraPersistableBusinessObjectBase> disclosures = new ArrayList<KraPersistableBusinessObjectBase>();
         coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
-        // need to set disposition status code
         coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.APPROVED);
         disclosures.add(coiDisclosure);
+     
         if (masterCoiDisclosure != null) {
             copyCollections(masterCoiDisclosure, coiDisclosure);
             masterCoiDisclosure.setCurrentDisclosure(false);
@@ -90,6 +90,30 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         
     }
     
+    /**
+     * This disapproves the document and sets the disclosure and disposition statuses.
+     * @see org.kuali.kra.coi.actions.CoiDisclosureActionService#disapproveDisclosure(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
+     */
+    public void disapproveDisclosure(CoiDisclosure coiDisclosure, String coiDispositionCode) throws Exception {
+        /*
+         * Not sure if these histories should be saved.
+         */
+        coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
+        coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.DISAPPROVED);
+        businessObjectService.save(coiDisclosure);
+        documentService.disapproveDocument(coiDisclosure.getCoiDisclosureDocument(), "Document approved.");       
+    }
+
+    /**
+     * this only changes the disclosure status and the disposition status, no routing
+     * @see org.kuali.kra.coi.actions.CoiDisclosureActionService#setStatus(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
+     */
+    public void setStatus(CoiDisclosure coiDisclosure, String coiDispositionCode) {
+        coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
+        coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.ROUTED_FOR_REVIEW);
+        businessObjectService.save(coiDisclosure);
+    }
+
     public KcNotificationService getNotificationService() {
         return notificationService;
     }

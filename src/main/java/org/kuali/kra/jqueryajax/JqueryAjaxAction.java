@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.jqueryajax;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +29,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.coi.CoiDispositionStatus;
+import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.common.notification.service.NotificationRoleSubQualifierFinders;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -40,6 +45,7 @@ import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 public class JqueryAjaxAction extends KualiDocumentActionBase {
 
     protected NotificationRoleSubQualifierFinders notificationRoleSubQualifierFinders;
+    private CoiDisclosureService coiDisclosureService;
 
     /**
      * 
@@ -69,6 +75,26 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
         }
         ajaxForm.setReturnVal(unitName);
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward getCoiDispositionStatus(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
+        JqueryAjaxForm ajaxForm = (JqueryAjaxForm) form;
+        String disclosureStatusCode = ajaxForm.getCode();
+        List<CoiDispositionStatus> coiDispositionStatuses = getCoiDisclosureService().getDispositionStatuses(disclosureStatusCode);
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("[ ");
+        for (CoiDispositionStatus value : coiDispositionStatuses) {
+            buffer.append("{ 'key' :'");
+            buffer.append(value.getCoiDispositionCode());
+            buffer.append("', 'value' : '");
+            buffer.append(value.getDescription());
+            buffer.append("'} , ");
+        }
+        buffer.append("]");
+        ajaxForm.setReturnVal(buffer.toString());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
     }
     
     
@@ -120,6 +146,13 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
     }
 
 
+    protected CoiDisclosureService getCoiDisclosureService() {
+        if (coiDisclosureService == null) {
+            coiDisclosureService = KraServiceLocator.getService(CoiDisclosureService.class);
+        }
+        return coiDisclosureService;
+    }
+    
     protected NotificationRoleSubQualifierFinders getNotificationRoleSubQualifierFinders() {
         if (notificationRoleSubQualifierFinders == null) {
             notificationRoleSubQualifierFinders = KraServiceLocator.getService(NotificationRoleSubQualifierFinders.class);

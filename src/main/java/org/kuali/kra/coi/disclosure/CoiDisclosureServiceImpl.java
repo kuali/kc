@@ -1280,6 +1280,19 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             return null;
         }
     }
+
+    public List<CoiDispositionStatus> getDispositionStatuses(String disclosureStatusCode) {
+        List<CoiDispositionStatus> coiDispositionStatuses  = new ArrayList<CoiDispositionStatus>();
+        if (ObjectUtils.isNotNull(disclosureStatusCode)) {
+            Map<String, String> criteria = new HashMap<String, String>();
+            criteria.put("coiDisclosureStatusCode",disclosureStatusCode);
+            coiDispositionStatuses = 
+                (List<CoiDispositionStatus>) businessObjectService.findMatching(CoiDispositionStatus.class, criteria);
+        }
+        return coiDispositionStatuses;
+    }
+    
+    
     
     public void initDisclosureFromMasterDisclosure(CoiDisclosure coiDisclosure) {
         CoiDisclosure masterDisclosure = getCurrentDisclosure();

@@ -410,7 +410,35 @@ function loadSponsorName(sponsorCodeFieldName, sponsorNameFieldName ) {
 		SponsorService.getSponsorName(sponsorCode,dwrReply);
 	}
 }
- 
+ /*
+  * This function is used to populate a dropdown based on the value selected in
+  * another dropdown. The function performs an ajax call to a method in jqueryAjaxAction
+  * that should return the values in the following json format
+  * [ { 'key' :'400', 'value' : 'Disclosed Interests Unmanageable'} , ] 
+  */
+function populateSelect(methodToCall, firstSelectId, secondSelectId) {
+	var valueSelected = $j("#"+firstSelectId).attr("value");
+	callAjaxByPath('jqueryAjax.do', methodToCall, valueSelected,
+			function(data) {
+				valuesForSecondSelect = eval('(' + $j(data).find('#ret_value').html() + ')');
+				$j("#"+secondSelectId).html('');
+				if (valuesForSecondSelect.length == 0) {
+					$j("#"+secondSelectId).attr('disabled', 'disabled');
+				} else {
+					var options = '';
+					for (var i = 0; i < valuesForSecondSelect.length; i++) {
+						var item = valuesForSecondSelect[i];
+						options += "<option value='" + item.key + "'>" + item.value + "</option>";
+					}
+					$j("#"+secondSelectId).html(options);
+					$j("#"+secondSelectId).removeAttr('disabled');
+				}
+			},
+			function(error) {
+				alert("error is" + error);
+			}
+	);
+}
 
 function checkGrantsGovStatusOnSponsorChange(proposalNumber, sponsorCodeFieldName) {
 	var sponsorCode = dwr.util.getValue( sponsorCodeFieldName );

@@ -16,9 +16,11 @@
 package org.kuali.kra.coi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -27,29 +29,28 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
- * This class is to server as a values finder for coi disclosure actions - 'Approve'/'Disapprove'/'Set Disclosure Status'
+ * This class is to serve as a values finder for coi disclosure actions - 'Approve'/'Disapprove'/'Set Disclosure Status'
  */
-public class CoiDispositionStatusValuesFinder extends KeyValuesBase {
+public class CoiDisclosureActionsValuesFinder extends KeyValuesBase {
     private String actionType;
-   
+    
+    
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
      */
     public List getKeyValues() {
-        
+        HashMap<String, String> actions = new HashMap<String, String>();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select "));
-        for(CoiDispositionStatus coiDispositionStatus : getCoiDispositionStatus()) {
-                keyValues.add(new ConcreteKeyValue(coiDispositionStatus.getCoiDispositionCode().toString(), coiDispositionStatus.getDescription()));
-        }
+        /*
+         * Using the disclosure status codes to get the correct disposition statuses from table
+         */
+        keyValues.add(new ConcreteKeyValue(CoiDisclosureStatus.APPROVED, Constants.COI_APPROVE_ACTION));
+        keyValues.add(new ConcreteKeyValue(CoiDisclosureStatus.DISAPPROVED, Constants.COI_DISAPPROVE_ACTION));
+        keyValues.add(new ConcreteKeyValue(CoiDisclosureStatus.ROUTED_FOR_REVIEW, Constants.COI_SET_DISPOSITION_STATUS_ACTION));
         return keyValues;
     }
     
-    private List<CoiDispositionStatus> getCoiDispositionStatus() {
-        
-        return  (List<CoiDispositionStatus>)KraServiceLocator.getService(BusinessObjectService.class).findAll(CoiDispositionStatus.class);
-
-    }
     public String getActionType() {
         return actionType;
     }

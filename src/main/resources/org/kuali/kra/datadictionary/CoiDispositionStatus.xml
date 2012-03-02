@@ -71,8 +71,13 @@
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+          <bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.coi.CoiDispositionStatus"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
+	            p:keyAttribute="coiDispositionCode"
+	            p:labelAttribute="description" />
         </property>
         <property name="summary" value="Coi Disposition Code" />
         <property name="description" value="Coi Disposition Code" />

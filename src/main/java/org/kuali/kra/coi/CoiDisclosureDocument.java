@@ -107,11 +107,10 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
         boolean isComplete = true;
         // if document has only been submitted for ceritification
         if (StringUtils.equalsIgnoreCase(getCoiDisclosure().getCoiDisclosureStatus().getCoiDisclosureStatusCode(), CoiDisclosureStatus.IN_PROGRESS)) {
-            return isComplete;
-        }
-        else {
+            isComplete = true;
+        } else {
             // approved/ disapproved
-            if (!getDocumentHeader().getWorkflowDocument().isFinal()) {           
+            if (!getDocumentHeader().getWorkflowDocument().isFinal() && !getDocumentHeader().getWorkflowDocument().isDisapproved()) {           
                 isComplete = false;
             } 
         }
