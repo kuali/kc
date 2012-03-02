@@ -490,6 +490,12 @@ public interface Constants {
     public static final String FINANCIAL_ENTITY_STATUS_INACTIVE = "inactive";
     public static final String ENTITY_OWNERSHIP_TYPE_CODE_PUBLIC = "P";
     public static final String ENTITY_OWNERSHIP_TYPE_CODE_PRIVATE = "V";
+    public static final String COI_APPROVE_ACTION = "Approve";
+    public static final int APPROVE_ACTION_CODE = 0;
+    public static final int DISAPPROVE_ACTION_CODE = 1;
+    public static final int SET_DISPOSITION_STATUS_ACTION_CODE = 2;
+    public static final String COI_DISAPPROVE_ACTION = "Disapprove";
+    public static final String COI_SET_DISPOSITION_STATUS_ACTION = "Set Disposition Status";
     
     public static final String AWARD_SEQUENCE_AWARD_NUMBER = "SEQ_AWARD_AWARD_NUMBER";
     

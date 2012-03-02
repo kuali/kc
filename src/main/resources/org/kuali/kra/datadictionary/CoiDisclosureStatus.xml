@@ -52,8 +52,13 @@
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="3" />
+                <bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.coi.CoiDisclosureStatus"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
+	            p:keyAttribute="coiDisclosureStatusCode"
+	            p:labelAttribute="description" />
         </property>
         <property name="summary" value="Coi Disclosure Status Code" />
         <property name="description" value="Coi Disclosure Status Code" />
