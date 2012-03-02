@@ -106,16 +106,18 @@ public class CoiDisclosureAction extends CoiAction {
     public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         
-        // save questionnaire data first
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         Document document = coiDisclosureForm.getDocument();
+        
+        // save questionnaire data first
         List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
-        // TODO add a COI specific rule event to the condition below
+        // TODO add a COI questionnaire specific rule event to the condition below
         if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders))) {
             coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
             getBusinessObjectService().save(answerHeaders);
         }
         
+        // now the rest of subclass-specific custom logic for save()
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         // notes and attachments
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();        
@@ -148,11 +150,19 @@ public class CoiDisclosureAction extends CoiAction {
             throws Exception {
         // TODO Auto-generated method stub
         ActionForward actionForward = super.execute(mapping, form, request, response);
+        
+        // we will populate questionnaire data after the execution of any dispatched ("methodTocall") methods. This point, right after the
+        // above super.execute() call works well for that because any such dispatched method has finished executing at the end of the call.
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        if(coiDisclosureForm.getDocument().getDocumentHeader().hasWorkflowDocument()) {
+            coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView();
+        }
+        
+        // now the rest of subclass-specific custom logic for execute()
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
         coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
         // TODO : 'checkToLoadDisclosureDetails' should not need to be executed for every action.  need to make it somewhere ?
-//        checkToLoadDisclosureDetails(coiDisclosureDocument.getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId());
+        // checkToLoadDisclosureDetails(coiDisclosureDocument.getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId());
         if ((StringUtils.equals("reload", coiDisclosureForm.getMethodToCall()) || StringUtils.equals("updateAttachmentFilter", coiDisclosureForm.getMethodToCall()) 
                 || StringUtils.equals("headerTab", coiDisclosureForm.getMethodToCall()) || StringUtils.equals("docHandler",
                 coiDisclosureForm.getMethodToCall())) && coiDisclosureDocument.getCoiDisclosure().isApprovedDisclosure()) {
@@ -173,9 +183,9 @@ public class CoiDisclosureAction extends CoiAction {
             }
 
         }
-//        if (coiDisclosureDocument.getCoiDisclosure().isUpdateEvent() && !StringUtils.equals("performLookup", coiDisclosureForm.getMethodToCall())) {
-//            actionForward = mapping.findForward(UPDATE_DISCLOSURE);
-//        }
+        //        if (coiDisclosureDocument.getCoiDisclosure().isUpdateEvent() && !StringUtils.equals("performLookup", coiDisclosureForm.getMethodToCall())) {
+        //            actionForward = mapping.findForward(UPDATE_DISCLOSURE);
+        //        }
         return actionForward;
 
     }
@@ -214,6 +224,7 @@ public class CoiDisclosureAction extends CoiAction {
 
             if (coiDisclosure != null) {
                 coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
+                coiDisclosure.setCoiDisclosureDocument(coiDisclosureForm.getCoiDisclosureDocument());
             }
             coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setEventTypeCode(eventTypeCode);
         } else {
@@ -269,7 +280,7 @@ public class CoiDisclosureAction extends CoiAction {
             CoiDisclosure coiDisclosure = ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure();
             String forward = ConfigContext.getCurrentContextConfig().getProperty("kuali.docHandler.url.prefix") + 
                     "/financialEntityEditNew.do?methodToCall=addNewCoiDiscFinancialEntity&coiDocId="+((CoiDisclosureForm) form).getDocument().getDocumentNumber()+"&financialEntityHelper.reporterId="+coiDisclosure.getPersonId();
-//            "/portal.do?channelTitle=Financial%20Entity&channelUrl=financialEntityManagement.do?methodToCall=editNew&coiDocId="+((CoiDisclosureForm) form).getDocument().getDocumentNumber();
+            // "/portal.do?channelTitle=Financial%20Entity&channelUrl=financialEntityManagement.do?methodToCall=editNew&coiDocId="+((CoiDisclosureForm) form).getDocument().getDocumentNumber();
             return new ActionForward(forward, true);
         }
         return actionForward;
@@ -284,7 +295,7 @@ public class CoiDisclosureAction extends CoiAction {
             CoiDisclosure coiDisclosure = ((CoiDisclosureDocument)coiDisclosureForm.getDocument()).getCoiDisclosure();
             String forward = ConfigContext.getCurrentContextConfig().getProperty("kuali.docHandler.url.prefix") + 
                     "/financialEntityEditList.do?methodToCall=editActiveFinancialEntity&coiDocId="+((CoiDisclosureForm) form).getDocument().getDocumentNumber()+"&financialEntityHelper.editCoiEntityId="+coiDisclosure.getCoiDiscDetails().get(getSelectedLine(request)).getPersonFinIntDisclosureId() ;
-           // "/portal.do?channelTitle=Financial%20Entity&channelUrl=financialEntityManagement.do?methodToCall=editList&coiDocId="+((CoiDisclosureForm) form).getDocument().getDocumentNumber()+"&financialEntityHelper.editEntityIndex"+getSelectedLine(request);
+            // "/portal.do?channelTitle=Financial%20Entity&channelUrl=financialEntityManagement.do?methodToCall=editList&coiDocId="+((CoiDisclosureForm) form).getDocument().getDocumentNumber()+"&financialEntityHelper.editEntityIndex"+getSelectedLine(request);
             return new ActionForward(forward, true);
         }
         return actionForward;
@@ -328,17 +339,19 @@ public class CoiDisclosureAction extends CoiAction {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         coiDisclosureForm.setCommand(KewApiConstants.INITIATE_COMMAND);
         ActionForward forward = docHandler(mapping, form, request, response);
-        CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
-        if (coiDisclosure != null) {
-            coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
-            coiDisclosure.setCoiDisclosureDocument(coiDisclosureForm.getCoiDisclosureDocument());
-        }
+        // Currently the way docHandler() is implemented in this class guarantees that setting the form command to 'initiate' will result in a disclosure
+        // version being created and set on the document in the form. This means the following code for versioning the disclosure and setting it on the 
+        // form is redundant as it has already happened in the doc handler invocation above, hence its being commented out.
+        
+        //  CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
+        //      if (coiDisclosure != null) {
+        //      coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
+        //      coiDisclosure.setCoiDisclosureDocument(coiDisclosureForm.getCoiDisclosureDocument());
+        //  }
         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setEventTypeCode(coiDisclosureForm.getDisclosureHelper().getEventTypeCode());
         // dochandler may populate discdetails for new doc.  here is just to reset to reload it again.
         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setCoiDiscDetails(null);
         checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId(), coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
-        //populate Questionnaires and answers here
-        coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView();
         return forward;
     }
 
@@ -496,7 +509,7 @@ public class CoiDisclosureAction extends CoiAction {
         return RESPONSE_ALREADY_HANDLED;
     }
 
-    private byte[] getCoiDisclosureAttachmentFile(ActionForm form, CoiDisclosureAttachment attachment){
+    private byte[] getCoiDisclosureAttachmentFile(ActionForm form, CoiDisclosureAttachment attachment) {
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();
 
         byte[] attachmentFile = null;
