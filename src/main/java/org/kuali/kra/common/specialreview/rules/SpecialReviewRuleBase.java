@@ -152,9 +152,12 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         
         if (StringUtils.isNotBlank(protocolNumber)) {
             Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
-            if (protocol != null && !protocol.getProtocolDocument().getPessimisticLocks().isEmpty()) {
-                isValid = false;
-                reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_LOCKED, protocolNumber);
+            if (protocol != null) {
+                protocol.getProtocolDocument().refreshPessimisticLocks();
+                if (!protocol.getProtocolDocument().getPessimisticLocks().isEmpty()) {
+                    isValid = false;
+                    reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_LOCKED, protocolNumber);
+                }
             }
         }
         
