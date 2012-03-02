@@ -46,10 +46,6 @@ import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
-import org.kuali.kra.irb.questionnaire.SaveProtocolQuestionnaireEvent;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -150,7 +146,6 @@ public class CoiDisclosureAction extends CoiAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
         // we will populate questionnaire data after the execution of any dispatched ("methodTocall") methods. This point, right after the
@@ -363,12 +358,15 @@ public class CoiDisclosureAction extends CoiAction {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
+
         if (checkRule(new CertifyDisclosureEvent("disclosureHelper.certifyDisclosure", coiDisclosure))) {
             coiDisclosureForm.setAuditActivated(true);
             AuditActionHelper auditActionHelper = new AuditActionHelper();
             if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
+                getDocumentService().saveDocument(coiDisclosureDocument);
                 // Certification occurs after the audit rules pass.
                 coiDisclosure.certifyDisclosure();
                 if (coiDisclosure.getCoiDisclosureId() == null) {
@@ -471,11 +469,11 @@ public class CoiDisclosureAction extends CoiAction {
     }
 
     public ActionForward confirmDeleteCoiDisclosureAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return this.deleteAttachment(mapping, (CoiDisclosureForm) form, request, response, ProtocolAttachmentProtocol.class);
+        return this.deleteAttachment(mapping, (CoiDisclosureForm) form, request, response, CoiDisclosureAttachment.class);
     }
-    
+
     private ActionForward deleteAttachment(ActionMapping mapping, CoiDisclosureForm form, HttpServletRequest request,
-            HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
+            HttpServletResponse response, Class<CoiDisclosureAttachment> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();
@@ -524,12 +522,7 @@ public class CoiDisclosureAction extends CoiAction {
                 if (coiDisclosureAttachmentList.size()>0){
                     for (CoiDisclosureAttachment coiDisclosureAttachment : coiDisclosureAttachmentList) {
                         if (attachmentDocumentId.equals(coiDisclosureAttachment.getDocumentId())){
-                            //if(getProtocolAttachmentService().isNewAttachmentVersion(coiDisclosureAttachment)){
                             attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                            /*}else{
-                                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-                                LOG.info(INVALID_ATTACHMENT + attachmentDocumentId);
-                            }*/
                         }
                     }
                 } else {
@@ -665,10 +658,10 @@ public class CoiDisclosureAction extends CoiAction {
         getDisclosureActionService().submitToWorkflow(coiDisclosureDocument, coiDisclosureForm, submitAction);
         return routeDisclosureToHoldingPage(mapping, coiDisclosureForm);
     }
-    
+  
     private ActionForward routeDisclosureToHoldingPage(ActionMapping mapping, CoiDisclosureForm coiDisclosureForm) {
         String routeHeaderId = coiDisclosureForm.getDocument().getDocumentNumber();
-        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_BASIC, "ProtocolDocument");
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_BASIC, "CoiDisclosureDocument");
         
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
@@ -738,14 +731,4 @@ public class CoiDisclosureAction extends CoiAction {
         return actionForward;
     }
 
-
-    
-//    private boolean isApprovedDisclosure(CoiDisclosure coiDisclosure) {
-//
-//        Map fieldValues = new HashMap();
-//        fieldValues.put("coiDisclosureId", coiDisclosure.getCoiDisclosureId());
-//        fieldValues.put("disclosureStatus", CoiDisclosureStatus.APPROVE_DISCLOSURE_CODES);
-//        return getBusinessObjectService().countMatching(CoiDisclosureHistory.class, fieldValues) > 0;
-//    }
-    
 }
