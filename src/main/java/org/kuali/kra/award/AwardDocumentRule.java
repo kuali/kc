@@ -134,7 +134,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     private static final String AWARD_REPORT_TERMS = "awardReportTerms";
     private static final String AWARD_REPORT_TERM_ITEMS = "awardReportTermItems";
     private static final String AWARD_ERROR_PATH_PREFIX = "document.awardList[0].";
-    private static final String SAVE_SPECIAL_REVIEW_FIELD = "document.awardList[0].specialReviews";
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardDocumentRule.class);
 
@@ -298,7 +297,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processSaveAwardProjectPersonsBusinessRules(errorMap, awardDocument);
         retval &= processSaveAwardCustomDataBusinessRules(awardDocument);
         retval &= processAwardCommentsBusinessRules(awardDocument);
-        retval &= processSpecialReviewBusinessRule(document);
         retval &= processAwardDetailsAndDatesSaveRules(document);
         retval &= processDateBusinessRule(errorMap, awardDocument);
         retval &=processKeywordBusinessRule(awardDocument);
@@ -443,22 +441,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return valid;
-    }
-    
-    /**
-     * This method validates 'Proposal Special review'. It checks
-     * validSpecialReviewApproval table, and if there is a match, then checks
-     * protocalnumberflag, applicationdateflag, and approvaldataflag.
-     *
-     * @paramDocument : The awardDocument that is being validated
-     * @return valid Does the validation pass
-     */
-    private boolean processSpecialReviewBusinessRule(Document document) {
-        AwardDocument awardDocument = (AwardDocument) document;
-        List<AwardSpecialReview> specialReviews = awardDocument.getAward().getSpecialReviews();
-        boolean isProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.award.linking.enabled");
-        return processRules(new SaveSpecialReviewEvent<AwardSpecialReview>(
-            SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, isProtocolLinkingEnabled));
     }
     
     /**
