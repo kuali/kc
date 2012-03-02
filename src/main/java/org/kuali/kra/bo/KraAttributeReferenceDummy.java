@@ -41,6 +41,8 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
     private String sourceAccount;
     private Boolean checkBox;
     private Long sortId;
+    private String reporter;
+    private Timestamp createTimestamp;
 
 
     /**
@@ -212,6 +214,22 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
 
     public void setSortId(Long sortId) {
         this.sortId = sortId;
+    }
+
+    public String getReporter() {
+        return reporter;
+    }
+
+    public void setReporter(String reporter) {
+        this.reporter = reporter;
+    }
+
+    public Timestamp getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
     }
 
 }

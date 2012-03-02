@@ -60,7 +60,22 @@
     </bean>
 
     <bean id="CoiDisclosureStatus-description" parent="CoiDisclosureStatus-description-parentBean" />
-    <bean id="CoiDisclosureStatus-description-parentBean" parent="KraAttributeReferenceDummy-description"/>
+    <bean id="CoiDisclosureStatus-description-parentBean" parent="KraAttributeReferenceDummy-description" >
+        <property name="name" value="description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Disclosure Status" />
+        <property name="shortLabel" value="Status" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Description" />
+        <property name="description" value="Description" />
+    </bean>
 
     <bean id="CoiDisclosureStatus-versionNumber" parent="CoiDisclosureStatus-versionNumber-parentBean" />
     <bean id="CoiDisclosureStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
