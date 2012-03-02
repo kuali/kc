@@ -60,11 +60,9 @@
                 <ref bean="ProposalLog-versionNumber" />
                 <ref bean="ProposalLog-proposalLogType.description" />
                 <ref bean="ProposalLog-proposalLogStatus.description" />
-                <ref bean="ProposalLog-proposalType.description" />
-                <!-- 
+                <ref bean="ProposalLog-proposalType.description" /> 
                 <ref bean="ProposalLog-person.fullName" />
                 <ref bean="ProposalLog-rolodex.fullName" />
-                 -->
             </list>
         </property>
     </bean>
