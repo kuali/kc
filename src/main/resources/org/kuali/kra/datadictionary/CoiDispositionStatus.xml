@@ -82,8 +82,8 @@
     <bean id="CoiDispositionStatus-description-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="description" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Description" />
-        <property name="shortLabel" value="Description" />
+        <property name="label" value="COI Disposition" />
+        <property name="shortLabel" value="Disposition" />
         <property name="maxLength" value="200" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
