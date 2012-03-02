@@ -91,9 +91,16 @@ public class SubAwardFinancialAction extends SubAwardAction{
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
         int selectedLineNumber = getSelectedLine(request);
         SubAwardAmountInfo subAwardAmountInfo = subAwardDocument.getSubAward().getSubAwardAmountInfoList().get(selectedLineNumber);
-        subAwardAmountInfo.setFileName(null);
-        subAwardAmountInfo.setDocument(null);
+        if(subAwardAmountInfo.getSubAwardId()!=null){
+            subAwardAmountInfo.setFileName(null);
+            subAwardAmountInfo.setDocument(null);
             this.getBusinessObjectService().save(subAwardAmountInfo);
+        }
+        else{
+            subAwardAmountInfo.setDocument(null);
+            subAwardAmountInfo.setFileName(null);
+        }
+            
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
     public ActionForward addAmountReleased(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -120,9 +127,14 @@ public class SubAwardFinancialAction extends SubAwardAction{
         SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
         int selectedLineNumber = getSelectedLine(request);
         SubAwardAmountReleased  subAwardAmountReleased = subAwardDocument.getSubAward().getSubAwardAmountReleasedList().get(selectedLineNumber);
-        subAwardAmountReleased.setDocument(null);
-        subAwardAmountReleased.setFileName(null);
-        this.getBusinessObjectService().save(subAwardAmountReleased);
+        if(subAwardAmountReleased.getSubAwardId()!=null){
+            subAwardAmountReleased.setDocument(null);
+            subAwardAmountReleased.setFileName(null);
+            this.getBusinessObjectService().save(subAwardAmountReleased);
+        }else{
+            subAwardAmountReleased.setDocument(null);
+            subAwardAmountReleased.setFileName(null);
+        }
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
     
