@@ -231,6 +231,7 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<Award> awardChangeCandidates) {
         for (Award awardChangeCandidate : awardChangeCandidates) {
+            awardChangeCandidate.getAwardDocument().refreshPessimisticLocks();
             if (awardChangeCandidate.getAwardDocument().getPessimisticLocks().isEmpty()) {
                 performAwardInvestigatorPersonMassChange(personMassChange, awardChangeCandidate);
                 performAwardKeyStudyPersonPersonMassChange(personMassChange, awardChangeCandidate);

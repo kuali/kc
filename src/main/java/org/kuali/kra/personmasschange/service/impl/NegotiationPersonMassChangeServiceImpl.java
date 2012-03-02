@@ -85,6 +85,7 @@ public class NegotiationPersonMassChangeServiceImpl implements NegotiationPerson
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<Negotiation> negotiationChangeCandidates) {
         for (Negotiation negotiationChangeCandidate : negotiationChangeCandidates) {
+            negotiationChangeCandidate.getNegotiationDocument().refreshPessimisticLocks();
             if (negotiationChangeCandidate.getNegotiationDocument().getPessimisticLocks().isEmpty()) {
                 performNegotiationNegotiatorPersonMassChange(personMassChange, negotiationChangeCandidate);
             } else {

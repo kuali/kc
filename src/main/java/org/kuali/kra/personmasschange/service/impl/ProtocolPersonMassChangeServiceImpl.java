@@ -203,6 +203,7 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<Protocol> protocolChangeCandidates) {
         for (Protocol protocolChangeCandidate : protocolChangeCandidates) {
+            protocolChangeCandidate.getProtocolDocument().refreshPessimisticLocks();
             if (protocolChangeCandidate.getProtocolDocument().getPessimisticLocks().isEmpty()) {
                 performProtocolInvestigatorPersonMassChange(personMassChange, protocolChangeCandidate);
                 performProtocolKeyStudyPersonPersonMassChange(personMassChange, protocolChangeCandidate);
