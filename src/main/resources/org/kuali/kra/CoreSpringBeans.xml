@@ -63,6 +63,19 @@
 		<property name="retryAttempts" value="0" />
 	</bean>
 
+	<bean id="docHandlerUrlPrefixPublishingService" class="org.kuali.kra.service.impl.DocHandlerUrlPrefixPublishingServiceImpl">
+		<property name="parameterValue" value="${application.url}" />
+		<property name="parameterName" value="kuali.docHandler.url.prefix" />
+		<property name="parameterApplicationId" value="${application.id}" />
+		<property name="parameterNamespaceCode" value="KR-WKFLW" />
+		<property name="parameterComponentCode" value="All" />
+		<property name="parameterTypeCode" value="CONFG" />
+		
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+	</bean>
+
 	<bean id="sponsorService" class="org.kuali.kra.service.impl.SponsorServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
