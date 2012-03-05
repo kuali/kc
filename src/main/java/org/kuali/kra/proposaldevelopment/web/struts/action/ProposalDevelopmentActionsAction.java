@@ -866,9 +866,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         boolean isIPProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(
             "KC-PROTOCOL", "Document", "irb.protocol.institute.proposal.linking.enabled");
         List<ProposalSpecialReview> specialReviews = proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews();
-        if (!isIPProtocolLinkingEnabled 
-            || applyRules(new SaveSpecialReviewLinkEvent<ProposalSpecialReview>(proposalDevelopmentDocument, specialReviews, new ArrayList<String>()))) {
-           
+        if (!isIPProtocolLinkingEnabled || applyRules(new SaveSpecialReviewLinkEvent<ProposalSpecialReview>(proposalDevelopmentDocument, specialReviews))) {
             if (!(autogenerateInstitutionalProposal() && "X".equals(proposalDevelopmentForm.getResubmissionOption()))) {
                 proposalDevelopmentDocument.getDevelopmentProposal().setSubmitFlag(true);
     
@@ -896,7 +894,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
     
             if (autogenerateInstitutionalProposal()) {
-                generateInstitutionalProposal(proposalDevelopmentForm);
+                generateInstitutionalProposal(proposalDevelopmentForm, isIPProtocolLinkingEnabled);
                 ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(proposalDevelopmentDocument.getDevelopmentProposal(), "101", "Proposal Submitted");
                 if (proposalDevelopmentForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
                     proposalDevelopmentForm.getNotificationHelper().initializeDefaultValues(context);
@@ -910,7 +908,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return forward;
     }
     
-    private void generateInstitutionalProposal(ProposalDevelopmentForm proposalDevelopmentForm) {
+    private void generateInstitutionalProposal(ProposalDevelopmentForm proposalDevelopmentForm, boolean isIPProtocolLinkingEnabled) {
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
         if ("X".equals(proposalDevelopmentForm.getResubmissionOption())) {
             if (proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
@@ -933,14 +931,17 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                     versionNumber,
                     proposalDevelopmentForm.getInstitutionalProposalToVersion());
             
-            persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), getActiveProposalId(proposalDevelopmentForm.getInstitutionalProposalToVersion()));
-            persistSpecialReviewProtocolFundingSourceLink(getActiveProposalId(proposalDevelopmentForm.getInstitutionalProposalToVersion()));
+            Long institutionalProposalId = getActiveProposalId(proposalDevelopmentForm.getInstitutionalProposalToVersion());
+            persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), institutionalProposalId);
+            persistSpecialReviewProtocolFundingSourceLink(institutionalProposalId, isIPProtocolLinkingEnabled);
         } else {
             String proposalNumber = createInstitutionalProposal(
                     proposalDevelopmentDocument.getDevelopmentProposal(), proposalDevelopmentDocument.getFinalBudgetForThisProposal());
             KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
-            persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), getActiveProposalId(proposalNumber));
-            persistSpecialReviewProtocolFundingSourceLink(getActiveProposalId(proposalNumber));
+            
+            Long institutionalProposalId = getActiveProposalId(proposalNumber);
+            persistProposalAdminDetails(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber(), institutionalProposalId);
+            persistSpecialReviewProtocolFundingSourceLink(institutionalProposalId, isIPProtocolLinkingEnabled);
         }
     }
     
@@ -992,21 +993,24 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         businessObjectService.save(proposalAdminDetails);
     }
     
-    private void persistSpecialReviewProtocolFundingSourceLink(Long institutionalProposalId) {
-        SpecialReviewService specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
-        
-        InstitutionalProposal institutionalProposal = getBusinessObjectService().findBySinglePrimaryKey(InstitutionalProposal.class, institutionalProposalId);
-        for (InstitutionalProposalSpecialReview specialReview : institutionalProposal.getSpecialReviews()) {
-            if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {                
-                String protocolNumber = specialReview.getProtocolNumber();
-                String fundingSourceNumber = institutionalProposal.getProposalNumber();
-                String fundingSourceTypeCode = FundingSourceType.INSTITUTIONAL_PROPOSAL;
-                
-                if (!specialReviewService.isLinkedToProtocolFundingSource(protocolNumber, fundingSourceNumber, fundingSourceTypeCode)) {
-                    String fundingSourceName = institutionalProposal.getSponsorName();
-                    String fundingSourceTitle = institutionalProposal.getTitle();
-                    specialReviewService.addProtocolFundingSourceForSpecialReview(
-                        protocolNumber, fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
+    private void persistSpecialReviewProtocolFundingSourceLink(Long institutionalProposalId, boolean isIPProtocolLinkingEnabled) {
+        if (isIPProtocolLinkingEnabled) {
+            SpecialReviewService specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+            
+            InstitutionalProposal institutionalProposal 
+                = getBusinessObjectService().findBySinglePrimaryKey(InstitutionalProposal.class, institutionalProposalId);
+            for (InstitutionalProposalSpecialReview specialReview : institutionalProposal.getSpecialReviews()) {
+                if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {                
+                    String protocolNumber = specialReview.getProtocolNumber();
+                    String fundingSourceNumber = institutionalProposal.getProposalNumber();
+                    String fundingSourceTypeCode = FundingSourceType.INSTITUTIONAL_PROPOSAL;
+                    
+                    if (!specialReviewService.isLinkedToProtocolFundingSource(protocolNumber, fundingSourceNumber, fundingSourceTypeCode)) {
+                        String fundingSourceName = institutionalProposal.getSponsorName();
+                        String fundingSourceTitle = institutionalProposal.getTitle();
+                        specialReviewService.addProtocolFundingSourceForSpecialReview(
+                            protocolNumber, fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
+                    }
                 }
             }
         }
