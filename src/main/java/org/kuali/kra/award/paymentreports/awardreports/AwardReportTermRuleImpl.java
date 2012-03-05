@@ -48,21 +48,21 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
     private static final String FINAL_REPORT_DESCRIPTION = "Final (Final Report)";
 
     /**
-     * 
+     * This function is called on Save.
      * @see org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRule#processAwardReportTermBusinessRules(
      *          org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleEvent)
      */
     public boolean processAwardReportTermBusinessRules(AwardReportTermRuleEvent event) {
         boolean validFields = true;
-        //document.awardList[0].awardReportTermItems[0].
         String fieldStarter = "document.awardList[0].awardReportTermItems[";
         String fieldEnder = "].";
         int counter = 0;
         for (AwardReportTerm awardReportTermItem : event.getAward().getAwardReportTermItems()) {
-            validFields = validateRequiredFields(awardReportTermItem, fieldStarter + counter + fieldEnder) && validFields;
+            validFields = validateRequiredFields(awardReportTermItem, fieldStarter + counter + fieldEnder) 
+                && isUnique(event.getAward().getAwardReportTermItems(), awardReportTermItem) && validFields;
             counter++;
         }
-        return processCommonValidations(event) && validFields;        
+        return validFields;        
     }
     /**
      * 
@@ -72,8 +72,11 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
      * @return
      */
     public boolean processAddAwardReportTermBusinessRules(AddAwardReportTermRuleEvent event) {
+        GenericAwardReportTerm awardReportTermItem = event.getAwardReportTermItemForValidation();        
+        List<? extends GenericAwardReportTerm> items = 
+            (List<? extends GenericAwardReportTerm>) event.getAward().getAwardReportTermItems();
         return validatePI(event.getAward()) && validateRequiredFields(event.getAwardReportTermItemForValidation(), "") 
-            && processCommonValidations(event);        
+            && isUnique(items, awardReportTermItem);        
     }
     
     private boolean validatePI(Award award) {
@@ -83,13 +86,6 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
             reportWarning(AWARD_REPORT_TERM_REPORT_CODE_PROPERTY, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NO_PI, "");
         }
         return retVal;
-    }
-    
-    private boolean processCommonValidations(AwardReportTermRuleEvent event) {
-        GenericAwardReportTerm awardReportTermItem = event.getAwardReportTermItemForValidation();        
-        List<? extends GenericAwardReportTerm> items = 
-            (List<? extends GenericAwardReportTerm>) event.getAward().getAwardReportTermItems();
-        return isUnique(items, awardReportTermItem);
     }
     
     /**
