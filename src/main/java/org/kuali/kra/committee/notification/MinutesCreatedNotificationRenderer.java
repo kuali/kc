@@ -33,9 +33,6 @@ public class MinutesCreatedNotificationRenderer extends CommitteeNotificationRen
     private String actionTaken;
     private CommScheduleMinuteDoc commScheduleMinuteDoc;
 
-    private static String ACTION_TAKEN = "{ACTION_TAKEN}";
-    private static String MEETING_DATE = "{LAST_ACTION_DATE}";
-
     /**
      * Constructs an Minutes Created notification renderer.
      * 
@@ -71,8 +68,9 @@ public class MinutesCreatedNotificationRenderer extends CommitteeNotificationRen
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
-        params.put(MEETING_DATE, commScheduleMinuteDoc.getCreateTimestamp().toString());
-        params.put(ACTION_TAKEN, actionTaken);
+        params.put(CommitteeReplacementParameters.LAST_ACTION_DATE, commScheduleMinuteDoc.getCommitteeSchedule().getScheduledDate().toString());
+        params.put(CommitteeReplacementParameters.ACTION_TAKEN, actionTaken);
+        params.put(CommitteeReplacementParameters.OBJECT_INDEX, new Integer(commScheduleMinuteDoc.getMinuteNumber().intValue() - 1).toString());
         return params;
     }    
 
