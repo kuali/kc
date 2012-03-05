@@ -32,9 +32,6 @@ public class AgendaCreatedNotificationRenderer extends CommitteeNotificationRend
     private String actionTaken;
     private ScheduleAgenda scheduleAgenda;
 
-    private static String ACTION_TAKEN = "{ACTION_TAKEN}";
-    private static String MEETING_DATE = "{LAST_ACTION_DATE}";
-
     /**
      * Constructs an Agenda Created notification renderer.
      * 
@@ -70,8 +67,9 @@ public class AgendaCreatedNotificationRenderer extends CommitteeNotificationRend
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
-        params.put(MEETING_DATE, scheduleAgenda.getCreateTimestamp().toString());
-        params.put(ACTION_TAKEN, actionTaken);
+        params.put(CommitteeReplacementParameters.LAST_ACTION_DATE, scheduleAgenda.getCommitteeSchedule().getScheduledDate().toString());
+        params.put(CommitteeReplacementParameters.ACTION_TAKEN, actionTaken);
+        params.put(CommitteeReplacementParameters.OBJECT_INDEX, new Integer(scheduleAgenda.getAgendaNumber().intValue() - 1).toString());
         return params;
     }    
 

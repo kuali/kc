@@ -2,6 +2,7 @@
 
 <%-- <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/> --%>
 <c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
+<c:set var="notificationSentMessage" value="${KualiForm.meetingHelper.minutesSentMessage}" />
 
 <kul:tab defaultOpen="false" tabTitle="Minutes"
     tabErrorKey="meetingHelper.meetingMinute">
@@ -48,11 +49,11 @@
 					</td>
 						<td>
 							<div align=center>&nbsp;					
-								<%-- <html:image property="methodToCall.viewMinute.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
-										alt="View Minute" onclick="excludeSubmitRestriction = true;"/> --%>
-				                  <input type="image" alt="View Minute" class="tinybutton" onclick="openNewWindow('meetingActions','viewMinute','${status.index}',0,'false'); return false;" id="viewMinute${status.index+1}"
-				                  src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" name="methodToCall.viewMinute.line${status.index}.anchor${currentTabIndex}">
+				                <input type="image" alt="Send Minutes" class="tinybutton" onclick="alert('${notificationSentMessage}');return true;" id="sendMinute${status.index+1}"
+				                    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-sendminutes.gif" name="methodToCall.sendMinutesNotification.line${status.index}.anchor${currentTabIndex}">
+								&nbsp;
+				                <input type="image" alt="View Minutes" class="tinybutton" onclick="openNewWindow('meetingActions','viewMinute','${status.index}',0,'false'); return false;" id="viewMinute${status.index+1}"
+				                    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" name="methodToCall.viewMinute.line${status.index}.anchor${currentTabIndex}">
 				             </div>
 		                </td>
 	            </tr>
