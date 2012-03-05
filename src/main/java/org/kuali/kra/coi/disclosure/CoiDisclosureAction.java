@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -42,15 +43,18 @@ import org.kuali.kra.coi.certification.CertifyDisclosureEvent;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
+import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
 import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
+import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -729,6 +733,37 @@ public class CoiDisclosureAction extends CoiAction {
         ActionForward actionForward = super.reload(mapping, form, request, response);
         ((CoiDisclosureForm)form).getDisclosureQuestionnaireHelper().prepareView(true);
         return actionForward;
+    }
+    
+    
+    
+    /** Questionnaire related actions, should eventually be refactored to a seperate class for the sake of coherence of this action class **/
+    public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        // TODO : this is only available after questionnaire is saved ?
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        CoiDisclosure disclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
+        final int answerHeaderIndex = this.getSelectedLine(request);
+        // TODO : a flag to check whether to print answer or not
+        // for release 3 : if questionnaire questions has answer, then print answer. 
+        reportParameters.put("questionnaireId", coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
+        reportParameters.put("template", coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
+        // get the submodule item code from the module questionnaire bean and put it in the report params
+        String moduleSubItemCode = (new DisclosureModuleQuestionnaireBean(disclosure)).getModuleSubItemCode();
+        reportParameters.put("coeusModuleSubItemCode", moduleSubItemCode);
+        
+        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(disclosure, reportParameters);
+        if (dataStream.getContent() != null) {
+            streamToResponse(dataStream, response);
+            forward = null;
+        }
+        return forward;
+    }
+    
+    protected QuestionnairePrintingService getQuestionnairePrintingService() {
+        return KraServiceLocator.getService(QuestionnairePrintingService.class);
     }
 
 }

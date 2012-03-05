@@ -43,6 +43,7 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -409,6 +410,12 @@ public class QuestionnaireXmlStream implements XmlStream {
             moduleItemKey = person.getUniqueId();
             moduleSubItemCode = CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION;
             moduleSubItemKey = "0";
+        } else if (printableBusinessObject instanceof CoiDisclosure) {
+            CoiDisclosure disclosure = (CoiDisclosure) printableBusinessObject;
+            moduleItemCode = CoeusModule.COI_DISCLOSURE_MODULE_CODE;
+            moduleItemKey = disclosure.getCoiDisclosureNumber();
+            moduleSubItemCode = (String) params.get("coeusModuleSubItemCode");
+            moduleSubItemKey = disclosure.getSequenceNumber().toString();
         }
         return new ModuleQuestionnaireBean(moduleItemCode,moduleItemKey,moduleSubItemCode,moduleSubItemKey, false);
                 
