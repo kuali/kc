@@ -96,7 +96,9 @@
 		<property name="label" value="Description"/>
 		<property name="shortLabel" value="Description"/>
 		<property name="maxLength" value="200"/>
-		<property name="validationPattern"><bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/></property>
+		<property name="validationPattern">
+		      <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+	    </property>
 		<property name="control">
 			<bean p:size="40" parent="TextControlDefinition"/>
 		</property>
@@ -153,7 +155,7 @@
 				<bean p:attributeName="sponsorTermId" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="sponsorTermCode" parent="FieldDefinition"/>
 				<bean p:attributeName="sponsorTermTypeCode" parent="FieldDefinition"/>
-				<bean p:attributeName="escapedDescription" parent="FieldDefinition"/>
+				<bean p:attributeName="description" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>
