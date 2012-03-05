@@ -38,6 +38,8 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.CoiDisclosureStatus;
+import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.actions.CoiDisclosureActionService;
 import org.kuali.kra.coi.certification.CertifyDisclosureEvent;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
@@ -365,20 +367,24 @@ public class CoiDisclosureAction extends CoiAction {
         
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
-
+        
         if (checkRule(new CertifyDisclosureEvent("disclosureHelper.certifyDisclosure", coiDisclosure))) {
             coiDisclosureForm.setAuditActivated(true);
             AuditActionHelper auditActionHelper = new AuditActionHelper();
             if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
-                getDocumentService().saveDocument(coiDisclosureDocument);
-                // Certification occurs after the audit rules pass.
-                coiDisclosure.certifyDisclosure();
+             // Certification occurs after the audit rules pass.
                 if (coiDisclosure.getCoiDisclosureId() == null) {
                     coiDisclosure.initRequiredFields();            
                 } else {
                     getCoiDisclosureService().resetLeadUnit(coiDisclosure.getDisclosureReporter());
                 }
                 getCoiDisclosureService().setDisclDetailsForSave(coiDisclosure);
+                coiDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.SUBMITTED_FOR_REVIEW);
+                coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.ROUTED_FOR_REVIEW);
+                
+                getDocumentService().saveDocument(coiDisclosureDocument);
+                coiDisclosure.certifyDisclosure();
+
                 forward = submitForReviewAndRedirect(mapping, form, request, response, coiDisclosureForm, coiDisclosure, coiDisclosureDocument);
             } else {
                 GlobalVariables.getMessageMap().clearErrorMessages();
@@ -576,7 +582,7 @@ public class CoiDisclosureAction extends CoiAction {
         // add authorization here       
         helper.addNewNote();
         helper.setManageNotesOpen();
-        super.save(mapping, form, request, response);
+        save(mapping, form, request, response);
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
