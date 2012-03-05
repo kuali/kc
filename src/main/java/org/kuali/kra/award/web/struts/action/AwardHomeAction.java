@@ -33,12 +33,18 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
+import org.kuali.kra.award.specialreview.AwardSpecialReview;
+import org.kuali.kra.bo.FundingSourceType;
+import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
+import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
+import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -240,6 +246,8 @@ public class AwardHomeAction extends AwardAction {
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         
@@ -258,18 +266,26 @@ public class AwardHomeAction extends AwardAction {
         if (awardDocument.getAward().getAwardAmountInfos().get(0).getAmountObligatedToDate() == null) {
             awardDocument.getAward().getAwardAmountInfos().get(0).setAmountObligatedToDate(new KualiDecimal(0));
         }
-
+        
         awardForm.getProjectPersonnelBean().updateLeadUnit();
         if (this.getReportTrackingService().shouldAlertReportTrackingDetailChange(awardForm.getAwardDocument().getAward())) {
             GlobalVariables.getMessageMap().putWarning("document.awardList[0].awardExecutionDate", 
                     KeyConstants.REPORT_TRACKING_WARNING_UPDATE_FROM_DATE_CHANGE, "");
         }
-        ActionForward forward = super.save(mapping, form, request, response);
         
-        awardDocument.getAward().refreshReferenceObject("sponsor");
-        Award award = awardDocument.getAward();
-        award.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(award));
-        
+        boolean isAwardProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(
+                "KC-PROTOCOL", "Document", "irb.protocol.award.linking.enabled");
+        List<AwardSpecialReview> specialReviews = awardDocument.getAward().getSpecialReviews();
+        if (!isAwardProtocolLinkingEnabled || applyRules(new SaveSpecialReviewLinkEvent<AwardSpecialReview>(awardDocument, specialReviews))) {
+            forward = super.save(mapping, form, request, response);
+            
+            awardDocument.getAward().refreshReferenceObject("sponsor");
+            Award award = awardDocument.getAward();
+            award.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(award));
+            
+            persistSpecialReviewProtocolFundingSourceLink(award, isAwardProtocolLinkingEnabled);
+        }
+
         return forward;
     }
     
@@ -277,6 +293,27 @@ public class AwardHomeAction extends AwardAction {
         AwardAmountInfo aai = award.getLastAwardAmountInfo();
         aai.setAmountObligatedToDate(aai.getObligatedTotalDirect().add(aai.getObligatedTotalIndirect()));
         aai.setAnticipatedTotalAmount(aai.getAnticipatedTotalDirect().add(aai.getAnticipatedTotalIndirect()));
+    }
+    
+    private void persistSpecialReviewProtocolFundingSourceLink(Award award, boolean isAwardProtocolLinkingEnabled) {
+        if (isAwardProtocolLinkingEnabled) {
+            SpecialReviewService specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
+            
+            for (AwardSpecialReview specialReview : award.getSpecialReviews()) {
+                if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {                
+                    String protocolNumber = specialReview.getProtocolNumber();
+                    String fundingSourceNumber = award.getAwardNumber();
+                    String fundingSourceTypeCode = FundingSourceType.AWARD;
+                    String fundingSourceName = award.getSponsorName();
+                    String fundingSourceTitle = award.getTitle();
+                    
+                    if (!specialReviewService.isLinkedToProtocolFundingSource(protocolNumber, fundingSourceNumber, fundingSourceTypeCode)) {
+                        specialReviewService.addProtocolFundingSourceForSpecialReview(
+                            protocolNumber, fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
+                    }
+                }
+            }
+        }
     }
     
     /**
