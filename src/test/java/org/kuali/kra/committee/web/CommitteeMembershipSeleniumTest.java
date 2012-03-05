@@ -72,9 +72,9 @@ public class CommitteeMembershipSeleniumTest extends KcSeleniumTestBase {
     private static final String DATE_2009_12_31 = "12/31/2009";
     private static final String DATE_9999_12_31 = "12/31/9999";
     
-    private static final String ERROR_MEMBERSHIP_TYPE_REQUIRED = "Membership Type is a required field.";
-    private static final String ERROR_TERM_START_DATE_REQUIRED = "Term Start Date is a required field.";
-    private static final String ERROR_TERM_END_DATE_REQUIRED = "Term End Date is a required field.";
+    private static final String ERROR_MEMBERSHIP_TYPE_REQUIRED = "Membership Type (Membership Type) is a required field.";
+    private static final String ERROR_TERM_START_DATE_REQUIRED = "Term Start Date (Term Start Date) is a required field.";
+    private static final String ERROR_TERM_END_DATE_REQUIRED = "Term End Date (Term End Date) is a required field.";
     private static final String ERROR_MEMBER_ROLE = "Each member must have at least one role.";
     private static final String ERROR_MEMBER_AREA_OF_RESEARCH = "Each member must have at least one area of research.";
     private static final String ERROR_ROLE_END_DATE_RANGE = "Role end date must be greater than or equal to role start date.";
