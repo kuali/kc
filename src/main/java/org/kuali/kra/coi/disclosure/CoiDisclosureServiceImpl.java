@@ -982,7 +982,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             // TODO : what if param is not set or not set properly ?
             params.add("1");
         }
-        return params.contains(proposal.getProposalTypeCode()) && isSponsorForDisclosesure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
+        return params.contains(proposal.getProposalStateTypeCode()) && isSponsorForDisclosesure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
    
     }
 

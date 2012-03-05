@@ -35,14 +35,14 @@
                    <th><div align="right">Title:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.shortTextField1}" /> 
 					</div>
 				  </td>
                                     <th><div align="right">Award Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
 					    <%-- TODO : not sure what award date is; so use award effectivedate for now --%>
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.awardEffectiveDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.awardEffectiveDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.dateField1}" /> 
 					</div>
 				  </td>
                                 </tr>

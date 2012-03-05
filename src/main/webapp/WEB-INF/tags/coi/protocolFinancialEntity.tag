@@ -35,13 +35,13 @@
                                     <th><div align="right">IRB Protocol Name:</div></th> 
                   <td align="left" valign="middle" colspan="3">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.shortTextField1}" /> 
 					</div>
 				  </td>
                                     <th><div align="right">IRB Protocol Type:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.protocolType.description" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectSponsor}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.protocolType.description" readOnly="true" attributeEntry="${coiDisclProjectAttributes.shortTextField2}" /> 
 					</div>
 				  </td>
                                 </tr>
@@ -54,13 +54,13 @@
                   <td align="left" valign="middle">
 					<div align="left">
 					    <%-- kc removed applicationdate from protocol.  not sure what to replace --%>
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.applicationDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectStartDate}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.applicationDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.dateField1}" /> 
 					</div>
 				  </td>
                                     <th><div align="right">Expiration Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.expirationDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectEndDate}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.expirationDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.dateField2}" /> 
 					</div>
 				  </td>
                                     <th><div align="right">PI Name:</div></th> 
