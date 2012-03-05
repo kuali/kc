@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.common.specialreview.rule.event;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
@@ -34,6 +35,15 @@ public class SaveSpecialReviewLinkEvent<T extends SpecialReview<? extends Specia
     private List<T> specialReviews;
     
     private List<String> linkedProtocolNumbers;
+    
+    /**
+     * Constructs a SaveSpecialReviewLinkEvent.
+     * @param document
+     * @param specialReviews
+     */
+    public SaveSpecialReviewLinkEvent(Document document, List<T> specialReviews) {
+        this(document, specialReviews, new ArrayList<String>());
+    }
     
     /**
      * Constructs a SaveSpecialReviewLinkEvent.
