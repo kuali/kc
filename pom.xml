@@ -1507,16 +1507,27 @@
 
 	<repositories>
          <repository> 
-                <id>kuali.nexus</id> 
-                <name>Nexus Repository Manager</name> 
-                <url>http://nexus.kuali.org/content/groups/public</url> 
-                <releases> 
-                        <enabled>true</enabled> 
-                </releases> 
-                <snapshots> 
-                        <enabled>true</enabled> 
-                </snapshots> 
-        </repository> 
+            <id>kuali.nexus</id> 
+            <name>Nexus Repository Manager</name> 
+            <url>http://nexus.kuali.org/content/groups/public</url> 
+            <releases> 
+                <enabled>true</enabled> 
+            </releases> 
+            <snapshots> 
+                <enabled>true</enabled> 
+            </snapshots> 
+        </repository>
+        <repository>
+            <id>kuali.nexus.backup</id> 
+            <name>Nexus Repository Manager (Backup Location)</name> 
+            <url>http://maven.kuali.org/external</url> 
+            <releases> 
+                <enabled>true</enabled> 
+            </releases> 
+            <snapshots> 
+                <enabled>true</enabled> 
+            </snapshots> 
+        </repository>
 		<repository>
 			<id>kuali</id>
 			<name>Kuali Repository</name>
