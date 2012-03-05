@@ -111,6 +111,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     public void setStatus(CoiDisclosure coiDisclosure, String coiDispositionCode) {
         coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
         coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.ROUTED_FOR_REVIEW);
+        // need to refresh this to show in status box
+        coiDisclosure.refreshReferenceObject("coiDispositionStatus");
+        coiDisclosure.refreshReferenceObject("coiDisclosureStatus");
         businessObjectService.save(coiDisclosure);
     }
 
