@@ -4,7 +4,7 @@
         <documentType>
             <name>IacucProtocolDocument</name>
             <description>Manage Iacuc Protocol</description>
-            <label>KC Iacuc Protocol</label>
+            <label>KC IACUC Protocol</label>
             <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
             <superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
             <blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
