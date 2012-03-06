@@ -57,7 +57,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
 
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    private KcNotificationService notificationService;
+    private KcNotificationService kcNotificationService;
     private static final Log LOG = LogFactory.getLog(CoiDisclosureActionServiceImpl.class);
     private static final String PROTOCOL_TAB = "protocol";
 
@@ -117,12 +117,12 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         businessObjectService.save(coiDisclosure);
     }
 
-    public KcNotificationService getNotificationService() {
-        return notificationService;
+    public KcNotificationService getKcNotificationService() {
+        return kcNotificationService;
     }
 
-    public void setNotificationService(KcNotificationService notificationService) {
-        this.notificationService = notificationService;
+    public void setKcNotificationService(KcNotificationService kcNotificationService) {
+        this.kcNotificationService = kcNotificationService;
     }
 
     public void addCoiUserRole(CoiDisclosure coiDisclosure, CoiUserRole coiUserRole) {
@@ -250,7 +250,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      * @param coiDisclosure
      * @param submitDisclosureAction
      */
-    public void submitToWorkflow(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, SubmitDisclosureAction submitDisclosureAction) {
+     public void submitToWorkflow(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, SubmitDisclosureAction submitDisclosureAction) {
         try {
             documentService.routeDocument(coiDisclosureDocument, "Disclosure has been certified and submitted.", new ArrayList<AdHocRouteRecipient>());
         } catch (WorkflowException e) {
@@ -267,10 +267,10 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getCoiDisclosure(), 
                                                                     disclosureCertifiedNotificationBean.getActionType(), 
                                                                     disclosureCertifiedNotificationBean.getDescription(), renderer);
-        if (coiDisclosureForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+//        if (coiDisclosureForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
             return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), coiDisclosureForm, renderer, context, disclosureCertifiedNotificationBean);
-        }
-        return null;
+//        }
+//        return null;
     }
     
     private DisclosureCertifiedNotificationRequestBean getDisclosureCertifiedRequestBean(CoiDisclosure coiDisclosure, List<CoiUserRole> userRoles) {
@@ -286,7 +286,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             coiDisclosureForm.getNotificationHelper().initializeDefaultValues(context);
             return mapping.findForward("protocolNotificationEditor");
         } else {
-            getNotificationService().sendNotification(context);
+            getKcNotificationService().sendNotification(context);
             return null;
         }
     }
