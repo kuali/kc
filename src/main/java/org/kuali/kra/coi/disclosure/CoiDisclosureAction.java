@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 package org.kuali.kra.coi.disclosure;
-
-
+import java.util.ArrayList;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -45,6 +42,7 @@ import org.kuali.kra.coi.certification.CertifyDisclosureEvent;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
+import org.kuali.kra.coi.print.CoiReportType;
 import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
 import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
@@ -52,6 +50,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -403,12 +402,21 @@ public class CoiDisclosureAction extends CoiAction {
 
     //TODO: This will need some work...
     public ActionForward printDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         CoiDisclosure coiDisclosure = ((CoiDisclosureForm)form).getCoiDisclosureDocument().getCoiDisclosure();
         CoiPrintingService printService = KraServiceLocator.getService(CoiPrintingService.class);
         Map<String,Object> reportParameters = new HashMap<String,Object>();
-        AttachmentDataSource dataStream = printService.printDisclosureCertification(coiDisclosure, CoiPrintingService.PRINT_CERTIFICATION, reportParameters);
+        List<Printable> printableArtifactList = new ArrayList<Printable>();
+        AbstractPrint printable;
+       // AttachmentDataSource dataStream = printService.printDisclosureCertification(coiDisclosure, CoiPrintingService.PRINT_CERTIFICATION, reportParameters);
+        printable = getCoiPrintingService().getCoiPrintable(CoiReportType.COI_APPROVED_DISCLOSURE);
+        printable.setPrintableBusinessObject(coiDisclosure);
+        printableArtifactList.add(printable);
+        AttachmentDataSource dataStream = getCoiPrintingService().print(printableArtifactList);
         streamToResponse(dataStream, response);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        //return mapping.findForward(Constants.MAPPING_BASIC);
+        actionForward = RESPONSE_ALREADY_HANDLED;
+        return actionForward;
     }
 
     private String getUserId() {
