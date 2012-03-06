@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2010 The Kuali Foundation
+\ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.budget.printing.BudgetPrintType;
+import org.kuali.kra.coi.print.CoiDisclosureType;
 import org.kuali.kra.committee.print.CommitteeReportType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
@@ -78,7 +79,7 @@ public class PrintingUtils {
 	private static final String PRINCIPAL_INVESTIGATOR = "PI";
 	private static final String COMMENT_TYPE_CODE_PARAMETER = "commentTypeCode";
 	private static final String  XSL_PRINT_NEGOTIATION_ACTIVITY_REPORT ="NegotiationActivityReport.xsl";
-
+	private static final String XSL_COI_APPROVED_DISCLOSURE = "ApprovedDisclosure.xsl";
 
 	/**
 	 * This method fetches system constant parameters
@@ -201,7 +202,10 @@ public class PrintingUtils {
 		} else if (reportType
 				.equals(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_REPORT)) {
 			xsl = XSL_PRINT_CERTIFICATION;
-		} else if (reportType.equals(CommitteeReportType.ROSTER.getCommitteeReportType())) {
+		}  else if (reportType.equals(CoiDisclosureType.APPROVED_DISCLOSURE_TYPE.getCoiDisclosureType())) {
+            xsl = XSL_COI_APPROVED_DISCLOSURE;
+        } 
+		else if (reportType.equals(CommitteeReportType.ROSTER.getCommitteeReportType())) {
             xsl = XSL_COMMITTEE_ROSTER;
         } else if (reportType.equals(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS.getCommitteeReportType())) {
             xsl = XSL_FUTURE_SCHEDULED_MEETINGS;

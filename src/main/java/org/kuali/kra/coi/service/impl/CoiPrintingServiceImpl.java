@@ -15,19 +15,25 @@
  */
 package org.kuali.kra.coi.service.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.print.*;
 import org.kuali.kra.coi.service.CoiPrintingService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.printing.service.impl.PrintingServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 //TODO: Needs work.  Lots of work.
 
@@ -35,11 +41,12 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * This class implements the CoiPrintingService.
  */
-public class CoiPrintingServiceImpl extends PrintingServiceImpl implements CoiPrintingService {
+public class CoiPrintingServiceImpl  implements CoiPrintingService {
 
     private PrintingService printingService;
     private CoiCertificationPrint coiCertificationPrint;
     private BusinessObjectService businessObjectService;
+    private ConfigurationService configurationService;
     
     public AttachmentDataSource printDisclosureCertification(KraPersistableBusinessObjectBase printableBusinessObject, 
                                                              String reportName, Map<String, Object> reportParameters) throws PrintingException {
@@ -84,12 +91,37 @@ public class CoiPrintingServiceImpl extends PrintingServiceImpl implements CoiPr
          printable.setPrintableBusinessObject(coiDisclosure);
          return printable;
      }
-     
+     public AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException {
+         AttachmentDataSource attachmentDataSource =  getPrintingService().print(printableArtifactList);
+           String fileName = "ApprovedDisclosure" + Constants.PDF_FILE_EXTENSION;
+           try {
+               attachmentDataSource.setFileName(URLEncoder.encode(fileName,"UTF-8"));
+           } catch (UnsupportedEncodingException e) {
+               attachmentDataSource.setFileName(fileName);
+           }
+           attachmentDataSource.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+
+           return attachmentDataSource;
+       }
+       
 
     @Override
     public AbstractPrint getCoiPrintable(CoiReportType reportType) {
-        // TODO Auto-generated method stub
-        return null;
+    	AbstractPrint printable = null;
+        switch(reportType) {
+            case COI_APPROVED_DISCLOSURE :
+                printable = getCoiCertificationPrint();
+                break;
+                }
+        return printable;
+    }
+    public ConfigurationService getKualiConfigurationService() {
+        return KRADServiceLocator.getKualiConfigurationService();
+    }
+      
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
     }
 
-}
+

@@ -25,7 +25,9 @@ public enum CoiReportType {
     /** Report type for the COI correspondence reports that utilize templates. */
     COI_CORRESPONDENCE_TEMPLATE ("protocol_correspondence_template"),
 
-    COI_BATCH_CORRESPONDENCE("coiBatchCorrespondence");
+    COI_BATCH_CORRESPONDENCE("coiBatchCorrespondence"),
+    
+    COI_APPROVED_DISCLOSURE("coiApprovedDisclosure");
 
     private String coiReportType;
 

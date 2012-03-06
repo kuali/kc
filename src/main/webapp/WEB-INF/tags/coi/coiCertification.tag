@@ -130,8 +130,8 @@
                                     <td id="certPrint" style="border:none; background:none; text-align:center;" rowspan="2">
 										<html:image property="methodToCall.printDisclosureCertification"
 												    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" 
-													title="Print disclosure certification" alt="Print disclosure certification" 
-													styleClass="tinybutton" onclick='javascript: alert(\'Printing is still to be implemented.\');' />
+													title="Print Approved Disclosure" alt="Print Approved Disclosure" 
+													styleClass="tinybutton"  />
                                     </td>
                                 </tr>
                                 <tr>
