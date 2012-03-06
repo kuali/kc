@@ -424,6 +424,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         List<AwardHierarchy> sourceChildren = (List<AwardHierarchy>) Collections.unmodifiableList(newSource.getChildren());  
         AwardHierarchy newBranchNode = new AwardHierarchy(targetParentNode.getRoot(), targetParentNode, newAwardNumber, sourceNode.getOriginatingAwardNumber());
         Award newBranchAward = copyAward(sourceNode.getAward(), newAwardNumber);
+        finalizeAward(newBranchAward);
         targetParentNode.getChildren().add(newBranchNode);
         newBranchNode.setAward(newBranchAward);
         for(AwardHierarchy childNode: sourceChildren) {
