@@ -66,6 +66,9 @@
     </bean>
     
     <bean id="proposalLogPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.ProposalLogPersonMassChangeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="rolodexService" ref="rolodexService" />
     </bean>
     
     <bean id="subawardPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.SubawardPersonMassChangeServiceImpl">
