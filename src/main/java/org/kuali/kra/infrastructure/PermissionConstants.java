@@ -209,4 +209,12 @@ public interface PermissionConstants {
       */
      public static final String ADD_UNIT = "Add Unit";
      public static final String MODIFY_UNIT = "Modify Unit";
+     
+     /**
+      * Sponsor Hierarchy
+     */      
+     public static final String SPONSOR_HIERARCHY_ADD = "Add Sponsor Hierarchy";
+     public static final String SPONSOR_HIERARCHY_MODIFY = "Modify Sponsor Hierarchy";
+     public static final String SPONSOR_HIERARCHY_DELETE = "Delete Sponsor Hierarchy";
+     
 }
