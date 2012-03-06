@@ -54,6 +54,7 @@ public class ProposalDevelopmentResubmissionPromptAction extends ProposalDevelop
         }
         
         if(proposalDevelopmentForm.isGrantsGovSubmitFlag()){
+            super.submitToGrantsGov(mapping, proposalDevelopmentForm, request, response);
             forward = mapping.findForward(Constants.GRANTS_GOV_PAGE);
         }
         

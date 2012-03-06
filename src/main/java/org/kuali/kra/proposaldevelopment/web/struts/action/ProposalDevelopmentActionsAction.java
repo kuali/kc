@@ -686,14 +686,18 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);        
+        proposalDevelopmentForm.setGrantsGovSubmitFlag(true);
         
         if(proposalDevelopmentDocument.getDevelopmentProposal().getSubmitFlag()!= true){
             forward = submitToSponsor(mapping, form, request, response);
         }        
+        ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        InstitutionalProposal institutionalProposal =  proposalDevelopmentService.getInstitutionalProposal(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());
+   
+    if(institutionalProposal != null){
     try{
         submitS2sApplication(proposalDevelopmentDocument);
         proposalDevelopmentForm.setShowSubmissionDetails(true);
-        proposalDevelopmentForm.setGrantsGovSubmitFlag(true);
         if(proposalDevelopmentDocument.getDevelopmentProposal().getSubmitFlag() == true){
             forward = mapping.findForward(Constants.GRANTS_GOV_PAGE);
         }      
@@ -703,6 +707,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         KNSGlobalVariables.getMessageList().add(new ErrorMessage(KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
+    }
     return forward;
     }   
     
