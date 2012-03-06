@@ -110,8 +110,6 @@ public class CoiDisclosureAction extends CoiAction {
         
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         Document document = coiDisclosureForm.getDocument();
-        
-        // now the rest of subclass-specific custom logic for save()
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         // notes and attachments
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();        
@@ -130,13 +128,21 @@ public class CoiDisclosureAction extends CoiAction {
         }
         actionForward = super.save(mapping, form, request, response);
         // TODO check if this is the right way for saving questionnaire data for the disclosure
-        // save questionnaire data for the disclosure if the save went through without any validation errors
+        // NOTE: Since we are saving questionnaire data only after a successful save of the disclosure document, then any validation 
+        // errors in the questionnaire data will result in the user being shown the disclosure page again with the messages 
+        // for those errors, along with the message that the document was saved successfully (which it indeed was).
+        // TODO Since any errors in saving the document above will cause an exception to be thrown, perhaps the below checking of message map is redundant
         if(GlobalVariables.getMessageMap().hasNoErrors()) {
+            // Save questionnaire data for the disclosure since the disclosure save went through without any validation errors
             List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
-            // TODO add a COI questionnaire specific rule event to the condition below
+            // TODO maybe add a COI questionnaire specific rule event to the condition below
             if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders, "disclosureQuestionnaireHelper"))) {
                 coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
                 getBusinessObjectService().save(answerHeaders);
+            }
+            else {
+                // go back and show the questionnaire error messages
+                actionForward = mapping.findForward(Constants.MAPPING_BASIC);
             }
         }
         if (KRADConstants.SAVE_METHOD.equals(coiDisclosureForm.getMethodToCall()) && coiDisclosureForm.isAuditActivated() 
@@ -357,7 +363,7 @@ public class CoiDisclosureAction extends CoiAction {
         checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId(), coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
         return forward;
     }
-
+    
     public ActionForward submitDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -742,8 +748,42 @@ public class CoiDisclosureAction extends CoiAction {
     }
     
     
+    @Override
+    protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        Document document = coiDisclosureForm.getDocument();
+        forward = super.saveOnClose(mapping, form, request, response);
+        
+        // TODO check if this is the right way for saving questionnaire data for the disclosure
+        // NOTE: Since we are saving questionnaire data only after a successful save of the disclosure document, then any validation 
+        // errors in the questionnaire data will result in the user being shown the disclosure page again with the messages 
+        // for those errors, along with the message that the document was saved successfully (which it indeed was).
+        // TODO Since any errors in saving the document above will cause an exception to be thrown, perhaps the below checking of message map is redundant
+        if(GlobalVariables.getMessageMap().hasNoErrors()) {
+            // Save questionnaire data for the disclosure since the disclosure save went through without any validation errors
+            List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
+            // TODO maybe add a COI questionnaire specific rule event to the condition below
+            if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders, "disclosureQuestionnaireHelper"))) {
+                coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
+                getBusinessObjectService().save(answerHeaders);
+            }
+            else {
+                // go back and show the questionnaire error messages
+                forward = mapping.findForward(Constants.MAPPING_BASIC);
+            }
+        }
+        
+        return forward;
+    }
     
-    /** Questionnaire related actions, should eventually be refactored to a seperate class for the sake of coherence of this action class **/
+    
+    
+    
+    
+    /** Questionnaire related actions below, should perhaps eventually be moved to a separate class for the sake of coherence of this action class **/
+    
     public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         // TODO : this is only available after questionnaire is saved ?
@@ -770,6 +810,44 @@ public class CoiDisclosureAction extends CoiAction {
     
     protected QuestionnairePrintingService getQuestionnairePrintingService() {
         return KraServiceLocator.getService(QuestionnairePrintingService.class);
+    }
+    
+    
+    /**
+     * 
+     * This method is for the 'update' button to update questionnaire answer to new version
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward updateAnswerToNewVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ((CoiDisclosureForm) form).getDisclosureQuestionnaireHelper().updateQuestionnaireAnswer(getLineToDelete(request));
+        getBusinessObjectService().save(((CoiDisclosureForm) form).getDisclosureQuestionnaireHelper().getAnswerHeaders().get(getLineToDelete(request)));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward forward =  super.refresh(mapping, form, request, response);
+        if (request.getParameter("refreshCaller") !=null && request.getParameter("refreshCaller").toString().equals("kualiLookupable")) {
+            // Lookup field 'onchange' is not working if it is return a value from 'lookup', so do it on server side
+            for (Object obj : request.getParameterMap().keySet()) {
+                if (StringUtils.indexOf((String) obj, ((CoiDisclosureForm) form).getQuestionnaireFieldStarter()) == 0) {
+                    ((CoiDisclosureForm) form).getDisclosureQuestionnaireHelper().updateChildIndicator
+                            (Integer.parseInt(StringUtils.substringBetween((String) obj, ((CoiDisclosureForm) form).getQuestionnaireFieldStarter(), "].answers[")));
+                }
+            }
+        }
+        return forward;
     }
 
 }
