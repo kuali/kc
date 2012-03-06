@@ -45,7 +45,7 @@
 	<param name="application.host">127.0.0.1</param>
 	
 	<!-- for local (bundled mode) this defaults to the kc client url -->
-	<param name="rice.app.url">${application.url}</param>
+	<param name="rice.server.url">${application.url}</param>
 
 	<param name="externalizable.help.url">/${app.context.name}/static/help/</param>
 	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
@@ -62,12 +62,12 @@
     <param name="portal.javascript.files">krad/plugins/jquery/jquery-1.6.3.js,krad/plugins/postmsg/jquery.ba-postmessage.js,krad/plugins/cookie/jquery.cookie.js,krad/plugins/scrollto/jquery.scrollTo-1.4.2-min.js,krad/plugins/blockUI/jquery.blockUI.js,kr/scripts/my_common.js,krad/plugins/easydrag/jquery.easydrag.js,krad/plugins/fancybox/jquery.fancybox-1.3.4.pack.js,krad/plugins/easing/jquery.easing-1.3.pack.js,krad/plugins/jgrowl/jquery.jgrowl.js,krad/scripts/portal.initialize.js</param>
 	<param name="portal.title">Kuali Coeus</param>
 
-	<param name="kr.url">${rice.app.url}/kr</param>
-	<param name="ken.url">${rice.app.url}/ken</param>
-	<param name="kew.url">${rice.app.url}/kew</param>
-	<param name="kim.url">${rice.app.url}/kim</param>
-	<param name="ksb.url">${rice.app.url}/ksb</param>
-	<param name="rice.url">${rice.app.url}/kr</param>
+	<param name="kr.url">${rice.server.url}/kr</param>
+	<param name="ken.url">${rice.server.url}/ken</param>
+	<param name="kew.url">${rice.server.url}/kew</param>
+	<param name="kim.url">${rice.server.url}/kim</param>
+	<param name="ksb.url">${rice.server.url}/ksb</param>
+	<param name="rice.url">${rice.server.url}/kr</param>
 	<param name="workflow.url">${kew.url}</param>
 	<param name="kuali.docHandler.url.prefix">${application.url}</param>
 	
@@ -180,5 +180,5 @@
 	 <!-- XAPool is still the default in common-config-defaults. But that might change -->
 	<param name="connection.pool.impl">XAPool</param>
 	 
-	<param name="rice.portal.allowed.regex" override="false">^(${application.url}|${rice.app.url})(/.*|)</param>
+	<param name="rice.portal.allowed.regex" override="false">^(${application.url}|${rice.server.url})(/.*|)</param>
 </config>
