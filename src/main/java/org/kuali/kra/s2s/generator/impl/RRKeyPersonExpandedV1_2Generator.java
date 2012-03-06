@@ -33,6 +33,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -42,7 +43,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.SponsorService;
-
+import org.kuali.rice.krad.service.BusinessObjectService;
 /**
  * This class generates RRKeyPersonExpanded xml object. It uses xmlbeans for
  * generation of the form. Form is generated based on RRKeyPersonExpanded
@@ -55,7 +56,7 @@ public class RRKeyPersonExpandedV1_2Generator extends
 
 	private static final Log LOG = LogFactory
 			.getLog(RRKeyPersonExpandedV1_2Generator.class);
-
+	Rolodex rolodex;
 	/*
 	 * This method gives details of Principal Investigator,KeyPersons and the
 	 * corresponding attachments for RRKeyPersons
@@ -225,17 +226,19 @@ public class RRKeyPersonExpandedV1_2Generator extends
 		String departmentName;
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
-		if (developmentProposal.getOwnedByUnit() != null) {
-			departmentName = developmentProposal.getOwnedByUnit().getUnitName();
-			if (departmentName != null) {
-				if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
-					profile.setDepartmentName(departmentName.substring(0,
-							DEPARTMENT_NAME_MAX_LENGTH));
-				} else {
-					profile.setDepartmentName(departmentName);
-				}
-			}
-		}
+		if (rolodex == null){
+            if (developmentProposal.getOwnedByUnit() != null) {
+                departmentName = developmentProposal.getOwnedByUnit().getUnitName();
+                if (departmentName != null) {
+                    if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
+                        profile.setDepartmentName(departmentName.substring(0,
+                                DEPARTMENT_NAME_MAX_LENGTH));
+                    } else {
+                        profile.setDepartmentName(departmentName);
+                    }
+                }
+            }
+        }
 	}
 
 	/*
@@ -256,11 +259,14 @@ public class RRKeyPersonExpandedV1_2Generator extends
 	 * This method is used to assign rolodex id
 	 */
 	private void assignRolodexId(ProposalPerson PI) {
-		if (PI.getPersonId() != null) {
-			pIPersonOrRolodexId = PI.getPersonId();
-		} else if (PI.getRolodexId() != null) {
-			pIPersonOrRolodexId = PI.getRolodexId().toString();
-		}
+	    if (PI.getPersonId() != null) {
+            pIPersonOrRolodexId = PI.getPersonId();
+             rolodex = null;
+        } else if (PI.getRolodexId() != null) {
+            pIPersonOrRolodexId = PI.getRolodexId().toString();
+            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            rolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class,pIPersonOrRolodexId);
+        }
 	}
 
 	/*
@@ -359,7 +365,8 @@ public class RRKeyPersonExpandedV1_2Generator extends
 	 * This method is used to add all key person details to key person
 	 */
 	private void setAllkeyPersonDetailsToKeyPerson(ProposalPerson keyPerson,
-			Profile profileKeyPerson) {
+            Profile profileKeyPerson) {
+        assignRolodexId(keyPerson);
 		profileKeyPerson.setName(globLibV20Generator
 				.getHumanNameDataType(keyPerson));
 		setDirectoryTitleToProfile(profileKeyPerson, keyPerson);
@@ -418,9 +425,13 @@ public class RRKeyPersonExpandedV1_2Generator extends
 		if (developmentProposal.getApplicantOrganization() != null
 				&& developmentProposal.getApplicantOrganization()
 						.getOrganization() != null) {
-			profileKeyPerson.setOrganizationName(developmentProposal
-					.getApplicantOrganization().getOrganization()
-					.getOrganizationName());
+		    if (rolodex != null){
+                profileKeyPerson.setOrganizationName(rolodex.getOrganization());
+            }
+            else
+                profileKeyPerson.setOrganizationName(developmentProposal
+                    .getApplicantOrganization().getOrganization()
+                    .getOrganizationName());
 		}
 	}
 
