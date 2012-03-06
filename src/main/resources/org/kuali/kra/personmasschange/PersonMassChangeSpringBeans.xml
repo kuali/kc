@@ -55,6 +55,9 @@
     </bean>
     
     <bean id="institutionalProposalPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.InstitutionalProposalPersonMassChangeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="rolodexService" ref="rolodexService" />
     </bean>
     
     <bean id="proposalDevelopmentPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.ProposalDevelopmentPersonMassChangeServiceImpl">
