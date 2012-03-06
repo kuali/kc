@@ -27,19 +27,28 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorHierarchy;
+import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.rules.SponsorHierarchyRule;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+/**
+ * 
+ * This class takes care of the actions needed to manage sponsor hierarchy.
+ */
 public class SponsorHierarchyAction extends KualiAction {
 
     private static final String MAINT = "maint";
@@ -47,45 +56,65 @@ public class SponsorHierarchyAction extends KualiAction {
     private static final String LOOKUP = "lookup";
     private static final String HIERARCHY_NAME = "hierarchyName";
     private static final String SELECTED_HIERARCHY_NAME = "selectedHierarchyName";
+    private UnitAuthorizationService unitAuthorizationService;
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-
-        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
-        ActionForward forward = super.execute(mapping, form, request, response);
-        if (StringUtils.isNotBlank(request.getParameter("mapKey"))) {
-            sponsorHierarchyForm.getNewSponsors().get(0).clear();
+        if (this.getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+                KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE, PermissionConstants.SPONSOR_HIERARCHY_MODIFY)) {
+            SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm) form;
+            ActionForward forward = super.execute(mapping, form, request, response);
+            if (StringUtils.isNotBlank(request.getParameter("mapKey"))) {
+                sponsorHierarchyForm.getNewSponsors().get(0).clear();
+            }
+            //TODO: refactor this.  2 things very similar, should not call twice
+            sponsorHierarchyForm.setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
+            sponsorHierarchyForm.setHierarchyNameList(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchyList());   
+            return forward;
+        } else {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Open Sponsor Hierarchy", Permissionable.SPONSOR_HIREARCHY_KEY);
         }
-        //TODO: refactor this.  2 things very similar, should not call twice
-        sponsorHierarchyForm.setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
-        sponsorHierarchyForm.setHierarchyNameList((KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchyList()));   
-        return forward;
 
     }
 
     public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
-        sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getSelectedSponsorHierarchy());
-        return mapping.findForward("copy");
+        if (this.getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+                KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE, PermissionConstants.SPONSOR_HIERARCHY_ADD)) {
+            SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm) form;
+            sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getSelectedSponsorHierarchy());
+            return mapping.findForward("copy");
+        } else {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Copy Sponsor Hierarchy", Permissionable.SPONSOR_HIREARCHY_KEY);
+        }
     }
     
     public ActionForward deleteSponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        KraServiceLocator.getService(SponsorService.class).deleteSponsorHierarchy((SponsorHierarchyForm)form);
-        //((SponsorHierarchyForm)form).setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
-        ((SponsorHierarchyForm)form).setHierarchyNameList((KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchyList()));   
-        ((SponsorHierarchyForm)form).setMessage("Sponsor Hierarchy was deleted successfully");
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        if (this.getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+                KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE, PermissionConstants.SPONSOR_HIERARCHY_DELETE)) {
+            KraServiceLocator.getService(SponsorService.class).deleteSponsorHierarchy((SponsorHierarchyForm)form);
+            //((SponsorHierarchyForm)form).setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
+            ((SponsorHierarchyForm)form).setHierarchyNameList((KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchyList()));   
+            ((SponsorHierarchyForm)form).setMessage("Sponsor Hierarchy was deleted successfully");
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        } else {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Delete Sponsor Hierarchy", Permissionable.SPONSOR_HIREARCHY_KEY);
+        }
     }
     
     public ActionForward copySponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        boolean rulePassed = new SponsorHierarchyRule().newHierarchyNameRequired((SponsorHierarchyForm)form);
-        if (rulePassed) {
-            KraServiceLocator.getService(SponsorService.class).copySponsorHierarchy((SponsorHierarchyForm)form);
-            ((SponsorHierarchyForm)form).setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
-            ((SponsorHierarchyForm)form).setMessage("Sponsor Hierarchy was copied successfully");
+        if (this.getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+                KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE, PermissionConstants.SPONSOR_HIERARCHY_ADD)) {
+            boolean rulePassed = new SponsorHierarchyRule().newHierarchyNameRequired((SponsorHierarchyForm) form);
+            if (rulePassed) {
+                KraServiceLocator.getService(SponsorService.class).copySponsorHierarchy((SponsorHierarchyForm) form);
+                ((SponsorHierarchyForm) form).setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
+                ((SponsorHierarchyForm) form).setMessage("Sponsor Hierarchy was copied successfully");
+            }
+            return mapping.findForward(Constants.MAPPING_BASIC); 
+        } else {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Copy Sponsor Hierarchy", Permissionable.SPONSOR_HIREARCHY_KEY);
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);            
     }
     
     public ActionForward cancelSponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -123,42 +152,59 @@ public class SponsorHierarchyAction extends KualiAction {
     }
 
     public ActionForward newSponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        boolean rulePassed = new SponsorHierarchyRule().newHierarchyNameRequired((SponsorHierarchyForm)form);
-        if (rulePassed) {
-            ((SponsorHierarchyForm)form).setNewSponsorHierarchy(new SponsorHierarchy());
-            SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
-            sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getNewHierarchyName());
-            sponsorHierarchyForm.setSponsorCodeList(Constants.EMPTY_STRING);
-            sponsorHierarchyForm.setTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString());
-            ((SponsorHierarchyForm)form).setActionSelected(NEW);
-            KraServiceLocator.getService(SponsorService.class).clearCurrentActions();
-            GlobalVariables.getUserSession().addObject(SELECTED_HIERARCHY_NAME, (Object)sponsorHierarchyForm.getSelectedSponsorHierarchy());
-            GlobalVariables.getUserSession().addObject(HIERARCHY_NAME, (Object)sponsorHierarchyForm.getHierarchyName());
-            return mapping.findForward(MAINT);            
+        if (this.getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+                KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE, PermissionConstants.SPONSOR_HIERARCHY_ADD)) {
+            boolean rulePassed = new SponsorHierarchyRule().newHierarchyNameRequired((SponsorHierarchyForm) form);
+            if (rulePassed) {
+                ((SponsorHierarchyForm) form).setNewSponsorHierarchy(new SponsorHierarchy());
+                SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm) form;
+                sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getNewHierarchyName());
+                sponsorHierarchyForm.setSponsorCodeList(Constants.EMPTY_STRING);
+                sponsorHierarchyForm.setTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString());
+                ((SponsorHierarchyForm) form).setActionSelected(NEW);
+                KraServiceLocator.getService(SponsorService.class).clearCurrentActions();
+                GlobalVariables.getUserSession().addObject(SELECTED_HIERARCHY_NAME, (Object) sponsorHierarchyForm.getSelectedSponsorHierarchy());
+                GlobalVariables.getUserSession().addObject(HIERARCHY_NAME, (Object) sponsorHierarchyForm.getHierarchyName());
+                return mapping.findForward(MAINT);            
+            } else {
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
         } else {
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Add Sponsor Hierarchy", Permissionable.SPONSOR_HIREARCHY_KEY);
         }
     }
     
     public ActionForward maintSponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((SponsorHierarchyForm)form).setActionSelected(MAINT);
-        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
-        sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getSelectedSponsorHierarchy());
-        sponsorHierarchyForm.setSponsorCodeList(KraServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(sponsorHierarchyForm.getSelectedSponsorHierarchy()));
-        GlobalVariables.getUserSession().removeObject(SELECTED_HIERARCHY_NAME);
-        GlobalVariables.getUserSession().addObject(HIERARCHY_NAME, (Object)sponsorHierarchyForm.getHierarchyName());
-        KraServiceLocator.getService(SponsorService.class).clearCurrentActions();
-        sponsorHierarchyForm.setTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString());
-        return mapping.findForward(MAINT);
-        
+        if (this.getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+                KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE, PermissionConstants.SPONSOR_HIERARCHY_MODIFY)) {
+            ((SponsorHierarchyForm) form).setActionSelected(MAINT);
+            SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm) form;
+            sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getSelectedSponsorHierarchy());
+            sponsorHierarchyForm.setSponsorCodeList(KraServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(
+                    sponsorHierarchyForm.getSelectedSponsorHierarchy()));
+            GlobalVariables.getUserSession().removeObject(SELECTED_HIERARCHY_NAME);
+            GlobalVariables.getUserSession().addObject(HIERARCHY_NAME, (Object) sponsorHierarchyForm.getHierarchyName());
+            KraServiceLocator.getService(SponsorService.class).clearCurrentActions();
+            sponsorHierarchyForm.setTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString());
+            return mapping.findForward(MAINT);
+        } else {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Modify Sponsor Hierarchy", Permissionable.SPONSOR_HIREARCHY_KEY);
+        }
     }
 
     public ActionForward deleteSponsorHierarchyGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
-        sponsorHierarchyForm.getSponsorHierarchyList().remove(getLineToDelete(request));
-        sponsorHierarchyForm.getNewSponsors().remove(getLineToDelete(request));
-        return mapping.findForward(NEW);
+        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm) form;
+        int selectedSponsorHierarchy = getLineToDelete(request);
+        SponsorHierarchy sh = sponsorHierarchyForm.getSponsorHierarchyList().get(selectedSponsorHierarchy);
+        if (this.getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+                KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE, PermissionConstants.SPONSOR_HIERARCHY_DELETE)) {
+            sponsorHierarchyForm.getSponsorHierarchyList().remove(selectedSponsorHierarchy);
+            sponsorHierarchyForm.getNewSponsors().remove(getLineToDelete(request));
+            return mapping.findForward(NEW);
+        } else {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "Delete Sponsor Hierarchy", 
+                    Permissionable.SPONSOR_HIREARCHY_KEY);
+        }
        
     }
     
@@ -207,6 +253,15 @@ public class SponsorHierarchyAction extends KualiAction {
             return mapping.findForward(NEW);
         }
     }
-
+    
+    /**
+     * This method returns an instance of UnitAuthorizationService from the service locator.
+     */
+    public UnitAuthorizationService getUnitAuthorizationService() {
+        if (unitAuthorizationService == null) {
+            unitAuthorizationService = KraServiceLocator.getService(UnitAuthorizationService.class);
+        }
+        return unitAuthorizationService;
+    }
     
 }

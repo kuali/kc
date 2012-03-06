@@ -15,9 +15,16 @@
  */
 package org.kuali.kra.bo;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-public class SponsorHierarchy extends KraPersistableBusinessObjectBase {
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.infrastructure.PermissionConstants;
+
+public class SponsorHierarchy extends KraPersistableBusinessObjectBase implements Permissionable {
 
     private static final long serialVersionUID = 2255685234044720175L;
 
@@ -268,5 +275,45 @@ public class SponsorHierarchy extends KraPersistableBusinessObjectBase {
 
     private String[] getAllLevelValues() {
         return new String[] { getLevel1(), getLevel2(), getLevel3(), getLevel4(), getLevel5(), getLevel5(), getLevel6(), getLevel7(), getLevel8(), getLevel9(), getLevel10() };
+    }
+
+    @Override
+    public String getDocumentNumberForPermission() {
+        return this.getSponsorCode() != null ? this.getSponsorCode() : ""; 
+    }
+
+    @Override
+    public String getDocumentKey() {
+        return SPONSOR_HIREARCHY_KEY;
+    }
+
+    @Override
+    public List<String> getRoleNames() {
+        List<String> roles = new ArrayList<String>();
+        roles.add(PermissionConstants.SPONSOR_HIERARCHY_ADD);
+        roles.add(PermissionConstants.SPONSOR_HIERARCHY_DELETE);
+        roles.add(PermissionConstants.SPONSOR_HIERARCHY_MODIFY);
+        return roles;
+    }
+
+    @Override
+    public String getNamespace() {
+        return KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE;
+    }
+
+    @Override
+    public String getLeadUnitNumber() {
+        return (this.getSponsor() != null && this.getSponsor().getUnit() != null) ? this.getSponsor().getUnit().getUnitNumber() : "";
+    }
+
+    @Override
+    public String getDocumentRoleTypeCode() {
+        return getNamespace();
+    }
+
+    @Override
+    public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+        // TODO Auto-generated method stub
+        
     }
 }

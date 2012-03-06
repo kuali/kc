@@ -39,6 +39,8 @@ public interface Permissionable {
     String NEGOTIATION_KEY = "negotiation";
     String COI_DISCLOSURE_KEY = "coiDisclosure";
     
+    String SPONSOR_HIREARCHY_KEY = "sponsorhirearchy";
+    
     /**
      * 
      * This method returns the appropriate document number for implementing documents
