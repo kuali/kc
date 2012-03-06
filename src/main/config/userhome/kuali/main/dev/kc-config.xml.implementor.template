@@ -12,7 +12,7 @@
 
 	<!-- For Embedded Mode -- up to S2S Configuration -->
 	<!--
-	<param name="rice.app.url">http://127.0.0.1:8080/kr-dev</param>
+	<param name="rice.server.url">http://127.0.0.1:8080/kr-dev</param>
 
 	<param name="kim.runmode">embedded</param>
 	<param name="kcb.runmode">embedded</param>
