@@ -95,5 +95,8 @@ public class InstitutionalProposalPersonMassChange extends KraPersistableBusines
         this.personMassChange = personMassChange;
     }
 
+    public boolean requiresChange() {
+        return this.isInvestigator() || this.isKeyStudyPerson() || this.isIpReviewer() || this.isUnitAdministrator() || this.isMailingInformation();
+    }
 
 }
