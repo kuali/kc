@@ -30,6 +30,7 @@ import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintTy
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * This class provides the implementation for printing Institute proposal
@@ -42,6 +43,12 @@ import org.kuali.kra.printing.util.PrintingUtils;
  */
 public class CoiCertificationPrint extends AbstractPrint {
 
+	
+	   private ConfigurationService configurationService;
+
+	   public void setConfigurationService(ConfigurationService configurationService) {
+	           this.configurationService = configurationService;
+	       }
 	/**
 	 * This method fetches the XSL style-sheets required for transforming the
 	 * generated XML into PDF.
@@ -49,8 +56,8 @@ public class CoiCertificationPrint extends AbstractPrint {
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
 	public List<Source> getXSLTemplates() {
-		ArrayList<Source> sourceList = PrintingUtils.getXSLTforReport(InstitutionalProposalPrintType.INSTITUTIONAL_PROPOSAL_REPORT.getInstitutionalProposalPrintType());
-		return sourceList;
+		ArrayList<Source> sourceList = PrintingUtils.getXSLTforReport(CoiDisclosureType.APPROVED_DISCLOSURE_TYPE.getCoiDisclosureType()); 
+	    return sourceList;
 	}
 
 }
