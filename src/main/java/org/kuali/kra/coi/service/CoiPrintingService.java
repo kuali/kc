@@ -65,4 +65,6 @@ public interface CoiPrintingService {
     
     public Printable getCoiPrintArtifacts(CoiDisclosure coiDisclosure);
     
+    public AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException;
+    
 }

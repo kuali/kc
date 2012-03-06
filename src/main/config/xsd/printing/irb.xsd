@@ -526,6 +526,7 @@
         <xs:element name="ApplicationDate" type="xs:date" />
         <xs:element minOccurs="0" name="ApprovalDate" nillable="true" type="xs:date" />
         <xs:element minOccurs="0" name="ExpirationDate" nillable="true" type="xs:date" />
+         <xs:element minOccurs="0" name="LastApprovalDate" nillable="true" type="xs:date" />
         <xs:element minOccurs="0" name="BillableFlag" type="xs:boolean" />
         <xs:element minOccurs="0" name="FdaApplicationNumber" nillable="true">
           <xs:simpleType>
