@@ -58,8 +58,7 @@ public class CoiNotificationRenderer extends NotificationRendererBase {
             if (StringUtils.equals(key, CoiReplacementParameters.SEQUENCE_NUMBER)) {
                 params.put(key, getCoiDisclosure().getSequenceNumber().toString());
             } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_TYPE)) {
-            	//TODO: following is not right. Where do we get disclosure type?
-                params.put(key, coiDisclosure.getEventTypeCode());            	
+                params.put(key, coiDisclosure.getCoiDisclosureEventType().getDescription());            	
             } else if (StringUtils.equals(key, CoiReplacementParameters.DOCUMENT_NUMBER)) {
                 params.put(key, getCoiDisclosure().getCoiDisclosureDocument().getDocumentNumber());
             } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_ID)) {
