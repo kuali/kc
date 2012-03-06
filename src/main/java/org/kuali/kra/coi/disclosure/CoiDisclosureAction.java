@@ -377,29 +377,56 @@ public class CoiDisclosureAction extends CoiAction {
             coiDisclosureForm.setAuditActivated(true);
             AuditActionHelper auditActionHelper = new AuditActionHelper();
             if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
-             // Certification occurs after the audit rules pass.
+                // Certification occurs after the audit rules pass.
                 if (coiDisclosure.getCoiDisclosureId() == null) {
                     coiDisclosure.initRequiredFields();            
                 } else {
                     getCoiDisclosureService().resetLeadUnit(coiDisclosure.getDisclosureReporter());
                 }
                 getCoiDisclosureService().setDisclDetailsForSave(coiDisclosure);
+                
+                // save the old code values in case we have errors in saving and have to reset them
+                String oldDispositionCode = coiDisclosure.getDisclosureDispositionCode();
+                String oldDisclosureStatusCode = coiDisclosure.getDisclosureStatusCode();
+                boolean resetDisclosureCodes = false;
+                
                 coiDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.SUBMITTED_FOR_REVIEW);
                 coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.ROUTED_FOR_REVIEW);
                 
                 getDocumentService().saveDocument(coiDisclosureDocument);
-                coiDisclosure.certifyDisclosure();
-
-                forward = submitForReviewAndRedirect(mapping, form, request, response, coiDisclosureForm, coiDisclosure, coiDisclosureDocument);
-            } else {
+                if(GlobalVariables.getMessageMap().hasNoErrors()) {
+                    // Save questionnaire data for the disclosure since the disclosure save went through without any validation errors
+                    List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
+                    // TODO maybe add a COI questionnaire specific rule event to the condition below
+                    if ( applyRules(new SaveQuestionnaireAnswerEvent(coiDisclosureDocument, answerHeaders, "disclosureQuestionnaireHelper"))) {
+                        coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
+                        getBusinessObjectService().save(answerHeaders);
+                        // Certification occurs after the audit rules pass, and the document and the questionnaire data have been saved successfully
+                        coiDisclosure.certifyDisclosure();
+                        forward = submitForReviewAndRedirect(mapping, form, request, response, coiDisclosureForm, coiDisclosure, coiDisclosureDocument);
+                    }
+                    else {
+                        resetDisclosureCodes = true;
+                    }
+                }
+                else {
+                	resetDisclosureCodes = true;
+                }
+                
+                if(resetDisclosureCodes) {
+                    // reset the status and disposition codes back to their old values
+                    coiDisclosure.setDisclosureDispositionCode(oldDispositionCode);
+                    coiDisclosure.setDisclosureStatusCode(oldDisclosureStatusCode);
+                }
+            }
+            else {
                 GlobalVariables.getMessageMap().clearErrorMessages();
                 GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
             }
-    }
-
+        }
         return forward;
     }
-
+    
     //TODO: This will need some work...
     public ActionForward printDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
