@@ -1177,8 +1177,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         {
             InstitutionalProposalPerson ipp1 = (InstitutionalProposalPerson) obj1;
             InstitutionalProposalPerson ipp2 = (InstitutionalProposalPerson) obj2;
-            String lastName1 = ipp1.getContact() != null ? ipp1.getContact().getLastName() : "";  
-            String lastName2 = ipp2.getContact() != null ? ipp2.getContact().getLastName() : "";
+            String lastName1 = ipp1.getContact() != null ? ipp1.getContact().getLastName() != null ? ipp1.getContact().getLastName().toUpperCase() : "" : "";  
+            String lastName2 = ipp2.getContact() != null ? ipp2.getContact().getLastName() != null ? ipp2.getContact().getLastName().toUpperCase() : "" : "";  
             String contactRoleCode1 = ipp1.getContactRole() != null ? ipp1.getContactRole().getRoleCode() : "";
             String contactRoleCode2 = ipp2.getContactRole() != null ? ipp2.getContactRole().getRoleCode() : "";
                 
