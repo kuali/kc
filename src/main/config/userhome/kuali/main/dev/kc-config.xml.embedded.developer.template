@@ -7,7 +7,7 @@
 	<param name="datasource.ojb.platform">Oracle9i</param>
 
 	<!-- For Embedded Mode -->
-	<param name="rice.app.url">http://127.0.0.1:8080/kr-dev</param>
+	<param name="rice.server.url">http://127.0.0.1:8080/kr-dev</param>
 
 	<param name="kim.runmode">embedded</param>
 	<param name="kcb.runmode">embedded</param>
@@ -29,7 +29,7 @@
 	<param name="keystore.password">r1c3pw</param>
 	
 	<param name="rice.portal.links.showRiceServerConfig">true</param>
-	<param name="rice.portal.logout.redirectUrl">${rice.app.url}/logout.do</param>
+	<param name="rice.portal.logout.redirectUrl">${rice.server.url}/logout.do</param>
 	
 	<!-- Logging print Configuration -->
 	<param name="print.logging.directory">log directory path</param>
