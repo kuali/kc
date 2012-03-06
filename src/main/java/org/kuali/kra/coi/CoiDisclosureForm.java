@@ -252,7 +252,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
 
     @Override
     public String getQuestionnaireFieldStarter() {
-        return "questionnaireHelper.answerHeaders[";
+        return "disclosureQuestionnaireHelper.answerHeaders[";
     }
     
     @Override
