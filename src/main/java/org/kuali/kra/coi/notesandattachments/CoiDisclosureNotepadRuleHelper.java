@@ -23,24 +23,13 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 public class CoiDisclosureNotepadRuleHelper {
 private final DictionaryValidationService validationService;
     
-    private String propertyPrefix;
+private final String propertyPrefix = "coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad";
     
     /**
      * Creates helper deferring the setting of the prefix to later.
      */
     CoiDisclosureNotepadRuleHelper() {
         this(KNSServiceLocator.getKNSDictionaryValidationService());
-    }
-    
-    /**
-     * Creates helper using prefix provided.
-     *  
-     * @param aPropertyPrefix the prefix (ex: notesAttachmentsHelper.newProtocolNotepad)
-     * @throws IllegalArgumentException if the propertyPrefix is null
-     */
-    CoiDisclosureNotepadRuleHelper(final String aPropertyPrefix) {
-        this();
-        this.resetPropertyPrefix(aPropertyPrefix);
     }
     
     /**
@@ -55,19 +44,7 @@ private final DictionaryValidationService validationService;
         this.validationService = validationService;
     }
     
-    /**
-     * Resets the property prefix.
-     * @param aPropertyPrefix the prefix (ex: notesAttachmentsHelper.newAttachmentProtocol)
-     * @throws IllegalArgumentException if the propertyPrefix is null
-     */
-    void resetPropertyPrefix(final String aPropertyPrefix) {
-        if (aPropertyPrefix == null) {
-            throw new IllegalArgumentException("propertyPrefix is null");
-        }
-        
-        this.propertyPrefix = aPropertyPrefix;
-    }
-    
+   
     /**
      * Validates the attachment's primitive fields (non reference fields). Creates a hard error.
      * 
