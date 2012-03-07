@@ -209,6 +209,8 @@
 			     <td class="infoline" style="text-align:center;" colspan="6">
 					<html:image property="methodToCall.printActivity.activityIndex${activityIndex}"
    		  				src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" styleClass="tinybutton"/>
+   		  			<html:image property="methodToCall.deleteActivity.activityIndex${activityIndex}"
+   		  				src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton"/>
 			    </td>
 			</tr>
 			</c:if>
