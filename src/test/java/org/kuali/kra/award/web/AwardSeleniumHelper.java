@@ -323,6 +323,8 @@ public class AwardSeleniumHelper extends KcSeleniumHelper {
     public void submit() {
         clickAwardActionsPage();
         
+        dismissAlert();
+        
         routeDocument();
         clickYesAnswer();
         assertRoute();
