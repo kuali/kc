@@ -22,11 +22,18 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
+
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
+import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
@@ -34,9 +41,12 @@ import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.bo.SubAwardCloseout;
 import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
+import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements SubAwardRule,
                                                                                  SubAwardAmountInfoRule,
@@ -610,6 +620,66 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
         retval &= new SubAwardAuditRule().processRunAuditBusinessRules(document);
+        retval &= new SubAwardCustomDataAuditRule().processRunAuditBusinessRules(document);
         return retval;
+    }
+    
+    
+    
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        if (!(document instanceof SubAwardDocument)) {
+            return false;
+        }
+
+        MessageMap errorMap = GlobalVariables.getMessageMap();
+        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
+               document, getMaxDictionaryValidationDepth(),
+               VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
+        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+
+        boolean valid = true;
+        
+        valid &= processSaveAwardCustomDataBusinessRules((SubAwardDocument) document);
+       
+        return valid;
+    }
+    
+    /**
+    *
+    * process save Custom Data Business Rules.
+    * @param subawardDocument
+    * @return
+    */
+    public boolean processSaveAwardCustomDataBusinessRules(Document document) {
+        boolean valid = true;
+        
+        SubAwardDocument subAwardDocument = (SubAwardDocument) document;
+        Map<String, CustomAttributeDocument> customAttributeDocuments = subAwardDocument.getCustomAttributeDocuments();
+        for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry : customAttributeDocuments.entrySet()) {
+            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
+            CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
+            if(subAwardDocument.getSubAward().getSubAwardCustomDataList().size() > 0) {
+                int customAttributeId = customAttributeDocument.getCustomAttributeId();
+                List<SubAwardCustomData> subAwardCustomDataList = subAwardDocument.getSubAward().getSubAwardCustomDataList();
+                for(SubAwardCustomData awardCustomData : subAwardCustomDataList){
+                  if(awardCustomData.getCustomAttributeId() == customAttributeId){  
+                      customAttribute.setValue(awardCustomData.getValue());
+                      break;
+                  }
+                }
+            }
+        }
+        valid &= processRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, subAwardDocument));
+        return valid;
+    }
+    /**
+     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     */
+    public boolean processRules(KraDocumentEventBaseExtension event) {
+        boolean retVal = false;
+        retVal = event.getRule().processRules(event);
+        return retVal;
     }
 }
