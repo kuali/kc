@@ -17,7 +17,10 @@ package org.kuali.kra.subaward.subawardrule;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
@@ -378,8 +381,37 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
         
         return rulePassed;
     }
+    
+    
+    public boolean processAddSubAwardEffectiveDateRules(SubAwardAmountReleased subAwardAmountReleased,SubAward subAward ) {
+        
+        boolean rulePassed = true;
+        rulePassed &= processSubAwardAmountReleasedBusinessRules(subAwardAmountReleased,subAward);
+        
+        return rulePassed;
+    }
+    
+    protected boolean processSubAwardAmountReleasedBusinessRules(SubAwardAmountReleased subAwardAmountReleased,SubAward subAward ) {
+        
+        boolean rulePassed = false;
+        
+        if(subAwardAmountReleased.getStartDate() != null && subAwardAmountReleased.getEndDate() != null && subAwardAmountReleased.getEffectiveDate() != null) {
+            Calendar subAwardInoiceEndDate = new GregorianCalendar();
+            Calendar subAwardInoiceStartDate = new GregorianCalendar();
+            subAwardInoiceEndDate.setTime(subAwardAmountReleased.getEndDate());
+            subAwardInoiceStartDate.setTime(subAwardAmountReleased.getStartDate());
+            subAwardInoiceEndDate.add(subAwardInoiceEndDate.DATE, 30);
+            subAwardInoiceStartDate.add(subAwardInoiceStartDate.DATE, -30);
+            Date endDate=(Date)subAwardInoiceEndDate.getTime();
+            Date startDate=(Date)subAwardInoiceStartDate.getTime();
+            if(subAwardAmountReleased.getEffectiveDate().before(startDate) ||(subAwardAmountReleased.getEffectiveDate().after(endDate)) ){
+                rulePassed = true;
+            }
+        }
+        return rulePassed;
+    }
      
- 
+
 
     public boolean processAddSubAwardAmountReleasedBusinessRules(SubAwardAmountReleased amountReleased,SubAward subAward ) {
         
