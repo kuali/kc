@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -38,6 +39,8 @@ import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 public class SubAwardFinancialAction extends SubAwardAction{
     
     private static final String LINE_NUMBER = "line";
+    private static final String CONFIRM_EFFECTIVE_DATE = "confirmEffectiveDate";
+    private static final String NO_CONFIRM_EFFECTIVE_DATE = "noConfirmEffectiveDate";
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
@@ -105,17 +108,43 @@ public class SubAwardFinancialAction extends SubAwardAction{
     }
     public ActionForward addAmountReleased(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {   
-        
+
         SubAwardForm subAwardForm=(SubAwardForm) form;
         SubAwardAmountReleased subAwardAmountReleased =subAwardForm.getNewSubAwardAmountReleased();
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
-       if(new SubAwardDocumentRule().processAddSubAwardAmountReleasedBusinessRules(subAwardAmountReleased, subAward)){ 
-           addAmountReleasedToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardAmountReleased);
-           subAwardForm.setNewSubAwardAmountReleased(new SubAwardAmountReleased());
-       }
-       subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
-       subAwardForm.getSubAwardDocument().setSubAward(subAward);
-       return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
+        if(new SubAwardDocumentRule().processAddSubAwardEffectiveDateRules(subAwardAmountReleased, subAward )){
+            return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, 
+                    CONFIRM_EFFECTIVE_DATE, KeyConstants.QUESTION_EFFECTIVE_DATE), CONFIRM_EFFECTIVE_DATE, NO_CONFIRM_EFFECTIVE_DATE);  
+        }
+        else
+        {
+            if(new SubAwardDocumentRule().processAddSubAwardAmountReleasedBusinessRules(subAwardAmountReleased, subAward)){ 
+                addAmountReleasedToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardAmountReleased);
+                subAwardForm.setNewSubAwardAmountReleased(new SubAwardAmountReleased());
+            }
+        }
+        subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
+        subAwardForm.getSubAwardDocument().setSubAward(subAward);
+        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
+    }
+    public ActionForward confirmEffectiveDate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SubAwardForm subAwardForm=(SubAwardForm) form;
+        SubAwardAmountReleased subAwardAmountReleased =subAwardForm.getNewSubAwardAmountReleased();
+        SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
+        if(new SubAwardDocumentRule().processAddSubAwardAmountReleasedBusinessRules(subAwardAmountReleased, subAward)){ 
+            addAmountReleasedToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardAmountReleased);
+            subAwardForm.setNewSubAwardAmountReleased(new SubAwardAmountReleased());
+        }
+        subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
+        subAwardForm.getSubAwardDocument().setSubAward(subAward);
+        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE); 
+    }
+    public ActionForward noConfirmEffectiveDate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SubAwardForm subAwardForm=(SubAwardForm) form;
+        SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
+        subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
+        subAwardForm.getSubAwardDocument().setSubAward(subAward);
+        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
     }
     boolean addAmountReleasedToSubAward(SubAward subAward,SubAwardAmountReleased subAwardAmountReleased){
         subAwardAmountReleased.setSubAward(subAward);  

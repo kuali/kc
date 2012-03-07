@@ -23,4 +23,5 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 public interface SubAwardAmountReleasedRule extends BusinessRule{
 
     public boolean processAddSubAwardAmountReleasedBusinessRules(SubAwardAmountReleased amountReleased,SubAward subAward);
+    public boolean processAddSubAwardEffectiveDateRules(SubAwardAmountReleased amountReleased, SubAward subAward );
 }
