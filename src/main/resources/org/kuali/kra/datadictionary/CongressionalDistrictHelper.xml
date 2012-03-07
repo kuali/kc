@@ -24,7 +24,6 @@
     <property name="name" value="newState" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.rice.location.impl.state.StateBo"
             p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.CongDistrictStateCodeValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"

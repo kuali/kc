@@ -19,29 +19,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.state.StateValuesFinder;
 
-public class CongDistrictStateCodeValuesFinder extends ExtendedPersistableBusinessObjectValuesFinder {
+public class CongDistrictStateCodeValuesFinder extends StateValuesFinder {
 
     @Override
     public List<KeyValue> getKeyValues() {
-        String countryCode = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(KRADConstants.KNS_NAMESPACE,
-                KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DEFAULT_COUNTRY);
-        List<State> codes = KraServiceLocator.getService(StateService.class).findAllStatesInCountry(countryCode);
-        List<KeyValue> labels = new ArrayList<KeyValue>();
-        labels.add(new ConcreteKeyValue("", ""));
-        for (State state : codes) {
-            if (state.isActive()) {
-                labels.add(new ConcreteKeyValue(state.getCode(), state.getCode()));
-            }
-        }
-        
+        List<KeyValue> labels = super.getKeyValues();
         labels.add(1, new ConcreteKeyValue("US", "US"));
         labels.add(2, new ConcreteKeyValue("00", "00"));
         
