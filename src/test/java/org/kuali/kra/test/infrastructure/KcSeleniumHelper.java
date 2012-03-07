@@ -33,7 +33,9 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Clock;
@@ -1375,6 +1377,30 @@ public abstract class KcSeleniumHelper {
         
         driver.close();
         driver.switchTo().window(parentWindowHandle);
+    }
+    
+    /**
+     * Finds any available alert box (if it exists) and accepts it silently.
+     */
+    public void acceptAlert() {
+        try {
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+        } catch (NoAlertPresentException nape) {
+            logger.debug("Did not locate alert, ignoring...");
+        }
+    }
+    
+    /**
+     * Finds any available alert box (if it exists) and dismisses it silently.
+     */
+    public void dismissAlert() {
+        try {
+            Alert alert = driver.switchTo().alert();
+            alert.dismiss();
+        } catch (NoAlertPresentException nape) {
+            logger.debug("Did not locate alert, ignoring...");
+        }
     }
     
     /**
