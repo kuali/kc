@@ -143,6 +143,7 @@ AbstractResearchAndRelatedStream {
     private static final String FACILITIES_BLOCK_TYPE = "facilities";
     private static final String PROJECT_SUMMARY_BLOCK_TYPE = "summary";
     private static final String SPECIAL_REVIEW_CODE_1 = "1";
+    private static final String OTHER_PERSONNEL_CATEGORY_CODE = "30";
 
     private static final String APPROVAL_TYPE_EXEMPT = "4";
     protected static final String PROPOSAL_YNQ_QUESTION_16 = "16";
@@ -1103,6 +1104,7 @@ AbstractResearchAndRelatedStream {
         BudgetDecimal laAmount = BudgetDecimal.ZERO;
         List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
+            if (budgetLineItem.getBudgetCategoryCode().equals(OTHER_PERSONNEL_CATEGORY_CODE)) {
             List<BudgetLineItemCalculatedAmount> calcAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
             for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
                 budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
@@ -1110,6 +1112,7 @@ AbstractResearchAndRelatedStream {
                     laAmount = laAmount.add(budgetLineItemCalculatedAmount.getCalculatedCost());
                 }
             }
+            }           
         }
         return laAmount.bigDecimalValue();
     }
