@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +27,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.UTF8AnyCharacterValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -41,13 +43,12 @@ public class SaveQuestionnaireAnswerRule implements BusinessRuleInterface<SaveQu
     private static final String QUESTION_TYPE_DATE = "4";
     private static final String QUESTION_TYPE_TEXT = "5";
     private static final String ANSWER = "Answer ";
-    private static final String DATE_REGEX = "(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3[01])/(19|2[0-9])[0-9]{2}";
     private static final Map<String, ValidationPattern> VALIDATION_CLASSES;
     
     static {
         final Map<String, ValidationPattern> tempPatterns = new HashMap<String, ValidationPattern>();
 
-        final AnyCharacterValidationPattern anyCharVal = new AnyCharacterValidationPattern();
+        final UTF8AnyCharacterValidationPattern anyCharVal = new UTF8AnyCharacterValidationPattern();
         anyCharVal.setAllowWhitespace(true);
 
         tempPatterns.put(QUESTION_TYPE_TEXT, anyCharVal);
@@ -103,19 +104,24 @@ public class SaveQuestionnaireAnswerRule implements BusinessRuleInterface<SaveQu
 
         String validFormat = getValidFormat(answer.getQuestion().getQuestionTypeId().toString());
 
-        if (validationExpression != null && !".*".equals(validationExpression.pattern())) {
-            if (answer.getQuestion().getQuestionTypeId().toString().equals(QUESTION_TYPE_DATE)) {
-                if (!answer.getAnswer().matches(DATE_REGEX)) {
-                    GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT,
-                            ANSWER + (questionIndex + 1), answer.getAnswer(), validFormat);
-                    valid = false;
-                }
-            } else if (!validationExpression.matcher(answer.getAnswer()).matches()) {
+        if (validFormat.equals(Constants.DATA_TYPE_STRING) || validFormat.equals(Constants.DATA_TYPE_NUMBER)) {
+            if (!validationExpression.matcher(answer.getAnswer()).matches()) {
                 GlobalVariables.getMessageMap().putError(errorKey, KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT,
                         new String[] { ANSWER + (questionIndex + 1), answer.getAnswer(), validFormat });
                 valid = false;
             }
+        } else if (validFormat.equals(Constants.DATA_TYPE_DATE)) {
+            try {
+                DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
+                dateFormat.setLenient(false);
+                dateFormat.parse(answer.getAnswer());
+            } catch (ParseException e) {
+                GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT,
+                        ANSWER + (questionIndex + 1), answer.getAnswer(), validFormat);
+                valid = false;
+            }
         }
+
         return valid;
     }
 
