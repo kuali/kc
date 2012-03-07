@@ -28,7 +28,6 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="negotiation">
   	
-<script src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript"> 
    var $jq = jQuery.noConflict();
 </script>

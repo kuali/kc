@@ -17,7 +17,6 @@
 <%@ attribute name="helpParameterNamespace" required="false" %>
 <%@ attribute name="helpParameterDetailType" required="false" %>
 <%@ attribute name="helpParameterName" required="false" %>
-	<script src="scripts/jquery/jquery.js"></script>
 	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
 	<link rel="stylesheet" href="css/medusa.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
