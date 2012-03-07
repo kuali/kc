@@ -363,7 +363,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
      * @return
      */
     public String getDispayChangeAssociatedDocumentWarningMessage() {
-        if (getDispayChangeAssociatedDocumentWarning()) {
+        if (getDispayChangeAssociatedDocumentWarning() && this.getNegotiationDocument().getNegotiation().getNegotiationAssociationType() != null) {
             StringBuffer sb = new StringBuffer("<div id=\"searchIconDiv\" style=\"display: inline;\" onclick=\"return confirm('");
             String associatedType = this.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getDescription();
             String docNumber = this.getNegotiationDocument().getNegotiation().getAssociatedNegotiable().getAssociatedDocumentId();
