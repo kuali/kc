@@ -371,6 +371,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                 return confirmedChangeAssociation(mapping, negotiationForm, request, response);
             }
         }else{
+            negotiation.setAssociatedDocumentId(EMPTY_STRING);
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
