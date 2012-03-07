@@ -16,8 +16,7 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%--<c:set var="readOnly" value="${!KualiForm.customDataHelper.modifyCustomData}" scope="request" />--%>
-<c:set var="readOnly" value="false" scope="request" /><%--temp fix..Permissions have not been established for Award.  Shared tag files.--%>
+<c:set var="readOnly" value="false" scope="request" />
 
 <kul:documentPage
 	showDocumentInfo="true"
