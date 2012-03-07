@@ -123,6 +123,11 @@ public class NegotiationActivityHelper implements Serializable {
         }
     }
     
+    public void deleteActivity(int activityIndex) {
+        NegotiationActivity activity = getActivity(activityIndex);
+        getForm().getNegotiationDocument().getNegotiation().getActivities().remove(activity);
+    }
+    
     /**
      * Delete the attachment on the activity at the specified indexes.
      * 
