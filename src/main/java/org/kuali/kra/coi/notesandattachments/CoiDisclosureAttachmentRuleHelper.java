@@ -25,11 +25,12 @@ import org.kuali.kra.irb.noteattachment.TypedAttachment;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CoiDisclosureAttachmentRuleHelper {
     private final DictionaryValidationService validationService;
     private final ErrorReporter errorReporter = new ErrorReporter();
-    private String propertyPrefix;
+    private final String propertyPrefix = "coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment";
 
 
     CoiDisclosureAttachmentRuleHelper() {
@@ -46,32 +47,23 @@ public class CoiDisclosureAttachmentRuleHelper {
 
     public boolean validPrimitiveFields(CoiDisclosureAttachment newCoiDisclosureAttachment) {
         Long oldFileId = newCoiDisclosureAttachment.getFileId();
+        boolean valid = true;
         try {
             //adding a bogus file id to pass the validation service since the fileId is DB generated
             newCoiDisclosureAttachment.setFileId(Long.valueOf(0));
-            return this.validationService.isBusinessObjectValid(newCoiDisclosureAttachment);
+            valid &= this.validationService.isBusinessObjectValid(newCoiDisclosureAttachment, propertyPrefix);
         } finally {
             newCoiDisclosureAttachment.setFileId(oldFileId);
-        }    
+        }  
+        return valid;
     }
-
-    /*public boolean validDescriptionWhenRequired(CoiDisclosureAttachment newCoiDisclosureAttachment) {
-       
-        if (StringUtils.isBlank(newCoiDisclosureAttachment.getDescription())) {
-            
-            this.errorReporter.reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.DESCRIPTION,
-                KeyConstants.ERROR_COI_ATTACHMENT_MISSING_DESC, "");
-            return false;
-        }
-        return true;
-    }*/
 
     public boolean validFile(CoiDisclosureAttachment newCoiDisclosureAttachment) {
         final boolean valid;
         
         if (newCoiDisclosureAttachment.getFile() == null) {
             valid = false;
-            this.errorReporter.reportError(this.propertyPrefix + ".newFile",
+            this.errorReporter.reportError(propertyPrefix + ".newFile",
                 KeyConstants.ERROR_COI_ATTACHMENT_MISSING_FILE);
         } else {
             valid = this.validationService.isBusinessObjectValid(newCoiDisclosureAttachment.getFile());

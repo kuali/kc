@@ -25,7 +25,7 @@ var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 
 </SCRIPT>
-<kul:tab tabTitle="Notes & Attachments" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="*">
+<kul:tab tabTitle="Notes & Attachments" tabItemCount="${tabItemCount}" defaultOpen="false" tabErrorKey="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.*, coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.*">
 
 	<kra-coi:coiNotes />
 	<kra-coi:coiAttachments />
