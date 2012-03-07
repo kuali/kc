@@ -3,7 +3,7 @@
     <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
         <documentType>
             <name>IacucProtocolDocument</name>
-            <description>Manage Iacuc Protocol</description>
+            <description>Manage IACUC Protocol</description>
             <label>KC IACUC Protocol</label>
             <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
             <superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
