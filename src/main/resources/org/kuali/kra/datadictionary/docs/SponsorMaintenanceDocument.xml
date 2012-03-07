@@ -14,15 +14,9 @@
       <list>
         <value>sponsorCode</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
-    
-    
-    
-    
-    
-    <property name="documentTypeName" value="SponsorMaintenanceDocument"/>
+    </property>	<property name="allowsRecordDeletion" value="true" />    <property name="documentTypeName" value="SponsorMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.rules.SponsorMaintenanceDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.proposaldevelopment.document.authorizer.SponsorDocumentAuthorizer"/>
     <property name="webScriptFiles">
         <list>
             <value>../dwr/interface/StateService.js</value>
