@@ -511,8 +511,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.rice.location.impl.country.CountryBo"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder"
+            p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder"
             p:includeKeyInLabel="false"
             p:keyAttribute="alternateCode"
             p:labelAttribute="name" />
