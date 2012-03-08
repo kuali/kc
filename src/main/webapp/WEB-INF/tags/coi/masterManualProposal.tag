@@ -1,9 +1,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="masterDisclosureProjects" required="true" type="java.util.List" description="A List of active or inactive FE" %>
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
-<kul:tab defaultOpen="false" tabTitle="Manual Proposals" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="${auditErrorKey}" useRiceAuditMode="true"
-    tabErrorKey="disclosureHelper.newCoiDisclProject.*" >
-	<div class="tab-container" align="center">
               
               
                                   
@@ -18,5 +15,3 @@
                      <kra-coi:masterProjectFE disclProjectBean="${disclProjectBean}" projectDivNamePrefix="masterManualProposalFE"  idx="${status.index}" projectListName="manualProposalProjects"/>                    
        	</c:forEach> 
             <%-- Existing data --%>
-       </div>
-</kul:tab>
