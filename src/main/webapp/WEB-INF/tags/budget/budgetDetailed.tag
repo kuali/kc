@@ -179,7 +179,7 @@
 			    		</c:forEach>
 			    	</c:if>
 			    </c:forEach>
-			    
+			    <!-- Add in the obligated amount -->
 			    <c:set var="ChangeSum" value="${ChangeSum + KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[0].obligatedAmount.floatValue }"/>
 			    
 			<tr>
