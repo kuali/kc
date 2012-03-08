@@ -264,34 +264,38 @@
 
 <kra-coi:disclosureReporter />
 
+<c:if test="${not( (KualiForm.document.coiDisclosureList[0].manualEvent) and (empty KualiForm.document.coiDisclosureList[0].coiDisclProjects) )}" >
 <kra-coi:disclosureQuestionnaire />
 <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
+</c:if> 
  
-<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='1'}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].awardEvent}" >
     <%-- <kra-coi:awardProjects /> --%>
     <kra-coi:newAwardFinancialEntities />
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='2'}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].proposalEvent}" >
     <%-- <kra-coi:proposalProjects /> --%>
     <kra-coi:newProposalFinancialEntities />
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='10'}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].institutionalProposalEvent}" >
     <%-- <kra-coi:proposalProjects /> --%>
     <kra-coi:newInstitutionalProposalFinancialEntities />
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='3'}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].protocolEvent}" >
    <%-- <kra-coi:protocolProjects /> --%>
     <kra-coi:newProtocolFinancialEntities />
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='14'}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].annualEvent}" >
 <kra-coi:disclosureFinancialEntities />
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='11' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='12' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='13'}" >
-<kra-coi:manualProjects />
+
+<%-- <c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='11' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='12' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='13'}" > --%>
+<c:if test="${KualiForm.document.coiDisclosureList[0].manualEvent}" >
+	<kra-coi:manualProjects />
 </c:if>
 
-<c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='6'}" >
-<kra-coi:updateDisclosureProjects/>
+<c:if test="${KualiForm.document.coiDisclosureList[0].updateEvent}" >
+	<kra-coi:updateDisclosureProjects/>
 </c:if>
 
 
