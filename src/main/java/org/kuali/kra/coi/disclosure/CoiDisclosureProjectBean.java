@@ -28,6 +28,7 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CoiDisclosureProjectBean implements Serializable {
@@ -45,11 +46,13 @@ public class CoiDisclosureProjectBean implements Serializable {
     private Date approvalDate; 
     private List<CoiDisclosureAttachment> projectDiscAttachments;
     private List<CoiDisclosureNotepad> projectDiscNotepads;
+    private List<AnswerHeader> answerHeaders;
 
     public CoiDisclosureProjectBean() {
         projectDiscDetails = new ArrayList<CoiDiscDetail> ();
         projectDiscAttachments = new ArrayList<CoiDisclosureAttachment> ();
         projectDiscNotepads = new ArrayList<CoiDisclosureNotepad> ();
+        answerHeaders = new ArrayList<AnswerHeader> ();
     }
     
 
@@ -160,6 +163,16 @@ public class CoiDisclosureProjectBean implements Serializable {
 
     public void setProjectDiscNotepads(List<CoiDisclosureNotepad> projectDiscNotepads) {
         this.projectDiscNotepads = projectDiscNotepads;
+    }
+
+
+    public List<AnswerHeader> getAnswerHeaders() {
+        return answerHeaders;
+    }
+
+
+    public void setAnswerHeaders(List<AnswerHeader> answerHeaders) {
+        this.answerHeaders = answerHeaders;
     }
 
 }

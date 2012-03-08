@@ -22,6 +22,7 @@ import java.util.List;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 
 public class MasterDisclosureBean implements Serializable {
 
@@ -37,6 +38,7 @@ public class MasterDisclosureBean implements Serializable {
     private List<CoiDisclosureProjectBean> manualProposalProjects;
     private List<CoiDisclosureProjectBean> manualProtocolProjects;
     private List<CoiDisclosureProjectBean> allProjects;
+    private List<AnswerHeader> answerHeaders;
 
     
     public MasterDisclosureBean() {
@@ -148,5 +150,13 @@ public class MasterDisclosureBean implements Serializable {
         projects.add(manualProtocolProjects);
         
         return projects;
+    }
+
+    public List<AnswerHeader> getAnswerHeaders() {
+        return answerHeaders;
+    }
+
+    public void setAnswerHeaders(List<AnswerHeader> answerHeaders) {
+        this.answerHeaders = answerHeaders;
     }
 }

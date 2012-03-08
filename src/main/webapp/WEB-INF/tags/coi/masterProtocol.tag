@@ -13,7 +13,11 @@
 
         	<c:forEach var="disclProjectBean" items="${masterDisclosureProjects}" varStatus="status">
                      <kra-coi:projectStyle disclProjectBean="${disclProjectBean}"/>                    
-                     <kra-coi:protocolHeader disclProject="${disclProjectBean.disclosureProject}" />                    
+                     <kra-coi:protocolHeader disclProject="${disclProjectBean.disclosureProject}" /> 
+                       
+                     
+                                      
+                     <kra-coi:masterProjectQuestionnaires disclProjectBean="${disclProjectBean}" parentTab="Protocols" />                    
                      <kra-coi:masterProjectFE disclProjectBean="${disclProjectBean}" projectDivNamePrefix="masterProtocolFE"  idx="${status.index}" projectListName="protocolProjects"/>                    
         	</c:forEach> 
             <%-- Existing data --%>
