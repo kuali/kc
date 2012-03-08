@@ -166,19 +166,27 @@
 	                </td>			
 	            </tr>
             </kra:section>
-             
+            	<c:set var="ChangeSum" value="${0.00 }"/>
 			    <c:forEach var="budgetCategoryTypeIndex" items="${KualiForm.document.budget.budgetCategoryTypeCodes}" varStatus="status1">
 			    	<c:if test="${budgetCategoryTypeIndex.key ==  budgetCategoryTypeCodeKey}">
 			    		<c:set var="index" value="0"/>
 			    		<c:forEach var="budgetLineItems" items="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems}" varStatus="status">
 			    		<c:if test="${budgetLineItems.costElementBO.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeIndex.key}" >
+			    			<c:set var="ChangeSum" value="${ChangeSum + budgetLineItems.lineItemCost.floatValue }"/>
 							<kra-b:budgetLineItems budgetPeriod = "${budgetPeriod}" budgetCategoryTypeCode = "${budgetCategoryTypeCodeKey}" budgetLineItemNumber="${status.index}" budgetLineItemSequenceNumber="${index}" innerTabParent="${budgetCategoryTypeCodeLabel}" budgetExpensePanelReadOnly="${readOnly}"/>
 							<c:set var="index" value="${index+1}"/>			    		
 			    		</c:if> 		
 			    		</c:forEach>
 			    	</c:if>
 			    </c:forEach>
-			    			    			    
+			    
+			    <c:set var="ChangeSum" value="${ChangeSum + KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[0].obligatedAmount.floatValue }"/>
+			    
+			<tr>
+            	<th colspan="5"><div align="right">Total Amount:</div></th>
+            	<td><div align="center">${ChangeSum }</div></td>
+            	<td>&nbsp;</td>
+            </tr>			    			    
         </table>  
 	    </div>
 	</kul:tab>
