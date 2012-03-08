@@ -162,12 +162,19 @@ public class CoiDisclosureAction extends CoiAction {
         // we will populate questionnaire data after the execution of any dispatched ("methodTocall") methods. This point, right after the
         // above super.execute() call works well for that because any such dispatched method has finished executing at the end of the call.
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        if(coiDisclosureForm.getDocument().getDocumentHeader().hasWorkflowDocument()) {
-            coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView(false);
+        CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
+        CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
+        // specify conditions to narrow down the range of the execution paths in which questionnaire data is populated
+        if( (coiDisclosureDocument.getDocumentHeader().hasWorkflowDocument()) && 
+            ( (!coiDisclosure.isManualEvent()) || (!CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())) ) ) {
+            boolean forceQnnrReload = false;
+            if ( (StringUtils.equals("reload", coiDisclosureForm.getMethodToCall())) || (StringUtils.equals("addManualProject", coiDisclosureForm.getMethodToCall())) ) {
+                forceQnnrReload = true;
+            }            
+            coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView(forceQnnrReload);
         }
         
         // now the rest of subclass-specific custom logic for execute()
-        CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
         coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
         // TODO : 'checkToLoadDisclosureDetails' should not need to be executed for every action.  need to make it somewhere ?
         // checkToLoadDisclosureDetails(coiDisclosureDocument.getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId());
@@ -767,14 +774,6 @@ public class CoiDisclosureAction extends CoiAction {
         }        
         return null;
     }
-    
-    @Override
-    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward actionForward = super.reload(mapping, form, request, response);
-        ((CoiDisclosureForm)form).getDisclosureQuestionnaireHelper().prepareView(true);
-        return actionForward;
-    }
-    
     
     @Override
     protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
