@@ -60,6 +60,8 @@ import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
@@ -99,6 +101,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         eventModuleMap.put(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
         eventModuleMap.put(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
     }
+    private static final String MODULE_ITEM_CODE = "moduleItemCode";
+    private static final String MODULE_ITEM_KEY = "moduleItemKey";
+    private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
 
     /**
      * 
@@ -859,24 +864,24 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      */
     private boolean isProjectReported(String projectId, String projectType, String personId) {
         boolean isDisclosed = false;
-        HashMap<String, Object> fieldValues = new HashMap<String, Object>();
-        if (StringUtils.equals(CoiDisclosureEventType.AWARD, projectType)) {
-            // all award numbers in that hierarchy.  so any award in that hierarchy is reported, then the others
-            // don't have to report.
-            fieldValues.put("moduleItemKey", getAwardNumbersForHierarchy(projectId));
-        } else {
-            fieldValues.put("moduleItemKey", projectId);
-        }
-        fieldValues.put("projectType", projectType);
-        List<CoiDiscDetail> discDetails = (List<CoiDiscDetail>) businessObjectService.findMatching(CoiDiscDetail.class, fieldValues);
-        Date currentDate = dateTimeService.getCurrentSqlDateMidnight();
-        for (CoiDiscDetail discDetail : discDetails) {
-            if (StringUtils.equals(discDetail.getCoiDisclosure().getPersonId(), personId) 
-                    && discDetail.getCoiDisclosure().getExpirationDate().after(currentDate)) {
-                isDisclosed = true;
-                break;
-            }
-        }
+//        HashMap<String, Object> fieldValues = new HashMap<String, Object>();
+//        if (StringUtils.equals(CoiDisclosureEventType.AWARD, projectType)) {
+//            // all award numbers in that hierarchy.  so any award in that hierarchy is reported, then the others
+//            // don't have to report.
+//            fieldValues.put("moduleItemKey", getAwardNumbersForHierarchy(projectId));
+//        } else {
+//            fieldValues.put("moduleItemKey", projectId);
+//        }
+//        fieldValues.put("projectType", projectType);
+//        List<CoiDiscDetail> discDetails = (List<CoiDiscDetail>) businessObjectService.findMatching(CoiDiscDetail.class, fieldValues);
+//        Date currentDate = dateTimeService.getCurrentSqlDateMidnight();
+//        for (CoiDiscDetail discDetail : discDetails) {
+//            if (StringUtils.equals(discDetail.getCoiDisclosure().getPersonId(), personId) 
+//                    && discDetail.getCoiDisclosure().getExpirationDate().after(currentDate)) {
+//                isDisclosed = true;
+//                break;
+//            }
+//        }
         return isDisclosed;
     }
 
@@ -1138,6 +1143,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         String projectType = Constants.EMPTY_STRING;
         CoiDisclosureProjectBean disclosureProjectBean = null;
         Collections.sort(coiDisclosure.getCoiDiscDetails());
+        List<AnswerHeader> answerHeaders = retrieveAnswerHeaders(coiDisclosure);
+        masterDisclosureBean.setAnswerHeaders(answerHeaders);
         for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
             if (!StringUtils.equals(projectType, coiDiscDetail.getProjectType()) || !StringUtils.equals(moduleItemKey, coiDiscDetail.getModuleItemKey())) {
                 disclosureProjectBean = getCoiDisclosureProjectBean(coiDiscDetail);
@@ -1148,6 +1155,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 moduleItemKey = coiDiscDetail.getModuleItemKey();
                 addProjectDisclAttachments(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
                 addProjectDisclNotepads(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
+                addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, coiDiscDetail.getOriginalCoiDisclosureId());
             }
             disclosureProjectBean.getProjectDiscDetails().add(coiDiscDetail);            
         }
@@ -1158,6 +1166,23 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return masterDisclosureBean;
     }
         
+    private List<AnswerHeader> retrieveAnswerHeaders(CoiDisclosure coiDisclosure) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(MODULE_ITEM_CODE, CoeusModule.COI_DISCLOSURE_MODULE_CODE);
+        fieldValues.put(MODULE_ITEM_KEY, coiDisclosure.getCoiDisclosureNumber());
+        fieldValues.put(MODULE_SUB_ITEM_KEY, coiDisclosure.getSequenceNumber());
+        return (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
+    }
+    
+    private void addProjectDisclQuestionnaires(CoiDisclosureProjectBean disclosureProjectBean, List<AnswerHeader> answerHeaders, Long originalDisclosureId) {
+        for (AnswerHeader answerHeader : answerHeaders) {
+            if ((answerHeader.getOriginalCoiDisclosureId() == null && originalDisclosureId == null) || 
+                    (answerHeader.getOriginalCoiDisclosureId() != null && originalDisclosureId != null && answerHeader.getOriginalCoiDisclosureId().equals(originalDisclosureId))) {
+                disclosureProjectBean.getAnswerHeaders().add(answerHeader);
+            }
+        }        
+    }
+    
     private void addProjectDisclAttachments(CoiDisclosureProjectBean disclosureProjectBean, CoiDisclosure coiDisclosure, Long originalDisclosureId) {
         for (CoiDisclosureAttachment disclattachment : coiDisclosure.getCoiDisclosureAttachments()) {
             if ((disclattachment.getOriginalCoiDisclosureId() == null && originalDisclosureId == null) || 

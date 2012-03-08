@@ -183,6 +183,9 @@ public class CoiDisclosureAction extends CoiAction {
                 coiDisclosureForm.getMethodToCall())) && coiDisclosureDocument.getCoiDisclosure().isApprovedDisclosure()) {
             coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
                     getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
+            coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
+            coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
+            coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
             actionForward = mapping.findForward(MASTER_DISCLOSURE);
         }
         else {
@@ -194,6 +197,9 @@ public class CoiDisclosureAction extends CoiAction {
                 coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
                 coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
                         getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
+                coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
+                coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
+                coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
                 actionForward = mapping.findForward(MASTER_DISCLOSURE);
             }
 
@@ -234,6 +240,9 @@ public class CoiDisclosureAction extends CoiAction {
                  coiDisclosure.setEventTypeCode(CoiDisclosureEventType.UPDATE);
                  ((CoiDisclosureForm)form).getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(
                          coiDisclosure)); 
+                 coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
+                 coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
+                 coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
                  forward = mapping.findForward(UPDATE_DISCLOSURE);
             } 
 
@@ -252,7 +261,8 @@ public class CoiDisclosureAction extends CoiAction {
            } 
         }
         ((CoiDisclosureForm)form).getDisclosureHelper().prepareView();
-        if (!coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().isUpdateEvent()) {
+        if (!coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().isUpdateEvent() 
+                && !coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().isApprovedDisclosure()) {
             checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId(), coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
         }
         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().refreshReferenceObject("coiDispositionStatus");
@@ -691,7 +701,10 @@ public class CoiDisclosureAction extends CoiAction {
             coiDisclosureForm.setDocId(disclosures.get(0).getCoiDisclosureDocument().getDocumentNumber());
             loadDocument(coiDisclosureForm);
             disclosureHelper.setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(
-                    coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure()));
+            coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure()));
+            coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
+            coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
+            coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
             return mapping.findForward("masterDisclosure");
         }
     }
@@ -822,7 +835,15 @@ public class CoiDisclosureAction extends CoiAction {
         reportParameters.put("questionnaireId", coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
         reportParameters.put("template", coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
         // get the submodule item code from the module questionnaire bean and put it in the report params
-        String moduleSubItemCode = (new DisclosureModuleQuestionnaireBean(disclosure)).getModuleSubItemCode();
+        // set up sequencenumber for masterdisclosure qn.  so, it can be pulled from original disclosure
+        //  String moduleSubItemCode = (new DisclosureModuleQuestionnaireBean(disclosure)).getModuleSubItemCode();
+        AnswerHeader answerHeader = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex);
+        String moduleSubItemCode = answerHeader.getModuleSubItemCode();
+        if (answerHeader.getOriginalCoiDisclosureId() != null) {
+            answerHeader.refreshReferenceObject("originalCoiDisclosure");
+            reportParameters.put("sequenceNumber", answerHeader.getOriginalCoiDisclosure().getSequenceNumber().toString());
+        }
+        
         reportParameters.put("coeusModuleSubItemCode", moduleSubItemCode);
         
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(disclosure, reportParameters);

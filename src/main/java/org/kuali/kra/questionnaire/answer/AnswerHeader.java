@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.questionnaire.Questionnaire;
 
 /**
@@ -57,6 +58,8 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     private String showQuestions;
 
     private boolean notUpdated = false;
+    private Long originalCoiDisclosureId; 
+    private CoiDisclosure originalCoiDisclosure; 
 
     private transient boolean activeQuestionnaire = true;
 
@@ -288,5 +291,21 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
             }
         }
         return true;
+    }
+
+    public Long getOriginalCoiDisclosureId() {
+        return originalCoiDisclosureId;
+    }
+
+    public void setOriginalCoiDisclosureId(Long originalCoiDisclosureId) {
+        this.originalCoiDisclosureId = originalCoiDisclosureId;
+    }
+
+    public CoiDisclosure getOriginalCoiDisclosure() {
+        return originalCoiDisclosure;
+    }
+
+    public void setOriginalCoiDisclosure(CoiDisclosure originalCoiDisclosure) {
+        this.originalCoiDisclosure = originalCoiDisclosure;
     }
 }

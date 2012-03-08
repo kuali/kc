@@ -26,6 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclosure;
@@ -33,7 +34,6 @@ import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.CoiDisclosureHistory;
 import org.kuali.kra.coi.CoiDisclosureStatus;
-import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
@@ -42,6 +42,10 @@ import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRenderer;
 import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRequestBean;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -60,6 +64,10 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     private KcNotificationService kcNotificationService;
     private static final Log LOG = LogFactory.getLog(CoiDisclosureActionServiceImpl.class);
     private static final String PROTOCOL_TAB = "protocol";
+    private QuestionnaireAnswerService questionnaireAnswerService;
+    private static final String MODULE_ITEM_CODE = "moduleItemCode";
+    private static final String MODULE_ITEM_KEY = "moduleItemKey";
+    private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
 
     /**
      * copy disc details from previous master disclosure if it exists.
@@ -111,7 +119,6 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     public void setStatus(CoiDisclosure coiDisclosure, String coiDispositionCode) {
         coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
         coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.ROUTED_FOR_REVIEW);
-        // need to refresh this to show in status box
         coiDisclosure.refreshReferenceObject("coiDispositionStatus");
         coiDisclosure.refreshReferenceObject("coiDisclosureStatus");
         businessObjectService.save(coiDisclosure);
@@ -160,8 +167,60 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         copyDisclosureDetails(masterCoiDisclosure, coiDisclosure);
         copyDisclosureNotePads(masterCoiDisclosure, coiDisclosure);
         copyDisclosureAttachments(masterCoiDisclosure, coiDisclosure);
+        copyDisclosureQuestionnaire(masterCoiDisclosure, coiDisclosure);
     }
     
+    private void copyDisclosureQuestionnaire(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
+        // versioning questionnaire answer
+//        if (masterCoiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument() == null) {
+            try {
+            CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) KraServiceLocator
+                    .getService(DocumentService.class).getByDocumentHeaderId(masterCoiDisclosure.getCoiDisclosureDocument().getDocumentNumber());
+            // Get XML of workflow document
+            masterCoiDisclosure.setCoiDisclosureDocument(coiDisclosureDocument);
+            } catch (Exception e) {
+                
+            }
+//        }
+
+        //    List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(new DisclosureModuleQuestionnaireBean(masterCoiDisclosure)
+        //    , coiDisclosure.getSequenceNumber());
+            List<AnswerHeader> newAnswerHeaders = versioningQuestionnaireAnswer(masterCoiDisclosure);
+         if (!newAnswerHeaders.isEmpty()) {
+             for (AnswerHeader answerHeader : newAnswerHeaders) {
+                 if (answerHeader.getOriginalCoiDisclosureId() == null) {
+                     answerHeader.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                 }                 
+                 answerHeader.setModuleSubItemKey(coiDisclosure.getSequenceNumber().toString());
+             }
+            businessObjectService.save(newAnswerHeaders);
+        }
+    
+    }
+    
+    private List<AnswerHeader> versioningQuestionnaireAnswer(CoiDisclosure coiDisclosure) {
+        List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
+        for (AnswerHeader answerHeader : retrieveAnswerHeaders(coiDisclosure)) {
+               AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
+//                copiedAnswerHeader.setModuleSubItemKey(coiDisclosure.getSequenceNumber().toString());
+                copiedAnswerHeader.setAnswerHeaderId(null);
+                for (Answer answer : copiedAnswerHeader.getAnswers()) {
+                    answer.setId(null);
+                }
+                newAnswerHeaders.add(copiedAnswerHeader);
+        }
+        return newAnswerHeaders;
+    }
+
+    private List<AnswerHeader> retrieveAnswerHeaders(CoiDisclosure coiDisclosure) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(MODULE_ITEM_CODE, CoeusModule.COI_DISCLOSURE_MODULE_CODE);
+        fieldValues.put(MODULE_ITEM_KEY, coiDisclosure.getCoiDisclosureNumber());
+        fieldValues.put(MODULE_SUB_ITEM_KEY, coiDisclosure.getSequenceNumber());
+        return (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
+    }
+    
+
     /*
      * copy disclosure details of current master disclosure to the disclosure that is bing approved
      */
@@ -300,6 +359,10 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     }
     public DocumentService getDocumentService() {
         return documentService;
+    }
+
+    public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
+        this.questionnaireAnswerService = questionnaireAnswerService;
     }
 
 }
