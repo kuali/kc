@@ -108,13 +108,13 @@ public class CoiDisclosureAction extends CoiAction {
         throws Exception {
         
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        Document document = coiDisclosureForm.getDocument();
+        CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         // notes and attachments
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();        
         helper.fixReloadedAttachments(request.getParameterMap());
         
-        CoiDisclosure coiDisclosure = ((CoiDisclosureDocument)document).getCoiDisclosure();
+        CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
         if (coiDisclosure.getCoiDisclosureId() == null) {
             coiDisclosure.initRequiredFields();            
         } else {
@@ -125,25 +125,25 @@ public class CoiDisclosureAction extends CoiAction {
         } else {
             getCoiDisclosureService().setDisclDetailsForSave(coiDisclosure);
         }
-        actionForward = super.save(mapping, form, request, response);
-        // TODO check if this is the right way for saving questionnaire data for the disclosure
-        // NOTE: Since we are saving questionnaire data only after a successful save of the disclosure document, then any validation 
-        // errors in the questionnaire data will result in the user being shown the disclosure page again with the messages 
-        // for those errors, along with the message that the document was saved successfully (which it indeed was).
-        // TODO Since any errors in saving the document above will cause an exception to be thrown, perhaps the below checking of message map is redundant
-        if(GlobalVariables.getMessageMap().hasNoErrors()) {
-            // Save questionnaire data for the disclosure since the disclosure save went through without any validation errors
-            List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
-            // TODO maybe add a COI questionnaire specific rule event to the condition below
-            if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders, "disclosureQuestionnaireHelper"))) {
+        
+        /************ Begin --- Save (if valid) document and questionnaire data ************/
+        // TODO factor out the different versions of this doc and questionnaire data save block from various actions in this class and centralize it in a helper method
+        // First validate the questionnaire data
+        // TODO maybe add a COI questionnaire specific rule event to the condition below
+        List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
+        if ( applyRules(new SaveQuestionnaireAnswerEvent(coiDisclosureDocument, answerHeaders, "disclosureQuestionnaireHelper"))) {
+            // since Questionnaire data is OK we try to save doc
+            actionForward = super.save(mapping, form, request, response);
+            // check if doc save went OK
+            // TODO Any validation errors during the doc save will cause an exception to be thrown, so perhaps the checking of message map below is redundant
+            if(GlobalVariables.getMessageMap().hasNoErrors()) {
+                // now save questionnaire data for the disclosure
                 coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
                 getBusinessObjectService().save(answerHeaders);
             }
-            else {
-                // go back and show the questionnaire error messages
-                actionForward = mapping.findForward(Constants.MAPPING_BASIC);
-            }
         }
+        /************ End --- Save (if valid) document and questionnaire data ************/    
+        
         if (KRADConstants.SAVE_METHOD.equals(coiDisclosureForm.getMethodToCall()) && coiDisclosureForm.isAuditActivated() 
                 && GlobalVariables.getMessageMap().hasNoErrors()) {
             actionForward = mapping.findForward("disclosureActions");
@@ -385,40 +385,32 @@ public class CoiDisclosureAction extends CoiAction {
                     getCoiDisclosureService().resetLeadUnit(coiDisclosure.getDisclosureReporter());
                 }
                 getCoiDisclosureService().setDisclDetailsForSave(coiDisclosure);
-                
-                // save the old code values in case we have errors in saving and have to reset them
-                String oldDispositionCode = coiDisclosure.getDisclosureDispositionCode();
-                String oldDisclosureStatusCode = coiDisclosure.getDisclosureStatusCode();
-                boolean resetDisclosureCodes = false;
-                
-                coiDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.SUBMITTED_FOR_REVIEW);
-                coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.ROUTED_FOR_REVIEW);
-                
-                getDocumentService().saveDocument(coiDisclosureDocument);
-                if(GlobalVariables.getMessageMap().hasNoErrors()) {
-                    // Save questionnaire data for the disclosure since the disclosure save went through without any validation errors
-                    List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
-                    // TODO maybe add a COI questionnaire specific rule event to the condition below
-                    if ( applyRules(new SaveQuestionnaireAnswerEvent(coiDisclosureDocument, answerHeaders, "disclosureQuestionnaireHelper"))) {
+                              
+                /************ Begin --- Save (if valid) document and questionnaire data ************/
+                // TODO factor out the different versions of this doc and questionnaire data save block from various actions in this class and centralize it in a helper method
+                // First validate the questionnaire data
+                // TODO maybe add a COI questionnaire specific rule event to the condition below
+                List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
+                if ( applyRules(new SaveQuestionnaireAnswerEvent(coiDisclosureDocument, answerHeaders, "disclosureQuestionnaireHelper"))) {
+                    // since Questionnaire data is OK we try to save doc
+                    getDocumentService().saveDocument(coiDisclosureDocument);
+                    // check if doc save went OK
+                    // TODO Any validation errors during the doc save will cause an exception to be thrown, so perhaps the checking of message map below is redundant
+                    if(GlobalVariables.getMessageMap().hasNoErrors()) {
+                        // now save questionnaire data for the disclosure
                         coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
                         getBusinessObjectService().save(answerHeaders);
+                        
+                        // set the disclosure codes
+                        coiDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.SUBMITTED_FOR_REVIEW);
+                        coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.ROUTED_FOR_REVIEW);
                         // Certification occurs after the audit rules pass, and the document and the questionnaire data have been saved successfully
                         coiDisclosure.certifyDisclosure();
                         forward = submitForReviewAndRedirect(mapping, form, request, response, coiDisclosureForm, coiDisclosure, coiDisclosureDocument);
                     }
-                    else {
-                        resetDisclosureCodes = true;
-                    }
                 }
-                else {
-                	resetDisclosureCodes = true;
-                }
-                
-                if(resetDisclosureCodes) {
-                    // reset the status and disposition codes back to their old values
-                    coiDisclosure.setDisclosureDispositionCode(oldDispositionCode);
-                    coiDisclosure.setDisclosureStatusCode(oldDisclosureStatusCode);
-                }
+                /************ End --- Save (if valid) document and questionnaire data ************/    
+
             }
             else {
                 GlobalVariables.getMessageMap().clearErrorMessages();
@@ -786,32 +778,30 @@ public class CoiDisclosureAction extends CoiAction {
     
     @Override
     protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         Document document = coiDisclosureForm.getDocument();
-        forward = super.saveOnClose(mapping, form, request, response);
         
-        // TODO check if this is the right way for saving questionnaire data for the disclosure
-        // NOTE: Since we are saving questionnaire data only after a successful save of the disclosure document, then any validation 
-        // errors in the questionnaire data will result in the user being shown the disclosure page again with the messages 
-        // for those errors, along with the message that the document was saved successfully (which it indeed was).
-        // TODO Since any errors in saving the document above will cause an exception to be thrown, perhaps the below checking of message map is redundant
-        if(GlobalVariables.getMessageMap().hasNoErrors()) {
-            // Save questionnaire data for the disclosure since the disclosure save went through without any validation errors
-            List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
-            // TODO maybe add a COI questionnaire specific rule event to the condition below
-            if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders, "disclosureQuestionnaireHelper"))) {
+        /************ Begin --- Save (if valid) document and questionnaire data ************/
+        // TODO factor out the different versions of this doc and questionnaire data save block from various actions in this class and centralize it in a helper method
+        // First validate the questionnaire data
+        // TODO maybe add a COI questionnaire specific rule event to the condition below
+        List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
+        if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders, "disclosureQuestionnaireHelper"))) {
+            // since Questionnaire data is OK we try to save doc
+            actionForward = super.saveOnClose(mapping, form, request, response);
+            // check if doc save went OK
+            // TODO Any validation errors during the doc save will cause an exception to be thrown, so perhaps the checking of message map below is redundant
+            if(GlobalVariables.getMessageMap().hasNoErrors()) {
+                // now save questionnaire data for the disclosure
                 coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
                 getBusinessObjectService().save(answerHeaders);
             }
-            else {
-                // go back and show the questionnaire error messages
-                forward = mapping.findForward(Constants.MAPPING_BASIC);
-            }
         }
-        
-        return forward;
+        /************ End --- Save (if valid) document and questionnaire data ************/
+         
+        return actionForward;
     }
     
     
