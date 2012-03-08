@@ -189,7 +189,9 @@ public class DisclosureActionHelper implements Serializable {
             getCoiDisclosureActionService().approveDisclosure(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
             coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
                     getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
-
+            coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
+            coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
+            coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
     }
 
     public void disapproveDisclosure() throws Exception {
