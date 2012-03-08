@@ -150,6 +150,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
         <property name="kcNotificationService" ref="kcNotificationService" />
+        <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />        
     </bean>
     
     <bean id="coiNotificationRoleQualifierService" class="org.kuali.kra.coi.notification.CoiNotificationRoleQualifierServiceImpl"
