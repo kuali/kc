@@ -100,6 +100,10 @@
 		<field-descriptor name="completed" column="QUESTIONNAIRE_COMPLETED_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="originalCoiDisclosureId" column="ORIGINAL_COI_DISCLOSURE_ID" jdbc-type="BIGINT" />
+        <reference-descriptor name="originalCoiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="originalCoiDisclosureId"/>
+        </reference-descriptor>
 		<reference-descriptor name="questionnaire" class-ref="org.kuali.kra.questionnaire.Questionnaire" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="questionnaireRefIdFk"/>
 		</reference-descriptor>
