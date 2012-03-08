@@ -1,16 +1,16 @@
 UPDATE YNQ
 SET DESCRIPTION = 'Are human embryonic stem cells used? If so, please click on ''view'' button for instructions'
-WHERE QUESTION_ID = 18
+WHERE QUESTION_ID = '18'
 /
 
 UPDATE YNQ_EXPLANATION
 SET EXPLANATION = 'List no more than 20 registration numbers of the cell lines in the explanation for the question and separate them by commas. The maximum allowed length of each registration number is 4. If a specific stem cell line cannot be referenced at this time, enter ''UNKNOWN'' as the explanation.'
-WHERE QUESTION_ID = 18
+WHERE QUESTION_ID = '18'
 /
 
 UPDATE YNQ
 SET DESCRIPTION = 'Is the principal investigator participating in this project as an employee of the U.S. Government? If so, please click on ''view'' button for instructions.'
-WHERE QUESTION_ID = 24
+WHERE QUESTION_ID = '24'
 /
 
 UPDATE YNQ_EXPLANATION
@@ -65,6 +65,6 @@ SET EXPLANATION = 'Enter one of the following 3-digit agency codes in the explan
 148: United States Geological Survey (USGS)
 149: United States Marine Corps
 150: Walter Reed Army Institute Research'
-WHERE QUESTION_ID = 24
+WHERE QUESTION_ID = '24'
 /
 
