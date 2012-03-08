@@ -51,7 +51,8 @@ public class CoiNotificationRenderer extends NotificationRendererBase {
         String[] replacementParameters = CoiReplacementParameters.REPLACEMENT_PARAMETERS;
         
         Map<String, String> params = super.getDefaultReplacementParameters();
-        
+        coiDisclosure.refreshReferenceObject("coiDisclosureEventType");
+
         String key = null;
         for (int i = 0; i < replacementParameters.length; i++) {
             key = replacementParameters[i];
