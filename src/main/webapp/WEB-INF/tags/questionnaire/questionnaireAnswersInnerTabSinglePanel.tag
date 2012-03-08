@@ -13,6 +13,14 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+
+<%--
+TODO: This tag file and two other similar tag files for rendering questionnaire answers -- questionnaireAnswers.tag and 
+questionnaireAnswersInnerTab.tag, contain large chunks of duplicated common code. In order to eliminate this code 
+duplication (for ease of maintenance mostly), at some point we should factor out the common chunks into one or more 
+suitably parameterized fragments that are then included and reused by these three tag files.
+ --%>
+ 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <%@ attribute name="bean" required="true" type="org.kuali.kra.questionnaire.QuestionnaireHelperBase" %>
