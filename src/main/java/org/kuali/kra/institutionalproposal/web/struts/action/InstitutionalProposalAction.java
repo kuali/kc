@@ -27,6 +27,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
@@ -59,6 +60,8 @@ import org.kuali.rice.krad.util.KRADConstants;
  */
 public class InstitutionalProposalAction extends KraTransactionalDocumentActionBase {
     private static final String MODIFY_IP = "modifyIP";
+    
+    private KcNotificationService notificationService;
 
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -410,5 +413,16 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     protected SponsorService getSponsorService() {
         return KraServiceLocator.getService(SponsorService.class);
     }
+    
+    protected KcNotificationService getNotificationService() {
+        if (notificationService == null) {
+            notificationService = KraServiceLocator.getService(KcNotificationService.class);
+        }
+        return notificationService;
+    }
+
+    public void setNotificationService(KcNotificationService notificationService) {
+        this.notificationService = notificationService;
+    }    
     
 }
