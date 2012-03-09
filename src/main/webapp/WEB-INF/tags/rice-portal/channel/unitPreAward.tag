@@ -52,7 +52,7 @@
    </tr>
    <tr>
    	<td colspan="2">
-   		<portal:portalLink displayTitle="false" title='All My Negotiations' url='${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.negotiations.bo.Negotiation&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&negotiatorName=${UserSession.person.firstName}*${UserSession.person.lastName}&negotiatorPersonId=${UserSession.principalId}&searchCriteriaEnabled=false'>All My Negotiations</portal:portalLink>
+   		<portal:portalLink displayTitle="false" title='All My Negotiations' url='${ConfigProperties.application.url}/kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.negotiations.bo.Negotiation&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&negotiatorName=${UserSession.person.firstName}*${UserSession.person.lastName}&negotiatorPersonId=${UserSession.principalId}&searchCriteriaEnabled=true'>All My Negotiations</portal:portalLink>
    	</td>
    </tr>
 </table>
