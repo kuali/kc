@@ -25,6 +25,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
@@ -33,6 +34,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationContext;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -101,13 +103,27 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         
         institutionalProposalForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
+        ActionForward forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         if (applyRules(new AddSpecialReviewEvent<InstitutionalProposalSpecialReview>(document, specialReview, specialReviews, isProtocolLinkingEnabled))) {
             specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
             document.getInstitutionalProposal().getSpecialReviews().add(specialReview);
             institutionalProposalForm.getSpecialReviewHelper().setNewSpecialReview(new InstitutionalProposalSpecialReview());
+            if (specialReview.getSpecialReviewType() == null) {
+                specialReview.refreshReferenceObject("specialReviewType");
+            }
+            if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
+                InstitutionalProposalNotificationContext context = 
+                    new InstitutionalProposalNotificationContext(document.getInstitutionalProposal(), "552", "Special Review Inserted");
+                if (institutionalProposalForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                    institutionalProposalForm.getNotificationHelper().initializeDefaultValues(context);
+                    forward = mapping.findForward("notificationEditor");
+                } else {
+                    getNotificationService().sendNotification(context);                
+                }
+            }
         }
         
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        return forward;
     }
     
     /**
@@ -139,16 +155,29 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
      */
     public ActionForward confirmDeleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
-        
+
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_SPECIAL_REVIEW_KEY.equals(question)) {
             InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
             InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
             
-            document.getInstitutionalProposal().getSpecialReviews().remove(getLineToDelete(request));
+            InstitutionalProposalSpecialReview specialReview = document.getInstitutionalProposal().getSpecialReviews().get(getLineToDelete(request));
+            document.getInstitutionalProposal().getSpecialReviews().remove(specialReview);
+            if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
+                InstitutionalProposalNotificationContext context = 
+                    new InstitutionalProposalNotificationContext(document.getInstitutionalProposal(), "553", "Special Review Deleted");
+                if (institutionalProposalForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                    institutionalProposalForm.getNotificationHelper().initializeDefaultValues(context);
+                    forward = mapping.findForward("notificationEditor");
+                } else {
+                    getNotificationService().sendNotification(context);                
+                }
+            }
+            
         }
             
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
     
     /**

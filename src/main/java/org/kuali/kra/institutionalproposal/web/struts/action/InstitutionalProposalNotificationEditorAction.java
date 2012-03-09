@@ -116,6 +116,7 @@ public class InstitutionalProposalNotificationEditorAction extends Institutional
             
             actionForward = mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE);
         }
+        institutionalProposalForm.getNotificationHelper().setNotificationContext(null);
 
         return actionForward;
     }
