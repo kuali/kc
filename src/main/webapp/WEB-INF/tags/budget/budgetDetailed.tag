@@ -184,7 +184,10 @@
 			    
 			<tr>
             	<th colspan="5"><div align="right">Total Amount:</div></th>
-            	<td><div align="center">${ChangeSum }</div></td>
+            	<td><div align="center">
+            		<%--${ChangeSum } --%>
+            		<fmt:formatNumber value="${ChangeSum } " pattern="###,###,###,###.##" type="number" minFractionDigits="2" maxFractionDigits="2"/>
+            	</div></td>
             	<td>&nbsp;</td>
             </tr>			    			    
         </table>  
