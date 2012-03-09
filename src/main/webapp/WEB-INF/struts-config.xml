@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd" [
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd" [
     <!ENTITY protocol_forwards SYSTEM "struts_protocol_forwards.xml">
     <!ENTITY iacuc_forwards SYSTEM "struts_iacuc_forwards.xml">
 	<!ENTITY coi_forwards SYSTEM "struts_coi_forwards.xml">
 	]>
 
 <struts-config>
-    <data-sources />
 
     <form-beans >
 <!-- Rice content Start -->
@@ -73,8 +72,9 @@
         <forward name="portal" path="/portal.jsp" redirect="true" />
         <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
         <forward name="updateTextArea" path="/kr/WEB-INF/jsp/TextArea.jsp" />
-        <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" contextRelative="true"/>
-        <forward name="authorizationExceptionHandler" path="/kr/authorizationExceptionReport.do" contextRelative="true"/>
+        <forward name="exceptionIncidentHandler" path="/../kr/kualiExceptionIncidentReport.do" />
+        <forward name="authorizationExceptionHandler" path="/../kr/authorizationExceptionReport.do"/>
+        
        	<!-- End required KNS forwards -->
 <!-- Rice content End -->
        	
