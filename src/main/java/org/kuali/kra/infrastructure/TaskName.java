@@ -204,6 +204,7 @@ public interface TaskName {
      */
     public static final String CREATE_COI_DISCLOSURE = "createCoiDisclosure";
     public static final String MODIFY_COI_DISCLOSURE = "modifyCoiDisclosure";
+    public static final String ANSWER_COI_DISCLOSURE_QUESTIONNAIRE = "answerCoiDisclosureQuestionnaire";
     public static final String VIEW_COI_DISCLOSURE = "viewCoiDisclosure";
     public static final String VIEW_COI_DISCLOSURE_RESTRICTED_NOTES = "viewCoiRestrictedNotes";
     public static final String APPROVE_COI_DISCLOSURE = "approveCoiDisclosure";
