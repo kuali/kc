@@ -21,9 +21,8 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.coi.auth.CoiDisclosureTask;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -51,27 +50,37 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
 
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
-        return new DisclosureModuleQuestionnaireBean(getDisclosure());
+        return new DisclosureModuleQuestionnaireBean(getCoiDisclosure());
     }
     
-    private CoiDisclosure getDisclosure() {
-        CoiDisclosureDocument document = (CoiDisclosureDocument) form.getDocument();
-        if (document == null || document.getCoiDisclosure() == null) {
-            throw new IllegalArgumentException("invalid (null) CoiDisclosureDocument in CoiDisclosureForm");
-        }
-        return document.getCoiDisclosure();
-    }
     
     public void prepareView(boolean reload) {
-        // TODO check permissions here
-        setAnswerQuestionnaire(true);
+        initializePermissions(getCoiDisclosure());
         this.populateQuestionnaires(reload);
     }
+    
+    /*
+     * authorization check.
+     */
+    private void initializePermissions(CoiDisclosure CoiDisclosure) {
+        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.ANSWER_COI_DISCLOSURE_QUESTIONNAIRE, CoiDisclosure);
+        setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
+    }
+    
     
     private void populateQuestionnaires(boolean reload) {
         if(CollectionUtils.isEmpty(this.getAnswerHeaders()) || reload) {
             super.populateAnswers();
         }
     }
+    
+    private CoiDisclosure getCoiDisclosure() {
+        CoiDisclosureDocument document = form.getCoiDisclosureDocument();
+        if (document == null || document.getCoiDisclosure() == null) {
+            throw new IllegalArgumentException("invalid (null) CoiDisclosureDocument in CoiDisclosureForm");
+        }
+        return document.getCoiDisclosure();
+    }
+
 
 }
