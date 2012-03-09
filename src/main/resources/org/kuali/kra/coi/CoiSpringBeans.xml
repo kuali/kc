@@ -72,9 +72,11 @@
         <property name="versioningService" ref="versioningService" />
         <property name="parameterService" ref="parameterService" />
         <property name="dateTimeService" ref="dateTimeService" />
-        <property name="sponsorHierarchyDao" ref="sponsorHierarchyDao" />
+        <property name="coiDisclosureDao" ref="coiDisclosureDao" />
     </bean>
     
+    <bean id="coiDisclosureDao" parent="platformAwareDao"
+		class="org.kuali.kra.coi.lookup.dao.ojb.CoiDisclosureDaoOjb" />
 
     <bean id="parentCoiDisclosureAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />

@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosure;
@@ -30,16 +29,13 @@ import org.kuali.kra.coi.CoiReviewer;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -194,10 +190,17 @@ public class DisclosureActionHelper implements Serializable {
             coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
     }
 
+    
+    /**
+     * This method is used to disapprove a disclosure. Everything here is the same as an approval except the disclosure does not become 
+     * the master.
+     * @throws Exception
+     */
     public void disapproveDisclosure() throws Exception {
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
             getCoiDisclosureActionService().disapproveDisclosure(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
-            // does history need to be saved??
+            coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
+                    getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
     }
     
     public void setStatus() {

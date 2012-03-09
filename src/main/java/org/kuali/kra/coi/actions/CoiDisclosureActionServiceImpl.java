@@ -36,6 +36,7 @@ import org.kuali.kra.coi.CoiDisclosureHistory;
 import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
+import org.kuali.kra.coi.disclosure.MasterDisclosureBean;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
@@ -103,12 +104,13 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      * @see org.kuali.kra.coi.actions.CoiDisclosureActionService#disapproveDisclosure(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
      */
     public void disapproveDisclosure(CoiDisclosure coiDisclosure, String coiDispositionCode) throws Exception {
-        /*
-         * Not sure if these histories should be saved.
-         */
+        CoiDisclosure masterCoiDisclosure = getMasterDisclosure(coiDisclosure.getCoiDisclosureNumber());
+        
         coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
         coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.DISAPPROVED);
+      
         businessObjectService.save(coiDisclosure);
+        businessObjectService.save(createDisclosureHistory(coiDisclosure));
         documentService.disapproveDocument(coiDisclosure.getCoiDisclosureDocument(), "Document approved.");       
     }
 
@@ -223,6 +225,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
 
     /*
      * copy disclosure details of current master disclosure to the disclosure that is bing approved
+     * because the current disclosure becomes the master.
      */
     private void copyDisclosureDetails(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
         // may also need to add note/attachment to new master disclosure
