@@ -293,10 +293,9 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
     public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposal institutionalProposal = institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal();
-        
-        InstitutionalProposalNotificationRenderer renderer = new InstitutionalProposalNotificationRenderer(institutionalProposal);
+       
         InstitutionalProposalNotificationContext context 
-            = new InstitutionalProposalNotificationContext(institutionalProposal, null, "Ad-Hoc Notification", renderer);
+            = new InstitutionalProposalNotificationContext(institutionalProposal, null, "Ad-Hoc Notification");
         
         institutionalProposalForm.getNotificationHelper().initializeDefaultValues(context);
         

@@ -173,7 +173,33 @@
 		</property>
 	</bean>
 
-    <bean id="institutionalProposalNotificationRoleQualifierService" class="org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationRoleQualifierServiceImpl">
-    </bean>
+    <bean id="institutionalProposalNotificationRoleQualifierService" class="org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationRoleQualifierServiceImpl"
+    	scope="prototype"/>
+    	
+    <bean id="institutionalProposalNotificationRenderer" 
+    	class="org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationRenderer"
+    	scope="prototype"/>	    	
+
+	<bean id="institutionalProposalInvestigatorsRoleTypeService"
+		class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalInvestigatorDerivedRoleTypeServiceImpl">
+		<property name="institutionalProposalService" ref="institutionalProposalService"/>
+	</bean>
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+		<property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="institutionalProposalInvestigatorsRoleTypeService"
+				p:localServiceName="institutionalProposalInvestigatorsRoleTypeService" />
+		</property>
+	</bean>
+    
+    <bean id="institutionalProposalAllUnitAdministratorDerivedRoleTypeService"
+		class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalAllUnitAdministratorDerivedRoleTypeServiceImpl">
+		<property name="institutionalProposalService" ref="institutionalProposalService"/>
+	</bean>
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+		<property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="institutionalProposalAllUnitAdministratorDerivedRoleTypeService"
+				p:localServiceName="institutionalProposalAllUnitAdministratorDerivedRoleTypeService" />				
+		</property>
+	</bean>
     
 </beans>
