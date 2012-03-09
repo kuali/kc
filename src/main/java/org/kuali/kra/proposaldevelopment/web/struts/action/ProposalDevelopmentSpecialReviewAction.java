@@ -99,7 +99,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
         ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
         List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
-        boolean isProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
+        boolean isProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
         
         proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
@@ -167,7 +167,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
         ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
         List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
-        boolean isPDProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
+        boolean isPDProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
         
         proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         

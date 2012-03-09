@@ -64,7 +64,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     private List<String> linkedProtocolNumbers;
 
     private boolean canModifySpecialReview;
-    private boolean isProtocolLinkingEnabled;
+    private boolean isIrbProtocolLinkingEnabled;
     
     private transient ParameterService parameterService;
     private transient ProtocolFinderDao protocolFinderDao;
@@ -90,8 +90,8 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
         return canModifySpecialReview;
     }
     
-    public boolean getIsProtocolLinkingEnabled() {
-        return isProtocolLinkingEnabled;
+    public boolean getIsIrbProtocolLinkingEnabled() {
+        return isIrbProtocolLinkingEnabled;
     }
     
     /**
@@ -108,7 +108,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      * @param specialReview the Special Review to update
      */
     public void prepareProtocolLinkViewFields(T specialReview) {
-        if (getIsProtocolLinkingEnabled()) {
+        if (getIsIrbProtocolLinkingEnabled()) {
             if (specialReview != null && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
                 Protocol protocol = getLastApprovedProtocol(specialReview.getProtocolNumber());
                 if (protocol != null) {
@@ -180,7 +180,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      * Is the Protocol linking parameter enabled for this module?
      * @return true if Protocol liking is enabled for this module, false otherwise
      */
-    protected abstract boolean isProtocolLinkingEnabledForModule();
+    protected abstract boolean isIrbProtocolLinkingEnabledForModule();
     
     /**
      * Gets the last approved Protocol, ignoring any amendments or renewals.
@@ -250,7 +250,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      */
     private void initializePermissions() {
         canModifySpecialReview = hasModifySpecialReviewPermission(getUserIdentifier());
-        isProtocolLinkingEnabled = isProtocolLinkingEnabledForModule();
+        isIrbProtocolLinkingEnabled = isIrbProtocolLinkingEnabledForModule();
     }
     
     private String getUserIdentifier() {
@@ -258,7 +258,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     }
     
     private void initializeLinkedProtocolNumbers() {
-        if (getIsProtocolLinkingEnabled()) {
+        if (getIsIrbProtocolLinkingEnabled()) {
             for (T specialReview : getSpecialReviews()) {
                 if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
                     linkedProtocolNumbers.add(specialReview.getProtocolNumber());
