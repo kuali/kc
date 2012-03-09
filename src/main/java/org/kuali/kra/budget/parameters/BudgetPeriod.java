@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -215,6 +216,7 @@ public class BudgetPeriod extends BudgetAssociate {
      * @return Returns the budgetLineItems.
      */
     public List<BudgetLineItem> getBudgetLineItems() {
+        Collections.sort(budgetLineItems);
         return budgetLineItems;
     }
 
