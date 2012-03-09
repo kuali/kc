@@ -56,7 +56,6 @@
                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.invoiceNumber}" /></div></th>
                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.startDate}" /></div></th>
                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.endDate}" /></div></th>
-               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.fileName}" /></div></th>
                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.effectiveDate}" /></div></th>
                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.amountReleased}" /></div></th>
   
@@ -86,11 +85,7 @@
    					</div> 
    				</td>
    				
-   				   <td class="infoline">
-   				   <c:if test="${readOnly!='true'}">
-                	<html:file property="newSubAwardAmountReleased.newFile" />
-                	</c:if>
-                </td>
+   				  
                 <td><div align="center">
      					<kul:htmlControlAttribute property="newSubAwardAmountReleased.effectiveDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.effectiveDate}" datePicker="true"/>         
    					</div> 
@@ -112,8 +107,14 @@
    		
         	<tr>				
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.comments}" /></div></th>
-                <td colspan="5">
+                <td colspan="2">
                       <kul:htmlControlAttribute property="newSubAwardAmountReleased.comments" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.comments}" />
+                </td>
+                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.fileName}" /></div></th>
+                 <td class="infoline">
+   				   <c:if test="${readOnly!='true'}">
+                	<html:file property="newSubAwardAmountReleased.newFile" />
+                	</c:if>
                 </td>
             </tr>     
    				</c:if>
@@ -138,25 +139,7 @@
 	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].endDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.endDate}" datePicker="true" />
 						</div>
 					
-						<td width="9%" valign="middle">
-						<div id="invoiceReplaceDiv${status.index}" style="display: block;">
-							<c:if test="${newSubAwardAmountReleased.fileName!=null}">
-								<kra:fileicon attachment="${newSubAwardAmountReleased}" />
-							</c:if>
-							<kul:htmlControlAttribute
-								property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].fileName"
-								readOnly="true"
-								attributeEntry="${subAwardAmountReleasedAttributes.fileName}" />
-						</div>
-						<div id="invoiceFileDiv${status.index}" valign="middle"
-							style="display: none;">
-							<html:file
-								property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].newFile" />
-							<html:image
-								property="methodToCall.replaceInvoiceAttachment.line${status.index}.anchor${currentTabIndex}"
-								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif'
-								styleClass="tinybutton" />
-						</div></td>		
+							
 						<td width="9%" valign="middle">
 						<div align="center">
 						
@@ -175,6 +158,8 @@
 						
 						               
 						<td width="10%" valign="middle" rowspan="2">    
+						<div align="center">Attachment Actions :
+					</div><br></br>
 						<div align="center">
 							<c:if test="${!readOnly}">
 								<c:if test="${newSubAwardAmountReleased.fileName!=null}">
@@ -191,10 +176,12 @@
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
 									styleClass="tinybutton"
 									property="methodToCall.replaceNarrativeAttachment.line${status.index}.anchor${currentTabIndex};return false" />
-								<html:image
-									property="methodToCall.deleteAmountReleased.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif'
-									styleClass="tinybutton" />
+								<c:if test="${newSubAwardAmountReleased.fileName!=null}">
+									<html:image
+										property="methodToCall.deleteAmountReleased.line${status.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif'
+										styleClass="tinybutton" />
+								</c:if>
 							</c:if>
 							<c:if test="${readOnly}">&nbsp;</c:if>
 						</div></td>	
@@ -202,9 +189,28 @@
 		            
 		            <tr>		            			
 						<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.comments}" /></div></th>
-                			<td colspan="5">
+                			<td colspan="3">
                       			<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].comments" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.comments}" />
                 			</td>
+                			<td width="9%" valign="middle">
+						<div id="invoiceReplaceDiv${status.index}" style="display: block;">
+							<c:if test="${newSubAwardAmountReleased.fileName!=null}">
+								<kra:fileicon attachment="${newSubAwardAmountReleased}" />
+							</c:if>
+							<kul:htmlControlAttribute
+								property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].fileName"
+								readOnly="true"
+								attributeEntry="${subAwardAmountReleasedAttributes.fileName}" />
+						</div>
+						<div id="invoiceFileDiv${status.index}" valign="middle"
+							style="display: none;">
+							<html:file
+								property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].newFile" />
+							<html:image
+								property="methodToCall.replaceInvoiceAttachment.line${status.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif'
+								styleClass="tinybutton" />
+						</div></td>	
            		   </tr>
 	        	</c:forEach>
         </table>
