@@ -61,21 +61,14 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocationDocFormKey(fieldValues);  
-        if (this.getParameters().containsKey(USER_ID)) {
-            fieldValues.put("projectPersons.personId", ((String[]) this.getParameters().get(USER_ID))[0]);
-        }
-        Map<String, String> formProps = new HashMap<String, String>();
-        if (!StringUtils.isEmpty(fieldValues.get("lookupOspAdministratorName"))) {
-            formProps.put("fullName", fieldValues.get("lookupOspAdministratorName"));
-            formProps.put("unitAdministratorTypeCode", "2");
-        }
-        fieldValues.remove("lookupOspAdministratorName");
         String awardNumber = fieldValues.get("awardNumber");
+        String subrecipientName = fieldValues.get("organizationName");
         fieldValues.remove("awardNumber");
+        fieldValues.remove("organizationName");
         List<SubAward> unboundedResults = (List<SubAward>) super.getSearchResultsUnbounded(fieldValues);
         List<SubAward> returnResults = new ArrayList<SubAward>();
         try {
-            returnResults = filterForActiveSubAwards(unboundedResults,awardNumber);
+            returnResults = filterForActiveSubAwards(unboundedResults,awardNumber,subrecipientName);
         }
         catch (WorkflowException e) {
             // TODO Auto-generated catch block
@@ -97,6 +90,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
         List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         SubAwardDocument document = ((SubAward) businessObject).getSubAwardDocument();
         htmlDataList.add(getOpenLink((SubAward) businessObject, false));
+        htmlDataList.add(getMedusaLink((SubAward) businessObject, false));
         return htmlDataList;
     }
    /**
@@ -119,8 +113,26 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
         htmlData.setHref(href);
         return htmlData;
     }
-     
-   
+    /**
+     * @param subaward
+     * @return
+     */
+    protected AnchorHtmlData getMedusaLink(SubAward subAward, Boolean readOnly) {
+        AnchorHtmlData htmlData = new AnchorHtmlData();
+        htmlData.setDisplayText(MEDUSA);
+        Properties parameters = new Properties();
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "medusa");
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put("viewDocument", readOnly.toString());
+        parameters.put("docId", subAward.getSubAwardDocument().getDocumentNumber());
+        parameters.put("docOpenedFromAwardSearch", "true");
+        parameters.put("placeHolderAwardId", subAward.getSubAwardId().toString());
+        String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
+        
+        htmlData.setHref(href);
+        return htmlData;
+    }    
     
       /**
        * This override is reset field definitions
@@ -146,7 +158,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
       }
       
       @SuppressWarnings("unchecked")
-      protected List<SubAward> filterForActiveSubAwards(Collection<SubAward> collectionByQuery, String awardNumber) throws WorkflowException {
+      protected List<SubAward> filterForActiveSubAwards(Collection<SubAward> collectionByQuery, String awardNumber,String subrecipientName) throws WorkflowException {
           BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
           Set<String> subAwardCodes = new TreeSet<String>();
           List<Integer> subAwardCodeList = new ArrayList<Integer>();
@@ -171,7 +183,18 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
                   }
               }
           } 
-         
+          List<SubAward> filteredSubAwards = new ArrayList<SubAward>();
+        
+              for(SubAward subAward : activeSubAwards){
+                  if(subrecipientName!=null && !subrecipientName.equals("") && subAward.getOrganizationName() !=null){
+                      if(subAward.getOrganizationName().equals(subrecipientName)){
+                          filteredSubAwards.add(subAward);
+                      }
+                  }else{
+                      filteredSubAwards.add(subAward);
+                  }
+              }
+          
           List<SubAward> filteredSubAwardList = new ArrayList<SubAward>();
           if(awardNumber!=null && !awardNumber.equals("")){
               Collection <Award>awards = getBusinessObjectService().findMatching(Award.class, ServiceHelper.getInstance().
@@ -189,7 +212,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
                   }
               }
 
-              for(SubAward subAward : activeSubAwards){
+              for(SubAward subAward : filteredSubAwards){
                   for (SubAwardFundingSource subAwardFunding : fundingSourceList){
                       if(subAward.getSubAwardId().equals(subAwardFunding.getSubAwardId())){
                           filteredSubAwardList.add(subAward);
@@ -197,7 +220,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
                   }
               }
           }else{
-              for(SubAward subAward : activeSubAwards){
+              for(SubAward subAward : filteredSubAwards){
                   filteredSubAwardList.add(subAward);
               }
 
