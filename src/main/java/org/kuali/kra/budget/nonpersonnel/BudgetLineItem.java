@@ -29,7 +29,7 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.springmodules.orm.ojb.OjbFactoryUtils;
 
-public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaintainable {
+public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaintainable, Comparable<BudgetLineItem> {
 
     private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
 
@@ -217,5 +217,19 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
 
     public AbstractBudgetCalculatedAmount getNewBudgetLineItemCalculatedAmount() {
         return new BudgetLineItemCalculatedAmount();
+    }
+    
+    /**
+     * Calculated comparable based on the cost element, then on the line item sequence.
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    @Override
+    public int compareTo(BudgetLineItem o) {
+        int compare = this.getCostElementName().compareTo(o.getCostElementName());
+        if (compare == 0) {
+            compare = this.getLineItemSequence().compareTo(o.getLineItemSequence());
+        }
+        // TODO Auto-generated method stub
+        return compare;
     }
 }
