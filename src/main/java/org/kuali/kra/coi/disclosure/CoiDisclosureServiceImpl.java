@@ -42,13 +42,13 @@ import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
+import org.kuali.kra.coi.lookup.dao.CoiDisclosureDao;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.dao.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -61,7 +61,6 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
@@ -81,7 +80,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private VersioningService versioningService;
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
-    private SponsorHierarchyDao sponsorHierarchyDao;
+    private CoiDisclosureDao coiDisclosureDao;
 
     private static final String PROTOCOL_DISCLOSE_STATUS_CODES = "PROTOCOL_DISCLOSE_STATUS_CODES";
     private static final String PROPOSAL_DISCLOSE_STATUS_CODES = "PROPOSAL_DISCLOSE_STATUS_CODES";
@@ -1111,11 +1110,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return isAllSponsors;
     }
 
-
-    public void setSponsorHierarchyDao(SponsorHierarchyDao sponsorHierarchyDao) {
-        this.sponsorHierarchyDao = sponsorHierarchyDao;
-    }
-
     public boolean isReporter() {
         // TODO : this is the initial implementation to check if a user need to report
         // more condition may be added
@@ -1159,7 +1153,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }
             disclosureProjectBean.getProjectDiscDetails().add(coiDiscDetail);            
         }
-        
+        // unless we are doing an update
         if (!CoiDisclosureEventType.UPDATE.equals(coiDisclosure.getEventTypeCode())) {
             setupDisclosures(masterDisclosureBean, coiDisclosure);
         }
@@ -1242,17 +1236,19 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return null;
     }
     
+    public void setCoiDisclosureDao(CoiDisclosureDao coiDisclosureDao) {
+        this.coiDisclosureDao = coiDisclosureDao;
+    }
+    
+    public CoiDisclosureDao getCoiDisclosureDao() {
+        return coiDisclosureDao;
+    }
     /*
-     * get the approved disclosure history for the specified disclosurenumber
+     * get the approved and disapproved disclosure history for the specified disclosurenumber
      */
     @SuppressWarnings({ "unused", "unchecked" })
     protected List<CoiDisclosureHistory> getDisclosureHistory(String coiDisclosureNumber) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("coiDisclosureNumber", coiDisclosureNumber);
-        fieldValues.put("disclosureStatus", CoiDisclosureStatus.APPROVED);
-        return (List<CoiDisclosureHistory>) businessObjectService.findMatchingOrderBy(CoiDisclosureHistory.class, fieldValues,
-                "sequenceNumber", true);
-
+        return getCoiDisclosureDao().getApprovedAndDisapprovedDisclosureHistory(coiDisclosureNumber);
     }
 
     /*
