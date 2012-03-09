@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.institutionalproposal.notification;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.kim.api.KimConstants;
 
 /**
  * Implements the InstitutionalProposalNotificationRoleQualifierService.
@@ -33,8 +36,16 @@ public class InstitutionalProposalNotificationRoleQualifierServiceImpl implement
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {
         String roleQualifierValue = null;
-        
-        // TODO: fill in role qualifier values here
+        if (StringUtils.equals(qualifier.getQualifier(), KcKimAttributes.PROPOSAL)) {
+            roleQualifierValue = institutionalProposal.getProposalId().toString();
+        }
+        else if (StringUtils.equals(qualifier.getQualifier(), KcKimAttributes.UNIT_NUMBER)) {
+            if (institutionalProposal.getUnitNumber() != null) {
+                roleQualifierValue = institutionalProposal.getUnitNumber();
+            }
+        } else if (StringUtils.equals(qualifier.getQualifier(), KimConstants.AttributeConstants.DOCUMENT_NUMBER)) {
+            roleQualifierValue = institutionalProposal.getInstitutionalProposalDocument().getDocumentNumber();
+        }
         
         return roleQualifierValue;
     }

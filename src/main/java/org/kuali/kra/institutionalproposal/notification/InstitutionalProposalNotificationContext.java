@@ -33,6 +33,7 @@ public class InstitutionalProposalNotificationContext extends NotificationContex
 
     private static final long serialVersionUID = 2192183278537033594L;
     
+    private InstitutionalProposal proposal;
     private String documentNumber;
     private String actionTypeCode;
     private String contextName;
@@ -49,13 +50,21 @@ public class InstitutionalProposalNotificationContext extends NotificationContex
                                                     NotificationRenderer renderer) {
         super(renderer);
         
+        this.proposal = institutionalProposal;
         this.documentNumber = institutionalProposal.getInstitutionalProposalDocument().getDocumentNumber();
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
         
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        setNotificationRoleQualifierService(KraServiceLocator.getService(InstitutionalProposalNotificationRoleQualifierService.class));
+        InstitutionalProposalNotificationRoleQualifierService roleQualifier = KraServiceLocator.getService(InstitutionalProposalNotificationRoleQualifierService.class);
+        roleQualifier.setInstitutionalProposal(institutionalProposal);
+        setNotificationRoleQualifierService(roleQualifier);
+    }
+    
+    public InstitutionalProposalNotificationContext(InstitutionalProposal institutionalProposal, String actionTypeCode, String contextName) {
+        this(institutionalProposal, actionTypeCode, contextName, KraServiceLocator.getService(InstitutionalProposalNotificationRenderer.class));
+        ((InstitutionalProposalNotificationRenderer) this.getRenderer()).setInstitutionalProposal(institutionalProposal);
     }
     
     /**

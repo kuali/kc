@@ -991,7 +991,21 @@
     					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>
-    			</entry> 
+    			</entry>
+    			<entry key="KC-IP:Investigators">
+					<bean class="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+    					<property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" />
+    					<property name="keyAttributeName" value="proposalPersonRoleId"/>
+    					<property name="labelAttributeName" value="description"/>
+    				</bean>    			
+    			</entry>
+    			<entry key="KC-IP:All Unit Administrators">
+    				<bean class="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+    					<property name="businessObjectClass" value="org.kuali.kra.bo.UnitAdministratorType" />
+    					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
+    					<property name="labelAttributeName" value="description"/>
+    				</bean>    				
+    			</entry>
     		</map>
     	</property>
     </bean>
