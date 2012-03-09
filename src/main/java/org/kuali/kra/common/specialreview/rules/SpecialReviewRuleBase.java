@@ -76,7 +76,7 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         
         T specialReview = addSpecialReviewEvent.getSpecialReview();
         List<T> specialReviews = addSpecialReviewEvent.getSpecialReviews();
-        boolean validateProtocol = addSpecialReviewEvent.getIsProtocolLinkingEnabled();
+        boolean validateProtocol = addSpecialReviewEvent.getIsIrbProtocolLinkingEnabled();
         
         getDictionaryValidationService().validateBusinessObject(specialReview);
         rulePassed &= GlobalVariables.getMessageMap().hasNoErrors();

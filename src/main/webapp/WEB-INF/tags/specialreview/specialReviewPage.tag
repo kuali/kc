@@ -28,7 +28,7 @@
               description="The name of the action class" %>
 
 <c:set var="canModify" value="${KualiForm.specialReviewHelper.canModifySpecialReview}"/>
-<c:set var="enableProtocolLinking" value="${KualiForm.specialReviewHelper.isProtocolLinkingEnabled}" />
+<c:set var="enableIrbProtocolLinking" value="${KualiForm.specialReviewHelper.isIrbProtocolLinkingEnabled}" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.SPECIAL_REVIEW_COMMENT_LENGTH%>" />
 
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="specialReviewHelper.newSpecialReview*,${collectionProperty}*">
@@ -79,14 +79,14 @@
 		                                                attributeEntry="${attributes.approvalTypeCode}" 
 		                                                initialReadOnly="${protocolLinkingReadOnly}"
 		                                                readOnlyBody="true"
-		                                                staticOnly="${!enableProtocolLinking}">
+		                                                staticOnly="${!enableIrbProtocolLinking}">
                            ${KualiForm.specialReviewHelper.newSpecialReview.protocolStatus}
 		               </kra:dynamicHtmlControlAttribute>
 	                </div></td>
 	                <td class="infoline"><div align="center">
                         <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.protocolNumber" 
 		                                          attributeEntry="${attributes.protocolNumber}" />
-                        <c:if test="${enableProtocolLinking}">
+                        <c:if test="${enableIrbProtocolLinking}">
                             <span id="specialReviewHelper.newSpecialReview.protocolNumber.link.div" style="${initialStyle}">
                                 <kul:lookup boClassName="org.kuali.kra.irb.Protocol" 
                                             fieldConversions="protocolNumber:specialReviewHelper.newSpecialReview.protocolNumber" />
@@ -97,25 +97,25 @@
                         <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.applicationDate" 
                                                          attributeEntry="${attributes.applicationDate}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}"
-                                                         staticOnly="${!enableProtocolLinking}" />
+                                                         staticOnly="${!enableIrbProtocolLinking}" />
 	                </div></td>
                     <td align="left" valign="middle" class="infoline"><div align="center">
                         <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalDate" 
                                                          attributeEntry="${attributes.approvalDate}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}"
-                                                         staticOnly="${!enableProtocolLinking}" />
+                                                         staticOnly="${!enableIrbProtocolLinking}" />
 	                </div></td>
 	                <td align="left" valign="middle" class="infoline"><div align="center">
 	                	<kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.expirationDate" 
 	                	                                 attributeEntry="${attributes.expirationDate}" 
 	                	                                 initialReadOnly="${protocolLinkingReadOnly}"
-	                	                                 staticOnly="${!enableProtocolLinking}" />
+	                	                                 staticOnly="${!enableIrbProtocolLinking}" />
 	                </div></td>
 	                <td align="left" valign="middle" class="infoline"><div align="center">
                         <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.exemptionTypeCodes" 
                                                          attributeEntry="${exemptionAttributes.exemptionTypeCode}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}" 
-                                                         staticOnly="${!enableProtocolLinking}" />  			
+                                                         staticOnly="${!enableIrbProtocolLinking}" />  			
 	                </div></td>
 					<td class="infoline" rowspan="1"><div align="center">
 						<html:image property="methodToCall.addSpecialReview.anchor${tabKey}" 
@@ -135,7 +135,7 @@
             
         	<c:forEach var="specialReview" items="${collectionReference}" varStatus="status">
                 <tr>
-                    <c:set var="protocolLinkingReadOnly" value="${enableProtocolLinking and collectionReference[status.index].specialReviewTypeCode == '1'}" />
+                    <c:set var="protocolLinkingReadOnly" value="${enableIrbProtocolLinking and collectionReference[status.index].specialReviewTypeCode == '1'}" />
 	                <c:choose>
 	                    <c:when test="${collectionReference[status.index].specialReviewTypeCode == '1'}">
 	                        <c:set var="initialStyle" value="display:inline"/>
@@ -162,9 +162,9 @@
 	                                                     initialReadOnly="${protocolLinkingReadOnly}"
                                                          readOnly="${not canModify}"
                                                          readOnlyBody="true" 
-                                                         staticOnly="${!enableProtocolLinking}">
+                                                         staticOnly="${!enableIrbProtocolLinking}">
                             <c:choose>
-	                            <c:when test="${collectionReference[status.index].specialReviewTypeCode == '1'}">
+	                            <c:when test="${collectionReference[status.index].specialReviewTypeCode == '1' && enableIrbProtocolLinking}">
 	                                ${collectionReference[status.index].protocolStatus}
 	                            </c:when>
 	                            <c:otherwise>
@@ -177,7 +177,7 @@
                         <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].protocolNumber" 
                                                   attributeEntry="${attributes.protocolNumber}" 
                                                   readOnly="${not canModify}" />
-                        <c:if test="${enableProtocolLinking}">
+                        <c:if test="${enableIrbProtocolLinking}">
                             <span id="${collectionProperty}[${status.index}].protocolNumber.link.div" style="${initialStyle}">
 	                            <kul:lookup boClassName="org.kuali.kra.irb.Protocol" 
 		                                    fieldConversions="protocolNumber:${collectionProperty}[${status.index}].protocolNumber" />
@@ -189,28 +189,28 @@
                                                          attributeEntry="${attributes.applicationDate}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}"
                                                          readOnly="${not canModify}"
-                                                         staticOnly="${!enableProtocolLinking}" />
+                                                         staticOnly="${!enableIrbProtocolLinking}" />
 	                </div></td>
 	                <td align="left" valign="middle"><div align="center">
                         <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].approvalDate" 
                                                          attributeEntry="${attributes.approvalDate}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}"
                                                          readOnly="${not canModify}"
-                                                         staticOnly="${!enableProtocolLinking}" />
+                                                         staticOnly="${!enableIrbProtocolLinking}" />
 	                </div></td>
 	                <td align="left" valign="middle"><div align="center">
                         <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].expirationDate" 
                                                          attributeEntry="${attributes.expirationDate}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}"
                                                          readOnly="${not canModify}"
-                                                         staticOnly="${!enableProtocolLinking}"/>
+                                                         staticOnly="${!enableIrbProtocolLinking}"/>
 	                </div></td>
 	                <td align="left" valign="middle"><div align="center">
                         <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].exemptionTypeCodes" 
                                                          attributeEntry="${exemptionAttributes.exemptionTypeCode}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}"
                                                          readOnly="${not canModify}"
-                                                         staticOnly="${!enableProtocolLinking}"/>
+                                                         staticOnly="${!enableIrbProtocolLinking}"/>
 	                </div></td>
 					<td rowspan="1"><div align=center>
                         <c:if test="${canModify}">
