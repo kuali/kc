@@ -53,7 +53,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecial
     }
     
     @Override
-    protected boolean isProtocolLinkingEnabledForModule() {
+    protected boolean isIrbProtocolLinkingEnabledForModule() {
         return false;
     }
 

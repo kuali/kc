@@ -97,7 +97,7 @@ public class AwardSpecialReviewAction extends AwardAction {
         AwardDocument document = awardForm.getAwardDocument();
         AwardSpecialReview specialReview = awardForm.getSpecialReviewHelper().getNewSpecialReview();
         List<AwardSpecialReview> specialReviews = document.getAward().getSpecialReviews();
-        boolean isProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
+        boolean isProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
         
         awardForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
@@ -164,7 +164,7 @@ public class AwardSpecialReviewAction extends AwardAction {
         AwardDocument document = awardForm.getAwardDocument();
         List<AwardSpecialReview> specialReviews = document.getAward().getSpecialReviews();
         List<String> linkedProtocolNumbers = awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers();
-        boolean isAwardProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
+        boolean isAwardProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
 
         if (isAwardProtocolLinkingEnabled) {
             if (applyRules(new SaveSpecialReviewLinkEvent<AwardSpecialReview>(document, specialReviews, linkedProtocolNumbers))) {
