@@ -75,7 +75,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     private static final String END_DATE = "newSubAwardAmountReleased.endDate";
     private static final String AMOUNT_RELEASED="newSubAwardAmountReleased.amountReleased";
     
-    private static final String ROLODEX_ID="newSubAwardContact.rolodex.firstName";
+    private static final String ROLODEX_ID="newSubAwardContact.rolodex.fullName";
     private static final String CONTACT_TYPE_CODE="newSubAwardContact.contactTypeCode";
     
     private static final String CLOSEOUT_TYPE_CODE="newSubAwardCloseout.closeoutTypeCode";
