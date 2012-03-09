@@ -92,6 +92,10 @@
                     <property name="taskName" value="modifyCoiDisclosure" />
                 </bean>
                 
+                <bean class="org.kuali.kra.coi.auth.AnswerCoiDisclosureQuestionnaireAuthorizer" parent="parentCoiDisclosureAuthorizer">
+                    <property name="taskName" value="answerCoiDisclosureQuestionnaire" />
+                </bean>
+                
                 <bean class="org.kuali.kra.coi.auth.ViewCoiDisclosureAuthorizer" parent="parentCoiDisclosureAuthorizer">
                     <property name="taskName" value="viewCoiDisclosure" />
                 </bean>
