@@ -154,6 +154,8 @@
 								styleClass="tinybutton" />
 						</div></td>
 					<td width="10%" valign="middle" rowspan="2">
+					<div align="center">Attachment Actions :
+					</div><br></br>
 						<div align="center">
 							<c:if test="${!readOnly}">
 								<c:if test="${newSubAwardAmountInfo.fileName!=null}">
@@ -170,10 +172,12 @@
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
 									styleClass="tinybutton"
 									property="methodToCall.replaceNarrativeAttachment.line${status.index}.anchor${currentTabIndex};return false" />
-								<html:image
-									property="methodToCall.deleteAmountInfo.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif'
-									styleClass="tinybutton" />
+								<c:if test="${newSubAwardAmountInfo.fileName!=null}">
+									<html:image
+										property="methodToCall.deleteAmountInfo.line${status.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif'
+										styleClass="tinybutton" />
+								</c:if>
 							</c:if>
 							<c:if test="${readOnly}">&nbsp;</c:if>
 						</div></td>	
