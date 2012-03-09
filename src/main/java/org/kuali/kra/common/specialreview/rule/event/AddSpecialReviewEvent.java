@@ -36,7 +36,7 @@ public class AddSpecialReviewEvent<T extends SpecialReview<? extends SpecialRevi
     
     private List<T> specialReviews;
     
-    private boolean isProtocolLinkingEnabled;
+    private boolean isIrbProtocolLinkingEnabled;
     
     /**
      * Constructs an AddProposalSpecialReviewEvent.
@@ -44,13 +44,13 @@ public class AddSpecialReviewEvent<T extends SpecialReview<? extends SpecialRevi
      * @param document The document containing the Special Review
      * @param specialReview The Special Review object to validate
      * @param specialReviews The existing Special Review objects
-     * @param isProtocolLinkingEnabled Whether or not Protocol linking is enabled
+     * @param isIrbProtocolLinkingEnabled Whether or not Protocol linking is enabled
      */
-    public AddSpecialReviewEvent(Document document, T specialReview, List<T> specialReviews, boolean isProtocolLinkingEnabled) {
+    public AddSpecialReviewEvent(Document document, T specialReview, List<T> specialReviews, boolean isIrbProtocolLinkingEnabled) {
         super("adding special review to document " + getDocumentId(document), NEW_SPECIAL_REVIEW_FIELD, document);
         this.specialReview = specialReview;
         this.specialReviews = specialReviews;
-        this.isProtocolLinkingEnabled = isProtocolLinkingEnabled;
+        this.isIrbProtocolLinkingEnabled = isIrbProtocolLinkingEnabled;
     }
 
     public T getSpecialReview() {
@@ -69,12 +69,12 @@ public class AddSpecialReviewEvent<T extends SpecialReview<? extends SpecialRevi
         this.specialReviews = specialReviews;
     }
 
-    public boolean getIsProtocolLinkingEnabled() {
-        return isProtocolLinkingEnabled;
+    public boolean getIsIrbProtocolLinkingEnabled() {
+        return isIrbProtocolLinkingEnabled;
     }
 
-    public void setIsProtocolLinkingEnabled(boolean isProtocolLinkingEnabled) {
-        this.isProtocolLinkingEnabled = isProtocolLinkingEnabled;
+    public void setIsIrbProtocolLinkingEnabled(boolean isIrbProtocolLinkingEnabled) {
+        this.isIrbProtocolLinkingEnabled = isIrbProtocolLinkingEnabled;
     }
 
     @Override

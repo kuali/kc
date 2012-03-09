@@ -99,7 +99,7 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
         InstitutionalProposalSpecialReview specialReview = institutionalProposalForm.getSpecialReviewHelper().getNewSpecialReview();
         List<InstitutionalProposalSpecialReview> specialReviews = document.getInstitutionalProposal().getSpecialReviews();
-        boolean isProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
+        boolean isProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
         
         institutionalProposalForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
@@ -193,7 +193,7 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
         List<InstitutionalProposalSpecialReview> specialReviews = document.getInstitutionalProposal().getSpecialReviews();
         List<String> linkedProtocolNumbers = institutionalProposalForm.getSpecialReviewHelper().getLinkedProtocolNumbers();
-        boolean isIPProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsProtocolLinkingEnabled();
+        boolean isIPProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
         
         if (isIPProtocolLinkingEnabled) {
             if (applyRules(new SaveSpecialReviewLinkEvent<InstitutionalProposalSpecialReview>(document, specialReviews, linkedProtocolNumbers))) {
