@@ -1003,7 +1003,7 @@ public final class KeyConstants {
     public static final String ERROR_REQUIRED_SUBAWARD_CONTACT_PERSON_EXIST= "error.subAwardSponsorContact.person.exists";
     public static final String ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER_DUPLICATE= "error.required.subaward.funding.source.award.number.duplicate";
     public static final String SUBAWARD_ERROR_END_DATE_GREATER_THAN_START = "subaward.error.end.date.greater.than.start";
-    public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT = "subaward.error.obligated.amount.greater.than.anticipated.amount";
+    public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_GREATER_THAN_ANTICIPATED_AMOUNT = "subaward.error.obligated.amount.greater.than.anticipated.amount";
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE = "subaward.error.obligated.amount.less.than.zero";
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO = "subaward.error.obligated.amount.equal.to.zero";
     public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_NEGATIVE = "subaward.error.anticipated.amount.less.than.zero";
