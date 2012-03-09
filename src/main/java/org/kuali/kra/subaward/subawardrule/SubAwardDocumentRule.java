@@ -236,19 +236,15 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                 }
             }
         }
-        if( obligatedAmount!=null){
-            int count =0;
-            for(SubAwardAmountInfo subAwardAmountInfo :subAward.getSubAwardAmountInfoList()){
-                if(subAwardAmountInfo.getObligatedChange()!=null && subAwardAmountInfo.getAnticipatedChange()!=null){
-                    count=count+1;
-                    if(subAwardAmountInfo.getObligatedChange().isGreaterThan(subAwardAmountInfo.getAnticipatedChange())){
-                        rulePassed = false;
-                        reportError("document.subAwardList[0].subAwardAmountInfoList["+Integer.toString(count-1)+"].anticipatedChange"
-                                , KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT ); 
-                    }
-                }
+       
+        if(obligatedAmount != null && anticipatedAmount != null) {
+            if(obligatedAmount.isGreaterThan(anticipatedAmount)) {
+                rulePassed = false;
+                reportError(AMOUNT_INFO_ANTICIPATED_AMOUNT
+                        , KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_GREATER_THAN_ANTICIPATED_AMOUNT); 
             }
         }
+        
         if( obligatedAmount!=null){
             int count =0;
             List<String> awardAmountReleased = new ArrayList<String>();
@@ -291,33 +287,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                     , KeyConstants.ERROR_REQUIRED_EFFECTIVE_DATE);            
             
         }  
-        if(amountInfo!=null && amountInfo.getObligatedChange()!=null && amountInfo.getAnticipatedChange()!=null ){
-            
-            if(amountInfo.getObligatedChange().isGreaterThan(amountInfo.getAnticipatedChange())){
-                
-                rulePassed = false;
-                
-                reportError(AMOUNT_INFO_ANTICIPATED_AMOUNT
-                        , KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT);   
-            }
-            
-        }
-        if(amountInfo!=null && amountInfo.getObligatedChange()!=null){
-            if(amountInfo.getObligatedChange().isZero()){
-                rulePassed = false;
-                
-                reportError(AMOUNT_INFO_OBLIGATED_AMOUNT
-                        , KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO); 
-            }
-        }
-        if(amountInfo!=null && amountInfo.getAnticipatedChange()!=null){
-            if(amountInfo.getAnticipatedChange().isZero()){
-                rulePassed = false;
-                
-                reportError(AMOUNT_INFO_ANTICIPATED_AMOUNT
-                        , KeyConstants.ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO); 
-            }
-        }
+       
         if(amountInfo==null 
                 || amountInfo.getAnticipatedChange()==null){
             rulePassed = false;            
@@ -358,6 +328,15 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                         , KeyConstants.ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_NEGATIVE); 
             }
         }
+        
+        if(obligatedAmount != null && anticipatedAmount != null) {
+            if(obligatedAmount.isGreaterThan(anticipatedAmount)) {
+                rulePassed = false;
+                reportError(AMOUNT_INFO_ANTICIPATED_AMOUNT
+                        , KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_GREATER_THAN_ANTICIPATED_AMOUNT); 
+            }
+        }
+        
         
         if(obligatedAmount !=null && subAward.getTotalAmountReleased()!=null){
             if(obligatedAmount.isLessThan(subAward.getTotalAmountReleased())){
