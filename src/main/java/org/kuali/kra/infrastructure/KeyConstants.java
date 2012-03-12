@@ -1033,6 +1033,7 @@ public final class KeyConstants {
     public static final String NEGOTIATION_CLOSE_PENDING_ACTIVITIES = "negotiation.message.closePendingActivities";
     public static final String NEGOTIATION_DUPLICATE_LINKING = "negotiation.message.duplicateNegotiationLinked";
     public static final String NEGOTIATION_MULTIPLE_PI = "negotiation.error.multiplePi";
+    public static final String NEGOTIATION_DELETE_ACTIVITY = "negotiation.message.deleteActivity";
     
     public static final String MESSAGE_FINANCIAL_ENTITY_ACTION_COMPLETE = "message.financial.entity.action.successfully.completed";
     public static final String ERROR_DEACTIVATE_FINANCIAL_ENTITY_REASON_REQUIRED = "error.deactivate.financial.entity";
