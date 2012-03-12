@@ -333,7 +333,6 @@
 	</c:choose>
     </div>
 	<div id="debugLog" style="position: relative; overflow-y: auto; height: 15em; display:none; text-align: left; width:100%;"><a href="javascript: $('#loading').hide(); return false;" style="position: absolute; top: 0; right: 0;">Hide Loading</a></div>
-    
     <script>
       <c:forEach items="${KualiForm.awardHierarchyToggle}" var="toggleEntry">
         <c:if test="${toggleEntry.value[0] eq 'true'}">
@@ -342,4 +341,5 @@
       </c:forEach>
       setScrollPosition('${KualiForm.awardHierarchyScrollPosition}');
     </script>
+    </div>
 </kul:tab>
