@@ -18,6 +18,7 @@
 
 
 
+    <link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
         <script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
          <script type="text/javascript" src="scripts/jquery/jquery.fancybox-1.3.4jh.js"></script>
         <link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css" media="screen"/>    
@@ -106,5 +107,6 @@ var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 
 </SCRIPT>
+<script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
 
 </kul:documentPage>
