@@ -171,4 +171,5 @@ public interface CoiDisclosureService {
     
     public void setDisclDetailsForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean);
     
+    public void updateMasterDisclosureDetails(CoiDisclosure coiDisclosure);
 }

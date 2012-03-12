@@ -85,7 +85,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         disclosures.add(coiDisclosure);
      
         if (masterCoiDisclosure != null) {
-            copyCollections(masterCoiDisclosure, coiDisclosure);
+            if (!coiDisclosure.isUpdateEvent()) {
+                copyCollections(masterCoiDisclosure, coiDisclosure);
+            }
             masterCoiDisclosure.setCurrentDisclosure(false);
 //            coiDisclosure.setCurrentDisclosure(true);
             disclosures.add(masterCoiDisclosure);

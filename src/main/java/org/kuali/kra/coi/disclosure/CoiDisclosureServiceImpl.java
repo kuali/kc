@@ -17,9 +17,9 @@ package org.kuali.kra.coi.disclosure;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +48,6 @@ import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
-import org.kuali.kra.dao.SponsorHierarchyDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
@@ -865,24 +864,24 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      */
     private boolean isProjectReported(String projectId, String projectType, String personId) {
         boolean isDisclosed = false;
-//        HashMap<String, Object> fieldValues = new HashMap<String, Object>();
-//        if (StringUtils.equals(CoiDisclosureEventType.AWARD, projectType)) {
-//            // all award numbers in that hierarchy.  so any award in that hierarchy is reported, then the others
-//            // don't have to report.
-//            fieldValues.put("moduleItemKey", getAwardNumbersForHierarchy(projectId));
-//        } else {
-//            fieldValues.put("moduleItemKey", projectId);
-//        }
-//        fieldValues.put("projectType", projectType);
-//        List<CoiDiscDetail> discDetails = (List<CoiDiscDetail>) businessObjectService.findMatching(CoiDiscDetail.class, fieldValues);
-//        Date currentDate = dateTimeService.getCurrentSqlDateMidnight();
-//        for (CoiDiscDetail discDetail : discDetails) {
-//            if (StringUtils.equals(discDetail.getCoiDisclosure().getPersonId(), personId) 
-//                    && discDetail.getCoiDisclosure().getExpirationDate().after(currentDate)) {
-//                isDisclosed = true;
-//                break;
-//            }
-//        }
+        HashMap<String, Object> fieldValues = new HashMap<String, Object>();
+        if (StringUtils.equals(CoiDisclosureEventType.AWARD, projectType)) {
+            // all award numbers in that hierarchy.  so any award in that hierarchy is reported, then the others
+            // don't have to report.
+            fieldValues.put("moduleItemKey", getAwardNumbersForHierarchy(projectId));
+        } else {
+            fieldValues.put("moduleItemKey", projectId);
+        }
+        fieldValues.put("projectType", projectType);
+        List<CoiDiscDetail> discDetails = (List<CoiDiscDetail>) businessObjectService.findMatching(CoiDiscDetail.class, fieldValues);
+        Date currentDate = dateTimeService.getCurrentSqlDateMidnight();
+        for (CoiDiscDetail discDetail : discDetails) {
+            if (StringUtils.equals(discDetail.getCoiDisclosure().getPersonId(), personId) 
+                    && discDetail.getCoiDisclosure().getExpirationDate().after(currentDate)) {
+                isDisclosed = true;
+                break;
+            }
+        }
         return isDisclosed;
     }
 
@@ -1138,6 +1137,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         String moduleItemKey = Constants.EMPTY_STRING;
         String projectType = Constants.EMPTY_STRING;
         CoiDisclosureProjectBean disclosureProjectBean = null;
+        if (CoiDisclosureEventType.UPDATE.equals(coiDisclosure.getEventTypeCode())) {
+            updateMasterDisclosureDetails(coiDisclosure);
+        }
+
         Collections.sort(coiDisclosure.getCoiDiscDetails());
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
         if (coiDisclosure.getCoiDisclosureId() == null) {
@@ -1165,7 +1168,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         // unless we are doing an update
         if (!CoiDisclosureEventType.UPDATE.equals(coiDisclosure.getEventTypeCode())) {
             setupDisclosures(masterDisclosureBean, coiDisclosure);
-        }
+        } 
         return masterDisclosureBean;
     }
         
@@ -1456,6 +1459,83 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }
         }
         return isExist;
+    }
+
+    
+    public void updateMasterDisclosureDetails(CoiDisclosure coiDisclosure) {
+        Collections.sort(coiDisclosure.getCoiDiscDetails(), new Comparator() {
+            public int compare(Object o1, Object o2) {
+                return ((CoiDiscDetail)o1).getOriginalCoiDisclosureId().compareTo(((CoiDiscDetail)o2).getOriginalCoiDisclosureId());
+            }
+        });
+        Map <Long, List<CoiDiscDetail>> projectDetailMap = setupDetailMap(coiDisclosure);
+        List<CoiDiscDetail> coiDiscDetails = new ArrayList<CoiDiscDetail>();
+        String personId = GlobalVariables.getUserSession().getPrincipalId();
+        if (!StringUtils.equals(personId, coiDisclosure.getPersonId())) {
+            personId = coiDisclosure.getPersonId();
+        }
+        List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(personId, true);
+        Long disclosureId = coiDisclosure.getCoiDisclosureId();
+            for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
+                if (!coiDiscDetail.getOriginalCoiDisclosureId().equals(disclosureId)) {
+                    disclosureId = coiDiscDetail.getOriginalCoiDisclosureId();
+                     checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(disclosureId));
+                }
+                getCurrentFinancialEntity(coiDiscDetail);
+                if (coiDiscDetail.getPersonFinIntDisclosure().isStatusActive() && coiDiscDetail.getPersonFinIntDisclosure().isCurrentFlag()) {
+                    coiDiscDetails.add(coiDiscDetail);
+                }
+            }
+            coiDisclosure.setCoiDiscDetails(coiDiscDetails);
+        }
+
+    private Map <Long, List<CoiDiscDetail>> setupDetailMap(CoiDisclosure coiDisclosure) {
+        Map <Long, List<CoiDiscDetail>> projectDetailMap = new HashMap<Long, List<CoiDiscDetail>>();
+        for (CoiDiscDetail detail : coiDisclosure.getCoiDiscDetails()) {
+            if (detail.getOriginalCoiDisclosureId() == null) {
+                detail.setOriginalCoiDisclosureId(coiDisclosure.getCoiDisclosureId());
+            }
+            if (!projectDetailMap.containsKey(detail.getOriginalCoiDisclosureId())) {
+                projectDetailMap.put(detail.getOriginalCoiDisclosureId(), new ArrayList<CoiDiscDetail>());
+            }
+            projectDetailMap.get(detail.getOriginalCoiDisclosureId()).add(detail);
+        }
+        return projectDetailMap;
+        
+    }
+
+    /*
+     * This is for update master disclosure.  if FE is new or FE has been updated to new version
+     */
+    private void checkToAddNewFinancialEntity(List<PersonFinIntDisclosure> financialEntities, List<CoiDiscDetail> coiDiscDetails,
+            Long disclosureId, CoiDisclosure coiDisclosure, List<CoiDiscDetail> projectDetails) {
+        for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+            boolean isNewFe = true;
+            String projectType = Constants.EMPTY_STRING;
+            String projectIdFk = Constants.EMPTY_STRING;
+            String moduleItemKey = Constants.EMPTY_STRING;
+            boolean isSet = false;
+            for (CoiDiscDetail detail : projectDetails) {
+                if (detail.getPersonFinIntDisclosure().getEntityNumber().equals(personFinIntDisclosure.getEntityNumber())) {
+                    isNewFe = false;
+                    break;
+                }
+                if (!isSet) {
+                    projectType = detail.getProjectType();
+                    projectIdFk = detail.getProjectIdFk();
+                    moduleItemKey = detail.getModuleItemKey();
+                    isSet = true;
+                }
+            }
+            if (isNewFe) {
+                // if this is newversion, do we keep the related information and comment ?
+                CoiDiscDetail newDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure, moduleItemKey, projectIdFk, projectType);
+                newDetail.setOriginalCoiDisclosureId(disclosureId);
+                coiDiscDetails.add(newDetail);
+            }
+        }
+
+
     }
 
 }
