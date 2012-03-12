@@ -183,9 +183,7 @@ public class CoiDisclosureAction extends CoiAction {
                 coiDisclosureForm.getMethodToCall())) && coiDisclosureDocument.getCoiDisclosure().isApprovedDisclosure()) {
             coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
                     getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
-            coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
-            coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
-            coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
+            setQuestionnaireStatuses(coiDisclosureForm);
             actionForward = mapping.findForward(MASTER_DISCLOSURE);
         }
         else {
@@ -197,9 +195,7 @@ public class CoiDisclosureAction extends CoiAction {
                 coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
                 coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
                         getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
-                coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
-                coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
-                coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
+                setQuestionnaireStatuses(coiDisclosureForm);
                 actionForward = mapping.findForward(MASTER_DISCLOSURE);
             }
 
@@ -240,9 +236,7 @@ public class CoiDisclosureAction extends CoiAction {
                  coiDisclosure.setEventTypeCode(CoiDisclosureEventType.UPDATE);
                  ((CoiDisclosureForm)form).getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(
                          coiDisclosure)); 
-                 coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
-                 coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
-                 coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
+                 setQuestionnaireStatuses(coiDisclosureForm);
                  forward = mapping.findForward(UPDATE_DISCLOSURE);
             } 
 
@@ -257,6 +251,7 @@ public class CoiDisclosureAction extends CoiAction {
             if (coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().isUpdateEvent()) {
                 ((CoiDisclosureForm)form).getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(
                         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure())); 
+                setQuestionnaireStatuses(coiDisclosureForm);
                 forward = mapping.findForward("updateDisclosure");
            } 
         }
@@ -270,6 +265,13 @@ public class CoiDisclosureAction extends CoiAction {
         return forward;
     }
 
+    private void setQuestionnaireStatuses(CoiDisclosureForm coiDisclosureForm) {
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().setQuestionnaireActiveStatuses();        
+    }
+    
     private void checkToLoadDisclosureDetails(CoiDisclosure coiDisclosure, String methodToCall, String projectId, String moduleItemKey) {
         // TODO : load FE disclosure when creating coi disc
         // still need more clarification on whether there is any other occasion this need to be loaded
@@ -702,9 +704,7 @@ public class CoiDisclosureAction extends CoiAction {
             loadDocument(coiDisclosureForm);
             disclosureHelper.setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(
             coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure()));
-            coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
-            coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
-            coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
+            setQuestionnaireStatuses(coiDisclosureForm);
             return mapping.findForward("masterDisclosure");
         }
     }
