@@ -587,10 +587,17 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     }
  
     public ActionForward deleteActivity(ActionMapping mapping, ActionForm form,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception { 
+            HttpServletRequest request, HttpServletResponse response) throws Exception { 
+        return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, "deleteActivityKey",
+                        KeyConstants.NEGOTIATION_DELETE_ACTIVITY),
+                        "confirmDeleteActivity", null);
+    }        
+    
+    public ActionForward confirmDeleteActivity(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         negotiationForm.getNegotiationActivityHelper().deleteActivity(getActivityIndex(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }        
+    }
+    
 }
