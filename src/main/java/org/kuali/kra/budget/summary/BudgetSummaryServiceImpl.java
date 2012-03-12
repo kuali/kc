@@ -219,6 +219,14 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                 BudgetPeriod curPeriod = budget.getBudgetPeriod(i);
                 curPeriod.setStartDate(newPeriod.getStartDate());
                 curPeriod.setEndDate(newPeriod.getEndDate());
+                curPeriod.setCostSharingAmount(null);
+                curPeriod.setDirectCostLimit(null);
+                curPeriod.setExpenseTotal(null);
+                curPeriod.setTotalCost(null);
+                curPeriod.setTotalCostLimit(null);
+                curPeriod.setTotalDirectCost(null);
+                curPeriod.setTotalIndirectCost(null);
+                curPeriod.setUnderrecoveryAmount(null);
             } else {
                 budget.getBudgetPeriods().add(newPeriod);
             }
