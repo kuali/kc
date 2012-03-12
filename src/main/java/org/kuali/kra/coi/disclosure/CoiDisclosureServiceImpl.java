@@ -17,6 +17,7 @@ package org.kuali.kra.coi.disclosure;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -60,6 +61,7 @@ import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionException;
@@ -81,7 +83,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
     private CoiDisclosureDao coiDisclosureDao;
-
+    
     private static final String PROTOCOL_DISCLOSE_STATUS_CODES = "PROTOCOL_DISCLOSE_STATUS_CODES";
     private static final String PROPOSAL_DISCLOSE_STATUS_CODES = "PROPOSAL_DISCLOSE_STATUS_CODES";
     private static final String INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES = "INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES";
@@ -1137,7 +1139,14 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         String projectType = Constants.EMPTY_STRING;
         CoiDisclosureProjectBean disclosureProjectBean = null;
         Collections.sort(coiDisclosure.getCoiDiscDetails());
-        List<AnswerHeader> answerHeaders = retrieveAnswerHeaders(coiDisclosure);
+        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+        if (coiDisclosure.getCoiDisclosureId() == null) {
+            // if this is click update discl link
+            CoiDisclosure masterDisclosure = getCurrentDisclosure();
+            answerHeaders = copyDisclosureQuestionnaire(masterDisclosure, coiDisclosure);
+        } else {
+            answerHeaders = retrieveAnswerHeaders(coiDisclosure);
+        }
         masterDisclosureBean.setAnswerHeaders(answerHeaders);
         for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
             if (!StringUtils.equals(projectType, coiDiscDetail.getProjectType()) || !StringUtils.equals(moduleItemKey, coiDiscDetail.getModuleItemKey())) {
@@ -1347,6 +1356,37 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         copyDisclosureDetails(masterCoiDisclosure, coiDisclosure);
         copyDisclosureNotePads(masterCoiDisclosure, coiDisclosure);
         copyDisclosureAttachments(masterCoiDisclosure, coiDisclosure);
+        copyDisclosureQuestionnaire(masterCoiDisclosure, coiDisclosure);
+    }
+    
+    private List<AnswerHeader> copyDisclosureQuestionnaire(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
+
+        List<AnswerHeader> newAnswerHeaders = versioningQuestionnaireAnswer(masterCoiDisclosure);
+         if (!newAnswerHeaders.isEmpty()) {
+             for (AnswerHeader answerHeader : newAnswerHeaders) {
+                 if (answerHeader.getOriginalCoiDisclosureId() == null) {
+                     answerHeader.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                 }                 
+                 answerHeader.setModuleSubItemKey(coiDisclosure.getSequenceNumber().toString());
+             }
+          // for update disc, this should not be saved until click 'save'   
+          //  businessObjectService.save(newAnswerHeaders);
+        }
+        return newAnswerHeaders;
+    }
+    
+    private List<AnswerHeader> versioningQuestionnaireAnswer(CoiDisclosure coiDisclosure) {
+        List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
+        for (AnswerHeader answerHeader : retrieveAnswerHeaders(coiDisclosure)) {
+               AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
+//                copiedAnswerHeader.setModuleSubItemKey(coiDisclosure.getSequenceNumber().toString());
+                copiedAnswerHeader.setAnswerHeaderId(null);
+                for (Answer answer : copiedAnswerHeader.getAnswers()) {
+                    answer.setId(null);
+                }
+                newAnswerHeaders.add(copiedAnswerHeader);
+        }
+        return newAnswerHeaders;
     }
     
     /*
