@@ -1510,17 +1510,17 @@
 
 	<repositories>
          <repository> 
-            <id>kuali.nexus</id> 
-            <name>Nexus Repository Manager</name> 
-            <url>http://nexus.kuali.org/content/groups/public</url> 
-            <releases> 
-                <enabled>true</enabled> 
-            </releases> 
-            <snapshots> 
-                <enabled>true</enabled> 
-            </snapshots> 
-        </repository>
-        <repository>
+                <id>kuali.nexus</id> 
+                <name>Nexus Repository Manager</name> 
+                <url>http://nexus.kuali.org/content/groups/public</url> 
+                <releases> 
+                        <enabled>true</enabled> 
+                </releases> 
+                <snapshots> 
+                        <enabled>true</enabled> 
+                </snapshots> 
+        </repository> 
+		<repository>
             <id>kuali.nexus.backup</id> 
             <name>Nexus Repository Manager (Backup Location)</name> 
             <url>http://maven.kuali.org/external</url> 
@@ -1635,8 +1635,21 @@
     	<build.environment>dev</build.environment>
     	<default.context.path>/kc-${build.environment}</default.context.path>
 
-	    <rice.web.excludes>
-			META-INF,WEB-INF/classes,WEB-INF/lib/,WEB-INF/struts-config.xml,WEB-INF/validator-rules.xml,WEB-INF/web.xml,acknowledgments.jsp,WEB-INF/tags/rice-portal/mainTab.tag,WEB-INF/tags/rice-portal/portalBody.tag,WEB-INF/tags/rice-portal/portalTabs.tag,</rice.web.excludes>
+    	<rice.web.excludes>
+			META-INF/,
+          	WEB-INF/classes/,
+          	WEB-INF/lib/,
+			
+			WEB-INF/tags/rice-portal/mainTab.tag,
+			
+			WEB-INF/struts-config.xml,
+			WEB-INF/validator-rules.xml,
+			WEB-INF/web.xml,
+			
+			acknowledgments.jsp,
+			WEB-INF/tags/rice-portal/portalBody.tag,
+			WEB-INF/tags/rice-portal/portalTabs.tag,
+    	</rice.web.excludes>
     	
     	<!-- WSDL config -->
         <gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
