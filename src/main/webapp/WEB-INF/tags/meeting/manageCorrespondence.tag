@@ -29,7 +29,7 @@
                     </td>
                     <td align="left" valign="middle" class="infoline">
                         <div align="center">
-                        <kul:htmlControlAttribute property="meetingHelper.regeneratedCorrespondences[${status.index}].finalFlag" attributeEntry="${protocolCorrespondenceAttributes.finalFlag}" readOnly="false" />
+                        <kul:htmlControlAttribute property="meetingHelper.regeneratedCorrespondences[${status.index}].finalFlag" attributeEntry="${protocolCorrespondenceAttributes.finalFlag}" styleClass="finalclass"readOnly="false" />
                         </div>
                     </td>
                         <td>
@@ -41,6 +41,14 @@
                         </td>
                 </tr>
           </c:forEach>      
+                <tr>
+                    <td colspan="4">
+                            <div align="center">&nbsp;   
+                                  <html:image property="methodToCall.selectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="$('.finalclass').attr('checked', true);return false;" />
+                                  <html:image property="methodToCall.deselectAllProtocolPrint.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="$('.finalclass').attr('checked', false);return false;" />
+                            </div>
+                    </td>
+                </tr>    
        </table>     
 </div>
 
