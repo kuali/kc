@@ -240,6 +240,7 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
      */
     private BudgetSummary getBudgetSummary(BudgetSummaryInfo budgetSummaryData) {
 
+        BudgetDecimal cumTotalDirectCostSharing = BudgetDecimal.ZERO;
         BudgetSummary budgetSummary = BudgetSummary.Factory.newInstance();
         SummaryDataType summarySeniorKey = SummaryDataType.Factory.newInstance();
         SummaryDataType summaryPersonnel = SummaryDataType.Factory.newInstance();
@@ -306,10 +307,19 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
                 if (budgetSummaryData.getCumFee() != null) {
                     budgetSummary.setCumulativeFee(budgetSummaryData.getCumFee().bigDecimalValue());
                 }
+                cumTotalDirectCostSharing = budgetSummaryData.getCumTotalNonFundsForPersonnel().add(budgetSummaryData.getCumEquipmentNonFunds()).
+                    add(budgetSummaryData.getCumTravelNonFund()).add(budgetSummaryData.getPartOtherCostSharing().add(
+                        budgetSummaryData.getPartStipendCostSharing().add(budgetSummaryData.getPartTravelCostSharing().add(
+                                budgetSummaryData.getPartSubsistenceCostSharing().add( budgetSummaryData.getPartTuitionCostSharing())))));
+                for (OtherDirectCostInfo cumOtherDirect : budgetSummaryData.getOtherDirectCosts()) {
+                    if (cumOtherDirect.getTotalOtherDirectCostSharing() != null) {
+                        cumTotalDirectCostSharing= cumTotalDirectCostSharing.add(cumOtherDirect.getTotalOtherDirectCostSharing());
+                    }
+                }      
                 directCosts.setFederalSummary(budgetSummaryData.getCumTotalDirectCosts().bigDecimalValue());
-                directCosts.setNonFederalSummary(budgetSummaryData.getCumTotalDirectCostSharing().bigDecimalValue());
-                directCosts.setTotalFedNonFedSummary(budgetSummaryData.getCumTotalDirectCosts().add(
-                        budgetSummaryData.getCumTotalDirectCostSharing()).bigDecimalValue());
+                directCosts.setNonFederalSummary(cumTotalDirectCostSharing.bigDecimalValue());
+                directCosts.setTotalFedNonFedSummary((budgetSummaryData.getCumTotalDirectCosts().bigDecimalValue()).add(
+                        cumTotalDirectCostSharing.bigDecimalValue()));
             }
             if (budgetSummaryData.getCumTotalIndirectCosts() != null && budgetSummaryData.getCumTotalIndirectCostSharing() != null) {
                 SummaryDataType summary = SummaryDataType.Factory.newInstance();
@@ -321,9 +331,9 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
             }
             if (budgetSummaryData.getCumTotalCosts() != null && budgetSummaryData.getCumTotalDirectCostSharing() != null) {
                 directIndirectCosts.setFederalSummary(budgetSummaryData.getCumTotalCosts().bigDecimalValue());
-                directIndirectCosts.setNonFederalSummary(budgetSummaryData.getCumTotalDirectCostSharing().bigDecimalValue().add(budgetSummaryData.getCumTotalIndirectCostSharing().bigDecimalValue()));;
-                directIndirectCosts.setTotalFedNonFedSummary(budgetSummaryData.getCumTotalCosts().add(
-                        budgetSummaryData.getCumTotalDirectCostSharing()).add(budgetSummaryData.getCumTotalIndirectCostSharing()).bigDecimalValue());
+                directIndirectCosts.setNonFederalSummary((cumTotalDirectCostSharing.bigDecimalValue()).add(budgetSummaryData.getCumTotalIndirectCostSharing().bigDecimalValue()));;
+                directIndirectCosts.setTotalFedNonFedSummary((budgetSummaryData.getCumTotalCosts().bigDecimalValue()).add(
+                       cumTotalDirectCostSharing.bigDecimalValue()).add(budgetSummaryData.getCumTotalIndirectCostSharing().bigDecimalValue()));
             }
         }
         budgetSummary.setCumulativeTotalFundsRequestedSeniorKeyPerson(summarySeniorKey);
