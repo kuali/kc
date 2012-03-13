@@ -29,6 +29,31 @@
           		<th rowspan="1" colspan="1" scope="col">${KualiForm.disclosureHelper.conflictHeaderLabel}</th>
           		<kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.comments}" scope="col" />
           	</tr> 
+               <c:if test="${!readOnly}">
+                 <tr>
+                    <th class="infoline">
+                        &nbsp;
+                    </th>
+                    <td class="infoline">
+                        <div align="center">
+                            <html:image property="methodToCall.newFinancialEntity.anchor${tabKey}"
+                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-newfinancialentity.gif' styleClass="tinybutton"/>
+                        </div>
+                    </td>
+    
+                    <td align="left" valign="middle"  class="infoline">
+                        <div align="center">
+                            <html:image property="methodToCall.allConflict.anchor${tabKey}"
+                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-all.gif' styleClass="conflict" onclick="$j('select.conflictClass${projectDivNamePrefix}${idx}').val('2');return false;" />
+                            <html:image property="methodToCall.noneConflict.anchor${tabKey}"
+                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-none.gif' styleClass="conflict" onclick="$j('select.conflictClass${projectDivNamePrefix}${idx}').val('1');return false;" />
+                        </div>
+                    </td>
+                    <td align="left" valign="middle" class="infoline">
+                        &nbsp;
+                    </td>
+                </tr>
+                </c:if>
         	    <c:forEach var="disclosureDetail" items="${disclProjectBean.projectDiscDetails}" varStatus="festatus">
 	             <tr>
 					  <td>
@@ -60,7 +85,7 @@
 					    <%-- ${disclosureDetail.coiEntityStatusCode.description} --%>
                         <%-- TODO need to work on property --%>
                         <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].projectDiscDetails[${festatus.index}].entityStatusCode" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" 
-                        readOnlyAlternateDisplay="${disclosureDetail.coiEntityStatusCode.description}"/> 
+                        readOnlyAlternateDisplay="${disclosureDetail.coiEntityStatusCode.description}" styleClass="conflictClass${projectDivNamePrefix}${idx}"/> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
