@@ -175,11 +175,10 @@
 			    		<c:forEach var="budgetLineItems" items="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems}" varStatus="status">
 			    		<c:if test="${budgetLineItems.costElementBO.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeIndex.key}" >
 			    			
-			    			<c:if test="${previousObject != '' && previousObject !=  budgetLineItems.costElementName}">
+			    			<c:if test="${!proposalBudgetFlag && previousObject != '' && previousObject !=  budgetLineItems.costElementName}">
 			    				<tr>
 					            	<th colspan="5"><div align="right">Total Amount for ${previousObject }:</div></th>
 					            	<td><div align="center">
-					            		<%--${ChangeSum } --%>
 					            		<fmt:formatNumber value="${ChangeSum } " pattern="###,###,###,###.##" type="number" minFractionDigits="2" maxFractionDigits="2"/>
 					            	</div></td>
 					            	<td>&nbsp;</td>
@@ -187,7 +186,9 @@
 					            <c:set var="ChangeSum" value="0"/>
 			    			</c:if>
 			    			<c:set var="previousObject" value="${budgetLineItems.costElementName }"/>
-			    			<c:set var="ChangeSum" value="${ChangeSum + budgetLineItems.lineItemCost.floatValue + budgetLineItems.obligatedAmount.floatValue}"/>
+			    			<c:if test="${!proposalBudgetFlag}" >
+			    				<c:set var="ChangeSum" value="${ChangeSum + budgetLineItems.lineItemCost.floatValue + budgetLineItems.obligatedAmount.floatValue}"/>
+			    			</c:if>
 							<kra-b:budgetLineItems budgetPeriod = "${budgetPeriod}" budgetCategoryTypeCode = "${budgetCategoryTypeCodeKey}" budgetLineItemNumber="${status.index}" budgetLineItemSequenceNumber="${index}" innerTabParent="${budgetCategoryTypeCodeLabel}" budgetExpensePanelReadOnly="${readOnly}"/>
 							<c:set var="index" value="${index+1}"/>			    		
 			    		</c:if> 		
@@ -195,7 +196,7 @@
 			    	</c:if>
 			    </c:forEach>
 			    
-			    <c:if test="${previousObject != ''}">
+			    <c:if test="${!proposalBudgetFlag && previousObject != ''}">
 			<tr>
             	<th colspan="5"><div align="right">Total Amount for ${previousObject }:</div></th>
             	<td><div align="center">
