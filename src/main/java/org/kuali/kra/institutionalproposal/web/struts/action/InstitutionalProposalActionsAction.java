@@ -295,7 +295,7 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
         InstitutionalProposal institutionalProposal = institutionalProposalForm.getInstitutionalProposalDocument().getInstitutionalProposal();
        
         InstitutionalProposalNotificationContext context 
-            = new InstitutionalProposalNotificationContext(institutionalProposal, null, "Ad-Hoc Notification");
+            = new InstitutionalProposalNotificationContext(institutionalProposal, null, "Ad-Hoc Notification", Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE);
         
         institutionalProposalForm.getNotificationHelper().initializeDefaultValues(context);
         
