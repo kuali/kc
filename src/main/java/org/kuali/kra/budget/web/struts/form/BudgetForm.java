@@ -233,6 +233,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         setDocumentNextValueRefresh(true);
         budgetJustificationWrapper = new BudgetJustificationWrapper(getDocument().getBudget().getBudgetJustification());
         newSubAward = new BudgetSubAwards();
+        newBudgetModularIdc = new BudgetModularIdc();
         this.getDocInfo().add(new HeaderField(BUDGET_NAME_KEY, Constants.EMPTY_STRING));
         this.getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
 
