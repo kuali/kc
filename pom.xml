@@ -1000,12 +1000,12 @@
 		<dependency>
 			<groupId>org.kuali.kra.s2s</groupId>
 			<artifactId>phs398modularbudget-1.2</artifactId>
-			<version>1.0.3</version> 
+			<version>1.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.kra.s2s</groupId>
 			<artifactId>s2sform</artifactId>
-			<version>1.0</version>
+			<version>1.0.1</version>
 		</dependency>		
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
