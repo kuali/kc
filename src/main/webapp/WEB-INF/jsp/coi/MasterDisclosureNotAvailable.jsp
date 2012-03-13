@@ -50,7 +50,7 @@
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <%-- <kra-coi:disclosureReporter /> --%>
 
-	<kul:tab tabTitle="Master Disclosure " defaultOpen="true" transparentBackground="true" tabErrorKey="" >
+	<kul:tab tabTitle="COI Disclosure" defaultOpen="true" transparentBackground="true" tabErrorKey="" >
 	
 	<div>
 	 <table cellpadding="0" cellspacing="0" class="datatable" title="view/edit document overview information" summary="view/edit document overview information">

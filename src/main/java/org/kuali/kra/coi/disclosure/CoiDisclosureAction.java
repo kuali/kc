@@ -224,21 +224,27 @@ public class CoiDisclosureAction extends CoiAction {
             } else if (command.endsWith(CoiDisclosure.MANUAL_DISCL_MODULE_CODE)) {
                 // this will be reset when 'addmanualproject', and the event type will be selected at that time
                 eventTypeCode = CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL;
-            } else if (command.endsWith("_6")) {
-                // this is to update master disclosure
+            } else if (command.endsWith("_6") || (KewApiConstants.INITIATE_COMMAND.equals(command) && isMasterDisclosureExist())) {
+                // this is to update master disclosure. 
+                // also treated annual event when master disclosure exist
                 eventTypeCode = CoiDisclosureEventType.UPDATE;
             }
             coiDisclosureForm.setCommand(KewApiConstants.INITIATE_COMMAND);
             forward = super.docHandler(mapping, form, request, response);
             CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
             if (CoiDisclosureEventType.UPDATE.equals(eventTypeCode)) {
-                 getCoiDisclosureService().initDisclosureFromMasterDisclosure(coiDisclosure);
-                 coiDisclosure.setEventTypeCode(CoiDisclosureEventType.UPDATE);
-                 ((CoiDisclosureForm)form).getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(
-                         coiDisclosure)); 
-                 setQuestionnaireStatuses(coiDisclosureForm);
-                 forward = mapping.findForward(UPDATE_DISCLOSURE);
-            } 
+                if (!isMasterDisclosureExist()) {
+                    forward = mapping.findForward("masterDisclosureNotAvailable");
+                } else {
+                    getCoiDisclosureService().initDisclosureFromMasterDisclosure(coiDisclosure);
+                    coiDisclosure.setEventTypeCode(CoiDisclosureEventType.UPDATE);
+                    ((CoiDisclosureForm) form).getDisclosureHelper().setMasterDisclosureBean(
+                            getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosure));
+                    setQuestionnaireStatuses(coiDisclosureForm);
+
+                    forward = mapping.findForward(UPDATE_DISCLOSURE);
+                }
+            }
 
             if (coiDisclosure != null) {
                 coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
@@ -680,9 +686,9 @@ public class CoiDisclosureAction extends CoiAction {
         return  KraServiceLocator.getService(CoiDisclosureActionService.class);  
     }
     
-    protected BusinessObjectService getBusinessObjectService() {
-        return  KraServiceLocator.getService(BusinessObjectService.class);  
-    }
+//    protected BusinessObjectService getBusinessObjectService() {
+//        return  KraServiceLocator.getService(BusinessObjectService.class);  
+//    }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public ActionForward viewMasterDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -896,4 +902,14 @@ public class CoiDisclosureAction extends CoiAction {
         return forward;
     }
 
+    private boolean isMasterDisclosureExist() {
+        Map fieldValues = new HashMap();
+        fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
+        fieldValues.put("currentDisclosure", "Y");
+
+        List<CoiDisclosure> disclosures = (List<CoiDisclosure>) getBusinessObjectService().findMatching(CoiDisclosure.class,
+                fieldValues);
+        return !CollectionUtils.isEmpty(disclosures);
+
+    }
 }

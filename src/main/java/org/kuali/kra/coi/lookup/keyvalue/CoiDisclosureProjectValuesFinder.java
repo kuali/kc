@@ -20,11 +20,13 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.coi.disclosure.CoiDisclosureProjectBean;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.disclosure.MasterDisclosureBean;
@@ -64,7 +66,7 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
                 addIp(keyLabels, pid);
                 addProtocols(keyLabels, pid);
             } else if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.UPDATE)) {
-                addManualProjects(keyLabels, coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean());
+                addMasterProjects(keyLabels, coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean());
             } else{
                 // manual disclosure
                 if (!coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclProjects().isEmpty()) {
@@ -84,9 +86,13 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
 
     }
 
-    private void addManualProjects(List<KeyValue> keyLabels, MasterDisclosureBean masterDisclosureBean) {
+    private void addMasterProjects(List<KeyValue> keyLabels, MasterDisclosureBean masterDisclosureBean) {
         addManualProject(keyLabels, masterDisclosureBean.getManualProtocolProjects(), "Manual Protocol --");
         addManualProject(keyLabels, masterDisclosureBean.getManualAwardProjects(), "Manual Award --");
+        addManualProject(keyLabels, masterDisclosureBean.getManualProposalProjects(), "Manual Proposal --");
+        addAutomaticProject(keyLabels, masterDisclosureBean.getAwardProjects(), "AWARD --");
+        addAutomaticProject(keyLabels, masterDisclosureBean.getProtocolProjects(), "PROTOCOL --");
+        addAutomaticProject(keyLabels, masterDisclosureBean.getProposalProjects(), "PROPOSAL --");
     }
     
     private void addManualProject(List<KeyValue> keyLabels, List<CoiDisclosureProjectBean> manualProtocolProjects, String projectLabel) {
@@ -98,6 +104,14 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
             
     }
 
+    private void addAutomaticProject(List<KeyValue> keyLabels, List<CoiDisclosureProjectBean> automaticProtocolProjects, String projectLabel) {
+        for (CoiDisclosureProjectBean disclProjectBean : automaticProtocolProjects) {
+            Disclosurable disclProject = (Disclosurable)disclProjectBean.getDisclosureProject();
+                 keyLabels.add(new ConcreteKeyValue(disclProject.getProjectId(), 
+                        formatLabel(projectLabel + disclProject.getProjectId(),disclProject.getProjectName())));
+            }
+            
+    }
 
     protected void addAwards(List<KeyValue> keyLabels, String pid) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
