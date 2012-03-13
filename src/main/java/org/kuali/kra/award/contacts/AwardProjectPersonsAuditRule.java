@@ -192,7 +192,7 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
             }
         }
         for (AwardPerson person : award.getProjectPersons()) {
-            boolean personFoundCheck = devProposals.isEmpty();
+            boolean personFoundCheck = false;
             for (DevelopmentProposal proposal : devProposals) {
                 for (ProposalPerson propPerson : proposal.getProposalPersons()) {
                     if ((person != null && StringUtils.equals(person.getPersonId(), propPerson.getPersonId()))
