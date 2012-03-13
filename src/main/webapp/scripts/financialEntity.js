@@ -211,34 +211,34 @@
     function updateStateOnClick(countryCodeFieldName) {
     	var stateField = findElPrefix( countryCodeFieldName )+".state";
 	    var countryCode = dwr.util.getValue( countryCodeFieldName );
-        updateStateCode(countryCodeFieldName, $(stateField).value);
+        updateStateCode(countryCodeFieldName, document.getElementById(stateField).value);
     }
     
     function updateStateCode(countryCodeFieldName, state) {
-    var stateField = findElPrefix( countryCodeFieldName )+".state";
-    var countryCode = dwr.util.getValue( countryCodeFieldName);
+	    var stateField = findElPrefix( countryCodeFieldName )+".state";
+    	var countryCode = dwr.util.getValue( countryCodeFieldName );
     
-    var dwrReply = {
-        callback:function(data) {
-            	if ( data != null && data.length > 0 ) {
-            		$(stateField).disabled = false;
-                	dwr.util.removeAllOptions( stateField );
-                	$(stateField).options[0] = new Option('', '');
-                	dwr.util.addOptions( stateField, data, 'postalStateCode', 'postalStateName' );
-                	if (state != '') {
-                        dwr.util.setValue(stateField, state);
-                	}
-	            } else { 
-	                dwr.util.setValue(stateField, '');
-       	    		$(stateField).disabled = true;
-            } 
-        },
-        errorHandler:function( errorMessage ) {
-            window.status = errorMessage;
-        }
-    };
+    	var dwrReply = {
+        	callback:function(data) {
+            		if ( data != null && data.length > 0 ) {
+            			$(stateField).disabled = false;
+                		dwr.util.removeAllOptions( stateField );
+	                	$(stateField).options[0] = new Option('', '');
+    	            	dwr.util.addOptions( stateField, data, 'postalStateCode', 'postalStateName' );
+        	        	if (state != '') {
+            	            dwr.util.setValue(stateField, state);
+                		}
+		            } else { 
+		                dwr.util.setValue(stateField, '');
+       		    		$(stateField).disabled = true;
+            	} 
+        	},
+        	errorHandler:function( errorMessage ) {
+        	    window.status = errorMessage;
+        	}
+    	};
 
-    StateService.findAllStatesByAltCountryCode(countryCode, dwrReply);
+	    StateService.findAllStatesInCountry(countryCode, dwrReply);
     }
     
     function loadEntityContactInfoFromRolodex(rolodexId, prefix) {
