@@ -16,23 +16,30 @@
 package org.kuali.kra.timeandmoney;
 
 import java.util.List;
+import java.util.Map.Entry;
 
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleImpl;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardAmountTransactionSaveEvent;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardAmountTransactionRuleImpl;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
+import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.transactions.AddTransactionRuleEvent;
 import org.kuali.kra.timeandmoney.transactions.TransactionRule;
 import org.kuali.kra.timeandmoney.transactions.TransactionRuleEvent;
 import org.kuali.kra.timeandmoney.transactions.TransactionRuleImpl;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -48,6 +55,7 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
     public static final String AWARD_ERROR_PATH = "award";
+    private transient ReportTrackingService reportTrackingService;
 
 
     /**
@@ -71,8 +79,20 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
         retval &= processAwardDirectFandADistributionBusinessRules(document);
         retval &= processTimeAndMoneyAwardAmountTransactionBusinessRules(document);
         retval &= processTimeAndMoneySaveAwardDateBusinessRules(document);
-
+        reportAwardReportTrackingError(document);
         return retval;
+    }
+    
+    protected void reportAwardReportTrackingError(Document document) {
+        ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
+        TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
+        for (Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()) {
+            Award award = aptService.getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber()); 
+            if (!this.getReportTrackingService().getReportTacking(award).isEmpty()) {
+                KNSGlobalVariables.getMessageList().add(KeyConstants.REPORT_TRACKING_WARNING_UPDATE_FROM_DATE_CHANGE, "");
+                return;
+            }
+        }
     }
     
     /**
@@ -155,11 +175,7 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
      */
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
-        
-        
         return retval;
-        
-        
     }
 
 
@@ -195,6 +211,17 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
             TimeAndMoneyDocument doc) {
         // TODO Auto-generated method stub
         return false;
+    }
+    
+    public ReportTrackingService getReportTrackingService() {
+        if (reportTrackingService == null) {
+            reportTrackingService = KraServiceLocator.getService(ReportTrackingService.class);
+        }
+        return reportTrackingService;
+    } 
+    
+    protected ActivePendingTransactionsService getActivePendingTransactionsService(){
+        return (ActivePendingTransactionsService) KraServiceLocator.getService(ActivePendingTransactionsService.class);
     }
     
 }
