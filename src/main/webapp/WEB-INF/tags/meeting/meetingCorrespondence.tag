@@ -60,9 +60,11 @@
                     </td>
 						<td>
 							<div align="center">&nbsp;					
+              <c:if test="${irbAdmin}">               
                                     <html:image property="methodToCall.viewCorrespondence.line${status.index}.anchor${currentTabIndex}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
                                         alt="View Correspondence" onclick="excludeSubmitRestriction = true;"/>
+               </c:if>  
 							</div>
 		                </td>
 	            </tr>
