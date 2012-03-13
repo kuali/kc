@@ -1438,6 +1438,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 CoiDisclosureAttachment copiedCoiDisclosureAttachment = (CoiDisclosureAttachment) ObjectUtils.deepCopy(coiDisclosureAttachment);
                 copiedCoiDisclosureAttachment.setSequenceNumber(coiDisclosure.getSequenceNumber());
                 copiedCoiDisclosureAttachment.setAttachmentId(null);
+                copiedCoiDisclosureAttachment.setFileId(coiDisclosureAttachment.getFileId());
+                copiedCoiDisclosureAttachment.setFile(coiDisclosureAttachment.getFile());
                 if (copiedCoiDisclosureAttachment.getOriginalCoiDisclosureId() == null) {
                     copiedCoiDisclosureAttachment.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
                 }
@@ -1465,7 +1467,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     public void updateMasterDisclosureDetails(CoiDisclosure coiDisclosure) {
         Collections.sort(coiDisclosure.getCoiDiscDetails(), new Comparator() {
             public int compare(Object o1, Object o2) {
-                return ((CoiDiscDetail)o1).getOriginalCoiDisclosureId().compareTo(((CoiDiscDetail)o2).getOriginalCoiDisclosureId());
+                CoiDiscDetail detail1 = (CoiDiscDetail)o1;                
+                CoiDiscDetail detail2 = (CoiDiscDetail)o2;                
+                if (detail1.getOriginalCoiDisclosureId().equals(detail2.getOriginalCoiDisclosureId())) {
+                    return detail1.getModuleItemKey().compareTo(detail2.getModuleItemKey());
+                } else {
+                    return detail1.getOriginalCoiDisclosureId().compareTo(detail2.getOriginalCoiDisclosureId());
+                }
             }
         });
         Map <Long, List<CoiDiscDetail>> projectDetailMap = setupDetailMap(coiDisclosure);
@@ -1479,7 +1487,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
                 if (!coiDiscDetail.getOriginalCoiDisclosureId().equals(disclosureId)) {
                     disclosureId = coiDiscDetail.getOriginalCoiDisclosureId();
-                     checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(disclosureId));
+                    if (coiDiscDetail.getOriginalCoiDisclosure().isAnnualEvent()) {
+                        checkToAddNewFEForAnnualEvent(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(disclosureId));
+                    } else {
+                         checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(disclosureId));
+                    }
                 }
                 getCurrentFinancialEntity(coiDiscDetail);
                 if (coiDiscDetail.getPersonFinIntDisclosure().isStatusActive() && coiDiscDetail.getPersonFinIntDisclosure().isCurrentFlag()) {
@@ -1489,6 +1501,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             coiDisclosure.setCoiDiscDetails(coiDiscDetails);
         }
 
+    /*
+     * set up the detail list map for each reported disclosure.
+     */
     private Map <Long, List<CoiDiscDetail>> setupDetailMap(CoiDisclosure coiDisclosure) {
         Map <Long, List<CoiDiscDetail>> projectDetailMap = new HashMap<Long, List<CoiDiscDetail>>();
         for (CoiDiscDetail detail : coiDisclosure.getCoiDiscDetails()) {
@@ -1499,6 +1514,32 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 projectDetailMap.put(detail.getOriginalCoiDisclosureId(), new ArrayList<CoiDiscDetail>());
             }
             projectDetailMap.get(detail.getOriginalCoiDisclosureId()).add(detail);
+        }
+        return projectDetailMap;
+        
+    }
+
+    /*
+     * Loop thru detail list in each project to see if any the FE is new, and then a new detail will be created.
+     */
+    private void checkToAddNewFEForAnnualEvent(List<PersonFinIntDisclosure> financialEntities, List<CoiDiscDetail> coiDiscDetails,
+            Long disclosureId, CoiDisclosure coiDisclosure, List<CoiDiscDetail> projectDetails) {
+        Map <String, List<CoiDiscDetail>> projectDetailMap = setupDetailMapForAnnual(projectDetails);
+        for (String itemKey : projectDetailMap.keySet()) {
+            checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(itemKey));
+        }
+    }
+
+    /*
+     * Set up the map which contains the detail list for each project reported in annual event
+     */
+    private Map <String, List<CoiDiscDetail>> setupDetailMapForAnnual(List<CoiDiscDetail> projectDetails) {
+        Map <String, List<CoiDiscDetail>> projectDetailMap = new HashMap<String, List<CoiDiscDetail>>();
+        for (CoiDiscDetail detail : projectDetails) {
+            if (!projectDetailMap.containsKey(detail.getModuleItemKey())) {
+                projectDetailMap.put(detail.getModuleItemKey(), new ArrayList<CoiDiscDetail>());
+            }
+            projectDetailMap.get(detail.getModuleItemKey()).add(detail);
         }
         return projectDetailMap;
         
