@@ -274,6 +274,8 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
                 copiedCoiDisclosureAttachment.setAttachmentId(null);
                 if (copiedCoiDisclosureAttachment.getOriginalCoiDisclosureId() == null) {
                     copiedCoiDisclosureAttachment.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                    copiedCoiDisclosureAttachment.setFile(coiDisclosureAttachment.getFile());
+                    copiedCoiDisclosureAttachment.setFileId(coiDisclosureAttachment.getFileId());
                 }
                 coiDisclosure.getCoiDisclosureAttachments().add(copiedCoiDisclosureAttachment);
 //            }
