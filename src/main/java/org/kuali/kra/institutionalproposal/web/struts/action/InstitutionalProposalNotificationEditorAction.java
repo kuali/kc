@@ -113,8 +113,11 @@ public class InstitutionalProposalNotificationEditorAction extends Institutional
         
         if (applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
             institutionalProposalForm.getNotificationHelper().sendNotification();
-            
-            actionForward = mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE);
+            String forwardName = institutionalProposalForm.getNotificationHelper().getNotificationContext().getForwardName();
+            if (forwardName == null) {
+                forwardName = Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE;
+            }
+            actionForward = mapping.findForward(forwardName);
         }
         institutionalProposalForm.getNotificationHelper().setNotificationContext(null);
 

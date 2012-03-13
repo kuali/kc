@@ -113,7 +113,7 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
             }
             if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
                 InstitutionalProposalNotificationContext context = 
-                    new InstitutionalProposalNotificationContext(document.getInstitutionalProposal(), "552", "Special Review Inserted");
+                    new InstitutionalProposalNotificationContext(document.getInstitutionalProposal(), "552", "Special Review Inserted", Constants.MAPPING_INSTITUTIONAL_PROPOSAL_SPECIAL_REVIEW_PAGE);
                 if (institutionalProposalForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
                     institutionalProposalForm.getNotificationHelper().initializeDefaultValues(context);
                     forward = mapping.findForward("notificationEditor");
@@ -166,7 +166,7 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
             document.getInstitutionalProposal().getSpecialReviews().remove(specialReview);
             if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
                 InstitutionalProposalNotificationContext context = 
-                    new InstitutionalProposalNotificationContext(document.getInstitutionalProposal(), "553", "Special Review Deleted");
+                    new InstitutionalProposalNotificationContext(document.getInstitutionalProposal(), "553", "Special Review Deleted", Constants.MAPPING_INSTITUTIONAL_PROPOSAL_SPECIAL_REVIEW_PAGE);
                 if (institutionalProposalForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
                     institutionalProposalForm.getNotificationHelper().initializeDefaultValues(context);
                     forward = mapping.findForward("notificationEditor");

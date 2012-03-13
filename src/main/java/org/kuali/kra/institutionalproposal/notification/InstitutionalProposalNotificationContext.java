@@ -38,6 +38,7 @@ public class InstitutionalProposalNotificationContext extends NotificationContex
     private String actionTypeCode;
     private String contextName;
     private List<EmailAttachment> emailAttachments;
+    private String forwardName;
 
     /**
      * Constructs an Institutional Proposal notification context and sets the necessary services.
@@ -47,13 +48,14 @@ public class InstitutionalProposalNotificationContext extends NotificationContex
      * @param renderer
      */
     public InstitutionalProposalNotificationContext(InstitutionalProposal institutionalProposal, String actionTypeCode, String contextName, 
-                                                    NotificationRenderer renderer) {
+                                                    NotificationRenderer renderer, String forwardName) {
         super(renderer);
         
         this.proposal = institutionalProposal;
         this.documentNumber = institutionalProposal.getInstitutionalProposalDocument().getDocumentNumber();
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
+        this.forwardName = forwardName;
         
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
@@ -62,8 +64,8 @@ public class InstitutionalProposalNotificationContext extends NotificationContex
         setNotificationRoleQualifierService(roleQualifier);
     }
     
-    public InstitutionalProposalNotificationContext(InstitutionalProposal institutionalProposal, String actionTypeCode, String contextName) {
-        this(institutionalProposal, actionTypeCode, contextName, KraServiceLocator.getService(InstitutionalProposalNotificationRenderer.class));
+    public InstitutionalProposalNotificationContext(InstitutionalProposal institutionalProposal, String actionTypeCode, String contextName, String forwardName) {
+        this(institutionalProposal, actionTypeCode, contextName, KraServiceLocator.getService(InstitutionalProposalNotificationRenderer.class), forwardName);
         ((InstitutionalProposalNotificationRenderer) this.getRenderer()).setInstitutionalProposal(institutionalProposal);
     }
     
@@ -113,6 +115,14 @@ public class InstitutionalProposalNotificationContext extends NotificationContex
      */
     public void setEmailAttachments(List<EmailAttachment> emailAttachments) {
         this.emailAttachments = emailAttachments;
+    }
+
+    public String getForwardName() {
+        return forwardName;
+    }
+
+    public void setForwardName(String forwardName) {
+        this.forwardName = forwardName;
     }
     
 }
