@@ -178,7 +178,7 @@
 			            <phase>generate-sources</phase>
 			            <configuration>
 			                <tasks>
-			                    <unzip src="src/main/resources/help.zip" 
+			                    <unzip src="src/main/config/help.zip" 
 			                           dest="src/main/webapp/static/" 
 			                           overwrite="false" />
 			                </tasks>
