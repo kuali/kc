@@ -293,7 +293,9 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     
     public void addUnitDetails(AwardPerson person) {
         person.setOptInUnitStatus(true);
-        person.add(new AwardPersonUnit(person, person.getPerson().getUnit(), true));
+        if (person.getPerson() != null && person.getPerson().getUnit() != null) {
+            person.add(new AwardPersonUnit(person, person.getPerson().getUnit(), true));
+        }
     }
     
     public void removeUnitDetails(AwardPerson person) {
