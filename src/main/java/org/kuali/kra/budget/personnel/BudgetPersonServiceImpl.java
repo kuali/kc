@@ -139,6 +139,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
                 budgetPerson.setEffectiveDate(proposal.getRequestedStartDateInitial());
                 newBudgetPerson.setAppointmentType(appointment.getAppointmentType());
                 newBudgetPerson.setAppointmentTypeCode(appointment.getTypeCode());
+                newBudgetPerson.setSalaryAnniversaryDate(kcPerson.getExtendedAttributes().getSalaryAnniversaryDate());
                 populateBudgetPersonData(budget, newBudgetPerson);
                 budget.addBudgetPerson(newBudgetPerson);
                 added = true;
@@ -149,6 +150,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         if (!added) {
             populateBudgetPersonData(budget, budgetPerson);
             budgetPerson.setJobCode(defaultJobCode);
+            budgetPerson.setSalaryAnniversaryDate(kcPerson.getExtendedAttributes().getSalaryAnniversaryDate());
             budget.addBudgetPerson(budgetPerson);
         }
     }
