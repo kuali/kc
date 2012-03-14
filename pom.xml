@@ -1217,6 +1217,9 @@
 						                        <include>krms/</include>
 		            							<include>ksb/</include>
 		            							<include>rice-portal/</include>
+		            							<include>WEB-INF/dwr-kew.xml</include>
+		            							<include>WEB-INF/dwr-kns.xml</include>
+		            							<include>WEB-INF/krad-servlet.xml</include>
 		            							<include>WEB-INF/jsp/dummy_login.jsp</include>
 		            							<include>WEB-INF/jsp/recurseCheckTabHighlight.jsp</include>
 		            							<include>WEB-INF/jsp/recurseRowDisplay.jsp</include>
@@ -1468,9 +1471,6 @@
           	WEB-INF/lib/,
 			
 			WEB-INF/tags/rice-portal/mainTab.tag,
-			WEB-INF/dwr-kew.xml,
-			WEB-INF/dwr-kns.xml,
-			WEB-INF/krad-servlet.xml,
 			WEB-INF/struts-config.xml,
 			WEB-INF/validator-rules.xml,
 			WEB-INF/web.xml,
