@@ -128,6 +128,9 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
         for (InstitutionalProposalPersonUnit ipPersonUnit : proposalPerson.getUnits()) {
             awardPerson.add(createAwardPersonUnit(awardPerson, ipPersonUnit));
         }
+        if (awardPerson.isKeyPerson() && !awardPerson.getUnits().isEmpty()) {
+            awardPerson.setOptInUnitStatus(true);
+        }
         
         return awardPerson;
     }
