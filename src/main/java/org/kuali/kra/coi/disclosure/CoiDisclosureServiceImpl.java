@@ -319,7 +319,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private void initInstitutionalProposals(List<CoiDisclEventProject> disclEventProjects, List<CoiDiscDetail> disclosureDetails, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {
         List<InstitutionalProposal> iProposals = getInstitutionalProposals(GlobalVariables.getUserSession().getPrincipalId());
         for (InstitutionalProposal proposal : iProposals) {
-            if (proposal.getProposalStatus().isFunded() || proposal.getProposalStatus().isPending()) {
+            if (proposal.isActiveVersion() && (proposal.getProposalStatus().isFunded() || proposal.getProposalStatus().isPending())) {
                 CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposal,
                         new ArrayList<CoiDiscDetail>());
                 for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
@@ -825,8 +825,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 //        fieldValues.put("proposalPersonRoleId", "PI");
         List<InstitutionalProposalPerson> proposalPersons = (List<InstitutionalProposalPerson>) businessObjectService.findMatching(InstitutionalProposalPerson.class, fieldValues);
         for (InstitutionalProposalPerson proposalPerson : proposalPersons) {
-            if (isInstitutionalProposalDisclosurable(proposalPerson.getInstitutionalProposal()) && !isProjectReported(proposalPerson.getInstitutionalProposal().getProposalNumber(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposalPerson.getPersonId())) {
-            // TODO : condition to be implemented
+            InstitutionalProposal institutionalProposal = proposalPerson.getInstitutionalProposal();
+            // if it is disclosurable
+            if (isInstitutionalProposalDisclosurable(institutionalProposal) && 
+                    // and it is not yet reported
+                    !isProjectReported(institutionalProposal.getProposalNumber(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposalPerson.getPersonId()) &&
+                    // and it is most recent version and either funded or pending
+                    (institutionalProposal.isActiveVersion() && (institutionalProposal.getProposalStatus().isFunded() || institutionalProposal.getProposalStatus().isPending()))) {
                 proposals.add(proposalPerson.getInstitutionalProposal());
             }
         }
