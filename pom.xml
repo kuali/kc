@@ -503,7 +503,7 @@
 		<dependency>
 			<groupId>commons-net</groupId>
    			<artifactId>commons-net</artifactId>
-    		<version>2.0</version>
+    		<version>3.1</version>
 		</dependency>
 		<!-- CSV parser -->
 		<dependency>
@@ -520,11 +520,6 @@
 		    <groupId>cglib</groupId>
 		    <artifactId>cglib-nodep</artifactId>
 		    <version>2.2.2</version>
-		</dependency>
-		<dependency>
-		    <groupId>com.google.guava</groupId>
-		    <artifactId>guava</artifactId>
-		    <version>11.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.oracle</groupId>
@@ -548,11 +543,6 @@
 		    <groupId>commons-collections</groupId>
 		    <artifactId>commons-collections</artifactId>
 		    <version>3.2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -647,29 +637,29 @@
 	          </exclusion>
 	        </exclusions>
       	</dependency>
-    <dependency>
-      <groupId>org.directwebremoting</groupId>
-      <artifactId>dwr</artifactId>
-      <version>3.0.M1</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>commons-logging</artifactId>
-          <groupId>commons-logging</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>xmlParserAPIs</artifactId>
-          <groupId>xerces</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jdom</artifactId>
-          <groupId>jdom</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>xml-apis</artifactId>
-          <groupId>xml-apis</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
+        <dependency>
+            <groupId>org.directwebremoting</groupId>
+            <artifactId>dwr</artifactId>
+            <version>3.0.M1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>xmlParserAPIs</artifactId>
+                    <groupId>xerces</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jdom</artifactId>
+                    <groupId>jdom</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>xml-apis</artifactId>
+                    <groupId>xml-apis</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -735,88 +725,6 @@
 		    </exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-api</artifactId>
-			<version>${cxf.version}</version>
-			<exclusions>
-				<exclusion>
-		    		<artifactId>commons-logging</artifactId>
-		    		<groupId>commons-logging</groupId>
-		    	</exclusion>
-				<exclusion>
-		            <groupId>org.apache.geronimo.specs</groupId>
-		            <artifactId>geronimo-activation_1.1_spec</artifactId>
-		        </exclusion>		    	
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-core</artifactId>
-			<version>${cxf.version}</version>
-			<exclusions>
-	          <exclusion>
-	            <groupId>org.apache.geronimo.specs</groupId>
-	            <artifactId>geronimo-javamail_1.4_spec</artifactId>
-	          </exclusion>
-	        </exclusions>			
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>${cxf.version}</version>
- 			<exclusions>
-              <!-- avoids conflict with javamail -->
-	          <exclusion>
-	            <groupId>org.apache.geronimo.specs</groupId>
-	            <artifactId>geronimo-javamail_1.4_spec</artifactId>
-	          </exclusion>
-	          <exclusion>
-	            <groupId>org.apache.geronimo.specs</groupId>
-	            <artifactId>geronimo-activation_1.1_spec</artifactId>
-	          </exclusion>
-	          <exclusion>
-	            <groupId>org.apache.geronimo.specs</groupId>
-	            <artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
-	          </exclusion>
-	          <exclusion>
-	            <groupId>org.apache.geronimo.specs</groupId>
-	            <artifactId>geronimo-jaxws_2.1_spec</artifactId>
-	          </exclusion>
-	          <exclusion>
-	            <groupId>org.apache.geronimo.specs</groupId>
-	            <artifactId>geronimo-annotation_1.0_spec</artifactId>
-	          </exclusion>
-	          <exclusion>
-	            <groupId>javax.xml.soap</groupId>
-	            <artifactId>saaj-api</artifactId>
-	          </exclusion>
-	          <exclusion>
-	            <groupId>com.sun.xml.messaging.saaj</groupId>
-	            <artifactId>saaj-impl</artifactId>
-	          </exclusion>
-	        </exclusions>			
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-simple</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>${cxf.version}</version>
-			<exclusions>
-				<exclusion>
-		    		<artifactId>commons-logging</artifactId>
-		    		<groupId>commons-logging</groupId>
-		    	</exclusion>
-				<exclusion>
-		          <artifactId>spring-web</artifactId>
-		          <groupId>org.springframework</groupId>
-	        </exclusion>   		    	
-			</exclusions>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.santuario</groupId>
 			<artifactId>xmlsec</artifactId>
 			<version>1.4.3</version>
@@ -848,6 +756,10 @@
 					<groupId>xml-apis</groupId>
 					<artifactId>xmlParserAPIs</artifactId>
 				</exclusion>
+				<exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
 				<exclusion>
 		    		<groupId>commons-logging</groupId>
 		    		<artifactId>commons-logging</artifactId>
@@ -907,11 +819,6 @@
 			 -->
 			<version>1.1</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-    		<groupId>org.jdom</groupId>
-    		<artifactId>jdom</artifactId>
-    		<version>1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jmock</groupId>
@@ -1037,7 +944,7 @@
 					<artifactId>junit</artifactId>
 				</exclusion>
 				<exclusion>
-          			<groupId>jdom</groupId>
+					<groupId>jdom</groupId>
           			<artifactId>jdom</artifactId>
         		</exclusion>
 				<exclusion>
@@ -1119,18 +1026,6 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-		  <groupId>org.quartz-scheduler</groupId> 
-		  <artifactId>quartz</artifactId> 
-		  <version>${quartz.version}</version> 
-		  <exclusions>
-			  <exclusion>
-				  <groupId>org.slf4j</groupId> 
-			  	  <artifactId>slf4j-api</artifactId> 
-			  </exclusion>
-		  </exclusions>
-		</dependency>
-
-		<dependency>
 		    <groupId>org.seleniumhq.selenium</groupId>
 		    <artifactId>selenium-firefox-driver</artifactId>
 		    <version>${selenium.version}</version>
@@ -1150,72 +1045,6 @@
             <artifactId>selenium-support</artifactId>
             <version>${selenium.version}</version>
         </dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-beans</artifactId>
-		    <version>${springframework.version}</version>
-		    <exclusions>
-		    	<exclusion>
-		    		<artifactId>commons-logging</artifactId>
-		    		<groupId>commons-logging</groupId>
-		    	</exclusion>
-		    </exclusions>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-context</artifactId>
-		    <version>${springframework.version}</version>
-		    <exclusions>
-		    	<exclusion>
-		    		<artifactId>commons-logging</artifactId>
-		    		<groupId>commons-logging</groupId>
-		    	</exclusion>
-		    </exclusions>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-context-support</artifactId>
-		    <version>${springframework.version}</version>
-		    <exclusions>
-		    	<exclusion>
-		    		<artifactId>commons-logging</artifactId>
-		    		<groupId>commons-logging</groupId>
-		    	</exclusion>
-		    </exclusions>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-core</artifactId>
-		    <version>${springframework.version}</version>
-		    <exclusions>
-		    	<exclusion>
-		    		<artifactId>commons-logging</artifactId>
-		    		<groupId>commons-logging</groupId>
-		    	</exclusion>
-		    </exclusions>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-jdbc</artifactId>
-		    <version>${springframework.version}</version>
-		    <exclusions>
-		    	<exclusion>
-		    		<artifactId>commons-logging</artifactId>
-		    		<groupId>commons-logging</groupId>
-		    	</exclusion>
-		    </exclusions>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-tx</artifactId>
-		    <version>${springframework.version}</version>
-		    <exclusions>
-		    	<exclusion>
-		    		<artifactId>commons-logging</artifactId>
-		    		<groupId>commons-logging</groupId>
-		    	</exclusion>
-		    </exclusions>
-		</dependency>
 		<dependency>
 		    <groupId>org.springmodules</groupId>
 		    <artifactId>spring-modules-ojb</artifactId>
@@ -1600,12 +1429,10 @@
 		<mail.version>1.4.4</mail.version>
 		<mysql.version>5.1.16</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
-		<quartz.version>1.8.4</quartz.version>
 		<rice.version>2.0.0</rice.version>
 		<selenium.version>2.12.0</selenium.version>
 		<servlet.version>2.5</servlet.version>
 		<slf4j.version>1.6.4</slf4j.version>
-		<springframework.version>3.1.0.RELEASE</springframework.version>
 		<struts.version>1.3.10</struts.version> 
 		<commons-beanutils.version>1.8.3-kuali</commons-beanutils.version>
 		<!-- Checkstyle config -->
