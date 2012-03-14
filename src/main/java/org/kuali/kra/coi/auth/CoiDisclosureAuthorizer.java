@@ -15,21 +15,24 @@
  */
 package org.kuali.kra.coi.auth;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+
 /**
  * 
  * This class is the parent authorizer for coidisclosure tasks
  */
-public abstract class CoiDisclosureAuthorizer  extends TaskAuthorizerImpl {
-    
+public abstract class CoiDisclosureAuthorizer extends TaskAuthorizerImpl {
+
     private KraAuthorizationService kraAuthorizationService;
     private CoiDisclosureService coiDisclosureService;
 
@@ -42,22 +45,25 @@ public abstract class CoiDisclosureAuthorizer  extends TaskAuthorizerImpl {
 
     /**
      * Is the user authorized to execute the given CoiDisclosure task
+     * 
      * @param userId the user's unique userId
      * @param task the coiDisclosure task
      * @return true if the user is authorized; otherwise false
      */
     public abstract boolean isAuthorized(String userId, CoiDisclosureTask task);
-    
+
     /**
-     * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
+     * Set the Kra Authorization Service. Usually injected by the Spring Framework.
+     * 
      * @param kraAuthorizationService
      */
     public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
-    
+
     /**
      * Does the given user has the permission for this CoiDisclosure?
+     * 
      * @param userId the unique userId of the user
      * @param coiDisclosure the coiDisclosure
      * @param permissionName the name of the permission
@@ -66,7 +72,7 @@ public abstract class CoiDisclosureAuthorizer  extends TaskAuthorizerImpl {
     protected final boolean hasPermission(String userId, CoiDisclosure coiDisclosure, String permissionName) {
         return kraAuthorizationService.hasPermission(userId, coiDisclosure, permissionName);
     }
-    
+
     protected boolean isPessimisticLocked(Document document) {
         boolean isLocked = false;
         for (PessimisticLock lock : document.getPessimisticLocks()) {
@@ -84,6 +90,23 @@ public abstract class CoiDisclosureAuthorizer  extends TaskAuthorizerImpl {
 
     public void setCoiDisclosureService(CoiDisclosureService coiDisclosureService) {
         this.coiDisclosureService = coiDisclosureService;
+    }
+
+
+    /**
+     * This method checks various aspects of the disclosure and its documents to verify that it is indeed editable.
+     * 
+     * @param coiDisclosure
+     * @return
+     */
+    protected boolean isDisclosureEditable(CoiDisclosure coiDisclosure) {
+        return (coiDisclosure != null)
+                && !coiDisclosure.getCoiDisclosureDocument().isViewOnly()
+                && !isPessimisticLocked(coiDisclosure.getCoiDisclosureDocument())
+                && !kraWorkflowService.isInWorkflow(coiDisclosure.getCoiDisclosureDocument())
+                && !coiDisclosure.isApprovedDisclosure()
+                && StringUtils.equals(coiDisclosure.getCoiDisclosureStatus().getCoiDisclosureStatusCode(),
+                        CoiDisclosureStatus.IN_PROGRESS);
     }
 
 }

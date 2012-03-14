@@ -41,14 +41,12 @@ public class ModifyCoiDisclosureAuthorizer extends CoiDisclosureAuthorizer {
         } 
         else {
             /*
-             * After the initial save, the protocol can only be modified has the required permission.
+             * After the initial save, the disclosure can only be modified if its editable 
+             * and if the logged-in user either has the required permission or is the original reporter.
              */
-            hasPermission = !coiDisclosure.getCoiDisclosureDocument().isViewOnly() && 
-                            !isPessimisticLocked(coiDisclosure.getCoiDisclosureDocument()) &&
-                            !kraWorkflowService.isInWorkflow(coiDisclosure.getCoiDisclosureDocument()) &&
-                            !coiDisclosure.isApprovedDisclosure() &&
-                            (hasPermission(userId, coiDisclosure, PermissionConstants.MAINTAIN_COI_DISCLOSURE)
-                                    || StringUtils.equals(userId, coiDisclosure.getPersonId()));
+            hasPermission = isDisclosureEditable(coiDisclosure) &&
+                                ( (hasPermission(userId, coiDisclosure, PermissionConstants.MAINTAIN_COI_DISCLOSURE)) 
+                                        || (StringUtils.equals(userId, coiDisclosure.getPersonId())) );
 
         }
         return hasPermission;
