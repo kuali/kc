@@ -84,6 +84,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalDevelopmentRejectionBean;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
+import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -126,7 +127,7 @@ import org.springframework.util.AutoPopulatingList;
 /**
  * This class is the Struts form bean for DevelopmentProposal
  */
-public class ProposalDevelopmentForm extends BudgetVersionFormBase implements ReportHelperBeanContainer, QuestionableFormInterface {
+public class ProposalDevelopmentForm extends BudgetVersionFormBase implements ReportHelperBeanContainer, MultiQuestionableFormInterface {
     
     private static final long serialVersionUID = 7928293162992415894L;
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter ";
@@ -1909,31 +1910,22 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public S2sOpportunity getS2sOpportunity() {
         return s2sOpportunity;
     }
-    
-    /**
-     * 
-     * This method helps the tag "proposalDevelopmentGrantsGovOpportunitySearch.tag" by first creating a new S2sOpportunity.
-     * Then it sets the opportunityId, and finally setting the proposal development's S2sOpportunity with this new object.
-     * This function is needed as the tags can no longer set attributes of null object automatically, an object must be created first.
-     * @param opportunityId
-     */
-    /*
-    public void setNewS2sOpportunityWithId(String opportunityId) {
-        if(this.getDocument().getDevelopmentProposal().getS2sOpportunity() == null) {
-            this.getDocument().getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
-        }
-        this.getDocument().getDevelopmentProposal().getS2sOpportunity().setOpportunityId(opportunityId);
-    }*/
-    
-    public String getQuestionnaireFieldStarter() {
-        return "proposalPersonQuestionnaireHelpers[";
+
+    @Override
+    public String[] getQuestionnaireFieldStarters() {
+        String[] starters = {"proposalPersonQuestionnaireHelpers[", "s2sQuestionnaireHelper"};
+        return starters;
     }
-    
-    public String getQuestionnaireFieldMiddle() {
-        return DEFAULT_MIDDLE;
+
+    @Override
+    public String[] getQuestionnaireFieldMiddles() {
+        String[] middles = {DEFAULT_MIDDLE, DEFAULT_MIDDLE};
+        return middles;
     }
-    
-    public String getQuestionnaireFieldEnd() {
-        return DEFAULT_END;
+
+    @Override
+    public String[] getQuestionnaireFieldEnds() {
+        String[] ends = {DEFAULT_END, DEFAULT_END};
+        return ends;
     }
 }
