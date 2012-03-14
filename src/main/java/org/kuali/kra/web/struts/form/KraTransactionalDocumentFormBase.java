@@ -29,6 +29,7 @@ import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.rules.SoftError;
 import org.kuali.rice.kim.api.KimConstants;
@@ -322,6 +323,9 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
                                 && StringUtils.containsIgnoreCase(propertyName, ((QuestionableFormInterface) this).getQuestionnaireFieldMiddle())
                                 && StringUtils.endsWithIgnoreCase(propertyName, ((QuestionableFormInterface) this).getQuestionnaireFieldEnd())) {
                             populateForProperty(propertyName, null, parameterMap);
+                        } else if (this instanceof MultiQuestionableFormInterface) {
+                            processMultiQuestionCheckBox(propertyName, parameterMap, (MultiQuestionableFormInterface) this);
+                            
                         } else {
                             populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
                         }
@@ -332,6 +336,24 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
                     }
                 }
             }
+        }
+    }
+    
+    protected void processMultiQuestionCheckBox(String propertyName, Map<String, String[]> parameterMap, MultiQuestionableFormInterface form) {
+        boolean checkBoxFound = false;
+        int j = 0;
+        for (String starter : form.getQuestionnaireFieldStarters()) {
+            if (!checkBoxFound && StringUtils.startsWithIgnoreCase(propertyName, starter)
+                    && StringUtils.containsIgnoreCase(propertyName, form.getQuestionnaireFieldEnds()[j])
+                    && StringUtils.endsWithIgnoreCase(propertyName, form.getQuestionnaireFieldEnds()[j])) {
+                populateForProperty(propertyName, null, parameterMap);;
+                checkBoxFound = true;
+                break;
+            }
+            j++;
+        }
+        if (!checkBoxFound) {
+            populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
         }
     }
 }
