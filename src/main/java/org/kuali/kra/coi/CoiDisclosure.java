@@ -435,6 +435,10 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         return StringUtils.equals(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, this.getEventTypeCode());
     }
     
+    public boolean isProjectEventDisclosure(CoiDisclosure coiDisclosure) {
+        return (coiDisclosure.isAwardEvent() || coiDisclosure.isProposalEvent() || coiDisclosure.isProtocolEvent() || coiDisclosure.isInstitutionalProposalEvent());
+    }
+    
     public boolean isProtocolEvent() {
         return StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.getEventTypeCode());
     }
@@ -711,9 +715,11 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
     public boolean isApprovedDisclosure() {
-
-    	
         return StringUtils.equals(CoiDisclosureStatus.APPROVED, disclosureStatusCode);
+    }
+    
+    public boolean isSubmitted() {
+        return StringUtils.equals(CoiDisclosureStatus.ROUTED_FOR_REVIEW, getDisclosureStatusCode());
     }
     
     public boolean isDisapprovedDisclosure() {
