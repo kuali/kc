@@ -72,8 +72,8 @@
         <forward name="portal" path="/portal.jsp" redirect="true" />
         <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
         <forward name="updateTextArea" path="/kr/WEB-INF/jsp/TextArea.jsp" />
-        <forward name="exceptionIncidentHandler" path="/../kr/kualiExceptionIncidentReport.do" />
-        <forward name="authorizationExceptionHandler" path="/../kr/authorizationExceptionReport.do"/>
+        <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" />
+        <forward name="authorizationExceptionHandler" path="/kr/authorizationExceptionReport.do"/>
         
        	<!-- End required KNS forwards -->
 <!-- Rice content End -->
