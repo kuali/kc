@@ -64,6 +64,15 @@
     	
     </bean>
     
+  	<bean id="coiEventDisclosureLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="coiEventDisclosureLookupableHelperService" />
+  		</property>
+	</bean>
+	
+    <bean id="coiEventDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiEventDisclosureLookupableHelper" parent="lookupableHelperService" scope="prototype">
+    </bean>
+    
      <bean id="coiDisclosureService" class="org.kuali.kra.coi.disclosure.CoiDisclosureServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcPersonService" ref="kcPersonService" />
