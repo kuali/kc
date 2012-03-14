@@ -29,6 +29,9 @@ public class ModifySubAwardAutherizer extends SubAwardAuthorizer{
         SubAwardDocument subAwardDocument = task.getSubAwardDocument();
         if(subAwardDocument.getSubAward().getSubAwardId()!=null){
             
+            if(hasPermission(userId, task.getSubAwardDocument().getSubAward(), PermissionConstants.MODIFY_SUBAWARD)){
+                subAwardDocument.getSubAward().setEditSubAward(true);
+            }
             return !subAwardDocument.isViewOnly() && hasPermission(userId, task.getSubAwardDocument().getSubAward(), PermissionConstants.MODIFY_SUBAWARD)&&
             !kraWorkflowService.isInWorkflow(subAwardDocument);
         }else{

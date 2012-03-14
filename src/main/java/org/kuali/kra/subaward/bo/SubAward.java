@@ -121,7 +121,8 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     private transient String docIdStatus;
     private transient String lastUpdate;
     private String awardNumber;
-
+    private transient boolean editSubAward = false;
+    
     public String getSubAwardSequenceStatus() {
         return subAwardSequenceStatus;
     }
@@ -795,4 +796,13 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public String getAwardNumber() {
         return awardNumber;
     }
+
+    public void setEditSubAward(boolean editSubAward) {
+        this.editSubAward = editSubAward;
+    }
+
+    public boolean isEditSubAward() {
+        return editSubAward;
+    }
+
 }
