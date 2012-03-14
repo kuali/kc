@@ -73,7 +73,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
-    
+
     protected final Log LOG = LogFactory.getLog(AwardSyncServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private UnitAuthorizationService unitAuthService;
@@ -83,18 +83,19 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private DocumentService documentService;
     private VersionHistoryService versionHistoryService;
 
-    
+
     /**
      * Sets the ParameterService.
-     * @param parameterService the parameter service. 
+     * 
+     * @param parameterService the parameter service.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
+
     /**
-     * This method gets called from the "save" action. It initializes the applicant org. on the first save;
-     * it also sets the performing org. if the user didn't make a selection.
+     * This method gets called from the "save" action. It initializes the applicant org. on the first save; it also sets the
+     * performing org. if the user didn't make a selection.
      * 
      * @param proposalDevelopmentDocument
      */
@@ -115,7 +116,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         // On first save, set Performing Organization if not selected
         ProposalSite performingOrganization = developmentProposal.getPerformingOrganization();
-        if (StringUtils.isEmpty(developmentProposal.getProposalNumber()) && performingOrganization.getOrganization() == null && developmentProposal.getOwnedByUnitNumber() != null) {
+        if (StringUtils.isEmpty(developmentProposal.getProposalNumber()) && performingOrganization.getOrganization() == null
+                && developmentProposal.getOwnedByUnitNumber() != null) {
             String performingOrganizationId = developmentProposal.getOwnedByUnit().getOrganizationId();
             performingOrganization = createProposalSite(performingOrganizationId, getNextSiteNumber(proposalDevelopmentDocument));
             developmentProposal.setPerformingOrganization(performingOrganization);
@@ -123,8 +125,9 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     /**
-     * Constructs a ProposalSite; initializes the organization, and locationName fields,
-     * and sets the default district if there is one defined for the Organization.
+     * Constructs a ProposalSite; initializes the organization, and locationName fields, and sets the default district if there is
+     * one defined for the Organization.
+     * 
      * @param organizationId
      */
     protected ProposalSite createProposalSite(String organizationId, int siteNumber) {
@@ -135,19 +138,20 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         proposalSite.initializeDefaultCongressionalDistrict();
         return proposalSite;
     }
-      
+
     protected int getNextSiteNumber(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return proposalDevelopmentDocument.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER);
     }
-    
+
     // see interface for Javadoc
     public void initializeProposalSiteNumbers(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        for (ProposalSite proposalSite: proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites())
+        for (ProposalSite proposalSite : proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites())
             proposalSite.setSiteNumber(getNextSiteNumber(proposalDevelopmentDocument));
     }
 
     public List<Unit> getDefaultModifyProposalUnitsForUser(String userId) {
-        return unitAuthService.getUnits(userId, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
+        return unitAuthService.getUnits(userId, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                PermissionConstants.CREATE_PROPOSAL);
     }
 
     /**
@@ -185,9 +189,10 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-    
+
     /**
-     * Set the Unit Authorization Service.  Injected by Spring.
+     * Set the Unit Authorization Service. Injected by Spring.
+     * 
      * @param unitAuthService
      */
     public void setUnitAuthorizationService(UnitAuthorizationService unitAuthService) {
@@ -195,7 +200,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     public String populateProposalEditableFieldMetaDataForAjaxCall(String proposalNumber, String editableFieldDBColumn) {
-        if(isAuthorizedToAccess(proposalNumber)){
+        if (isAuthorizedToAccess(proposalNumber)) {
             if (StringUtils.isNotBlank(proposalNumber) && proposalNumber.contains(Constants.COLON)) {
                 proposalNumber = StringUtils.split(proposalNumber, Constants.COLON)[0];
             }
@@ -203,11 +208,12 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         return StringUtils.EMPTY;
     }
-    
+
     protected ProposalOverview getProposalOverview(String proposalNumber) {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("proposalNumber", proposalNumber);
-        ProposalOverview currentProposal = (ProposalOverview) businessObjectService.findByPrimaryKey(ProposalOverview.class, primaryKeys);
+        ProposalOverview currentProposal = (ProposalOverview) businessObjectService.findByPrimaryKey(ProposalOverview.class,
+                primaryKeys);
         return currentProposal;
     }
 
@@ -218,168 +224,181 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         String displayValue = "";
         String returnValue = "";
         PersistableBusinessObject businessObject = null;
-        
-        if(StringUtils.isNotEmpty(lookupClassName)) {
+
+        if (StringUtils.isNotEmpty(lookupClassName)) {
             try {
                 lookupClass = Class.forName(lookupClassName);
                 lookupClassPkFields = (List<String>) kraPersistenceStructureService.getPrimaryKeys(lookupClass);
             }
-            catch (ClassNotFoundException e) {}
-            
-            if(CollectionUtils.isNotEmpty(lookupClassPkFields)){
+            catch (ClassNotFoundException e) {
+            }
+
+            if (CollectionUtils.isNotEmpty(lookupClassPkFields)) {
                 returnValue = StringUtils.isNotEmpty(lookupClassPkFields.get(0)) ? lookupClassPkFields.get(0) : "";
-                
-                if(StringUtils.isNotEmpty(value)) {
+
+                if (StringUtils.isNotEmpty(value)) {
                     primaryKeys.put(lookupClassPkFields.get(0), value);
                     businessObject = (PersistableBusinessObject) businessObjectService.findByPrimaryKey(lookupClass, primaryKeys);
-                    if(businessObject != null) {
+                    if (businessObject != null) {
                         displayValue = getPropertyValue(businessObject, displayAttributeName);
                         displayValue = StringUtils.isNotEmpty(displayValue) ? displayValue : "";
                     }
-                } 
+                }
             }
-        } 
-        
+        }
+
         return returnValue + "," + displayAttributeName + "," + displayValue;
     }
-    
-    
-    public String getDataOverrideLookupDisplayReturnValue( String lookupClassName ) {
+
+
+    public String getDataOverrideLookupDisplayReturnValue(String lookupClassName) {
         List<String> lookupClassPkFields = null;
         String returnValue = "";
         Class lookupClass = null;
-        
-        if(StringUtils.isNotEmpty(lookupClassName)) {
+
+        if (StringUtils.isNotEmpty(lookupClassName)) {
             try {
                 lookupClass = Class.forName(lookupClassName);
                 lookupClassPkFields = (List<String>) kraPersistenceStructureService.getPrimaryKeys(lookupClass);
             }
-            catch (ClassNotFoundException e) {}
-      
-            if(CollectionUtils.isNotEmpty(lookupClassPkFields)){
-                returnValue = StringUtils.isNotEmpty(lookupClassPkFields.get(0)) ? lookupClassPkFields.get(0) : "";
-      
+            catch (ClassNotFoundException e) {
             }
-        
+
+            if (CollectionUtils.isNotEmpty(lookupClassPkFields)) {
+                returnValue = StringUtils.isNotEmpty(lookupClassPkFields.get(0)) ? lookupClassPkFields.get(0) : "";
+
+            }
+
         }
         return returnValue;
     }
-    
-    public String getDataOverrideLookupDisplayDisplayValue( String lookupClassName, String value, String displayAttributeName ) {
+
+    public String getDataOverrideLookupDisplayDisplayValue(String lookupClassName, String value, String displayAttributeName) {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         List<String> lookupClassPkFields = null;
         Class lookupClass = null;
         String displayValue = "";
         PersistableBusinessObject businessObject = null;
-        
-        if(StringUtils.isNotEmpty(lookupClassName)) {
+
+        if (StringUtils.isNotEmpty(lookupClassName)) {
             try {
                 lookupClass = Class.forName(lookupClassName);
                 lookupClassPkFields = (List<String>) kraPersistenceStructureService.getPrimaryKeys(lookupClass);
             }
-            catch (ClassNotFoundException e) {}
-            
-            if(CollectionUtils.isNotEmpty(lookupClassPkFields)){
-                
-                if(StringUtils.isNotEmpty(value)) {
+            catch (ClassNotFoundException e) {
+            }
+
+            if (CollectionUtils.isNotEmpty(lookupClassPkFields)) {
+
+                if (StringUtils.isNotEmpty(value)) {
                     primaryKeys.put(lookupClassPkFields.get(0), value);
                     businessObject = (PersistableBusinessObject) businessObjectService.findByPrimaryKey(lookupClass, primaryKeys);
-                    if(businessObject != null) {
+                    if (businessObject != null) {
                         displayValue = getPropertyValue(businessObject, displayAttributeName);
                         displayValue = StringUtils.isNotEmpty(displayValue) ? displayValue : "";
                     }
-                } 
+                }
             }
-        } 
-        
+        }
+
         return displayValue;
     }
 
 
-    
-    
-    
     protected String getPropertyValue(BusinessObject businessObject, String fieldName) {
         String displayValue = "";
         try {
             displayValue = (String) ObjectUtils.getPropertyValue(businessObject, fieldName);
         }
-        //Might happen due to Unknown Property Exception 
-        catch (RuntimeException e) { }
-        return displayValue;  
+        // Might happen due to Unknown Property Exception
+        catch (RuntimeException e) {
+        }
+        return displayValue;
     }
-    
+
     public Object getProposalFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) {
         Object fieldValue = null;
         Map<String, String> fieldMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
         String proposalAttributeName = fieldMap.get(dbColumnName);
-        if(StringUtils.isNotEmpty(proposalAttributeName)) {
-            ProposalOverview currentProposal =  getProposalOverview(proposalNumber);
-            if(currentProposal != null) {
+        if (StringUtils.isNotEmpty(proposalAttributeName)) {
+            ProposalOverview currentProposal = getProposalOverview(proposalNumber);
+            if (currentProposal != null) {
                 fieldValue = ObjectUtils.getPropertyValue(currentProposal, proposalAttributeName);
             }
         }
         return fieldValue;
     }
-    
-    protected String populateProposalEditableFieldMetaData(String proposalNumber, String editableFieldDBColumn) { 
+
+    protected String populateProposalEditableFieldMetaData(String proposalNumber, String editableFieldDBColumn) {
         String returnValue = "";
-        if(GlobalVariables.getMessageMap() != null) {
+        if (GlobalVariables.getMessageMap() != null) {
             GlobalVariables.getMessageMap().clearErrorMessages();
         }
-        
+
         Object fieldValue = getProposalFieldValueFromDBColumnName(proposalNumber, editableFieldDBColumn);
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("columnName", editableFieldDBColumn);
-        ProposalColumnsToAlter editableColumn = (ProposalColumnsToAlter) businessObjectService.findByPrimaryKey(ProposalColumnsToAlter.class, primaryKeys);
-        
-        if(editableColumn.getHasLookup()) {
-            returnValue = getDataOverrideLookupDisplayReturnValue(editableColumn.getLookupClass()) + "," + editableColumn.getLookupReturn() + "," + getDataOverrideLookupDisplayDisplayValue( editableColumn.getLookupClass(), (fieldValue != null ? fieldValue.toString() : ""),editableColumn.getLookupReturn() );
-        } else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")){
+        ProposalColumnsToAlter editableColumn = (ProposalColumnsToAlter) businessObjectService.findByPrimaryKey(
+                ProposalColumnsToAlter.class, primaryKeys);
+
+        if (editableColumn.getHasLookup()) {
+            returnValue = getDataOverrideLookupDisplayReturnValue(editableColumn.getLookupClass())
+                    + ","
+                    + editableColumn.getLookupReturn()
+                    + ","
+                    + getDataOverrideLookupDisplayDisplayValue(editableColumn.getLookupClass(),
+                            (fieldValue != null ? fieldValue.toString() : ""), editableColumn.getLookupReturn());
+        }
+        else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")) {
             returnValue = ",," + CoreApiServiceLocator.getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
-        } else if (fieldValue != null) {
+        }
+        else if (fieldValue != null) {
             returnValue = ",," + fieldValue.toString();
-        } else {
+        }
+        else {
             returnValue = ",,";
         }
 
-        returnValue+=","+editableColumn.getDataType();
-        returnValue+=","+editableColumn.getHasLookup();
-        returnValue+=","+editableColumn.getLookupClass();
-        
-        return returnValue; 
+        returnValue += "," + editableColumn.getDataType();
+        returnValue += "," + editableColumn.getHasLookup();
+        returnValue += "," + editableColumn.getLookupClass();
+
+        return returnValue;
     }
-    
+
     @SuppressWarnings("unchecked")
     public Award getProposalCurrentAwardVersion(ProposalDevelopmentDocument proposal) {
         String awardNumber = proposal.getDevelopmentProposal().getCurrentAwardNumber();
         VersionHistory vh = versionHistoryService.findActiveVersion(Award.class, awardNumber);
         Award award = null;
-        
-        if(vh!=null){
+
+        if (vh != null) {
             award = (Award) vh.getSequenceOwner();
-        }else{
+        }
+        else {
             HashMap<String, String> valueMap = new HashMap<String, String>();
             valueMap.put("awardNumber", awardNumber);
-            List<Award> awards = (List<Award>)businessObjectService.findMatching(Award.class, valueMap);
+            List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, valueMap);
             if (awards != null && !awards.isEmpty()) {
                 award = awards.get(0);
             }
         }
         return award;
     }
-    
+
     public InstitutionalProposal getProposalContinuedFromVersion(ProposalDevelopmentDocument proposal) {
         String proposalNumber = proposal.getDevelopmentProposal().getContinuedFrom();
         VersionHistory vh = versionHistoryService.findActiveVersion(InstitutionalProposal.class, proposalNumber);
         InstitutionalProposal ip = null;
-        
-        if (vh!=null) {
+
+        if (vh != null) {
             ip = (InstitutionalProposal) vh.getSequenceOwner();
-        } else if (StringUtils.isNotEmpty(proposalNumber)){
+        }
+        else if (StringUtils.isNotEmpty(proposalNumber)) {
             HashMap<String, String> valueMap = new HashMap<String, String>();
             valueMap.put("proposalNumber", proposalNumber);
-            List<InstitutionalProposal> proposals = (List<InstitutionalProposal>)businessObjectService.findMatching(InstitutionalProposal.class, valueMap);
+            List<InstitutionalProposal> proposals = (List<InstitutionalProposal>) businessObjectService.findMatching(
+                    InstitutionalProposal.class, valueMap);
             if (proposals != null && !proposals.isEmpty()) {
                 ip = proposals.get(0);
             }
@@ -418,17 +437,19 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     public boolean isGrantsGovEnabledForProposal(DevelopmentProposal devProposal) {
-        return !devProposal.isChild() && devProposal.getSponsor() != null && StringUtils.equals(devProposal.getSponsor().getSponsorTypeCode(), "0");
+        return !devProposal.isChild() && devProposal.getSponsor() != null
+                && StringUtils.equals(devProposal.getSponsor().getSponsorTypeCode(), "0");
     }
 
     public boolean isGrantsGovEnabledOnSponsorChange(String proposalNumber, String sponsorCode) {
-        DevelopmentProposal proposal = (DevelopmentProposal) getBusinessObjectService().findBySinglePrimaryKey(DevelopmentProposal.class, proposalNumber);
+        DevelopmentProposal proposal = (DevelopmentProposal) getBusinessObjectService().findBySinglePrimaryKey(
+                DevelopmentProposal.class, proposalNumber);
         Sponsor sponsor = (Sponsor) getBusinessObjectService().findBySinglePrimaryKey(Sponsor.class, sponsorCode);
         boolean enableGrantsGov = proposal == null || !proposal.isChild();
         enableGrantsGov &= sponsor != null && StringUtils.equals(sponsor.getSponsorTypeCode(), "0");
         return enableGrantsGov;
     }
-    
+
     /**
      * 
      * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#deleteProposal(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
@@ -440,28 +461,27 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             deleteProposalBudget(budgetVersion.getDocumentNumber(), proposalDocument);
             iter.remove();
         }
-        //remove budget statuses as they are not referenced via ojb, but there is a
-        //database constraint that requires removing these first
+        // remove budget statuses as they are not referenced via ojb, but there is a
+        // database constraint that requires removing these first
         Map<String, Object> keyValues = new HashMap<String, Object>();
         keyValues.put("proposalNumber", proposalDocument.getDevelopmentProposal().getProposalNumber());
         getBusinessObjectService().deleteMatching(ProposalBudgetStatus.class, keyValues);
         proposalDocument.getDevelopmentProposalList().clear();
         proposalDocument.getBudgetDocumentVersions().clear();
         proposalDocument.setProposalDeleted(true);
-        
-        //because the devproplist was cleared above the dev prop and associated BOs will be
-        //deleted upon save
-        getBusinessObjectService().save(proposalDocument); 
+
+        // because the devproplist was cleared above the dev prop and associated BOs will be
+        // deleted upon save
+        getBusinessObjectService().save(proposalDocument);
         getDocumentService().cancelDocument(proposalDocument, "Delete Proposal");
     }
-    
+
     protected void deleteProposalBudget(String budgetDocumentNumber, ProposalDevelopmentDocument parentDocument) {
         try {
-            BudgetDocument document = 
-                (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocumentNumber);
+            BudgetDocument document = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocumentNumber);
             document.getBudgets().clear();
-            //make sure the budget points to this instance of the pdd as other deleted budgets
-            //must be removed so they don't fail document validation.
+            // make sure the budget points to this instance of the pdd as other deleted budgets
+            // must be removed so they don't fail document validation.
             document.setParentDocument(parentDocument);
             document.setBudgetDeleted(true);
             getDocumentService().saveDocument(document);
@@ -469,7 +489,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         catch (WorkflowException e) {
             LOG.warn("Error getting budget document to delete", e);
         }
-        
+
     }
 
     protected DocumentService getDocumentService() {
@@ -479,35 +499,39 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    
+
     /*
-     * a utility method to check if dwr/ajax call really has authorization
-     * 'updateProtocolFundingSource' also accessed by non ajax call
+     * a utility method to check if dwr/ajax call really has authorization 'updateProtocolFundingSource' also accessed by non ajax
+     * call
      */
-    
+
     private boolean isAuthorizedToAccess(String proposalNumber) {
         boolean isAuthorized = true;
-        if(proposalNumber.contains(Constants.COLON)){
+        if (proposalNumber.contains(Constants.COLON)) {
             if (GlobalVariables.getUserSession() != null) {
-                // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
+                // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be
+                // replaced by
                 // jquery/ajax in rice 2.0
                 String[] invalues = StringUtils.split(proposalNumber, Constants.COLON);
                 String docFormKey = invalues[1];
                 if (StringUtils.isBlank(docFormKey)) {
                     isAuthorized = false;
-                } else {
+                }
+                else {
                     Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
                     if (formObj == null || !(formObj instanceof ProposalDevelopmentForm)) {
                         isAuthorized = false;
-                    } else {
-                        Map<String, String> editModes = ((ProposalDevelopmentForm)formObj).getEditingMode();
+                    }
+                    else {
+                        Map<String, String> editModes = ((ProposalDevelopmentForm) formObj).getEditingMode();
                         isAuthorized = BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
-                        || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY))
-                        || BooleanUtils.toBoolean(editModes.get("modifyProposal"));
+                                || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY))
+                                || BooleanUtils.toBoolean(editModes.get("modifyProposal"));
                     }
                 }
 
-            } else {
+            }
+            else {
                 // TODO : it seemed that tomcat has this issue intermittently ?
                 LOG.info("dwr/ajax does not have session ");
             }
@@ -515,64 +539,65 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return isAuthorized;
     }
 
-    public Budget getFinalBudget (DevelopmentProposal proposal) {
+    public Budget getFinalBudget(DevelopmentProposal proposal) {
         List<BudgetDocumentVersion> budgetDocuments = proposal.getProposalDocument().getBudgetDocumentVersions();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         Budget budget = null;
-        
-        if (budgetDocuments != null && budgetDocuments.size() > 0) {            
-            for(BudgetDocumentVersion budgetDocument : budgetDocuments) {
+
+        if (budgetDocuments != null && budgetDocuments.size() > 0) {
+            for (BudgetDocumentVersion budgetDocument : budgetDocuments) {
                 fieldValues.clear();
                 fieldValues.put("document_number", budgetDocument.getDocumentNumber());
                 List<Budget> budgets = (List<Budget>) getBusinessObjectService().findMatching(Budget.class, fieldValues);
-                budget = budgets.get(0);               
+                budget = budgets.get(0);
                 // break out if we find the final budget
                 if (budget.getFinalVersionFlag()) {
                     break;
                 }
-            }                         
-        }   
-        
+            }
+        }
+
         return budget;
     }
-    
-public List<CoPiInfoDO> getCoPiPiInfo (DevelopmentProposal proposal) {
-    
+
+    public List<CoPiInfoDO> getCoPiPiInfo(DevelopmentProposal proposal) {
+
         List<ProposalPerson> proposalPersons = proposal.getProposalPersons();
         List<CoPiInfoDO> coPiInfos = new ArrayList<CoPiInfoDO>();
-        
+
         for (ProposalPerson proposalPerson : proposalPersons) {
             if (proposalPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
                 CoPiInfoDO coPiInfo = new CoPiInfoDO();
                 coPiInfo.setCoPiUnit(proposalPerson.getHomeUnit());
-                coPiInfo.setCoPiName(proposalPerson.getFullName());   
+                coPiInfo.setCoPiName(proposalPerson.getFullName());
                 coPiInfos.add(coPiInfo);
-            } 
+            }
         }
-        
+
         return coPiInfos;
     }
 
-public List<CostShareInfoDO> getCostShareInfo (Budget budget) {       
-    List<BudgetCostShare> costShares = budget.getBudgetCostShares();
-    List<CostShareInfoDO> costShareInfos = new ArrayList<CostShareInfoDO>();
-    
-    if (costShares != null && costShares.size() > 0) {
-        for (BudgetCostShare costShare : costShares) {
-            if (!costShare.getSourceUnit().equals(Constants.THIRD_PARTY_UNIT_NO)) {
-                CostShareInfoDO costShareInfo = new CostShareInfoDO();
-                costShareInfo.setCostShareUnit(costShare.getSourceUnit());
-                costShareInfo.setCostShareAmount(costShare.getShareAmount());
-                costShareInfos.add(costShareInfo);
-            }                            
+    public List<CostShareInfoDO> getCostShareInfo(Budget budget) {
+        List<BudgetCostShare> costShares = budget.getBudgetCostShares();
+        List<CostShareInfoDO> costShareInfos = new ArrayList<CostShareInfoDO>();
+
+        if (costShares != null && costShares.size() > 0) {
+            for (BudgetCostShare costShare : costShares) {
+                if (!Constants.THIRD_PARTY_UNIT_NO.equals(costShare.getSourceUnit())) {
+                    CostShareInfoDO costShareInfo = new CostShareInfoDO();
+                    costShareInfo.setCostShareUnit(costShare.getSourceUnit());
+                    costShareInfo.setCostShareAmount(costShare.getShareAmount());
+                    costShareInfos.add(costShareInfo);
+                }
+            }
         }
+
+        return costShareInfos;
     }
-    
-    return costShareInfos;
-}
 
     /**
      * Return the institutional proposal linked to the development proposal.
+     * 
      * @param proposalDevelopmentDocument
      * @param instProposalNumber
      * @return
@@ -581,15 +606,15 @@ public List<CostShareInfoDO> getCostShareInfo (Budget budget) {
         Long instProposalId = null;
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("devProposalNumber", devProposalNumber);
-        Collection<ProposalAdminDetails> proposalAdminDetails = 
-            businessObjectService.findMatching(ProposalAdminDetails.class, values);
-        
-        for(Iterator iter = proposalAdminDetails.iterator(); iter.hasNext();){
+        Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class,
+                values);
+
+        for (Iterator iter = proposalAdminDetails.iterator(); iter.hasNext();) {
             ProposalAdminDetails pad = (ProposalAdminDetails) iter.next();
             pad.refreshReferenceObject("institutionalProposal");
             return pad.getInstitutionalProposal();
         }
         return null;
     }
-    
+
 }
