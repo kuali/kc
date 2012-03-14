@@ -777,19 +777,25 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getProtocols(java.lang.String)
      */
     public List<Protocol> getProtocols(String personId) {
-        
+
         List<Protocol> protocols = new ArrayList<Protocol>();
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("personId", personId);
-//        fieldValues.put("protocolPersonRoleId", "PI");
-        List<ProtocolPerson> protocolPersons = (List<ProtocolPerson>) businessObjectService.findMatching(ProtocolPerson.class, fieldValues);
-        for (ProtocolPerson protocolPerson : protocolPersons) {
-            if (protocolPerson.getProtocol().isActive() && isProtocolDisclosurable(protocolPerson.getProtocol()) && !isProjectReported(protocolPerson.getProtocol().getProtocolNumber(), CoiDisclosureEventType.IRB_PROTOCOL, protocolPerson.getPersonId())) {
-                protocols.add(protocolPerson.getProtocol());
+        if (!isEventExcluded(CoiDisclosureEventType.IRB_PROTOCOL)) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("personId", personId);
+            // fieldValues.put("protocolPersonRoleId", "PI");
+            List<ProtocolPerson> protocolPersons = (List<ProtocolPerson>) businessObjectService.findMatching(ProtocolPerson.class,
+                    fieldValues);
+            for (ProtocolPerson protocolPerson : protocolPersons) {
+                if (protocolPerson.getProtocol().isActive()
+                        && isProtocolDisclosurable(protocolPerson.getProtocol())
+                        && !isProjectReported(protocolPerson.getProtocol().getProtocolNumber(),
+                                CoiDisclosureEventType.IRB_PROTOCOL, protocolPerson.getPersonId())) {
+                    protocols.add(protocolPerson.getProtocol());
+                }
             }
         }
         return protocols;
-        
+
     }
     
     /**
@@ -797,46 +803,63 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getProposals(java.lang.String)
      */
     public List<DevelopmentProposal> getProposals(String personId) {
-        
+
         List<DevelopmentProposal> proposals = new ArrayList<DevelopmentProposal>();
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("personId", personId);
-//        fieldValues.put("proposalPersonRoleId", "PI");
-        List<ProposalPerson> proposalPersons = (List<ProposalPerson>) businessObjectService.findMatching(ProposalPerson.class, fieldValues);
-        for (ProposalPerson proposalPerson : proposalPersons) {
-            if (isProposalDisclosurable(proposalPerson.getDevelopmentProposal()) && !isProjectReported(proposalPerson.getDevelopmentProposal().getProposalNumber(), CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, proposalPerson.getPersonId())) {
-            // TODO : condition to be implemented              
-                proposals.add(proposalPerson.getDevelopmentProposal());
+        if (!isEventExcluded(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL)) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("personId", personId);
+            // fieldValues.put("proposalPersonRoleId", "PI");
+            List<ProposalPerson> proposalPersons = (List<ProposalPerson>) businessObjectService.findMatching(ProposalPerson.class,
+                    fieldValues);
+            for (ProposalPerson proposalPerson : proposalPersons) {
+                if (isProposalDisclosurable(proposalPerson.getDevelopmentProposal())
+                        && !isProjectReported(proposalPerson.getDevelopmentProposal().getProposalNumber(),
+                                CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, proposalPerson.getPersonId())) {
+                    // TODO : condition to be implemented
+                    proposals.add(proposalPerson.getDevelopmentProposal());
+                }
             }
         }
         return proposals;
-        
+
     }
  
+    /*
+     * excluded from annual report and/or in master disclosure
+     */
+    private boolean isEventExcluded(String eventTypeCode) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("eventTypeCode", eventTypeCode);
+        CoiDisclosureEventType CoiDisclosureEventType =  businessObjectService.findByPrimaryKey(CoiDisclosureEventType.class, fieldValues);
+        return CoiDisclosureEventType.isExcludeFromMasterDisclosure();
+    }
+    
     /**
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getInstitutionalProposals(java.lang.String)
      */
     public List<InstitutionalProposal> getInstitutionalProposals(String personId) {
-        
+
         List<InstitutionalProposal> proposals = new ArrayList<InstitutionalProposal>();
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("personId", personId);
-//        fieldValues.put("proposalPersonRoleId", "PI");
-        List<InstitutionalProposalPerson> proposalPersons = (List<InstitutionalProposalPerson>) businessObjectService.findMatching(InstitutionalProposalPerson.class, fieldValues);
-        for (InstitutionalProposalPerson proposalPerson : proposalPersons) {
-            InstitutionalProposal institutionalProposal = proposalPerson.getInstitutionalProposal();
-            // if it is disclosurable
-            if (isInstitutionalProposalDisclosurable(institutionalProposal) && 
-                    // and it is not yet reported
-                    !isProjectReported(institutionalProposal.getProposalNumber(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposalPerson.getPersonId()) &&
-                    // and it is most recent version and either funded or pending
-                    (institutionalProposal.isActiveVersion() && (institutionalProposal.getProposalStatus().isFunded() || institutionalProposal.getProposalStatus().isPending()))) {
-                proposals.add(proposalPerson.getInstitutionalProposal());
+        if (!isEventExcluded(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL)) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("personId", personId);
+//            fieldValues.put("proposalPersonRoleId", "PI");
+            List<InstitutionalProposalPerson> proposalPersons = (List<InstitutionalProposalPerson>) businessObjectService.findMatching(InstitutionalProposalPerson.class, fieldValues);
+            for (InstitutionalProposalPerson proposalPerson : proposalPersons) {
+                InstitutionalProposal institutionalProposal = proposalPerson.getInstitutionalProposal();
+                // if it is disclosurable
+                if (isInstitutionalProposalDisclosurable(institutionalProposal) && 
+                        // and it is not yet reported
+                        !isProjectReported(institutionalProposal.getProposalNumber(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposalPerson.getPersonId()) &&
+                        // and it is most recent version and either funded or pending
+                        (institutionalProposal.isActiveVersion() && (institutionalProposal.getProposalStatus().isFunded() || institutionalProposal.getProposalStatus().isPending()))) {
+                    proposals.add(proposalPerson.getInstitutionalProposal());
+                }
             }
         }
         return proposals;
-        
+
     }
  
     /**
@@ -844,19 +867,25 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getAwards(java.lang.String)
      */
     public List<Award> getAwards(String personId) {
-        
+
         List<Award> awards = new ArrayList<Award>();
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("personId", personId);
-//        fieldValues.put("roleCode", "PI");
-        List<AwardPerson> awardPersons = (List<AwardPerson>) businessObjectService.findMatchingOrderBy(AwardPerson.class, fieldValues, "awardNumber", true);
-        for (AwardPerson awardPerson : awardPersons) {
-            if (isCurrentAward(awardPerson.getAward()) && isAwardDisclosurable(awardPerson.getAward()) && !isProjectReported(awardPerson.getAward().getAwardNumber(), CoiDisclosureEventType.AWARD, awardPerson.getPersonId())) {
-                awards.add(awardPerson.getAward());
+        if (!isEventExcluded(CoiDisclosureEventType.AWARD)) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("personId", personId);
+            // fieldValues.put("roleCode", "PI");
+            List<AwardPerson> awardPersons = (List<AwardPerson>) businessObjectService.findMatchingOrderBy(AwardPerson.class,
+                    fieldValues, "awardNumber", true);
+            for (AwardPerson awardPerson : awardPersons) {
+                if (isCurrentAward(awardPerson.getAward())
+                        && isAwardDisclosurable(awardPerson.getAward())
+                        && !isProjectReported(awardPerson.getAward().getAwardNumber(), CoiDisclosureEventType.AWARD,
+                                awardPerson.getPersonId())) {
+                    awards.add(awardPerson.getAward());
+                }
             }
         }
         return awards;
-        
+
     }
  
     private boolean isCurrentAward(Award award) {
