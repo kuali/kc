@@ -82,6 +82,14 @@
     <bean id="coiSubmittedDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiSubmittedDisclosureLookupableHelper" parent="lookupableHelperService" scope="prototype">
     </bean>
     
+    <bean id="coiNonProjectEventDisclosureLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="coiNonProjectEventDisclosureLookupableHelperService" />
+  		</property>
+	</bean>
+	
+    <bean id="coiNonProjectEventDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiNonProjectEventDisclosureLookupableHelper" parent="lookupableHelperService" scope="prototype">
+    </bean>
      <bean id="coiDisclosureService" class="org.kuali.kra.coi.disclosure.CoiDisclosureServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcPersonService" ref="kcPersonService" />
