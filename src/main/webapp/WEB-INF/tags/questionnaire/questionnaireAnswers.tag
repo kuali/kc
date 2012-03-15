@@ -69,24 +69,22 @@
         <h3>
             <span class="subhead-left">
                 <a href="#" id ="questionpanelcontrol:${property}:${answerHeaderIndex}" class="questionpanel">
-                	<c:choose>
-                		<c:when test="${showQuestions }">
-                			<img src='kr/images/tinybutton-hide.gif' alt='Hide panel' width='45' height='15' border='0' align='absmiddle'>
-                		</c:when>
-                		<c:otherwise>
-                			<img src='kr/images/tinybutton-show.gif' alt='Show panel' width='45' height='15' border='0' align='absmiddle'>
-                		</c:otherwise>
-                	</c:choose>
+                    <img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' title="show/hide panel" width='45' height='15' border='0' align='absmiddle'>
                 </a>
-                Questions
+                Questions 
             </span>
  	        <span class="subhead-right">
  	            <html:image property="methodToCall.printQuestionnaireAnswer.${property}.line${answerHeaderIndex}.anchor"
 	                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printdark.gif' styleClass="tinybutton"
                             alt="Print Questionnaire Answer" title="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/> 
+<%--                <a title="[Help]help" target="helpWindow" href="${ConfigProperties.application.url}/kr/help.do?methodToCall=getBusinessObjectHelpText&amp;businessObjectClassName=org.kuali.kra.questionnaire.question.Question">
+                    <img styleClass="tinybutton" alt="[Help]help" src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif"></a>
+                    <%--  when using this tag, the 'print' and '?' is not aligning well.
+                    <kul:help businessObjectClassName="org.kuali.kra.questionnaire.question.Question" altText="help"/>
+                    --%> 
             </span>
         </h3>
-        <div id="questionpanelcontent:${property}:${answerHeaderIndex}" >
+        <div id="questionpanelcontent:${property}:${answerHeaderIndex}">
             <c:set var="questionid" value="" />
             <c:forEach items="${bean.answerHeaders[answerHeaderIndex].answers}" var="answer" varStatus="status">   
 
@@ -162,7 +160,7 @@
                     <c:otherwise>
                         <kra-questionnaire:questionnaireAnswer questionIndex="${status.index}" bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" />        
                     </c:otherwise>
-                </c:choose>                
+                </c:choose>
             </c:forEach>
 
             <c:set var="questionid" value="${answer.questionNumber}" />
