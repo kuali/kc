@@ -173,6 +173,7 @@
 				<value>subAwardLookupable</value>
 				<value>notificationLookupable</value>
 				<value>coiEventDisclosureLookupable</value>
+				<value>coiSubmittedDisclosureLookupable</value>
 			</set>
 		</property>
 	</bean>	
@@ -525,6 +526,7 @@
 				<value>subAwardLookupable</value>
 				<value>notificationLookupable</value>	
 				<value>coiEventDisclosureLookupable</value>
+				<value>coiSubmittedDisclosureLookupable</value>
 			</set>	    
 		</property>
 	</bean>
