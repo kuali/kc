@@ -28,6 +28,7 @@
     <li><portal:portalLink displayTitle="false" title="Create Annual Disclosure" url="${ConfigProperties.application.url}/coiDisclosure.do?methodToCall=docHandler&command=initiate&docTypeName=CoiDisclosureDocument">Create Annual Disclosure</portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title="Create Manual Disclosure" url="${ConfigProperties.application.url}/coiDisclosure.do?methodToCall=docHandler&command=initiate_14&docTypeName=CoiDisclosureDocument">Create Manual Disclosure</portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title="New Project Disclosures" url="${ConfigProperties.application.url}/projectEventDisclosure.do?methodToCall=getDisclosuresToComplete">New Project Disclosures To Complete</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="Update Master Disclosure" url="${ConfigProperties.application.url}/coiDisclosure.do?methodToCall=docHandler&command=initiate_6&docTypeName=CoiDisclosureDocument">Update Master Disclosure</portal:portalLink></li>
     <li>View/Edit Disclosure</li>
   </ul>
 </div>
