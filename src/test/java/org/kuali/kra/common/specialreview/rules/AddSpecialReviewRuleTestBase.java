@@ -250,28 +250,6 @@ public abstract class AddSpecialReviewRuleTestBase<T extends SpecialReview<? ext
     }
     
     /**
-     * Test adding a Special Review with a non-approval (i.e. exempt) approval type but also entering an approval date.
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void testNonApprovalWithApprovalDate() throws Exception {
-        Document document = getDocument();
-
-        T newSpecialReview = getSpecialReview();
-        newSpecialReview.setSpecialReviewTypeCode(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE);
-        newSpecialReview.setApprovalTypeCode(APPROVAL_TYPE_CODE_EXEMPT);
-        newSpecialReview.setApplicationDate(new Date(dateFormat.parse("Aug 1, 2007").getTime()));
-        newSpecialReview.setApprovalDate(new Date(dateFormat.parse("Aug 21, 2007").getTime()));
-        AddSpecialReviewEvent<T> addSpecialReviewEvent = new AddSpecialReviewEvent<T>(document, newSpecialReview, new ArrayList<T>(), false);
-        
-        rule.setBusinessObjectService(getBusinessObjectService(SPECIAL_REVIEW_TYPE_CODE_ANIMAL_USAGE, APPROVAL_TYPE_CODE_EXEMPT, false, false, false, true));
-        rule.setProtocolFinderDao(getProtocolFinderDao());
-        assertFalse(rule.processRules(addSpecialReviewEvent));
-        assertError(APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_EMPTY_FOR_NOT_APPROVED);
-    }
-    
-    /**
      * Test adding a Special Review with an exempt approval type but also entering no exemption codes.
      * 
      * @throws Exception
