@@ -19,7 +19,7 @@
 					var idSplit = $j(this).attr("id").split(":");
 					var formProperty = idSplit[1];
 					for( var i = 0; i < $j(this).attr("value");i++) {
-						$j("#questionpanelcontent\\:"+formProperty+"\\:"+i).hide();
+						//$j("#questionpanelcontent\\:"+formProperty+"\\:"+i).hide();
 						if ($j("#"+formProperty+"\\.answerHeaders\\["+i+"\\]\\.showQuestions").attr("value") == 'Y')  {
 							$j("#questionpanelcontrol\\:"+formProperty+"\\:"+i).click();
 						}
