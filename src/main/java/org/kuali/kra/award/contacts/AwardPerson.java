@@ -18,6 +18,7 @@ package org.kuali.kra.award.contacts;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
@@ -332,11 +333,11 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(AwardPerson o) {
-        int lastNameComp = this.getPerson().getLastName().compareTo(o.getPerson().getLastName());
+        int lastNameComp = ObjectUtils.compare(this.getLastName(), o.getLastName());
         if (lastNameComp != 0) {
             return lastNameComp;
         } else {
-            return this.getPerson().getFirstName().compareTo(o.getPerson().getFirstName());
+            return ObjectUtils.compare(this.getFirstName(), o.getFirstName());
         }
     }
 
@@ -362,5 +363,25 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     public void setOptInUnitStatus(boolean optInUnitStatus) {
         this.optInUnitStatus = optInUnitStatus;
+    }
+    
+    public String getLastName() {
+        String lastName = null;
+        if (getPerson() != null) {
+            lastName = getPerson().getLastName();
+        } else if (getRolodex() != null) {
+            lastName = getRolodex().getLastName();
+        }
+        return lastName;
+    }
+    
+    public String getFirstName() {
+        String firstName = null;
+        if (getPerson() != null) {
+            firstName = getPerson().getFirstName();
+        } else if (getRolodex() != null) {
+            firstName = getRolodex().getFirstName();
+        }
+        return firstName;
     }
 }
