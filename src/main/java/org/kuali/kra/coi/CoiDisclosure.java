@@ -49,6 +49,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
@@ -718,8 +719,12 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         return StringUtils.equals(CoiDisclosureStatus.APPROVED, disclosureStatusCode);
     }
     
+    /*
+     * Checking timestamp instead of status because the status of a submitted 
+     * disclosure could be submitted, approved or disapproved.
+     */
     public boolean isSubmitted() {
-        return StringUtils.equals(CoiDisclosureStatus.ROUTED_FOR_REVIEW, getDisclosureStatusCode());
+       return ObjectUtils.isNotNull(getCertificationTimestamp());
     }
     
     public boolean isDisapprovedDisclosure() {
