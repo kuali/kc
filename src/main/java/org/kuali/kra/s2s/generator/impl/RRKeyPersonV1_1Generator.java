@@ -33,6 +33,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -40,6 +41,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Class for generating the XML object for grants.gov RRKeyPersonV1.1. Form is generated using XMLBean classes and is based on
@@ -50,7 +52,7 @@ import org.kuali.kra.service.SponsorService;
 public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
 
 	private static final Log LOG = LogFactory.getLog(RRKeyPersonV1_1Generator.class);
-
+	Rolodex rolodex;
     /**
      * 
      * This method gives details of Principal Investigator,KeyPersons and the corresponding attachments for RRKeyPerson
@@ -165,9 +167,12 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
         if (PI != null) {
             if (PI.getPersonId() != null) {
                 pIPersonOrRolodexId = PI.getPersonId();
+                rolodex = null;
             }
             else if (PI.getRolodexId() != null) {
                 pIPersonOrRolodexId = PI.getRolodexId().toString();
+                BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+                rolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class,pIPersonOrRolodexId);
             }
             profile.setName(globLibV20Generator.getHumanNameDataType(PI));
             if (PI.getDirectoryTitle() != null) {
@@ -185,17 +190,22 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
             }
             profile.setEmail(PI.getEmailAddress());
             if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
-                profile.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
+                if (rolodex != null)
+                    profile.setOrganizationName(rolodex.getOrganization());
+                else
+                    profile.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
             }
             String departmentName = null;
-            if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
-                departmentName = pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitName();
-                if (departmentName != null) {
-                    if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
-                        profile.setDepartmentName(departmentName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1));
-                    }
-                    else {
-                        profile.setDepartmentName(departmentName);
+            if (rolodex == null){
+                if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
+                    departmentName = pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitName();
+                    if (departmentName != null) {
+                        if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
+                            profile.setDepartmentName(departmentName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1));
+                        }
+                        else {
+                            profile.setDepartmentName(departmentName);
+                        }
                     }
                 }
             }
@@ -255,6 +265,15 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                         continue;
                     }
                 }
+                if (keyPerson.getPersonId() != null) {
+                    pIPersonOrRolodexId = keyPerson.getPersonId();
+                    rolodex = null;
+                }
+                else if (keyPerson.getRolodexId() != null) {
+                    pIPersonOrRolodexId = keyPerson.getRolodexId().toString();
+                    BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+                    rolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class,pIPersonOrRolodexId);
+                }
                 Profile profileKeyPerson = Profile.Factory.newInstance();
                 profileKeyPerson.setName(globLibV20Generator.getHumanNameDataType(keyPerson));
                 if (keyPerson.getDirectoryTitle() != null) {
@@ -267,20 +286,26 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                 }
                 profileKeyPerson.setEmail(keyPerson.getEmailAddress());
                 if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
-                    profileKeyPerson.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
+                    if (rolodex != null)
+                        profileKeyPerson.setOrganizationName(rolodex.getOrganization());
+                    else
+                        profileKeyPerson.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
                 }
                 String departmentName = null;
-                if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
-                    departmentName = pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitName();
-                    if (departmentName != null) {
-                        if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
-                            profileKeyPerson.setDepartmentName(departmentName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1));
-                        }
-                        else {
-                            profileKeyPerson.setDepartmentName(departmentName);
+                if (rolodex == null)
+                {    
+                    if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
+                        departmentName = pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitName();
+                        if (departmentName != null) {
+                            if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
+                                profileKeyPerson.setDepartmentName(departmentName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1));
+                            }
+                            else {
+                                profileKeyPerson.setDepartmentName(departmentName);
+                            }
                         }
                     }
-                }
+                }   
                 String divisionName = s2sUtilService.getDivisionName(pdDoc);
                 if (divisionName != null) {
                     profileKeyPerson.setDivisionName(divisionName);
