@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
@@ -204,7 +203,6 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
      * @param specialReview The special review to validate
      * @return true if the specialReview is valid, false otherwise
      */
-    @SuppressWarnings("unchecked")
     private boolean validateSpecialReviewApprovalFields(T specialReview) {
         boolean isValid = true;
         
@@ -290,11 +288,6 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
             EXPIRATION_DATE_TITLE);
         isValid &= validateDateOrder(specialReview.getApplicationDate(), specialReview.getExpirationDate(), EXPIRATION_DATE_FIELD, APPLICATION_DATE_TITLE, 
             EXPIRATION_DATE_TITLE);
-
-        if (!SpecialReviewApprovalType.APPROVED.equals(specialReview.getApprovalTypeCode()) && specialReview.getApprovalDate() != null) {
-            isValid = false;
-            reportError(APPROVAL_DATE_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_EMPTY_FOR_NOT_APPROVED, APPROVAL_DATE_TITLE);
-        }
         
         return isValid;
     }

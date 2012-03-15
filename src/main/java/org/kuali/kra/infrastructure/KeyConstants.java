@@ -49,7 +49,6 @@ public final class KeyConstants {
     public static final String ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID = "error.special.review.protocol.number.invalid";
     public static final String ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_DUPLICATE = "error.special.review.protocol.number.duplicate";
     public static final String ERROR_SPECIAL_REVIEW_DATE_SAME_OR_LATER = "error.special.review.date.same.or.later";
-    public static final String ERROR_SPECIAL_REVIEW_EMPTY_FOR_NOT_APPROVED = "error.special.review.empty.for.not.approved";
     public static final String ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID = "error.special.review.required.for.valid";
     public static final String ERROR_SPECIAL_REVIEW_CANNOT_SELECT_EXEMPTION_FOR_VALID = "error.special.review.cannot.select.exemption.for.valid";
     public static final String QUESTION_SPECIAL_REVIEW_DELETE_CONFIRMATION = "question.special.review.delete.confirmation";
