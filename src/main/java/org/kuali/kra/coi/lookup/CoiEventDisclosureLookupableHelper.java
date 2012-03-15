@@ -37,7 +37,7 @@ public class CoiEventDisclosureLookupableHelper extends CoiDisclosureLookupableH
         List<CoiDisclosure> allDisclosures = (List<CoiDisclosure>) super.getResults(fieldValues);
         List<CoiDisclosure> submittedEventDisclosures = new ArrayList<CoiDisclosure>();
         for (CoiDisclosure coiDisclosure : allDisclosures) {
-            if (coiDisclosure.isSubmitted() && (coiDisclosure.isProjectEventDisclosure(coiDisclosure) || coiDisclosure.isManualEvent())) {
+            if (coiDisclosure.isSubmitted() && (coiDisclosure.isNonManualProjectEvent() || coiDisclosure.isManualEvent())) {
                 submittedEventDisclosures.add(coiDisclosure);
             }
         }

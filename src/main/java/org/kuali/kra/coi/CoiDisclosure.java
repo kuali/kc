@@ -435,9 +435,9 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     public boolean isInstitutionalProposalEvent() {
         return StringUtils.equals(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, this.getEventTypeCode());
     }
-    
-    public boolean isProjectEventDisclosure(CoiDisclosure coiDisclosure) {
-        return (coiDisclosure.isAwardEvent() || coiDisclosure.isProposalEvent() || coiDisclosure.isProtocolEvent() || coiDisclosure.isInstitutionalProposalEvent());
+    /*This does not include manual projects*/
+    public boolean isNonManualProjectEvent() {
+        return (isAwardEvent() || isProposalEvent() || isProtocolEvent() || isInstitutionalProposalEvent());
     }
     
     public boolean isProtocolEvent() {
@@ -459,7 +459,8 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     public boolean isManualEvent() {
         return StringUtils.equals(CoiDisclosureEventType.MANUAL_AWARD, this.getEventTypeCode())
                 || StringUtils.equals(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, this.getEventTypeCode())
-                || StringUtils.equals(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, this.getEventTypeCode());
+                || StringUtils.equals(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, this.getEventTypeCode())
+                || StringUtils.equals(CoiDisclosureEventType.TRAVEL, this.getEventTypeCode());
     }
 
     public String getCompleteMessage() {
