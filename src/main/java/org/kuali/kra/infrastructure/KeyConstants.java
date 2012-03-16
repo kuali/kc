@@ -1016,6 +1016,9 @@ public final class KeyConstants {
     public static final String ERROR_SUBAWARD_INVOICE_NUMBER_SHOULD_BE_UNIQUE = "subaward.error.invoice.number.should.be.unique";
     public static final String ERROR_SUBAWARD_AMOUNT_RELEASED_NEGATIVE = "subaward.error.amount.released.less.than.zero";
     public static final String QUESTION_EFFECTIVE_DATE = "document.question.effective.date";
+    public static final String ERROR_INVALID_SUBRECIPIENT_ID = "error.invalid.subrecipient.id";
+    public static final String ERROR_INVALID_SITEINVESTIGATOR_ID = "error.invalid.siteinvestigator.id";
+    public static final String ERROR_INVALID_REQUISITIONER = "error.invalid.requisitioner";
     //negotiations
     public static final String NEGOTIATION_STATUS_USED = "error.negotiations.codeAlreadyUsed";
     public static final String NEGOTIATION_CHANGE_ASSOCIATION_TYPE_MESSAGE="negotiation.message.changeAssociationType";

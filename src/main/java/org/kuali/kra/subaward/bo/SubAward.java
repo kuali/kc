@@ -17,6 +17,7 @@ package org.kuali.kra.subaward.bo;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
@@ -35,9 +37,12 @@ import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.OrganizationService;
+import org.kuali.kra.service.UnitService;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.util.AutoPopulatingList;
 
 /**
@@ -47,7 +52,8 @@ import org.springframework.util.AutoPopulatingList;
 public class SubAward extends KraPersistableBusinessObjectBase implements Permissionable,SequenceOwner<SubAward>, Negotiable{ 
 
     private static final long serialVersionUID = 1L;
-
+    private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
+    
     private Long subAwardId; 
     private String subAwardCode;
 
@@ -105,6 +111,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     private String requisitionerUnitName;
     private String requisitionerUserName;
     private String siteInvestigatorName;
+    private String siteInvestigatorId;
     private Organization organization;
     private Unit unit;
     private Rolodex rolodex;
@@ -207,20 +214,24 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public String getRequisitionerUserName() {
         if (requisitionerId != null) { 
             KcPerson requisitioner = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(requisitionerId); 
-            if(requisitioner != null){
+            if (requisitioner != null) {
                 requisitionerName = requisitioner.getFullName(); 
                 requisitionerUserName = requisitioner.getUserName();
             }
+        } else {
+            this.requisitionerName = null;
         }
-            return this.requisitionerUserName;        
+        return this.requisitionerUserName;        
     }
 
     public void setRequisitionerUserName(String requisitionerUserName) {
         if (requisitionerUserName != null) { 
             KcPerson requisitioner = KraServiceLocator.getService(KcPersonService.class).getKcPersonByUserName(requisitionerUserName);
-            if(requisitioner != null){
+            if (requisitioner != null) {
                 requisitionerId = requisitioner.getPersonId();
             }
+        } else {
+            this.requisitionerName = null;
         }
         this.requisitionerUserName = requisitionerUserName;
     }
@@ -282,6 +293,9 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     }
 
     public String getOrganizationId() {
+        OrganizationService organizationService = KraServiceLocator.getService(OrganizationService.class);
+        this.organization = organizationService.getOrganization(organizationId);
+        
         return organizationId;
     }
 
@@ -362,6 +376,10 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     }
 
     public String getRequisitionerUnit() {
+        if (this.requisitionerUnit != null) {
+            UnitService unitService = KraServiceLocator.getService(UnitService.class);
+            this.unit = unitService.getUnit(requisitionerUnit);
+        }
         return requisitionerUnit;
     }
 
@@ -410,10 +428,24 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     }
 
     public Integer getSiteInvestigator() {
+        if (siteInvestigator != null) {
+            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            this.rolodex = (NonOrganizationalRolodex) businessObjectService.findByPrimaryKey(
+                   NonOrganizationalRolodex.class, getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
+            this.siteInvestigatorId = rolodex.getRolodexId().toString();
+        } else {
+            this.rolodex = null;
+        }
         return siteInvestigator;
     }
 
     public void setSiteInvestigator(Integer siteInvestigator) {
+        if (siteInvestigator != null) {
+            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            this.rolodex = (NonOrganizationalRolodex) businessObjectService.findByPrimaryKey(
+                    NonOrganizationalRolodex.class, getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
+            this.siteInvestigatorId = rolodex.getRolodexId().toString();
+        }
         this.siteInvestigator = siteInvestigator;
     }
 
@@ -690,6 +722,17 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public String getLastUpdate() {
         return lastUpdate;
     }
+    
+    public String getSiteInvestigatorId() {
+        if (this.siteInvestigatorId == null && this.siteInvestigator != null) {
+            siteInvestigatorId = this.siteInvestigator.toString();
+        }
+        return siteInvestigatorId;
+    }
+    
+    public void setSiteInvestigatorId(String siteInvestigatorId) {        
+        this.siteInvestigatorId = siteInvestigatorId;
+    }
 
     @Override
     public String getAssociatedDocumentId() {
@@ -804,5 +847,17 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public boolean isEditSubAward() {
         return editSubAward;
     }
+    
+    /**
+     * Build an identifier map for the BOS lookup
+     * @param identifierField
+     * @param identifierValue
+     * @return
+     */
+    protected Map<String, Object> getIdentifierMap(String identifierField, Object identifierValue) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(identifierField, identifierValue);
+        return map;
+    } 
 
 }
