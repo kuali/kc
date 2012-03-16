@@ -19,7 +19,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class UnitAdministratorPersonMassChange extends KraPersistableBusinessObjectBase {
 
-    private static final long serialVersionUID = 8879854562611984676L;
+    private static final long serialVersionUID = -5284508183458878623L;
     
     private long unitAdministratorPersonMassChangeId;
     private long personMassChangeId;
@@ -28,7 +28,8 @@ public class UnitAdministratorPersonMassChange extends KraPersistableBusinessObj
     private boolean unitHead;
     private boolean deanVP;
     private boolean otherIndividualToNotify;
-    private boolean administrator;
+    private boolean administrativeContact;
+    private boolean financialContact;
     
     private PersonMassChange personMassChange;
 
@@ -88,14 +89,22 @@ public class UnitAdministratorPersonMassChange extends KraPersistableBusinessObj
         this.otherIndividualToNotify = otherIndividualToNotify;
     }
 
-    public boolean isAdministrator() {
-        return administrator;
+    public boolean isAdministrativeContact() {
+        return administrativeContact;
     }
 
-    public void setAdministrator(boolean administrator) {
-        this.administrator = administrator;
+    public void setAdministrativeContact(boolean administrativeContact) {
+        this.administrativeContact = administrativeContact;
     }
-    
+
+    public boolean isFinancialContact() {
+        return financialContact;
+    }
+
+    public void setFinancialContact(boolean financialContact) {
+        this.financialContact = financialContact;
+    }
+
     public PersonMassChange getPersonMassChange() {
         return personMassChange;
     }

@@ -33,27 +33,28 @@
                         <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.awardPersonMassChange.keyStudyPerson" 
                                                                         attributeEntry="${awardPersonMassChangeAttributes.keyStudyPerson}" readOnly="false" /></td>
                     </tr>
+                    <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${awardPersonMassChangeAttributes.unitContact}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.awardPersonMassChange.unitContact" 
+                                                                        attributeEntry="${awardPersonMassChangeAttributes.unitContact}" readOnly="false" /></td>
+                    </tr>
 	                <tr>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${awardPersonMassChangeAttributes.contactPerson}" /></div></th>
-	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.awardPersonMassChange.contactPerson" 
-	                                                                    attributeEntry="${awardPersonMassChangeAttributes.contactPerson}" readOnly="false" /></td>
+	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${awardPersonMassChangeAttributes.sponsorContact}" /></div></th>
+	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.awardPersonMassChange.sponsorContact" 
+	                                                                    attributeEntry="${awardPersonMassChangeAttributes.sponsorContact}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${awardPersonMassChangeAttributes.foreignTrip}" /></div></th>
-	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.awardPersonMassChange.foreignTrip" 
-	                                                                    attributeEntry="${awardPersonMassChangeAttributes.foreignTrip}" readOnly="false" /></td>
+	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${awardPersonMassChangeAttributes.approvedForeignTravel}" /></div></th>
+	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.awardPersonMassChange.approvedForeignTravel" 
+	                                                                    attributeEntry="${awardPersonMassChangeAttributes.approvedForeignTravel}" readOnly="false" /></td>
 	                </tr>
-	                <tr>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${awardPersonMassChangeAttributes.unitAdministrator}" /></div></th>
-	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.awardPersonMassChange.unitAdministrator" 
-	                                                                    attributeEntry="${awardPersonMassChangeAttributes.unitAdministrator}" readOnly="false" /></td>
-	                </tr>
+
 	                <tr>
 	                    <td colspan="2"><div align="center">
 	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
-	                                    onclick="selectAllPersonMassChangeCategory('document.personMassChange.awardPersonMassChange', 'investigator', 'keyStudyPerson', 'contactPerson', 'foreignTrip', 'unitAdministrator')" />
+	                                    onclick="selectAllPersonMassChangeCategory('document.personMassChange.awardPersonMassChange', 'investigator', 'keyStudyPerson', 'unitContact', 'sponsorContact', 'approvedForeignTravel')" />
 	                        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
-	                                    onclick="unselectAllPersonMassChangeCategory('document.personMassChange.awardPersonMassChange', 'investigator', 'keyStudyPerson', 'contactPerson', 'foreignTrip', 'unitAdministrator')"/>
+	                                    onclick="unselectAllPersonMassChangeCategory('document.personMassChange.awardPersonMassChange', 'investigator', 'keyStudyPerson', 'unitContact', 'sponsorContact', 'approvedForeignTravel')"/>
 	                    </div></td>
 	                </tr>
 	            </table>
@@ -104,15 +105,15 @@
                                                                         attributeEntry="${institutionalProposalPersonMassChangeAttributes.keyStudyPerson}" readOnly="false" /></td>
                     </tr>
 	                <tr>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonMassChangeAttributes.unitAdministrator}" /></div></th>
-	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.institutionalProposalPersonMassChange.unitAdministrator" 
-	                                                                    attributeEntry="${institutionalProposalPersonMassChangeAttributes.unitAdministrator}" readOnly="false" /></td>
-	                </tr>
-	                <tr>
 	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonMassChangeAttributes.mailingInformation}" /></div></th>
 	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.institutionalProposalPersonMassChange.mailingInformation" 
 	                                                                    attributeEntry="${institutionalProposalPersonMassChangeAttributes.mailingInformation}" readOnly="false" /></td>
 	                </tr>
+	                <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonMassChangeAttributes.unitContact}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.institutionalProposalPersonMassChange.unitContact" 
+                                                                        attributeEntry="${institutionalProposalPersonMassChangeAttributes.unitContact}" readOnly="false" /></td>
+                    </tr>
 	                <tr>
 	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonMassChangeAttributes.ipReviewer}" /></div></th>
 	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.institutionalProposalPersonMassChange.ipReviewer" 
@@ -121,9 +122,9 @@
 	                <tr>
                         <td colspan="2"><div align="center">
                             <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
-                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.institutionalProposalPersonMassChange', 'investigator', 'keyStudyPerson', 'unitAdministrator', 'mailingInformation', 'ipReviewer')" />
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.institutionalProposalPersonMassChange', 'investigator', 'keyStudyPerson', 'mailingInformation', 'unitContact', 'ipReviewer')" />
                             <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
-                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.institutionalProposalPersonMassChange', 'investigator', 'keyStudyPerson', 'unitAdministrator', 'mailingInformation', 'ipReviewer')"/>
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.institutionalProposalPersonMassChange', 'investigator', 'keyStudyPerson', 'mailingInformation', 'unitContact', 'ipReviewer')"/>
                         </div></td>
                     </tr>
 	            </table>
@@ -147,11 +148,6 @@
 	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentPersonMassChangeAttributes.keyStudyPerson}" /></div></th>
 	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.proposalDevelopmentPersonMassChange.keyStudyPerson" 
 	                                                                    attributeEntry="${proposalDevelopmentPersonMassChangeAttributes.keyStudyPerson}" readOnly="false" /></td>
-	                </tr>
-	                <tr>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentPersonMassChangeAttributes.budgetPerson}" /></div></th>
-	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.proposalDevelopmentPersonMassChange.budgetPerson" 
-	                                                                    attributeEntry="${proposalDevelopmentPersonMassChangeAttributes.budgetPerson}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
                         <td colspan="2"><div align="center">
@@ -294,16 +290,21 @@
                                                                         attributeEntry="${unitAdministratorPersonMassChangeAttributes.otherIndividualToNotify}" readOnly="false" /></td>
                     </tr>
 	                <tr>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${unitAdministratorPersonMassChangeAttributes.administrator}" /></div></th>
-	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.unitAdministratorPersonMassChange.administrator" 
-	                                                                    attributeEntry="${unitAdministratorPersonMassChangeAttributes.administrator}" readOnly="false" /></td>
+	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${unitAdministratorPersonMassChangeAttributes.administrativeContact}" /></div></th>
+	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.unitAdministratorPersonMassChange.administrativeContact" 
+	                                                                    attributeEntry="${unitAdministratorPersonMassChangeAttributes.administrativeContact}" readOnly="false" /></td>
 	                </tr>
+	                <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${unitAdministratorPersonMassChangeAttributes.financialContact}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.unitAdministratorPersonMassChange.financialContact" 
+                                                                        attributeEntry="${unitAdministratorPersonMassChangeAttributes.financialContact}" readOnly="false" /></td>
+                    </tr>
 	                <tr>
                         <td colspan="2"><div align="center">
                             <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
-                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.unitAdministratorPersonMassChange', 'administrativeOfficer', 'ospAdministrator', 'unitHead', 'deanVP', 'otherIndividualToNotify', 'administrator')" />
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.unitAdministratorPersonMassChange', 'administrativeOfficer', 'ospAdministrator', 'unitHead', 'deanVP', 'otherIndividualToNotify', 'administrativeContact', 'financialContact')" />
                             <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
-                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.unitAdministratorPersonMassChange', 'administrativeOfficer', 'ospAdministrator', 'unitHead', 'deanVP', 'otherIndividualToNotify', 'administrator')"/>
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.unitAdministratorPersonMassChange', 'administrativeOfficer', 'ospAdministrator', 'unitHead', 'deanVP', 'otherIndividualToNotify', 'administrativeContact', 'financialContact')"/>
                         </div></td>
                     </tr>
 	            </table>

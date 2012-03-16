@@ -28,8 +28,8 @@
                 <ref bean="InstitutionalProposalPersonMassChange-personMassChangeId" />
                 <ref bean="InstitutionalProposalPersonMassChange-investigator" />
                 <ref bean="InstitutionalProposalPersonMassChange-keyStudyPerson" />
-                <ref bean="InstitutionalProposalPersonMassChange-unitAdministrator" />
                 <ref bean="InstitutionalProposalPersonMassChange-mailingInformation" />
+                <ref bean="InstitutionalProposalPersonMassChange-unitContact" />
                 <ref bean="InstitutionalProposalPersonMassChange-ipReviewer" />
             </list>
         </property>
@@ -86,18 +86,18 @@
         <property name="description" value="Key Study Person" />
     </bean>
     
-    <bean id="InstitutionalProposalPersonMassChange-unitAdministrator" parent="InstitutionalProposalPersonMassChange-unitAdministrator-parentBean" />
-    <bean id="InstitutionalProposalPersonMassChange-unitAdministrator-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="unitAdministrator" />
+    <bean id="InstitutionalProposalPersonMassChange-unitContact" parent="InstitutionalProposalPersonMassChange-unitContact-parentBean" />
+    <bean id="InstitutionalProposalPersonMassChange-unitContact-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="unitContact" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Unit Administrator" />
-        <property name="shortLabel" value="Unit Administrator" />
+        <property name="label" value="Unit Contact" />
+        <property name="shortLabel" value="Unit Contact" />
         <property name="maxLength" value="1" />
         <property name="control" >
             <bean parent="CheckboxControlDefinition" />
         </property>
-        <property name="summary" value="Unit Administrator" />
-        <property name="description" value="Unit Administrator" />
+        <property name="summary" value="Unit Contact" />
+        <property name="description" value="Unit Contact" />
     </bean>
     
     <bean id="InstitutionalProposalPersonMassChange-mailingInformation" parent="InstitutionalProposalPersonMassChange-mailingInformation-parentBean" />

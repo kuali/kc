@@ -18,13 +18,13 @@ package org.kuali.kra.personmasschange.bo;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class SubawardPersonMassChange extends KraPersistableBusinessObjectBase {
-
-    private static final long serialVersionUID = -6125468700436774010L;
+    
+    private static final long serialVersionUID = -3975738713871095626L;
     
     private long subawardPersonMassChangeId;
     private long personMassChangeId;
-    private boolean contactPerson;
     private boolean requisitioner;
+    private boolean contact;
     
     private PersonMassChange personMassChange;
 
@@ -44,12 +44,12 @@ public class SubawardPersonMassChange extends KraPersistableBusinessObjectBase {
         this.personMassChangeId = personMassChangeId;
     }
 
-    public boolean isContactPerson() {
-        return contactPerson;
+    public boolean isContact() {
+        return contact;
     }
     
-    public void setContactPerson(boolean contactPerson) {
-        this.contactPerson = contactPerson;
+    public void setContact(boolean contact) {
+        this.contact = contact;
     }
     
     public boolean isRequisitioner() {
@@ -67,6 +67,5 @@ public class SubawardPersonMassChange extends KraPersistableBusinessObjectBase {
     public void setPersonMassChange(PersonMassChange personMassChange) {
         this.personMassChange = personMassChange;
     }
-
 
 }
