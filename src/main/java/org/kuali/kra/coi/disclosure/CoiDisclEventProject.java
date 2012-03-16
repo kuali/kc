@@ -16,18 +16,21 @@
 package org.kuali.kra.coi.disclosure;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
-import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosureEventType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 
 public class CoiDisclEventProject implements Serializable {
@@ -95,6 +98,30 @@ public class CoiDisclEventProject implements Serializable {
     
     public boolean isProtocolEvent() {
         return StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.eventType);
+    }
+
+    public boolean isEventExcludFE() {
+        boolean eventExcludeFE = false;
+        if (isAwardEvent()) {
+            eventExcludeFE = isEventExcludFE(CoiDisclosureEventType.AWARD);
+        } else if (isProtocolEvent()) {
+            eventExcludeFE = isEventExcludFE(CoiDisclosureEventType.IRB_PROTOCOL);
+        } else if (isProposalEvent()) {
+            eventExcludeFE = isEventExcludFE(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL);
+        } else if (isInstitutionalProposalEvent()) {
+            eventExcludeFE = isEventExcludFE(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL);
+        } return eventExcludeFE;
+
+    }
+
+    /*
+     * excluded FE from event.  this is specifically for annual project check
+     */
+    private boolean isEventExcludFE(String eventTypeCode) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("eventTypeCode", eventTypeCode);
+        CoiDisclosureEventType CoiDisclosureEventType =  KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CoiDisclosureEventType.class, fieldValues);
+        return CoiDisclosureEventType.isExcludeFinancialEntities();
     }
 
     public String getProjectId() {

@@ -73,7 +73,7 @@
 
                </table>
               </div>
-       <div id="div_FinancialEntity${idx}" class="div_FinancialEntity">
+       <div id="div_FinancialEntity${idx}" class="div_FinancialEntity" <c:if test="${KualiForm.document.coiDisclosureList[0].coiDisclosureEventType.excludeFinancialEntities or disclProject.eventExcludFE}">style="display:none"</c:if>>
                 <h3>
             <span class="subhead-left"> 
                <a href="#" id ="financialEntityControl${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
