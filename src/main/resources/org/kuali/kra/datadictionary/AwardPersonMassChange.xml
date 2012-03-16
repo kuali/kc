@@ -101,9 +101,9 @@
         <property name="description" value="Unit Contact" />
     </bean>
     
-    <bean id="AwardPersonMassChange-sponsorContactPerson" parent="AwardPersonMassChange-sponsorContactPerson-parentBean" />
-    <bean id="AwardPersonMassChange-sponsorContactPerson-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="sponsorContactPerson" />
+    <bean id="AwardPersonMassChange-sponsorContact" parent="AwardPersonMassChange-sponsorContact-parentBean" />
+    <bean id="AwardPersonMassChange-sponsorContact-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="sponsorContact" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Sponsor Contact" />
         <property name="shortLabel" value="Sponsor Contact" />
