@@ -1200,6 +1200,40 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 	}
 }
 
+	
+	/*
+	 * Load the fullname from rolodex info from rolodex id.
+	 */
+	function loadRolodexPersonName(rolodexFieldName, fullnameElementId,rolodexIdElementId) {
+		if (document.getElementById(fullnameElementId) != null) {			
+		var rolodexId = dwr.util.getValue( rolodexFieldName );
+		var fullNameElement = document.getElementById(fullnameElementId);
+		var rolodexIdElement = document.getElementById(rolodexIdElementId);		
+		rolodexIdElement.value = null;
+		if (rolodexId == '') {
+		fullNameElement.innerHTML = "&nbsp;";
+		} else {
+			var dwrReply = {
+					callback:function(data) {
+						if ( data != null ) {							
+							fullNameElement.innerHTML = data.fullName;
+							rolodexIdElement.value = data.rolodexId;
+							
+						} else {							
+							fullNameElement.innerHTML = wrapError( "not found" );
+							rolodexIdElement.innerHTML = wrapError( "not found" );							
+						}
+					},
+					errorHandler:function( errorMessage ) {		
+						window.status = errorMessage;
+						fullNameElement.innerHTML = wrapError( "not found" );
+						rolodexIdElement.innerHTML = wrapError( "not found" );
+					}
+			};
+			RolodexService.getRolodex(rolodexId, dwrReply);
+		}
+	  }
+    }
 
 /*
  * functions for award template report term 

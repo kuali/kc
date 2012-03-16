@@ -28,6 +28,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -57,12 +58,13 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     
     private static final String STATUS_CODE = ".statusCode";
     private static final String SUBAWARD_TYPE_CODE = ".subAwardTypeCode";
-    private static final String REQUISITIONER = ".requisitionerName";
+    private static final String REQUISITIONER = ".requisitionerUserName";
     private static final String REQUISITIONER_UNIT = ".requisitionerUnit";
     private static final String PURCHASE_ORDER_NUM= ".purchaseOrderNum";
-    private static final String SUBCONTRACTOR_ID = ".organization.organizationName";
+    private static final String SUBCONTRACTOR_ID = ".organizationId";
     private static final String NEW_SUBAWARD = "document.subAwardList[0]";
     private static final String SUBAWARD_START_DATE =".startDate";
+    private static final String SITEINVESTIGATOR =".siteInvestigatorId";
     
     
     private static final String AMOUNT_INFO_EFFECTIVE_DATE = "newSubAwardAmountInfo.effectiveDate";
@@ -113,8 +115,14 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
         }  
         if(subAward.getRequisitionerId()==null ){ 
             rulePassed = false;            
-            reportError(propertyPrefix+REQUISITIONER
-                    , KeyConstants.ERROR_REQUIRED_REQUISITIONER); 
+            if (subAward.getRequisitionerUserName() == null) {
+                reportError(propertyPrefix + REQUISITIONER
+                        , KeyConstants.ERROR_REQUIRED_REQUISITIONER);
+            }
+            else {
+                reportError(propertyPrefix + REQUISITIONER,
+                        KeyConstants.ERROR_INVALID_REQUISITIONER, new String[] {subAward.getRequisitionerUserName()});
+            }
         }  
         if(subAward.getRequisitionerUnit() != null){
             Unit leadUnit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", subAward.getRequisitionerUnit()));
@@ -134,6 +142,17 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
                 reportError(propertyPrefix+SUBAWARD_START_DATE
                         , KeyConstants.SUBAWARD_ERROR_END_DATE_GREATER_THAN_START); 
             }
+        }
+        if (subAward.getSiteInvestigator() == null && subAward.getSiteInvestigatorId() != null) {
+            rulePassed = false;               
+            reportError(propertyPrefix + SITEINVESTIGATOR, 
+                    KeyConstants.ERROR_INVALID_SITEINVESTIGATOR_ID, new String[] {subAward.getSiteInvestigatorId()});          
+        }
+        if (subAward.getOrganizationId() != null) { 
+            if (subAward.getOrganization() == null) {
+                rulePassed = false;               
+                reportError(propertyPrefix + SUBCONTRACTOR_ID, KeyConstants.ERROR_INVALID_SUBRECIPIENT_ID, new String[] {subAward.getOrganizationId()});
+            }           
         }
         return rulePassed;
     }
