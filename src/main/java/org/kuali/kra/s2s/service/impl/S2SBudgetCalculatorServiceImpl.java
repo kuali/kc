@@ -1891,6 +1891,7 @@ public class S2SBudgetCalculatorServiceImpl implements
         BudgetDecimal numberOfMonths = BudgetDecimal.ZERO;
 
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+            
             for (BudgetPersonnelDetails personDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 if (s2SUtilService.keyPersonEqualsBudgetPerson(keyPerson, personDetails)) {
                     numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(), personDetails.getEndDate());
@@ -1910,9 +1911,23 @@ public class S2SBudgetCalculatorServiceImpl implements
                         calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
                                 .multiply(new BudgetDecimal(0.01)));
                     }
-                    totalSal = totalSal.add(personDetails.getSalaryRequested());
+                    if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
+                        if(lineItem.getBudgetCategory()
+                                .getBudgetCategoryCode().equals(ONE_STRING)){
+                                    totalSal = totalSal.add(personDetails.getSalaryRequested());
+                                }
+                    }else{
+                        totalSal = totalSal.add(personDetails.getSalaryRequested());
+                    }
                     if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
+                        if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
+                            if(lineItem.getBudgetCategory()
+                                    .getBudgetCategoryCode().equals(ONE_STRING)){
                         totalSalCostSharing = totalSalCostSharing.add(personDetails.getCostSharingAmount());
+                            }
+                        }else{
+                            totalSalCostSharing = totalSalCostSharing.add(personDetails.getCostSharingAmount());
+                        }
                     }
                     for (BudgetPersonnelCalculatedAmount personCalculatedAmt : personDetails.getBudgetPersonnelCalculatedAmounts()) {
                         personCalculatedAmt.refreshReferenceObject("rateClass");
@@ -1932,9 +1947,25 @@ public class S2SBudgetCalculatorServiceImpl implements
                                         .getRateTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_RATE_TYPE_ADMINISTRATIVE_SALARIES)))) {
-                            fringe = fringe.add(personCalculatedAmt.getCalculatedCost());
+                            if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
+                                if(lineItem.getBudgetCategory()
+                                        .getBudgetCategoryCode().equals(ONE_STRING)){
+                                    fringe = fringe.add(personCalculatedAmt.getCalculatedCost());
+                                }
+                            }
+                            else{
+                                fringe = fringe.add(personCalculatedAmt.getCalculatedCost());
+                            }
                             if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
-                                fringeCostSharing = fringeCostSharing.add(personCalculatedAmt.getCalculatedCostSharing());
+                                if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
+                                    if(lineItem.getBudgetCategory()
+                                            .getBudgetCategoryCode().equals(ONE_STRING)){
+                                        fringeCostSharing = fringeCostSharing.add(personCalculatedAmt.getCalculatedCostSharing());
+                                    }
+                                }
+                                else{ 
+                                    fringeCostSharing = fringeCostSharing.add(personCalculatedAmt.getCalculatedCostSharing());
+                                }
                             }
                         }
                     }
