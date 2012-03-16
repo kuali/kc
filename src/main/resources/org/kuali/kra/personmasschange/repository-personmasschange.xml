@@ -24,9 +24,11 @@
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
         <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
+        
         <collection-descriptor name="personMassChangeList" proxy="true" element-class-ref="org.kuali.kra.personmasschange.bo.PersonMassChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="documentNumber" />
         </collection-descriptor>
@@ -47,9 +49,11 @@
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        
         <reference-descriptor name="personMassChangeDocument" class-ref="org.kuali.kra.personmasschange.document.PersonMassChangeDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
+        
         <collection-descriptor name="awardPersonMassChangeList" proxy="true" element-class-ref="org.kuali.kra.personmasschange.bo.AwardPersonMassChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="personMassChangeId"/>
         </collection-descriptor>
@@ -76,25 +80,26 @@
         </collection-descriptor>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.personmasschange.bo.AwardPersonMassChange" table="AWARD_PMC">
-        <field-descriptor name="awardPersonMassChangeId" column="AWARD_PMC_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
+    <class-descriptor class="org.kuali.kra.personmasschange.bo.AwardPersonMassChange" table="PMC_AWARD">
+        <field-descriptor name="awardPersonMassChangeId" column="PMC_AWARD_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
         <field-descriptor name="personMassChangeId" column="PERSON_MASS_CHANGE_ID" jdbc-type="BIGINT" />
         <field-descriptor name="investigator" column="INVESTIGATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="keyStudyPerson" column="KEY_STUDY_PERSON" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="contactPerson" column="CONTACT_PERSON" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="foreignTrip" column="FOREIGN_TRIP" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="unitAdministrator" column="UNIT_ADMINISTRATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="unitContact" column="UNIT_CONTACT" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="sponsorContact" column="SPONSOR_CONTACT_PERSON" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="approvedForeignTravel" column="APPROVED_FOREIGN_TRAVEL" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
         <reference-descriptor name="personMassChange" class-ref="org.kuali.kra.personmasschange.bo.PersonMassChange" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="personMassChangeId"/>
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.personmasschange.bo.IacucProtocolPersonMassChange" table="IACUC_PROTOCOL_PMC">
-        <field-descriptor name="iacucProtocolPersonMassChangeId" column="IACUC_PROTOCOL_PMC_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
+    <class-descriptor class="org.kuali.kra.personmasschange.bo.IacucProtocolPersonMassChange" table="PMC_IACUC_PROTOCOL">
+        <field-descriptor name="iacucProtocolPersonMassChangeId" column="PMC_IACUC_PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
         <field-descriptor name="personMassChangeId" column="PERSON_MASS_CHANGE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="investigator" column="INVESTIGATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="keyStudyPerson" column="KEY_STUDY_PERSON" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -103,86 +108,91 @@
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
         <reference-descriptor name="personMassChange" class-ref="org.kuali.kra.personmasschange.bo.PersonMassChange" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="personMassChangeId"/>
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.personmasschange.bo.InstitutionalProposalPersonMassChange" table="PROPOSAL_PMC">
-        <field-descriptor name="institutionalProposalPersonMassChangeId" column="PROPOSAL_PMC_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
+    <class-descriptor class="org.kuali.kra.personmasschange.bo.InstitutionalProposalPersonMassChange" table="PMC_PROPOSAL">
+        <field-descriptor name="institutionalProposalPersonMassChangeId" column="PMC_PROPOSAL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
         <field-descriptor name="personMassChangeId" column="PERSON_MASS_CHANGE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="investigator" column="INVESTIGATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="keyStudyPerson" column="KEY_STUDY_PERSON" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="unitAdministrator" column="UNIT_ADMINISTRATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="unitContact" column="UNIT_CONTACT" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="mailingInformation" column="MAILING_INFORMATION" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="ipReviewer" column="IP_REVIEWER" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
         <reference-descriptor name="personMassChange" class-ref="org.kuali.kra.personmasschange.bo.PersonMassChange" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="personMassChangeId"/>
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.personmasschange.bo.ProposalDevelopmentPersonMassChange" table="EPS_PROP_PMC">
-        <field-descriptor name="proposalDevelopmentPersonMassChangeId" column="EPS_PROP_PMC_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
+    <class-descriptor class="org.kuali.kra.personmasschange.bo.ProposalDevelopmentPersonMassChange" table="PMC_EPS_PROPOSAL">
+        <field-descriptor name="proposalDevelopmentPersonMassChangeId" column="PMC_EPS_PROPOSAL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
         <field-descriptor name="personMassChangeId" column="PERSON_MASS_CHANGE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="investigator" column="INVESTIGATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="mailingInformation" column="MAILING_INFORMATION" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="keyStudyPerson" column="KEY_STUDY_PERSON" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="budgetPerson" column="BUDGET_PERSON" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
         <reference-descriptor name="personMassChange" class-ref="org.kuali.kra.personmasschange.bo.PersonMassChange" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="personMassChangeId"/>
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.personmasschange.bo.ProposalLogPersonMassChange" table="PROPOSAL_LOG_PMC">
-        <field-descriptor name="proposalLogPersonMassChangeId" column="PROPOSAL_LOG_PMC_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
+    <class-descriptor class="org.kuali.kra.personmasschange.bo.ProposalLogPersonMassChange" table="PMC_PROPOSAL_LOG">
+        <field-descriptor name="proposalLogPersonMassChangeId" column="PMC_PROPOSAL_LOG_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
         <field-descriptor name="personMassChangeId" column="PERSON_MASS_CHANGE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="principalInvestigator" column="PRINCIPAL_INVESTIGATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
         <reference-descriptor name="personMassChange" class-ref="org.kuali.kra.personmasschange.bo.PersonMassChange" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="personMassChangeId"/>
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.personmasschange.bo.SubawardPersonMassChange" table="SUBAWARD_PMC">
-        <field-descriptor name="subawardPersonMassChangeId" column="SUBAWARD_PMC_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
+    <class-descriptor class="org.kuali.kra.personmasschange.bo.SubawardPersonMassChange" table="PMC_SUBAWARD">
+        <field-descriptor name="subawardPersonMassChangeId" column="PMC_SUBAWARD_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
         <field-descriptor name="personMassChangeId" column="PERSON_MASS_CHANGE_ID" jdbc-type="BIGINT"/>
-        <field-descriptor name="contactPerson" column="CONTACT_PERSON" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="requisitioner" column="REQUISITIONER" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="contact" column="CONTACT" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
         <reference-descriptor name="personMassChange" class-ref="org.kuali.kra.personmasschange.bo.PersonMassChange" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="personMassChangeId"/>
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.personmasschange.bo.NegotiationPersonMassChange" table="NEGOTIATION_PMC">
-        <field-descriptor name="negotiationPersonMassChangeId" column="NEGOTIATION_PMC_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
+    <class-descriptor class="org.kuali.kra.personmasschange.bo.NegotiationPersonMassChange" table="PMC_NEGOTIATION">
+        <field-descriptor name="negotiationPersonMassChangeId" column="PMC_NEGOTIATION_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
         <field-descriptor name="personMassChangeId" column="PERSON_MASS_CHANGE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="negotiator" column="NEGOTIATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
         <reference-descriptor name="personMassChange" class-ref="org.kuali.kra.personmasschange.bo.PersonMassChange" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="personMassChangeId"/>
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.personmasschange.bo.ProtocolPersonMassChange" table="PROTOCOL_PMC">
-        <field-descriptor name="protocolPersonMassChangeId" column="PROTOCOL_PMC_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
+    <class-descriptor class="org.kuali.kra.personmasschange.bo.ProtocolPersonMassChange" table="PMC_PROTOCOL">
+        <field-descriptor name="protocolPersonMassChangeId" column="PMC_PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
         <field-descriptor name="personMassChangeId" column="PERSON_MASS_CHANGE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="investigator" column="INVESTIGATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="keyStudyPerson" column="KEY_STUDY_PERSON" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -192,24 +202,27 @@
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
         <reference-descriptor name="personMassChange" class-ref="org.kuali.kra.personmasschange.bo.PersonMassChange" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="personMassChangeId"/>
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.personmasschange.bo.UnitAdministratorPersonMassChange" table="UNIT_ADMINISTRATOR_PMC">
-        <field-descriptor name="unitAdministratorPersonMassChangeId" column="UNIT_ADMINISTRATOR_PMC_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
+    <class-descriptor class="org.kuali.kra.personmasschange.bo.UnitAdministratorPersonMassChange" table="PMC_UNIT_ADMINISTRATOR">
+        <field-descriptor name="unitAdministratorPersonMassChangeId" column="PMC_UNIT_ADMINISTRATOR_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
         <field-descriptor name="personMassChangeId" column="PERSON_MASS_CHANGE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="administrativeOfficer" column="ADMINISTRATIVE_OFFICER" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="ospAdministrator" column="OSP_ADMINISTRATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="unitHead" column="UNIT_HEAD" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="deanVP" column="DEAN_VP" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="otherIndividualToNotify" column="OTHER_INDIVIDUAL_TO_NOTIFY" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="administrator" column="ADMINISTRATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="administrativeContact" column="ADMINISTRATIVE_CONTACT" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="financialContact" column="FINANCIAL_CONTACT" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
         <reference-descriptor name="personMassChange" class-ref="org.kuali.kra.personmasschange.bo.PersonMassChange" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="personMassChangeId"/>
         </reference-descriptor>
