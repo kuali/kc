@@ -15,11 +15,9 @@
  */
 package org.kuali.kra.coi.auth;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.krad.document.Document;
@@ -104,9 +102,7 @@ public abstract class CoiDisclosureAuthorizer extends TaskAuthorizerImpl {
                 && !coiDisclosure.getCoiDisclosureDocument().isViewOnly()
                 && !isPessimisticLocked(coiDisclosure.getCoiDisclosureDocument())
                 && !kraWorkflowService.isInWorkflow(coiDisclosure.getCoiDisclosureDocument())
-                && !coiDisclosure.isApprovedDisclosure()
-                && StringUtils.equals(coiDisclosure.getCoiDisclosureStatus().getCoiDisclosureStatusCode(),
-                        CoiDisclosureStatus.IN_PROGRESS);
+                && !coiDisclosure.isApprovedDisclosure();
     }
 
 }

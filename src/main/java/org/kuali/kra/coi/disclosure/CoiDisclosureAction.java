@@ -43,12 +43,10 @@ import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.print.CoiReportType;
-import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
 import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.WatermarkService;
@@ -67,7 +65,6 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
@@ -203,8 +200,11 @@ public class CoiDisclosureAction extends CoiAction {
         //        if (coiDisclosureDocument.getCoiDisclosure().isUpdateEvent() && !StringUtils.equals("performLookup", coiDisclosureForm.getMethodToCall())) {
         //            actionForward = mapping.findForward(UPDATE_DISCLOSURE);
         //        }
+        
+        
+        // initialize the permissions for notes and attachments helper
+        coiDisclosureForm.getCoiNotesAndAttachmentsHelper().prepareView();
         return actionForward;
-
     }
 
     @Override

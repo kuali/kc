@@ -17,6 +17,7 @@ package org.kuali.kra.coi.auth;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
@@ -41,12 +42,13 @@ public class ModifyCoiDisclosureAuthorizer extends CoiDisclosureAuthorizer {
         } 
         else {
             /*
-             * After the initial save, the disclosure can only be modified if its editable 
+             * After the initial save, the disclosure can only be modified if it is editable 
              * and if the logged-in user either has the required permission or is the original reporter.
              */
             hasPermission = isDisclosureEditable(coiDisclosure) &&
                                 ( (hasPermission(userId, coiDisclosure, PermissionConstants.MAINTAIN_COI_DISCLOSURE)) 
-                                        || (StringUtils.equals(userId, coiDisclosure.getPersonId())) );
+                                        || (StringUtils.equals(userId, coiDisclosure.getPersonId()) 
+                                                && StringUtils.equals(coiDisclosure.getCoiDisclosureStatus().getCoiDisclosureStatusCode(), CoiDisclosureStatus.IN_PROGRESS)) );
 
         }
         return hasPermission;
