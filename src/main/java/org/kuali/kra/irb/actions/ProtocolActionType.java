@@ -98,6 +98,15 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
 
     public static final String MANAGE_REVIEW_COMMENTS = "310";
 
+    // used for notifications since original codes were already used for something else
+    public static final String PROTOCOL_CREATED_NOTIFICATION = "320";
+
+    public static final String SUBMIT_TO_IRB_NOTIFICATION = "321";
+    
+    public static final String RENEWAL_CREATED_NOTIFICATION = "322";
+    
+    public static final String AMENDMENT_CREATED_NOTIFICATION = "323";
+
     //No corresponding actionTypeCode for this in Coeus  
     //Although we can use DISAPPROVED/SPECIFIC_MINOR_REVISIONS_REQUIRED/SUBSTANTIVE_REVISIONS_REQUIRED instead 
     //We still need a unique Action code to map if the option to be chosen is 'Approve' since we need to enable 'Approve' action subsequently 
