@@ -120,8 +120,8 @@
             <br>
              <strong>PI/Contact is a required Proposal Role prior to submission. Only one PI/Contact is allowed. 
             For single PI submissions, please designate the lead investigator as PI/Contact &amp; other senior personnel as Key Persons. 
-            For multiple PI submissions, please designate one PI/Contact, additional lead investigators as PI/Multiple, &amp; other senior personnel as Key Persons. </strong>
-            <br>
+            For multiple PI submissions, please designate one PI/Contact. 
+            Add additional lead investigators as co-Investigators and check the Multiple PI box. Add other senior personnel as Key Persons.<br>
             </c:when>
             <c:otherwise>
             <br>
