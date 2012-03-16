@@ -18,8 +18,10 @@
 <c:set var="subAwardAttributes" value="${DataDictionary.SubAward.attributes}" />
 <c:set var="action" value="subAward" />
 <script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
+<script language="javascript" src="dwr/interface/OrganizationService.js"></script>
+<script type='text/javascript' src='dwr/interface/RolodexService.js'></script>
 
-<kul:tab tabTitle="SubAward" defaultOpen="true" tabErrorKey="document.subAwardList[0].statusCode*,document.subAwardList[0].purchaseOrderNum*,document.subAwardList[0].organization.organizationName*,document.subAwardList[0].requisitionerName*,document.subAwardList[0].subAwardTypeCode*,document.subAwardList[0].title*,document.subAwardList[0].startDate*,document.subAwardList[0].endDate*,document.subAwardList[0].accountNumber*,document.subAwardList[0].vendorNumber*,document.subAwardList[0].requisitionerUnit*,document.subAwardList[0].archiveLocation*,document.subAwardList[0].closeoutDate*,document.subAwardList[0].comments*"
+<kul:tab tabTitle="SubAward" defaultOpen="true" tabErrorKey="document.subAwardList[0].statusCode*,document.subAwardList[0].requisitionerUserName*,document.subAwardList[0].siteInvestigatorId*,document.subAwardList[0].purchaseOrderNum*,document.subAwardList[0].organizationId*,document.subAwardList[0].subAwardTypeCode*,document.subAwardList[0].title*,document.subAwardList[0].startDate*,document.subAwardList[0].endDate*,document.subAwardList[0].accountNumber*,document.subAwardList[0].vendorNumber*,document.subAwardList[0].requisitionerUnit*,document.subAwardList[0].archiveLocation*,document.subAwardList[0].closeoutDate*,document.subAwardList[0].comments*"
  auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
@@ -35,12 +37,23 @@
                </td>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.siteInvestigator}" /></div></th>
                 <td>
-                      <kul:htmlControlAttribute property="document.subAwardList[0].siteInvestigator" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.siteInvestigator}" />
-                      <kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
-								fieldConversions="firstName:document.subAwardList[0].rolodex.firstName,rolodexId:document.subAwardList[0].siteInvestigator" 			
+                     <kul:htmlControlAttribute property="document.subAwardList[0].siteInvestigatorId" 
+                                                attributeEntry="${subAwardAttributes.siteInvestigator}"
+                                                onblur="loadRolodexPersonName('document.subAwardList[0].siteInvestigatorId',
+	                               							'sub.fullName.div',
+	                               							'sub.siteInvestigatorId.div');"
+           	        							  			readOnly="${readOnly}"/>           	         						  			  
+                      <c:if test="${!readOnly}">
+                      	<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
+								fieldConversions="rolodexId:document.subAwardList[0].siteInvestigator" 			
           						anchor="${tabKey}"/> 
-          			   <kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="document.subAwardList[0].siteInvestigator:rolodexId" anchor="${tabKey}" />
-          			   <div>${KualiForm.document.subAwardList[0].rolodex.firstName}&nbsp;</div>			
+          			  </c:if>			
+          			  	<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="document.subAwardList[0].siteInvestigator:rolodexId" anchor="${tabKey}" />
+          			  
+          			           			  
+          			  <div id="sub.fullName.div">${KualiForm.document.subAwardList[0].rolodex.fullName}&nbsp;</div> 
+          			  <html:hidden styleId ="sub.siteInvestigatorId.div" property="document.subAwardList[0].siteInvestigator" />  
+          			   ${kfunc:registerEditableProperty(KualiForm, "document.subAwardList[0].siteInvestigator")} 
                 </td>
             </tr>
         	<tr>
@@ -50,10 +63,16 @@
 					<td>${KualiForm.subAwardDocument.subAward.sequenceNumber}&nbsp; </td>              
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.organizationId}" /></div></th>
                 <td>
-                  <kul:htmlControlAttribute property="document.subAwardList[0].organizationId" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.organizationId}" />
-                  <kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationId:document.subAwardList[0].organizationId,organizationName:document.subAwardList[0].organization.organizationName" anchor="${tabKey}" />
-            	  <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.subAwardList[0].organizationId:organizationId" anchor="${tabKey}" /> 
-                 <div>${KualiForm.document.subAwardList[0].organization.organizationName}&nbsp;</div>
+                  <kul:htmlControlAttribute property="document.subAwardList[0].organizationId" readOnly="${readOnly}" 
+                  				onblur="loadOrganizationName('document.subAwardList[0].organizationId', 'sub.organizationName');" 
+                  				attributeEntry="${subAwardAttributes.organizationId}" />
+                  <c:if test="${!readOnly}">
+                  	<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationId:document.subAwardList[0].organizationId,organizationName:document.subAwardList[0].organization.organizationName" anchor="${tabKey}" />
+            	  </c:if>	
+            	  	<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.subAwardList[0].organizationId:organizationId" anchor="${tabKey}" /> 
+                 
+                <div id="sub.organizationName.div">${KualiForm.document.subAwardList[0].organization.organizationName}&nbsp;</div>
+                 <c:if test="${readOnly}"><html:hidden styleId ="sub.organizationName" property="document.subAwardList[0].organizationId" /></c:if>            		
                 </td>
             </tr>
         	<tr>
@@ -102,33 +121,40 @@
                       
              <td>
 			<c:if test="${!readOnly}">
-	                    <html:text property="document.subAwardList[0].requisitionerUserName" 
+	                    <kul:htmlControlAttribute property="document.subAwardList[0].requisitionerUserName" readOnly="${readOnly}" 
 							onblur="loadContactPersonName('document.subAwardList[0].requisitionerUserName',
 										'requistioner.fullName',
 										'na',
 										'na',
 										'na',
-										'na');"
-	                    	readonly="${readOnly}" tabindex="7"/>
-						<kul:checkErrors keyMatch="document.subAwardList[0].requisitionerName" 
-							auditMatch="document.subAwardList[0].requisitionerName"/>
-					</c:if>  
-            		<c:if test="${hasErrors}">
-	 					<kul:fieldShowErrorIcon />
-			</c:if>
-
-                  <kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:document.subAwardList[0].requisitionerId,fullName:document.subAwardList[0].requisitionerName,unit.unitNumber:document.subAwardList[0].requisitionerUnit,unit.unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
+										'sub.requisitionerId.div');"
+	                    	 attributeEntry="${subAwardAttributes.requisitionerId}"/>						
+					</c:if> 
+					<c:if test="${readOnly}">${KualiForm.document.subAwardList[0].requisitionerUserName}</c:if>
+				  
+				  <c:if test="${!readOnly}">
+                  	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" fieldConversions="personId:document.subAwardList[0].requisitionerId,fullName:document.subAwardList[0].requisitionerName,unit.unitNumber:document.subAwardList[0].requisitionerUnit,unit.unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
+            	  </c:if> 	 
             	  	  <kul:directInquiry boClassName="org.kuali.kra.bo.KcPerson" inquiryParameters="document.subAwardList[0].requisitionerId:personId" anchor="${tabKey}" /> 
-                      <br/><span id="requistioner.fullName"><c:out value="${KualiForm.document.subAwardList[0].requisitionerName}"/>&nbsp;</span>
+                     
+                      <br/><span id="requistioner.fullName"><c:out value="${KualiForm.document.subAwardList[0].requisitionerName}"/>&nbsp;</span>                
+                	  <html:hidden styleId ="sub.requisitionerId.div" property="document.subAwardList[0].requisitionerId" />
+          			  ${kfunc:registerEditableProperty(KualiForm, "document.subAwardList[0].requisitionerId")}
                 </td> 
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.requisitionerUnit}" /></div></th>
                 <td>                       
                     
-                      <kul:htmlControlAttribute property="document.subAwardList[0].requisitionerUnit" readOnly="${readOnly}" attributeEntry="${subAwardAttributes.requisitionerUnit}" />
-                      <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:document.subAwardList[0].requisitionerUnit,unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
+                      <kul:htmlControlAttribute property="document.subAwardList[0].requisitionerUnit"                      
+                      readOnly="${readOnly}" attributeEntry="${subAwardAttributes.requisitionerUnit}" 
+                      onblur="ajaxLoad('getUnitName','document.subAwardList[0].requisitionerUnit', 'sub.unitName');"/>
+                     
+                     <c:if test="${!readOnly}"> 	
+                      	<kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:document.subAwardList[0].requisitionerUnit,unitName:document.subAwardList[0].unit.unitName" anchor="${tabKey}" />
+            	  	 </c:if>     
             	  	    <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="document.subAwardList[0].requisitionerUnit:unitNumber" anchor="${tabKey}" /> 
-            	  	   
-            	  	   <div>${KualiForm.document.subAwardList[0].unit.unitName}&nbsp;</div>  
+            	  	 
+            	  	    <div id="sub.unitName.div">${KualiForm.document.subAwardList[0].unit.unitName}&nbsp;</div>
+            	  	    <c:if test="${readOnly}"> <html:hidden styleId ="sub.unitName" property="document.subAwardList[0].requisitionerUnit" /></c:if>
                 </td>
             </tr>
         	<tr>

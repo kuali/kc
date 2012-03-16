@@ -161,7 +161,7 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
             lastUpdated = subAwardDocument.getSubAward().getUpdateTimestamp().toString() +" By " +  subAwardDocument.getSubAward().getUpdateUser();
         }
         
-        getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.requisitionerId",subAwardDocument.getSubAward().getRequisitionerName()));
+        getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.requisitionerId",subAwardDocument.getSubAward().getRequisitionerUserName()));
         getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.docIdStatus", docIdAndStatus));
         if(subAwardDocument.getSubAward().getUnit()!=null){
             getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.requisitionerUnit",subAwardDocument.getSubAward().getUnit().getUnitName()));
