@@ -175,6 +175,7 @@
 				<value>coiEventDisclosureLookupable</value>
 				<value>coiSubmittedDisclosureLookupable</value>
 				<value>coiNonProjectEventDisclosureLookupable</value>
+				<value>coiAnnualEventDisclosureLookupable</value>
 			</set>
 		</property>
 	</bean>	
@@ -529,6 +530,7 @@
 				<value>coiEventDisclosureLookupable</value>
 				<value>coiSubmittedDisclosureLookupable</value>
 				<value>coiNonProjectEventDisclosureLookupable</value>
+				<value>coiAnnualEventDisclosureLookupable</value>
 			</set>	    
 		</property>
 	</bean>
