@@ -95,7 +95,12 @@ import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredEvent;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredService;
 import org.kuali.kra.irb.actions.notification.AssignReviewerNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolDisapprovedNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolExpiredNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
+import org.kuali.kra.irb.actions.notification.ProtocolSuspendedByDSMBNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolSuspendedNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolTerminatedNotificationRenderer;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
@@ -513,12 +518,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 protocolForm.getProtocolHelper().prepareView();
                 protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"), false));
                 recordProtocolActionSuccess("Withdraw");
-//                return checkToSendNotification(mapping, mapping.findForward("correspondence"), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
+//                return checkToSendNotification(mapping, mapping.findForward(CORRESPONDENCE), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
     
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                     return mapping.findForward(CORRESPONDENCE);
                 } else {
-                    return checkToSendNotification(mapping, mapping.findForward("correspondence"), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
+                    return checkToSendNotification(mapping, mapping.findForward(CORRESPONDENCE), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
                 }
             }
         } else {
@@ -1945,13 +1950,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                 
                 recordProtocolActionSuccess("Disapprove");
-                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, false));
+                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.DISAPPROVED, "Disapproved");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                     return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(CORRESPONDENCE), protocolForm, notificationBean);
                 }
             }
         }
-        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -1976,6 +1983,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                 
                 recordProtocolActionSuccess("Expire");
+                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.EXPIRED, "Expired");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(CORRESPONDENCE), protocolForm, notificationBean);
+                }
             }
         }
         
@@ -2183,10 +2197,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 
                 recordProtocolActionSuccess("Suspend");
 //                protocolForm.getProtocolHelper().prepareView();
-                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, false));
+                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.SUSPENDED, "Suspended");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
 
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                     return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
                 }
             }
         }
@@ -2215,10 +2232,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                 
                 recordProtocolActionSuccess("Suspend by DSMB");
-                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, false));
+                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.SUSPENDED_BY_DSMB, "Suspended by DSMB");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
 
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                     return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
                 } 
             }
         }
@@ -2248,10 +2268,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 
                 recordProtocolActionSuccess("Terminate");
                 protocolForm.getProtocolHelper().prepareView();
-                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, false));
+                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.TERMINATED, "Terminated");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
 
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                     return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
                 }
             }
         }
@@ -2690,7 +2713,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                 return mapping.findForward(CORRESPONDENCE);
             } else {
-                return checkToSendNotification(mapping, mapping.findForward("correspondence"), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
+                return checkToSendNotification(mapping, mapping.findForward(CORRESPONDENCE), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
             }
 //            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
 
@@ -3553,18 +3576,27 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
     private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolForm protocolForm, ProtocolNotificationRequestBean notificationRequestBean) {
         
-        IRBNotificationRenderer renderer = new IRBNotificationRenderer(notificationRequestBean.getProtocol());
+        IRBNotificationRenderer renderer = null;
         if (StringUtils.equals(ProtocolActionType.NOTIFY_IRB, notificationRequestBean.getActionType())) {
             //renderer = new NotifyIrbNotificationRenderer(notificationRequestBean.getProtocol(), notificationRequestBean.getProtocol().getLastProtocolAction().getComments());
             renderer = new NotifyIrbNotificationRenderer(notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolNotifyIrbBean().getComment());
-
+        } else if (StringUtils.equals(ProtocolActionType.TERMINATED, notificationRequestBean.getActionType())) {
+            renderer = new ProtocolTerminatedNotificationRenderer(notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolTerminateRequestBean().getReason());
+        } else if (StringUtils.equals(ProtocolActionType.EXPIRED, notificationRequestBean.getActionType())) {
+            renderer = new ProtocolExpiredNotificationRenderer(notificationRequestBean.getProtocol());
+        } else if (StringUtils.equals(ProtocolActionType.DISAPPROVED, notificationRequestBean.getActionType())) {
+            renderer = new ProtocolDisapprovedNotificationRenderer(notificationRequestBean.getProtocol());
+        } else if (StringUtils.equals(ProtocolActionType.SUSPENDED, notificationRequestBean.getActionType())) {
+            renderer = new ProtocolSuspendedNotificationRenderer(notificationRequestBean.getProtocol());
+        } else if (StringUtils.equals(ProtocolActionType.SUSPENDED_BY_DSMB, notificationRequestBean.getActionType())) {
+            renderer = new ProtocolSuspendedByDSMBNotificationRenderer(notificationRequestBean.getProtocol());
         }
         IRBNotificationContext context = new IRBNotificationContext(notificationRequestBean.getProtocol(), notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
         
         if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
             context.setForwardName(forward.getName());
             protocolForm.getNotificationHelper().initializeDefaultValues(context);
-             return mapping.findForward("protocolNotificationEditor");
+            return mapping.findForward("protocolNotificationEditor");
         } else {
             getNotificationService().sendNotification(context);
             return forward;
@@ -3752,7 +3784,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             }
             getBusinessObjectService().save(correspondence);
         }
-        // TODO : this is a hack for fullapprove to resotre key
+        // TODO : this is a hack for fullapprove to restore key
         if (GlobalVariables.getUserSession().retrieveObject("approvalComplpondence") != null) {
                GlobalVariables.getUserSession().addObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY, GlobalVariables.getUserSession().retrieveObject("approvalComplCorrespondence"));
                GlobalVariables.getUserSession().removeObject("approvalComplCorrespondence");
