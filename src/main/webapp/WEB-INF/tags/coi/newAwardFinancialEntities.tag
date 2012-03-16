@@ -53,7 +53,7 @@
              </table>
              </div>
             <%-- Existing data --%>
-	<div>
+	<div <c:if test="${KualiForm.document.coiDisclosureList[0].coiDisclosureEventType.excludeFinancialEntities}">style="display:none"</c:if>>
     	<h3>
     		<span class="subhead-left">
     	           <c:if test="${not KualiForm.document.coiDisclosureList[0].complete}">

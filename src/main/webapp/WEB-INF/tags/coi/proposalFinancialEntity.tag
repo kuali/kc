@@ -33,7 +33,7 @@
                     </c:otherwise>
                 
                 </c:choose>
-       <div id="div_FinancialEntity${idx}M" class="div_FinancialEntity" >
+       <div id="div_FinancialEntity${idx}M" class="div_FinancialEntity" <c:if test="${KualiForm.document.coiDisclosureList[0].coiDisclosureEventType.excludeFinancialEntities}">style="display:none"</c:if>>
                 <h3>
     		        <span class="subhead-left">
                   <c:if test="${not disclProject.complete}">
