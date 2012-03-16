@@ -12,7 +12,7 @@
             
             <%-- Existing data --%>
 
-             <div class="financialentity">
+             <div class="financialentity" <c:if test="${disclProjectBean.excludeFE}">style="display:none"</c:if>>
                  <div class="h2-container" style="height:20px; vertical-align:middle; background-color:#999; border-top:none; border-bottom:none; color:#FFF; font-weight:bold;">
     		        <span class="subhead-left">
                      <a href="#" id ="${projectDivNamePrefix}Control${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 

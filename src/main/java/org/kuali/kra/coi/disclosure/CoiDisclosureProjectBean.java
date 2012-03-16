@@ -47,6 +47,7 @@ public class CoiDisclosureProjectBean implements Serializable {
     private List<CoiDisclosureAttachment> projectDiscAttachments;
     private List<CoiDisclosureNotepad> projectDiscNotepads;
     private List<AnswerHeader> answerHeaders;
+    private boolean excludeFE; 
 
     public CoiDisclosureProjectBean() {
         projectDiscDetails = new ArrayList<CoiDiscDetail> ();
@@ -173,6 +174,16 @@ public class CoiDisclosureProjectBean implements Serializable {
 
     public void setAnswerHeaders(List<AnswerHeader> answerHeaders) {
         this.answerHeaders = answerHeaders;
+    }
+
+
+    public boolean isExcludeFE() {
+        return excludeFE;
+    }
+
+
+    public void setExcludeFE(boolean excludeFE) {
+        this.excludeFE = excludeFE;
     }
 
 }
