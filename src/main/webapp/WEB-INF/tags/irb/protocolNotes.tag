@@ -58,7 +58,7 @@
 		            </td>
 		            <td width="1000" class="infoline">
 		            	<div align="left">
-	            	    	<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.comments" attributeEntry="${protocolNotesAttributes.comments}"readOnly="${!modifyPermission}" />
+	            	    	<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.comments" attributeEntry="${protocolNotesAttributes.comments}" readOnly="${!modifyPermission}" />
 	            	  	</div>
 		            </td>
 		            <td class="infoline">

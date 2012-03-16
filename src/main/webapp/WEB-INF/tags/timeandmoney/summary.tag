@@ -42,14 +42,14 @@
 		      	</th>
 		    	<td>
 		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.sponsorAwardNumber}" />
-		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.sponsorAwardNumber" attributeEntry="${awardAttributes.sponsorAwardNumber}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.sponsorAwardNumber}"readOnly="true" />-->
+		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.sponsorAwardNumber" attributeEntry="${awardAttributes.sponsorAwardNumber}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.sponsorAwardNumber}" readOnly="true" />-->
 		    	</td>
 		    	<th>
 		    		<div align="right">Activity Type</div>
 		    	</th>
 		    	<td>
 		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.activityType.description}" />
-		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.activityTypeCode" attributeEntry="${awardAttributes.activityTypeCode}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.activityType.description}"readOnly="true" />-->
+		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.activityTypeCode" attributeEntry="${awardAttributes.activityTypeCode}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.activityType.description}" readOnly="true" />-->
 				</td>
 		  	</tr>
 		  	<tr>
@@ -92,7 +92,7 @@
 		        		<tr>
 		            		<td style="border:none; width:100%;">
 		            			<c:out value="${KualiForm.awardForSummaryPanelDisplay.title}" />
-		            			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.title" attributeEntry="${awardAttributes.title}"  readOnly="true"/>-->		                    	
+		            			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.title" attributeEntry="${awardAttributes.title}" readOnly="true"/>-->		                    	
 		        			</td>
 		            	</tr>
 		        	</table>
