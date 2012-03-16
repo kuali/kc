@@ -26,7 +26,6 @@ public class ProposalDevelopmentPersonMassChange extends KraPersistableBusinessO
     private boolean investigator;
     private boolean mailingInformation;
     private boolean keyStudyPerson;
-    private boolean budgetPerson;
     
     private PersonMassChange personMassChange;
 
@@ -68,14 +67,6 @@ public class ProposalDevelopmentPersonMassChange extends KraPersistableBusinessO
     
     public void setKeyStudyPerson(boolean keyStudyPerson) {
         this.keyStudyPerson = keyStudyPerson;
-    }
-    
-    public boolean isBudgetPerson() {
-        return budgetPerson;
-    }
-    
-    public void setBudgetPerson(boolean budgetPerson) {
-        this.budgetPerson = budgetPerson;
     }
     
     public PersonMassChange getPersonMassChange() {

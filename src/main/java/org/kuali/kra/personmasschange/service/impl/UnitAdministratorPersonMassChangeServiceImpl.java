@@ -44,7 +44,8 @@ public class UnitAdministratorPersonMassChangeServiceImpl implements UnitAdminis
                 || personMassChange.getUnitAdministratorPersonMassChange().isUnitHead() 
                 || personMassChange.getUnitAdministratorPersonMassChange().isDeanVP()
                 || personMassChange.getUnitAdministratorPersonMassChange().isOtherIndividualToNotify() 
-                || personMassChange.getUnitAdministratorPersonMassChange().isAdministrator()) {
+                || personMassChange.getUnitAdministratorPersonMassChange().isAdministrativeContact()
+                || personMassChange.getUnitAdministratorPersonMassChange().isFinancialContact()) {
             unitAdministrators.addAll(getBusinessObjectService().findAll(UnitAdministrator.class));
         }
 
@@ -59,31 +60,34 @@ public class UnitAdministratorPersonMassChangeServiceImpl implements UnitAdminis
     
     private boolean isUnitAdministratorChangeCandidate(PersonMassChange personMassChange, UnitAdministrator unitAdministrator) {
         boolean isUnitAdministratorChangeCandidate = false;
-        
-        String[] administrativeOfficerTypes = { UnitAdministratorType.ADMINISTRATIVE_OFFICER_TYPE_CODE };
-        String[] ospAdministratorTypes = { UnitAdministratorType.OSP_ADMINISTRATOR_TYPE_CODE };
-        String[] unitHeadTypes = { UnitAdministratorType.UNIT_HEAD_TYPE_CODE };
-        String[] deanVPTypes = { UnitAdministratorType.DEAN_VP_TYPE_CODE };
-        String[] otherIndividualToNotifyTypes = { UnitAdministratorType.OTHER_INDIVIDUAL_TO_NOTIFY_TYPE_CODE };
-        String[] administratorTypes = { UnitAdministratorType.ADMINISTRATIVE_CONTACT_TYPE_CODE, UnitAdministratorType.FINANCIAL_CONTACT_TYPE_CODE };
-        
+
         if (personMassChange.getUnitAdministratorPersonMassChange().isAdministrativeOfficer()) {
-            isUnitAdministratorChangeCandidate |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, administrativeOfficerTypes);
+            isUnitAdministratorChangeCandidate 
+                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.ADMINISTRATIVE_OFFICER_TYPE_CODE);
         }
         if (personMassChange.getUnitAdministratorPersonMassChange().isOspAdministrator()) {
-            isUnitAdministratorChangeCandidate |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, ospAdministratorTypes);
+            isUnitAdministratorChangeCandidate 
+                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.OSP_ADMINISTRATOR_TYPE_CODE);
         }
         if (personMassChange.getUnitAdministratorPersonMassChange().isUnitHead()) {
-            isUnitAdministratorChangeCandidate |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, unitHeadTypes);
+            isUnitAdministratorChangeCandidate 
+                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.UNIT_HEAD_TYPE_CODE);
         }
         if (personMassChange.getUnitAdministratorPersonMassChange().isDeanVP()) {
-            isUnitAdministratorChangeCandidate |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, deanVPTypes);
+            isUnitAdministratorChangeCandidate 
+                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.DEAN_VP_TYPE_CODE);
         }
         if (personMassChange.getUnitAdministratorPersonMassChange().isOtherIndividualToNotify()) {
-            isUnitAdministratorChangeCandidate |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, otherIndividualToNotifyTypes);
+            isUnitAdministratorChangeCandidate 
+                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.OTHER_INDIVIDUAL_TO_NOTIFY_TYPE_CODE);
         }
-        if (personMassChange.getUnitAdministratorPersonMassChange().isAdministrator()) {
-            isUnitAdministratorChangeCandidate |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, administratorTypes);
+        if (personMassChange.getUnitAdministratorPersonMassChange().isAdministrativeContact()) {
+            isUnitAdministratorChangeCandidate 
+                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.ADMINISTRATIVE_CONTACT_TYPE_CODE);
+        }
+        if (personMassChange.getUnitAdministratorPersonMassChange().isFinancialContact()) {
+            isUnitAdministratorChangeCandidate 
+                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.FINANCIAL_CONTACT_TYPE_CODE);
         }
         
         return isUnitAdministratorChangeCandidate;
