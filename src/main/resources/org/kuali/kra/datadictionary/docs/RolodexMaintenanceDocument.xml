@@ -15,12 +15,8 @@
         <value>rolodexId</value>
       </list>
     </property>	<property name="allowsRecordDeletion" value="true" />	
-    
-    
-    
-    
     <property name="documentTypeName" value="RolodexMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+	 <property name="documentAuthorizerClass" value="org.kuali.kra.proposaldevelopment.document.authorizer.RolodexDocumentAuthorizer"/>
     <property name="webScriptFiles">
         <list>
             <value>../dwr/interface/StateService.js</value>
