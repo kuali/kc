@@ -320,7 +320,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private void initInstitutionalProposals(List<CoiDisclEventProject> disclEventProjects, List<CoiDiscDetail> disclosureDetails, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {
         List<InstitutionalProposal> iProposals = getInstitutionalProposals(GlobalVariables.getUserSession().getPrincipalId());
         for (InstitutionalProposal proposal : iProposals) {
-            if (proposal.isActiveVersion() && (proposal.getProposalStatus().isFunded() || proposal.getProposalStatus().isPending())) {
+            if (proposal.getProposalStatus().isFunded() || proposal.getProposalStatus().isPending()) {
                 CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposal,
                         new ArrayList<CoiDiscDetail>());
                 for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
@@ -844,23 +844,25 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<InstitutionalProposal> proposals = new ArrayList<InstitutionalProposal>();
         if (!isEventExcluded(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
+            Map<String, InstitutionalProposal> resultValues = new HashMap<String, InstitutionalProposal>();
             fieldValues.put("personId", personId);
 //            fieldValues.put("proposalPersonRoleId", "PI");
             List<InstitutionalProposalPerson> proposalPersons = (List<InstitutionalProposalPerson>) businessObjectService.findMatching(InstitutionalProposalPerson.class, fieldValues);
             for (InstitutionalProposalPerson proposalPerson : proposalPersons) {
                 InstitutionalProposal institutionalProposal = proposalPerson.getInstitutionalProposal();
-                // if it is disclosurable
+                // if it is disclosurable and not yet reported and either funded or pending
                 if (isInstitutionalProposalDisclosurable(institutionalProposal) && 
-                        // and it is not yet reported
                         !isProjectReported(institutionalProposal.getProposalNumber(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposalPerson.getPersonId()) &&
-                        // and it is most recent version and either funded or pending
-                        (institutionalProposal.isActiveVersion() && (institutionalProposal.getProposalStatus().isFunded() || institutionalProposal.getProposalStatus().isPending()))) {
-                    proposals.add(proposalPerson.getInstitutionalProposal());
+                        (institutionalProposal.getProposalStatus().isFunded() || institutionalProposal.getProposalStatus().isPending())) {
+                    resultValues.put(institutionalProposal.getInstProposalNumber(), proposalPerson.getInstitutionalProposal());
                 }
             }
+            for (String key: resultValues.keySet()) {
+                proposals.add(resultValues.get(key));
+            }
+
         }
         return proposals;
-
     }
  
     /**
