@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.rice.krad.bo.BusinessObject;
 
@@ -37,13 +39,20 @@ public class CoiEventDisclosureLookupableHelper extends CoiDisclosureLookupableH
         List<CoiDisclosure> allDisclosures = (List<CoiDisclosure>) super.getResults(fieldValues);
         List<CoiDisclosure> submittedEventDisclosures = new ArrayList<CoiDisclosure>();
         for (CoiDisclosure coiDisclosure : allDisclosures) {
-            if (coiDisclosure.isSubmitted() && (coiDisclosure.isNonManualProjectEvent() || coiDisclosure.isManualEvent())) {
+            if (coiDisclosure.isSubmitted() && (coiDisclosure.isNonManualProjectEvent() || isManualProjectEvent(coiDisclosure))) {
                 submittedEventDisclosures.add(coiDisclosure);
             }
         }
         return submittedEventDisclosures;
     }
     
-    
+    protected boolean isManualProjectEvent(CoiDisclosure disclosure) {
+        if (StringUtils.equalsIgnoreCase(CoiDisclosureEventType.MANUAL_AWARD, disclosure.getEventTypeCode()) ||
+           StringUtils.equalsIgnoreCase(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, disclosure.getEventTypeCode()) ||
+           StringUtils.equalsIgnoreCase(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, disclosure.getEventTypeCode())) {
+            return true;
+        }
+        return false;
+    }
 
 }
