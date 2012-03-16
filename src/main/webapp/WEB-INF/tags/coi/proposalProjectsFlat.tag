@@ -169,7 +169,7 @@
 
                 <tr>
                     <td colspan="6">
-       <div class="div_FinancialEntity">
+       <div class="div_FinancialEntity" <c:if test="${KualiForm.document.coiDisclosureList[0].coiDisclosureEventType.excludeFinancialEntities}">style="display:none"</c:if>>
                 <h3>
     		        <span class="subhead-left">Financial Entity</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>

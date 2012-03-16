@@ -113,13 +113,15 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         // Allow annual disclosures to be attached without projects. This is a likely scenario
         if (ObjectUtils.isNotNull(coiDisclosure.getCoiDisclEventProjects()) && !coiDisclosure.getCoiDisclEventProjects().isEmpty()) {
             for (CoiDisclEventProject disclProject : coiDisclosure.getCoiDisclEventProjects()) {
-                int j = 0;
-                for (CoiDiscDetail coiDiscDetail : disclProject.getCoiDiscDetails()) {
-                    if (coiDiscDetail.getEntityStatusCode() == null) {
-                        addErrorToAuditErrors(i, j, Constants.DISCLOSURE_ANNUAL_FINANCIAL_ENTITY_KEY);
-                        isSelected = false;
+                if (!disclProject.isEventExcludFE()) {
+                    int j = 0;
+                    for (CoiDiscDetail coiDiscDetail : disclProject.getCoiDiscDetails()) {
+                        if (coiDiscDetail.getEntityStatusCode() == null) {
+                            addErrorToAuditErrors(i, j, Constants.DISCLOSURE_ANNUAL_FINANCIAL_ENTITY_KEY);
+                            isSelected = false;
+                        }
+                        j++;
                     }
-                    j++;
                 }
                 i++;
             }
@@ -132,19 +134,21 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         int i = 0;
         // Missing project. There should be a project linked to all manual and event disclosures
         if (coiDisclosure.getCoiDisclProjects().isEmpty()) {
-            addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY, 
-                    Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR, 
-                    KeyConstants.ERROR_COI_PROJECT_REQUIRED);
+            addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY,
+                    Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR, KeyConstants.ERROR_COI_PROJECT_REQUIRED);
             isSelected = false;
-        } else {
-            for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails()) {
-                if (coiDiscDetail.getEntityStatusCode() == null) {
-                        addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY, 
-                                                Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
-                                                KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED);
-                    isSelected = false;
+        }
+        else {
+            if (!coiDisclosure.getCoiDisclosureEventType().isExcludeFinancialEntities()) {
+                for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails()) {
+                    if (coiDiscDetail.getEntityStatusCode() == null) {
+                        addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY,
+                                Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
+                                KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED);
+                        isSelected = false;
+                    }
+                    i++;
                 }
-                i++;
             }
         }
         return isSelected;
@@ -169,22 +173,24 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         return isSelected;
     }
 
-    private boolean checkProject(List<CoiDisclosureProjectBean> manualProtocolProjects, String property) {
+    private boolean checkProject(List<CoiDisclosureProjectBean> disclProjects, String property) {
         boolean isSelected = true;
         int i = 0;
-        for (CoiDisclosureProjectBean disclProjectBean : manualProtocolProjects) {
-            int j = 0;
-            for (CoiDiscDetail coiDiscDetail : disclProjectBean.getProjectDiscDetails()) {
-                if (coiDiscDetail.getEntityStatusCode() == null) {
-                    addErrorToAuditErrors(property,i, j, Constants.DISCLOSURE_UPDATE_FINANCIAL_ENTITY_KEY);
-                    isSelected = false;
+        for (CoiDisclosureProjectBean disclProjectBean : disclProjects) {
+            if (!disclProjectBean.isExcludeFE()) {
+                int j = 0;
+                for (CoiDiscDetail coiDiscDetail : disclProjectBean.getProjectDiscDetails()) {
+                    if (coiDiscDetail.getEntityStatusCode() == null) {
+                        addErrorToAuditErrors(property, i, j, Constants.DISCLOSURE_UPDATE_FINANCIAL_ENTITY_KEY);
+                        isSelected = false;
+                    }
+                    j++;
                 }
-                j++;
             }
             i++;
-       }
+        }
         return isSelected;
-       
+
     }
 
 
