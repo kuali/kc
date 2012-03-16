@@ -91,11 +91,7 @@ public class SubAwardDocumentRuleTest extends KcUnitTestBase {
         subAwardFundingSource = null;
     }
     
-    @Test
-    public void testprocessAddSubAwardBusinessRules() throws Exception {
-        
-        Assert.assertTrue(subAwardDocumentRule.processAddSubAwardBusinessRules(subAward));
-    }
+   
     
     @Test
     public void testProcessAddSubAwardAmountInfoBusinessRules() throws Exception {
