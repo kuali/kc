@@ -58,9 +58,14 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
                    && !coiDisclosureForm.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
             coiDisclosure.getCoiDisclProjects().get(0).setCoiDiscDetails(coiDisclosure.getCoiDiscDetails());
         }
+        
+        // initialize the questionnaire data
         coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView(false);
+        // initialize the permissions for notes and attachments helper
+        coiDisclosureForm.getCoiNotesAndAttachmentsHelper().prepareView();
         return mapping.findForward("disclosure");
     }
+    
     public ActionForward committee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("committee");
     }
