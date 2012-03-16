@@ -42,11 +42,11 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
     
     private static final String SUBAWARD_ID = "subAwardId";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    private static final String CONTACT_PERSON = "contactPerson";
     private static final String REQUISITIONER = "requisitioner";
+    private static final String CONTACT = "contact";
     
-    private static final String SUBAWARD_CONTACT_PERSON_FIELD = SUBAWARD_FIELD + CONTACT_PERSON;
     private static final String SUBAWARD_REQUISITIONER_FIELD = SUBAWARD_FIELD + REQUISITIONER;
+    private static final String SUBAWARD_CONTACT_FIELD = SUBAWARD_FIELD + CONTACT;
     
     private static final String SUBAWARD = "subaward";
     
@@ -59,7 +59,7 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
         List<SubAward> subawardChangeCandidates = new ArrayList<SubAward>();
         
         List<SubAward> subawards = new ArrayList<SubAward>();
-        if (personMassChange.getSubawardPersonMassChange().isContactPerson() || personMassChange.getSubawardPersonMassChange().isRequisitioner()) {
+        if (personMassChange.getSubawardPersonMassChange().isRequisitioner() || personMassChange.getSubawardPersonMassChange().isContact()) {
             subawards.addAll(getSubawards(personMassChange));
         }
 
@@ -118,17 +118,21 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
         
         String requisitionerId = subaward.getRequisitionerId();
 
-        if (personMassChange.getSubawardPersonMassChange().isContactPerson()) {
-            isSubawardChangeCandidate |= isSubawardContactChangeCandidate(personMassChange, subawardContacts);
-        }
         if (personMassChange.getSubawardPersonMassChange().isRequisitioner()) {
             isSubawardChangeCandidate |= isSubawardRequisitionerChangeCandidate(personMassChange, requisitionerId);
+        }
+        if (personMassChange.getSubawardPersonMassChange().isContact()) {
+            isSubawardChangeCandidate |= isSubawardContactCandidate(personMassChange, subawardContacts);
         }
         
         return isSubawardChangeCandidate;
     }
     
-    private boolean isSubawardContactChangeCandidate(PersonMassChange personMassChange, List<SubAwardContact> subawardContacts) {
+    private boolean isSubawardRequisitionerChangeCandidate(PersonMassChange personMassChange, String requisitionerId) {
+        return isPersonIdMassChange(personMassChange, requisitionerId);
+    }
+    
+    private boolean isSubawardContactCandidate(PersonMassChange personMassChange, List<SubAwardContact> subawardContacts) {
         boolean isSubawardContactChangeCandidate = false;
         
         for (SubAwardContact subawardContact : subawardContacts) {
@@ -140,23 +144,19 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
         
         return isSubawardContactChangeCandidate;
     }
-    
-    private boolean isSubawardRequisitionerChangeCandidate(PersonMassChange personMassChange, String requisitionerId) {
-        return isPersonIdMassChange(personMassChange, requisitionerId);
-    }
 
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<SubAward> subawardChangeCandidates) {
         for (SubAward subawardChangeCandidate : subawardChangeCandidates) {
             subawardChangeCandidate.getSubAwardDocument().refreshPessimisticLocks();
             if (subawardChangeCandidate.getSubAwardDocument().getPessimisticLocks().isEmpty()) {
-                performSubawardContactPersonMassChange(personMassChange, subawardChangeCandidate);
                 performSubawardRequistionerPersonMassChange(personMassChange, subawardChangeCandidate);
+                performSubawardContactMassChange(personMassChange, subawardChangeCandidate);
             } else {
-                if (personMassChange.getSubawardPersonMassChange().isContactPerson()) {
-                    reportWarning(SUBAWARD_CONTACT_PERSON_FIELD, subawardChangeCandidate);
-                } else if (personMassChange.getSubawardPersonMassChange().isRequisitioner()) {
+                if (personMassChange.getSubawardPersonMassChange().isRequisitioner()) {
                     reportWarning(SUBAWARD_REQUISITIONER_FIELD, subawardChangeCandidate);
+                } else if (personMassChange.getSubawardPersonMassChange().isContact()) {
+                    reportWarning(SUBAWARD_CONTACT_FIELD, subawardChangeCandidate);
                 }
             }
         }
@@ -167,21 +167,21 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
         errorReporter.reportWarning(propertyName, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, SUBAWARD, subawardCode);
     }
     
-    private void performSubawardContactPersonMassChange(PersonMassChange personMassChange, SubAward subaward) {
-        if (personMassChange.getSubawardPersonMassChange().isContactPerson()) {
-            for (SubAwardContact subawardContact : subaward.getSubAwardContactsList()) {
-                subawardContact.setRolodexId(Integer.valueOf(personMassChange.getReplacerRolodexId()));
-                
-                getBusinessObjectService().save(subawardContact);
-            }
-        }
-    }
-    
     private void performSubawardRequistionerPersonMassChange(PersonMassChange personMassChange, SubAward subaward) {
         if (personMassChange.getSubawardPersonMassChange().isRequisitioner()) {
             subaward.setRequisitionerId(personMassChange.getReplacerPersonId());
             
             getBusinessObjectService().save(subaward);
+        }
+    }
+    
+    private void performSubawardContactMassChange(PersonMassChange personMassChange, SubAward subaward) {
+        if (personMassChange.getSubawardPersonMassChange().isContact()) {
+            for (SubAwardContact subawardContact : subaward.getSubAwardContactsList()) {
+                subawardContact.setRolodexId(Integer.valueOf(personMassChange.getReplacerRolodexId()));
+                
+                getBusinessObjectService().save(subawardContact);
+            }
         }
     }
     

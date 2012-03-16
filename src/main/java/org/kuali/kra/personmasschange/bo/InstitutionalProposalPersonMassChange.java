@@ -19,14 +19,14 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class InstitutionalProposalPersonMassChange extends KraPersistableBusinessObjectBase {
 
-    private static final long serialVersionUID = 1612664382231281828L;
+    private static final long serialVersionUID = -8946117068743211033L;
     
     private long institutionalProposalPersonMassChangeId;
     private long personMassChangeId;
     private boolean investigator;
     private boolean keyStudyPerson;
-    private boolean unitAdministrator;
     private boolean mailingInformation;
+    private boolean unitContact;
     private boolean ipReviewer;
     
     private PersonMassChange personMassChange;
@@ -63,14 +63,6 @@ public class InstitutionalProposalPersonMassChange extends KraPersistableBusines
         this.keyStudyPerson = keyStudyPerson;
     }
 
-    public boolean isUnitAdministrator() {
-        return unitAdministrator;
-    }
-    
-    public void setUnitAdministrator(boolean unitAdministrator) {
-        this.unitAdministrator = unitAdministrator;
-    }
-    
     public boolean isMailingInformation() {
         return mailingInformation;
     }
@@ -78,7 +70,15 @@ public class InstitutionalProposalPersonMassChange extends KraPersistableBusines
     public void setMailingInformation(boolean mailingInformation) {
         this.mailingInformation = mailingInformation;
     }
-    
+
+    public boolean isUnitContact() {
+        return unitContact;
+    }
+
+    public void setUnitContact(boolean unitContact) {
+        this.unitContact = unitContact;
+    }
+
     public boolean isIpReviewer() {
         return ipReviewer;
     }
@@ -96,7 +96,7 @@ public class InstitutionalProposalPersonMassChange extends KraPersistableBusines
     }
 
     public boolean requiresChange() {
-        return this.isInvestigator() || this.isKeyStudyPerson() || this.isIpReviewer() || this.isUnitAdministrator() || this.isMailingInformation();
+        return this.isInvestigator() || this.isKeyStudyPerson() || this.isIpReviewer() || this.isMailingInformation() || this.isUnitContact();
     }
 
 }

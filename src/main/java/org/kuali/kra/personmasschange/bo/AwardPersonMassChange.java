@@ -19,15 +19,15 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class AwardPersonMassChange extends KraPersistableBusinessObjectBase {
 
-    private static final long serialVersionUID = 61654453082405554L;
+    private static final long serialVersionUID = 7391485345162146878L;
     
     private long awardPersonMassChangeId;
     private long personMassChangeId;
     private boolean investigator;
     private boolean keyStudyPerson;
-    private boolean contactPerson;
-    private boolean foreignTrip;
-    private boolean unitAdministrator;
+    private boolean unitContact;
+    private boolean sponsorContact;
+    private boolean approvedForeignTravel;
     
     private PersonMassChange personMassChange;
 
@@ -63,28 +63,28 @@ public class AwardPersonMassChange extends KraPersistableBusinessObjectBase {
         this.keyStudyPerson = keyStudyPerson;
     }
 
-    public boolean isContactPerson() {
-        return contactPerson;
+    public boolean isUnitContact() {
+        return unitContact;
     }
-    
-    public void setContactPerson(boolean contactPerson) {
-        this.contactPerson = contactPerson;
+
+    public void setUnitContact(boolean unitContact) {
+        this.unitContact = unitContact;
     }
-    
-    public boolean isForeignTrip() {
-        return foreignTrip;
+
+    public boolean isSponsorContact() {
+        return sponsorContact;
     }
-    
-    public void setForeignTrip(boolean foreignTrip) {
-        this.foreignTrip = foreignTrip;
+
+    public void setSponsorContact(boolean sponsorContact) {
+        this.sponsorContact = sponsorContact;
     }
-    
-    public boolean isUnitAdministrator() {
-        return unitAdministrator;
+
+    public boolean isApprovedForeignTravel() {
+        return approvedForeignTravel;
     }
-    
-    public void setUnitAdministrator(boolean unitAdministrator) {
-        this.unitAdministrator = unitAdministrator;
+
+    public void setApprovedForeignTravel(boolean approvedForeignTravel) {
+        this.approvedForeignTravel = approvedForeignTravel;
     }
 
     public PersonMassChange getPersonMassChange() {
