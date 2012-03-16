@@ -87,7 +87,10 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
              for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()){                 
                 if( budgetPersonnelDetails.getPersonId().equals(keyPerson.getPersonId())){
                     return true;
-                }                 
+                } else if (keyPerson.getRolodexId() != null && budgetPersonnelDetails.getPersonId()
+                        .equals(keyPerson.getRolodexId().toString())) {
+                    return true;
+                }                
              }
            }        
         return false;       
