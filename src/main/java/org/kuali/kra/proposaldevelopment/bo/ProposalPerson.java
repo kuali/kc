@@ -1875,7 +1875,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
      * @return the value of countryCode
      */
     public String getCountryCode() {
-        return this.countryCode;
+        return this.countryCode != null ? this.countryCode.trim() : null;
     }
 
     /**
