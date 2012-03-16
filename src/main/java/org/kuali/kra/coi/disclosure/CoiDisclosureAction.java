@@ -224,7 +224,7 @@ public class CoiDisclosureAction extends CoiAction {
             } else if (command.endsWith(CoiDisclosure.MANUAL_DISCL_MODULE_CODE)) {
                 // this will be reset when 'addmanualproject', and the event type will be selected at that time
                 eventTypeCode = CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL;
-            } else if (command.endsWith("_6") || (KewApiConstants.INITIATE_COMMAND.equals(command) && isMasterDisclosureExist())) {
+            } else if (command.endsWith("_6") || (KewApiConstants.INITIATE_COMMAND.equals(command) && KRADConstants.DOC_HANDLER_METHOD.equals(coiDisclosureForm.getMethodToCall()) && isMasterDisclosureExist())) {
                 // this is to update master disclosure. 
                 // also treated annual event when master disclosure exist
                 eventTypeCode = CoiDisclosureEventType.UPDATE;
