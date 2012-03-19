@@ -17,6 +17,9 @@ package org.kuali.kra.personmasschange.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * Defines the fields for an IACUC Protocol Person Mass Change.
+ */
 public class IacucProtocolPersonMassChange extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2640850709328683379L;
@@ -75,6 +78,15 @@ public class IacucProtocolPersonMassChange extends KraPersistableBusinessObjectB
 
     public void setPersonMassChange(PersonMassChange personMassChange) {
         this.personMassChange = personMassChange;
+    }
+    
+    /**
+     * Determines whether this Person Mass Change is required.
+     * 
+     * @return true if any of the fields are true, false otherwise
+     */
+    public boolean requiresChange() {
+        return investigator || keyStudyPerson || correspondents;
     }
 
 }

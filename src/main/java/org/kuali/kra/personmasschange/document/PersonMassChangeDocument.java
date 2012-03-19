@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
@@ -34,6 +35,8 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -99,7 +102,7 @@ public class PersonMassChangeDocument extends ResearchDocumentBase implements Se
                     GlobalVariables.setUserSession(new UserSession(person.getUserName()));
                 
                     getPersonMassChangeService().performPersonMassChange(getPersonMassChange());
-                
+                    
                     GlobalVariables.setUserSession(new UserSession(asyncPrincipalName));
                 }
             } catch (Exception we) {

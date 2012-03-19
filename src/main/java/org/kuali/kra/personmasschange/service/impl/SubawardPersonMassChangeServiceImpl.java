@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.SubawardPersonMassChangeService;
@@ -38,15 +39,10 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassChangeService {
     
-    private static final String SUBAWARD_FIELD = "document.personMassChange.subawardPersonMassChange.";
+    private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
     
     private static final String SUBAWARD_ID = "subAwardId";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    private static final String REQUISITIONER = "requisitioner";
-    private static final String CONTACT = "contact";
-    
-    private static final String SUBAWARD_REQUISITIONER_FIELD = SUBAWARD_FIELD + REQUISITIONER;
-    private static final String SUBAWARD_CONTACT_FIELD = SUBAWARD_FIELD + CONTACT;
     
     private static final String SUBAWARD = "subaward";
     
@@ -59,13 +55,20 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
         List<SubAward> subawardChangeCandidates = new ArrayList<SubAward>();
         
         List<SubAward> subawards = new ArrayList<SubAward>();
-        if (personMassChange.getSubawardPersonMassChange().isRequisitioner() || personMassChange.getSubawardPersonMassChange().isContact()) {
+        if (personMassChange.getSubawardPersonMassChange().requiresChange()) {
             subawards.addAll(getSubawards(personMassChange));
         }
 
         for (SubAward subaward : subawards) {
             if (isSubawardChangeCandidate(personMassChange, subaward)) {
                 subawardChangeCandidates.add(subaward);
+            }
+        }
+        
+        for (SubAward subawardChangeCandidate : subawardChangeCandidates) {
+            subawardChangeCandidate.getSubAwardDocument().refreshPessimisticLocks();
+            if (!subawardChangeCandidate.getSubAwardDocument().getPessimisticLocks().isEmpty()) {
+                reportSoftError(subawardChangeCandidate);
             }
         }
         
@@ -152,19 +155,8 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
             if (subawardChangeCandidate.getSubAwardDocument().getPessimisticLocks().isEmpty()) {
                 performSubawardRequistionerPersonMassChange(personMassChange, subawardChangeCandidate);
                 performSubawardContactMassChange(personMassChange, subawardChangeCandidate);
-            } else {
-                if (personMassChange.getSubawardPersonMassChange().isRequisitioner()) {
-                    reportWarning(SUBAWARD_REQUISITIONER_FIELD, subawardChangeCandidate);
-                } else if (personMassChange.getSubawardPersonMassChange().isContact()) {
-                    reportWarning(SUBAWARD_CONTACT_FIELD, subawardChangeCandidate);
-                }
             }
         }
-    }
-    
-    private void reportWarning(String propertyName, SubAward subaward) {
-        String subawardCode = subaward.getSubAwardCode();
-        errorReporter.reportWarning(propertyName, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, SUBAWARD, subawardCode);
     }
     
     private void performSubawardRequistionerPersonMassChange(PersonMassChange personMassChange, SubAward subaward) {
@@ -193,6 +185,11 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
     private boolean isPersonIdMassChange(PersonMassChange personMassChange, String rolodexId) {
         String replaceePersonId = personMassChange.getReplaceePersonId();
         return replaceePersonId != null && StringUtils.equals(replaceePersonId, rolodexId);
+    }
+    
+    private void reportSoftError(SubAward subaward) {
+        String subawardCode = subaward.getSubAwardCode();
+        errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, SUBAWARD, subawardCode);
     }
     
     public BusinessObjectService getBusinessObjectService() {

@@ -17,6 +17,9 @@ package org.kuali.kra.personmasschange.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * Defines the fields for a Unit Administrator Person Mass Change.
+ */
 public class UnitAdministratorPersonMassChange extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -5284508183458878623L;
@@ -111,6 +114,15 @@ public class UnitAdministratorPersonMassChange extends KraPersistableBusinessObj
 
     public void setPersonMassChange(PersonMassChange personMassChange) {
         this.personMassChange = personMassChange;
+    }
+    
+    /**
+     * Determines whether this Person Mass Change is required.
+     * 
+     * @return true if any of the fields are true, false otherwise
+     */
+    public boolean requiresChange() {
+        return administrativeOfficer || ospAdministrator || unitHead || deanVP || otherIndividualToNotify || administrativeContact || financialContact;
     }
 
 }

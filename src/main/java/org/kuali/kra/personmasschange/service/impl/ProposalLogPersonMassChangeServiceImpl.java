@@ -44,7 +44,7 @@ public class ProposalLogPersonMassChangeServiceImpl implements ProposalLogPerson
         Set<ProposalLog> proposalLogChangeCandidates = new HashSet<ProposalLog>();
         
         List<ProposalLog> proposalLogs = new ArrayList<ProposalLog>();
-        if (personMassChange.getProposalLogPersonMassChange().isPrincipalInvestigator()) {
+        if (personMassChange.getProposalLogPersonMassChange().requiresChange()) {
             proposalLogs.addAll(getBusinessObjectService().findAll(ProposalLog.class));
         }
 
