@@ -34,6 +34,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.common.customattributes.CustomDataAction;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -43,6 +44,8 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBeanBase;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
@@ -283,7 +286,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         Permissionable permissionable = protocolForm.getDocument().getProtocol();
         UnitAclLoadService unitAclLoadService = KraServiceLocator.getService(UnitAclLoadService.class);
         unitAclLoadService.loadUnitAcl(permissionable);
-
+        
+        sendNotification(protocolForm);
     }
     
     @Override
@@ -554,5 +558,12 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         // return RESPONSE_ALREADY_HANDLED;
     }
 
+    private void sendNotification(ProtocolForm protocolForm) {
+        
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.PROTOCOL_CREATED_NOTIFICATION, "Created", renderer);
+        KraServiceLocator.getService(KcNotificationService.class).sendNotification(context);
+    }
     
 }
