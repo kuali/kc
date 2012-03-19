@@ -347,6 +347,9 @@ public class ActionHelper implements Serializable {
         protocolSubmitAction = new ProtocolSubmitAction(this);
         protocolWithdrawBean = new ProtocolWithdrawBean(this);
         protocolNotifyIrbBean = new ProtocolNotifyIrbBean(this);
+        // setting the attachment here so new files can be attached to newActionAttachment
+        protocolNotifyIrbBean.setNewActionAttachment(new ProtocolActionAttachment());
+
         protocolAmendmentBean = createAmendmentBean();
         protocolRenewAmendmentBean = createAmendmentBean();
         protocolDeleteBean = new ProtocolDeleteBean(this);
