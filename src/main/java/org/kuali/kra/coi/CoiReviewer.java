@@ -24,7 +24,12 @@ public class CoiReviewer extends KraPersistableBusinessObjectBase {
     private String reviewerCode;
 
     private String description;
-
+    
+    public static final String ASSIGNED_REVIEWER = "RVW";
+    public static final String REVIEW_COMMITTEE = "COM";
+    public static final String OSP_ADMINISTRATOR = "OSP";
+    public static final String PRINCIPAL_INVESTIGATOR = "PI";
+    
     public String getReviewerCode() {
         return reviewerCode;
     }

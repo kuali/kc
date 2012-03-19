@@ -31,6 +31,7 @@
         </portal:portalLink>
       </td>
     </tr>
+
     <tr>
       <td nowrap class="disabled-text">Event Disclosure</td>
       <td>
@@ -42,6 +43,30 @@
       </td>
       
     </tr>
+    
+    <tr>
+      <td nowrap class="disabled-text">Non Project Event Disclosure</td>
+      <td>
+        <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
+     	<portal:portalLink displayTitle="false" title="Non project event disclosures" 
+		      url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.coi.CoiNonProjectEventDisclosure&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" >
+          <img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle">
+        </portal:portalLink>
+      </td>     
+    </tr>
+    
+    <tr>
+      <td nowrap class="disabled-text">All My Disclosure Reviews</td>
+      <td>
+        <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
+     	<portal:portalLink displayTitle="false" title="My Disclosure Reviews" 
+		      url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.coi.CoiDisclosureReviews&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" >
+          <img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle">
+        </portal:portalLink>
+      </td>
+      
+    </tr>
+    
     <tr>
       <td nowrap class="disabled-text">Submitted Disclosure</td>
       <td>
@@ -53,17 +78,7 @@
       </td>
       
     </tr>
-    <tr>
-      <td nowrap class="disabled-text">Non Project Event Disclosure</td>
-      <td>
-        <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
-     	<portal:portalLink displayTitle="false" title="Non project event disclosures" 
-		      url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.coi.CoiNonProjectEventDisclosure&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" >
-          <img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle">
-        </portal:portalLink>
-      </td>
-      
-    </tr>
+    
     
     <tr>
       <td nowrap class="disabled-text">Annual Event Disclosure</td>
