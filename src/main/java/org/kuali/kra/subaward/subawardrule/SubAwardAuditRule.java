@@ -28,38 +28,67 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
+/**
+ * This class processes audit rules (warnings) for the Report Information related
+ * data of the SubAwardDocument.
+ */
 public class SubAwardAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule{
     
-    private static final String SUBAWARD_AUDIT_ERRORS = "subawardAuditErrors";
-    private static final String SUBAWARD_AUDIT_WARNINGS = "subawardAuditWarnings";
+    private static final String CONTACTS_AUDIT_ERRORS = "contactsAuditErrors";
+    private List<AuditError> auditErrors;
     
+    
+    /**
+     * 
+     * Constructs a SubAwardAuditRule.java. Added so unit test would not
+     * need to call processRunAuditBusinessRules and therefore declare a document.
+     */
+    public SubAwardAuditRule() {
+        auditErrors = new ArrayList<AuditError>();
+    }
+    
+    /**
+     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
+     */
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
-        List<AuditError> auditErrors = new ArrayList<AuditError>(); 
-        SubAwardDocument subAwardDocument = (SubAwardDocument)document;
-        subAwardDocument.getSubAward().getSubAwardContactsList().size();
-        if(subAwardDocument.getSubAward().getSubAwardContactsList().size()<=0){
-            valid = false;
-            auditErrors.add(new AuditError(Constants.SUBAWARD_AUDIT_RULE_ERROR_KEY, 
-                    KeyConstants.ERROR_SUBAWARD_CONTACT, 
-                    Constants.MAPPING_SUBAWARD_PAGE + "." + Constants.MAPPING_SUBAWARD_CONTACT_PANEL
-                    ));
-        }
-       
-        reportAndCreateAuditCluster(auditErrors);            
-        
+        auditErrors = new ArrayList<AuditError>();
+
+        valid &= checkForAtLeastOneContact(document);
+
+        reportAndCreateAuditCluster(); 
+
         return valid;
+
     }
     
     /**
      * This method creates and adds the AuditCluster to the Global AuditErrorMap.
      */
     @SuppressWarnings("unchecked")
-    protected void reportAndCreateAuditCluster( List<AuditError> auditErrors ) {
+    protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_ERRORS, new AuditCluster(Constants.MAPPING_SUBAWARD_CONTACT_PANEL,
-                    auditErrors, Constants.AUDIT_ERRORS));
+            AuditCluster existingErrors = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(CONTACTS_AUDIT_ERRORS);
+            if (existingErrors == null) {
+                KNSGlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_ERRORS, new AuditCluster(Constants.SUBAWARD_CONTACTS_PANEL_NAME,
+                        auditErrors, Constants.AUDIT_ERRORS));
+            } else {
+                existingErrors.getAuditErrorList().addAll(auditErrors);
+            }
         }
     }
-
+    
+    protected boolean checkForAtLeastOneContact(Document document) {
+        SubAwardDocument subAwardDocument = (SubAwardDocument)document;
+        subAwardDocument.getSubAward().getSubAwardContactsList().size();
+        if(subAwardDocument.getSubAward().getSubAwardContactsList().size()<=0){
+            subAwardDocument.getSubAward().setDefaultOpen(false);
+            auditErrors.add(new AuditError(Constants.SUBAWARD_AUDIT_RULE_ERROR_KEY, KeyConstants.ERROR_SUBAWARD_CONTACT,                    
+                    Constants.MAPPING_SUBAWARD_PAGE + "." + Constants.SUBAWARD_CONTACTS_PANEL_ANCHOR));
+            return false;
+        } else {
+            subAwardDocument.getSubAward().setDefaultOpen(true);
+            return true;
+        }  
+    }
 }

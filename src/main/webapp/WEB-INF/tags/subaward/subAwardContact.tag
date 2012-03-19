@@ -24,7 +24,7 @@
 <c:set var="newSubAwardContact" value="${KualiForm.newSubAwardContact}" />
 
 
-<kul:tab tabTitle="Contacts"  transparentBackground="false" defaultOpen="true" tabErrorKey="newSubAwardContact.contactTypeCode*,newSubAwardContact.rolodex.fullName*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="Contacts"  transparentBackground="false" defaultOpen="${KualiForm.document.subAwardList[0].defaultOpen}" tabErrorKey="newSubAwardContact.contactTypeCode*,newSubAwardContact.rolodex.fullName*" auditCluster="contactsAuditErrors" tabAuditKey="newSubAwardContact.rolodex.fullName*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left"> Contacts </span>

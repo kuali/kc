@@ -797,8 +797,10 @@ public interface Constants {
     public static final String MAPPING_CLOSEOUT_PAGE="closeout";
     public static final String MAPPING_SUBAWARD_ACTION_PAGE="subAwardActions";
     public static final String SUBAWARD_SEQUENCE_SUBAWARD_CODE = "SUBAWARD_CODE_S";
-    public static final String SUBAWARD_AUDIT_RULE_ERROR_KEY = "document.subAwardAuditRule";
-    public static final String MAPPING_SUBAWARD_CONTACT_PANEL = "Contacts";
+    public static final String SUBAWARD_AUDIT_RULE_ERROR_KEY = "newSubAwardContact.rolodex.fullName";
+    public static final String MAPPING_SUBAWARD_CONTACT_PANEL = "Contacts"; 
+    public static final String SUBAWARD_CONTACTS_PANEL_NAME = "Contacts";
+    public static final String SUBAWARD_CONTACTS_PANEL_ANCHOR = "Contacts";
     // coi
     public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE";
     public static final String PARAMETER_COI_ATTACHMENT_DEFAULT_SORT = "coiAttachmentDefaultSort";
