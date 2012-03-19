@@ -46,21 +46,10 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeService {
     
-    private static final String AWARD_FIELD = "document.personMassChange.awardPersonMassChange.";
+    private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
     
     private static final String AWARD_ID = "awardId";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    private static final String INVESTIGATOR = "investigator";
-    private static final String KEY_STUDY_PERSON = "keyStudyPerson";
-    private static final String UNIT_CONTACT = "unitContact";
-    private static final String SPONSOR_CONTACT = "sponsorContact";
-    private static final String APPROVED_FOREIGN_TRAVEL = "approvedForeignTravel";
-    
-    private static final String AWARD_INVESTIGATOR_FIELD = AWARD_FIELD + INVESTIGATOR;
-    private static final String AWARD_KEY_STUDY_PERSON_FIELD = AWARD_FIELD + KEY_STUDY_PERSON;
-    private static final String AWARD_UNIT_CONTACT_FIELD = AWARD_FIELD + UNIT_CONTACT;
-    private static final String AWARD_SPONSOR_CONTACT_FIELD = AWARD_FIELD + SPONSOR_CONTACT;
-    private static final String AWARD_APPROVED_FOREIGN_TRAVEL_FIELD = AWARD_FIELD + APPROVED_FOREIGN_TRAVEL;
     
     private static final String AWARD = "award";
     
@@ -75,15 +64,20 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
         List<Award> awardChangeCandidates = new ArrayList<Award>();
         
         List<Award> awards = new ArrayList<Award>();
-        if (personMassChange.getAwardPersonMassChange().isInvestigator() || personMassChange.getAwardPersonMassChange().isKeyStudyPerson() 
-                || personMassChange.getAwardPersonMassChange().isSponsorContact() || personMassChange.getAwardPersonMassChange().isUnitContact() 
-                || personMassChange.getAwardPersonMassChange().isApprovedForeignTravel()) {
+        if (personMassChange.getAwardPersonMassChange().requiresChange()) {
             awards.addAll(getAwards(personMassChange));
         }
 
         for (Award award : awards) {
             if (isAwardChangeCandidate(personMassChange, award)) {
                 awardChangeCandidates.add(award);
+            }
+        }
+        
+        for (Award awardChangeCandidate : awardChangeCandidates) {
+            awardChangeCandidate.getAwardDocument().refreshPessimisticLocks();
+            if (!awardChangeCandidate.getAwardDocument().getPessimisticLocks().isEmpty()) {
+                reportSoftError(awardChangeCandidate);
             }
         }
         
@@ -240,25 +234,8 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
                 performAwardUnitContactPersonMassChange(personMassChange, awardChangeCandidate);
                 performAwardSponsorContactPersonMassChange(personMassChange, awardChangeCandidate);
                 performAwardApprovedForeignTravelPersonMassChange(personMassChange, awardChangeCandidate);
-            } else {
-                if (personMassChange.getAwardPersonMassChange().isInvestigator()) {
-                    reportWarning(AWARD_INVESTIGATOR_FIELD, awardChangeCandidate);
-                } else if (personMassChange.getAwardPersonMassChange().isKeyStudyPerson()) {
-                    reportWarning(AWARD_KEY_STUDY_PERSON_FIELD, awardChangeCandidate);
-                } else if (personMassChange.getAwardPersonMassChange().isUnitContact()) {
-                    reportWarning(AWARD_UNIT_CONTACT_FIELD, awardChangeCandidate);
-                } else if (personMassChange.getAwardPersonMassChange().isSponsorContact()) {
-                    reportWarning(AWARD_SPONSOR_CONTACT_FIELD, awardChangeCandidate);
-                } else if (personMassChange.getAwardPersonMassChange().isApprovedForeignTravel()) {
-                    reportWarning(AWARD_APPROVED_FOREIGN_TRAVEL_FIELD, awardChangeCandidate);
-                }
             }
         }
-    }
-    
-    private void reportWarning(String propertyName, Award award) {
-        String awardNumber = award.getAwardNumber();
-        errorReporter.reportWarning(propertyName, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, AWARD, awardNumber);
     }
     
     private void performAwardInvestigatorPersonMassChange(PersonMassChange personMassChange, Award award) {
@@ -345,6 +322,11 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
         String replaceeRolodexId = personMassChange.getReplaceeRolodexId();
         return replaceeRolodexId != null && StringUtils.equals(replaceeRolodexId, String.valueOf(rolodexId));
+    }
+    
+    private void reportSoftError(Award award) {
+        String awardNumber = award.getAwardNumber();
+        errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, AWARD, awardNumber);
     }
     
     public BusinessObjectService getBusinessObjectService() {

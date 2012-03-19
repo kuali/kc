@@ -44,8 +44,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class InstitutionalProposalPersonMassChangeServiceImpl implements InstitutionalProposalPersonMassChangeService {
     
-    protected static final String IP_BASE_FIELD = "document.personMassChange.institutionalProposalPersonMassChange.";
-    protected static final String INVESTIGATOR_FIELD = IP_BASE_FIELD + "investigator";
+    private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
+
     protected static final String PERSON_ID = "personId";
     protected static final String ROLODEX_ID = "rolodexId";
     protected static final String IP_REVIEWER = "ipReviewer";
@@ -101,6 +101,14 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
                 }
             }
         }
+        
+        for (InstitutionalProposal proposalChangeCandidate : proposalChangeCandidates) {
+            proposalChangeCandidate.getInstitutionalProposalDocument().refreshPessimisticLocks();
+            if (!proposalChangeCandidate.getInstitutionalProposalDocument().getPessimisticLocks().isEmpty()) {
+                reportSoftError(proposalChangeCandidate);
+            }
+        }
+        
         return new ArrayList<InstitutionalProposal>(proposalChangeCandidates);
     }
 
@@ -124,11 +132,6 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
                     if (personMassChange.getInstitutionalProposalPersonMassChange().isIpReviewer()) {
                         replaceIpReviewerWithPerson(personMassChange, institutionalProposal, replacerPerson);
                     }
-                } else {
-                    if (personMassChange.getInstitutionalProposalPersonMassChange().requiresChange()) {
-                        errorReporter.reportWarning(INVESTIGATOR_FIELD, 
-                                KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, INSTITUTIONAL_PROPOSAL, institutionalProposal.getProposalNumber());
-                    }
                 }
             }
         } else {
@@ -149,9 +152,6 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
                     if (personMassChange.getInstitutionalProposalPersonMassChange().isMailingInformation()) {
                         replaceMailingInfoWithRolodex(personMassChange, institutionalProposal, replacerRolodex);
                     }
-                } else {
-                    errorReporter.reportWarning(INVESTIGATOR_FIELD, 
-                            KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, INSTITUTIONAL_PROPOSAL, institutionalProposal.getProposalNumber());
                 }
             }
         }
@@ -337,6 +337,11 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
             institutionalProposal.getIntellectualPropertyReview().setIpReviewer(replacerPerson.getPersonId());
             boService.save(institutionalProposal);
         }
+    }
+    
+    private void reportSoftError(InstitutionalProposal institutionalProposal) {
+        String proposalNumber = institutionalProposal.getProposalNumber();
+        errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, INSTITUTIONAL_PROPOSAL, proposalNumber);
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

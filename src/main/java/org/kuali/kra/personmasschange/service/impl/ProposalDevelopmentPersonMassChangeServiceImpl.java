@@ -41,15 +41,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalDevelopmentPersonMassChangeService {
 
-    private static final String PROPOSAL_DEVELOPMENT_FIELD = "document.personMassChange.proposalDevelopmentPersonMassChange.";
-    
-    private static final String INVESTIGATOR = "investigator";
-    private static final String MAILING_INFORMATION = "mailingInformation";
-    private static final String KEY_STUDY_PERSON = "keyStudyPerson";
-    
-    private static final String PROPOSAL_DEVELOPMENT_INVESTIGATOR_FIELD = PROPOSAL_DEVELOPMENT_FIELD + INVESTIGATOR;
-    private static final String PROPOSAL_DEVELOPMENT_MAILING_INFORMATION_FIELD = PROPOSAL_DEVELOPMENT_FIELD + MAILING_INFORMATION;
-    private static final String PROPOSAL_DEVELOPMENT_KEY_STUDY_PERSON_FIELD = PROPOSAL_DEVELOPMENT_FIELD + KEY_STUDY_PERSON;
+    private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
     
     private static final String DEVELOPMENT_PROPOSAL = "development proposal";
     
@@ -63,15 +55,20 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
         List<DevelopmentProposal> proposalDevelopmentChangeCandidates = new ArrayList<DevelopmentProposal>();
         
         List<DevelopmentProposal> developmentProposals = new ArrayList<DevelopmentProposal>();
-        if (personMassChange.getProposalDevelopmentPersonMassChange().isInvestigator() 
-                || personMassChange.getProposalDevelopmentPersonMassChange().isMailingInformation() 
-                || personMassChange.getProposalDevelopmentPersonMassChange().isKeyStudyPerson()) {
+        if (personMassChange.getProposalDevelopmentPersonMassChange().requiresChange()) {
             developmentProposals.addAll(getDevelopmentProposals());
         }
 
         for (DevelopmentProposal developmentProposal : developmentProposals) {
             if (isProposalDevelopmentChangeCandidate(personMassChange, developmentProposal)) {
                 proposalDevelopmentChangeCandidates.add(developmentProposal);
+            }
+        }
+        
+        for (DevelopmentProposal proposalDevelopmentChangeCandidate : proposalDevelopmentChangeCandidates) {
+            proposalDevelopmentChangeCandidate.getProposalDocument().refreshPessimisticLocks();
+            if (!proposalDevelopmentChangeCandidate.getProposalDocument().getPessimisticLocks().isEmpty()) {
+                reportSoftError(proposalDevelopmentChangeCandidate);
             }
         }
         
@@ -151,14 +148,6 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
                 performProposalInvestigatorPersonMassChange(personMassChange, proposalDevelopmentChangeCandidate);
                 performProposalMailingInfoPersonMassChange(personMassChange, proposalDevelopmentChangeCandidate);
                 performProposalKeyStudyPersonPersonMassChange(personMassChange, proposalDevelopmentChangeCandidate);
-            } else {
-                if (personMassChange.getProposalDevelopmentPersonMassChange().isInvestigator()) {
-                    reportWarning(PROPOSAL_DEVELOPMENT_INVESTIGATOR_FIELD, proposalDevelopmentChangeCandidate);
-                } else if (personMassChange.getProposalDevelopmentPersonMassChange().isMailingInformation()) {
-                    reportWarning(PROPOSAL_DEVELOPMENT_MAILING_INFORMATION_FIELD, proposalDevelopmentChangeCandidate);
-                } else if (personMassChange.getProposalDevelopmentPersonMassChange().isKeyStudyPerson()) {
-                    reportWarning(PROPOSAL_DEVELOPMENT_KEY_STUDY_PERSON_FIELD, proposalDevelopmentChangeCandidate);
-                }
             }
         }        
     }
@@ -219,11 +208,6 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
         }
     }
     
-    private void reportWarning(String propertyName, DevelopmentProposal developmentProposalChangeCandidate) {
-        String proposalNumber = developmentProposalChangeCandidate.getProposalNumber();
-        errorReporter.reportWarning(propertyName, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, DEVELOPMENT_PROPOSAL, proposalNumber);
-    }
-    
     private List<Budget> getBudgets(DevelopmentProposal developmentProposal) {
         List<Budget> budgets = new ArrayList<Budget>();
         
@@ -244,6 +228,11 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
     private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
         String replaceeRolodexId = personMassChange.getReplaceeRolodexId();
         return replaceeRolodexId != null && StringUtils.equals(replaceeRolodexId, String.valueOf(rolodexId));
+    }
+    
+    private void reportSoftError(DevelopmentProposal developmentProposalChangeCandidate) {
+        String proposalNumber = developmentProposalChangeCandidate.getProposalNumber();
+        errorReporter.reportWarning(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, DEVELOPMENT_PROPOSAL, proposalNumber);
     }
     
     public BusinessObjectService getBusinessObjectService() {

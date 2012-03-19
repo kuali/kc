@@ -17,6 +17,9 @@ package org.kuali.kra.personmasschange.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * Defines the fields for a Negotiation Person Mass Change.
+ */
 public class NegotiationPersonMassChange extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1050126059124935240L;
@@ -59,5 +62,13 @@ public class NegotiationPersonMassChange extends KraPersistableBusinessObjectBas
         this.personMassChange = personMassChange;
     }
 
-
+    /**
+     * Determines whether this Person Mass Change is required.
+     * 
+     * @return true if any of the fields are true, false otherwise
+     */
+    public boolean requiresChange() {
+        return negotiator;
+    }
+    
 }
