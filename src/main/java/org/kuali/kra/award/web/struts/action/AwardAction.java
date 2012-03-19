@@ -38,6 +38,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardLockService;
@@ -549,14 +550,16 @@ public class AwardAction extends BudgetParentActionBase {
 
     /**
      * Create the original set of Award Users for a new Award Document.
-     * The creator the award is assigned to the AWARD_MODIFIER role.
+     * The creator the award is assigned to the AWARD_MODIFIER role, if the creator isn't already an AWARD_MODIFIER.
      *
      * @param doc
      */
     protected void createInitialAwardUsers(Award award) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        kraAuthService.addRole(userId, AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), award); 
+        if (!kraAuthService.hasRole(userId, KraAuthorizationConstants.KC_AWARD_NAMESPACE, AwardRoleConstants.AWARD_MODIFIER.getAwardRole())) {
+            kraAuthService.addRole(userId, AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), award); 
+        }
     }
 
     /**
