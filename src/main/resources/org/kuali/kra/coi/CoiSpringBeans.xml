@@ -107,7 +107,6 @@
 	</bean>
 	
     <bean id="coiDisclosureReviewsLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiDisclosureReviewsLookupableHelper" parent="lookupableHelperService" scope="prototype">
-        <property name="kcPersonService" ref="kcPersonService" />
     </bean>
     
      <bean id="coiDisclosureService" class="org.kuali.kra.coi.disclosure.CoiDisclosureServiceImpl">
