@@ -299,6 +299,7 @@ public interface Constants {
     public static final String S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS = "s2sBudgetPeriodTypeSummerMonths";
     public static final String S2SBUDGET_PERIOD_TYPE_CYCLE_MONTHS = "s2sBudgetPeriodTypeCycleMonths";
     public static final String S2SBUDGET_TARGET_CATEGORY_CODE_EQUIPMENT_COST = "s2sBudgetTargetCategoryCodeEquipmentCost";
+    public static final String S2SBUDGET_BUDGET_CATEGORY_CODE_PERSONNEL = "s2sBudgetCategoryCodePersonnel";
     
     // custom attribute
     public static final String CUSTOM_ATTRIBUTE_ID = "customAttributeId";
