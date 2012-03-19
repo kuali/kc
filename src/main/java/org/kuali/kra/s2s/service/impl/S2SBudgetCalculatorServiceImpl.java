@@ -1913,7 +1913,8 @@ public class S2SBudgetCalculatorServiceImpl implements
                     }
                     if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
                         if(lineItem.getBudgetCategory()
-                                .getBudgetCategoryCode().equals(ONE_STRING)){
+                                .getBudgetCategoryCode().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                        Constants.S2SBUDGET_BUDGET_CATEGORY_CODE_PERSONNEL))){
                                     totalSal = totalSal.add(personDetails.getSalaryRequested());
                                 }
                     }else{
@@ -1922,7 +1923,8 @@ public class S2SBudgetCalculatorServiceImpl implements
                     if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
                         if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
                             if(lineItem.getBudgetCategory()
-                                    .getBudgetCategoryCode().equals(ONE_STRING)){
+                                    .getBudgetCategoryCode().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                            Constants.S2SBUDGET_BUDGET_CATEGORY_CODE_PERSONNEL))){
                         totalSalCostSharing = totalSalCostSharing.add(personDetails.getCostSharingAmount());
                             }
                         }else{
@@ -1949,7 +1951,8 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                         Constants.S2SBUDGET_RATE_TYPE_ADMINISTRATIVE_SALARIES)))) {
                             if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
                                 if(lineItem.getBudgetCategory()
-                                        .getBudgetCategoryCode().equals(ONE_STRING)){
+                                        .getBudgetCategoryCode().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                                Constants.S2SBUDGET_BUDGET_CATEGORY_CODE_PERSONNEL))){
                                     fringe = fringe.add(personCalculatedAmt.getCalculatedCost());
                                 }
                             }
@@ -1959,7 +1962,8 @@ public class S2SBudgetCalculatorServiceImpl implements
                             if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
                                 if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
                                     if(lineItem.getBudgetCategory()
-                                            .getBudgetCategoryCode().equals(ONE_STRING)){
+                                            .getBudgetCategoryCode().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                                    Constants.S2SBUDGET_BUDGET_CATEGORY_CODE_PERSONNEL))){
                                         fringeCostSharing = fringeCostSharing.add(personCalculatedAmt.getCalculatedCostSharing());
                                     }
                                 }
