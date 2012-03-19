@@ -49,7 +49,7 @@ public class SubAwardDocumentRuleTest extends KcUnitTestBase {
         subAward = new SubAward();
         subAwardDocumentRule = new SubAwardDocumentRule();        
         
-        subAward.setOrganizationId("1");
+        subAward.setOrganizationId("000140");
         subAward.setStatusCode(1);
         subAward.setSubAwardTypeCode(1);
         subAward.setRequisitionerId("1");
@@ -91,7 +91,11 @@ public class SubAwardDocumentRuleTest extends KcUnitTestBase {
         subAwardFundingSource = null;
     }
     
-   
+    @Test
+    public void testprocessAddSubAwardBusinessRules() throws Exception {
+        
+        Assert.assertTrue(subAwardDocumentRule.processAddSubAwardBusinessRules(subAward));
+    }
     
     @Test
     public void testProcessAddSubAwardAmountInfoBusinessRules() throws Exception {
