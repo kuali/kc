@@ -991,7 +991,7 @@ public class ProtocolPerson extends ProtocolAssociate implements PersonEditableI
     }
 
     public String getCountryCode() {
-        return countryCode;
+        return countryCode != null ? countryCode.trim() : null;
     }
 
     public void setCountryCode(String countryCode) {
