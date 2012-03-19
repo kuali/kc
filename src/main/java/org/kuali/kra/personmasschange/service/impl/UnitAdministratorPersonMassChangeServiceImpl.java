@@ -39,13 +39,7 @@ public class UnitAdministratorPersonMassChangeServiceImpl implements UnitAdminis
         Set<UnitAdministrator> unitAdministratorChangeCandidates = new HashSet<UnitAdministrator>();
         
         List<UnitAdministrator> unitAdministrators = new ArrayList<UnitAdministrator>();
-        if (personMassChange.getUnitAdministratorPersonMassChange().isAdministrativeOfficer() 
-                || personMassChange.getUnitAdministratorPersonMassChange().isOspAdministrator() 
-                || personMassChange.getUnitAdministratorPersonMassChange().isUnitHead() 
-                || personMassChange.getUnitAdministratorPersonMassChange().isDeanVP()
-                || personMassChange.getUnitAdministratorPersonMassChange().isOtherIndividualToNotify() 
-                || personMassChange.getUnitAdministratorPersonMassChange().isAdministrativeContact()
-                || personMassChange.getUnitAdministratorPersonMassChange().isFinancialContact()) {
+        if (personMassChange.getUnitAdministratorPersonMassChange().requiresChange()) {
             unitAdministrators.addAll(getBusinessObjectService().findAll(UnitAdministrator.class));
         }
 

@@ -33,11 +33,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class NegotiationPersonMassChangeServiceImpl implements NegotiationPersonMassChangeService {
     
-    private static final String NEGOTIATION_FIELD = "document.personMassChange.negotiationPersonMassChange.";
-    
-    private static final String NEGOTIATIOR = "negotiator";
-    
-    private static final String NEGOTIATION_NEGOTIATOR_FIELD = NEGOTIATION_FIELD + NEGOTIATIOR;
+    private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
     
     private static final String NEGOTIATION = "negotiation";
     
@@ -51,13 +47,20 @@ public class NegotiationPersonMassChangeServiceImpl implements NegotiationPerson
         List<Negotiation> negotiationChangeCandidates = new ArrayList<Negotiation>();
         
         List<Negotiation> negotiations = new ArrayList<Negotiation>();
-        if (personMassChange.getNegotiationPersonMassChange().isNegotiator()) {
+        if (personMassChange.getNegotiationPersonMassChange().requiresChange()) {
             negotiations.addAll(getNegotiations(personMassChange));
         }
 
         for (Negotiation negotiation : negotiations) {
             if (isNegotiationChangeCandidate(personMassChange, negotiation)) {
                 negotiationChangeCandidates.add(negotiation);
+            }
+        }
+        
+        for (Negotiation negotiationChangeCandidate : negotiationChangeCandidates) {
+            negotiationChangeCandidate.getDocument().refreshPessimisticLocks();
+            if (!negotiationChangeCandidate.getDocument().getPessimisticLocks().isEmpty()) {
+                reportSoftError(negotiationChangeCandidate);
             }
         }
         
@@ -85,13 +88,9 @@ public class NegotiationPersonMassChangeServiceImpl implements NegotiationPerson
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<Negotiation> negotiationChangeCandidates) {
         for (Negotiation negotiationChangeCandidate : negotiationChangeCandidates) {
-            negotiationChangeCandidate.getNegotiationDocument().refreshPessimisticLocks();
-            if (negotiationChangeCandidate.getNegotiationDocument().getPessimisticLocks().isEmpty()) {
+            negotiationChangeCandidate.getDocument().refreshPessimisticLocks();
+            if (negotiationChangeCandidate.getDocument().getPessimisticLocks().isEmpty()) {
                 performNegotiationNegotiatorPersonMassChange(personMassChange, negotiationChangeCandidate);
-            } else {
-                if (personMassChange.getNegotiationPersonMassChange().isNegotiator()) {
-                    reportWarning(NEGOTIATION_NEGOTIATOR_FIELD, negotiationChangeCandidate);
-                }
             }
         }
     }
@@ -106,14 +105,14 @@ public class NegotiationPersonMassChangeServiceImpl implements NegotiationPerson
         }
     }
     
-    private void reportWarning(String propertyName, Negotiation negotiation) {
-        Long negotiationId = negotiation.getNegotiationId();
-        errorReporter.reportWarning(propertyName, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, NEGOTIATION, String.valueOf(negotiationId));
-    }
-    
     private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
         String replaceePersonId = personMassChange.getReplaceePersonId();
         return replaceePersonId != null && StringUtils.equals(replaceePersonId, personId);
+    }
+    
+    private void reportSoftError(Negotiation negotiation) {
+        Long negotiationId = negotiation.getNegotiationId();
+        errorReporter.reportWarning(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, NEGOTIATION, String.valueOf(negotiationId));
     }
     
     public BusinessObjectService getBusinessObjectService() {
