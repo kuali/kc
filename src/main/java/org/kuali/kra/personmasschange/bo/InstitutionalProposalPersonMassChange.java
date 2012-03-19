@@ -17,6 +17,9 @@ package org.kuali.kra.personmasschange.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * Defines the fields for an Institutional Proposal Person Mass Change.
+ */
 public class InstitutionalProposalPersonMassChange extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -8946117068743211033L;
@@ -95,8 +98,13 @@ public class InstitutionalProposalPersonMassChange extends KraPersistableBusines
         this.personMassChange = personMassChange;
     }
 
+    /**
+     * Determines whether this Person Mass Change is required.
+     * 
+     * @return true if any of the fields are true, false otherwise
+     */
     public boolean requiresChange() {
-        return this.isInvestigator() || this.isKeyStudyPerson() || this.isIpReviewer() || this.isMailingInformation() || this.isUnitContact();
+        return investigator || keyStudyPerson || mailingInformation || unitContact || ipReviewer;
     }
 
 }

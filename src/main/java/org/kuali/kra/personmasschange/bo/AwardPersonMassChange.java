@@ -17,6 +17,9 @@ package org.kuali.kra.personmasschange.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * Defines the fields for an Award Person Mass Change.
+ */
 public class AwardPersonMassChange extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 7391485345162146878L;
@@ -93,6 +96,15 @@ public class AwardPersonMassChange extends KraPersistableBusinessObjectBase {
 
     public void setPersonMassChange(PersonMassChange personMassChange) {
         this.personMassChange = personMassChange;
+    }
+    
+    /**
+     * Determines whether this Person Mass Change is required.
+     * 
+     * @return true if any of the fields are true, false otherwise
+     */
+    public boolean requiresChange() {
+        return investigator || keyStudyPerson || sponsorContact || unitContact || approvedForeignTravel;
     }
 
 }

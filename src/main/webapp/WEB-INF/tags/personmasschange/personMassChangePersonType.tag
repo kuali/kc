@@ -15,7 +15,7 @@
 <c:set var="readOnly" value="${not KualiForm.editingMode['modify']}"/>
 
 <kul:tab tabTitle="Person Type" defaultOpen="true" innerTabErrorKey="document.personMassChange*">
-	<div class="tab-container" align="center">
+    <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Modules</span>
         </h3>

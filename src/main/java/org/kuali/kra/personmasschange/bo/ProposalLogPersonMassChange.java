@@ -17,6 +17,9 @@ package org.kuali.kra.personmasschange.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * Defines the fields for a Proposal Log Person Mass Change.
+ */
 public class ProposalLogPersonMassChange extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 3351381999001017550L;
@@ -59,5 +62,13 @@ public class ProposalLogPersonMassChange extends KraPersistableBusinessObjectBas
         this.personMassChange = personMassChange;
     }
 
+    /**
+     * Determines whether this Person Mass Change is required.
+     * 
+     * @return true if any of the fields are true, false otherwise
+     */
+    public boolean requiresChange() {
+        return principalInvestigator;
+    }
 
 }

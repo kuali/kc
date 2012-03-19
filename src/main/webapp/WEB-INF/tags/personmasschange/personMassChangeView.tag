@@ -15,7 +15,8 @@
 <c:set var="readOnly" value="${not KualiForm.editingMode['modify']}"/>
 
 <kul:tabTop tabTitle="Replacing ${KualiForm.document.personMassChange.replaceeFullName} with ${KualiForm.document.personMassChange.replacerFullName}" defaultOpen="true">
-	<div class="tab-container" align="center">
+    <div class="tab-container" align="center">
+        <kra:softError softErrorKey="personMassChangeDocumentLocked" />
 	    <kul:innerTab parentTab="${parentTab}" tabTitle="Award ${tabTitle}" defaultOpen="false" >
 	        <div class="tab-container" align="center">
 	            <table cellpadding="4" cellspacing="0" summary="">

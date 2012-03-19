@@ -48,19 +48,10 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassChangeService {
 
-    private static final String PROTOCOL_FIELD = "document.personMassChange.protocolPersonMassChange.";
+    private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
 
     private static final String PROTOCOL_ID = "protocolId";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    private static final String INVESTIGATOR = "investigator";
-    private static final String KEY_STUDY_PERSON = "keyStudyPerson";
-    private static final String CORRESPONDENTS = "correspondents";
-    private static final String REVIEWER = "reviewer";
-    
-    private static final String PROTOCOL_INVESTIGATOR_FIELD = PROTOCOL_FIELD + INVESTIGATOR;
-    private static final String PROTOCOL_KEY_STUDY_PERSON_FIELD = PROTOCOL_FIELD + KEY_STUDY_PERSON;
-    private static final String PROTOCOL_CORRESPONDENTS_FIELD = PROTOCOL_FIELD + CORRESPONDENTS;
-    private static final String PROTOCOL_REVIEWER_FIELD = PROTOCOL_FIELD + REVIEWER;
     
     private static final String PROTOCOL = "protocol";
     
@@ -77,14 +68,20 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
         List<Protocol> protocolChangeCandidates = new ArrayList<Protocol>();
         
         List<Protocol> protocols = new ArrayList<Protocol>();
-        if (personMassChange.getProtocolPersonMassChange().isInvestigator() || personMassChange.getProtocolPersonMassChange().isKeyStudyPerson() 
-                || personMassChange.getProtocolPersonMassChange().isCorrespondents() || personMassChange.getProtocolPersonMassChange().isReviewer()) {
+        if (personMassChange.getProtocolPersonMassChange().requiresChange()) {
             protocols.addAll(getProtocols(personMassChange));
         }
 
         for (Protocol protocol : protocols) {
             if (isProtocolChangeCandidate(personMassChange, protocol)) {
                 protocolChangeCandidates.add(protocol);
+            }
+        }
+        
+        for (Protocol protocolChangeCandidate : protocolChangeCandidates) {
+            protocolChangeCandidate.getProtocolDocument().refreshPessimisticLocks();
+            if (!protocolChangeCandidate.getProtocolDocument().getPessimisticLocks().isEmpty()) {
+                reportSoftError(protocolChangeCandidate);
             }
         }
         
@@ -209,23 +206,8 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
                 performProtocolKeyStudyPersonPersonMassChange(personMassChange, protocolChangeCandidate);
                 performProtocolCorrespondentsPersonMassChange(personMassChange, protocolChangeCandidate);
                 performProtocolReviewerPersonMassChange(personMassChange, protocolChangeCandidate);
-            } else {
-                if (personMassChange.getProtocolPersonMassChange().isInvestigator()) {
-                    reportWarning(PROTOCOL_INVESTIGATOR_FIELD, protocolChangeCandidate);
-                } else if (personMassChange.getProtocolPersonMassChange().isKeyStudyPerson()) {
-                    reportWarning(PROTOCOL_KEY_STUDY_PERSON_FIELD, protocolChangeCandidate);
-                } else if (personMassChange.getProtocolPersonMassChange().isCorrespondents()) {
-                    reportWarning(PROTOCOL_CORRESPONDENTS_FIELD, protocolChangeCandidate);
-                } else if (personMassChange.getProtocolPersonMassChange().isReviewer()) {
-                    reportWarning(PROTOCOL_REVIEWER_FIELD, protocolChangeCandidate);
-                }
             }
         }
-    }
-    
-    private void reportWarning(String propertyName, Protocol protocol) {
-        String protocolNumber = protocol.getProtocolNumber();
-        errorReporter.reportWarning(propertyName, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, PROTOCOL, protocolNumber);
     }
     
     private void performProtocolInvestigatorPersonMassChange(PersonMassChange personMassChange, Protocol protocol) {
@@ -304,6 +286,11 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
     private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
         String replaceeRolodexId = personMassChange.getReplaceeRolodexId();
         return replaceeRolodexId != null && StringUtils.equals(replaceeRolodexId, String.valueOf(rolodexId));
+    }
+    
+    private void reportSoftError(Protocol protocol) {
+        String protocolNumber = protocol.getProtocolNumber();
+        errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, PROTOCOL, protocolNumber);
     }
     
     public BusinessObjectService getBusinessObjectService() {
