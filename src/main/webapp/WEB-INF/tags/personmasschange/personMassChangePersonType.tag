@@ -185,21 +185,21 @@
 	        <div class="tab-container" align="center">
 	            <table cellpadding="4" cellspacing="0" summary="">
 	                <tr>
-	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${subawardPersonMassChangeAttributes.contactPerson}" /></div></th>
-	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.subawardPersonMassChange.contactPerson" 
-	                                                                    attributeEntry="${subawardPersonMassChangeAttributes.contactPerson}" readOnly="false" /></td>
-	                </tr>
-	                <tr>
 	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${subawardPersonMassChangeAttributes.requisitioner}" /></div></th>
 	                    <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.subawardPersonMassChange.requisitioner" 
 	                                                                    attributeEntry="${subawardPersonMassChangeAttributes.requisitioner}" readOnly="false" /></td>
 	                </tr>
 	                <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${subawardPersonMassChangeAttributes.contact}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.subawardPersonMassChange.contact" 
+                                                                        attributeEntry="${subawardPersonMassChangeAttributes.contact}" readOnly="false" /></td>
+                    </tr>
+	                <tr>
                         <td colspan="2"><div align="center">
                             <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
-                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.subawardPersonMassChange', 'contactPerson', 'requisitioner')" />
+                                        onclick="selectAllPersonMassChangeCategory('document.personMassChange.subawardPersonMassChange', 'requisitioner', 'contact')" />
                             <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif' alt="Select None" styleClass="tinybutton" 
-                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.subawardPersonMassChange', 'contactPerson', 'requisitioner')"/>
+                                        onclick="unselectAllPersonMassChangeCategory('document.personMassChange.subawardPersonMassChange', 'requisitioner', 'contact')"/>
                         </div></td>
                     </tr>
 	            </table>
