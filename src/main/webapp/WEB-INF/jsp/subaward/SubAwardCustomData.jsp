@@ -33,7 +33,14 @@
   	
   	<div align="right"><kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardCustomDataHelpUrl" altText="help"/></div>
 	
-	<kra-sub:subAwardCustomDataTab name="${KualiForm.actionName}" />
-	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
+	<kra-sub:subAwardCustomDataTab name="${KualiForm.actionName}" />	
+	<c:choose>
+	<c:when test="${not KualiForm.editingMode['viewOnly']}">
+		<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
+	</c:when>
+	<c:otherwise>
+		<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" viewOnly= "true" suppressCancelButton="true" />
+	</c:otherwise>
+    </c:choose>
 
 </kul:documentPage>

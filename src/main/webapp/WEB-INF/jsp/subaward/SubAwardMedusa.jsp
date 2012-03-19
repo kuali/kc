@@ -32,7 +32,14 @@
 
 </kul:tabTop>
 <kul:panelFooter />
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
+<c:choose>
+	<c:when test="${not KualiForm.editingMode['viewOnly']}">
+		<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
+	</c:when>
+	<c:otherwise>
+		<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" viewOnly= "true" suppressCancelButton="true" />
+	</c:otherwise>
+</c:choose>
 
 	<script type="text/javascript" src="scripts/medusaView.js"></script>	
 	
