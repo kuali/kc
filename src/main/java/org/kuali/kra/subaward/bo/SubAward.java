@@ -129,6 +129,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     private transient String lastUpdate;
     private String awardNumber;
     private transient boolean editSubAward = false;
+    private transient boolean defaultOpen = true;
     
     public String getSubAwardSequenceStatus() {
         return subAwardSequenceStatus;
@@ -859,5 +860,13 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
         map.put(identifierField, identifierValue);
         return map;
     } 
+
+    public boolean isDefaultOpen() {
+        return defaultOpen;
+    }
+
+    public void setDefaultOpen(boolean defaultOpen) {
+        this.defaultOpen = defaultOpen;
+    }
 
 }

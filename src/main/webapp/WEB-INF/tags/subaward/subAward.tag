@@ -21,7 +21,7 @@
 <script language="javascript" src="dwr/interface/OrganizationService.js"></script>
 <script type='text/javascript' src='dwr/interface/RolodexService.js'></script>
 
-<kul:tab tabTitle="SubAward" defaultOpen="true" tabErrorKey="document.subAwardList[0].statusCode*,document.subAwardList[0].requisitionerUserName*,document.subAwardList[0].siteInvestigatorId*,document.subAwardList[0].purchaseOrderNum*,document.subAwardList[0].organizationId*,document.subAwardList[0].subAwardTypeCode*,document.subAwardList[0].title*,document.subAwardList[0].startDate*,document.subAwardList[0].endDate*,document.subAwardList[0].accountNumber*,document.subAwardList[0].vendorNumber*,document.subAwardList[0].requisitionerUnit*,document.subAwardList[0].archiveLocation*,document.subAwardList[0].closeoutDate*,document.subAwardList[0].comments*"
+<kul:tab tabTitle="SubAward" defaultOpen="${KualiForm.document.subAwardList[0].defaultOpen}" tabErrorKey="document.subAwardList[0].statusCode*,document.subAwardList[0].requisitionerUserName*,document.subAwardList[0].siteInvestigatorId*,document.subAwardList[0].purchaseOrderNum*,document.subAwardList[0].organizationId*,document.subAwardList[0].subAwardTypeCode*,document.subAwardList[0].title*,document.subAwardList[0].startDate*,document.subAwardList[0].endDate*,document.subAwardList[0].accountNumber*,document.subAwardList[0].vendorNumber*,document.subAwardList[0].requisitionerUnit*,document.subAwardList[0].archiveLocation*,document.subAwardList[0].closeoutDate*,document.subAwardList[0].comments*"
  auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
