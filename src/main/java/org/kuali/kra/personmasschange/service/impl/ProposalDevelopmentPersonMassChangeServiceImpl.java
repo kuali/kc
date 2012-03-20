@@ -16,15 +16,10 @@
 package org.kuali.kra.personmasschange.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.ProposalDevelopmentPersonMassChangeService;
@@ -38,6 +33,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Defines the service for performing a Person Mass Change on Proposal Developments.
+ * 
+ * Person roles that might be replaced are: Investigator, Mailing Information, Key Study Person.
  */
 public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalDevelopmentPersonMassChangeService {
 
@@ -82,61 +79,54 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
     private boolean isProposalDevelopmentChangeCandidate(PersonMassChange personMassChange, DevelopmentProposal developmentProposal) {
         boolean isProposalDevelopmentChangeCandidate = false;
         
+        List<ProposalPerson> persons = developmentProposal.getProposalPersons();
         Integer mailingInformationId = developmentProposal.getMailingAddressId();
-        
-        List<ProposalPerson> proposalPersons = developmentProposal.getProposalPersons();
         
         String[] investigatorRoles = { ProposalPersonRole.PRINCIPAL_INVESTIGATOR, ProposalPersonRole.CO_INVESTIGATOR };
         String[] keyStudyPersonRoles = { ProposalPersonRole.KEY_PERSON };
         
-        List<BudgetPerson> proposalBudgetPersons = new ArrayList<BudgetPerson>();
-        for (Budget budget : getBudgets(developmentProposal)) {
-            proposalBudgetPersons.addAll(budget.getBudgetPersons());
-        }
-        
         if (personMassChange.getProposalDevelopmentPersonMassChange().isInvestigator()) {
-            isProposalDevelopmentChangeCandidate |= isProposalPersonChangeCandidate(personMassChange, proposalPersons, investigatorRoles);
+            isProposalDevelopmentChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, investigatorRoles);
         }
         if (personMassChange.getProposalDevelopmentPersonMassChange().isMailingInformation()) {
-            isProposalDevelopmentChangeCandidate |= isProposalMailingInformationChangeCandidate(personMassChange, mailingInformationId);
+            isProposalDevelopmentChangeCandidate |= isMailingInformationChangeCandidate(personMassChange, mailingInformationId);
         }
         if (personMassChange.getProposalDevelopmentPersonMassChange().isKeyStudyPerson()) {
-            isProposalDevelopmentChangeCandidate |= isProposalPersonChangeCandidate(personMassChange, proposalPersons, keyStudyPersonRoles);
+            isProposalDevelopmentChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, keyStudyPersonRoles);
         }
         
         return isProposalDevelopmentChangeCandidate;
     }
     
-    private boolean isProposalPersonChangeCandidate(PersonMassChange personMassChange, List<ProposalPerson> proposalPersons, String... personRoles) {
-        boolean isProposalPersonChangeCandidate = false;
+    private boolean isPersonChangeCandidate(PersonMassChange personMassChange, List<ProposalPerson> persons, String... personRoles) {
+        boolean isPersonChangeCandidate = false;
         
-        for (ProposalPerson proposalPerson : proposalPersons) {
-            if (isProposalPersonInRole(proposalPerson, personRoles)) {
-                if (isPersonIdMassChange(personMassChange, proposalPerson.getPersonId()) 
-                        || isRolodexIdMassChange(personMassChange, proposalPerson.getRolodexId())) {
-                    isProposalPersonChangeCandidate = true;
+        for (ProposalPerson person : persons) {
+            if (isPersonInRole(person, personRoles)) {
+                if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
+                    isPersonChangeCandidate = true;
                     break;
                 }
             }
         }
         
-        return isProposalPersonChangeCandidate;
+        return isPersonChangeCandidate;
     }
     
-    private boolean isProposalPersonInRole(ProposalPerson proposalPerson, String... personRoles) {
-        boolean isProposalPersonInRole = false;
+    private boolean isPersonInRole(ProposalPerson proposalPerson, String... personRoles) {
+        boolean isPersonInRole = false;
         
         for (String personRole : personRoles) {
             if (StringUtils.equals(proposalPerson.getProposalPersonRoleId(), personRole)) {
-                isProposalPersonInRole = true;
+                isPersonInRole = true;
                 break;
             }
         }
         
-        return isProposalPersonInRole;
+        return isPersonInRole;
     }
     
-    private boolean isProposalMailingInformationChangeCandidate(PersonMassChange personMassChange, Integer mailingInformationId) {
+    private boolean isMailingInformationChangeCandidate(PersonMassChange personMassChange, Integer mailingInformationId) {
         return isRolodexIdMassChange(personMassChange, mailingInformationId);
     }
 
@@ -155,7 +145,7 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
     private void performProposalInvestigatorPersonMassChange(PersonMassChange personMassChange, DevelopmentProposal developmentProposal) {
         if (personMassChange.getProposalDevelopmentPersonMassChange().isInvestigator()) {
             String[] personRoles = { ProposalPersonRole.PRINCIPAL_INVESTIGATOR, ProposalPersonRole.CO_INVESTIGATOR };
-            performProposalPersonPersonMassChange(personMassChange, developmentProposal, personRoles);
+            performPersonPersonMassChange(personMassChange, developmentProposal, personRoles);
         }
     }
     
@@ -170,54 +160,42 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
     private void performProposalKeyStudyPersonPersonMassChange(PersonMassChange personMassChange, DevelopmentProposal developmentProposal) {
         if (personMassChange.getProtocolPersonMassChange().isKeyStudyPerson()) {
             String[] personRoles = { ProposalPersonRole.KEY_PERSON };
-            performProposalPersonPersonMassChange(personMassChange, developmentProposal, personRoles);
+            performPersonPersonMassChange(personMassChange, developmentProposal, personRoles);
         }
     }
     
-    private void performProposalPersonPersonMassChange(PersonMassChange personMassChange, DevelopmentProposal developmentProposal, String... personRoles) {
-        for (ProposalPerson proposalPerson : developmentProposal.getProposalPersons()) {
-            if (isProposalPersonInRole(proposalPerson, personRoles)) {
+    private void performPersonPersonMassChange(PersonMassChange personMassChange, DevelopmentProposal developmentProposal, String... personRoles) {
+        for (ProposalPerson person : developmentProposal.getProposalPersons()) {
+            if (isPersonInRole(person, personRoles)) {
                 if (personMassChange.getReplacerPersonId() != null) {
-                    getPersonEditableService().populateContactFieldsFromPersonId(proposalPerson);
-                    proposalPerson.setRolodexId(null);
+                    getPersonEditableService().populateContactFieldsFromPersonId(person);
+                    person.setRolodexId(null);
                     
-                    for (ProposalPersonBiography proposalPersonBiography : developmentProposal.getPropPersonBios()) {
-                        if (ObjectUtils.equals(proposalPersonBiography.getProposalPersonNumber(), proposalPerson.getProposalPersonNumber())) {
-                            proposalPersonBiography.setPersonId(personMassChange.getReplacerPersonId());
-                            proposalPersonBiography.setRolodexId(null);
+                    for (ProposalPersonBiography biography : developmentProposal.getPropPersonBios()) {
+                        if (ObjectUtils.equals(biography.getProposalPersonNumber(), person.getProposalPersonNumber())) {
+                            biography.setPersonId(personMassChange.getReplacerPersonId());
+                            biography.setRolodexId(null);
                             
-                            getBusinessObjectService().save(proposalPersonBiography);
+                            getBusinessObjectService().save(biography);
                         }
                     }
                 } else if (personMassChange.getReplacerRolodexId() != null) {
-                    getPersonEditableService().populateContactFieldsFromRolodexId(proposalPerson);
-                    proposalPerson.setPersonId(null);
+                    getPersonEditableService().populateContactFieldsFromRolodexId(person);
+                    person.setPersonId(null);
                     
-                    for (ProposalPersonBiography proposalPersonBiography : developmentProposal.getPropPersonBios()) {
-                        if (ObjectUtils.equals(proposalPersonBiography.getProposalPersonNumber(), proposalPerson.getProposalPersonNumber())) {
-                            proposalPersonBiography.setPersonId(null);
-                            proposalPersonBiography.setRolodexId(Integer.valueOf(personMassChange.getReplacerRolodexId()));
+                    for (ProposalPersonBiography biography : developmentProposal.getPropPersonBios()) {
+                        if (ObjectUtils.equals(biography.getProposalPersonNumber(), person.getProposalPersonNumber())) {
+                            biography.setPersonId(null);
+                            biography.setRolodexId(Integer.valueOf(personMassChange.getReplacerRolodexId()));
                         
-                            getBusinessObjectService().save(proposalPersonBiography);
+                            getBusinessObjectService().save(biography);
                         }
                     }
                 }
 
-                getBusinessObjectService().save(proposalPerson);
+                getBusinessObjectService().save(person);
             }
         }
-    }
-    
-    private List<Budget> getBudgets(DevelopmentProposal developmentProposal) {
-        List<Budget> budgets = new ArrayList<Budget>();
-        
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("PARENT_DOCUMENT_KEY", developmentProposal.getProposalDocument().getDocumentNumber());
-        for (BudgetDocument<DevelopmentProposal> proposalBudgetDocument : getBusinessObjectService().findMatching(BudgetDocument.class, fieldValues)) {
-            budgets.add(proposalBudgetDocument.getBudget());
-        }
-        
-        return budgets;
     }
     
     private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
