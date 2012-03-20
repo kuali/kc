@@ -20,8 +20,8 @@
       </list>
     </property>	<property name="allowsRecordDeletion" value="true" />	
     <property name="documentTypeName" value="OrganizationMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.authorizer.OrganizationMaintenanceDocumentAuthorizer"/>
     <property name="businessRulesClass" value="org.kuali.kra.rules.OrganizationMaintenanceDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.proposaldevelopment.document.authorizer.RolodexDocumentAuthorizer"/>
   </bean>
 
 <!-- Maintenance Section Definitions -->
