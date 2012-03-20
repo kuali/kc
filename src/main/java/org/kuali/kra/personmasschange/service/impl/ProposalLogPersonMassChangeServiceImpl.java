@@ -72,10 +72,10 @@ public class ProposalLogPersonMassChangeServiceImpl implements ProposalLogPerson
                 proposalLogChangeCandidate.setRolodexId(null);
                 proposalLogChangeCandidate.setPiName(kcPerson.getFullName());
             } else if (personMassChange.getReplacerRolodexId() != null) {
-                Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(personMassChange.getReplacerRolodexId()));
-                proposalLogChangeCandidate.setRolodexId(rolodex.getRolodexId());
+                Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
                 proposalLogChangeCandidate.setPiId(null);
-                proposalLogChangeCandidate.setPiName(rolodex.getFullName());
+                proposalLogChangeCandidate.setRolodexId(rolodex.getRolodexId());
+                proposalLogChangeCandidate.setPiName(null);
             }
 
             getBusinessObjectService().save(proposalLogChangeCandidate);
@@ -84,12 +84,12 @@ public class ProposalLogPersonMassChangeServiceImpl implements ProposalLogPerson
     
     private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
         String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && StringUtils.equals(replaceePersonId, personId);
+        return replaceePersonId != null && replaceePersonId.equals(personId);
     }
     
     private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
-        String replaceeRolodexId = personMassChange.getReplaceeRolodexId();
-        return replaceeRolodexId != null && StringUtils.equals(replaceeRolodexId, String.valueOf(rolodexId));
+        Integer replaceeRolodexId = personMassChange.getReplaceeRolodexId();
+        return replaceeRolodexId != null && replaceeRolodexId.equals(rolodexId);
     }
     
     public BusinessObjectService getBusinessObjectService() {

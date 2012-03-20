@@ -17,8 +17,13 @@ package org.kuali.kra.personmasschange.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
@@ -44,6 +49,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeService {
     
     private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
+    
+    private static final String AWARD_ID = "awardId";
+    private static final String SEQUENCE_NUMBER = "sequenceNumber";
     
     private static final String AWARD = "award";
     
@@ -95,13 +103,26 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     private List<Award> getLatestAwards(Collection<Award> awards) {
         List<Award> latestAwards = new ArrayList<Award>();
         
-        for (Award award : awards) {
-            if (award.isActiveVersion()) {
-                latestAwards.add(award);
+        for (String uniqueAwardId : getUniqueAwardIds(awards)) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put(AWARD_ID, uniqueAwardId);
+            Collection<Award> uniqueAwards = getBusinessObjectService().findMatchingOrderBy(Award.class, fieldValues, SEQUENCE_NUMBER, false);
+            if (!uniqueAwards.isEmpty()) {
+                latestAwards.add((Award) CollectionUtils.get(uniqueAwards, 0));
             }
         }
         
         return latestAwards;
+    }
+    
+    private Set<String> getUniqueAwardIds(Collection<Award> awards) {
+        Set<String> uniqueAwardIds = new HashSet<String>();
+        
+        for (Award award : awards) {
+            uniqueAwardIds.add(String.valueOf(award.getAwardId()));
+        }
+        
+        return uniqueAwardIds;
     }
     
     private boolean isAwardChangeCandidate(PersonMassChange personMassChange, Award award) {
@@ -236,10 +257,10 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
                 if (personMassChange.getReplacerPersonId() != null) {
                     KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
                     person.setPersonId(kcPerson.getPersonId());
-                    person.setFullName(kcPerson.getFullName());
                     person.setRolodexId(null);
+                    person.setFullName(kcPerson.getFullName());
                 } else if (personMassChange.getReplacerRolodexId() != null) {
-                    Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(personMassChange.getReplacerRolodexId()));
+                    Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
                     person.setPersonId(null);
                     person.setRolodexId(rolodex.getRolodexId());
                     person.setFullName(rolodex.getFullName());
@@ -265,7 +286,7 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     private void performSponsorContactPersonMassChange(PersonMassChange personMassChange, Award award) {
         if (personMassChange.getAwardPersonMassChange().isSponsorContact()) {
             for (AwardSponsorContact sponsorContact : award.getSponsorContacts()) {
-                sponsorContact.setRolodexId(Integer.parseInt(personMassChange.getReplacerRolodexId()));
+                sponsorContact.setRolodexId(personMassChange.getReplacerRolodexId());
 
                 getBusinessObjectService().save(sponsorContact);
             }
@@ -281,7 +302,7 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
                     approvedForeignTravel.setTravelerName(kcPerson.getFullName());
                     approvedForeignTravel.setRolodexId(null);
                 } else if (personMassChange.getReplacerRolodexId() != null) {
-                    Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(personMassChange.getReplacerRolodexId()));
+                    Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
                     approvedForeignTravel.setPersonId(null);
                     approvedForeignTravel.setRolodexId(rolodex.getRolodexId());
                     approvedForeignTravel.setTravelerName(rolodex.getFullName());
@@ -294,12 +315,12 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     
     private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
         String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && StringUtils.equals(replaceePersonId, personId);
+        return replaceePersonId != null && replaceePersonId.equals(personId);
     }
     
     private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
-        String replaceeRolodexId = personMassChange.getReplaceeRolodexId();
-        return replaceeRolodexId != null && StringUtils.equals(replaceeRolodexId, String.valueOf(rolodexId));
+        Integer replaceeRolodexId = personMassChange.getReplaceeRolodexId();
+        return replaceeRolodexId != null && replaceeRolodexId.equals(rolodexId);
     }
     
     private void reportSoftError(Award award) {
