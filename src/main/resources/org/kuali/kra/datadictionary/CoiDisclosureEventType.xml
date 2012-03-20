@@ -788,6 +788,7 @@
 	<bean id="CoiDisclosureEventType-lookupDefinition" parent="CoiDisclosureEventType-lookupDefinition-parentBean" />
 	<bean id="CoiDisclosureEventType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="COI Event Type Lookup" />
+		<property name="lookupableID" value="coiDisclosureEventTypeLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
 		<property name="defaultSort" >
