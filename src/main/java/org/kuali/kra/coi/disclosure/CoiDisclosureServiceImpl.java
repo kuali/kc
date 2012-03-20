@@ -780,7 +780,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     public List<Protocol> getProtocols(String personId) {
 
         List<Protocol> protocols = new ArrayList<Protocol>();
-        if (!isEventExcluded(CoiDisclosureEventType.IRB_PROTOCOL)) {
+//        if (!isEventExcluded(CoiDisclosureEventType.IRB_PROTOCOL)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("personId", personId);
             // fieldValues.put("protocolPersonRoleId", "PI");
@@ -794,7 +794,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                     protocols.add(protocolPerson.getProtocol());
                 }
             }
-        }
+//        }
         return protocols;
 
     }
@@ -806,7 +806,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     public List<DevelopmentProposal> getProposals(String personId) {
 
         List<DevelopmentProposal> proposals = new ArrayList<DevelopmentProposal>();
-        if (!isEventExcluded(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL)) {
+//        if (!isEventExcluded(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("personId", personId);
             // fieldValues.put("proposalPersonRoleId", "PI");
@@ -820,7 +820,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                     proposals.add(proposalPerson.getDevelopmentProposal());
                 }
             }
-        }
+//        }
         return proposals;
 
     }
@@ -842,7 +842,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     public List<InstitutionalProposal> getInstitutionalProposals(String personId) {
 
         List<InstitutionalProposal> proposals = new ArrayList<InstitutionalProposal>();
-        if (!isEventExcluded(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL)) {
+//        if (!isEventExcluded(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             Map<String, InstitutionalProposal> resultValues = new HashMap<String, InstitutionalProposal>();
             fieldValues.put("personId", personId);
@@ -861,7 +861,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 proposals.add(resultValues.get(key));
             }
 
-        }
+//        }
         return proposals;
     }
  
@@ -872,7 +872,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     public List<Award> getAwards(String personId) {
 
         List<Award> awards = new ArrayList<Award>();
-        if (!isEventExcluded(CoiDisclosureEventType.AWARD)) {
+//        if (!isEventExcluded(CoiDisclosureEventType.AWARD)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("personId", personId);
             // fieldValues.put("roleCode", "PI");
@@ -886,7 +886,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                     awards.add(awardPerson.getAward());
                 }
             }
-        }
+//        }
         return awards;
 
     }
