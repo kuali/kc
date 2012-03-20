@@ -279,19 +279,19 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
         return isValid;
     }
     
-    private boolean isReplaceePerson(String replaceePersonId, String replaceeRolodexId) {
+    private boolean isReplaceePerson(String replaceePersonId, Integer replaceeRolodexId) {
         return replaceePersonId != null && replaceeRolodexId == null;
     }
     
-    private boolean isReplaceeRolodex(String replaceePersonId, String replaceeRolodexId) {
+    private boolean isReplaceeRolodex(String replaceePersonId, Integer replaceeRolodexId) {
         return replaceePersonId == null && replaceeRolodexId != null;
     }
     
-    private boolean isReplacerPerson(String replacerPersonId, String replacerRolodexId) {
+    private boolean isReplacerPerson(String replacerPersonId, Integer replacerRolodexId) {
         return replacerPersonId != null && replacerRolodexId == null;
     }
     
-    private boolean isReplacerRolodex(String replacerPersonId, String replacerRolodexId) {
+    private boolean isReplacerRolodex(String replacerPersonId, Integer replacerRolodexId) {
         return replacerPersonId == null && replacerRolodexId != null;
     }
 

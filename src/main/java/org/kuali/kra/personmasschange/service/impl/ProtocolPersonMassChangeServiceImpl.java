@@ -235,17 +235,23 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
         for (ProtocolPerson person : protocol.getProtocolPersons()) {
             if (isPersonInRole(person, personRoles)) {
                 if (personMassChange.getReplacerPersonId() != null) {
+                    KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                    person.setPersonId(personMassChange.getReplacerPersonId());
+                    person.setRolodexId(null);
+                    person.setPersonName(kcPerson.getFullName());
                     getPersonEditableService().populateContactFieldsFromPersonId(person);
                     getProtocolPersonTrainingService().setTrainedFlag(person);
-                    person.setRolodexId(null);
                     
                     for (ProtocolUnit unit : person.getProtocolUnits()) {
                         unit.setPersonId(personMassChange.getReplacerPersonId());
                     }
                 } else if (personMassChange.getReplacerRolodexId() != null) {
+                    Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
+                    person.setPersonId(null);
+                    person.setRolodexId(rolodex.getRolodexId());
+                    person.setPersonName(rolodex.getFullName());
                     getPersonEditableService().populateContactFieldsFromRolodexId(person);
                     getProtocolPersonTrainingService().setTrainedFlag(person);
-                    person.setPersonId(null);
                     
                     for (ProtocolUnit unit : person.getProtocolUnits()) {
                         unit.setPersonId(null);
@@ -267,7 +273,7 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
                     reviewer.setRolodexId(null);
                     reviewer.setNonEmployeeFlag(false);
                 } else if (personMassChange.getReplacerRolodexId() != null) {
-                    Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(personMassChange.getReplacerRolodexId()));
+                    Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
                     reviewer.setRolodexId(rolodex.getRolodexId());
                     reviewer.setPersonId(null);
                     reviewer.setNonEmployeeFlag(true);
@@ -280,12 +286,12 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
     
     private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
         String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && StringUtils.equals(replaceePersonId, personId);
+        return replaceePersonId != null && replaceePersonId.equals(personId);
     }
     
     private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
-        String replaceeRolodexId = personMassChange.getReplaceeRolodexId();
-        return replaceeRolodexId != null && StringUtils.equals(replaceeRolodexId, String.valueOf(rolodexId));
+        Integer replaceeRolodexId = personMassChange.getReplaceeRolodexId();
+        return replaceeRolodexId != null && replaceeRolodexId.equals(rolodexId);
     }
     
     private void reportSoftError(Protocol protocol) {

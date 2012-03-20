@@ -139,7 +139,7 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
         boolean isContactChangeCandidate = false;
         
         for (SubAwardContact subawardContact : contacts) {
-            if (isRolodexIdMassChange(personMassChange, subawardContact)) {
+            if (isRolodexIdMassChange(personMassChange, subawardContact.getRolodexId())) {
                 isContactChangeCandidate = true;
                 break;
             }
@@ -170,21 +170,21 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
     private void performContactMassChange(PersonMassChange personMassChange, SubAward subaward) {
         if (personMassChange.getSubawardPersonMassChange().isContact()) {
             for (SubAwardContact subawardContact : subaward.getSubAwardContactsList()) {
-                subawardContact.setRolodexId(Integer.valueOf(personMassChange.getReplacerRolodexId()));
+                subawardContact.setRolodexId(personMassChange.getReplacerRolodexId());
                 
                 getBusinessObjectService().save(subawardContact);
             }
         }
     }
     
-    private boolean isRolodexIdMassChange(PersonMassChange personMassChange, SubAwardContact subawardContact) {
-        String replaceeRolodexId = personMassChange.getReplaceeRolodexId();
-        return replaceeRolodexId != null && StringUtils.equals(replaceeRolodexId, String.valueOf(subawardContact.getRolodexId()));
-    }
-    
     private boolean isPersonIdMassChange(PersonMassChange personMassChange, String rolodexId) {
         String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && StringUtils.equals(replaceePersonId, rolodexId);
+        return replaceePersonId != null && replaceePersonId.equals(rolodexId);
+    }
+    
+    private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
+        Integer replaceeRolodexId = personMassChange.getReplaceeRolodexId();
+        return replaceeRolodexId != null && replaceeRolodexId.equals(rolodexId);
     }
     
     private void reportSoftError(SubAward subaward) {

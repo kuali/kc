@@ -165,8 +165,8 @@
 	        <div class="tab-container" align="center">
 	            <table cellpadding="4" cellspacing="0" summary="">
 	                <tr>
+	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.negotiationId}" /></div></th>
 	                    <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${negotiationAttributes.associatedDocumentId}" /></div></th>
-	                    <th style="width:50%"><div align="left">Title:</div></th>
 	                </tr>
 	                <c:if test="${empty KualiForm.personMassChangeViewHelper.negotiationChangeCandidates}">
                        <tr>
@@ -175,10 +175,10 @@
                     </c:if>
 	                <c:forEach var="negotiationChangeCandidate" items="${KualiForm.personMassChangeViewHelper.negotiationChangeCandidates}" varStatus="status">
 	                    <tr>
+	                        <td style="width:50%"><kul:htmlControlAttribute property="personMassChangeViewHelper.negotiationChangeCandidates[${status.index}].negotiationId" 
+	                                                                        attributeEntry="${negotiationAttributes.negotiationId}" readOnly="true" /></td>
 	                        <td style="width:50%"><kul:htmlControlAttribute property="personMassChangeViewHelper.negotiationChangeCandidates[${status.index}].associatedDocumentId" 
 	                                                                        attributeEntry="${negotiationAttributes.associatedDocumentId}" readOnly="true" /></td>
-	                        <td style="width:50%"><kul:htmlControlAttribute property="personMassChangeViewHelper.negotiationChangeCandidates[${status.index}].associatedDocument.title" 
-	                                                                        attributeEntry="${negotiationAttributes.associatedDocument.title}" readOnly="true" /></td>
 	                    </tr>
 	                </c:forEach>
 	            </table>

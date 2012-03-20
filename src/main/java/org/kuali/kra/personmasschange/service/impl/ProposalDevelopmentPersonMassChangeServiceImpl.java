@@ -151,7 +151,7 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
     
     private void performProposalMailingInfoPersonMassChange(PersonMassChange personMassChange, DevelopmentProposal developmentProposal) {
         if (personMassChange.getProposalDevelopmentPersonMassChange().isMailingInformation()) {
-            developmentProposal.setMailingAddressId(Integer.valueOf(personMassChange.getReplacerRolodexId()));
+            developmentProposal.setMailingAddressId(personMassChange.getReplacerRolodexId());
         
             getBusinessObjectService().save(developmentProposal);
         }
@@ -168,8 +168,9 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
         for (ProposalPerson person : developmentProposal.getProposalPersons()) {
             if (isPersonInRole(person, personRoles)) {
                 if (personMassChange.getReplacerPersonId() != null) {
-                    getPersonEditableService().populateContactFieldsFromPersonId(person);
+                    person.setPersonId(personMassChange.getReplacerPersonId());
                     person.setRolodexId(null);
+                    getPersonEditableService().populateContactFieldsFromPersonId(person);
                     
                     for (ProposalPersonBiography biography : developmentProposal.getPropPersonBios()) {
                         if (ObjectUtils.equals(biography.getProposalPersonNumber(), person.getProposalPersonNumber())) {
@@ -180,13 +181,14 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
                         }
                     }
                 } else if (personMassChange.getReplacerRolodexId() != null) {
-                    getPersonEditableService().populateContactFieldsFromRolodexId(person);
                     person.setPersonId(null);
+                    person.setRolodexId(personMassChange.getReplacerRolodexId());
+                    getPersonEditableService().populateContactFieldsFromRolodexId(person);
                     
                     for (ProposalPersonBiography biography : developmentProposal.getPropPersonBios()) {
                         if (ObjectUtils.equals(biography.getProposalPersonNumber(), person.getProposalPersonNumber())) {
                             biography.setPersonId(null);
-                            biography.setRolodexId(Integer.valueOf(personMassChange.getReplacerRolodexId()));
+                            biography.setRolodexId(personMassChange.getReplacerRolodexId());
                         
                             getBusinessObjectService().save(biography);
                         }
@@ -200,17 +202,17 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
     
     private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
         String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && StringUtils.equals(replaceePersonId, personId);
+        return replaceePersonId != null && replaceePersonId.equals(personId);
     }
     
     private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
-        String replaceeRolodexId = personMassChange.getReplaceeRolodexId();
-        return replaceeRolodexId != null && StringUtils.equals(replaceeRolodexId, String.valueOf(rolodexId));
+        Integer replaceeRolodexId = personMassChange.getReplaceeRolodexId();
+        return replaceeRolodexId != null && replaceeRolodexId.equals(rolodexId);
     }
     
     private void reportSoftError(DevelopmentProposal developmentProposalChangeCandidate) {
         String proposalNumber = developmentProposalChangeCandidate.getProposalNumber();
-        errorReporter.reportWarning(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, DEVELOPMENT_PROPOSAL, proposalNumber);
+        errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, DEVELOPMENT_PROPOSAL, proposalNumber);
     }
     
     public BusinessObjectService getBusinessObjectService() {

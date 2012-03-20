@@ -35,16 +35,16 @@ public class PersonMassChangeHelperBase implements Serializable {
     /**
      * Prepares the replacee fields to render the view.
      */
-    public void prepareReplaceeView(PersonMassChange personMassChange, String replaceePersonId, String replaceeRolodexId) {
+    public void prepareReplaceeView(PersonMassChange personMassChange, String replaceePersonId, Integer replaceeRolodexId) {
         if (StringUtils.isNotBlank(replaceePersonId)) {
             KcPerson person = getKcPersonService().getKcPersonByPersonId(replaceePersonId);
             personMassChange.setReplaceePersonId(person.getPersonId());
             personMassChange.setReplaceeFullName(person.getFullName());
             personMassChange.setReplaceeRolodexId(null);
-        } else if (StringUtils.isNotBlank(replaceeRolodexId)) {
+        } else if (replaceeRolodexId != null) {
             personMassChange.setReplaceePersonId(null);
             Rolodex rolodex = getRolodexService().getRolodex(Integer.valueOf(replaceeRolodexId));
-            personMassChange.setReplaceeRolodexId(rolodex.getRolodexId().toString());
+            personMassChange.setReplaceeRolodexId(rolodex.getRolodexId());
             personMassChange.setReplaceeFullName(rolodex.getFullName());
         }
     }
@@ -52,16 +52,16 @@ public class PersonMassChangeHelperBase implements Serializable {
     /**
      * Prepares the replacer fields to render the view.
      */
-    public void prepareReplacerView(PersonMassChange personMassChange, String replacerPersonId, String replacerRolodexId) {
+    public void prepareReplacerView(PersonMassChange personMassChange, String replacerPersonId, Integer replacerRolodexId) {
         if (StringUtils.isNotBlank(replacerPersonId)) {
             KcPerson person = getKcPersonService().getKcPersonByPersonId(replacerPersonId);
             personMassChange.setReplacerPersonId(person.getPersonId());
             personMassChange.setReplacerFullName(person.getFullName());
             personMassChange.setReplacerRolodexId(null);
-        } else if (StringUtils.isNotBlank(replacerRolodexId)) {
+        } else if (replacerRolodexId != null) {
             personMassChange.setReplacerPersonId(null);
             Rolodex rolodex = getRolodexService().getRolodex(Integer.valueOf(replacerRolodexId));
-            personMassChange.setReplacerRolodexId(rolodex.getRolodexId().toString());
+            personMassChange.setReplacerRolodexId(rolodex.getRolodexId());
             personMassChange.setReplacerFullName(rolodex.getFullName());
         }
     }
