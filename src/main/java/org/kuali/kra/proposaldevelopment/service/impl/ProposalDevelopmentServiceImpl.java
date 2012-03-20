@@ -146,7 +146,9 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     // see interface for Javadoc
     public void initializeProposalSiteNumbers(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         for (ProposalSite proposalSite : proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites())
-            proposalSite.setSiteNumber(getNextSiteNumber(proposalDevelopmentDocument));
+            if (proposalSite.getSiteNumber() == null) {
+                proposalSite.setSiteNumber(getNextSiteNumber(proposalDevelopmentDocument));
+            }
     }
 
     public List<Unit> getDefaultModifyProposalUnitsForUser(String userId) {
