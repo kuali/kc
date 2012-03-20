@@ -95,6 +95,7 @@ import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredEvent;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredService;
 import org.kuali.kra.irb.actions.notification.AssignReviewerNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolClosedNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolDisapprovedNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolExpiredNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
@@ -1863,11 +1864,20 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                 
                 recordProtocolActionSuccess("Close");
-                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, false));
 
+                ProtocolNotificationRequestBean notificationBean = null;
+                if (ProtocolStatus.CLOSED_ADMINISTRATIVELY.equals(protocol.getProtocolStatus())) {
+                    notificationBean = new ProtocolNotificationRequestBean(protocol, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, "Closed By Administrator");
+                } else {
+                    notificationBean = new ProtocolNotificationRequestBean(protocol, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, "Closed By Investigator");
+                }
+                    
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                     return mapping.findForward(CORRESPONDENCE);
-                } 
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(CORRESPONDENCE), protocolForm, notificationBean);
+                }
             }
         }
         
@@ -3611,6 +3621,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             renderer = new ProtocolSuspendedNotificationRenderer(notificationRequestBean.getProtocol());
         } else if (StringUtils.equals(ProtocolActionType.SUSPENDED_BY_DSMB, notificationRequestBean.getActionType())) {
             renderer = new ProtocolSuspendedByDSMBNotificationRenderer(notificationRequestBean.getProtocol());
+        } else if (StringUtils.equals(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, notificationRequestBean.getActionType())) {
+            renderer = new ProtocolClosedNotificationRenderer(notificationRequestBean.getProtocol(), notificationRequestBean);
         } else {
             renderer = new IRBNotificationRenderer(notificationRequestBean.getProtocol());
         }
