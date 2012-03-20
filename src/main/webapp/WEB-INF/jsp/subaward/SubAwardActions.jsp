@@ -36,7 +36,7 @@
 </div>
 <c:choose>
 	<c:when test="${not KualiForm.editingMode['viewOnly']}">
-		<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
+		<kul:documentControls transactionalDocument="true"  suppressCancelButton="true" />
 	</c:when>
 	<c:otherwise>
 		<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" viewOnly= "true" suppressCancelButton="true" />
