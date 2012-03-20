@@ -134,7 +134,7 @@
 				</td>
 				<td>
 					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].dueDate" 
-						attributeEntry="${reportTrackingAttributes.dueDate}" readOnly="${true }"  />
+						attributeEntry="${reportTrackingAttributes.dueDate}" readOnly="${reportTrackingReadOnly}"  />
 				</td>
 				<td>
 					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].overdue" 
