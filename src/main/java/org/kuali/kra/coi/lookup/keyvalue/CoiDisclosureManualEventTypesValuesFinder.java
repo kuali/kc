@@ -45,7 +45,7 @@ public class CoiDisclosureManualEventTypesValuesFinder extends KeyValuesBase {
         List<CoiDisclosureEventType> eventTypes = (List<CoiDisclosureEventType>) getBusinessObjectService().findAll(CoiDisclosureEventType.class);
         if (CollectionUtils.isNotEmpty(eventTypes)) {
             for (CoiDisclosureEventType eventType : eventTypes) {
-                if (eventType.isActive() && eventType.isManualDisclosureType() && !eventType.isExcludeFromMasterDisclosure()) {
+                if (eventType.isActive() && eventType.isManualDisclosureType()) {
                     keyValues.add(new ConcreteKeyValue(eventType.getEventTypeCode(), eventType.getDescription()));
                 }
             }
