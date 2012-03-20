@@ -173,6 +173,7 @@
 				<value>subAwardLookupable</value>
 				<value>notificationLookupable</value>
 				<value>coiEventDisclosureLookupable</value>
+				<value>coiDisclosureEventTypeLookupable</value>
 				<value>coiSubmittedDisclosureLookupable</value>
 				<value>coiNonProjectEventDisclosureLookupable</value>
 				<value>coiAnnualEventDisclosureLookupable</value>
@@ -529,6 +530,7 @@
 				<value>subAwardLookupable</value>
 				<value>notificationLookupable</value>	
 				<value>coiEventDisclosureLookupable</value>
+				<value>coiDisclosureEventTypeLookupable</value>
 				<value>coiSubmittedDisclosureLookupable</value>
 				<value>coiNonProjectEventDisclosureLookupable</value>
 				<value>coiAnnualEventDisclosureLookupable</value>

@@ -73,6 +73,17 @@
     <bean id="coiEventDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiEventDisclosureLookupableHelper" parent="lookupableHelperService" scope="prototype">
     </bean>
     
+    
+	<bean id="coiDisclosureEventTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="coiDisclosureEventTypeLookupableHelperService" />
+  		</property>
+	</bean>
+    
+    <bean id="coiDisclosureEventTypeLookupableHelperService" class="org.kuali.kra.coi.maintenance.CoiDisclosureEventTypeLookupableHelper" parent="lookupableHelperService" scope="prototype">
+    </bean>
+    
+    
     <bean id="coiSubmittedDisclosureLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
     		<ref bean="coiSubmittedDisclosureLookupableHelperService" />
@@ -212,6 +223,12 @@
         class="org.kuali.kra.coi.service.impl.CoiDisclosureReviewerDerivedRoleTypeServiceImpl">
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
+    
+    
+    <bean id="coiDisclosureEventTypeToCoeusSubModuleSynchronizerService" class="org.kuali.kra.coi.maintenance.CoiDisclosureEventTypeToCoeusSubModuleSynchronizerServiceImpl" scope="prototype">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
     
     <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
