@@ -16,15 +16,13 @@
 package org.kuali.kra.personmasschange.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.NonOrganizationalRolodex;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact;
@@ -40,318 +38,269 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 /**
  * Defines the service for performing a Person Mass Change on Institutional Proposals.
  * 
- * Person roles that might be replaced are: Investigator, Unit Administrator, Mailing Information, IP Reviewer
+ * Person roles that might be replaced are: Investigator, Unit Contact, Mailing Information, IP Reviewer.
  */
 public class InstitutionalProposalPersonMassChangeServiceImpl implements InstitutionalProposalPersonMassChangeService {
     
     private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
 
-    protected static final String PERSON_ID = "personId";
-    protected static final String ROLODEX_ID = "rolodexId";
-    protected static final String IP_REVIEWER = "ipReviewer";
-    protected static final String INSTITUTIONAL_PROPOSAL = "institutionalProposal";
+    private static final String INSTITUTIONAL_PROPOSAL = "institutional proposal";
     
-    protected final ErrorReporter errorReporter = new ErrorReporter();
+    private final ErrorReporter errorReporter = new ErrorReporter();
     
-    protected BusinessObjectService boService;
-    protected KcPersonService kcPersonService;
-    protected RolodexService rolodexService;
+    private BusinessObjectService businessObjectService;
+    private KcPersonService kcPersonService;
+    private RolodexService rolodexService;
 
     @Override
     public List<InstitutionalProposal> getInstitutionalProposalChangeCandidates(PersonMassChange personMassChange) {
-        Set<InstitutionalProposal> proposalChangeCandidates = new HashSet<InstitutionalProposal>();
+        List<InstitutionalProposal> institutionalProposalChangeCandidates = new ArrayList<InstitutionalProposal>();
+        
+        List<InstitutionalProposal> institutionalProposals = new ArrayList<InstitutionalProposal>();
+        if (personMassChange.getInstitutionalProposalPersonMassChange().requiresChange()) {
+            institutionalProposals.addAll(getInstitutionalProposals(personMassChange));
+        }
+        
+        for (InstitutionalProposal institutionalProposal : institutionalProposals) {
+            if (isInstitutionalProposalChangeCandidate(personMassChange, institutionalProposal)) {
+                institutionalProposalChangeCandidates.add(institutionalProposal);
+            }
+        }
+        
+        for (InstitutionalProposal institutionalProposalChangeCandidate : institutionalProposalChangeCandidates) {
+            institutionalProposalChangeCandidate.getInstitutionalProposalDocument().refreshPessimisticLocks();
+            if (!institutionalProposalChangeCandidate.getInstitutionalProposalDocument().getPessimisticLocks().isEmpty()) {
+                reportSoftError(institutionalProposalChangeCandidate);
+            }
+        }
+        
+        return institutionalProposalChangeCandidates;
+    }
+    
+    private List<InstitutionalProposal> getInstitutionalProposals(PersonMassChange personMassChange) {
+        List<InstitutionalProposal> institutionalProposals = new ArrayList<InstitutionalProposal>();
+        
+        Collection<InstitutionalProposal> allInstitutionalProposals = getBusinessObjectService().findAll(InstitutionalProposal.class);
+
+        if (personMassChange.isChangeAllSequences()) {
+            institutionalProposals.addAll(allInstitutionalProposals);
+        } else {
+            institutionalProposals.addAll(getLatestInstitutionalProposals(allInstitutionalProposals));
+        }
+        
+        return institutionalProposals;
+    }
+    
+    private List<InstitutionalProposal> getLatestInstitutionalProposals(Collection<InstitutionalProposal> institutionalProposals) {
+        List<InstitutionalProposal> latestInstitutionalProposals = new ArrayList<InstitutionalProposal>();
+        
+        for (InstitutionalProposal institutionalProposal : institutionalProposals) {
+            if (institutionalProposal.isActiveVersion()) {
+                latestInstitutionalProposals.add(institutionalProposal);
+            }
+        }
+        
+        return latestInstitutionalProposals;
+    }
+    
+    private boolean isInstitutionalProposalChangeCandidate(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal) {
+        boolean isInstitutionalProposalChangeCandidate = false;
+        
+        List<InstitutionalProposalPerson> persons = institutionalProposal.getProjectPersons();
+        Integer mailingInformationId = institutionalProposal.getRolodexId();
+        List<InstitutionalProposalUnitContact> unitContacts = institutionalProposal.getInstitutionalProposalUnitContacts();
+        IntellectualPropertyReview intellectualPropertyReview = institutionalProposal.getIntellectualPropertyReview();
+        
+        String[] investigatorRoles = { ContactRole.PI_CODE, ContactRole.COI_CODE };
+        String[] keyStudyPersonRoles = { ContactRole.KEY_PERSON_CODE };
+        
         if (personMassChange.getInstitutionalProposalPersonMassChange().isInvestigator()) {
-            List<InstitutionalProposalPerson> proposalPeople = getInvestigatorsToReplace(personMassChange);
-            for (InstitutionalProposalPerson proposalPerson : proposalPeople) {
-                if (personMassChange.isChangeAllSequences() || proposalPerson.getInstitutionalProposal().isActiveVersion()) {
-                    proposalChangeCandidates.add(proposalPerson.getInstitutionalProposal());
+            isInstitutionalProposalChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, investigatorRoles);
+        }
+        if (personMassChange.getInstitutionalProposalPersonMassChange().isKeyStudyPerson()) {
+            isInstitutionalProposalChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, keyStudyPersonRoles);
+        }
+        if (personMassChange.getInstitutionalProposalPersonMassChange().isMailingInformation()) {
+            isInstitutionalProposalChangeCandidate |= isMailingInformationChangeCandidate(personMassChange, mailingInformationId);
+        }
+        if (personMassChange.getInstitutionalProposalPersonMassChange().isUnitContact()) {
+            isInstitutionalProposalChangeCandidate |= isUnitContactChangeCandidate(personMassChange, unitContacts);
+        }
+        if (personMassChange.getInstitutionalProposalPersonMassChange().isIpReviewer()) {
+            isInstitutionalProposalChangeCandidate |= isIpReviewerChangeCandidate(personMassChange, intellectualPropertyReview);
+        }
+
+        return isInstitutionalProposalChangeCandidate;
+    }
+    
+    private boolean isPersonChangeCandidate(PersonMassChange personMassChange, List<InstitutionalProposalPerson> persons, String... personRoles) {
+        boolean isPersonChangeCandidate = false;
+        
+        for (InstitutionalProposalPerson person : persons) {
+            if (isPersonInRole(person, personRoles)) {
+                if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
+                    isPersonChangeCandidate = true;
+                    break;
                 }
             }
         }
-        if (personMassChange.getInstitutionalProposalPersonMassChange().isKeyStudyPerson()) {
-            List<InstitutionalProposalPerson> proposalPeople = getKeyStudyPersonsToReplace(personMassChange);
-            for (InstitutionalProposalPerson proposalPerson : proposalPeople) {
-                if (personMassChange.isChangeAllSequences() || proposalPerson.getInstitutionalProposal().isActiveVersion()) {
-                    proposalChangeCandidates.add(proposalPerson.getInstitutionalProposal());
-                }
+        
+        return isPersonChangeCandidate;
+    }
+    
+    private boolean isPersonInRole(InstitutionalProposalPerson person, String... personRoles) {
+        boolean isPersonInRole = false;
+        
+        for (String personRole : personRoles) {
+            if (StringUtils.equals(person.getRoleCode(), personRole)) {
+                isPersonInRole = true;
+                break;
+            }
+        }
+        
+        return isPersonInRole;
+    }
+    
+    private boolean isMailingInformationChangeCandidate(PersonMassChange personMassChange, Integer mailingInformation) {
+        return isRolodexIdMassChange(personMassChange, mailingInformation);
+    }
+    
+    private boolean isUnitContactChangeCandidate(PersonMassChange personMassChange, List<InstitutionalProposalUnitContact> unitContacts) {
+        boolean isUnitContactChangeCandidate = false;
+        
+        for (InstitutionalProposalUnitContact unitContact : unitContacts) {
+            if (isPersonIdMassChange(personMassChange, unitContact.getPersonId()) || isRolodexIdMassChange(personMassChange, unitContact.getRolodexId())) {
+                isUnitContactChangeCandidate = true;
+                break;
             }
         }
 
-        if (personMassChange.getInstitutionalProposalPersonMassChange().isMailingInformation()) {
-            List<InstitutionalProposal> mailingInfoProposals = getMailingInfoProposalsToReplace(personMassChange);
-            for (InstitutionalProposal proposal : mailingInfoProposals) {
-                if (personMassChange.isChangeAllSequences() || proposal.isActiveVersion()) {
-                    proposalChangeCandidates.add(proposal);
-                }
-            }
-        }
-        if (personMassChange.getInstitutionalProposalPersonMassChange().isUnitContact()) {
-            List<InstitutionalProposalUnitContact> unitContacts = getUnitContactsToReplace(personMassChange);
-            for (InstitutionalProposalUnitContact unitContact : unitContacts) {
-                if (personMassChange.isChangeAllSequences() || unitContact.getInstitutionalProposal().isActiveVersion()) {
-                    proposalChangeCandidates.add(unitContact.getInstitutionalProposal());
-                }
-            }
-        }
-        if (personMassChange.getInstitutionalProposalPersonMassChange().isIpReviewer()) {
-            List<IntellectualPropertyReview> ipReviews = getIpReviewersToReplace(personMassChange);
-            for (IntellectualPropertyReview ipReview : ipReviews) {
-                if (personMassChange.isChangeAllSequences() || ipReview.getInstitutionalProposal().isActiveVersion()) {
-                    proposalChangeCandidates.add(ipReview.getInstitutionalProposal());
-                }
-            }
-        }
-        
-        for (InstitutionalProposal proposalChangeCandidate : proposalChangeCandidates) {
-            proposalChangeCandidate.getInstitutionalProposalDocument().refreshPessimisticLocks();
-            if (!proposalChangeCandidate.getInstitutionalProposalDocument().getPessimisticLocks().isEmpty()) {
-                reportSoftError(proposalChangeCandidate);
-            }
-        }
-        
-        return new ArrayList<InstitutionalProposal>(proposalChangeCandidates);
+        return isUnitContactChangeCandidate;
+    }
+
+    private boolean isIpReviewerChangeCandidate(PersonMassChange personMassChange, IntellectualPropertyReview intellectualPropertyReview) {
+        return isPersonIdMassChange(personMassChange, intellectualPropertyReview.getIpReviewer());
     }
 
     @Override
-    // There's really no good way to do this prettily...
     public void performPersonMassChange(PersonMassChange personMassChange, List<InstitutionalProposal> institutionalProposalChangeCandidates) {
-        if (!StringUtils.isBlank(personMassChange.getReplacerPersonId())) {
-            KcPerson replacerPerson = kcPersonService.getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-            for (InstitutionalProposal institutionalProposal : institutionalProposalChangeCandidates) {
-                institutionalProposal.getInstitutionalProposalDocument().refreshPessimisticLocks();
-                if (institutionalProposal.getInstitutionalProposalDocument().getPessimisticLocks().isEmpty()) {
-                    if (personMassChange.getInstitutionalProposalPersonMassChange().isInvestigator()) {
-                        replaceInvestigatorWithPerson(personMassChange, institutionalProposal, replacerPerson);
-                    }
-                    if (personMassChange.getInstitutionalProposalPersonMassChange().isKeyStudyPerson()) {
-                        replaceKeyStudyPersonWithPerson(personMassChange, institutionalProposal, replacerPerson);
-                    }
-                    if (personMassChange.getInstitutionalProposalPersonMassChange().isUnitContact()) {
-                        replaceUnitContactWithPerson(personMassChange, institutionalProposal, replacerPerson);
-                    }
-                    if (personMassChange.getInstitutionalProposalPersonMassChange().isIpReviewer()) {
-                        replaceIpReviewerWithPerson(personMassChange, institutionalProposal, replacerPerson);
-                    }
+        for (InstitutionalProposal institutionalProposalChangeCandidate : institutionalProposalChangeCandidates) {
+            institutionalProposalChangeCandidate.getInstitutionalProposalDocument().refreshPessimisticLocks();
+            if (institutionalProposalChangeCandidate.getInstitutionalProposalDocument().getPessimisticLocks().isEmpty()) {
+                performInvestigatorPersonMassChange(personMassChange, institutionalProposalChangeCandidate);
+                performKeyStudyPersonPersonMassChange(personMassChange, institutionalProposalChangeCandidate);
+                performMailingInformationPersonMassChange(personMassChange, institutionalProposalChangeCandidate);
+                performUnitContactPersonMassChange(personMassChange, institutionalProposalChangeCandidate);
+                performIpReviewerPersonMassChange(personMassChange, institutionalProposalChangeCandidate);
+            }
+        }
+    }
+    
+    private void performInvestigatorPersonMassChange(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal) {
+        if (personMassChange.getInstitutionalProposalPersonMassChange().isInvestigator()) {
+            String[] personRoles = { ContactRole.PI_CODE, ContactRole.COI_CODE };
+            performPersonPersonMassChange(personMassChange, institutionalProposal, personRoles);
+        }
+    }
+    
+    private void performKeyStudyPersonPersonMassChange(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal) {
+        if (personMassChange.getInstitutionalProposalPersonMassChange().isKeyStudyPerson()) {
+            String[] personRoles = { ContactRole.KEY_PERSON_CODE };
+            performPersonPersonMassChange(personMassChange, institutionalProposal, personRoles);
+        }
+    }
+    
+    private void performPersonPersonMassChange(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal, String... personRoles) {
+        for (InstitutionalProposalPerson person : institutionalProposal.getProjectPersons()) {
+            if (isPersonInRole(person, personRoles)) {
+                if (personMassChange.getReplacerPersonId() != null) {
+                    KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                    person.setPersonId(kcPerson.getPersonId());
+                    person.setFullName(kcPerson.getFullName());
+                    person.setRolodexId(null);
+                } else if (personMassChange.getReplacerRolodexId() != null) {
+                    Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(personMassChange.getReplacerRolodexId()));
+                    person.setPersonId(null);
+                    person.setRolodexId(rolodex.getRolodexId());
+                    person.setFullName(rolodex.getFullName());
                 }
-            }
-        } else {
-            NonOrganizationalRolodex replacerRolodex = (NonOrganizationalRolodex) rolodexService.getRolodex(
-                    Integer.parseInt(personMassChange.getReplacerRolodexId()));
-            for (InstitutionalProposal institutionalProposal : institutionalProposalChangeCandidates) {
-                institutionalProposal.getInstitutionalProposalDocument().refreshPessimisticLocks();
-                if (institutionalProposal.getInstitutionalProposalDocument().getPessimisticLocks().isEmpty()) {
-                    if (personMassChange.getInstitutionalProposalPersonMassChange().isInvestigator()) {
-                        replaceInvestigatorWithRolodex(personMassChange, institutionalProposal, replacerRolodex);
-                    }
-                    if (personMassChange.getInstitutionalProposalPersonMassChange().isKeyStudyPerson()) {
-                        replaceKeyStudyPersonWithRolodex(personMassChange, institutionalProposal, replacerRolodex);
-                    }
-                    if (personMassChange.getInstitutionalProposalPersonMassChange().isUnitContact()) {
-                        replaceUnitContactWithRolodex(personMassChange, institutionalProposal, replacerRolodex);
-                    }
-                    if (personMassChange.getInstitutionalProposalPersonMassChange().isMailingInformation()) {
-                        replaceMailingInfoWithRolodex(personMassChange, institutionalProposal, replacerRolodex);
-                    }
-                }
-            }
-        }
-    }
-    
-    protected List<InstitutionalProposalPerson> getInvestigatorsToReplace(PersonMassChange personMassChange) {
-        List<InstitutionalProposalPerson> proposalPeople = new ArrayList<InstitutionalProposalPerson>();
-        Map<String, String> personCriteria = new HashMap<String, String>();
-        if (!StringUtils.isBlank(personMassChange.getReplaceePersonId())) {
-            personCriteria.put(PERSON_ID, personMassChange.getReplaceePersonId());
-        } else if (!(StringUtils.isBlank(personMassChange.getReplaceeRolodexId()))) {
-            personCriteria.put(ROLODEX_ID, personMassChange.getReplaceeRolodexId());
-        } else {
-            return proposalPeople;
-        }
-        proposalPeople = (List<InstitutionalProposalPerson>) boService.findMatching(InstitutionalProposalPerson.class, personCriteria);
-        List<InstitutionalProposalPerson> investigators = new ArrayList<InstitutionalProposalPerson>();
-        for (InstitutionalProposalPerson proposalPerson : proposalPeople) {
-            if (proposalPerson.isCoInvestigator() || proposalPerson.isPrincipalInvestigator()) {
-                investigators.add(proposalPerson);
-            }
-        }
-        return investigators;
-    }
-    
-    protected List<InstitutionalProposalPerson> getKeyStudyPersonsToReplace(PersonMassChange personMassChange) {
-        List<InstitutionalProposalPerson> proposalPeople = new ArrayList<InstitutionalProposalPerson>();
-        Map<String, String> personCriteria = new HashMap<String, String>();
-        if (!StringUtils.isBlank(personMassChange.getReplaceePersonId())) {
-            personCriteria.put(PERSON_ID, personMassChange.getReplaceePersonId());
-        } else if (!(StringUtils.isBlank(personMassChange.getReplaceeRolodexId()))) {
-            personCriteria.put(ROLODEX_ID, personMassChange.getReplaceeRolodexId());
-        } else {
-            return proposalPeople;
-        }
-        proposalPeople = (List<InstitutionalProposalPerson>) boService.findMatching(InstitutionalProposalPerson.class, personCriteria);
-        List<InstitutionalProposalPerson> keyPersons = new ArrayList<InstitutionalProposalPerson>();
-        for (InstitutionalProposalPerson proposalPerson : proposalPeople) {
-            if (proposalPerson.isKeyPerson()) {
-                keyPersons.add(proposalPerson);
-            }
-        }
-        return keyPersons;
-    }
-    
-    // Mailing Information
-    protected List<InstitutionalProposal> getMailingInfoProposalsToReplace(PersonMassChange personMassChange) {
-        Map<String, String> mailingInfoCriteria = new HashMap<String, String>();
-        List<InstitutionalProposal> proposals = new ArrayList<InstitutionalProposal>();
-        if (!StringUtils.isBlank(personMassChange.getReplaceeRolodexId())) {
-            mailingInfoCriteria.put(ROLODEX_ID, personMassChange.getReplaceeRolodexId());
-        } else {
-            return proposals;
-        }
-        proposals = (List<InstitutionalProposal>) boService.findMatching(InstitutionalProposal.class, mailingInfoCriteria);
-        return proposals;
-    }
-    
-    // Unit Contact
-    protected List<InstitutionalProposalUnitContact> getUnitContactsToReplace(PersonMassChange personMassChange) {
-        List<InstitutionalProposalUnitContact> unitContacts = new ArrayList<InstitutionalProposalUnitContact>();
-        Map<String, String> unitContactCriteria = new HashMap<String, String>();
-        if (!StringUtils.isBlank(personMassChange.getReplaceePersonId())) {
-            unitContactCriteria.put(PERSON_ID, personMassChange.getReplaceePersonId());
-        } else if (!(StringUtils.isBlank(personMassChange.getReplaceeRolodexId()))) {
-            unitContactCriteria.put(ROLODEX_ID, personMassChange.getReplaceeRolodexId());
-        } else {
-            return unitContacts;
-        }
-        unitContacts = (List<InstitutionalProposalUnitContact>) boService.findMatching(InstitutionalProposalUnitContact.class, unitContactCriteria);
-        return unitContacts;
-    }
-    
-    // IP Reviewer
-    protected List<IntellectualPropertyReview> getIpReviewersToReplace(PersonMassChange personMassChange) {
-        List<IntellectualPropertyReview> ipReviews = new ArrayList<IntellectualPropertyReview>();
-        Map<String, String> ipReviewCriteria = new HashMap<String, String>();
-        if (!StringUtils.isBlank(personMassChange.getReplaceePersonId())) {
-            ipReviewCriteria.put(IP_REVIEWER, personMassChange.getReplaceePersonId());
-        } else {
-            return ipReviews;
-        }
-        ipReviews = (List<IntellectualPropertyReview>) boService.findMatching(IntellectualPropertyReview.class, ipReviewCriteria);
-        return ipReviews;
-    }
-    
-    protected void replaceInvestigatorWithPerson(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal, KcPerson replacerPerson) {
-        for (InstitutionalProposalPerson projectPerson : institutionalProposal.getProjectPersons()) {
-            if (projectPerson.isPrincipalInvestigator() || projectPerson.isCoInvestigator()) {
-                if (!StringUtils.isBlank(projectPerson.getPersonId()) && projectPerson.getPersonId().equals(personMassChange.getReplaceePersonId())) {
-                    projectPerson.setPerson(replacerPerson);
-                    boService.save(projectPerson);
-                } else if (projectPerson.getRolodexId() != null && projectPerson.getRolodexId().equals(personMassChange.getReplaceeRolodexId())) {
-                    projectPerson.setPerson(replacerPerson);
-                    boService.save(projectPerson);
-                }
-            }
-        }
-    }
-    
-    protected void replaceInvestigatorWithRolodex(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal, NonOrganizationalRolodex replacerRolodex) {
-        for (InstitutionalProposalPerson projectPerson : institutionalProposal.getProjectPersons()) {
-            if (projectPerson.isPrincipalInvestigator() || projectPerson.isCoInvestigator()) {
-                if (!StringUtils.isBlank(projectPerson.getPersonId()) && projectPerson.getPersonId().equals(personMassChange.getReplaceePersonId())) {
-                    projectPerson.setRolodex(replacerRolodex);
-                    boService.save(projectPerson);
-                } else if (projectPerson.getRolodexId() != null && projectPerson.getRolodexId().equals(personMassChange.getReplaceeRolodexId())) {
-                    projectPerson.setRolodex(replacerRolodex);
-                    boService.save(projectPerson);
-                }
-            }
-        }
-    }
-    
-    protected void replaceKeyStudyPersonWithPerson(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal, KcPerson replacerPerson) {
-        for (InstitutionalProposalPerson projectPerson : institutionalProposal.getProjectPersons()) {
-            if (projectPerson.isPrincipalInvestigator() || projectPerson.isCoInvestigator()) {
-                if (!StringUtils.isBlank(projectPerson.getPersonId()) && projectPerson.getPersonId().equals(personMassChange.getReplaceePersonId())) {
-                    projectPerson.setPerson(replacerPerson);
-                    boService.save(projectPerson);
-                } else if (projectPerson.getRolodexId() != null && projectPerson.getRolodexId().equals(personMassChange.getReplaceeRolodexId())) {
-                    projectPerson.setPerson(replacerPerson);
-                    boService.save(projectPerson);
-                }
-            }
-        }
-    }
-    
-    protected void replaceKeyStudyPersonWithRolodex(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal, NonOrganizationalRolodex replacerRolodex) {
-        for (InstitutionalProposalPerson projectPerson : institutionalProposal.getProjectPersons()) {
-            if (projectPerson.isKeyPerson()) {
-                if (!StringUtils.isBlank(projectPerson.getPersonId()) && projectPerson.getPersonId().equals(personMassChange.getReplaceePersonId())) {
-                    projectPerson.setRolodex(replacerRolodex);
-                    boService.save(projectPerson);
-                } else if (projectPerson.getRolodexId() != null && projectPerson.getRolodexId().equals(personMassChange.getReplaceeRolodexId())) {
-                    projectPerson.setRolodex(replacerRolodex);
-                    boService.save(projectPerson);
-                }
+
+                getBusinessObjectService().save(person);
             }
         }
     }
 
-    protected void replaceMailingInfoWithRolodex(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal, NonOrganizationalRolodex replacerRolodex) {
-        Integer mailingInfoId = institutionalProposal.getRolodexId();
-        if (mailingInfoId != null && mailingInfoId.equals(replacerRolodex.getRolodexId())) {
-            institutionalProposal.setRolodexId(replacerRolodex.getRolodexId());
-            institutionalProposal.setRolodex(replacerRolodex);
-            boService.save(institutionalProposal);
+    private void performMailingInformationPersonMassChange(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal) {
+        if (personMassChange.getInstitutionalProposalPersonMassChange().isMailingInformation()) {
+            Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(personMassChange.getReplacerRolodexId()));
+            institutionalProposal.setRolodexId(rolodex.getRolodexId());
+            getBusinessObjectService().save(institutionalProposal);
         }
     }
     
-    protected void replaceUnitContactWithPerson(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal, KcPerson replacerPerson) {
-        for (InstitutionalProposalUnitContact unitContact : institutionalProposal.getInstitutionalProposalUnitContacts()) {
-            if (unitContact.getUnitAdministratorType() != null) {
-                if (!StringUtils.isBlank(unitContact.getPersonId()) && unitContact.getPersonId().equals(personMassChange.getReplaceePersonId())) {
-                    unitContact.setPerson(replacerPerson);
-                    boService.save(unitContact);
-                } else if (unitContact.getRolodexId() != null && unitContact.getRolodexId().equals(personMassChange.getReplaceeRolodexId())) {
-                    unitContact.setPerson(replacerPerson);
-                    boService.save(unitContact);
+    private void performUnitContactPersonMassChange(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal) {
+        if (personMassChange.getInstitutionalProposalPersonMassChange().isUnitContact()) {
+            for (InstitutionalProposalUnitContact unitContact : institutionalProposal.getInstitutionalProposalUnitContacts()) {
+                if (personMassChange.getReplacerPersonId() != null) {
+                    KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                    unitContact.setPersonId(kcPerson.getPersonId());
+                    unitContact.setFullName(kcPerson.getFullName());
+                    unitContact.setRolodexId(null);
+                } else if (personMassChange.getReplacerRolodexId() != null) {
+                    Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(personMassChange.getReplacerRolodexId()));
+                    unitContact.setPersonId(null);
+                    unitContact.setRolodexId(rolodex.getRolodexId());
+                    unitContact.setFullName(rolodex.getFullName());
                 }
+
+                getBusinessObjectService().save(unitContact);
             }
         }
     }
     
-    protected void replaceUnitContactWithRolodex(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal, NonOrganizationalRolodex replacerRolodex) {
-        for (InstitutionalProposalUnitContact unitContact : institutionalProposal.getInstitutionalProposalUnitContacts()) {
-            if (unitContact.getUnitAdministratorType() != null) {
-                if (!StringUtils.isBlank(unitContact.getPersonId()) && unitContact.getPersonId().equals(personMassChange.getReplaceePersonId())) {
-                    unitContact.setRolodex(replacerRolodex);
-                    boService.save(unitContact);
-                } else if (unitContact.getRolodexId() != null && unitContact.getRolodexId().equals(personMassChange.getReplaceeRolodexId())) {
-                    unitContact.setRolodex(replacerRolodex);
-                    boService.save(unitContact);
-                }
-            }
+    private void performIpReviewerPersonMassChange(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal) {
+        if (personMassChange.getInstitutionalProposalPersonMassChange().isIpReviewer()) {
+            KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+            institutionalProposal.getIntellectualPropertyReview().setIpReviewer(kcPerson.getPersonId());
+            getBusinessObjectService().save(institutionalProposal);
         }
     }
     
-    protected void replaceIpReviewerWithPerson(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal, KcPerson replacerPerson) {
-        String ipReviewer = institutionalProposal.getIntellectualPropertyReview().getIpReviewer();
-        if (!StringUtils.isBlank(ipReviewer) && ipReviewer.equals(replacerPerson.getPersonId())) {
-            institutionalProposal.getIntellectualPropertyReview().setIpReviewer(replacerPerson.getPersonId());
-            boService.save(institutionalProposal);
-        }
+    private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
+        String replaceePersonId = personMassChange.getReplaceePersonId();
+        return replaceePersonId != null && StringUtils.equals(replaceePersonId, personId);
+    }
+    
+    private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
+        String replaceeRolodexId = personMassChange.getReplaceeRolodexId();
+        return replaceeRolodexId != null && StringUtils.equals(replaceeRolodexId, String.valueOf(rolodexId));
     }
     
     private void reportSoftError(InstitutionalProposal institutionalProposal) {
         String proposalNumber = institutionalProposal.getProposalNumber();
         errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, INSTITUTIONAL_PROPOSAL, proposalNumber);
     }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.boService = businessObjectService;
+    
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
     }
-
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+    
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
-
+    
+    public RolodexService getRolodexService() {
+        return rolodexService;
+    }
+    
     public void setRolodexService(RolodexService rolodexService) {
         this.rolodexService = rolodexService;
     }
