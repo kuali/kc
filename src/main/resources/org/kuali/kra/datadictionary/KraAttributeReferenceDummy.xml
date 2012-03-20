@@ -153,7 +153,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
             p:keyAttribute="alternateCode"
