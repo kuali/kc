@@ -30,6 +30,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Defines the service for performing a Person Mass Change on Negotiations.
+ * 
+ * Person roles that might be replaced are: Negotiator.
  */
 public class NegotiationPersonMassChangeServiceImpl implements NegotiationPersonMassChangeService {
     
@@ -75,13 +77,13 @@ public class NegotiationPersonMassChangeServiceImpl implements NegotiationPerson
         boolean isNegotiationChangeCandidate = false;
 
         if (personMassChange.getNegotiationPersonMassChange().isNegotiator()) {
-            isNegotiationChangeCandidate |= isNegotiationNegotiatorChangeCandidate(personMassChange, negotiation);
+            isNegotiationChangeCandidate |= isNegotiatorChangeCandidate(personMassChange, negotiation);
         }
         
         return isNegotiationChangeCandidate;
     }
     
-    private boolean isNegotiationNegotiatorChangeCandidate(PersonMassChange personMassChange, Negotiation negotiation) {
+    private boolean isNegotiatorChangeCandidate(PersonMassChange personMassChange, Negotiation negotiation) {
         return isPersonIdMassChange(personMassChange, negotiation.getNegotiatorPersonId());
     }
 
@@ -90,16 +92,16 @@ public class NegotiationPersonMassChangeServiceImpl implements NegotiationPerson
         for (Negotiation negotiationChangeCandidate : negotiationChangeCandidates) {
             negotiationChangeCandidate.getDocument().refreshPessimisticLocks();
             if (negotiationChangeCandidate.getDocument().getPessimisticLocks().isEmpty()) {
-                performNegotiationNegotiatorPersonMassChange(personMassChange, negotiationChangeCandidate);
+                performNegotiatorPersonMassChange(personMassChange, negotiationChangeCandidate);
             }
         }
     }
     
-    private void performNegotiationNegotiatorPersonMassChange(PersonMassChange personMassChange, Negotiation negotiation) {
+    private void performNegotiatorPersonMassChange(PersonMassChange personMassChange, Negotiation negotiation) {
         if (personMassChange.getNegotiationPersonMassChange().isNegotiator()) {
-            KcPerson person = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-            negotiation.setNegotiatorPersonId(person.getPersonId());
-            negotiation.setNegotiatorName(person.getFullName());
+            KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+            negotiation.setNegotiatorPersonId(kcPerson.getPersonId());
+            negotiation.setNegotiatorName(kcPerson.getFullName());
             
             getBusinessObjectService().save(negotiation);
         }

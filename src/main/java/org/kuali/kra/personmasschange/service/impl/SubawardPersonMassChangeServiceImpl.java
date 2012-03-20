@@ -25,7 +25,6 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.SubawardPersonMassChangeService;
@@ -36,6 +35,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Defines the service for performing a Person Mass Change on SubAwards.
+ * 
+ * Person roles that might be replaced are: Requisitioner, Contact.
  */
 public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassChangeService {
     
@@ -76,17 +77,17 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
     }
     
     private List<SubAward> getSubawards(PersonMassChange personMassChange) {
-        List<SubAward> subawardChangeCandidates = new ArrayList<SubAward>();
+        List<SubAward> subawards = new ArrayList<SubAward>();
         
-        Collection<SubAward> subawards = getBusinessObjectService().findAll(SubAward.class);
+        Collection<SubAward> allSubawards = getBusinessObjectService().findAll(SubAward.class);
 
         if (personMassChange.isChangeAllSequences()) {
-            subawardChangeCandidates.addAll(subawards);
+            subawards.addAll(allSubawards);
         } else {
-            subawardChangeCandidates.addAll(getLatestSubawards(subawards));
+            subawards.addAll(getLatestSubawards(allSubawards));
         }
         
-        return subawardChangeCandidates;
+        return subawards;
     }
     
     private List<SubAward> getLatestSubawards(Collection<SubAward> subawards) {
@@ -117,35 +118,34 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
     private boolean isSubawardChangeCandidate(PersonMassChange personMassChange, SubAward subaward) {
         boolean isSubawardChangeCandidate = false;
         
-        List<SubAwardContact> subawardContacts = subaward.getSubAwardContactsList();
-        
         String requisitionerId = subaward.getRequisitionerId();
+        List<SubAwardContact> contacts = subaward.getSubAwardContactsList();
 
         if (personMassChange.getSubawardPersonMassChange().isRequisitioner()) {
-            isSubawardChangeCandidate |= isSubawardRequisitionerChangeCandidate(personMassChange, requisitionerId);
+            isSubawardChangeCandidate |= isRequisitionerChangeCandidate(personMassChange, requisitionerId);
         }
         if (personMassChange.getSubawardPersonMassChange().isContact()) {
-            isSubawardChangeCandidate |= isSubawardContactCandidate(personMassChange, subawardContacts);
+            isSubawardChangeCandidate |= isContactCandidate(personMassChange, contacts);
         }
         
         return isSubawardChangeCandidate;
     }
     
-    private boolean isSubawardRequisitionerChangeCandidate(PersonMassChange personMassChange, String requisitionerId) {
+    private boolean isRequisitionerChangeCandidate(PersonMassChange personMassChange, String requisitionerId) {
         return isPersonIdMassChange(personMassChange, requisitionerId);
     }
     
-    private boolean isSubawardContactCandidate(PersonMassChange personMassChange, List<SubAwardContact> subawardContacts) {
-        boolean isSubawardContactChangeCandidate = false;
+    private boolean isContactCandidate(PersonMassChange personMassChange, List<SubAwardContact> contacts) {
+        boolean isContactChangeCandidate = false;
         
-        for (SubAwardContact subawardContact : subawardContacts) {
+        for (SubAwardContact subawardContact : contacts) {
             if (isRolodexIdMassChange(personMassChange, subawardContact)) {
-                isSubawardContactChangeCandidate = true;
+                isContactChangeCandidate = true;
                 break;
             }
         }
         
-        return isSubawardContactChangeCandidate;
+        return isContactChangeCandidate;
     }
 
     @Override
@@ -153,13 +153,13 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
         for (SubAward subawardChangeCandidate : subawardChangeCandidates) {
             subawardChangeCandidate.getSubAwardDocument().refreshPessimisticLocks();
             if (subawardChangeCandidate.getSubAwardDocument().getPessimisticLocks().isEmpty()) {
-                performSubawardRequistionerPersonMassChange(personMassChange, subawardChangeCandidate);
-                performSubawardContactMassChange(personMassChange, subawardChangeCandidate);
+                performRequistionerPersonMassChange(personMassChange, subawardChangeCandidate);
+                performContactMassChange(personMassChange, subawardChangeCandidate);
             }
         }
     }
     
-    private void performSubawardRequistionerPersonMassChange(PersonMassChange personMassChange, SubAward subaward) {
+    private void performRequistionerPersonMassChange(PersonMassChange personMassChange, SubAward subaward) {
         if (personMassChange.getSubawardPersonMassChange().isRequisitioner()) {
             subaward.setRequisitionerId(personMassChange.getReplacerPersonId());
             
@@ -167,7 +167,7 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
         }
     }
     
-    private void performSubawardContactMassChange(PersonMassChange personMassChange, SubAward subaward) {
+    private void performContactMassChange(PersonMassChange personMassChange, SubAward subaward) {
         if (personMassChange.getSubawardPersonMassChange().isContact()) {
             for (SubAwardContact subawardContact : subaward.getSubAwardContactsList()) {
                 subawardContact.setRolodexId(Integer.valueOf(personMassChange.getReplacerRolodexId()));

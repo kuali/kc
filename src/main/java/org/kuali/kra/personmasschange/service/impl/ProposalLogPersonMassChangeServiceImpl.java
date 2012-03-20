@@ -32,6 +32,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Defines the service for performing a Person Mass Change on Proposal Logs.
+ * 
+ * Person roles that might be replaced are: Principal Investigator.
  */
 public class ProposalLogPersonMassChangeServiceImpl implements ProposalLogPersonMassChangeService {
     
@@ -65,10 +67,10 @@ public class ProposalLogPersonMassChangeServiceImpl implements ProposalLogPerson
     public void performPersonMassChange(PersonMassChange personMassChange, List<ProposalLog> proposalLogChangeCandidates) {
         for (ProposalLog proposalLogChangeCandidate : proposalLogChangeCandidates) {
             if (personMassChange.getReplacerPersonId() != null) {
-                KcPerson person = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-                proposalLogChangeCandidate.setPiId(person.getPersonId());
+                KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                proposalLogChangeCandidate.setPiId(kcPerson.getPersonId());
                 proposalLogChangeCandidate.setRolodexId(null);
-                proposalLogChangeCandidate.setPiName(person.getFullName());
+                proposalLogChangeCandidate.setPiName(kcPerson.getFullName());
             } else if (personMassChange.getReplacerRolodexId() != null) {
                 Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(personMassChange.getReplacerRolodexId()));
                 proposalLogChangeCandidate.setRolodexId(rolodex.getRolodexId());

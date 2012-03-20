@@ -29,6 +29,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Defines the service for performing a Person Mass Change on Units.
+ * 
+ * Person roles that might be replaced are: Administrative Officer, OSP Administrator, Unit Head, Dean VP, Other Individual to Notify, Administrative Contact, 
+ * Financial Contact.
  */
 public class UnitAdministratorPersonMassChangeServiceImpl implements UnitAdministratorPersonMassChangeService {
 
@@ -57,39 +60,37 @@ public class UnitAdministratorPersonMassChangeServiceImpl implements UnitAdminis
 
         if (personMassChange.getUnitAdministratorPersonMassChange().isAdministrativeOfficer()) {
             isUnitAdministratorChangeCandidate 
-                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.ADMINISTRATIVE_OFFICER_TYPE_CODE);
+                |= isChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.ADMINISTRATIVE_OFFICER_TYPE_CODE);
         }
         if (personMassChange.getUnitAdministratorPersonMassChange().isOspAdministrator()) {
             isUnitAdministratorChangeCandidate 
-                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.OSP_ADMINISTRATOR_TYPE_CODE);
+                |= isChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.OSP_ADMINISTRATOR_TYPE_CODE);
         }
         if (personMassChange.getUnitAdministratorPersonMassChange().isUnitHead()) {
             isUnitAdministratorChangeCandidate 
-                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.UNIT_HEAD_TYPE_CODE);
+                |= isChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.UNIT_HEAD_TYPE_CODE);
         }
         if (personMassChange.getUnitAdministratorPersonMassChange().isDeanVP()) {
             isUnitAdministratorChangeCandidate 
-                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.DEAN_VP_TYPE_CODE);
+                |= isChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.DEAN_VP_TYPE_CODE);
         }
         if (personMassChange.getUnitAdministratorPersonMassChange().isOtherIndividualToNotify()) {
             isUnitAdministratorChangeCandidate 
-                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.OTHER_INDIVIDUAL_TO_NOTIFY_TYPE_CODE);
+                |= isChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.OTHER_INDIVIDUAL_TO_NOTIFY_TYPE_CODE);
         }
         if (personMassChange.getUnitAdministratorPersonMassChange().isAdministrativeContact()) {
             isUnitAdministratorChangeCandidate 
-                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.ADMINISTRATIVE_CONTACT_TYPE_CODE);
+                |= isChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.ADMINISTRATIVE_CONTACT_TYPE_CODE);
         }
         if (personMassChange.getUnitAdministratorPersonMassChange().isFinancialContact()) {
             isUnitAdministratorChangeCandidate 
-                |= isUnitAdministratorTypeChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.FINANCIAL_CONTACT_TYPE_CODE);
+                |= isChangeCandidate(personMassChange, unitAdministrator, UnitAdministratorType.FINANCIAL_CONTACT_TYPE_CODE);
         }
         
         return isUnitAdministratorChangeCandidate;
     }
     
-    private boolean isUnitAdministratorTypeChangeCandidate(PersonMassChange personMassChange, UnitAdministrator unitAdministrator, 
-            String... unitAdministratorTypes) {
-        
+    private boolean isChangeCandidate(PersonMassChange personMassChange, UnitAdministrator unitAdministrator, String... unitAdministratorTypes) {
         return isUnitAdministratorOfType(unitAdministrator, unitAdministratorTypes) && isPersonIdMassChange(personMassChange, unitAdministrator.getPersonId());
     }
     

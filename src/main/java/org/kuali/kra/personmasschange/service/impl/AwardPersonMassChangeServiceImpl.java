@@ -17,13 +17,8 @@ package org.kuali.kra.personmasschange.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
@@ -43,13 +38,12 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Defines the service for performing a Person Mass Change on Awards.
+ * 
+ * Person roles that might be replaced are: Investigator, Unit Contact, Sponsor Contact, Approved Foreign Travel.
  */
 public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeService {
     
     private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
-    
-    private static final String AWARD_ID = "awardId";
-    private static final String SEQUENCE_NUMBER = "sequenceNumber";
     
     private static final String AWARD = "award";
     
@@ -85,143 +79,127 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     }
     
     private List<Award> getAwards(PersonMassChange personMassChange) {
-        List<Award> awardChangeCandidates = new ArrayList<Award>();
+        List<Award> awards = new ArrayList<Award>();
         
-        Collection<Award> awards = getBusinessObjectService().findAll(Award.class);
+        Collection<Award> allAwards = getBusinessObjectService().findAll(Award.class);
 
         if (personMassChange.isChangeAllSequences()) {
-            awardChangeCandidates.addAll(awards);
+            awards.addAll(allAwards);
         } else {
-            awardChangeCandidates.addAll(getLatestAwards(awards));
+            awards.addAll(getLatestAwards(allAwards));
         }
         
-        return awardChangeCandidates;
+        return awards;
     }
     
     private List<Award> getLatestAwards(Collection<Award> awards) {
         List<Award> latestAwards = new ArrayList<Award>();
         
-        for (String uniqueAwardId : getUniqueAwardIds(awards)) {
-            Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put(AWARD_ID, uniqueAwardId);
-            Collection<Award> uniqueAwards = getBusinessObjectService().findMatchingOrderBy(Award.class, fieldValues, SEQUENCE_NUMBER, false);
-            if (!uniqueAwards.isEmpty()) {
-                latestAwards.add((Award) CollectionUtils.get(uniqueAwards, 0));
+        for (Award award : awards) {
+            if (award.isActiveVersion()) {
+                latestAwards.add(award);
             }
         }
         
         return latestAwards;
     }
     
-    private Set<String> getUniqueAwardIds(Collection<Award> awards) {
-        Set<String> uniqueAwardIds = new HashSet<String>();
-        
-        for (Award award : awards) {
-            uniqueAwardIds.add(String.valueOf(award.getAwardId()));
-        }
-        
-        return uniqueAwardIds;
-    }
-    
     private boolean isAwardChangeCandidate(PersonMassChange personMassChange, Award award) {
         boolean isAwardChangeCandidate = false;
         
-        List<AwardPerson> awardPersons = award.getProjectPersons();
-        List<AwardSponsorContact> awardSponsorContacts = award.getSponsorContacts();
-        List<AwardApprovedForeignTravel> awardApprovedForeignTravels = award.getApprovedForeignTravelTrips();
-        List<AwardUnitContact> awardUnitContacts = award.getAwardUnitContacts();
+        List<AwardPerson> persons = award.getProjectPersons();
+        List<AwardSponsorContact> sponsorContacts = award.getSponsorContacts();
+        List<AwardApprovedForeignTravel> approvedForeignTravels = award.getApprovedForeignTravelTrips();
+        List<AwardUnitContact> unitContacts = award.getAwardUnitContacts();
         
         String[] investigatorRoles = { ContactRole.PI_CODE, ContactRole.COI_CODE };
         String[] keyStudyPersonRoles = { ContactRole.KEY_PERSON_CODE };
         
         if (personMassChange.getAwardPersonMassChange().isInvestigator()) {
-            isAwardChangeCandidate |= isAwardPersonChangeCandidate(personMassChange, awardPersons, investigatorRoles);
+            isAwardChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, investigatorRoles);
         }
         if (personMassChange.getAwardPersonMassChange().isKeyStudyPerson()) {
-            isAwardChangeCandidate |= isAwardPersonChangeCandidate(personMassChange, awardPersons, keyStudyPersonRoles);
+            isAwardChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, keyStudyPersonRoles);
         }
         if (personMassChange.getAwardPersonMassChange().isUnitContact()) {
-            isAwardChangeCandidate |= isAwardUnitContactChangeCandidate(personMassChange, awardUnitContacts);
+            isAwardChangeCandidate |= isUnitContactChangeCandidate(personMassChange, unitContacts);
         }
         if (personMassChange.getAwardPersonMassChange().isSponsorContact()) {
-            isAwardChangeCandidate |= isAwardSponsorContactChangeCandidate(personMassChange, awardSponsorContacts);
+            isAwardChangeCandidate |= isSponsorContactChangeCandidate(personMassChange, sponsorContacts);
         }
         if (personMassChange.getAwardPersonMassChange().isApprovedForeignTravel()) {
-            isAwardChangeCandidate |= isAwardApprovedForeignTravelChangeCandidate(personMassChange, awardApprovedForeignTravels);
+            isAwardChangeCandidate |= isApprovedForeignTravelChangeCandidate(personMassChange, approvedForeignTravels);
         }
 
-        
         return isAwardChangeCandidate;
     }
     
-    private boolean isAwardPersonChangeCandidate(PersonMassChange personMassChange, List<AwardPerson> awardPersons, String... personRoles) {
-        boolean isAwardPersonChangeCandidate = false;
+    private boolean isPersonChangeCandidate(PersonMassChange personMassChange, List<AwardPerson> persons, String... personRoles) {
+        boolean isPersonChangeCandidate = false;
         
-        for (AwardPerson awardPerson : awardPersons) {
-            if (isAwardPersonInRole(awardPerson, personRoles)) {
-                if (isPersonIdMassChange(personMassChange, awardPerson.getPersonId()) 
-                        || isRolodexIdMassChange(personMassChange, awardPerson.getRolodexId())) {
-                    isAwardPersonChangeCandidate = true;
+        for (AwardPerson person : persons) {
+            if (isPersonInRole(person, personRoles)) {
+                if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
+                    isPersonChangeCandidate = true;
                     break;
                 }
             }
         }
         
-        return isAwardPersonChangeCandidate;
+        return isPersonChangeCandidate;
     }
     
-    private boolean isAwardPersonInRole(AwardPerson awardPerson, String... personRoles) {
-        boolean isAwardPersonInRole = false;
+    private boolean isPersonInRole(AwardPerson person, String... personRoles) {
+        boolean isPersonInRole = false;
         
-        for (String awardPersonRole : personRoles) {
-            if (StringUtils.equals(awardPerson.getRoleCode(), awardPersonRole)) {
-                isAwardPersonInRole = true;
+        for (String personRole : personRoles) {
+            if (StringUtils.equals(person.getRoleCode(), personRole)) {
+                isPersonInRole = true;
                 break;
             }
         }
         
-        return isAwardPersonInRole;
+        return isPersonInRole;
     }
 
-    private boolean isAwardUnitContactChangeCandidate(PersonMassChange personMassChange, List<AwardUnitContact> awardUnitContacts) {
-        boolean isAwardUnitAdministratorChangeCandidate = false;
+    private boolean isUnitContactChangeCandidate(PersonMassChange personMassChange, List<AwardUnitContact> unitContacts) {
+        boolean isUnitContactChangeCandidate = false;
         
-        for (AwardUnitContact awardUnitContact : awardUnitContacts) {
-            if (isPersonIdMassChange(personMassChange, awardUnitContact.getPersonId())) {
-                isAwardUnitAdministratorChangeCandidate = true;
+        for (AwardUnitContact unitContact : unitContacts) {
+            if (isPersonIdMassChange(personMassChange, unitContact.getPersonId())) {
+                isUnitContactChangeCandidate = true;
                 break;
             }
         }
         
-        return isAwardUnitAdministratorChangeCandidate;
+        return isUnitContactChangeCandidate;
     }
     
-    private boolean isAwardSponsorContactChangeCandidate(PersonMassChange personMassChange, List<AwardSponsorContact> awardSponsorContacts) {
-        boolean isAwardContactPersonChangeCandidate = false;
+    private boolean isSponsorContactChangeCandidate(PersonMassChange personMassChange, List<AwardSponsorContact> sponsorContacts) {
+        boolean isSponsorContactChangeCandidate = false;
         
-        for (AwardSponsorContact awardSponsorContact : awardSponsorContacts) {
-            if (isRolodexIdMassChange(personMassChange, awardSponsorContact.getRolodexId())) {
-                isAwardContactPersonChangeCandidate = true;
+        for (AwardSponsorContact sponsorContact : sponsorContacts) {
+            if (isRolodexIdMassChange(personMassChange, sponsorContact.getRolodexId())) {
+                isSponsorContactChangeCandidate = true;
                 break;
             }
         }
         
-        return isAwardContactPersonChangeCandidate;
+        return isSponsorContactChangeCandidate;
     }
     
-    private boolean isAwardApprovedForeignTravelChangeCandidate(PersonMassChange personMassChange, 
-                                                                List<AwardApprovedForeignTravel> awardApprovedForeignTravels) {
-        boolean isAwardForeignTripChangeCandidate = false;
+    private boolean isApprovedForeignTravelChangeCandidate(PersonMassChange personMassChange, List<AwardApprovedForeignTravel> approvedForeignTravels) {
+        boolean isApprovedForeignTravelChangeCandidate = false;
         
-        for (AwardApprovedForeignTravel awardApprovedForeignTravel : awardApprovedForeignTravels) {
-            if (isPersonIdMassChange(personMassChange, awardApprovedForeignTravel.getPersonId()) 
-                    || isRolodexIdMassChange(personMassChange, awardApprovedForeignTravel.getRolodexId())) {
-                isAwardForeignTripChangeCandidate = true;
+        for (AwardApprovedForeignTravel approvedForeignTravel : approvedForeignTravels) {
+            if (isPersonIdMassChange(personMassChange, approvedForeignTravel.getPersonId()) 
+                    || isRolodexIdMassChange(personMassChange, approvedForeignTravel.getRolodexId())) {
+                isApprovedForeignTravelChangeCandidate = true;
                 break;
             }
         }
         
-        return isAwardForeignTripChangeCandidate;
+        return isApprovedForeignTravelChangeCandidate;
     }
 
     @Override
@@ -229,87 +207,87 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
         for (Award awardChangeCandidate : awardChangeCandidates) {
             awardChangeCandidate.getAwardDocument().refreshPessimisticLocks();
             if (awardChangeCandidate.getAwardDocument().getPessimisticLocks().isEmpty()) {
-                performAwardInvestigatorPersonMassChange(personMassChange, awardChangeCandidate);
-                performAwardKeyStudyPersonPersonMassChange(personMassChange, awardChangeCandidate);
-                performAwardUnitContactPersonMassChange(personMassChange, awardChangeCandidate);
-                performAwardSponsorContactPersonMassChange(personMassChange, awardChangeCandidate);
-                performAwardApprovedForeignTravelPersonMassChange(personMassChange, awardChangeCandidate);
+                performInvestigatorPersonMassChange(personMassChange, awardChangeCandidate);
+                performKeyStudyPersonPersonMassChange(personMassChange, awardChangeCandidate);
+                performUnitContactPersonMassChange(personMassChange, awardChangeCandidate);
+                performSponsorContactPersonMassChange(personMassChange, awardChangeCandidate);
+                performApprovedForeignTravelPersonMassChange(personMassChange, awardChangeCandidate);
             }
         }
     }
     
-    private void performAwardInvestigatorPersonMassChange(PersonMassChange personMassChange, Award award) {
+    private void performInvestigatorPersonMassChange(PersonMassChange personMassChange, Award award) {
         if (personMassChange.getAwardPersonMassChange().isInvestigator()) {
             String[] personRoles = { ContactRole.PI_CODE, ContactRole.COI_CODE };
-            performAwardPersonPersonMassChange(personMassChange, award, personRoles);
+            performPersonPersonMassChange(personMassChange, award, personRoles);
         }
     }
     
-    private void performAwardKeyStudyPersonPersonMassChange(PersonMassChange personMassChange, Award award) {
+    private void performKeyStudyPersonPersonMassChange(PersonMassChange personMassChange, Award award) {
         if (personMassChange.getAwardPersonMassChange().isKeyStudyPerson()) {
             String[] personRoles = { ContactRole.KEY_PERSON_CODE };
-            performAwardPersonPersonMassChange(personMassChange, award, personRoles);
+            performPersonPersonMassChange(personMassChange, award, personRoles);
         }
     }
     
-    private void performAwardPersonPersonMassChange(PersonMassChange personMassChange, Award award, String... personRoles) {
-        for (AwardPerson awardPerson : award.getProjectPersons()) {
-            if (isAwardPersonInRole(awardPerson, personRoles)) {
+    private void performPersonPersonMassChange(PersonMassChange personMassChange, Award award, String... personRoles) {
+        for (AwardPerson person : award.getProjectPersons()) {
+            if (isPersonInRole(person, personRoles)) {
                 if (personMassChange.getReplacerPersonId() != null) {
-                    KcPerson person = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-                    awardPerson.setPersonId(person.getPersonId());
-                    awardPerson.setFullName(person.getFullName());
-                    awardPerson.setRolodexId(null);
+                    KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                    person.setPersonId(kcPerson.getPersonId());
+                    person.setFullName(kcPerson.getFullName());
+                    person.setRolodexId(null);
                 } else if (personMassChange.getReplacerRolodexId() != null) {
                     Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(personMassChange.getReplacerRolodexId()));
-                    awardPerson.setPersonId(null);
-                    awardPerson.setRolodexId(rolodex.getRolodexId());
-                    awardPerson.setFullName(rolodex.getFullName());
+                    person.setPersonId(null);
+                    person.setRolodexId(rolodex.getRolodexId());
+                    person.setFullName(rolodex.getFullName());
                 }
 
-                getBusinessObjectService().save(awardPerson);
+                getBusinessObjectService().save(person);
             }
         }
     }
 
-    private void performAwardUnitContactPersonMassChange(PersonMassChange personMassChange, Award award) {
+    private void performUnitContactPersonMassChange(PersonMassChange personMassChange, Award award) {
         if (personMassChange.getAwardPersonMassChange().isUnitContact()) {
-            for (AwardUnitContact awardUnitContact : award.getAwardUnitContacts()) {
-                KcPerson person = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-                awardUnitContact.setPersonId(person.getPersonId());
-                awardUnitContact.setFullName(person.getFullName());
+            for (AwardUnitContact unitContact : award.getAwardUnitContacts()) {
+                KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                unitContact.setPersonId(kcPerson.getPersonId());
+                unitContact.setFullName(kcPerson.getFullName());
 
-                getBusinessObjectService().save(awardUnitContact);
+                getBusinessObjectService().save(unitContact);
             }
         }
     }
     
-    private void performAwardSponsorContactPersonMassChange(PersonMassChange personMassChange, Award award) {
+    private void performSponsorContactPersonMassChange(PersonMassChange personMassChange, Award award) {
         if (personMassChange.getAwardPersonMassChange().isSponsorContact()) {
-            for (AwardSponsorContact awardSponsorContact : award.getSponsorContacts()) {
-                awardSponsorContact.setRolodexId(Integer.parseInt(personMassChange.getReplacerRolodexId()));
+            for (AwardSponsorContact sponsorContact : award.getSponsorContacts()) {
+                sponsorContact.setRolodexId(Integer.parseInt(personMassChange.getReplacerRolodexId()));
 
-                getBusinessObjectService().save(awardSponsorContact);
+                getBusinessObjectService().save(sponsorContact);
             }
         }
     }
     
-    private void performAwardApprovedForeignTravelPersonMassChange(PersonMassChange personMassChange, Award award) {
+    private void performApprovedForeignTravelPersonMassChange(PersonMassChange personMassChange, Award award) {
         if (personMassChange.getAwardPersonMassChange().isApprovedForeignTravel()) {
-            for (AwardApprovedForeignTravel awardApprovedForeignTravel : award.getApprovedForeignTravelTrips()) {
+            for (AwardApprovedForeignTravel approvedForeignTravel : award.getApprovedForeignTravelTrips()) {
                 if (personMassChange.getReplacerPersonId() != null) {
-                    KcPerson person = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-                    awardApprovedForeignTravel.setPersonId(person.getPersonId());
-                    awardApprovedForeignTravel.setTravelerName(person.getFullName());
-                    awardApprovedForeignTravel.setRolodexId(null);
+                    KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                    approvedForeignTravel.setPersonId(kcPerson.getPersonId());
+                    approvedForeignTravel.setTravelerName(kcPerson.getFullName());
+                    approvedForeignTravel.setRolodexId(null);
                 } else if (personMassChange.getReplacerRolodexId() != null) {
                     Rolodex rolodex = getRolodexService().getRolodex(Integer.parseInt(personMassChange.getReplacerRolodexId()));
-                    awardApprovedForeignTravel.setPersonId(null);
-                    awardApprovedForeignTravel.setRolodexId(rolodex.getRolodexId());
-                    awardApprovedForeignTravel.setTravelerName(rolodex.getFullName());
+                    approvedForeignTravel.setPersonId(null);
+                    approvedForeignTravel.setRolodexId(rolodex.getRolodexId());
+                    approvedForeignTravel.setTravelerName(rolodex.getFullName());
                 }
 
-                getBusinessObjectService().save(awardApprovedForeignTravel);
+                getBusinessObjectService().save(approvedForeignTravel);
             }
         }
     }
