@@ -114,7 +114,7 @@ public class NegotiationPersonMassChangeServiceImpl implements NegotiationPerson
     
     private void reportSoftError(Negotiation negotiation) {
         Long negotiationId = negotiation.getNegotiationId();
-        errorReporter.reportWarning(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, NEGOTIATION, String.valueOf(negotiationId));
+        errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, NEGOTIATION, String.valueOf(negotiationId));
     }
     
     public BusinessObjectService getBusinessObjectService() {

@@ -28,11 +28,11 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
     private long personMassChangeId;
     
     private String replaceePersonId;
-    private String replaceeRolodexId;
+    private Integer replaceeRolodexId;
     private String replaceeFullName;
     
     private String replacerPersonId;
-    private String replacerRolodexId;
+    private Integer replacerRolodexId;
     private String replacerFullName;
     
     private boolean changeAllSequences;
@@ -112,11 +112,11 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
         this.replaceePersonId = replaceePersonId;
     }
 
-    public String getReplaceeRolodexId() {
+    public Integer getReplaceeRolodexId() {
         return replaceeRolodexId;
     }
 
-    public void setReplaceeRolodexId(String replaceeRolodexId) {
+    public void setReplaceeRolodexId(Integer replaceeRolodexId) {
         this.replaceeRolodexId = replaceeRolodexId;
     }
 
@@ -136,11 +136,11 @@ public class PersonMassChange extends KraPersistableBusinessObjectBase {
         this.replacerPersonId = replacerPersonId;
     }
 
-    public String getReplacerRolodexId() {
+    public Integer getReplacerRolodexId() {
         return replacerRolodexId;
     }
 
-    public void setReplacerRolodexId(String replacerRolodexId) {
+    public void setReplacerRolodexId(Integer replacerRolodexId) {
         this.replacerRolodexId = replacerRolodexId;
     }
 
