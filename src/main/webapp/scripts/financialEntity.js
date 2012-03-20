@@ -44,7 +44,7 @@
         }
       
         $j('input[name^="methodToCall.performLookup.(!!org.kuali.kra.bo.Sponsor!!)"]').click(function() {
-            if(!confirm('The entity address fields will be overriden when a valid sponsor is selected.  Do you want to continue ?')) {
+            if(!confirm('The entity address fields will be overridden when a valid sponsor is selected.  Do you want to continue ?')) {
                 return false;
             }
         });
@@ -220,17 +220,21 @@
     
     	var dwrReply = {
         	callback:function(data) {
+					stateElem = document.getElementById(stateField);
+					stateVal = stateElem.value;
             		if ( data != null && data.length > 0 ) {
-            			$(stateField).disabled = false;
-                		dwr.util.removeAllOptions( stateField );
-	                	$(stateField).options[0] = new Option('', '');
-    	            	dwr.util.addOptions( stateField, data, 'postalStateCode', 'postalStateName' );
-        	        	if (state != '') {
-            	            dwr.util.setValue(stateField, state);
+            			stateElem.disabled = false;
+                		stateElem.length = 0;
+	                	stateElem.options[0] = new Option('', '');
+    	            	for (i=0; i<data.length; i++) {
+    	            	    addElementSafe(stateElem, data[i]);
+    	            	}
+        	        	if (stateVal != '') {
+							stateElem.value = stateVal;
                 		}
 		            } else { 
-		                dwr.util.setValue(stateField, '');
-       		    		$(stateField).disabled = true;
+						stateElem.value = '';
+       		    		stateElem.disabled = true;
             	} 
         	},
         	errorHandler:function( errorMessage ) {
@@ -238,12 +242,22 @@
         	}
     	};
 
-	    StateService.findAllStatesInCountry(countryCode, dwrReply);
+	    StateService.findAllStatesInCountryByAltCode(countryCode, dwrReply);
     }
     
+    function addElementSafe(selectList, element) {
+		var newOpt = document.createElement('option');
+        newOpt.text = element.name;
+		newOpt.value = element.code;
+        try {
+            selectList.add(newOpt, null); 
+  		}
+  		catch(ex) {
+            selectList.add(newOpt); // works for IE
+  		}
+	}
+    
     function loadEntityContactInfoFromRolodex(rolodexId, prefix) {
-//        var rolodexId = dwr.util.getValue( rolodexFieldName );
- 
         if (rolodexId != '') {
             var dwrReply = {
                 callback:function(data) {
