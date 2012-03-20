@@ -25,10 +25,10 @@ public class PersonMassChangeHomeHelper extends PersonMassChangeHelperBase {
     private PersonMassChangeForm form;
     
     private String replaceePersonId;
-    private String replaceeRolodexId;
+    private Integer replaceeRolodexId;
     
     private String replacerPersonId;
-    private String replacerRolodexId;
+    private Integer replacerRolodexId;
     
     public PersonMassChangeHomeHelper(PersonMassChangeForm form) {
         this.form = form;
@@ -48,7 +48,7 @@ public class PersonMassChangeHomeHelper extends PersonMassChangeHelperBase {
         this.replaceeRolodexId = null;
     }
 
-    public String getReplaceeRolodexId() {
+    public Integer getReplaceeRolodexId() {
         return replaceeRolodexId;
     }
 
@@ -57,7 +57,7 @@ public class PersonMassChangeHomeHelper extends PersonMassChangeHelperBase {
      * 
      * @param replaceeRolodexId the replacee rolodex id
      */
-    public void setReplaceeRolodexId(String replaceeRolodexId) {
+    public void setReplaceeRolodexId(Integer replaceeRolodexId) {
         this.replaceePersonId = null;
         this.replaceeRolodexId = replaceeRolodexId;
     }
@@ -76,7 +76,7 @@ public class PersonMassChangeHomeHelper extends PersonMassChangeHelperBase {
         this.replacerRolodexId = null;
     }
 
-    public String getReplacerRolodexId() {
+    public Integer getReplacerRolodexId() {
         return replacerRolodexId;
     }
 
@@ -85,7 +85,7 @@ public class PersonMassChangeHomeHelper extends PersonMassChangeHelperBase {
      * 
      * @param replacerRolodexId the replacer rolodex id
      */
-    public void setReplacerRolodexId(String replacerRolodexId) {
+    public void setReplacerRolodexId(Integer replacerRolodexId) {
         this.replacerPersonId = null;
         this.replacerRolodexId = replacerRolodexId;
     }
@@ -96,20 +96,20 @@ public class PersonMassChangeHomeHelper extends PersonMassChangeHelperBase {
     public void prepareView() {
         PersonMassChange personMassChange = form.getDocument().getPersonMassChange();
         
-        if (StringUtils.isBlank(getReplaceePersonId()) && StringUtils.isBlank(getReplaceeRolodexId())) {
+        if (StringUtils.isBlank(getReplaceePersonId()) && getReplaceeRolodexId() == null) {
             if (StringUtils.isNotBlank(personMassChange.getReplaceePersonId())) {
                 setReplaceePersonId(personMassChange.getReplaceePersonId());
-            } else if (StringUtils.isNotBlank(personMassChange.getReplaceeRolodexId())) {
+            } else if (personMassChange.getReplaceeRolodexId() != null) {
                 setReplaceeRolodexId(personMassChange.getReplaceeRolodexId());
             }
         }
         
         prepareReplaceeView(personMassChange, getReplaceePersonId(), getReplaceeRolodexId());
         
-        if (StringUtils.isBlank(getReplacerPersonId()) && StringUtils.isBlank(getReplacerRolodexId())) {
+        if (StringUtils.isBlank(getReplacerPersonId()) && getReplacerRolodexId() == null) {
             if (StringUtils.isNotBlank(personMassChange.getReplacerPersonId())) {
                 setReplacerPersonId(personMassChange.getReplacerPersonId());
-            } else if (StringUtils.isNotBlank(personMassChange.getReplacerRolodexId())) {
+            } else if (personMassChange.getReplacerRolodexId() != null) {
                 setReplacerRolodexId(personMassChange.getReplacerRolodexId());
             }
         }
