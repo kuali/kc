@@ -1351,11 +1351,14 @@ public class AwardAction extends BudgetParentActionBase {
         AwardTemplateSyncScope[] scopes;
         String syncScopes = getSyncScopesString( request );
         
-        
-        if( awardDocument.getAward().getTemplateCode() == null ) {
+        System.err.println("syncScopes: " + syncScopes);
+        if (awardDocument.getAward().getTemplateCode() == null || awardDocument.getAward().getAwardTemplate() == null) {
             //return now since there is no template code.
             GlobalVariables.getMessageMap().clearErrorMessages(); 
-            GlobalVariables.getMessageMap().putError( StringUtils.isBlank(syncScopes)?"document.award.awardTemplate":String.format( "document.award.awardTemplate.%s",StringUtils.substring(syncScopes,1 )),KeyConstants.ERROR_NO_TEMPLATE_CODE,  new String[] {});
+            GlobalVariables.getMessageMap().putError(
+                    StringUtils.isBlank(syncScopes) ? "document.award.awardTemplate" 
+                            : String.format("document.award.awardTemplate.%s", StringUtils.substring(syncScopes,1)), 
+                            KeyConstants.ERROR_NO_SPONSOR_TEMPLATE_FOUND,  new String[]{});
             awardForm.setOldTemplateCode(null);
             awardForm.setTemplateLookup(false);
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
