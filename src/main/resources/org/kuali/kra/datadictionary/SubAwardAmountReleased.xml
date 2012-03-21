@@ -159,8 +159,8 @@
    <bean id="SubAwardAmountReleased-invoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Invoice Number" />
-    <property name="shortLabel" value="Invoice Number" />
+    <property name="label" value="Invoice ID" />
+    <property name="shortLabel" value="Invoice ID" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
     <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
@@ -170,8 +170,8 @@
     <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Invoice Number" />
-    <property name="description" value="Invoice Number" />    
+    <property name="summary" value="Invoice ID" />
+    <property name="description" value="Invoice ID" />    
    </bean>  
    
     <bean id="SubAwardAmountReleased-startDate" parent="SubAwardAmountReleased-startDate-parentBean" />
