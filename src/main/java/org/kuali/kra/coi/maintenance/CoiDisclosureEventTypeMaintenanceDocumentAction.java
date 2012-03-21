@@ -18,22 +18,24 @@ package org.kuali.kra.coi.maintenance;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
+import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
 public class CoiDisclosureEventTypeMaintenanceDocumentAction extends KualiMaintenanceDocumentAction {
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
-        // if we came here then the superclass execute completed without validation errors, we can now 
-        // synchronize the CoeusSubModules with the active CoiDisclosureEventTypes.
-        CoiDisclosureEventTypeToCoeusSubModuleSynchronizerService synchronizer = 
-            KraServiceLocator.getService(CoiDisclosureEventTypeToCoeusSubModuleSynchronizerService.class);
-        synchronizer.synchronizeCoeusSubModulesWithActiveCoiDisclosureEventTypes();
+        // check if the method called was either for blanket approve or for submit
+        KualiMaintenanceForm maintenanceForm = (KualiMaintenanceForm)form;
+        if( (StringUtils.equals(maintenanceForm.getMethodToCall(), "blanketApprove")) || (StringUtils.equals(maintenanceForm.getMethodToCall(), "route")) ) {
+            // TODO add logic here to forward to a JSP that notifies the user that their changes will be synchronized with coi coeus sub module data.
+        }
         return forward;
     }
 
