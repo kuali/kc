@@ -95,7 +95,9 @@
 
 <kul:tab tabTitle="Direct Cost" defaultOpen="false" tabErrorKey="document.budget.budgetPeriod[${periodNum - 1}].budgetModular.directCostLessConsortiumFna,document.budget.budgetPeriod[${periodNum - 1}].budgetModular.consortiumFna">
 	<div class="tab-container" align="center">
-   		<h3>Direct Cost</h3>
+   		<h3>Direct Cost
+   		   	<span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetDirectCostHelpUrl" altText="help"/></span>
+   		</h3>
 		<table cellpadding=0 cellspacing="0" summary="Direct Cost Breakdown">
             <tr>
               	<th width="35%"><div align="right">Direct Cost Less Consortium F&amp;A: </div></th>

@@ -53,8 +53,7 @@
 	<div class="tab-container" align="center">
 	   <h3>
             <span class="subhead-left">Summary</span>
-            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.core.Budget" altText="help"/></span>
-        </h3>
+         </h3>
         <table cellpadding=0 cellspacing=0 summary="" width="100%">
              <tr>
                   <td colspan="3" rowspan="2" width="30%" class="infoline">&nbsp; </td>

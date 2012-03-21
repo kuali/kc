@@ -38,7 +38,7 @@
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetTotalsHelp" p:parameterDetailType="Document"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetSummaryHelpUrl" p:parameterDetailType="Document"/>
           </property>
           <property name="headerTabDisplayName" value="Summary"/>
           <property name="headerTabNavigateTo" value="summaryTotals"/>
@@ -52,7 +52,7 @@
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetNonPersonnelHelp" p:parameterDetailType="Document"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetNonpersonnelHelpUrl" p:parameterDetailType="Document"/>
           </property>
           <property name="headerTabDisplayName" value="Non-Personnel"/>
           <property name="headerTabNavigateTo" value="expenses"/>
