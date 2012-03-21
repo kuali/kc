@@ -428,7 +428,10 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         if (protocol.getApprovalDate() != null) {
             protocolMaster.setApprovalDate(getDateTimeService().getCalendar(protocol.getApprovalDate()));
         }
-        if (protocol.getExpirationDate() != null) {
+        if(protocol.getLastApprovalDate() != null){
+        	protocolMaster.setLastApprovalDate(getDateTimeService().getCalendar(protocol.getLastApprovalDate()));
+        
+        }if (protocol.getExpirationDate() != null) {
             protocolMaster.setExpirationDate(getDateTimeService().getCalendar(protocol.getExpirationDate()));
         }
         if (protocol.getProtocolSubmission() != null) {
