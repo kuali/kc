@@ -69,7 +69,7 @@
     </c:if>
    	<h3>
    		<span class="subhead-left">Budget Overview (Period ${budgetPeriod})</span>
-	   	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.parameters.BudgetPeriod" altText="help"/></span>
+     	<span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelOverviewHelpUrl" altText="help"/></span>
     </h3>
     <table cellpadding=0 cellspacing=0 summary="">
 	    	<tr>

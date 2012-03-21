@@ -45,10 +45,12 @@
 						<h3>
 							<div align="center">
 								<span align="center">Actions</span>
+		    					<span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetActionPrintFormsHelpUrl" altText="help"/></span>
 							</div>
 						</h3>
 					</td>
 				</tr> 
+				
 				<c:forEach var="form" items="${KualiForm.document.budget.budgetPrintForms}" varStatus="status">
 		            <tr>	                
 		                <td width="3%">
@@ -71,9 +73,10 @@
 									onclick="excludeSubmitRestriction=true" />
 							</div></td>
 					</tr>    	
-		    	</c:forEach>		    	
-			</tbody>
+		    	</c:forEach>		
+		    	    	
 			<tbody id="G" style="display: none;" />
+			</tbody>
 		</table>
 	</div>
 </kul:tabTop>

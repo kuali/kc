@@ -70,8 +70,8 @@
     <div class="tab-container" align="center">
 		<h3>
 		    <span class="subhead-left">Project Personnel (All Periods)</span>
-		    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.personnel.BudgetPersonnelDetails" altText="help"/></span>
-		</h3>
+	       <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetPersonHelpUrl" altText="help"/></span>
+ 		</h3>
 		
 		<c:choose>
 	        <c:when test="${hierarchyStatus != hierarchyParentStatus}">

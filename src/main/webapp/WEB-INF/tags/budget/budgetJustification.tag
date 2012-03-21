@@ -24,6 +24,7 @@
 	<div class="tab-container" align="center">
 		<h3>
 	    	<span class="subhead-left">Budget Justification</span>
+	        <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetActionJustificationHelpUrl" altText="help"/></span>
 	   	</h3>
 		<div align="center">
 			<table id="budget-justification-table" cellpadding="0" cellspacing="0" summary="Budget Justification">
@@ -54,6 +55,7 @@
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Budget Justification</span>
+            <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetActionJustificationHelpUrl" altText="help"/></span>
         </h3>
         <div align="center">
             <table id="budget-justification-table" cellpadding="0" cellspacing="0" summary="Budget Justification">

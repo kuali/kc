@@ -20,7 +20,9 @@
 
 <kul:tab tabTitle="Sub Award Budget" defaultOpen="false" tabErrorKey="budgetSubAwards.*,newSubAward.*">
  <div class="tab-container" align="center">
-     <h3>Sub Award Budget</h3>
+     <h3>Sub Award Budget
+         <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetActionSubAwardHelpUrl" altText="help"/></span>
+     </h3>
      <div align="center">
      	<table border="0" cellpadding=0 cellspacing=0 summary="">
           	<tr>
