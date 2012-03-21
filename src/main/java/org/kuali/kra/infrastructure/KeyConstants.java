@@ -566,6 +566,7 @@ public final class KeyConstants {
     
     //Award template validation errors
     public static final String ERROR_NO_TEMPLATE_CODE = "error.award.templateCode.notFound";
+    public static final String ERROR_NO_SPONSOR_TEMPLATE_FOUND = "error.award.sponsor.template.notFound";
     public static final String INVALID_REPORT_FREQUENCY = "error.invalid.award.awardTemplate.reportTerm.reportFreqency";
     public static final String INVALID_BASIS_PAYMENT = "error.invalid.award.awardTemplate.awardBasisPayment";
     public static final String INVALID_METHOD_PAYMENT = "error.invalid.award.awardTemplate.awardMethodPayment";
