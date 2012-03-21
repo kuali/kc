@@ -16,14 +16,17 @@
 package org.kuali.kra.award.budget;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.query.Equals;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 
 /**
@@ -144,6 +147,45 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
     }
     public boolean isRateOverrideFlag() {
         return rateOverrideFlag;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.budget.parameters.BudgetPeriod#getBudgetLineItems()
+     */
+    public List<BudgetLineItem> getBudgetLineItems() {
+        List<BudgetLineItem> budgetLineItems = super.getBudgetLineItems();
+        calculateLineItemTotals(budgetLineItems);
+        return budgetLineItems;
+    }
+    
+    /**
+     * 
+     * This method...
+     * @param budgetLineItems
+     */
+    protected void calculateLineItemTotals(List<BudgetLineItem> budgetLineItems) {
+        BudgetDecimal runningTotal = BudgetDecimal.ZERO;
+        int i = 0;
+        int budgetLineItemsLength = budgetLineItems.size();
+        for (BudgetLineItem item : budgetLineItems) {
+            AwardBudgetLineItemExt ext = (AwardBudgetLineItemExt) item;
+            runningTotal = runningTotal.add(ext.getLineItemCost());
+            runningTotal = runningTotal.add(ext.getObligatedAmount());
+            ext.setObjectTotal(runningTotal);
+            if (i + 1 < budgetLineItems.size()) {
+                AwardBudgetLineItemExt nextExt = (AwardBudgetLineItemExt) budgetLineItems.get(i + 1);
+                if (!StringUtils.equals(ext.getCostElementName(), nextExt.getCostElementName())) {
+                    ext.setDisplayTotalDetail(true);
+                    runningTotal = BudgetDecimal.ZERO;
+                } else {
+                    ext.setDisplayTotalDetail(false);
+                }
+            } else {
+                ext.setDisplayTotalDetail(true);
+            }
+            i++;
+        }
     }
 
 }
