@@ -15,23 +15,24 @@
  */
 package org.kuali.kra.coi.maintenance;
 
-import java.util.List;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.rice.kns.lookup.KualiLookupableImpl;
+import org.kuali.rice.kns.lookup.Lookupable;
 
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.krad.bo.BusinessObject;
 
-public class CoiDisclosureEventTypeLookupableHelper extends KualiLookupableHelperServiceImpl {
+public class CoiDisclosureEventTypeLookupableImpl extends KualiLookupableImpl {
     
     private static final String MAINTENANCE = "maintenance.do";
     private static final String NEW_MAINTENANCE = "../maintenanceCoiDisclosureEvent.do";
     
-    
     /**
      * new url goes to the custom coi disclosure event type maintenance action 
+     * @see org.kuali.rice.kns.lookup.KualiLookupableImpl#getCreateNewUrl()
      */
-    protected String getActionUrlHref(BusinessObject businessObject, String methodToCall, List pkNames) {
-        String originalURL = super.getActionUrlHref(businessObject, methodToCall, pkNames);
-        return originalURL.replace(MAINTENANCE, NEW_MAINTENANCE);
+    @Override
+    public String getCreateNewUrl() {
+        String originalURL = super.getCreateNewUrl();
+        return originalURL.replace(MAINTENANCE, NEW_MAINTENANCE);    
     }
-
+    
 }
