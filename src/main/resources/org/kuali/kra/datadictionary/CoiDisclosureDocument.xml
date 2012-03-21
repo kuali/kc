@@ -44,14 +44,6 @@
 	          	<property name="headerTabDisplayName" value="Disclosure Actions"/>
 	          	<property name="headerTabNavigateTo" value="disclosureActions"/>
         	</bean>
-        	<bean parent="HeaderNavigation">
-          		<property name="helpDefinition">
-            		<bean parent="HelpDefinition" p:parameterNamespace="KC-COIDISCLOSURE" p:parameterName="disclosureCommitteeHelp" p:parameterDetailType="Document"/>
-          		</property>
-          		<property name="headerTabDisplayName" value="Committee"/>
-          		<property name="headerTabNavigateTo" value="committee"/>
-        	</bean>
-        	
       	</list>
     	</property>
     	
