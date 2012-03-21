@@ -193,10 +193,11 @@ public class BudgetPeriod extends BudgetAssociate {
      * @return BudgetLineItem at index
      */
     public BudgetLineItem getBudgetLineItem(int index) {
-        while (getBudgetLineItems().size() <= index) {
-            getBudgetLineItems().add(getNewBudgetLineItem());
+        List<BudgetLineItem> items = getBudgetLineItems();
+        while (items.size() <= index) {
+            items.add(getNewBudgetLineItem());
         }
-        return getBudgetLineItems().get(index);
+        return items.get(index);
     }
 
     public BudgetLineItem getNewBudgetLineItem() {

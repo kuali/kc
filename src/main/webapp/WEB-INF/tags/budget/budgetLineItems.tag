@@ -120,6 +120,15 @@
 		</div>
     </td>
 </tr>
+<c:if test="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].displayTotalDetail }">
+	<tr>
+            	<th colspan="4"><div align="right">Total Amount for ${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElementName }:</div></th>
+            	<td><div align="center">
+            		${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].objectTotal }
+            	</div></td>
+            	<td>&nbsp;</td>
+            </tr>
+</c:if>
 <c:choose>
 	<c:when test="${empty KualiForm.viewBudgetView || KualiForm.viewBudgetView == 0}" >     
 		<tr>
