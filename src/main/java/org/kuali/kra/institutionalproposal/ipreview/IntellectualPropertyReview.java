@@ -185,7 +185,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         if (ipReviewer != null) {
             return getKcPersonService().getKcPersonByPersonId(ipReviewer);
         }
-        return null;
+        return new KcPerson();
     }
 
     /**
