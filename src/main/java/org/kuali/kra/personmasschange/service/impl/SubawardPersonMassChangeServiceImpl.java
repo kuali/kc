@@ -42,7 +42,7 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
     
     private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
     
-    private static final String SUBAWARD_ID = "subAwardId";
+    private static final String SUBAWARD_CODE = "subAwardCode";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     
     private static final String SUBAWARD = "subaward";
@@ -93,9 +93,9 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
     private List<SubAward> getLatestSubawards(Collection<SubAward> subawards) {
         List<SubAward> latestSubawards = new ArrayList<SubAward>();
         
-        for (String uniqueSubawardId : getUniqueSubawardIds(subawards)) {
+        for (String uniqueSubawardCode : getUniqueSubawardCodes(subawards)) {
             Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put(SUBAWARD_ID, uniqueSubawardId);
+            fieldValues.put(SUBAWARD_CODE, uniqueSubawardCode);
             Collection<SubAward> uniqueSubawards = getBusinessObjectService().findMatchingOrderBy(SubAward.class, fieldValues, SEQUENCE_NUMBER, false);
             if (!uniqueSubawards.isEmpty()) {
                 latestSubawards.add((SubAward) CollectionUtils.get(uniqueSubawards, 0));
@@ -105,11 +105,11 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
         return latestSubawards;
     }
     
-    private Set<String> getUniqueSubawardIds(Collection<SubAward> subawards) {
+    private Set<String> getUniqueSubawardCodes(Collection<SubAward> subawards) {
         Set<String> uniqueSubawardIds = new HashSet<String>();
         
         for (SubAward subaward : subawards) {
-            uniqueSubawardIds.add(String.valueOf(subaward.getSubAwardId()));
+            uniqueSubawardIds.add(subaward.getSubAwardCode());
         }
         
         return uniqueSubawardIds;

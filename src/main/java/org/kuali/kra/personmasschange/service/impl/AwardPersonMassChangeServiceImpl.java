@@ -50,7 +50,7 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     
     private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
     
-    private static final String AWARD_ID = "awardId";
+    private static final String AWARD_NUMBER = "awardNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     
     private static final String AWARD = "award";
@@ -103,9 +103,9 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     private List<Award> getLatestAwards(Collection<Award> awards) {
         List<Award> latestAwards = new ArrayList<Award>();
         
-        for (String uniqueAwardId : getUniqueAwardIds(awards)) {
+        for (String uniqueAwardNumber : getUniqueAwardNumbers(awards)) {
             Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put(AWARD_ID, uniqueAwardId);
+            fieldValues.put(AWARD_NUMBER, uniqueAwardNumber);
             Collection<Award> uniqueAwards = getBusinessObjectService().findMatchingOrderBy(Award.class, fieldValues, SEQUENCE_NUMBER, false);
             if (!uniqueAwards.isEmpty()) {
                 latestAwards.add((Award) CollectionUtils.get(uniqueAwards, 0));
@@ -115,11 +115,11 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
         return latestAwards;
     }
     
-    private Set<String> getUniqueAwardIds(Collection<Award> awards) {
+    private Set<String> getUniqueAwardNumbers(Collection<Award> awards) {
         Set<String> uniqueAwardIds = new HashSet<String>();
         
         for (Award award : awards) {
-            uniqueAwardIds.add(String.valueOf(award.getAwardId()));
+            uniqueAwardIds.add(award.getAwardNumber());
         }
         
         return uniqueAwardIds;
