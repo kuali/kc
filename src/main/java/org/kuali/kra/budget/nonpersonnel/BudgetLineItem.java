@@ -25,6 +25,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.springmodules.orm.ojb.OjbFactoryUtils;
@@ -46,12 +47,17 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     private String hierarchyProposalNumber;
 
     private boolean hiddenInHierarchy;
+    
+    private transient boolean displayTotalDetail;
+    private transient BudgetDecimal objectTotal;
 
     public BudgetLineItem() {
         super();
         budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
         budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
         budgetRateAndBaseList = new ArrayList<BudgetRateAndBase>();
+        displayTotalDetail = false;
+        objectTotal = new BudgetDecimal(0);
     }
 
     public List<BudgetPersonnelDetails> getBudgetPersonnelDetailsList() {
@@ -183,6 +189,22 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
      */
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
+    }
+
+    public boolean isDisplayTotalDetail() {
+        return displayTotalDetail;
+    }
+
+    public void setDisplayTotalDetail(boolean displayTotalDetail) {
+        this.displayTotalDetail = displayTotalDetail;
+    }
+
+    public BudgetDecimal getObjectTotal() {
+        return objectTotal;
+    }
+
+    public void setObjectTotal(BudgetDecimal objectTotal) {
+        this.objectTotal = objectTotal;
     }
 
     /**
