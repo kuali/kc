@@ -3103,7 +3103,7 @@ function updateNotificationRecipients_Callback(data) {
 }
 function loadRolodexInfoById() {
 	var fullNameElement = jq('input[name="document.newMaintainableObject.rolodexId"]');
-	if (jq(fullNameElement) != null) {
+	if (jq(fullNameElement).length > 0) {
 		var rolodexId = jq(fullNameElement).val();
 		if (jq(fullNameElement).parent().find('div').length == 0) {
 			jq(fullNameElement).parent().append('<div>&nbsp;</div>');
