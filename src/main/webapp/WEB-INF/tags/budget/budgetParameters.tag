@@ -37,7 +37,9 @@
 	
 		<kra:softError softErrorKey="projectDatesChanged" />
 		
-    	<h3>Budget Overview</h3>
+    	<h3>Budget Overview
+     	<span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetOverviewHelpUrl" altText="help"/></span>
+       </h3>
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
                 <th><div align="right">

@@ -22,8 +22,8 @@
 	<div class="tab-container" align="center">
 		<h3>
             <span class="subhead-left">Income Details</span>
-            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.distributionincome.BudgetProjectIncome" altText="help"/></span>
-        </h3>
+          	<span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetDistributionAndIncomeDetailsHelpUrl" altText="help"/></span>
+          </h3>
 		<div align="center">
 			<table id="budget-proj-income-table" cellpadding="0" cellspacing="0" summary="Budget Period Incomes">
 				<tr>
@@ -85,7 +85,7 @@
     
     	<h3>
             <span class="subhead-left">Income Summary</span>
-            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.distributionincome.BudgetProjectIncome" altText="help"/></span>
+  	        <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetDistributionAndIncomeSummaryHelpUrl" altText="help"/></span>
         </h3>
     
     	<div align="center">
