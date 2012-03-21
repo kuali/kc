@@ -802,6 +802,10 @@ public interface Constants {
     public static final String MAPPING_SUBAWARD_CONTACT_PANEL = "Contacts"; 
     public static final String SUBAWARD_CONTACTS_PANEL_NAME = "Contacts";
     public static final String SUBAWARD_CONTACTS_PANEL_ANCHOR = "Contacts";
+    public static final String SUBAWARD_FINANCIAL_PANEL ="Financial";
+    public static final String SUBAWARD_FINANCIAL_PANEL_NAME ="Financial";
+    public static final String SUBAWARD_FINANCIAL_ANTICIPATED_AMOUNT = "document.subAwardList[0].totalAnticipatedAmount";
+    public static final String SUBAWARD_FINANCIAL_OBLIGATED_AMOUNT = "document.subAwardList[0].totalObligatedAmount";
     // coi
     public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE";
     public static final String PARAMETER_COI_ATTACHMENT_DEFAULT_SORT = "coiAttachmentDefaultSort";
