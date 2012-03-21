@@ -52,7 +52,7 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
 
     private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
 
-    private static final String PROTOCOL_ID = "protocolId";
+    private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     
     private static final String PROTOCOL = "protocol";
@@ -107,9 +107,9 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
     private List<Protocol> getLatestProtocols(Collection<Protocol> protocols) {
         List<Protocol> latestProtocols = new ArrayList<Protocol>();
         
-        for (String uniqueProtocolId : getUniqueProtocolIds(protocols)) {
+        for (String uniqueProtocolNumber : getUniqueProtocolNumbers(protocols)) {
             Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put(PROTOCOL_ID, uniqueProtocolId);
+            fieldValues.put(PROTOCOL_NUMBER, uniqueProtocolNumber);
             Collection<Protocol> uniqueProtocols = getBusinessObjectService().findMatchingOrderBy(Protocol.class, fieldValues, SEQUENCE_NUMBER, false);
             if (!uniqueProtocols.isEmpty()) {
                 latestProtocols.add((Protocol) CollectionUtils.get(uniqueProtocols, 0));
@@ -119,11 +119,11 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
         return latestProtocols;
     }
     
-    private Set<String> getUniqueProtocolIds(Collection<Protocol> protocols) {
+    private Set<String> getUniqueProtocolNumbers(Collection<Protocol> protocols) {
         Set<String> uniqueProtocolIds = new HashSet<String>();
         
         for (Protocol protocol : protocols) {
-            uniqueProtocolIds.add(String.valueOf(protocol.getProtocolId()));
+            uniqueProtocolIds.add(protocol.getProtocolNumber());
         }
         
         return uniqueProtocolIds;

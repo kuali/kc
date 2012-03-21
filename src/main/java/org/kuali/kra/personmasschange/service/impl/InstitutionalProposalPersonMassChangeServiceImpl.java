@@ -50,7 +50,7 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
     
     private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
     
-    private static final String PROPOSAL_ID = "proposalId";
+    private static final String PROPOSAL_NUMBER = "proposalNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
 
     private static final String INSTITUTIONAL_PROPOSAL = "institutional proposal";
@@ -104,9 +104,9 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
         List<InstitutionalProposal> latestInstitutionalProposals = new ArrayList<InstitutionalProposal>();
         
         
-        for (String uniqueInstitutionalProposalId : getUniqueInstitutionalProposalIds(institutionalProposals)) {
+        for (String uniqueInstitutionalProposalNumber : getUniqueInstitutionalProposalNumbers(institutionalProposals)) {
             Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put(PROPOSAL_ID, uniqueInstitutionalProposalId);
+            fieldValues.put(PROPOSAL_NUMBER, uniqueInstitutionalProposalNumber);
             Collection<InstitutionalProposal> uniqueInstitutionalProposals 
                 = getBusinessObjectService().findMatchingOrderBy(InstitutionalProposal.class, fieldValues, SEQUENCE_NUMBER, false);
             if (!uniqueInstitutionalProposals.isEmpty()) {
@@ -117,11 +117,11 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
         return latestInstitutionalProposals;
     }
     
-    private Set<String> getUniqueInstitutionalProposalIds(Collection<InstitutionalProposal> institutionalProposals) {
+    private Set<String> getUniqueInstitutionalProposalNumbers(Collection<InstitutionalProposal> institutionalProposals) {
         Set<String> uniqueAwardIds = new HashSet<String>();
         
         for (InstitutionalProposal institutionalProposal : institutionalProposals) {
-            uniqueAwardIds.add(String.valueOf(institutionalProposal.getProposalId()));
+            uniqueAwardIds.add(institutionalProposal.getProposalNumber());
         }
         
         return uniqueAwardIds;
