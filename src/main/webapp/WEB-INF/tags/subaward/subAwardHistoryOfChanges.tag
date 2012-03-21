@@ -17,11 +17,12 @@
 <%@ attribute name="htmlFormAction" required="false" %>
 <%@ attribute name="renderMultipart" required="false" %>
 <c:set var="subAwardAmountInfoAttributes" value="${DataDictionary.SubAwardAmountInfo.attributes}" />
+<c:set var="subAwardAttributes" value="${DataDictionary.SubAward.attributes}" />
 <c:set var="action" value="subAwardFinancial" />
 
 <c:set var="newSubAwardAmountInfo" value="${KualiForm.newSubAwardAmountInfo}" />
 
-<kul:tab tabTitle="History of Changes" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="newSubAwardAmountInfo.effectiveDate*,newSubAwardAmountInfo.obligatedChange*,newSubAwardAmountInfo.anticipatedChange*,newSubAwardAmountInfo.comments*,document.subAwardList[0].subAwardAmountInfoList*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
+<kul:tab tabTitle="History of Changes" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="newSubAwardAmountInfo.effectiveDate*,newSubAwardAmountInfo.obligatedChange*,newSubAwardAmountInfo.anticipatedChange*,newSubAwardAmountInfo.comments*,document.subAwardList[0].subAwardAmountInfoList*,document.subAwardList[0].totalAnticipatedAmount*,document.subAwardList[0].totalObligatedAmount*" auditCluster="subawardFinancialdAuditErrors" tabAuditKey="document.subAwardList[0].totalAnticipatedAmount*,document.subAwardList[0].totalObligatedAmount*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
 	<h3>
     	<span class="subhead-left"></span>
@@ -29,24 +30,25 @@
     </h3>
 	<table cellpadding=0 cellspacing=0 summary="">
    				<tr>
-				<th>Obligated Amount</th>
+				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalObligatedAmount}" /></th>
                 <td colspan="2">
-                       ${KualiForm.subAwardDocument.subAward.totalObligatedAmount}&nbsp; 
+                
+                     <kul:htmlControlAttribute property="document.subAwardList[0].totalObligatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalObligatedAmount}" />           
                 </td>
-				<th>Anticipated Amount</th>
+				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" /></th>
                 <td colspan="2">
-                      ${KualiForm.subAwardDocument.subAward.totalAnticipatedAmount}&nbsp; 
+                      <kul:htmlControlAttribute property="document.subAwardList[0].totalAnticipatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" />           
                 </td>
             </tr>    
             
             <tr>
-				<th>Amount Released</th>
+				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAmountReleased}" /></th>
                 <td colspan="2">
-                       ${KualiForm.subAwardDocument.subAward.totalAmountReleased}&nbsp; 
+                        <kul:htmlControlAttribute property="document.subAwardList[0].totalAmountReleased" disabled="true" attributeEntry="${subAwardAttributes.totalAmountReleased}" />           
                 </td>
-				<th>Available Amount</th>
+				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAvailableAmount}" /></th>
                 <td colspan="2">
-                      ${KualiForm.subAwardDocument.subAward.totalAvailableAmount}&nbsp; 
+                      <kul:htmlControlAttribute property="document.subAwardList[0].totalAvailableAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAvailableAmount}" />           
                 </td>
             </tr>
             </table>
