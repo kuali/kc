@@ -1224,6 +1224,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                 }
                 if (lineItemIsSeniorPersonnel) {
                     for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
+                        personAlreadyAdded = false;
                         for (ProposalPerson proposalPerson : developmentProposal.getProposalPersons()) {
                             if (s2SUtilService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
                                 personAlreadyAdded = true;
