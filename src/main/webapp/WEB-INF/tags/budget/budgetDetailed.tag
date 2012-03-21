@@ -96,7 +96,18 @@
 		<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">${budgetCategoryTypeCodeLabel}</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.nonpersonnel.BudgetLineItem" altText="help"/></span>
+    		<c:if test="${budgetCategoryTypeCodeLabel eq 'Equipment'}">
+                <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelEquipmentHelpUrl" altText="help"/></span>
+            </c:if>
+            <c:if test="${budgetCategoryTypeCodeLabel eq 'Travel'}">
+                <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelTravelHelpUrl" altText="help"/></span>
+            </c:if>
+            <c:if test="${budgetCategoryTypeCodeLabel eq 'Participant Support'}">
+                <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelParticipantSupportHelpUrl" altText="help"/></span>
+            </c:if>
+            <c:if test="${budgetCategoryTypeCodeLabel eq 'Other Direct'}">
+                <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelOtherDirectHelpUrl" altText="help"/></span>
+            </c:if>
         </h3>
         <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 		<c:set target="${paramMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCodeKey}" />
