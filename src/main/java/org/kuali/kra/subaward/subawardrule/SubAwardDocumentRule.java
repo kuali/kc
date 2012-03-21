@@ -619,6 +619,7 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
         boolean retval = true;
         retval &= new SubAwardAuditRule().processRunAuditBusinessRules(document);
         retval &= new SubAwardCustomDataAuditRule().processRunAuditBusinessRules(document);
+        retval &= new SubAwardFinancialAuditRule().processRunAuditBusinessRules(document);
         return retval;
     }
     
