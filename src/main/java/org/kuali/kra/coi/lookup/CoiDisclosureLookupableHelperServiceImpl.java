@@ -30,6 +30,7 @@ import org.kuali.kra.coi.auth.ViewCoiDisclosureAuthorizer;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -58,7 +59,7 @@ public class CoiDisclosureLookupableHelperServiceImpl extends KraLookupableHelpe
 
     @Override
     protected String getHtmlAction() {
-        return "coiDisclosureRedirect.do";
+        return "coiDisclosure.do";
     }
 
     @Override
@@ -153,20 +154,23 @@ public class CoiDisclosureLookupableHelperServiceImpl extends KraLookupableHelpe
         }
     }
     
-    @Override
+/*    @Override
     protected AnchorHtmlData getViewLink(Document document) {
         Properties parameters = getLinkProperties(document);
         parameters.put("viewDocument", "true");
-        String displayText = "view";
+        String displayText = "View";
         return getAnchorHtmlData(parameters, displayText);
     }
-    
+*/    
     private AnchorHtmlData getEditLink(Document document) {
-        Properties parameters = getLinkProperties(document);
-        String displayText = KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL;
-        return getAnchorHtmlData(parameters, displayText);
+        AnchorHtmlData editHtmlData = getViewLink(document);
+        String href = editHtmlData.getHref();
+        href = href.replace("viewDocument=true", "viewDocument=false");
+        editHtmlData.setHref(href);
+        editHtmlData.setDisplayText("edit");
+        return editHtmlData;
     }
-    
+/*    
     private Properties getLinkProperties(Document document) {
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "redirectToProtocolFromReview");
@@ -180,11 +184,12 @@ public class CoiDisclosureLookupableHelperServiceImpl extends KraLookupableHelpe
         String href  = UrlFactory.parameterizeUrl("../" + getHtmlAction(), parameters);
         return new AnchorHtmlData(href, KRADConstants.DOC_HANDLER_METHOD, displayText);
     }
-
+*/
     private TaskAuthorizationService getTaskAuthorizationService() {
         if (taskAuthorizationService == null) {
             taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         }
         return taskAuthorizationService;
     }
+
 }
