@@ -53,10 +53,10 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         if (coiDisclosureDocument.getCoiDisclosure().isManualEvent()) {
             isValid = isConflictValueSelectedForManual(coiDisclosureDocument.getCoiDisclosure());
             
-        } else if (coiDisclosureDocument.getCoiDisclosure().isAnnualEvent()) {
+        } else if (coiDisclosureDocument.getCoiDisclosure().isAnnualEvent() && !coiDisclosureDocument.getCoiDisclosure().isAnnualUpdate()) {
             isValid = isConflictValueSelectedForAnnual(coiDisclosureDocument.getCoiDisclosure());
             
-        } else if (coiDisclosureDocument.getCoiDisclosure().isUpdateEvent()) {
+        } else if (coiDisclosureDocument.getCoiDisclosure().isUpdateEvent() || (coiDisclosureDocument.getCoiDisclosure().isAnnualEvent() && coiDisclosureDocument.getCoiDisclosure().isAnnualUpdate())) {
             isValid = isConflictValueSelectedForUpdate(coiDisclosureDocument.getCoiDisclosure());
             
         } else {

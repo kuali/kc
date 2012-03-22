@@ -82,7 +82,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     private String disclosureStatusCode; 
     private Date expirationDate; 
     private boolean currentDisclosure; 
-
+    private boolean annualUpdate;
 //    private String moduleCode; 
     private String eventTypeCode; 
     private String moduleItemKey; 
@@ -786,6 +786,16 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     public void setCoiUserRoles(List<CoiUserRole> coiUserRoles) {
         this.coiUserRoles = coiUserRoles;
+    }
+
+
+    public boolean isAnnualUpdate() {
+        return annualUpdate;
+    }
+
+
+    public void setAnnualUpdate(boolean annualUpdate) {
+        this.annualUpdate = annualUpdate;
     }
 
  }

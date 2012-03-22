@@ -1174,7 +1174,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         String moduleItemKey = Constants.EMPTY_STRING;
         String projectType = Constants.EMPTY_STRING;
         CoiDisclosureProjectBean disclosureProjectBean = null;
-        if (CoiDisclosureEventType.UPDATE.equals(coiDisclosure.getEventTypeCode())) {
+        if (coiDisclosure.isUpdateEvent() || (coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
             updateMasterDisclosureDetails(coiDisclosure);
         }
 
@@ -1207,7 +1207,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         
         // unless we are doing an update
-        if (!CoiDisclosureEventType.UPDATE.equals(coiDisclosure.getEventTypeCode())) {
+        if (!coiDisclosure.isUpdateEvent() && !(coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
             setupDisclosures(masterDisclosureBean, coiDisclosure);
         }
         return masterDisclosureBean;
