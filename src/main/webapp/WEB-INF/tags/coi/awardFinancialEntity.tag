@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="idx" required="true" description="Coi disl project list index" %>
-<%@ attribute name="disclProject" required="true" type="org.kuali.kra.coi.disclosure.CoiDisclEventProject" %>
+<%@ attribute name="disclProject" required="true" type="org.kuali.kra.coi.CoiDisclProject" %>
 
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
@@ -24,7 +24,7 @@
                 <div class="tab-container" align="left">
     	<h3>
             <span class="subhead-left"> 
-                Award Number: ${disclProject.eventProjectBo.awardNumber} </span>
+                Award Number: ${disclProject.award.awardNumber} </span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
         </h3>
                   <div>
@@ -35,14 +35,14 @@
                    <th><div align="right">Title:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.shortTextField1}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].award.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.shortTextField1}" /> 
 					</div>
 				  </td>
                                     <th><div align="right">Award Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
 					    <%-- TODO : not sure what award date is; so use award effectivedate for now --%>
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].eventProjectBo.awardEffectiveDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.dateField1}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].award.awardEffectiveDate" readOnly="true" attributeEntry="${coiDisclProjectAttributes.dateField1}" /> 
 					</div>
 				  </td>
                                 </tr>
@@ -53,14 +53,14 @@
 
                </table>
               </div>
-       <div id="div_FinancialEntity${idx}" class="div_FinancialEntity" <c:if test="${KualiForm.document.coiDisclosureList[0].coiDisclosureEventType.excludeFinancialEntities or disclProject.eventExcludFE}">style="display:none"</c:if>>
+       <div id="div_FinancialEntity${idx}" class="div_FinancialEntity" <c:if test="${KualiForm.document.coiDisclosureList[0].coiDisclosureEventType.excludeFinancialEntities}">style="display:none"</c:if>>
                 <h3>
             <span class="subhead-left"> 
                <a href="#" id ="financialEntityControl${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
-                  <c:if test="${not KualiForm.document.coiDisclosureList[0].coiDisclEventProjects[idx].complete}">
+                  <c:if test="${not KualiForm.document.coiDisclosureList[0].coiDisclProjects[idx].complete}">
                     <img src="${ConfigProperties.kra.externalizable.images.url}exclamation.png" style="border:none; width:16px; height:16px; vertical-align:middle;" label="Incomplete Project">
                   </c:if>
-               Financial Entities (${KualiForm.document.coiDisclosureList[0].coiDisclEventProjects[idx].completeMessage})</span>
+               Financial Entities (${KualiForm.document.coiDisclosureList[0].coiDisclProjects[idx].completeMessage})</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
                   <div  id="financialEntityContent${idx}" class="financialEntitySubpanelContent">
@@ -123,18 +123,18 @@
 		              </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].coiDiscDetails[${festatus.index}].personFinIntDisclosure.entityName" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].personFinIntDisclosure.entityName" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].coiDiscDetails[${festatus.index}].entityStatusCode" 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].entityStatusCode" 
                 			readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" styleClass="conflictClass${idx}" />
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclEventProjects[${idx}].coiDiscDetails[${festatus.index}].comments" 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].comments" 
                 			readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.comments}" />
 					</div>
 				  </td>

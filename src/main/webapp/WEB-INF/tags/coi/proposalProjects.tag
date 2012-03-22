@@ -27,10 +27,10 @@
             
             <%-- Existing data --%>
 
-        	<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclEventProjects}" varStatus="status">
-                 <c:if test="${disclProject.proposalEvent}">
+        	<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects}" varStatus="status">
+               <%--  <c:if test="${disclProject.proposal.proposalEvent}">--%> 
                      <kra-coi:devProposalFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
-                 </c:if>
+                <%--  </c:if>--%> 
         	</c:forEach> 
             <%-- Existing data --%>
 </kul:tab>
