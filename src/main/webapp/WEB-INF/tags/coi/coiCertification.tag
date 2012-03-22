@@ -5,6 +5,7 @@
 <%@ tag body-content="scriptless" description="The instructions for using the validation. If not set a default will be used." example="You can activate a Validation check...</p><ul><li>errors</li><li>warnings</li></ul>" %>
 
 <c:set var="title" value="Certification" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="certStatement" value="${KualiForm.document.coiDisclosureList[0].certificationStatement}" />
 <c:set var="ackStatement" value="${KualiForm.document.coiDisclosureList[0].acknowledgementStatement}" />
 <c:set var="reporterName" value="${KualiForm.document.coiDisclosureList[0].disclosurePersons[0].reporter.fullName}" />
@@ -44,43 +45,45 @@
 			</tr>
 			<tr>
             	<td style="vertical-align:top;">
-					<c:choose>
-		    			<c:when test="${empty certTimeStamp}">
-							<input type="checkbox" id="certCheckbox" />
-						</c:when>
-						<c:otherwise>
-							<input type="checkbox" id="certCheckbox" checked="checked" />
-						</c:otherwise>
-					</c:choose>
-                    <script type="text/javascript">
-						$j(document).ready(function(){
-							// initial state
-							if ($j('#certCheckbox').is(':checked')) {
-								$j("#certSubpanel").show();
-								$j("#certPrint").show();
-								$j("#certSubmit").hide();
-							} else {
-								$j("#certSubpanel").hide();
-							}
-							// trigger
-							$j("#certCheckbox").click(
-								function() {
-										funcHideShowCert();
-									}
-								);
-								// function
-								function funcHideShowCert() {
-										if ($j('#certCheckbox').is(':checked')) {
-											$j("#certSubpanel").show();
-											$j("#certCheckbox").attr('checked', true);
-										} else {
-											$j("#certSubpanel").hide();
-											$j("#certCheckbox").attr('checked', false);
+						<input type="checkbox" id="certCheckbox" 
+			    			<c:if test="${!empty certTimeStamp}">
+								checked="checked"
+							</c:if>
+							<c:if test="${readOnly}">
+								disabled="true"
+							</c:if>
+						/>
+					<c:if test="${!readOnly}">
+	                    <script type="text/javascript">
+							$j(document).ready(function(){
+								// initial state
+								if ($j('#certCheckbox').is(':checked')) {
+									$j("#certSubpanel").show();
+									$j("#certPrint").show();
+									$j("#certSubmit").hide();
+								} else {
+									$j("#certSubpanel").hide();
+								}
+								// trigger
+								$j("#certCheckbox").click(
+									function() {
+											funcHideShowCert();
+										}
+									);
+									// function
+									function funcHideShowCert() {
+											if ($j('#certCheckbox').is(':checked')) {
+												$j("#certSubpanel").show();
+												$j("#certCheckbox").attr('checked', true);
+											} else {
+												$j("#certSubpanel").hide();
+												$j("#certCheckbox").attr('checked', false);
+											}
 										}
 									}
-								}
-							);
-					</script>
+								);
+						</script>
+					</c:if>
                 </td>
                 <td>
 					<c:choose>
@@ -110,6 +113,7 @@
 										</c:choose>
                                     </td>
                                     <td id="certSubmit" style="border:none; background:none; text-align:center;" rowspan="2">
+                                    	<c:if test="${!readOnly}">
 											<html:image property="methodToCall.submitDisclosureCertification"
 													    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif" 
 														title="Submit disclosure certification" alt="Submit disclosure certification" 
@@ -126,6 +130,7 @@
 															);
 														});
 											</script>
+										</c:if>
                                     </td>
                                     <td id="certPrint" style="border:none; background:none; text-align:center;" rowspan="2">
 										<html:image property="methodToCall.printDisclosureCertification"
