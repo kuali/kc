@@ -168,24 +168,34 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        WorkflowDocument workflowDoc = kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument();
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getDocument();
+        WorkflowDocument workflowDoc = proposalDevelopmentForm.getDocument().getDocumentHeader().getWorkflowDocument();
 
-        ActionForward forward;
-        if (canGenerateRequestsInFuture(workflowDoc)) {
-            forward = promptUserForInput(workflowDoc, "approve", mapping, form, request, response);
+        proposalDevelopmentForm.setAuditActivated(true);        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        int status = isValidSubmission(pdDoc);
+
+        if (status == ERROR) {
+            // clear error from isValidSubmission()    
+            GlobalVariables.getMessageMap().clearErrorMessages(); 
+            GlobalVariables.getMessageMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
         } else {
-            forward = super.approve(mapping, form, request, response);
-        }
-        
-        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
-        if (autogenerateInstitutionalProposal() && proposalDevelopmentDocument.getInstitutionalProposalNumber() != null) {
-            if (ProposalType.REVISION_TYPE_CODE.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode())) {
-                KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
-                        proposalDevelopmentDocument.getInstitutionalProposalNumber());
+            if (canGenerateRequestsInFuture(workflowDoc)) {
+                forward = promptUserForInput(workflowDoc, "approve", mapping, form, request, response);
             } else {
-                String proposalNumber = proposalDevelopmentDocument.getInstitutionalProposalNumber();
-                KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
+                forward = super.approve(mapping, form, request, response);
+            }
+            
+            ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+            if (autogenerateInstitutionalProposal() && proposalDevelopmentDocument.getInstitutionalProposalNumber() != null) {
+                if (ProposalType.REVISION_TYPE_CODE.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode())) {
+                    KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
+                            proposalDevelopmentDocument.getInstitutionalProposalNumber());
+                } else {
+                    String proposalNumber = proposalDevelopmentDocument.getInstitutionalProposalNumber();
+                    KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
+                }
             }
         }
         
