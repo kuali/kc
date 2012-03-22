@@ -273,6 +273,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         if (coiDisclosure.isAwardEvent() || coiDisclosure.isAnnualEvent()) {
             initAwards(coiDisclProjects, financialEntities, coiDisclosure);
         } 
+        coiDisclosure.setCoiDisclProjects(coiDisclProjects);
     }
     
     /*
@@ -746,6 +747,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         coiDisclProject.setCoiDisclosure(coiDisclosure);
         coiDisclProject.setCoiDisclosureId(coiDisclosure.getCoiDisclosureId());
         coiDisclProject.setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
+        coiDisclProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
         coiDisclProject.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
         
         return coiDisclProject;
