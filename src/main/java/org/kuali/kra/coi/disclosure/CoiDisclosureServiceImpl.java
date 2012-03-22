@@ -1470,6 +1470,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             if (copiedDiscDetail.getOriginalCoiDisclosureId() == null) {
                 copiedDiscDetail.setOriginalCoiDisclosureId(copiedDisclProject.getCoiDisclosureId());
             }
+            copiedDiscDetail.setCoiDisclProject(copiedDisclProject);
             copiedDiscDetails.add(copiedDiscDetail);
         }
         copiedDisclProject.setCoiDiscDetails(copiedDiscDetails);
@@ -1593,7 +1594,12 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return disclProject;
     }
     
-    public void updateMasterDisclosureDetails(CoiDisclosure coiDisclosure) {
+    /*
+     * This method is compare the person FE and the FE disclosed.  If there is any addition/activate/inactivate,
+     * then the disclosed FE should be updated accordingly.
+     * This is mainly for 'Update Disclosure' or update annual disclosure
+     */
+    private void updateMasterDisclosureDetails(CoiDisclosure coiDisclosure) {
         /*
         Collections.sort(coiDisclosure.getCoiDiscDetails(), new Comparator() {
             public int compare(Object o1, Object o2) {
@@ -1621,9 +1627,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 if (!coiDiscDetail.getOriginalCoiDisclosureId().equals(disclosureId)) {
                     disclosureId = coiDiscDetail.getOriginalCoiDisclosureId();
                     if (coiDiscDetail.getOriginalCoiDisclosure().isAnnualEvent()) {
-                        checkToAddNewFEForAnnualEvent(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(disclosureId));
+                        checkToAddNewFEForAnnualEvent(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(disclosureId), coiDisclProject);
                     } else {
-                         checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(disclosureId));
+                         checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(disclosureId), coiDisclProject);
                     }
                 }
                 getCurrentFinancialEntity(coiDiscDetail);
@@ -1659,10 +1665,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * Loop thru detail list in each project to see if any the FE is new, and then a new detail will be created.
      */
     private void checkToAddNewFEForAnnualEvent(List<PersonFinIntDisclosure> financialEntities, List<CoiDiscDetail> coiDiscDetails,
-            Long disclosureId, CoiDisclosure coiDisclosure, List<CoiDiscDetail> projectDetails) {
+            Long disclosureId, CoiDisclosure coiDisclosure, List<CoiDiscDetail> projectDetails, CoiDisclProject coiDisclProject) {
         Map <String, List<CoiDiscDetail>> projectDetailMap = setupDetailMapForAnnual(projectDetails);
         for (String itemKey : projectDetailMap.keySet()) {
-            checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(itemKey));
+            checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(itemKey), coiDisclProject);
         }
     }
 
@@ -1685,7 +1691,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * This is for update master disclosure.  if FE is new or FE has been updated to new version
      */
     private void checkToAddNewFinancialEntity(List<PersonFinIntDisclosure> financialEntities, List<CoiDiscDetail> coiDiscDetails,
-            Long disclosureId, CoiDisclosure coiDisclosure, List<CoiDiscDetail> projectDetails) {
+            Long disclosureId, CoiDisclosure coiDisclosure, List<CoiDiscDetail> projectDetails, CoiDisclProject coiDisclProject) {
         for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
             boolean isNewFe = true;
             String projectType = Constants.EMPTY_STRING;
@@ -1708,6 +1714,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 // if this is newversion, do we keep the related information and comment ?
                 CoiDiscDetail newDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure, moduleItemKey, projectIdFk, projectType);
                 newDetail.setOriginalCoiDisclosureId(disclosureId);
+                newDetail.setCoiDisclProject(coiDisclProject);
                 coiDiscDetails.add(newDetail);
             }
         }
