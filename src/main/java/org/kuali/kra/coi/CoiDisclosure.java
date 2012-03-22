@@ -112,14 +112,12 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     private CoiDisclosureEventType coiDisclosureEventType;
     @SkipVersioning
     private List<CoiDisclProject> coiDisclProjects; 
-    @SkipVersioning
-    private List<CoiDiscDetail> coiDiscDetails; 
 //    private CoiDocuments coiDocuments; 
 //    private CoiNotepad coiNotepad; 
     private List<CoiUserRole> coiUserRoles; 
 
     // help UI purposes
-    private transient List<CoiDisclEventProject> coiDisclEventProjects; 
+    //private transient List<CoiDisclEventProject> coiDisclEventProjects; 
     private transient DateTimeService dateTimeService;
     private CoiDisclosureAttachmentFilter newAttachmentFilter; 
     private KraPersistableBusinessObjectBase eventBo; 
@@ -336,9 +334,16 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         }
         managedLists.add(disclosurePersonUnits);
         managedLists.add(getDisclosurePersons());
-        managedLists.add(getCoiDiscDetails());
+        //managedLists.add(getCoiDiscDetails());
         managedLists.add(getCoiUserRoles());
         managedLists.add(getCoiDisclosureAttachments());
+//        List<CoiDiscDetail> details = new ArrayList<CoiDiscDetail>();
+//        for (CoiDisclProject coiDisclProject : getCoiDisclProjects()) {
+          //  details.addAll(coiDisclProject.getCoiDiscDetails());
+//            managedLists.addAll(coiDisclProject.buildListOfDeletionAwareLists());
+//        }
+      //  managedLists.add(details);
+//        managedLists.add(getCoiDisclProjects());
         return managedLists;
     }
 
@@ -362,14 +367,6 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         
     }
     
-    public List<CoiDiscDetail> getCoiDiscDetails() {
-        return coiDiscDetails;
-    }
-
-    public void setCoiDiscDetails(List<CoiDiscDetail> coiDiscDetails) {
-        this.coiDiscDetails = coiDiscDetails;
-    }
-
     public boolean getCertifiedFlag() {
         return certifiedFlag;
     }
@@ -412,6 +409,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         this.coiDisclProjects = coiDisclProjects;
     }
 
+    /*
     public List<CoiDisclEventProject> getCoiDisclEventProjects() {
         return coiDisclEventProjects;
     }
@@ -419,7 +417,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     public void setCoiDisclEventProjects(List<CoiDisclEventProject> coiDisclEventProjects) {
         this.coiDisclEventProjects = coiDisclEventProjects;
     }
-
+*/
     public String getSubmitThankyouStatement() {
         if (submitThankyouStatement == null) {
             ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
@@ -463,19 +461,27 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
                 || StringUtils.equals(CoiDisclosureEventType.TRAVEL, this.getEventTypeCode());
     }
 
+
     public String getCompleteMessage() {
         String completeMessage = "Disclosure is complete";
         int completeCount = 0;
-        if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
-            for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
-                if (StringUtils.isNotBlank(coiDiscDetail.getEntityStatusCode())) {
-                    completeCount ++;
+        int detailSize = 0;
+        if (CollectionUtils.isNotEmpty(this.getCoiDisclProjects())) {
+            for (CoiDisclProject coiDisclProject: this.getCoiDisclProjects()) {
+                if (CollectionUtils.isNotEmpty(coiDisclProject.getCoiDiscDetails())) {
+                    detailSize += coiDisclProject.getCoiDiscDetails().size();
+                    for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {
+                        if (StringUtils.isNotBlank(coiDiscDetail.getEntityStatusCode())) {
+                            completeCount ++;
+                        }
+                    }
                 }
-                
             }
         }
-        return completeCount + "/" +this.getCoiDiscDetails().size() + " Reviews Complete";
+        return completeCount + "/" + detailSize + " Reviews Complete";
     }
+
+    
     protected void updateUserFields(KraPersistableBusinessObjectBase bo) {
         bo.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         bo.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
@@ -589,22 +595,32 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
          return filteredAttachments;
      }
      
+
     public boolean isComplete() {
         // TODO : this is kind of duplicate with getCompleteMessage.
         // may want to merge for better solution
         boolean isComplete = true;
-        if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
-            for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
-                if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
-                    isComplete = false;
-                    break;
+        if (CollectionUtils.isNotEmpty(this.getCoiDisclProjects())) {
+            for (CoiDisclProject coiDisclProject: this.getCoiDisclProjects()) {
+                if (CollectionUtils.isNotEmpty(coiDisclProject.getCoiDiscDetails())) {
+                    for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {
+                        if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
+                            isComplete = false;
+                            break;
+                        }
+                        
+                    }
                 }
                 
+                if (!isComplete) {
+                    break;
+                }
             }
         }
         return isComplete;
     }
 
+     
     @Override
     public void setSequenceOwner(CoiDisclosure newlyVersionedOwner) {
         
@@ -719,7 +735,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     public boolean isApprovedDisclosure() {
         return StringUtils.equals(CoiDisclosureStatus.APPROVED, disclosureStatusCode);
     }
-    
+
     /*
      * Checking timestamp instead of status because the status of a submitted 
      * disclosure could be submitted, approved or disapproved.

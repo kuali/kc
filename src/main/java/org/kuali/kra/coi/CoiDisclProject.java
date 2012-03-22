@@ -20,8 +20,12 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.SkipVersioning;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.ProtocolType;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -56,9 +60,12 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private String selectBox1;
     private ProposalType proposalType;
     private ProtocolType protocolType;
-    
+    private Protocol protocol;
+    private DevelopmentProposal proposal;
+    private Award award;
+       
     private CoiDisclosure coiDisclosure; 
-    // for UI purposes
+    @SkipVersioning
     private List<CoiDiscDetail> coiDiscDetails; 
 
     public CoiDisclProject(String coiDisclosureNumber, Integer sequenceNumber) { 
@@ -69,7 +76,15 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     public CoiDisclProject() { 
 
     } 
-   
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getCoiDiscDetails());
+        return managedLists;
+    }
+    
     public Long getCoiDisclProjectsId() {
         return coiDisclProjectsId;
     }
@@ -197,17 +212,6 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     public void setSelectBox1(String selectBox1) {
         this.selectBox1 = selectBox1;
     }
-    public boolean isProposalEvent() {
-        return StringUtils.equals(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, this.disclosureEventType);
-    }
-    
-    public boolean isAwardEvent() {
-        return StringUtils.equals(CoiDisclosureEventType.MANUAL_AWARD, this.disclosureEventType);
-    }
-    
-    public boolean isProtocolEvent() {
-        return StringUtils.equals(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, this.disclosureEventType);
-    }
     
     public String getProjectIdLabel() {
         String label = "Project Id";
@@ -298,14 +302,61 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
 
     @Override
     public String getProjectName() {
-        // TODO Auto-generated method stub
         return getLongTextField1();
     }
+    
+    //This is used for system event disclosures only
     @Override
     public String getProjectId() {
-        // TODO Auto-generated method stub
         return getShortTextField1();
     }
-
+    
+    //This is used for system event disclosures only
+    public String getModuleItemKey() {
+        return getShortTextField2();
+    }
+    
+    public boolean isProposalEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, this.disclosureEventType);
+    }
+    
+    public boolean isInstitutionalProposalEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, this.disclosureEventType);
+    }
+    
+    public boolean isAwardEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.AWARD, this.disclosureEventType);
+    }
+    
+    public boolean isProtocolEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.disclosureEventType);
+    }
+    public Protocol getProtocol() {
+        if (protocol == null) {
+            this.refreshReferenceObject("protocol");
+        }
+        return protocol;
+    }
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
+    }
+    public DevelopmentProposal getProposal() {
+        if (proposal == null) {
+            this.refreshReferenceObject("proposal");
+        }
+        return proposal;
+    }
+    public void setProposal(DevelopmentProposal proposal) {
+        this.proposal = proposal;
+    }
+    public Award getAward() {
+        if (award == null) {
+            this.refreshReferenceObject("award");
+        }
+        return award;
+    }
+    public void setAward(Award award) {
+        this.award = award;
+    }    
 
 }

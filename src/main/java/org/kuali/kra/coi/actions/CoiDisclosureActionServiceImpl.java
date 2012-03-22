@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
+import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
@@ -168,7 +169,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     
     private void  copyCollections(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
         
-        copyDisclosureDetails(masterCoiDisclosure, coiDisclosure);
+        copyDisclosureProjects(masterCoiDisclosure, coiDisclosure);
         copyDisclosureNotePads(masterCoiDisclosure, coiDisclosure);
         copyDisclosureAttachments(masterCoiDisclosure, coiDisclosure);
         copyDisclosureQuestionnaire(masterCoiDisclosure, coiDisclosure);
@@ -229,9 +230,8 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      * copy disclosure details of current master disclosure to the disclosure that is bing approved
      * because the current disclosure becomes the master.
      */
+    /*
     private void copyDisclosureDetails(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
-        // may also need to add note/attachment to new master disclosure
-//        CoiDisclosure copiedDisclosure = (CoiDisclosure) ObjectUtils.deepCopy(masterCoiDisclosure);
         for (CoiDiscDetail coiDiscDetail : masterCoiDisclosure.getCoiDiscDetails()) {
             if (!isDisclosureDetailExist(coiDisclosure, coiDiscDetail)) {
                 CoiDiscDetail copiedDiscDetail = (CoiDiscDetail) ObjectUtils.deepCopy(coiDiscDetail);
@@ -244,6 +244,41 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
                 coiDisclosure.getCoiDiscDetails().add(copiedDiscDetail);
             }
         }
+    }
+    */
+    
+    private void copyDisclosureDetails(List<CoiDiscDetail> originalDiscDetails, CoiDisclProject copiedDisclProject) {
+        List<CoiDiscDetail> copiedDiscDetails = new ArrayList<CoiDiscDetail>();
+        for (CoiDiscDetail coiDiscDetail : originalDiscDetails) {
+            CoiDiscDetail copiedDiscDetail = (CoiDiscDetail) ObjectUtils.deepCopy(coiDiscDetail);
+            copiedDiscDetail.setCopiedCoiDiscDetailId(copiedDiscDetail.getCoiDiscDetailId());
+            copiedDiscDetail.setSequenceNumber(copiedDisclProject.getSequenceNumber());
+            copiedDiscDetail.setCoiDiscDetailId(null);
+            copiedDiscDetail.setCoiDisclProjectId(null);
+            if (copiedDiscDetail.getOriginalCoiDisclosureId() == null) {
+                copiedDiscDetail.setOriginalCoiDisclosureId(copiedDisclProject.getCoiDisclosureId());
+            }
+            copiedDiscDetails.add(copiedDiscDetail);
+        }
+        copiedDisclProject.setCoiDiscDetails(copiedDiscDetails);
+    }
+    
+    //TODO: finish project copy and work in subsequent details gettting copied
+    private void copyDisclosureProjects(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
+        List<CoiDisclProject> copiedDisclProjects = new ArrayList<CoiDisclProject>();
+        for (CoiDisclProject coiDisclProject : masterCoiDisclosure.getCoiDisclProjects()) {
+            List<CoiDiscDetail> coiDiscDetails = coiDisclProject.getCoiDiscDetails();
+//            coiDisclProject.setCoiDiscDetails(null);
+            CoiDisclProject copiedDisclProject = (CoiDisclProject) ObjectUtils.deepCopy(coiDisclProject);
+            copiedDisclProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
+            copiedDisclProject.setCoiDisclProjectsId(null);
+            
+            //copy disc details
+            copyDisclosureDetails(coiDiscDetails, copiedDisclProject);
+            copiedDisclProjects.add(copiedDisclProject);
+            copiedDisclProject.setCoiDisclosureId(null);
+        }
+        coiDisclosure.getCoiDisclProjects().addAll(copiedDisclProjects);
     }
 
     private void copyDisclosureNotePads(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
@@ -288,10 +323,12 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      */
     private boolean isDisclosureDetailExist(CoiDisclosure coiDisclosure,CoiDiscDetail coiDiscDetail) {
         boolean isExist = false;
-        for (CoiDiscDetail discDetail : coiDisclosure.getCoiDiscDetails()) {
-            if (StringUtils.equals(discDetail.getProjectType(), coiDiscDetail.getProjectType()) && StringUtils.equals(discDetail.getProjectIdFk(), coiDiscDetail.getProjectIdFk()) && discDetail.getPersonFinIntDisclosureId().equals(coiDiscDetail.getPersonFinIntDisclosureId())) {
-                isExist = true;
-                break;
+        for (CoiDisclProject disclProject : coiDisclosure.getCoiDisclProjects()) {
+            for (CoiDiscDetail discDetail : disclProject.getCoiDiscDetails()) {
+                if (StringUtils.equals(discDetail.getProjectType(), coiDiscDetail.getProjectType()) && StringUtils.equals(discDetail.getProjectIdFk(), coiDiscDetail.getProjectIdFk()) && discDetail.getPersonFinIntDisclosureId().equals(coiDiscDetail.getPersonFinIntDisclosureId())) {
+                    isExist = true;
+                    break;
+                }
             }
         }
         return isExist;

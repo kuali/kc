@@ -27,6 +27,7 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     private static final long serialVersionUID = 779054686380799255L;
     private Long coiDiscDetailId; 
     private Long coiDisclosureId; 
+    private Long coiDisclProjectId;
     private String coiDisclosureNumber; 
     private Integer sequenceNumber; 
     private Integer coiDiscDetailNumber; 
@@ -47,6 +48,7 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     // originalxxxx is for master disclosure ui bean
     private Long originalCoiDisclosureId; 
     private CoiDisclosure originalCoiDisclosure; 
+    private CoiDisclProject coiDisclProject;
     // TODO : in general this projectType is same as disclosure eventtypecode. Can this be replaced by modulecode ?
     // the only exception is annual event which may have several project type.
     // this is also used for sorting, so annual discl cSan be in proper order, then they can be moved to 
@@ -86,6 +88,14 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
 
     public void setCoiDisclosureId(Long coiDisclosureId) {
         this.coiDisclosureId = coiDisclosureId;
+    }
+
+    public Long getCoiDisclProjectId() {
+        return coiDisclProjectId;
+    }
+
+    public void setCoiDisclProjectId(Long coiDisclProjectId) {
+        this.coiDisclProjectId = coiDisclProjectId;
     }
 
     public String getCoiDisclosureNumber() {
@@ -292,6 +302,14 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
 
     public void setOriginalCoiDisclosure(CoiDisclosure originalCoiDisclosure) {
         this.originalCoiDisclosure = originalCoiDisclosure;
+    }
+
+    public CoiDisclProject getCoiDisclProject() {
+        return coiDisclProject;
+    }
+
+    public void setCoiDisclProject(CoiDisclProject coiDisclProject) {
+        this.coiDisclProject = coiDisclProject;
     }
 
 

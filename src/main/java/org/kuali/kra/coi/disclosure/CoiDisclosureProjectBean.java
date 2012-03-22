@@ -24,6 +24,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
+import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
@@ -38,8 +39,9 @@ public class CoiDisclosureProjectBean implements Serializable {
     private static final long serialVersionUID = -100427824220789523L;
     // TODO : should create interface "CoiDisclosureable" for these project. It is to close to 4.0 release
     // so wait after 4.0
-    private KraPersistableBusinessObjectBase disclosureProject;
-    private List<CoiDiscDetail> projectDiscDetails;
+    //private KraPersistableBusinessObjectBase disclosureProject;
+    //private List<CoiDiscDetail> projectDiscDetails;
+    private CoiDisclProject coiDisclProject;
     private CoiDisclosure coiDisclosure;
     private String projectName;
     private String projectId;
@@ -50,13 +52,14 @@ public class CoiDisclosureProjectBean implements Serializable {
     private boolean excludeFE; 
 
     public CoiDisclosureProjectBean() {
-        projectDiscDetails = new ArrayList<CoiDiscDetail> ();
+        coiDisclProject = new CoiDisclProject();
+        //projectDiscDetails = new ArrayList<CoiDiscDetail> ();
         projectDiscAttachments = new ArrayList<CoiDisclosureAttachment> ();
         projectDiscNotepads = new ArrayList<CoiDisclosureNotepad> ();
         answerHeaders = new ArrayList<AnswerHeader> ();
     }
     
-
+/*
     public KraPersistableBusinessObjectBase getDisclosureProject() {
         return disclosureProject;
     }
@@ -72,6 +75,15 @@ public class CoiDisclosureProjectBean implements Serializable {
     public void setProjectDiscDetails(List<CoiDiscDetail> projectDiscDetails) {
         this.projectDiscDetails = projectDiscDetails;
     }
+*/
+    
+    public CoiDisclProject getCoiDisclProject() {
+        return coiDisclProject;
+    }
+
+    public void setCoiDisclProject(CoiDisclProject coiDisclProject) {
+        this.coiDisclProject = coiDisclProject;
+    }
 
     public CoiDisclosure getCoiDisclosure() {
         if (coiDisclosure == null) {
@@ -81,7 +93,7 @@ public class CoiDisclosureProjectBean implements Serializable {
     }
 
     private CoiDisclosure getOriginalCoiDisclosure() {
-        
+        List<CoiDiscDetail> projectDiscDetails = coiDisclProject.getCoiDiscDetails();
         if (CollectionUtils.isNotEmpty(projectDiscDetails)) {
             if (projectDiscDetails.get(0).getOriginalCoiDisclosure() == null) {
                 return projectDiscDetails.get(0).getCoiDisclosure();
@@ -100,8 +112,8 @@ public class CoiDisclosureProjectBean implements Serializable {
 
     public String getProjectName() {
         if (StringUtils.isEmpty(projectName) && !getCoiDisclosure().isAnnualEvent()) {
-            if (ObjectUtils.isNotNull(disclosureProject)) {
-                projectName = ((Disclosurable)disclosureProject).getProjectName();
+            if (ObjectUtils.isNotNull(coiDisclProject)) {
+                projectName = coiDisclProject.getProjectName();
             } 
         }
         return projectName;
@@ -114,7 +126,7 @@ public class CoiDisclosureProjectBean implements Serializable {
 
 
     public boolean isCurrentProject() {
-        
+        List<CoiDiscDetail> projectDiscDetails = coiDisclProject.getCoiDiscDetails();
         if (CollectionUtils.isNotEmpty(projectDiscDetails)) {
             return projectDiscDetails.get(0).getOriginalCoiDisclosure() == null;
         } else {
@@ -124,8 +136,8 @@ public class CoiDisclosureProjectBean implements Serializable {
 
     public String getProjectId() {
         if (StringUtils.isEmpty(projectId)  && !getCoiDisclosure().isAnnualEvent()) {
-            if (ObjectUtils.isNotNull(disclosureProject)) {
-                projectId = ((Disclosurable)disclosureProject).getProjectId();
+            if (ObjectUtils.isNotNull(coiDisclProject)) {
+                projectId = coiDisclProject.getProjectId();
             }
         }
         return projectId;
@@ -175,7 +187,6 @@ public class CoiDisclosureProjectBean implements Serializable {
     public void setAnswerHeaders(List<AnswerHeader> answerHeaders) {
         this.answerHeaders = answerHeaders;
     }
-
 
     public boolean isExcludeFE() {
         return excludeFE;
