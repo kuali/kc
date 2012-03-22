@@ -2183,32 +2183,7 @@ function adjustGroupDown() {
 
 /* integrate with edit, new */
 // -- should be shared
-var moduleCodes = [ 'select', 'Award', 'Institute Proposal',
-		'Development Proposal', 'Subcontracts', 'Negotiations', 'Person',
-		'IRB', 'COI Disclosure' ];
-// TODO : initial submodule codes.  should come from DB
-var subModuleCodes = new Array(10);
-  for (i = 0; i < subModuleCodes.length; ++ i) {
-	  subModuleCodes [i] = new Array(8);
-  }
-  subModuleCodes[0][0] = '';
-  subModuleCodes[3][0] = '';
-  subModuleCodes[3][1] = 'Proposal Budget';
-  subModuleCodes[3][2] = 'S2S Questionnaires';
-  subModuleCodes[3][3] = 'Proposal Person Certification';
-  subModuleCodes[7][0] = '';
-  subModuleCodes[7][1] = 'Amendment / Renewal';
-  subModuleCodes[7][2] = 'Protocol Submission';
-  subModuleCodes[7][3] = 'Renewal';
-  subModuleCodes[7][4] = 'Amendment';
-  subModuleCodes[8][0] = '';
-  subModuleCodes[8][1] = 'Annual';
-  subModuleCodes[8][2] = 'Update Master';
-  subModuleCodes[8][3] = 'Event-Award';
-  subModuleCodes[8][4] = 'Event-Proposal';
-  subModuleCodes[8][5] = 'Event-IRB Protocol';
-  subModuleCodes[8][6] = 'Event-IACUC Protocol';
-  subModuleCodes[8][7] = 'Event-Travel';
+
 	  
 var opArray = [ 'select', 'and', 'or' ];
 var responseArray = [ 'select', 'Contains text value', 'Begins with text', 'Ends with text', 'Matches text',
@@ -2251,10 +2226,8 @@ jq("#addUsage")
 				thtmp = jq('<th class="infoline"/>').html(ucount);
 				thtmp.appendTo(trtmp);
 				tdtmp = jq('<td align="left" valign="middle">')
-						.html(
-								moduleCodes[jq(
-										"#newQuestionnaireUsage\\.moduleItemCode")
-										.attr("value")]);
+						.html(jq("#newQuestionnaireUsage\\.moduleItemCode option:selected").text());
+				
 				modulecode = jq('<input type="hidden"/>').attr(
 						"value",
 						jq("#newQuestionnaireUsage\\.moduleItemCode").attr(
@@ -2262,12 +2235,8 @@ jq("#addUsage")
 				modulecode.prependTo(tdtmp);
 				tdtmp.appendTo(trtmp);
 				tdtmp = jq('<td align="left" valign="middle">')
-				.html(
-						subModuleCodes[jq(
-						"#newQuestionnaireUsage\\.moduleItemCode")
-						.attr("value")][jq(
-								"#newQuestionnaireUsage\\.moduleSubItemCode")
-								.attr("value")]);
+				.html(jq("#newQuestionnaireUsage\\.moduleSubItemCode option:selected").text());
+				
 				subModulecode = jq('<input type="hidden"/>').attr(
 						"value",
 						jq("#newQuestionnaireUsage\\.moduleSubItemCode").attr(
@@ -2762,15 +2731,13 @@ function loadUsages(usages) {
         var thtmp = jq('<th class="infoline"/>').html(ucount);
         thtmp.appendTo(trtmp);
         // tdtmp = jq('<td align="left" valign="middle">').html(field[1]);
-        var tdtmp = jq('<td align="left" valign="middle">').html(
-                moduleCodes[field[1]]);
+        var tdtmp = jq('<td align="left" valign="middle">').html(field[8]);
         var modulecode = jq('<input type="hidden"/>').attr("value", field[1]);
         modulecode.appendTo(tdtmp);
         tdtmp.appendTo(trtmp);
         var subModulecode = jq('<input type="hidden"/>').attr("value", field[4]);
         //TODO : fix here
-        tdtmp = jq('<td align="left" valign="middle">').html(
-        		subModuleCodes[field[1]][field[4]]);
+        tdtmp = jq('<td align="left" valign="middle">').html(field[9]);
         subModulecode.appendTo(tdtmp);
         tdtmp.appendTo(trtmp);
         var mandatoryValue = "No";
