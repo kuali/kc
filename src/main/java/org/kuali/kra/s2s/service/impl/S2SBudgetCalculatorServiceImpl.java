@@ -1645,13 +1645,14 @@ public class S2SBudgetCalculatorServiceImpl implements
 
             SponsorService sponsorService = KraServiceLocator.getService(SponsorService.class);
             if (sponsorService.isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
-                if (coInvestigator.isMultiplePi())
+                if (coInvestigator.isMultiplePi()){
                     keyPerson.setRole(NID_PD_PI);
-                else
+                }else{
                     keyPerson.setRole(NID_CO_PD_PI);
-            }
-            else
+                }
+            }else{
                 keyPerson.setRole(KEYPERSON_CO_PD_PI);
+            }
             keyPersons.add(keyPerson);
         }
 
@@ -1677,7 +1678,6 @@ public class S2SBudgetCalculatorServiceImpl implements
         List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
-
                 personAlreadyAdded = false;
                 for (ProposalPerson coInvestigator : pdDoc.getDevelopmentProposal().getInvestigators()) {
                     if (s2SUtilService.proposalPersonEqualsBudgetPerson(coInvestigator, budgetPersonnelDetails)) {
@@ -1702,11 +1702,10 @@ public class S2SBudgetCalculatorServiceImpl implements
                                     : getBudgetPersonRoleOther());
                             keyPerson.setNonMITPersonFlag(true);
 
-                            if (isSeniorLineItem(keyPerson.getRole(), budgetCategoryList, lineItem.getBudgetCategoryCode())) {
+                            if (isSeniorLineItem(budgetCategoryList, lineItem.getBudgetCategoryCode())) {
                                 keyPersons.add(keyPerson);
                             }
-                        }
-                        else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
+                        }else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
                             Map<String, String> searchMap = new HashMap<String, String>();
                             searchMap.put("tbnId", budgetPersonnelDetails.getBudgetPerson().getTbnId());
                             TbnPerson tbnPerson = (TbnPerson) businessObjectService.findByPrimaryKey(TbnPerson.class, searchMap);
@@ -1722,14 +1721,13 @@ public class S2SBudgetCalculatorServiceImpl implements
                                 keyPerson.setRole(tbnPerson.getPersonName());
                                 keyPerson.setNonMITPersonFlag(false);
 
-                                if (isSeniorLineItem(getBudgetPersonRoleOther(), budgetCategoryList, lineItem.getBudgetCategoryCode())) {
+                                if (isSeniorLineItem( budgetCategoryList, lineItem.getBudgetCategoryCode())) {
                                     keyPersons.add(keyPerson);
                                 }
 
                             }
                         }
-                    }
-                    else {
+                    }else {
                         KcPerson kcPerson = null;
                         try {
                             kcPerson = kcPersonService.getKcPersonByPersonId(budgetPersonnelDetails.getPersonId());
@@ -1747,17 +1745,13 @@ public class S2SBudgetCalculatorServiceImpl implements
                             keyPerson.setMiddleName(kcPerson.getMiddleName());
                             keyPerson.setNonMITPersonFlag(false);
                             keyPerson.setRole(getBudgetPersonRoleOther());
-
-                            if (isSeniorLineItem(keyPerson.getRole(), budgetCategoryList, lineItem.getBudgetCategoryCode())) {
+                            if (isSeniorLineItem( budgetCategoryList, lineItem.getBudgetCategoryCode())) {
                                 keyPersons.add(keyPerson);
                             }
-
                         }
                     }
                 }
             }
-
-
         }
 
         List<KeyPersonInfo> allPersons = new ArrayList<KeyPersonInfo>();
@@ -1827,6 +1821,15 @@ public class S2SBudgetCalculatorServiceImpl implements
             }
         }else {
             isSeniorLineItem = true;
+        }
+        return isSeniorLineItem;
+    }
+    private boolean isSeniorLineItem(List<BudgetCategoryMapping> budgetCategoryList, String budgetCategoryCode) {
+        boolean isSeniorLineItem = false;
+        for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
+            if (categoryMapping.getBudgetCategoryCode().equals(budgetCategoryCode)) {
+                isSeniorLineItem = true;
+            }
         }
         return isSeniorLineItem;
     }
