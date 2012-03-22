@@ -53,11 +53,13 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         // kccoi-110
          CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
+        /*
         if (coiDisclosure.isManualEvent() && "headerTab".equals(coiDisclosureForm.getMethodToCall()) 
                    && "disclosure".equals(coiDisclosureForm.getNavigateTo()) && !coiDisclosureForm.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isSaved()
                    && !coiDisclosureForm.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
             coiDisclosure.getCoiDisclProjects().get(0).setCoiDiscDetails(coiDisclosure.getCoiDiscDetails());
         }
+        */
         
         // initialize the questionnaire data
         coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView(false);
@@ -65,7 +67,6 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         coiDisclosureForm.getCoiNotesAndAttachmentsHelper().prepareView();
         return mapping.findForward("disclosure");
     }
-    
     public ActionForward committee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("committee");
     }

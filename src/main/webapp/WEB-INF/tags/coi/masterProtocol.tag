@@ -13,7 +13,7 @@
 
         	<c:forEach var="disclProjectBean" items="${masterDisclosureProjects}" varStatus="status">
                      <kra-coi:projectStyle disclProjectBean="${disclProjectBean}"/>                    
-                     <kra-coi:protocolHeader disclProject="${disclProjectBean.disclosureProject}" /> 
+                     <kra-coi:protocolHeader disclProject="${disclProjectBean.coiDisclProject}" /> 
                        
                      
                                       

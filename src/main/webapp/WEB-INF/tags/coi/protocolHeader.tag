@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%@ attribute name="disclProject" required="true" type="org.kuali.kra.irb.Protocol" %>
+<%@ attribute name="disclProject" required="true" type="org.kuali.kra.coi.CoiDisclProject" %>
 <%@ attribute name="style" required="false" description="style for current project" %>
 
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
@@ -23,7 +23,7 @@
                 <div>
     	<h3>
             <span class="subhead-left" style="${style}"> 
-               Protocol Number: ${disclProject.protocolNumber}</span>
+               Protocol Number: ${disclProject.protocol.protocolNumber}</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
         </h3>
                   
@@ -34,13 +34,13 @@
                                     <th><div align="right">IRB Protocol Name:</div></th> 
                   <td align="left" valign="middle" colspan="3">
 					<div align="left">
-					${disclProject.title}
+					${disclProject.protocol.title}
 					</div>
 				  </td>
                                     <th><div align="right">IRB Protocol Type:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					${disclProject.protocolType.description}
+					${disclProject.protocol.protocolType.description}
 					</div>
 				  </td>
                                 </tr>
@@ -52,20 +52,20 @@
                                     <th><div align="right">Application Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					${disclProject.applicationDate}
+					${disclProject.protocol.applicationDate}
 					    <%-- kc removed applicationdate from protocol.  not sure what to replace --%>
 					</div>
 				  </td>
                                     <th><div align="right">Expiration Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					${disclProject.expirationDate}
+					${disclProject.protocol.expirationDate}
 					</div>
 				  </td>
                                     <th><div align="right">PI Name:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					${disclProject.principalInvestigatorName}
+					${disclProject.protocol.principalInvestigatorName} 
 					</div>
 				  </td>
 	            </tr>

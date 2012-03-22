@@ -64,9 +64,6 @@
         <collection-descriptor name="disclosurePersons" proxy="true" element-class-ref="org.kuali.kra.coi.disclosure.DisclosurePerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="coiDisclosureId"/>
         </collection-descriptor>
-		<collection-descriptor name="coiDiscDetails" proxy="true" element-class-ref="org.kuali.kra.coi.CoiDiscDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="coiDisclosureId"/>
-		</collection-descriptor>
 		<collection-descriptor name="coiDisclProjects" proxy="true" element-class-ref="org.kuali.kra.coi.CoiDisclProject" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="coiDisclosureId"/>
 		</collection-descriptor>
@@ -471,6 +468,7 @@
 	<class-descriptor class="org.kuali.kra.coi.CoiDiscDetail" table="COI_DISC_DETAILS">
 		<field-descriptor name="coiDiscDetailId" column="COI_DISC_DETAILS_ID" jdbc-type="BIGINT" sequence-name="SEQ_COI_DISC_DETAILS_ID" primarykey="true"  autoincrement="true" />
 		<field-descriptor name="coiDisclosureId" column="COI_DISCLOSURE_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="coiDisclProjectId" column="COI_DISCL_PROJECT_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="personFinIntDisclosureId" column="PERSON_FIN_INT_DISCLOSURE_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="coiDisclosureNumber" column="COI_DISCLOSURE_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
@@ -502,6 +500,9 @@
 		<reference-descriptor name="originalCoiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="originalCoiDisclosureId"/>
 		</reference-descriptor>
+        <reference-descriptor name="coiDisclProject" class-ref="org.kuali.kra.coi.CoiDisclProject" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="coiDisclProjectId"/>
+        </reference-descriptor>
 	</class-descriptor>	
 	
 	<class-descriptor class="org.kuali.kra.coi.CoiEntityStatusCode" table="COI_ENTITY_STATUS_CODE">
@@ -536,11 +537,23 @@
 		<reference-descriptor name="coiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="coiDisclosureId"/>
 		</reference-descriptor>
+        <collection-descriptor name="coiDiscDetails" proxy="true" element-class-ref="org.kuali.kra.coi.CoiDiscDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="coiDisclProjectId"/>
+        </collection-descriptor>		
 		<reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="selectBox1"/>
 		</reference-descriptor>
         <reference-descriptor name="protocolType" class-ref="org.kuali.kra.irb.protocol.ProtocolType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="selectBox1"/>
+        </reference-descriptor>
+        <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="shortTextField1"/>
+        </reference-descriptor>
+        <reference-descriptor name="proposal" class-ref="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="shortTextField1"/>
+        </reference-descriptor>
+        <reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="shortTextField1"/>
         </reference-descriptor>
 	</class-descriptor>
 	

@@ -97,7 +97,7 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
     
     private void addManualProject(List<KeyValue> keyLabels, List<CoiDisclosureProjectBean> manualProtocolProjects, String projectLabel) {
         for (CoiDisclosureProjectBean disclProjectBean : manualProtocolProjects) {
-                 CoiDisclProject disclProject = (CoiDisclProject)disclProjectBean.getDisclosureProject();
+                 CoiDisclProject disclProject = (CoiDisclProject)disclProjectBean.getCoiDisclProject();
                  keyLabels.add(new ConcreteKeyValue(disclProject.getProjectId(), 
                         formatLabel(projectLabel + disclProject.getProjectId(), disclProject.getProjectName())));
             }
@@ -106,9 +106,10 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
 
     private void addAutomaticProject(List<KeyValue> keyLabels, List<CoiDisclosureProjectBean> automaticProtocolProjects, String projectLabel) {
         for (CoiDisclosureProjectBean disclProjectBean : automaticProtocolProjects) {
-            Disclosurable disclProject = (Disclosurable)disclProjectBean.getDisclosureProject();
-                 keyLabels.add(new ConcreteKeyValue(disclProject.getProjectId(), 
-                        formatLabel(projectLabel + disclProject.getProjectId(),disclProject.getProjectName())));
+            //Disclosurable disclProject = (Disclosurable)disclProjectBean.getDisclosureProject();
+            CoiDisclProject coiDisclProject = disclProjectBean.getCoiDisclProject();
+                 keyLabels.add(new ConcreteKeyValue(coiDisclProject.getProjectId(), 
+                        formatLabel(projectLabel + coiDisclProject.getProjectId(),coiDisclProject.getProjectName())));
             }
             
     }

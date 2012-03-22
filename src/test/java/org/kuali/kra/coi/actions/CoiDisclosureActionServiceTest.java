@@ -26,6 +26,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
+import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureEventType;
@@ -63,10 +64,14 @@ public class CoiDisclosureActionServiceTest extends KcUnitTestBase {
        coiDisclosure1 = getCoiDisclosure(1);
        coiDisclosure1.setCoiDisclosureId(1L);
        coiDisclosure1.setCurrentDisclosure(true);
-       coiDisclosure1.getCoiDiscDetails().add(createNewCoiDiscDetail(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL,1));
+       CoiDisclProject coiDisclProject1 = createNewCoiDisclProject(coiDisclosure1);       
+       coiDisclProject1.getCoiDiscDetails().add(createNewCoiDiscDetail(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL,1));
+       coiDisclosure1.getCoiDisclProjects().add(coiDisclProject1);
        CoiDisclosure coiDisclosure2 = getCoiDisclosure(2);
-       coiDisclosure2.getCoiDiscDetails().add(createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure1, CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL,2));
        coiDisclosure2.setCoiDisclosureId(2L);
+       CoiDisclProject coiDisclProject2 = createNewCoiDisclProject(coiDisclosure2);       
+       coiDisclProject2.getCoiDiscDetails().add(createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure1, CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL,2));
+       coiDisclosure2.getCoiDisclProjects().add(coiDisclProject2);
        final List<CoiDisclosure> coiDisclosures = new ArrayList<CoiDisclosure>();
        final List<KraPersistableBusinessObjectBase> disclosures = new ArrayList<KraPersistableBusinessObjectBase>();
 //       coiDisclosures.add(coiDisclosure2);
@@ -82,7 +87,7 @@ public class CoiDisclosureActionServiceTest extends KcUnitTestBase {
        Assert.assertTrue(coiDisclosure2.isCurrentDisclosure());
        Assert.assertEquals(coiDisclosure2.getDisclosureStatusCode(),CoiDisclosureStatus.APPROVED);
        // previous master disc's detail also copied over
-       Assert.assertEquals(coiDisclosure2.getCoiDiscDetails().size(),2);
+       Assert.assertEquals(coiDisclosure2.getCoiDisclProjects().get(0).getCoiDiscDetails().size(),2);
        // history record created
        Assert.assertEquals(coiDisclosureHistory.getDisclosureStatus(),CoiDisclosureStatus.APPROVED);
    }
@@ -125,8 +130,9 @@ public class CoiDisclosureActionServiceTest extends KcUnitTestBase {
       CoiDisclosure coiDisclosure = new CoiDisclosure();
         coiDisclosure.setCoiDisclosureNumber("1");
         coiDisclosure.setSequenceNumber(sequenceNumber);
-        coiDisclosure.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
+        coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
         coiDisclosure.setCoiDisclosureDocument(coiDisclosureDocument);
+        coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
         coiDisclosureDocument.setCoiDisclosure(coiDisclosure);
 //        coiDisclosure.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
         return coiDisclosure;
@@ -152,6 +158,15 @@ public class CoiDisclosureActionServiceTest extends KcUnitTestBase {
         personFinIntDisclosure.setEntityNumber(entityNumber);
         personFinIntDisclosure.setEntityName(entityName);
         return personFinIntDisclosure;
+    }
+    
+    private CoiDisclProject createNewCoiDisclProject(CoiDisclosure coiDisclosure) {
+        CoiDisclProject coiDisclProject = new CoiDisclProject();
+        coiDisclProject.setCoiDisclosure(coiDisclosure);
+        coiDisclProject.setCoiDisclosureId(coiDisclosure.getCoiDisclosureId());
+        coiDisclProject.setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
+        coiDisclProject.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
+        return coiDisclProject;
     }
 
 }
