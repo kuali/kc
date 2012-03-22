@@ -265,8 +265,10 @@
 <kra-coi:disclosureReporter />
 
 <c:if test="${not( (KualiForm.document.coiDisclosureList[0].manualEvent) and (empty KualiForm.document.coiDisclosureList[0].coiDisclProjects) and (not KualiForm.document.coiDisclosureList[0].updateEvent))}" >
+   <c:if test="${not (KualiForm.document.coiDisclosureList[0].annualEvent and KualiForm.document.coiDisclosureList[0].annualUpdate)}" > 
 <kra-coi:disclosureQuestionnaire />
 <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
+   </c:if>
 </c:if> 
  
 <c:if test="${KualiForm.document.coiDisclosureList[0].awardEvent}" >
@@ -285,7 +287,7 @@
    <%-- <kra-coi:protocolProjects /> --%>
     <kra-coi:newProtocolFinancialEntities />
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].annualEvent}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].annualEvent and not KualiForm.document.coiDisclosureList[0].annualUpdate}" >
 <kra-coi:disclosureFinancialEntities />
 </c:if>
 
@@ -294,7 +296,7 @@
 	<kra-coi:manualProjects />
 </c:if>
 
-<c:if test="${KualiForm.document.coiDisclosureList[0].updateEvent}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].updateEvent or (KualiForm.document.coiDisclosureList[0].annualEvent and KualiForm.document.coiDisclosureList[0].annualUpdate)}" >
 	<kra-coi:updateDisclosureProjects/>
 </c:if>
 

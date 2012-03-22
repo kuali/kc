@@ -87,7 +87,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      
         if (masterCoiDisclosure != null) {
             if (!coiDisclosure.isUpdateEvent()) {
-                copyCollections(masterCoiDisclosure, coiDisclosure);
+                if (!(coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
+                     copyCollections(masterCoiDisclosure, coiDisclosure);
+                }
             }
             masterCoiDisclosure.setCurrentDisclosure(false);
 //            coiDisclosure.setCurrentDisclosure(true);
