@@ -141,6 +141,7 @@
 				<value>sponsorLookupable</value>	
 				<value>pessimisticLockLookupable</value>	
 				<value>protocolLookupable</value>
+				<value>coiDisclosureLookupable</value>
 				<value>protocolOnlineReviewLookupable</value>	
 				<value>protocolSubmissionLookupable</value>	
 				<value>committeeLookupable</value>	
@@ -498,6 +499,7 @@
 				<value>sponsorLookupable</value>	
 				<value>pessimisticLockLookupable</value>	
 				<value>protocolLookupable</value>
+				<value>coiDisclosureLookupable</value>
 				<value>protocolOnlineReviewLookupable</value>	
 				<value>protocolSubmissionLookupable</value>	
 				<value>committeeLookupable</value>	

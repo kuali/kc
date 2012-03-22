@@ -29,7 +29,8 @@
     <li><portal:portalLink displayTitle="false" title="Create Manual Disclosure" url="${ConfigProperties.application.url}/coiDisclosure.do?methodToCall=docHandler&command=initiate_14&docTypeName=CoiDisclosureDocument">Create Manual Disclosure</portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title="New Project Disclosures" url="${ConfigProperties.application.url}/projectEventDisclosure.do?methodToCall=getDisclosuresToComplete">New Project Disclosures To Complete</portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title="Update Master Disclosure" url="${ConfigProperties.application.url}/coiDisclosure.do?methodToCall=docHandler&command=initiate_6&docTypeName=CoiDisclosureDocument">Update Master Disclosure</portal:portalLink></li>
-    <li>View/Edit Disclosure</li>
+    <li><portal:portalLink displayTitle="false" title="All My Disclosures" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.coi.CoiDisclosure&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&personId=${UserSession.principalId}">All My Disclosures</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="Search Disclosures" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.coi.CoiDisclosure&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">Search Disclosures</portal:portalLink></li>
   </ul>
 </div>
 <channel:portalChannelBottom />
