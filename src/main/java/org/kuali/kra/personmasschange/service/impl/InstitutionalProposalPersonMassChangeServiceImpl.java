@@ -244,15 +244,9 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
         for (InstitutionalProposalPerson person : institutionalProposal.getProjectPersons()) {
             if (isPersonInRole(person, personRoles)) {
                 if (personMassChange.getReplacerPersonId() != null) {
-                    KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-                    person.setPersonId(kcPerson.getPersonId());
-                    person.setFullName(kcPerson.getFullName());
-                    person.setRolodexId(null);
+                    person.setPersonId(personMassChange.getReplacerPersonId());
                 } else if (personMassChange.getReplacerRolodexId() != null) {
-                    Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
-                    person.setPersonId(null);
-                    person.setRolodexId(rolodex.getRolodexId());
-                    person.setFullName(rolodex.getFullName());
+                    person.setRolodexId(personMassChange.getReplacerRolodexId());
                 }
 
                 getBusinessObjectService().save(person);
