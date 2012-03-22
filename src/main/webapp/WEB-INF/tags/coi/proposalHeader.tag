@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%@ attribute name="disclProject" required="true" type="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" %>
+<%@ attribute name="disclProject" required="true" type="org.kuali.kra.coi.CoiDisclProject" %>
 <%@ attribute name="style" required="false" description="style for current project" %>
 
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
@@ -22,7 +22,7 @@
 <c:set var="readOnly" value="${!KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
                 <div>
     	<h3>
-    	    <span class="subhead-left" style="${style}">Proposal Number: ${disclProject.proposalNumber}</span>
+    	    <span class="subhead-left" style="${style}">Proposal Number: ${disclProject.proposal.proposalNumber}</span>
                 </span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
         </h3>
@@ -34,13 +34,13 @@
                                     <th><div align="right">Proposal Name:</div></th> 
                   <td align="left" valign="middle" colspan="3">
 					<div align="left">
-					${disclProject.title}
+					${disclProject.proposal.title}
 					</div>
 				  </td>
                                     <th><div align="right">Sponsor:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					${disclProject.sponsor.sponsorName}
+					${disclProject.proposal.sponsor.sponsorName}
 					</div>
 				  </td>
                                 </tr>
@@ -52,19 +52,19 @@
                         <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
                   <td align="left" valign="middle">
 					<div align="left">
-					${disclProject.requestedStartDateInitial}
+					${disclProject.proposal.requestedStartDateInitial}
 					</div>
 				  </td>
                                     <th><div align="right">End Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					${disclProject.requestedEndDateInitial}
+					${disclProject.proposal.requestedEndDateInitial}
 					</div>
 				  </td>
                                     <th><div align="right">PI Name:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					${disclProject.principalInvestigatorName}
+					${disclProject.proposal.principalInvestigatorName}
 					</div>
 				  </td>
 	            </tr>

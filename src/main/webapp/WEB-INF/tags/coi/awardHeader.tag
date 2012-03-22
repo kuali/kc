@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%@ attribute name="disclProject" required="true" type="org.kuali.kra.award.home.Award" %>
+<%@ attribute name="disclProject" required="true" type="org.kuali.kra.coi.CoiDisclProject" %>
 <%@ attribute name="style" required="false" description="style for current project" %>
 
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
@@ -23,7 +23,7 @@
                 <div>
     	<h3>
             <span class="subhead-left"  style="${style}"> 
-                Award Number: ${disclProject.awardNumber} </span>
+                Award Number: ${disclProject.award.awardNumber} </span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
         </h3>
                   
@@ -34,13 +34,13 @@
                    <th><div align="right">Title:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					${disclProject.title}
+					${disclProject.award.title}
 					</div>
 				  </td>
                                     <th><div align="right">Award Date:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					${disclProject.awardEffectiveDate}
+					${disclProject.award.awardEffectiveDate}
 					    <%-- TODO : not sure what award date is; so use award effectivedate for now --%>
 					</div>
 				  </td>

@@ -18,6 +18,7 @@ package org.kuali.kra.coi.disclosure;
 import java.util.List;
 
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDispositionStatus;
@@ -76,7 +77,7 @@ public interface CoiDisclosureService {
      * it may add new FE, remove inactivated FE, or update new version of FE
      * @param coiDisclosure
      */
-    void updateDisclosureDetails(CoiDisclosure coiDisclosure);
+    //void updateDisclosureDetails(CoiDisclosure coiDisclosure);
     
     /**
      * 
@@ -91,15 +92,6 @@ public interface CoiDisclosureService {
      * @param coiDisclProject
      */
     void updateDisclosureDetails(CoiDisclProject coiDisclProject);
-
-    /**
-     * 
-     * This method is to set coidiscdetails under coidisclosure before save.
-     * There is coidisclprojects between coidisclosure & coidiscdetails, but the relationship
-     * is just between coidisclosure & coidiscdetails; so have to do this extra handling.
-     * @param coiDisclosure
-     */
-    void setDisclDetailsForSave(CoiDisclosure coiDisclosure);
     
     /**
      * 
@@ -142,13 +134,6 @@ public interface CoiDisclosureService {
      */
     List<InstitutionalProposal> getInstitutionalProposals(String personId);
     
-    /**
-     * 
-     * This method is to initialize coidiscdetails for new projects (PD/Protocol/Award etc) disclosure
-     * @param coiDisclosure
-     * @param projectId
-     */
-    void initializeDisclosureDetails(CoiDisclosure coiDisclosure, String projectId);
     
     /**
      * 
@@ -168,8 +153,30 @@ public interface CoiDisclosureService {
     public List<CoiDispositionStatus> getDispositionStatuses(String disclosureStatusCode);
     
     void initDisclosureFromMasterDisclosure(CoiDisclosure coiDisclosure);
+        
+    /**
+     * 
+     * This method sets up a disclosure project and its corresponding details
+     * @param coiDisclosure
+     * @param projectId
+     */
+    void initializeDisclosureProject(CoiDisclosure coiDisclosure, String projectId);
     
-    public void setDisclDetailsForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean);
+    /**
+     * 
+     * This method sets up the disclosure projects and details for save
+     * @param coiDisclosure
+     * @param masterDisclosureBean
+     */
+    public void setDisclProjectForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean);
+    
+    /**
+     * 
+     * This method sets up the disclosure projects and details for save
+     * @param coiDisclosure
+ 
+    public void setDisclProjectForSave(CoiDisclosure coiDisclosure);
+     */
     
     public void updateMasterDisclosureDetails(CoiDisclosure coiDisclosure);
 }

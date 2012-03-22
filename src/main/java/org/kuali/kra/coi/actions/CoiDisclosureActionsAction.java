@@ -156,9 +156,6 @@ public class CoiDisclosureActionsAction extends CoiAction {
         ActionForward actionForward = super.reload(mapping, form, request, response);
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
-        if (coiDisclosure.isManualEvent()) {
-            coiDisclosure.getCoiDisclProjects().get(0).setCoiDiscDetails(coiDisclosure.getCoiDiscDetails());
-        }
         return actionForward;
     }
 

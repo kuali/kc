@@ -16,12 +16,15 @@
 package org.kuali.kra.coi.disclosure;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
+import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -32,6 +35,7 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
@@ -43,7 +47,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         boolean isValid = true;
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) document;
         auditErrors = new ArrayList<AuditError>();
-
+        
         // TODO : Once the normalize is done, then the audit rule will be simpler, and we don't
         // need these event check, all events will be the same.
         if (coiDisclosureDocument.getCoiDisclosure().isManualEvent()) {
@@ -95,7 +99,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
     protected boolean isConflictValueSelected(CoiDisclosure coiDisclosure) {
         boolean isSelected = true;
         int i = 0;
-        for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDiscDetails()) {
+        for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails()) {
             if (coiDiscDetail.getEntityStatusCode() == null) {
                 addErrorToAuditErrors(i, Constants.DISCLOSURE_FINANCIAL_ENTITY_KEY,
                                         Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
@@ -111,9 +115,9 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         boolean isSelected = true;
         int i = 0;
         // Allow annual disclosures to be attached without projects. This is a likely scenario
-        if (ObjectUtils.isNotNull(coiDisclosure.getCoiDisclEventProjects()) && !coiDisclosure.getCoiDisclEventProjects().isEmpty()) {
-            for (CoiDisclEventProject disclProject : coiDisclosure.getCoiDisclEventProjects()) {
-                if (!disclProject.isEventExcludFE()) {
+        if (ObjectUtils.isNotNull(coiDisclosure.getCoiDisclProjects()) && !coiDisclosure.getCoiDisclProjects().isEmpty()) {
+            for (CoiDisclProject disclProject : coiDisclosure.getCoiDisclProjects()) {
+                if (!isEventExcludedFE(disclProject.getDisclosureEventType())) {
                     int j = 0;
                     for (CoiDiscDetail coiDiscDetail : disclProject.getCoiDiscDetails()) {
                         if (coiDiscDetail.getEntityStatusCode() == null) {
@@ -134,7 +138,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         int i = 0;
         // Missing project. There should be a project linked to all manual and event disclosures
         if (coiDisclosure.getCoiDisclProjects().isEmpty()) {
-            addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY,
+            addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY, 
                     Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR, KeyConstants.ERROR_COI_PROJECT_REQUIRED);
             isSelected = false;
         }
@@ -142,9 +146,9 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
             if (!coiDisclosure.getCoiDisclosureEventType().isExcludeFinancialEntities()) {
                 for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails()) {
                     if (coiDiscDetail.getEntityStatusCode() == null) {
-                        addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY,
-                                Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
-                                KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED);
+                            addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY, 
+                                                    Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
+                                                    KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED);
                         isSelected = false;
                     }
                     i++;
@@ -179,7 +183,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         for (CoiDisclosureProjectBean disclProjectBean : disclProjects) {
             if (!disclProjectBean.isExcludeFE()) {
                 int j = 0;
-                for (CoiDiscDetail coiDiscDetail : disclProjectBean.getProjectDiscDetails()) {
+                for (CoiDiscDetail coiDiscDetail : disclProjectBean.getCoiDisclProject().getCoiDiscDetails()) {
                     if (coiDiscDetail.getEntityStatusCode() == null) {
                         addErrorToAuditErrors(property, i, j, Constants.DISCLOSURE_UPDATE_FINANCIAL_ENTITY_KEY);
                         isSelected = false;
@@ -196,5 +200,12 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
 
     private CoiDisclosureService getCoiDisclosureService() {
         return KraServiceLocator.getService(CoiDisclosureService.class);
+    }
+    
+    private boolean isEventExcludedFE(String eventTypeCode) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("eventTypeCode", eventTypeCode);
+        CoiDisclosureEventType CoiDisclosureEventType =  KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CoiDisclosureEventType.class, fieldValues);
+        return CoiDisclosureEventType.isExcludeFinancialEntities();        
     }
 }

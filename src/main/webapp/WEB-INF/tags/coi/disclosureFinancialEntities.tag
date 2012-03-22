@@ -21,35 +21,35 @@
 <c:set var="proposalDisplayValue" value=""/>
 <c:set var="protocolDisplayValue" value=""/>
 
-<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclEventProjects}" varStatus="status">
+<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects}" varStatus="status">
     <c:choose>
         <c:when test="${disclProject.proposalEvent}">
             <c:choose>
                 <c:when test="${empty proposalDisplayValue}">
-                    <c:set var="proposalDisplayValue" value="document.coiDisclosureList[0].coiDisclEventProjects[${status.index}].*"/>
+                    <c:set var="proposalDisplayValue" value="document.coiDisclosureList[0].coiDisclProjects[${status.index}].*"/>
                 </c:when>
                 <c:otherwise>
-                    <c:set var="proposalDisplayValue" value="${proposalDisplayValue},document.coiDisclosureList[0].coiDisclEventProjects[${status.index}].*"/>
+                    <c:set var="proposalDisplayValue" value="${proposalDisplayValue},document.coiDisclosureList[0].coiDisclProjects[${status.index}].*"/>
                 </c:otherwise>
             </c:choose>
         </c:when>
         <c:when test="${disclProject.awardEvent}">
             <c:choose>
                 <c:when test="${empty awardDisplayValue}">
-                     <c:set var="awardDisplayValue" value="document.coiDisclosureList[0].coiDisclEventProjects[${status.index}].*"/>
+                     <c:set var="awardDisplayValue" value="document.coiDisclosureList[0].coiDisclProjects[${status.index}].*"/>
                 </c:when>
                 <c:otherwise>
-                     <c:set var="awardDisplayValue" value="${awardDisplayValue},document.coiDisclosureList[0].coiDisclEventProjects[${status.index}].*"/>
+                     <c:set var="awardDisplayValue" value="${awardDisplayValue},document.coiDisclosureList[0].coiDisclProjects[${status.index}].*"/>
                 </c:otherwise>
              </c:choose>
         </c:when>
         <c:when test="${disclProject.protocolEvent}">
             <c:choose>
                 <c:when test="${empty protocolDisplayValue}">
-                    <c:set var="protocolDisplayValue" value="document.coiDisclosureList[0].coiDisclEventProjects[${status.index}].*"/>
+                    <c:set var="protocolDisplayValue" value="document.coiDisclosureList[0].coiDisclProjects[${status.index}].*"/>
                 </c:when>
                 <c:otherwise>
-                    <c:set var="protocolDisplayValue" value="${protocolDisplayValue},document.coiDisclosureList[0].coiDisclEventProjects[${status.index}].*"/>
+                    <c:set var="protocolDisplayValue" value="${protocolDisplayValue},document.coiDisclosureList[0].coiDisclProjects[${status.index}].*"/>
                 </c:otherwise>
             </c:choose>
         </c:when>

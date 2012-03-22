@@ -9,7 +9,7 @@
 
         	<c:forEach var="disclProjectBean" items="${masterDisclosureProjects}" varStatus="status">
                      <kra-coi:projectStyle disclProjectBean="${disclProjectBean}"/>                    
-                     <kra-coi:manualAwardHeader disclProject="${disclProjectBean.disclosureProject}" idx = "0"/>                    
+                     <kra-coi:manualAwardHeader disclProject="${disclProjectBean.coiDisclProject}" idx = "0"/>                    
                      <kra-coi:masterProjectQuestionnaires disclProjectBean="${disclProjectBean}" parentTab="Manual Awards" />                    
                      <kra-coi:masterProjectFE disclProjectBean="${disclProjectBean}" projectDivNamePrefix="masterManualAwardFE"  idx="${status.index}" projectListName="manualAwardProjects"/>                    
         	</c:forEach> 
