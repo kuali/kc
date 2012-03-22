@@ -170,13 +170,4 @@ public interface CoiDisclosureService {
      */
     public void setDisclProjectForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean);
     
-    /**
-     * 
-     * This method sets up the disclosure projects and details for save
-     * @param coiDisclosure
- 
-    public void setDisclProjectForSave(CoiDisclosure coiDisclosure);
-     */
-    
-    public void updateMasterDisclosureDetails(CoiDisclosure coiDisclosure);
 }
