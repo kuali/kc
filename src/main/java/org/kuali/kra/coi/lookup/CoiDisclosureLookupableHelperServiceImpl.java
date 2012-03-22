@@ -19,19 +19,13 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
-import org.kuali.kra.coi.auth.ViewCoiDisclosureAuthorizer;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -39,12 +33,9 @@ import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
 
-public class CoiDisclosureLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
+public class CoiDisclosureLookupableHelperServiceImpl extends CoiDisclosureLookupableHelperBase {
 
     private DictionaryValidationService dictionaryValidationService;
     private TaskAuthorizationService taskAuthorizationService;
@@ -52,35 +43,8 @@ public class CoiDisclosureLookupableHelperServiceImpl extends KraLookupableHelpe
     //field names
     private static final String LEAD_UNIT = "leadUnitNumber";
 
-    @Override
-    protected String getDocumentTypeName() {
-        return "CoiDisclosureDocument";
-    }
-
-    @Override
-    protected String getHtmlAction() {
-        return "coiDisclosure.do";
-    }
-
-    @Override
-    protected String getKeyFieldName() {
-        return "coiDisclosureId";
-    }
-    
     protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
-    }
-
-    /**
-     * 
-     * This method returns an instance of a DictionaryValidationService implementation.
-     * @return
-     */
-    public DictionaryValidationService getDictionaryValidationService() {
-        if (dictionaryValidationService == null) {
-            dictionaryValidationService =  KNSServiceLocator.getKNSDictionaryValidationService();
-        }
-        return dictionaryValidationService;
     }
 
     protected boolean validateDate(String dateFieldName, String dateFieldValue) {
@@ -98,17 +62,15 @@ public class CoiDisclosureLookupableHelperServiceImpl extends KraLookupableHelpe
     }
 
     @Override
-    public void validateSearchParameters(Map fieldValues) {
-        Map<String,String> fvalues = (Map<String,String>)fieldValues;
+    public void validateSearchParameters(Map<String,String> fieldValues) {
         super.validateSearchParameters(fieldValues);
-        Set<String> keys = fieldValues.keySet();
-        for (String key : keys) {
+        for (String key : fieldValues.keySet()) {
             String value = fieldValues.get(key).toString();
             if (key.toUpperCase().indexOf("DATE") > 0) {
                 //we have a date, now we need to weed out the calculated params that have '..' or '>=' or '<='
                 if (value.indexOf("..") == -1 && value.indexOf(">=") == -1 && value.indexOf("<=") == -1) {
                     if (!StringUtils.isEmpty(value)) {
-                        boolean valid = validateDate(key, value);
+                        validateDate(key, value);
                     }
                 }
             }
@@ -121,12 +83,11 @@ public class CoiDisclosureLookupableHelperServiceImpl extends KraLookupableHelpe
         List<CoiDisclosure> results;
         // need to set backlocation & docformkey here. Otherwise, they are empty
         super.setBackLocationDocFormKey(fieldValues);
-        results = (List<CoiDisclosure>)super.getSearchResults(fieldValues);
+        results = (List<CoiDisclosure>)super.getResults(fieldValues);
         return filterResults(results, fieldValues);
     }
 
     protected List<CoiDisclosure> filterResults(List<CoiDisclosure> rawResults, Map<String, String> fieldValues) {
-        ViewCoiDisclosureAuthorizer viewAuthorizer = new ViewCoiDisclosureAuthorizer();
         List<CoiDisclosure> finalResults = new ArrayList<CoiDisclosure>();
         String researcherLeadUnit = fieldValues.get(LEAD_UNIT);
         for (CoiDisclosure disclosure : rawResults) {
@@ -141,50 +102,6 @@ public class CoiDisclosureLookupableHelperServiceImpl extends KraLookupableHelpe
         return finalResults;
     }
 
-    @Override
-    protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
-        CoiDisclosure coiDisclosure = (CoiDisclosure) businessObject;
-        
-        htmlDataList.add(getViewLink(coiDisclosure.getCoiDisclosureDocument()));
-        if (!CoiDisclosureStatus.ROUTED_FOR_REVIEW.equals(coiDisclosure.getDisclosureStatusCode())) {
-            CoiDisclosureTask task = new CoiDisclosureTask(TaskName.MODIFY_COI_DISCLOSURE, coiDisclosure);
-            if (getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)) {   
-                htmlDataList.add(getEditLink(coiDisclosure.getCoiDisclosureDocument()));
-            }
-        }
-    }
-    
-/*    @Override
-    protected AnchorHtmlData getViewLink(Document document) {
-        Properties parameters = getLinkProperties(document);
-        parameters.put("viewDocument", "true");
-        String displayText = "View";
-        return getAnchorHtmlData(parameters, displayText);
-    }
-*/    
-    private AnchorHtmlData getEditLink(Document document) {
-        AnchorHtmlData editHtmlData = getViewLink(document);
-        String href = editHtmlData.getHref();
-        href = href.replace("viewDocument=true", "viewDocument=false");
-        editHtmlData.setHref(href);
-        editHtmlData.setDisplayText("edit");
-        return editHtmlData;
-    }
-/*    
-    private Properties getLinkProperties(Document document) {
-        Properties parameters = new Properties();
-        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "redirectToProtocolFromReview");
-        parameters.put(KRADConstants.PARAMETER_COMMAND, "displayDocSearchView");
-        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
-        parameters.put("docId", document.getDocumentNumber());
-        return parameters;
-    }
-    
-    private AnchorHtmlData getAnchorHtmlData(Properties parameters, String displayText) {
-        String href  = UrlFactory.parameterizeUrl("../" + getHtmlAction(), parameters);
-        return new AnchorHtmlData(href, KRADConstants.DOC_HANDLER_METHOD, displayText);
-    }
-*/
     private TaskAuthorizationService getTaskAuthorizationService() {
         if (taskAuthorizationService == null) {
             taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
