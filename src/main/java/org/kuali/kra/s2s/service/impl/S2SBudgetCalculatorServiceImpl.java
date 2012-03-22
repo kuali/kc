@@ -1908,8 +1908,17 @@ public class S2SBudgetCalculatorServiceImpl implements
                                 .multiply(new BudgetDecimal(0.01)));
                     }
                     else {
-                        calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                .multiply(new BudgetDecimal(0.01)));
+                        if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
+                            if (lineItem.getBudgetCategory()
+                                    .getBudgetCategoryCode().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                            Constants.S2SBUDGET_BUDGET_CATEGORY_CODE_PERSONNEL))) {
+                                calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
+                                        .multiply(new BudgetDecimal(0.01)));
+                            } 
+                        }else {
+                            calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
+                                    .multiply(new BudgetDecimal(0.01)));
+                        }
                     }
                     if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
                         if(lineItem.getBudgetCategory()
