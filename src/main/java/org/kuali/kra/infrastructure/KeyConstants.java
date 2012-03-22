@@ -597,7 +597,7 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_FUNDING_SOURCE_INSTITUTIONAL_PROPOSAL_LOCKED = "error.protocol.fundingSource.institutional.proposal.locked";
     
     //IRB Protocol Search Screen Error Messages
-    public static final String ERROR_PROTOCOL_SEARCH_INVALID_DATE = "error.protocol.search.invalid.date";
+    public static final String ERROR_PROTOCOL_SEARCH_INVALID_DATE = "error.search.invalid.date";
     
     //IRB Protocol Online Review Error Messages
     public static final String ERROR_PROTOCOL_ONLINE_REVIEW_INVALID_ONE_PERSON_ONLY="error.protocol.onlinereview.search.onlyoneperson";
@@ -1055,6 +1055,10 @@ public final class KeyConstants {
     public static final String ERROR_PERSON_MASS_CHANGE_REPLACEE_SELECTION = "error.personMassChange.replacee.selection";
     public static final String ERROR_PERSON_MASS_CHANGE_REPLACER_SELECTION = "error.personMassChange.replacer.selection";
     public static final String ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED = "error.personMassChange.document.locked";
+    
+    // Disclosure and Financial Entity errors
+    public static final String ERROR_DISCLOSURE_SEARCH_INVALID_DATE = "error.search.invalid.date";
+
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
