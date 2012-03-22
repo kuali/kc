@@ -208,7 +208,7 @@
                     </td style="border: none; width: 20%;">
                     <td align="left" valign="middle" style="border: none;">
                         <div align="left">
-                            <kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentFilter.filterBy" attributeEntry="${protocolAttachmentFilterAttributes.filterBy}" readOnly="false"/>
+                            <kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentFilter.filterBy" attributeEntry="${protocolAttachmentFilterAttributes.filterBy}" readOnly="false" onchange="filterTableByCriteria(this)"/>
                         </div>
                     </td>
                     <td style="border: none; width: 10%;">
@@ -218,10 +218,11 @@
                     </td>
                     <td align="left" valign="middle" style="border: none; width: 40%;">
                         <div align="left">
-                            <kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentFilter.sortBy" attributeEntry="${protocolAttachmentFilterAttributes.sortBy}" readOnly="false"/>
+                            <kul:htmlControlAttribute property="notesAttachmentsHelper.newAttachmentFilter.sortBy" attributeEntry="${protocolAttachmentFilterAttributes.sortBy}" readOnly="false" onchange="sortTableByCriteria(this)"/>
                         </div>
                     </td>                    
                 </tr>
+                <!-- replaced by jquery/javascript functions 
                 <tr>
                     <td colspan="4" class="infoline" style="border: none;">
                         <div align="center">
@@ -229,45 +230,35 @@
                             src="${ConfigProperties.kra.externalizable.images.url}tinybutton-filter.gif" styleClass="tinybutton"/>
                         </div>
                     </td>
-                </tr>                
+                </tr>
+                -->                
             </table>
-        <table cellpadding="4" cellspacing="0" summary="">
-        
+        <table cellpadding="4" cellspacing="0" summary="" id="protocol-attachment-table">
+        <tbody>
 		<c:forEach var="attachmentProtocol" items="${filteredAttachmentProtocols}" varStatus="itrStatus">
         
           <!--  Display logic to show the correct attribute being sorted on in the attachment header -->
-          <c:choose>
-            <c:when test="${KualiForm.document.protocolList[0].protocolAttachmentFilter.sortBy eq 'UPBY'}">
-                <c:set var="sortDisplay" value="- ${attachmentProtocol.updateUserFullName}"/>
-            </c:when>
-            <c:when test="${KualiForm.document.protocolList[0].protocolAttachmentFilter.sortBy eq 'LAUP'}">
-                <c:set var="sortDisplay">
-                    <fmt:formatDate value="${attachmentProtocol.updateTimestamp}" pattern="- MM/dd/yyyy KK:mm a" />                      
-                </c:set>
-            </c:when>
-            <c:when test="${KualiForm.document.protocolList[0].protocolAttachmentFilter.sortBy eq 'DESC'}">
-                <c:set var="sortDisplay" >
-                    <c:choose>
-                        <c:when test="${fn:length(attachmentProtocol.description) > 29}">
-                            <c:out value="- ${fn:substring(attachmentProtocol.description, 0, 29)}..." />
-                        </c:when>
-                        <c:otherwise>
-                            <c:out value="- ${attachmentProtocol.description}" />
-                        </c:otherwise>
-                    </c:choose>
-                </c:set>
-            </c:when>                        
-            <c:otherwise>
-                <c:set var="sortDisplay" value="&nbsp;"/>
-            </c:otherwise>
-          </c:choose>	
+          <c:set var="descDisplay" >
+              <c:choose>
+                  <c:when test="${fn:length(attachmentProtocol.description) > 29}">
+                      <c:out value="${fn:substring(attachmentProtocol.description, 0, 29)}..." />
+                  </c:when>
+                  <c:otherwise>
+                      <c:out value="${attachmentProtocol.description}" />
+                  </c:otherwise>
+              </c:choose>
+          </c:set>
+          <c:set var="updateUserDisplay" value="${attachmentProtocol.updateUserFullName}"/>
+          <c:set var="lastUpdateDisplay">
+              <fmt:formatDate value="${attachmentProtocol.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" />                      
+          </c:set>	
           	
 		  <c:choose>
 		    <c:when test="${attachmentProtocol.active}">
-		      <tr>
+		      <tr id="protocol-attachment-row-${itrStatus.index}" class="fake-class-level-1">
 		        <td>
 		             <c:set var="modify" value="${KualiForm.notesAttachmentsHelper.modifyAttachments and attachmentProtocol.documentStatusCode != '3' and (not KualiForm.document.protocolList[0].renewalWithoutAmendment or attachmentProtocol.documentStatusCode != '2')}" />
-		    			<kul:innerTab tabTitle="${attachmentProtocol.type.description} ${sortDisplay}" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
+		    			<kul:innerTab tabTitle="${attachmentProtocol.type.description} - ${descDisplay} - ${updateUserDisplay} (${lastUpdateDisplay})" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
 				<div class="innerTab-container" align="left">
             		<table class=tab cellpadding=0 cellspacing="0" summary="">
 						<tr>
@@ -277,7 +268,7 @@
 			         			</div>
 			         		</th>
 			         		<td align="left" valign="middle" colspan="3">
-			                	<div align="left">
+			                	<div align="left" id="attachment-type-${itrStatus.index}">
 			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].typeCode" attributeEntry="${protocolAttachmentProtocolAttributes['typeCode']}" readOnly="true" readOnlyAlternateDisplay ="${attachmentProtocol.type.description}" />
 				            	</div>
 							</td>
@@ -311,7 +302,7 @@
 			         			</div>
 			         		</th>
 			         		<td align="left" valign="middle">
-			                	<div align="left">
+			                	<div align="left" id="updated-by-${itrStatus.index}">
 			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].updateUserFullName" attributeEntry="${protocolAttachmentProtocolAttributes.updateUser}" readOnly="true"/>
 				            	</div>
 							</td>
@@ -333,7 +324,7 @@
 			         			</div>
 			         		</th>
 			         		<td align="left" valign="middle">
-			                	<div align="left">
+			                	<div align="left" id="last-updated-${itrStatus.index}">
 			                	 	     <kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].updateTimestamp" attributeEntry="${protocolAttachmentProtocolAttributes.updateTimestamp}" readOnly="true"/>  
 				            	</div>
 							</td>
@@ -365,7 +356,7 @@
 								</div>
 							</th>
 			         		<td align="left" valign="middle">
-			                	<div align="left">
+			                	<div align="left" id="row-description-${itrStatus.index}">
 			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].description" attributeEntry="${protocolAttachmentProtocolAttributes.description}" readOnly="${!modify}"/>
 				            	</div>
 							</td>
@@ -477,6 +468,7 @@
 		    </c:otherwise>
 		  </c:choose>
 		</c:forEach>
+		</tbody>
 		</table>
 		</c:if>
      </div>		
