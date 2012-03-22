@@ -20,7 +20,7 @@
 <c:set var="proposal" value="${KualiForm.document.coiDisclosureList[0].eventBo}" />
 <c:set var="readOnly" value="${!KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
 <kul:tab defaultOpen="false" tabTitle="Project & Financial Entity Relationships" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDiscDetails*" useRiceAuditMode="true"
-    tabErrorKey="document.coiDisclosureList[0].coiDiscDetails*" >
+    tabErrorKey="document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails*" >
 	<div class="tab-container" align="center">
 	 <div>
     	<h3>
@@ -116,7 +116,7 @@
                </c:if>
         
         
-        	<c:forEach var="disclosureDetail" items="${KualiForm.document.coiDisclosureList[0].coiDiscDetails}" varStatus="status">
+        	<c:forEach var="disclosureDetail" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails}" varStatus="status">
 	             <tr>
                   <td align="left" valign="middle">
 					<div align="center">
@@ -139,18 +139,18 @@
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDiscDetails[${status.index}].personFinIntDisclosure.entityName" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails[${status.index}].personFinIntDisclosure.entityName" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDiscDetails[${status.index}].entityStatusCode" 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails[${status.index}].entityStatusCode" 
                 			readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}"  styleClass="conflictClass${idx}"/>
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDiscDetails[${status.index}].comments" 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails[${status.index}].comments" 
                 			readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.comments}" />
 					</div>
 				  </td>

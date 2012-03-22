@@ -117,7 +117,7 @@
                </c:if>
         
         
-        	<c:forEach var="disclosureDetail" items="${KualiForm.document.coiDisclosureList[0].coiDiscDetails}" varStatus="status">
+        	<c:forEach var="disclosureDetail" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails}" varStatus="status">
 	             <tr>
                   <td align="left" valign="middle">
 					<div align="center">
@@ -140,18 +140,18 @@
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDiscDetails[${status.index}].personFinIntDisclosure.entityName" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails[${status.index}].personFinIntDisclosure.entityName" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDiscDetails[${status.index}].entityStatusCode" 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails[${status.index}].entityStatusCode" 
                 			readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}"  styleClass="conflictClass${idx}"/>
 					</div>
 				  </td>
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDiscDetails[${status.index}].comments" 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails[${status.index}].comments" 
                 			readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.comments}" />
 					</div>
 				  </td>

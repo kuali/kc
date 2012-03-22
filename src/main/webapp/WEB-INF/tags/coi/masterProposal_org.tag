@@ -13,7 +13,7 @@
 
         	<c:forEach var="disclProjectBean" items="${masterDisclosureProjects}" varStatus="status">
                      <kra-coi:projectStyle disclProjectBean="${disclProjectBean}"/>                    
-                     <kra-coi:proposalHeader disclProject="${disclProjectBean.disclosureProject}" />                    
+                     <kra-coi:proposalHeader disclProject="${disclProjectBean.coiDisclProject}" />                    
              <div class="financialentity">
                 <h3>
     		        <span class="subhead-left">

@@ -54,7 +54,7 @@
                     </td>
                 </tr>
                 </c:if>
-        	    <c:forEach var="disclosureDetail" items="${disclProjectBean.projectDiscDetails}" varStatus="festatus">
+        	    <c:forEach var="disclosureDetail" items="${disclProjectBean.coiDisclProject.coiDiscDetails}" varStatus="festatus">
 	             <tr>
 					  <td>
 						<div align=center>&nbsp;
@@ -84,7 +84,7 @@
 					<div align="left">
 					    <%-- ${disclosureDetail.coiEntityStatusCode.description} --%>
                         <%-- TODO need to work on property --%>
-                        <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].projectDiscDetails[${festatus.index}].entityStatusCode" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" 
+                        <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].entityStatusCode" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" 
                         readOnlyAlternateDisplay="${disclosureDetail.coiEntityStatusCode.description}" styleClass="conflictClass${projectDivNamePrefix}${idx}"/> 
 					</div>
 				  </td>
@@ -92,7 +92,7 @@
 					<div align="left">
 					    <%-- ${disclosureDetail.comments} --%>
                         <%-- TODO need to work on property --%>
-                        <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].projectDiscDetails[${festatus.index}].comments" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.comments}" /> 
+                        <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].comments" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.comments}" /> 
 					</div>
 				  </td>
 	            </tr>
