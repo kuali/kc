@@ -25,28 +25,8 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 public class DisclosureModuleQuestionnaireBean extends ModuleQuestionnaireBean {
     
     public DisclosureModuleQuestionnaireBean(CoiDisclosure disclosure) {
-        super(CoeusModule.COI_DISCLOSURE_MODULE_CODE, disclosure.getCoiDisclosureNumber(), null, String.valueOf(disclosure.getSequenceNumber()), 
+        super(CoeusModule.COI_DISCLOSURE_MODULE_CODE, disclosure.getCoiDisclosureNumber(), disclosure.getEventTypeCode(), String.valueOf(disclosure.getSequenceNumber()), 
                 disclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isApproved());
-        setDisclosureSubItemCode(disclosure);
-    }
-    
-    private void setDisclosureSubItemCode(CoiDisclosure disclosure) {
-        String disclosureSubItemCode = null;
-        // if we are locating questionnaires for an event-based disclosure, then we need to translate the event type code into the submodule code
-        if( disclosure.isProposalEvent() || 
-                (disclosure.isManualEvent() && StringUtils.equals(disclosure.getEventTypeCode(), CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL)) ) {
-            disclosureSubItemCode = CoeusSubModule.COI_EVENT_PROPOSAL_DISCL_SUBMODULE;
-        }
-        else if( disclosure.isProtocolEvent() || 
-                (disclosure.isManualEvent() && StringUtils.equals(disclosure.getEventTypeCode(), CoiDisclosureEventType.MANUAL_IRB_PROTOCOL)) ) {
-            disclosureSubItemCode = CoeusSubModule.COI_EVENT_IRB_PROTOCOL_DISCL_SUBMODULE;
-        }
-        else if( disclosure.isAwardEvent() || 
-                (disclosure.isManualEvent() && StringUtils.equals(disclosure.getEventTypeCode(), CoiDisclosureEventType.MANUAL_AWARD)) ) {
-            disclosureSubItemCode = CoeusSubModule.COI_EVENT_AWARD_DISCL_SUBMODULE;
-        }
-        
-        this.setModuleSubItemCode(disclosureSubItemCode);
     }
 
 }
