@@ -23,7 +23,7 @@
             
             <%-- Existing data --%>
 
-        	<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclEventProjects}" varStatus="status">
+        	<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects}" varStatus="status">
 
                  <c:if test="${disclProject.protocolEvent}">
                  <kra-coi:protocolFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
