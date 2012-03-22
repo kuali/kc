@@ -33,6 +33,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -281,10 +282,18 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private String assembleUsages(Questionnaire questionnaire) {
         String result = "";
         for (QuestionnaireUsage questionnaireUsage : questionnaire.getQuestionnaireUsages()) {
+            // get the module description
+            questionnaireUsage.refresh();
+            String moduleDescription = questionnaireUsage.getCoeusModule() != null ? questionnaireUsage.getCoeusModule().getDescription() : "";
+            // get the sub module description
+            CoeusSubModule subModule = getSubModule(questionnaireUsage.getModuleItemCode(), questionnaireUsage.getModuleSubItemCode());
+            String subModuleDescription = subModule != null ? subModule.getDescription() : "";
+            
             result = result + questionnaireUsage.getQuestionnaireUsageId() + PFP + questionnaireUsage.getModuleItemCode() + PFP
                     + questionnaireUsage.getQuestionnaireLabel() + PFP + questionnaireUsage.getQuestionnaireSequenceNumber() + PFP
                     + questionnaireUsage.getModuleSubItemCode() + PFP + questionnaireUsage.getRuleId() + PFP
-                    + questionnaireUsage.getVersionNumber()  + PFP + (questionnaireUsage.isMandatory() ? "Y" : "N") + PUP;
+                    + questionnaireUsage.getVersionNumber()  + PFP + (questionnaireUsage.isMandatory() ? "Y" : "N") + PFP 
+                    + moduleDescription + PFP + subModuleDescription + PUP;
         }
         if (StringUtils.isNotBlank(result)) {
             result = result.substring(0, result.length() - 3);
@@ -292,6 +301,22 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         return result;
 
     }
+
+    private CoeusSubModule getSubModule(String moduleCode, String subModuleCode) {
+        CoeusSubModule retVal = null;
+        
+        List<CoeusSubModule> subModules = new ArrayList<CoeusSubModule>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("moduleCode", moduleCode);
+        fieldValues.put("subModuleCode", subModuleCode);
+        subModules.addAll(getBusinessObjectService().findMatching(CoeusSubModule.class, fieldValues));
+        
+        if(!subModules.isEmpty()) {
+            retVal = subModules.get(0);           
+        }
+        return retVal;
+    }
+
 
     @Override
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
