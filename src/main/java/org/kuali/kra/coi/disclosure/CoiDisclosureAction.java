@@ -123,7 +123,7 @@ public class CoiDisclosureAction extends CoiAction {
         else {
             getCoiDisclosureService().resetLeadUnit(coiDisclosure.getDisclosureReporter());
         }
-        if (coiDisclosure.isUpdateEvent()) {
+        if (coiDisclosure.isUpdateEvent() ||(coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
             getCoiDisclosureService().setDisclProjectForSave(coiDisclosure, coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean());
         } else {
             //getCoiDisclosureService().setDisclProjectForSave(coiDisclosure);
@@ -243,9 +243,7 @@ public class CoiDisclosureAction extends CoiAction {
                 // this will be reset when 'addmanualproject', and the event type will be selected at that time
                 eventTypeCode = CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL;
             }
-            else if (command.endsWith("_6")
-                    || (KewApiConstants.INITIATE_COMMAND.equals(command)
-                            && KRADConstants.DOC_HANDLER_METHOD.equals(coiDisclosureForm.getMethodToCall()) && isMasterDisclosureExist())) {
+            else if (command.endsWith("_6")) {
                 // this is to update master disclosure. 
                 // also treated annual event when master disclosure exist
                 eventTypeCode = CoiDisclosureEventType.UPDATE;
@@ -253,13 +251,18 @@ public class CoiDisclosureAction extends CoiAction {
             coiDisclosureForm.setCommand(KewApiConstants.INITIATE_COMMAND);
             forward = super.docHandler(mapping, form, request, response);
             CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
-            if (CoiDisclosureEventType.UPDATE.equals(eventTypeCode)) {
+            if (CoiDisclosureEventType.UPDATE.equals(eventTypeCode) || (KewApiConstants.INITIATE_COMMAND.equals(command)
+                    && KRADConstants.DOC_HANDLER_METHOD.equals(coiDisclosureForm.getMethodToCall()) && isMasterDisclosureExist())) {
+                // update master disclosure or annual event with master disclosure exist
                 if (!isMasterDisclosureExist()) {
                     forward = mapping.findForward("masterDisclosureNotAvailable");
                 }
                 else {
                     getCoiDisclosureService().initDisclosureFromMasterDisclosure(coiDisclosure);
-                    coiDisclosure.setEventTypeCode(CoiDisclosureEventType.UPDATE);
+                    if (StringUtils.equals(eventTypeCode, CoiDisclosureEventType.ANNUAL)) {
+                        coiDisclosure.setAnnualUpdate(true);
+                    }
+                    coiDisclosure.setEventTypeCode(eventTypeCode);
                     ((CoiDisclosureForm) form).getDisclosureHelper().setMasterDisclosureBean(
                             getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosure));
                     setQuestionnaireStatuses(coiDisclosureForm);
@@ -277,7 +280,8 @@ public class CoiDisclosureAction extends CoiAction {
         else {
             coiDisclosureForm.setCommand(KewApiConstants.DOCSEARCH_COMMAND);
             super.docHandler(mapping, form, request, response);
-            if (coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().isUpdateEvent()) {
+            CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
+            if (coiDisclosure.isUpdateEvent() || (coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
                 ((CoiDisclosureForm) form).getDisclosureHelper().setMasterDisclosureBean(
                         getCoiDisclosureService().getMasterDisclosureDetail(
                         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure())); 

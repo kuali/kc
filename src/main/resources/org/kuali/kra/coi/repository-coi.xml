@@ -56,6 +56,7 @@
 		<field-descriptor name="reviewStatusCode" column="REVIEW_STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="discActiveStatus" column="DISC_ACTIVE_STATUS" jdbc-type="INTEGER" />
         <field-descriptor name="currentDisclosure" column="CURRENT_DISCLOSURE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="annualUpdate" column="ANNUAL_UPDATE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <reference-descriptor name="coiDisclosureDocument" class-ref="org.kuali.kra.coi.CoiDisclosureDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
