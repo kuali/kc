@@ -52,7 +52,6 @@
                 <ref bean="CoiDisclosure-discActiveStatus" />
                 <ref bean="CoiDisclosure-versionNumber" />
                 <ref bean="CoiDisclosure-leadUnitNumber" />
-                
             </list>
         </property>
     </bean>
@@ -286,18 +285,19 @@
     <bean id="CoiDisclosure-leadUnitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="leadUnitNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Lead unit number" />
-        <property name="shortLabel" value="Lead unit number" />
+        <property name="label" value="Researcher Lead Unit" />
+        <property name="shortLabel" value="Researcher Lead Unit" />
         <property name="maxLength" value="150" />
         <property name="validationPattern" >
-		  <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		  <bean parent="AnyCharacterValidationPattern" />
 		</property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="8" />
-        </property>
-        <property name="summary" value="Lead unit number" />
-        <property name="description" value="Lead unit number" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+        <property name="summary" value="Researcher Lead Unit" />
+        <property name="description" value="Researcher Lead Unit" />
     </bean>
     
     <bean id="CoiDisclosure-discActiveStatus" parent="CoiDisclosure-discActiveStatus-parentBean" />
@@ -415,6 +415,7 @@
     <bean id="CoiDisclosure-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Coi Disclosure Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="lookupableID" value="coiDisclosureLookupable" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>
