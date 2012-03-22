@@ -337,13 +337,13 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         //managedLists.add(getCoiDiscDetails());
         managedLists.add(getCoiUserRoles());
         managedLists.add(getCoiDisclosureAttachments());
-//        List<CoiDiscDetail> details = new ArrayList<CoiDiscDetail>();
-//        for (CoiDisclProject coiDisclProject : getCoiDisclProjects()) {
-          //  details.addAll(coiDisclProject.getCoiDiscDetails());
-//            managedLists.addAll(coiDisclProject.buildListOfDeletionAwareLists());
-//        }
-      //  managedLists.add(details);
-//        managedLists.add(getCoiDisclProjects());
+        List<CoiDiscDetail> details = new ArrayList<CoiDiscDetail>();
+        for (CoiDisclProject coiDisclProject : getCoiDisclProjects()) {
+            details.addAll(coiDisclProject.getCoiDiscDetails());
+        //    managedLists.addAll(coiDisclProject.buildListOfDeletionAwareLists());
+        }
+        managedLists.add(details);
+        managedLists.add(getCoiDisclProjects());
         return managedLists;
     }
 
