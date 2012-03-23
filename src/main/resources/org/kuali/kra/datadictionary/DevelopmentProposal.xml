@@ -17,7 +17,7 @@
 		<property name="businessObjectClass"
 			value="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" />
 		<property name="objectLabel" value="Development Proposal" />
-		<!-- <property name="inquiryDefinition" > <ref bean="DevelopmentProposal-inquiryDefinition" 
+		 <!-- <property name="inquiryDefinition" > <ref bean="DevelopmentProposal-inquiryDefinition" 
 			/> </property> -->
 		<property name="lookupDefinition">
 			<ref bean="DevelopmentProposal-lookupDefinition" />
@@ -67,6 +67,7 @@
 				<ref bean="DevelopmentProposal-proposalDocument.documentNumber" />
 				<ref bean="DevelopmentProposal-anticipatedAwardTypeCode" />
 				<ref bean="DevelopmentProposal-budgetStatus" />
+				<ref bean="DevelopmentProposal-proposalNumberForGG" />
 			</list>
 		</property>
 		<property name="collections">
@@ -76,8 +77,21 @@
 					p:elementLabel="Proposal Person" />
 			</list>
 		</property>
-		<!-- <property name="relationships"> <list> <bean parent=RelationshipDefinition"> 
-			</bean> </list> </property> -->
+		
+ 		<property name="relationships" >
+      		<list>
+        	<bean parent="RelationshipDefinition">
+	          <property name="objectAttributeName" value="s2sOpportunity" />
+	          <property name="primitiveAttributes" >
+	            <list>
+	              <bean parent="PrimitiveAttributeDefinition"
+	                    p:sourceName="proposalNumberForGG"
+	                    p:targetName="proposalNumber" />
+	            </list>
+	          </property>
+        	</bean>
+      	</list>
+    	</property>
 	</bean>
 
 
@@ -101,7 +115,24 @@
 		<property name="description"
 			value="The unique proposal number identifying a proposal. This is a system generated, sequential number." />
 	</bean>
-
+<bean id="DevelopmentProposal-proposalNumberForGG" parent="DevelopmentProposal-proposalNumberForGG-parentBean" />
+	<bean id="DevelopmentProposal-proposalNumberForGG-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="proposalNumberForGG" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Grants.gov Opportunity" />
+		<property name="shortLabel" value="Grants.gov Opportunity" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="summary" value="Grants.gov Opportunity" />
+		<property name="description"
+			value="Grants.gov Opportunity" />
+	</bean>
 	<bean id="DevelopmentProposal-title" parent="DevelopmentProposal-title-parentBean" />
 	<bean id="DevelopmentProposal-title-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -874,7 +905,7 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber"
-					p:forceLookup="true" />
+					p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="proposalTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="proposalStateTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="title" />
@@ -886,8 +917,10 @@
 				<bean parent="FieldDefinition" p:attributeName="ownedByUnitNumber" />
 				<bean parent="FieldDefinition" p:attributeName="ownedByUnit.unitName" />
 				<bean parent="FieldDefinition" p:attributeName="currentAwardNumber" />
+				<bean parent="FieldDefinition" p:attributeName="proposalNumberForGG" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatus" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
+				
 			</list>
 		</property>
 		<property name="resultFields">
