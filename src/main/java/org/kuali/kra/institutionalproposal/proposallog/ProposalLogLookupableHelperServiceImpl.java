@@ -121,7 +121,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
             for (DocumentRouteHeaderValue docHeader : docHeaders) {
                 MaintenanceDocumentBase doc = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(docHeader.getDocumentId());
                 for(ProposalLog proposalLog : results){
-                    ProposalLog proposalLogDoc = (ProposalLog)doc.getNewMaintainableObject().getBusinessObject();
+                    ProposalLog proposalLogDoc = (ProposalLog)doc.getNoteTarget();
                     if(proposalLog.getProposalNumber() != null && proposalLogDoc.getProposalNumber() != null && proposalLog.getProposalNumber().equalsIgnoreCase(proposalLogDoc.getProposalNumber())){
                         if(!(proposalIds.contains(proposalLog.getProposalNumber()))){
                             proposalIds.add(proposalLog.getProposalNumber());
