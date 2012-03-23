@@ -231,8 +231,30 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private transient ProposalHierarchyService proposalHierarchyService;
     private transient KeyPersonnelService keyPersonnelService;
     private Sponsor primeSponsor;
+ 
+    private String proposalNumberForGG;
 
 
+
+    /**
+     * Gets the proposalNumberForGG attribute. 
+     * @return Returns the proposalNumberForGG.
+     */
+    public String getProposalNumberForGG() {
+        if(s2sOpportunity != null){
+            proposalNumberForGG = s2sOpportunity.getProposalNumber();
+        }
+        return proposalNumberForGG;
+    }
+
+    /**
+     * Sets the proposalNumberForGG attribute value.
+     * @param proposalNumberForGG The proposalNumberForGG to set.
+     */
+    public void setProposalNumberForGG(String proposalNumberForGG) {
+       this.proposalNumberForGG = proposalNumberForGG;
+       
+    }
 
     /**
      * Looks up and returns the ParameterService.
@@ -1069,8 +1091,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public void setPropSpecialReviews(List<ProposalSpecialReview> propSpecialReviews) {
         this.propSpecialReviews = propSpecialReviews;
     }
-
-    /*
+    
+     /*
      * Refreshes the rolodex from the mailingAddressId
      */
     protected void refreshRolodex() {
@@ -1991,8 +2013,10 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         for (ProposalSite site : getProposalSites()) {
             site.setProposalNumber(proposalNumber);
         }
-        if(s2sOpportunity!=null)
+        if(s2sOpportunity!=null){
             s2sOpportunity.setProposalNumber(proposalNumber);
+            this.proposalNumberForGG = proposalNumber;
+        }
     }
 
     public String getDefaultBudgetStatusParameter() {
