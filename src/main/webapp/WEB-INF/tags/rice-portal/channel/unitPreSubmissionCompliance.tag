@@ -27,13 +27,13 @@
         <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
      	<portal:portalLink displayTitle="false" title="Disclosure" 
 		    url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.coi.CoiDisclosure&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" >
-	      <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
+	      <img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle">
         </portal:portalLink>
       </td>
     </tr>
 
     <tr>
-      <td nowrap class="disabled-text">Event Disclosure</td>
+      <td nowrap class="disabled-text">Event Disclosures</td>
       <td>
         <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
      	<portal:portalLink displayTitle="false" title="Event disclosures" 
@@ -45,7 +45,7 @@
     </tr>
     
     <tr>
-      <td nowrap class="disabled-text">Non Project Event Disclosure</td>
+      <td nowrap class="disabled-text">Non Project Event Disclosures</td>
       <td>
         <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
      	<portal:portalLink displayTitle="false" title="Non project event disclosures" 
@@ -68,7 +68,7 @@
     </tr>
     
     <tr>
-      <td nowrap class="disabled-text">Submitted Disclosure</td>
+      <td nowrap class="disabled-text">Submitted Disclosures</td>
       <td>
         <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
      	<portal:portalLink displayTitle="false" title="Submitted disclosures" 
@@ -81,7 +81,7 @@
     
     
     <tr>
-      <td nowrap class="disabled-text">Annual Event Disclosure</td>
+      <td nowrap class="disabled-text">Annual Event Disclosures</td>
       <td>
         <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
      	<portal:portalLink displayTitle="false" title="Annual event disclosures" 
@@ -91,6 +91,19 @@
       </td>
       
     </tr>
+    
+     <tr>
+      <td nowrap class="disabled-text">Undisclosed Events</td>
+      <td>
+        <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
+     	<portal:portalLink displayTitle="false" title="Undisclosed Events" 
+		      url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.coi.CoiDisclosureUndisclosedEvents&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" >
+          <img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle">
+        </portal:portalLink>
+      </td>
+      
+    </tr>
+    
     <tr>
       <td nowrap class="disabled-text">Financial Entity</td>
       <td>
