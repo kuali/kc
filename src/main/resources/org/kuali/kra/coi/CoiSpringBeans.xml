@@ -120,6 +120,16 @@
     <bean id="coiDisclosureReviewsLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiDisclosureReviewsLookupableHelper" parent="lookupableHelperService" scope="prototype">
     </bean>
     
+    <bean id="coiDisclosureUndisclosedEventsLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="coiDisclosureUndisclosedEventsLookupableHelperService" />
+  		</property>
+	</bean>
+	
+    <bean id="coiDisclosureUndisclosedEventsLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiDisclosureUndisclosedEventsLookupableHelper" parent="lookupableHelperService" scope="prototype">
+      	  <property name="coiDisclosureService" ref="coiDisclosureService" />
+    </bean>
+    
      <bean id="coiDisclosureService" class="org.kuali.kra.coi.disclosure.CoiDisclosureServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcPersonService" ref="kcPersonService" />
