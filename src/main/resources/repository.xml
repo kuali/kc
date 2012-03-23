@@ -51,6 +51,7 @@
 
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" table="EPS_PROPOSAL">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_PROPOSAL_NUMBER_KRA" autoincrement="true" />
+		<field-descriptor name="proposalNumberForGG" column="PROPOSALNUMBER_GG" jdbc-type="VARCHAR" />
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />
 		<field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="creationStatusCode" column="CREATION_STATUS_CODE" jdbc-type="VARCHAR" />
