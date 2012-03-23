@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -243,6 +244,15 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
             currentVersionNumber = currentFinancialEntity.getVersions().size();
         } else {
             currentFinancialEntity = ((FinancialEntityForm) form).getFinancialEntityHelper().getActiveFinancialEntities().get(entityIndex);
+            List<PersonFinIntDisclosure> versionList = currentFinancialEntity.getVersions();
+            List<PersonFinIntDisclosure> activeFinancialIntDisclosure = new ArrayList<PersonFinIntDisclosure>();
+            
+            for(PersonFinIntDisclosure personFinIntDisclosure: versionList ){
+                if(personFinIntDisclosure.getProcessStatus().equals(PROCESS_STATUS_FINAL)){
+                	activeFinancialIntDisclosure.add(personFinIntDisclosure);
+                }
+            }
+            currentFinancialEntity.setVersions(activeFinancialIntDisclosure);
             currentVersionNumber = currentFinancialEntity.getVersions().size();
             
         }
