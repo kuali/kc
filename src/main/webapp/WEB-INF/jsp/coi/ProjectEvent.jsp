@@ -20,6 +20,7 @@
           docTitle="New Projects For Disclosure" 
           transactionalDocument="false"
           renderMultipart="false"
+          showTabButtons="true"
           htmlFormAction="projectEventDisclosure">
           
     <script language="javascript" src="scripts/kuali_application.js"></script>
