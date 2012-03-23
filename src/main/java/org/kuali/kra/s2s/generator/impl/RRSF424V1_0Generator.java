@@ -46,6 +46,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
@@ -54,6 +55,8 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
@@ -64,6 +67,7 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.service.KcPersonService;
 
 /**
  * Class for generating the XML object for grants.gov RRSF424V1_0. Form is
@@ -533,24 +537,20 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 					}
 				}
 
-				String departmentName = null;
-				if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
-					departmentName = pdDoc.getDevelopmentProposal()
-							.getOwnedByUnit().getUnitName();
-					if (departmentName != null) {
-						if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
-							departmentName = departmentName.substring(0,
-									DEPARTMENT_NAME_MAX_LENGTH - 1);
-							PDPI.setDepartmentName(departmentName.substring(0,
-									DEPARTMENT_NAME_MAX_LENGTH - 1));
-						} else {
-							PDPI.setDepartmentName(departmentName);
-						}
-					}
-				}
+				if(PI.getHomeUnit() != null) {
+		            KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+		            KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
+		            String departmentName =  kcPersons.getOrganizationIdentifier();
+		            PDPI.setDepartmentName(departmentName);
+		        }
+		        else
+		        {
+		            DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+		            PDPI.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
+		        }
 
 				// divisionName
-				String divisionName = s2sUtilService.getDivisionName(pdDoc);
+				String divisionName=proposalPerson.getDivision();
 				if (divisionName != null) {
 					PDPI.setDivisionName(divisionName);
 				}

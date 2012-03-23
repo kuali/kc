@@ -73,6 +73,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
+import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -90,6 +91,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     private static final String ADDED_PERSON_MSG  = "Added Proposal Person with proposalNumber = %s and proposalPersonNumber = %s";
     private static final String INV_SIZE_MSG      = "Number of investigators are ";
     private static final String EMPTY_STRING = "";
+    private static final String ROLODEX_PERSON = "Unknown";
     
     private static final String ERROR_REMOVE_HIERARCHY_PI = "error.hierarchy.personnel.removePrincipleInvestigator";
     private static final String ERROR_FIELD_REMOVE_HIERARCHY_PI ="document.developmentProposalList[0].proposalPersons[%s].delete";
@@ -316,6 +318,15 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                     unit.setLeadUnit(false);
                 }                
             }
+            if(proposalPerson.getHomeUnit()!=null){
+                S2SUtilService s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+                String divisionName=s2sUtilService.getProposalPersonDivisionName(proposalPerson);
+                proposalPerson.setDivision(divisionName);
+            }
+            else
+            {   
+                proposalPerson.setDivision(ROLODEX_PERSON);
+            } 
             if (proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || proposalPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
                 if (isNotBlank(proposalPerson.getHomeUnit()) && isValidHomeUnit(proposalPerson,pdform.getNewProposalPerson().getHomeUnit())){
                     getKeyPersonnelService().addUnitToPerson(proposalPerson,getKeyPersonnelService().createProposalPersonUnit(proposalPerson.getHomeUnit(), proposalPerson));

@@ -31,12 +31,15 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
 
 /**
@@ -149,19 +152,18 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
             if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
                 profile.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
             }
-            String departmentName = null;
-            if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
-                departmentName = pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitName();
-                if (departmentName != null) {
-                    if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
-                        profile.setDepartmentName(departmentName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1));
-                    }
-                    else {
-                        profile.setDepartmentName(departmentName);
-                    }
-                }
+            if(PI.getHomeUnit() != null) {
+                KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+                KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
+                String departmentName =  kcPersons.getOrganizationIdentifier();
+                profile.setDepartmentName(departmentName);
             }
-            String divisionName = s2sUtilService.getDivisionName(pdDoc);
+            else
+            {
+                DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+                profile.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
+            }
+            String divisionName = PI.getDivision();
             if (divisionName != null) {
                 profile.setDivisionName(divisionName);
             }
@@ -230,19 +232,18 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                 if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
                     profileKeyPerson.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
                 }
-                String departmentName = null;
-                if (pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
-                    departmentName = pdDoc.getDevelopmentProposal().getOwnedByUnit().getUnitName();
-                    if (departmentName != null) {
-                        if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
-                            profileKeyPerson.setDepartmentName(departmentName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1));
-                        }
-                        else {
-                            profileKeyPerson.setDepartmentName(departmentName);
-                        }
-                    }
+                if(keyPerson.getHomeUnit() != null) {
+                    KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+                    KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(keyPerson.getPersonId());
+                    String departmentName =  kcPersons.getOrganizationIdentifier();
+                    profileKeyPerson.setDepartmentName(departmentName);
                 }
-                String divisionName = s2sUtilService.getDivisionName(pdDoc);
+                else
+                {
+                    DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+                    profileKeyPerson.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
+                }
+                String divisionName = keyPerson.getDivision();
                 if (divisionName != null) {
                     profileKeyPerson.setDivisionName(divisionName);
                 }

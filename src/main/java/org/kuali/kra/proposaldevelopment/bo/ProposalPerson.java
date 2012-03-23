@@ -221,6 +221,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     private String mobilePhoneNumber;
 
     private String eraCommonsUserName;
+    
+    private String division;
 
     private Boolean active = true;
 
@@ -1957,6 +1959,24 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
      */
     public void setEraCommonsUserName(String argEraCommonsUserName) {
         this.eraCommonsUserName = argEraCommonsUserName;
+    }
+    
+    /**
+     * 
+     * Gets the value of division;
+     * 
+     * @return the value of division
+     */
+    public String getDivision() {
+        return division;
+    }
+       /**
+     * Sets the value of division
+     * 
+     * @param division Value to assign to this.division
+     */
+    public void setDivision(String division) {
+        this.division = division;
     }
 
     public void setActive(Boolean active) {
