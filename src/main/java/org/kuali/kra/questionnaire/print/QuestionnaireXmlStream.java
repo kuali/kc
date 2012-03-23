@@ -89,6 +89,7 @@ public class QuestionnaireXmlStream implements XmlStream {
     private static final Log LOG = LogFactory.getLog(QuestionnaireXmlStream.class);
     List<QuestionnaireQuestion> sortedQuestionnaireQuestions;
 
+    private static final int QUESTION_TYPE_INT = 3;
     
     /**
      * This method generates XML committee report. It uses data passed in
@@ -499,8 +500,37 @@ public class QuestionnaireXmlStream implements XmlStream {
         Long questionId;
         int questionNumber,parentQuestionNumber;
         int tempParentQuestionNumber;
+        boolean answeredFlag = true;                      
         try {
-             for (QuestionnaireQuestion questionnaireQuestion : sortedQuestionnaireQuestions) {
+            for (QuestionnaireQuestion questionnaireQuestion : sortedQuestionnaireQuestions) {                 
+                answeredFlag = true;                
+                if (questionnaireQuestion.getConditionValue() != null) {
+                    for (AnswerHeader ansHeader : answerHeaders) {                       
+                        if (questionnaireQuestion.getQuestionnaireRefIdFk().equals(ansHeader.getQuestionnaireRefIdFk())) {
+                            for (Answer answer : ansHeader.getAnswers()) {
+                                if (answer.getQuestionnaireQuestion().getQuestionnaireQuestionsId().equals(
+                                        questionnaireQuestion.getQuestionnaireQuestionsId())
+                                        && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
+                                        && answer.getQuestionRefIdFk().equals(questionnaireQuestion.getQuestionRefIdFk())) {                                 
+                              
+                                    if (answer.getParentAnswer() != null && answer.getParentAnswer().get(0).getAnswer() != null) {
+                                        if (answer.getParentAnswer().get(0).getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
+                                            if (answer.getParentAnswer().get(0).getAnswer().equals(
+                                                    questionnaireQuestion.getConditionValue())) {
+                                                answeredFlag = false;
+                                            }
+                                        } else if (!answer.getParentAnswer().get(0).getAnswer().equals(
+                                                            questionnaireQuestion.getConditionValue())) {
+                                            answeredFlag = false;
+                                        }                                 
+                                    }
+                                }
+                            }
+                        }                         
+                    }
+                }                    
+                               
+                if (answeredFlag) {
                  questionId = questionnaireQuestion.getQuestionnaireQuestionsId();
                  questionNumber = questionnaireQuestion.getQuestionNumber().intValue();
                  parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber().intValue();
@@ -521,6 +551,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                          questionnaireQuestion.setAllow(false);
                      }
         }
+                }
                 }
             }
         catch (PrintingException e) {
@@ -551,7 +582,33 @@ public class QuestionnaireXmlStream implements XmlStream {
             int questionNumber, List<AnswerHeader> answerHeaders)throws PrintingException {
        
         
-                boolean isAnswerPresent = false;
+        boolean isAnswerPresent = false;
+        boolean answeredFlag = true;                
+        if (questionnaireQuestion.getConditionValue() != null) {                    
+            for (AnswerHeader ansHeader : answerHeaders) {                        
+                if (questionnaireQuestion.getQuestionnaireRefIdFk().equals(ansHeader.getQuestionnaireRefIdFk())) {                            
+                    for (Answer answer : ansHeader.getAnswers()) {
+                        if (answer.getQuestionnaireQuestion().getQuestionnaireQuestionsId().equals(
+                                        questionnaireQuestion.getQuestionnaireQuestionsId())
+                                        && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
+                                        && answer.getQuestionRefIdFk().equals(questionnaireQuestion.getQuestionRefIdFk())) {                                    
+                            if (answer.getParentAnswer() != null && answer.getParentAnswer().get(0).getAnswer() != null) {        
+                                if (answer.getParentAnswer().get(0).getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
+                                    if (answer.getParentAnswer().get(0).getAnswer().equals(
+                                                    questionnaireQuestion.getConditionValue())) {
+                                        answeredFlag = false; 
+                                    }
+                                } else if (!answer.getParentAnswer().get(0).getAnswer().equals(
+                                                questionnaireQuestion.getConditionValue())) {
+                                    answeredFlag = false; 
+                                } 
+                            }
+                        }
+                    }
+                }
+            }
+        }                
+        if (answeredFlag) {
                 if (questionId != null) {
                     questionInfo.setQuestionId(questionId.intValue());
                 }
@@ -633,6 +690,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                             answerInfo.setAnswer(answerDescription);
                         }
                     }
+        }
                 }
     
     /**
