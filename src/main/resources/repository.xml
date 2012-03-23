@@ -606,6 +606,7 @@
         <field-descriptor name="pagerNumber" column="PAGER_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="mobilePhoneNumber" column="MOBILE_PHONE_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="eraCommonsUserName" column="ERA_COMMONS_USER_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="division" column="DIVISION" jdbc-type="VARCHAR" />
         <field-descriptor name="percentageEffort" column="PERCENTAGE_EFFORT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
         <field-descriptor name="fedrDebrFlag" column="FEDR_DEBR_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="fedrDelqFlag" column="FEDR_DELQ_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
