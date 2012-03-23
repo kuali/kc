@@ -29,7 +29,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CoiDisclosureReviewsLookupableHelper extends CoiDisclosureLookupableHelperBase {
 
-    private KcPersonService kcPersonService;
 
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<CoiDisclosure> allDisclosures = (List<CoiDisclosure>) super.getResults(fieldValues);
