@@ -116,10 +116,14 @@
                   <tr>
                     <th align="left" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.homeUnit}"  /></div></th>
 
-                    <td align="left" colspan="3"><kul:htmlControlAttribute property="${proposalPerson}.homeUnit" 
+                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.homeUnit" 
                                                          attributeEntry="${proposalPersonAttributes.homeUnit}" 
                                                                readOnly="${!personEditableFields['homeUnit'] }" />
                     </td>
+                    <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.division}"  /></div></th>
+                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.division"
+                                                         attributeEntry="${proposalPersonAttributes.division}" 
+                                                               readOnly="${!personEditableFields['division'] }" />
                   </tr>
                   <tr>
                     <th align="left" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.eraCommonsUserName}"  /> </div></th>

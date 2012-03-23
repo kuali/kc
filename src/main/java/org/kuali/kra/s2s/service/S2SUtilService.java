@@ -162,6 +162,15 @@ public interface S2SUtilService {
 	public String getDivisionName(ProposalDevelopmentDocument pdDoc);
 	/**
 	 * 
+	 *  This method is to get division name using the 4th level node on the Unit hierarchy
+	 *   
+	 * @param proposalPerson
+	 *             Proposal Person.
+	 * @return personDivisionName based on the 4th level node on the Unit hierarchy.
+	 */
+	public String getProposalPersonDivisionName(ProposalPerson proposalPerson);
+	/**
+	 * 
 	 * This method is to get PrincipalInvestigator from person list
 	 * 
 	 * @param pdDoc
