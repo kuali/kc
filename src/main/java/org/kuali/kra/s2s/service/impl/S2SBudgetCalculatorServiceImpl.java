@@ -649,17 +649,19 @@ public class S2SBudgetCalculatorServiceImpl implements
             BudgetDecimal totalKeyPersonSumCostSharing = BudgetDecimal.ZERO;
             BudgetDecimal totalAttKeyPersonSum = BudgetDecimal.ZERO;
             BudgetDecimal totalAttKeyPersonSumCostSharing = BudgetDecimal.ZERO;
-            if (budget.getSubmitCostSharingFlag()) {
-                if (keyPersons != null) {
-                    for (KeyPersonInfo keyPerson : keyPersons) {
-                        totalKeyPersonSum = totalKeyPersonSum.add(keyPerson.getFundsRequested());
+            if (keyPersons != null) {
+                for (KeyPersonInfo keyPerson : keyPersons) {
+                    totalKeyPersonSum = totalKeyPersonSum.add(keyPerson.getFundsRequested());
+                    if (budget.getSubmitCostSharingFlag()) {
                         totalKeyPersonSumCostSharing = totalKeyPersonSumCostSharing.add(keyPerson.getNonFundsRequested());
                     }
                 }
+            }
 
-                if (extraPersons != null) {
-                    for (KeyPersonInfo keyPerson : extraPersons) {
-                        totalAttKeyPersonSum = totalAttKeyPersonSum.add(keyPerson.getFundsRequested());
+            if (extraPersons != null) {
+                for (KeyPersonInfo keyPerson : extraPersons) {
+                    totalAttKeyPersonSum = totalAttKeyPersonSum.add(keyPerson.getFundsRequested());
+                    if (budget.getSubmitCostSharingFlag()) {
                         // start add costSaring for fedNonFedBudget report
                         totalAttKeyPersonSumCostSharing = totalAttKeyPersonSumCostSharing.add(keyPerson.getNonFundsRequested());
                     }
