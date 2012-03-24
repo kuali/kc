@@ -321,19 +321,17 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private void initInstitutionalProposals(List<CoiDisclProject> coiDisclProjects, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {
         List<InstitutionalProposal> iProposals = getInstitutionalProposals(GlobalVariables.getUserSession().getPrincipalId());
         for (InstitutionalProposal proposal : iProposals) {
-            if (proposal.getProposalStatus().isFunded() || proposal.getProposalStatus().isPending()) {
-                CoiDisclProject coiDisclProject = createNewCoiDisclProject(coiDisclosure, CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL);
-                coiDisclProject.setProposalType(proposal.getProposalType());
-                coiDisclProject.setShortTextField1(proposal.getProposalId().toString()); //Project Id
-                coiDisclProject.setShortTextField2(proposal.getProposalNumber()); //Module Item Key
-                
-                for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
-                    CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
-                                proposal.getProposalNumber(), proposal.getProposalId().toString(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL);
-                    coiDisclProject.getCoiDiscDetails().add(disclosureDetail);
-                }
-                coiDisclProjects.add(coiDisclProject);
+            CoiDisclProject coiDisclProject = createNewCoiDisclProject(coiDisclosure, CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL);
+            coiDisclProject.setProposalType(proposal.getProposalType());
+            coiDisclProject.setShortTextField1(proposal.getProposalId().toString()); //Project Id
+            coiDisclProject.setShortTextField2(proposal.getProposalNumber()); //Module Item Key
+
+            for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+                CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
+                        proposal.getProposalNumber(), proposal.getProposalId().toString(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL);
+                coiDisclProject.getCoiDiscDetails().add(disclosureDetail);
             }
+            coiDisclProjects.add(coiDisclProject);
         }
     }
     
@@ -838,30 +836,36 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getInstitutionalProposals(java.lang.String)
      */
+    @SuppressWarnings("unchecked")
     public List<InstitutionalProposal> getInstitutionalProposals(String personId) {
-        
+
         List<InstitutionalProposal> proposals = new ArrayList<InstitutionalProposal>();
-//        if (!isEventExcluded(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL)) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-            Map<String, InstitutionalProposal> resultValues = new HashMap<String, InstitutionalProposal>();
-        fieldValues.put("personId", personId);
-//        fieldValues.put("proposalPersonRoleId", "PI");
-        List<InstitutionalProposalPerson> proposalPersons = (List<InstitutionalProposalPerson>) businessObjectService.findMatching(InstitutionalProposalPerson.class, fieldValues);
+        Map<String, Object> propFieldValues = new HashMap<String, Object>();
+        Map<String, Integer> propNumbers = new HashMap<String, Integer>();
+        propFieldValues.put("personId", personId);
+        List<InstitutionalProposalPerson> proposalPersons = (List<InstitutionalProposalPerson>) businessObjectService.findMatching(InstitutionalProposalPerson.class, propFieldValues);
         for (InstitutionalProposalPerson proposalPerson : proposalPersons) {
-                InstitutionalProposal institutionalProposal = proposalPerson.getInstitutionalProposal();
-                // if it is disclosurable and not yet reported and either funded or pending
+            Integer newSequenceNumber = proposalPerson.getSequenceNumber();
+            Integer oldSequenceNumber = propNumbers.get(proposalPerson.getProposalNumber());
+            if ((oldSequenceNumber == null) || (oldSequenceNumber.compareTo(newSequenceNumber) < 0)) { 
+                propNumbers.put(proposalPerson.getProposalNumber(), newSequenceNumber);
+            }
+        }
+        for (String propNumber: propNumbers.keySet()) {
+            Map<String, Object> ipFieldValues = new HashMap<String, Object>();
+            ipFieldValues.put("proposalNumber", propNumber);
+            ipFieldValues.put("sequenceNumber", propNumbers.get(propNumber));
+            // get singleton list of IP's that match IP number
+            List<InstitutionalProposal> searchResults = (List<InstitutionalProposal>) businessObjectService.findMatching(InstitutionalProposal.class, ipFieldValues);
+            for (InstitutionalProposal institutionalProposal: searchResults) {
                 if (isInstitutionalProposalDisclosurable(institutionalProposal) && 
-                        !isProjectReported(institutionalProposal.getProposalNumber(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposalPerson.getPersonId()) &&
-                        (institutionalProposal.getProposalStatus().isFunded() || institutionalProposal.getProposalStatus().isPending())) {
-                    resultValues.put(institutionalProposal.getInstProposalNumber(), proposalPerson.getInstitutionalProposal());
+                    !isProjectReported(institutionalProposal.getProposalNumber(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, personId) &&
+                    (institutionalProposal.getProposalStatus().isFunded() || institutionalProposal.getProposalStatus().isPending())) {
+                    proposals.add(institutionalProposal);
                 }
             }
-            for (String key: resultValues.keySet()) {
-                proposals.add(resultValues.get(key));
-            }
-//        }
+        }
         return proposals;
-        
     }
  
     /**
@@ -1008,7 +1012,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             // TODO : what if param is not set or not set properly ?
             params.add("1");
         }
-        return params.contains(award.getStatusCode().toString()) && isSponsorForDisclosesure(ProposalDevelopmentDocument.class, award.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
+        return params.contains(award.getStatusCode().toString()) && isSponsorForDisclosure(ProposalDevelopmentDocument.class, award.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
    
     }
     
@@ -1026,7 +1030,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             // TODO : what if param is not set or not set properly ?
             params.add("1");
         }
-        return params.contains(proposal.getProposalStateTypeCode()) && isSponsorForDisclosesure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
+        return params.contains(proposal.getProposalStateTypeCode()) && isSponsorForDisclosure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
    
     }
 
@@ -1044,7 +1048,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             // TODO : what if param is not set or not set properly ?
             params.add("1");
         }
-        return params.contains(proposal.getStatusCode().toString()) && isSponsorForDisclosesure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
+        return params.contains(proposal.getStatusCode().toString()) && isSponsorForDisclosure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
    
     }
     
@@ -1072,7 +1076,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private boolean isProtocolFundedByActiveSponsor(Protocol protocol) {
          boolean isActive = false;
          for (ProtocolFundingSource fundingSource : protocol.getProtocolFundingSources()) {
-             if (fundingSource.isSponsorFunding() && isSponsorForDisclosesure(ProtocolDocument.class, fundingSource.getFundingSourceNumber(), SPONSORS_FOR_PROTOCOL_DISCLOSE, ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE)) {
+             if (fundingSource.isSponsorFunding() && isSponsorForDisclosure(ProtocolDocument.class, fundingSource.getFundingSourceNumber(), SPONSORS_FOR_PROTOCOL_DISCLOSE, ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE)) {
                  isActive = true;
                  break;
              }
@@ -1093,7 +1097,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         this.dateTimeService = dateTimeService;
     }
 
-    private boolean isSponsorForDisclosesure(Class clazz, String sponsorCode, String paramName, String paramNameAllSponsor) {
+    private boolean isSponsorForDisclosure(Class clazz, String sponsorCode, String paramName, String paramNameAllSponsor) {
         return isAllSponsorActiveForDisclose(clazz, paramNameAllSponsor) || isSponsorHierarchyActiveForDisclose(clazz, sponsorCode, paramName);    
     }
     
