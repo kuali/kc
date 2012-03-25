@@ -137,7 +137,8 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
      */
     public ActionForward addNewFinancialEntityAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ((FinancialEntityForm) form).getFinancialEntityHelper().addNewFinancialEntityAttachment();
+        FinancialEntityForm financialEntityForm = (FinancialEntityForm) form;
+        financialEntityForm.getFinancialEntityHelper().addNewFinancialEntityAttachment();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -155,7 +156,7 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
             HttpServletResponse response) throws Exception {
         FinancialEntityForm financialEntityForm = (FinancialEntityForm) form;
         int selectedLine = getSelectedLine(request);
-        financialEntityForm.getFinancialEntityHelper().getNewPersonFinancialEntity().getFinEntityAttachments().remove(selectedLine);
+        financialEntityForm.getFinancialEntityHelper().removeNewFinancialEntityAttachment(selectedLine);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

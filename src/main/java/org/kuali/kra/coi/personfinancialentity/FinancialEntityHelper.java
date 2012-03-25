@@ -353,11 +353,11 @@ public class FinancialEntityHelper implements Serializable {
     }
 
     
+    /**
+     * Adds the "new" financialEntityAttachment to the FinancialEntity Document.  Before
+     * adding this method executes validation.  If the validation fails the attachment is not added.    
+     */
     public void addNewFinancialEntityAttachment() {
-        /**
-         * Adds the "new" financialEntityAttachment to the FinancialEntity Document.  Before
-         * adding this method executes validation.  If the validation fails the attachment is not added.    
-         */
         syncNewFile(getNewFinEntityAttachment());
 
         newFinEntityAttachment.setFinancialEntityId(getNewPersonFinancialEntity().getPersonFinIntDisclosureId()); 
@@ -365,6 +365,15 @@ public class FinancialEntityHelper implements Serializable {
         newFinEntityAttachment.updateParms();
         getFinEntityAttachmentList().add(newFinEntityAttachment);
         newFinEntityAttachment = new FinancialEntityAttachment();
+    }
+
+    /**
+     * Removes the selected attachment    
+     */
+    public void removeNewFinancialEntityAttachment(int selectedLine) {
+        FinancialEntityAttachment attachment = getFinEntityAttachmentList().get(selectedLine);
+        getFinEntityAttachmentList().remove(selectedLine);
+        getBusinessObjectService().delete(attachment);
     }
 
     protected void syncNewFile(FinancialEntityAttachment attachment) {
