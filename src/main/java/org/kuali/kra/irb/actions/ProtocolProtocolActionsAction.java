@@ -462,12 +462,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        Protocol protocol = protocolDocument.getProtocol();
         ProtocolSubmitAction submitAction = protocolForm.getActionHelper().getProtocolSubmitAction();
         
-        getProtocolSubmitActionService().submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
+        getProtocolSubmitActionService().submitToIrbForReview(protocol, submitAction);
         protocolForm.getActionHelper().getAssignCmtSchedBean().init();
         
         super.route(mapping, protocolForm, request, response);
+        IRBNotificationRenderer submitRenderer = new IRBNotificationRenderer(protocol);
+        IRBNotificationContext submitContext = new IRBNotificationContext(protocol, null, 
+                                                    ProtocolActionType.SUBMIT_TO_IRB_NOTIFICATION, "Submit", submitRenderer);
+        getNotificationService().sendNotification(submitContext);
         AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocolForm.getProtocolDocument().getProtocol(), "added");
         List<ProtocolNotificationRequestBean> addReviewerNotificationBeans = getNotificationRequestBeans(submitAction.getReviewers(),ProtocolReviewerBean.CREATE);
         if (!CollectionUtils.isEmpty(addReviewerNotificationBeans)) {
@@ -3671,9 +3676,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             int i = 1;
             // add all new reviewer to recipients
             while (notificationRequestBeans.size() > i) {
-                context = new IRBNotificationContext(notificationRequestBeans.get(i).getProtocol(), notificationRequestBeans.get(i)
-                        .getProtocolOnlineReview(), notificationRequestBeans.get(i).getActionType(), notificationRequestBeans
-                        .get(i).getDescription(), renderer);
+                context = new IRBNotificationContext(notificationRequestBeans.get(i).getProtocol(), 
+                                                     notificationRequestBeans.get(i).getProtocolOnlineReview(), 
+                                                     notificationRequestBeans.get(i).getActionType(), 
+                                                     notificationRequestBeans.get(i).getDescription(), renderer);
                 context.setPopulateRole(true);
                 // protocolForm.getNotificationHelper().setNotificationRecipients(new ArrayList<NotificationTypeRecipient>());
                 protocolForm.getNotificationHelper().initializeDefaultValues(context);
