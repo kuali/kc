@@ -80,7 +80,7 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         getDictionaryValidationService().validateBusinessObject(specialReview);
         rulePassed &= GlobalVariables.getMessageMap().hasNoErrors();
         if (validateProtocol && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
-            rulePassed &= validateProtocolNumber(specialReview, specialReviews, HUMAN_SUBJECTS_LINK_TO_IRB_ERROR_STRING);
+//            rulePassed &= validateProtocolNumber(specialReview, specialReviews, HUMAN_SUBJECTS_LINK_TO_IRB_ERROR_STRING);
         } else {
             rulePassed &= validateSpecialReviewApprovalFields(specialReview);
             rulePassed &= validateDateFields(specialReview);
@@ -129,7 +129,7 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
             
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             if (validateProtocol && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
-                rulePassed &= validateProtocolNumber(specialReview, specialReviews, HUMAN_SUBJECTS_LINK_TO_IRB_ERROR_STRING);
+//                rulePassed &= validateProtocolNumber(specialReview, specialReviews, HUMAN_SUBJECTS_LINK_TO_IRB_ERROR_STRING);
             } else {
                 rulePassed &= validateSpecialReviewApprovalFields(specialReview);
                 rulePassed &= validateDateFields(specialReview);
