@@ -2363,13 +2363,16 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     
                     AdminCorrectionBean adminCorrectionBean = protocolForm.getActionHelper().getProtocolAdminCorrectionBean();
                     protocolDocument.updateProtocolStatus(ProtocolActionType.ADMINISTRATIVE_CORRECTION, adminCorrectionBean.getComments());
-    
-                    AdminCorrectionService adminCorrectionService = KraServiceLocator.getService(AdminCorrectionService.class);
-                    adminCorrectionService.sendCorrectionNotification(protocolDocument.getProtocol(), adminCorrectionBean);
-    
                     recordProtocolActionSuccess("Make Administrative Correction");
-                    
-                    return mapping.findForward(PROTOCOL_TAB);
+    
+                    ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolDocument.getProtocol(), ProtocolActionType.ADMINISTRATIVE_CORRECTION, "Administrative Correction");
+                    protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+
+                    if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                        return mapping.findForward(CORRESPONDENCE);
+                    } else {
+                        return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
+                    }
                 }
             }
         } else {
