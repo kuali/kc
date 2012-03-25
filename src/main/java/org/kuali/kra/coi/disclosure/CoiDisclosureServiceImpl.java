@@ -859,8 +859,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             List<InstitutionalProposal> searchResults = (List<InstitutionalProposal>) businessObjectService.findMatching(InstitutionalProposal.class, ipFieldValues);
             for (InstitutionalProposal institutionalProposal: searchResults) {
                 if (isInstitutionalProposalDisclosurable(institutionalProposal) && 
-                    !isProjectReported(institutionalProposal.getProposalNumber(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, personId) &&
-                    (institutionalProposal.getProposalStatus().isFunded() || institutionalProposal.getProposalStatus().isPending())) {
+                    !isProjectReported(institutionalProposal.getProposalNumber(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, personId)) {
                     proposals.add(institutionalProposal);
                 }
             }
