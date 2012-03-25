@@ -499,9 +499,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
             HttpServletResponse response) throws Exception {
         FinancialEntityForm financialEntityForm = (FinancialEntityForm) form;
         int selectedLine = getSelectedLine(request);
-        FinancialEntityAttachment attachment = financialEntityForm.getFinancialEntityHelper().getFinEntityAttachmentList().get(selectedLine);
-        financialEntityForm.getFinancialEntityHelper().getFinEntityAttachmentList().remove(selectedLine);
-        getBusinessObjectService().delete(attachment);
+        financialEntityForm.getFinancialEntityHelper().removeNewFinancialEntityAttachment(selectedLine);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 }
