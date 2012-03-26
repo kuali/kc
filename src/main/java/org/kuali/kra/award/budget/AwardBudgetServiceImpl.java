@@ -282,17 +282,18 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         boolean success = new AwardBudgetVersionRule().processAddBudgetVersion(
                 new AddBudgetVersionEvent(BUDGET_VERSION_ERROR_PREFIX,
                         parentDocument,documentDescription));
-        if(!success)
-            return null;        
+        if (!success) {
+            return null;
+        }
         Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
         AwardBudgetDocument awardBudgetDocument;
-        if(isPostedBudgetExist(parentDocument)){
+        if (isPostedBudgetExist(parentDocument)) {
             BudgetDecimal obligatedChangeAmount = getTotalCostLimit(parentDocument);
             AwardBudgetExt previousPostedBudget = getLatestPostedBudget(parentDocument);
-            BudgetDocument<Award> postedBudgetDocument = (AwardBudgetDocument)previousPostedBudget.getBudgetDocument();
-            awardBudgetDocument =  (AwardBudgetDocument)copyBudgetVersion(postedBudgetDocument);
+            BudgetDocument<Award> postedBudgetDocument = (AwardBudgetDocument) previousPostedBudget.getBudgetDocument();
+            awardBudgetDocument =  (AwardBudgetDocument) copyBudgetVersion(postedBudgetDocument);
             copyObligatedAmountToLineItems(awardBudgetDocument,obligatedChangeAmount);
-        }else{
+        } else {
             awardBudgetDocument = (AwardBudgetDocument) documentService.getNewDocument(AwardBudgetDocument.class);
         }
         
@@ -305,8 +306,8 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         awardBudget.setBudgetVersionNumber(budgetVersionNumber);
         awardBudget.setBudgetDocument(awardBudgetDocument);
         BudgetVersionOverview lastBudgetVersion = getLastBudgetVersion(parentDocument);
-        awardBudget.setOnOffCampusFlag(lastBudgetVersion==null?Constants.DEFALUT_CAMUS_FLAG:lastBudgetVersion.getOnOffCampusFlag());
-        if(awardBudgetDocument.getDocumentHeader() != null && awardBudgetDocument.getDocumentHeader().hasWorkflowDocument()){
+        awardBudget.setOnOffCampusFlag(lastBudgetVersion == null ? Constants.DEFALUT_CAMUS_FLAG : lastBudgetVersion.getOnOffCampusFlag());
+        if (awardBudgetDocument.getDocumentHeader() != null && awardBudgetDocument.getDocumentHeader().hasWorkflowDocument()) {
             awardBudget.setBudgetInitiator(awardBudgetDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         }
         
@@ -331,10 +332,11 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         if (isPostedBudgetExist(parentDocument)) {
             if (awardBudget.getTotalCostLimit().equals(BudgetDecimal.ZERO)) {
                 rebudget = true;
-            }else{
-                Budget budget = awardBudgetDocument.getBudget();
-                budget.getBudgetPeriods().clear();
             }
+//            else{
+//                Budget budget = awardBudgetDocument.getBudget();
+//                budget.getBudgetPeriods().clear();
+//            }
         }
         recalculateBudget(awardBudgetDocument.getBudget());
         saveBudgetDocument(awardBudgetDocument,rebudget);
@@ -595,6 +597,10 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return KraServiceLocator.getService(DeepCopyPostProcessor.class);
     }
 
+    /**
+     * Copies budget version from previous one
+     * @see org.kuali.kra.budget.core.BudgetCommonService#copyBudgetVersion(org.kuali.kra.budget.document.BudgetDocument)
+     */
     public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument) throws WorkflowException {
         
         //clear awardbudgetlimits before copy as they should always be copied from
