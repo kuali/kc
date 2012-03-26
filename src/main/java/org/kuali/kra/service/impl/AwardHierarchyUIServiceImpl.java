@@ -325,8 +325,16 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     }
     
     protected AwardHierarchyNode getAwardHierarchyNode(String awardNumber, String currentAwardNumber, String currentSequenceNumber) {
+        AwardHierarchyNode returnVal = null;
         AwardHierarchy hierarchy = awardHierarchyService.loadAwardHierarchy(awardNumber);
-        return awardHierarchyService.createAwardHierarchyNode(hierarchy, currentAwardNumber, currentSequenceNumber);
+        if(canUseExistingTMSessionObject(awardNumber)){ 
+            awardHierarchyNodes = ((TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(
+                    GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)).getAwardHierarchyNodes();   
+            returnVal = awardHierarchyNodes.get(awardNumber);
+        }else{ 
+            returnVal = awardHierarchyService.createAwardHierarchyNode(hierarchy, currentAwardNumber, currentSequenceNumber);
+        }
+            return returnVal;
     }
     
     protected Map<String, AwardHierarchyNode> getAwardHierarchyNodes(String awardNumber, String currentAwardNumber, String currentSequenceNumber){
