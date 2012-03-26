@@ -771,159 +771,166 @@ public class S2SBudgetCalculatorServiceImpl implements
                 Constants.S2SBUDGET_RATE_CLASS_CODE_EMPLOYEE_BENEFITS);
         String rateClassCodeVacation = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 Constants.S2SBUDGET_RATE_CLASS_CODE_VACATION);
-        String rateTypeAdministrativesalaries = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+        String rateTypeAdministrativeSalaries = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 Constants.S2SBUDGET_RATE_TYPE_ADMINISTRATIVE_SALARIES);
         Map<String, String> personJobCodes = new HashMap<String, String>();
         boolean personExistsAsProposalPerson = false;
-        // boolean lineItemMatched;
-        for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-            // lineItemMatched = false;
-
-            Map<String, String> categoryMap = new HashMap<String, String>();
-            categoryMap.put(KEY_TARGET_CATEGORY_CODE, category);
-            categoryMap.put(KEY_MAPPING_NAME, S2SConstants.SPONSOR);
-            List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
-
-            for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
-                if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode())) {
-                    List<BudgetPersonnelDetails> lineItemPersonDetails = lineItem.getBudgetPersonnelDetailsList();
-                    boolean personExist = !lineItemPersonDetails.isEmpty();
-                    if (personExist) {
-                        for (BudgetPersonnelDetails personDetails : lineItemPersonDetails) {
-                            if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode())) {
-                                String budgetPersonId = personDetails.getPersonId();
-                                personExistsAsProposalPerson = false;
-                                // get sum of salary of other personnel, but
-                                // exclude the key persons and investigators
-                                for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
-                                    if (budgetPersonId.equals(proposalPerson.getPersonId())
-                                            || (proposalPerson.getRolodexId() != null && budgetPersonId.equals(proposalPerson
-                                                    .getRolodexId().toString()))) {
-                                        personExistsAsProposalPerson = true;
-                                        break;
-                                    }
-                                }
-                                if (!personExistsAsProposalPerson) {
-                                    salaryRequested = salaryRequested.add(personDetails.getSalaryRequested());
-                                    salaryCostSharing = salaryCostSharing.add(personDetails.getCostSharingAmount());
-
-                                    numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(),
-                                            personDetails.getEndDate());
-                                    if (personDetails.getPeriodTypeCode().equals(
-                                            getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                                    Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS))) {
-                                        academicMonths = academicMonths.add(personDetails.getPercentEffort()
-                                                .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
-                                    }
-                                    else if (personDetails.getPeriodTypeCode().equals(
-                                            getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                                    Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS))) {
-                                        summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                                .multiply(new BudgetDecimal(0.01)));
-                                    }
-                                    else if (personDetails.getPeriodTypeCode().equals(
-                                            getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                                    Constants.S2SBUDGET_PERIOD_TYPE_CALENDAR_MONTHS))) {
-                                        calendarMonths = calendarMonths.add(personDetails.getPercentEffort()
-                                                .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
-                                    }
-                                    else if (personDetails.getPeriodTypeCode().equals(
-                                            getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                                    Constants.S2SBUDGET_PERIOD_TYPE_CYCLE_MONTHS))) {
-                                        cycleMonths = cycleMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                                .multiply(new BudgetDecimal(0.01)));
-                                    }
-                                    // Get total count of unique
-                                    // personId+jobCode combination for those
-                                    // persons who are part of
-                                    // BudgetPersonnelDetails but are not
-                                    // proposal persons
-                                    personJobCodes.put(personDetails.getPersonId() + personDetails.getJobCode(), "");
-                                    // Calcculate the fringe cost
-                                    for (BudgetPersonnelCalculatedAmount personCalculatedAmount : (List<BudgetPersonnelCalculatedAmount>) personDetails
-                                            .getBudgetCalculatedAmounts()) {
-                                        if ((personCalculatedAmount.getRateClassCode().equals(
-                                                rateClassCodeEmployeeBenefits) && !personCalculatedAmount
-                                                .getRateTypeCode().equals(
-                                                        rateTypeSupportStaffSalaries))
-                                                || (personCalculatedAmount.getRateClassCode().equals(
-                                                        rateClassCodeVacation) && !personCalculatedAmount
-                                                        .getRateTypeCode().equals(
-                                                                rateTypeAdministrativesalaries))) {
-                                            fringeCost = fringeCost.add(personCalculatedAmount.getCalculatedCost());
-                                            fringeCostSharingAmount = fringeCostSharingAmount.add(personCalculatedAmount
-                                                    .getCalculatedCostSharing());
-                                        }
-                                    }
-                                }
-                                // if
-                                // (personDetails.getLineItemNumber().equals(lineItem.getLineItemNumber()))
-                                // {
-                                // lineItemMatched = true;
-                                // }
-                            }
-                        }
+        
+        // Calculate the salary and fringe for category
+        // LASALARIES
+        if (category.equalsIgnoreCase(LASALARIES)) {
+            for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+                // Caluclate LA for rate class type Y
+                for (BudgetLineItemCalculatedAmount lineItemCalculatedAmount : lineItem
+                        .getBudgetLineItemCalculatedAmounts()) {
+                    if (lineItemCalculatedAmount
+                            .getRateClass()
+                            .getRateClassType()
+                            .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                    Constants.S2SBUDGET_RATE_CLASS_TYPE_LAB_ALLOCATION_SALARIES))) {
+                        mrLaCost = mrLaCost.add(lineItemCalculatedAmount.getCalculatedCost());
+                        mrLaCostSharingAmount = mrLaCostSharingAmount.add(lineItemCalculatedAmount
+                                .getCalculatedCostSharing());
                     }
-                    else {
-                        // personExist is false. No person found for the line
-                        // item.
-                        // get costs for this budget category that do not have
-                        // persons attached to the cost element
-                        lineItemCost = lineItemCost.add(lineItem.getLineItemCost());
-                        lineItemCostSharingAmount = lineItemCostSharingAmount.add(lineItem.getCostSharingAmount());
-                        count = lineItem.getQuantity();
-                        for (BudgetLineItemCalculatedAmount lineItemCalculatedAmount : lineItem
-                                .getBudgetLineItemCalculatedAmounts()) {
-                            lineItemCalculatedAmount.refreshReferenceObject("rateClass");
 
-                            // Calculate fringe cost
-                            if (lineItemCalculatedAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
-                                fringeCost = fringeCost.add(lineItemCalculatedAmount.getCalculatedCost());
-                            }
-                            if ((lineItemCalculatedAmount.getRateClassCode().equals(
-                                    rateClassCodeEmployeeBenefits) && !lineItemCalculatedAmount
+                    // Calculate the fringe
+                    if ((lineItemCalculatedAmount
+                            .getRateClass()
+                            .getRateClassType()
+                            .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                    Constants.S2SBUDGET_RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) && lineItemCalculatedAmount
                                     .getRateTypeCode().equals(
                                             rateTypeSupportStaffSalaries))
-                                    || (lineItemCalculatedAmount.getRateClassCode().equals(
-                                            rateClassCodeVacation) && !lineItemCalculatedAmount
-                                            .getRateTypeCode().equals(
-                                                    rateTypeAdministrativesalaries))) {
-                                fringeCostSharingAmount = fringeCostSharingAmount.add(lineItemCalculatedAmount
-                                        .getCalculatedCostSharing());
-                            }
+                                            || (lineItemCalculatedAmount
+                                                    .getRateClass()
+                                                    .getRateClassType()
+                                                    .equals(getParameterService().getParameterValueAsString(
+                                                            ProposalDevelopmentDocument.class,
+                                                            Constants.S2SBUDGET_RATE_CLASS_TYPE_VACATION)) && lineItemCalculatedAmount
+                                                            .getRateTypeCode().equals(
+                                                                    rateTypeAdministrativeSalaries))) {
+                        mrLaFringeCost = mrLaFringeCost.add(lineItemCalculatedAmount.getCalculatedCost());
+                        mrLaFringeCostSharingAmount = mrLaFringeCostSharingAmount.add(lineItemCalculatedAmount
+                                .getCalculatedCostSharing());
+                    }
+                }
+            }
+        }
+        else{
+            // boolean lineItemMatched;
+            for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+                // lineItemMatched = false;
 
-                            // Calculate the salary and fringe for category
-                            // LASALARIES
-                            if (category.equalsIgnoreCase(LASALARIES)) {
-                                // Caluclate LA for rate class type Y
-                                if (lineItemCalculatedAmount
-                                        .getRateClass()
-                                        .getRateClassType()
-                                        .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                                Constants.S2SBUDGET_RATE_CLASS_TYPE_LAB_ALLOCATION_SALARIES))) {
-                                    mrLaCost = mrLaCost.add(lineItemCalculatedAmount.getCalculatedCost());
-                                    mrLaCostSharingAmount = mrLaCostSharingAmount.add(lineItemCalculatedAmount
-                                            .getCalculatedCostSharing());
+                Map<String, String> categoryMap = new HashMap<String, String>();
+                categoryMap.put(KEY_TARGET_CATEGORY_CODE, category);
+                categoryMap.put(KEY_MAPPING_NAME, S2SConstants.SPONSOR);
+                List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
+
+                for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
+                    if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode())) {
+                        List<BudgetPersonnelDetails> lineItemPersonDetails = lineItem.getBudgetPersonnelDetailsList();
+                        boolean personExist = !lineItemPersonDetails.isEmpty();
+                        if (personExist) {
+                            for (BudgetPersonnelDetails personDetails : lineItemPersonDetails) {
+                                if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode())) {
+                                    String budgetPersonId = personDetails.getPersonId();
+                                    personExistsAsProposalPerson = false;
+                                    // get sum of salary of other personnel, but
+                                    // exclude the key persons and investigators
+                                    for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+                                        if (budgetPersonId.equals(proposalPerson.getPersonId())
+                                                || (proposalPerson.getRolodexId() != null && budgetPersonId.equals(proposalPerson
+                                                        .getRolodexId().toString()))) {
+                                            personExistsAsProposalPerson = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!personExistsAsProposalPerson) {
+                                        salaryRequested = salaryRequested.add(personDetails.getSalaryRequested());
+                                        salaryCostSharing = salaryCostSharing.add(personDetails.getCostSharingAmount());
+
+                                        numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(),
+                                                personDetails.getEndDate());
+                                        if (personDetails.getPeriodTypeCode().equals(
+                                                getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                                        Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS))) {
+                                            academicMonths = academicMonths.add(personDetails.getPercentEffort()
+                                                    .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+                                        }
+                                        else if (personDetails.getPeriodTypeCode().equals(
+                                                getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                                        Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS))) {
+                                            summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
+                                                    .multiply(new BudgetDecimal(0.01)));
+                                        }
+                                        else if (personDetails.getPeriodTypeCode().equals(
+                                                getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                                        Constants.S2SBUDGET_PERIOD_TYPE_CALENDAR_MONTHS))) {
+                                            calendarMonths = calendarMonths.add(personDetails.getPercentEffort()
+                                                    .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+                                        }
+                                        else if (personDetails.getPeriodTypeCode().equals(
+                                                getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                                        Constants.S2SBUDGET_PERIOD_TYPE_CYCLE_MONTHS))) {
+                                            cycleMonths = cycleMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
+                                                    .multiply(new BudgetDecimal(0.01)));
+                                        }
+                                        // Get total count of unique
+                                        // personId+jobCode combination for those
+                                        // persons who are part of
+                                        // BudgetPersonnelDetails but are not
+                                        // proposal persons
+                                        personJobCodes.put(personDetails.getPersonId() + personDetails.getJobCode(), "");
+                                        // Calcculate the fringe cost
+                                        for (BudgetPersonnelCalculatedAmount personCalculatedAmount : (List<BudgetPersonnelCalculatedAmount>) personDetails
+                                                .getBudgetCalculatedAmounts()) {
+                                            if ((personCalculatedAmount.getRateClassCode().equals(
+                                                    rateClassCodeEmployeeBenefits) && !personCalculatedAmount
+                                                    .getRateTypeCode().equals(
+                                                            rateTypeSupportStaffSalaries))
+                                                            || (personCalculatedAmount.getRateClassCode().equals(
+                                                                    rateClassCodeVacation) && !personCalculatedAmount
+                                                                    .getRateTypeCode().equals(
+                                                                            rateTypeAdministrativeSalaries))) {
+                                                fringeCost = fringeCost.add(personCalculatedAmount.getCalculatedCost());
+                                                fringeCostSharingAmount = fringeCostSharingAmount.add(personCalculatedAmount
+                                                        .getCalculatedCostSharing());
+                                            }
+                                        }
+                                    }
+                                    // if
+                                    // (personDetails.getLineItemNumber().equals(lineItem.getLineItemNumber()))
+                                    // {
+                                    // lineItemMatched = true;
+                                    // }
                                 }
+                            }
+                        }
+                        else {
+                            // personExist is false. No person found for the line
+                            // item.
+                            // get costs for this budget category that do not have
+                            // persons attached to the cost element
+                            lineItemCost = lineItemCost.add(lineItem.getLineItemCost());
+                            lineItemCostSharingAmount = lineItemCostSharingAmount.add(lineItem.getCostSharingAmount());
+                            count = lineItem.getQuantity();
+                            for (BudgetLineItemCalculatedAmount lineItemCalculatedAmount : lineItem
+                                    .getBudgetLineItemCalculatedAmounts()) {
+                                lineItemCalculatedAmount.refreshReferenceObject("rateClass");
 
-                                // Calculate the fringe
-                                if ((lineItemCalculatedAmount
-                                        .getRateClass()
-                                        .getRateClassType()
-                                        .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                                Constants.S2SBUDGET_RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) && lineItemCalculatedAmount
+                                // Calculate fringe cost
+                                if (lineItemCalculatedAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
+                                    fringeCost = fringeCost.add(lineItemCalculatedAmount.getCalculatedCost());
+                                }
+                                if ((lineItemCalculatedAmount.getRateClassCode().equals(
+                                        rateClassCodeEmployeeBenefits) && !lineItemCalculatedAmount
                                         .getRateTypeCode().equals(
                                                 rateTypeSupportStaffSalaries))
-                                        || (lineItemCalculatedAmount
-                                                .getRateClass()
-                                                .getRateClassType()
-                                                .equals(getParameterService().getParameterValueAsString(
-                                                		ProposalDevelopmentDocument.class,
-                                                        Constants.S2SBUDGET_RATE_CLASS_TYPE_VACATION)) && lineItemCalculatedAmount
-                                                .getRateTypeCode().equals(
-                                                        rateTypeAdministrativesalaries))) {
-                                    mrLaFringeCost = mrLaFringeCost.add(lineItemCalculatedAmount.getCalculatedCost());
-                                    mrLaFringeCostSharingAmount = mrLaFringeCostSharingAmount.add(lineItemCalculatedAmount
+                                                || (lineItemCalculatedAmount.getRateClassCode().equals(
+                                                        rateClassCodeVacation) && !lineItemCalculatedAmount
+                                                        .getRateTypeCode().equals(
+                                                                rateTypeAdministrativeSalaries))) {
+                                    fringeCostSharingAmount = fringeCostSharingAmount.add(lineItemCalculatedAmount
                                             .getCalculatedCostSharing());
                                 }
                             }
@@ -932,7 +939,6 @@ public class S2SBudgetCalculatorServiceImpl implements
                 }
             }
         }
-
         // Set the salary amounts
         bdSalary = bdSalary.add(salaryRequested).add(lineItemCost).add(mrLaCost);
         bdSalaryCostSharing = bdSalaryCostSharing.add(salaryCostSharing).add(lineItemCostSharingAmount).add(mrLaCostSharingAmount);
