@@ -524,12 +524,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 protocolForm.getProtocolHelper().prepareView();
                 protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"), false));
                 recordProtocolActionSuccess("Withdraw");
-//                return checkToSendNotification(mapping, mapping.findForward(CORRESPONDENCE), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
+//                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
     
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                     return mapping.findForward(CORRESPONDENCE);
                 } else {
-                    return checkToSendNotification(mapping, mapping.findForward(CORRESPONDENCE), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
                 }
             }
         } else {
@@ -1407,13 +1407,22 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward protocolReviewNotRequired(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, protocolForm.getProtocolDocument().getProtocol());
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, protocol);
         if (isAuthorized(task)) {
             ProtocolReviewNotRequiredBean actionBean = protocolForm.getActionHelper().getProtocolReviewNotRequiredBean();
-            if (applyRules(new ProtocolReviewNotRequiredEvent(protocolForm.getProtocolDocument(), actionBean))) {
-                KraServiceLocator.getService(ProtocolReviewNotRequiredService.class).reviewNotRequired(protocolForm.getProtocolDocument(), actionBean);
+            if (applyRules(new ProtocolReviewNotRequiredEvent(document, actionBean))) {
+                KraServiceLocator.getService(ProtocolReviewNotRequiredService.class).reviewNotRequired(document, actionBean);
             
                 recordProtocolActionSuccess("Review Not Required");
+                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(document.getProtocol(), ProtocolActionType.IRB_REVIEW_NOT_REQUIRED, "Review Not Required");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+                }
             }
         }
         
@@ -1779,6 +1788,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
                 
                 recordProtocolActionSuccess("Response Approval");
+                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(document.getProtocol(), ProtocolActionType.RESPONSE_APPROVAL, "Response Approval");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+                }
             }
         }
         
@@ -1883,7 +1899,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                     return mapping.findForward(CORRESPONDENCE);
                 } else {
-                    return checkToSendNotification(mapping, mapping.findForward(CORRESPONDENCE), protocolForm, notificationBean);
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
                 }
             }
         }
@@ -1993,7 +2009,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                     return mapping.findForward(CORRESPONDENCE);
                 } else {
-                    return checkToSendNotification(mapping, mapping.findForward(CORRESPONDENCE), protocolForm, notificationBean);
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
                 }
             }
         }
@@ -2026,7 +2042,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                     return mapping.findForward(CORRESPONDENCE);
                 } else {
-                    return checkToSendNotification(mapping, mapping.findForward(CORRESPONDENCE), protocolForm, notificationBean);
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
                 }
             }
         }
@@ -2754,7 +2770,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                 return mapping.findForward(CORRESPONDENCE);
             } else {
-                return checkToSendNotification(mapping, mapping.findForward(CORRESPONDENCE), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
+                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
             }
 //            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
 
