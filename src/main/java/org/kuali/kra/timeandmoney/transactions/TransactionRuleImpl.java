@@ -270,8 +270,22 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
 
     private boolean processCommonValidations(TransactionRuleEvent event) {
         PendingTransaction pendingTransactionItem = event.getPendingTransactionItemForValidation();
-        List<PendingTransaction> items = event.getTimeAndMoneyDocument().getPendingTransactions();
-        return isUnique(items, pendingTransactionItem) && sourceAndDestinationAwardsAreDifferent(pendingTransactionItem);
+        List<PendingTransaction> items = event.getTimeAndMoneyDocument().getPendingTransactions();      
+        return isUnique(items, pendingTransactionItem) && sourceAndDestinationAwardsAreDifferent(pendingTransactionItem) && enforcePositiveAmounts(pendingTransactionItem);
+    }
+    
+    boolean enforcePositiveAmounts(PendingTransaction pendingTransactionItem) {
+        boolean valid = true;
+        if(pendingTransactionItem.getAnticipatedAmount().isNegative() ||
+                pendingTransactionItem.getObligatedAmount().isNegative() ||
+                    pendingTransactionItem.getAnticipatedDirectAmount().isNegative() ||
+                        pendingTransactionItem.getAnticipatedIndirectAmount().isNegative() ||
+                            pendingTransactionItem.getObligatedDirectAmount().isNegative() ||
+                                pendingTransactionItem.getObligatedIndirectAmount().isNegative()) {
+            reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_TRANSACTION_AMOUNTS_NEGATIVE);
+            valid = false;
+        }
+        return valid;
     }
     
     boolean sourceAndDestinationAwardsAreDifferent(PendingTransaction pendingTransactionItem){
