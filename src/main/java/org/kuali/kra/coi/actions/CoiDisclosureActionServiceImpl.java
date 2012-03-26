@@ -269,16 +269,18 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     private void copyDisclosureProjects(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
         List<CoiDisclProject> copiedDisclProjects = new ArrayList<CoiDisclProject>();
         for (CoiDisclProject coiDisclProject : masterCoiDisclosure.getCoiDisclProjects()) {
-            List<CoiDiscDetail> coiDiscDetails = coiDisclProject.getCoiDiscDetails();
-//            coiDisclProject.setCoiDiscDetails(null);
-            CoiDisclProject copiedDisclProject = (CoiDisclProject) ObjectUtils.deepCopy(coiDisclProject);
-            copiedDisclProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
-            copiedDisclProject.setCoiDisclProjectsId(null);
-            
-            //copy disc details
-            copyDisclosureDetails(coiDiscDetails, copiedDisclProject);
-            copiedDisclProjects.add(copiedDisclProject);
-            copiedDisclProject.setCoiDisclosureId(null);
+            if (!coiDisclProject.getCoiDisclosureEventType().isExcludeFromMasterDisclosure()) {
+                List<CoiDiscDetail> coiDiscDetails = coiDisclProject.getCoiDiscDetails();
+                // coiDisclProject.setCoiDiscDetails(null);
+                CoiDisclProject copiedDisclProject = (CoiDisclProject) ObjectUtils.deepCopy(coiDisclProject);
+                copiedDisclProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
+                copiedDisclProject.setCoiDisclProjectsId(null);
+
+                // copy disc details
+                copyDisclosureDetails(coiDiscDetails, copiedDisclProject);
+                copiedDisclProjects.add(copiedDisclProject);
+                copiedDisclProject.setCoiDisclosureId(null);
+            }
         }
         coiDisclosure.getCoiDisclProjects().addAll(copiedDisclProjects);
     }

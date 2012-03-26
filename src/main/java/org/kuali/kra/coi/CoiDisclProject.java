@@ -63,7 +63,8 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private Protocol protocol;
     private DevelopmentProposal proposal;
     private Award award;
-       
+    private CoiDisclosureEventType coiDisclosureEventType;
+         
     private CoiDisclosure coiDisclosure; 
     @SkipVersioning
     private List<CoiDiscDetail> coiDiscDetails; 
@@ -357,6 +358,12 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     }
     public void setAward(Award award) {
         this.award = award;
+    }
+    public CoiDisclosureEventType getCoiDisclosureEventType() {
+        return coiDisclosureEventType;
+    }
+    public void setCoiDisclosureEventType(CoiDisclosureEventType coiDisclosureEventType) {
+        this.coiDisclosureEventType = coiDisclosureEventType;
     }    
 
 }
