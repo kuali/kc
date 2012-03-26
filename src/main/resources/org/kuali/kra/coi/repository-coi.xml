@@ -556,6 +556,9 @@
         <reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="shortTextField1"/>
         </reference-descriptor>
+        <reference-descriptor name="coiDisclosureEventType" class-ref="org.kuali.kra.coi.CoiDisclosureEventType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="disclosureEventType"/>
+        </reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.coi.CoiReviewer" table="COI_REVIEWER">
