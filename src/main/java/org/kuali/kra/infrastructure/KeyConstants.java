@@ -385,6 +385,7 @@ public final class KeyConstants {
     //Time & Money - Transactions
     public static final String ERROR_TNM_PENDING_TRANSACTION_ITEM_NOT_UNIQUE = "error.awardPendingTransaction.notunique";
     public static final String ERROR_TNM_PENDING_TRANSACTION_SOURCE_AND_DESTINATION_AWARDS_ARE_SAME = "error.awardPendingTransaction.sourceAndDestinationAreSame";
+    public static final String ERROR_TRANSACTION_AMOUNTS_NEGATIVE = "error.transaction.amounts.negative";
     
     //Award Closeout
     public static final String ERROR_AWARD_CLOSEOUT_REPORT_NAME_REQUIRED = "error.required";
