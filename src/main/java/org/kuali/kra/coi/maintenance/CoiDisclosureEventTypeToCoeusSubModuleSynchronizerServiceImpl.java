@@ -113,7 +113,7 @@ public class CoiDisclosureEventTypeToCoeusSubModuleSynchronizerServiceImpl imple
         List<CoiDisclosureEventType> activeCoiEventTypes = new ArrayList<CoiDisclosureEventType>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("active", true);
-        activeCoiEventTypes.addAll(businessObjectService.findMatchingOrderBy(CoiDisclosureEventType.class, fieldValues, "eventTypeCode", true));
+        activeCoiEventTypes.addAll(getBusinessObjectService().findMatchingOrderBy(CoiDisclosureEventType.class, fieldValues, "eventTypeCode", true));
         return activeCoiEventTypes;
     }
 
@@ -122,7 +122,7 @@ public class CoiDisclosureEventTypeToCoeusSubModuleSynchronizerServiceImpl imple
         List<CoeusSubModule> coiSubModules = new ArrayList<CoeusSubModule>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("moduleCode", getCoiCoeusModuleCode());
-        coiSubModules.addAll(businessObjectService.findMatchingOrderBy(CoeusSubModule.class, fieldValues, "subModuleCode", true));
+        coiSubModules.addAll(getBusinessObjectService().findMatchingOrderBy(CoeusSubModule.class, fieldValues, "subModuleCode", true));
         return coiSubModules;
     }
 
