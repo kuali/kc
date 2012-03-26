@@ -709,7 +709,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         // When creating a disclosure. the detail will be created at first
         // TODO : what if FE is deactivate
         Map <String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("coiDisclProjectId", coiDisclProject.getCoiDisclosureId());
+        fieldValues.put("coiDisclProjectId", coiDisclProject.getCoiDisclProjectsId());
 //        fieldValues.put("coiDisclosureId", coiDisclProject.getCoiDisclosureId());
 //        fieldValues.put("moduleCode", coiDisclProject.getCoiDisclosure().getEventTypeCode());
 //        fieldValues.put("moduleItemKey", coiDisclProject.getProjectId());
@@ -1212,7 +1212,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         
         // unless we are doing an update
-        if (!coiDisclosure.isUpdateEvent() && !(coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
+        if (coiDisclosure.isApprovedDisclosure() || coiDisclosure.isDisapprovedDisclosure() || (!coiDisclosure.isUpdateEvent() && !(coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate()))) {
             setupDisclosures(masterDisclosureBean, coiDisclosure);
         }
         return masterDisclosureBean;
@@ -1485,16 +1485,18 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private void copyDisclosureProjects(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
         List<CoiDisclProject> copiedDisclProjects = new ArrayList<CoiDisclProject>();
         for (CoiDisclProject coiDisclProject : masterCoiDisclosure.getCoiDisclProjects()) {
-            List<CoiDiscDetail> coiDiscDetails = coiDisclProject.getCoiDiscDetails();
-//            coiDisclProject.setCoiDiscDetails(null);
-            
-            CoiDisclProject copiedDisclProject = (CoiDisclProject) ObjectUtils.deepCopy(coiDisclProject);
-            copiedDisclProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
-            copiedDisclProject.setCoiDisclProjectsId(null);
-            //copy disc details
-            copyDisclosureDetails(coiDiscDetails, copiedDisclProject);
-            copiedDisclProjects.add(copiedDisclProject);
-            copiedDisclProject.setCoiDisclosureId(null);
+            if (!coiDisclProject.getCoiDisclosureEventType().isExcludeFromMasterDisclosure()) {
+                List<CoiDiscDetail> coiDiscDetails = coiDisclProject.getCoiDiscDetails();
+                // coiDisclProject.setCoiDiscDetails(null);
+
+                CoiDisclProject copiedDisclProject = (CoiDisclProject) ObjectUtils.deepCopy(coiDisclProject);
+                copiedDisclProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
+                copiedDisclProject.setCoiDisclProjectsId(null);
+                // copy disc details
+                copyDisclosureDetails(coiDiscDetails, copiedDisclProject);
+                copiedDisclProjects.add(copiedDisclProject);
+                copiedDisclProject.setCoiDisclosureId(null);
+            }
         }
         coiDisclosure.setCoiDisclProjects(copiedDisclProjects);
     }
