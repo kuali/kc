@@ -1751,8 +1751,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             //forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);                                    
 //            forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
             protocolForm.getProtocolHelper().prepareView();
-            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, null, true));
 
+            ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.EXPEDITE_APPROVAL, "Expedited Approval Granted");
+            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
             if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                 return mapping.findForward(CORRESPONDENCE);
             } else {
