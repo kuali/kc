@@ -423,7 +423,7 @@
         </xs:element>
         <xs:element minOccurs="0" maxOccurs="unbounded" ref="VulnerableSubject" />
         <xs:element minOccurs="0" maxOccurs="unbounded" ref="SpecialReview" />
-        <xs:element minOccurs="0" maxOccurs="unbounded" name="RiskLevels">
+       <xs:element minOccurs="0" maxOccurs="unbounded" name="RiskLevels">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="RiskLevelCode" type="xs:integer" />
@@ -437,7 +437,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element minOccurs="0" maxOccurs="unbounded" name="Submissions">
+         <xs:element minOccurs="0" maxOccurs="unbounded" name="Submissions">
           <xs:complexType>
             <xs:sequence>
               <xs:element ref="SubmissionDetails" />
@@ -557,6 +557,20 @@
       <xs:sequence>
         <xs:element ref="ProtocolMasterData" />
         <xs:element maxOccurs="unbounded" ref="Investigator" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="RiskLevels" >
+        <xs:complexType>
+            <xs:sequence>
+              <xs:element name="RiskLevelCode" type="xs:integer" />
+              <xs:element name="RiskLevelDescription" type="xs:string" />
+              <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
+              <xs:element minOccurs="0" name="DateAssigned" nillable="true" type="xs:date" />
+              <xs:element minOccurs="0" name="DateUpdated" nillable="true" type="xs:date" />
+              <xs:element minOccurs="0" name="Status" type="xs:string" />
+              <xs:element name="UpdateUser" type="xs:string" />
+              <xs:element name="UpdateTimestamp" type="xs:date" />
+            </xs:sequence>
+          </xs:complexType>
+          </xs:element>
         <xs:element minOccurs="0" maxOccurs="unbounded" name="FundingSource">
           <xs:complexType>
             <xs:sequence>
@@ -754,7 +768,7 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="SubmissionDetails">
+    <xs:element name="SubmissionDetails">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="ProtocolNumber">
