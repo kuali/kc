@@ -1543,10 +1543,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.setLeadUnitNumber(proposalLog.getLeadUnit());
         this.setDefaultInitialContractAdmin();
         InstitutionalProposalPerson ipPerson = new InstitutionalProposalPerson();
-        if (proposalLog.getPerson() != null) {
+        if (StringUtils.isNotBlank(proposalLog.getPiId()) && proposalLog.getPerson() != null) {
             ipPerson.setPerson(proposalLog.getPerson());
         }
-        else if (proposalLog.getRolodex() != null) {
+        else if (proposalLog.getRolodexId() != null && proposalLog.getRolodex() != null) {
             ipPerson.setRolodex(proposalLog.getRolodex());
         }
         initializeDefaultPrincipalInvestigator(ipPerson);
