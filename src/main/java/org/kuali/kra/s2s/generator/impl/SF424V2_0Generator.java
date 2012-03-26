@@ -43,6 +43,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -315,53 +316,51 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setProjectEndDate(null);
         }
 
-        Budget budgetDoc = null;
+        Budget budget = null;
         try {
             BudgetDocument budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
-            budgetDoc = budgetDocument==null?null:budgetDocument.getBudget();
+            budget = budgetDocument==null?null:budgetDocument.getBudget();
         }catch (S2SException e) {
             LOG.error(e.getMessage(), e);
             return sf424V2;
 
         }
-        if (budgetDoc != null) {
-            if (budgetDoc.getTotalCost() != null) {
-                sf424V2.setFederalEstimatedFunding(budgetDoc.getTotalCost().bigDecimalValue());
+        if (budget != null) {
+            if (budget.getTotalCost() != null) {
+                sf424V2.setFederalEstimatedFunding(budget.getTotalCost().bigDecimalValue());
             }
-            BudgetDecimal fedNonFedCost = BudgetDecimal.ZERO;
-            BudgetDecimal totalfedNonFedCost = BudgetDecimal.ZERO;
-            if (budgetDoc.getCostSharingAmount() != null) {
-                for (BudgetPeriod budgetPeriod : budgetDoc.getBudgetPeriods()) {
-                    for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                        hasBudgetLineItem = true;
-                        if(budgetDoc.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
-                        fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
+            BudgetDecimal fedNonFedCost = budget.getTotalCost();
+            BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
+
+            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+                    hasBudgetLineItem = true;
+                    if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {
+                        costSharingAmount =  costSharingAmount.add(lineItem.getCostSharingAmount());
+                        List<BudgetLineItemCalculatedAmount> calculatedAmounts = lineItem.getBudgetCalculatedAmounts();
+                        for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calculatedAmounts) {
+                             costSharingAmount =  costSharingAmount.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
                         }
-                }
-                if(!hasBudgetLineItem && budgetDoc.getSubmitCostSharingFlag()){
-                    fedNonFedCost = fedNonFedCost.add(budgetDoc.getCostSharingAmount());
+                        
+                    }
                 }
             }
+            if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
+                costSharingAmount = budget.getCostSharingAmount();      
+            }
+            fedNonFedCost = fedNonFedCost.add(costSharingAmount);
             sf424V2.setApplicantEstimatedFunding(fedNonFedCost.bigDecimalValue());
             BigDecimal projectIncome = BigDecimal.ZERO;
-            for (BudgetProjectIncome budgetProjectIncome : budgetDoc.getBudgetProjectIncomes()) {
+            for (BudgetProjectIncome budgetProjectIncome : budget.getBudgetProjectIncomes()) {
                 projectIncome = projectIncome.add(budgetProjectIncome.getProjectIncome().bigDecimalValue());
             }
             sf424V2.setProgramIncomeEstimatedFunding(projectIncome);
 
             BudgetDecimal totalEstimatedAmount = BudgetDecimal.ZERO;
-            if (budgetDoc.getTotalCost() != null) {
-                totalEstimatedAmount = totalEstimatedAmount.add(budgetDoc.getTotalCost());
+            if (budget.getTotalCost() != null) {
+                totalEstimatedAmount = totalEstimatedAmount.add(budget.getTotalCost());
             }
-            if (budgetDoc.getCostSharingAmount() != null) {
-                for (BudgetPeriod budgetPeriod : budgetDoc.getBudgetPeriods()) {
-                    for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                        if(budgetDoc.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
-                            totalfedNonFedCost=totalfedNonFedCost.add(lineItem.getCostSharingAmount());
-                        }
-                }
-                totalEstimatedAmount = totalEstimatedAmount.add(totalfedNonFedCost);
-            }
+            totalEstimatedAmount = totalEstimatedAmount.add(costSharingAmount);
             totalEstimatedAmount = totalEstimatedAmount.add(new BudgetDecimal(projectIncome));
             sf424V2.setTotalEstimatedFunding(totalEstimatedAmount.bigDecimalValue());
         }

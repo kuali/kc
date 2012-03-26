@@ -219,8 +219,8 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
      * @return BudgetSummary budget summary total.
      */
     private BudgetSummary getBudgetSummary() {
-        BudgetDecimal totalFedCost = BudgetDecimal.ZERO;
-        BudgetDecimal costSharing = BudgetDecimal.ZERO;
+//        BudgetDecimal totalFedCost = BudgetDecimal.ZERO;
+//        BudgetDecimal costSharing = BudgetDecimal.ZERO;
         BudgetSummary budgetSummary = BudgetSummary.Factory.newInstance();
         SummaryLineItem[] summaryLineItemArray = new SummaryLineItem[1];
         SummaryLineItem summaryLineItem = SummaryLineItem.Factory.newInstance();
@@ -232,28 +232,36 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             summaryLineItem.setCFDANumber(pdDoc.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber());
         }
         if (budget != null) {
-        	budget.refreshNonUpdateableReferences();
-        	for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+            BudgetDecimal fedNonFedCost = budget.getTotalCost();
+            BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
+
+            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                     hasBudgetLineItem = true;
-                    if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
-                        costSharing=costSharing.add(lineItem.getCostSharingAmount());
+                    hasBudgetLineItem = true;
+                    if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {
+                        costSharingAmount =  costSharingAmount.add(lineItem.getCostSharingAmount());
+                        List<BudgetLineItemCalculatedAmount> calculatedAmounts = lineItem.getBudgetCalculatedAmounts();
+                        for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calculatedAmounts) {
+                             costSharingAmount =  costSharingAmount.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
+                        }
+                        
                     }
+                }
             }
-        	 if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
-        	     costSharing=costSharing.add(budget.getCostSharingAmount());
-        	 }
-            totalFedCost = budget.getTotalCost().subtract(costSharing);
-            summaryLineItem.setBudgetFederalNewOrRevisedAmount(totalFedCost.bigDecimalValue());
-            summaryLineItem.setBudgetNonFederalNewOrRevisedAmount(costSharing.bigDecimalValue());
-            summaryLineItem.setBudgetTotalNewOrRevisedAmount(budget.getTotalCost().bigDecimalValue());
+            if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
+                costSharingAmount = budget.getCostSharingAmount();      
+            }
+            fedNonFedCost = fedNonFedCost.add(costSharingAmount);
+            summaryLineItem.setBudgetFederalNewOrRevisedAmount(budget.getTotalCost().bigDecimalValue());
+            summaryLineItem.setBudgetNonFederalNewOrRevisedAmount(costSharingAmount.bigDecimalValue());
+            summaryLineItem.setBudgetTotalNewOrRevisedAmount(fedNonFedCost.bigDecimalValue());
             summaryLineItemArray[0] = summaryLineItem;
             budgetSummary.setSummaryLineItemArray(summaryLineItemArray);
 
             SummaryTotals summaryTotals = SummaryTotals.Factory.newInstance();
-            summaryTotals.setBudgetFederalNewOrRevisedAmount(totalFedCost.bigDecimalValue());
-            summaryTotals.setBudgetNonFederalNewOrRevisedAmount(costSharing.bigDecimalValue());
-            summaryTotals.setBudgetTotalNewOrRevisedAmount(budget.getTotalCost().bigDecimalValue());
+            summaryTotals.setBudgetFederalNewOrRevisedAmount(budget.getTotalCost().bigDecimalValue());
+            summaryTotals.setBudgetNonFederalNewOrRevisedAmount(costSharingAmount.bigDecimalValue());
+            summaryTotals.setBudgetTotalNewOrRevisedAmount(fedNonFedCost.bigDecimalValue());
             budgetSummary.setSummaryTotals(summaryTotals);
         }
 
