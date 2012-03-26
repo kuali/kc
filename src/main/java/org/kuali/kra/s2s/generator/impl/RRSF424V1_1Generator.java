@@ -57,6 +57,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -234,30 +235,38 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 				budget.setTotalIndirectCost(fundsRequested);
 				budget.setTotalCost(totalCost);
 			}
-			BudgetDecimal fedNonFedCost = BudgetDecimal.ZERO;
-			fedNonFedCost = fedNonFedCost.add(budget.getTotalCost());
+			BudgetDecimal fedNonFedCost = budget.getTotalCost();
 			
 			BigDecimal totalProjectIncome = BigDecimal.ZERO;
 
-			for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-	            for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-	                hasBudgetLineItem = true;
-	                if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
-	                fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
-	                }
-			}
-			if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
-			    fedNonFedCost=fedNonFedCost.add(budget.getCostSharingAmount());
-			}
-			for (BudgetProjectIncome budgetProjectIncome : budget
+            BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
+
+            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+                    hasBudgetLineItem = true;
+                    if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {
+                        costSharingAmount =  costSharingAmount.add(lineItem.getCostSharingAmount());
+                        List<BudgetLineItemCalculatedAmount> calculatedAmounts = lineItem.getBudgetCalculatedAmounts();
+                        for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calculatedAmounts) {
+                             costSharingAmount =  costSharingAmount.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
+                        }
+                        
+                    }
+                }
+            }
+            if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
+                costSharingAmount = budget.getCostSharingAmount();      
+            }
+            fedNonFedCost = fedNonFedCost.add(costSharingAmount);
+            
+            for (BudgetProjectIncome budgetProjectIncome : budget
 					.getBudgetProjectIncomes()) {
 				totalProjectIncome = totalProjectIncome.add(budgetProjectIncome
 						.getProjectIncome().bigDecimalValue());
 			}
 
 			funding = EstimatedProjectFunding.Factory.newInstance();
-			funding.setTotalEstimatedAmount(budget.getTotalCost()
-					.bigDecimalValue());
+			funding.setTotalEstimatedAmount(budget.getTotalCost().bigDecimalValue());
 			funding.setTotalfedNonfedrequested(fedNonFedCost.bigDecimalValue());
 			funding.setEstimatedProgramIncome(totalProjectIncome);
 		}
