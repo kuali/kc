@@ -25,18 +25,42 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class CoiDisclosureEventTypeMaintenanceDocumentAction extends KualiMaintenanceDocumentAction {
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.execute(mapping, form, request, response);
-        // check if the method called was either for blanket approve or for submit
-        KualiMaintenanceForm maintenanceForm = (KualiMaintenanceForm)form;
-        if( (StringUtils.equals(maintenanceForm.getMethodToCall(), "blanketApprove")) || (StringUtils.equals(maintenanceForm.getMethodToCall(), "route")) ) {
-            // TODO add logic here to forward to a JSP that notifies the user that their changes will be synchronized with coi coeus sub module data.
-        }
+        request.setAttribute("showCoiDisclosureEventTypeSynchrnonizationMessage", "false");
+        return super.execute(mapping, form, request, response);
+    }
+
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.route(mapping, form, request, response);
+        // set up the attribute  that indicates to the JSP that it should show the synch JS alert.
+        request.setAttribute("showCoiDisclosureEventTypeSynchrnonizationMessage", "true");
         return forward;
     }
 
+    @Override
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.blanketApprove(mapping, form, request, response);
+        // since a successful blanket approve sends users to portal we cannot use a JS alert here, so instead forward to 
+        // an intermediate JSP that notifies the user that their changes will be synchronized with coi coeus sub module data.
+        return mapping.findForward("synchMessagePage");
+    }
+    
+    
+    /**
+     * Returns the user directly to the Portal.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward returnToPortal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+    }
 }

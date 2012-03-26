@@ -34,6 +34,19 @@
 <c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
 
+<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
+
+<c:if test="${showCoiDisclosureEventTypeSynchrnonizationMessage}">
+	<script type="text/javascript">
+		var $j = jQuery.noConflict();
+		$j(document).ready(function() {
+  				alert("Your changes are being synchronized to the Coeus Sub-Modules for COI");
+			}
+		);
+	</script>
+</c:if>
+
+
 <c:set var="renderRequiredFieldsLabel" value="${(KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]
 ||KualiForm.documentActions[Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]) && (not KualiForm.suppressAllButtons)}" />
 <kul:page showDocumentInfo="${showDocumentInfo}" docTitle="${docTitle}"
