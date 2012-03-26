@@ -481,6 +481,7 @@
      
      <action path="/maintenanceCoiDisclosureEvent" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.kra.coi.maintenance.CoiDisclosureEventTypeMaintenanceDocumentAction">
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiDisclosureEventTypeMaintenanceDocument.jsp" />
+          <forward name="synchMessagePage" path="/WEB-INF/jsp/coi/CoiDisclosureEventTypeMaintenanceSynchMessage.jsp" />
      </action>    
      
      
