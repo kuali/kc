@@ -41,6 +41,7 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -56,6 +57,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -178,28 +180,30 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 				budget.setTotalCost(totalCost);
 			}
 
-			BudgetDecimal fedNonFedCost = BudgetDecimal.ZERO;
-			BudgetDecimal nonFedCost = BudgetDecimal.ZERO;
-			fedNonFedCost = fedNonFedCost.add(budget.getTotalCost());
+			BudgetDecimal fedNonFedCost = budget.getTotalCost();
+			BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
 
 			for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
 			        hasBudgetLineItem = true;
-			        if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()){
-                    fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
-			            nonFedCost =  nonFedCost.add(lineItem.getCostSharingAmount());
+			        if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {
+                        costSharingAmount =  costSharingAmount.add(lineItem.getCostSharingAmount());
+			            List<BudgetLineItemCalculatedAmount> calculatedAmounts = lineItem.getBudgetCalculatedAmounts();
+			            for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calculatedAmounts) {
+		                     costSharingAmount =  costSharingAmount.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
+                        }
+			            
 			        }
 			    }
-                    }
-			if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
-			    nonFedCost = budget.getCostSharingAmount();		
-			    fedNonFedCost = budget.getCostSharingAmount();       
             }
-			
+			if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
+			    costSharingAmount = budget.getCostSharingAmount();		
+            }
+			fedNonFedCost = fedNonFedCost.add(costSharingAmount);
 			funding = EstimatedProjectFunding.Factory.newInstance();
 			funding.setTotalEstimatedAmount(budget.getTotalCost()
 					.bigDecimalValue());
-			funding.setTotalNonfedrequested(nonFedCost.bigDecimalValue());
+			funding.setTotalNonfedrequested(costSharingAmount.bigDecimalValue());
 			funding.setTotalfedNonfedrequested(fedNonFedCost.bigDecimalValue());
 			funding.setEstimatedProgramIncome(getTotalProjectIncome(budget));
 		}
@@ -595,12 +599,9 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		String state = departmentalPerson.getState();
 		if (state != null && !state.equals("")) {
 			if (countryCodeDataType != null) {
-				if (countryCodeDataType
-						.equals(CountryCodeDataType.USA_UNITED_STATES)) {
-					address
-							.setState(globLibV20Generator
-									.getStateCodeDataType(departmentalPerson.getCountryCode(), departmentalPerson
-											.getState()));
+				if (countryCodeDataType.equals(CountryCodeDataType.USA_UNITED_STATES)) {
+					address.setState(globLibV20Generator
+									.getStateCodeDataType(departmentalPerson.getCountryCode(), departmentalPerson.getState()));
 				} else {
 					address.setProvince(state);
 				}
