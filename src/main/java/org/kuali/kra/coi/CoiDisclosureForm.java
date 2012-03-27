@@ -27,12 +27,16 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.actions.DisclosureActionHelper;
+import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.coi.disclosure.DisclosureHelper;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -134,6 +138,14 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         return (CoiDisclosureDocument)this.getDocument();
     }
 
+    protected TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+    
+    protected String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
+    }
+    
     /**
      * for approved disclosure, only display "Disclosure" page tab
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
@@ -147,9 +159,19 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         // Adding disapproved disclosures to this because they are also displayed in the disclosures list in the
         // master disclosure
         for (HeaderNavigation nav : navigation) {
-            if (((!this.getCoiDisclosureDocument().getCoiDisclosure().isApprovedDisclosure() && (!this.getCoiDisclosureDocument().getCoiDisclosure().isDisapprovedDisclosure()))&& !StringUtils.equals("viewMasterDisclosure", this.getMethodToCall())) || StringUtils.equals(nav.getHeaderTabNavigateTo(), "disclosure")) {
+            if (((!this.getCoiDisclosureDocument().getCoiDisclosure().isApprovedDisclosure() 
+                && (!this.getCoiDisclosureDocument().getCoiDisclosure().isDisapprovedDisclosure())) 
+                && !StringUtils.equals("viewMasterDisclosure", this.getMethodToCall())) 
+                || StringUtils.equals(nav.getHeaderTabNavigateTo(), "disclosure")) {
                 resultList.add(nav);
             }
+            if (StringUtils.equalsIgnoreCase("disclosureActions", nav.getHeaderTabNavigateTo())) {
+                CoiDisclosureTask task = new CoiDisclosureTask(TaskName.PERFORM_COI_DISCLOSURE_ACTIONS, getCoiDisclosureDocument().getCoiDisclosure());
+                    // if not coi admin, remove the actions tab completely
+                    if (!getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)) {
+                        resultList.remove(nav);
+                    }
+                }
         }
 
         HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
@@ -206,14 +228,6 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         newDocInfo.add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.createTimestamp", disclosureCreated));
         setDocInfo(newDocInfo);
     }
-
-//    private boolean isApprovedDisclosure(CoiDisclosure coiDisclosure) {
-//
-//        Map fieldValues = new HashMap();
-//        fieldValues.put("coiDisclosureId", coiDisclosure.getCoiDisclosureId());
-//        fieldValues.put("disclosureStatus", CoiDisclosureStatus.APPROVE_DISCLOSURE_CODES);
-//        return getBusinessObjectService().countMatching(CoiDisclosureHistory.class, fieldValues) > 0;
-//    }
 
     private BusinessObjectService getBusinessObjectService() {
         return KRADServiceLocator.getBusinessObjectService();
