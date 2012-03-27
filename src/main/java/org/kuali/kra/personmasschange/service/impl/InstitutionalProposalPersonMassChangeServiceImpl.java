@@ -25,7 +25,6 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
@@ -133,7 +132,7 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
         List<InstitutionalProposalPerson> persons = institutionalProposal.getProjectPersons();
         Integer mailingInformationId = institutionalProposal.getRolodexId();
         List<InstitutionalProposalUnitContact> unitContacts = institutionalProposal.getInstitutionalProposalUnitContacts();
-        IntellectualPropertyReview intellectualPropertyReview = institutionalProposal.getIntellectualPropertyReview();
+        IntellectualPropertyReview intellectualPropertyReview = institutionalProposal.getProposalIpReviewJoin().getIntellectualPropertyReview();
         
         String[] investigatorRoles = { ContactRole.PI_CODE, ContactRole.COI_CODE };
         String[] keyStudyPersonRoles = { ContactRole.KEY_PERSON_CODE };
@@ -276,9 +275,12 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
     
     private void performIpReviewerPersonMassChange(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal) {
         if (personMassChange.getInstitutionalProposalPersonMassChange().isIpReviewer()) {
-            KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-            institutionalProposal.getIntellectualPropertyReview().setIpReviewer(kcPerson.getPersonId());
-            getBusinessObjectService().save(institutionalProposal);
+            IntellectualPropertyReview intellectualPropertyReview = institutionalProposal.getProposalIpReviewJoin().getIntellectualPropertyReview();
+            if (intellectualPropertyReview != null) {
+                KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                intellectualPropertyReview.setIpReviewer(kcPerson.getPersonId());
+                getBusinessObjectService().save(intellectualPropertyReview);
+            }
         }
     }
     
