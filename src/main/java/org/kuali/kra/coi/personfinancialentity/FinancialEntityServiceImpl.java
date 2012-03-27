@@ -231,6 +231,8 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         List<FinancialEntityReporter> reporters = (List<FinancialEntityReporter>) businessObjectService.findMatching(
                 FinancialEntityReporter.class, fieldValues);
         if (reporters.isEmpty()) {
+            // TODO : temporary debug app double save issue
+            System.out.println("Save FE reporter person id " + personId);
             FinancialEntityReporter reporter = new FinancialEntityReporter();
             reporter.setFinancialEntityReporterUnits(new ArrayList<FinancialEntityReporterUnit>());
             reporter.setPersonId(personId);
