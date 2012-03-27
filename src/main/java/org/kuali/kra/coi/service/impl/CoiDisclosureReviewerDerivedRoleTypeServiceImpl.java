@@ -39,7 +39,7 @@ import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 public class CoiDisclosureReviewerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CoiDisclosureReviewerDerivedRoleTypeServiceImpl.class);
-    private static final String DISCLOSURE = "disclosure";
+    private static final String DISCLOSURE = "coiDisclosure";
     
     private KcPersonService kcPersonService;
     
@@ -97,8 +97,11 @@ public class CoiDisclosureReviewerDerivedRoleTypeServiceImpl extends DerivedRole
         CoiDisclosure disclosure = null;
         
         Map<String, String> params = new HashMap<String, String>();
-        params.put("coiDisclosureId", disclosureId);
-        disclosure = (CoiDisclosure)getBusinessObjectService().findByPrimaryKey(CoiDisclosure.class, params);
+        params.put("coiDisclosureNumber", disclosureId);
+        List<CoiDisclosure> disclosures = (List<CoiDisclosure>)getBusinessObjectService().findMatching(CoiDisclosure.class, params);
+        if (CollectionUtils.isNotEmpty(disclosures)) {
+            disclosure = disclosures.get(0);
+        }
         
         return disclosure;
     }
