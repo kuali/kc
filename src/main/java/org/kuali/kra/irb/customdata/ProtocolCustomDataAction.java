@@ -71,9 +71,9 @@ public class ProtocolCustomDataAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         super.reload(mapping, form, request, response);
         CustomDataAction.copyCustomDataToDocument(form);
-        ((ProtocolForm)form).getCustomDataHelper().prepareView(((ProtocolForm)form).getDocument());
+        ((ProtocolForm)form).getCustomDataHelper().prepareView(((ProtocolForm)form).getProtocolDocument());
         
-        ProtocolDocument protocolDocument = protocolForm.getDocument();
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
         
         for (Map.Entry<String, String[]> customAttributeValue : protocolForm.getCustomDataHelper().getCustomAttributeValues().entrySet()) {
             String customAttributeId = customAttributeValue.getKey().substring(2);

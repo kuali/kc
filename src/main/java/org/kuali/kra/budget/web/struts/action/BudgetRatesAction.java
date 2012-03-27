@@ -52,7 +52,7 @@ public class BudgetRatesAction extends BudgetAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getDocument();
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         // Temporary fix to resolve budget form NULL issue
         if(KNSGlobalVariables.getKualiForm() == null) {
@@ -102,7 +102,7 @@ public class BudgetRatesAction extends BudgetAction {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_RESET_RATES.equals(question)) {
             BudgetForm budgetForm = (BudgetForm) form;
-            BudgetDocument budgetDocument = budgetForm.getDocument();
+            BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
             Budget budget = budgetDocument.getBudget();
             RateClassType rateClassT = budget.getRateClassTypes().get(getSelectedLine(request));
             String rateClassType = rateClassT.getRateClassType();
@@ -143,7 +143,7 @@ public class BudgetRatesAction extends BudgetAction {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_SYNC_RATES.equals(question)) {
             BudgetForm budgetForm = (BudgetForm) form;
-            BudgetDocument budgetDocument = budgetForm.getDocument();
+            BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
             Budget budget = budgetDocument.getBudget();
             RateClassType rateClassT = budget.getRateClassTypes().get(getSelectedLine(request));
             String rateClassType = rateClassT.getRateClassType();
@@ -192,7 +192,7 @@ public class BudgetRatesAction extends BudgetAction {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_SYNC_ALL_RATES.equals(question)) {
             BudgetForm budgetForm = (BudgetForm) form;
-            BudgetDocument budgetDocument = budgetForm.getDocument();
+            BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
             Budget budget = budgetDocument.getBudget();
 
             //Rates-Refresh Scenario-4
@@ -240,7 +240,7 @@ public class BudgetRatesAction extends BudgetAction {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_RESET_ALL_RATES.equals(question)) {
             BudgetForm budgetForm = (BudgetForm) form;
-            BudgetDocument budgetDocument = budgetForm.getDocument();
+            BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
             Budget budget = budgetDocument.getBudget();
             getBudgetRatesService().resetAllBudgetRates(budget);
         }
@@ -259,7 +259,7 @@ public class BudgetRatesAction extends BudgetAction {
     public ActionForward updateRatesView(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getDocument();
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         getBudgetRatesService().viewLocation(budgetForm.getViewLocation(),budgetForm.getViewBudgetPeriod(), budget);
         return mapping.findForward(Constants.MAPPING_BASIC);

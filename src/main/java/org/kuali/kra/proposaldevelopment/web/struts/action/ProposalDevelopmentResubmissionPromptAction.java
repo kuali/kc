@@ -45,7 +45,7 @@ public class ProposalDevelopmentResubmissionPromptAction extends ProposalDevelop
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         String submissionOption = proposalDevelopmentForm.getResubmissionOption();
         
         if (applyRules(new ResubmissionRuleEvent(document, submissionOption))) {

@@ -100,8 +100,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        getProtocolPersonnelService().selectProtocolUnit(((ProtocolForm) form).getDocument().getProtocol().getProtocolPersons());
-        getProtocolPersonTrainingService().updatePersonTrained(((ProtocolForm) form).getDocument().getProtocol().getProtocolPersons());
+        getProtocolPersonnelService().selectProtocolUnit(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());
+        getProtocolPersonTrainingService().updatePersonTrained(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());
         ((ProtocolForm)form).getPersonnelHelper().prepareView();
         return mapping.findForward("personnel");
     }
@@ -204,7 +204,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
     
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((ProtocolForm)form).getCustomDataHelper().prepareView(((ProtocolForm)form).getDocument());
+        ((ProtocolForm)form).getCustomDataHelper().prepareView(((ProtocolForm)form).getProtocolDocument());
         return CustomDataAction.customData(mapping, form, request, response);
     }
 
@@ -219,7 +219,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocolForm.getDocument().getProtocol());
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocolForm.getProtocolDocument().getProtocol());
         AuditActionHelper auditActionHelper = new AuditActionHelper();
         
         if (isAuthorized(task)) {
@@ -275,7 +275,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         // Assign the creator of the protocol the AGGREGATOR role.
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument doc = protocolForm.getDocument();
+        ProtocolDocument doc = protocolForm.getProtocolDocument();
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         kraAuthService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
@@ -283,7 +283,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         
         // Add the users defined in the access control list for the protocol's lead unit
         
-        Permissionable permissionable = protocolForm.getDocument().getProtocol();
+        Permissionable permissionable = protocolForm.getProtocolDocument().getProtocol();
         UnitAclLoadService unitAclLoadService = KraServiceLocator.getService(UnitAclLoadService.class);
         unitAclLoadService.loadUnitAcl(permissionable);
         
@@ -308,7 +308,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         super.refresh(mapping, form, request, response);
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getDocument();
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
                      
         // KNS UI hook for lookup resultset, check to see if we are coming back from a lookup
         if (Constants.MULTIPLE_VALUE.equals(protocolForm.getRefreshCaller())) {
@@ -390,7 +390,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         }
 
         if (KewApiConstants.INITIATE_COMMAND.equals(protocolForm.getCommand())) {
-            protocolForm.getDocument().initialize();
+            protocolForm.getProtocolDocument().initialize();
         } else {
             protocolForm.initialize();
         }

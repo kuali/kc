@@ -65,7 +65,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         final Collection<ProposalPersonRole> roles = getKeyValuesService().findAll(ProposalPersonRole.class);
-        final ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm()).getDocument();
+        final ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm()).getProposalDevelopmentDocument();
         final DevelopmentProposal developmentProposal = document.getDevelopmentProposal();
 
         final boolean hasPrincipalInvestigator = getKeyPersonnelService().hasPrincipalInvestigator(document);

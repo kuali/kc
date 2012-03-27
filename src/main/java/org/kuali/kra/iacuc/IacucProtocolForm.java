@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc;
 
 import java.util.Map;
 
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
@@ -73,8 +74,7 @@ public class IacucProtocolForm extends KraTransactionalDocumentFormBase implemen
      * Gets a {@link IacucProtocolDocument ProtocolDocument}.
      * @return {@link IacucProtocolDocument ProtocolDocument}
      */
-    @Override
-    public IacucProtocolDocument getDocument() {
+    public IacucProtocolDocument getIacucProtocolDocument() {
         return (IacucProtocolDocument) super.getDocument();
     }
 

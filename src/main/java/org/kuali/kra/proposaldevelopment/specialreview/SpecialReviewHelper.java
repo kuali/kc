@@ -55,7 +55,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
 
     @Override
     protected List<ProposalSpecialReview> getSpecialReviews() {
-        return form.getDocument().getDevelopmentProposal().getPropSpecialReviews();
+        return form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews();
     }
     
 }

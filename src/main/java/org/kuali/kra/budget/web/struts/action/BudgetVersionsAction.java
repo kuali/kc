@@ -115,7 +115,7 @@ public class BudgetVersionsAction extends BudgetAction {
             if (!valid) {
                 return mapping.findForward(Constants.MAPPING_BASIC);
             } else {
-                budgetForm.getDocument().getParentDocument().updateDocumentDescriptions(overviews);
+                budgetForm.getBudgetDocument().getParentDocument().updateDocumentDescriptions(overviews);
             }
         }        
         
@@ -217,7 +217,7 @@ public class BudgetVersionsAction extends BudgetAction {
         if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
             save(mapping, form, request, response);
         }
-        BudgetDocument budgetDoc = budgetForm.getDocument();
+        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         
         Budget budget = budgetDoc.getBudget();
         BudgetParentDocument budgetParentDocument = getBudgetParentDocument(budgetForm);
@@ -256,14 +256,14 @@ public class BudgetVersionsAction extends BudgetAction {
     }
     public ActionForward confirmSynchBudgetRateForBudgetDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getDocument();
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
     
         return synchBudgetRate(budgetDocument, true);
     }
 
     public ActionForward noSynchBudgetRateForBudgetDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getDocument();
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
 
         return synchBudgetRate(budgetDocument, false);
     }
@@ -296,7 +296,7 @@ public class BudgetVersionsAction extends BudgetAction {
      * @throws WorkflowException
      */
     private BudgetDocument getSelectedBudgetDocument(HttpServletRequest request, BudgetForm budgetForm) throws WorkflowException {
-        BudgetDocument budgetDoc = budgetForm.getDocument();
+        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         BudgetParentDocument budgetParentDocument = budgetDoc.getParentDocument();
         BudgetDocumentVersion budgetDocumentToOpen = budgetParentDocument.getBudgetDocumentVersion(getSelectedLine(request));
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
@@ -329,7 +329,7 @@ public class BudgetVersionsAction extends BudgetAction {
     public ActionForward copyBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
       BudgetForm budgetForm = (BudgetForm) form;
       BudgetVersionOverview versionToCopy = getSelectedVersion(budgetForm, request);
-      BudgetParentDocument parentDocument = budgetForm.getDocument().getParentDocument();
+      BudgetParentDocument parentDocument = budgetForm.getBudgetDocument().getParentDocument();
       BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(parentDocument);
       if (!budgetService.validateAddingNewBudget(parentDocument)) {
           return mapping.findForward(Constants.MAPPING_BASIC);
@@ -356,7 +356,7 @@ public class BudgetVersionsAction extends BudgetAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         boolean valid = true;
-        BudgetDocument budgetDocument = budgetForm.getDocument();
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         Budget budget = budgetDocument.getBudget();
 
@@ -436,12 +436,12 @@ public class BudgetVersionsAction extends BudgetAction {
     }
     
     private BudgetVersionOverview getSelectedVersion(BudgetForm budgetForm, HttpServletRequest request) {
-        return budgetForm.getDocument().getParentDocument().getBudgetDocumentVersion(getSelectedLine(request)).getBudgetVersionOverview();
+        return budgetForm.getBudgetDocument().getParentDocument().getBudgetDocumentVersion(getSelectedLine(request)).getBudgetVersionOverview();
     }
     
     private void copyBudget(ActionForm form, HttpServletRequest request, boolean copyPeriodOneOnly) throws WorkflowException {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDoc = budgetForm.getDocument();
+        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         BudgetParentDocument pdDoc = budgetDoc.getParentDocument();
         BudgetVersionOverview budgetToCopy = getSelectedVersion(budgetForm, request);
         copyBudget(pdDoc, budgetToCopy, copyPeriodOneOnly);

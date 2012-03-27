@@ -60,7 +60,7 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
      */
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument document = protocolForm.getDocument();
+        ProtocolDocument document = protocolForm.getProtocolDocument();
         ProtocolSpecialReview specialReview = protocolForm.getSpecialReviewHelper().getNewSpecialReview();
         List<ProtocolSpecialReview> specialReviews = document.getProtocol().getSpecialReviews();
         
@@ -106,7 +106,7 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_SPECIAL_REVIEW_KEY.equals(question)) {
             ProtocolForm protocolForm = (ProtocolForm) form;
-            ProtocolDocument document = protocolForm.getDocument();
+            ProtocolDocument document = protocolForm.getProtocolDocument();
             
             document.getProtocol().getSpecialReviews().remove(getLineToDelete(request));
         }

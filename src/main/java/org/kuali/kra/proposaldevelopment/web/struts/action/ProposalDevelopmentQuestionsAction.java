@@ -113,7 +113,7 @@ public class ProposalDevelopmentQuestionsAction extends ProposalDevelopmentActio
             throw new RuntimeException(String.format("Do not know how to process printQuestionnaireAnswer for formProperty %s",formProperty));
         }
         
-        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(proposalDevelopmentForm.getDocument().getDevelopmentProposal(), reportParameters);
+        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal(), reportParameters);
         
         if (dataStream.getContent() != null) {
             streamToResponse(dataStream, response);

@@ -147,7 +147,7 @@ public class ProtocolAttachmentVersioningUtility {
         }
         ProtocolAttachmentProtocol newAttachment = (ProtocolAttachmentProtocol) this.deleteAttachment(toVersion);
         newAttachment.setDocumentStatusCode(ATTACHMENT_DELETED);
-        this.form.getDocument().getProtocol().getAttachmentProtocols().add(newAttachment);
+        this.form.getProtocolDocument().getProtocol().getAttachmentProtocols().add(newAttachment);
     }
     
     
@@ -166,7 +166,7 @@ public class ProtocolAttachmentVersioningUtility {
      */
     void versionExstingAttachments() {
         //only need to version attachment protocols at the moment
-        boolean createVersion = this.versionExstingAttachments(this.form.getDocument().getProtocol().getAttachmentProtocols(), ProtocolAttachmentProtocol.class);
+        boolean createVersion = this.versionExstingAttachments(this.form.getProtocolDocument().getProtocol().getAttachmentProtocols(), ProtocolAttachmentProtocol.class);
     }
 
     /** 
@@ -254,9 +254,9 @@ public class ProtocolAttachmentVersioningUtility {
         assert attachment != null : "the attachment is null";
         if (attachment instanceof ProtocolAttachmentProtocol) {
             ((ProtocolAttachmentProtocol)attachment).setDocumentStatusCode(ATTACHMENT_DRAFTED);
-            attachment.setDocumentId(getNextDOcumentId(this.form.getDocument().getProtocol().getAttachmentProtocols()));
+            attachment.setDocumentId(getNextDOcumentId(this.form.getProtocolDocument().getProtocol().getAttachmentProtocols()));
         }
-        this.form.getDocument().getProtocol().addAttachmentsByType(attachment);
+        this.form.getProtocolDocument().getProtocol().addAttachmentsByType(attachment);
     }
     
     private int getNextDOcumentId(List<? extends ProtocolAttachmentBase> attachments) {

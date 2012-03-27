@@ -342,7 +342,7 @@ public class AwardForm extends BudgetVersionFormBase
      */
     public void initializeFormOrDocumentBasedOnCommand(){
         if (KewApiConstants.INITIATE_COMMAND.equals(getCommand())) {
-            getDocument().initialize();
+            getAwardDocument().initialize();
         }else{
             initialize();
         }
@@ -555,7 +555,7 @@ public class AwardForm extends BudgetVersionFormBase
      * @return Returns the awardInMultipleNodeHierarchy.
      */
     public boolean isAwardInMultipleNodeHierarchy() {
-        return getDocument().getAward().isAwardInMultipleNodeHierarchy();
+        return getAwardDocument().getAward().isAwardInMultipleNodeHierarchy();
     }
     
     /**
@@ -563,7 +563,7 @@ public class AwardForm extends BudgetVersionFormBase
      * @return Returns the awardInMultipleNodeHierarchy.
      */
     public boolean isAwardHasAssociatedTandMOrIsVersioned() {
-        return getDocument().getAward().isAwardHasAssociatedTandMOrIsVersioned();
+        return getAwardDocument().getAward().isAwardHasAssociatedTandMOrIsVersioned();
     }
 
 //    /**
@@ -580,7 +580,7 @@ public class AwardForm extends BudgetVersionFormBase
      * @throws WorkflowException 
      */
     public int getIndexOfAwardAmountInfoForDisplay() throws WorkflowException {
-        return getDocument().getAward().getIndexOfAwardAmountInfoForDisplay();
+        return getAwardDocument().getAward().getIndexOfAwardAmountInfoForDisplay();
     }
 
     public DetailsAndDatesFormHelper getDetailsAndDatesFormHelper() {
@@ -1014,18 +1014,18 @@ public class AwardForm extends BudgetVersionFormBase
      * @return Returns the hiddenObject.
      */
     public List<AwardHierarchyTempObject> getAwardHierarchyTempObjects() {
-        if(getDocument().getAward().getAwardHierarchyTempObjects() == null) {
-            getDocument().getAward().initializeAwardHierarchyTempObjects(); 
+        if(getAwardDocument().getAward().getAwardHierarchyTempObjects() == null) {
+            getAwardDocument().getAward().initializeAwardHierarchyTempObjects(); 
         }
         
-        return getDocument().getAward().getAwardHierarchyTempObjects();
+        return getAwardDocument().getAward().getAwardHierarchyTempObjects();
     }
     
     public AwardHierarchyTempObject getAwardHierarchyTempObject(int index) {
         while(getAwardHierarchyTempObjects().size() <= index) {
-            getDocument().getAward().getAwardHierarchyTempObjects().add(new AwardHierarchyTempObject());
+            getAwardDocument().getAward().getAwardHierarchyTempObjects().add(new AwardHierarchyTempObject());
         }
-        return getDocument().getAward().getAwardHierarchyTempObjects().get(index);
+        return getAwardDocument().getAward().getAwardHierarchyTempObjects().get(index);
     }
     
     public String getValueFinderResultDoNotCache(){
@@ -1211,8 +1211,8 @@ public class AwardForm extends BudgetVersionFormBase
     
     public List<Long> getLinkedProposals() {
         List<Long> linkedProposals = new ArrayList<Long>();
-        if (this.getDocument() != null && this.getDocument().getAward() != null) {
-            for (AwardFundingProposal fundingProposal : this.getDocument().getAward().getFundingProposals()) {
+        if (this.getAwardDocument() != null && this.getAwardDocument().getAward() != null) {
+            for (AwardFundingProposal fundingProposal : this.getAwardDocument().getAward().getFundingProposals()) {
                 linkedProposals.add(fundingProposal.getProposalId());
             }
         }
@@ -1227,7 +1227,7 @@ public class AwardForm extends BudgetVersionFormBase
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         // super.populateHeaderFields(workflowDocument);
 
-        AwardDocument awardDocument = getDocument();
+        AwardDocument awardDocument = getAwardDocument();
         getDocInfo().clear();
         getDocInfo().add(
                 new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", awardDocument
@@ -1235,7 +1235,7 @@ public class AwardForm extends BudgetVersionFormBase
 
         String docIdAndStatus = COLUMN;
         if (workflowDocument != null) {
-            docIdAndStatus = getDocument().getDocumentNumber() + COLUMN + workflowDocument.getStatus().getLabel();
+            docIdAndStatus = getAwardDocument().getDocumentNumber() + COLUMN + workflowDocument.getStatus().getLabel();
         }
         getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.docIdStatus", docIdAndStatus));
         String unitName = awardDocument.getAward().getUnitName();
@@ -1308,9 +1308,9 @@ public class AwardForm extends BudgetVersionFormBase
             displayEditButton = true;
         }
         
-        VersionHistory activeVersion = getVersionHistoryService().findActiveVersion(Award.class, getDocument().getAward().getAwardNumber());
+        VersionHistory activeVersion = getVersionHistoryService().findActiveVersion(Award.class, getAwardDocument().getAward().getAwardNumber());
         if (activeVersion != null) {
-            displayEditButton &= activeVersion.getSequenceOwnerSequenceNumber().equals(getDocument().getAward().getSequenceNumber());
+            displayEditButton &= activeVersion.getSequenceOwnerSequenceNumber().equals(getAwardDocument().getAward().getSequenceNumber());
         }
         
         return displayEditButton;
@@ -1341,17 +1341,6 @@ public class AwardForm extends BudgetVersionFormBase
     public String getCanCreateAward() {
         Boolean aFlag = this.getEditingMode().containsKey(Constants.CAN_CREATE_AWARD_KEY);
         return aFlag.toString();
-    }
-    
-    /**
-     * Retrieves the {@link AwardDocument AwardDocument}.
-     * @return {@link AwardDocument AwardDocument}
-     */
-    @Override
-    public AwardDocument getDocument() {
-        //overriding and using covariant return to avoid casting
-        //Document to AwardDocument everywhere
-        return (AwardDocument) super.getDocument();
     }
     
     public boolean getViewFundingSource() {
@@ -1423,7 +1412,7 @@ public class AwardForm extends BudgetVersionFormBase
             //List returned by DD is it's cached copy of the header navigation list.
         for (HeaderNavigation nav : navigation) {
             if (StringUtils.equals(nav.getHeaderTabNavigateTo(),CUSTOM_DATA_NAV_TO)) {
-                boolean displayTab = !this.getDocument().getCustomAttributeDocuments().isEmpty();
+                boolean displayTab = !this.getAwardDocument().getCustomAttributeDocuments().isEmpty();
                 nav.setDisabled(!displayTab);
                 if (displayTab) {
                     resultList.add(nav);

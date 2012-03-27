@@ -315,7 +315,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         byte[] attachmentFile =null;
         final AttachmentFile file = attachment.getFile();
         Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
-        Protocol protocolCurrent = form.getDocument().getProtocol();
+        Protocol protocolCurrent = form.getProtocolDocument().getProtocol();
         int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
         try {
             if(printableArtifacts.isWatermarkEnabled()){
