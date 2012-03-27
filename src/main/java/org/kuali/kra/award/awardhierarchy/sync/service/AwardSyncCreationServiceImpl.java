@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.service;
 
-import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ListIterator;
 import java.util.Map;
@@ -45,7 +44,7 @@ public class AwardSyncCreationServiceImpl implements AwardSyncCreationService {
      * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService#createAwardSyncChange(org.kuali.kra.award.awardhierarchy.sync.AwardSyncType, org.kuali.rice.krad.bo.BusinessObject, java.lang.String, java.lang.String)
      */
     public AwardSyncChange createAwardSyncChange(AwardSyncPendingChangeBean pendingChange) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, InvocationTargetException {
+        throws NoSuchFieldException, IllegalAccessException, InvocationTargetException {
         AwardSyncChange change = 
             getSyncHelper(pendingChange.getObject().getClass().getCanonicalName()).createAwardSyncChange(pendingChange.getSyncType(), 
                     pendingChange.getObject(), pendingChange.getAwardAttr(), pendingChange.getAttrName());
@@ -131,12 +130,11 @@ public class AwardSyncCreationServiceImpl implements AwardSyncCreationService {
      * @param attrName
      * @return
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
     protected String generateAwardSyncData(AwardSyncType syncType, PersistableBusinessObject syncable, String attrName) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, InvocationTargetException {
+        throws NoSuchFieldException, IllegalAccessException, InvocationTargetException {
         return getXmlSerializerService().toXml(getSyncHelper(syncable.getClass().getCanonicalName()).buildXmlExport(syncable, attrName));
     }  
     

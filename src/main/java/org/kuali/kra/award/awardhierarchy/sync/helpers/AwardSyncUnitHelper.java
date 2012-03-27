@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.helpers;
 
-import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
@@ -38,7 +37,7 @@ public class AwardSyncUnitHelper extends AwardSyncHelperBase {
     @SuppressWarnings("unchecked")
     @Override
     public void applySyncChange(Award award, AwardSyncChange change) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, InvocationTargetException, 
+        throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, 
         ClassNotFoundException, NoSuchMethodException, InstantiationException, AwardSyncException {
         Collection awardPersons = award.getProjectPersons();
         AwardSyncXmlExport unitExport = (AwardSyncXmlExport) change.getXmlExport().getValues().get("units");
