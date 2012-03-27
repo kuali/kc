@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.service;
 
-import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
@@ -63,13 +62,12 @@ public interface AwardSyncUtilityService {
      * @param keyValues
      * @return
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      * @throws ClassNotFoundException
      */
     boolean doKeyValuesMatch(PersistableBusinessObject object, Map<String, Object> keyValues)
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, 
+        throws NoSuchFieldException, IllegalAccessException, 
         InvocationTargetException, ClassNotFoundException;  
     
     /**
@@ -78,11 +76,10 @@ public interface AwardSyncUtilityService {
      * @param keyValues
      * @return
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      * @throws ClassNotFoundException
      */
     PersistableBusinessObject findMatchingBo(Collection<? extends PersistableBusinessObject> items, Map<String, Object> keyValues) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, InvocationTargetException, ClassNotFoundException;    
+        throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, ClassNotFoundException;    
 }
