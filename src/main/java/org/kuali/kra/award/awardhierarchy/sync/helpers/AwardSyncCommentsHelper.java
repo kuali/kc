@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.helpers;
 
-import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class AwardSyncCommentsHelper extends AwardSyncHelperBase {
     
     @Override
     public void applySyncChange(Award award, AwardSyncChange change) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, InvocationTargetException, 
+        throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, 
         ClassNotFoundException, NoSuchMethodException, InstantiationException, AwardSyncException {
         List<AwardComment> comments = award.getAwardComments();
         AwardComment comment = (AwardComment) getAwardSyncUtilityService().findMatchingBo(comments, change.getXmlExport().getKeys());

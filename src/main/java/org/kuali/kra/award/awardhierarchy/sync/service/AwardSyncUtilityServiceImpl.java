@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.service;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -29,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncLog;
@@ -152,14 +150,13 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
     
     @SuppressWarnings("unchecked")
     public boolean doKeyValuesMatch(PersistableBusinessObject object, Map<String, Object> keyValues) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, 
+        throws NoSuchFieldException, IllegalAccessException, 
         InvocationTargetException, ClassNotFoundException {
         boolean matchesAll = true;
         Class clazz = object.getClass();
-        BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
         for (Map.Entry<String, Object> entry : keyValues.entrySet()) {
             boolean matches = false;
-            for (PropertyDescriptor propDescriptor : beanInfo.getPropertyDescriptors()) {
+            for (PropertyDescriptor propDescriptor : PropertyUtils.getPropertyDescriptors(clazz)) {
                 if (StringUtils.equals(propDescriptor.getName(), entry.getKey())) {
                     Method getter = propDescriptor.getReadMethod();
                     Object value = getter.invoke(object);
@@ -179,13 +176,12 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
      * @param keyValues
      * @return
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      * @throws ClassNotFoundException
      */
     public PersistableBusinessObject findMatchingBo(Collection<? extends PersistableBusinessObject> items, Map<String, Object> keyValues) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+        throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
         PersistableBusinessObject matchedBo = null;
         for (PersistableBusinessObject curObject : items) {
             if (doKeyValuesMatch(curObject, keyValues)) {
