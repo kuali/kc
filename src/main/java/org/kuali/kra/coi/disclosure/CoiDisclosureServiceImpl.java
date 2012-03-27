@@ -1509,18 +1509,19 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private void copyDisclosureProjects(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
         List<CoiDisclProject> copiedDisclProjects = new ArrayList<CoiDisclProject>();
         for (CoiDisclProject coiDisclProject : masterCoiDisclosure.getCoiDisclProjects()) {
-            if (!coiDisclProject.getCoiDisclosureEventType().isExcludeFromMasterDisclosure()) {
-            List<CoiDiscDetail> coiDiscDetails = coiDisclProject.getCoiDiscDetails();
-//            coiDisclProject.setCoiDiscDetails(null);
-            
-            CoiDisclProject copiedDisclProject = (CoiDisclProject) ObjectUtils.deepCopy(coiDisclProject);
-            copiedDisclProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
-            copiedDisclProject.setCoiDisclProjectsId(null);
-            //copy disc details
-            copyDisclosureDetails(coiDiscDetails, copiedDisclProject);
-            copiedDisclProjects.add(copiedDisclProject);
-            copiedDisclProject.setCoiDisclosureId(null);
-        }
+//            if (!coiDisclProject.getCoiDisclosureEventType().isExcludeFromMasterDisclosure()) {
+                List<CoiDiscDetail> coiDiscDetails = coiDisclProject.getCoiDiscDetails();
+                // coiDisclProject.setCoiDiscDetails(null);
+
+                CoiDisclProject copiedDisclProject = (CoiDisclProject) ObjectUtils.deepCopy(coiDisclProject);
+                copiedDisclProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
+                copiedDisclProject.setCoiDisclProjectsId(null);
+                // copy disc details
+                copyDisclosureDetails(coiDiscDetails, copiedDisclProject);
+                copiedDisclProjects.add(copiedDisclProject);
+                copiedDisclProject.setCoiDisclosure(coiDisclosure);
+                copiedDisclProject.setCoiDisclosureId(null);
+//            }
         }
         coiDisclosure.setCoiDisclProjects(copiedDisclProjects);
     }
@@ -1656,22 +1657,27 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(personId, true);
         Long disclosureId = coiDisclosure.getCoiDisclosureId();
         for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
-            List<CoiDiscDetail> coiDiscDetails = new ArrayList<CoiDiscDetail>();
-            for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {
-                if (!coiDiscDetail.getOriginalCoiDisclosureId().equals(disclosureId)) {
-                    disclosureId = coiDiscDetail.getOriginalCoiDisclosureId();
-                    if (coiDiscDetail.getOriginalCoiDisclosure().isAnnualEvent()) {
-                        checkToAddNewFEForAnnualEvent(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(disclosureId), coiDisclProject);
-                    } else {
-                         checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(disclosureId), coiDisclProject);
+            if (!coiDisclProject.getCoiDisclosureEventType().isExcludeFromMasterDisclosure()) {
+                List<CoiDiscDetail> coiDiscDetails = new ArrayList<CoiDiscDetail>();
+                for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {
+                    if (!coiDiscDetail.getOriginalCoiDisclosureId().equals(disclosureId)) {
+                        disclosureId = coiDiscDetail.getOriginalCoiDisclosureId();
+                        if (coiDiscDetail.getOriginalCoiDisclosure().isAnnualEvent()) {
+                            checkToAddNewFEForAnnualEvent(financialEntities, coiDiscDetails, disclosureId, coiDisclosure,
+                                    projectDetailMap.get(disclosureId), coiDisclProject);
+                        } else {
+                            checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure,
+                                    projectDetailMap.get(disclosureId), coiDisclProject);
+                        }
+                    }
+                    getCurrentFinancialEntity(coiDiscDetail);
+                    if (coiDiscDetail.getPersonFinIntDisclosure().isStatusActive()
+                            && coiDiscDetail.getPersonFinIntDisclosure().isCurrentFlag()) {
+                        coiDiscDetails.add(coiDiscDetail);
                     }
                 }
-                getCurrentFinancialEntity(coiDiscDetail);
-                if (coiDiscDetail.getPersonFinIntDisclosure().isStatusActive() && coiDiscDetail.getPersonFinIntDisclosure().isCurrentFlag()) {
-                    coiDiscDetails.add(coiDiscDetail);
-                }
+                coiDisclProject.setCoiDiscDetails(coiDiscDetails);
             }
-            coiDisclProject.setCoiDiscDetails(coiDiscDetails);
         }
     }
 
