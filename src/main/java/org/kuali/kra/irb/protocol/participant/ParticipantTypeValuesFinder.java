@@ -82,7 +82,7 @@ public class ParticipantTypeValuesFinder extends KeyValuesBase {
         ProtocolDocument doc = null;
         ProtocolForm form = (ProtocolForm) KNSGlobalVariables.getKualiForm();
         if (form != null) {
-            doc = form.getDocument();
+            doc = form.getProtocolDocument();
         }
         return doc;
     }

@@ -38,7 +38,7 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
             throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
 
         for (Map.Entry<String, String[]>customAttributeValue: proposalDevelopmentForm.getCustomAttributeValues().entrySet()) {
             String customAttributeId = customAttributeValue.getKey().substring(2);
@@ -53,7 +53,7 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
 
         //Does not seem we need this any more.
         // TODO : if there is no issue in QA, then remove this. 

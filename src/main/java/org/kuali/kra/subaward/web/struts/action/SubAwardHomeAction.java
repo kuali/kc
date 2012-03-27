@@ -168,7 +168,7 @@ public class SubAwardHomeAction extends SubAwardAction{
         
         SubAwardForm subAwardForm=(SubAwardForm) form;
         SubAwardContact subAwardContact =subAwardForm.getNewSubAwardContact();
-        SubAward subAward = subAwardForm.getDocument().getSubAward();
+        SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
         
         if(new SubAwardDocumentRule().processAddSubAwardContactBusinessRules(subAwardContact,subAward)){
             addContactsToSubAward(subAwardForm.getSubAwardDocument().getSubAward(), subAwardContact);

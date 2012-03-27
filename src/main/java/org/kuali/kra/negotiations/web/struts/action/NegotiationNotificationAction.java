@@ -58,7 +58,7 @@ public class NegotiationNotificationAction extends NegotiationAction {
         throws Exception {
         
         NegotiationForm negotiationForm = (NegotiationForm) form;
-        NegotiationDocument document = negotiationForm.getDocument();
+        NegotiationDocument document = negotiationForm.getNegotiationDocument();
         NotificationTypeRecipient notificationRecipient = negotiationForm.getNotificationHelper().getNewNotificationRecipient();
         List<NotificationTypeRecipient> notificationRecipients = negotiationForm.getNotificationHelper().getNotificationRecipients();
         
@@ -107,7 +107,7 @@ public class NegotiationNotificationAction extends NegotiationAction {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
         NegotiationForm negotiationForm = (NegotiationForm) form;
-        NegotiationDocument document = negotiationForm.getDocument();
+        NegotiationDocument document = negotiationForm.getNegotiationDocument();
         KcNotification notification = negotiationForm.getNotificationHelper().getNotification();
         List<NotificationTypeRecipient> notificationRecipients = negotiationForm.getNotificationHelper().getNotificationRecipients();
         

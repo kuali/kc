@@ -58,7 +58,7 @@ public class ProposalDevelopmentNotificationEditorAction extends ProposalDevelop
         throws Exception {
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         NotificationTypeRecipient notificationRecipient = proposalDevelopmentForm.getNotificationHelper().getNewNotificationRecipient();
         List<NotificationTypeRecipient> notificationRecipients = proposalDevelopmentForm.getNotificationHelper().getNotificationRecipients();
         
@@ -107,7 +107,7 @@ public class ProposalDevelopmentNotificationEditorAction extends ProposalDevelop
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         KcNotification notification = proposalDevelopmentForm.getNotificationHelper().getNotification();
         List<NotificationTypeRecipient> notificationRecipients = proposalDevelopmentForm.getNotificationHelper().getNotificationRecipients();
         

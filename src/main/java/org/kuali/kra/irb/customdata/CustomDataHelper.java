@@ -53,7 +53,7 @@ public class CustomDataHelper extends CustomDataHelperBase {
      * Get the Protocol.
      */
     private Protocol getProtocol() {
-        ProtocolDocument document = form.getDocument();
+        ProtocolDocument document = form.getProtocolDocument();
         if (document == null || document.getProtocol() == null) {
             throw new IllegalArgumentException("invalid (null) ProtocolDocument in ProtocolForm");
         }

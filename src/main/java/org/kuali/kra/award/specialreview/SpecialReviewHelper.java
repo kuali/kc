@@ -68,7 +68,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<AwardSpecialRev
 
     @Override
     protected List<AwardSpecialReview> getSpecialReviews() {
-        return form.getDocument().getAward().getSpecialReviews();
+        return form.getAwardDocument().getAward().getSpecialReviews();
     }
     
 }

@@ -219,7 +219,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
 public ProposalDevelopmentApproverViewDO populateApproverViewDO (ProposalDevelopmentForm proposalDevelopmentForm) {
         
         ProposalDevelopmentApproverViewDO approverViewDO = new ProposalDevelopmentApproverViewDO();
-        DevelopmentProposal proposal = proposalDevelopmentForm.getDocument().getDevelopmentProposalList().get(0);
+        DevelopmentProposal proposal = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposalList().get(0);
         ProposalDevelopmentService proposalService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         Budget budget = proposalService.getFinalBudget(proposal);
     

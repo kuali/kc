@@ -45,7 +45,6 @@ import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
-import org.kuali.kra.common.customattributes.CustomDataHelperBase.LabelComparator;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -121,11 +120,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         S2sOpportunity s2sOpportunity = new S2sOpportunity();
         if(createProposalFromGrantsGov!=null && createProposalFromGrantsGov.equals("true")){
             s2sOpportunity = proposalDevelopmentForm.getNewS2sOpportunity();
-            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
+            proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
             proposalDevelopmentForm.setNewS2sOpportunity(new S2sOpportunity());
         }
         //KRACOEUS-5064
-        if (proposalDevelopmentForm.getDocument().getDocumentHeader().getDocumentNumber() == null && request.getParameter(KRADConstants.PARAMETER_DOC_ID) != null) {
+        if (proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentHeader().getDocumentNumber() == null && request.getParameter(KRADConstants.PARAMETER_DOC_ID) != null) {
             loadDocumentInForm(request, proposalDevelopmentForm);
         }
         if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
@@ -147,7 +146,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 proposalDevelopmentForm.setDocTypeName("ProposalDevelopmentDocument");
             }
             KraWorkflowService workflowService = KraServiceLocator.getService(KraWorkflowService.class);
-            if (workflowService.canPerformWorkflowAction(proposalDevelopmentForm.getDocument())) {
+            if (workflowService.canPerformWorkflowAction(proposalDevelopmentForm.getProposalDevelopmentDocument())) {
 
                 ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
                 proposalDevelopmentForm.setApproverViewDO(approverViewDO);
@@ -166,12 +165,12 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
         }
         
-        if (proposalDevelopmentForm.getDocument().isProposalDeleted()) {
+        if (proposalDevelopmentForm.getProposalDevelopmentDocument().isProposalDeleted()) {
             return mapping.findForward("deleted");
         }
 
         if (KewApiConstants.INITIATE_COMMAND.equals(proposalDevelopmentForm.getCommand())) {
-            proposalDevelopmentForm.getDocument().initialize();
+            proposalDevelopmentForm.getProposalDevelopmentDocument().initialize();
         } else {
             proposalDevelopmentForm.initialize();
         }
@@ -192,13 +191,13 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
         Boolean mandatoryFormNotAvailable = false;
         if(s2sOpportunity.getCfdaNumber()!=null){
-            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setCfdaNumber(s2sOpportunity.getCfdaNumber());
+            proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setCfdaNumber(s2sOpportunity.getCfdaNumber());
         }
         if(s2sOpportunity.getOpportunityId()!=null){
-            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setProgramAnnouncementNumber(s2sOpportunity.getOpportunityId());
+            proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setProgramAnnouncementNumber(s2sOpportunity.getOpportunityId());
         }
         if(s2sOpportunity.getOpportunityTitle()!=null){
-            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setProgramAnnouncementTitle(s2sOpportunity.getOpportunityTitle());
+            proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setProgramAnnouncementTitle(s2sOpportunity.getOpportunityTitle());
         }
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
         if(s2sOpportunity.getSchemaUrl()!=null){
@@ -215,10 +214,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 s2sOpportunity.setS2sOppForms(s2sOppForms);
                 s2sOpportunity.setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
                 proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);
-                proposalDevelopmentForm.getDocument().getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
+                proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
             }else{
-                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentForm.getDocument().getDevelopmentProposal().getS2sOpportunity().getOpportunityId());
-                proposalDevelopmentForm.getDocument().getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
+                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getS2sOpportunity().getOpportunityId());
+                proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
             }
         }
     }
@@ -236,7 +235,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         String keywordPanelDisplay = this.getParameterService().getParameterValueAsString(
                     ProposalDevelopmentDocument.class, Constants.KEYWORD_PANEL_DISPLAY);        
             request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
@@ -249,7 +248,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             
             if( KNSGlobalVariables.getAuditErrorMap().isEmpty())
                 new AuditActionHelper().auditConditionally(proposalDevelopmentForm);
-            proposalDevelopmentForm.setProposalDataOverrideMethodToCalls(this.constructColumnsToAlterLookupMTCs(proposalDevelopmentForm.getDocument().getDevelopmentProposal().getProposalNumber()));
+            proposalDevelopmentForm.setProposalDataOverrideMethodToCalls(this.constructColumnsToAlterLookupMTCs(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
 //            if (proposalDevelopmentForm.isAuditActivated()) {
 //                if (document != null && 
 //                    document.getDevelopmentProposal().getS2sOpportunity() != null ) {
@@ -260,11 +259,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             //if(isPrincipalInvestigator){
             //}
             
-            /*if(proposalDevelopmentForm.getDocument().getSponsorCode()!=null){
-                proposalDevelopmentForm.setAdditionalDocInfo1(new ConcreteKeyValue("datadictionary.Sponsor.attributes.sponsorCode.label",proposalDevelopmentForm.getDocument().getSponsorCode()));
+            /*if(proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()!=null){
+                proposalDevelopmentForm.setAdditionalDocInfo1(new ConcreteKeyValue("datadictionary.Sponsor.attributes.sponsorCode.label",proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()));
             }
-            if(proposalDevelopmentForm.getDocument().getPrincipalInvestigator()!=null){
-                proposalDevelopmentForm.setAdditionalDocInfo2(new ConcreteKeyValue("${Document.DataDictionary.ProposalDevelopmentDocument.attributes.sponsorCode.label}",proposalDevelopmentForm.getDocument().getPrincipalInvestigator().getFullName()));
+            if(proposalDevelopmentForm.getProposalDevelopmentDocument().getPrincipalInvestigator()!=null){
+                proposalDevelopmentForm.setAdditionalDocInfo2(new ConcreteKeyValue("${Document.DataDictionary.ProposalDevelopmentDocument.attributes.sponsorCode.label}",proposalDevelopmentForm.getProposalDevelopmentDocument().getPrincipalInvestigator().getFullName()));
             }*/
     
             // setup any Proposal Development System Parameters that will be needed
@@ -300,7 +299,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
-        ProposalDevelopmentDocument document = ((ProposalDevelopmentForm)kualiDocumentFormBase).getDocument();
+        ProposalDevelopmentDocument document = ((ProposalDevelopmentForm)kualiDocumentFormBase).getProposalDevelopmentDocument();
         loadDocument(document);
     }
     
@@ -344,11 +343,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         // We will need to determine if the proposal is being saved for the first time.
 
         final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
+        final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         S2sOpportunity s2sOpportunity= new S2sOpportunity();
-        s2sOpportunity = proposalDevelopmentForm.getDocument().getDevelopmentProposal().getS2sOpportunity();
+        s2sOpportunity = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getS2sOpportunity();
         if(s2sOpportunity!=null && s2sOpportunity.getProposalNumber()==null){
-            proposalDevelopmentForm.getDocument().getDevelopmentProposal().setS2sOpportunity(null);
+            proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(null);
             proposalDevelopmentForm.setS2sOpportunity(s2sOpportunity);
         }
         updateProposalDocument(proposalDevelopmentForm);
@@ -389,7 +388,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         ActionForward forward = super.saveOnClose(mapping, form, request, response);
         
         final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
+        final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
        
         updateProposalDocument(proposalDevelopmentForm);
         
@@ -419,7 +418,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
      * @throws Exception
      */
     protected void updateProposalDocument(ProposalDevelopmentForm pdForm) throws Exception {
-        ProposalDevelopmentDocument pdDocument = pdForm.getDocument();
+        ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
         ProposalDevelopmentDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
         
         if (updatedDocCopy != null) {
@@ -612,7 +611,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
      */
     public ActionForward keyPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        getKeyPersonnelService().populateDocument(pdform.getDocument());
+        getKeyPersonnelService().populateDocument(pdform.getProposalDevelopmentDocument());
               
         // Let this be taken care of in KeyPersonnelAction execute() method
         if (this instanceof ProposalDevelopmentKeyPersonnelAction) {
@@ -636,7 +635,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     
     public ActionForward hierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
-        pdForm.setHierarchyProposalSummaries(getHierarchyHelper().getHierarchyProposalSummaries(pdForm.getDocument().getDevelopmentProposal().getProposalNumber()));
+        pdForm.setHierarchyProposalSummaries(getHierarchyHelper().getHierarchyProposalSummaries(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
         return mapping.findForward(Constants.HIERARCHY_PAGE);
     }
     
@@ -653,11 +652,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if(StringUtils.isEmpty(headerTabCall)) {
             pdForm.getDocument().refreshPessimisticLocks();
         }        
-        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getDocument().getBudgetDocumentVersions()));
-        setBudgetStatuses(pdForm.getDocument());
+        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetDocumentVersions()));
+        setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
         
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-        tdcValidator.validateGeneratingWarnings(pdForm.getDocument());
+        tdcValidator.validateGeneratingWarnings(pdForm.getProposalDevelopmentDocument());
         
         return mapping.findForward(Constants.PD_BUDGET_VERSIONS_PAGE);
     }
@@ -666,7 +665,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     public ActionForward abstractsAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         // TODO temporarily to set up proposal person- remove this once keyperson is completed and htmlunit testing fine
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         doc.getDevelopmentProposal().populateNarrativeRightsForLoggedinUser();
 
         /*
@@ -692,7 +691,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups = new TreeMap<String, List<CustomAttributeDocument>>();
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
 
         Map<String, CustomAttributeDocument> customAttributeDocuments = doc.getCustomAttributeDocuments();
         String documentNumber = doc.getDocumentNumber();
@@ -758,11 +757,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        if (proposalDevelopmentForm.getDocument().getDocumentNumber() == null) {
+        if (proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentNumber() == null) {
             // If entering this action from copy link on doc search
             loadDocumentInForm(request, proposalDevelopmentForm);
         }
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
         printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
         return mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
@@ -779,11 +778,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     */
    public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-       if (proposalDevelopmentForm.getDocument().getDocumentNumber() == null) {
+       if (proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentNumber() == null) {
            // If entering this action from the medusa link on the search
            loadDocumentInForm(request, proposalDevelopmentForm);
        }
-       ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+       ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
        String proposalNumber = document.getDevelopmentProposal().getProposalNumber();
        proposalDevelopmentForm.getMedusaBean().setMedusaViewRadio("0");
        proposalDevelopmentForm.getMedusaBean().setModuleName("DP");
@@ -824,7 +823,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     @Override
     protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = pdForm.getDocument();
+        ProposalDevelopmentDocument doc = pdForm.getProposalDevelopmentDocument();
         initializeProposalUsers(doc);
         //on initialization of a new document the original lead unit will be blank
         //and so on first save we need to make sure to fix it
@@ -904,7 +903,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         super.save(mapping, form, request, response);
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         boolean grantsGovErrorExists = false;
 
         if(proposalDevelopmentDocument.getDevelopmentProposal().getSelectedS2sOppForms().isEmpty()){    // error, no form is selected

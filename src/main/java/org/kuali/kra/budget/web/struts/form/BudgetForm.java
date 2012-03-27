@@ -217,7 +217,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
      * This method initialize all form variables
      */
     public void initialize() {
-        Budget budget = getDocument().getBudget();
+        Budget budget = getBudgetDocument().getBudget();
         BudgetPeriod newBudgetPeriod =  budget.getNewBudgetPeriod();
         newBudgetPeriod.setBudget(budget);
         setNewBudgetPeriod(newBudgetPeriod);
@@ -231,7 +231,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 //        newPersonnelLineItem = budget.getNewBudgetLineItem();    
         newBudgetPersonnelDetails = budget.getNewBudgetPersonnelLineItem();
         setDocumentNextValueRefresh(true);
-        budgetJustificationWrapper = new BudgetJustificationWrapper(getDocument().getBudget().getBudgetJustification());
+        budgetJustificationWrapper = new BudgetJustificationWrapper(getBudgetDocument().getBudget().getBudgetJustification());
         newSubAward = new BudgetSubAwards();
         newBudgetModularIdc = new BudgetModularIdc();
         this.getDocInfo().add(new HeaderField(BUDGET_NAME_KEY, Constants.EMPTY_STRING));
@@ -241,7 +241,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
     
     public BudgetDocument getBudgetDocument() {
-        return this.getDocument();
+        return (BudgetDocument) this.getDocument();
     }
     
     @Override
@@ -259,9 +259,9 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     public void setNewBudgetPeriod(BudgetPeriod newBudgetPeriod) {
         Integer budgetPeriod = 1;
-        Budget budget = getDocument().getBudget();
+        Budget budget = getBudgetDocument().getBudget();
         if(budget.getBudgetPeriods() != null) {
-            budgetPeriod = getDocument().getBudget().getBudgetPeriods().size() + 1;
+            budgetPeriod = getBudgetDocument().getBudget().getBudgetPeriods().size() + 1;
         }
         newBudgetPeriod.setBudgetPeriod(budgetPeriod);
         newBudgetPeriod.setBudget(budget);
@@ -356,8 +356,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
     
     private ExtraButton configureReturnToParentTopButton() {
-        BudgetParentDocument budgetParentDocument = getDocument().getParentDocument();
-        return budgetParentDocument!=null?getDocument().getParentDocument().configureReturnToParentTopButton():new ExtraButton();
+        BudgetParentDocument budgetParentDocument = getBudgetDocument().getParentDocument();
+        return budgetParentDocument!=null?getBudgetDocument().getParentDocument().configureReturnToParentTopButton():new ExtraButton();
     }
 
     /**
@@ -402,7 +402,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
      * @return
      */
     public boolean isCostSharingEditFormVisible() {
-        BudgetDocument budgetDocument = getDocument();  
+        BudgetDocument budgetDocument = getBudgetDocument();  
         Budget budget = budgetDocument != null ? budgetDocument.getBudget() : null;
         return budget != null && budget.isCostSharingApplicable() && budget.isCostSharingAvailable(); 
     }
@@ -412,7 +412,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
      * @return
      */
     public boolean isUnrecoveredFandAEditFormVisible() {
-        BudgetDocument budgetDocument = getDocument(); 
+        BudgetDocument budgetDocument = getBudgetDocument(); 
         Budget budget = budgetDocument != null?budgetDocument.getBudget():null;
         return budget != null && budget.isUnrecoveredFandAApplicable() && budget.isUnrecoveredFandAAvailable(); 
     }
@@ -691,7 +691,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
-        BudgetDocument budgetDocument = getDocument();
+        BudgetDocument budgetDocument = getBudgetDocument();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         WorkflowDocument parentWorkflowDocument = null;
         
@@ -740,7 +740,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
 
     protected HeaderField getHeaderDocNumber() {
-        BudgetParentDocument parentDocument = getDocument().getParentDocument();
+        BudgetParentDocument parentDocument = getBudgetDocument().getParentDocument();
         return new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", parentDocument != null? parentDocument.getDocumentNumber() : null); 
     }
 
@@ -892,17 +892,6 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
     
     /**
-     * Retrieves the {@link BudgetDocument BudgetDocument}.
-     * @return {@link BudgetDocument BudgetDocument}
-     */
-    @Override
-    public BudgetDocument getDocument() {
-        //overriding and using covariant return to avoid casting
-        //Document to BudgetDocument everywhere
-        return (BudgetDocument) super.getDocument();
-    }
-
-    /**
      * This method makes sure that the Rates tab is not displayed for proposals
      * in a hierarchy.
      * 
@@ -912,7 +901,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
         HeaderNavigation[] tabs = super.getHeaderNavigationTabs();
-        BudgetParentDocument parentDocument = getDocument().getParentDocument();
+        BudgetParentDocument parentDocument = getBudgetDocument().getParentDocument();
         boolean hideRatesTab = false;
         boolean hideHierarchyTab = true;
         if(parentDocument != null && parentDocument.getClass() == ProposalDevelopmentDocument.class){

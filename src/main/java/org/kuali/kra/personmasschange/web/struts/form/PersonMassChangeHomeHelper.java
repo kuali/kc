@@ -94,7 +94,7 @@ public class PersonMassChangeHomeHelper extends PersonMassChangeHelperBase {
      * Prepares the fields to render the view.
      */
     public void prepareView() {
-        PersonMassChange personMassChange = form.getDocument().getPersonMassChange();
+        PersonMassChange personMassChange = form.getPersonMassChangeDocument().getPersonMassChange();
         
         if (StringUtils.isBlank(getReplaceePersonId()) && getReplaceeRolodexId() == null) {
             if (StringUtils.isNotBlank(personMassChange.getReplaceePersonId())) {

@@ -69,7 +69,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
         negotiationForm.getMedusaBean().setModuleName("neg");
-        negotiationForm.getMedusaBean().setModuleIdentifier(negotiationForm.getDocument().getNegotiation().getNegotiationId());
+        negotiationForm.getMedusaBean().setModuleIdentifier(negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationId());
         negotiationForm.getNegotiationActivityHelper().sortActivities();
         negotiationForm.getNegotiationActivityHelper().generateAllAttachments();
         return actionForward;
@@ -549,7 +549,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             throws Exception {   
         Map<String, Object> reportParameters = new HashMap<String, Object>();        
         NegotiationForm negotiationForm = (NegotiationForm) form;  
-        NegotiationDocument negotiationDocument = negotiationForm.getDocument();     
+        NegotiationDocument negotiationDocument = negotiationForm.getNegotiationDocument();     
         Negotiation negotiation = negotiationDocument.getNegotiation();
         negotiation.setPrintindex(0);
         negotiation.setPrintAll(StringUtils.equals(negotiationForm.getFilterActivities(), negotiationForm.getFilterAllActivities()));
@@ -576,7 +576,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         int printindex =getActivityIndex(request);
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         NegotiationForm negotiationForm = (NegotiationForm) form;  
-        NegotiationDocument negotiationDocument = negotiationForm.getDocument();     
+        NegotiationDocument negotiationDocument = negotiationForm.getNegotiationDocument();     
         Negotiation negotiation = negotiationDocument.getNegotiation();        
         negotiation.setPrintindex(printindex+1);
         AttachmentDataSource dataStream = getNegotiationPrintingService().printNegotiationActivityReport

@@ -233,7 +233,7 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
     }
 
     protected ProposalDevelopmentDocument getDocumentFromForm() {
-        return ((ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm()).getDocument();
+        return ((ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm()).getProposalDevelopmentDocument();
     }
     
     /**

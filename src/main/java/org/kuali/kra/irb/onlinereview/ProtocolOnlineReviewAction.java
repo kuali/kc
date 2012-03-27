@@ -626,7 +626,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 } 
                 
                 ProtocolOnlineReview protocolOnlineReview = prDoc.getProtocolOnlineReview();
-                Protocol protocol = protocolForm.getDocument().getProtocol();
+                Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
                 DeleteReviewNotificationRenderer renderer = new DeleteReviewNotificationRenderer(protocol, reason);
 //                IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_DELETED, "Review Deleted", renderer);
 //                getKcNotificationService().sendNotification(context);

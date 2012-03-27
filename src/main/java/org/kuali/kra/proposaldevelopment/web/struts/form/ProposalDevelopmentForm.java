@@ -46,6 +46,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
@@ -264,7 +265,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setOtherOrganizationHelpers(new AutoPopulatingList<CongressionalDistrictHelper>(CongressionalDistrictHelper.class));
         setSpecialReviewHelper(new SpecialReviewHelper(this));
         customAttributeValues = new HashMap<String, String[]>();
-        setCopyCriteria(new ProposalCopyCriteria(getDocument()));
+        setCopyCriteria(new ProposalCopyCriteria(getProposalDevelopmentDocument()));
         proposalDevelopmentParameters = new HashMap<String, Parameter>();
         newProposalPersonRoleRendered = false;
         setNewProposalChangedData(new ProposalChangedData());
@@ -279,7 +280,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setS2sQuestionnaireHelper(new ProposalDevelopmentS2sQuestionnaireHelper(this));
         
         proposalPersonQuestionnaireHelpers = new ArrayList<ProposalPersonQuestionnaireHelper>();
-        for (ProposalPerson person : this.getDocument().getDevelopmentProposal().getProposalPersons()) {
+        for (ProposalPerson person : this.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
             ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(this, person);
             proposalPersonQuestionnaireHelpers.add(helper);
         }
@@ -316,7 +317,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public void populate(HttpServletRequest request) {
         clearMultipleValueLookupResults();
         super.populate(request);
-        ProposalDevelopmentDocument proposalDevelopmentDocument=getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument=getProposalDevelopmentDocument();
 
         proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("sponsor");
 
@@ -328,7 +329,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         /**
          * For some reason citizenship type isn't being being saved to the POJO on form post, this is to correct that.
          */
-        List<ProposalPerson> keyPersonnel = this.getDocument().getDevelopmentProposal().getProposalPersons();
+        List<ProposalPerson> keyPersonnel = this.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons();
         int personCount = 0;
         final String fieldStarter = "document.developmentProposalList[0].proposalPersons[";
         final String fieldEnder = "].proposalPersonExtendedAttributes.citizenshipTypeCode";
@@ -369,7 +370,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         
-        ProposalDevelopmentDocument pd = getDocument();
+        ProposalDevelopmentDocument pd = getProposalDevelopmentDocument();
         if (!pd.isProposalDeleted()) {
             ProposalState proposalState = (pd == null) ? null : pd.getDevelopmentProposal().getProposalState();
             HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", proposalState == null? "" : proposalState.getDescription());
@@ -446,7 +447,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         this.setCurrentTabIndex(0);
 
 
-        ProposalDevelopmentDocument proposalDevelopmentDocument = this.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = this.getProposalDevelopmentDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getDevelopmentProposal().getPropScienceKeywords();
         for(int i=0; i<keywords.size(); i++) {
             PropScienceKeyword propScienceKeyword = keywords.get(i);
@@ -523,7 +524,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * @return the value of newProposalPersonUnit
      */
     public List<Unit> getNewProposalPersonUnit() {
-        if (this.getDocument().getDevelopmentProposal().getProposalPersons().size() > this.newProposalPersonUnit.size()) {
+        if (this.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons().size() > this.newProposalPersonUnit.size()) {
             this.newProposalPersonUnit.add(this.newProposalPersonUnit.size(), new Unit());
         }
         return this.newProposalPersonUnit;
@@ -545,7 +546,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
     public List<ProposalPersonDegree> getNewProposalPersonDegree() {
 
-        if (this.getDocument().getDevelopmentProposal().getProposalPersons().size() > this.newProposalPersonDegree.size()) {
+        if (this.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons().size() > this.newProposalPersonDegree.size()) {
             this.newProposalPersonDegree.add(this.newProposalPersonDegree.size(),new ProposalPersonDegree());
         }
         return this.newProposalPersonDegree;
@@ -620,7 +621,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     @SuppressWarnings("unchecked")
     public Map<String, KualiDecimal> getCreditSplitTotals() {
-        return this.getKeyPersonnelService().calculateCreditSplitTotals(getDocument());    
+        return this.getKeyPersonnelService().calculateCreditSplitTotals(getProposalDevelopmentDocument());    
     }
 
 
@@ -700,7 +701,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * @return true if copying attachments is disabled; otherwise false.
      */
     public boolean getIsCopyAttachmentsDisabled() {
-        ProposalDevelopmentDocument doc = this.getDocument();
+        ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
         return !(doc.getDevelopmentProposal().getNarratives().size() > 0 ||
             doc.getDevelopmentProposal().getInstituteAttachments().size() > 0 ||
             doc.getDevelopmentProposal().getPropPersonBios().size() > 0);
@@ -738,7 +739,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * @return true if copying budget(s) is disabled; otherwise false.
      */
     public boolean getIsCopyBudgetDisabled() {
-        return !(this.getDocument().getBudgetDocumentVersions().size() > 0);
+        return !(this.getProposalDevelopmentDocument().getBudgetDocumentVersions().size() > 0);
     }
 
 
@@ -962,7 +963,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
     private void addPersons(List<ProposalUserRoles> propUserRolesList, String roleName) {
         KraAuthorizationService proposalAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        ProposalDevelopmentDocument doc = this.getDocument();
+        ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
         
         List<KcPerson> persons = proposalAuthService.getPersonsInRole(doc, roleName);
         for (KcPerson person : persons) {
@@ -1159,7 +1160,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public List<ExtraButton> getExtraActionsButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
-        ProposalDevelopmentDocument doc = this.getDocument();
+        ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
         
@@ -1205,7 +1206,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public void processValidationFail() {
         try {
             boolean cSplitEnabled = this.getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME)
-                && getDocument().getDevelopmentProposal().getInvestigators().size() > 0;
+                && getProposalDevelopmentDocument().getDevelopmentProposal().getInvestigators().size() > 0;
             setCreditSplitEnabled(cSplitEnabled);
         }
         catch (Exception e) {
@@ -1255,15 +1256,15 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     public boolean isSubmissionStatusVisible() {
-        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode();
-        return KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || (this.getDocument().getDevelopmentProposal().getSubmitFlag() && KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus));
+        String routeStatus = this.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        return KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || (this.getProposalDevelopmentDocument().getDevelopmentProposal().getSubmitFlag() && KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus));
     }
     
     public boolean isSubmissionStatusReadOnly() {
         boolean result = true;
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService proposalAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-        boolean canModify = proposalAuthService.hasPermission(userId, this.getDocument(), PermissionConstants.MODIFY_PROPOSAL);
+        boolean canModify = proposalAuthService.hasPermission(userId, this.getProposalDevelopmentDocument(), PermissionConstants.MODIFY_PROPOSAL);
         if (canModify) { result = false; }
         
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
@@ -1275,13 +1276,13 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     public boolean isCanSubmitToSponsor() {
-        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        String routeStatus = this.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode();
         return ( KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus) ) 
-                    && !this.getDocument().getDevelopmentProposal().getSubmitFlag() && !isSubmissionStatusReadOnly();
+                    && !this.getProposalDevelopmentDocument().getDevelopmentProposal().getSubmitFlag() && !isSubmissionStatusReadOnly();
     }
 
     public boolean isCanSubmitToGrantsGov() {
-        String routeStatus = this.getDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        String routeStatus = this.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode();
         return ( KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus) || KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(routeStatus) ) 
                     &&  !isSubmissionStatusReadOnly();
     }
@@ -1488,10 +1489,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * Retrieves the {@link ProposalDevelopmentDocument ProposalDevelopmentDocument}.
      * @return {@link ProposalDevelopmentDocument ProposalDevelopmentDocument}
      */
-    @Override
-    public ProposalDevelopmentDocument getDocument() {
-        //overriding and using covariant return to avoid casting
-        //Document to ProposalDevelopmentDocument everywhere
+    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
         return (ProposalDevelopmentDocument) super.getDocument();
     }
     
@@ -1571,7 +1569,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public HeaderNavigation[] getHeaderNavigationTabs() {
         HeaderNavigation[] tabs = super.getHeaderNavigationTabs();
         List<HeaderNavigation> newTabs = new ArrayList<HeaderNavigation>();
-        DevelopmentProposal devProposal = getDocument().getDevelopmentProposal();
+        DevelopmentProposal devProposal = getProposalDevelopmentDocument().getDevelopmentProposal();
         boolean showHierarchy = devProposal.isInHierarchy();
         boolean disableGrantsGov = !isGrantsGovEnabled();
         
@@ -1582,7 +1580,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             }
 //            if (showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy")) {
 //                if (tab.getHeaderTabNavigateTo().equals("customData")) {
-//                    if (!this.getDocument().getCustomAttributeDocuments().isEmpty()) {
+//                    if (!this.getProposalDevelopmentDocument().getCustomAttributeDocuments().isEmpty()) {
 //                        newTabs.add(tab);
 //                    }
 //                } else {
@@ -1601,7 +1599,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     public boolean canPerformWorkflowAction() {
         //If an exception (like AuthorizationException) occurred before this call, the workflowDocument will be null
-        if (!getDocument().getDocumentHeader().hasWorkflowDocument()) {
+        if (!getProposalDevelopmentDocument().getDocumentHeader().hasWorkflowDocument()) {
            return false;
         }
         KcTransactionalDocumentAuthorizerBase documentAuthorizer = (KcTransactionalDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(this.getDocument());
@@ -1617,7 +1615,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     
     public boolean isGrantsGovEnabled() {
-        return KraServiceLocator.getService(ProposalDevelopmentService.class).isGrantsGovEnabledForProposal(getDocument().getDevelopmentProposal());
+        return KraServiceLocator.getService(ProposalDevelopmentService.class).isGrantsGovEnabledForProposal(getProposalDevelopmentDocument().getDevelopmentProposal());
     }
 
     /**

@@ -74,7 +74,7 @@ public class AwardSpecialReviewAction extends AwardAction {
         } else {
             int index = getSpecialReviewService().getProtocolIndex(prefix);
             if (index != -1) {
-                awardSpecialReview = awardForm.getDocument().getAward().getSpecialReviews().get(index);
+                awardSpecialReview = awardForm.getAwardDocument().getAward().getSpecialReviews().get(index);
             }
         }
         

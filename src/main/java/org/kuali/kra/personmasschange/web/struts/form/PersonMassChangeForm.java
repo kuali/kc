@@ -17,6 +17,7 @@ package org.kuali.kra.personmasschange.web.struts.form;
 
 import java.util.Map;
 
+import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -70,8 +71,7 @@ public class PersonMassChangeForm extends KraTransactionalDocumentFormBase {
         getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
     }
     
-    @Override
-    public PersonMassChangeDocument getDocument() {
+    public PersonMassChangeDocument getPersonMassChangeDocument() {
         return (PersonMassChangeDocument) super.getDocument();
     }
 
