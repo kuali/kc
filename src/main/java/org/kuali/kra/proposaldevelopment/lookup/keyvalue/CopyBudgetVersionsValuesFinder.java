@@ -85,6 +85,6 @@ public class CopyBudgetVersionsValuesFinder extends KeyValuesBase {
         if (form == null) {
             return null;
         }
-        return form.getDocument();
+        return form.getProposalDevelopmentDocument();
     }
 }

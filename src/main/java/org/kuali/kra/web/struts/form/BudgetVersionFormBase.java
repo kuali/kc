@@ -105,7 +105,7 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
         Date date = null;
         if (this instanceof BudgetForm) {
             BudgetForm budgetForm = (BudgetForm) this;
-            date = budgetForm.getDocument().getParentDocument().getBudgetParent().getRequestedStartDateInitial();
+            date = budgetForm.getBudgetDocument().getParentDocument().getBudgetParent().getRequestedStartDateInitial();
         } else {
             BudgetParentDocument parentDocument = (BudgetParentDocument)getDocument();
             date = parentDocument.getBudgetParent().getRequestedStartDateInitial();
@@ -122,7 +122,7 @@ public abstract class BudgetVersionFormBase extends KraTransactionalDocumentForm
         Date date = null;
         if (this instanceof BudgetForm) {
             BudgetForm budgetForm = (BudgetForm) this;
-            date = budgetForm.getDocument().getParentDocument().getBudgetParent().getRequestedEndDateInitial();
+            date = budgetForm.getBudgetDocument().getParentDocument().getBudgetParent().getRequestedEndDateInitial();
         } else {
             BudgetParentDocument parentDocument = (BudgetParentDocument)getDocument();
             date = parentDocument.getBudgetParent().getRequestedEndDateInitial();

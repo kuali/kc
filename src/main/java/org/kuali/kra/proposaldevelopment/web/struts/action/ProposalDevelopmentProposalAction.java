@@ -74,7 +74,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             throws Exception {
 
         setKeywordsPanelFlag(request);
-        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
 
         KraServiceLocator.getService(ProposalDevelopmentService.class).initializeUnitOrganizationLocation(
                 proposalDevelopmentDocument);
@@ -83,7 +83,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         if (!proposalDevelopmentForm.isGrantsGovEnabled()
-                && proposalDevelopmentForm.getDocument().getDevelopmentProposal().getS2sOpportunity() != null) {
+                && proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getS2sOpportunity() != null) {
             //if grants gov isn't enabled and we have an opportunity, clear it.
             proposalDevelopmentForm.setVersionNumberForS2sOpportunity(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getVersionNumber());            
             proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().setS2sOppForms(null);
@@ -106,7 +106,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ActionForward forward = super.saveOnClose(mapping, form, request, response);
         
         final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getDocument();
+        final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
         //required for save, particularly if the proposal has not yet been saved
         KraServiceLocator.getService(ProposalDevelopmentService.class).initializeUnitOrganizationLocation(
@@ -123,7 +123,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
 
         ActionForward actionForward = super.execute(mapping, form, request, response);
         setKeywordsPanelFlag(request);
-        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
         if (proposalDevelopmentDocument.getDevelopmentProposal().getApplicantOrganization() != null
                 && proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites().size() == 0
                 && StringUtils.isNotBlank(request.getParameter("methodToCall"))
@@ -194,7 +194,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward addOtherOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
         ProposalSite newOtherOrganization = proposalDevelopmentForm.getNewOtherOrganization();
         newOtherOrganization.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);   // the validation rule needs the location type
@@ -213,7 +213,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward addPerformanceSite(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
 
         ProposalSite newPerformanceSite = proposalDevelopmentForm.getNewPerformanceSite();
         newPerformanceSite.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE);   // the validation rule needs the location type
@@ -246,7 +246,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
 
     public ActionForward clearPerformanceSiteAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
         
         BasicProposalSiteEvent clearEvent = new BasicProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument);
         if (getKualiRuleService().applyRules(clearEvent)) {
@@ -291,7 +291,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      */
     public ActionForward deleteProposalSite(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response, String yesMethodName, String locationTypeName) throws Exception {
-        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
         
         BasicProposalSiteEvent deleteEvent = new BasicProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument);
         if (getKualiRuleService().applyRules(deleteEvent)) {
@@ -315,7 +315,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             HttpServletResponse response) throws Exception {
         int siteIndex = getSiteIndexForConfirmation(form, request, CONFIRM_DELETE_PROPOSAL_SITE_KEY);
         if (siteIndex >= 0) {
-            ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+            ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
             proposalDevelopmentDocument.getDevelopmentProposal().removePerformanceSite(siteIndex);
         }
         return mapping.findForward(MAPPING_BASIC);
@@ -334,7 +334,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             HttpServletResponse response) throws Exception {
         int siteIndex = getSiteIndexForConfirmation(form, request, CONFIRM_DELETE_PROPOSAL_SITE_KEY);
         if (siteIndex >= 0) {
-            ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+            ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
             proposalDevelopmentDocument.getDevelopmentProposal().removeOtherOrganization(siteIndex);
         }
         return mapping.findForward(MAPPING_BASIC);
@@ -369,7 +369,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     private int getSiteIndexForConfirmation(ActionForm form, HttpServletRequest request) {
         int siteIndex = -1;
 
-        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm)form).getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm)form).getProposalDevelopmentDocument();
         if (getKualiRuleService().applyRules(
                 new BasicProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument))) {
             String siteIndexStr = getSiteIndex(request);
@@ -384,7 +384,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         
         if (CONFIRM_DELETE_PROPOSAL_SITE_KEY.equals(question)) { 
-            ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+            ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
             if (getKualiRuleService().applyRules(
                     new BasicProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument))) {
                 String siteIndexStr = getSiteIndex(request);
@@ -412,7 +412,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             HttpServletResponse response) throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getDevelopmentProposal().getPropScienceKeywords();
         for (Iterator<PropScienceKeyword> iter = keywords.iterator(); iter.hasNext();) {
             PropScienceKeyword propScienceKeyword = iter.next();
@@ -426,7 +426,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             HttpServletResponse response) throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getDevelopmentProposal().getPropScienceKeywords();
         for (ListIterator<PropScienceKeyword> iter = keywords.listIterator(); iter.hasNext();) {
             PropScienceKeyword propScienceKeyword = iter.next();
@@ -444,7 +444,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward addApplicantOrgCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm)form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ProposalSite applicantOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getApplicantOrganization();
         CongressionalDistrictHelper applicantOrganizationHelper = proposalDevelopmentForm.getApplicantOrganizationHelper();
         if (getKualiRuleService().applyRules(
@@ -467,7 +467,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward addPerformingOrgCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm)form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
         ProposalSite performingOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getPerformingOrganization();
         CongressionalDistrictHelper performingOrganizationHelper = proposalDevelopmentForm.getPerformingOrganizationHelper();
@@ -492,7 +492,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward addPerformanceSiteCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
         List<ProposalSite> performanceSites = proposalDevelopmentDocument.getDevelopmentProposal().getPerformanceSites();
         List<CongressionalDistrictHelper> proposalSiteHelpers = proposalDevelopmentForm.getPerformanceSiteHelpers();
@@ -518,7 +518,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward addOtherOrgCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
         List<ProposalSite> otherOrganizations = proposalDevelopmentDocument.getDevelopmentProposal().getOtherOrganizations();
         List<CongressionalDistrictHelper> otherOrganizationHelpers = proposalDevelopmentForm.getOtherOrganizationHelpers();
@@ -596,7 +596,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward confirmDeleteApplicantOrgCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
         ProposalSite applicantOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getApplicantOrganization();
         String districtIndexStr = getDistrictIndex(request);
@@ -635,7 +635,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward confirmDeletePerformingOrgCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
         ProposalSite performingOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getPerformingOrganization();
         String districtIndexStr = getDistrictIndex(request);
@@ -674,7 +674,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward confirmDeletePerformanceSiteCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
         List<ProposalSite> performanceSites = proposalDevelopmentDocument.getDevelopmentProposal().getPerformanceSites();
         String siteIndexStr = getSiteIndex(request);
@@ -714,7 +714,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward confirmDeleteOtherOrgCongDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
         List<ProposalSite> otherOrganizations = proposalDevelopmentDocument.getDevelopmentProposal().getOtherOrganizations();
         String siteIndexStr = getSiteIndex(request);
@@ -729,7 +729,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
 
     public ActionForward deleteCongressionalDistrict(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response, String yesMethodName) throws Exception {
-        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
         
         BasicProposalSiteEvent deleteEvent = new BasicProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument);
         if (getKualiRuleService().applyRules(deleteEvent)) {
@@ -769,7 +769,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward clearApplicantOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
         proposalDevelopmentDocument.getDevelopmentProposal().setApplicantOrganization(new ProposalSite());
 
@@ -782,7 +782,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             throws Exception {
         super.refresh(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        DevelopmentProposal developmentProposal = proposalDevelopmentForm.getDocument().getDevelopmentProposal();
+        DevelopmentProposal developmentProposal = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal();
 
         // XXX does this code do anything that isn't already done in ProposalDevelopmentServiceImpl?
         // if performing org. not set, default to applicant org
@@ -861,7 +861,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward clearMailingNameAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
              
-        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
         BasicProposalSiteEvent deleteEvent = new BasicProposalSiteEvent(Constants.EMPTY_STRING, proposalDevelopmentDocument);
         
         if (getKualiRuleService().applyRules(deleteEvent)) {
@@ -889,7 +889,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             HttpServletResponse response) throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        DevelopmentProposal developmentProposal = proposalDevelopmentForm.getDocument().getDevelopmentProposal();
+        DevelopmentProposal developmentProposal = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal();
            
         if (developmentProposal.getRolodex() != null) {
            

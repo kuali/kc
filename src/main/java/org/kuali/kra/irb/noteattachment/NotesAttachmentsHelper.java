@@ -200,15 +200,15 @@ public class NotesAttachmentsHelper {
      */
     public Protocol getProtocol() {
 
-        if (this.form.getDocument() == null) {
+        if (this.form.getProtocolDocument() == null) {
             throw new IllegalArgumentException("the document is null");
         }
         
-        if (this.form.getDocument().getProtocol() == null) {
+        if (this.form.getProtocolDocument().getProtocol() == null) {
             throw new IllegalArgumentException("the protocol is null");
         }
 
-        return this.form.getDocument().getProtocol();
+        return this.form.getProtocolDocument().getProtocol();
     }
     
     /**
@@ -337,7 +337,7 @@ public class NotesAttachmentsHelper {
          * doesn't seem to be many advantages to doing these things...
          */
         final AddProtocolAttachmentProtocolRule rule = new AddProtocolAttachmentProtocolRuleImpl();
-        final AddProtocolAttachmentProtocolEvent event = new AddProtocolAttachmentProtocolEvent(this.form.getDocument(), this.newAttachmentProtocol);
+        final AddProtocolAttachmentProtocolEvent event = new AddProtocolAttachmentProtocolEvent(this.form.getProtocolDocument(), this.newAttachmentProtocol);
         
         if (rule.processAddProtocolAttachmentProtocolRules(event)) {
             this.addNewAttachment(this.newAttachmentProtocol);
@@ -716,7 +716,7 @@ public class NotesAttachmentsHelper {
     public void addNewNote() {
     
         final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
-        final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.protocolNotepad);
+        final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getProtocolDocument(), this.protocolNotepad);
         
         if (!rule.processAddProtocolNotepadRules(event)) {
             return;
@@ -734,7 +734,7 @@ public class NotesAttachmentsHelper {
     
         ProtocolNotepad notepadObject = this.getProtocol().getNotepads().get(noteToModify);
         final ModifyProtocolNotepadRule rule = new ModifyProtocolNotepadRuleImpl();
-        final ModifyProtocolNotepadEvent event = new ModifyProtocolNotepadEvent(this.form.getDocument(), notepadObject);
+        final ModifyProtocolNotepadEvent event = new ModifyProtocolNotepadEvent(this.form.getProtocolDocument(), notepadObject);
 
         if (!rule.processModifyProtocolNotepadRules(event)) {
             return;
@@ -748,7 +748,7 @@ public class NotesAttachmentsHelper {
     public boolean deleteNote(int noteToDelete) {
     
         final DeleteProtocolNotepadRule rule = new DeleteProtocolNotepadRuleImpl();
-        final DeleteProtocolNotepadEvent event = new DeleteProtocolNotepadEvent(this.form.getDocument(), this.protocolNotepad);
+        final DeleteProtocolNotepadEvent event = new DeleteProtocolNotepadEvent(this.form.getProtocolDocument(), this.protocolNotepad);
         
         if (!rule.processDeleteProtocolNotepadRules(event)) {
             return false;

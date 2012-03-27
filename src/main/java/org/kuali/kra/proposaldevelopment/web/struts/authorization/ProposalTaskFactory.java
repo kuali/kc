@@ -36,7 +36,7 @@ public class ProposalTaskFactory extends WebTaskFactoryImpl {
      */
     public Task createTask(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        return new ProposalTask(getTaskName(), proposalDevelopmentForm.getDocument());
+        return new ProposalTask(getTaskName(), proposalDevelopmentForm.getProposalDevelopmentDocument());
     }
 
     /**

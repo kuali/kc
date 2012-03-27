@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
@@ -80,8 +81,7 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
      * Gets a {@link ProtocolDocument ProtocolDocument}.
      * @return {@link ProtocolDocument ProtocolDocument}
      */
-    @Override
-    public ProtocolOnlineReviewDocument getDocument() {
+    public ProtocolOnlineReviewDocument getProtocolOnlineReviewDocument() {
         return (ProtocolOnlineReviewDocument) super.getDocument();
     }
 
@@ -149,7 +149,7 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
      * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getResearchDocument()
      */
     public ResearchDocumentBase getResearchDocument() {
-        return this.getDocument();
+        return (ResearchDocumentBase) this.getDocument();
     }
 
     public PermissionsHelperBase getPermissionsHelper() {
@@ -175,7 +175,7 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
     public List<ExtraButton> getExtraActionsButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
-        ProtocolOnlineReviewDocument doc = this.getDocument();
+        ProtocolOnlineReviewDocument doc = this.getProtocolOnlineReviewDocument();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
         
@@ -217,7 +217,7 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
     }
     
     public boolean getIrbAdminFieldsEditable() {
-        return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(), getDocument().getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_ONLINE_REVIEWS);
+        return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(), getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_ONLINE_REVIEWS);
     }
     
     public Set<String> getCurrentRouteNodes() {

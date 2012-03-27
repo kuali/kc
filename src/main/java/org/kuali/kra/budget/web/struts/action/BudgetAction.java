@@ -29,7 +29,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
@@ -54,7 +53,6 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.service.BudgetLockService;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
@@ -79,17 +77,16 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.datadictionary.KNSDocumentEntry;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -117,7 +114,7 @@ public class BudgetAction extends BudgetActionBase {
         ActionForward forward = super.docHandler(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
         if (KewApiConstants.INITIATE_COMMAND.equals(budgetForm.getCommand())) {
-            budgetForm.getDocument().initialize();
+            budgetForm.getBudgetDocument().initialize();
         }else{
             budgetForm.initialize();
         }
@@ -163,7 +160,7 @@ public class BudgetAction extends BudgetActionBase {
     }
     private ActionForward synchAwardBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean confirm) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDoc = budgetForm.getDocument();
+        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         BudgetParentDocument pdDoc = budgetDoc.getParentDocument();
         String routeHeaderId = budgetDoc.getDocumentHeader().getWorkflowDocument().getDocumentId();
         String forward = buildForwardUrl(routeHeaderId);
@@ -213,7 +210,7 @@ public class BudgetAction extends BudgetActionBase {
         }
         // check if audit rule check is done from PD
         if (budgetForm.isAuditActivated() && !"route".equals(((KualiForm)form).getMethodToCall())) {
-            KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetForm.getDocument()));
+            KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetForm.getBudgetDocument()));
         }
         
         return actionForward; 
@@ -228,7 +225,7 @@ public class BudgetAction extends BudgetActionBase {
     private void setAdditionalDocumentHeaderInfo(final BudgetForm budgetForm) {
         assert budgetForm != null : "the budgetForm is null";
         
-        final BudgetDocument budgetDocument = budgetForm.getDocument();
+        final BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         if (budget != null && parentDocument != null && parentDocument.getBudgetDocumentVersions() != null) {
@@ -261,13 +258,13 @@ public class BudgetAction extends BudgetActionBase {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        final BudgetDocument budgetDoc = budgetForm.getDocument();
+        final BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         fixDocHeaderVersion(budgetDoc);
         Budget budget = budgetDoc.getBudget();
         getBudgetCommonService(budgetDoc.getParentDocument()).calculateBudgetOnSave(budget);
         ActionForward forward = super.save(mapping, form, request, response);
         BudgetForm savedBudgetForm = (BudgetForm) form;
-        BudgetDocument savedBudgetDoc = savedBudgetForm.getDocument();
+        BudgetDocument savedBudgetDoc = savedBudgetForm.getBudgetDocument();
         refreshBudgetDocumentVersion(savedBudgetDoc);
         getBusinessObjectService().save(savedBudgetDoc.getParentDocument().getBudgetDocumentVersions());       
 
@@ -377,7 +374,7 @@ public class BudgetAction extends BudgetActionBase {
         if (budgetForm.getBudgetDocument().getBudget().getBudgetPersons().isEmpty()) {
             KraServiceLocator.getService(BudgetPersonService.class).synchBudgetPersonsToProposal(budgetForm.getBudgetDocument().getBudget());
         }
-        reconcilePersonnelRoles(budgetForm.getDocument());
+        reconcilePersonnelRoles(budgetForm.getBudgetDocument());
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         for(BudgetPeriod period : budget.getBudgetPeriods()) {
@@ -403,8 +400,8 @@ public class BudgetAction extends BudgetActionBase {
     }
     
     protected void populatePersonnelHierarchySummary(BudgetForm budgetForm) {
-        if (Boolean.valueOf(budgetForm.getDocument().getParentDocument().getProposalBudgetFlag())) {
-            ProposalDevelopmentDocument parentDocument = (ProposalDevelopmentDocument) budgetForm.getDocument().getParentDocument();
+        if (Boolean.valueOf(budgetForm.getBudgetDocument().getParentDocument().getProposalBudgetFlag())) {
+            ProposalDevelopmentDocument parentDocument = (ProposalDevelopmentDocument) budgetForm.getBudgetDocument().getParentDocument();
             String proposalNumber = parentDocument.getDevelopmentProposal().getProposalNumber();
             budgetForm.setHierarchyPersonnelSummaries(getHierarchyHelper().getHierarchyPersonnelSummaries(proposalNumber));
             for (HierarchyPersonnelSummary hierarchyPersonnelSummary : budgetForm.getHierarchyPersonnelSummaries()) {
@@ -465,7 +462,7 @@ public class BudgetAction extends BudgetActionBase {
         
         populateNonPersonnelCategoryTypeCodes(budgetForm);
         
-        BudgetDocument budgetDocument = budgetForm.getDocument();
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         budget.refreshReferenceObject("budgetPeriods");       
         
@@ -478,7 +475,7 @@ public class BudgetAction extends BudgetActionBase {
 
     public ActionForward distributionAndIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetDistributionAndIncomeService budgetDistributionAndIncomeService = KraServiceLocator.getService(BudgetDistributionAndIncomeService.class);
-        budgetDistributionAndIncomeService.initializeCollectionDefaults(((BudgetForm) form).getDocument().getBudget());
+        budgetDistributionAndIncomeService.initializeCollectionDefaults(((BudgetForm) form).getBudgetDocument().getBudget());
         
         return mapping.findForward(Constants.BUDGET_DIST_AND_INCOME_PAGE);
     }
@@ -486,7 +483,7 @@ public class BudgetAction extends BudgetActionBase {
     public ActionForward modularBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetModularService budgetModularService = KraServiceLocator.getService(BudgetModularService.class);
-        budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budgetForm.getDocument().getBudget()));
+        budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budgetForm.getBudgetDocument().getBudget()));
         return mapping.findForward(Constants.BUDGET_MODULAR_PAGE);
     }
 
@@ -522,7 +519,7 @@ public class BudgetAction extends BudgetActionBase {
     
     public ActionForward summaryTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getDocument();
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         populatePersonnelRoles(budgetDocument);
         Budget budget = budgetDocument.getBudget();
         for(BudgetPeriod period : budget.getBudgetPeriods()) {
@@ -544,7 +541,7 @@ public class BudgetAction extends BudgetActionBase {
 
     public ActionForward hierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm)form;
-        ProposalDevelopmentDocument aDoc = (ProposalDevelopmentDocument) budgetForm.getDocument().getParentDocument();
+        ProposalDevelopmentDocument aDoc = (ProposalDevelopmentDocument) budgetForm.getBudgetDocument().getParentDocument();
         
         budgetForm.setHierarchyProposalSummaries(getHierarchyHelper().getHierarchyProposalSummaries(aDoc.getDevelopmentProposal().getProposalNumber()));
         return mapping.findForward(Constants.HIERARCHY_PAGE);
@@ -552,7 +549,7 @@ public class BudgetAction extends BudgetActionBase {
     
     public ActionForward budgetActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getDocument();
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         populateBudgetPrintForms(budget);
         KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardAttachments(budget);
@@ -648,7 +645,7 @@ public class BudgetAction extends BudgetActionBase {
     private ActionForward getReturnToProposalForward(final BudgetForm form) throws WorkflowException {
         assert form != null : "the form is null";
         final DocumentService docService = KraServiceLocator.getService(DocumentService.class);
-        final String docNumber = form.getDocument().getParentDocument().getDocumentNumber();
+        final String docNumber = form.getBudgetDocument().getParentDocument().getDocumentNumber();
         
         final ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) docService.getByDocumentHeaderId(docNumber);
         String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getDocumentId());
@@ -677,7 +674,7 @@ public class BudgetAction extends BudgetActionBase {
     }
     
     protected void reconcileBudgetStatus(BudgetForm budgetForm) {
-        BudgetDocument budgetDocument = budgetForm.getDocument();
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
         if (budgetParent instanceof DevelopmentProposal) {
@@ -778,7 +775,7 @@ public class BudgetAction extends BudgetActionBase {
                         errorParameter);
             } else {
                 //reject the document using the service.
-                BudgetDocument document = ((BudgetForm)form).getDocument();
+                BudgetDocument document = ((BudgetForm)form).getBudgetDocument();
                 document.documentHasBeenRejected(reason);
                 KraServiceLocator.getService(KraDocumentRejectionService.class).reject(document.getDocumentNumber(), reason, 
                         GlobalVariables.getUserSession().getPrincipalId());

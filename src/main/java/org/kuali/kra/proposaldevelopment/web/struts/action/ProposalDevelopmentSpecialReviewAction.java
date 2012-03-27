@@ -75,7 +75,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         } else {
             int index = getSpecialReviewService().getProtocolIndex(prefix);
             if (index != -1) {
-                proposalSpecialReview = proposalDevelopmentForm.getDocument().getDevelopmentProposal().getPropSpecialReviews().get(index);
+                proposalSpecialReview = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews().get(index);
             }
         }
         
@@ -96,7 +96,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
      */
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
         List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
         boolean isProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
@@ -146,7 +146,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_SPECIAL_REVIEW_KEY.equals(question)) {
             ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-            ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+            ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
             
             document.getDevelopmentProposal().getPropSpecialReviews().remove(getLineToDelete(request));
         }
@@ -164,7 +164,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
         List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
         boolean isPDProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
@@ -220,7 +220,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         
         if (NumberUtils.isNumber(lineNumber)) {
             int index = Integer.parseInt(lineNumber);
-            ProposalSpecialReview proposalSpecialReview = proposalDevelopmentForm.getDocument().getDevelopmentProposal().getPropSpecialReviews().get(index);
+            ProposalSpecialReview proposalSpecialReview = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews().get(index);
             viewProtocolUrl = getViewProtocolUrl(proposalSpecialReview);
         }
         

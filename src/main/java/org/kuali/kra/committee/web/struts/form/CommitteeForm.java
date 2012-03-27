@@ -90,7 +90,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      * @return the committee document
      */
     public CommitteeDocument getCommitteeDocument() {
-        return this.getDocument();
+        return (CommitteeDocument) this.getDocument();
     }
 
     /**o
@@ -99,11 +99,6 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-    }
-    
-    @Override
-    public CommitteeDocument getDocument() {
-        return (CommitteeDocument) super.getDocument();
     }
     
     private String getCommitteeNameForHeaderDisplay(CommitteeDocument committeeDoc) {
@@ -125,7 +120,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        CommitteeDocument committeeDoc = getDocument();
+        CommitteeDocument committeeDoc = getCommitteeDocument();
         
         HeaderField documentNumber = getDocInfo().get(0);
         documentNumber.setDdAttributeEntryName("DataDictionary.CommitteeDocument.attributes.documentNumber");

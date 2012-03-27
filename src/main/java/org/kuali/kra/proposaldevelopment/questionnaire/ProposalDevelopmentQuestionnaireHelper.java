@@ -48,7 +48,7 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
     
 
     protected ProposalDevelopmentDocument getProposalDevelopmentDocument() {
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         if (document == null || document.getDevelopmentProposal() == null) {
             throw new IllegalArgumentException("invalid (null) ProposalDevelopmentDocument in ProposalDevelopmentForm");
         }
@@ -77,7 +77,7 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
      * This method is to set up things for questionnaire page to be displayed.
      */
     public void prepareView() {
-        initializePermissions(proposalDevelopmentForm.getDocument());
+        initializePermissions(proposalDevelopmentForm.getProposalDevelopmentDocument());
     }
 
     /*
