@@ -400,7 +400,9 @@ public class BudgetVersionsAction extends BudgetAction {
 
         updateThisBudget(budgetDocument);
         setBudgetParentStatus(parentDocument);
-        return super.save(mapping, form, request, response);
+        ActionForward forward = super.save(mapping, form, request, response);
+        setBudgetStatuses(parentDocument);
+        return forward;
     }
     
     public ActionForward copyBudgetPeriodOne(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
