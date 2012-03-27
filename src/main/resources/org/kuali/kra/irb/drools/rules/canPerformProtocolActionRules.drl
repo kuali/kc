@@ -219,7 +219,7 @@ end
 rule "Expedited Approval Protocol"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "205", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode == "2", protocolReviewerCountCond1 == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "205", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode == "2")
 then	
 	setAction(protocolAction, true);
 end
