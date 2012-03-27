@@ -63,6 +63,8 @@
         <property name="defaultOpen" value="false"/>
         <property name="maintainableItems">
             <list>
+                <bean parent="MaintainableFieldDefinition" p:name="projectIdLabel"/>
+                <bean parent="MaintainableFieldDefinition" p:name="projectTitleLabel"/>       
                 <bean parent="MaintainableFieldDefinition" p:name="useShortTextField1"/>
                 <bean parent="MaintainableFieldDefinition" p:name="requireShortTextField1"/>                
                 <bean parent="MaintainableFieldDefinition" p:name="shortTextField1Label"/>

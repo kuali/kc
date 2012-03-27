@@ -43,7 +43,10 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private Long coiDisclProjectsId; 
     private Long coiDisclosureId; 
     private String coiDisclosureNumber; 
-    private Integer sequenceNumber; 
+    private Integer sequenceNumber;
+    private String coiProjectId;
+    private String coiProjectTitle;
+    private String moduleItemKey;
     private String shortTextField1; 
     private String longTextField1; 
     private String shortTextField2; 
@@ -118,6 +121,24 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         this.sequenceNumber = sequenceNumber;
     }
 
+    public String getCoiProjectId() {
+        return coiProjectId;
+    }
+    public void setCoiProjectId(String coiProjectId) {
+        this.coiProjectId = coiProjectId;
+    }
+    public String getCoiProjectTitle() {
+        return coiProjectTitle;
+    }
+    public void setCoiProjectTitle(String coiProjectTitle) {
+        this.coiProjectTitle = coiProjectTitle;
+    }
+    public String getModuleItemKey() {
+        return moduleItemKey;
+    }
+    public void setModuleItemKey(String moduleItemKey) {
+        this.moduleItemKey = moduleItemKey;
+    }
     public CoiDisclosure getCoiDisclosure() {
         return coiDisclosure;
     }
@@ -303,18 +324,12 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
 
     @Override
     public String getProjectName() {
-        return getLongTextField1();
+        return getCoiProjectTitle();
     }
     
-    //This is used for system event disclosures only
     @Override
     public String getProjectId() {
-        return getShortTextField1();
-    }
-    
-    //This is used for system event disclosures only
-    public String getModuleItemKey() {
-        return getShortTextField2();
+        return getCoiProjectId();
     }
     
     public boolean isProposalEvent() {

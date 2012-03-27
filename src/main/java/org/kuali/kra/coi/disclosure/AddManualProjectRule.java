@@ -63,6 +63,9 @@ public class AddManualProjectRule extends ResearchDocumentRuleBase implements Bu
     
     private boolean validateRequiredFields(CoiDisclProject coiDisclProject, CoiDisclosureEventType disclosureEventType) {
         boolean valid = true;
+        
+        valid = valid && validateRequiredField("coiProjectId", coiDisclProject.getCoiProjectId(), disclosureEventType.getProjectIdLabel());
+        valid = valid && validateRequiredField("coiProjectTitle", coiDisclProject.getCoiProjectTitle(), disclosureEventType.getProjectTitleLabel());
 
         if (disclosureEventType.isUseShortTextField1() && disclosureEventType.isRequireShortTextField1()) {
             valid = valid && validateRequiredField("shortTextField1", coiDisclProject.getShortTextField1(), disclosureEventType.getShortTextField1Label());
