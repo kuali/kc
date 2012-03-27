@@ -22,7 +22,7 @@
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
                 <div>
                 <h3>
-    		        <span class="subhead-left"  style="${style}">Award Number: ${disclProject.shortTextField1}</span>
+    		        <span class="subhead-left"  style="${style}">Award Number: ${disclProject.coiProjectId}</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
               

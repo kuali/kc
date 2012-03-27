@@ -519,6 +519,9 @@
 		<field-descriptor name="coiDisclosureId" column="COI_DISCLOSURE_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="coiDisclosureNumber" column="COI_DISCLOSURE_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="coiProjectId" column="COI_PROJECT_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="coiProjectTitle" column="COI_PROJECT_TITLE" jdbc-type="VARCHAR" />
+		<field-descriptor name="moduleItemKey" column="MODULE_ITEM_KEY" jdbc-type="VARCHAR" />		
 		<field-descriptor name="shortTextField1" column="SHRT_TXT_FLD_1" jdbc-type="VARCHAR" />
 		<field-descriptor name="longTextField1" column="LNG_TXT_FLD_1" jdbc-type="VARCHAR" />
 		<field-descriptor name="shortTextField2" column="SHRT_TXT_FLD_2" jdbc-type="VARCHAR" />
@@ -548,13 +551,13 @@
             <foreignkey field-ref="selectBox1"/>
         </reference-descriptor>
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="shortTextField1"/>
+            <foreignkey field-ref="coiProjectId"/>
         </reference-descriptor>
         <reference-descriptor name="proposal" class-ref="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="shortTextField1"/>
+            <foreignkey field-ref="coiProjectId"/>
         </reference-descriptor>
         <reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="shortTextField1"/>
+            <foreignkey field-ref="coiProjectId"/>
         </reference-descriptor>
         <reference-descriptor name="coiDisclosureEventType" class-ref="org.kuali.kra.coi.CoiDisclosureEventType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="disclosureEventType"/>
@@ -593,7 +596,10 @@
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="excludeFromMasterDisclosure" column="EXCLUDE_FROM_MASTER_DISCL" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="excludeFinancialEntities" column="EXCLUDE_FIN_ENT" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />                
+        <field-descriptor name="excludeFinancialEntities" column="EXCLUDE_FIN_ENT" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="systemEvent" column="SYSTEM_EVENT" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />                
+        <field-descriptor name="projectIdLabel" column="PROJECT_ID_LABEL" jdbc-type="VARCHAR" />
+        <field-descriptor name="projectTitleLabel" column="PROJECT_TITLE_LABEL" jdbc-type="VARCHAR" />                        
         <field-descriptor name="useShortTextField1" column="USE_SHRT_TXT_FLD_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="requireShortTextField1" column="REQ_SHRT_TXT_FLD_1" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />        
         <field-descriptor name="shortTextField1Label" column="SHRT_TXT_FLD_1_LABEL" jdbc-type="VARCHAR" />

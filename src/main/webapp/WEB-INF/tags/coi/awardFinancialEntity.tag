@@ -35,7 +35,7 @@
                    <th><div align="right">Title:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].award.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.shortTextField1}" /> 
+                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].award.title" readOnly="true" attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
 					</div>
 				  </td>
                                     <th><div align="right">Award Date:</div></th> 

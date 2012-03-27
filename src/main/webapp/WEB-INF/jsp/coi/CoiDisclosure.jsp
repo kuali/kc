@@ -89,123 +89,129 @@
         	       $j.getJSON("coiDisclosure.do?methodToCall=getDisclosureEventTypeInfo&eventType=" + eventTypeValue,
         			         function(data) {
         		                 //alert("JSON data: " + data.useShortTextField1);
+        		                 
+        		                 //Project Id and Project Title are always shown and are required
+        		                 $j("#newpEvent-table tr:eq(1)").show();
+                                 $j("#newpEvent-table tr:eq(1) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.projectIdLabel + ":");
+                                 $j("#newpEvent-table tr:eq(2)").show();
+                                 $j("#newpEvent-table tr:eq(2) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.projectTitleLabel + ":");
                
         		                 if (data.disclosureEventType.useLongTextField1) {
-                                     $j("#newpEvent-table tr:eq(1)").show();
+                                     $j("#newpEvent-table tr:eq(3)").show();
                                      if (data.disclosureEventType.requireLongTextField1) {
-                                         $j("#newpEvent-table tr:eq(1) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.longTextField1Label + ":");
+                                         $j("#newpEvent-table tr:eq(3) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.longTextField1Label + ":");
                                      } else {
-                                         $j("#newpEvent-table tr:eq(1) th:eq(0) span").html(data.disclosureEventType.longTextField1Label + ":");
+                                         $j("#newpEvent-table tr:eq(3) th:eq(0) span").html(data.disclosureEventType.longTextField1Label + ":");
                                      }
         		                 } else {
-                                     $j("#newpEvent-table tr:eq(1)").hide();
+                                     $j("#newpEvent-table tr:eq(3)").hide();
         		                 }
         		                 
                                  if (data.disclosureEventType.useShortTextField1) {
-                                     $j("#newpEvent-table tr:eq(2)").show();
-                                     if (data.disclosureEventType.requireShortTextField1) {
-                                         $j("#newpEvent-table tr:eq(2) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.shortTextField1Label + ":");
-                                     } else {
-                                         $j("#newpEvent-table tr:eq(2) th:eq(0) span").html(data.disclosureEventType.shortTextField1Label + ":");
-                                     }
-                                 } else {
-                                     $j("#newpEvent-table tr:eq(2)").hide();
-                                 }       
-		                 
-                                 if (data.disclosureEventType.useShortTextField3) {
-                                     $j("#newpEvent-table tr:eq(3)").show();
-                                     if (data.disclosureEventType.requireShortTextField3) {
-                                         $j("#newpEvent-table tr:eq(3) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.shortTextField3Label + ":"); 
-                                     } else {
-                                        $j("#newpEvent-table tr:eq(3) th:eq(0) span").html(data.disclosureEventType.shortTextField3Label + ":");
-                                     }
-                                 } else {
-                                     $j("#newpEvent-table tr:eq(3)").hide();
-                                 }
-                                 
-                                 if (data.disclosureEventType.useLongTextField2) {
                                      $j("#newpEvent-table tr:eq(4)").show();
-                                     if (data.disclosureEventType.requireLongTextField2) {
-                                         $j("#newpEvent-table tr:eq(4) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.longTextField2Label + ":");
+                                     if (data.disclosureEventType.requireShortTextField1) {
+                                         $j("#newpEvent-table tr:eq(4) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.shortTextField1Label + ":");
                                      } else {
-                                         $j("#newpEvent-table tr:eq(4) th:eq(0) span").html(data.disclosureEventType.longTextField2Label + ":");
+                                         $j("#newpEvent-table tr:eq(4) th:eq(0) span").html(data.disclosureEventType.shortTextField1Label + ":");
                                      }
                                  } else {
                                      $j("#newpEvent-table tr:eq(4)").hide();
-                                 } 
-                                 
-                                 if (data.disclosureEventType.useShortTextField2) {
+                                 }       
+		                 
+                                 if (data.disclosureEventType.useShortTextField3) {
                                      $j("#newpEvent-table tr:eq(5)").show();
-                                     if (data.disclosureEventType.requireShortTextField2) {
-                                         $j("#newpEvent-table tr:eq(5) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.shortTextField2Label + ":");
+                                     if (data.disclosureEventType.requireShortTextField3) {
+                                         $j("#newpEvent-table tr:eq(5) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.shortTextField3Label + ":"); 
                                      } else {
-                                         $j("#newpEvent-table tr:eq(5) th:eq(0) span").html(data.disclosureEventType.shortTextField2Label + ":");
+                                        $j("#newpEvent-table tr:eq(5) th:eq(0) span").html(data.disclosureEventType.shortTextField3Label + ":");
                                      }
                                  } else {
                                      $j("#newpEvent-table tr:eq(5)").hide();
                                  }
                                  
-                                 if (data.disclosureEventType.useNumberField1) {
+                                 if (data.disclosureEventType.useLongTextField2) {
                                      $j("#newpEvent-table tr:eq(6)").show();
-                                     if (data.disclosureEventType.requireNumberField1) {
-                                         $j("#newpEvent-table tr:eq(6) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.numberField1Label + ":");
+                                     if (data.disclosureEventType.requireLongTextField2) {
+                                         $j("#newpEvent-table tr:eq(6) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.longTextField2Label + ":");
                                      } else {
-                                         $j("#newpEvent-table tr:eq(6) th:eq(0) span").html(data.disclosureEventType.numberField1Label + ":");
+                                         $j("#newpEvent-table tr:eq(6) th:eq(0) span").html(data.disclosureEventType.longTextField2Label + ":");
                                      }
                                  } else {
-                                     $j("#newpEvent-table tr:eq(6)").hide();                              	 
+                                     $j("#newpEvent-table tr:eq(6)").hide();
+                                 } 
+                                 
+                                 if (data.disclosureEventType.useShortTextField2) {
+                                     $j("#newpEvent-table tr:eq(7)").show();
+                                     if (data.disclosureEventType.requireShortTextField2) {
+                                         $j("#newpEvent-table tr:eq(7) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.shortTextField2Label + ":");
+                                     } else {
+                                         $j("#newpEvent-table tr:eq(7) th:eq(0) span").html(data.disclosureEventType.shortTextField2Label + ":");
+                                     }
+                                 } else {
+                                     $j("#newpEvent-table tr:eq(7)").hide();
+                                 }
+                                 
+                                 if (data.disclosureEventType.useNumberField1) {
+                                     $j("#newpEvent-table tr:eq(8)").show();
+                                     if (data.disclosureEventType.requireNumberField1) {
+                                         $j("#newpEvent-table tr:eq(8) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.numberField1Label + ":");
+                                     } else {
+                                         $j("#newpEvent-table tr:eq(8) th:eq(0) span").html(data.disclosureEventType.numberField1Label + ":");
+                                     }
+                                 } else {
+                                     $j("#newpEvent-table tr:eq(8)").hide();                              	 
                                  }
                                  
                                  if (data.disclosureEventType.useLongTextField3) {
-                                     $j("#newpEvent-table tr:eq(7)").show();
+                                     $j("#newpEvent-table tr:eq(9)").show();
                                      if (data.disclosureEventType.requireLongTextField3) {
-                                         $j("#newpEvent-table tr:eq(7) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.longTextField3Label + ":");
+                                         $j("#newpEvent-table tr:eq(9) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.longTextField3Label + ":");
                                      } else {
-                                         $j("#newpEvent-table tr:eq(7) th:eq(0) span").html(data.disclosureEventType.longTextField3Label + ":");
+                                         $j("#newpEvent-table tr:eq(9) th:eq(0) span").html(data.disclosureEventType.longTextField3Label + ":");
                                      }
                                  } else {
-                                     $j("#newpEvent-table tr:eq(7)").hide();                                 
+                                     $j("#newpEvent-table tr:eq(9)").hide();                                 
                                  }
                                  
                                  if (data.disclosureEventType.useNumberField2) {
-                                     $j("#newpEvent-table tr:eq(8)").show();
+                                     $j("#newpEvent-table tr:eq(10)").show();
                                      if (data.disclosureEventType.requireNumberField2) {
-                                         $j("#newpEvent-table tr:eq(8) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.numberField2Label + ":");
+                                         $j("#newpEvent-table tr:eq(10) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.numberField2Label + ":");
                                      } else {
-                                         $j("#newpEvent-table tr:eq(8) th:eq(0) span").html(data.disclosureEventType.numberField2Label + ":");
+                                         $j("#newpEvent-table tr:eq(10) th:eq(0) span").html(data.disclosureEventType.numberField2Label + ":");
                                      }
                                  } else {
-                                     $j("#newpEvent-table tr:eq(8)").hide();                           
+                                     $j("#newpEvent-table tr:eq(10)").hide();                           
                                  }
                                  
                                  if (data.disclosureEventType.useDateField1) {
-                                     $j("#newpEvent-table tr:eq(9)").show();
+                                     $j("#newpEvent-table tr:eq(11)").show();
                                      if (data.disclosureEventType.requireDateField1) {
-                                         $j("#newpEvent-table tr:eq(9) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.dateField1Label + ":");
+                                         $j("#newpEvent-table tr:eq(11) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.dateField1Label + ":");
                                      } else {
-                                         $j("#newpEvent-table tr:eq(9) th:eq(0) span").html(data.disclosureEventType.dateField1Label + ":");
+                                         $j("#newpEvent-table tr:eq(11) th:eq(0) span").html(data.disclosureEventType.dateField1Label + ":");
                                      }
                                  } else {
-                                     $j("#newpEvent-table tr:eq(9)").hide();
+                                     $j("#newpEvent-table tr:eq(11)").hide();
                                  }
                                  
                                  if (data.disclosureEventType.useDateField2) {
-                                     $j("#newpEvent-table tr:eq(10)").show();
+                                     $j("#newpEvent-table tr:eq(12)").show();
                                      if (data.disclosureEventType.requireDateField2) {
-                                         $j("#newpEvent-table tr:eq(10) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.dateField2Label +":");
+                                         $j("#newpEvent-table tr:eq(12) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.dateField2Label +":");
                                      } else {
-                                         $j("#newpEvent-table tr:eq(10) th:eq(0) span").html(data.disclosureEventType.dateField2Label +":");
+                                         $j("#newpEvent-table tr:eq(12) th:eq(0) span").html(data.disclosureEventType.dateField2Label +":");
                                      }
                                  } else {
-                                     $j("#newpEvent-table tr:eq(10)").hide();                   
+                                     $j("#newpEvent-table tr:eq(12)").hide();                   
                                  }
                                  
                                  if (data.disclosureEventType.useSelectBox1) {
-                                     $j("#newpEvent-table tr:eq(11)").show();
+                                     $j("#newpEvent-table tr:eq(13)").show();
                                      if (data.disclosureEventType.requireSelectBox1) {
-                                         $j("#newpEvent-table tr:eq(11) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.selectBox1Label +":");
+                                         $j("#newpEvent-table tr:eq(13) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.selectBox1Label +":");
                                      } else {
-                                         $j("#newpEvent-table tr:eq(11) th:eq(0) span").html(data.disclosureEventType.selectBox1Label +":");
+                                         $j("#newpEvent-table tr:eq(13) th:eq(0) span").html(data.disclosureEventType.selectBox1Label +":");
                                      }
                                      
                                      var mySelect = document.getElementById("selectBox1-placeholder");
@@ -221,7 +227,7 @@
                                        }
                                      }
                                  } else {
-                                     $j("#newpEvent-table tr:eq(11)").hide();                                	 
+                                     $j("#newpEvent-table tr:eq(13)").hide();                                	 
                                  }
         	                 }
         	             );
@@ -239,7 +245,9 @@
                 $j("#newpEvent-table tr:eq(8)").hide();                   
                 $j("#newpEvent-table tr:eq(9)").hide();                   
                 $j("#newpEvent-table tr:eq(10)").hide();
-                $j("#newpEvent-table tr:eq(11)").hide();                   
+                $j("#newpEvent-table tr:eq(11)").hide(); 
+                $j("#newpEvent-table tr:eq(12)").hide();                   
+                $j("#newpEvent-table tr:eq(13)").hide();                   
             }
             
             function setSelectBox1Value(selectBox) {

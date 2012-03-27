@@ -43,7 +43,12 @@ public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase imp
     private String description;
     private boolean excludeFromMasterDisclosure;
     private boolean excludeFinancialEntities;
+    private boolean systemEvent;
     private boolean active;
+    
+    //required labels
+    private String projectIdLabel;
+    private String projectTitleLabel;
     
     private boolean useShortTextField1;
     private boolean useShortTextField2;
@@ -125,6 +130,16 @@ public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase imp
 
     public void setExcludeFinancialEntities(boolean excludeFinancialEntities) {
         this.excludeFinancialEntities = excludeFinancialEntities;
+    }
+
+
+    public boolean isSystemEvent() {
+        return systemEvent;
+    }
+
+
+    public void setSystemEvent(boolean systemEvent) {
+        this.systemEvent = systemEvent;
     }
 
 
@@ -477,10 +492,23 @@ public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase imp
     }
 
 
-    public boolean isManualDisclosureType() {
-        //Using any of the custom labels indicates a manual disclosure...
-        return useShortTextField1 || useShortTextField2 || useShortTextField3 || 
-               useLongTextField1 || useLongTextField2 || useLongTextField3 ||
-               useNumberField1 || useNumberField2 || useDateField1 || useDateField2;
+    public String getProjectIdLabel() {
+        return projectIdLabel;
     }
+
+
+    public void setProjectIdLabel(String projectIdLabel) {
+        this.projectIdLabel = projectIdLabel;
+    }
+
+
+    public String getProjectTitleLabel() {
+        return projectTitleLabel;
+    }
+
+
+    public void setProjectTitleLabel(String projectTitleLabel) {
+        this.projectTitleLabel = projectTitleLabel;
+    }
+
 }
