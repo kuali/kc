@@ -124,7 +124,7 @@
 	<tr>
             	<th colspan="4"><div align="right">Total Amount for ${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElementName }:</div></th>
             	<td><div align="center">
-            		${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].objectTotal }
+					<fmt:formatNumber value="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].objectTotal }" type="currency" currencySymbol="" maxFractionDigits="2" />
             	</div></td>
             	<td>&nbsp;</td>
             </tr>
