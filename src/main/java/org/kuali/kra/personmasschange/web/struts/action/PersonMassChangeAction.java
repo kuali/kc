@@ -57,7 +57,7 @@ public class PersonMassChangeAction extends KraTransactionalDocumentActionBase {
         }
 
         if (KewApiConstants.INITIATE_COMMAND.equals(command)) {
-            personMassChangeForm.getDocument().initialize();
+            personMassChangeForm.getPersonMassChangeDocument().initialize();
         } else {
             personMassChangeForm.initialize();
         }

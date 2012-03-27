@@ -300,7 +300,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);
         if (isAuthorized(task)) {
-            String newDocId = getProtocolCopyService().copyProtocol(protocolForm.getDocument()).getDocumentNumber();
+            String newDocId = getProtocolCopyService().copyProtocol(protocolForm.getProtocolDocument()).getDocumentNumber();
 
             // Switch over to the new protocol document and
             // go to the Protocol tab web page.
@@ -308,7 +308,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             protocolForm.setDocId(newDocId);
             protocolForm.setViewOnly(false);
             loadDocument(protocolForm);
-            protocolForm.getDocument().setViewOnly(protocolForm.isViewOnly());
+            protocolForm.getProtocolDocument().setViewOnly(protocolForm.isViewOnly());
             protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
             protocolForm.getProtocolHelper().prepareView();
             protocolForm.getActionHelper().prepareCommentsView();
@@ -489,7 +489,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     private ActionForward routeProtocolToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm) {
-        String routeHeaderId = protocolForm.getDocument().getDocumentNumber();
+        String routeHeaderId = protocolForm.getProtocolDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ACTIONS, "ProtocolDocument");
         
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
@@ -844,7 +844,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     private StrutsConfirmation buildDeleteProtocolConfirmationQuestion(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProtocolDocument doc = ((ProtocolForm) form).getDocument();
+        ProtocolDocument doc = ((ProtocolForm) form).getProtocolDocument();
         String protocolNumber = doc.getProtocol().getProtocolNumber();
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROTOCOL_KEY,
                 KeyConstants.QUESTION_DELETE_PROTOCOL_CONFIRMATION, protocolNumber);
@@ -1128,7 +1128,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         byte[] attachmentFile =null;
         final AttachmentFile file = attachment.getFile();
         Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
-        Protocol protocolCurrent = form.getDocument().getProtocol();
+        Protocol protocolCurrent = form.getProtocolDocument().getProtocol();
         int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
         try {
             if(printableArtifacts.isWatermarkEnabled()){
@@ -1168,7 +1168,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         Date startDate = protocolForm.getActionHelper().getFilteredHistoryStartDate();
         Date endDate = protocolForm.getActionHelper().getFilteredHistoryEndDate();
         
-        if (applyRules(new ProtocolHistoryFilterDatesEvent(protocolForm.getDocument(), startDate, endDate))) {
+        if (applyRules(new ProtocolHistoryFilterDatesEvent(protocolForm.getProtocolDocument(), startDate, endDate))) {
             protocolForm.getActionHelper().initFilterDatesView();
         }
         
@@ -3519,7 +3519,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         if(!hasDocumentStateChanged(protocolForm)) {
             if (hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolForm.getProtocolDocument().getProtocol())) {
-                if (applyRules(new ProtocolManageReviewAttachmentEvent(protocolForm.getDocument(),
+                if (applyRules(new ProtocolManageReviewAttachmentEvent(protocolForm.getProtocolDocument(),
                     "actionHelper.protocolManageReviewCommentsBean.reviewAttachmentsBean.", protocolForm.getActionHelper()
                             .getProtocolManageReviewCommentsBean().getReviewAttachmentsBean().getReviewAttachments()))) {
                     ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();

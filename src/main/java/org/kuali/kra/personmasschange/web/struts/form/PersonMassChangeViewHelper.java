@@ -183,7 +183,7 @@ public class PersonMassChangeViewHelper extends PersonMassChangeHelperBase {
      * Prepares the fields to render the view.
      */
     public void prepareView() {
-        PersonMassChange personMassChange = form.getDocument().getPersonMassChange();
+        PersonMassChange personMassChange = form.getPersonMassChangeDocument().getPersonMassChange();
 
         prepareReplaceeView(personMassChange, personMassChange.getReplaceePersonId(), personMassChange.getReplaceeRolodexId());
         prepareReplacerView(personMassChange, personMassChange.getReplacerPersonId(), personMassChange.getReplacerRolodexId());

@@ -48,7 +48,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecial
 
     @Override
     protected boolean hasModifySpecialReviewPermission(String principalId) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, form.getDocument().getProtocol());
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, form.getProtocolDocument().getProtocol());
         return getTaskAuthorizationService().isAuthorized(principalId, task);
     }
     
@@ -59,7 +59,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecial
 
     @Override
     protected List<ProtocolSpecialReview> getSpecialReviews() {
-        return form.getDocument().getProtocol().getSpecialReviews();
+        return form.getProtocolDocument().getProtocol().getSpecialReviews();
     }
     
     public TaskAuthorizationService getTaskAuthorizationService() {

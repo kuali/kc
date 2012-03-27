@@ -84,7 +84,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         Boolean mandatoryFormNotAvailable = false;
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
         
@@ -271,7 +271,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        final ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getDocument();
+        final ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
         if (!((ProposalDevelopmentForm)form).isGrantsGovEnabled()) {
             GlobalVariables.getMessageMap().putWarning(Constants.NO_FIELD, KeyConstants.ERROR_IF_GRANTS_GOV_IS_DISABLED);

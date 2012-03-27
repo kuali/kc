@@ -102,7 +102,7 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
      * @return
      */
     protected ProposalDevelopmentDocument getProposalDevelopmentDocument() {
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getDocument();
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         if (document == null || document.getDevelopmentProposal() == null) {
             throw new IllegalArgumentException("invalid (null) ProposalDevelopmentDocument in ProposalDevelopmentForm");
         }

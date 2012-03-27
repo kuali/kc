@@ -22,6 +22,7 @@ import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
@@ -149,7 +150,7 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
          super.populateHeaderFields(workflowDocument);
 
-        SubAwardDocument subAwardDocument = getDocument();
+        SubAwardDocument subAwardDocument = getSubAwardDocument();
         getDocInfo().clear();
         String docIdAndStatus = COLUMN;
         if (workflowDocument != null) {
@@ -175,14 +176,6 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
 
 
     }
-    /**
-     * Retrieves the {@link SubAwardDocument SubAwardDocument}.
-     * @return {@link SubAwardDocument SubAwardDocument}
-     */
-    @Override
-    public SubAwardDocument getDocument() {
-        return (SubAwardDocument) super.getDocument();
-    }
     
     /**
      * 
@@ -190,7 +183,7 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
      */
     public void initializeFormOrDocumentBasedOnCommand(){
         if (KewApiConstants.INITIATE_COMMAND.equals(getCommand())) {
-            getDocument().initialize();
+            getSubAwardDocument().initialize();
         }else{
             initialize();
         }

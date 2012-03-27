@@ -50,8 +50,8 @@ public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocument
         ProtocolOnlineReviewForm protocolOnlineReviewForm = (ProtocolOnlineReviewForm)form;
         super.loadDocument(protocolOnlineReviewForm);
         Map<String,Object> keymap = new HashMap<String,Object>();
-                if (protocolOnlineReviewForm.getDocument().getProtocolOnlineReview().isActive()) {
-            keymap.put( "protocolId", protocolOnlineReviewForm.getDocument().getProtocolOnlineReview().getProtocolId() );
+                if (protocolOnlineReviewForm.getProtocolOnlineReviewDocument().getProtocolOnlineReview().isActive()) {
+            keymap.put( "protocolId", protocolOnlineReviewForm.getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocolId() );
             Protocol protocol = (Protocol)getBusinessObjectService().findByPrimaryKey(Protocol.class, keymap );
             if (isOnlineReviewEnabled(form, protocol)) {
                 response.sendRedirect(String.format("protocolOnlineReview.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_DOCUMENT_NUMBER,protocol.getProtocolDocument().getDocumentNumber()));

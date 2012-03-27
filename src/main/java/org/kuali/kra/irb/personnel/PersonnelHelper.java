@@ -61,7 +61,7 @@ public class PersonnelHelper implements Serializable {
     }
     
     private Protocol getProtocol() {
-        ProtocolDocument document = form.getDocument();
+        ProtocolDocument document = form.getProtocolDocument();
         if (document == null || document.getProtocol() == null) {
             throw new IllegalArgumentException("invalid (null) ProtocolDocument in ProtocolForm");
         }
@@ -102,7 +102,7 @@ public class PersonnelHelper implements Serializable {
     }
 
     public List<ProtocolUnit> getNewProtocolPersonUnits() {
-        if (getForm().getDocument().getProtocol().getProtocolPersons().size() > this.newProtocolPersonUnits.size()) {
+        if (getForm().getProtocolDocument().getProtocol().getProtocolPersons().size() > this.newProtocolPersonUnits.size()) {
             this.newProtocolPersonUnits.add(this.newProtocolPersonUnits.size(), new ProtocolUnit());
         }
         return newProtocolPersonUnits;
@@ -113,7 +113,7 @@ public class PersonnelHelper implements Serializable {
     }
     
     public List<ProtocolAttachmentPersonnel> getNewProtocolAttachmentPersonnels() {
-        if (getForm().getDocument().getProtocol().getProtocolPersons().size() > this.newProtocolAttachmentPersonnels.size()) {
+        if (getForm().getProtocolDocument().getProtocol().getProtocolPersons().size() > this.newProtocolAttachmentPersonnels.size()) {
             this.newProtocolAttachmentPersonnels.add(this.newProtocolAttachmentPersonnels.size(), new ProtocolAttachmentPersonnel());
         }
         return newProtocolAttachmentPersonnels;

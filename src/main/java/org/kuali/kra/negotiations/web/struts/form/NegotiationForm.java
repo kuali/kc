@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivityHistoryLineBean;
@@ -125,14 +126,9 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
 
     
     public NegotiationDocument getNegotiationDocument() {
-        return this.getDocument();
+        return (NegotiationDocument) this.getDocument();
     }
     
-    @Override
-    public NegotiationDocument getDocument() {
-        return (NegotiationDocument) super.getDocument();
-    }
-
     public List<NegotiationUnassociatedDetail> getNegotiationUnassociatedDetailsToDelete() {
         return negotiationUnassociatedDetailsToDelete;
     }
@@ -218,7 +214,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        NegotiationDocument nd = getDocument();
+        NegotiationDocument nd = getNegotiationDocument();
         final String ATTRIB_NEG_ID = "DataDictionary.Negotiation.attributes.negotiationId";
         final String ATTRIB_NEG_USER_NAME = "DataDictionary.Negotiation.attributes.negotiatorUserName";
         

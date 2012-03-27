@@ -21,7 +21,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -48,8 +47,6 @@ import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -58,8 +55,6 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.impl.KewImplConstants;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
@@ -139,15 +134,6 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setNewProtocolReferenceBean(new ProtocolReferenceBean());
         setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
         setNotificationHelper(new NotificationHelper<IRBNotificationContext>());
-    }
-
-    /**
-     * Gets a {@link ProtocolDocument ProtocolDocument}.
-     * @return {@link ProtocolDocument ProtocolDocument}
-     */
-    @Override
-    public ProtocolDocument getDocument() {
-        return (ProtocolDocument) super.getDocument();
     }
 
     /**
@@ -255,7 +241,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        ProtocolDocument pd = getDocument();
+        ProtocolDocument pd = getProtocolDocument();
         
         HeaderField documentNumber = getDocInfo().get(0);
         documentNumber.setDdAttributeEntryName("DataDictionary.ProtocolDocument.attributes.documentNumber");
@@ -435,7 +421,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     }
 
     public ProtocolDocument getProtocolDocument() {
-        return getDocument();
+        return (ProtocolDocument) getDocument();
     }
 
     public QuestionnaireHelper getQuestionnaireHelper() {
