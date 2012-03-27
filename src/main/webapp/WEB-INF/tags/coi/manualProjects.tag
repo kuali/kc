@@ -40,6 +40,24 @@
             </tr>
             <tr>
                 <th align="right" valign="middle">
+                   <span><kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /></span>
+                </th>
+                <td align="left" valign="middle" colspan="2">
+                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectId" 
+                            attributeEntry="${coiDisclProjectAttributes.coiProjectId}" /> 
+                </td>
+            </tr>
+            <tr>
+                <th align="right" valign="middle">
+                   <span><kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /></span>
+                </th>
+                <td align="left" valign="middle" colspan="2">
+                    <kul:htmlControlAttribute property="disclosureHelper.newCoiDisclProject.coiProjectTitle" 
+                            attributeEntry="${coiDisclProjectAttributes.coiProjectTitle}" /> 
+                </td>
+            </tr>                        
+            <tr>
+                <th align="right" valign="middle">
                    <span><kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.longTextField1}" /></span>
                 </th>
                 <td align="left" valign="middle" colspan="2">

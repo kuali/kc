@@ -520,7 +520,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
         });
         final CoiDisclProject coiDisclProject = new CoiDisclProject();
         coiDisclProject.setCoiDisclosureId(1L);
-        coiDisclProject.setShortTextField1(PROJECT_ID);
+        coiDisclProject.setCoiProjectId(PROJECT_ID);
 
         CoiDiscDetail coiDisDetail = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
         CoiDisclosure coiDisclosure = new CoiDisclosure() {
@@ -578,7 +578,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
 
         final CoiDisclProject coiDisclProject = new CoiDisclProject();
         coiDisclProject.setCoiDisclosureId(1L);
-        coiDisclProject.setShortTextField1(PROJECT_ID);
+        coiDisclProject.setCoiProjectId(PROJECT_ID);
 
         CoiDiscDetail coiDisDetail = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure, CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
         CoiDiscDetail coiDisDetail1 = createNewCoiDiscDetail(CoiDisclosure.MANUAL_DISCL_MODULE_CODE, personFinIntDisclosure1, CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
@@ -907,13 +907,13 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
                 Map <String, Object> fieldValues = new HashMap<String, Object>();
                 fieldValues.put("coiDisclosureNumber", "1");
                 // this is unique
-                fieldValues.put("shortTextField1", "1");
+                fieldValues.put("coiProjectId", "1");
                 atLeast(1).of(businessObjectService).findMatching(CoiDisclProject.class, fieldValues);;
                 will(returnValue(coiDisclProjects));
                 Map <String, Object> fieldValues1 = new HashMap<String, Object>();
                 fieldValues1.put("coiDisclosureNumber", "1");
                 // this is unique
-                fieldValues1.put("shortTextField1", "2");
+                fieldValues1.put("coiProjectId", "2");
                 atLeast(1).of(businessObjectService).findMatching(CoiDisclProject.class, fieldValues1);
                 will(returnValue(coiDisclProjects1));
                 
@@ -943,7 +943,9 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
         CoiDisclProject coiDisclProject = new CoiDisclProject();
         coiDisclProject.setCoiDisclosureId(coiDisclosureId);
         coiDisclProject.setCoiDisclosureNumber("1");
-        coiDisclProject.setShortTextField1("1");
+        coiDisclProject.setCoiProjectId("1");
+        coiDisclProject.setCoiProjectTitle("Test Title");
+        coiDisclProject.setModuleItemKey("1");
         return coiDisclProject;
     
     }
