@@ -390,6 +390,7 @@ public class CoiDisclosureAction extends CoiAction {
         CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
         disclosureHelper.getNewCoiDisclProject().setCoiDisclosure(coiDisclosure);
         disclosureHelper.getNewCoiDisclProject().setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
+        disclosureHelper.getNewCoiDisclProject().setModuleItemKey(disclosureHelper.getNewCoiDisclProject().getCoiProjectId());
         if (checkRule(new AddManualProjectEvent("disclosureHelper.newCoiDisclProject", disclosureHelper.getNewCoiDisclProject()))) {
             getCoiDisclosureService().initializeDisclosureDetails(disclosureHelper.getNewCoiDisclProject());
             disclosureHelper.getNewCoiDisclProject().setSequenceNumber(coiDisclosure.getSequenceNumber());
