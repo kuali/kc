@@ -36,6 +36,9 @@
                 <ref bean="CoiDisclProject-coiDisclosureId" />
                 <ref bean="CoiDisclProject-coiDisclosureNumber" />
                 <ref bean="CoiDisclProject-sequenceNumber" />
+                <ref bean="CoiDisclProject-coiProjectId" />
+                <ref bean="CoiDisclProject-coiProjectTitle" />
+                <ref bean="CoiDisclProject-moduleItemKey" />                
                 <ref bean="CoiDisclProject-shortTextField1" />
                 <ref bean="CoiDisclProject-longTextField1" />
                 <ref bean="CoiDisclProject-shortTextField2" />
@@ -127,6 +130,60 @@
         <property name="summary" value="Sequence Number" />
         <property name="description" value="Sequence Number" />
     </bean>
+
+    <bean id="CoiDisclProject-coiProjectId" parent="CoiDisclProject-coiProjectId-parentBean" />
+    <bean id="CoiDisclProject-coiProjectId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiProjectId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="COI Project Id" />
+        <property name="shortLabel" value="COI Project Id" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="COI Project Id" />
+        <property name="description" value="COI Project Id" />
+    </bean>
+    
+    <bean id="CoiDisclProject-coiProjectTitle" parent="CoiDisclProject-coiProjectTitle-parentBean" />
+    <bean id="CoiDisclProject-coiProjectTitle-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiProjectTitle" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="COI Project Title" />
+        <property name="shortLabel" value="COI Project Title" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="COI Project Title" />
+        <property name="description" value="COI Project Title" />
+    </bean>    
+
+    <bean id="CoiDisclProject-moduleItemKey" parent="CoiDisclProject-moduleItemKey-parentBean" />
+    <bean id="CoiDisclProject-moduleItemKey-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="moduleItemKey" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Module Item Key" />
+        <property name="shortLabel" value="Module Item Key" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="Module Item Key" />
+        <property name="description" value="Module Item Key" />
+    </bean> 
 
     <bean id="CoiDisclProject-shortTextField1" parent="CoiDisclProject-shortTextField1-parentBean" />
     <bean id="CoiDisclProject-shortTextField1-parentBean" abstract="true" parent="AttributeDefinition" >

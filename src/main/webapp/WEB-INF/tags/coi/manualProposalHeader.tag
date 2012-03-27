@@ -22,7 +22,7 @@
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
                 <div>
                 <h3>
-    		        <span class="subhead-left" style="${style}">Proposal Number: ${disclProject.shortTextField1}</span>
+    		        <span class="subhead-left" style="${style}">Proposal Number: ${disclProject.coiProjectId}</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
               
@@ -33,13 +33,13 @@
                                     <th><div align="right">Proposal Name</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					${disclProject.longTextField1}
+					${disclProject.coiProjectTitle}
 					</div>
 				  </td>
                                     <th><div align="right">Sponsor</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					${disclProject.longTextField2}
+					${disclProject.longTextField1}
 					</div>
 				  </td>
                                   </tr>
