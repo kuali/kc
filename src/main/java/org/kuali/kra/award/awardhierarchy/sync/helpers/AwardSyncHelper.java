@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.helpers;
 
-import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
@@ -36,7 +35,6 @@ public interface AwardSyncHelper {
      * @param award
      * @param change
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      * @throws ClassNotFoundException
@@ -45,7 +43,7 @@ public interface AwardSyncHelper {
      * @throws AwardSyncException
      */
     void applySyncChange(Award award, AwardSyncChange change) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, InvocationTargetException, 
+        throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, 
         ClassNotFoundException, NoSuchMethodException, InstantiationException, AwardSyncException;
     
     /**
@@ -55,12 +53,11 @@ public interface AwardSyncHelper {
      * @param attrName
      * @return
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
     AwardSyncXmlExport buildXmlExport(PersistableBusinessObject syncable, String attrName) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, 
+        throws NoSuchFieldException, IllegalAccessException, 
         InvocationTargetException;
     
     /**
@@ -71,13 +68,12 @@ public interface AwardSyncHelper {
      * @param boAttrName attribute on the syncableObject that should be synced by this change
      * @return
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
     AwardSyncChange createAwardSyncChange(AwardSyncType syncType, PersistableBusinessObject syncableObject, 
             String awardAttrName, String boAttrName)
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, 
+        throws NoSuchFieldException, IllegalAccessException, 
         InvocationTargetException;
     
 }

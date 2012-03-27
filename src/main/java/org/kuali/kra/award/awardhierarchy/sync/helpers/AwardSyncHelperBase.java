@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.helpers;
 
-
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -30,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,7 +57,7 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      * @see org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncHelper#createAwardSyncChange(org.kuali.kra.award.awardhierarchy.sync.AwardSyncType, org.kuali.rice.krad.bo.BusinessObject, java.lang.String, java.lang.String)
      */
     public AwardSyncChange createAwardSyncChange(AwardSyncType syncType, PersistableBusinessObject syncableObject, 
-            String awardAttrName, String boAttrName) throws NoSuchFieldException, IntrospectionException, 
+            String awardAttrName, String boAttrName) throws NoSuchFieldException,  
             IllegalAccessException, InvocationTargetException {
         AwardSyncChange syncChange = new AwardSyncChange();
         syncChange.setClassName(syncableObject.getClass().getCanonicalName());
@@ -91,7 +88,7 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      * @see org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncHelper#buildXmlExport(org.kuali.kra.award.awardhierarchy.sync.AwardHierarchySyncable, java.lang.String)
      */
     public AwardSyncXmlExport buildXmlExport(PersistableBusinessObject syncable, String attrName) 
-        throws NoSuchFieldException, IntrospectionException,
+        throws NoSuchFieldException, 
         IllegalAccessException, InvocationTargetException {
         return buildXmlExport(syncable, attrName, null, null, true);
     }
@@ -107,16 +104,14 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      * @param walkParents
      * @return
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
     @SuppressWarnings("unchecked")
     protected AwardSyncXmlExport buildXmlExport(PersistableBusinessObject syncable, String attrName, 
             String childAttr, AwardSyncXmlExport childExport, boolean walkParents) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, InvocationTargetException {
+        throws NoSuchFieldException, IllegalAccessException, InvocationTargetException {
         Class clazz = syncable.getClass();
-        BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
         AwardSyncXmlExport parentExport = null;
         AwardSyncXmlExport xmlExport = new AwardSyncXmlExport();
         xmlExport.setClassName(syncable.getClass().getName());
@@ -135,7 +130,7 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
         }
         //loop through all properties on the bean and if the property is annotated as a syncable property
         //then export that property
-        for (PropertyDescriptor propDescriptor : beanInfo.getPropertyDescriptors()) {
+        for (PropertyDescriptor propDescriptor : PropertyUtils.getPropertyDescriptors(clazz)) {
             Field propertyField = findField(clazz, propDescriptor.getName());
             if (propertyField != null) {
                 AwardSyncableProperty annotation = propertyField.getAnnotation(AwardSyncableProperty.class);
@@ -173,13 +168,12 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      * @param propertyValue
      * @return
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
     @SuppressWarnings("unchecked")
     protected Object getValueForExport(Object propertyValue) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, InvocationTargetException {
+        throws NoSuchFieldException, IllegalAccessException, InvocationTargetException {
         Object mapValue = null;
         if (propertyValue instanceof Collection) {
             mapValue = buildXmlExport((Collection) propertyValue);
@@ -196,13 +190,12 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      * @param syncables
      * @return
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
     @SuppressWarnings("unchecked")
     protected List<AwardSyncXmlExport> buildXmlExport(Collection syncables) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, InvocationTargetException {
+        throws NoSuchFieldException, IllegalAccessException, InvocationTargetException {
         List<AwardSyncXmlExport> xmls = new ArrayList<AwardSyncXmlExport>();
         for (Object object : (Collection) syncables) {
             if (object instanceof PersistableBusinessObject) {
@@ -247,7 +240,7 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      * @see org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncHelper#applySyncChange(org.kuali.kra.award.home.Award, org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange, boolean)
      */
     public void applySyncChange(Award award, AwardSyncChange change) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, InvocationTargetException, 
+        throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, 
         ClassNotFoundException, NoSuchMethodException, InstantiationException, AwardSyncException {
         applySyncChange(award, change, change.getAttrName(), change.getXmlExport());
     }
@@ -260,7 +253,6 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      * @param attrName
      * @param xmlExport
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      * @throws ClassNotFoundException
@@ -269,7 +261,7 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      */
     @SuppressWarnings("unchecked")
     protected void applySyncChange(PersistableBusinessObject object, AwardSyncChange change, String attrName, AwardSyncXmlExport xmlExport) 
-        throws NoSuchFieldException, IntrospectionException, 
+        throws NoSuchFieldException,  
             IllegalAccessException, InvocationTargetException, ClassNotFoundException, 
             NoSuchMethodException, InstantiationException {   
         Object propertyValue = getPropertyValue(object, attrName);
@@ -317,12 +309,11 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      */
     protected void applySyncChange(PersistableBusinessObject object, AwardSyncChange change, String attrName, 
             Collection<AwardSyncXmlExport> xmlExports) 
         throws ClassNotFoundException, NoSuchMethodException, InstantiationException, 
-        IllegalAccessException, InvocationTargetException, NoSuchFieldException, IntrospectionException {
+        IllegalAccessException, InvocationTargetException, NoSuchFieldException {
         Collection<Object> newCollection = new ArrayList<Object>();
         for (AwardSyncXmlExport xmlExport : xmlExports) {
             if (xmlExport.isAddIfNotFound()) {
@@ -345,12 +336,11 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      */
     @SuppressWarnings("unchecked")
     protected PersistableBusinessObject createNewItem(AwardSyncChange change, AwardSyncXmlExport xmlExport)
         throws ClassNotFoundException, NoSuchMethodException, InstantiationException, 
-            IllegalAccessException, InvocationTargetException, NoSuchFieldException, IntrospectionException {
+            IllegalAccessException, InvocationTargetException, NoSuchFieldException {
         String className = xmlExport.getClassName();
         Map<String, Object> keyValues = xmlExport.getKeys();
         Map<String, Object> values = xmlExport.getValues();
@@ -368,7 +358,6 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      * @param values
      * @param change
      * @throws NoSuchFieldException
-     * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      * @throws ClassNotFoundException
@@ -377,15 +366,14 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      */
     @SuppressWarnings("unchecked")
     protected void setValuesOnSyncable(PersistableBusinessObject syncable, Map<String, Object> values, AwardSyncChange change) 
-        throws NoSuchFieldException, IntrospectionException, IllegalAccessException, 
+        throws NoSuchFieldException, IllegalAccessException, 
             InvocationTargetException, ClassNotFoundException, NoSuchMethodException, 
             InstantiationException {
         Class clazz = syncable.getClass();
-        BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
         boolean setEntry = false;
         for (Map.Entry<String, Object> entry : values.entrySet()) {
             setEntry = false;
-            for (PropertyDescriptor propDescriptor : beanInfo.getPropertyDescriptors()) {
+            for (PropertyDescriptor propDescriptor : PropertyUtils.getPropertyDescriptors(clazz)) {
                 if (StringUtils.equals(propDescriptor.getName(), entry.getKey())) {
                     if (entry.getValue() instanceof AwardSyncXmlExport) {
                         AwardSyncXmlExport xmlExport = (AwardSyncXmlExport) entry.getValue();
@@ -413,13 +401,11 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      * @param object
      * @param attributeName
      * @return
-     * @throws IntrospectionException
      */
     @SuppressWarnings("unchecked")
-    protected PropertyDescriptor getPropertyDescriptor(PersistableBusinessObject object, String attributeName) throws IntrospectionException {
+    protected PropertyDescriptor getPropertyDescriptor(PersistableBusinessObject object, String attributeName) {
         Class clazz = object.getClass();
-        BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
-        for (PropertyDescriptor propDescriptor : beanInfo.getPropertyDescriptors()) {
+        for (PropertyDescriptor propDescriptor : PropertyUtils.getPropertyDescriptors(clazz)) {
             if (StringUtils.equals(propDescriptor.getName(), attributeName)) {
                 return propDescriptor;
             }
@@ -432,14 +418,12 @@ public abstract class AwardSyncHelperBase implements AwardSyncHelper {
      * @param object
      * @param attributeName
      * @return
-     * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
     protected Object getPropertyValue(PersistableBusinessObject object, String attributeName) 
-        throws IntrospectionException, IllegalAccessException, InvocationTargetException {
-        BeanInfo beanInfo = Introspector.getBeanInfo(object.getClass());
-        for (PropertyDescriptor propDesc : beanInfo.getPropertyDescriptors()) {
+        throws IllegalAccessException, InvocationTargetException {
+        for (PropertyDescriptor propDesc : PropertyUtils.getPropertyDescriptors(object.getClass())) {
             if (StringUtils.equals(propDesc.getName(), attributeName)) {
                 Method getter = propDesc.getReadMethod();
                 return getter.invoke(object);
