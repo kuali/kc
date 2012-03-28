@@ -82,10 +82,12 @@ public class CoiDisclosureReviewerDerivedRoleTypeServiceImpl extends DerivedRole
             if (CollectionUtils.isNotEmpty(userRoles)) {
                 String personId = null;
                 for (CoiUserRole userRole : userRoles) {
-                    personId = getPersonId(userRole.getUserId());
-                    if (StringUtils.equals(personId, principalId)) {
-                        hasRole = true;
-                        break;
+                    if (StringUtils.equals(RoleConstants.COI_REVIEWER, userRole.getRoleName())) {
+                        personId = getPersonId(userRole.getUserId());
+                        if (StringUtils.equals(personId, principalId)) {
+                            hasRole = true;
+                            break;
+                        }
                     }
                 }
             }
