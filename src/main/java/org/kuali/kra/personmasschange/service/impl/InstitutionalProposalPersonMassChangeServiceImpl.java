@@ -76,7 +76,6 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
         }
         
         for (InstitutionalProposal institutionalProposalChangeCandidate : institutionalProposalChangeCandidates) {
-            institutionalProposalChangeCandidate.getInstitutionalProposalDocument().refreshPessimisticLocks();
             if (!institutionalProposalChangeCandidate.getInstitutionalProposalDocument().getPessimisticLocks().isEmpty()) {
                 reportSoftError(institutionalProposalChangeCandidate);
             }
@@ -214,7 +213,6 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<InstitutionalProposal> institutionalProposalChangeCandidates) {
         for (InstitutionalProposal institutionalProposalChangeCandidate : institutionalProposalChangeCandidates) {
-            institutionalProposalChangeCandidate.getInstitutionalProposalDocument().refreshPessimisticLocks();
             if (institutionalProposalChangeCandidate.getInstitutionalProposalDocument().getPessimisticLocks().isEmpty()) {
                 performInvestigatorPersonMassChange(personMassChange, institutionalProposalChangeCandidate);
                 performKeyStudyPersonPersonMassChange(personMassChange, institutionalProposalChangeCandidate);

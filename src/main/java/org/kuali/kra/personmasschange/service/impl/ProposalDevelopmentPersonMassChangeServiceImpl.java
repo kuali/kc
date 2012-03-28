@@ -63,7 +63,6 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
         }
         
         for (DevelopmentProposal proposalDevelopmentChangeCandidate : proposalDevelopmentChangeCandidates) {
-            proposalDevelopmentChangeCandidate.getProposalDocument().refreshPessimisticLocks();
             if (!proposalDevelopmentChangeCandidate.getProposalDocument().getPessimisticLocks().isEmpty()) {
                 reportSoftError(proposalDevelopmentChangeCandidate);
             }
@@ -133,7 +132,6 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<DevelopmentProposal> proposalDevelopmentChangeCandidates) {
         for (DevelopmentProposal proposalDevelopmentChangeCandidate : proposalDevelopmentChangeCandidates) {
-            proposalDevelopmentChangeCandidate.getProposalDocument().refreshPessimisticLocks();
             if (proposalDevelopmentChangeCandidate.getProposalDocument().getPessimisticLocks().isEmpty()) {
                 performProposalInvestigatorPersonMassChange(personMassChange, proposalDevelopmentChangeCandidate);
                 performProposalMailingInfoPersonMassChange(personMassChange, proposalDevelopmentChangeCandidate);
