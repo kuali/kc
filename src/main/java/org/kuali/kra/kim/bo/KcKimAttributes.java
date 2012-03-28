@@ -93,7 +93,7 @@ public class KcKimAttributes extends KimAttributes {
         this.unitNumber = unitNumber;
     }
     
-    public Boolean isSubunits() {
+    public Boolean getSubunits() {
         return subunits;
     }
     

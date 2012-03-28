@@ -22,7 +22,7 @@ import java.util.List;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.rice.core.api.util.xml.XmlJotter;
-import org.kuali.rice.ken.service.NotificationService;
+import org.kuali.rice.ken.api.service.SendNotificationService;
 import org.kuali.rice.ken.util.Util;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.w3c.dom.Document;
@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 public class AdminCorrectionServiceImpl implements AdminCorrectionService {
-    private NotificationService notificationService;
+    private SendNotificationService sendNotificationService;
     private List<String> notificationTemplates;
     private static final String DOC_LINK = "<a title=\"\" target=\"_self\" href=\"../kew/DocHandler.do?command=displayDocSearchView&amp;docId=";
     
@@ -71,11 +71,11 @@ public class AdminCorrectionServiceImpl implements AdminCorrectionService {
 
         String XML = XmlJotter.jotNode(notificationRequestDocument, true);
         //Waiting for rice KEN bootstrap to be corrected
-        notificationService.sendNotification(XML);
+        sendNotificationService.invoke(XML);
     }
 
-    public void setNotificationService(NotificationService notificationService) {
-        this.notificationService = notificationService;
+    public void setSendNotificationService(SendNotificationService sendNotificationService) {
+        this.sendNotificationService = sendNotificationService;
     }
 
     public void setNotificationTemplates(List<String> notificationTemplates) {
