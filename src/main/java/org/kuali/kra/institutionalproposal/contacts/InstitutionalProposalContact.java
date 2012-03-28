@@ -316,18 +316,23 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
      * @param person The person to set.
      */
     public void setPerson(KcPerson person) {
+        //if the person is not null and person.getPersonId is null we have an
+        //empty KcPerson created by PojoBeanUtils. This must be mostly ignored and
+        //we cannot assume we are setting a valid person.
         if (person != null && person.getPersonId() == null) {
-            person = null;
-        }
-        this.person = person;
-        this.rolodex = null;
-        this.rolodexId = null;
-        if (person != null) {
-            this.fullName = person.getFullName();
-            this.personId = person.getPersonId();
-        } else {
-            this.fullName = null;
+            this.person = null;
             this.personId = null;
+        } else {
+            this.person = person;
+            this.rolodex = null;
+            this.rolodexId = null;
+            if (person != null) {
+                this.fullName = person.getFullName();
+                this.personId = person.getPersonId();
+            } else {
+                this.fullName = null;
+                this.personId = null;
+            }
         }
     }
 
@@ -357,18 +362,23 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
      * @param rolodex The rolodex to set.
      */
     public void setRolodex(NonOrganizationalRolodex rolodex) {
+        //if a 'new Rolodex()' is being passed in, its likely because
+        //of the jsp calling rolodex.fullName. We need to primarily ignore this
+        //case as otherwise we will clear important data when this happens.
         if (rolodex != null && rolodex.getRolodexId() == null) {
-            rolodex = null;
-        }
-        this.person = null;
-        this.personId = null;
-        this.rolodex = rolodex;
-        if (rolodex != null) {
-            this.fullName = rolodex.getFullName();
-            this.rolodexId = rolodex.getRolodexId();
-        } else {
-            this.fullName = null;
+            this.rolodex = null;
             this.rolodexId = null;
+        } else {
+            this.person = null;
+            this.personId = null;
+            this.rolodex = rolodex;
+            if (rolodex != null) {
+                this.fullName = rolodex.getFullName();
+                this.rolodexId = rolodex.getRolodexId();
+            } else {
+                this.fullName = null;
+                this.rolodexId = null;
+            }
         }
     }
 
