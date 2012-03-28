@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.ProtocolType;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -65,6 +66,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private ProtocolType protocolType;
     private Protocol protocol;
     private DevelopmentProposal proposal;
+    private InstitutionalProposal institutionalProposal;
     private Award award;
     private CoiDisclosureEventType coiDisclosureEventType;
          
@@ -379,6 +381,15 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     }
     public void setCoiDisclosureEventType(CoiDisclosureEventType coiDisclosureEventType) {
         this.coiDisclosureEventType = coiDisclosureEventType;
+    }
+    public InstitutionalProposal getInstitutionalProposal() {
+        if (institutionalProposal == null) {
+            this.refreshReferenceObject("institutionalProposal");
+        }
+        return institutionalProposal;
+    }
+    public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
+        this.institutionalProposal = institutionalProposal;
     }    
 
 }
