@@ -630,6 +630,7 @@ public class CoiDisclosureAction extends CoiAction {
         final AttachmentFile file = attachment.getFile();
         byte[] attachmentFile = null;
         String attachmentFileType = file.getType().replace("\"", "");
+        /*
         if (attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
             attachmentFile = getCoiDisclosureAttachmentFile(form,attachment);
             if (attachmentFile != null){
@@ -637,7 +638,8 @@ public class CoiDisclosureAction extends CoiAction {
                         response);
             }
             return RESPONSE_ALREADY_HANDLED;
-        }        
+        } 
+        */       
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
 
         return RESPONSE_ALREADY_HANDLED;
