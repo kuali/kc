@@ -361,14 +361,15 @@
 									<kul:htmlAttributeLabel attributeEntry="${attachmentFileAttributes['name']}" noColon="false" />
 								</div>
 							</th>
-			       			<td align="left" valign="middle" colspan="5">
+			       			<td align="left" valign="middle" colspan="5"> 
 			              		<div align="left" style="display: none;" id="attachmentCoiDisclosureFile${itrStatus.index}">
 			              			<html:file property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].newFile" size="50" />
 			           			</div>
 			           			<div align="left" id="attachmentCoiDisclosureFileName${itrStatus.index}">
 			              			<kra:fileicon attachment="${attachment.file}"/>${attachment.file.name}
 			           			</div>
-			           			
+			           		</td>
+			           	</tr>	
 			         	<tr>
 			         		<td colspan="6" class="infoline">
 								<div align="center">
