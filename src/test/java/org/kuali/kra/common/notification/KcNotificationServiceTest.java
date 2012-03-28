@@ -44,7 +44,8 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.kra.util.EmailAttachment;
-import org.kuali.rice.ken.bo.Notification;
+import org.kuali.rice.ken.api.service.SendNotificationService;
+import org.kuali.rice.ken.api.notification.Notification;
 import org.kuali.rice.ken.service.NotificationService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -175,7 +176,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
         
         service.setBusinessObjectService(getMockSearchBusinessObjectService(MODULE_CODE_VALUE, ACTION_TYPE_CODE_VALUE_101));
         service.setParameterService(getParameterService());
-        service.setNotificationService(getMockNotificationService());
+        service.setSendNotificationService(getMockNotificationService());
         service.setKcEmailService(getMockKcEmailService(personEmailAddresses));
         service.setRoleManagementService(KraServiceLocator.getService(RoleService.class));
         service.setKcPersonService(KraServiceLocator.getService(KcPersonService.class));
@@ -199,7 +200,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
 
         service.setBusinessObjectService(getMockSearchBusinessObjectService(MODULE_CODE_VALUE, ACTION_TYPE_CODE_VALUE_101));
         service.setParameterService(getParameterService());
-        service.setNotificationService(getMockNotificationService());
+        service.setSendNotificationService(getMockNotificationService());
         service.setKcEmailService(getMockKcEmailService(personEmailAddresses, rolodexEmailAddresses));
         service.setKcPersonService(KraServiceLocator.getService(KcPersonService.class));
         service.setRolodexService(KraServiceLocator.getService(RolodexService.class));
@@ -231,7 +232,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
         personEmailAddresses.add(EMAIL_ADDRESS_VALUE_MAJORS);
         
         service.setParameterService(getParameterService());
-        service.setNotificationService(getMockNotificationService());
+        service.setSendNotificationService(getMockNotificationService());
         service.setKcEmailService(getMockKcEmailService(personEmailAddresses));
         service.setIdentityService(KraServiceLocator.getService(IdentityService.class));
         
@@ -388,8 +389,8 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
         return parameterService;
     }
     
-    private NotificationService getMockNotificationService() {
-        final NotificationService service = context.mock(NotificationService.class);
+    private SendNotificationService getMockNotificationService() {
+        final SendNotificationService service = context.mock(SendNotificationService.class);
         context.checking(new Expectations() {{
             oneOf(service).sendNotification(with(any(Notification.class)));
         }});

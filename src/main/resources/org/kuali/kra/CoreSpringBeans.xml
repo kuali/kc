@@ -734,9 +734,9 @@
 		<property name="negotiationService" ref="negotiationService" />
 	</bean>
 
-	<bean id="notificationService"
+	<bean id="sendNotificationService"
 		class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="notificationService" />
+		<property name="serviceName" value="sendNotificationService" />
 	</bean>
 
 	<bean id="xmlObjectSerializerService"
@@ -782,8 +782,8 @@
 	</bean>
 	
 	<bean id="kcNotificationService" class="org.kuali.kra.common.notification.service.impl.KcNotificationServiceImpl">
-        <property name="notificationService">
-            <ref bean="notificationService" />
+        <property name="sendNotificationService">
+            <ref bean="sendNotificationService" />
         </property>
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
