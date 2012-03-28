@@ -44,9 +44,7 @@ public class StateServiceTest extends KcUnitTestBase{
     
     @Test 
     public void testFindAllStatesByAltCountryCode() throws Exception {
-        //TODO: Rice Upgrade 2.0 The commented method call has been re-introduced in b1 version.
-        //List<State> states = stateService.findAllStatesInCountryByAltCode(ALT_POSTAL_CNTRY_CD_UNITED_STATES); 
-        List<State> states = stateService.findAllStatesInCountry(POSTAL_CNTRY_CD_UNITED_STATES);
+        List<State> states = stateService.findAllStatesInCountryByAltCode(ALT_POSTAL_CNTRY_CD_UNITED_STATES); 
         List<State> statesForComparison = stateService.findAllStatesInCountry(POSTAL_CNTRY_CD_UNITED_STATES);
         
         assertNotNull(states);
