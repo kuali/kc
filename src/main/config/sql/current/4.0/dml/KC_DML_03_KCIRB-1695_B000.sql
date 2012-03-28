@@ -699,5 +699,5 @@ buffer := '                        </fo:block>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-commit;
+commit
 /
