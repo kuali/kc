@@ -563,6 +563,10 @@
         <bean parent="FieldDefinition"
               p:attributeName="rolodexId" />
         <bean parent="FieldDefinition"
+              p:attributeName="sponsorCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sponsor.sponsorName" />
+        <bean parent="FieldDefinition"
               p:attributeName="addressLine1" />
         <bean parent="FieldDefinition"
               p:attributeName="addressLine2" />
@@ -602,8 +606,6 @@
               p:attributeName="prefix" />
         <bean parent="FieldDefinition"
               p:attributeName="sponsorAddressFlag" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sponsorCode" />
         <bean parent="FieldDefinition"
               p:attributeName="suffix" />
         <bean parent="FieldDefinition"
