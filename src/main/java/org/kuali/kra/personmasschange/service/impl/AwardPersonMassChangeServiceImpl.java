@@ -77,7 +77,6 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
         }
         
         for (Award awardChangeCandidate : awardChangeCandidates) {
-            awardChangeCandidate.getAwardDocument().refreshPessimisticLocks();
             if (!awardChangeCandidate.getAwardDocument().getPessimisticLocks().isEmpty()) {
                 reportSoftError(awardChangeCandidate);
             }
@@ -226,7 +225,6 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<Award> awardChangeCandidates) {
         for (Award awardChangeCandidate : awardChangeCandidates) {
-            awardChangeCandidate.getAwardDocument().refreshPessimisticLocks();
             if (awardChangeCandidate.getAwardDocument().getPessimisticLocks().isEmpty()) {
                 performInvestigatorPersonMassChange(personMassChange, awardChangeCandidate);
                 performKeyStudyPersonPersonMassChange(personMassChange, awardChangeCandidate);

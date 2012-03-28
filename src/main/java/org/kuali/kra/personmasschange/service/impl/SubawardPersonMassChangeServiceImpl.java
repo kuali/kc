@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.SubawardPersonMassChangeService;
@@ -67,7 +66,6 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
         }
         
         for (SubAward subawardChangeCandidate : subawardChangeCandidates) {
-            subawardChangeCandidate.getSubAwardDocument().refreshPessimisticLocks();
             if (!subawardChangeCandidate.getSubAwardDocument().getPessimisticLocks().isEmpty()) {
                 reportSoftError(subawardChangeCandidate);
             }
@@ -151,7 +149,6 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<SubAward> subawardChangeCandidates) {
         for (SubAward subawardChangeCandidate : subawardChangeCandidates) {
-            subawardChangeCandidate.getSubAwardDocument().refreshPessimisticLocks();
             if (subawardChangeCandidate.getSubAwardDocument().getPessimisticLocks().isEmpty()) {
                 performRequistionerPersonMassChange(personMassChange, subawardChangeCandidate);
                 performContactMassChange(personMassChange, subawardChangeCandidate);
