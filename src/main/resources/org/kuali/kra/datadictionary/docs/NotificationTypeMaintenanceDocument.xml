@@ -15,12 +15,7 @@
       <list>
         <value>notificationTypeId</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
-    
-    
-    
-    
-    
+    </property>	<property name="allowsRecordDeletion" value="true" />    <property name="allowsNewOrCopy" value="false"/>
     <property name="documentTypeName" value="NotificationTypeMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.common.notification.rules.NotificationTypeMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kra.common.notification.NotificationMaintenanceDocumentAuthorizer"/>
@@ -36,9 +31,7 @@
 
 <!-- Maintenance Section Definitions -->
 
-
   <bean id="NotificationTypeMaintenanceDocument-EditNotificationType" parent="NotificationTypeMaintenanceDocument-EditNotificationType-parentBean"/>
-
   <bean id="NotificationTypeMaintenanceDocument-EditNotificationType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Notification Types"/>
     <property name="title" value="Edit Notifications"/>
