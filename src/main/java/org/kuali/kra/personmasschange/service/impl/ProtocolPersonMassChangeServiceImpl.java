@@ -81,7 +81,6 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
         }
         
         for (Protocol protocolChangeCandidate : protocolChangeCandidates) {
-            protocolChangeCandidate.getProtocolDocument().refreshPessimisticLocks();
             if (!protocolChangeCandidate.getProtocolDocument().getPessimisticLocks().isEmpty()) {
                 reportSoftError(protocolChangeCandidate);
             }
@@ -200,7 +199,6 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<Protocol> protocolChangeCandidates) {
         for (Protocol protocolChangeCandidate : protocolChangeCandidates) {
-            protocolChangeCandidate.getProtocolDocument().refreshPessimisticLocks();
             if (protocolChangeCandidate.getProtocolDocument().getPessimisticLocks().isEmpty()) {
                 performInvestigatorPersonMassChange(personMassChange, protocolChangeCandidate);
                 performKeyStudyPersonPersonMassChange(personMassChange, protocolChangeCandidate);

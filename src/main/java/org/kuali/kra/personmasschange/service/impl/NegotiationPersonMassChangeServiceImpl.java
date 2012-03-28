@@ -60,7 +60,6 @@ public class NegotiationPersonMassChangeServiceImpl implements NegotiationPerson
         }
         
         for (Negotiation negotiationChangeCandidate : negotiationChangeCandidates) {
-            negotiationChangeCandidate.getDocument().refreshPessimisticLocks();
             if (!negotiationChangeCandidate.getDocument().getPessimisticLocks().isEmpty()) {
                 reportSoftError(negotiationChangeCandidate);
             }
@@ -90,7 +89,6 @@ public class NegotiationPersonMassChangeServiceImpl implements NegotiationPerson
     @Override
     public void performPersonMassChange(PersonMassChange personMassChange, List<Negotiation> negotiationChangeCandidates) {
         for (Negotiation negotiationChangeCandidate : negotiationChangeCandidates) {
-            negotiationChangeCandidate.getDocument().refreshPessimisticLocks();
             if (negotiationChangeCandidate.getDocument().getPessimisticLocks().isEmpty()) {
                 performNegotiatorPersonMassChange(personMassChange, negotiationChangeCandidate);
             }
