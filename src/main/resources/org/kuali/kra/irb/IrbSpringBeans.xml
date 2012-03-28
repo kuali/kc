@@ -801,7 +801,7 @@
     </bean>
     
      <bean id="adminCorrectionService" class="org.kuali.kra.irb.actions.correction.AdminCorrectionServiceImpl">
-        <property name="notificationService" ref="notificationService" />
+        <property name="sendNotificationService" ref="sendNotificationService" />
         <property name="notificationTemplates">
 			<list>
 			    <value>/org/kuali/kra/irb/admincorrection_notification.xml</value>

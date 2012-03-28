@@ -38,6 +38,14 @@
 			<resource>
 				<directory>src/main/resources</directory>
 			</resource>
+			<resource>
+                <directory>src/main/webapp/WEB-INF</directory>
+                <includes>
+                    <include>web.xml</include>
+                </includes>
+                <filtering>true</filtering>
+                <targetPath>${project.build.directory}</targetPath>
+            </resource>
 		</resources> 
 		<testResources>
 			<testResource>
@@ -446,6 +454,7 @@
                 <version>2.1</version>
                 <configuration>
                     <attachClasses>true</attachClasses>
+					<webXml>${project.build.directory}/web.xml</webXml>                  
                 </configuration>  
             </plugin>
             <plugin>
@@ -1290,6 +1299,7 @@
 						<configuration>
 							<webAppConfig>
 								<contextPath>${default.context.path}</contextPath>
+								<descriptor>${project.build.directory}/web.xml</descriptor>
 							</webAppConfig>
 						</configuration>			            
 			        </plugin>
@@ -1343,6 +1353,7 @@
 						<configuration>
 							<webAppConfig>
 								<contextPath>${default.context.path}</contextPath>
+								<descriptor>${project.build.directory}/web.xml</descriptor>
 							</webAppConfig>
 						  </configuration>
 					</plugin>			
@@ -1360,6 +1371,14 @@
                 <selenium.version>2.0rc3</selenium.version>
             </properties>
         </profile>
+        
+	    <profile>
+	      <id>ken-remote-mode</id>
+	      <properties>
+	        <rice.ken.servlet></rice.ken.servlet>
+      	</properties>
+	  </profile>
+        
 	</profiles>
 
 	<repositories>
@@ -1443,7 +1462,7 @@
 		<mail.version>1.4.4</mail.version>
 		<mysql.version>5.1.16</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
-		<rice.version>2.0.0</rice.version>
+		<rice.version>2.0.1-M3</rice.version>
 		<selenium.version>2.12.0</selenium.version>
 		<servlet.version>2.5</servlet.version>
 		<slf4j.version>1.6.4</slf4j.version>
@@ -1497,5 +1516,51 @@
     	<account.wsdl.packaged.location>wsdl/AccountCreationService.wsdl</account.wsdl.packaged.location>  
     	<budget.wsdl.packaged.location>wsdl/BudgetAdjustmentService.wsdl</budget.wsdl.packaged.location>
     	<rice.war.location>${settings.localRepository}/org/kuali/rice/rice-standalone/${rice.version}/rice-standalone-${rice.version}.war</rice.war.location>
+	    <rice.ken.servlet>
+	          <![CDATA[
+			    <servlet>
+			        <servlet-name>notification</servlet-name>
+			        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+			        <init-param>
+			          <param-name>contextConfigLocation</param-name>
+			          <param-value>ken/WEB-INF/notification-servlet.xml</param-value>
+			        </init-param>
+			        <init-param>
+			          <description>this init parameter is Ken's module prefix within the containing webapp, it is propagated as a
+			                       property in the XmlApplicationContext
+			          </description>
+			          <param-name>prefix</param-name>
+			          <param-value>/ken</param-value>
+			        </init-param>
+			        <load-on-startup>2</load-on-startup>
+			    </servlet>
+			    <servlet>
+			        <servlet-name>kcb</servlet-name>
+			        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+			        <init-param>
+			          <param-name>contextConfigLocation</param-name>
+			          <param-value>kcb/WEB-INF/kcb-servlet.xml</param-value>
+			        </init-param>
+			        <init-param>
+			          <description>this init parameter is KCB's module prefix within the containing webapp, it is propagated as a
+			                       property in the XmlApplicationContext
+			          </description>
+			          <param-name>prefix</param-name>
+			          <param-value>/kcb</param-value>
+			        </init-param>
+			        <load-on-startup>2</load-on-startup>
+				</servlet>
+				
+				<servlet-mapping>
+			        <servlet-name>notification</servlet-name>
+			        <url-pattern>*.form</url-pattern>
+			    </servlet-mapping>
+			
+				<servlet-mapping>
+			        <servlet-name>kcb</servlet-name>
+			        <url-pattern>*.kcb</url-pattern>
+			    </servlet-mapping>
+	          ]]>
+	        </rice.ken.servlet>  	
 	</properties>
 </project>

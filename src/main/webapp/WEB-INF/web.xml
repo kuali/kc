@@ -219,25 +219,6 @@
 		<load-on-startup>0</load-on-startup>
 	</servlet>
 
-    <!-- Notification system servlets -->
-    <!-- Notification System Spring MVC UI -->
-    <servlet>
-        <servlet-name>notification</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-          <param-name>contextConfigLocation</param-name>
-          <param-value>ken/WEB-INF/notification-servlet.xml</param-value>
-        </init-param>
-        <init-param>
-          <description>this init parameter is Ken's module prefix within the containing webapp, it is propagated as a
-                       property in the XmlApplicationContext
-          </description>
-          <param-name>prefix</param-name>
-          <param-value>/ken</param-value>
-        </init-param>
-        <load-on-startup>2</load-on-startup>
-    </servlet>
-
 	<servlet>
 		<servlet-name>dwr-invoker</servlet-name>
 		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
@@ -270,24 +251,6 @@
         <servlet-name>krad</servlet-name>
         <url-pattern>/kr-krad/*</url-pattern>
     </servlet-mapping>
-
-    <!-- KCB servlets -->
-    <servlet>
-        <servlet-name>kcb</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-          <param-name>contextConfigLocation</param-name>
-          <param-value>kcb/WEB-INF/kcb-servlet.xml</param-value>
-        </init-param>
-        <init-param>
-          <description>this init parameter is KCB's module prefix within the containing webapp, it is propagated as a
-                       property in the XmlApplicationContext
-          </description>
-          <param-name>prefix</param-name>
-          <param-value>/kcb</param-value>
-        </init-param>
-        <load-on-startup>2</load-on-startup>
-	</servlet>
 
 	<servlet>
 		<servlet-name>remoting</servlet-name>
@@ -336,6 +299,10 @@
 	</servlet-mapping>
 	-->
 
+    <!-- Notification system servlets -->
+    <!-- Notification System Spring MVC UI -->
+	${rice.ken.servlet}
+    
 	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>
 		<url-pattern>/remoting/*</url-pattern>
@@ -345,16 +312,6 @@
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>notification</servlet-name>
-        <url-pattern>*.form</url-pattern>
-    </servlet-mapping>
-
-	<servlet-mapping>
-        <servlet-name>kcb</servlet-name>
-        <url-pattern>*.kcb</url-pattern>
-    </servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>dwr-invoker</servlet-name>
