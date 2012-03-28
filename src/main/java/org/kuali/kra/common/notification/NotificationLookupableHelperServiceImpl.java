@@ -51,18 +51,6 @@ public class NotificationLookupableHelperServiceImpl extends KualiLookupableHelp
         if (hasModifyPermission) {
             AnchorHtmlData editHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
             htmlDataList.add(editHtmlData);
-
-            AnchorHtmlData copyHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
-            htmlDataList.add(copyHtmlData);
-            
-            AnchorHtmlData deleteHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_DELETE_METHOD_TO_CALL, pkNames);
-            htmlDataList.add(deleteHtmlData);
-        } 
-        // if user can view question, then if doc number exists, use doc service to view, otherwise open for editing in read-only mode
-        if (hasViewPermission) {
-            AnchorHtmlData viewHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-            viewHtmlData.setDisplayText(VIEW);
-            htmlDataList.add(viewHtmlData);
         }
         return htmlDataList;
     }

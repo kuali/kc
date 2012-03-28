@@ -32,7 +32,7 @@
         <property name="lookupDefinition" >
             <ref bean="NotificationType-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="notificationNumber" />
+        <property name="titleAttribute" value="notificationTypeId" />
         <property name="attributes" >
             <list>
                 <ref bean="NotificationType-notificationTypeId" />
@@ -204,6 +204,16 @@
                                   p:attributeName="moduleCode" />
                             <bean parent="FieldDefinition" 
                                   p:attributeName="actionCode" />
+                            <bean parent="FieldDefinition" 
+ 								  p:attributeName="description" />
+                            <bean parent="FieldDefinition" 
+ 								  p:attributeName="subject" />
+                            <bean parent="FieldDefinition" 
+ 								  p:attributeName="message" />
+                            <bean parent="FieldDefinition" 
+ 								  p:attributeName="promptUser" />
+                            <bean parent="FieldDefinition" 
+ 								  p:attributeName="active" />
                         </list>
                     </property>
                 </bean>
