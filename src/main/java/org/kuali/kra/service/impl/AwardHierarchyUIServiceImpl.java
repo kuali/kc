@@ -217,10 +217,18 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         if (value == null) {
             sb.append("");
         } else {
-            sb.append(value);
+            sb.append(escapeJsonString(value));
         }
         sb.append("\"");
     }
+    
+    protected String escapeJsonString(String input) {
+        if (input != null) {
+            input = input.replaceAll("\\\\", "\\\\\\\\");
+            input = input.replaceAll("\"", "\\\\\"");
+        }
+        return input;
+    }    
     
     protected void appendJson(StringBuilder sb, String key, Boolean value) {
         sb.append("\"");
