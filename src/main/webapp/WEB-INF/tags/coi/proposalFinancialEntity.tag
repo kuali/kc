@@ -22,10 +22,10 @@
 <c:set var="financialEntityAttributes" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
                 <c:choose>
-                    <c:when test="${disclProject.proposalEvent}">
+                    <c:when test="${disclProject.manualProposalEvent}">
                         <kra-coi:manualProposalHeader disclProject="${disclProject}" idx = "${idx}"/>                    
                     </c:when>
-                    <c:when test="${disclProject.awardEvent}">
+                    <c:when test="${disclProject.manualAwardEvent}">
                         <kra-coi:manualAwardHeader disclProject="${disclProject}" idx = "${idx}"/>                    
                     </c:when>
                     <c:otherwise>
