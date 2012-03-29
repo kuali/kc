@@ -39,7 +39,7 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
     public boolean processSaveAwardDatesBusinessRules(TimeAndMoneyAwardDateSaveEvent timeAndMoneyAwardDateSaveEvent) {
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) timeAndMoneyAwardDateSaveEvent.getDocument();
         
-        return validateObligatedDates(timeAndMoneyDocument) && validateDatesNotNull(timeAndMoneyDocument);
+        return validateObligatedDates(timeAndMoneyDocument) && validateDatesNotNull(timeAndMoneyDocument) && validateDatesAgainstProjectStartDate(timeAndMoneyDocument);
     }
     
     private boolean validateObligatedDates(TimeAndMoneyDocument document) {
@@ -87,5 +87,31 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
         }
         return valid;
     }
+    
+    private boolean validateDatesAgainstProjectStartDate(TimeAndMoneyDocument document) {
+        boolean valid = true;
+        for(Entry<String, AwardHierarchyNode> awardHierarchyNode : document.getAwardHierarchyNodes().entrySet()){
+            Date obligatedStartDate = awardHierarchyNode.getValue().getCurrentFundEffectiveDate();
+            Date obligatedEndDate = awardHierarchyNode.getValue().getObligationExpirationDate();
+            Date projectEndDate = awardHierarchyNode.getValue().getFinalExpirationDate();
+            Date projectStartDate = awardHierarchyNode.getValue().getProjectStartDate();     
+            if(obligatedStartDate.before(projectStartDate)) {
+                valid = false;
+                reportError(OBLIGATED_START_DATE_PROPERTY, KeyConstants.ERROR_OBLIGATED_START_BEFORE_PROJECT_START, 
+                        awardHierarchyNode.getValue().getAwardNumber());
+            }
+            if(obligatedEndDate.before(projectStartDate) || obligatedEndDate.equals(projectStartDate)) {
+                valid = false;
+                reportError(OBLIGATED_END_DATE_PROPERTY, KeyConstants.ERROR_OBLIGATED_END_BEFORE_PROJECT_START, 
+                        awardHierarchyNode.getValue().getAwardNumber());
+            }
+            if(projectEndDate.before(projectStartDate) || obligatedEndDate.equals(projectStartDate)) {
+                valid = false;
+                reportError(FINAL_EXPIRATION_DATE_PROPERTY, KeyConstants.ERROR_PROJECT_END_BEFORE_PROJECT_START, 
+                        awardHierarchyNode.getValue().getAwardNumber());
+                }
+            }   
+          return valid;  
+        }
     
 }
