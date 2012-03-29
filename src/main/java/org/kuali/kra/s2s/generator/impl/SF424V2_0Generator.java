@@ -349,7 +349,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                 costSharingAmount = budget.getCostSharingAmount();      
             }
             fedNonFedCost = fedNonFedCost.add(costSharingAmount);
-            sf424V2.setApplicantEstimatedFunding(fedNonFedCost.bigDecimalValue());
+            sf424V2.setApplicantEstimatedFunding(costSharingAmount);
             BigDecimal projectIncome = BigDecimal.ZERO;
             for (BudgetProjectIncome budgetProjectIncome : budget.getBudgetProjectIncomes()) {
                 projectIncome = projectIncome.add(budgetProjectIncome.getProjectIncome().bigDecimalValue());
