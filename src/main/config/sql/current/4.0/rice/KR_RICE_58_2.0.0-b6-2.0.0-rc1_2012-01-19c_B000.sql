@@ -17,7 +17,3 @@
 -- KULRICE-6537 - increase size of MBR_NM field
 ALTER TABLE KRIM_PND_GRP_MBR_T MODIFY (MBR_NM varchar2(100))
 /
-
-
-
-
