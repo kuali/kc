@@ -174,6 +174,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         isSelected &= checkProject(masterDisclosureBean.getManualAwardProjects(), "manualAwardProjects");
         isSelected &= checkProject(masterDisclosureBean.getManualProtocolProjects(), "manualProtocolProjects");
         isSelected &= checkProject(masterDisclosureBean.getManualProposalProjects(), "manualProposalProjects");
+        isSelected &= checkProject(masterDisclosureBean.getManualTravelProjects(), "manualTravelProjects");
         return isSelected;
     }
 
