@@ -422,14 +422,6 @@ public class Budget extends BudgetVersionOverview {
     }
 
     public List<BudgetPeriod> getBudgetPeriods() {
-        BudgetDocument budgetDocument = getBudgetDocument();
-        BudgetParentDocument parentDocument = budgetDocument == null ? null : budgetDocument.getParentDocument();
-        /* check for new budget version - if new, generate budget periods */
-        //not sure we need to set this here... need to move this some other place 
-        if (parentDocument != null) {
-            setStartDate(parentDocument.getBudgetParent().getRequestedStartDateInitial());
-            setEndDate(parentDocument.getBudgetParent().getRequestedEndDateInitial());
-        }
         if (budgetPeriods.isEmpty() && getStartDate() != null) {
             getBudgetSummaryService().generateBudgetPeriods(this, budgetPeriods);
         }
