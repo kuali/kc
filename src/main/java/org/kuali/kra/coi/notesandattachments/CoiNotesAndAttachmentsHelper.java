@@ -39,13 +39,8 @@ import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.noteattachment.DeleteProtocolNotepadEvent;
-import org.kuali.kra.irb.noteattachment.DeleteProtocolNotepadRule;
-import org.kuali.kra.irb.noteattachment.DeleteProtocolNotepadRuleImpl;
-import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.CollectionUtil;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -469,12 +464,22 @@ public class CoiNotesAndAttachmentsHelper {
 
     }
 
+    /* 
+     * edit an existing note
+     */
+    public void editNote(int noteToModify) {
+        CoiDisclosureNotepad notepadObject = this.getCoiDisclosure().getCoiDisclosureNotepads().get(noteToModify);
+        notepadObject.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
+        notepadObject.setUpdateTimestamp(dateTimeService.getCurrentTimestamp());
+        notepadObject.setEditable(true);
+    }
+
     public boolean deleteNote(int noteToDelete) {
         // rules check?
         this.deleteNotepad(noteToDelete);
         return true;
     }
-
+    
     private void deleteNotepad(int noteToDelete) {
         this.getCoiDisclosure().getCoiDisclosureNotepads().remove(noteToDelete);
     }
