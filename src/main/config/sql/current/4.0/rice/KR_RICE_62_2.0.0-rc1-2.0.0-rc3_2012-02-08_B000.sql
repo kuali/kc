@@ -82,5 +82,3 @@ values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where r
         (select perm_id from krim_perm_t where nm = 'Create TermSpecification Maintenance Document' and nmspc_cd = 'KR-NS'),
         'Y', 1, sys_guid())
 /
-
-
