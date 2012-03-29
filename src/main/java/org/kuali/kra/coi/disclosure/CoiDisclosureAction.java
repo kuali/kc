@@ -719,6 +719,16 @@ public class CoiDisclosureAction extends CoiAction {
 
     }
     
+    public ActionForward editNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        final int selection = this.getSelectedLine(request);
+        CoiDisclosureForm disclosureForm = (CoiDisclosureForm) form;   
+        CoiNotesAndAttachmentsHelper helper = disclosureForm.getCoiNotesAndAttachmentsHelper();   
+        // add authorization here
+        helper.editNote(selection);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
     public ActionForward deleteNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();   
