@@ -17,6 +17,7 @@ package org.kuali.kra.coi.notesandattachments.notes;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 
@@ -51,7 +52,6 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
         super(coiDisclosure);
         editable = false;
     }
-    
     
     public String getProjectId() {
         return projectId;
@@ -158,7 +158,6 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
         return editable;
     }
 
-
     public void setEditable(boolean editable) {
         this.editable = editable;
     }
@@ -237,6 +236,18 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
 
     }
 
+    @Override
+    public void preUpdate() {
+        super.preUpdate();
+        setUpdateTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+    }
+    
+    @Override
+    public void postUpdate() {
+        super.postUpdate();
+        setEditable(false);
+    }
+    
     public Long getOriginalCoiDisclosureId() {
         return originalCoiDisclosureId;
     }
