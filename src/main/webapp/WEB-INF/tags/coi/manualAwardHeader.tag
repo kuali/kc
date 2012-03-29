@@ -33,7 +33,7 @@
                                     <th><div align="right">Title:</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
-					    ${disclProject.longTextField1}
+					    ${disclProject.coiProjectTitle}
 					    <%-- 
                 		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].longTextField1" readOnly="true" attributeEntry="${coiDisclProjectAttributes.longTextField1}" /> 
                         --%>
