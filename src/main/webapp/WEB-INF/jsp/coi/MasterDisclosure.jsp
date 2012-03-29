@@ -97,7 +97,7 @@
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-coi:disclosureReporter />
 <c:set var="masterDisclosure" value="${KualiForm.disclosureHelper.masterDisclosureBean}" />
-<c:if test="${fn:length(masterDisclosure.manualAwardProjects) > 0 or fn:length(masterDisclosure.manualProposalProjects) > 0 or  fn:length(masterDisclosure.manualProtocolProjects) > 0}" >
+<c:if test="${fn:length(masterDisclosure.manualAwardProjects) > 0 or fn:length(masterDisclosure.manualProposalProjects) > 0 or  fn:length(masterDisclosure.manualProtocolProjects) > 0 or  fn:length(masterDisclosure.manualTravelProjects) > 0}" >
 <kul:tab defaultOpen="false" tabTitle="Manual Projects" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="${auditErrorKey}" useRiceAuditMode="true"
     tabErrorKey="disclosureHelper.newCoiDisclProject.*" >
     <div class="tab-container" align="center">
@@ -111,6 +111,9 @@
     </c:if>
     <c:if test="${fn:length(masterDisclosure.manualProtocolProjects) > 0}" >
         <kra-coi:masterManualProtocol masterDisclosureProjects="${masterDisclosure.manualProtocolProjects}"/>
+    </c:if>
+    <c:if test="${fn:length(masterDisclosure.manualTravelProjects) > 0}" >
+        <kra-coi:masterManualTravel masterDisclosureProjects="${masterDisclosure.manualTravelProjects}"/>
     </c:if>
        </div>
 </kul:tab>
