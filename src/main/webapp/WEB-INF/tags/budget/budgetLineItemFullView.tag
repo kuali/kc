@@ -16,10 +16,12 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <%@ attribute name="budgetLineItemNumber" description="Budget Line Item Number" required="true" %>
+<%@ attribute name="budgetLineItem" description="Budget Line Item" required="true" type="org.kuali.kra.budget.nonpersonnel.BudgetLineItem" %>
 <%@ attribute name="innerTabParent" description="Inner Tab Parent Name" required="true" %>
 <%@ attribute name="budgetCategoryTypeCode" description="Budget Category Type Codes" required="true" %>
 <%@ attribute name="budgetExpensePanelReadOnly" description="Budget Expense Panel Read Only" required="true" %>
 <%@ attribute name="budgetPeriod" description="Budget Period" required="true" %>
+<%@ attribute name="budgetPeriodBO" description="Budget Period BO" required="true" type="org.kuali.kra.budget.parameters.BudgetPeriod" %>
 <%@ attribute name="budgetExpensePanelReadOnlyIfBudgetVersionIsFinal" description="Budget Expense Panel Read Only - Only if Budget Version if Final" required="true" %>
 
 <c:set var="budgetLineItemAttributes" value="${DataDictionary.BudgetLineItem.attributes}" />
@@ -29,7 +31,7 @@
 <c:set var="textAreaFieldNameJustification" value="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" />
 <c:set var="applyInRateReadOnly" value="false" />
 <bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
-<c:if test="${!KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].validToApplyInRate}">
+<c:if test="${!budgetLineItem.validToApplyInRate}">
     <c:set var="applyInRateReadOnly" value="true" />
 </c:if>
 
@@ -61,7 +63,7 @@
 				        	<td width="25%"><div align="left">
  			        			<c:choose>				        		
 					        		<c:when test="${budgetExpensePanelReadOnly}">
-					        			<c:out value="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetCategory.description}"/>
+					        			<c:out value="${budgetLineItem.budgetCategory.description}"/>
 					        		</c:when>
 					        		<c:otherwise>
 					        			<kul:htmlControlAttribute property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode"  attributeEntry="${budgetLineItemAttributes.budgetCategoryCode}" readOnly="${budgetExpensePanelReadOnly}"/>
@@ -108,20 +110,20 @@
 				          		</c:if>
 			          		</tr>
 			          					          						          			
-			          		<c:forEach items="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts}" varStatus="status">
-			          			<c:if test="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[status.index].rateClass.rateClassType == 'O'}" >
+			          		<c:forEach items="${budgetLineItem.budgetLineItemCalculatedAmounts}" varStatus="status">
+			          			<c:if test="${budgetLineItem.budgetLineItemCalculatedAmounts[status.index].rateClass.rateClassType == 'O'}" >
 									<c:set var="overheadIndex" value="${overheadIndex},${status.index}" />
 								</c:if>
 																		
-				          		<c:if test="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[status.index].rateClass.rateClassType ne 'O'}" >
+				          		<c:if test="${budgetLineItem.budgetLineItemCalculatedAmounts[status.index].rateClass.rateClassType ne 'O'}" >
 									<tr>		
 										<td><div align="center">
 											<kul:htmlControlAttribute property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].rateClassCode" attributeEntry="${budgetLineItemCalculatedAmountAttributes.rateClassCode}" />
-											<c:out value="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[status.index].rateClass.description}" />
+											<c:out value="${budgetLineItem.budgetLineItemCalculatedAmounts[status.index].rateClass.description}" />
 										</div></td>
 										<td><div align="center">
 											<kul:htmlControlAttribute property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].rateTypeCode" attributeEntry="${budgetLineItemCalculatedAmountAttributes.rateTypeCode}"  />
-											<c:out value="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[status.index].rateTypeDescription}" />
+											<c:out value="${budgetLineItem.budgetLineItemCalculatedAmounts[status.index].rateTypeDescription}" />
 										</div></td>
 										<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].applyRateFlag" attributeEntry="${budgetLineItemCalculatedAmountAttributes.applyRateFlag}" readOnly="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/></div></td>									
 										<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].calculatedCost" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCost}" readOnly="${proposalBudgetFlag}" /></div></td>
@@ -138,11 +140,11 @@
 				          			<tr>		
 										<td><div align="center">
 											<kul:htmlControlAttribute property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${overHeadRateIndex}].rateClassCode" attributeEntry="${budgetLineItemCalculatedAmountAttributes.rateClassCode}" />
-											<c:out value="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[overHeadRateIndex].rateClass.description}" />
+											<c:out value="${budgetLineItem.budgetLineItemCalculatedAmounts[overHeadRateIndex].rateClass.description}" />
 										</div></td>
 										<td><div align="center">
 											<kul:htmlControlAttribute property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${overHeadRateIndex}].rateTypeCode" attributeEntry="${budgetLineItemCalculatedAmountAttributes.rateTypeCode}"  />
-											<c:out value="${KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts[overHeadRateIndex].rateTypeDescription}" />
+											<c:out value="${budgetLineItem.budgetLineItemCalculatedAmounts[overHeadRateIndex].rateTypeDescription}" />
 										</div></td>
 										<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${overHeadRateIndex}].applyRateFlag" attributeEntry="${budgetLineItemCalculatedAmountAttributes.applyRateFlag}" readOnly="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/></div></td>									
 										<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${overHeadRateIndex}].calculatedCost" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCost}" readOnly="${proposalBudgetFlag}" /></div></td>
@@ -167,11 +169,11 @@
 							<html:image property="methodToCall.applyToLaterPeriods.line${budgetLineItemNumber}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-ApplyPeriods.gif' styleClass="tinybutton" />
 							</c:if>				
-							<c:if test="${!(budgetCategoryTypeCode == 'P' && not empty KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList)}" >
+							<c:if test="${!(budgetCategoryTypeCode == 'P' && not empty budgetLineItem.budgetPersonnelDetailsList)}" >
 							<html:image property="methodToCall.syncToPeriodCostLimit.line${budgetLineItemNumber}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-period_cost_limit.jpg' styleClass="tinybutton" />
 							</c:if>	
-							<c:if test="${!(budgetCategoryTypeCode == 'P' && not empty KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList)}" >
+							<c:if test="${!(budgetCategoryTypeCode == 'P' && not empty budgetLineItem.budgetPersonnelDetailsList)}" >
 							<html:image property="methodToCall.syncToPeriodDirectCostLimit.line${budgetLineItemNumber}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-period_direct_limit.jpg' styleClass="tinybutton" />
 							</c:if>	
