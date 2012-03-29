@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
@@ -30,6 +31,7 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureAssociate;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements Comparable<CoiDisclosureAttachment>{
     /**
@@ -57,6 +59,9 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     private Long entitySequenceNumber;
     private Long originalCoiDisclosureId; 
     private CoiDisclosure originalCoiDisclosure; 
+
+    private final String MESSAGE_UPDATED_BY = "message.updated.by";
+    private static String updatedByString;
 
     public CoiDisclosureAttachment() {
         super();
@@ -275,4 +280,20 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     public void setOriginalCoiDisclosure(CoiDisclosure originalCoiDisclosure) {
         this.originalCoiDisclosure = originalCoiDisclosure;
     }
+
+    public String getShortDescription() {
+        String result = StringUtils.abbreviate(getDescription(), 20) + ": " + StringUtils.abbreviate(getFile().getName(), 20);
+        if (!StringUtils.isEmpty(getUpdateUser())) {
+            result += ": " + getUpdatedByString() + " " + getUpdateUser();
+        }
+        return result;
+    }
+
+    private String getUpdatedByString() {
+        if (updatedByString == null) {
+            updatedByString = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MESSAGE_UPDATED_BY);
+        }
+        return updatedByString;
+    }
+
 }
