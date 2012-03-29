@@ -349,6 +349,20 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     public boolean isProtocolEvent() {
         return StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.disclosureEventType);
     }
+
+    public boolean isManualProposalEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, this.disclosureEventType);
+    }
+
+    public boolean isManualAwardEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.MANUAL_AWARD, this.disclosureEventType);
+    }
+    
+    public boolean isManualProtocolEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, this.disclosureEventType);
+    }
+
+    
     public Protocol getProtocol() {
         if (protocol == null) {
             this.refreshReferenceObject("protocol");
