@@ -187,7 +187,7 @@
             <%-- Existing data --%>
 
         	<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects}" varStatus="status">
-                 <kra-coi:proposalFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
+                 <kra-coi:manualFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
         	</c:forEach> 
             <%-- Existing data --%>
      </div> <%-- proposal list div --%>
