@@ -22,7 +22,7 @@
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
                 <div>
                 <h3>
-    		        <span class="subhead-left" style="${style}">Proposal Number: ${disclProject.coiProjectId}</span>
+    		        <span class="subhead-left" style="${style}">Travel Event Id: ${disclProject.coiProjectId}</span>
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
               
@@ -30,20 +30,51 @@
                         <tbody>
                         <%-- Header --%>
                                  <tr>
-                                    <th><div align="right">Proposal Name</div></th> 
+                                    <th><div align="right">Event Title</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
 					${disclProject.coiProjectTitle}
 					</div>
 				  </td>
-                                    <th><div align="right">Sponsor</div></th> 
+                  <th><div align="right">Event Name</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
 					${disclProject.longTextField1}
 					</div>
 				  </td>
-                                  </tr>
-                                  <tr>
+                  </tr>
+                  
+                                 <tr>
+                                    <th><div align="right">Destination/Location of Travel </div></th> 
+                  <td align="left" valign="middle">
+					<div align="left">
+					${disclProject.shortTextField1}
+					</div>
+				  </td>
+                  <th><div align="right">Travel Sponsor</div></th> 
+                  <td align="left" valign="middle">
+					<div align="left">
+					${disclProject.longTextField2}
+					</div>
+				  </td>
+                  </tr>
+
+                                 <tr>
+                                    <th><div align="right">Amount of reimbursement received </div></th> 
+                  <td align="left" valign="middle">
+					<div align="left">
+					${disclProject.numberField1}
+					</div>
+				  </td>
+                  <th><div align="right">Purpose of Travel</div></th> 
+                  <td align="left" valign="middle">
+					<div align="left">
+					${disclProject.longTextField3}
+					</div>
+				  </td>
+                  </tr>
+                  
+                   <tr>
                                     <th><div align="right">start Date</div></th> 
                   <td align="left" valign="middle">
 					<div align="left">
