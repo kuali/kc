@@ -28,8 +28,11 @@
                     <c:when test="${disclProject.manualAwardEvent}">
                         <kra-coi:manualAwardHeader disclProject="${disclProject}" idx = "${idx}"/>                    
                     </c:when>
-                    <c:otherwise>
+                    <c:when test="${disclProject.manualProtocolEvent}">
                         <kra-coi:manualProtocolHeader disclProject="${disclProject}" idx = "${idx}"/>                    
+                    </c:when>
+                    <c:otherwise>
+                        <kra-coi:manualTravelHeader disclProject="${disclProject}" idx = "${idx}"/>                    
                     </c:otherwise>
                 
                 </c:choose>

@@ -41,6 +41,7 @@ public class MasterDisclosureBean implements Serializable {
     private List<CoiDisclosureProjectBean> manualAwardProjects;
     private List<CoiDisclosureProjectBean> manualProposalProjects;
     private List<CoiDisclosureProjectBean> manualProtocolProjects;
+    private List<CoiDisclosureProjectBean> manualTravelProjects;
     private List<CoiDisclosureProjectBean> allProjects;
     private List<AnswerHeader> answerHeaders;
 
@@ -52,6 +53,7 @@ public class MasterDisclosureBean implements Serializable {
         manualAwardProjects = new ArrayList<CoiDisclosureProjectBean>();
         manualProposalProjects = new ArrayList<CoiDisclosureProjectBean>();
         manualProtocolProjects = new ArrayList<CoiDisclosureProjectBean>();
+        manualTravelProjects = new ArrayList<CoiDisclosureProjectBean>();
         allProjects = new ArrayList<CoiDisclosureProjectBean>();
     }
     
@@ -139,6 +141,10 @@ public class MasterDisclosureBean implements Serializable {
                 getManualProtocolProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL));
                 break;
+            case 15:
+                getManualTravelProjects().add(coiDisclosureProjectBean);
+                coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.MANUAL_TRAVEL));
+                break;
         }
     }
 
@@ -168,6 +174,7 @@ public class MasterDisclosureBean implements Serializable {
         projects.add(manualAwardProjects);
         projects.add(manualProposalProjects);
         projects.add(manualProtocolProjects);
+        projects.add(manualTravelProjects);
         
         return projects;
     }
@@ -179,4 +186,14 @@ public class MasterDisclosureBean implements Serializable {
     public void setAnswerHeaders(List<AnswerHeader> answerHeaders) {
         this.answerHeaders = answerHeaders;
     }
+    
+    public List<CoiDisclosureProjectBean> getManualTravelProjects() {
+        return manualTravelProjects;
+    }
+
+    public void setManualTravelProjects(List<CoiDisclosureProjectBean> manualTravelProjects) {
+        this.manualTravelProjects = manualTravelProjects;
+    }
+
+
 }

@@ -38,6 +38,7 @@ public class CoiDisclosureEventType extends KraPersistableBusinessObjectBase imp
     public static final String MANUAL_AWARD = "11";
     public static final String MANUAL_DEVELOPMENT_PROPOSAL = "12";
     public static final String MANUAL_IRB_PROTOCOL = "13";
+    public static final String MANUAL_TRAVEL = "15";
     
     private String eventTypeCode; 
     private String description;
