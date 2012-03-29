@@ -255,8 +255,8 @@
 		 
 		      <tr>
 		        <td>
-		    			<kul:innerTab tabTitle="attachment" parentTab="Coi Disclosure Attachments" defaultOpen="false" tabErrorKey="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*,document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
-						<div class="innerTab-container" align="left">
+		    		<kul:innerTab tabTitle="${attachment.shortDescription}" parentTab="Coi Disclosure Attachments" defaultOpen="false" tabErrorKey="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*,document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
+					<div class="innerTab-container" align="left">
             		<table class=tab cellpadding=0 cellspacing="0" summary="">
 			         	<tr>
 							<th>
