@@ -1,4 +1,4 @@
-/*Change to 'Approve COI Disclosure' permission instead of 'Coi admin' permission*/
+-- Change to 'Approve COI Disclosure' permission instead of 'Coi admin' permission
 UPDATE KRIM_PERM_T SET NM = 'Approve Coi Disclosure' WHERE NM = 'Coi Admin'
 /
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) 
