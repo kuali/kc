@@ -33,6 +33,7 @@ CREATE  TABLE krew_typ_t (
 CREATE UNIQUE INDEX krew_typ_tc1 ON krew_typ_t (nm, nmspc_cd)
 /
 
+
 -- -----------------------------------------------------
 -- Table krew_ppl_flw_t
 -- -----------------------------------------------------
@@ -53,8 +54,10 @@ CREATE  TABLE krew_ppl_flw_t (
 
 CREATE UNIQUE INDEX krew_ppl_flw_tc1 ON krew_ppl_flw_t (nm, nmspc_cd)
 /
+
 CREATE INDEX krew_ppl_flw_fk1 ON krew_ppl_flw_t (typ_id)
 /
+
 
 -- -----------------------------------------------------
 -- Table krew_attr_defn_t
@@ -74,6 +77,7 @@ CREATE  TABLE krew_attr_defn_t (
 
 CREATE UNIQUE INDEX krew_attr_defn_tc1 ON krew_attr_defn_t (nm, nmspc_cd)
 /
+
 
 -- -----------------------------------------------------
 -- Table krew_typ_attr_t
@@ -97,10 +101,13 @@ CREATE  TABLE krew_typ_attr_t (
 
 CREATE INDEX krew_typ_attr_ti1 ON krew_typ_attr_t (attr_defn_id)
 /
+
 CREATE INDEX krew_typ_attr_ti2 ON krew_typ_attr_t (typ_id)
 /
+
 CREATE UNIQUE INDEX krew_typ_attr_tc1 ON krew_typ_attr_t (typ_id, attr_defn_id)
 /
+
 
 -- -----------------------------------------------------
 -- Table krew_ppl_flw_mbr_t
@@ -125,12 +132,16 @@ CREATE  TABLE krew_ppl_flw_mbr_t (
 
 CREATE INDEX krew_ppl_flw_mbr_ti1 ON krew_ppl_flw_mbr_t (ppl_flw_id)
 /
+
 CREATE INDEX krew_ppl_flw_mbr_ti2 ON krew_ppl_flw_mbr_t (ppl_flw_id, prio)
 /
+
 CREATE UNIQUE INDEX krew_ppl_flw_mbr_tc1 ON krew_ppl_flw_mbr_t (ppl_flw_id, mbr_typ_cd, mbr_id, dlgt_frm_id)
 /
+
 CREATE INDEX krew_ppl_flw_mbr_fk2 ON krew_ppl_flw_mbr_t (dlgt_frm_id)
 /
+
 
 -- -----------------------------------------------------
 -- Table krew_ppl_flw_attr_t
@@ -153,8 +164,10 @@ CREATE  TABLE krew_ppl_flw_attr_t (
 
 CREATE INDEX krew_ppl_flw_attr_ti1 ON krew_ppl_flw_attr_t (ppl_flw_id)
 /
+
 CREATE INDEX krew_ppl_flw_attr_ti2 ON krew_ppl_flw_attr_t (attr_defn_id)
 /
+
 
 -- -----------------------------------------------------
 -- Table krew_typ_s

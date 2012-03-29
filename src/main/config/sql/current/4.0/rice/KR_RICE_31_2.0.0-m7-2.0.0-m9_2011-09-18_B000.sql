@@ -23,7 +23,7 @@ select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_PPL_FL
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_PPL_FLW_MBR_T DROP CONSTRAINT KREW_PPL_FLW_MBR_TC1';
 ELSE
-DBMS_OUTPUT.PUT_LINE('KREW_DOC_TYP_TC0 does not exist, so not running statement to change/drop it.');
+DBMS_OUTPUT.PUT_LINE('KREW_PPL_FLW_MBR_TC1 does not exist, so not running statement to change/drop it.');
 END IF;
 END;
 /
