@@ -1,4 +1,4 @@
-/* insert the data in the various entity tables and the principal table to create the coi admin user */
+-- insert the data in the various entity tables and the principal table to create the coi admin user
 INSERT INTO KRIM_ENTITY_T (ENTITY_ID, ACTV_IND, LAST_UPDT_DT,OBJ_ID, VER_NBR) 
     VALUES (KRIM_ENTITY_ID_S.NEXTVAL, 'Y', SYSDATE,SYS_GUID(), 1)
 /
@@ -35,7 +35,7 @@ INSERT INTO KRIM_ENTITY_PHONE_T (ENTITY_PHONE_ID, ENTITY_ID,ENT_TYP_CD, PHONE_TY
     VALUES (KRIM_ENTITY_PHONE_ID_S.NEXTVAL, KRIM_ENTITY_ID_S.CURRVAL, 'PERSON', 'FAX', '321-321-2283', null, 'N', 'Y', SYSDATE, SYS_GUID(), 1)
 /
 
-/* insert the role-member data to create the association between the pre-existing coi admin role and coiadmin user created above */
+-- insert the role-member data to create the association between the pre-existing coi admin role and coiadmin user created above
 INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR) 
     VALUES (KRIM_ROLE_MBR_ID_S.NEXTVAL, (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-COIDISCLOSURE' AND ROLE_NM = 'COI Administrator'), (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'coiadmin'), 'P', SYSDATE, SYS_GUID(), 1)
 /
@@ -49,7 +49,7 @@ INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KI
 
 
 
-/* insert the data in the various entity tables and the principal table to create the coireviewer user */
+-- insert the data in the various entity tables and the principal table to create the coireviewer user
 INSERT INTO KRIM_ENTITY_T (ENTITY_ID, ACTV_IND, LAST_UPDT_DT,OBJ_ID, VER_NBR) 
     VALUES (KRIM_ENTITY_ID_S.NEXTVAL, 'Y', SYSDATE,SYS_GUID(), 1)
 /
@@ -89,7 +89,7 @@ INSERT INTO KRIM_ENTITY_PHONE_T (ENTITY_PHONE_ID, ENTITY_ID,ENT_TYP_CD, PHONE_TY
  
 
 
-/* insert the data in the various entity tables and the principal table to create the coiuser user */
+-- insert the data in the various entity tables and the principal table to create the coiuser user
 INSERT INTO KRIM_ENTITY_T (ENTITY_ID, ACTV_IND, LAST_UPDT_DT,OBJ_ID, VER_NBR) 
     VALUES (KRIM_ENTITY_ID_S.NEXTVAL, 'Y', SYSDATE,SYS_GUID(), 1)
 /
@@ -126,7 +126,7 @@ INSERT INTO KRIM_ENTITY_PHONE_T (ENTITY_PHONE_ID, ENTITY_ID,ENT_TYP_CD, PHONE_TY
     VALUES (KRIM_ENTITY_PHONE_ID_S.NEXTVAL, KRIM_ENTITY_ID_S.CURRVAL, 'PERSON', 'FAX', '321-321-2287', null, 'N', 'Y', SYSDATE, SYS_GUID(), 1)
 /
 
-/* insert the role-member data to create the association between the pre-existing coi reporter role and coiuser user created above */
+-- insert the role-member data to create the association between the pre-existing coi reporter role and coiuser user created above
 INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR) 
     VALUES (KRIM_ROLE_MBR_ID_S.NEXTVAL, (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-COIDISCLOSURE' AND ROLE_NM = 'COI Reporter'), (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'coiuser'), 'P', SYSDATE, SYS_GUID(), 1)
 /
