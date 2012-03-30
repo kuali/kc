@@ -11,6 +11,9 @@
 <c:set var="reporterName" value="${KualiForm.document.coiDisclosureList[0].disclosurePersons[0].reporter.fullName}" />
 <c:set var="certTimeStamp" value="${KualiForm.document.coiDisclosureList[0].certificationTimestampString}" />
 <c:set var="submitThankyouStatement" value="${KualiForm.document.coiDisclosureList[0].submitThankyouStatement}" />
+<c:set var="viewCertificationAuth" value="${KualiForm.disclosureHelper.canViewDisclosureCertification}" />
+<c:set var="certifyCertificationAuth" value="${KualiForm.disclosureHelper.canCertifyDisclosure}" />
+<br/>view = ${viewCertificationAuth}, cert = ${certifyCertificationAuth}, readonly = ${readOnly}<br/>
 <c:if test="${topTab == true}">
 	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
 	<div id="workarea">
@@ -41,49 +44,54 @@
 				</td>
 			</tr>
 			<tr>
-				<th style="height: 30px;" colspan="2">Certification</th>
+				<th style="height: 30px;" colspan="2">
+					Certification
+					<c:if test="${empty certTimeStamp}">
+						- Not yet certified
+					</c:if>
+					
+				</th>
 			</tr>
 			<tr>
             	<td style="vertical-align:top;">
-						<input type="checkbox" id="certCheckbox" 
-			    			<c:if test="${!empty certTimeStamp}">
-								checked="checked"
-							</c:if>
-							<c:if test="${readOnly}">
-								disabled="true"
-							</c:if>
-						/>
-					<c:if test="${!readOnly}">
-	                    <script type="text/javascript">
-							$j(document).ready(function(){
-								// initial state
-								if ($j('#certCheckbox').is(':checked')) {
-									$j("#certSubpanel").show();
-									$j("#certPrint").show();
-									$j("#certSubmit").hide();
-								} else {
-									$j("#certSubpanel").hide();
-								}
-								// trigger
-								$j("#certCheckbox").click(
-									function() {
-											funcHideShowCert();
-										}
-									);
-									// function
-									function funcHideShowCert() {
-											if ($j('#certCheckbox').is(':checked')) {
-												$j("#certSubpanel").show();
-												$j("#certCheckbox").attr('checked', true);
-											} else {
-												$j("#certSubpanel").hide();
-												$j("#certCheckbox").attr('checked', false);
-											}
-										}
+					<input type="checkbox" id="certCheckbox" 
+		    			<c:if test="${!empty certTimeStamp}">
+							checked="checked"
+						</c:if>
+						<c:if test="${readOnly}">
+							disabled="true"
+						</c:if>
+					/>
+	                <script type="text/javascript">
+						$j(document).ready(function(){
+							// initial state
+							if ($j('#certCheckbox').is(':checked') || '${viewCertificationAuth}' == 'true') {
+								$j("#certSubpanel").show();
+								$j("#certPrint").show();
+								$j("#certSubmit").hide();
+							} else {
+								$j("#certSubpanel").hide();
+							}
+							// trigger
+							$j("#certCheckbox").click(
+								function() {
+										funcHideShowCert();
 									}
 								);
-						</script>
-					</c:if>
+							// function
+							function funcHideShowCert() {
+									if ($j('#certCheckbox').is(':checked')) {
+										$j("#certSubpanel").show();
+										$j("#certCheckbox").attr('checked', true);
+										$j("#certSubmit").show();
+									} else {
+										$j("#certSubpanel").hide();
+										$j("#certCheckbox").attr('checked', false);
+									}
+								}
+							}
+						);
+					</script>
                 </td>
                 <td>
 					<c:choose>
@@ -113,7 +121,7 @@
 										</c:choose>
                                     </td>
                                     <td id="certSubmit" style="border:none; background:none; text-align:center;" rowspan="2">
-                                    	<c:if test="${!readOnly}">
+                                    	<c:if test="${!readOnly && certifyCertificationAuth}">
 											<html:image property="methodToCall.submitDisclosureCertification"
 													    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif" 
 														title="Submit disclosure certification" alt="Submit disclosure certification" 
@@ -132,12 +140,14 @@
 											</script>
 										</c:if>
                                     </td>
-                                    <td id="certPrint" style="border:none; background:none; text-align:center;" rowspan="2">
-										<html:image property="methodToCall.printDisclosureCertification"
-												    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" 
-													title="Print Approved Disclosure" alt="Print Approved Disclosure" 
-													styleClass="tinybutton"  />
-                                    </td>
+                                    <c:if test="${viewCertificationAuth}">
+                    	                <td id="certPrint" style="border:none; background:none; text-align:center;" rowspan="2">
+											<html:image property="methodToCall.printDisclosureCertification"
+													    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" 
+														title="Print Approved Disclosure" alt="Print Approved Disclosure" 
+														styleClass="tinybutton"  />
+	                                    </td>
+                                    </c:if>
                                 </tr>
                                 <tr>
                                     <td style="border:none; background:none; text-align:center;" class="fineprint">
