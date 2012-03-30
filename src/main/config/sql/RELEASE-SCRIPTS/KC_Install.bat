@@ -249,7 +249,7 @@ mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Release-3_0_1-3_1_S1-Upgrade
 
 if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP1MYSQLRICE
 if /i "%mode%" == "BUNDLE" goto 3.1.SP1MYSQLRICE
-goto 3.1.SP1ORACLEFINISH
+goto 3.1.SP1MYSQLFINISH
 
 :3.1.SP1MYSQLRICE
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Mysql-Install.sql > KR-Server-Release-1_0_3_1-Upgrade-Mysql-Install.log 2>&1
