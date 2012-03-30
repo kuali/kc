@@ -55,6 +55,8 @@ public class DisclosureHelper implements Serializable {
     private List<FinEntityDataMatrixBean> newRelationDetails;
     private boolean canViewDisclosureFeHistory;
     private boolean canEditDisclosureFinancialEntity;
+    private boolean canViewDisclosureCertification;
+    private boolean canCertifyDisclosure;
     private String conflictHeaderLabel;
     private CoiDisclProject newCoiDisclProject;
     private String protocolType;
@@ -99,6 +101,8 @@ public class DisclosureHelper implements Serializable {
         initializeModifyCoiDisclosurePermission(coiDisclosure);
         canEditDisclosureFinancialEntity = hasCanEditDisclosureFinancialEntityPermission(coiDisclosure);
         canViewDisclosureFeHistory = canEditDisclosureFinancialEntity || hasCanViewDisclosureFeHistoryPermission(coiDisclosure);
+        canViewDisclosureCertification = hasCanViewDisclosureCertificationPermission();
+        canCertifyDisclosure = hasCanCertifyDisclosurePermission();
     }
 
     private void initializeModifyCoiDisclosurePermission(CoiDisclosure coiDisclosure) {
@@ -179,9 +183,29 @@ public class DisclosureHelper implements Serializable {
         this.canViewDisclosureFeHistory = canViewDisclosureFeHistory;
     }
 
+    public boolean isCanViewDisclosureCertification() {
+        return canViewDisclosureCertification;
+    }
+
+    public boolean isCanCertifyDisclosure() {
+        return canCertifyDisclosure;
+    }
+
     private boolean hasCanViewDisclosureFeHistoryPermission(CoiDisclosure coiDisclosure) {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE, coiDisclosure);
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+    }
+
+    private boolean hasCanViewDisclosureCertificationPermission() {
+        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE, getCoiDisclosure());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+    }
+
+    private boolean hasCanCertifyDisclosurePermission() {
+// for now        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.CERTIFY, getCoiDisclosure());
+//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        return (getCoiDisclosure().getPersonId() == null) || StringUtils.equals(getCoiDisclosure().getPersonId(), GlobalVariables.getUserSession().getPrincipalId());
+
     }
 
     public boolean isCanEditDisclosureFinancialEntity() {
