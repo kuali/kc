@@ -194,10 +194,10 @@ case "${dbtype}" in
         if [ "${version}" = "3.2" ] || [ "${version}" = "3.1.1" ] || [ "${version}" = "3.1" ] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-4_0-SCRIPT
+            sqlplus "${un}"/"${pw}${DBSvrNm}" < KRC_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
+            sqlplus "${un}"/"${pw}${DBSvrNm}" < KC_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
             if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
             then
-                sqlplus "${un}"/"${pw}${DBSvrNm}" < KRC_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
-                sqlplus "${un}"/"${pw}${DBSvrNm}" < KC_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
                 sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
             fi
             sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-4_0-Upgrade-ORACLE.sql
@@ -309,10 +309,10 @@ case "${dbtype}" in
         if [ "${version}" = "3.2" ] || [ "${version}" = "3.1.1" ] || [ "${version}" = "3.1" ] || [ "${version}" = "3.0.1" ] || [ "${version}" = "3.0" ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-4_0-SCRIPT
+            mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KRC_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
+            mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KC_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
             if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
             then
-                mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KRC_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
-                mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KC_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
                 mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KR_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
             fi
             mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-4_0-Upgrade-MYSQL.sql > KC-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
