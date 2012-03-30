@@ -27,7 +27,7 @@ if /i "%Version%" == "3.0" goto User
 if /i "%Version%" == "3.0.1" goto User
 if /i "%Version%" == "3.1" goto User
 if /i "%Version%" == "3.1.1" goto User
-if /i "$Version%" == "3.2" goto User
+if /i "%Version%" == "3.2" goto User
 echo Invalid Version <%Version%>
 goto Version
 
@@ -190,10 +190,10 @@ cd ..
 
 :3.2ORACLE
 cd KC-RELEASE-4_0-SCRIPT
-
-if /i "%mode%%InstRice%" == "EMBEDN" goto 3.2ORACLENORICE
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
+
+if /i "%mode%%InstRice%" == "EMBEDN" goto 3.2ORACLENORICE
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
 
 :3.2ORACLENORICE
@@ -304,10 +304,10 @@ cd ..
 
 :3.2MYSQL
 cd KC-RELEASE-4_0-SCRIPT
-
-if /i "%mode%%InstRice%" == "EMBEDN" goto 3.2MYSQLNORICE
 mysql -u %un% -p%pw% -D %un% -s -f < KRC_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
 mysql -u %un% -p%pw% -D %un% -s -f < KC_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KC_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
+
+if /i "%mode%%InstRice%" == "EMBEDN" goto 3.2MYSQLNORICE
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KR_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
 
 :3.2MYSQLNORICE
