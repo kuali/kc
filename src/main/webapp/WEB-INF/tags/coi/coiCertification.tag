@@ -13,7 +13,6 @@
 <c:set var="submitThankyouStatement" value="${KualiForm.document.coiDisclosureList[0].submitThankyouStatement}" />
 <c:set var="viewCertificationAuth" value="${KualiForm.disclosureHelper.canViewDisclosureCertification}" />
 <c:set var="certifyCertificationAuth" value="${KualiForm.disclosureHelper.canCertifyDisclosure}" />
-<br/>view = ${viewCertificationAuth}, cert = ${certifyCertificationAuth}, readonly = ${readOnly}<br/>
 <c:if test="${topTab == true}">
 	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
 	<div id="workarea">
