@@ -1,7 +1,7 @@
 DELIMITER /
-/Cygwin.bat /Cygwin.ico /bin /cygdrive /dbcopy.sh /desktop.ini /dev /etc /home /lib /proc /tmp /usr /var insert the data in the various entity tables and the principal table to create the coi admin user constraints/ dml/ rice/ sequences/ tables/ views/
 INSERT INTO KRIM_ENTITY_ID_S VALUES(NULL)
 /
+-- insert the data in the various entity tables and the principal table to create the coi admin user
 INSERT INTO KRIM_ENTITY_T (ENTITY_ID, ACTV_IND, LAST_UPDT_DT,OBJ_ID, VER_NBR)
 VALUES ((SELECT (MAX(ID)) FROM KRIM_ENTITY_ID_S), 'Y', NOW(),UUID(), 1)
 /
@@ -49,10 +49,10 @@ INSERT INTO KRIM_ENTITY_PHONE_ID_S VALUES(NULL)
 INSERT INTO KRIM_ENTITY_PHONE_T (ENTITY_PHONE_ID, ENTITY_ID,ENT_TYP_CD, PHONE_TYP_CD, PHONE_NBR,POSTAL_CNTRY_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR)
 VALUES ((SELECT (MAX(ID)) FROM KRIM_ENTITY_PHONE_ID_S), (SELECT (MAX(ID)) FROM KRIM_ENTITY_ID_S), 'PERSON', 'FAX', '321-321-2283', null, 'N', 'Y', NOW(), UUID(), 1)
 /
-
-/Cygwin.bat /Cygwin.ico /bin /cygdrive /dbcopy.sh /desktop.ini /dev /etc /home /lib /proc /tmp /usr /var insert the role-member data to create the association between the pre-existing coi admin role and coiadmin user created above constraints/ dml/ rice/ sequences/ tables/ views/
 INSERT INTO KRIM_ROLE_MBR_ID_S VALUES(NULL)
 /
+
+-- insert the role-member data to create the association between the pre-existing coi admin role and coiadmin user created above
 INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR)
 VALUES ((SELECT (MAX(ID)) FROM KRIM_ROLE_MBR_ID_S), (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-COIDISCLOSURE' AND ROLE_NM = 'COI Administrator'), (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'coiadmin'), 'P', NOW(), UUID(), 1)
 /
@@ -66,13 +66,13 @@ INSERT INTO KRIM_ATTR_DATA_ID_S VALUES(NULL)
 INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, OBJ_ID, VER_NBR)
 VALUES ((SELECT (MAX(ID)) FROM KRIM_ATTR_DATA_ID_S), (SELECT (MAX(ID)) FROM KRIM_ROLE_MBR_ID_S), (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'UnitHierarchy'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'subunits'), 'Y', UUID(), 1)
 /
-
-
-
-
-/Cygwin.bat /Cygwin.ico /bin /cygdrive /dbcopy.sh /desktop.ini /dev /etc /home /lib /proc /tmp /usr /var insert the data in the various entity tables and the principal table to create the coireviewer user constraints/ dml/ rice/ sequences/ tables/ views/
 INSERT INTO KRIM_ENTITY_ID_S VALUES(NULL)
 /
+
+
+
+
+-- insert the data in the various entity tables and the principal table to create the coireviewer user
 INSERT INTO KRIM_ENTITY_T (ENTITY_ID, ACTV_IND, LAST_UPDT_DT,OBJ_ID, VER_NBR)
 VALUES ((SELECT (MAX(ID)) FROM KRIM_ENTITY_ID_S), 'Y', NOW(),UUID(), 1)
 /
@@ -120,13 +120,13 @@ INSERT INTO KRIM_ENTITY_PHONE_ID_S VALUES(NULL)
 INSERT INTO KRIM_ENTITY_PHONE_T (ENTITY_PHONE_ID, ENTITY_ID,ENT_TYP_CD, PHONE_TYP_CD, PHONE_NBR,POSTAL_CNTRY_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR)
 VALUES ((SELECT (MAX(ID)) FROM KRIM_ENTITY_PHONE_ID_S), (SELECT (MAX(ID)) FROM KRIM_ENTITY_ID_S), 'PERSON', 'FAX', '321-321-2285', null, 'N', 'Y', NOW(), UUID(), 1)
 /
-
-
-
-
-/Cygwin.bat /Cygwin.ico /bin /cygdrive /dbcopy.sh /desktop.ini /dev /etc /home /lib /proc /tmp /usr /var insert the data in the various entity tables and the principal table to create the coiuser user constraints/ dml/ rice/ sequences/ tables/ views/
 INSERT INTO KRIM_ENTITY_ID_S VALUES(NULL)
 /
+
+
+
+
+-- insert the data in the various entity tables and the principal table to create the coiuser user
 INSERT INTO KRIM_ENTITY_T (ENTITY_ID, ACTV_IND, LAST_UPDT_DT,OBJ_ID, VER_NBR)
 VALUES ((SELECT (MAX(ID)) FROM KRIM_ENTITY_ID_S), 'Y', NOW(),UUID(), 1)
 /
@@ -174,10 +174,11 @@ INSERT INTO KRIM_ENTITY_PHONE_ID_S VALUES(NULL)
 INSERT INTO KRIM_ENTITY_PHONE_T (ENTITY_PHONE_ID, ENTITY_ID,ENT_TYP_CD, PHONE_TYP_CD, PHONE_NBR,POSTAL_CNTRY_CD, DFLT_IND, ACTV_IND, LAST_UPDT_DT, OBJ_ID, VER_NBR)
 VALUES ((SELECT (MAX(ID)) FROM KRIM_ENTITY_PHONE_ID_S), (SELECT (MAX(ID)) FROM KRIM_ENTITY_ID_S), 'PERSON', 'FAX', '321-321-2287', null, 'N', 'Y', NOW(), UUID(), 1)
 /
-
-/Cygwin.bat /Cygwin.ico /bin /cygdrive /dbcopy.sh /desktop.ini /dev /etc /home /lib /proc /tmp /usr /var insert the role-member data to create the association between the pre-existing coi reporter role and coiuser user created above constraints/ dml/ rice/ sequences/ tables/ views/
 INSERT INTO KRIM_ROLE_MBR_ID_S VALUES(NULL)
 /
+
+-- insert the role-member data to create the association between the pre-existing coi reporter role and coiuser user created above
 INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, OBJ_ID, VER_NBR)
 VALUES ((SELECT (MAX(ID)) FROM KRIM_ROLE_MBR_ID_S), (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-COIDISCLOSURE' AND ROLE_NM = 'COI Reporter'), (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'coiuser'), 'P', NOW(), UUID(), 1)
-/DELIMITER ;
+/
+DELIMITER ;
