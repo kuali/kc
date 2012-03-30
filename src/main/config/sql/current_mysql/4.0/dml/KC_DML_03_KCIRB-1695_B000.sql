@@ -6,14 +6,8 @@ commit
 /
 INSERT INTO SEQ_PROTO_CORRESP_TEMPL VALUES(NULL)
 /
-INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) values ((SELECT (MAX(ID)) FROM SEQ_PROTO_CORRESP_TEMPL),(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes'),'DEFAULT','10-ScheduleMinutes.xslt',EMPTY_CLOB(),'admin',NOW(),UUID(),1)
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes') AND COMMITTEE_ID = 'DEFAULT' FOR UPDATE;
-buffer := '<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) values ((SELECT (MAX(ID)) FROM SEQ_PROTO_CORRESP_TEMPL),(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes'),'DEFAULT','10-ScheduleMinutes.xslt',
+'<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:n1="http://irb.mit.edu/irbnamespace">
 <xsl:key name="MinuteType" match="n1:Schedule/n1:Minutes" use="n1:EntrySortCode"/>
 <xsl:key name="ActionType" match="n1:Schedule/n1:Minutes" use="n1:ProtocolNumber"/>
@@ -67,16 +61,7 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
 <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
 <fo:table-column column-width="113pt"/>
 <fo:table-column/>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes') AND COMMITTEE_ID = 'DEFAULT' FOR UPDATE;
-buffer := ' <fo:table-body>
+<fo:table-body>
 <fo:table-row>
 <fo:table-cell width="113pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="white">
 <fo:block>Meeting Date:</fo:block>
@@ -104,16 +89,7 @@ buffer := ' <fo:table-body>
 <xsl:for-each select="n1:Schedule/n1:ScheduleMasterData">
 <xsl:for-each select="n1:StartTime">
 <xsl:value-of select="format-number(substring(substring-before(., '':''), string-length(substring-before(., '':'')) - 1), ''00'')"/>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes') AND COMMITTEE_ID = 'DEFAULT' FOR UPDATE;
-buffer := ' <xsl:text>:</xsl:text>
+<xsl:text>:</xsl:text>
 <xsl:value-of select="format-number(substring-before(substring-after(., '':''), '':''), ''00'')"/>
 </xsl:for-each>
 </xsl:for-each>
@@ -157,16 +133,7 @@ Members Present </fo:inline>
 <xsl:for-each select="n1:Attendents">
 <xsl:if test="n1:PresentFlag =&apos;true&apos; and n1:AlternateFlag =&apos;false&apos; and n1:GuestFlag =&apos;false&apos;">
 <fo:list-block provisional-distance-between-starts="7mm" provisional-label-separation="2mm" start-indent="2mm" space-before.optimum="4pt" space-after.optimum="4pt">
-<x';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes') AND COMMITTEE_ID = 'DEFAULT' FOR UPDATE;
-buffer := 'sl:for-each select="n1:AttendentName">
+<xsl:for-each select="n1:AttendentName">
 <fo:list-item>
 <fo:list-item-label end-indent="label-end()">
 <fo:block font-family="Courier" font-size="15pt" line-height="14pt" padding-before="2pt">&#x2022;</fo:block>
@@ -213,16 +180,7 @@ Guests</fo:inline><fo:list-block provisional-distance-between-starts="7mm" provi
 <fo:list-item-body start-indent="body-start()">
 <fo:block>
 <xsl:apply-templates />
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes') AND COMMITTEE_ID = 'DEFAULT' FOR UPDATE;
-buffer := ' </fo:block>
+</fo:block>
 </fo:list-item-body>
 </fo:list-item>
 </xsl:for-each>
@@ -279,16 +237,7 @@ Absentees</fo:inline></xsl:if>
 <fo:block>
 <xsl:for-each select="n1:ActionItemCodeDesc">
 <xsl:variable name="value-of-template">
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes') AND COMMITTEE_ID = 'DEFAULT' FOR UPDATE;
-buffer := ' <xsl:apply-templates/>
+<xsl:apply-templates/>
 </xsl:variable>
 <xsl:choose>
 <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
@@ -336,16 +285,7 @@ buffer := ' <xsl:apply-templates/>
 </fo:table-body>
 </fo:table>
 </xsl:if>
-<!-- Other Business Section ends';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes') AND COMMITTEE_ID = 'DEFAULT' FOR UPDATE;
-buffer := ' -->
+<!-- Other Business Section ends -->
 
 <fo:block>
 <fo:leader leader-pattern="space"/>
@@ -405,16 +345,7 @@ buffer := ' -->
 
 <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
 <fo:table-column/>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes') AND COMMITTEE_ID = 'DEFAULT' FOR UPDATE;
-buffer := ' <fo:table-body>
+<fo:table-body>
 <fo:table-row>
 <fo:table-cell display-align="before" width="70pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
 <fo:block>
@@ -456,16 +387,7 @@ buffer := ' <fo:table-body>
 </fo:table-row>
 </fo:table-body>
 </fo:table>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes') AND COMMITTEE_ID = 'DEFAULT' FOR UPDATE;
-buffer := ' <fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
+<fo:table width="100%" space-before.optimum="1pt" space-after.optimum="2pt">
 <fo:table-column column-width="109pt"/>
 <fo:table-column/>
 <fo:table-body>
@@ -505,16 +427,7 @@ buffer := ' <fo:table width="100%" space-before.optimum="1pt" space-after.optimu
 
 <fo:table-cell display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
 <fo:block>
-<xsl:if test="../n1:ProtocolSummary/n1:ProtocolMasterData/n1:ExpirationDate != ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes') AND COMMITTEE_ID = 'DEFAULT' FOR UPDATE;
-buffer := '''null''">
+<xsl:if test="../n1:ProtocolSummary/n1:ProtocolMasterData/n1:ExpirationDate != ''null''">
 <xsl:value-of select="format-number(substring(../n1:ProtocolSummary/n1:ProtocolMasterData/n1:ExpirationDate, 6, 2), ''00'')"/>
 <xsl:text>/</xsl:text>
 <xsl:value-of select="format-number(substring(../n1:ProtocolSummary/n1:ProtocolMasterData/n1:ExpirationDate, 9, 2), ''00'')"/>
@@ -557,16 +470,7 @@ buffer := '''null''">
 </fo:table-cell>
 <fo:table-cell display-align="before" width="393pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
 <fo:block>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes') AND COMMITTEE_ID = 'DEFAULT' FOR UPDATE;
-buffer := ' <xsl:value-of select="."/>
+<xsl:value-of select="."/>
 </fo:block>
 </fo:table-cell>
 </fo:table-row>
@@ -612,16 +516,7 @@ buffer := ' <xsl:value-of select="."/>
 </fo:table-cell>
 <fo:table-cell display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
 <fo:block>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes') AND COMMITTEE_ID = 'DEFAULT' FOR UPDATE;
-buffer := ' <fo:inline font-weight="bold">Abstainers:</fo:inline>
+<fo:inline font-weight="bold">Abstainers:</fo:inline>
 </fo:block>
 </fo:table-cell>
 <fo:table-cell display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="white">
@@ -662,16 +557,7 @@ buffer := ' <fo:inline font-weight="bold">Abstainers:</fo:inline>
 <xsl:value-of select="."/>
 <xsl:text>&#160;&#160;&#160;&#160;</xsl:text>
 </xsl:for-each>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT CORRESPONDENCE_TEMPLATE INTO data FROM PROTO_CORRESP_TEMPL
-WHERE
-PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Schedule Minutes') AND COMMITTEE_ID = 'DEFAULT' FOR UPDATE;
-buffer := ' </fo:block>
+</fo:block>
 </fo:table-cell>
 </fo:table-row>
 
@@ -698,9 +584,7 @@ buffer := ' </fo:block>
 </fo:page-sequence>
 </fo:root>
 </xsl:template>
-</xsl:stylesheet>';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
+</xsl:stylesheet>','admin',NOW(),UUID(),1)
 /
 commit
 /
