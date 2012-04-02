@@ -502,4 +502,14 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         financialEntityForm.getFinancialEntityHelper().removeNewFinancialEntityAttachment(selectedLine);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+
+    /*
+     * for new FE and user cancels, go back to main page
+     */
+    @Override
+    public ActionForward whereToGoAfterCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return editList(mapping, form, request, response); 
+    }
+
 }
