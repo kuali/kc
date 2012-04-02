@@ -67,6 +67,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.GenericPrintable;
@@ -103,6 +105,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
     private static final String EXTRA_KEYPERSONS_COMMENT = "RRFEDNONFED_EXTRA_KEYPERSONS";
     private static final String ADDITIONAL_EQUIPMENT_NARRATIVE_TYPE_CODE ="12";
     private static final String ADDITIONAL_EQUIPMENT_NARRATIVE_COMMENT = "RRFEDNONFED_ADDITIONAL_EQUIPMENT";
+    private Budget budget;
     /**
      * This method returns RRFedNonFedBudgetDocument object based on proposal development document which contains the informations
      * such as DUNSID,OrganizationName,BudgetType,BudgetYear and BudgetSummary.
@@ -127,6 +130,10 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
         try {
             budgetPeriodList = s2sBudgetCalculatorService.getBudgetPeriods(pdDoc);
             budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc,budgetPeriodList);
+            BudgetDocument budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+            if (budgetDocument != null) {
+                budget = budgetDocument.getBudget();
+            }
         }
         catch (S2SException e) {
             LOG.error(e.getMessage(), e);
@@ -186,7 +193,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 summary.setFederalSummary(periodInfo.getTotalCompensation().bigDecimalValue());
             }
             if (periodInfo.getTotalCompensationCostSharing() != null) {
-                summary.setNonFederalSummary(periodInfo.getTotalCompensationCostSharing().bigDecimalValue());
+                if (budget.getSubmitCostSharingFlag()) {
+                    summary.setNonFederalSummary(periodInfo.getTotalCompensationCostSharing().bigDecimalValue());
+                } else {
+                    summary.setNonFederalSummary(BigDecimal.ZERO);
+                }
                 if (periodInfo.getTotalCompensation() != null) {
                     summary.setTotalFedNonFedSummary(periodInfo.getTotalCompensation().add(
                             periodInfo.getTotalCompensationCostSharing()).bigDecimalValue());
@@ -741,7 +752,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 summary.setFederalSummary(periodInfo.getTotalCompensation().bigDecimalValue());
             }
             if (periodInfo.getTotalCompensationCostSharing() != null) {
-                summary.setNonFederalSummary(periodInfo.getTotalCompensationCostSharing().bigDecimalValue());
+                if (budget.getSubmitCostSharingFlag()) {
+                    summary.setNonFederalSummary(periodInfo.getTotalCompensationCostSharing().bigDecimalValue());
+                } else {
+                    summary.setNonFederalSummary(BigDecimal.ZERO);
+                }
                 if (periodInfo.getTotalCompensation() != null) {
                     summary.setTotalFedNonFedSummary(periodInfo.getTotalCompensation().add(
                             periodInfo.getTotalCompensationCostSharing()).bigDecimalValue());
@@ -1538,7 +1553,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 summary.setFederalSummary(periodInfo.getTotalOtherPersonnelFunds().bigDecimalValue());
             }
             if (periodInfo.getTotalOtherPersonnelNonFunds() != null) {
-                summary.setNonFederalSummary(periodInfo.getTotalOtherPersonnelNonFunds().bigDecimalValue());
+                if (budget.getSubmitCostSharingFlag()) {
+                    summary.setNonFederalSummary(periodInfo.getTotalOtherPersonnelNonFunds().bigDecimalValue());                
+                } else {
+                    summary.setNonFederalSummary(BigDecimal.ZERO);
+                }
                 if (periodInfo.getTotalOtherPersonnelFunds() != null) {
                     summary.setTotalFedNonFedSummary(periodInfo.getTotalOtherPersonnelFunds().add(
                             periodInfo.getTotalOtherPersonnelNonFunds()).bigDecimalValue());
@@ -1655,7 +1674,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 totalDataType.setFederal(compensation.getFundsRequested().bigDecimalValue());
             }
             if (compensation.getNonFundsRequested() != null) {
-                totalDataType.setNonFederal(compensation.getNonFundsRequested().bigDecimalValue());
+                if (budget.getSubmitCostSharingFlag()) {
+                    totalDataType.setNonFederal(compensation.getNonFundsRequested().bigDecimalValue());
+                } else {
+                    totalDataType.setNonFederal(BigDecimal.ZERO);
+                }
             }
             if (compensation.getFundsRequested() != null && compensation.getNonFundsRequested() != null)
                 totalDataType.setTotalFedNonFed(compensation.getFundsRequested().add(compensation.getNonFundsRequested())
