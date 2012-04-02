@@ -1,4 +1,12 @@
 /*
+
+
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
  * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -1062,7 +1070,8 @@ public final class KeyConstants {
     
     // Disclosure and Financial Entity errors
     public static final String ERROR_DISCLOSURE_SEARCH_INVALID_DATE = "error.search.invalid.date";
-
+    public static final String MESSAGE_CANCEL_FE = "message.cancel.fe";
+    
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.

@@ -16,7 +16,6 @@
 package org.kuali.kra.coi.personfinancialentity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,17 +24,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
-import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -45,10 +35,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class is the struts action for maintaining new financial entity page
  */
 public class FinancialEntityEditNewAction extends FinancialEntityAction {
-    private static final String NEW_FINANCIAL_ENTITY = "financialEntityHelper.newPersonFinancialEntity";
-
-    private static final String CONFIRM_YES_DELETE_ATTACHMENT = "confirmDeleteAttachment";
-    private static final String CONFIRM_NO_DELETE = "";
+    public static final String NEW_FINANCIAL_ENTITY = "financialEntityHelper.newPersonFinancialEntity";
 
     /**
      * 
@@ -158,6 +145,15 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
         int selectedLine = getSelectedLine(request);
         financialEntityForm.getFinancialEntityHelper().removeNewFinancialEntityAttachment(selectedLine);
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /*
+     * for new FE and user cancels, go back to main page
+     */
+    @Override
+    public ActionForward whereToGoAfterCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return mapping.findForward(KRADConstants.MAPPING_PORTAL);
     }
 
 }

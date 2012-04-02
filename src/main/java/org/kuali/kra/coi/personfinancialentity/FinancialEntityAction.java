@@ -15,6 +15,12 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang.StringUtils.replace;
+import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
+import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,16 +47,20 @@ import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -61,6 +71,9 @@ public class FinancialEntityAction extends KualiAction {
 
     protected static final String INACTIVATE_ENTITY = "inactive";
     protected static final String ACTIVATE_ENTITY = "active";
+    protected static final String CONFIRM_YES_CANCEL_FE = "confirmCancelFinancialEntity";
+    protected static final String CONFIRM_NO_CANCEL_FE = "declineCancelFinancialEntity";
+    protected static final String CONFIRM_NO_DELETE = "";
 
     /**
      * 
@@ -136,12 +149,14 @@ public class FinancialEntityAction extends KualiAction {
      * @return
      * @throws Exception
      */
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        final StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response, 
+                CONFIRM_YES_CANCEL_FE, KeyConstants.MESSAGE_CANCEL_FE);
+        return confirm(confirm, CONFIRM_YES_CANCEL_FE, CONFIRM_NO_CANCEL_FE);
     }
 
-    
+
     /*
      * check if financial is valid for save
      */
@@ -327,5 +342,98 @@ public class FinancialEntityAction extends KualiAction {
     protected static String getValidHeaderString(String s) {
         return MimeUtility.quote(s, HeaderTokenizer.MIME);
     }    
+
+
+    /**
+     * "borrowed" from KraTransactionalDocumentActionBase class
+     */
+    protected StrutsConfirmation buildParameterizedConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response, String questionId, String configurationId, String... params)
+            throws Exception {
+        StrutsConfirmation retval = new StrutsConfirmation();
+        retval.setMapping(mapping);
+        retval.setForm(form);
+        retval.setRequest(request);
+        retval.setResponse(response);
+        retval.setQuestionId(questionId);
+        retval.setQuestionType(CONFIRMATION_QUESTION);
+
+        ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
+        String questionText = kualiConfiguration.getPropertyValueAsString(configurationId);
+
+        for (int i = 0; i < params.length; i++) {
+            questionText = replace(questionText, "{" + i + "}", params[i]);
+        }
+        retval.setQuestionText(questionText);
+
+        return retval;
+    }
+
+    /**
+     * "borrowed" from KraTransactionalDocumentActionBase class
+     */
+    public ActionForward confirm(StrutsConfirmation question, String yesMethodName, String noMethodName) throws Exception {
+        // Figure out what the caller is. We want the direct caller of confirm()
+        question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
+
+        if (question.hasQuestionInstAttributeName()) {
+            Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
+            if (ConfirmationQuestion.YES.equals(buttonClicked) && isNotBlank(yesMethodName)) {
+                return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(),
+                        yesMethodName);
+            }
+            else if (isNotBlank(noMethodName)) {
+                return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(),
+                        noMethodName);
+            }
+        }
+        else {
+            return this.performQuestionWithoutInput(question, EMPTY_STRING);
+        }
+
+        return question.getMapping().findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * "borrowed" from KraTransactionalDocumentActionBase class
+     */
+    protected ActionForward performQuestionWithoutInput(StrutsConfirmation question, String context) throws Exception {
+        return this.performQuestionWithoutInput(question.getMapping(), question.getForm(), question.getRequest(), question
+                .getResponse(), question.getQuestionId(), question.getQuestionText(), question.getQuestionType(), question
+                .getCaller(), context);
+    }
+
+    /*
+     * if user answers "yes", then return to Disclosure if we came from there
+     */
+    public ActionForward confirmCancelFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        FinancialEntityForm financialEntityForm = (FinancialEntityForm) form;
+        FinancialEntityHelper financialEntityHelper = financialEntityForm.getFinancialEntityHelper();
+
+        if (StringUtils.isNotBlank(financialEntityForm.getCoiDocId())) {
+            String forward = buildForwardUrl(financialEntityForm.getCoiDocId());
+            financialEntityForm.setCoiDocId(null);
+            financialEntityForm.getFinancialEntityHelper().setReporterId(null);
+            return new ActionForward(forward, true);
+        }
+        return whereToGoAfterCancel(mapping, form, request, response);
+    }
+
+    /*
+     * if user answers "no", then stay where we are
+     */
+    public ActionForward declineCancelFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+                                                                                                                throws Exception {
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /*
+     * if user cancels, where do we go
+     */
+    public ActionForward whereToGoAfterCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                                HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
 }
