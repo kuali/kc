@@ -524,6 +524,8 @@
     <property name="lookupFields">
       <list>
         <bean p:attributeName="rolodexId" parent="FieldDefinition"/>
+        <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
+        <bean p:attributeName="sponsor.sponsorName" parent="FieldDefinition"/>
         <bean p:attributeName="organization" parent="FieldDefinition"/>
         <bean p:attributeName="lastName" parent="FieldDefinition"/>
         <bean p:attributeName="firstName" parent="FieldDefinition"/>
@@ -537,7 +539,6 @@
         <bean p:attributeName="postalCode" parent="FieldDefinition"/>
         <bean p:attributeName="emailAddress" parent="FieldDefinition"/>
         <bean p:attributeName="sponsorAddressFlag" parent="FieldDefinition"/>
-        <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
          <bean p:attributeName="active" parent="FieldDefinition"/>
       </list>
     </property>
