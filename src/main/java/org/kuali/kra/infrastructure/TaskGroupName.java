@@ -30,6 +30,7 @@ public interface TaskGroupName {
     public static final String PROPOSAL_BUDGET = "proposalBudget";
     public static final String AWARD_BUDGET = "awardBudget";
     public static final String PROTOCOL = "protocol";
+    public static final String IACUC_PROTOCOL = "iacucProtocol";
     public static final String COMMITTEE = "committee";
     public static final String AWARD = "award";
     public static final String TIME_AND_MONEY = "timeAndMoney";

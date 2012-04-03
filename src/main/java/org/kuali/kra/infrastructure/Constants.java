@@ -110,7 +110,8 @@ public interface Constants {
     public static final String MODULE_NAMESPACE_AWARD = "KC-AWARD"; 
     public static final String MODULE_NAMESPACE_NEGOTIATION = "KC-NEGOTIATION";
     public static final String MODULE_NAMESPACE_SUBAWARD = "KC-SUBAWARD";
-    
+    public static final String MODULE_NAMESPACE_IACUC = "KC-IACUC"; 
+
     public static final String PESSIMISTIC_LOCKING_EXPIRATION_AGE = "pessimisticLocking.expirationAge";
     
     public static final String PARAMETER_COMPONENT_DOCUMENT = "Document";

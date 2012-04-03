@@ -222,6 +222,10 @@
 					<property name="taskName" value="createCoiDisclosure" />
 					<property name="coiDisclosureService" ref="coiDisclosureService" />
 				</bean>
+                <bean class="org.kuali.kra.authorizer.CreateIacucProtocolAuthorizer"
+                    parent="parentAuthorizer">
+                    <property name="taskName" value="createIacucProtocol" />
+                </bean>
 			</list>
 		</property>
 	</bean>
@@ -261,7 +265,8 @@
 				<ref bean="protocolOnlineReviewTaskAuthorizers" />
 				<ref bean="subAwardTaskAuthorizers" />
 				<ref bean="negotiationTaskAuthorizers"/>
-				<ref bean="coiDisclosureTaskAuthorizers" />
+                <ref bean="coiDisclosureTaskAuthorizers" />
+                <ref bean="iacucProtocolTaskAuthorizers" />
 			</list>
 		</property>
 	</bean>
@@ -1045,4 +1050,6 @@
     <bean id="sampleAppPeopleFlowTypeService" class="org.kuali.rice.krad.workflow.DataDictionaryPeopleFlowTypeServiceImpl">
     </bean>
      -->
+
+     
 </beans>

@@ -232,4 +232,16 @@ public interface TaskName {
     public static final String CREATE_SUBAWARD = "createSubaward";
     public static final String MODIFY_SUBAWARD = "modifySubaward";
     public static final String VIEW_SUBAWARD = "viewSubaward";
+    
+    
+    /*
+     * Iacuc Tasks
+     */
+    
+    public static final String CREATE_IACUC_PROTOCOL = "createIacucProtocol";
+    public static final String MODIFY_IACUC_PROTOCOL = "modifyIacucProtocol";
+    public static final String VIEW_IACUC_PROTOCOL = "viewIacucProtocol";
+    public static final String SUBMIT_IACUC_PROTOCOL = "submitIacucProtocol";
+    public static final String IACUC_PROTOCOL_WITHDRAW = "iacucProtocolWithdraw";
+
 }

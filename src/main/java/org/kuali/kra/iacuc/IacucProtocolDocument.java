@@ -16,13 +16,17 @@
 
 package org.kuali.kra.iacuc;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 /**
@@ -64,6 +68,22 @@ public class IacucProtocolDocument extends ProtocolDocument<IacucProtocol> {
 
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
+    }
+    /** {@inheritDoc} */
+    @Override
+    public boolean useCustomLockDescriptors() {
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getCustomLockDescriptor(Person user) {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        if (StringUtils.isNotEmpty(activeLockRegion)) {
+            return this.getDocumentNumber() + "-" + activeLockRegion; 
+        }
+
+        return null;
     }
 
 }

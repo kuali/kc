@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc;
 
 import java.util.Map;
 
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
@@ -50,7 +51,7 @@ public class IacucProtocolForm extends KraTransactionalDocumentFormBase implemen
      */
     public IacucProtocolForm() throws Exception {
         super();
-//        initialize();
+        initialize();
         this.registerEditableProperty("methodToCall");
     }
     
@@ -105,7 +106,7 @@ public class IacucProtocolForm extends KraTransactionalDocumentFormBase implemen
     @Override
     protected String getLockRegion() {
         // TODO Auto-generated method stub
-        return null;
+        return KraAuthorizationConstants.LOCK_DESCRIPTOR_IACUC_PROTOCOL;
     }
 
     @Override
