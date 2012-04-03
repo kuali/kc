@@ -388,8 +388,9 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                            researchTrainingPlan.setClinicalTrial(null);
                             break;
                         case PHASE3CLINICAL:
-                            if(researchTrainingPlan.getClinicalTrial() != null)
-                           researchTrainingPlan.setPhase3ClinicalTrial(null);
+                            if(researchTrainingPlan.getClinicalTrial() == (YesNoDataType.Y_YES)) {
+                                researchTrainingPlan.setPhase3ClinicalTrial(null);
+                            }
                             break; 
                         case FIELD_TRAINING:                               
                            additionalInfoType.setFieldOfTraining(null);
