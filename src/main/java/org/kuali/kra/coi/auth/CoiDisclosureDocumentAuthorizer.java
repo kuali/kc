@@ -172,6 +172,15 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
     public boolean canRoute(Document document, Person user) {
         return false;
     }
+
+    /*
+     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     */
+    public boolean canReload(Document document, Person user) {
+        CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) document;
+        return ((coiDisclosureDocument.getCoiDisclosure().getCoiDisclosureId() != null) ||
+                coiDisclosureDocument.getCoiDisclosure().isApprovedDisclosure());
+    }
     
     /**
      * Can the user blanket approve the given document?
