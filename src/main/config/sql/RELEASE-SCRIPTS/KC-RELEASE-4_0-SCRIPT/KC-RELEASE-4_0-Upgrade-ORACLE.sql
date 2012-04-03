@@ -101,6 +101,8 @@ spool KC-RELEASE-4_0-Upgrade-ORACLE-Install.log
 @../../current/4.0/constraints/KC_FK_PMC_PROTOCOL.sql
 @../../current/4.0/constraints/KC_FK_PMC_SUBAWARD.sql
 @../../current/4.0/constraints/KC_FK_PMC_UNIT_ADMINISTRATOR.sql
+@../../current/4.0/constraints/KC_FK_RATE_CLASS_BASE_EXCL.sql
+@../../current/4.0/constraints/KC_FK_RATE_CLASS_BASE_INCL.sql
 @../../current/4.0/constraints/KC_PK_COI_DISCLOSURE_ATTACHMENT.sql
 @../../current/4.0/constraints/KC_PK_COI_DISCLOSURE_NOTEPAD.sql
 @../../current/4.0/constraints/KC_PK_COI_DISPOSITION_STATUS.sql
