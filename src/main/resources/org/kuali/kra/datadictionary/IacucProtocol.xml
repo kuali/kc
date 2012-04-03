@@ -1,17 +1,19 @@
 <!--
- Copyright 2005-2010 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+/*
+ * Copyright 2005-2010 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -30,6 +32,7 @@
             <ref bean="IacucProtocol-lookupDefinition" />
         </property>
         <property name="titleAttribute" value="protocolId" />
+        
         <property name="attributes" >
             <list>
                 <ref bean="IacucProtocol-protocolId" />
@@ -37,8 +40,11 @@
                 <ref bean="IacucProtocol-sequenceNumber" />
                 <ref bean="IacucProtocol-versionNumber" />
                 <ref bean="IacucProtocol-protocolTypeCode" />
-                <ref bean="IacucProtocol-projectTypeCode" />
+                
                 <ref bean="IacucProtocol-protocolStatusCode" />
+                <ref bean="Protocol-leadUnitNumber" />
+				<ref bean="Protocol-leadUnitName" />
+				<ref bean="Protocol-principalInvestigatorId" />
                 <ref bean="IacucProtocol-title" />
                 <ref bean="IacucProtocol-description" />
                 <ref bean="IacucProtocol-applicationDate" />
@@ -139,24 +145,6 @@
         <property name="description" value="Protocol Type Code" />
     </bean>
 
-    <bean id="IacucProtocol-projectTypeCode" parent="IacucProtocol-projectTypeCode-parentBean" />
-    <bean id="IacucProtocol-projectTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="projectTypeCode" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Project Type Code" />
-        <property name="shortLabel" value="Project Type Code" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Project Type Code" />
-        <property name="description" value="Project Type Code" />
-    </bean>
-
     <bean id="IacucProtocol-protocolStatusCode" parent="IacucProtocol-protocolStatusCode-parentBean" />
     <bean id="IacucProtocol-protocolStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protocolStatusCode" />
@@ -174,6 +162,45 @@
         <property name="summary" value="Protocol Status Code" />
         <property name="description" value="Protocol Status Code" />
     </bean>
+    
+    <bean id="Protocol-leadUnitNumber" parent="Protocol-leadUnitNumber-parentBean" />
+	<bean id="Protocol-leadUnitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="leadUnitNumber" />
+		<property name="required" value="true" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Lead Unit" />
+		<property name="shortLabel" value="Lead Unit" />
+		<property name="maxLength" value="8" />
+		<property name="validationPattern" >
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="8" />
+		</property>
+		<property name="summary" value="Lead Unit" />
+		<property name="description" value="The protocol's fixed home unit that will be used for routing and business rule purposes." />
+	</bean>
+	
+	<bean id="Protocol-principalInvestigatorId" parent="Protocol-principalInvestigatorId-parentBean" />
+	<bean id="Protocol-principalInvestigatorId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="principalInvestigatorId" />
+    	<property name="required" value="true" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Principal Investigator" />
+		<property name="shortLabel" value="Principal Investigator" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="9" />
+		</property>
+		<property name="summary" value="Principal Investigator" />
+		<property name="description" value="The protocol's principal investigator Id number." />
+	</bean>
+    
 
     <bean id="IacucProtocol-title" parent="IacucProtocol-title-parentBean" />
     <bean id="IacucProtocol-title-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -535,8 +562,6 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="protocolTypeCode" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="projectTypeCode" />
-                            <bean parent="FieldDefinition"
                                 p:attributeName="protocolStatusCode" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="title" />
@@ -610,8 +635,6 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="protocolTypeCode" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="projectTypeCode" />
-                <bean parent="FieldDefinition"
                     p:attributeName="protocolStatusCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="title" />
@@ -670,8 +693,6 @@
                     p:attributeName="versionNumber" />
                 <bean parent="FieldDefinition"
                     p:attributeName="protocolTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="projectTypeCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="protocolStatusCode" />
                 <bean parent="FieldDefinition"
