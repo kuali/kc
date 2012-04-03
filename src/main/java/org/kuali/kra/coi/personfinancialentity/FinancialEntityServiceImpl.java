@@ -30,6 +30,7 @@ import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -233,6 +234,11 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         if (reporters.isEmpty()) {
             // TODO : temporary debug app double save issue
             System.out.println("Save FE reporter person id " + personId);
+            Object reporterSaved = GlobalVariables.getUserSession().retrieveObject("reporterSaved");
+            if (reporterSaved == null) {
+                GlobalVariables.getUserSession().addObject("reporterSaved","saved");
+                System.out.println("Save FE reporter person id " + personId+" not saved ");
+            }
             FinancialEntityReporter reporter = new FinancialEntityReporter();
             reporter.setFinancialEntityReporterUnits(new ArrayList<FinancialEntityReporterUnit>());
             reporter.setPersonId(personId);
