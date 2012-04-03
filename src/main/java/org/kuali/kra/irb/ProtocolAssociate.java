@@ -1,3 +1,4 @@
+// TODO: *********code has been moved to base class, should ultimately be removed**********
 /*
  * Copyright 2005-2010 The Kuali Foundation
  * 
@@ -13,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.kuali.kra.irb;
 
 import org.apache.commons.lang.StringUtils;
@@ -207,3 +209,4 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
     public void postInitHook(Protocol aProtocol) {
     }
 }
+//TODO: **********************end************************
