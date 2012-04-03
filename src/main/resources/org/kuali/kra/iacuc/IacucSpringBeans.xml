@@ -47,7 +47,36 @@
         </property>
     </bean>
 
+    <bean id="parentIacucProtocolAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+    </bean>
 
+        <bean id="iacucProtocolTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="iacucProtocol" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocol" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.ViewIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="viewIacucProtocol" />
+                </bean>
+                                
+                <bean class="org.kuali.kra.iacuc.auth.SubmitIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="submitIacucProtocol" />
+                </bean>
+                                
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolWithdrawAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucProtocolWithdraw" />
+                </bean>
+                
+           </list>
+        </property>
+    </bean>
     
 </beans>
 
