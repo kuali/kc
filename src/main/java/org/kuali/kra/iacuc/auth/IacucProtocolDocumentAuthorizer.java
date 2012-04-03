@@ -18,9 +18,14 @@ package org.kuali.kra.iacuc.auth;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
@@ -46,10 +51,10 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
             }
         } 
         else {
-            if (canExecuteIacucProtocolTask(userId, iacucProtocolDocument, TaskName.MODIFY_COI_DISCLOSURE)) {  
+            if (canExecuteIacucProtocolTask(userId, iacucProtocolDocument, TaskName.MODIFY_IACUC_PROTOCOL)) {  
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             }
-            else if (canExecuteIacucProtocolTask(userId, iacucProtocolDocument, TaskName.VIEW_COI_DISCLOSURE)) {
+            else if (canExecuteIacucProtocolTask(userId, iacucProtocolDocument, TaskName.VIEW_IACUC_PROTOCOL)) {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             }
             else {
@@ -72,32 +77,40 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canOpen(Document document, Person user) {
-        return true;
-    }
+        // TODO : this is temporarily return 'true' because the required fields are not done.  unit number is not saved.
+        // so, the permission check can't be done properly.
+//        IacucProtocolDocument protocolDocument = (IacucProtocolDocument) document;
+//        if (protocolDocument.getProtocol().getProtocolId() == null) {
+//            return canCreateIacucProtocol(user);
+//        }
+//        return canExecuteIacucProtocolTask(user.getPrincipalId(), (IacucProtocolDocument) document, TaskName.VIEW_IACUC_PROTOCOL);
+//
+          return true;
+        }
     
     /**
-     * Does the user have permission to create a coi disclosure?
+     * Does the user have permission to create a Iacuc Protocol?
      * @param user the user
-     * @return true if the user can create a coi disclosure; otherwise false
+     * @return true if the user can create a Iacuc Protocol; otherwise false
      */
     private boolean canCreateIacucProtocol(Person user) {
-        // TODO : to be implemented later
-        return true;
+        ApplicationTask task = new ApplicationTask(TaskName.CREATE_IACUC_PROTOCOL);       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
     }
     
     /**
-     * Does the user have permission to execute the given task for a coi disclosure?
+     * Does the user have permission to execute the given task for a Iacuc Protocol?
      * @param username the user's username
-     * @param doc the coi disclosure document
+     * @param doc the Iacuc Protocol document
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteIacucProtocolTask(String userId, IacucProtocolDocument doc, String taskName) {
         // TODO : to be implemented later
-        return true;
-//        ProtocolTask task = new ProtocolTask(taskName, doc.getProtocol());       
-//        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-//        return taskAuthenticationService.isAuthorized(userId, task);
+        IacucProtocolTask task = new IacucProtocolTask(taskName, doc.getProtocol());       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(userId, task);
     }
     
     /**
@@ -105,7 +118,7 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
      */
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteIacucProtocolTask(user.getPrincipalId(), (IacucProtocolDocument) document, TaskName.MODIFY_COI_DISCLOSURE);
+        return canExecuteIacucProtocolTask(user.getPrincipalId(), (IacucProtocolDocument) document, TaskName.MODIFY_IACUC_PROTOCOL);
     }
     
     /**
