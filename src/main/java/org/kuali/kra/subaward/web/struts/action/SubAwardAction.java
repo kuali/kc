@@ -328,6 +328,7 @@ public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRe
     
     SubAwardForm subAwardForm = (SubAwardForm)form;
     ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+    subAwardForm.setAuditActivated(true);
     ValidationState status = new AuditActionHelper().isValidSubmission(subAwardForm, true);
     
     if(status == ValidationState.OK){
@@ -347,6 +348,7 @@ public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, Http
         HttpServletResponse response) throws Exception {
     SubAwardForm subAwardForm = (SubAwardForm)form;
     ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+    subAwardForm.setAuditActivated(true);
     ValidationState status = new AuditActionHelper().isValidSubmission(subAwardForm, true);
     
     if(status == ValidationState.OK){
