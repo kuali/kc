@@ -13,12 +13,15 @@
 	<!-- For Embedded Mode -- up to S2S Configuration -->
 	<!--
 	<param name="rice.server.url">http://127.0.0.1:8080/kr-dev</param>
-
-	<param name="kim.runmode">embedded</param>
-	<param name="kcb.runmode">embedded</param>
-	<param name="kew.runmode">embedded</param>
-	<param name="ken.runmode">embedded</param>
-	
+	<param name="kim.mode">EMBEDDED</param>
+	<param name="kcb.mode">REMOTE</param>
+	<param name="kew.mode">EMBEDDED</param>
+	<param name="ken.mode">REMOTE</param>
+	<param name="ksb.mode">REMOTE</param>
+	<param name="kns.mode">LOCAL</param>
+	<param name="coreservice.mode">REMOTE</param>
+	<param name="location.mode">REMOTE</param>	
+	<param name="core.mode">LOCAL</param>
 	<param name="dev.mode">false</param>
 	-->
 	
@@ -60,7 +63,7 @@
 	<!-- Kuali parameters -->
 	<param name="mail.relay.server">mail.relay.server</param>
 	<param name="mailing.list.batch">mailing.list.batch</param>
-	<param name="encryption.key">7IC64w6ksLU</param>
+	<param name="encryption.key">7IC64w6kAAAA</param>
 	
 	<param name="keystore.alias">the_alias</param>
 	<param name="keystore.file">/path/to/keystore</param>

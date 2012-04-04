@@ -7,13 +7,16 @@
 	<param name="datasource.ojb.platform">Oracle9i</param>
 
 	<!-- For Embedded Mode -->
-	<param name="rice.server.url">http://127.0.0.1:8080/kr-dev</param>
-
-	<param name="kim.runmode">embedded</param>
-	<param name="kcb.runmode">embedded</param>
-	<param name="kew.runmode">embedded</param>
-	<param name="ken.runmode">embedded</param>
-	
+	<param name="rice.server.url">http://127.0.0.1:8090/kr-dev</param>
+	<param name="kim.mode">EMBEDDED</param>
+	<param name="kcb.mode">REMOTE</param>
+	<param name="kew.mode">EMBEDDED</param>
+	<param name="ken.mode">REMOTE</param>
+	<param name="ksb.mode">REMOTE</param>
+	<param name="kns.mode">LOCAL</param>
+	<param name="coreservice.mode">REMOTE</param>
+	<param name="location.mode">REMOTE</param>	
+	<param name="core.mode">LOCAL</param>
 	<param name="dev.mode">false</param>
 	
 	<!-- Rice Server DB -->

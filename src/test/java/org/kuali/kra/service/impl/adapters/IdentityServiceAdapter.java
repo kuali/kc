@@ -1,5 +1,7 @@
 package org.kuali.kra.service.impl.adapters;
 
+import java.util.List;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
@@ -51,6 +53,56 @@ public class IdentityServiceAdapter implements IdentityService {
     @Override
     public EntityCitizenship addCitizenshipToEntity(EntityCitizenship citizenship) throws RiceIllegalArgumentException,
             RiceIllegalStateException {
+        return null;
+    }
+
+    @Override
+    public List<CodedAttribute> findAllEntityTypes() {
+        return null;
+    }
+
+    @Override
+    public List<CodedAttribute> findAllAddressTypes() {
+        return null;
+    }
+
+    @Override
+    public List<EntityAffiliationType> findAllAffiliationTypes() {
+        return null;
+    }
+
+    @Override
+    public List<CodedAttribute> findAllCitizenshipStatuses() {
+        return null;
+    }
+
+    @Override
+    public List<CodedAttribute> findAllEmploymentTypes() {
+        return null;
+    }
+
+    @Override
+    public List<CodedAttribute> findAllEmploymentStatuses() {
+        return null;
+    }
+
+    @Override
+    public List<EntityExternalIdentifierType> findAllExternalIdendtifierTypes() {
+        return null;
+    }
+
+    @Override
+    public List<CodedAttribute> findAllNameTypes() {
+        return null;
+    }
+
+    @Override
+    public List<CodedAttribute> findAllPhoneTypes() {
+        return null;
+    }
+
+    @Override
+    public List<CodedAttribute> findAllEmailTypes() {
         return null;
     }
 
