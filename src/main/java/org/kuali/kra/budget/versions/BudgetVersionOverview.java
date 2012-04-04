@@ -94,6 +94,8 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     private String printBudgetCommentFlag;
 
     private Boolean submitCostSharingFlag = Boolean.TRUE;
+    
+    private RateClass urRateClass;
 
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
@@ -512,5 +514,21 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
      */
     public void setSubmitCostSharingFlag(Boolean submitCostSharingFlag) {
         this.submitCostSharingFlag = submitCostSharingFlag;
+    }
+
+    /**
+     * Gets the urRateClass attribute. 
+     * @return Returns the urRateClass.
+     */
+    public RateClass getUrRateClass() {
+        return urRateClass;
+    }
+
+    /**
+     * Sets the urRateClass attribute value.
+     * @param urRateClass The urRateClass to set.
+     */
+    public void setUrRateClass(RateClass urRateClass) {
+        this.urRateClass = urRateClass;
     }
 }
