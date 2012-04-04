@@ -64,8 +64,10 @@
         <bean parent="MaintainableFieldDefinition" p:name="biosketchDescription"/>
         <bean parent="MaintainableFieldDefinition" p:name="templateFile"/>
         <bean parent="MaintainableFieldDefinition" p:name="citizenshipTypeCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="multiCampusPrincipalId"/>
+        <bean parent="MaintainableFieldDefinition" p:name="multiCampusPrincipalName"/> 
         <bean parent="MaintainableFieldDefinition" p:name="salaryAnniversaryDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
   </bean>

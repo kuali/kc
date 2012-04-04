@@ -109,7 +109,7 @@
               <td class="rightTd" align="left">
                 <select name="__login_campusCode">
                   <c:forEach var="campus" items="${requestScope.campuses}">
-                    <option value="${campus.campusCode}">${campus.campusName}</option>
+                    <option value="${campus.code}">${campus.name}</option>
                   </c:forEach>
                 </select>
               </td>
