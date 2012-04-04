@@ -215,6 +215,9 @@ public class CoiDisclosureAction extends CoiAction {
         //            actionForward = mapping.findForward(UPDATE_DISCLOSURE);
         //        }
 
+        if (coiDisclosure.isManualEvent() && !CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())) {
+            coiDisclosure.getCoiDisclProjects().get(0).initHeaderItems();
+       }
 
         // initialize the permissions for notes and attachments helper
         coiDisclosureForm.getCoiNotesAndAttachmentsHelper().prepareView();
@@ -394,6 +397,7 @@ public class CoiDisclosureAction extends CoiAction {
         if (checkRule(new AddManualProjectEvent("disclosureHelper.newCoiDisclProject", disclosureHelper.getNewCoiDisclProject()))) {
             getCoiDisclosureService().initializeDisclosureDetails(disclosureHelper.getNewCoiDisclProject());
             disclosureHelper.getNewCoiDisclProject().setSequenceNumber(coiDisclosure.getSequenceNumber());
+            disclosureHelper.getNewCoiDisclProject().initHeaderItems();
             coiDisclosure.getCoiDisclProjects().add(disclosureHelper.getNewCoiDisclProject());
             coiDisclosure.setModuleItemKey(disclosureHelper.getNewCoiDisclProject().getProjectId());
             coiDisclosure.setEventTypeCode(disclosureHelper.getNewCoiDisclProject().getDisclosureEventType());

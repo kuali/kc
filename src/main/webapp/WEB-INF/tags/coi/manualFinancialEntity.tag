@@ -21,21 +21,9 @@
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <c:set var="financialEntityAttributes" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
-                <c:choose>
-                    <c:when test="${disclProject.manualProposalEvent}">
-                        <kra-coi:manualProposalHeader disclProject="${disclProject}" idx = "${idx}"/>                    
-                    </c:when>
-                    <c:when test="${disclProject.manualAwardEvent}">
-                        <kra-coi:manualAwardHeader disclProject="${disclProject}" idx = "${idx}"/>                    
-                    </c:when>
-                    <c:when test="${disclProject.manualProtocolEvent}">
-                        <kra-coi:manualProtocolHeader disclProject="${disclProject}" idx = "${idx}"/>                    
-                    </c:when>
-                    <c:otherwise>
-                        <kra-coi:manualTravelHeader disclProject="${disclProject}" idx = "${idx}"/>                    
-                    </c:otherwise>
-                
-                </c:choose>
+
+              <kra-coi:manualProjectHeader disclProject="${disclProject}" idx = "${idx}"/>    
+                              
        <div id="div_FinancialEntity${idx}M" class="div_FinancialEntity" <c:if test="${KualiForm.document.coiDisclosureList[0].coiDisclosureEventType.excludeFinancialEntities}">style="display:none"</c:if>>
                 <h3>
                     <span class="subhead-left">

@@ -6,7 +6,7 @@
 <div <c:if test="${hidden}">style="display:none;"</c:if>>                                  
         	<c:forEach var="disclProjectBean" items="${masterDisclosureProjects}" varStatus="status">
                      <kra-coi:projectStyle disclProjectBean="${disclProjectBean}"/>                    
-                     <kra-coi:manualTravelHeader disclProject="${disclProjectBean.coiDisclProject}" idx = "0"/>                    
+                     <kra-coi:manualProjectHeader disclProject="${disclProjectBean.coiDisclProject}" idx = "0"/>                    
                      <kra-coi:masterProjectQuestionnaires disclProjectBean="${disclProjectBean}" parentTab="Manual Travels" />                    
                      <kra-coi:masterProjectFE disclProjectBean="${disclProjectBean}" projectDivNamePrefix="masterManualTravelFE"  idx="${status.index}" projectListName="manualTravelProjects" />                    
         	</c:forEach> 
