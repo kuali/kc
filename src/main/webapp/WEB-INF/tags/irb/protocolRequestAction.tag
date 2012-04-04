@@ -90,6 +90,7 @@
                                           canPerformAction="${KualiForm.actionHelper.canReturnForSRR}"
                                           defaultOpen="${KualiForm.actionHelper.isReturnForSRROpenForFollowup}" />
             <kra-irb-action:notifyIrbAction />
+            <kra-irb-action:notifyCommitteeAction />
             <kra-irb-action:genericAction tabTitle="IRB Acknowledgement"
                                           bean="${KualiForm.actionHelper.protocolIrbAcknowledgementBean}"
                                           property="actionHelper.protocolIrbAcknowledgementBean"
@@ -306,6 +307,11 @@
 				                                         reason="Protocol can not be an amendment or renewal.
 				                                                 <p>
 				                                                 Protocol status is In Progress, Submitted To IRB, Specific Minor Revisions Required, Defered, Amendment In Progress or Renewal In Progress." />
+	            <kra-irb-action:genericUnavailableAction tabTitle="Notify Committee"
+				                                         canPerformAction="${KualiForm.actionHelper.canNotifyCommitteeUnavailable}"
+				                                         reason="Protocol review type must be Expedited.
+				                                                 <p>
+				                                                 Protocol status is Submitted To IRB." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="IRB Acknowledgement"
 				                                         canPerformAction="${KualiForm.actionHelper.canIrbAcknowledgementUnavailable}"
 				                                         reason="Submission type must be FYI.

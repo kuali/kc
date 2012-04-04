@@ -94,6 +94,8 @@ public interface TaskName {
     public static final String MODIFY_PROTOCOL_OTHERS = "modifyProtocolOthers";
     public static final String NOTIFY_IRB = "protocolNotifyIrb";
     public static final String NOTIFY_IRB_UNAVAILABLE = "protocolNotifyIrbUnavailable";
+    public static final String NOTIFY_COMMITTEE = "protocolNotifyCommittee";
+    public static final String NOTIFY_COMMITTEE_UNAVAILABLE = "protocolNotifyCommitteeUnavailable";
     public static final String PROTOCOL_WITHDRAW = "protocolWithdraw";
     public static final String PROTOCOL_WITHDRAW_UNAVAILABLE = "protocolWithdrawUnavailable";
     public static final String PROTOCOL_REQUEST_CLOSE = "protocolRequestClose";
