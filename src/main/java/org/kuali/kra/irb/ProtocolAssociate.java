@@ -1,4 +1,4 @@
-// TODO: *********code has been moved to base class, should ultimately be removed**********
+// TODO *********code has been moved to base class, should ultimately be removed**********
 /*
  * Copyright 2005-2010 The Kuali Foundation
  * 
@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+
 package org.kuali.kra.irb;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +29,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * Much of this class is duplicated with ProtocolAssociate but there is no
  * way around that due to the limitations in rice, ojb, etc.
  */
+
 public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
 
     private static final long serialVersionUID = -8385115657304261423L;
@@ -209,3 +211,4 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
     public void postInitHook(Protocol aProtocol) {
     }
 }
+// TODO *********end**********
