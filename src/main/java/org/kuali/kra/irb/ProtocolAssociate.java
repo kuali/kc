@@ -209,4 +209,3 @@ public abstract class ProtocolAssociate extends KraPersistableBusinessObjectBase
     public void postInitHook(Protocol aProtocol) {
     }
 }
-//TODO: **********************end************************
