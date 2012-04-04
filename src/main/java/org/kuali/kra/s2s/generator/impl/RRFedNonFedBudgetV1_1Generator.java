@@ -195,15 +195,19 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             if (periodInfo.getTotalCompensationCostSharing() != null) {
                 if (budget.getSubmitCostSharingFlag()) {
                     summary.setNonFederalSummary(periodInfo.getTotalCompensationCostSharing().bigDecimalValue());
+                    if (periodInfo.getTotalCompensation() != null) {
+                        summary.setTotalFedNonFedSummary(periodInfo.getTotalCompensation().add(
+                                periodInfo.getTotalCompensationCostSharing()).bigDecimalValue());
+                    } else {
+                        summary.setTotalFedNonFedSummary(periodInfo.getTotalCompensationCostSharing().bigDecimalValue());
+                    }
                 } else {
                     summary.setNonFederalSummary(BigDecimal.ZERO);
-                }
-                if (periodInfo.getTotalCompensation() != null) {
-                    summary.setTotalFedNonFedSummary(periodInfo.getTotalCompensation().add(
-                            periodInfo.getTotalCompensationCostSharing()).bigDecimalValue());
-                }
-                else {
-                    summary.setTotalFedNonFedSummary(periodInfo.getTotalCompensationCostSharing().bigDecimalValue());
+                    if (periodInfo.getTotalCompensation() != null) {
+                        summary.setTotalFedNonFedSummary(periodInfo.getTotalCompensation().bigDecimalValue());
+                    } else {
+                        summary.setTotalFedNonFedSummary(BigDecimal.ZERO);
+                    }
                 }
             }
             budgetYear.setTotalCompensation(summary);
@@ -754,15 +758,19 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             if (periodInfo.getTotalCompensationCostSharing() != null) {
                 if (budget.getSubmitCostSharingFlag()) {
                     summary.setNonFederalSummary(periodInfo.getTotalCompensationCostSharing().bigDecimalValue());
+                    if (periodInfo.getTotalCompensation() != null) {
+                        summary.setTotalFedNonFedSummary(periodInfo.getTotalCompensation().add(
+                                periodInfo.getTotalCompensationCostSharing()).bigDecimalValue());
+                    } else {
+                        summary.setTotalFedNonFedSummary(periodInfo.getTotalCompensationCostSharing().bigDecimalValue());
+                    }
                 } else {
                     summary.setNonFederalSummary(BigDecimal.ZERO);
-                }
-                if (periodInfo.getTotalCompensation() != null) {
-                    summary.setTotalFedNonFedSummary(periodInfo.getTotalCompensation().add(
-                            periodInfo.getTotalCompensationCostSharing()).bigDecimalValue());
-                }
-                else {
-                    summary.setTotalFedNonFedSummary(periodInfo.getTotalCompensationCostSharing().bigDecimalValue());
+                    if (periodInfo.getTotalCompensation() != null) {
+                        summary.setTotalFedNonFedSummary(periodInfo.getTotalCompensation().bigDecimalValue());
+                    } else {
+                        summary.setTotalFedNonFedSummary(BigDecimal.ZERO);
+                    }
                 }
             }
             budgetYear.setTotalCompensation(summary);
@@ -1554,16 +1562,20 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             }
             if (periodInfo.getTotalOtherPersonnelNonFunds() != null) {
                 if (budget.getSubmitCostSharingFlag()) {
-                    summary.setNonFederalSummary(periodInfo.getTotalOtherPersonnelNonFunds().bigDecimalValue());                
+                    summary.setNonFederalSummary(periodInfo.getTotalOtherPersonnelNonFunds().bigDecimalValue());  
+                    if (periodInfo.getTotalOtherPersonnelFunds() != null) {
+                        summary.setTotalFedNonFedSummary(periodInfo.getTotalOtherPersonnelFunds().add(
+                                periodInfo.getTotalOtherPersonnelNonFunds()).bigDecimalValue());
+                    } else {
+                        summary.setTotalFedNonFedSummary(periodInfo.getTotalOtherPersonnelNonFunds().bigDecimalValue());
+                    }
                 } else {
                     summary.setNonFederalSummary(BigDecimal.ZERO);
-                }
-                if (periodInfo.getTotalOtherPersonnelFunds() != null) {
-                    summary.setTotalFedNonFedSummary(periodInfo.getTotalOtherPersonnelFunds().add(
-                            periodInfo.getTotalOtherPersonnelNonFunds()).bigDecimalValue());
-                }
-                else {
-                    summary.setTotalFedNonFedSummary(periodInfo.getTotalOtherPersonnelNonFunds().bigDecimalValue());
+                    if (periodInfo.getTotalOtherPersonnelFunds() != null) {
+                        summary.setTotalFedNonFedSummary(periodInfo.getTotalOtherPersonnelFunds().bigDecimalValue());
+                    } else {
+                        summary.setTotalFedNonFedSummary(BigDecimal.ZERO);
+                    }
                 }
             }
             otherPersonnel.setTotalOtherPersonnelFund(summary);
@@ -1676,13 +1688,17 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             if (compensation.getNonFundsRequested() != null) {
                 if (budget.getSubmitCostSharingFlag()) {
                     totalDataType.setNonFederal(compensation.getNonFundsRequested().bigDecimalValue());
+                    if (compensation.getFundsRequested() != null && compensation.getNonFundsRequested() != null) {
+                        totalDataType.setTotalFedNonFed(compensation.getFundsRequested().add(compensation.getNonFundsRequested())
+                                .bigDecimalValue());
+                    }
                 } else {
                     totalDataType.setNonFederal(BigDecimal.ZERO);
+                    if (compensation.getFundsRequested() != null && compensation.getNonFundsRequested() != null) {
+                        totalDataType.setTotalFedNonFed(compensation.getFundsRequested().bigDecimalValue());
+                    }
                 }
             }
-            if (compensation.getFundsRequested() != null && compensation.getNonFundsRequested() != null)
-                totalDataType.setTotalFedNonFed(compensation.getFundsRequested().add(compensation.getNonFundsRequested())
-                        .bigDecimalValue());
             sectBCompensation.setOtherTotal(totalDataType);
         }
         return sectBCompensation;
