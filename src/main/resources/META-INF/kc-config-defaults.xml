@@ -70,6 +70,7 @@
 	<param name="rice.url">${rice.server.url}/kr</param>
 	<param name="workflow.url">${kew.url}</param>
 	<param name="kuali.docHandler.url.prefix">${application.url}</param>
+	<param name="application.lookup.url">${application.url}/kr/lookup.do</param>
 	
 	<!--messages -->
     <param name="core.rice.struts.message.resources">org.kuali.rice.krad.ApplicationResources,org.kuali.rice.krad.KRAD-ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.ApplicationResources,org.kuali.rice.kim.ApplicationResources,org.kuali.rice.krms.ApplicationResources,org.kuali.rice.core.web.cache.CacheApplicationResources</param>

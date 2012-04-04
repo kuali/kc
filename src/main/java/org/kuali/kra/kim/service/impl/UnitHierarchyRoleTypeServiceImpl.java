@@ -16,6 +16,8 @@
 package org.kuali.kra.kim.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +25,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
+import org.kuali.rice.core.api.uif.RemotableAbstractWidget;
 import org.kuali.rice.core.api.uif.RemotableAttributeError;
+import org.kuali.rice.core.api.uif.RemotableQuickFinder;
+import org.kuali.rice.kim.api.type.KimAttributeField;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class UnitHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
     
@@ -129,6 +136,39 @@ public class UnitHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
     @Override
     public List<String> getUniqueAttributes(String kimTypeId){
         return new ArrayList<String>();
+    }    
+    
+    @Override
+    public List<KimAttributeField> getAttributeDefinitions(String kimTypeId) {
+        if (StringUtils.isBlank(kimTypeId)) {
+            throw new RiceIllegalArgumentException("kimTypeId was null or blank");
+        }
+
+        List<KimAttributeField> attributeList = new ArrayList<KimAttributeField>(super.getAttributeDefinitions(kimTypeId));
+
+        for (int i = 0; i < attributeList.size(); i++) {
+            final KimAttributeField definition = attributeList.get(i);
+            if (KcKimAttributes.UNIT_NUMBER.equals(definition.getAttributeField().getName())) {
+                KimAttributeField.Builder b = KimAttributeField.Builder.create(definition);
+
+                String baseUrl = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString("application.lookup.url");
+                Collection<RemotableAbstractWidget.Builder> widgetsCopy = new ArrayList<RemotableAbstractWidget.Builder>();
+                for (RemotableAbstractWidget.Builder widget : b.getAttributeField().getWidgets()) {
+                    if(widget instanceof RemotableQuickFinder.Builder) {
+                        RemotableQuickFinder.Builder orig = (RemotableQuickFinder.Builder) widget;
+                        RemotableQuickFinder.Builder copy = RemotableQuickFinder.Builder.create(baseUrl, orig.getDataObjectClass());
+                        copy.setLookupParameters(orig.getLookupParameters());
+                        copy.setFieldConversions(orig.getFieldConversions());
+                        widgetsCopy.add(copy);
+                    } else {
+                        widgetsCopy.add(widget);
+                    }
+                }
+                b.getAttributeField().setWidgets(widgetsCopy);
+                attributeList.set(i, b.build());
+            }
+        }
+        return Collections.unmodifiableList(attributeList);
     }    
     
 }

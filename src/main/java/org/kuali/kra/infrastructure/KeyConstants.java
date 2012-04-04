@@ -1,12 +1,4 @@
 /*
-
-
- * 
- * 
- * 
- * 
- * 
- * 
  * Copyright 2005-2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
