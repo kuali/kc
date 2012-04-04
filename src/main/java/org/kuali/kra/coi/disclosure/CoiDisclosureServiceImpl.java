@@ -1364,6 +1364,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         if (ObjectUtils.isNotNull(coiDiscDetail)) {
 //            disclosureProjectBean.setCoiDisclProject(getCoiDisclProject(coiDiscDetail));
             disclosureProjectBean.setCoiDisclProject(coiDiscDetail.getCoiDisclProject());
+            if (disclosureProjectBean.getCoiDisclProject().isManualEvent()) {
+                disclosureProjectBean.getCoiDisclProject().initHeaderItems();
+            }
 /*
             if (coiDiscDetail.isManualEvent()) {
                 disclosureProjectBean.setCoiDisclProject(getCoiDisclProject(coiDiscDetail));

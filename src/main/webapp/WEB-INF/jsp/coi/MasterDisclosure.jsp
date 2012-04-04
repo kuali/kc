@@ -104,16 +104,16 @@
               
 
     <c:if test="${fn:length(masterDisclosure.manualAwardProjects) > 0}" >
-        <kra-coi:masterManualAward masterDisclosureProjects="${masterDisclosure.manualAwardProjects}"/>
+        <kra-coi:masterManualProject masterDisclosureProjects="${masterDisclosure.manualAwardProjects}" projectDivNamePrefix="masterManualAwardFE" projectListName="manualAwardProjects"/>
     </c:if>
     <c:if test="${fn:length(masterDisclosure.manualProposalProjects) > 0}" >
-        <kra-coi:masterManualProposal masterDisclosureProjects="${masterDisclosure.manualProposalProjects}"/>
+        <kra-coi:masterManualProject masterDisclosureProjects="${masterDisclosure.manualProposalProjects}" projectDivNamePrefix="masterManualProposalFE" projectListName="manualProposalProjects"/>
     </c:if>
     <c:if test="${fn:length(masterDisclosure.manualProtocolProjects) > 0}" >
-        <kra-coi:masterManualProtocol masterDisclosureProjects="${masterDisclosure.manualProtocolProjects}"/>
+        <kra-coi:masterManualProject masterDisclosureProjects="${masterDisclosure.manualProtocolProjects}" projectDivNamePrefix="masterManualProtocolFE" projectListName="manualProtocolProjects"/>
     </c:if>
     <c:if test="${fn:length(masterDisclosure.manualTravelProjects) > 0}" >
-        <kra-coi:masterManualTravel masterDisclosureProjects="${masterDisclosure.manualTravelProjects}"/>
+        <kra-coi:masterManualProject masterDisclosureProjects="${masterDisclosure.manualTravelProjects}" projectDivNamePrefix="masterManualTravelFE" projectListName="manualTravelProjects"/>
     </c:if>
        </div>
 </kul:tab>
