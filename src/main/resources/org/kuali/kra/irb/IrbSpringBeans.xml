@@ -622,7 +622,11 @@
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
-    </bean> 
+    </bean>
+    
+    <bean id="lookupDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="lookupDao" />
+    </bean>
     
     <bean id="checkListService" class="org.kuali.kra.irb.actions.submit.CheckListServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
