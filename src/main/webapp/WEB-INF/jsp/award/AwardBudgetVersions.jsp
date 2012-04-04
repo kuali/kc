@@ -43,12 +43,12 @@
       </h3>
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" /></div></th>
-                <td align="left" valign="middle">
+                <th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" /></div></th>
+                <td width="25%" align="left" valign="middle">
                 	<bean:write name="KualiForm" property="document.budgetParent.accountNumber"/>
                 </td>
-                <th><div align="right">Budget Start Date</div></th>
-                <td align="left" valign="middle">
+                <th width="25%"><div align="right">Budget Start Date</div></th>
+                <td width="25%" align="left" valign="middle">
                 	<fmt:formatDate value="${KualiForm.document.budgetVersionOverview.startDate}" pattern="MM/dd/yyyy" />
                 </td>
             </tr>
@@ -65,11 +65,10 @@
 			<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.budgetVersionNumber}" /></div></th>
                 <td >
-                	<kul:htmlControlAttribute property="document.budgetVersionOverview.budgetVersionNumber" attributeEntry="${budgetAttributes.budgetVersionNumber}" readOnly="true"/>
+                	<bean:write name="KualiForm" property="document.budgetVersionOverview.budgetVersionNumber"/> 
                 </td>
        			<th>
            			<div align="right">Budget Total Cost Limit:</div>
-       			</th>
            		<td>
            			<bean:write name="KualiForm" property="document.budgetParent.budgetTotalCostLimit"/> 
            		</td>
@@ -77,46 +76,46 @@
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" /></div></th>
 			    <td>
-			         <kul:htmlControlAttribute property="document.budgetVersionOverview.awardBudgetTypeCode" attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" readOnly="true"/>
+			    	<bean:write name="KualiForm" property="document.budgetVersionOverview.awardBudgetType.description"/> 
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.totalCostLimit}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.budgetVersionOverview.totalCostLimit" attributeEntry="${awardBudgetAttributes.totalCostLimit}" readOnly="true"/>
+           			<bean:write name="KualiForm" property="document.budgetVersionOverview.totalCostLimit"/>
            		</td>
      		</tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" /></div></th>
 			    <td>
-			         <kul:htmlControlAttribute property="document.budgetVersionOverview.awardBudgetStatusCode" attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" readOnly="true"/>
+			    	<bean:write name="KualiForm" property="document.budgetVersionOverview.awardBudgetStatus.description"/>
                 </td>
 		        <input type="hidden" name="prevOnOffCampusFlag" value="${KualiForm.document.budgetVersionOverview.onOffCampusFlag}">
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.budgetVersionOverview.urRateClassCode" readOnly="${true}" attributeEntry="${budgetAttributes.urRateClassCode}"  styleClass="fixed-size-200-select"/>
+                	<bean:write name="KualiForm" property="document.budgetVersionOverview.urRateClass.description"/>
                 	<input type="hidden" name="urRateClassCodePrevValue" value="${KualiForm.document.budgetVersionOverview.urRateClassCode}">
                 </td>
         	</tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.onOffCampusFlag}" /></div></th>
                 <td >
-                	<kul:htmlControlAttribute property="document.budgetVersionOverview.onOffCampusFlag" attributeEntry="${budgetAttributes.onOffCampusFlag}" readOnlyAlternateDisplay="${KualiForm.document.budgetVersionOverview.onOffCampusFlagDescription}" readOnly="${true}"/>
+                	<bean:write name="KualiForm" property="document.budgetVersionOverview.onOffCampusFlagDescription"/>
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.ohRateClassCode}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.budgetVersionOverview.ohRateClassCode" readOnly="${true}" attributeEntry="${budgetAttributes.ohRateClassCode}"  styleClass="fixed-size-200-select" />
+                	<bean:write name="KualiForm" property="document.budgetVersionOverview.rateClass.description"/>
            			<input type="hidden" name="ohRateClassCodePrevValue" value="${KualiForm.document.budgetVersionOverview.ohRateClassCode}">
            		</td>
         	</tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.description}" /></div></th>
                 <td colspan="3">
-                	<kul:htmlControlAttribute property="document.budgetVersionOverview.description" attributeEntry="${awardBudgetAttributes.description}" readOnly="${true}"/>
+                	<bean:write name="KualiForm" property="document.budgetVersionOverview.description"/>
                 </td>
         	</tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.comments}" /></div></th>
                 <td colspan="3">
-                	<kul:htmlControlAttribute property="document.budgetVersionOverview.comments" attributeEntry="${budgetAttributes.comments}" readOnly="${true}"/>
+                	<bean:write name="KualiForm" property="document.budgetVersionOverview.comments"/>
                 </td>
         	</tr>
         </table>

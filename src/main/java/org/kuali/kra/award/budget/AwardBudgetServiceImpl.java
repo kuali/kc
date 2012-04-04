@@ -30,6 +30,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -787,7 +788,8 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     
     protected AwardBudgetExt getNewestBudgetByStatus(AwardDocument awardDocument, List<String> statuses) { 
         AwardBudgetVersionOverviewExt budgetVersion = null;
-        for (BudgetDocumentVersion version : awardDocument.getBudgetDocumentVersions()) {
+        List<AwardBudgetDocumentVersion> awardBudgetDocuments = awardDocument.getBudgetDocumentVersions();
+        for (BudgetDocumentVersion version : awardBudgetDocuments) {
             AwardBudgetVersionOverviewExt curVersion = (AwardBudgetVersionOverviewExt) version.getBudgetVersionOverview();
             if (statuses.contains(curVersion.getAwardBudgetStatusCode())) {
                 if (budgetVersion == null || curVersion.getBudgetVersionNumber() > budgetVersion.getBudgetVersionNumber()) {

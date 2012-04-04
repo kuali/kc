@@ -29,6 +29,8 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
 import org.kuali.kra.award.budget.AwardBudgetService;
+import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
+import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.document.authorization.AwardTask;
@@ -400,7 +402,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return KraServiceLocator.getService(AwardSyncService.class);
     }
 
-     public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
+     public List getBudgetDocumentVersions() {
         if (budgetDocumentVersions == null || budgetDocumentVersions.isEmpty()) {
             budgetDocumentVersions = KraServiceLocator.getService(AwardBudgetService.class).getAllBudgetsForAward(this);
         }
@@ -597,14 +599,17 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     protected InstitutionalProposalService getInstitutionalProposalService() {
         return KraServiceLocator.getService(InstitutionalProposalService.class);
     }
-    
-    public BudgetVersionOverview getBudgetVersionOverview() {
-        BudgetVersionOverview budget = null;
-        for (BudgetDocumentVersion budgetDocumentVersion : getBudgetDocumentVersions()) {
-            for (BudgetVersionOverview budgetVersionOverview : budgetDocumentVersion.getBudgetVersionOverviews()) {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public AwardBudgetVersionOverviewExt getBudgetVersionOverview() {
+        AwardBudgetVersionOverviewExt budget = new AwardBudgetVersionOverviewExt();
+        List<AwardBudgetDocumentVersion> awardBudgetDocuments = getBudgetDocumentVersions();
+        for (AwardBudgetDocumentVersion budgetDocumentVersion : awardBudgetDocuments) {
+            List budgetVersionOverviews = budgetDocumentVersion.getBudgetVersionOverviews();
+            for (int i = 0; i < budgetVersionOverviews.size(); i++) {
+                AwardBudgetVersionOverviewExt budgetVersionOverview = (AwardBudgetVersionOverviewExt)budgetVersionOverviews.get(i);
                 if (budgetVersionOverview != null
-                        && (budget == null || (budget != null && budgetVersionOverview.getBudgetVersionNumber() > budget
-                                .getBudgetVersionNumber()))) {
+                        && (budget.getBudgetVersionNumber() == null || 
+                            (budget.getBudgetVersionNumber() != null && budgetVersionOverview.getBudgetVersionNumber() > budget.getBudgetVersionNumber()))) {
                     budget = budgetVersionOverview;
                 }
             }

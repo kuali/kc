@@ -190,9 +190,12 @@ public abstract class AbstractBudgetCalculator {
         return budget.getOhRateClassCode().equals(budget.getUrRateClassCode());
     }
 
+    /**
+     * 
+     * This method does the calculation for each line item. Both BudgetLineItem and BudgetPersonnelLineItem invokes this method to do the calculation.
+     */
     public void calculate() {
-        if (budget.getBudgetParent() instanceof DevelopmentProposal && ((DevelopmentProposal)budget.getBudgetParent()).isParent()) {
-            // if this budget belongs to a ProposalHierarchy parent skip rate-based recalculations and just sum
+        if (budget.getBudgetParent() instanceof DevelopmentProposal && ((DevelopmentProposal) budget.getBudgetParent()).isParent()) {
             budgetLineItem.setDirectCost(budgetLineItem.getLineItemCost());
             budgetLineItem.setTotalCostSharingAmount(budgetLineItem.getCostSharingAmount());
             budgetLineItem.setIndirectCost(BudgetDecimal.ZERO);
@@ -204,17 +207,17 @@ public abstract class AbstractBudgetCalculator {
             }
             QueryList<AbstractBudgetCalculatedAmount> calcAmts = new QueryList<AbstractBudgetCalculatedAmount>();
             calcAmts.addAll(budgetLineItem.getBudgetCalculatedAmounts());
-            
             for (AbstractBudgetCalculatedAmount calcAmt : calcAmts) {
                 calcAmt.refreshReferenceObject("rateClass");
                 calcAmt.setRateClassType(calcAmt.getRateClass().getRateClassType());
-                //calcAmt.refreshReferenceObject("rateClassType");
             }
             NotEquals notEqualsOH = new NotEquals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
             Equals equalsOH = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
-            budgetLineItem.setDirectCost(budgetLineItem.getDirectCost().add(calcAmts.sumObjects("calculatedCost", notEqualsOH)));
-            budgetLineItem.setIndirectCost(budgetLineItem.getIndirectCost().add(calcAmts.sumObjects("calculatedCost", equalsOH)));
-            budgetLineItem.setTotalCostSharingAmount(budgetLineItem.getTotalCostSharingAmount().add(calcAmts.sumObjects("calculatedCostSharing")));
+            String calculatedCostString = "calculatedCost";
+            budgetLineItem.setDirectCost(budgetLineItem.getDirectCost().add(calcAmts.sumObjects(calculatedCostString, notEqualsOH)));
+            budgetLineItem.setIndirectCost(budgetLineItem.getIndirectCost().add(calcAmts.sumObjects(calculatedCostString, equalsOH)));
+            budgetLineItem.setTotalCostSharingAmount(budgetLineItem.getTotalCostSharingAmount().add(
+                    calcAmts.sumObjects("calculatedCostSharing")));
             return;
         }
         budgetLineItem.setDirectCost(budgetLineItem.getLineItemCost());
@@ -224,13 +227,17 @@ public abstract class AbstractBudgetCalculator {
         createAndCalculateBreakupIntervals();
         updateBudgetLineItemCalculatedAmounts();
         populateBudgetRateBaseList();
-        // if (!uRMatchesOh && (!OHAvailable || cvLineItemCalcAmts == null || cvLineItemCalcAmts.size() == 0)) {
-        // calculateURBase();
-        // }
-
     }
+    /**
+     * This abstract method should be implemented by LineItemCalculator and PersonnelLineItemCalculator.
+     * It is for populating the RateAndBase amounts. 
+     */
     protected abstract void populateBudgetRateBaseList();
-    
+    /**
+     * 
+     * This method is for populating the calculated amounts by looking at the rate class and rate type for each line item gets applied to.
+     */
+    @SuppressWarnings("unchecked")
     protected void updateBudgetLineItemCalculatedAmounts() {
         
         List<AbstractBudgetCalculatedAmount> lineItemCalcAmts = budgetLineItem.getBudgetCalculatedAmounts();
@@ -251,11 +258,9 @@ public abstract class AbstractBudgetCalculator {
             Equals equalsRT;
             And RCandRT = null;
             QueryList<RateAndCost> cvCombinedAmtDetails = new QueryList<RateAndCost>();
-            // Loop and add all the amount details from all the breakup intervals
             for (BreakUpInterval brkUpInterval : cvLIBreakupIntervals) {
                 cvCombinedAmtDetails.addAll(brkUpInterval.getRateAndCosts());
             }
-            // loop thru all cal amount rates, sum up the costs and set it
             for (AbstractBudgetCalculatedAmount calculatedAmount : lineItemCalcAmts) {
                 rateClassCode = calculatedAmount.getRateClassCode();
                 rateTypeCode = calculatedAmount.getRateTypeCode();
@@ -332,7 +337,8 @@ public abstract class AbstractBudgetCalculator {
              */
             if (!directCostRolledUp) {
                 totalCalculatedCostSharing = cvCombinedAmtDetails.sumObjects("calculatedCostSharing");
-            } else {
+            } 
+            else {
                 totalCalculatedCostSharing = newTotalCostSharing;
             }
 
@@ -340,8 +346,9 @@ public abstract class AbstractBudgetCalculator {
                         totalCalculatedCostSharing : 
                         budgetLineItem.getCostSharingAmount().add(totalCalculatedCostSharing));
 
-        } else if (lineItemCalcAmts != null && lineItemCalcAmts.size() > 0 && (budgetLineItem.getLineItemCost().equals(BudgetDecimal.ZERO) || CollectionUtils.isEmpty(cvLIBreakupIntervals))) {
-            // if total is 0 or no matching rate to calculate
+        } else if (lineItemCalcAmts != null && lineItemCalcAmts.size() > 0 && 
+                (budgetLineItem.getLineItemCost().equals(BudgetDecimal.ZERO) || 
+                        CollectionUtils.isEmpty(cvLIBreakupIntervals))) {
             for (AbstractBudgetCalculatedAmount calculatedAmount : lineItemCalcAmts) {
                   calculatedAmount.setCalculatedCost(BudgetDecimal.ZERO);
                   calculatedAmount.setCalculatedCostSharing(BudgetDecimal.ZERO);
@@ -364,8 +371,6 @@ public abstract class AbstractBudgetCalculator {
      * AmountBean for setting the calculated cost & calculated cost sharing ie for each rate class & rate type.
      */
     protected void createBreakUpInterval() {
-        LOG.info("Line item details before going to create breakup interval " + budgetLineItem);
-        // Initialize the Message that should be shown if rate not avalilable for any period
         String messageTemplate = "";
         String multipleRatesMesgTemplate = "";
         String message = "";
@@ -382,9 +387,7 @@ public abstract class AbstractBudgetCalculator {
         }
 
         QueryList<BudgetLaRate> qlLineItemPropLaRates = getQlLineItemPropLaRates();
-        LOG.info("Budget proposal LA rates size is " + qlLineItemPropLaRates.size());
         QueryList<BudgetRate> qlLineItemPropRates = getQlLineItemPropRates();
-        LOG.info("Budget proposal rates size is " + qlLineItemPropRates.size());
 
         // combine the sorted Prop & LA Rates
         QueryList qlCombinedRates = new QueryList();
@@ -395,7 +398,6 @@ public abstract class AbstractBudgetCalculator {
         Date liStartDate = budgetLineItem.getStartDate();
         Date liEndDate = budgetLineItem.getEndDate();
         List<Boundary> boundaries = createBreakupBoundaries(qlCombinedRates, liStartDate, liEndDate);
-        LOG.info("Breakup boundaries size is " + boundaries.size());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM-dd-yyyy");
         // create breakup intervals based on the breakup boundaries
         if (boundaries != null && boundaries.size() > 0) {
@@ -567,8 +569,8 @@ public abstract class AbstractBudgetCalculator {
                         }
                     }
                 }
-            }// breakup interval creation loop ends here
-        }// if for vecBoundaries checking ends here
+            }
+        }
     }
 
     private boolean hasValidUnderRecoveryRate() {
