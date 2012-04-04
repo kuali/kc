@@ -37,6 +37,7 @@ import org.kuali.kfs.integration.cg.budgetService.BudgetAdjustmentService;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -432,7 +433,8 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      */
     protected AwardBudgetExt getNewestBudgetByStatus(AwardDocument awardDocument, List<String> statuses) { 
         AwardBudgetVersionOverviewExt budgetVersion = null;
-        for (BudgetDocumentVersion version : awardDocument.getBudgetDocumentVersions()) {
+        List<AwardBudgetDocumentVersion> awardBudgetDocuments = awardDocument.getBudgetDocumentVersions();
+        for (BudgetDocumentVersion version : awardBudgetDocuments) {
             AwardBudgetVersionOverviewExt curVersion = (AwardBudgetVersionOverviewExt) version.getBudgetVersionOverview();
             if (statuses.contains(curVersion.getAwardBudgetStatusCode())) {
                 if (budgetVersion == null || curVersion.getBudgetVersionNumber() > budgetVersion.getBudgetVersionNumber()) {

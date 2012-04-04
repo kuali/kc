@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -254,7 +255,8 @@ public class AwardBudgetForm extends BudgetForm {
         AwardBudgetExt awardBudgetExt = this.getAwardBudgetDocument().getAwardBudget();
         AwardDocument ad = (AwardDocument) this.getAwardBudgetDocument().getParentDocument();
         List<Budget> allBudgets = new ArrayList<Budget>();
-        for (BudgetDocumentVersion version : ad.getBudgetDocumentVersions()) {
+        List<AwardBudgetDocumentVersion> awardBudgetDocuments = ad.getBudgetDocumentVersions();
+        for (AwardBudgetDocumentVersion version : awardBudgetDocuments) {
             allBudgets.add(version.findBudget());
         }
         return getSumOfAllPreviousBudgetChanges(awardBudgetExt, allBudgets);
