@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2005-2010 The Kuali Foundation.
+
+    Licensed under the Educational Community License, Version 1.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl1.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    
+    <bean id="negotiationModuleConfiguration" parent="negotiationModuleConfiguration-parentBean" />
+    <bean id="negotiationModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="KC-NEGOTIATION" />
+    </bean>
+
+    <bean id="negotiationService" class="org.kuali.kra.negotiations.service.NegotiationServiceImpl">
+        <property name="parameterService" ref="parameterService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="awardBudgetService" ref="awardBudgetService" />
+        <property name="institutionalProposalService" ref="institutionalProposalService" />   
+        <property name="unitAdministratorDerivedRoleTypeServiceImpl" ref="unitAdministratorDerivedRoleTypeService" />
+        <property name="kcPersonService" ref="kcPersonService" />   
+    </bean>
+    
+    <bean id="notificationAuthorizationService" class="org.kuali.kra.common.notification.NotificationAuthorizationServiceImpl">
+       <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+       <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+    
+    <bean id="negotiationTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="negotiation" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.negotiations.auth.CreateNegotiationAuthorizer" parent="parentNegotiationAuthorizer">
+                    <property name="taskName" value="createNegotiation" />
+                </bean>
+                <bean class="org.kuali.kra.negotiations.auth.ModifyNegotiationAuthorizer" parent="parentNegotiationAuthorizer">
+                    <property name="taskName" value="modifyNegotiation" />
+                </bean>
+                <bean class="org.kuali.kra.negotiations.auth.CreateActivitiesAuthorizer" parent="parentNegotiationAuthorizer">
+                    <property name="taskName" value="createNegotiationActivities" />
+                </bean>                
+                <bean class="org.kuali.kra.negotiations.auth.ModifyActivitiesAuthorizer" parent="parentNegotiationAuthorizer">
+                    <property name="taskName" value="modifyNegotiationActivities" />
+                </bean>
+                <bean class="org.kuali.kra.negotiations.auth.ViewNegotiationUnRestrictedAuthorizer" parent="parentNegotiationAuthorizer">
+                    <property name="taskName" value="viewNegotiationUnRestricted" />
+                </bean>
+                <bean class="org.kuali.kra.negotiations.auth.ViewNegotiationAuthorizer" parent="parentNegotiationAuthorizer">
+                    <property name="taskName" value="viewNegotiation" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="parentNegotiationAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+    </bean>
+    
+    <bean id="negotiationCustomAttributeService" class="org.kuali.kra.service.impl.NegotiationCustomAttributeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
+    <bean id="negotiationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="negotiationLookupableHelperService" />
+    </bean>
+    
+    <bean id="negotiationLookupableHelperService" class="org.kuali.kra.negotiations.lookup.NegotiationLookupableHelperServiceImpl">
+        <property name="negotiationDao" ref="negotiationDao" />
+    </bean>
+    
+    <bean id="negotiationDao" class="org.kuali.kra.negotiations.lookup.NegotiationDaoOjb" parent="platformAwareDao">
+        <property name="negotiationService" ref="negotiationService" />
+        <property name="persistenceStructureService" ref="persistenceStructureService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+    </bean>
+
+    <bean id="negotiationNotificationRoleQualifierService" class="org.kuali.kra.negotiations.notifications.NegotiationNotificationRoleQualifierServiceImpl"
+          scope="prototype" />
+    
+    <bean id="negotiationNotificationRenderer" class="org.kuali.kra.negotiations.notifications.NegotiationNotificationRenderer" scope="prototype"/>
+    
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean parent="kcService" p:service-ref="negotiationPersonDerivedRoleType" p:localServiceName="negotiationPersonDerivedRoleType" />
+        </property>
+    </bean>
+    
+    <bean id="negotiationPersonDerivedRoleType" class="org.kuali.kra.negotiations.service.NegotiationPersonDerivedRoleTypeServiceImpl">
+        <property name="negotiationService" ref="negotiationService" />
+    </bean>
+    
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean parent="kcService" p:service-ref="negotiationNegotiatorDerivedRoleType" p:localServiceName="negotiationNegotiatorDerivedRoleType" />
+        </property>
+    </bean>
+
+    <bean id="negotiationNegotiatorDerivedRoleType" class="org.kuali.kra.negotiations.service.NegotiationNegotiatorDerivedRoleTypeServiceImpl"/>    
+
+    <bean id="negotiationPrintingService" class="org.kuali.kra.negotiations.printing.service.impl.NegotiationPrintingServiceImpl">   
+        <property name="printingService" ref="printingService" />
+        <property name="negotiationActivityPrint" ref="negotiationActivityPrint" />
+    </bean>
+    
+    <bean id="negotiationActivityPrint" class="org.kuali.kra.negotiations.printing.print.NegotiationActivityprint">
+        <property name="xmlStream" ref="negotiationActivityXmlStream" />
+    </bean>
+    
+    <bean id="negotiationActivityXmlStream" class="org.kuali.kra.negotiations.printing.xmlstream.NegotiationActivityXmlStream">
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />           
+    </bean>
+
+</beans>

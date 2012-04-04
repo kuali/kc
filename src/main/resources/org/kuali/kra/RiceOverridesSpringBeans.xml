@@ -1,545 +1,355 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2005-2010 The Kuali Foundation. Licensed under the Educational 
-	Community License, Version 1.0 (the "License"); you may not use this file 
-	except in compliance with the License. You may obtain a copy of the License 
-	at http://www.opensource.org/licenses/ecl1.php Unless required by applicable 
-	law or agreed to in writing, software distributed under the License is distributed 
-	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
-	express or implied. See the License for the specific language governing permissions 
-	and limitations under the License. -->
+<!--
+    Copyright 2005-2010 The Kuali Foundation.
+
+    Licensed under the Educational Community License, Version 1.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl1.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-                           http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context-2.5.xsd	
-                           http://www.springframework.org/schema/lang
-                           http://www.springframework.org/schema/lang/spring-lang-2.5.xsd
-                           http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/util
-                           http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+    <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
+    <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml"/>
+    
+    <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
+        <property name="configLocations">
+            <list>
+                <value>classpath:META-INF/kc-config.xml</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="configProperties" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="bootstrapConfig" />
+        <property name="targetMethod" value="getProperties" />
+    </bean>
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" ref="configProperties" />
+    </bean>
+    
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
+        <property name="arguments">
+            <list>
+                <ref bean="bootstrapConfig"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
+        <property name="dataSource" ref="dataSource${connection.pool.impl}" />
+        <property name="serverDataSource" ref="riceDataSource${connection.pool.impl}" />
+        <property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
+        <property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
+        <property name="userTransaction" ref="jtaUserTransaction" />
+    </bean> 
 
-
-
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="properties" ref="configProperties" />
-	</bean>
-
-	<bean id="configProperties" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="targetObject" ref="bootstrapConfig" />
-		<property name="targetMethod" value="getProperties" />
-	</bean>
-	
-	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
-		<property name="configLocations">
-			<list>
-				<value>classpath:META-INF/kc-config.xml</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
-		<property name="arguments">
-			<list><ref bean="bootstrapConfig"/></list>
-		</property>
-	</bean>
-
-	<util:list id="kcPackages">
-		<value>org.kuali.kra</value>
-	</util:list>
-
-	<import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
-	<import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml"/>
-	
-	<bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
-		<property name="dataSource" ref="dataSource${connection.pool.impl}" />
-		<property name="serverDataSource" ref="riceDataSource${connection.pool.impl}" />
-		<property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
-		<property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
-		<property name="userTransaction" ref="jtaUserTransaction" />
-	</bean>	
-
-	<bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
-		<property name="registryDataSource" ref="riceDataSource${connection.pool.impl}" />
-		<property name="messageDataSource" ref="riceDataSource${connection.pool.impl}" />
-		<property name="nonTransactionalMessageDataSource" ref="nonTransactionalDataSource" />
-		<property name="bamDataSource" ref="riceDataSource${connection.pool.impl}" />
-		<property name="properties" ref="configProperties" />
-	</bean>		
-	
-	<bean id="kradConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer">
+    <bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
+        <property name="registryDataSource" ref="riceDataSource${connection.pool.impl}" />
+        <property name="messageDataSource" ref="riceDataSource${connection.pool.impl}" />
+        <property name="nonTransactionalMessageDataSource" ref="nonTransactionalDataSource" />
+        <property name="bamDataSource" ref="riceDataSource${connection.pool.impl}" />
+        <property name="properties" ref="configProperties" />
+    </bean>     
+    
+    <bean id="kradConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer">
         <property name="includeKnsSpringBeans" value="true" />
         <property name="applicationDataSource" ref="dataSource${connection.pool.impl}" />
-	</bean>	
+    </bean> 
  
-	<bean id="coreServiceConfigurer" class="org.kuali.rice.coreservice.impl.config.CoreServiceConfigurer">
-	</bean>
-	
+    <bean id="coreServiceConfigurer" class="org.kuali.rice.coreservice.impl.config.CoreServiceConfigurer" />
+    
     <bean id="kimConfigurer" class="org.kuali.rice.kim.config.KIMConfigurer">
-		<property name="properties" ref="configProperties" />
-	</bean>
-  	
-	<bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer">
-		<property name="dataSource" ref="riceDataSource${connection.pool.impl}" /> 
-		<property name="properties" ref="configProperties" />
+        <property name="properties" ref="configProperties" />
+    </bean>
+    
+    <bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer">
+        <property name="dataSource" ref="riceDataSource${connection.pool.impl}" /> 
+        <property name="properties" ref="configProperties" />
     </bean>
 
     <bean id="kenConfigurer" class="org.kuali.rice.ken.impl.config.KENConfigurer">
-		<property name="properties" ref="configProperties" />
-   </bean>
-   <!-- 
-   <bean id="edlConfigurer" class="org.kuali.rice.edl.impl.config.EDLConfigurer"/>
+        <property name="properties" ref="configProperties" />
+    </bean>
+
+    <!--
+    <bean id="edlConfigurer" class="org.kuali.rice.edl.impl.config.EDLConfigurer"/>
     -->
-   <bean id="krmsConfigurer" class="org.kuali.rice.krms.config.KRMSConfigurer"/>
-	
-	<bean id="locationConfigurer" class="org.kuali.rice.location.impl.config.LocationConfigurer" />
-	
-	<bean id="userTransaction" class="org.kuali.rice.core.framework.persistence.jta.UserTransactionFactoryBean" lazy-init="true" />
 
-	<bean id="jtaTransactionManager" class="org.kuali.rice.core.framework.persistence.jta.TransactionManagerFactoryBean" lazy-init="true" />
-
-	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
-		<property name="userTransaction">
-			<ref local="userTransaction" />
-		</property>
-		<property name="transactionManager">
-			<ref local="jtaTransactionManager" />
-		</property>
-	</bean>
-	 
-	<!--
-		If we want to inject the local bean into the Rice context (and override the identically-named 
-		Rice bean if it exists) we need to add it to overridableServices.  If it's purely a KC service, 
-		or we want to use a different implementation of a Rice service in the KC context but not override 
-		the Rice impl bean in the Rice context, we don't add it.   
-	 -->
-	<bean id="kraRootResourceLoader" parent="kraRootResourceLoaderParent" />
-	<bean id="kraRootResourceLoaderParent" class="org.kuali.kra.rice.KraResourceLoader" abstract="true">
-		<!-- Define service names that are overridable -->
-		<property name="overridableServices">
-			<set>
-				<value>webAuthenticationService</value>
-				<value>enWebAuthenticationService</value>
-				<value>lookupableHelperService</value>	
-				<value>s2sOpportunityLookupable</value>	
-				<value>customLookupable</value>	
-				<value>unitLookupable</value>
-				<value>nonOrganizationalRolodexLookupable</value>
-				<value>budgetExpenseLookupable</value>
-				<value>onOffCampusLookupable</value>
-				<value>activeFlagLookupable</value>
-				<value>copyPeriodsQuestion</value>
-				<value>sponsorLookupable</value>	
-				<value>pessimisticLockLookupable</value>	
-				<value>protocolLookupable</value>
-				<value>coiDisclosureLookupable</value>
-				<value>protocolOnlineReviewLookupable</value>	
-				<value>protocolSubmissionLookupable</value>	
-				<value>committeeLookupable</value>	
-				<value>committeeScheduleLookupable</value>	
-				<value>awardLookupable</value>
-				<value>awardPersonLookupable</value>
-				<value>docSearchCriteriaDTOLookupable</value>
-				<value>questionnaireLookupable</value>
-				<value>questionLookupable</value>
-				<value>kcPersonLookupable</value>
-				<value>kcPersonExtendedAttributesLookupable</value>
-				<value>institutionalProposalLookupable</value>
-				<value>proposalLogLookupable</value>
-				<value>proposalDevelopmentLookupable</value>
-				<value>unitAdministratorLookupable</value>
-				<value>organizationCorrespondentLookupable</value>
-				<value>unitCorrespondentLookupable</value>
-				<value>customAttributeDocumentLookupable</value>
-				<value>noEditLookupable</value>
-				<value>budgetPeriodLookupable</value>	
-				<value>kimPersonLookupable</value>
-				<value>awardTemplateLookupable</value>
-				<value>groupLookupable</value>
-				<value>permissionLookupable</value>
-				<value>responsibilityLookupable</value>
-				<value>roleLookupable</value>
-				<value>negotiationLookupable</value>
-				<value>financialEntityLookupable</value>
-				<value>reportTrackingLookupable</value>
-				<value>subAwardLookupable</value>
-				<value>notificationLookupable</value>
-				<value>coiEventDisclosureLookupable</value>
-				<value>coiDisclosureEventTypeLookupable</value>
-				<value>coiSubmittedDisclosureLookupable</value>
-				<value>coiNonProjectEventDisclosureLookupable</value>
-				<value>coiAnnualEventDisclosureLookupable</value>
-				<value>coiDisclosureReviewsLookupable</value>
-				<value>coiDisclosureUndisclosedEventsLookupable</value>
-			</set>
-		</property>
-	</bean>	
-
-	<bean id="dbPlatform"
-		class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="dbPlatform" />
-	</bean>
-
-	<bean id="parameterService"
-		class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="parameterService" />
-	</bean>
-
-	<bean id="platformAwareDaoJdbc" abstract="true"
-		class="org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc">
-		<property name="dataSource" ref="dataSource" />
-		<property name="dbPlatform" ref="dbPlatform" />
-	</bean>
-
-	<bean id="platformAwareDao" abstract="true"
-		class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb">
-		<property name="jcdAlias" value="kradApplicationDataSource" />
-		<property name="dbPlatform" ref="dbPlatform" />
-	</bean>
-
-	<bean id="stateService"
-		class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="stateService" />
-	</bean>
-	
-	<bean id="personService"
-		class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="personService" />
-	</bean>
-	
-	<bean id="transactionalDocumentDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="transactionalDocumentDictionaryService" />
-	</bean>
-	
-	<bean id="configService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="configService" />
-	</bean>
-
-	<bean id="identityService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="kimIdentityService" />
-	</bean>
-	
-	<bean id="roleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="kimRoleService" />
-	</bean>
-	
-	<bean id="permissionService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="kimPermissionService" />
-	</bean>
-	
-	<bean id="groupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="kimGroupService" />
-	</bean>
-	
-	<bean id="kimTypeInfoService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="kimTypeInfoService" />
-	</bean>
-	
-	<bean id="criteriaLookupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="criteriaLookupService" />
-	</bean>	
-	
-	<bean id="businessObjectService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="businessObjectService" />
-	</bean>
-	
-	<bean id="documentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="documentService" />
-	</bean>
-
-	<bean id="pessimisticLockService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="pessimisticLockService" />
-	</bean>
-	
-	<bean id="routeHeaderService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="enDocumentRouteHeaderService" />
-	</bean>
-	
-	<bean id="workflowUtilityService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="enWorkflowUtilityService" />
-	</bean>
-	
-	<bean id="persistenceService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="persistenceService" />
-	</bean>
-
-	<bean id="keyValueFinderService" class="org.kuali.kra.lookup.keyvalue.KeyValueFinderServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-	</bean>
-	
-	<bean id="kualiConfigurationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="kualiConfigurationService" />
-	</bean>
-	
-    <bean id="persistenceStructureServiceOjb" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="persistenceStructureServiceOjb" />
+    <bean id="krmsConfigurer" class="org.kuali.rice.krms.config.KRMSConfigurer"/>
+    
+    <bean id="locationConfigurer" class="org.kuali.rice.location.impl.config.LocationConfigurer" />
+    
+    <bean id="businessObjectDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="businessObjectDictionaryService" />
     </bean>
     
-    <bean id="persistenceStructureServiceJpa" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="persistenceStructureServiceJpa" />
-    </bean>	
-	
-	<bean id="persistenceStructureService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="persistenceStructureService" />
-	</bean>
-
-	<bean id="businessObjectDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="businessObjectDictionaryService" />
-	</bean>
-	
-	<bean id="dataDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="dataDictionaryService" />
-	</bean>
-	<bean id="kualiRuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="kualiRuleService" />
-	</bean>
-	
-    <bean id="dateTimeService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="dateTimeService" />
-    </bean>
-
-	<bean id="encryptionService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="encryptionService" />
-	</bean>
-	
-	<bean id="workflowDocumentActionsService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="rice.kew.workflowDocumentActionsService" />
-	</bean>
-	
-	<bean id="kewWorkflowDocumentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="rice.kew.workflowDocumentService" />
-	</bean>
-	
-	<bean id="kradWorkflowDocumentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="workflowDocumentService" />
-	</bean>
-		
-	<bean id ="multiCampusIdentityService" class="org.kuali.kra.service.impl.MultiCampusIdentityServiceImpl">
-	   <property name="businessObjectService">
-           <ref bean="businessObjectService" />
-       </property>
-	   <property name="identityService">
-           <ref bean="identityService" />
-       </property>
-	</bean>
-		
-    <bean id="kcPersonService" class="org.kuali.kra.service.impl.KcPersonServiceImpl">
-       <property name="identityService">
-           <ref bean="identityService" />
-       </property>
-       <property name="personService">
-           <ref bean="personService" />
-       </property>
-       <property name="parameterService">
-           <ref bean="parameterService" />
-       </property>
-       <property name="multiCampusIdentityService">
-           <ref bean="multiCampusIdentityService" />
-       </property>       
-    </bean>
-	
-	<bean id="kcPersonLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-  		<property name="lookupableHelperService">
-    		<ref bean="kcPersonLookupableHelperService" />
-  		</property>  		
-	</bean>	
-
-	<bean id="kcPersonLookupableHelperService" class="org.kuali.kra.lookup.KcPersonLookupableHelperServiceImpl" 
- 		scope="prototype" parent="lookupableHelperService">
- 		<property name="kcPersonService">
- 			<ref bean="kcPersonService" />
- 		</property>
-  	</bean>
-  	
-  	<bean id="kcPersonExtendedAttributesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-  		<property name="lookupableHelperService">
-    		<ref bean="kcPersonExtendedAttributesLookupableHelperService" />
-  		</property>  		
-	</bean>	
-  	
-  	<bean id="kcPersonExtendedAttributesLookupableHelperService" class="org.kuali.kra.lookup.KcPersonExtendedAttributesLookupableHelperServiceImpl" 
- 		scope="prototype" parent="lookupableHelperService">
-  	</bean>
-    
-    <bean id="kualiGroupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kualiGroupService" />
+    <bean id="businessObjectMetaDataService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="businessObjectMetaDataService" />
     </bean>
     
-    <bean id="kualiModuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kualiModuleService" />
+    <bean id="businessObjectService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="businessObjectService" />
     </bean>
     
-    <bean id="kualiModuleUserPropertyService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kualiModuleUserPropertyService" />
+    <bean id="dataDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataDictionaryService" />
     </bean>
     
-    <bean id="maintenanceDocumentDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="maintenanceDocumentDictionaryService" />
+    <bean id="encryptionService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="encryptionService" />
     </bean>
-	
-	<bean id="lookupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="lookupService" />
-	</bean>
-	
-	<bean id="knsSessionDocumentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="knsSessionDocumentService" />
-	</bean>
-	
-	<bean id="businessObjectMetaDataService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="businessObjectMetaDataService" />
-	</bean>
-	
-	<bean id="sequenceAccessorService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="sequenceAccessorService" />
-	</bean>
-	
-	<bean id="lookupResultsService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="lookupResultsService" />
-	</bean>
-
-    <bean id="lookupDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="lookupDao" />
+    
+    <bean id="identityService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kimIdentityService" />
     </bean>
+    
+    <bean id="kimRoleDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kimRoleDao" />
+    </bean>
+    
+    <bean id="lookupResultsService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="lookupResultsService" />
+    </bean>
+    
+    <bean id="lookupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="lookupService" />
+    </bean>
+    
+    <bean id="persistenceStructureService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="persistenceStructureService" />
+    </bean>
+    
+    <bean id="sequenceAccessorService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="sequenceAccessorService" />
+    </bean>
+    
+    <bean id="multiCampusIdentityService" class="org.kuali.kra.service.impl.MultiCampusIdentityServiceImpl">
+       <property name="businessObjectService" ref="businessObjectService" />
+       <property name="identityService" ref="identityService" />
+    </bean>
+    
+    <!--
+        If we want to inject the local bean into the Rice context (and override the identically-named Rice bean if it exists) we need to add it to the beanNames
+        list.  If it's purely a KC service, or we want to use a different implementation of a Rice service in the KC context but not override the Rice 
+        implementation bean in the Rice context, we don't add it.   
+     -->
+    <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
+        <property name="localServiceName" value="KC-Context"/>
+        <property name="serviceNameSpaceURI" value="KC" />
+        <property name="beanNames">
+            <set>
+                <value>lookupableHelperService</value>
+                <value>docSearchCriteriaDTOLookupable</value>
+                <value>groupLookupable</value>
+                <value>kimPersonLookupable</value>
+                <value>permissionLookupable</value>
+                <value>pessimisticLockLookupable</value>
+                <value>responsibilityLookupable</value>
+                <value>roleLookupable</value>
+                <value>multiCampusIdentityService</value>
 
-	<bean id="lookupableHelperService" class="org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl" scope="prototype">
-		<property name="persistenceStructureService">
-			<ref bean="persistenceStructureService" />
-		</property>
-		<property name="businessObjectDictionaryService">
-			<ref bean="businessObjectDictionaryService" />
-		</property>
-		<property name="dataDictionaryService">
-			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="encryptionService">
-			<ref bean="encryptionService" />
-		</property>
-		<property name="lookupService">
-			<ref bean="lookupService" />
-		</property>
-		<property name="businessObjectMetaDataService">
-			<ref bean="businessObjectMetaDataService" />
-		</property>
-		<property name="sequenceAccessorService">
-			<ref bean="sequenceAccessorService" />
-		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="lookupResultsService">
-			<ref bean="lookupResultsService" />
-		</property>
-	</bean>
-	
-	<bean class="org.kuali.rice.krad.util.spring.NamedOrderedListBean">
-		<property name="name" value="scriptConfigurationFilePaths" />
-		<property name="listItem" value="classpath:org/kuali/kra/dwr-kra.xml" />
-	</bean>
-
-	<bean id="kraPersistenceStructureService" class="org.kuali.kra.service.impl.KraPersistenceStructureServiceImpl" >
-		<property name="persistenceStructureServiceJpa" ref="persistenceStructureServiceJpa" />
-    	<property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb" />
-	</bean>
-	
-	<bean id="kcPostProcessorService" class="org.kuali.kra.service.impl.KcPostProcessorServiceImpl" >
-        <property name="workflowDocumentService" ref="kewWorkflowDocumentService" />
-        <property name="documentService" ref="documentService" /> 
-	</bean>
-
-	<bean id="transactionAdvisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
-		<property name="classFilter" ref="transactionAdvisorClassFilter" />
-		<property name="transactionInterceptor" ref="transactionInterceptor" />
-	</bean>
-	
-	<bean id="transactionAdvisorClassFilter" class="org.kuali.rice.core.impl.util.spring.ClassOrMethodAnnotationFilter">
-	   <constructor-arg value="org.springframework.transaction.annotation.Transactional" />
-	</bean>
-	
-	<bean id="transactionInterceptor" class="org.kuali.rice.core.framework.persistence.jta.KualiTransactionInterceptor">
-		<property name="transactionManager" ref="transactionManager" />
-		<property name="transactionAttributeSource" ref="transactionAttributeSource" />
-	</bean>
-	
-	<bean id="transactionAttributeSource" class="org.kuali.rice.core.impl.util.spring.AnnotationAndNameMatchingTransactionAttributeSource">
-		<property name="annotationTransactionAttributeSource" ref="annotationTransactionAttributeSource" />
-		<property name="transactionTimeout" value="${transaction.timeout}" />
-	</bean>
-	
-	<bean id="annotationTransactionAttributeSource" class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
-	
-	<bean id="commonDefaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
-	
-	<bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
-	    <property name="localServiceName" value="KC-Context"/>
-	    <property name="serviceNameSpaceURI" value="KC" />
-		<!-- Define service names that are overridable -->
-		<property name="beanNames">
-			<set>
-				<value>webAuthenticationService</value>
-				<value>enWebAuthenticationService</value>
-				<value>lookupableHelperService</value>	
-				<value>s2sOpportunityLookupable</value>	
-				<value>customLookupable</value>	
-				<value>unitLookupable</value>
-				<value>nonOrganizationalRolodexLookupable</value>
-				<value>budgetExpenseLookupable</value>
-				<value>onOffCampusLookupable</value>
-				<value>activeFlagLookupable</value>
-				<value>copyPeriodsQuestion</value>
-				<value>sponsorLookupable</value>	
-				<value>pessimisticLockLookupable</value>	
-				<value>protocolLookupable</value>
-				<value>coiDisclosureLookupable</value>
-				<value>protocolOnlineReviewLookupable</value>	
-				<value>protocolSubmissionLookupable</value>	
-				<value>committeeLookupable</value>	
-				<value>committeeScheduleLookupable</value>	
-				<value>awardLookupable</value>
-				<value>awardPersonLookupable</value>
-				<value>docSearchCriteriaDTOLookupable</value>
-				<value>questionnaireLookupable</value>
-				<value>questionLookupable</value>
+                <value>webAuthenticationService</value>
+                <value>enWebAuthenticationService</value>
+                <value>s2sOpportunityLookupable</value> 
+                <value>customLookupable</value> 
+                <value>unitLookupable</value>
+                <value>nonOrganizationalRolodexLookupable</value>
+                <value>budgetExpenseLookupable</value>
+                <value>onOffCampusLookupable</value>
+                <value>activeFlagLookupable</value>
+                <value>copyPeriodsQuestion</value>
+                <value>sponsorLookupable</value>
+                <value>protocolLookupable</value>
+                <value>coiDisclosureLookupable</value>
+                <value>protocolOnlineReviewLookupable</value>   
+                <value>protocolSubmissionLookupable</value> 
+                <value>committeeLookupable</value>  
+                <value>committeeScheduleLookupable</value>  
+                <value>awardLookupable</value>
+                <value>awardPersonLookupable</value>
+                <value>questionnaireLookupable</value>
+                <value>questionLookupable</value>
                 <value>organizationCorrespondentLookupable</value>
                 <value>unitCorrespondentLookupable</value>
-				<value>kcPersonLookupable</value>
-				<value>kcPersonExtendedAttributesLookupable</value>
-				<value>institutionalProposalLookupable</value>
-				<value>proposalLogLookupable</value>
-				<value>proposalDevelopmentLookupable</value>
-				<value>unitAdministratorLookupable</value>
-				<value>customAttributeDocumentLookupable</value>
-				<value>noEditLookupable</value>
-				<value>budgetPeriodLookupable</value>	
-				<value>kimPersonLookupable</value>
-				<value>awardTemplateLookupable</value>
-				<value>groupLookupable</value>
-				<value>permissionLookupable</value>
-				<value>responsibilityLookupable</value>
-				<value>roleLookupable</value>
-				<value>negotiationLookupable</value>
-				<value>financialEntityLookupable</value>
-				<value>reportTrackingLookupable</value>
-				<value>subAwardLookupable</value>
-				<value>notificationLookupable</value>	
-				<value>coiEventDisclosureLookupable</value>
-				<value>coiDisclosureEventTypeLookupable</value>
-				<value>coiSubmittedDisclosureLookupable</value>
-				<value>coiNonProjectEventDisclosureLookupable</value>
-				<value>coiAnnualEventDisclosureLookupable</value>
-				<value>coiDisclosureReviewsLookupable</value>
-				<value>coiDisclosureUndisclosedEventsLookupable</value>
-			</set>	    
-		</property>
-	</bean>
+                <value>kcPersonLookupable</value>
+                <value>kcPersonExtendedAttributesLookupable</value>
+                <value>institutionalProposalLookupable</value>
+                <value>proposalLogLookupable</value>
+                <value>proposalDevelopmentLookupable</value>
+                <value>unitAdministratorLookupable</value>
+                <value>customAttributeDocumentLookupable</value>
+                <value>noEditLookupable</value>
+                <value>budgetPeriodLookupable</value>
+                <value>awardTemplateLookupable</value>
+                <value>negotiationLookupable</value>
+                <value>financialEntityLookupable</value>
+                <value>reportTrackingLookupable</value>
+                <value>subAwardLookupable</value>
+                <value>notificationLookupable</value>   
+                <value>coiEventDisclosureLookupable</value>
+                <value>coiDisclosureEventTypeLookupable</value>
+                <value>coiSubmittedDisclosureLookupable</value>
+                <value>coiNonProjectEventDisclosureLookupable</value>
+                <value>coiAnnualEventDisclosureLookupable</value>
+                <value>coiDisclosureReviewsLookupable</value>
+                <value>coiDisclosureUndisclosedEventsLookupable</value>
+            </set>      
+        </property>
+    </bean>
+
+    <bean id="kcResourceLoader" parent="kcResourceLoader-parentBean" />
+    <bean id="kcResourceLoader-parentBean" class="org.kuali.kra.rice.KraResourceLoader" abstract="true">
+        <property name="overridableServices">
+            <set>
+                <value>webAuthenticationService</value>
+                <value>enWebAuthenticationService</value>
+                <value>lookupableHelperService</value>  
+                <value>s2sOpportunityLookupable</value> 
+                <value>customLookupable</value> 
+                <value>unitLookupable</value>
+                <value>nonOrganizationalRolodexLookupable</value>
+                <value>budgetExpenseLookupable</value>
+                <value>onOffCampusLookupable</value>
+                <value>activeFlagLookupable</value>
+                <value>copyPeriodsQuestion</value>
+                <value>sponsorLookupable</value>    
+                <value>pessimisticLockLookupable</value>    
+                <value>protocolLookupable</value>
+                <value>coiDisclosureLookupable</value>
+                <value>protocolOnlineReviewLookupable</value>   
+                <value>protocolSubmissionLookupable</value> 
+                <value>committeeLookupable</value>  
+                <value>committeeScheduleLookupable</value>  
+                <value>awardLookupable</value>
+                <value>awardPersonLookupable</value>
+                <value>docSearchCriteriaDTOLookupable</value>
+                <value>questionnaireLookupable</value>
+                <value>questionLookupable</value>
+                <value>kcPersonLookupable</value>
+                <value>kcPersonExtendedAttributesLookupable</value>
+                <value>institutionalProposalLookupable</value>
+                <value>proposalLogLookupable</value>
+                <value>proposalDevelopmentLookupable</value>
+                <value>unitAdministratorLookupable</value>
+                <value>organizationCorrespondentLookupable</value>
+                <value>unitCorrespondentLookupable</value>
+                <value>customAttributeDocumentLookupable</value>
+                <value>noEditLookupable</value>
+                <value>budgetPeriodLookupable</value>   
+                <value>kimPersonLookupable</value>
+                <value>awardTemplateLookupable</value>
+                <value>groupLookupable</value>
+                <value>permissionLookupable</value>
+                <value>responsibilityLookupable</value>
+                <value>roleLookupable</value>
+                <value>negotiationLookupable</value>
+                <value>financialEntityLookupable</value>
+                <value>reportTrackingLookupable</value>
+                <value>subAwardLookupable</value>
+                <value>notificationLookupable</value>
+                <value>coiEventDisclosureLookupable</value>
+                <value>coiDisclosureEventTypeLookupable</value>
+                <value>coiSubmittedDisclosureLookupable</value>
+                <value>coiNonProjectEventDisclosureLookupable</value>
+                <value>coiAnnualEventDisclosureLookupable</value>
+                <value>coiDisclosureReviewsLookupable</value>
+                <value>coiDisclosureUndisclosedEventsLookupable</value>
+            </set>
+        </property>
+    </bean>
+    
+    <bean id="lookupableHelperService" class="org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl" scope="prototype">
+        <property name="persistenceStructureService" ref="persistenceStructureService" />
+        <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="encryptionService" ref="encryptionService" />
+        <property name="lookupService" ref="lookupService" />
+        <property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
+        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="lookupResultsService" ref="lookupResultsService" />
+    </bean>
+    
+    <!-- try override docsearchlookupable to handle extra 'copyDocument' link result column -->
+    <!--
+    <bean id="docSearchCriteriaDTOLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref local="kraDocSearchCriteriaDTOLookupHelperService" />
+        </property>
+    </bean>
+    
+    <bean id="kraDocSearchCriteriaDTOLookupHelperService" class="org.kuali.kra.lookup.KraDocSearchCriteriaDTOLookupableHelperServiceImpl" scope="prototype" />
+    -->
+    
+    <bean id="groupLookupable" class="org.kuali.rice.kim.lookup.GroupLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kra.lookup.GroupLookupableHelperServiceImpl" parent="lookupableHelperService">
+                <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="kimPersonLookupable" class="org.kuali.rice.kim.lookup.PersonLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kra.lookup.PersonLookupableHelperServiceImpl" parent="lookupableHelperService">
+                <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="permissionLookupable" class="org.kuali.rice.kim.lookup.PermissionLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kra.lookup.PermissionLookupableHelperServiceImpl" parent="lookupableHelperService">
+                <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="pessimisticLockLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="kraPessimisticLockLookupableHelperService" />
+    </bean>
+    
+    <bean id="kraPessimisticLockLookupableHelperService" class="org.kuali.kra.lookup.KraPessimisticLockLookupableHelperServiceImpl">
+        <property name="persistenceStructureService" ref="persistenceStructureService" />
+        <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="encryptionService" ref="encryptionService" />
+        <property name="lookupService" ref="lookupService" />
+        <property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
+        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="lookupResultsService" ref="lookupResultsService" />
+        <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
+    </bean>
+    
+    <bean id="responsibilityLookupable" class="org.kuali.rice.kim.impl.responsibility.ResponsibilityLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kra.lookup.ResponsibilityLookupableHelperServiceImpl" parent="lookupableHelperService">
+                <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="roleLookupable" class="org.kuali.rice.kim.lookup.RoleLookupableImpl" scope="prototype">         
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kra.lookup.RoleLookupableHelperServiceImpl" parent="lookupableHelperService" p:roleDao-ref="kimRoleDao">
+                <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
+            </bean>
+        </property>
+    </bean>
+    
 </beans>
