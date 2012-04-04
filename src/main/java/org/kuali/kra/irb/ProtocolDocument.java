@@ -103,17 +103,17 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 	public ProtocolDocument() { 
         super();
         
-        // TODO: *********code has been moved to base class, should ultimately be removed**********
+        // TODO *********code has been moved to base class, should ultimately be removed**********
         protocolList = new ArrayList<Protocol>();
-        // TODO: **********************end************************
+        // TODO **********************end************************
         
-        // TODO: replace the following two statements with corresponding hook overrides, see superclass constructor
+        // TODO replace the following two statements with corresponding hook overrides, see superclass constructor
         Protocol newProtocol = new Protocol();
         newProtocol.setProtocolDocument(this);
         
-        // TODO: *********code has been moved to base class, should ultimately be removed**********
+        // TODO *********code has been moved to base class, should ultimately be removed**********
         protocolList.add(newProtocol);
-        // TODO: **********************end************************
+        // TODO **********************end************************
         
         setProtocolWorkflowType(ProtocolWorkflowType.NORMAL);
         initializeProtocolLocation();
@@ -135,7 +135,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 
     
     
-    // TODO: *********code has been moved to base class, should ultimately be removed**********
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     /**
      * 
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
@@ -191,7 +191,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         managedLists.add(protocolList);
         return managedLists;
     }
-    // TODO: **********************end************************
+    // TODO **********************end************************
     
     
     

@@ -110,16 +110,16 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private static final String DEFAULT_PROTOCOL_TYPE_CODE = "1";
     private static final String NEXT_ACTION_ID_KEY = "actionId";
     
-    // TODO: *********code has been moved to base class, should ultimately be removed**********
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     private Long protocolId; 
     private String protocolNumber; 
-    // TODO: **********************end************************
+    // TODO **********************end************************
     
     
     private Integer sequenceNumber;
     
     
-    // TODO: *********code has been moved to base class, should ultimately be removed**********
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     private boolean active = true;
     private String protocolTypeCode; 
     private String protocolStatusCode; 
@@ -135,16 +135,16 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     private String referenceNumber2;
     
     private String specialReviewIndicator = "Y";
-    // TODO: **********************end************************
+    // TODO **********************end************************
     
     private String vulnerableSubjectIndicator;
     
-    // TODO: *********code has been moved to base class, should ultimately be removed**********
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     private String keyStudyPersonIndicator; 
     private String fundingSourceIndicator; 
     private String correspondentIndicator; 
     private String referenceIndicator; 
-    // TODO: **********************end************************
+    // TODO **********************end************************
     
     private String relatedProjectsIndicator; 
     private ProtocolDocument protocolDocument;
@@ -273,7 +273,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
     }
     
-    // TODO: *********code has been moved to base class, should ultimately be removed**********
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     public Long getProtocolId() {
         return protocolId;
     }
@@ -337,7 +337,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public void setDescription(String description) {
         this.description = description;
     }
-    // TODO: **********************end************************
+    // TODO **********************end************************
 
     /**
      * Gets the submission date.  If the submission date is the last
@@ -359,7 +359,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     }
     
     
-    // TODO: *********code has been moved to base class, should ultimately be removed**********
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     public Date getInitialSubmissionDate() {
         return initialSubmissionDate;
     }
@@ -423,7 +423,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public void setSpecialReviewIndicator(String specialReviewIndicator) {
         this.specialReviewIndicator = specialReviewIndicator;
     }
-    // TODO: **********************end************************
+    // TODO **********************end************************
 
     
     public String getVulnerableSubjectIndicator() {
@@ -434,7 +434,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         this.vulnerableSubjectIndicator = vulnerableSubjectIndicator;
     }
 
-    // TODO: *********code has been moved to base class, should ultimately be removed**********
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     public String getKeyStudyPersonIndicator() {
         return keyStudyPersonIndicator;
     }
@@ -466,7 +466,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public void setReferenceIndicator(String referenceIndicator) {
         this.referenceIndicator = referenceIndicator;
     }
-    // TODO: **********************end************************
+    // TODO **********************end************************
 
     
     public String getRelatedProjectsIndicator() {
@@ -1189,7 +1189,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     }
     
     
-    // TODO: *********code has been moved to base class, should ultimately be removed**********
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     /** {@inheritDoc} */
     public Integer getOwnerSequenceNumber() {
         return null;
@@ -1221,7 +1221,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public void resetPersistenceState() {
         this.protocolId = null;
     }
-    // TODO: **********************end************************
+    // TODO **********************end************************
    
     
     /**
@@ -1804,7 +1804,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     }
 
     
-    // TODO: *********code has been moved to base class, should ultimately be removed**********
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     /**
      * 
      * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
@@ -1833,7 +1833,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
         return roleNames;
     }
-    // TODO: **********************end************************
+    // TODO **********************end************************
     
     
     
@@ -1845,7 +1845,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
 
     
     
-    // TODO: *********code has been moved to base class, should ultimately be removed**********
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_PROTOCOL;
     }
@@ -1869,7 +1869,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         return;
     }
-    // TODO: **********************end************************
+    // TODO **********************end************************
     
     
     
