@@ -60,6 +60,7 @@ import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
+import org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.print.QuestionnairePrintOption;
@@ -137,6 +138,8 @@ public class ActionHelper implements Serializable {
     private boolean canCreateRenewalUnavailable = false;
     private boolean canNotifyIrb = false;
     private boolean canNotifyIrbUnavailable = false;
+    private boolean canNotifyCommittee = false;
+    private boolean canNotifyCommitteeUnavailable = false;
     private boolean canWithdraw = false;
     private boolean canWithdrawUnavailable = false;
     private boolean canRequestClose = false;
@@ -238,6 +241,7 @@ public class ActionHelper implements Serializable {
     private ProtocolRequestBean protocolDataAnalysisRequestBean;
     private ProtocolRequestBean protocolTerminateRequestBean;
     private ProtocolNotifyIrbBean protocolNotifyIrbBean;
+    private ProtocolNotifyCommitteeBean protocolNotifyCommitteeBean;
     private ProtocolAmendmentBean protocolAmendmentBean;
     private ProtocolAmendmentBean protocolRenewAmendmentBean;
     private ProtocolDeleteBean protocolDeleteBean;
@@ -349,6 +353,7 @@ public class ActionHelper implements Serializable {
         protocolNotifyIrbBean = new ProtocolNotifyIrbBean(this);
         // setting the attachment here so new files can be attached to newActionAttachment
         protocolNotifyIrbBean.setNewActionAttachment(new ProtocolActionAttachment());
+        protocolNotifyCommitteeBean = new ProtocolNotifyCommitteeBean(this);
 
         protocolAmendmentBean = createAmendmentBean();
         protocolRenewAmendmentBean = createAmendmentBean();
@@ -459,6 +464,7 @@ public class ActionHelper implements Serializable {
         actionBeanTaskMap.put(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolManageReviewCommentsBean);
         actionBeanTaskMap.put(TaskName.MODIFY_PROTOCOL_SUBMISSION, protocolModifySubmissionBean);
         actionBeanTaskMap.put(TaskName.NOTIFY_IRB, protocolNotifyIrbBean);
+        actionBeanTaskMap.put(TaskName.NOTIFY_COMMITTEE, protocolNotifyCommitteeBean);
         actionBeanTaskMap.put(TaskName.REOPEN_PROTOCOL, protocolReopenEnrollmentBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, protocolReOpenEnrollmentRequestBean);
         actionBeanTaskMap.put(TaskName.RESPONSE_APPROVAL, protocolResponseApprovalBean);
@@ -767,6 +773,8 @@ public class ActionHelper implements Serializable {
         canCreateRenewalUnavailable = hasCreateRenewalUnavailablePermission();
         canNotifyIrb = hasNotifyIrbPermission();
         canNotifyIrbUnavailable = hasNotifyIrbUnavailablePermission();
+        canNotifyCommittee = hasNotifyCommitteePermission();
+        canNotifyCommitteeUnavailable = hasNotifyCommitteeUnavailablePermission();
         canWithdraw = hasWithdrawPermission();
         canWithdrawUnavailable = hasWithdrawUnavailablePermission();
         canRequestClose = hasRequestClosePermission();
@@ -989,6 +997,16 @@ public class ActionHelper implements Serializable {
     
     private boolean hasNotifyIrbUnavailablePermission() {
         ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_IRB_UNAVAILABLE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasNotifyCommitteePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_COMMITTEE, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private boolean hasNotifyCommitteeUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_COMMITTEE_UNAVAILABLE, getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -1460,6 +1478,10 @@ public class ActionHelper implements Serializable {
         return protocolNotifyIrbBean;
     }
     
+    public ProtocolNotifyCommitteeBean getProtocolNotifyCommitteeBean() {
+        return protocolNotifyCommitteeBean;
+    }
+    
     public ProtocolAmendmentBean getProtocolAmendmentBean() {
         return protocolAmendmentBean;
     }
@@ -1605,6 +1627,14 @@ public class ActionHelper implements Serializable {
     
     public boolean getCanNotifyIrbUnavailable() {
         return canNotifyIrbUnavailable;
+    }
+    
+    public boolean getCanNotifyCommittee() {
+        return canNotifyCommittee;
+    }
+    
+    public boolean getCanNotifyCommitteeUnavailable() {
+        return canNotifyCommitteeUnavailable;
     }
     
     public boolean getCanWithdraw() {
