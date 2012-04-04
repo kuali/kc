@@ -47,6 +47,8 @@
         <ref bean="KcPersonExtendedAttributes-county"/>
         <ref bean="KcPersonExtendedAttributes-versionNumber"/>
         <ref bean="KcPersonExtendedAttributes-citizenshipTypeCode"/>
+        <ref bean="KcPersonExtendedAttributes-multiCampusPrincipalId"/>
+        <ref bean="KcPersonExtendedAttributes-multiCampusPrincipalName"/>     
         <ref bean="KcPersonExtendedAttributes-salaryAnniversaryDate"/>
       </list>
     </property>
@@ -448,6 +450,9 @@
     <property name="label" value="Multi-Campus Principal Id" />
     <property name="shortLabel" value="Multi-Campus Principal Id" />
     <property name="maxLength" value="40" />
+    <property name="control">
+        <bean parent="TextControlDefinition" p:size="40" />
+    </property>
     <property name="summary" value="Multi-Campus Principal Id" />
     <property name="description" value="Multi-Campus Principal Id" />
   </bean>
@@ -458,6 +463,9 @@
     <property name="label" value="Multi-Campus Principal Name" />
     <property name="shortLabel" value="Multi-Campus Principal Name" />
     <property name="maxLength" value="100" />
+    <property name="control">
+        <bean parent="TextControlDefinition" p:size="100" />
+    </property>
     <property name="summary" value="Multi-Campus Principal Name" />
     <property name="description" value="Multi-Campus Principal Name" />
   </bean>
