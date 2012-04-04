@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.irb.actions.notifycommittee;
 
+import java.sql.Timestamp;
+
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
@@ -48,12 +50,12 @@ public class ProtocolNotifyCommitteeServiceImpl implements ProtocolNotifyCommitt
          * The submission is created first so that its new primary key can be added
          * to the protocol action entry.
          */
-        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.NOTIFY_IRB);
+        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.NOTIFIED_COMMITTEE);
         protocolAction.setComments(notifyCommitteeBean.getComment());
+        protocolAction.setActionDate(new Timestamp(notifyCommitteeBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         documentService.saveDocument(protocol.getProtocolDocument());
-        protocol.refreshReferenceObject("protocolSubmissions");
     }
     
     public void setDocumentService(DocumentService documentService) {
