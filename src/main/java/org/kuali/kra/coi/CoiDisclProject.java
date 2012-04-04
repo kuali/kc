@@ -16,6 +16,9 @@
 package org.kuali.kra.coi;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -23,12 +26,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.ProtocolType;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 public class CoiDisclProject extends KraPersistableBusinessObjectBase implements Disclosurable { 
     
@@ -73,14 +79,18 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private CoiDisclosure coiDisclosure; 
     @SkipVersioning
     private List<CoiDiscDetail> coiDiscDetails; 
+    
+    @SkipVersioning
+    private transient List<LabelValuePair> headerItems; 
 
     public CoiDisclProject(String coiDisclosureNumber, Integer sequenceNumber) { 
         this.coiDisclosureNumber = coiDisclosureNumber;
         this.sequenceNumber = sequenceNumber;
+        headerItems = new ArrayList<LabelValuePair>();
 
     } 
     public CoiDisclProject() { 
-
+        headerItems = new ArrayList<LabelValuePair>();
     } 
 
     @SuppressWarnings("unchecked")
@@ -362,6 +372,15 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         return StringUtils.equals(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, this.disclosureEventType);
     }
 
+    public boolean isManualTravelEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.MANUAL_TRAVEL, this.disclosureEventType);
+    }
+
+    public boolean isManualEvent() {
+        return isManualAwardEvent() || isManualProposalEvent() || isManualProtocolEvent() || isManualTravelEvent();
+    }
+
+
     
     public Protocol getProtocol() {
         if (protocol == null) {
@@ -406,4 +425,99 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         this.institutionalProposal = institutionalProposal;
     }    
 
+    public class LabelValuePair {
+        private String label;
+        private String value;
+        public LabelValuePair(String label, String value) {
+            this.label = label;
+            this.value = value;
+        }
+        public String getLabel() {
+            return label;
+        }
+        public void setLabel(String label) {
+            this.label = label;
+        }
+        public String getValue() {
+            return value;
+        }
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
+
+    public List<LabelValuePair> getHeaderItems() {
+        return headerItems;
+    }
+    public void setHeaderItems(List<LabelValuePair> headerItems) {
+        this.headerItems = headerItems;
+    }
+    
+    public void initHeaderItems() {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyyy");
+        headerItems = new ArrayList<LabelValuePair>();
+//        headerItems.add(new LabelValuePair(coiDisclosureEventType.getProjectIdLabel(), coiProjectId));
+        if (coiDisclosureEventType == null) {
+           this.refreshReferenceObject("coiDisclosureEventType");
+        }
+        headerItems.add(new LabelValuePair(coiDisclosureEventType.getProjectTitleLabel(), coiProjectTitle));
+        if (coiDisclosureEventType.isUseSelectBox1()) {            
+           headerItems.add(new LabelValuePair(coiDisclosureEventType.getSelectBox1Label(), getSelectDesc()));
+        }
+        if (coiDisclosureEventType.isUseLongTextField1()) {            
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getLongTextField1Label(), longTextField1));
+        }
+        if (coiDisclosureEventType.isUseShortTextField1()) {            
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getShortTextField1Label(), shortTextField1));
+        }
+        if (coiDisclosureEventType.isUseLongTextField2()) {            
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getLongTextField2Label(), longTextField2));
+        }
+        if (coiDisclosureEventType.isUseShortTextField2()) {            
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getShortTextField2Label(), shortTextField2));
+        }
+        if (coiDisclosureEventType.isUseLongTextField3()) {            
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getLongTextField3Label(), longTextField3));
+        }
+        if (coiDisclosureEventType.isUseShortTextField3()) {            
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getShortTextField3Label(), shortTextField3));
+        }
+        if (coiDisclosureEventType.isUseNumberField1()) {            
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getNumberField1Label(), numberField1.toString()));
+        }
+        if (coiDisclosureEventType.isUseNumberField2()) {            
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getNumberField2Label(), numberField2.toString()));
+        }
+        if (coiDisclosureEventType.isUseDateField1()) {            
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getDateField1Label(), df.format(dateField1)));
+        }
+        if (coiDisclosureEventType.isUseDateField2()) {            
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getDateField2Label(), df.format(dateField2)));
+        }
+    }
+    
+    private String getSelectDesc() {
+        String description = Constants.EMPTY_STRING;
+        
+        try {
+            String valuesFinder = coiDisclosureEventType.getSelectBox1ValuesFinder();
+            if (StringUtils.isNotBlank(valuesFinder)) {
+                Class valuesFinderClass = Class.forName(valuesFinder);
+                KeyValuesFinder keyValuesFinder = (KeyValuesFinder)valuesFinderClass.newInstance();
+                List<KeyValue> keyValues = keyValuesFinder.getKeyValues();
+                if (!CollectionUtils.isEmpty(keyValues)) {
+                    for (KeyValue keyValue : keyValues) {
+                        if (keyValue.getKey().equals(selectBox1)) {
+                            description = keyValue.getValue();
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            //Failed to load select box 
+        }
+        return description;
+      
+    }
 }
