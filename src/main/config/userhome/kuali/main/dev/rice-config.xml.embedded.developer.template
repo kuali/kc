@@ -1,6 +1,6 @@
 <config>
 
-    <param name="http.port">8080</param>
+    <param name="http.port">8090</param>
     <param name="application.host">127.0.0.1</param>
 	
 	<!-- Please fill in a value for this parameter! -->
@@ -42,7 +42,7 @@
 
 	<param name="dev.mode">false</param>
 	
-	<param name="encryption.key" override="false">7IC64w6ksLU</param>
+	<param name="encryption.key" override="false">7IC64w6kAAAA</param>
 	
 	<!-- hacky always go back to kc portal -->
 	<param name="rice.portal.logout.redirectUrl">${appserver.url}/kc-dev/logout.do</param>
