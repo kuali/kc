@@ -38,13 +38,12 @@ public class MultiCampusIdentityServiceImpl implements MultiCampusIdentityServic
      * {@inheritDoc}
      * @see org.kuali.kra.service.MultiCampusIdentityService#getMultiCampusPrincipalName(java.lang.String, java.lang.String)
      */
-    @SuppressWarnings("unchecked")
     public String getMultiCampusPrincipalName(String principalName, String campusCode) {
         String result = principalName;
         
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("multiCampusPrincipalName", principalName);
-        Collection<KcPersonExtendedAttributes> multiCampusPersons = businessObjectService.findMatching(KcPersonExtendedAttributes.class, fieldValues);
+        Collection<KcPersonExtendedAttributes> multiCampusPersons = getBusinessObjectService().findMatching(KcPersonExtendedAttributes.class, fieldValues);
         for (KcPersonExtendedAttributes multiCampusPerson : multiCampusPersons) {
             String principalId = multiCampusPerson.getPersonId();
             if (hasCampusAffiliation(principalId, campusCode)) {
