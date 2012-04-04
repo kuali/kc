@@ -17,10 +17,12 @@ package org.kuali.kra.award;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.proposaldevelopment.service.ProposalLockService;
@@ -110,7 +112,8 @@ public class AwardLockServiceImpl extends PessimisticLockServiceImpl implements 
             String lockDescriptor = document.getCustomLockDescriptor(user);
             AwardDocument pdDocument = (AwardDocument) document;
             if(StringUtils.isNotEmpty(lockDescriptor) && lockDescriptor.contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
-                for(BudgetDocumentVersion budgetOverview: pdDocument.getBudgetDocumentVersions()) {
+                List<AwardBudgetDocumentVersion> awardBudgetDocuments = pdDocument.getBudgetDocumentVersions();
+                for(BudgetDocumentVersion budgetOverview: awardBudgetDocuments) {
                     generateNewLock(budgetOverview.getDocumentNumber(), lockDescriptor, user);
                 }  
             }

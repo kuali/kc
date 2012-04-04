@@ -33,6 +33,7 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.budget.AwardBudgetLimit;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -356,7 +357,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         
         AwardDocument document = awardForm.getAwardDocument();
         if(document != null && CollectionUtils.isNotEmpty(document.getBudgetDocumentVersions())) {
-            for(BudgetDocumentVersion budgetDocumentVersion : document.getBudgetDocumentVersions()) {
+            List<AwardBudgetDocumentVersion> awardBudgetDocuments = document.getBudgetDocumentVersions();
+            for(BudgetDocumentVersion budgetDocumentVersion : awardBudgetDocuments) {
                 BudgetVersionOverview budget = budgetDocumentVersion.getBudgetVersionOverview();
                 if(budget.isFinalVersionFlag()) {
                     return budget.getBudgetVersionNumber().intValue();
