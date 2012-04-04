@@ -95,6 +95,7 @@ import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredEvent;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredService;
 import org.kuali.kra.irb.actions.notification.AssignReviewerNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.NotifyCommitteeNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolClosedNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolDisapprovedNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolExpiredNotificationRenderer;
@@ -102,6 +103,7 @@ import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.irb.actions.notification.ProtocolSuspendedByDSMBNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolSuspendedNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolTerminatedNotificationRenderer;
+import org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
@@ -559,6 +561,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             
         }
     }
+
     /**
      * Notify the IRB office.
      * 
@@ -584,6 +587,35 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.NOTIFY_IRB, "Notify IRB"));
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * Notify the IRB committee.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward notifyCommitteeProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ActionHelper actionHelper = protocolForm.getActionHelper();
+        getProtocolNotifyCommitteeService().submitCommitteeNotification(protocol, actionHelper.getProtocolNotifyCommitteeBean());
+        recordProtocolActionSuccess("Notify Committee");
+
+        ProtocolNotificationRequestBean newNotificationBean = new ProtocolNotificationRequestBean(protocol, ProtocolActionType.NOTIFIED_COMMITTEE, "Notify Committee");
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, newNotificationBean, false));
+
+        if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+            return mapping.findForward(CORRESPONDENCE);
+        } else {
+            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, newNotificationBean);
+        }
     }
 
     /*
@@ -2876,6 +2908,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return KraServiceLocator.getService(ProtocolNotifyIrbService.class);
     }
     
+    private ProtocolNotifyCommitteeService getProtocolNotifyCommitteeService() {
+        return KraServiceLocator.getService(ProtocolNotifyCommitteeService.class);
+    }
+    
     private ProtocolAmendRenewService getProtocolAmendRenewService() {
         return KraServiceLocator.getService(ProtocolAmendRenewService.class);
     }
@@ -3636,8 +3672,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         IRBNotificationRenderer renderer = null;
         if (StringUtils.equals(ProtocolActionType.NOTIFY_IRB, notificationRequestBean.getActionType())) {
-            //renderer = new NotifyIrbNotificationRenderer(notificationRequestBean.getProtocol(), notificationRequestBean.getProtocol().getLastProtocolAction().getComments());
             renderer = new NotifyIrbNotificationRenderer(notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolNotifyIrbBean().getComment());
+        } else if (StringUtils.equals(ProtocolActionType.NOTIFIED_COMMITTEE, notificationRequestBean.getActionType())) {
+            renderer = new NotifyCommitteeNotificationRenderer(notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getComment(), protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getActionDate());
         } else if (StringUtils.equals(ProtocolActionType.TERMINATED, notificationRequestBean.getActionType())) {
             renderer = new ProtocolTerminatedNotificationRenderer(notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolTerminateRequestBean().getReason());
         } else if (StringUtils.equals(ProtocolActionType.EXPIRED, notificationRequestBean.getActionType())) {

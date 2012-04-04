@@ -211,6 +211,14 @@
                     <property name="taskName" value="protocolNotifyIrbUnavailable" />
                 </bean>
                 
+                <bean class="org.kuali.kra.irb.auth.NotifyCommitteeAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolNotifyCommittee" />
+                </bean>
+                
+                <bean class="org.kuali.kra.irb.auth.NotifyCommitteeUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolNotifyCommitteeUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.irb.auth.ProtocolWithdrawAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolWithdraw" />
                 </bean>
@@ -657,6 +665,11 @@
         <property name="protocolActionService" ref="protocolActionService" />
        <property name="documentService" ref="documentService" />
        	<property name="kcNotificationService" ref="kcNotificationService" />
+    </bean>
+    
+    <bean id="protocolNotifyCommitteeService" class="org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeServiceImpl">
+        <property name="protocolActionService" ref="protocolActionService" />
+        <property name="documentService" ref="documentService" />
     </bean>
     
     <bean id="protocolActionService" class="org.kuali.kra.irb.actions.submit.ProtocolActionServiceImpl">
