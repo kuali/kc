@@ -152,6 +152,11 @@
 			<ref bean="budgetSummaryService"/>
 		</property>
 	</bean>
+	
+    <bean id="pessimisticLockService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="pessimisticLockService" />
+    </bean>
+    
 	<bean id="awardBudgetService"  class="org.kuali.kra.award.budget.AwardBudgetServiceImpl">
         <property name="budgetService" ref="budgetService" />
 		<property name="parameterService" ref="parameterService" />

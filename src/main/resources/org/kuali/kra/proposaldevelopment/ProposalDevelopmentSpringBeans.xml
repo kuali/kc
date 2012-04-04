@@ -36,6 +36,19 @@
 		<property name="versionHistoryService" ref="versionHistoryService" />
 		<property name="documentService" ref="documentService" />
 	</bean>
+	
+    <bean id="kraPersistenceStructureService" class="org.kuali.kra.service.impl.KraPersistenceStructureServiceImpl" >
+        <property name="persistenceStructureServiceJpa" ref="persistenceStructureServiceJpa" />
+        <property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb" />
+    </bean>
+    
+    <bean id="persistenceStructureServiceOjb" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="persistenceStructureServiceOjb" />
+    </bean>
+    
+    <bean id="persistenceStructureServiceJpa" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="persistenceStructureServiceJpa" />
+    </bean> 
 
 	<bean id="proposalDevelopmentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
 		scope="prototype">
@@ -770,6 +783,10 @@
 			<ref bean="kradWorkflowDocumentService" />
 		</property>		
 	</bean>
+	
+    <bean id="knsSessionDocumentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="knsSessionDocumentService" />
+    </bean>
 
 	<!--Proposal Development Printing Service Configuration Start -->
 	<bean id="printCertificationXmlStream"
