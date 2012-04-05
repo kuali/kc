@@ -122,6 +122,10 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     private CoiDisclosureAttachmentFilter newAttachmentFilter; 
     private KraPersistableBusinessObjectBase eventBo; 
 
+    // transient for award header label
+    private transient String docIdStatus;
+
+
 
     public CoiDisclosure() { 
 //        disclosurePersons = new ArrayList<DisclosurePerson>();
@@ -799,4 +803,13 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         this.annualUpdate = annualUpdate;
     }
 
- }
+    public String getDocIdStatus() {
+        return docIdStatus;
+    }
+
+
+    public void setDocIdStatus(String docIdStatus) {
+        this.docIdStatus = docIdStatus;
+    }
+ 
+}
