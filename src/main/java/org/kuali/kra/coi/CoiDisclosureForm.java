@@ -33,6 +33,7 @@ import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
@@ -188,11 +189,8 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         CoiDisclosure disclosure = document.getCoiDisclosure();
         List<HeaderField>newDocInfo = new ArrayList<HeaderField>();
         
-        // document status
-        CoiDisclosureStatus status = disclosure.getCoiDisclosureStatus();
-        String disclosureStatus = status != null ? status.getDescription() : "NEW";
-        HeaderField headerStatus = new HeaderField("DataDictionary.CoiDisclosureStatus.attributes.description", disclosureStatus);
-        newDocInfo.add(headerStatus);
+        
+        newDocInfo.add(getDocumentIdAndStatusHeaderField(workflowDocument));
         
         // document disposition
         CoiDispositionStatus disposition = disclosure.getCoiDispositionStatus();
@@ -227,6 +225,23 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         String disclosureCreated = CoreApiServiceLocator.getDateTimeService().toString(new Date(creationMsecs), "MM/dd/yyyy");
         newDocInfo.add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.createTimestamp", disclosureCreated));
         setDocInfo(newDocInfo);
+    }
+    
+    /**
+     * This method is to get document id/number and the status field put together
+     * to display in document header
+     * @param workflowDocument
+     * @return
+     */
+    @SuppressWarnings("deprecation")
+    protected HeaderField getDocumentIdAndStatusHeaderField(WorkflowDocument workflowDocument) {
+        CoiDisclosureStatus status = getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclosureStatus();
+        String disclosureStatus = status != null ? status.getDescription() : "NEW";
+        String docIdAndStatus = Constants.COLON;
+        if (workflowDocument != null) {
+            docIdAndStatus = getCoiDisclosureDocument().getDocumentNumber() + Constants.COLON + disclosureStatus;
+        }
+        return new HeaderField("DataDictionary.CoiDisclosure.attributes.docIdStatus", docIdAndStatus);
     }
 
     private BusinessObjectService getBusinessObjectService() {
