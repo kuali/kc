@@ -37,6 +37,7 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
     private static final long serialVersionUID = 1L;
     
     private static final String CAMPUS_CODE_FIELD = "code";
+    private static final String PERSON_CAMPUS_CODE_FIELD = "campusCode";
     private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
 
     private KcPersonService kcPersonService;
@@ -50,7 +51,7 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
         
         for (Row row : rows) {
             for (Field field : row.getFields()) {
-                if (field.getPropertyName().equals(CAMPUS_CODE_FIELD)) {
+                if (field.getPropertyName().equals(PERSON_CAMPUS_CODE_FIELD)) {
                     field.setFieldConversions(CAMPUS_CODE_FIELD + Constants.COLON + field.getPropertyName());
                     field.setLookupParameters(field.getPropertyName() + Constants.COLON + CAMPUS_CODE_FIELD);
                     field.setInquiryParameters(field.getPropertyName() + Constants.COLON + CAMPUS_CODE_FIELD);
@@ -72,11 +73,11 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
     /** {@inheritDoc} */
     @Override
-    public List<KcPerson> getSearchResults(Map<String, String> fieldValues) { 
+    public List<KcPerson> getSearchResults(Map<String, String> fieldValues) {
         this.kcPersonService.modifyFieldValues(fieldValues);
-        this.setBusinessObjectClass(PersonImpl.class);
+        this.businessObjectClass = PersonImpl.class;
         List<Person> personResults = (List<Person>) super.getSearchResults(fieldValues);
-        this.setBusinessObjectClass(KcPerson.class);
+        this.businessObjectClass = KcPerson.class;
         return this.kcPersonService.createKcPersonsFromPeople(personResults); 
     }
 
