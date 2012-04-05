@@ -37,7 +37,7 @@ public class PersonLookupableHelperServiceImpl extends org.kuali.rice.kim.lookup
     private static final String PRINCIPAL_NAME_FIELD = "principalName";
     
     private static final String CAMPUS_CODE_FIELD = "code";
-    private static final String CAMPUS_CODE_FIELD_IN_PERSON = "campusCode";
+    private static final String PERSON_CAMPUS_CODE_FIELD = "campusCode";
     private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
     
     private static final String PRIMARY_DEPARTMENT_CODE_FIELD = "primaryDepartmentCode";
@@ -59,7 +59,7 @@ public class PersonLookupableHelperServiceImpl extends org.kuali.rice.kim.lookup
                     field.setInquiryParameters(field.getPropertyName() + Constants.COLON + UNIT_NUMBER_FIELD);
                     field.setQuickFinderClassNameImpl(UNIT_LOOKUPABLE_CLASS_NAME);
                     field.setFieldDirectInquiryEnabled(true);
-                } else if (field.getPropertyName().equals(CAMPUS_CODE_FIELD_IN_PERSON)) {
+                } else if (field.getPropertyName().equals(PERSON_CAMPUS_CODE_FIELD)) {
                     field.setFieldConversions(CAMPUS_CODE_FIELD + Constants.COLON + field.getPropertyName());
                     field.setLookupParameters(field.getPropertyName() + Constants.COLON + CAMPUS_CODE_FIELD);
                     field.setInquiryParameters(field.getPropertyName() + Constants.COLON + CAMPUS_CODE_FIELD);
@@ -87,7 +87,7 @@ public class PersonLookupableHelperServiceImpl extends org.kuali.rice.kim.lookup
         if (multiCampusEnabled) {
             if (StringUtils.isNotBlank(fieldValues.get(PRINCIPAL_NAME_FIELD))) {
                 String principalName = fieldValues.get(PRINCIPAL_NAME_FIELD);
-                String campusCode = fieldValues.get(CAMPUS_CODE_FIELD_IN_PERSON);
+                String campusCode = fieldValues.get(PERSON_CAMPUS_CODE_FIELD);
                 String multiCampusPrincipalName = getMultiCampusIdentityService().getMultiCampusPrincipalName(principalName, campusCode);
                 fieldValues.put(PRINCIPAL_NAME_FIELD, multiCampusPrincipalName);
             }
