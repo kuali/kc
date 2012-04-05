@@ -77,6 +77,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     private CommitteeMembershipService committeeMembershipService;
     private KcPersonService kcPersonService;
     private IrbPrintXmlUtilService irbPrintXmlUtilService;
+    private String EXPEDIT_ACTION_TYPE_CODE = "205";
+    private String FOLLOW_UP_ACTION_CODE = "109";
 
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {        Committee committee = (Committee)printableBusinessObject;
         String scheduleId = (String)reportParameters.get("scheduleId");
@@ -85,7 +87,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         ScheduleDocument scheduleDocument =
 		ScheduleDocument.Factory.newInstance();
         scheduleDocument.setSchedule(getSchedule(committeeSchedule));
-        xmlObjectList.put("Schedule", scheduleDocument);         
+        xmlObjectList.put("Schedule", scheduleDocument);   
+        System.out.print(xmlObjectList);
         return xmlObjectList;
     }
 
@@ -114,16 +117,36 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         getIrbPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
         setAttendance(committeeSchedule, schedule);
         committeeSchedule.refreshReferenceObject("protocolSubmissions");
-        List<org.kuali.kra.irb.actions.submit.ProtocolSubmission> submissions = committeeSchedule.getProtocolSubmissions();
+        List<org.kuali.kra.irb.actions.submit.ProtocolSubmission> submissions
+        = committeeSchedule.getProtocolSubmissions();
         for (org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission : submissions) {
+        	
 //            protocolSubmission.refreshNonUpdateableReferences();
-            ProtocolSubmission protocolSubmissionType = schedule.addNewProtocolSubmission();
+            ProtocolSubmission protocolSubmissionType =
+            	schedule.addNewProtocolSubmission();
+            
             SubmissionDetails protocolSubmissionDetail = protocolSubmissionType.addNewSubmissionDetails();
             ProtocolSummary protocolSummary =
 					protocolSubmissionType.addNewProtocolSummary();
 			ProtocolMasterData protocolMaster = protocolSummary.addNewProtocolMasterData();
-
+			String followUpAction = null;
+			String actionTypeCode = null;
             Protocol protocol = protocolSubmission.getProtocol();
+            String submissionStatus=protocol.getProtocolSubmission().getSubmissionStatusCode();
+            List<ProtocolAction> protocolActions=protocolSubmission.getProtocol().getProtocolActions();
+            
+            for (ProtocolAction protocolAction : protocolActions){
+            	actionTypeCode = protocolAction.getProtocolActionTypeCode();
+            	if(protocolAction.getFollowupActionCode()!=null && protocolAction.getFollowupActionCode().equals(FOLLOW_UP_ACTION_CODE)){
+            	 followUpAction=protocolAction.getFollowupActionCode();
+            	}
+            }
+            if((actionTypeCode.equals(EXPEDIT_ACTION_TYPE_CODE)
+            && followUpAction != null && followUpAction.equals(
+            FOLLOW_UP_ACTION_CODE))
+            || !actionTypeCode.equals(EXPEDIT_ACTION_TYPE_CODE)
+           ) {
+
 //            protocol.refreshNonUpdateableReferences();
             protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
             protocolMaster.setSequenceNumber(new BigInteger(String.valueOf(protocol.getSequenceNumber())));
@@ -168,6 +191,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             if (protocolSubmission.getProtocolSubmissionType() != null) {
                 protocolSubmissionDetail.setSubmissionTypeDesc(protocolSubmission.getProtocolSubmissionType().getDescription());
             }
+            
             if (protocolSubmission.getProtocolReviewTypeCode() != null) {
                 protocolSubmissionDetail.setProtocolReviewTypeCode(new BigInteger(protocolSubmission.getProtocolReviewTypeCode()));
             }
@@ -264,7 +288,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
             getIrbPrintXmlUtilService().setProcotolMinutes(committeeSchedule,protocolSubmission,protocolSubmissionType);
         }
-        setOtherActionItems(committeeSchedule,schedule);
+        setOtherActionItems(committeeSchedule,schedule);}
         return schedule;
 
     }
@@ -306,9 +330,6 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             }
         }
     }
-
-
-
 
     private String getFundingSourceNameForType(int sourceType, String sourceCode) {
         String name = null;
