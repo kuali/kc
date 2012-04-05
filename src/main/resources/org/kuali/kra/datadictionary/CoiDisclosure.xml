@@ -52,11 +52,27 @@
                 <ref bean="CoiDisclosure-discActiveStatus" />
                 <ref bean="CoiDisclosure-versionNumber" />
                 <ref bean="CoiDisclosure-leadUnitNumber" />
+        		<ref bean="CoiDisclosure-docIdStatus" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
+    
+	<bean id="CoiDisclosure-docIdStatus" parent="CoiDisclosure-docIdStatus-parentBean" />
+	<bean id="CoiDisclosure-docIdStatus-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="docIdStatus" />
+		<property name="label" value="Document ID:Status" />
+		<property name="shortLabel" value="Document ID:Status" />
+    <property name="maxLength" value="10" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="10" />
+    </property>
+		<property name="summary" value="Label for coi header fields" />
+		<property name="description" value="Label for coi header fields" />
+	</bean>
     
     <bean id="CoiDisclosure-coiDisclosureId" parent="CoiDisclosure-coiDisclosureId-parentBean" />
     <bean id="CoiDisclosure-coiDisclosureId-parentBean" abstract="true" parent="AttributeDefinition" >
