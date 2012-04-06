@@ -22,37 +22,43 @@ import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 public interface KcNotificationModuleRoleService {
 
     /**
-     * This method allows you to add a relationship between a coeus module code and a role name
+     * This method allows you to add a relationship between a coeus module code and a role name.
      * @param moduleCode The module code as defined in the CoeusModule object
      * @param roleName The KIM namespace and role name, combined with a semicolon, ie. namespace:rolename
      * @return The newly created module role association
      * @see org.kuali.kra.bo.CoeusModule
      */
-    public NotificationModuleRole addNotificationModuleRole(String moduleCode, String roleName);
+    NotificationModuleRole addNotificationModuleRole(String moduleCode, String roleName);
     
     /**
-     * 
-     * This method retrieves all notification module roles for a given coeus module code
+     * This method retrieves all notification module roles for a given coeus module code.
      * @param moduleCode The module code as defined in the CoeusModule object
      * @return The list of matching notification modules roles for the given code
      * @see org.kuali.kra.bo.CoeusModule
      */
-    public List<NotificationModuleRole> getNotificationModuleRoles(String moduleCode);
+    List<NotificationModuleRole> getNotificationModuleRoles(String moduleCode);
     
     /**
-     * 
-     * This method retrieves all notification module roles for a given coeus module code and role name
+     * This method retrieves all notification module roles for a given coeus module code as a String.
+     * @param moduleCode The module code as defined in the CoeusModule object
+     * @return The String representation of the list of matching notification modules roles for the given code
+     * @see org.kuali.kra.bo.CoeusModule
+     */
+    String getNotificationModuleRolesString(String moduleCode);
+    
+    /**
+     * This method retrieves all notification module roles for a given coeus module code and role name.
      * @param moduleCode The module code as defined in the CoeusModule object
      * @param roleName The KIM namespace and role name, combined with a semicolon, ie. namespace:rolename
      * @return The list of matching notification modules roles for the given code and role name
      * @see org.kuali.kra.bo.CoeusModule
      */
-    public List<NotificationModuleRole> getNotificationModuleRolesForKimRole(String moduleCode, String roleName);
+    List<NotificationModuleRole> getNotificationModuleRolesForKimRole(String moduleCode, String roleName);
     
     /**
-     * 
-     * This method saves a list of notification module roles
+     * This method saves a list of notification module roles.
      * @param notificationModuleRoles The list of module roles to save
      */
-    public void saveNotificationModuleRoles(List<NotificationModuleRole> notificationModuleRoles);
+    void saveNotificationModuleRoles(List<NotificationModuleRole> notificationModuleRoles);
+    
 }
