@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureAssociate;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclDet;
@@ -213,8 +214,12 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     
     public String getProjectName() {
         refreshReferenceObject("coiDisclProjects");
-        return getCoiDisclosure().getCoiDisclProjects().isEmpty()? "" : getCoiDisclosure().getCoiDisclProjects().get(0).getCoiProjectTitle();
-
+        for (CoiDisclProject project : getCoiDisclosure().getCoiDisclProjects()) {
+            if (StringUtils.equalsIgnoreCase(project.getProjectId(), getProjectId())) {
+                return project.getCoiProjectTitle();
+            }
+        }
+        return "";
     }
    
     @Override
