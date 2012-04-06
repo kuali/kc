@@ -30,22 +30,22 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 public class KcNotificationModuleRoleServiceTest extends KcUnitTestBase {
 
-    protected KcNotificationModuleRoleService notificationModuleRoleService;
+    protected KcNotificationModuleRoleService kcNotificationModuleRoleService;
     
     @Before
     public void setUp() throws Exception {
-        notificationModuleRoleService = KraServiceLocator.getService(KcNotificationModuleRoleService.class);
+        kcNotificationModuleRoleService = KraServiceLocator.getService(KcNotificationModuleRoleService.class);
     }
 
     @After
     public void tearDown() throws Exception {
-        notificationModuleRoleService = null;
+        kcNotificationModuleRoleService = null;
     }    
     
     @Test
     public void testAddNotificationModuleRole() {
         NotificationModuleRole moduleRole = 
-            notificationModuleRoleService.addNotificationModuleRole(CoeusModule.IRB_MODULE_CODE, 
+            kcNotificationModuleRoleService.addNotificationModuleRole(CoeusModule.IRB_MODULE_CODE, 
                     Constants.MODULE_NAMESPACE_PROTOCOL + ":" + RoleConstants.PROTOCOL_VIEWER); 
 
         assertTrue(moduleRole.getNotificationModuleRoleId().intValue() > 0);
@@ -54,8 +54,16 @@ public class KcNotificationModuleRoleServiceTest extends KcUnitTestBase {
     @Test
     public void testGetNotifications() {
         List<NotificationModuleRole> moduleRoles =
-            notificationModuleRoleService.getNotificationModuleRoles(CoeusModule.IRB_MODULE_CODE);
+            kcNotificationModuleRoleService.getNotificationModuleRoles(CoeusModule.IRB_MODULE_CODE);
         
         assertTrue(moduleRoles.size() > 0);
     }
+    
+    @Test
+    public void testGetModuleRoleForAjaxCall() throws Exception {
+        String result = kcNotificationModuleRoleService.getNotificationModuleRolesString(CoeusModule.IRB_MODULE_CODE);
+        
+        assertNotNull(result);
+    }
+    
 }
