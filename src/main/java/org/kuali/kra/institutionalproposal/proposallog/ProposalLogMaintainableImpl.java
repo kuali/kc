@@ -22,6 +22,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
+import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -39,6 +40,7 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
     
     private transient DateTimeService dateTimeService;
     private transient SequenceAccessorService sequenceAccessorService;
+    private transient FiscalYearMonthService fiscalYearMonthService;
     
     /* Temporary workaround..this overriding can be removed once 
      * DataObjectMetaDataService.areNotesSupported is fixed
@@ -132,12 +134,17 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
     
     private void populateAuditProperties(ProposalLog proposalLog) {
         Timestamp currentTimestamp = getDateTimeService().getCurrentTimestamp();
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, FISCAL_YEAR_OFFSET);
-        proposalLog.setFiscalMonth(calendar.get(Calendar.MONTH) + 1);
-        proposalLog.setFiscalYear(calendar.get(Calendar.YEAR));
+        proposalLog.setFiscalMonth(getFiscalYearMonthService().getCurrentFiscalMonthForDisplay());
+        proposalLog.setFiscalYear(getFiscalYearMonthService().getCurrentFiscalYear());
         proposalLog.setCreateTimestamp(currentTimestamp);
         proposalLog.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+    }
+    
+    private FiscalYearMonthService getFiscalYearMonthService() {
+        if (this.fiscalYearMonthService == null) {
+            fiscalYearMonthService = KraServiceLocator.getService(FiscalYearMonthService.class);
+        }
+        return this.fiscalYearMonthService;
     }
     
     private DateTimeService getDateTimeService() {
