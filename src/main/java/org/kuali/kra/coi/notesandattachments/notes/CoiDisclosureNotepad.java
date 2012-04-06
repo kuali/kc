@@ -21,6 +21,8 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureAssociate;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
@@ -44,7 +46,8 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     private CoiDisclosure originalCoiDisclosure; 
     private Long financialEntityId;
     private PersonFinIntDisclosure financialEntity;
-    
+    private String eventTypeCode;
+
     public CoiDisclosureNotepad() {
         super();
         editable = false;
@@ -71,6 +74,14 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
         this.financialEntityId = financialEntityId;
     }
 
+    public String getEventTypeCode() {
+        return eventTypeCode;
+    }
+
+    public void setEventTypeCode(String eventTypeCode) {
+        this.eventTypeCode = eventTypeCode;
+    }
+
     public PersonFinIntDisclosure getFinancialEntity() {
         return financialEntity;
     }
@@ -86,7 +97,12 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     
     public String getProjectName() {
         refreshReferenceObject("coiDisclProjects");
-        return getCoiDisclosure().getCoiDisclProjects().isEmpty()? "" : getCoiDisclosure().getCoiDisclProjects().get(0).getCoiProjectTitle();
+        for (CoiDisclProject project : getCoiDisclosure().getCoiDisclProjects()) {
+            if (StringUtils.equalsIgnoreCase(project.getProjectId(), getProjectId())) {
+                return project.getCoiProjectTitle();
+            }
+        }
+        return "";
     }
   
     public String getUpdateUserFullName() {
