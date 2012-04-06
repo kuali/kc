@@ -19,6 +19,7 @@
 <c:set var="modifyPermission" value="${KualiForm.coiNotesAndAttachmentsHelper.modifyNotepads}" />
 <c:set var="viewRestrictedNotes" value="${KualiForm.coiNotesAndAttachmentsHelper.viewRestricted}" />
 <c:set var="tabItemCount" value="0" />
+<c:set var="attachmentHelper" value="${KualiForm.coiNotesAndAttachmentsHelper}" />
 <c:set var="disclosureType" value="${KualiForm.document.coiDisclosure}" />
 <c:forEach var="coiDisclosureNotepad" items="${KualiForm.document.coiDisclosure.coiDisclosureNotepads}" varStatus="status">
     <c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">               
@@ -38,8 +39,8 @@
 				<th><kul:htmlAttributeLabel attributeEntry="${notesAttributes.updateUser}" useShortLabel="true" noColon="true" /></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.noteTopic}" useShortLabel="true" noColon="true"/></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.comments}" useShortLabel="true" noColon="true"/></th>
-				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.projectId}" useShortLabel="true" noColon="true" /></th>
-				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.entityNumber}" useShortLabel="true" noColon="true" /></th>
+				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.projectId}" useShortLabel="true" noColon="true"/></th>
+				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.financialEntityId}" useShortLabel="true" noColon="true"/></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.restrictedView}" useShortLabel="true" noColon="true"/></th>
 				<th align="left"><div align="center">Actions</div></th>
 				
@@ -64,24 +65,37 @@
 	            	    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.comments" attributeEntry="${notesAttributes.comments}" readOnly="${!modifyPermission}"/>
 	            	  	</div>
 		            </td>
-		            <td>
-		    	        <html:select property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.projectId" style="width:180px" tabindex="0" disabled="${readOnly}">
-							<c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}" var="option">
-								<c:choose>
-	 								<c:when test="${coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.projectId == option.key}">
-										<option value="${option.key}" selected>${option.value}</option>
-									</c:when>
-									<c:otherwise>
-										<c:out value="${option.value}" />
-										<option value="${option.key}">${option.value}</option>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</html:select>
-					
-					</td>
-					<td>
-						<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.entityNumber" attributeEntry="${notesAttributes.entityNumber}" readOnly="${!modifyPermission}" />
+			<td>
+			<c:choose>
+				<c:when
+					test="${attachmentHelper.newCoiDisclosureNotepad.projectId == null}">
+					<html:select
+						property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.projectId"
+						style="width:180px" tabindex="0" disabled="${readOnly}">
+						<c:forEach
+							items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}"
+							var="option">
+							<c:choose>
+								<c:when
+									test="${coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.projectId == option.key}">
+									<option value="${option.key}" selected>${option.value}</option>
+								</c:when>
+								<c:otherwise>
+									<c:out value="${option.value}" />
+									<option value="${option.key}">${option.value}</option>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</html:select>
+				</c:when>
+				<c:otherwise>
+					<c:out
+						value="${attachmentHelper.newCoiDisclosureNotepad.projectName}" />
+				</c:otherwise>
+			</c:choose>
+			</td>
+			<td>
+						<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.financialEntityId" attributeEntry="${notesAttributes.financialEntityId}" readOnly="${!modifyPermission}" />
 					</td>
 		            
 		            <td class="infoline">
@@ -102,6 +116,9 @@
        		<c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">
 	         	<c:forEach var="coiDisclosureNotepad" items="${KualiForm.document.coiDisclosure.coiDisclosureNotepads}" varStatus="status">
 					<c:set var="noteReadOnly" value="${!modifyPermission || !coiDisclosureNotepad.editable}" />
+					<c:set var="statusIndex" >
+						<c:out value="${status.index}" />
+					</c:set>
 		            <tr>
 						<th class="infoline">
 							<c:out value="${status.index+1}" />
@@ -130,36 +147,14 @@
 							</div>
 						</td>
 						<td valign="middle">
-							<c:choose>
-								<c:when test="${noteReadOnly}">
-									<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].projectId" attributeEntry="${notesAttributes.projectId}" readOnly="true" />
-								</c:when>
-								<c:otherwise>
-					    	        <html:select property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].projectId" style="width:180px" tabindex="0" disabled="${readOnly}">
-										<c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}" var="option">
-											<c:choose>
-	 											<c:when test="${coiDisclosureNotepad.projectId == option.key}">
-													<option value="${option.key}" selected>${option.value}</option>
-												</c:when>
-												<c:otherwise>
-													<c:out value="${option.value}" />
-													<option value="${option.key}">${option.value}</option>
-												</c:otherwise>
-											</c:choose>
-										</c:forEach>
-									</html:select>
-								</c:otherwise>
-							</c:choose>
+							<div align="left">
+								<c:out value="${KualiForm.document.coiDisclosure.coiDisclosureNotepads[statusIndex].projectName}" />
+							</div>
 						</td>
-						<td valign="middle">
-							<c:choose>
-								<c:when test="${noteReadOnly}">
-									<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].entityNumber" attributeEntry="${notesAttributes.entityNumber}" readOnly="true" />
-								</c:when>
-								<c:otherwise>
-									<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].entityNumber" attributeEntry="${notesAttributes.entityNumber}" />
-								</c:otherwise>
-							</c:choose>
+						<td valign="middle">	
+							<div align="left">
+								<c:out value="${KualiForm.document.coiDisclosure.coiDisclosureNotepads[statusIndex].financialEntityName}" />
+							</div>
 						</td>
 						<td valign="middle">
 							<div align="center">

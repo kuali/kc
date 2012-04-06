@@ -43,24 +43,24 @@
                 <ref bean="CoiDisclosureNotepad-restrictedView" />
                 <ref bean="CoiDisclosureNotepad-versionNumber" />
 				<ref bean="CoiDisclosureNotepad-projectId" />				
-				<ref bean="CoiDisclosureNotepad-entityNumber" />                
                 <ref bean="CoiDisclosureNotepad-updateUser" />
 				<ref bean="CoiDisclosureNotepad-updateTimestamp" />
+				<ref bean="CoiDisclosureNotepad-financialEntityId" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
     
-    <bean id="CoiDisclosureNotepad-entityNumber" parent="CoiDisclosureNotepad-entityNumber-parentBean" />
-	<bean id="CoiDisclosureNotepad-entityNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="entityNumber" />
+  <bean id="CoiDisclosureNotepad-financialEntityId" parent="CoiDisclosureNotepad-financialEntityId-parentBean" />
+	<bean id="CoiDisclosureNotepad-financialEntityId-parentBean" abstract="true" parent="AttributeDefinition" >
+	<property name="name" value="financialEntityId" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Financial Entity" />
 		<property name="shortLabel" value="Financial Entity" />
 		<property name="maxLength" value="12" />
 		<property name="validationPattern" >
-			<bean parent="AnyCharacterValidationPattern" />
+			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
       		<bean parent="SelectControlDefinition"
@@ -76,7 +76,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Project" />
 		<property name="shortLabel" value="Project" />
-		<property name="maxLength" value="12" />
+		<property name="maxLength" value="20" />
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>

@@ -47,41 +47,52 @@
 					</th>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactName" attributeEntry="${attributes.contactName}" />
+	                		<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactName" attributeEntry="${attributes.contactName}" readOnly="${!modify}"/>
 	                	
 		            	</div>
 					</td>
-					
-					<th>
-							<div align="right">
-	         				<kul:htmlAttributeLabel attributeEntry="${attributes.projectId}" noColon="false"/>
-	         				</div>
-					</th>
-					<td>
-	                <html:select property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.projectId" tabindex="0" style="width:180px" disabled="${readOnly}" >                                              
-					
-					<c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}" var="option">
-	                <c:choose>                    	
-	                	<c:when test="${coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.projectId == option.key}">
-	                        <option value="${option.key}" selected>${option.value}</option>
-	                    </c:when>
-	                    <c:otherwise>
-	                        <c:out value="${option.value}"/>
-	                        <option value="${option.key}">${option.value}</option>
-	                    </c:otherwise>
-	                </c:choose>         
-	            </c:forEach>
-	            </html:select>
-					</td>
-					
-					
-					<th>
-							<div align="right">
-	         				<kul:htmlAttributeLabel attributeEntry="${attributes.entityNumber}" noColon="false"/>
-	         				</div>
-					</th>
-					<td>        					
-						<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.entityNumber" attributeEntry="${attributes.entityNumber}"/>                                              
+
+			<th>
+			<div align="right">
+				Project:
+			</div>
+			</th>
+			<td><c:choose>
+				<c:when
+					test="${attachmentHelper.newCoiDisclosureAttachment.projectId == null}">
+					<html:select
+						property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.projectId"
+						tabindex="0" style="width:180px" disabled="${readOnly}">
+						<c:forEach
+							items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}"
+							var="option">
+							<c:choose>
+								<c:when
+									test="${coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.projectId == option.key}">
+									<option value="${option.key}" selected>${option.value}</option>
+								</c:when>
+								<c:otherwise>
+									<c:out value="${option.value}" />
+									<option value="${option.key}">${option.value}</option>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</html:select>
+
+				</c:when>
+				<c:otherwise>
+					<c:out
+						value="${attachmentHelper.newCoiDisclosureAttachment.projectName}" />
+				</c:otherwise>
+			</c:choose></td>
+
+
+			<th>
+			<div align="right"><kul:htmlAttributeLabel
+				attributeEntry="${attributes.financialEntityId}" noColon="false" /></div>
+			</th>
+			<td>        					
+						<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.financialEntityId" attributeEntry="${attributes.financialEntityId}" readOnly="${!modify}"/>                                              
 					</td>
 					
 					
@@ -104,7 +115,7 @@
 						</div>
 					</th>
 	         			<td align="left" valign="middle" colspan="3">
-	         		    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactEmailAddress" attributeEntry="${attributes.contactEmailAddress}" />
+	         		    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactEmailAddress" attributeEntry="${attributes.contactEmailAddress}"readOnly="${!modify}" />
 	         			
 	                	<div align="left">
 		            	</div>
@@ -129,7 +140,7 @@
 					</th>
 	         		<td align="left" valign="middle" colspan="3">
 	                	<div align="left">
-	                    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactPhoneNumber" attributeEntry="${attributes.contactPhoneNumber}" />
+	                    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactPhoneNumber" attributeEntry="${attributes.contactPhoneNumber}" readOnly="${!modify}"/>
 	                	
 		            	</div>
 					</td>
@@ -142,7 +153,7 @@
 	         		</th>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.comments" attributeEntry="${attributes.comments}" />
+	                    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.comments" attributeEntry="${attributes.comments}" readOnly="${!modify}"/>
 		            	</div>
 					</td>
 					<th>
@@ -151,7 +162,7 @@
 						</div>
 					</th>
 	         		<td align="left" valign="middle" colspan="3">
-	                    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.description" attributeEntry="${attributes.description}" />                       
+	                    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.description" attributeEntry="${attributes.description}" readOnly="${!modify}"/>                       
 					</td>
 	         	</tr>
 	         	<tr>
@@ -273,19 +284,27 @@
 							
 							<th>
 							<div align="right">
-	         				<kul:htmlAttributeLabel attributeEntry="${attributes.projectId}" noColon="false"/>
+	         				Project:
 	         				</div>
 							</th>
-							<td>
-								<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].projectId" attributeEntry="${attributes.projectId}" readOnly="true"/>							
+							<td>		
+							<!-- Just displaying the project name here, not the drop down because 
+							in the case of event based disclosures, the project becomes non-disclosureable once the disclosure is saved
+							and this drop down becomes empty. So the logic here becomes unduly complicated. -->		
+							<c:set var="statusIndex" >
+							<c:out value="${itrStatus.index}" />
+							</c:set>			
+							<c:out value="${KualiForm.document.coiDisclosureList[0].coiDisclosureAttachments[statusIndex].projectName}" />
 							</td>
 							<th>
 							<div align="right">
-	         					<kul:htmlAttributeLabel attributeEntry="${attributes.entityNumber}" noColon="false"/>
+								<c:out value="Financial Entity: " />
 	         				</div>
 							</th>
-							<td>        					
-								<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].entityNumber" attributeEntry="${attributes.entityNumber}" readOnly="true"/>                                              
+							<td align="left" valign="middle">
+			                	<div align="left">      					
+								<c:out value="${KualiForm.document.coiDisclosureList[0].coiDisclosureAttachments[statusIndex].financialEntityName}" />
+								</div>
 							</td>
 			         	</tr>
 			         	<tr>

@@ -76,18 +76,7 @@
         </collection-descriptor>
         <collection-descriptor name="coiUserRoles" proxy="true" element-class-ref="org.kuali.kra.coi.CoiUserRole" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="coiDisclosureId"/>
-        </collection-descriptor>		
-<!-- 
-		<collection-descriptor name="coiDocuments" proxy="true" element-class-ref="org.kuali.kra.bo.CoiDocuments" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="coiDisclosureId"/>
-		</collection-descriptor>
-		<collection-descriptor name="coiNotepad" proxy="true" element-class-ref="org.kuali.kra.bo.CoiNotepad" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="coiDisclosureId"/>00
-		</collection-descriptor>
-		<reference-descriptor name="coiStatus" class-ref="org.kuali.kra.bo.CoiStatus" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="coiStatusCode"/>
-		</reference-descriptor>
- -->		
+        </collection-descriptor>				
 		<reference-descriptor name="coiDisclosureStatus" class-ref="org.kuali.kra.coi.CoiDisclosureStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="disclosureStatusCode"/>
 		</reference-descriptor>
@@ -115,8 +104,8 @@
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="projectId" column="PROJECT_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="entityNumber" column="ENTITY_NUMBER" jdbc-type="VARCHAR" />
-        <field-descriptor name="entitySequenceNumber" column="ENTITY_SEQUENCE_NUMBER" jdbc-type="BIGINT" />
+        <field-descriptor name="financialEntityId" column="FIN_ENTITY_ID_FK" jdbc-type="BIGINT" />
+        <field-descriptor name="eventTypeCode" column="EVENT_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="originalCoiDisclosureId" column="ORIGINAL_COI_DISCLOSURE_ID" jdbc-type="BIGINT" />
@@ -126,11 +115,14 @@
         <reference-descriptor name="coiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="coiDisclosureId"/>
         </reference-descriptor>
-        
+        <!-- set auto-delete to true so file is deleted when attachment is deleted -->
         <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
 			<foreignkey field-ref="fileId"/>
 		</reference-descriptor>
-        
+		
+		<reference-descriptor name="financialEntity" class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" auto-retrieve="true" auto-update="none" auto-delete="false">
+			<foreignkey field-ref="financialEntityId" />
+		</reference-descriptor>
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad" table="COI_DISCLOSURE_NOTEPAD">
@@ -145,8 +137,7 @@
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="projectId" column="PROJECT_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="entityNumber" column="ENTITY_NUMBER" jdbc-type="VARCHAR" />
-        <field-descriptor name="entitySequenceNumber" column="ENTITY_SEQUENCE_NUMBER" jdbc-type="BIGINT" />
+        <field-descriptor name="financialEntityId" column="FIN_ENTITY_ID_FK" jdbc-type="BIGINT" />        
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />       
         <field-descriptor name="originalCoiDisclosureId" column="ORIGINAL_COI_DISCLOSURE_ID" jdbc-type="BIGINT" />
@@ -156,6 +147,9 @@
         <reference-descriptor name="coiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="coiDisclosureId"/>
         </reference-descriptor>
+        <reference-descriptor name="financialEntity" class-ref="org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure" auto-retrieve="true" auto-update="none" auto-delete="false">
+			<foreignkey field-ref="financialEntityId" />
+		</reference-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.coi.disclosure.DisclosurePersonUnit" table="COI_DISCLOSURE_PERSON_UNITS">

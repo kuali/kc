@@ -31,6 +31,7 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
+import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
@@ -81,7 +82,7 @@ public class CoiNotesAndAttachmentsHelper {
         if (this.newCoiDisclosureAttachment == null) {
             this.initCoiDisclosureAttachment();
         }
-
+        
         return this.newCoiDisclosureAttachment;
     }
 
@@ -111,7 +112,17 @@ public class CoiNotesAndAttachmentsHelper {
     }
 
     private void initCoiDisclosureAttachment() {
+        
         this.setNewCoiDisclosureAttachment(new CoiDisclosureAttachment(this.getCoiDisclosure()));
+        CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
+        String event = coiDisclosure.getEventTypeCode();
+        if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.AWARD) ||
+                StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL) || 
+                StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL) ||
+                StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.IRB_PROTOCOL)) {
+            String projectId = coiDisclosure.getCoiDisclProjects().get(0).getProjectId();
+            newCoiDisclosureAttachment.setProjectId(projectId);
+        }
     }
 
     public CoiDisclosureForm getCoiDisclosureForm() {
@@ -171,9 +182,9 @@ public class CoiNotesAndAttachmentsHelper {
         if (rule.processAddCoiDisclosureAttachmentRules(event)) {
             this.newCoiDisclosureAttachment.setCoiDisclosureId(getCoiDisclosure().getCoiDisclosureId()); 
             newCoiDisclosureAttachment.setSequenceNumber(getCoiDisclosure().getSequenceNumber());
+            newCoiDisclosureAttachment.setEventTypeCode(getCoiDisclosure().getEventTypeCode() + "");
             this.getCoiDisclosure().addAttachment(newCoiDisclosureAttachment);
             getBusinessObjectService().save(newCoiDisclosureAttachment);
-
             this.initCoiDisclosureAttachment();
         }
 
@@ -415,22 +426,38 @@ public class CoiNotesAndAttachmentsHelper {
 
     }
 
-    private void initCoiDisclosureNotepad() {
-        final CoiDisclosureNotepad notepad = new CoiDisclosureNotepad(getCoiDisclosure());
-        notepad.setEntryNumber(getNextEntryNumber());
-        this.setNewCoiDisclosureNotepad(notepad);
-    }
-
+   
+    /**
+     * This method is called by the action class to add a new note
+     */
     public void addNewNote() {
         final AddCoiDisclosureNotepadRule rule = new AddCoiDisclosureNotepadRuleImpl();
         final AddCoiDisclosureNotepadEvent event = new AddCoiDisclosureNotepadEvent((CoiDisclosureDocument) coiDisclosureForm.getDocument(), this.newCoiDisclosureNotepad);
 
-        if (!rule.processAddCoiDisclosureNotepadRules(event)) {
-            return;
+        if (rule.processAddCoiDisclosureNotepadRules(event)) {
+            addNewNotepad(newCoiDisclosureNotepad);
+            initCoiDisclosureNotepad();
         }
-        this.addNewNotepad(newCoiDisclosureNotepad);
-        initCoiDisclosureNotepad();
+        
 
+    }
+
+    private void initCoiDisclosureNotepad() {
+        final CoiDisclosureNotepad notepad = new CoiDisclosureNotepad(getCoiDisclosure());
+        notepad.setEntryNumber(getNextEntryNumber());
+        CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
+        String event = coiDisclosure.getEventTypeCode();
+        // If disclosure is an automatic event disclosure, prepopulate the projectId so that
+        // this can be displayed in the notes and attachments projectId field. We do not want
+        // a drop down in this case since there is only one value.
+        if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.AWARD) ||
+                StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL) || 
+                StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL) ||
+                StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.IRB_PROTOCOL)) {
+            String projectId = coiDisclosure.getCoiDisclProjects().get(0).getProjectId();
+            notepad.setProjectId(projectId);
+        }
+        setNewCoiDisclosureNotepad(notepad);
     }
 
     private void addNewNotepad(CoiDisclosureNotepad notepad) {
@@ -441,7 +468,7 @@ public class CoiNotesAndAttachmentsHelper {
         notepad.setCoiDisclosureNumber(getCoiDisclosure().getCoiDisclosureNumber());
         notepad.setSequenceNumber(getCoiDisclosure().getSequenceNumber());        
         notepad.setEntryNumber(getNextEntryNumber());
-        this.getCoiDisclosure().getCoiDisclosureNotepads().add(notepad);   
+        getCoiDisclosure().getCoiDisclosureNotepads().add(notepad);   
 
     }
 
