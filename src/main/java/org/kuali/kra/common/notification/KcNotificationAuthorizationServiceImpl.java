@@ -20,14 +20,14 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class NotificationAuthorizationServiceImpl implements NotificationAuthorizationService {
+public class KcNotificationAuthorizationServiceImpl implements KcNotificationAuthorizationService {
 
     private UnitAuthorizationService unitAuthorizationService;
     private KcPersonService kcPersonService;
     
     /**
      * 
-     * @see org.kuali.kra.common.notification.NotificationAuthorizationService#hasPermission(java.lang.String)
+     * @see org.kuali.kra.common.notification.KcNotificationAuthorizationService#hasPermission(java.lang.String)
      */
     public boolean hasPermission(String permissionName){
         KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       

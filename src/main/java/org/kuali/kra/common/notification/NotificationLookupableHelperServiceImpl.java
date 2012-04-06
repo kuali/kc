@@ -18,26 +18,16 @@ package org.kuali.kra.common.notification;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.questionnaire.question.Question;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class NotificationLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 8081840497073635509L;
     
-    private static final String VIEW = "view";
-
-    
-    private NotificationAuthorizationService notificationAuthorizationService;
+    private KcNotificationAuthorizationService kcNotificationAuthorizationService;
 
     /**
      * Only display edit, copy and view links for the Questions if proper permission is given.
@@ -46,8 +36,7 @@ public class NotificationLookupableHelperServiceImpl extends KualiLookupableHelp
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        boolean hasModifyPermission = getNotificationAuthorizationService().hasPermission(PermissionConstants.MODIFY_NOTIFICATION);
-        boolean hasViewPermission = hasModifyPermission || getNotificationAuthorizationService().hasPermission(PermissionConstants.VIEW_NOTIFICATION);
+        boolean hasModifyPermission = getKcNotificationAuthorizationService().hasPermission(PermissionConstants.MODIFY_NOTIFICATION);
         if (hasModifyPermission) {
             AnchorHtmlData editHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
             htmlDataList.add(editHtmlData);
@@ -55,12 +44,12 @@ public class NotificationLookupableHelperServiceImpl extends KualiLookupableHelp
         return htmlDataList;
     }
     
-    public NotificationAuthorizationService getNotificationAuthorizationService() {
-        return notificationAuthorizationService;
+    public KcNotificationAuthorizationService getKcNotificationAuthorizationService() {
+        return kcNotificationAuthorizationService;
     }
 
-    public void setNotificationAuthorizationService(NotificationAuthorizationService notificationAuthorizationService) {
-        this.notificationAuthorizationService = notificationAuthorizationService;
+    public void setKcNotificationAuthorizationService(KcNotificationAuthorizationService kcNotificationAuthorizationService) {
+        this.kcNotificationAuthorizationService = kcNotificationAuthorizationService;
     }
 
     
