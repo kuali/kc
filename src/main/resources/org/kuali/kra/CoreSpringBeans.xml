@@ -326,6 +326,10 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
+    <bean id="fiscalYearMonthService" class="org.kuali.kra.service.impl.FiscalYearMonthServiceImpl">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+    
     <bean id="institutionalUnitService" class="org.kuali.kra.external.unit.service.impl.InstitutionalUnitServiceImpl">
         <property name="unitService" ref="unitService" />
         <property name="businessObjectService" ref="businessObjectService" />
