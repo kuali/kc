@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.common.notification;
 
-public interface NotificationAuthorizationService {
+public interface KcNotificationAuthorizationService {
     
     /**
-     * 
-     * This method is to check if the user has the permission "permissionName".
+     * Checks if the user has the permission "permissionName".
      * @param permissionName
      * @return
      */
-    public boolean hasPermission(String permissionName);
+    boolean hasPermission(String permissionName);
 
 }

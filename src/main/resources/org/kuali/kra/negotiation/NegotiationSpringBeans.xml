@@ -34,11 +34,6 @@
         <property name="kcPersonService" ref="kcPersonService" />   
     </bean>
     
-    <bean id="notificationAuthorizationService" class="org.kuali.kra.common.notification.NotificationAuthorizationServiceImpl">
-       <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-       <property name="kcPersonService" ref="kcPersonService" />
-    </bean>
-    
     <bean id="negotiationTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
         <property name="groupName" value="negotiation" />
         <property name="taskAuthorizers">

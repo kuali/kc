@@ -20,22 +20,23 @@ import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 
 public class NotificationLookupableImpl extends KualiLookupableImpl {
 
-    private NotificationAuthorizationService notificationAuthorizationService;
+    private KcNotificationAuthorizationService kcNotificationAuthorizationService;
     
     @Override
     public String getCreateNewUrl() {
         String url = "";
-        if (getNotificationAuthorizationService().hasPermission(PermissionConstants.MODIFY_NOTIFICATION)) {
+        if (getKcNotificationAuthorizationService().hasPermission(PermissionConstants.MODIFY_NOTIFICATION)) {
             url =  super.getCreateNewUrl();
         }
         return url;
     }
 
-    public NotificationAuthorizationService getNotificationAuthorizationService() {
-        return notificationAuthorizationService;
+    public KcNotificationAuthorizationService getKcNotificationAuthorizationService() {
+        return kcNotificationAuthorizationService;
     }
 
-    public void setNotificationAuthorizationService(NotificationAuthorizationService notificationAuthorizationService) {
-        this.notificationAuthorizationService = notificationAuthorizationService;
+    public void setKcNotificationAuthorizationService(KcNotificationAuthorizationService kcNotificationAuthorizationService) {
+        this.kcNotificationAuthorizationService = kcNotificationAuthorizationService;
     }
+    
 }

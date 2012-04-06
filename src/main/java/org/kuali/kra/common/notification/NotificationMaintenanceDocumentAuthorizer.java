@@ -39,10 +39,10 @@ public class NotificationMaintenanceDocumentAuthorizer extends MaintenanceDocume
 
     protected Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = new HashSet<String>();
-        boolean hasModifyPermission = getNotificationAuthorizationService().hasPermission(
+        boolean hasModifyPermission = getKcNotificationAuthorizationService().hasPermission(
                 PermissionConstants.MODIFY_NOTIFICATION);
         boolean hasViewPermission = hasModifyPermission
-                || getNotificationAuthorizationService().hasPermission(
+                || getKcNotificationAuthorizationService().hasPermission(
                         PermissionConstants.VIEW_NOTIFICATION);
         if (hasModifyPermission) {
             documentActions = getDocumentActionsWithModifyPermission(document);
@@ -56,8 +56,8 @@ public class NotificationMaintenanceDocumentAuthorizer extends MaintenanceDocume
         return documentActions;
     }
 
-    private NotificationAuthorizationService getNotificationAuthorizationService() {
-        return KraServiceLocator.getService(NotificationAuthorizationService.class);
+    private KcNotificationAuthorizationService getKcNotificationAuthorizationService() {
+        return KraServiceLocator.getService(KcNotificationAuthorizationService.class);
     }
     
     private Set<String> getDocumentActionsWithModifyPermission(Document document) {
