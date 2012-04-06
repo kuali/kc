@@ -137,7 +137,8 @@
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="projectId" column="PROJECT_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="financialEntityId" column="FIN_ENTITY_ID_FK" jdbc-type="BIGINT" />        
+        <field-descriptor name="financialEntityId" column="FIN_ENTITY_ID_FK" jdbc-type="BIGINT" /> 
+        <field-descriptor name="eventTypeCode" column="EVENT_TYPE_CODE" jdbc-type="VARCHAR" />       
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />       
         <field-descriptor name="originalCoiDisclosureId" column="ORIGINAL_COI_DISCLOSURE_ID" jdbc-type="BIGINT" />

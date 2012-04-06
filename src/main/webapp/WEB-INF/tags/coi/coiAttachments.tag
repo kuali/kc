@@ -287,7 +287,9 @@
 	         				Project:
 	         				</div>
 							</th>
-							<td>		
+							<td align="left" valign="middle">	
+								<div align="left">      					
+								
 							<!-- Just displaying the project name here, not the drop down because 
 							in the case of event based disclosures, the project becomes non-disclosureable once the disclosure is saved
 							and this drop down becomes empty. So the logic here becomes unduly complicated. -->		
@@ -295,6 +297,7 @@
 							<c:out value="${itrStatus.index}" />
 							</c:set>			
 							<c:out value="${KualiForm.document.coiDisclosureList[0].coiDisclosureAttachments[statusIndex].projectName}" />
+								<div align="left">      					
 							</td>
 							<th>
 							<div align="right">

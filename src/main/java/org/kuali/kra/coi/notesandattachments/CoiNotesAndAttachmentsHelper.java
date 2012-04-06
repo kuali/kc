@@ -457,6 +457,7 @@ public class CoiNotesAndAttachmentsHelper {
             String projectId = coiDisclosure.getCoiDisclProjects().get(0).getProjectId();
             notepad.setProjectId(projectId);
         }
+        notepad.setEventTypeCode(event);
         setNewCoiDisclosureNotepad(notepad);
     }
 

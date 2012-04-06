@@ -285,9 +285,9 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     
     public String getEventDescription() {
         String description = "Proposal";
-        if (isAwardEvent()) {
+        if (isAwardEvent() || isManualAwardEvent()) {
             description = "Award";
-        } else if (isProtocolEvent()) {
+        } else if (isProtocolEvent() || isManualProtocolEvent()) {
             description = "Protocol";
         }
         return description;
