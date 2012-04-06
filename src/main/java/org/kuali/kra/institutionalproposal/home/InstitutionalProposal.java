@@ -63,6 +63,7 @@ import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -171,6 +172,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private transient String lookupUnitName;
     private transient String lookupUnitNumber;
     private transient String lookupPersonNumber;
+    private transient FiscalYearMonthService fiscalYearMonthService;
 
     public InstitutionalProposal() {
         super();
@@ -267,6 +269,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * This method calculates fiscal Month and fiscal Year fields. It also adds leading 0 to Month if needed.
      */
     private void calculateFiscalMonthAndYearFields() {
+        /*
         Calendar cl = Calendar.getInstance();
         cl.add(Calendar.MONTH, 6);
         String monthString = Integer.toString(cl.get(Calendar.MONTH) + 1);
@@ -275,7 +278,13 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         }
         setFiscalMonth(monthString);
         setFiscalYear(Integer.toString(cl.get(Calendar.YEAR)));
-
+        */
+        String monthString = this.getFiscalYearMonthService().getCurrentFiscalMonthForDisplay().toString();
+        if (monthString.length() == 1) {
+            monthString = "0" + monthString;
+        }
+        setFiscalMonth(monthString);
+        setFiscalYear(this.getFiscalYearMonthService().getCurrentFiscalYear().toString());
     }
 
     /**
@@ -1827,5 +1836,12 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     @Override
     public String getSubAwardRequisitionerId() {
         return EMPTY_STRING;
+    }
+    
+    public FiscalYearMonthService getFiscalYearMonthService() {
+        if (this.fiscalYearMonthService == null) {
+            this.fiscalYearMonthService = KraServiceLocator.getService(FiscalYearMonthService.class);
+        }
+        return this.fiscalYearMonthService;
     }
 }
