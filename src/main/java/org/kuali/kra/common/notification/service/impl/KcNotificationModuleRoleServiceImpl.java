@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -28,7 +29,7 @@ public class KcNotificationModuleRoleServiceImpl implements KcNotificationModule
     private BusinessObjectService businessObjectService;
 
     /**
-     * 
+     * {@inheritDoc}
      * @see org.kuali.kra.common.notification.service.KcNotificationModuleRoleService#addNotificationModuleRole(java.lang.String, java.lang.String)
      */
     public NotificationModuleRole addNotificationModuleRole(String moduleCode, String roleName) {
@@ -41,7 +42,7 @@ public class KcNotificationModuleRoleServiceImpl implements KcNotificationModule
     }
 
     /**
-     * 
+     * {@inheritDoc}
      * @see org.kuali.kra.common.notification.service.KcNotificationModuleRoleService#getNotificationModuleRoles(java.lang.String)
      */
     public List<NotificationModuleRole> getNotificationModuleRoles(String moduleCode) {
@@ -55,7 +56,22 @@ public class KcNotificationModuleRoleServiceImpl implements KcNotificationModule
     }
     
     /**
-     * 
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.notification.service.KcNotificationModuleRoleService#getNotificationModuleRolesString(java.lang.String)
+     */
+    public String getNotificationModuleRolesString(String moduleCode) {
+        String resultStr = "";
+        List<NotificationModuleRole> moduleRoles = getNotificationModuleRoles(moduleCode);
+        if (CollectionUtils.isNotEmpty(moduleRoles)) {
+            for (NotificationModuleRole moduleRole : moduleRoles) {
+                resultStr += moduleRole.getRoleName() + ",";
+            }
+        }
+        return resultStr;
+    }
+    
+    /**
+     * {@inheritDoc}
      * @see org.kuali.kra.common.notification.service.KcNotificationModuleRoleService#getNotificationModuleRolesForKimRole(java.lang.String, java.lang.String)
      */
     public List<NotificationModuleRole> getNotificationModuleRolesForKimRole(String moduleCode, String roleName) {
@@ -69,7 +85,7 @@ public class KcNotificationModuleRoleServiceImpl implements KcNotificationModule
     }
 
     /**
-     * 
+     * {@inheritDoc}
      * @see org.kuali.kra.common.notification.service.KcNotificationModuleRoleService#saveNotificationModuleRoles(java.util.List)
      */
     public void saveNotificationModuleRoles(List<NotificationModuleRole> notificationModuleRoles) {

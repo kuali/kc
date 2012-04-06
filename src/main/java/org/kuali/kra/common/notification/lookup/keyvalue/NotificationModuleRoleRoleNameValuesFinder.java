@@ -23,6 +23,7 @@ import java.util.List;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.framework.role.RoleEbo;
 import org.kuali.rice.kim.impl.role.RoleBo;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -40,11 +41,11 @@ public class NotificationModuleRoleRoleNameValuesFinder extends KeyValuesBase {
      */
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
-        Collection<RoleBo> roles = getKeyValuesService().findAll(RoleBo.class);
+        Collection<RoleEbo> roles = getKeyValuesService().findAll(RoleEbo.class);
         
         List<KeyLabelSortByValue> keyValues = new ArrayList<KeyLabelSortByValue>();
         keyValues.add(new KeyLabelSortByValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
-        for (RoleBo role : roles) {
+        for (RoleEbo role : roles) {
             String roleKey = role.getNamespaceCode() + ":" + role.getName();
             keyValues.add(new KeyLabelSortByValue(roleKey, roleKey));                            
         }
