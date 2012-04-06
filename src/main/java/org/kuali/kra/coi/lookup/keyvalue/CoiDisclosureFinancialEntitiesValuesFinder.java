@@ -38,7 +38,7 @@ public class CoiDisclosureFinancialEntitiesValuesFinder extends KeyValuesBase {
         keyLabels.add(new ConcreteKeyValue("", "select"));
         List<PersonFinIntDisclosure> financialEntities = getAllFinancialEntities();
         for (PersonFinIntDisclosure fe : financialEntities) {
-            keyLabels.add(new ConcreteKeyValue(fe.getEntityNumber(), fe.getEntityName()));
+            keyLabels.add(new ConcreteKeyValue(fe.getPersonFinIntDisclosureId().toString(), fe.getEntityName()));
         }
         return keyLabels;
     }

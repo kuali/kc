@@ -16,22 +16,19 @@
 package org.kuali.kra.coi.notesandattachments.attachments;
 
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureAssociate;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
+import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclDet;
+import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements Comparable<CoiDisclosureAttachment>{
     /**
@@ -55,12 +52,13 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     private String documentStatusCode;
     private Timestamp createTimestamp;
     private String projectId;
-    private String entityNumber;
-    private Long entitySequenceNumber;
+    private String eventTypeCode;
     private Long originalCoiDisclosureId; 
     private CoiDisclosure originalCoiDisclosure; 
-
+    private String projectName;
+    private Long financialEntityId;
     private final String MESSAGE_UPDATED_BY = "message.updated.by";
+    private PersonFinIntDisclosure financialEntity;
     private static String updatedByString;
 
     public CoiDisclosureAttachment() {
@@ -70,22 +68,34 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     public CoiDisclosureAttachment(CoiDisclosure coiDisclosure) {
         this.setCoiDisclosure(coiDisclosure);
     }
-
     
-    public String getEntityNumber() {
-        return entityNumber;
+    public Long getFinancialEntityId() {
+        return financialEntityId;
     }
 
-    public void setEntityNumber(String entityNumber) {
-        this.entityNumber = entityNumber;
+    public void setFinancialEntityId(Long financialEntityId) {
+        this.financialEntityId = financialEntityId;
     }
 
-    public Long getEntitySequenceNumber() {
-        return entitySequenceNumber;
+    public PersonFinIntDisclosure getFinancialEntity() {
+        return financialEntity;
+    }
+    
+    public void setFinancialEntity(PersonFinIntDisclosure financialEntity) {
+        this.financialEntity = financialEntity;
+    }
+    
+    public String getFinancialEntityName() {
+        refreshReferenceObject("financialEntity");
+        return ObjectUtils.isNotNull(getFinancialEntity()) ? getFinancialEntity().getEntityName() : "";
+    }
+    
+    public String getEventTypeCode() {
+        return eventTypeCode;
     }
 
-    public void setEntitySequenceNumber(Long entitySequenceNumber) {
-        this.entitySequenceNumber = entitySequenceNumber;
+    public void setEventTypeCode(String eventTypeCode) {
+        this.eventTypeCode = eventTypeCode;
     }
 
     public String getProjectId() {
@@ -201,6 +211,12 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
         }
     }
     
+    public String getProjectName() {
+        refreshReferenceObject("coiDisclProjects");
+        return getCoiDisclosure().getCoiDisclProjects().isEmpty()? "" : getCoiDisclosure().getCoiDisclProjects().get(0).getCoiProjectTitle();
+
+    }
+   
     @Override
     public int compareTo(CoiDisclosureAttachment arg0) {
         // TODO Auto-generated method stub
