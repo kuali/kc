@@ -22,9 +22,9 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.bo.NotificationType;
+import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
-import org.kuali.kra.service.NotificationModuleRoleService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -62,7 +62,7 @@ public class NotificationTypeRecipientRoleNameValuesFinder extends KeyValuesBase
         List<KeyLabelSortByValue> keyValues = new ArrayList<KeyLabelSortByValue>();
         keyValues.add(new KeyLabelSortByValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         if (moduleCode != null) {
-            List<NotificationModuleRole> moduleRoles = getNotificationModuleRoleService().getModuleRolesByModuleName(moduleCode);
+            List<NotificationModuleRole> moduleRoles = getKcNotificationModuleRoleService().getNotificationModuleRoles(moduleCode);
             if (CollectionUtils.isNotEmpty(moduleRoles)) {
                 for (NotificationModuleRole moduleRole : moduleRoles) {
                     keyValues.add(new KeyLabelSortByValue(moduleRole.getRoleName(), moduleRole.getRoleName()));
@@ -89,8 +89,8 @@ public class NotificationTypeRecipientRoleNameValuesFinder extends KeyValuesBase
         this.keyValuesService = keyValuesService;
     }
 
-    public NotificationModuleRoleService getNotificationModuleRoleService() {
-        return KraServiceLocator.getService(NotificationModuleRoleService.class);
+    public KcNotificationModuleRoleService getKcNotificationModuleRoleService() {
+        return KraServiceLocator.getService(KcNotificationModuleRoleService.class);
     }
 
 }

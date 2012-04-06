@@ -3079,7 +3079,7 @@ function updateNotificationRecipients(moduleCode) {
 			window.status = errorMessage;
 		}
 	};
-	NotificationModuleRoleService.getModuleRolesForAjaxCall(moduleCode, dwrReply);
+	KcNotificationModuleRoleService.getNotificationModuleRolesString(moduleCode, dwrReply);
 }
 
 function updateNotificationRecipients_Callback(data) {
