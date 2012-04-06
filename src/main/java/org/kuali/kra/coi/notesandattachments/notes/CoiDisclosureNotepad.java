@@ -23,6 +23,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureAssociate;
+import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comparable<CoiDisclosureNotepad> {
 
@@ -38,11 +40,11 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     private boolean editable;
     private transient String updateUserFullName;
     private String projectId;
-    private String entityNumber;
-    private Long entitySequenceNumber;
     private Long originalCoiDisclosureId; 
     private CoiDisclosure originalCoiDisclosure; 
-
+    private Long financialEntityId;
+    private PersonFinIntDisclosure financialEntity;
+    
     public CoiDisclosureNotepad() {
         super();
         editable = false;
@@ -60,23 +62,33 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     public void setProjectId(String projectId) {
         this.projectId = projectId;
     }
-
-    public String getEntityNumber() {
-        return entityNumber;
+    
+    public Long getFinancialEntityId() {
+        return financialEntityId;
     }
 
-    public void setEntityNumber(String entityNumber) {
-        this.entityNumber = entityNumber;
+    public void setFinancialEntityId(Long financialEntityId) {
+        this.financialEntityId = financialEntityId;
     }
 
-    public Long getEntitySequenceNumber() {
-        return entitySequenceNumber;
+    public PersonFinIntDisclosure getFinancialEntity() {
+        return financialEntity;
     }
 
-    public void setEntitySequenceNumber(Long entitySequenceNumber) {
-        this.entitySequenceNumber = entitySequenceNumber;
+    public void setFinancialEntity(PersonFinIntDisclosure financialEntity) {
+        this.financialEntity = financialEntity;
     }
-
+    
+    public String getFinancialEntityName() {
+        refreshReferenceObject("financialEntity");
+        return ObjectUtils.isNotNull(getFinancialEntity()) ? getFinancialEntity().getEntityName() : "";
+    }
+    
+    public String getProjectName() {
+        refreshReferenceObject("coiDisclProjects");
+        return getCoiDisclosure().getCoiDisclProjects().isEmpty()? "" : getCoiDisclosure().getCoiDisclProjects().get(0).getCoiProjectTitle();
+    }
+  
     public String getUpdateUserFullName() {
         return updateUserFullName;
     }

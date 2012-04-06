@@ -43,20 +43,22 @@
 				<ref bean="CoiDisclosureAttachment-comments" />
 				<ref bean="CoiDisclosureAttachment-updateUser" />
 				<ref bean="CoiDisclosureAttachment-updateTimestamp" />
-				<ref bean="CoiDisclosureAttachment-projectId" />				
-				<ref bean="CoiDisclosureAttachment-entityNumber" />
+				<ref bean="CoiDisclosureAttachment-projectId" />	
+				<ref bean="CoiDisclosureAttachment-eventTypeCode" />			
+				<ref bean="CoiDisclosureAttachment-financialEntityId" />
 			</list>
 		</property>
 	</bean>
-	<bean id="CoiDisclosureAttachment-entityNumber" parent="CoiDisclosureAttachment-entityNumber-parentBean" />
-	<bean id="CoiDisclosureAttachment-entityNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="entityNumber" />
+	
+	<bean id="CoiDisclosureAttachment-financialEntityId" parent="CoiDisclosureAttachment-financialEntityId-parentBean" />
+	<bean id="CoiDisclosureAttachment-financialEntityId-parentBean" abstract="true" parent="AttributeDefinition" >
+	<property name="name" value="financialEntityId" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Financial Entity" />
 		<property name="shortLabel" value="Financial Entity" />
 		<property name="maxLength" value="12" />
 		<property name="validationPattern" >
-			<bean parent="AnyCharacterValidationPattern" />
+			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control" >
       		<bean parent="SelectControlDefinition"
@@ -66,13 +68,15 @@
 		<property name="description" value="Financial Entity" />
 	</bean>
 	
+	<bean id="CoiDisclosureAttachment-eventTypeCode" parent="CoiDisclosure-eventTypeCode-parentBean" />
+	
 	<bean id="CoiDisclosureAttachment-projectId" parent="CoiDisclosureAttachment-projectId-parentBean" />
 	<bean id="CoiDisclosureAttachment-projectId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="projectId" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Project" />
 		<property name="shortLabel" value="Project" />
-		<property name="maxLength" value="12" />
+		<property name="maxLength" value="20" />
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
