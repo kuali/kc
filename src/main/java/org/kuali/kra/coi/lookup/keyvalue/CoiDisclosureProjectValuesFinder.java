@@ -38,6 +38,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -58,29 +59,17 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
 
 
         if (coiDisclosureDocument != null && coiDisclosure != null && !StringUtils.isEmpty(event)) { 
-
-            // annual disclosure
-            if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.ANNUAL)) {
-                addAwards(keyLabels, pid);
-                addProposals(keyLabels, pid);
-                addIp(keyLabels, pid);
-                addProtocols(keyLabels, pid);
-            } else if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.UPDATE)) {
+            if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.UPDATE)) {
                 addMasterProjects(keyLabels, coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean());
-            } else if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.AWARD) ||
-                    StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL) || 
-                    StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL) ||
-                    StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.IRB_PROTOCOL)) {
-                addCurrentEventProject(keyLabels, event, pid);
-            } else { // manual and other disclosures
-                if (!coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclProjects().isEmpty()) {
-                    String projectId = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclProjects().get(0).getProjectId();
-                    keyLabels.add(new ConcreteKeyValue
-                            (projectId, coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclProjects().get(0).getProjectName()
-                                    + "--" + projectId));
-                }
-            }
-
+            } else {
+                if (!coiDisclosure.getCoiDisclProjects().isEmpty()) {
+                    for (CoiDisclProject project : coiDisclosure.getCoiDisclProjects()) {
+                        String projectId = project.getProjectId();
+                        keyLabels.add(new ConcreteKeyValue (projectId, project.getEventDescription() 
+                                + "--" + project.getProjectName() + "--" + projectId));
+                    }
+                } 
+            }         
         }
 
         return keyLabels;
@@ -99,7 +88,7 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
 
     private void addManualProject(List<KeyValue> keyLabels, List<CoiDisclosureProjectBean> manualProtocolProjects, String projectLabel) {
         for (CoiDisclosureProjectBean disclProjectBean : manualProtocolProjects) {
-            CoiDisclProject disclProject = (CoiDisclProject)disclProjectBean.getCoiDisclProject();
+            CoiDisclProject disclProject = (CoiDisclProject) disclProjectBean.getCoiDisclProject();
             keyLabels.add(new ConcreteKeyValue(disclProject.getProjectId(), 
                     formatLabel(projectLabel + disclProject.getProjectId(), disclProject.getProjectName())));
         }
@@ -108,7 +97,6 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
 
     private void addAutomaticProject(List<KeyValue> keyLabels, List<CoiDisclosureProjectBean> automaticProtocolProjects, String projectLabel) {
         for (CoiDisclosureProjectBean disclProjectBean : automaticProtocolProjects) {
-            //Disclosurable disclProject = (Disclosurable)disclProjectBean.getDisclosureProject();
             CoiDisclProject coiDisclProject = disclProjectBean.getCoiDisclProject();
             keyLabels.add(new ConcreteKeyValue(coiDisclProject.getProjectId(), 
                     formatLabel(projectLabel + coiDisclProject.getProjectId(),coiDisclProject.getProjectName())));
@@ -116,86 +104,8 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
 
     }
 
-    protected void addAwards(List<KeyValue> keyLabels, String pid) {
-        String userId = GlobalVariables.getUserSession().getPrincipalId();
-        List<Award> awards = getCoiDisclosureService().getAwards(userId);
-        for (Award award : awards) {
-            if (ObjectUtils.isNotNull(pid)) {
-                if (StringUtils.equalsIgnoreCase(award.getAwardId().toString(), pid)) {
-                    keyLabels.add(new ConcreteKeyValue(award.getAwardId().toString(), 
-                            formatLabel("AWARD--" + award.getAwardNumber(), award.getTitle())));
-                }
-            } else {
-                keyLabels.add(new ConcreteKeyValue(award.getAwardId().toString(), 
-                        formatLabel("AWARD--" + award.getAwardNumber(), award.getTitle())));
-            }
-
-        }
-    }
-
-    private void addProtocols(List<KeyValue> keyLabels, String pid) {
-        String userId = GlobalVariables.getUserSession().getPrincipalId();
-
-        List<Protocol> protocols = getCoiDisclosureService().getProtocols(userId);
-        for (Protocol protocol : protocols) {
-
-            keyLabels.add(new ConcreteKeyValue(protocol.getProtocolId().toString(), 
-                    formatLabel("PROTOCOL--" + protocol.getProtocolNumber(), protocol.getTitle())));
-        }        
-    }
-
-
-    protected void addIp(List<KeyValue> keyLabels, String pid) {
-        String userId = GlobalVariables.getUserSession().getPrincipalId();
-
-        List<InstitutionalProposal> ips = getCoiDisclosureService().getInstitutionalProposals(userId);
-        for (InstitutionalProposal ip : ips) {
-            keyLabels.add(new ConcreteKeyValue(ip.getInstProposalNumber(), 
-                    formatLabel("IP--" + ip.getInstProposalNumber(), ip.getTitle())));
-        }
-    }
-
-
-    private void addProposals(List<KeyValue> keyLabels, String pid) {
-        String userId = GlobalVariables.getUserSession().getPrincipalId();
-
-        List<DevelopmentProposal> proposals = getCoiDisclosureService().getProposals(userId);
-        for (DevelopmentProposal proposal : proposals) {
-            keyLabels.add(new ConcreteKeyValue(proposal.getProposalNumber(), 
-                    formatLabel("PROPOSAL--" + proposal.getProposalNumber(),proposal.getTitle())));
-        }        
-    }
-
-
     protected String formatLabel(String number, String title) {
         return number + "--" + title;
     }
-
-    /**
-     * This method...
-     * @param keyLabels
-     * @param id
-     */
-    protected void addCurrentEventProject(List<KeyValue> keyLabels, String event, String pid) {
-        String userId = GlobalVariables.getUserSession().getPrincipalId();
-
-        if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.AWARD)) {
-            addAwards(keyLabels, pid);
-        }
-        if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL)) {
-            addProposals(keyLabels, pid);
-        }
-        if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.IRB_PROTOCOL)) {
-            addProtocols(keyLabels, pid);
-        }
-        if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL)) {
-            addIp(keyLabels, pid);
-        }
-    }
-
-    protected CoiDisclosureService getCoiDisclosureService() {
-        return KraServiceLocator.getService(CoiDisclosureService.class);
-    }
-
 
 }
