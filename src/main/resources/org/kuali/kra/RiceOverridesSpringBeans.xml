@@ -153,7 +153,9 @@
         <property name="beanNames">
             <set>
                 <value>lookupableHelperService</value>
+                <!--
                 <value>docSearchCriteriaDTOLookupable</value>
+                -->
                 <value>groupLookupable</value>
                 <value>kimPersonLookupable</value>
                 <value>permissionLookupable</value>
@@ -162,17 +164,11 @@
                 <value>roleLookupable</value>
                 <value>multiCampusIdentityService</value>
 
-                <value>webAuthenticationService</value>
-                <value>enWebAuthenticationService</value>
                 <value>s2sOpportunityLookupable</value> 
-                <value>customLookupable</value> 
-                <value>unitLookupable</value>
-                <value>nonOrganizationalRolodexLookupable</value>
                 <value>budgetExpenseLookupable</value>
                 <value>onOffCampusLookupable</value>
                 <value>activeFlagLookupable</value>
                 <value>copyPeriodsQuestion</value>
-                <value>sponsorLookupable</value>
                 <value>protocolLookupable</value>
                 <value>coiDisclosureLookupable</value>
                 <value>protocolOnlineReviewLookupable</value>   
@@ -181,25 +177,15 @@
                 <value>committeeScheduleLookupable</value>  
                 <value>awardLookupable</value>
                 <value>awardPersonLookupable</value>
-                <value>questionnaireLookupable</value>
-                <value>questionLookupable</value>
-                <value>organizationCorrespondentLookupable</value>
-                <value>unitCorrespondentLookupable</value>
-                <value>kcPersonLookupable</value>
-                <value>kcPersonExtendedAttributesLookupable</value>
                 <value>institutionalProposalLookupable</value>
                 <value>proposalLogLookupable</value>
                 <value>proposalDevelopmentLookupable</value>
-                <value>unitAdministratorLookupable</value>
-                <value>customAttributeDocumentLookupable</value>
-                <value>noEditLookupable</value>
                 <value>budgetPeriodLookupable</value>
                 <value>awardTemplateLookupable</value>
                 <value>negotiationLookupable</value>
                 <value>financialEntityLookupable</value>
                 <value>reportTrackingLookupable</value>
-                <value>subAwardLookupable</value>
-                <value>notificationLookupable</value>   
+                <value>subAwardLookupable</value> 
                 <value>coiEventDisclosureLookupable</value>
                 <value>coiDisclosureEventTypeLookupable</value>
                 <value>coiSubmittedDisclosureLookupable</value>
@@ -215,19 +201,23 @@
     <bean id="kcResourceLoader-parentBean" class="org.kuali.kra.rice.KraResourceLoader" abstract="true">
         <property name="overridableServices">
             <set>
-                <value>webAuthenticationService</value>
-                <value>enWebAuthenticationService</value>
                 <value>lookupableHelperService</value>  
+                <!--
+                <value>docSearchCriteriaDTOLookupable</value>
+                -->
+                <value>groupLookupable</value>
+                <value>kimPersonLookupable</value>
+                <value>permissionLookupable</value>
+                <value>pessimisticLockLookupable</value>    
+                <value>responsibilityLookupable</value>
+                <value>roleLookupable</value>
+                <value>multiCampusIdentityService</value>
+                
                 <value>s2sOpportunityLookupable</value> 
-                <value>customLookupable</value> 
-                <value>unitLookupable</value>
-                <value>nonOrganizationalRolodexLookupable</value>
                 <value>budgetExpenseLookupable</value>
                 <value>onOffCampusLookupable</value>
                 <value>activeFlagLookupable</value>
                 <value>copyPeriodsQuestion</value>
-                <value>sponsorLookupable</value>    
-                <value>pessimisticLockLookupable</value>    
                 <value>protocolLookupable</value>
                 <value>coiDisclosureLookupable</value>
                 <value>protocolOnlineReviewLookupable</value>   
@@ -236,31 +226,15 @@
                 <value>committeeScheduleLookupable</value>  
                 <value>awardLookupable</value>
                 <value>awardPersonLookupable</value>
-                <value>docSearchCriteriaDTOLookupable</value>
-                <value>questionnaireLookupable</value>
-                <value>questionLookupable</value>
-                <value>kcPersonLookupable</value>
-                <value>kcPersonExtendedAttributesLookupable</value>
                 <value>institutionalProposalLookupable</value>
                 <value>proposalLogLookupable</value>
                 <value>proposalDevelopmentLookupable</value>
-                <value>unitAdministratorLookupable</value>
-                <value>organizationCorrespondentLookupable</value>
-                <value>unitCorrespondentLookupable</value>
-                <value>customAttributeDocumentLookupable</value>
-                <value>noEditLookupable</value>
                 <value>budgetPeriodLookupable</value>   
-                <value>kimPersonLookupable</value>
                 <value>awardTemplateLookupable</value>
-                <value>groupLookupable</value>
-                <value>permissionLookupable</value>
-                <value>responsibilityLookupable</value>
-                <value>roleLookupable</value>
                 <value>negotiationLookupable</value>
                 <value>financialEntityLookupable</value>
                 <value>reportTrackingLookupable</value>
                 <value>subAwardLookupable</value>
-                <value>notificationLookupable</value>
                 <value>coiEventDisclosureLookupable</value>
                 <value>coiDisclosureEventTypeLookupable</value>
                 <value>coiSubmittedDisclosureLookupable</value>
