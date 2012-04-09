@@ -51,6 +51,17 @@ public class FiscalYearMonthServiceImpl implements FiscalYearMonthService {
         return getCurrentFiscalData(null).get(YEAR_KEY);
     }
     
+    @Override
+    public Integer getFiscalYearFromDate(Calendar date) {
+        Integer fiscalStartMonth = getFiscalYearMonth();
+        Integer year = date.get(Calendar.YEAR);
+        Integer month = date.get(Calendar.MONDAY);
+        if (fiscalStartMonth != 0 && month >= fiscalStartMonth) {
+            year = year.intValue() + 1;
+        }
+        return year;
+    }
+    
     /**
      * 
      * This method returns a Map object that contains the current fiscal month and year.  See protect static variables for they Keys.

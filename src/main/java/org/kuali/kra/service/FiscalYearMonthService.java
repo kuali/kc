@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.service;
 
+import java.util.Calendar;
+
 /**
  * 
  * This class...
@@ -41,5 +43,14 @@ public interface FiscalYearMonthService {
      * @return
      */
     Integer getCurrentFiscalYear();
+    
+    /**
+     * 
+     * This method calculates what fiscal year the passed in date is in.  For example July 13 2012 is in fiscal year 2013 if
+     * the fiscal starting month is less than July, but not January.
+     * @param date
+     * @return
+     */
+    Integer getFiscalYearFromDate(Calendar date);
     
 }

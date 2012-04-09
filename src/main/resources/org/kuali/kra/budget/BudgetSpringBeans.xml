@@ -152,6 +152,9 @@
 		<property name="budgetSummaryService">
 			<ref bean="budgetSummaryService"/>
 		</property>
+		<property name="fiscalYearMonthService">
+			<ref bean="fiscalYearMonthService"/>
+		</property>
 	</bean>
 	
     <bean id="pessimisticLockService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
