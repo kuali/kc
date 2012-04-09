@@ -52,6 +52,8 @@
                 <ref bean="CoiEventDisclosure-discActiveStatus" />
                 <ref bean="CoiEventDisclosure-versionNumber" />
                 <ref bean="CoiEventDisclosure-leadUnitNumber" />
+		        <ref bean="CoiEventDisclosure-person.fullName" />
+		        <ref bean="CoiEventDisclosure-person.userName" />
                 
             </list>
         </property>
@@ -66,6 +68,9 @@
     <bean id="CoiEventDisclosure-sequenceNumber" parent="CoiDisclosure-sequenceNumber-parentBean" />
 
     <bean id="CoiEventDisclosure-personId" parent="CoiDisclosure-personId-parentBean" />
+
+    <bean id="CoiEventDisclosure-person.fullName" parent="CoiDisclosure-person.fullName-parentBean" />
+    <bean id="CoiEventDisclosure-person.userName" parent="CoiDisclosure-person.userName-parentBean" />
 
     <bean id="CoiEventDisclosure-certificationText" parent="CoiDisclosure-certificationText-parentBean" />
 
@@ -141,7 +146,10 @@
             <list>
                 <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" 
 					p:forceLookup="true" />
+				<!--  	
                 <bean parent="FieldDefinition" p:attributeName="personId" />
+                -->
+                <bean parent="FieldDefinition" p:attributeName="person.userName" />
                 <bean parent="FieldDefinition" p:attributeName="certifiedBy" />
                 <bean parent="FieldDefinition" p:attributeName="disclosureDispositionCode" />
                 <bean parent="FieldDefinition" p:attributeName="disclosureStatusCode" />

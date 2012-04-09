@@ -16,15 +16,23 @@
 package org.kuali.kra.coi.lookup;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -47,6 +55,37 @@ public abstract class CoiDisclosureLookupableHelperBase extends KraLookupableHel
         htmlData.setHref(href);
         return htmlData;
 
+    }
+    
+    @Override
+    public List<Row> getRows() {
+        List<Row> rows =  super.getRows();
+        for (Row row : rows) {
+            for (Field field : row.getFields()) {
+                if (field.getPropertyName().equals("person.userName")) {
+                    field.setFieldConversions("principalName:person.userName,principalId:personId");
+                }
+            }
+        }
+        return rows;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
+        String userName = (String) lookupForm.getFieldsForLookup().get("person.userName");
+            if (StringUtils.isNotEmpty(userName)) {
+                KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
+            if (person != null) {
+                lookupForm.getFieldsForLookup().put("personId", person.getPersonId());
+            }
+        }
+        
+        return super.performLookup(lookupForm, resultTable, bounded);
+    }
+    
+    public KcPersonService getKcPersonService() {
+        return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
     }
     
     /**
