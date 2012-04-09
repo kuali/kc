@@ -29,8 +29,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.SkipVersioning;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.coi.disclosure.CoiDisclEventProject;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.disclosure.DisclosurePerson;
 import org.kuali.kra.coi.disclosure.DisclosurePersonUnit;
@@ -40,11 +40,12 @@ import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.util.DateUtils;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
@@ -124,10 +125,12 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     // transient for award header label
     private transient String docIdStatus;
+    private transient KcPersonService kcPersonService;
 
 
 
     public CoiDisclosure() { 
+        super();
 //        disclosurePersons = new ArrayList<DisclosurePerson>();
 //        DisclosurePerson newDisclosurePerson = new DisclosurePerson();
 //        newDisclosurePerson.setCoiDisclosure(this);
@@ -139,6 +142,20 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         coiUserRoles = new ArrayList<CoiUserRole>();
 
     } 
+    
+    public KcPerson getPerson() {
+        if (this.personId != null) {
+            return this.getKcPersonService().getKcPersonByPersonId(this.personId);
+        }
+        return new KcPerson();
+    }
+    
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
+    }
     
     
     public List<CoiDisclosureNotepad> getCoiDisclosureNotepads() {
