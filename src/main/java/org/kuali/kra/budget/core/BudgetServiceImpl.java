@@ -64,6 +64,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.DeepCopyPostProcessor;
+import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -99,6 +100,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     private BudgetVersionRule budgetVersionRule;
     private DeepCopyPostProcessor deepCopyPostProcessor;
     private BudgetSummaryService budgetSummaryService;
+    private FiscalYearMonthService fiscalYearMonthService;
     
 
     
@@ -315,7 +317,14 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     public Collection<BudgetRate> getSavedBudgetRates(Budget budget) {
         Map<String,Long> qMap = new HashMap<String, Long>();
         qMap.put("budgetId",budget.getBudgetId());
-        return businessObjectService.findMatching(BudgetRate.class, qMap);
+        Collection<BudgetRate> rates = businessObjectService.findMatching(BudgetRate.class, qMap);
+        for (BudgetRate rate : rates) {
+            java.util.Calendar startDate = new java.util.GregorianCalendar();
+            startDate.setTime(rate.getStartDate());
+            Integer newFY = this.getFiscalYearMonthService().getFiscalYearFromDate(startDate);
+            rate.setFiscalYear(newFY.toString());
+        }
+        return rates;
     }
     
     @SuppressWarnings("unchecked")
@@ -808,6 +817,14 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             }
         }
         return isAuthorized;
+    }
+
+    public FiscalYearMonthService getFiscalYearMonthService() {
+        return fiscalYearMonthService;
+    }
+
+    public void setFiscalYearMonthService(FiscalYearMonthService fiscalYearMonthService) {
+        this.fiscalYearMonthService = fiscalYearMonthService;
     }
 
 }
