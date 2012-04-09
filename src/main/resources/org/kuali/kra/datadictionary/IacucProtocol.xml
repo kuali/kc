@@ -137,10 +137,16 @@
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
         </property>
+        <property name="required" value="true" />
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.iacuc.protocol.IacucProtocolType"
+            	p:valuesFinderClass="org.kuali.kra.iacuc.protocol.IacucProtocolTypeValuesFinder"
+            	p:includeKeyInLabel="false" 
+            	p:includeBlankRow="false"
+            	p:keyAttribute="protocolTypeCode"
+            	p:labelAttribute="description" />
+    	</property>
         <property name="summary" value="Protocol Type Code" />
         <property name="description" value="Protocol Type Code" />
     </bean>
@@ -218,6 +224,7 @@
         </property>
         <property name="summary" value="Title" />
         <property name="description" value="Title" />
+        <property name="required" value="true" />
     </bean>
 
     <bean id="IacucProtocol-description" parent="IacucProtocol-description-parentBean" />

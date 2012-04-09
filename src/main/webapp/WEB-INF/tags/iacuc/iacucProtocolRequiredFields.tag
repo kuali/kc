@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolDocumentAttributes" value="${DataDictionary.IacucProtocolDocument.attributes}" />
-<c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
+<c:set var="protocolAttributes" value="${DataDictionary.IacucProtocol.attributes}" />
 <c:set var="textAreaFieldName" value="document.protocolList[0].title" />
 <c:set var="action" value="protocolProtocol" />
 <c:set var="nonEmpFlag" value="false" />
@@ -87,6 +87,7 @@
 				    <tr>
                     <td style="border: medium none ;">  		
 					<div id="principalInvestigatorName.div" >
+					
                         <c:if test="${!empty KualiForm.protocolHelper.principalInvestigatorId}">
                         
                         ${kfunc:registerEditableProperty(KualiForm, "document.protocolList[0].principalInvestigatorId")}

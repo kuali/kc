@@ -94,10 +94,17 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return forward;
     }
     
+    
+    
+    // TODO *********code has been moved to base class, should ultimately be removed**********
+    // TODO the 'protocol' forward is to be provided by a hook implementation
     public ActionForward protocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((ProtocolForm)form).getProtocolHelper().prepareView();
         return mapping.findForward("protocol");
     }
+    // TODO **********************end************************
+    
+    
 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         getProtocolPersonnelService().selectProtocolUnit(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());

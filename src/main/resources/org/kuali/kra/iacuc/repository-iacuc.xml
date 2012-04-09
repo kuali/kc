@@ -72,8 +72,25 @@
         <field-descriptor name="scientificJustifIndicator" column="SCIENTIFIC_JUSTIF_INDICATOR" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
         <reference-descriptor name="iacucProtocolDocument" class-ref="org.kuali.kra.iacuc.IacucProtocolDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
+        
+        <reference-descriptor name="protocolType" class-ref="org.kuali.kra.iacuc.protocol.IacucProtocolType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolTypeCode"/>
+        </reference-descriptor>
+        
     </class-descriptor>
+    
+    
+    <class-descriptor class="org.kuali.kra.iacuc.protocol.IacucProtocolType" table="IACUC_PROTOCOL_TYPE">
+        <field-descriptor name="protocolTypeCode" column="PROTOCOL_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    
 </descriptor-repository>
