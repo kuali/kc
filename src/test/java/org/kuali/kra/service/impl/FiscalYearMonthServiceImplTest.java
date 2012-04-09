@@ -48,6 +48,26 @@ public class FiscalYearMonthServiceImplTest extends KcUnitTestBase {
     }
     
     @Test
+    public void testGetFiscalYearFromDate() {
+        assertEquals(new Integer(6), fiscalYearMonthService.getFiscalYearMonth());
+        
+        Calendar january = Calendar.getInstance();
+        january.set(Calendar.MONTH, Calendar.JANUARY);
+        january.set(Calendar.DATE, 1);
+        january.set(Calendar.YEAR, 2012);
+        Integer result = fiscalYearMonthService.getFiscalYearFromDate(january);
+        assertEquals(new Integer(2012), result);
+        
+        
+        Calendar july = Calendar.getInstance();
+        july.set(Calendar.MONTH, Calendar.JULY);
+        july.set(Calendar.DATE, 1);
+        july.set(Calendar.YEAR, 2012);
+        result = fiscalYearMonthService.getFiscalYearFromDate(july);
+        assertEquals(new Integer(2013), result);
+    }
+    
+    @Test
     public void testGetCurrentFiscalData1() {
         Calendar july = Calendar.getInstance();
         july.set(Calendar.MONTH, Calendar.JULY);
