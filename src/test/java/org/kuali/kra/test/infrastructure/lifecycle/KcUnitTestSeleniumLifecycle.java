@@ -17,7 +17,6 @@ package org.kuali.kra.test.infrastructure.lifecycle;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 
 public class KcUnitTestSeleniumLifecycle extends KcUnitTestBaseLifecycle {
     
@@ -33,10 +32,7 @@ public class KcUnitTestSeleniumLifecycle extends KcUnitTestBaseLifecycle {
     
     @Override
     protected void doPerSuiteStart() throws Throwable {
-        FirefoxProfile profile = new FirefoxProfile();
-        profile.setEnableNativeEvents(true);
-        driver = new FirefoxDriver(profile);
-
+        driver = new FirefoxDriver();
         ((FirefoxDriver) driver).executeScript("window.resizeTo(1024,768)");
     }
     
