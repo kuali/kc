@@ -116,6 +116,7 @@
        		<c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">
 	         	<c:forEach var="coiDisclosureNotepad" items="${KualiForm.document.coiDisclosure.coiDisclosureNotepads}" varStatus="status">
 					<c:set var="noteReadOnly" value="${!modifyPermission || !coiDisclosureNotepad.editable}" />
+					<c:set var="disclosureEditable" value="${coiDisclosureNotepad.editable}" />
 					<c:set var="statusIndex" >
 						<c:out value="${status.index}" />
 					</c:set>
@@ -166,7 +167,7 @@
 						</td>
 						<td>
 			            	<div align=center><nobr> 
-								<c:if test="${noteReadOnly}">
+								<c:if test="${modifyPermission and disclosureEditable and not readOnly}">
 									<html:image property="methodToCall.editNote.line${status.index}.anchor${tabKey}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/>
 								</c:if>
