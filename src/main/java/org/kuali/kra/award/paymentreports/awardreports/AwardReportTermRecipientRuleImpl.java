@@ -16,10 +16,16 @@
 package org.kuali.kra.award.paymentreports.awardreports;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -77,8 +83,12 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
         boolean duplicateFound = false;
         ArrayList<String> contactRecipients = new ArrayList<String>();
         ArrayList<String> rolodexRecipients = new ArrayList<String>();
+        ArrayList<String> rolodexRecipientsWithNullContactId = new ArrayList<String>();
         for (AwardReportTermRecipient listItem : awardReportTermRecipientItems) {
             if (listItem != null) {
+                if(listItem.getContactId() == null && listItem.getRolodex() != null && !rolodexRecipientsWithNullContactId.contains(listItem.getRolodexId())){
+                   rolodexRecipientsWithNullContactId.add(listItem.getRolodexId().toString()) ;
+                }
                 if (listItem.getContactId() != null) {
                     duplicateFound = checkStringInList(listItem.getContactId().toString(), contactRecipients);
                 } else {
@@ -89,14 +99,30 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
                 }
             }
         }
+        
         if (!duplicateFound && awardReportTermRecipientItem != null) {
-            if (awardReportTermRecipientItem.getContactId() != null) {
+            if (awardReportTermRecipientItem.getContactId() != null && !contactRecipients.isEmpty()) {
                 duplicateFound = checkStringInList(awardReportTermRecipientItem.getContactId().toString(), contactRecipients);
+                if(!duplicateFound){
+                    Integer rolodexId = getRolodexIdFromContactId(awardReportTermRecipientItem.getContactId());
+                    if(rolodexId != null){
+                        duplicateFound = checkStringInList(rolodexId.toString(), rolodexRecipientsWithNullContactId);
+                    }
+                }
             } else {
-                duplicateFound = checkStringInList(awardReportTermRecipientItem.getRolodexId().toString(), rolodexRecipients);
+                if(awardReportTermRecipientItem.getRolodexId() != null){
+                    duplicateFound = checkStringInList(awardReportTermRecipientItem.getRolodexId().toString(), rolodexRecipients);
+                }else{
+                   if(awardReportTermRecipientItem.getContactId() != null){
+                       Integer rolodexId = getRolodexIdFromContactId(awardReportTermRecipientItem.getContactId());
+                       if(rolodexId != null){
+                           duplicateFound = checkStringInList(rolodexId.toString(), rolodexRecipients);
+                       }
+                   }
+                   
+                }
             }
         }
-        
         if (duplicateFound) {
             if (!hasDuplicateErrorBeenReported()) {
                 reportError("AwardReportTermRecipient", KeyConstants.ERROR_AWARD_REPORT_TERM_RECIPIENT_ITEM_NOT_UNIQUE);
@@ -146,4 +172,34 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
     private boolean hasDuplicateErrorBeenReported() {
         return GlobalVariables.getMessageMap().containsMessageKey(KeyConstants.ERROR_AWARD_REPORT_TERM_RECIPIENT_ITEM_NOT_UNIQUE);
     }
+    
+    private  Integer getRolodexIdFromContactId(Long contactId){
+        
+        Collection<AwardSponsorContact> awardSponsorContacts = getSponsorContactsUsingKeyValuesService(contactId);
+        Integer rolodexId = null;
+        if(awardSponsorContacts.size()>1){
+            throw new MultipleSponsorContactsException(awardSponsorContacts.size());
+        }
+        
+        for(AwardSponsorContact awardSponsorContact: awardSponsorContacts){
+           rolodexId = awardSponsorContact.getRolodexId();
+        } 
+        return rolodexId;
+    }
+    @SuppressWarnings("all")
+    private Collection<AwardSponsorContact> getSponsorContactsUsingKeyValuesService(Long contactId){        
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("awardContactId", contactId);
+        return getKeyValuesService().findMatching(AwardSponsorContact.class, map);
+    }
+    /**
+     * 
+     * This is a wrapper method for the retrieval of KeyValuesService.
+     * 
+     * @return
+     */
+    protected KeyValuesService getKeyValuesService(){
+        return KraServiceLocator.getService(KeyValuesService.class);
+    }
+    
 }
