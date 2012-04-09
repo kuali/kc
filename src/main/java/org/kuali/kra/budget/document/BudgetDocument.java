@@ -308,5 +308,8 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
         this.budgetDeleted = budgetDeleted;
     }
     
+    public boolean isProcessComplete() {
+        return true;
+    }
+    
 }
-
