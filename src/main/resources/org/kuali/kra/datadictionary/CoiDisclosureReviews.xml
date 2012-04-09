@@ -52,6 +52,8 @@
                 <ref bean="CoiDisclosureReviews-discActiveStatus" />
                 <ref bean="CoiDisclosureReviews-versionNumber" />
                 <ref bean="CoiDisclosureReviews-leadUnitNumber" />
+		        <ref bean="CoiDisclosureReviews-person.fullName" />
+		        <ref bean="CoiDisclosureReviews-person.userName" />
                 
             </list>
         </property>
@@ -66,6 +68,9 @@
     <bean id="CoiDisclosureReviews-sequenceNumber" parent="CoiDisclosure-sequenceNumber-parentBean" />
 
     <bean id="CoiDisclosureReviews-personId" parent="CoiDisclosure-personId-parentBean" />
+
+    <bean id="CoiDisclosureReviews-person.fullName" parent="CoiDisclosure-person.fullName-parentBean" />
+    <bean id="CoiDisclosureReviews-person.userName" parent="CoiDisclosure-person.userName-parentBean" />
 
     <bean id="CoiDisclosureReviews-certificationText" parent="CoiDisclosure-certificationText-parentBean" />
 
@@ -141,7 +146,7 @@
             <list>
                 <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" 
 					p:forceLookup="true" />
-                <bean parent="FieldDefinition" p:attributeName="personId" />
+                <bean parent="FieldDefinition" p:attributeName="person.userName" />
                 <bean parent="FieldDefinition" p:attributeName="certifiedBy" />
                 <bean parent="FieldDefinition" p:attributeName="disclosureDispositionCode" />
                 <bean parent="FieldDefinition" p:attributeName="disclosureStatusCode" />

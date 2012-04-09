@@ -53,6 +53,8 @@
                 <ref bean="CoiDisclosure-versionNumber" />
                 <ref bean="CoiDisclosure-leadUnitNumber" />
         		<ref bean="CoiDisclosure-docIdStatus" />
+		        <ref bean="CoiDisclosure-person.fullName" />
+		        <ref bean="CoiDisclosure-person.userName" />
             </list>
         </property>
     </bean>
@@ -129,7 +131,7 @@
     </bean>
 
     <bean id="CoiDisclosure-personId" parent="CoiDisclosure-personId-parentBean" />
-    <bean id="CoiDisclosure-personId-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="CoiDisclosure-personId-parentBean" abstract="true" parent="PersonImpl-principalId" >
         <property name="name" value="personId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Person Id" />
@@ -139,11 +141,37 @@
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+            <bean parent="KualiUserControlDefinition"
+                p:personNameAttributeName="person.fullName"
+                p:universalIdAttributeName="personId"
+                p:userIdAttributeName="person.userName" />
         </property>
         <property name="summary" value="Person Id" />
         <property name="description" value="Person Id" />
+    </bean>
+
+  	<bean id="CoiDisclosure-person.userName" parent="CoiDisclosure-person.userName-parentBean" />
+    <bean id="CoiDisclosure-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
+        <property name="name" value="person.userName" />
+        <property name="label" value="KC Person" />
+        <property name="shortLabel" value="KC Person User Name" />
+        <property name="required" value="false" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="KualiUserControlDefinition"
+                p:personNameAttributeName="person.fullName"
+                p:universalIdAttributeName="personId"
+                p:userIdAttributeName="person.userName" />
+        </property>
+    </bean>
+
+  	<bean id="CoiDisclosure-person.fullName" parent="CoiDisclosure-person.fullName-parentBean" />
+    <bean id="CoiDisclosure-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
+        <property name="name" value="person.fullName" />
+        <property name="label" value="KcPerson Full Name" />
+        <property name="shortLabel" value="KcPerson Full Name" />
     </bean>
 
     <bean id="CoiDisclosure-certificationText" parent="CoiDisclosure-certificationText-parentBean" />
@@ -440,7 +468,7 @@
             <list>
                 <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" 
 					p:forceLookup="true" />
-                <bean parent="FieldDefinition" p:attributeName="personId" />
+                <bean parent="FieldDefinition" p:attributeName="person.userName" />
                 <bean parent="FieldDefinition" p:attributeName="certifiedBy" />
                 <bean parent="FieldDefinition" p:attributeName="disclosureDispositionCode" />
                 <bean parent="FieldDefinition" p:attributeName="disclosureStatusCode" />
