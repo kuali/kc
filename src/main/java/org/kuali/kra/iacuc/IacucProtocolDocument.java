@@ -85,5 +85,9 @@ public class IacucProtocolDocument extends ProtocolDocument<IacucProtocol> {
 
         return null;
     }
+    
+    public boolean isProcessComplete() {
+        return true;
+    }
 
 }

@@ -323,4 +323,11 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         }
         //Temporary workaround ends here
     }
+    
+    /**
+     * Returns whether the post-processing is considered complete for this document.
+     * @return true if the post-processing is complete, false otherwise
+     */
+    // TODO : have NOT found a consistent indicator of whether a document route is processed or not, so this is a hack
+    public abstract boolean isProcessComplete();
 }

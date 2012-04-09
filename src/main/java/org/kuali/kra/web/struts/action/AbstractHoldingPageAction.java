@@ -21,17 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
-import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -95,26 +86,8 @@ public abstract class AbstractHoldingPageAction extends KualiAction {
     protected boolean isProcessComplete(Document document) {
         boolean isProcessComplete = false;
         
-        if (document instanceof AwardDocument) {
-            isProcessComplete = ((AwardDocument) document).isProcessComplete();
-        } else if (document instanceof CommitteeDocument) {
-            isProcessComplete = ((CommitteeDocument) document).isProcessComplete();
-        } else if (document instanceof InstitutionalProposalDocument) {
-            isProcessComplete = ((InstitutionalProposalDocument) document).isProcessComplete();
-        } else if (document instanceof ProposalDevelopmentDocument) {
-            isProcessComplete = ((ProposalDevelopmentDocument) document).isProcessComplete();
-        } else if (document instanceof ProtocolDocument) {
-            isProcessComplete = ((ProtocolDocument) document).isProcessComplete();
-        }else if (document instanceof TimeAndMoneyDocument) {
-            isProcessComplete = ((TimeAndMoneyDocument) document).isProcessComplete();
-        } else if (document instanceof ProtocolOnlineReviewDocument) {
-            isProcessComplete = ((ProtocolOnlineReviewDocument) document).isProcessComplete();
-        } else if (document instanceof PersonMassChangeDocument) {
-            isProcessComplete = ((PersonMassChangeDocument) document).isProcessComplete();
-        } else if (document instanceof CoiDisclosureDocument) {
-            isProcessComplete = ((CoiDisclosureDocument) document).isProcessComplete();
-        }else if (document instanceof SubAwardDocument) {
-            isProcessComplete = ((SubAwardDocument) document).isProcessComplete();
+        if (document instanceof ResearchDocumentBase) {
+            isProcessComplete = ((ResearchDocumentBase) document).isProcessComplete();
         }
         
         return isProcessComplete;
