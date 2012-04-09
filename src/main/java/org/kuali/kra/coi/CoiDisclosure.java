@@ -124,7 +124,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     private KraPersistableBusinessObjectBase eventBo; 
 
     // transient for award header label
-    private transient String docIdStatus;
+    private transient String reporterCreated;
     private transient KcPersonService kcPersonService;
 
 
@@ -820,13 +820,13 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         this.annualUpdate = annualUpdate;
     }
 
-    public String getDocIdStatus() {
-        return docIdStatus;
+    public String getReporterCreated() {
+        return reporterCreated;
     }
 
-
-    public void setDocIdStatus(String docIdStatus) {
-        this.docIdStatus = docIdStatus;
+    public void setReporterCreated(String reporterCreated) {
+        this.reporterCreated = reporterCreated;
     }
+
  
 }
