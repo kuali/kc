@@ -167,7 +167,10 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     
     private List<ProtocolFundingSource> protocolFundingSources; 
 
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     private String leadUnitNumber;
+    // TODO **********************end************************
+    
     private String principalInvestigatorId;
     
     // lookup field
@@ -177,9 +180,12 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     
     private String performingOrganizationId;
     private String researchAreaCode;
+    
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     private String leadUnitName;
 
-    private List<ProtocolPerson> protocolPersons; 
+    private List<ProtocolPerson> protocolPersons;
+    // TODO **********************end************************
     
     private List<ProtocolSpecialReview> specialReviews;
     
@@ -702,10 +708,12 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         return leadUnitNumber;
     }
 
+    
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     public void setLeadUnitNumber(String leadUnitNumber) {
         this.leadUnitNumber = leadUnitNumber; 
     }
-
+    
     public String getPrincipalInvestigatorId() {       
         if (StringUtils.isBlank(principalInvestigatorId)) {
             if (getPrincipalInvestigator() != null) {
@@ -733,6 +741,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public void setPrincipalInvestigatorId(String principalInvestigatorId) {
         this.principalInvestigatorId = principalInvestigatorId;
     }
+    // TODO **********************end************************
 
 
     public boolean isNonEmployeeFlag() {
@@ -760,6 +769,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         getProtocolLocationService().addDefaultProtocolLocation(this);
     }
     
+    
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     public List<ProtocolPerson> getProtocolPersons() {
         return protocolPersons;
     }
@@ -770,6 +781,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
             person.init(this);
         }
     }
+    // TODO **********************end************************
+    
 
     /**
      * Gets index i from the protocol person list.
@@ -781,6 +794,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         return getProtocolPersons().get(index);
     }
 
+    // TODO This method has been moved to base class as a protected hook method, and so should be replaced by the hook implementation
     /**
      * This method is to get protocol personnel service
      * @return protocolPersonnelService
@@ -825,6 +839,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         this.performingOrganizationId = performingOrganizationId;
     }
 
+    
+   // TODO *********code has been moved to base class, should ultimately be removed********** 
    public String getLeadUnitName() {
         if (StringUtils.isBlank(leadUnitName)) {
             if (getLeadUnit() != null) {
@@ -837,6 +853,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public void setLeadUnitName(String leadUnitName) {
         this.leadUnitName = leadUnitName;
     }
+    // TODO **********************end************************
 
     public void setSpecialReviews(List<ProtocolSpecialReview> specialReviews) {
         this.specialReviews = specialReviews;

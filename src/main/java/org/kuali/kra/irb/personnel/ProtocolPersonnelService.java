@@ -96,6 +96,8 @@ public interface ProtocolPersonnelService {
      */
     public boolean isDuplicatePerson(List<ProtocolPerson> protocolPersons, ProtocolPerson newProtocolPerson);
 
+    
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     /**
      * This method is to get principal investigator person
      * This method also helps to check whether at least one investigator exists in person list
@@ -104,6 +106,7 @@ public interface ProtocolPersonnelService {
      * @return null if no investigator else ProtocolPerson as investigator
      */
     public ProtocolPerson getPrincipalInvestigator(List<ProtocolPerson> protocolPersons);
+    // TODO **********************end************************
     
     /**
      * This method is to check whether a person has role of Principal Investigator

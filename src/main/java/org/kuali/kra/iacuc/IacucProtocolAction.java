@@ -15,73 +15,44 @@
  */
 package org.kuali.kra.iacuc;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.kuali.kra.protocol.ProtocolAction;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.irb.ProtocolAction;
-import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-
-public class IacucProtocolAction  extends KraTransactionalDocumentActionBase {
-    private static final Log LOG = LogFactory.getLog(IacucProtocolAction.class);
-    private static final String PROTOCOL_NUMBER = "protocolNumber";
-    private static final String SUBMISSION_NUMBER = "submissionNumber";
-    private static final String SUFFIX_T = "T";
-    private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
-    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
+public class IacucProtocolAction extends ProtocolAction {
    
-    /** {@inheritDoc} */
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        final ActionForward forward = super.execute(mapping, form, request, response);
-//        if(KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
-//            new AuditActionHelper().auditConditionally((ProtocolForm) form);
-//        }
-        
-        return forward;
+    protected String getProtocolForwardNameHook() {
+        return  "iacucProtocol";
+    }
+
+    protected String getQuestionnaireForwardNameHook() {
+        return "iacucQuestionnaire";
+    }
+
+    protected String getPersonnelForwardNameHook() {
+        return "iacucPersonnel";
+    }
+
+    protected String getCustomDataForwardNameHook() {
+        return "iacucCustomData";
+    }
+
+    protected String getSpecialReviewForwardNameHook() {
+        return "iacucSpecialReview";
+    }
+
+    protected String getNoteAndAttachmentForwardNameHook() {
+        return "iacucNoteAndAttachment";
+    }
+
+    protected String getProtocolActionsForwardNameHook() {
+        return "iacucProtocolActions";
+    }
+
+    protected String getProtocolOnlineReviewForwardNameHook() {
+        return "iacucProtocolOnlineReview";
     }
     
-    public ActionForward iacucProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("iacucProtocol");
-    }
-
-    public ActionForward iacucQuestionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("iacucQuestionnaire");
-    }
-
-    public ActionForward iacucPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("iacucPersonnel");
-    }
-
-    public ActionForward iacucCustomData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("iacucCustomData");
-    }
-
-    public ActionForward iacucSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("iacucSpecialReview");
-    }
-
-    public ActionForward iacucNoteAndAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("iacucNoteAndAttachment");
-    }
-
-    public ActionForward iacucProtocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("iacucProtocolActions");
-    }
-
-    public ActionForward iacucProtocolOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("iacucProtocolOnlineReview");
-    }
-    public ActionForward iacucProtocolPermissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("iacucProtocolPermissions");
+    protected String getProtocolPermissionsForwardNameHook() {
+        return "iacucProtocolPermissions";
     }
 
 }
