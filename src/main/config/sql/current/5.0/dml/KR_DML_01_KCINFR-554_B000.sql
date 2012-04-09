@@ -138,7 +138,7 @@ values ('KC1004', 'KC-PD-CONTEXT', (select TERM_SPEC_ID from KRMS_TERM_SPEC_T wh
 
 -- Total Cost Initial
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NM, TYP, ACTV, VER_NBR, DESC_TXT, NMSPC_CD) 
-values ('KC1005', 'totalCostInitial', 'java.lang.Integer', 'Y', 1, 'Total Cost Initial', 'KC-PD');
+values ('KC1005', 'totalCostInitial', 'java.lang.Integer', 'Y', 1, 'Total Cost Initial', 'KC-PD')
 /
 
 insert into KRMS_TERM_T (TERM_ID, TERM_SPEC_ID, VER_NBR, DESC_TXT) 
@@ -164,7 +164,7 @@ values ('KC1006', 'KC-PD-CONTEXT', (select TERM_SPEC_ID from KRMS_TERM_SPEC_T wh
 
 -- CFDA Number
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NM, TYP, ACTV, VER_NBR, DESC_TXT, NMSPC_CD) 
-values ('KC1007', 'cfdaNumber', 'java.lang.Integer', 'Y', 1, 'CFDA Number', 'KC-PD')
+values ('KC1007', 'cfdaNumber', 'java.lang.String', 'Y', 1, 'CFDA Number', 'KC-PD')
 /
 
 insert into KRMS_TERM_T (TERM_ID, TERM_SPEC_ID, VER_NBR, DESC_TXT) 
@@ -177,7 +177,7 @@ values ('KC1007', 'KC-PD-CONTEXT', (select TERM_SPEC_ID from KRMS_TERM_SPEC_T wh
 
 -- Opportunity ID
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NM, TYP, ACTV, VER_NBR, DESC_TXT, NMSPC_CD) 
-values ('KC1008', 'opportunityId', 'java.lang.Integer', 'Y', 1, 'Opportunity ID', 'KC-PD')
+values ('KC1008', 'opportunityId', 'java.lang.String', 'Y', 1, 'Opportunity ID', 'KC-PD')
 /
 
 insert into KRMS_TERM_T (TERM_ID, TERM_SPEC_ID, VER_NBR, DESC_TXT) 
