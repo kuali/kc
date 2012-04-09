@@ -189,8 +189,15 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         CoiDisclosure disclosure = document.getCoiDisclosure();
         List<HeaderField>newDocInfo = new ArrayList<HeaderField>();
         
+
+        // document id/number
+        newDocInfo.add(getDocumentIdHeaderField(workflowDocument));
         
-        newDocInfo.add(getDocumentIdAndStatusHeaderField(workflowDocument));
+        // document status
+        CoiDisclosureStatus status = disclosure.getCoiDisclosureStatus();
+        String disclosureStatus = status != null ? status.getDescription() : "NEW";
+        HeaderField headerStatus = new HeaderField("DataDictionary.CoiDisclosureStatus.attributes.description", disclosureStatus);
+        newDocInfo.add(headerStatus);
         
         // document disposition
         CoiDispositionStatus disposition = disclosure.getCoiDispositionStatus();
@@ -198,15 +205,9 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         HeaderField headerDisposition = new HeaderField("DataDictionary.CoiDispositionStatus.attributes.description", disclosureDisposition);
         newDocInfo.add(headerDisposition);
         
-        // reporter (initiator?)        
-        String reporter = document.getDocumentHeader().getWorkflowDocument().getPrincipalId();
-        if (reporter != null) {
-            reporter = KcPerson.fromPersonId(reporter).getUserName();
-        } else {
-            reporter = GlobalVariables.getUserSession().getPrincipalId();
-        }
-        HeaderField disclosureReporter = new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.reporter", reporter);
-        newDocInfo.add(disclosureReporter);
+
+        newDocInfo.add(getReporterAndCreatedHeaderField(workflowDocument));
+
         
         // last updated 
         Timestamp timeStamp = document.getUpdateTimestamp();
@@ -220,28 +221,52 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         String disclosureNumber = disclosure.getCoiDisclosureNumber();
         newDocInfo.add(new HeaderField("DataDictionary.CoiDisclosure.attributes.coiDisclosureNumber", disclosureNumber));
         
-        // creation date 
-        long creationMsecs = document.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis();
-        String disclosureCreated = CoreApiServiceLocator.getDateTimeService().toString(new Date(creationMsecs), "MM/dd/yyyy");
-        newDocInfo.add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.createTimestamp", disclosureCreated));
         setDocInfo(newDocInfo);
     }
     
     /**
-     * This method is to get document id/number and the status field put together
+     * This method is to get document id/number field
+     * @param workflowDocument
+     * @return
+     */
+    @SuppressWarnings("deprecation")
+    protected HeaderField getDocumentIdHeaderField(WorkflowDocument workflowDocument) {
+        String documentId = "";
+        if (workflowDocument != null) {
+            documentId = getCoiDisclosureDocument().getDocumentNumber();
+        }
+        return new HeaderField("DataDictionary.CoiDisclosureDocument.attributes.documentNumber", documentId);
+    }
+    
+    /**
+     * This method is to get reporter and the created field put together
      * to display in document header
      * @param workflowDocument
      * @return
      */
     @SuppressWarnings("deprecation")
-    protected HeaderField getDocumentIdAndStatusHeaderField(WorkflowDocument workflowDocument) {
-        CoiDisclosureStatus status = getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclosureStatus();
-        String disclosureStatus = status != null ? status.getDescription() : "NEW";
-        String docIdAndStatus = Constants.COLON;
+    protected HeaderField getReporterAndCreatedHeaderField(WorkflowDocument workflowDocument) {
+
+        String reporterCreated = Constants.COLON;
+        String reporter = null;
+        long creationMsecs = 0L;
+
         if (workflowDocument != null) {
-            docIdAndStatus = getCoiDisclosureDocument().getDocumentNumber() + Constants.COLON + disclosureStatus;
+            // reporter (initiator?)        
+            reporter = workflowDocument.getPrincipalId();
+            // creation date 
+            creationMsecs = workflowDocument.getDateCreated().getMillis();
         }
-        return new HeaderField("DataDictionary.CoiDisclosure.attributes.docIdStatus", docIdAndStatus);
+        
+        if (reporter != null) {
+            reporter = KcPerson.fromPersonId(reporter).getUserName();
+        } else {
+            reporter = GlobalVariables.getUserSession().getPrincipalId();
+        }
+        String disclosureCreated = CoreApiServiceLocator.getDateTimeService().toString(new Date(creationMsecs), "MM/dd/yyyy");
+        reporterCreated = reporter + Constants.COLON + disclosureCreated;
+        
+        return new HeaderField("DataDictionary.CoiDisclosure.attributes.reporterCreated", reporterCreated);
     }
 
     private BusinessObjectService getBusinessObjectService() {
