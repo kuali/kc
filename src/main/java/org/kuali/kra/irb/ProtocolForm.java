@@ -79,7 +79,10 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private static final String ONLINE_REVIEW_NAV_TO = "onlineReview";
     private static final String CUSTOM_DATA_NAV_TO = "customData";
     
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     private ProtocolHelper protocolHelper;
+    // TODO **********************end************************
+    
     private PersonnelHelper personnelHelper;
     private PermissionsHelper permissionsHelper;
     private CustomDataHelper customDataHelper;
@@ -104,11 +107,16 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private String detailId;
     // temp field : set in presave and then referenced in postsave
     private transient List<ProtocolFundingSource> deletedProtocolFundingSources;
+    
+    
+    // TODO *********code has been moved to base class, should ultimately be removed**********    
     public ProtocolForm() throws Exception {
         super();
         initialize();
         this.registerEditableProperty("methodToCall");
     }
+    // TODO **********************end************************    
+    
     
     /** {@inheritDoc} */
     @Override
@@ -122,7 +130,11 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      * @throws Exception 
      */
     public void initialize() throws Exception {
+        // TODO *********code has been moved to base class, should ultimately be removed**********
+        // TODO provide a corresponding creator hook implementation to replace the "new" call below
         setProtocolHelper(new ProtocolHelper(this));
+        // TODO **********************end************************
+        
         setPersonnelHelper(new PersonnelHelper(this));
         setPermissionsHelper(new PermissionsHelper(this));
         setCustomDataHelper(new CustomDataHelper(this));
@@ -310,7 +322,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
         this.lookupResultsBOClassName = lookupResultsBOClassName;
     }
-
+    
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     public void setProtocolHelper(ProtocolHelper protocolHelper) {
         this.protocolHelper = protocolHelper;
     }
@@ -318,6 +331,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public ProtocolHelper getProtocolHelper() {
         return protocolHelper;
     }
+    // TODO **********************end************************
     
     private void setPersonnelHelper(PersonnelHelper personnelHelper) {
         this.personnelHelper = personnelHelper;
@@ -343,10 +357,14 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         return newProtocolReferenceBean;
     }
     
+    
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     @Override
     protected void setSaveDocumentControl(Map editMode) {
       
     }
+    // TODO **********************end************************
+    
     
     @Override
     protected String getLockRegion() {
@@ -420,9 +438,11 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         this.javaScriptEnabled = javaScriptEnabled;
     }
 
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     public ProtocolDocument getProtocolDocument() {
         return (ProtocolDocument) getDocument();
     }
+    // TODO **********************end************************
 
     public QuestionnaireHelper getQuestionnaireHelper() {
         return questionnaireHelper;

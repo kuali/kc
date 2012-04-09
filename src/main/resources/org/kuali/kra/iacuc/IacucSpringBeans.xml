@@ -54,7 +54,7 @@
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
     </bean>
 
-        <bean id="iacucProtocolTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+    <bean id="iacucProtocolTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
         <property name="groupName" value="iacucProtocol" />
         <property name="taskAuthorizers">
             <list>
@@ -77,6 +77,10 @@
            </list>
         </property>
     </bean>
+    
+     <bean id="iacucProtocolPersonnelService" class="org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelServiceImpl">
+        <!--  Additional service properties will be added here as needed -->
+    </bean> 
     
 </beans>
 
