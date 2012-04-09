@@ -15,48 +15,22 @@
  */
 package org.kuali.kra.iacuc;
 
-import java.util.Map;
-
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.common.customattributes.CustomDataForm;
-import org.kuali.kra.common.customattributes.CustomDataHelperBase;
-import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
-import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
-import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
-import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.customdata.CustomDataHelper;
-import org.kuali.kra.irb.noteattachment.NotesAttachmentsHelper;
-import org.kuali.kra.irb.notification.IRBNotificationContext;
-import org.kuali.kra.irb.onlinereview.OnlineReviewsActionHelper;
-import org.kuali.kra.irb.permission.PermissionsHelper;
-import org.kuali.kra.irb.personnel.PersonnelHelper;
-import org.kuali.kra.irb.protocol.ProtocolHelper;
-import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
-import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
-import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
-import org.kuali.kra.web.struts.form.Auditable;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.kra.iacuc.protocol.IacucProtocolHelper;
+import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.protocol.ProtocolHelper;
 
 /**
  * This class...
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class IacucProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable {
+public class IacucProtocolForm extends ProtocolForm {
     
-    private IacucProtocolHelper protocolHelper;
+    private static final long serialVersionUID = -535557943052220820L;
+    
 
-    /**
-     * When true, the online review header will not be displayed when it is disabled.
-     */
     public IacucProtocolForm() throws Exception {
         super();
-        initialize();
-        this.registerEditableProperty("methodToCall");
-    }
-    
-    public void initialize() throws Exception {
-        setProtocolHelper(new IacucProtocolHelper(this));
     }
 
     @Override
@@ -76,32 +50,9 @@ public class IacucProtocolForm extends KraTransactionalDocumentFormBase implemen
      * @return {@link IacucProtocolDocument ProtocolDocument}
      */
     public IacucProtocolDocument getIacucProtocolDocument() {
-        return (IacucProtocolDocument) super.getDocument();
+        return (IacucProtocolDocument) super.getProtocolDocument();
     }
 
-    @Override
-    public boolean isAuditActivated() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public void setAuditActivated(boolean auditActivated) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public CustomDataHelperBase getCustomDataHelper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public PermissionsHelperBase getPermissionsHelper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @Override
     protected String getLockRegion() {
@@ -109,19 +60,13 @@ public class IacucProtocolForm extends KraTransactionalDocumentFormBase implemen
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_IACUC_PROTOCOL;
     }
 
-    @Override
-    protected void setSaveDocumentControl(Map editMode) {
-        // TODO Auto-generated method stub
-        
-    }
-
     public IacucProtocolHelper getProtocolHelper() {
-        return protocolHelper;
+        return (IacucProtocolHelper)super.getProtocolHelper();
     }
 
-    public void setProtocolHelper(IacucProtocolHelper protocolHelper) {
-        this.protocolHelper = protocolHelper;
+    @Override
+    protected ProtocolHelper createNewProtocolHelperInstanceHook(ProtocolForm protocolForm) {
+        return new IacucProtocolHelper((IacucProtocolForm) protocolForm);
     }
-
     
 }

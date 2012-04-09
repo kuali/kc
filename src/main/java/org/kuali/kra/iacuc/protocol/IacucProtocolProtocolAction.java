@@ -15,8 +15,23 @@
  */
 package org.kuali.kra.iacuc.protocol;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.protocol.ProtocolForm;
 
 public class IacucProtocolProtocolAction extends IacucProtocolAction {
+    
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        ((ProtocolForm)form).getProtocolHelper().prepareView();
+        return actionForward;
+    }
 
 }

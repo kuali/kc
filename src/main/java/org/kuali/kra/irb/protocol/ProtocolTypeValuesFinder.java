@@ -1,3 +1,4 @@
+// TODO *********code has been moved to base class, should ultimately be removed**********
 /*
  * Copyright 2005-2010 The Kuali Foundation
  * 
@@ -58,3 +59,4 @@ public class ProtocolTypeValuesFinder extends KeyValuesBase {
     }
    
 }
+// TODO **********************end************************

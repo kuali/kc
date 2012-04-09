@@ -59,6 +59,8 @@ public class ProtocolHelper implements Serializable {
     
     private static final String PROTOCOL_CREATED = "Protocol created";
     
+    
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the actual document.
@@ -77,7 +79,9 @@ public class ProtocolHelper implements Serializable {
     private String leadUnitNumber;
     private String leadUnitName;
     private boolean nonEmployeeFlag;
+    // TODO **********************end************************
 
+    
     private String referenceId1Label;
     private String referenceId2Label;
 
@@ -96,11 +100,17 @@ public class ProtocolHelper implements Serializable {
     private boolean modifyReferences = false;
     private boolean modifyOrganizations = false;
     private boolean modifySubjects = false;
-    private boolean modifyAreasOfResearch = false;    
+    private boolean modifyAreasOfResearch = false;
+    
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     private boolean leadUnitAutoPopulated = false;
+    // TODO **********************end************************
+    
     private transient ParameterService parameterService;
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     private transient KcPersonService personService;
     private transient RolodexService rolodexService;
+    // TODO **********************end************************
     private transient ProtocolFundingSourceService protocolFundingSourceService;
     private transient SpecialReviewService specialReviewService;
     private List<ProtocolFundingSource> newProtocolFundingSources;
@@ -117,12 +127,14 @@ public class ProtocolHelper implements Serializable {
         return this.parameterService;
     }
     
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     protected RolodexService getRolodexService() {
         if (this.rolodexService == null) {
             this.rolodexService = KraServiceLocator.getService(RolodexService.class);        
         }
         return this.rolodexService;
     }
+    // TODO **********************end************************
     
     protected ProtocolFundingSourceService getProtocolFundingSourceService() {
         if (this.protocolFundingSourceService == null) {
@@ -158,7 +170,11 @@ public class ProtocolHelper implements Serializable {
     private boolean displayBillable = true;
 
     public ProtocolHelper(ProtocolForm form) {
+        
+        // TODO *********code has been moved to base class, should ultimately be removed**********
         this.form = form;
+        // TODO **********************end************************
+        
         setNewProtocolLocation(new ProtocolLocation());
         setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSource>());
         setNewFundingSource(new ProtocolFundingSource());
@@ -172,7 +188,11 @@ public class ProtocolHelper implements Serializable {
      * initializeConfigurationParams() must be before initializePermissions(getProtocol()) due to billable requirement. 
      */
     public void prepareView() {
+        
+        // TODO *********code has been moved to base class, should ultimately be removed**********
         prepareRequiredFields();
+        // TODO **********************end************************
+        
         syncFundingSources(getProtocol());
         initializeConfigurationParams();
         initializePermissions(getProtocol());    
@@ -313,7 +333,11 @@ public class ProtocolHelper implements Serializable {
             source.setFundingSourceTitle(syncedSource.getFundingSourceTitle());
         }
     }
+   
     
+    
+    
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     public String getPrincipalInvestigatorId() {
         return principalInvestigatorId;
     }
@@ -385,6 +409,10 @@ public class ProtocolHelper implements Serializable {
     public void setLookupUnitNumber(String lookupUnitNumber) {
         this.lookupUnitNumber = lookupUnitNumber;
     }
+    // TODO **********************end************************
+
+    
+    
     
     /**
      * This method either populates the protocol form fields from the BO or
@@ -392,23 +420,35 @@ public class ProtocolHelper implements Serializable {
      * the unsaved Protocol.
      */
     private void prepareRequiredFields() {
+        
+        // TODO *********code has been moved to base class, should ultimately be removed**********
         Protocol theProtocol = getProtocol();
         if (theProtocol.getProtocolId() == null) {
             findPrincipalInvestigatorIdFromFields();
             findAndSetLeadUnitFromFields();
-        } else {
+        } 
+        // TODO **********************end************************
+        
+        else {
             resolveRequiredFieldsFromBO();
         }
     }
     
+    
+    
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     public boolean isLeadUnitAutoPopulated() {
         return leadUnitAutoPopulated;
     }
 
+    
     public void setLeadUnitAutoPopulated(boolean leadUnitAutoPopulated) {
         this.leadUnitAutoPopulated = leadUnitAutoPopulated;
     }
+    // TODO **********************end************************
 
+    
+    
     /**
      * This method is a form helper for protocol. It is needed to push the
      * transient form fields into principal investigator /lead unit.
@@ -480,6 +520,8 @@ public class ProtocolHelper implements Serializable {
         return KraServiceLocator.getService(ProtocolNumberService.class);
     }
     
+    
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     private KcPersonService getPersonService() {
         if(personService == null) {
             personService = KraServiceLocator.getService(KcPersonService.class);
@@ -501,6 +543,7 @@ public class ProtocolHelper implements Serializable {
             setNonEmployeeFlag(true);
         }
     }
+
     
     private Unit getPIUnit(String piId) {
         Contactable pi = null;
@@ -522,6 +565,7 @@ public class ProtocolHelper implements Serializable {
             }
         }
     }
+
     
      /**
       * This is used to calculate lead unit info from fields
@@ -544,7 +588,9 @@ public class ProtocolHelper implements Serializable {
         setLookupUnitNumber(null);
         setLookupUnitName(null);
     }
-
+    // TODO **********************end************************
+    
+    
     
     private ProtocolUnit createLeadUnit() {
         ProtocolUnit ret = null;
@@ -594,9 +640,11 @@ public class ProtocolHelper implements Serializable {
         }
     }
     
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     private UnitService getUnitService() {
         return KraServiceLocator.getService(UnitService.class);
     }
+    // TODO **********************end************************
 
     public ProtocolLocation getNewProtocolLocation() {
         return newProtocolLocation;

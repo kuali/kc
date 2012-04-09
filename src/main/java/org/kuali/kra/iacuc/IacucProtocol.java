@@ -17,7 +17,10 @@ package org.kuali.kra.iacuc;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+
+import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
@@ -47,41 +50,6 @@ public class IacucProtocol extends Protocol {
     private String createUser;
     IacucProtocolDocument iacucProtocolDocument;
     
-    /*
-    private Long protocolId; 
-    private String protocolNumber; 
-    
-    private String protocolTypeCode; 
-    private String projectTypeCode; 
-    private String protocolStatusCode; 
-    private String title; 
-    private String description; 
-    private Date initialSubmissionDate;
-   
-    private Date approvalDate; 
-    private Date expirationDate; 
-    private String fdaApplicationNumber; 
-    private String referenceNumber1; 
-    private String referenceNumber2; 
-     
-    private String specialReviewIndicator; 
-    private String keyStudyPersonIndicator; 
-    private String fundingSourceIndicator; 
-    private String correspondentIndicator; 
-    private String referenceIndicator; 
-   
-    private Date lastApprovalDate; 
-    
-    
-    private boolean active;
-   
-    
-    // lookup field
-    private String leadUnitName;
-    */
-
-   
-
     public IacucProtocol() { 
         // TODO : temporary only; remove this when protocol is ready
         initializaTestData();
@@ -211,6 +179,12 @@ public class IacucProtocol extends Protocol {
 
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
+    }
+    
+
+    @Override
+    protected IacucProtocolPersonnelService getProtocolPersonnelServiceHook() {
+        return (IacucProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
     }
 
 
