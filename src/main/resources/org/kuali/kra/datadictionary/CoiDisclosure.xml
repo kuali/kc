@@ -52,7 +52,7 @@
                 <ref bean="CoiDisclosure-discActiveStatus" />
                 <ref bean="CoiDisclosure-versionNumber" />
                 <ref bean="CoiDisclosure-leadUnitNumber" />
-        		<ref bean="CoiDisclosure-docIdStatus" />
+        		<ref bean="CoiDisclosure-reporterCreated" />
 		        <ref bean="CoiDisclosure-person.fullName" />
 		        <ref bean="CoiDisclosure-person.userName" />
             </list>
@@ -61,11 +61,11 @@
 
     <!-- Attribute Definitions -->
     
-	<bean id="CoiDisclosure-docIdStatus" parent="CoiDisclosure-docIdStatus-parentBean" />
-	<bean id="CoiDisclosure-docIdStatus-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="docIdStatus" />
-		<property name="label" value="Document ID:Status" />
-		<property name="shortLabel" value="Document ID:Status" />
+	<bean id="CoiDisclosure-reporterCreated" parent="CoiDisclosure-reporterCreated-parentBean" />
+	<bean id="CoiDisclosure-reporterCreated-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="reporterCreated" />
+		<property name="label" value="Reporter:Created" />
+		<property name="shortLabel" value="Reporter:Created" />
     <property name="maxLength" value="10" />
     <property name="required" value="false" />
     <property name="control" >
