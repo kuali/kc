@@ -989,6 +989,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             //newDisclosure.setCoiDiscDetails(null);
             newDisclosure.setCoiDisclosureAttachments(null);
             newDisclosure.setCoiDisclosureNotepads(null);
+            newDisclosure.setCoiUserRoles(null);
             newDisclosure.setCurrentDisclosure(false);
             newDisclosure.setCertificationTimestamp(null);
             newDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
