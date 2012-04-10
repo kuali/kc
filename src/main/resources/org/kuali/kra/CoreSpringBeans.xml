@@ -849,9 +849,37 @@
             </list>
         </property>
     </bean>       
-
-    <!--
-    <bean id="sampleAppPeopleFlowTypeService" class="org.kuali.rice.krad.workflow.DataDictionaryPeopleFlowTypeServiceImpl" />
-     -->
+    
+    <bean id="krmsRulesExecutionService" class="org.kuali.kra.krms.service.impl.KrmsRulesExecutionServiceImpl">
+    </bean>
+    
+    <bean id="unitAgendaTypeService" class="org.kuali.kra.krms.UnitAgendaTypeService">
+    </bean>
+    
+    <bean 
+      class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+      p:serviceBus-ref="kc.import.serviceBus"
+      p:callbackService-ref="unitAgendaTypeService"
+      p:localServiceName="unitAgendaTypeService"
+      p:serviceNameSpaceURI="" 
+      p:serviceInterface="org.kuali.rice.krms.framework.type.AgendaTypeService"/>
+    
+    <!-- 
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean parent="kcService" p:service-ref="unitAgendaTypeService"
+                p:localServiceName="unitAgendaTypeService" />
+        </property>
+    </bean>
+    
+    
+    <bean id="sampleAppPeopleFlowTypeService" class="org.kuali.rice.krad.workflow.DataDictionaryPeopleFlowTypeServiceImpl">
+    </bean>
+    
+    <bean id="storedProcedureTermResolverTypeService" class="org.kuali.kra.krms.StoredProcedureTermResolverTypeService" />
+    
+    <bean id="questionnaireActionTypeService" class="org.kuali.kra.krms.QuestionnaireActionTypeService">
+    </bean>
+    -->
      
 </beans>

@@ -50,6 +50,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -246,6 +247,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             //check to see if the audit errors are filled out.  This happens on a submit
             //that fails.
             
+            if (proposalDevelopmentForm.isAuditActivated()){
+                proposalDevelopmentForm.setUnitRulesMessages(getUnitRulesMessages(proposalDevelopmentForm.getProposalDevelopmentDocument()));
+            }
             if( KNSGlobalVariables.getAuditErrorMap().isEmpty())
                 new AuditActionHelper().auditConditionally(proposalDevelopmentForm);
             proposalDevelopmentForm.setProposalDataOverrideMethodToCalls(this.constructColumnsToAlterLookupMTCs(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
@@ -276,6 +280,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 Collections.sort(document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms(),new S2sOppFormsComparator1());
             }
          return actionForward;
+    }
+    
+    protected List<String> getUnitRulesMessages(ProposalDevelopmentDocument pdDoc) {
+        KrmsRulesExecutionService rulesService = KraServiceLocator.getService(KrmsRulesExecutionService.class);
+        return rulesService.processUnitValidations(pdDoc.getLeadUnitNumber(), pdDoc);
     }
 
    /**
