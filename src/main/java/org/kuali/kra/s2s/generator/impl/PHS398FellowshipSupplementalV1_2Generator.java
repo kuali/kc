@@ -879,9 +879,9 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
      */
     private void setAdditionalInformation(AdditionalInformation additionalInformation) {
         Boolean hasInvestigator = false;
-        additionalInformation.setAlernatePhoneNumber("None");
         additionalInformation.addNewFellowshipTrainingAndCareerGoals();
-        additionalInformation.addNewActivitiesPlannedUnderThisAward();        
+        additionalInformation.addNewActivitiesPlannedUnderThisAward();    
+        ProposalPerson principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
         for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.isInvestigator()) {
                 hasInvestigator = true;
@@ -903,6 +903,9 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
 
             }
+        }
+        if (principalInvestigator != null && principalInvestigator.getMobilePhoneNumber() != null) {
+            additionalInformation.setAlernatePhoneNumber(principalInvestigator.getMobilePhoneNumber());
         }
         if(!hasInvestigator){
             additionalInformation.setCitizenship(null);
