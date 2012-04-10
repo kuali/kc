@@ -23,18 +23,18 @@ public class IacucProtocolStatus extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3782529092395093228L;
-    private Integer protocolStatusCode; 
+    private String protocolStatusCode; 
     private String description; 
         
     public IacucProtocolStatus() { 
 
     } 
     
-    public Integer getProtocolStatusCode() {
+    public String getProtocolStatusCode() {
         return protocolStatusCode;
     }
 
-    public void setProtocolStatusCode(Integer protocolStatusCode) {
+    public void setProtocolStatusCode(String protocolStatusCode) {
         this.protocolStatusCode = protocolStatusCode;
     }
 
