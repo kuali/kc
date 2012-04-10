@@ -41,6 +41,7 @@ import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureHistory;
 import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiDispositionStatus;
+import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
 import org.kuali.kra.coi.lookup.dao.CoiDisclosureDao;
@@ -989,7 +990,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             //newDisclosure.setCoiDiscDetails(null);
             newDisclosure.setCoiDisclosureAttachments(null);
             newDisclosure.setCoiDisclosureNotepads(null);
-            newDisclosure.setCoiUserRoles(null);
+            newDisclosure.setCoiUserRoles(new ArrayList<CoiUserRole>());
             newDisclosure.setCurrentDisclosure(false);
             newDisclosure.setCertificationTimestamp(null);
             newDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
