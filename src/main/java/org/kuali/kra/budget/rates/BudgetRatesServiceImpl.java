@@ -571,7 +571,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     protected void resetAbstractBudgetApplicableRatesToInstituteRates(List budgetRates) {
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) budgetRates;
         for(AbstractBudgetRate abstractBudgetRate: abstractBudgetRates) {
-            abstractBudgetRate.setApplicableRate(abstractBudgetRate.getInstituteRate()); 
+            abstractBudgetRate.setApplicableRate(abstractBudgetRate.getExternalApplicableRate()); 
         }
     }
     
@@ -583,7 +583,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
             if(rateClass.getRateClassType().equalsIgnoreCase(rateClassType)) {
                 for(AbstractBudgetRate abstractBudgetRate: abstractBudgetRates) {
                     if(abstractBudgetRate.getRateClassCode().equalsIgnoreCase(rateClass.getRateClassCode())) {
-                        abstractBudgetRate.setApplicableRate(abstractBudgetRate.getInstituteRate()); 
+                        abstractBudgetRate.setApplicableRate(abstractBudgetRate.getExternalApplicableRate()); 
                     }
                 }
             }
@@ -598,7 +598,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
             String hKey = abstractBudgetRate.getRateKeyAsString();
             AbstractInstituteRate abstractInstituteRate = instRateMap.get(hKey);
             abstractBudgetRate.setInstituteRate(abstractInstituteRate.getInstituteRate()); 
-            abstractBudgetRate.setApplicableRate(abstractInstituteRate.getInstituteRate()); 
+            abstractBudgetRate.setApplicableRate(abstractInstituteRate.getExternalApplicableRate()); 
         }
     }
     
@@ -651,7 +651,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
                         String hKey = budgetRate.getRateKeyAsString();
                         InstituteRate instituteRate = (InstituteRate)instRateMap.get(hKey);
                         budgetRate.setInstituteRate(instituteRate.getInstituteRate()); 
-                        budgetRate.setApplicableRate(instituteRate.getInstituteRate()); 
+                        budgetRate.setApplicableRate(instituteRate.getExternalApplicableRate()); 
                     }
                 }
             }

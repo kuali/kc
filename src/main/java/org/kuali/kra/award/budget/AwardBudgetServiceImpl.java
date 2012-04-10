@@ -527,8 +527,8 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      */
     protected void saveBudgetDocument(BudgetDocument<Award> budgetDocument,boolean rebudget) throws WorkflowException {
         AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) budgetDocument;
-        Budget budget = budgetDocument.getBudget();
-        AwardBudgetExt budgetExt = (AwardBudgetExt) budget;
+        AwardBudgetExt budgetExt = awardBudgetDocument.getAwardBudget();
+//        AwardBudgetExt budgetExt = (AwardBudgetExt) budget;
 
         String awardBudgetTypeID = getParameterValue(rebudget ? KeyConstants.AWARD_BUDGET_TYPE_REBUDGET : KeyConstants.AWARD_BUDGET_TYPE_NEW);
         AwardBudgetType awardBudgetType = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetType.class, awardBudgetTypeID);
