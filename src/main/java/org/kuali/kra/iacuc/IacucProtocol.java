@@ -19,8 +19,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
@@ -187,5 +187,8 @@ public class IacucProtocol extends Protocol {
         return (IacucProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
     }
 
+    public String getNamespace() {
+        return Constants.MODULE_NAMESPACE_IACUC;
+    }
 
 }
