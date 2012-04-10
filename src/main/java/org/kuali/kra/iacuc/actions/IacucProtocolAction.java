@@ -30,7 +30,7 @@ public class IacucProtocolAction extends KraPersistableBusinessObjectBase {
     private String protocolNumber; 
     private Integer sequenceNumber; 
     private Integer actionId; 
-    private Integer protocolActionTypeCode; 
+    private String protocolActionTypeCode; 
     private Integer submissionNumber; 
     private String comments; 
     private Date actionDate; 
@@ -65,11 +65,11 @@ public class IacucProtocolAction extends KraPersistableBusinessObjectBase {
         this.actionId = actionId;
     }
 
-    public Integer getProtocolActionTypeCode() {
+    public String getProtocolActionTypeCode() {
         return protocolActionTypeCode;
     }
 
-    public void setProtocolActionTypeCode(Integer protocolActionTypeCode) {
+    public void setProtocolActionTypeCode(String protocolActionTypeCode) {
         this.protocolActionTypeCode = protocolActionTypeCode;
     }
 
