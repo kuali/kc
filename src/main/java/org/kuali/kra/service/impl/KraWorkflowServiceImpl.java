@@ -16,9 +16,13 @@
 package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
@@ -32,10 +36,15 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KraWorkflowService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.action.ActionRequestPolicy;
+import org.kuali.rice.kew.api.action.RoutingReportCriteria;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -298,5 +307,91 @@ public ProposalDevelopmentApproverViewDO populateApproverViewDO (ProposalDevelop
         
         return canApprove || canDisapprove;
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.service.KraWorkflowService#isFinalApproval(org.kuali.rice.kew.api.WorkflowDocument)
+     */
+    public boolean isFinalApproval(WorkflowDocument workflowDoc) {       
+        RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(workflowDoc.getDocumentId());
+        Set<String> approvalNodes = new HashSet<String>();
+        String currentRequest = null;
+        
+        DocumentDetail results1 = workflowDocumentActionsService.executeSimulation(reportCriteriaBuilder.build());
+        for (ActionRequest actionRequest : results1.getActionRequests()) {
+            if (actionRequest.isPending() && actionRequest.isApprovalRequest()) {
+                if (actionRequest.isUserRequest() && willReceiveFutureRequests(workflowDoc, actionRequest.getPrincipalId())) {
+                    approvalNodes.add(actionRequest.getNodeName());                    
+                } else if (actionRequest.isGroupRequest()) {
+                    approvalNodes.add(actionRequest.getNodeName());
+                } else if (actionRequest.isRoleRequest() && !requestAlreadyApproved(workflowDoc, actionRequest)) {
+                    approvalNodes.add(actionRequest.getNodeName());
+                }
+            }
+        }
+        if (currentRequest != null) {
+            approvalNodes.remove(currentRequest);
+        }
+
+        return approvalNodes.size() == 0;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.service.KraWorkflowService#requestAlreadyApproved(org.kuali.rice.kew.api.WorkflowDocument, org.kuali.rice.kew.api.action.ActionRequest)
+     */
+    public boolean requestAlreadyApproved(WorkflowDocument workflowDoc, ActionRequest actionRequest) {
+        boolean result = false;
+        for (ActionRequest childRequest : actionRequest.getChildRequests()) {
+            if (childRequest.isUserRequest()) {
+                boolean futureRequests = willReceiveFutureRequests(workflowDoc, childRequest.getPrincipalId()); 
+                if (actionRequest.getRequestPolicy() == ActionRequestPolicy.ALL && futureRequests) {
+                    result = false;
+                } else if (actionRequest.getRequestPolicy() == ActionRequestPolicy.FIRST && !futureRequests) {
+                    result = true;
+                }
+            } else if (childRequest.isGroupRequest()) {
+                if (actionRequest.getRequestPolicy() == ActionRequestPolicy.ALL) {
+                    result = false;
+                }
+            } else if (childRequest.isRoleRequest()) {
+                if (requestAlreadyApproved(workflowDoc, childRequest)) {
+                    if (actionRequest.getRequestPolicy() == ActionRequestPolicy.FIRST) {
+                        result = true;
+                    }
+                } else if (actionRequest.getRequestPolicy() == ActionRequestPolicy.ALL){
+                    result = false;
+                }
+            }
+        }
+        return result;
+    }
+       
+    /**
+     * Checks to see if the user has asked to receive future requests or not.
+     * @param workflowDoc
+     * @param principalId
+     * @return true if the user has not asked to NOT receive future requests.
+     */
+    private boolean willReceiveFutureRequests(WorkflowDocument workflowDoc, String principalId) {
+        boolean doNotReceiveFutureRequests = false;    
+
+        Map<String, String> variables = workflowDoc.getVariables();
+        if (variables != null && CollectionUtils.isNotEmpty(variables.keySet())) {
+            Iterator<String> variableIterator = variables.keySet().iterator();
+            while(variableIterator.hasNext()) {
+                    String variableKey = variableIterator.next();
+                    String variableValue = variables.get(variableKey);
+                    if (variableKey.startsWith(KewApiConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
+                          && variableValue.toUpperCase().equals(KewApiConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
+                          && variableKey.contains(principalId)) {
+                        doNotReceiveFutureRequests = true; 
+                        break;
+                    }
+            }
+        } 
+        
+        return !doNotReceiveFutureRequests;
+    }    
     
 }

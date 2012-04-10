@@ -93,6 +93,7 @@ import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraPersistenceStructureService;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -155,6 +156,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     private static final String MAPPING_PROPOSAL = "proposal";
     
+    private transient KraWorkflowService kraWorkflowService;
+    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
@@ -182,17 +185,26 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
         proposalDevelopmentForm.setAuditActivated(true);        
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        boolean forwardToSubmitToSponsor = false;
         int status = isValidSubmission(pdDoc);
 
         if (status == ERROR) {
-            // clear error from isValidSubmission()    
-            GlobalVariables.getMessageMap().clearErrorMessages(); 
+            GlobalVariables.getMessageMap().clearErrorMessages(); // clear error from isValidSubmission()    
             GlobalVariables.getMessageMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+                
+            forward = mapping.findForward((Constants.MAPPING_BASIC));
         } else {
-            if (canGenerateRequestsInFuture(workflowDoc)) {
+            
+            if (canGenerateRequestsInFuture(workflowDoc, GlobalVariables.getUserSession().getPrincipalId())) {
                 forward = promptUserForInput(workflowDoc, "approve", mapping, form, request, response);
             } else {
-                forward = super.approve(mapping, form, request, response);
+                forward = super.approve(mapping, form, request, response);    
+            }
+            
+            if (proposalDevelopmentForm.getEditingMode().containsKey("submitToSponsor")
+                    && getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, "autoSubmitToSponsorOnFinalApproval")
+                    && getKraWorkflowService().isFinalApproval(workflowDoc)) {
+                forwardToSubmitToSponsor = true;
             }
             
             ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
@@ -207,12 +219,22 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
         }
         
+        List<ActionForward> acceptedForwards = new ArrayList<ActionForward>();
         String routeHeaderId = ((ProposalDevelopmentForm) form).getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROPOSAL_ACTIONS, "ProposalDevelopmentDocument");
+        if (forwardToSubmitToSponsor) {
+            returnLocation = returnLocation.replace("proposalDevelopmentProposal", "proposalDevelopmentActions");
+            returnLocation = returnLocation.replace("docHandler", "autoSubmitToSponsor");
+            String workflowBase = getKualiConfigurationService().getPropertyValueAsString(
+                    KRADConstants.WORKFLOW_URL_KEY);
+            String actionListUrl = workflowBase + "/ActionList.do";
+
+            acceptedForwards.add(new ActionForward(actionListUrl, true));
+        }
         
-        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        acceptedForwards.add(mapping.findForward(KRADConstants.MAPPING_PORTAL));
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
+        return routeToHoldingPage(acceptedForwards, forward, holdingPageForward, returnLocation);
     }
 
     private ActionForward promptUserForInput(WorkflowDocument workflowDoc, String action, ActionMapping mapping, ActionForm form,
@@ -242,17 +264,21 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             throw new UnsupportedOperationException( String.format( "promptUserForInput does not know how to forward for action %s.", action )); 
     }   
 
-    private boolean canGenerateRequestsInFuture(WorkflowDocument workflowDoc) throws Exception {
-        String loggedInPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+    private boolean canGenerateRequestsInFuture(WorkflowDocument workflowDoc, String principalId) throws Exception {
         RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(workflowDoc.getDocumentId());
-        reportCriteriaBuilder.setTargetPrincipalIds(Collections.singletonList(loggedInPrincipalId));
+        reportCriteriaBuilder.setTargetPrincipalIds(Collections.singletonList(principalId));
 
+        org.kuali.rice.krad.workflow.service.WorkflowDocumentService workflowDocumentService = KRADServiceLocatorWeb.getService("workflowDocumentService");
+        String currentRouteNodeNames = workflowDocumentService.getCurrentRouteNodeNames(workflowDoc);
+        
+        return (hasAskedToNotReceiveFutureRequests(workflowDoc, principalId) && canGenerateMultipleApprovalRequests(reportCriteriaBuilder.build(), principalId, currentRouteNodeNames ));
+    }
+    
+    private boolean hasAskedToNotReceiveFutureRequests(WorkflowDocument workflowDoc, String principalId) {
         boolean receiveFutureRequests = false;
         boolean doNotReceiveFutureRequests = false;    
 
         Map<String, String> variables = workflowDoc.getVariables();
-        org.kuali.rice.krad.workflow.service.WorkflowDocumentService workflowDocumentService = KRADServiceLocatorWeb.getService("workflowDocumentService");
-        String currentRouteNodeNames = workflowDocumentService.getCurrentRouteNodeNames(workflowDoc);
         if (variables != null && CollectionUtils.isNotEmpty(variables.keySet())) {
             Iterator<String> variableIterator = variables.keySet().iterator();
             while(variableIterator.hasNext()) {
@@ -260,20 +286,20 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                     String variableValue = variables.get(variableKey);
                     if (variableKey.startsWith(KewApiConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
                             && variableValue.toUpperCase().equals(KewApiConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
-                            && variableKey.contains(loggedInPrincipalId)) {
+                            && variableKey.contains(principalId)) {
                         receiveFutureRequests = true; 
                         break;
                     }
                     else if (variableKey.startsWith(KewApiConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
                           && variableValue.toUpperCase().equals(KewApiConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
-                          && variableKey.contains(loggedInPrincipalId)) {
+                          && variableKey.contains(principalId)) {
                         doNotReceiveFutureRequests = true; 
                         break;
                     }
             }
         } 
-
-        return ((receiveFutureRequests == false && doNotReceiveFutureRequests == false) && canGenerateMultipleApprovalRequests(reportCriteriaBuilder.build(), loggedInPrincipalId, currentRouteNodeNames ));
+        
+        return (receiveFutureRequests == false && doNotReceiveFutureRequests == false);
     }
     
     private boolean canGenerateMultipleApprovalRequests(RoutingReportCriteria reportCriteria, String loggedInPrincipalId, String currentRouteNodeNames ) throws Exception {
@@ -623,7 +649,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         if(status == OK || userSaysOk ) {
             WorkflowDocument workflowDoc = proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
-            if( canGenerateRequestsInFuture(workflowDoc) )
+            if( canGenerateRequestsInFuture(workflowDoc, GlobalVariables.getUserSession().getPrincipalId()) )
                 forward = promptUserForInput(workflowDoc, "route", mapping, form, request, response);
             else 
                 forward = super.route(mapping, proposalDevelopmentForm, request, response);
@@ -647,7 +673,23 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
+
+    public ActionForward autoSubmitToSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response)throws Exception{
+      
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getProposalDevelopmentDocument();
     
+        //used when auto submitting to sponsor on final approval
+        if (proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentNumber() == null) {
+            // If entering this action from copy link on doc search
+            loadDocumentInForm(request, proposalDevelopmentForm);
+            loadDocument(proposalDevelopmentForm.getProposalDevelopmentDocument());
+        }
+        
+        return submitToSponsor(mapping, form, request, response);
+    }
+
     /**
      * Submit a proposal to a sponsor.  
      * @param mapping
@@ -662,7 +704,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
       
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getProposalDevelopmentDocument();
-       
+               
         if (!userCanCreateInstitutionalProposal()) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
@@ -1620,6 +1662,18 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         proposalDevelopmentForm.getNotificationHelper().initializeDefaultValues(context);
         
         return mapping.findForward("notificationEditor");
+    }
+
+
+    protected KraWorkflowService getKraWorkflowService() {
+        if (kraWorkflowService == null) {
+            kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);            
+        }
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KraWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
     }
     
 }
