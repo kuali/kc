@@ -18,6 +18,8 @@ package org.kuali.kra.service;
 import org.kuali.kra.proposaldevelopment.bo.ProposalDevelopmentApproverViewDO;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.krad.document.Document;
 
 /**
@@ -101,5 +103,22 @@ public interface KraWorkflowService {
     public ProposalDevelopmentApproverViewDO populateApproverViewDO (ProposalDevelopmentForm proposalDevelopmentForm);
     
     public boolean canPerformWorkflowAction(ProposalDevelopmentDocument document);
+    
+    /**
+     * Checks to see if all pending workflow requests are completed or will
+     * be completed due to a user not wanting to see future requests.
+     * @param workflowDoc
+     * @return
+     */
+    boolean isFinalApproval(WorkflowDocument workflowDoc);
+    
+    /**
+     * Checks to see if the pending request will complete due to a user
+     * requesting to not see future requests.
+     * @param workflowDoc
+     * @param request
+     * @return
+     */
+    boolean requestAlreadyApproved(WorkflowDocument workflowDoc, ActionRequest request);
     
 }

@@ -28,6 +28,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -892,14 +893,31 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @return
      */
     protected ActionForward routeToHoldingPage(ActionForward forward, ActionForward returnForward, ActionForward holdingPageForward, String returnLocation) {
-        if (!StringUtils.equals(forward.getPath(), returnForward.getPath())) {
+        return routeToHoldingPage(Collections.singletonList(forward), returnForward, holdingPageForward, returnLocation);
+    }
+    
+    /**
+     * Optional path to send certain documents to the holding page.
+     * @param forward Forward following the basic or portal mapping
+     * @param returnForward Forward calculated by returnToSender
+     * @param holdingPageForward Forward going to the holding page
+     * @return
+     */
+    protected ActionForward routeToHoldingPage(List<ActionForward> forwards, ActionForward returnForward, ActionForward holdingPageForward, String returnLocation) {
+        boolean knownForward = false;
+        for (ActionForward forward : forwards) {
+            if (StringUtils.equals(forward.getPath(), returnForward.getPath())) {
+                knownForward = true;
+            }
+        }
+        if (!knownForward) {
             return returnForward;
         } else {
             GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_MESSAGES, KNSGlobalVariables.getMessageList());
             GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_RETURN_LOCATION, (Object) returnLocation);
             return holdingPageForward;
         }
-    }
+    }    
 
     public ActionForward sendAdHocRequests(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KraTransactionalDocumentFormBase dform = (KraTransactionalDocumentFormBase) form;
