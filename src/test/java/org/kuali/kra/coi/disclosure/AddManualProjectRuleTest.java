@@ -26,9 +26,10 @@ import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class AddManualProjectRuleTest extends KcUnitTestBase {
-/*
+
     @Test
     public void testAddProposalEventOK() {
         new TemplateRuleTest<AddManualProjectEvent, AddManualProjectRule>() {
@@ -36,18 +37,24 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
             protected void prerequisite() {
                 CoiDisclProject coiDisclProject = new CoiDisclProject() ;
                 
-                coiDisclProject.setShortTextField1("test id");
                 coiDisclProject.setDisclosureEventType(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
-                coiDisclProject.setLongTextField1("test title");
-                coiDisclProject.setShortTextField2("1");
-                coiDisclProject.setLongTextField3("test sponsor");
+                
+                coiDisclProject.setCoiProjectId("test id");
+                coiDisclProject.setCoiProjectTitle("test title");
+                coiDisclProject.setModuleItemKey(coiDisclProject.getCoiProjectId());
+                coiDisclProject.setShortTextField1("test project role");
+                coiDisclProject.setLongTextField1("test sponsor");
 
+                coiDisclProject.setNumberField1(new KualiDecimal(1000.00));
                 coiDisclProject.setDateField1(new java.sql.Date(new Date().getTime()));
                 CoiDisclosure coiDisclosure = new CoiDisclosure();
                 coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
                 coiDisclProject.setCoiDisclosure(coiDisclosure);
                 Date dt = DateUtils.addDays(new Date(), 10);
                 coiDisclProject.setDateField2(new java.sql.Date(dt.getTime()));
+                
+                coiDisclProject.setSelectBox1("1");
+                
                 event = new AddManualProjectEvent(Constants.EMPTY_STRING, coiDisclProject);
                 rule = new AddManualProjectRule();
                 expectedReturnValue = true;
@@ -55,58 +62,6 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
         };
     }
 
-
-    @Test
-    public void testAddProposalEventProjectIdRequired() {
-        new TemplateRuleTest<AddManualProjectEvent, AddManualProjectRule>() {
-            @Override
-            protected void prerequisite() {
-                CoiDisclProject coiDisclProject = new CoiDisclProject() ;
-                
-        //        coiDisclProject.setShortTextField1("test id");
-                coiDisclProject.setDisclosureEventType(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
-                coiDisclProject.setLongTextField1("test title");
-                coiDisclProject.setShortTextField2("1");
-                coiDisclProject.setLongTextField3("test sponsor");
-
-                coiDisclProject.setDateField1(new java.sql.Date(new Date().getTime()));
-                CoiDisclosure coiDisclosure = new CoiDisclosure();
-                coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
-                coiDisclProject.setCoiDisclosure(coiDisclosure);
-                Date dt = DateUtils.addDays(new Date(), 10);
-                coiDisclProject.setDateField2(new java.sql.Date(dt.getTime()));
-                event = new AddManualProjectEvent(Constants.EMPTY_STRING, coiDisclProject);
-                rule = new AddManualProjectRule();
-                expectedReturnValue = false;
-            }
-        };
-    }
-
-    @Test
-    public void testAddProposalEventEndDateBeforeStartDate() {
-        new TemplateRuleTest<AddManualProjectEvent, AddManualProjectRule>() {
-            @Override
-            protected void prerequisite() {
-                CoiDisclProject coiDisclProject = new CoiDisclProject() ;
-                
-                coiDisclProject.setShortTextField1("test id");
-                coiDisclProject.setDisclosureEventType(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL);
-                coiDisclProject.setLongTextField1("test title");
-                coiDisclProject.setShortTextField2("1");
-                coiDisclProject.setLongTextField3("test sponsor");
-
-                coiDisclProject.setDateField1(new java.sql.Date(new Date().getTime()));
-                CoiDisclosure coiDisclosure = new CoiDisclosure();
-                coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
-                coiDisclProject.setCoiDisclosure(coiDisclosure);
-                Date dt = DateUtils.addDays(new Date(), -10);
-                coiDisclProject.setDateField2(new java.sql.Date(dt.getTime()));
-                event = new AddManualProjectEvent(Constants.EMPTY_STRING, coiDisclProject);
-                rule = new AddManualProjectRule();
-                expectedReturnValue = false;
-            }
-        };
-    }
 
     @Test
     public void testAddAwardEventOK() {
@@ -114,10 +69,12 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
             @Override
             protected void prerequisite() {
                 CoiDisclProject coiDisclProject = new CoiDisclProject() ;
-                
-                coiDisclProject.setShortTextField1("test id");
+
                 coiDisclProject.setDisclosureEventType(CoiDisclosureEventType.MANUAL_AWARD);
-                coiDisclProject.setLongTextField1("test title");
+
+                coiDisclProject.setCoiProjectId("test id");
+                coiDisclProject.setCoiProjectTitle("test title");
+                coiDisclProject.setModuleItemKey(coiDisclProject.getCoiProjectId());
                 coiDisclProject.setDateField1(new java.sql.Date(new Date().getTime()));
                 CoiDisclosure coiDisclosure = new CoiDisclosure();
                 coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
@@ -128,7 +85,8 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
             }
         };
     }
-*/
+
+
     @Test
     public void testAddProtocolEventOK() {
         new TemplateRuleTest<AddManualProjectEvent, AddManualProjectRule>() {
@@ -136,13 +94,17 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
             protected void prerequisite() {
                 CoiDisclProject coiDisclProject = new CoiDisclProject() ;
                 
-                coiDisclProject.setCoiProjectId("test id");
                 coiDisclProject.setDisclosureEventType(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL);
+
+                coiDisclProject.setCoiProjectId("test id");
                 coiDisclProject.setCoiProjectTitle("test title");
-                coiDisclProject.setModuleItemKey("1");
+                coiDisclProject.setModuleItemKey(coiDisclProject.getCoiProjectId());
                 CoiDisclosure coiDisclosure = new CoiDisclosure();
                 coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
                 coiDisclProject.setCoiDisclosure(coiDisclosure);
+                
+                coiDisclProject.setSelectBox1("1");
+                
                 event = new AddManualProjectEvent(Constants.EMPTY_STRING, coiDisclProject);
                 rule = new AddManualProjectRule();
                 expectedReturnValue = true;
@@ -150,6 +112,38 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
         };
     }
 
+    
+    @Test
+    public void testAddTravelEventOK() {
+        new TemplateRuleTest<AddManualProjectEvent, AddManualProjectRule>() {
+            @Override
+            protected void prerequisite() {
+                CoiDisclProject coiDisclProject = new CoiDisclProject() ;
+                
+                coiDisclProject.setDisclosureEventType(CoiDisclosureEventType.MANUAL_TRAVEL);
 
+                coiDisclProject.setCoiProjectId("event id");
+                coiDisclProject.setCoiProjectTitle("event title");
+                coiDisclProject.setModuleItemKey(coiDisclProject.getCoiProjectId());
+                CoiDisclosure coiDisclosure = new CoiDisclosure();
+                coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
+                coiDisclProject.setCoiDisclosure(coiDisclosure);
+                
+                coiDisclProject.setShortTextField1("destination");
+                coiDisclProject.setLongTextField1("entity name");
+                coiDisclProject.setLongTextField2("sponsor");
+                coiDisclProject.setLongTextField3("purpose");
+
+                coiDisclProject.setNumberField1(new KualiDecimal(1000));
+                coiDisclProject.setDateField1(new java.sql.Date(new Date().getTime()));
+                Date dt = DateUtils.addDays(new Date(), 10);
+                coiDisclProject.setDateField2(new java.sql.Date(dt.getTime()));
+                
+                event = new AddManualProjectEvent(Constants.EMPTY_STRING, coiDisclProject);
+                rule = new AddManualProjectRule();
+                expectedReturnValue = true;
+            }
+        };
+    }
 
 }
