@@ -15,8 +15,7 @@
  */
 package org.kuali.kra.budget.rates;
 
-import static org.kuali.kra.budget.calculator.RateClassType.EMPLOYEE_BENEFITS;
-import static org.kuali.kra.budget.calculator.RateClassType.OVERHEAD;
+import org.kuali.kra.budget.calculator.RateClassType;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,6 +31,8 @@ import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
+import org.kuali.kra.budget.calculator.query.LesserThan;
+import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -79,7 +80,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         if(awardFnARates.isEmpty() && awardEbRates.isEmpty()) return instituteRates;
         
         for (AwardFandaRate awardFnARate : awardFnARates) {
-            InstituteRate awardRate = createAwardFnAInstitueRate(awardFnARate,award);
+            InstituteRate awardRate = createAwardFnAInstitueRate(awardFnARate,award,instituteRates);
             instituteRatesForAward.add(awardRate);
             budgetDocument.getBudget().setOhRateClassCode(awardRate.getRateClassCode());
         }
@@ -95,8 +96,8 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
             instituteRatesForAward.add(awardEBRate);
         }
         for (InstituteRate instituteRate : instituteRates) {
-            if((!awardFnARates.isEmpty() && instituteRate.getRateClassType().equals(OVERHEAD.getRateClassType())) ||
-                    (!awardEbRates.isEmpty() & instituteRate.getRateClassType().equals(EMPLOYEE_BENEFITS.getRateClassType()))){
+            if((!awardFnARates.isEmpty() && instituteRate.getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())) ||
+                    (!awardEbRates.isEmpty() & instituteRate.getRateClassType().equals(RateClassType.EMPLOYEE_BENEFITS.getRateClassType()))){
                 continue;
             }
             instituteRatesForAward.add(instituteRate);
@@ -148,13 +149,16 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         return getParameterService().getParameterValueAsString(BudgetDocument.class, AWARD_EB_RATE_TYPE_CODE);
     }
 
-    private InstituteRate createAwardFnAInstitueRate(AwardFandaRate awardFnARate,Award award) {
-        InstituteRate awardInstituteRate = new InstituteRate();
+    private InstituteRate createAwardFnAInstitueRate(AwardFandaRate awardFnARate,Award award, Collection<InstituteRate> instituteRates) {
+        InstituteRate awardInstituteRate = filterInstituteRate(awardFnARate,award,instituteRates);
         BudgetDecimal applicableRate = new BudgetDecimal(awardFnARate.getApplicableFandaRate().bigDecimalValue());
         awardInstituteRate.setActivityTypeCode(award.getActivityTypeCode());
         awardInstituteRate.setStartDate(awardFnARate.getStartDate());
         awardInstituteRate.setFiscalYear(awardFnARate.getFiscalYear());
-        awardInstituteRate.setInstituteRate(applicableRate);
+        awardInstituteRate.setExternalApplicableRate(applicableRate);
+        if (awardInstituteRate.getInstituteRate()==null) { 
+            awardInstituteRate.setInstituteRate(applicableRate);
+        }
         awardInstituteRate.setUnitNumber(award.getUnitNumber());
         String awardFnArateTypeCode = awardFnARate.getFandaRateTypeCode().toString();
         awardInstituteRate.setRateTypeCode(awardFnArateTypeCode);
@@ -165,6 +169,26 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         awardInstituteRate.setNonEditableRateFlag(true);
         awardInstituteRate.refreshReferenceObject("rateClass");
         return awardInstituteRate;
+    }
+
+    private InstituteRate filterInstituteRate(AwardFandaRate awardFnARate, Award award,Collection<InstituteRate> instituteRates) {
+        QueryList<InstituteRate> qlInstituteRates = new QueryList<InstituteRate>(instituteRates);
+        Equals eqActivityType = new Equals("activityTypeCode",award.getActivityTypeCode());
+        Equals eqUnitNumber = new Equals("unitNumber",award.getUnitNumber());
+        Equals eqCampusFlag = new Equals("onOffCampusFlag",new Boolean(awardFnARate.getOnCampusFlag().equals("N")));
+        Equals eqRateClassCode = new Equals("rateClassCode",awardFnARate.getFandaRateType().getRateClassCode());
+        Equals eqRateTypeCode = new Equals("rateTypeCode",awardFnARate.getFandaRateTypeCode());
+        And actTypeAndUnitNum = new And(eqActivityType,eqUnitNumber);
+        And campFlagAndActTypeAndUnitNum = new And(actTypeAndUnitNum,eqCampusFlag);
+        And rateClassAndRateType = new And(eqRateClassCode,eqRateTypeCode);
+        And filterCondition = new And(campFlagAndActTypeAndUnitNum,rateClassAndRateType);
+        QueryList<InstituteRate> qlfilteredList = qlInstituteRates.filter(filterCondition);
+        Equals eqStartDate = new Equals("startDate",awardFnARate.getStartDate());
+        LesserThan ltStartDate = new LesserThan("startDate",awardFnARate.getStartDate());
+        Or ltOrEqStartDate = new Or(eqStartDate,ltStartDate);
+        qlfilteredList = qlfilteredList.filter(ltOrEqStartDate);
+        qlfilteredList.sort("startDate",false);
+        return qlfilteredList.isEmpty()?new InstituteRate():qlfilteredList.get(0);
     }
 
     /**
@@ -201,8 +225,8 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
             if (!hasNoRatesFromParent(budgetDocument.getBudget())
                     && isOutOfSyncAwardRates((Award)budgetDocument.getParentDocument().getBudgetParent(),budgetDocument.getBudget())) {
                 //need to sync just budget specific rates now
-                syncBudgetRatesForRateClassType(OVERHEAD.getRateClassType(), budgetDocument);
-                syncBudgetRatesForRateClassType(EMPLOYEE_BENEFITS.getRateClassType(), budgetDocument);
+                syncBudgetRatesForRateClassType(RateClassType.OVERHEAD.getRateClassType(), budgetDocument);
+                syncBudgetRatesForRateClassType(RateClassType.EMPLOYEE_BENEFITS.getRateClassType(), budgetDocument);
                 repopulateAllCalcAmounts(budgetDocument);
             }
         }
@@ -249,7 +273,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         QueryList<BudgetRate> budgetRates = new QueryList<BudgetRate>(budget.getBudgetRates());
         boolean ratesOutOfSync = false;
         if(!fnaRates.isEmpty()){
-            Equals eqOhRateClassType = new Equals("rateClassType",OVERHEAD.getRateClassType());
+            Equals eqOhRateClassType = new Equals("rateClassType",RateClassType.OVERHEAD.getRateClassType());
             List<BudgetRate> filteredOhRates = budgetRates.filter(eqOhRateClassType);
             ratesOutOfSync = fnaRates.size()!=filteredOhRates.size();
             if(!ratesOutOfSync){
@@ -260,7 +284,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
             }
             
         }
-        Equals eqEbRateClassType = new Equals("rateClassType",EMPLOYEE_BENEFITS.getRateClassType());
+        Equals eqEbRateClassType = new Equals("rateClassType",RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
         KualiDecimal specialEbRateOnCampus = award.getSpecialEbRateOnCampus();
         if(specialEbRateOnCampus!=null){
             Equals eqOnCampus = new Equals("onOffCampusFlag",Boolean.TRUE);
