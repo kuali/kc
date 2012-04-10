@@ -64,47 +64,51 @@ public class AddManualProjectRule extends ResearchDocumentRuleBase implements Bu
     private boolean validateRequiredFields(CoiDisclProject coiDisclProject, CoiDisclosureEventType disclosureEventType) {
         boolean valid = true;
         
-        valid = valid && validateRequiredField("coiProjectId", coiDisclProject.getCoiProjectId(), disclosureEventType.getProjectIdLabel());
-        valid = valid && validateRequiredField("coiProjectTitle", coiDisclProject.getCoiProjectTitle(), disclosureEventType.getProjectTitleLabel());
+        valid &= validateRequiredField("coiProjectId", coiDisclProject.getCoiProjectId(), disclosureEventType.getProjectIdLabel());
+        valid &= validateRequiredField("coiProjectTitle", coiDisclProject.getCoiProjectTitle(), disclosureEventType.getProjectTitleLabel());
 
         if (disclosureEventType.isUseShortTextField1() && disclosureEventType.isRequireShortTextField1()) {
-            valid = valid && validateRequiredField("shortTextField1", coiDisclProject.getShortTextField1(), disclosureEventType.getShortTextField1Label());
+            valid &= validateRequiredField("shortTextField1", coiDisclProject.getShortTextField1(), disclosureEventType.getShortTextField1Label());
         }
         
         if (disclosureEventType.isUseShortTextField2() && disclosureEventType.isRequireShortTextField2()) {
-            valid = valid && validateRequiredField("shortTextField2", coiDisclProject.getShortTextField2(), disclosureEventType.getShortTextField2Label());
+            valid &= validateRequiredField("shortTextField2", coiDisclProject.getShortTextField2(), disclosureEventType.getShortTextField2Label());
         }
 
         if (disclosureEventType.isUseShortTextField3() && disclosureEventType.isRequireShortTextField3()) {
-            valid = valid && validateRequiredField("shortTextField3", coiDisclProject.getShortTextField3(), disclosureEventType.getShortTextField3Label());
+            valid &= validateRequiredField("shortTextField3", coiDisclProject.getShortTextField3(), disclosureEventType.getShortTextField3Label());
         }
 
         if (disclosureEventType.isUseLongTextField1() && disclosureEventType.isRequireLongTextField1()) {
-            valid = valid && validateRequiredField("longTextField1", coiDisclProject.getLongTextField1(), disclosureEventType.getLongTextField1Label());
+            valid &= validateRequiredField("longTextField1", coiDisclProject.getLongTextField1(), disclosureEventType.getLongTextField1Label());
         }
 
         if (disclosureEventType.isUseLongTextField2() && disclosureEventType.isRequireLongTextField2()) {
-            valid = valid && validateRequiredField("longTextField2", coiDisclProject.getLongTextField2(), disclosureEventType.getLongTextField2Label());
+            valid &= validateRequiredField("longTextField2", coiDisclProject.getLongTextField2(), disclosureEventType.getLongTextField2Label());
         }
 
         if (disclosureEventType.isUseLongTextField3() && disclosureEventType.isRequireLongTextField3()) {
-            valid = valid && validateRequiredField("longTextField3", coiDisclProject.getLongTextField3(), disclosureEventType.getLongTextField3Label());
+            valid &= validateRequiredField("longTextField3", coiDisclProject.getLongTextField3(), disclosureEventType.getLongTextField3Label());
         }
 
         if (disclosureEventType.isUseDateField1() && disclosureEventType.isRequireDateField1()) {
-            valid = valid && validateRequiredDateField("dateField1", coiDisclProject.getDateField1(), disclosureEventType.getDateField1Label());
+            valid &= validateRequiredDateField("dateField1", coiDisclProject.getDateField1(), disclosureEventType.getDateField1Label());
         }
         
         if (disclosureEventType.isUseDateField2() && disclosureEventType.isRequireDateField2()) {
-            valid = valid && validateRequiredDateField("dateField2", coiDisclProject.getDateField2(), disclosureEventType.getDateField2Label());
+            valid &= validateRequiredDateField("dateField2", coiDisclProject.getDateField2(), disclosureEventType.getDateField2Label());
         }
 
         if (disclosureEventType.isUseNumberField1() && disclosureEventType.isRequireNumberField1()) {
-            valid = valid && validateRequiredNumberField("numberField1", coiDisclProject.getNumberField1(), disclosureEventType.getNumberField1Label());
+            valid &= validateRequiredNumberField("numberField1", coiDisclProject.getNumberField1(), disclosureEventType.getNumberField1Label());
         }
 
         if (disclosureEventType.isUseNumberField2() && disclosureEventType.isRequireNumberField2()) {
-            valid = valid && validateRequiredNumberField("numberField2", coiDisclProject.getNumberField2(), disclosureEventType.getNumberField2Label());
+            valid &= validateRequiredNumberField("numberField2", coiDisclProject.getNumberField2(), disclosureEventType.getNumberField2Label());
+        }
+        
+        if (disclosureEventType.isUseSelectBox1() && disclosureEventType.isRequireSelectBox1()) {
+            valid &= validateRequiredField("selectBox1", coiDisclProject.getSelectBox1(), disclosureEventType.getSelectBox1Label());
         }
         
         return valid;
