@@ -68,18 +68,15 @@
                     	<div align=center>
                     	<span class="copy">
                     
-	                    	<!-- bean:write name="KualiForm" property="${budgetRate}.instituteRate"/-->
-	                    <!-- 	<c:set var="budgetReadOnly" value="${not KualiForm.canModifyBudgetRates}" />
-                	    	<kul:htmlControlAttribute property="${budgetRate}.instituteRate" attributeEntry="${budgetRatesAttributes.instituteRate}" readOnly="${budgetReadOnly}" styleClass="${styleClass}"/>
-                      	-->
-                      	<c:if test="${KualiForm.docTypeName == 'BudgetDocument'}">
+	                    	<bean:write name="KualiForm" property="${budgetRate}.instituteRate"/>
+<%--                       	<c:if test="${KualiForm.docTypeName == 'BudgetDocument'}">
 	                    	<bean:write name="KualiForm" property="${budgetRate}.instituteRate"/>
 						</c:if>
 						<c:if test="${KualiForm.docTypeName == 'AwardBudgetDocument'}">
 	                    	<c:set var="budgetReadOnly" value="${not KualiForm.canModifyBudgetRates && KualiForm.docTypeName=='AwardBudgetDocument'}" />
 	                 	   	<kul:htmlControlAttribute property="${budgetRate}.instituteRate" attributeEntry="${budgetRatesAttributes.instituteRate}" readOnly="${budgetReadOnly}" styleClass="${styleClass}"/>           	
                   		</c:if>
-                      	
+ --%>                      	
                       	</span>
                       	</div>
                     </td>

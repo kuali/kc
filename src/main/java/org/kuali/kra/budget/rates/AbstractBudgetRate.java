@@ -59,7 +59,7 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
     }
 
     private void copyValues(String unitNumber, AbstractInstituteRate abstractInstituteRate) {
-        setApplicableRate(abstractInstituteRate.getInstituteRate());
+        setApplicableRate(abstractInstituteRate.getExternalApplicableRate());
         setFiscalYear(abstractInstituteRate.getFiscalYear());
         setInstituteRate(abstractInstituteRate.getInstituteRate());
         setOnOffCampusFlag(abstractInstituteRate.getOnOffCampusFlag());
