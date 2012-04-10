@@ -38,7 +38,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * Also we have provided convenient getter and setter methods so that to the outside world;
  * Protocol and ProtocolDocument can have a 1:1 relationship.
  */
-@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROTOCOL)
+@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_IACUC)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class IacucProtocolDocument extends ProtocolDocument<IacucProtocol> { 
     /**
