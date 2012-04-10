@@ -72,6 +72,7 @@
 			<c:forEach items="${categories}" var="category">
 				<kul:auditSet category="${category}" />
 			</c:forEach>
+			<kra:unitRulesMessages />
 			</table>
 		</c:if>
 	</div>
