@@ -41,6 +41,8 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
     private String unitNumber;
 
     private BudgetDecimal instituteRate;
+    
+    private BudgetDecimal externalApplicableRate;
 
     private RateClass rateClass;
 
@@ -243,5 +245,21 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
             if (other.unitNumber != null) return false;
         } else if (!unitNumber.equals(other.unitNumber)) return false;
         return true;
+    }
+
+    /**
+     * Gets the externalApplicableRate attribute. 
+     * @return Returns the externalApplicableRate.
+     */
+    public BudgetDecimal getExternalApplicableRate() {
+        return externalApplicableRate==null?getInstituteRate():externalApplicableRate;
+    }
+
+    /**
+     * Sets the externalApplicableRate attribute value.
+     * @param externalApplicableRate The externalApplicableRate to set.
+     */
+    public void setExternalApplicableRate(BudgetDecimal externalApplicableRate) {
+        this.externalApplicableRate = externalApplicableRate;
     }
 }
