@@ -156,6 +156,22 @@ public class Unit extends KraPersistableBusinessObjectBase implements MutableIna
     public void setOrganizationIdForMaintenance(String organizationIdForMaintenance) {
         this.organizationId = organizationIdForMaintenance;
     }
+    
+    /**
+     * Determine whether the given unit is a parent (or grandparent, etc) of this unit.
+     * @param parentCandidate
+     * @return boolean
+     */
+    public boolean isParentUnit(Unit parentCandidate) {
+        if (this.getParentUnitNumber() != null) {
+            if (this.getParentUnitNumber().equals(parentCandidate.getUnitNumber())) {
+                return true;
+            } else {
+                return this.getParentUnit().isParentUnit(parentCandidate);
+            }
+        }
+        return false;
+    }
 
     @SuppressWarnings("unchecked")
     @Override

@@ -86,33 +86,8 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
         if (auditErrors.size() > 0) {
             KNSGlobalVariables.getAuditErrorMap().put("requiredFieldsAuditErrors", new AuditCluster(Constants.REQUIRED_FIELDS_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
         }
-        
-        //valid &= validateKrmsRules(proposalDevelopmentDocument);
 
         return valid;
-    }
-    
-    protected boolean validateKrmsRules(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        Map<String, String> contextQualifiers = new HashMap<String, String>();
-        contextQualifiers.put("namespaceCode", "KC-PD");
-        contextQualifiers.put("name", "Proposal Development Validation");
-        SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
-                Collections.singletonMap("unitNumber", proposalDevelopmentDocument.getLeadUnitNumber()));
-
-        Facts.Builder factsBuilder = Facts.Builder.create();
-
-        // Probably will want to come up w/something more generic here
-        factsBuilder.addFact("Sponsor Code", proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode());
-
-        Engine engine = KrmsApiServiceLocator.getEngine();
-        EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);
-        // Translate these into audit errors
-        
-        // comma-delimited list of error & warning messages
-        String errors = (String) results.getAttribute(ValidationActionTypeService.VALIDATIONS_ACTION_ATTRIBUTE);
-        
-        
-        return StringUtils.isEmpty(errors);
     }
     
     /**
