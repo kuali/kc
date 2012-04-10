@@ -234,9 +234,9 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         if (reporters.isEmpty()) {
             // TODO : temporary debug app double save issue
             System.out.println("Save FE reporter person id " + personId);
-            Object reporterSaved = GlobalVariables.getUserSession().retrieveObject("reporterSaved");
+            Object reporterSaved = GlobalVariables.getUserSession().retrieveObject("reporterSaved-"+GlobalVariables.getUserSession().getPrincipalName());
             if (reporterSaved == null) {
-                GlobalVariables.getUserSession().addObject("reporterSaved","saved");
+                GlobalVariables.getUserSession().addObject("reporterSaved-"+GlobalVariables.getUserSession().getPrincipalName(),"saved");
                 System.out.println("Save FE reporter person id " + personId+" not saved ");
             }
             FinancialEntityReporter reporter = new FinancialEntityReporter();
@@ -247,7 +247,11 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
             if (leadUnit != null) {
                 reporter.getFinancialEntityReporterUnits().add(leadUnit);
             }
-            businessObjectService.save(reporter);
+            if (!StringUtils.equals(GlobalVariables.getUserSession().getPrincipalName(),"cate") || reporterSaved == null) {
+                // TODO : temporary debug app double save issue
+                System.out.println("Save FE reporter person id " + personId+" save reporter ");
+                businessObjectService.save(reporter);
+            }
             return reporter;
         } else {
             int i = 0;
