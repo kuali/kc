@@ -17,8 +17,11 @@ package org.kuali.kra.web.struts.form;
 
 import static org.kuali.kra.logging.BufferedLogger.debug;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +32,7 @@ import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.rules.SoftError;
@@ -42,6 +46,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krms.api.KrmsConstants;
   
 /**
  * This class isbase class for KC Transactional Documents ...
@@ -58,6 +63,8 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     
     private boolean medusaOpenedDoc;
     private Map<String, Boolean> personEditableFields;
+    
+    private List<String> unitRulesMessages = new ArrayList<String>();
    
     public String getActionName() {
         return actionName;
@@ -257,7 +264,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     public void setPersonEditableFields(Map<String, Boolean> personEditableFields) {
         this.personEditableFields = personEditableFields;
     }
-    
+
     /**
      * Creates the list of <code>{@link PersonEditableField}</code> field names.
      */
@@ -355,5 +362,43 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         if (!checkBoxFound) {
             populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
         }
+    }
+    
+    public List<String> getUnitRulesMessages() {
+        return unitRulesMessages;
+    }
+
+    public void setUnitRulesMessages(List<String> unitRulesMessages) {
+        this.unitRulesMessages = unitRulesMessages;
+    }
+    
+    public boolean isUnitRulesErrorsExist() {
+        return getUnitRulesErrors().size() > 0;
+    }
+    
+    public boolean isUnitRulesWarningsExist() {
+        return getUnitRulesWarnings().size() > 0;
+    }
+    
+    public List<String> getUnitRulesErrors() {
+        return getUnitRulesMessages(KcKrmsConstants.MESSAGE_TYPE_ERROR);
+    }
+    
+    public List<String> getUnitRulesWarnings() {
+        return getUnitRulesMessages(KcKrmsConstants.MESSAGE_TYPE_WARNING);
+    }
+    
+    public void clearUnitRulesMessages() {
+        this.unitRulesMessages = Collections.emptyList();
+    }
+    
+    protected List<String> getUnitRulesMessages(String messageType) {
+        List<String> messages = new ArrayList<String>();
+        for (String message : this.unitRulesMessages) {
+            if (StringUtils.substringBefore(message, KcKrmsConstants.MESSAGE_SEPARATOR).equals(messageType)) {
+                messages.add(StringUtils.substringAfter(message, KcKrmsConstants.MESSAGE_SEPARATOR));
+            }
+        }
+        return messages;
     }
 }

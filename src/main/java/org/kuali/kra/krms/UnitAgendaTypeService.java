@@ -31,19 +31,18 @@ import org.kuali.rice.krms.api.repository.type.KrmsTypeAttribute;
 import org.kuali.rice.krms.framework.engine.Agenda;
 import org.kuali.rice.krms.framework.engine.AgendaTree;
 import org.kuali.rice.krms.framework.engine.BasicAgenda;
+import org.kuali.rice.krms.impl.provider.repository.LazyAgendaTree;
 import org.kuali.rice.krms.impl.provider.repository.RepositoryToEngineTranslatorImpl;
 import org.kuali.rice.krms.impl.type.AgendaTypeServiceBase;
 import org.kuali.rice.krms.impl.util.KRMSServiceLocatorInternal;
 
 public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
-    
-    private static final String UNIT_FIELD_NAME = "unitNumber";
 
     @Override
     public RemotableAttributeField translateTypeAttribute(KrmsTypeAttribute inputAttribute,
             KrmsAttributeDefinition attributeDefinition) {
 
-        if (UNIT_FIELD_NAME.equals(attributeDefinition.getName())) {
+        if (KcKrmsConstants.UNIT_NUMBER.equals(attributeDefinition.getName())) {
             return createUnitField();
         } else {
             return super.translateTypeAttribute(inputAttribute,
@@ -75,7 +74,7 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
 //        lookupSettingsBuilder.setInResults(true);
 //        lookupSettingsBuilder.setRanged(false);
 
-        RemotableAttributeField.Builder builder = RemotableAttributeField.Builder.create(UNIT_FIELD_NAME);
+        RemotableAttributeField.Builder builder = RemotableAttributeField.Builder.create(KcKrmsConstants.UNIT_NUMBER);
         //builder.setAttributeLookupSettings(lookupSettingsBuilder);
         builder.setRequired(true);
         builder.setDataType(DataType.STRING);
@@ -129,12 +128,8 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
             return null;
         }
         
-        Agenda agenda = repositoryToEngineTranslator.translateAgendaDefinition(agendaDefinition);
-        
-        return agenda;
+        return new UnitAgenda(agendaDefinition.getAttributes(), new LazyAgendaTree(agendaDefinition, repositoryToEngineTranslator));
     }
-    
-    
     
     private static class UnitAgenda extends BasicAgenda {
         
@@ -150,15 +145,10 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
             for (Map.Entry<String, String> agendaQualifier : environment.getSelectionCriteria().getAgendaQualifiers().entrySet()) {
                 String agendaQualifierValue = qualifiers.get(agendaQualifier.getKey());
                 String environmentQualifierValue = agendaQualifier.getValue();
-                if (UNIT_FIELD_NAME.equals(agendaQualifier.getKey())) {
-                    // environmentQualifierValue will equal the unit number passed in when the engine was invoked.
-                    // applies to should return true if:
-                    // environmentQualifierValue = agendaQualifier.getValue, OR
-                    // agendaQualifier.getValue is a parent of environmentQualifierValue
-//                    if (!environmentQualifierValue.equals(agendaQualifier.getValue())
-//                            && !isChildUnit(environmentQualifierValue, agendaQualifier.getValue())) {
-//                        return false;
-//                    }
+                if (KcKrmsConstants.UNIT_NUMBER.equals(agendaQualifier.getKey())) {
+                    if (!(environmentQualifierValue.equals(agendaQualifierValue) || isChildUnit(environmentQualifierValue, agendaQualifierValue))) {
+                        return false;
+                    }
                 } else if (!environmentQualifierValue.equals(agendaQualifierValue)) {
                     return false;
                 }
@@ -166,13 +156,13 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
             return true;
         }
         
-//        private boolean isChildUnit(String childNumber, String parentNumber) {
-//            UnitService unitService = KraServiceLocator.getService(UnitService.class);
-//            Unit childUnit = unitService.getUnit(childNumber);
-//            Unit parentUnit = unitService.getUnit(parentNumber);
-//            return childUnit.isParentUnit(parentUnit);
-//        }
-        
+        private boolean isChildUnit(String childNumber, String parentNumber) {
+            UnitService unitService = KraServiceLocator.getService(UnitService.class);
+            Unit childUnit = unitService.getUnit(childNumber);
+            Unit parentUnit = unitService.getUnit(parentNumber);
+            return childUnit.isParentUnit(parentUnit);
+        }
+
     }
 
 }
