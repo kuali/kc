@@ -24,7 +24,7 @@ public class IacucProtocolActionType extends KraPersistableBusinessObjectBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -7507534134436245199L;
-    private Integer protocolActionTypeCode; 
+    private String protocolActionTypeCode; 
     private String description; 
     private boolean triggerSubmission; 
     private boolean triggerCorrespondence; 
@@ -34,11 +34,11 @@ public class IacucProtocolActionType extends KraPersistableBusinessObjectBase {
 
     } 
     
-    public Integer getProtocolActionTypeCode() {
+    public String getProtocolActionTypeCode() {
         return protocolActionTypeCode;
     }
 
-    public void setProtocolActionTypeCode(Integer protocolActionTypeCode) {
+    public void setProtocolActionTypeCode(String protocolActionTypeCode) {
         this.protocolActionTypeCode = protocolActionTypeCode;
     }
 

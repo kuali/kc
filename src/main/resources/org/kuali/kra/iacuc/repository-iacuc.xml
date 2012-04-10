@@ -94,7 +94,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.iacuc.actions.IacucProtocolActionType" table="IACUC_PROTOCOL_ACTION_TYPE">
-        <field-descriptor name="protocolActionTypeCode" column="PROTOCOL_ACTION_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="protocolActionTypeCode" column="PROTOCOL_ACTION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="triggerSubmission" column="TRIGGER_SUBMISSION" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="triggerCorrespondence" column="TRIGGER_CORRESPONDENCE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -109,7 +109,7 @@
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="actionId" column="ACTION_ID" jdbc-type="INTEGER" />
-        <field-descriptor name="protocolActionTypeCode" column="PROTOCOL_ACTION_TYPE_CODE" jdbc-type="INTEGER" />
+        <field-descriptor name="protocolActionTypeCode" column="PROTOCOL_ACTION_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="submissionNumber" column="SUBMISSION_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -123,7 +123,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.iacuc.actions.IacucProtocolStatus" table="IACUC_PROTOCOL_STATUS">
-        <field-descriptor name="protocolStatusCode" column="PROTOCOL_STATUS_CODE" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="protocolStatusCode" column="PROTOCOL_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
