@@ -35,6 +35,8 @@ import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepad;
+import org.kuali.kra.award.paymentreports.ReportClass;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
@@ -402,7 +404,31 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         newAward.getSyncChanges().clear();
         newAward.getSyncStatuses().clear();
         newAward.getAwardBudgetLimits().clear();
+        
+        /**
+         * per KRACOEUS-5448 the payment and invoices sub panel items should not be copied.
+         */
+        newAward.setBasisOfPaymentCode(null);
+        newAward.setMethodOfPaymentCode(null);
+        newAward.setDocumentFundingId(null);
+        List<AwardReportTerm> newTerms = new ArrayList<AwardReportTerm>();
+        String paymentReportClassCode = getPaymentAndInvoicesReportClass().getReportClassCode();
+        for (AwardReportTerm term : newAward.getAwardReportTermItems()) {
+            if (!StringUtils.equals(paymentReportClassCode, term.getReportClassCode())) {
+                newTerms.add(term);
+            }
+        }
+        newAward.setAwardReportTermItems(newTerms);
+        newAward.getAwardPaymentAndInvoiceRequirementsComments().setComments(null);
+        newAward.getPaymentScheduleItems().clear();
     } 
+    
+    protected ReportClass getPaymentAndInvoicesReportClass() {
+        Map param = new HashMap();
+        param.put("DESCRIPTION", "Payment/Invoice");
+        ReportClass reportClass = (ReportClass) this.businessObjectService.findMatching(ReportClass.class, param).iterator().next();
+        return reportClass;
+    }
 
     AwardHierarchy copyAwardAsChildOfAnotherNode(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
         String newAwardNumber = targetParentNode.generateNextAwardNumberInSequence();
