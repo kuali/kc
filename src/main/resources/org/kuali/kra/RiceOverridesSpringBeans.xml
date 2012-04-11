@@ -165,27 +165,12 @@
                 <value>multiCampusIdentityService</value>
 
                 <value>s2sOpportunityLookupable</value> 
-                <value>budgetExpenseLookupable</value>
-                <value>onOffCampusLookupable</value>
-                <value>activeFlagLookupable</value>
-                <value>copyPeriodsQuestion</value>
                 <value>protocolLookupable</value>
                 <value>coiDisclosureLookupable</value>
                 <value>protocolOnlineReviewLookupable</value>   
                 <value>protocolSubmissionLookupable</value> 
                 <value>committeeLookupable</value>  
                 <value>committeeScheduleLookupable</value>  
-                <value>awardLookupable</value>
-                <value>awardPersonLookupable</value>
-                <value>institutionalProposalLookupable</value>
-                <value>proposalLogLookupable</value>
-                <value>proposalDevelopmentLookupable</value>
-                <value>budgetPeriodLookupable</value>
-                <value>awardTemplateLookupable</value>
-                <value>negotiationLookupable</value>
-                <value>financialEntityLookupable</value>
-                <value>reportTrackingLookupable</value>
-                <value>subAwardLookupable</value> 
                 <value>coiEventDisclosureLookupable</value>
                 <value>coiDisclosureEventTypeLookupable</value>
                 <value>coiSubmittedDisclosureLookupable</value>
@@ -212,29 +197,14 @@
                 <value>responsibilityLookupable</value>
                 <value>roleLookupable</value>
                 <value>multiCampusIdentityService</value>
-                
+          
                 <value>s2sOpportunityLookupable</value> 
-                <value>budgetExpenseLookupable</value>
-                <value>onOffCampusLookupable</value>
-                <value>activeFlagLookupable</value>
-                <value>copyPeriodsQuestion</value>
                 <value>protocolLookupable</value>
                 <value>coiDisclosureLookupable</value>
                 <value>protocolOnlineReviewLookupable</value>   
                 <value>protocolSubmissionLookupable</value> 
                 <value>committeeLookupable</value>  
                 <value>committeeScheduleLookupable</value>  
-                <value>awardLookupable</value>
-                <value>awardPersonLookupable</value>
-                <value>institutionalProposalLookupable</value>
-                <value>proposalLogLookupable</value>
-                <value>proposalDevelopmentLookupable</value>
-                <value>budgetPeriodLookupable</value>   
-                <value>awardTemplateLookupable</value>
-                <value>negotiationLookupable</value>
-                <value>financialEntityLookupable</value>
-                <value>reportTrackingLookupable</value>
-                <value>subAwardLookupable</value>
                 <value>coiEventDisclosureLookupable</value>
                 <value>coiDisclosureEventTypeLookupable</value>
                 <value>coiSubmittedDisclosureLookupable</value>
