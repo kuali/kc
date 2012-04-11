@@ -80,7 +80,12 @@
     
      <bean id="iacucProtocolPersonnelService" class="org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelServiceImpl">
         <!--  Additional service properties will be added here as needed -->
+        <property name="personEditableService" ref="personEditableService" />
     </bean> 
+    
+    <bean id="iacucProtocolNumberService" class="org.kuali.kra.iacuc.protocol.IacucProtocolNumberServiceImpl">
+        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+    </bean>
     
 </beans>
 

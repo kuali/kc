@@ -1,3 +1,4 @@
+// TODO *********code has been moved to base class, should ultimately be removed**********
 /*
  * Copyright 2005-2010 The Kuali Foundation
  * 
@@ -34,3 +35,4 @@ public interface ProtocolNumberService {
      */
     public String generateProtocolNumber();
 }
+// TODO **********************end************************

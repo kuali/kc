@@ -40,7 +40,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_IACUC)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class IacucProtocolDocument extends ProtocolDocument<IacucProtocol> { 
+public class IacucProtocolDocument extends ProtocolDocument { 
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -60,11 +60,10 @@ public class IacucProtocolDocument extends ProtocolDocument<IacucProtocol> {
     protected IacucProtocol createNewProtocolInstanceHook() {
         return new IacucProtocol();
     }
-
-    @Override
-    protected void setThisDocumentOnProtocolInstanceHook(IacucProtocol protocol) {
-        protocol.setIacucProtocolDocument(this);
-    }    
+	
+	public IacucProtocol getIacucProtocol() {
+	    return (IacucProtocol) this.getProtocol();
+	}
 
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
