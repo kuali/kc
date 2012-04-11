@@ -21,56 +21,25 @@ import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 
-
 /**
- * This class creates BudgetCommonService instance
+ * Creates a BudgetCommonService instance.
  */
-public class BudgetCommonServiceFactory {
-    private ProposalBudgetService proposalBudgetService;
-    private AwardBudgetService awardBudgetService;
-    /**
-     * 
-     * This method creates BudgetCommonService instance by looking at the classname
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public static BudgetCommonService createInstance(BudgetParentDocument parentBudgetDocument){
-        if(parentBudgetDocument.getClass().equals(AwardDocument.class))
-            return KraServiceLocator.getService(AwardBudgetService.class);
-        else
-            return KraServiceLocator.getService(ProposalBudgetService.class);
+public final class BudgetCommonServiceFactory {
+    
+    private BudgetCommonServiceFactory() {
+        throw new UnsupportedOperationException("do not instantiate");
     }
     
     /**
-     * Gets the awardBudgetService attribute. 
-     * @return Returns the awardBudgetService.
+     * Creates an instance of BudgetCommonService by looking at the classname.
+     * @return
      */
-    @SuppressWarnings("unchecked")
-    public AwardBudgetService getAwardBudgetService() {
-        return awardBudgetService;
-    }
-    /**
-     * Sets the awardBudgetService attribute value.
-     * @param awardBudgetService The awardBudgetService to set.
-     */
-    @SuppressWarnings("unchecked")
-    public void setAwardBudgetService(AwardBudgetService awardBudgetService) {
-        this.awardBudgetService = awardBudgetService;
+    public static BudgetCommonService createInstance(BudgetParentDocument parentBudgetDocument) {
+        if (parentBudgetDocument.getClass().equals(AwardDocument.class)) {
+            return KraServiceLocator.getService(AwardBudgetService.class);
+        } else {
+            return KraServiceLocator.getService(ProposalBudgetService.class);
+        }
     }
 
-    /**
-     * Gets the proposalBudgetService attribute. 
-     * @return Returns the proposalBudgetService.
-     */
-    public ProposalBudgetService getProposalBudgetService() {
-        return proposalBudgetService;
-    }
-
-    /**
-     * Sets the proposalBudgetService attribute value.
-     * @param proposalBudgetService The proposalBudgetService to set.
-     */
-    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
-        this.proposalBudgetService = proposalBudgetService;
-    }
 }

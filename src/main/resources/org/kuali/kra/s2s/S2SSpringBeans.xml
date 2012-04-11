@@ -37,7 +37,19 @@
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd"> 
 
 
-		<bean id="s2sOpportunityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="citizenshipTypeService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="citizenshipTypeService" />
+    </bean>
+    
+    <bean id="rolodexService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="rolodexService" />
+    </bean>
+    
+    <bean id="unitService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="unitService" />
+    </bean>
+    
+    <bean id="s2sOpportunityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
     		<ref bean="s2sOpportunityLookupableHelperService" />
   		</property>  		

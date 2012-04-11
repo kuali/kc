@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.Task;
@@ -23,22 +26,16 @@ import org.kuali.kra.authorization.TaskAuthorizer;
 import org.kuali.kra.authorization.TaskAuthorizerGroup;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The Task Authorization Service Implementation.
  */
 public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
-
-    private List<TaskAuthorizerGroup> taskAuthorizerGroups = null;
     
-    /**
-     * Set the list of Task Authorizer Groups.  Injected by the Spring Framework.
-     * @param taskAuthorizerGroups the list of Task Authorizer Groups
-     */
-    public void setTaskAuthorizerGroups(List<TaskAuthorizerGroup> taskAuthorizerGroups) {
-        this.taskAuthorizerGroups = taskAuthorizerGroups;
-    }
+    private Set<String> taskAuthorizerGroupNames = new HashSet<String>();
+    private List<TaskAuthorizerGroup> taskAuthorizerGroups = new ArrayList<TaskAuthorizerGroup>();
     
     /**
      * Delegate the authorization work to a Task Authorizer who is 
@@ -50,39 +47,46 @@ public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
     @Transactional
     public boolean isAuthorized(String userId, Task task) {
         boolean isAuthorized = true;
-        if (taskAuthorizerGroups != null) {
-            String groupName = task.getGroupName();
-            for (TaskAuthorizerGroup taskAuthorizerGroup : taskAuthorizerGroups) {
-                if (StringUtils.equals(taskAuthorizerGroup.getGroupName(), groupName)) {
-                    TaskAuthorizer taskAuthorizer;
-                    if (task.getGenericTaskName() == null || "".equals(task.getGenericTaskName().trim())) {
-                        taskAuthorizer = taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName()); 
-                    } else {
-                        taskAuthorizer = (GenericProtocolAuthorizer) taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName());
-                        ((GenericProtocolAuthorizer) taskAuthorizer).setGenericTaskName(task.getGenericTaskName());
-                    }
-                    
-                    if (taskAuthorizer != null) {
-                        isAuthorized = taskAuthorizer.isAuthorized(userId, task);
-                    }
-                    break;
+        String groupName = task.getGroupName();
+        for (TaskAuthorizerGroup taskAuthorizerGroup : getTaskAuthorizerGroups()) {
+            if (StringUtils.equals(taskAuthorizerGroup.getGroupName(), groupName)) {
+                TaskAuthorizer taskAuthorizer;
+                if (task.getGenericTaskName() == null || "".equals(task.getGenericTaskName().trim())) {
+                    taskAuthorizer = taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName()); 
+                } else {
+                    taskAuthorizer = (GenericProtocolAuthorizer) taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName());
+                    ((GenericProtocolAuthorizer) taskAuthorizer).setGenericTaskName(task.getGenericTaskName());
                 }
+                
+                if (taskAuthorizer != null) {
+                    isAuthorized = taskAuthorizer.isAuthorized(userId, task);
+                }
+                break;
             }
         }
         return isAuthorized;
     }
-
-    /** {@inheritDoc} */
-    @Transactional
-    public boolean isTaskDefined(String taskGroupName, String taskName) {
-        if (taskAuthorizerGroups != null) {
-            for (TaskAuthorizerGroup taskAuthorizerGroup : taskAuthorizerGroups) {
-                if (StringUtils.equals(taskAuthorizerGroup.getGroupName(), taskGroupName)) {
-                    TaskAuthorizer taskAuthorizer = taskAuthorizerGroup.getTaskAuthorizer(taskName);
-                    return (taskAuthorizer != null);
-                }
+    
+    public List<TaskAuthorizerGroup> getTaskAuthorizerGroups() {
+        if (taskAuthorizerGroups.isEmpty()) {
+            for (String taskAuthorizerGroupName : taskAuthorizerGroupNames) {
+                taskAuthorizerGroups.add(GlobalResourceLoader.<TaskAuthorizerGroup>getService(taskAuthorizerGroupName));
             }
         }
-        return false;
+        
+        return taskAuthorizerGroups;
     }
+    
+    public void setTaskAuthorizerGroups(List<TaskAuthorizerGroup> taskAuthorizerGroups) {
+        this.taskAuthorizerGroups = taskAuthorizerGroups;
+    }
+    
+    public Set<String> getTaskAuthorizerGroupNames() {
+        return taskAuthorizerGroupNames;
+    }
+    
+    public void setTaskAuthorizerGroupNames(Set<String> taskAuthorizerGroupNames) {
+        this.taskAuthorizerGroupNames = taskAuthorizerGroupNames;
+    }
+    
 }
