@@ -17,6 +17,7 @@ package org.kuali.kra.timeandmoney;
 
 import java.sql.Date;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -388,5 +389,41 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     public void setHasChildren(Boolean hasChildren) {
         this.hasChildren = hasChildren;
+    }
+    
+    @Override
+    public boolean equals(Object other) {
+        return equals((AwardHierarchyNode) other);
+    }
+    
+    /**
+     * 
+     * This method implements equals using ObjectUtils.equals method for each member variable.
+     * @param other
+     * @return
+     */
+    public boolean equals(AwardHierarchyNode other) {  
+        boolean retVal = other != null && ObjectUtils.equals(getCurrentFundEffectiveDate(), other.getCurrentFundEffectiveDate()) 
+            && ObjectUtils.equals(obligationExpirationDate, other.getObligationExpirationDate())
+            && ObjectUtils.equals(finalExpirationDate, other.getFinalExpirationDate())
+            && ObjectUtils.equals(projectStartDate, other.getProjectStartDate())
+            && ObjectUtils.equals(anticipatedTotalAmount, other.getAnticipatedTotalAmount())
+            && ObjectUtils.equals(anticipatedTotalIndirect, other.getAnticipatedTotalIndirect())
+            && ObjectUtils.equals(anticipatedTotalDirect, other.getAnticipatedTotalDirect())
+            && ObjectUtils.equals(antDistributableAmount, other.getAntDistributableAmount())
+            && ObjectUtils.equals(amountObligatedToDate, other.getAmountObligatedToDate())
+            && ObjectUtils.equals(obligatedTotalDirect, other.getObligatedTotalDirect())
+            && ObjectUtils.equals(obligatedTotalIndirect, other.getObligatedTotalIndirect())
+            && ObjectUtils.equals(obliDistributableAmount, other.getObliDistributableAmount())
+            && ObjectUtils.equals(leadUnitName, other.getLeadUnitName())
+            && ObjectUtils.equals(principalInvestigatorName, other.getPrincipalInvestigatorName())
+            && ObjectUtils.equals(accountNumber, other.getAccountNumber())
+            && ObjectUtils.equals(awardStatusCode, other.getAwardStatusCode())
+            && ObjectUtils.equals(title, other.getTitle())
+            && ObjectUtils.equals(awardId, other.getAwardId())
+            && ObjectUtils.equals(awardDocumentFinalStatus, other.isAwardDocumentFinalStatus())
+            && ObjectUtils.equals(awardDocumentNumber, other.getAwardDocumentNumber())
+            && ObjectUtils.equals(getHasChildren(), other.getHasChildren());
+        return retVal;
     }
 }
