@@ -20,6 +20,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -114,7 +115,11 @@ public class AwardNotificationEditorAction extends AwardAction {
         if (applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
             awardForm.getNotificationHelper().sendNotification();
             
-            actionForward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
+            String forwardName = awardForm.getNotificationHelper().getNotificationContext().getForwardName();
+            if (StringUtils.isNotBlank(forwardName)) {
+                actionForward = mapping.findForward(forwardName);
+            }
+            
         }
 
         return actionForward;

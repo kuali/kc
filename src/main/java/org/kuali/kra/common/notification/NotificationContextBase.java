@@ -38,7 +38,7 @@ public abstract class NotificationContextBase implements NotificationContext, Se
 
     private static final long serialVersionUID = -6135354658158890714L;
 
-    private NotificationRenderer renderer;
+    private transient NotificationRenderer renderer;
     
     private transient KcNotificationService notificationService;
     private transient KcNotificationModuleRoleService notificationModuleRoleService;
