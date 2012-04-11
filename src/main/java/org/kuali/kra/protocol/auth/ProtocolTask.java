@@ -13,31 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.auth;
+package org.kuali.kra.protocol.auth;
 
-import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.auth.ProtocolTask;
 
-public final class IacucProtocolTask  extends ProtocolTask {
+public abstract class ProtocolTask extends Task {
     
+    private Protocol protocol;
     
+
     /**
      * Constructs a ProtocolTask.
      * @param taskName the name of the task
-     * @param protocol the IacucProtocol
+     * @param protocol the Protocol
      */
-    public IacucProtocolTask(String taskName, IacucProtocol protocol) {
-        super(TaskGroupName.IACUC_PROTOCOL, taskName, protocol);
+    public ProtocolTask(String taskGroupName, String taskName, Protocol protocol) {
+        super(taskGroupName, taskName);
+        this.protocol = protocol;
     }
     
-    public IacucProtocolTask(String taskName, IacucProtocol protocol, String genericTaskName) {
-        super(TaskGroupName.IACUC_PROTOCOL, taskName, protocol, genericTaskName);
+    public ProtocolTask(String taskGroupName, String taskName, Protocol protocol, String genericTaskName) {
+        super(taskGroupName, taskName, genericTaskName);
+        this.protocol = protocol;
     }
 
-    public IacucProtocol getProtocol() {
-        return (IacucProtocol)super.getProtocol();
+    /**
+     * Get the Protocol.
+     * @return the Protocol
+     */
+    public Protocol getProtocol() {
+        return protocol;
     }
 
 }
