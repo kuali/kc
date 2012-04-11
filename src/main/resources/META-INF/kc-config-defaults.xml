@@ -31,6 +31,7 @@
 	<param name="ken.mode">LOCAL</param>
 	<param name="ksb.mode">LOCAL</param>
 	<param name="kns.mode">LOCAL</param>
+	<param name="krms.mode">LOCAL</param>
 	<param name="coreservice.mode">LOCAL</param>
 	<param name="location.mode">LOCAL</param>
 	<param name="dev.mode">true</param>
