@@ -120,6 +120,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     
     /** {@inheritDoc} */
     @Override
+    // TODO this method has been removed from the refactored parent class code, let subclasses provide hook implementations
     protected String getDefaultDocumentTypeName() {
         return "ProtocolDocument";
     }
@@ -200,6 +201,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         return result;
     }
     
+// TODO *********code has been moved to base class, should ultimately be removed**********
     /**
      * 
      * This method is a wrapper method for getting DataDictionary Service using the Service Locator.
@@ -208,6 +210,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     protected DataDictionaryService getDataDictionaryService(){
         return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
     }
+// TODO **********************end************************
 
     /**
      * 
@@ -366,15 +369,19 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     // TODO **********************end************************
     
     
+    
+    // TODO this method has been removed from the refactored parent class code, let subclasses provide hook implementations
     @Override
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_PROTOCOL;
     }
     
+    // TODO this method has been removed from the refactored parent class code, let subclasses provide hook implementations
     @Override
     public String getActionName() {
         return "protocol";
     }
+ 
 
     public CustomDataHelper getCustomDataHelper() {
         return customDataHelper;
@@ -479,10 +486,12 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
             return super.isPropertyEditable(propertyName);
         }
     }
-    
+   
+    // TODO *********code has been moved to base class, should ultimately be removed**********
     public KraAuthorizationService getKraAuthorizationService() {
         return KraServiceLocator.getService(KraAuthorizationService.class);
     }
+    // TODO **********************end************************
     
     /**
      * 

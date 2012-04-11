@@ -445,8 +445,7 @@ public class ProtocolHelper implements Serializable {
     public void setLeadUnitAutoPopulated(boolean leadUnitAutoPopulated) {
         this.leadUnitAutoPopulated = leadUnitAutoPopulated;
     }
-    // TODO **********************end************************
-
+   
     
     
     /**
@@ -459,17 +458,23 @@ public class ProtocolHelper implements Serializable {
     public void prepareRequiredFieldsForSave() {
         
         if (getProtocol().getProtocolNumber() == null) {
+            // TODO getProtocolNumberService() is now an abstract hook method
             getProtocol().setProtocolNumber(getProtocolNumberService().generateProtocolNumber());
         }
         
         findPrincipalInvestigatorIdFromFields();
         findAndSetLeadUnitFromFields();
 
-        // Since we are saving, we will always reset the PI and lead unit to field values        
+        // Since we are saving, we will always reset the PI and lead unit to field values
+        // TODO getProtocolPersonnelService() is now an abstract hook method
         getProtocolPersonnelService().setPrincipalInvestigator(createPrincipalInvestigator(), getProtocol());
         ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(getProtocol().getProtocolPersons());
         getProtocolPersonnelService().setLeadUnit(createLeadUnit(), principalInvestigator, getProtocol());
     }
+    // TODO **********************end************************
+
+    
+    
     
     /**
      * Creates the initial PROTOCOL_CREATED action for a new protocol.
@@ -588,8 +593,6 @@ public class ProtocolHelper implements Serializable {
         setLookupUnitNumber(null);
         setLookupUnitName(null);
     }
-    // TODO **********************end************************
-    
     
     
     private ProtocolUnit createLeadUnit() {
@@ -621,6 +624,9 @@ public class ProtocolHelper implements Serializable {
         }
         return pi;
     }
+    
+ // TODO **********************end************************
+    
     
     private void resolveRequiredFieldsFromBO() {
         ProtocolPerson pi = getProtocol().getPrincipalInvestigator();

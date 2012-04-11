@@ -23,8 +23,6 @@ import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -33,6 +31,11 @@ import org.kuali.rice.krad.document.Document;
 public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     // TODO : detail need to be implemented after role and tasks are set up.
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -5078229085592345997L;
+
     /**
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
@@ -108,7 +111,7 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
      */
     private boolean canExecuteIacucProtocolTask(String userId, IacucProtocolDocument doc, String taskName) {
         // TODO : to be implemented later
-        IacucProtocolTask task = new IacucProtocolTask(taskName, doc.getProtocol());       
+        IacucProtocolTask task = new IacucProtocolTask(taskName, doc.getIacucProtocol());       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
