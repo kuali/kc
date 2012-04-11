@@ -106,7 +106,7 @@ import org.kuali.kra.workflow.test.ProposalDevelopmentDocumentRoutingSeleniumTes
     CostElementMaintenanceDocumentSeleniumTest.class,
     CustomAttributeMaintenanceDocumentSeleniumTest.class,
     InstituteLaRateMaintenanceDocumentSeleniumTest.class,
-    InstituteRateMaintenanceDocumentSeleniumTest.class,
+    //InstituteRateMaintenanceDocumentSeleniumTest.class,
     InstitutionalProposalCompleteSeleniumTest.class,
     InstitutionalProposalContactsSeleniumTest.class,
     InstitutionalProposalDistributionSeleniumTest.class,
