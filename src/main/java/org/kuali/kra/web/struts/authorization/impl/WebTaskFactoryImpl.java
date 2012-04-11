@@ -15,25 +15,14 @@
  */
 package org.kuali.kra.web.struts.authorization.impl;
 
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.authorization.WebTaskFactory;
-import org.springframework.beans.factory.InitializingBean;
 
 /**
  * Base implementation class for Test Factories.
  */
-public abstract class WebTaskFactoryImpl implements WebTaskFactory, InitializingBean {
+public abstract class WebTaskFactoryImpl implements WebTaskFactory {
 
     private String taskName;
-    private TaskAuthorizationService taskAuthorizationService;
-    
-    /**
-     * Set the Task Authorization Service.  Injected by the Spring Framework.
-     * @param taskAuthorizationService the Task Authorization Service
-     */
-    public final void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
-        this.taskAuthorizationService = taskAuthorizationService;
-    }
     
     /**
      * Set the name of the Task.  Injected by the Spring Framework.
@@ -56,16 +45,5 @@ public abstract class WebTaskFactoryImpl implements WebTaskFactory, Initializing
      * @return the task's group name
      */
     public abstract String getTaskGroupName();
-    
-    /**
-     * This is a sanity check to verify that the SpringBeans.xml file contained
-     * the name of a task that really does exist in the system.
-     * 
-     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-     */
-    public void afterPropertiesSet() throws Exception {
-        if (!taskAuthorizationService.isTaskDefined(getTaskGroupName(), getTaskName())) {
-            throw new RuntimeException("Undefined Task: " + getTaskGroupName() + "." + getTaskName());
-        }
-    }
+
 }
