@@ -37,6 +37,7 @@
 	<param name="dev.mode">true</param>
 	
 	<param name="kc.core.mode">LOCAL</param>
+	<param name="kc.pd.mode">LOCAL</param>
 	
 	<param name="rice.krad.componentPublishing.enabled">false</param>
 	<param name="service.namespace">KC</param>

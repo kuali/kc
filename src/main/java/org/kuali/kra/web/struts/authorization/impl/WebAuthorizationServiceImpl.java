@@ -15,13 +15,17 @@
  */
 package org.kuali.kra.web.struts.authorization.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.kuali.kra.authorization.Task;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.authorization.WebAuthorizationService;
 import org.kuali.kra.web.struts.authorization.WebAuthorizer;
@@ -31,25 +35,11 @@ import org.kuali.kra.web.struts.authorization.WebTaskFactory;
  * Implementation of the Web Authorization Service.
  */
 public class WebAuthorizationServiceImpl implements WebAuthorizationService {
+    
+    private Set<String> webAuthorizerNames = new HashSet<String>();
+    private List<WebAuthorizer> webAuthorizers = new ArrayList<WebAuthorizer>();
 
     private TaskAuthorizationService taskAuthorizationService;
-    private List<WebAuthorizer> webAuthorizers;
-    
-    /**
-     * Set the Task Authorization Service.  Injected by the Spring Framework.
-     * @param taskAuthorizationService the Task Authorization Service
-     */
-    public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
-        this.taskAuthorizationService = taskAuthorizationService;
-    }
-    
-    /**
-     * Set the Web Authorizers.  Injected by the Spring Framework.
-     * @param webAuthorizers the Web Authorizers
-     */
-    public void setWebAuthorizers(List<WebAuthorizer> webAuthorizers) {
-        this.webAuthorizers = webAuthorizers;
-    }
     
     /**
      * To determine if the user can execute the given Struts Action method, we will use
@@ -61,7 +51,8 @@ public class WebAuthorizationServiceImpl implements WebAuthorizationService {
      * and the Task Authorization is invoked to determine if the user can perform the
      * task.
      * 
-     * @see org.kuali.kra.web.struts.authorization.WebAuthorizationService#isAuthorized(java.lang.String, java.lang.Class, java.lang.String, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.kra.web.struts.authorization.WebAuthorizationService#isAuthorized(java.lang.String, java.lang.Class, java.lang.String, 
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
      */
     public boolean isAuthorized(String userId, Class actionClass, String methodName, ActionForm form, HttpServletRequest request) {
         boolean isAuthorized = true;
@@ -72,15 +63,13 @@ public class WebAuthorizationServiceImpl implements WebAuthorizationService {
             WebAuthorizer webAuthorizer = getWebAuthorizer(classname);
             if (webAuthorizer == null) {
                 isAuthorized = isAuthorized(userId, actionClass.getSuperclass(), methodName, form, request);
-            }
-            else {
+            } else {
                 WebTaskFactory taskFactory = webAuthorizer.getTaskFactory(methodName);
                 if (taskFactory == null) {
                     isAuthorized = isAuthorized(userId, actionClass.getSuperclass(), methodName, form, request);
-                }
-                else if (taskAuthorizationService != null) {
+                } else if (getTaskAuthorizationService() != null) {
                     Task task = taskFactory.createTask(form, request);
-                    isAuthorized = taskAuthorizationService.isAuthorized(userId, task);
+                    isAuthorized = getTaskAuthorizationService().isAuthorized(userId, task);
                 }
             }
         }
@@ -93,11 +82,42 @@ public class WebAuthorizationServiceImpl implements WebAuthorizationService {
      * @return the corresponding Web Authorizer or null if not found
      */
     protected WebAuthorizer getWebAuthorizer(String classname) {
-        for (WebAuthorizer webAuthorizer : webAuthorizers) {
+        for (WebAuthorizer webAuthorizer : getWebAuthorizers()) {
             if (StringUtils.equals(webAuthorizer.getClassname(), classname)) {
                 return webAuthorizer;
             }
         }
         return null;
     }
+    
+    public List<WebAuthorizer> getWebAuthorizers() {
+        if (webAuthorizers.isEmpty()) {
+            for (String webAuthorizerName : webAuthorizerNames) {
+                webAuthorizers.add(KraServiceLocator.<WebAuthorizer>getService(webAuthorizerName));
+            }
+        }
+        
+        return webAuthorizers;
+    }
+    
+    public void setWebAuthorizers(List<WebAuthorizer> webAuthorizers) {
+        this.webAuthorizers = webAuthorizers;
+    }
+    
+    public Set<String> getWebAuthorizerNames() {
+        return webAuthorizerNames;
+    }
+    
+    public void setWebAuthorizerNames(Set<String> webAuthorizerNames) {
+        this.webAuthorizerNames = webAuthorizerNames;
+    }
+
+    public TaskAuthorizationService getTaskAuthorizationService() {
+        return taskAuthorizationService;
+    }
+    
+    public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
+        this.taskAuthorizationService = taskAuthorizationService;
+    }
+
 }

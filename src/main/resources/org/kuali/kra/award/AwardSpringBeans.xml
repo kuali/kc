@@ -127,17 +127,17 @@
         <property name="mappings">
             <map>
                 <entry key="addBudgetVersion">
-                    <bean class="org.kuali.kra.award.web.struts.authorization.AwardTaskFactory" parent="parentTaskFactory">
+                    <bean class="org.kuali.kra.award.web.struts.authorization.AwardTaskFactory">
                         <property name="taskName" value="addBudget" />
                     </bean>
                 </entry>
                 <entry key="openBudgetVersion">
-                    <bean class="org.kuali.kra.award.web.struts.authorization.AwardTaskFactory" parent="parentTaskFactory">
+                    <bean class="org.kuali.kra.award.web.struts.authorization.AwardTaskFactory">
                         <property name="taskName" value="openBudgets" />
                     </bean>
                 </entry>
                 <entry key="copyBudgetVersion">
-                    <bean class="org.kuali.kra.award.web.struts.authorization.AwardTaskFactory" parent="parentTaskFactory">
+                    <bean class="org.kuali.kra.award.web.struts.authorization.AwardTaskFactory">
                         <property name="taskName" value="addBudget" />
                     </bean>
                 </entry>
