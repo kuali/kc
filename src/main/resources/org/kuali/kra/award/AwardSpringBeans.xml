@@ -792,7 +792,34 @@
 		</property>
 	</bean>
 	
-    <bean id="awardNotificationRoleQualifierService" class="org.kuali.kra.award.notification.AwardNotificationRoleQualifierServiceImpl">
+    <bean id="awardNotificationRoleQualifierService" class="org.kuali.kra.award.notification.AwardNotificationRoleQualifierServiceImpl"
+    	scope="prototype">
     </bean>
+    
+    <bean id="awardNotificationRenderer" class="org.kuali.kra.award.notification.AwardNotificationRenderer" scope="prototype"/>
+	
+	<bean id="awardInvestigatorsRoleTypeService"
+		class="org.kuali.kra.award.AwardInvestigatorDerivedRoleTypeServiceImpl">
+		<property name="awardService" ref="awardService"/>
+	</bean>
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+		<property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="awardInvestigatorsRoleTypeService"
+				p:localServiceName="awardInvestigatorsRoleTypeService" />
+		</property>
+	</bean>
+    
+    <bean id="awardAllUnitAdministratorDerivedRoleTypeService"
+		class="org.kuali.kra.award.AwardAllUnitAdministratorDerivedRoleTypeServiceImpl">
+		<property name="awardService" ref="awardService"/>
+		<property name="unitService" ref="unitService"/>
+	</bean>
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+		<property name="serviceDefinition">
+			<bean parent="kcService" p:service-ref="awardAllUnitAdministratorDerivedRoleTypeService"
+				p:localServiceName="awardAllUnitAdministratorDerivedRoleTypeService" />				
+		</property>
+	</bean>
+	
 	
 </beans>

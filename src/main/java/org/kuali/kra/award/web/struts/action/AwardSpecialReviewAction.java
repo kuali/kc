@@ -27,7 +27,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.notification.AwardNotificationContext;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
+import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
@@ -101,15 +103,29 @@ public class AwardSpecialReviewAction extends AwardAction {
         
         awardForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
+        ActionForward forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         if (applyRules(new AddSpecialReviewEvent<AwardSpecialReview>(document, specialReview, specialReviews, isProtocolLinkingEnabled))) {
             specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
             document.getAward().getSpecialReviews().add(specialReview);
             awardForm.getSpecialReviewHelper().setNewSpecialReview(new AwardSpecialReview());
+            if (specialReview.getSpecialReviewType() == null) {
+                specialReview.refreshReferenceObject("specialReviewType");
+            }
+            if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
+                AwardNotificationContext context = 
+                    new AwardNotificationContext(document.getAward(), "552", "Special Review Inserted", Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
+                if (awardForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                    awardForm.getNotificationHelper().initializeDefaultValues(context);
+                    forward = mapping.findForward("notificationEditor");
+                } else {
+                    getNotificationService().sendNotification(context);                
+                }
+            }            
         }
 
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        return forward;
     }
-    
+
     /**
      * Deletes a special review item after confirmation.
      * 
@@ -140,15 +156,30 @@ public class AwardSpecialReviewAction extends AwardAction {
     public ActionForward confirmDeleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_SPECIAL_REVIEW_KEY.equals(question)) {
             AwardForm awardForm = (AwardForm) form;
             AwardDocument document = awardForm.getAwardDocument();
+            AwardSpecialReview specialReview = document.getAward().getSpecialReviews().get(getLineToDelete(request));
+            document.getAward().getSpecialReviews().remove(specialReview);
             
-            document.getAward().getSpecialReviews().remove(getLineToDelete(request));
+            if (specialReview.getSpecialReviewType() == null) {
+                specialReview.refreshReferenceObject("specialReviewType");
+            }
+            if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
+                AwardNotificationContext context = 
+                    new AwardNotificationContext(document.getAward(), "553", "Special Review Deleted", Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
+                if (awardForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                    awardForm.getNotificationHelper().initializeDefaultValues(context);
+                    forward = mapping.findForward("notificationEditor");
+                } else {
+                    getNotificationService().sendNotification(context);                
+                }
+            }            
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
     
     /**

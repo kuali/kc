@@ -194,6 +194,7 @@
     <bean id="institutionalProposalAllUnitAdministratorDerivedRoleTypeService"
 		class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalAllUnitAdministratorDerivedRoleTypeServiceImpl">
 		<property name="institutionalProposalService" ref="institutionalProposalService"/>
+		<property name="unitService" ref="unitService"/>
 	</bean>
 	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">

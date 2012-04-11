@@ -74,6 +74,7 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
@@ -141,6 +142,7 @@ public class AwardAction extends BudgetParentActionBase {
     private transient AwardBudgetService awardBudgetService;
     private transient AwardService awardService;
     private transient ReportTrackingService reportTrackingService;
+    private transient KcNotificationService notificationService;
     
     private static final Log LOG = LogFactory.getLog( AwardAction.class );
     
@@ -1873,5 +1875,16 @@ public class AwardAction extends BudgetParentActionBase {
             }
         }
         award.setSubAwardList(subAwardList);
+    }
+
+    protected KcNotificationService getNotificationService() {
+        if (notificationService == null) {
+            notificationService = KraServiceLocator.getService(KcNotificationService.class);
+        }
+        return notificationService;
+    }
+
+    public void setNotificationService(KcNotificationService notificationService) {
+        this.notificationService = notificationService;
     }
 }
