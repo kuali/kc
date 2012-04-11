@@ -20,7 +20,7 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.protocol.ProtocolAssociate;
 
-public class ProtocolUnit extends ProtocolAssociate {
+public abstract class ProtocolUnit extends ProtocolAssociate {
 
     /**
      * Comment for <code>serialVersionUID</code>

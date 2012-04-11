@@ -22,7 +22,7 @@ import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.kra.protocol.ProtocolDocument;
 
 /**
  * 
@@ -48,17 +48,20 @@ public class IacucProtocol extends Protocol {
 
     private Timestamp createTimestamp;
     private String createUser;
-    IacucProtocolDocument iacucProtocolDocument;
+    private IacucProtocolDocument iacucProtocolDocument;
     
-    public IacucProtocol() { 
+    
+    public IacucProtocol() {
+        
         // TODO : temporary only; remove this when protocol is ready
         initializaTestData();
     } 
+   
     
     private void initializaTestData() {
         // TODO : this is just for plumbing work.  remove it when working on required fields tab.
-        Long protNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
-        setProtocolNumber(protNumber.toString());
+        // Long protNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
+        // setProtocolNumber(protNumber.toString());
         setSequenceNumber(0);
         setProtocolStatusCode("100");
 //        setProjectTypeCode("1");
@@ -76,16 +79,7 @@ public class IacucProtocol extends Protocol {
         
     }
     
-    /*
-    public String getLeadUnitName() {
-        return leadUnitName;
-    }
-
-    public void setLeadUnitName(String leadUnitName) {
-        this.leadUnitName = leadUnitName;
-    }
-    */
-    
+   
 
     public Date getApplicationDate() {
         return applicationDate;
@@ -183,12 +177,23 @@ public class IacucProtocol extends Protocol {
     
 
     @Override
-    protected IacucProtocolPersonnelService getProtocolPersonnelServiceHook() {
+    // implementation of hook method
+    protected IacucProtocolPersonnelService getProtocolPersonnelService() {
         return (IacucProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
+    }
+
+    @Override
+    public void setProtocolDocument(ProtocolDocument protocolDocument) {
+        this.setIacucProtocolDocument((IacucProtocolDocument) protocolDocument);
+    }
+
+    @Override
+    public ProtocolDocument getProtocolDocument() {
+        return this.getIacucProtocolDocument();
     }
 
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_IACUC;
-    }
+    }    
 
 }

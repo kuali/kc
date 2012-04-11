@@ -543,14 +543,11 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
 //        return protocolReferences;
 //    }
 //
-//    public ProtocolDocument getProtocolDocument() {
-//        return protocolDocument;
-//    }
-//
-//    public void setProtocolDocument(ProtocolDocument protocolDocument) {
-//        this.protocolDocument = protocolDocument;
-//    }
-//
+    
+    public abstract ProtocolDocument getProtocolDocument();
+
+    public abstract void setProtocolDocument(ProtocolDocument protocolDocument);
+
 //    public void setProtocolLocations(List<ProtocolLocation> protocolLocations) {
 //        this.protocolLocations = protocolLocations;
 //        for (ProtocolLocation location : protocolLocations) {
@@ -634,7 +631,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
      * @return ProtocolPerson
      */
     public ProtocolPerson getPrincipalInvestigator() {
-        return getProtocolPersonnelServiceHook().getPrincipalInvestigator(getProtocolPersons());
+        return getProtocolPersonnelService().getPrincipalInvestigator(getProtocolPersons());
     }
 
     public String getPrincipalInvestigatorName() {
@@ -755,7 +752,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
      * This method is a hook to get actual protocol personnel service impl corresponding to the protocol type
      * @return protocolPersonnelService
      */
-    protected abstract ProtocolPersonnelService getProtocolPersonnelServiceHook();
+    protected abstract ProtocolPersonnelService getProtocolPersonnelService();
 
     
     

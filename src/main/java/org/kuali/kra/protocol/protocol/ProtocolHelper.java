@@ -20,15 +20,19 @@ import java.io.Serializable;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
+import org.kuali.kra.protocol.personnel.ProtocolUnit;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.service.UnitService;
 
-public class ProtocolHelper implements Serializable {
+public abstract class ProtocolHelper implements Serializable {
 
     private static final long serialVersionUID = -7963690780161657432L;
 
@@ -156,6 +160,72 @@ public class ProtocolHelper implements Serializable {
         return (pi == null? null : pi.getUnit());
     }
     
+    
+    /**
+     * This method is a form helper for protocol. It is needed to push the
+     * transient form fields into principal investigator /lead unit.
+     * Due to table structure, these are stored as lists in protocol and 
+     * protocol investigator respectively, but aren't provided (by design) an explicit
+     * "add" element in the required fields panel view like most growing lists
+     */
+    public void prepareRequiredFieldsForSave() {
+        
+        if (getProtocol().getProtocolNumber() == null) {
+            getProtocol().setProtocolNumber(getProtocolNumberService().generateProtocolNumber());
+        }
+        
+        findPrincipalInvestigatorIdFromFields();
+        findAndSetLeadUnitFromFields();
+// TODO this becomes live when we have the db artifacts for person role and unit etc
+//        // Since we are saving, we will always reset the PI and lead unit to field values        
+//        getProtocolPersonnelService().setPrincipalInvestigator(createPrincipalInvestigator(), getProtocol());
+//        ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(getProtocol().getProtocolPersons());
+//        getProtocolPersonnelService().setLeadUnit(createLeadUnit(), principalInvestigator, getProtocol());
+    }
+    
+    // hook method
+    protected abstract ProtocolPersonnelService getProtocolPersonnelService();
+
+    // hook method
+    protected abstract ProtocolNumberService getProtocolNumberService();
+    
+    private ProtocolUnit createLeadUnit() {
+        ProtocolUnit ret = null;
+        if (StringUtils.isNotEmpty(getLeadUnitNumber()) && StringUtils.isNotEmpty(getLeadUnitName())) {
+            ret = createNewProtocolUnitInstanceHook();
+            ret.setLeadUnitFlag(true);
+            ret.setUnitNumber(getLeadUnitNumber());
+            ret.setUnitName(getLeadUnitName());
+        }
+        return ret;
+    }
+    
+    // hook method
+    protected abstract ProtocolUnit createNewProtocolUnitInstanceHook();
+    
+
+    private ProtocolPerson createPrincipalInvestigator() {
+        ProtocolPerson pi = null;
+        if (!StringUtils.isBlank(getPrincipalInvestigatorId())) {
+            pi = createNewProtocolPersonInstanceHook();
+            pi.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+            pi.setProtocolNumber(getProtocol().getProtocolNumber());
+            pi.setSequenceNumber(0);
+            pi.refreshReferenceObject("protocolPersonRole");
+            if (isNonEmployeeFlag()) {
+                pi.refreshReferenceObject("rolodex");
+                pi.setRolodexId(Integer.valueOf(principalInvestigatorId));
+            } else {
+                pi.setPersonId(principalInvestigatorId);
+            }
+            pi.setPersonName(getPrincipalInvestigatorName());
+        }
+        return pi;
+    }
+
+    // hook method
+    protected abstract ProtocolPerson createNewProtocolPersonInstanceHook();
+
     private KcPersonService getPersonService() {
         if(personService == null) {
             personService = KraServiceLocator.getService(KcPersonService.class);
