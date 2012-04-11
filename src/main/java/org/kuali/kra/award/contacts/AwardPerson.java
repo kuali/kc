@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Unit;
@@ -34,7 +35,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 /**
  * This class implements an Award Person 
  */
-public class AwardPerson extends AwardContact implements PersonRolodex, Comparable<AwardPerson> {
+public class AwardPerson extends AwardContact implements PersonRolodex, Comparable<AwardPerson>, AbstractProjectPerson {
 
     private static final long serialVersionUID = 7980027108784055721L;
 

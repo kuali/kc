@@ -23,6 +23,7 @@ import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.util.EmailAttachment;
 
@@ -33,10 +34,12 @@ public class AwardNotificationContext extends NotificationContextBase {
 
     private static final long serialVersionUID = -8704592268298791182L;
     
+    private Award award;
     private String documentNumber;
     private String actionTypeCode;
     private String contextName;
     private List<EmailAttachment> emailAttachments;
+    private String forwardName;
 
     /**
      * Constructs an Award notification context and sets the necessary services.
@@ -45,17 +48,30 @@ public class AwardNotificationContext extends NotificationContextBase {
      * @param contextName
      * @param renderer
      */
-    public AwardNotificationContext(Award award, String actionTypeCode, String contextName, NotificationRenderer renderer) {
+    public AwardNotificationContext(Award award, String actionTypeCode, String contextName, NotificationRenderer renderer, String forwardName) {
         super(renderer);
         
+        this.award = award;
         this.documentNumber = award.getAwardDocument().getDocumentNumber();
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
+        this.forwardName = forwardName;
         
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
         setNotificationRoleQualifierService(KraServiceLocator.getService(AwardNotificationRoleQualifierService.class));
+        ((AwardNotificationRoleQualifierService)getNotificationRoleQualifierService()).setAward(award);
     }
+    
+    public AwardNotificationContext(Award award, String actionTypeCode, String contextName) {
+        this(award, actionTypeCode, contextName, KraServiceLocator.getService(AwardNotificationRenderer.class), Constants.MAPPING_AWARD_ACTIONS_PAGE);
+        ((AwardNotificationRenderer)getRenderer()).setAward(award);
+    }
+    
+    public AwardNotificationContext(Award award, String actionTypeCode, String contextName, String forwardName) {
+        this(award, actionTypeCode, contextName, KraServiceLocator.getService(AwardNotificationRenderer.class), forwardName);
+        ((AwardNotificationRenderer)getRenderer()).setAward(award);
+    }    
     
     /**
      * {@inheritDoc}
@@ -103,6 +119,22 @@ public class AwardNotificationContext extends NotificationContextBase {
      */
     public void setEmailAttachments(List<EmailAttachment> emailAttachments) {
         this.emailAttachments = emailAttachments;
+    }
+
+    public Award getAward() {
+        return award;
+    }
+
+    public void setAward(Award award) {
+        this.award = award;
+    }
+
+    public String getForwardName() {
+        return forwardName;
+    }
+
+    public void setForwardName(String forwardName) {
+        this.forwardName = forwardName;
     }
     
 }
