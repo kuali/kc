@@ -23,4 +23,6 @@
     
     <bean id="kcCoreConfigurer" class="org.kuali.kra.config.CoreConfigurer" />
     
+    <bean id="kcProposalDevelopmentConfigurer" class="org.kuali.kra.proposaldevelopment.config.ProposalDevelopmentConfigurer" />
+    
 </beans>

@@ -63,16 +63,16 @@
         <property name="serviceName" value="rice.ksb.serviceBus"/>
     </bean>
     
+    <bean id="businessObjectService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="businessObjectService" />
+    </bean>
+    
     <bean id="businessObjectDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="businessObjectDictionaryService" />
     </bean>
     
     <bean id="businessObjectMetaDataService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="businessObjectMetaDataService" />
-    </bean>
-    
-    <bean id="businessObjectService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="businessObjectService" />
     </bean>
     
     <bean id="configService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
@@ -155,12 +155,12 @@
         <property name="serviceName" value="lookupDao" />
     </bean>
     
-    <bean id="lookupResultsService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="lookupResultsService" />
-    </bean>
-    
     <bean id="lookupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="lookupService" />
+    </bean>
+    
+    <bean id="lookupResultsService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="lookupResultsService" />
     </bean>
     
     <bean id="maintenanceDocumentDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
@@ -251,12 +251,12 @@
         <property name="serviceName" value="multiCampusIdentityService" />
     </bean>
     
-    <bean id="platformAwareDao" abstract="true" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb">
+    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
         <property name="jcdAlias" value="kradApplicationDataSource" />
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
     
-    <bean id="platformAwareDaoJdbc" abstract="true" class="org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc">
+    <bean id="platformAwareDaoJdbc" class="org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc" abstract="true">
         <property name="dataSource" ref="dataSource" />
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
@@ -765,6 +765,12 @@
 
     <!-- Application Task Authorizers -->
     
+    <bean id="parentAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+    
     <bean id="applicationTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
         <property name="groupName" value="application" />
         <property name="taskAuthorizers">
@@ -807,46 +813,42 @@
     <!-- Task Authorization Service -->
 
     <bean id="taskAuthorizationService" class="org.kuali.kra.service.impl.TaskAuthorizationServiceImpl">
-        <property name="taskAuthorizerGroups">
-            <list>
-                <ref bean="applicationTaskAuthorizers" />
-                <ref bean="proposalTaskAuthorizers" />
-                <ref bean="narrativeTaskAuthorizers" />
-                <ref bean="budgetTaskAuthorizers" />
-                <ref bean="awardBudgetTaskAuthorizers" />
-                <ref bean="protocolTaskAuthorizers" />
-                <ref bean="committeeTaskAuthorizers" />
-                <ref bean="awardTaskAuthorizers" />
-                <ref bean="timeAndMoneyTaskAuthorizers" />
-                <ref bean="protocolOnlineReviewTaskAuthorizers" />
-                <ref bean="subAwardTaskAuthorizers" />
-                <ref bean="negotiationTaskAuthorizers"/>
-                <ref bean="coiDisclosureTaskAuthorizers" />
-                <ref bean="iacucProtocolTaskAuthorizers" />
-            </list>
+        <property name="taskAuthorizerGroupNames">
+            <set>
+                <value>applicationTaskAuthorizers</value>
+                <value>proposalTaskAuthorizers</value>
+                <value>proposalBudgetTaskAuthorizers</value>
+                <value>narrativeTaskAuthorizers</value>
+                <value>awardTaskAuthorizers</value>
+                <value>awardBudgetTaskAuthorizers</value>
+                <value>subAwardTaskAuthorizers</value>
+                <value>timeAndMoneyTaskAuthorizers</value>
+                <value>negotiationTaskAuthorizers</value>
+                <value>protocolTaskAuthorizers</value>
+                <value>protocolOnlineReviewTaskAuthorizers</value>
+                <value>iacucProtocolTaskAuthorizers</value>
+                <value>coiDisclosureTaskAuthorizers</value>
+                <value>committeeTaskAuthorizers</value>
+            </set>
         </property>
-    </bean>
-
-    <bean id="parentTaskFactory" abstract="true">
-        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
     </bean>
 
     <bean id="webAuthorizationService" class="org.kuali.kra.web.struts.authorization.impl.WebAuthorizationServiceImpl">
         <property name="taskAuthorizationService" ref="taskAuthorizationService" />
-        <property name="webAuthorizers">
-            <list>
-                <ref bean="proposalDevelopmentWebAuthorizer" />
-                <ref bean="abstractsAttachmentsWebAuthorizer" />
-                <ref bean="proposalPermissionsWebAuthorizer" />
-                <ref bean="proposalGrantsGovWebAuthorizer" />
-                <ref bean="proposalKeyPersonnelWebAuthorizer" />
-                <ref bean="proposalActionsWebAuthorizer" />
-                <ref bean="proposalBudgetVersionsWebAuthorizer" />
-                <ref bean="budgetWebAuthorizer" />
-                <ref bean="budgetActionsWebAuthorizer" />
-                <ref bean="budgetVersionsWebAuthorizer" />
-                <ref bean="awardBudgetsWebAuthorizer" />
-            </list>
+        <property name="webAuthorizerNames">
+            <set>
+                <value>proposalDevelopmentWebAuthorizer</value>
+                <value>proposalGrantsGovWebAuthorizer</value>
+                <value>proposalKeyPersonnelWebAuthorizer</value>
+                <value>proposalAbstractsAttachmentsWebAuthorizer</value>
+                <value>proposalBudgetVersionsWebAuthorizer</value>
+                <value>proposalPermissionsWebAuthorizer</value>
+                <value>proposalActionsWebAuthorizer</value>
+                <value>budgetWebAuthorizer</value>
+                <value>budgetVersionsWebAuthorizer</value>
+                <value>budgetActionsWebAuthorizer</value>
+                <value>awardBudgetsWebAuthorizer</value>
+            </set>
         </property>
     </bean>       
     
