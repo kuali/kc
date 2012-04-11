@@ -1026,9 +1026,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
-        
-        AwardNotificationRenderer renderer = new AwardNotificationRenderer(award);
-        AwardNotificationContext context = new AwardNotificationContext(award, null, "Ad-Hoc Notification", renderer);
+
+        AwardNotificationContext context = new AwardNotificationContext(award, null, "Ad-Hoc Notification", Constants.MAPPING_AWARD_ACTIONS_PAGE);
         
         awardForm.getNotificationHelper().initializeDefaultValues(context);
         

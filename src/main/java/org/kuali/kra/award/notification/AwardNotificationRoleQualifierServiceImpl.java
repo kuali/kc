@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.award.notification;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
+import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.kim.api.KimConstants;
 
 /**
  * Implements the AwardNotificationRoleQualifierService.
@@ -33,9 +36,16 @@ public class AwardNotificationRoleQualifierServiceImpl implements AwardNotificat
     @Override
     public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {
         String roleQualifierValue = null;
-        
-        // TODO: fill in role qualifier values here
-        
+        if (StringUtils.equals(qualifier.getQualifier(), KcKimAttributes.AWARD)) {
+            roleQualifierValue = award.getAwardId().toString();
+        }
+        else if (StringUtils.equals(qualifier.getQualifier(), KcKimAttributes.UNIT_NUMBER)) {
+            if (award.getUnitNumber() != null) {
+                roleQualifierValue = award.getUnitNumber();
+            }
+        } else if (StringUtils.equals(qualifier.getQualifier(), KimConstants.AttributeConstants.DOCUMENT_NUMBER)) {
+            roleQualifierValue = award.getAwardDocument().getDocumentNumber();
+        }
         return roleQualifierValue;
     }
 
