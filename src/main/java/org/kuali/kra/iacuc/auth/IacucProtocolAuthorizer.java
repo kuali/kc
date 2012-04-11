@@ -16,62 +16,14 @@
 package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.authorization.TaskAuthorizerImpl;
-import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.PessimisticLock;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.kra.protocol.auth.ProtocolAuthorizer;
 
-public abstract class IacucProtocolAuthorizer extends TaskAuthorizerImpl {
+public abstract class IacucProtocolAuthorizer extends ProtocolAuthorizer {
     
-    private KraAuthorizationService kraAuthorizationService;
-    
-    /**
-     * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
-     */
     public final boolean isAuthorized(String userId, Task task) {
         return isAuthorized(userId, (IacucProtocolTask) task);
     }
 
-    /**
-     * Is the user authorized to execute the given protocol task?
-     * @param username the user's unique username
-     * @param task the protocol task
-     * @return true if the user is authorized; otherwise false
-     */
     public abstract boolean isAuthorized(String userId, IacucProtocolTask task);
-    
-    /**
-     * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
-     * @param kraAuthorizationService
-     */
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
-        this.kraAuthorizationService = kraAuthorizationService;
-    }
-    
-    /**
-     * Does the given user has the permission for this protocol?
-     * @param username the unique username of the user
-     * @param protocol the protocol
-     * @param permissionName the name of the permission
-     * @return true if the person has the permission; otherwise false
-     */
-    protected final boolean hasPermission(String userId, IacucProtocol protocol, String permissionName) {
-        return kraAuthorizationService.hasPermission(userId, protocol, permissionName);
-    }
-    
-    
-    protected boolean isPessimisticLocked(Document document) {
-        boolean isLocked = false;
-        for (PessimisticLock lock : document.getPessimisticLocks()) {
-            // if lock is owned by current user, do not display message for it
-            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
-                isLocked = true;
-            }
-        }
-        return isLocked;
-    }
-
 
 }
