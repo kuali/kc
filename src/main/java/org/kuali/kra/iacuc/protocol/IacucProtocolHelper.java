@@ -16,7 +16,15 @@
 package org.kuali.kra.iacuc.protocol;
 
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
+import org.kuali.kra.iacuc.personnel.IacucProtocolUnit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
+import org.kuali.kra.protocol.personnel.ProtocolUnit;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
+import org.kuali.kra.protocol.protocol.ProtocolNumberService;
 
 public class IacucProtocolHelper extends ProtocolHelper {
       
@@ -25,6 +33,35 @@ public class IacucProtocolHelper extends ProtocolHelper {
     
     public IacucProtocolHelper(IacucProtocolForm form) {
         super(form);
+    }
+
+
+    @Override
+    // implementation of hook method
+    protected IacucProtocolPersonnelService getProtocolPersonnelService() {
+        return (IacucProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
+    }
+
+
+    @Override
+    // implementation of hook method
+    protected IacucProtocolNumberService getProtocolNumberService() {
+        // TODO Auto-generated method stub
+        return (IacucProtocolNumberService)KraServiceLocator.getService("iacucProtocolNumberService");
+    }
+
+
+    @Override
+    // implementation of hook method
+    protected IacucProtocolUnit createNewProtocolUnitInstanceHook() {
+        return new IacucProtocolUnit();
+    }
+
+
+    @Override
+    // implementation of hook method
+    protected IacucProtocolPerson createNewProtocolPersonInstanceHook() {
+        return new IacucProtocolPerson();
     } 
 
 }

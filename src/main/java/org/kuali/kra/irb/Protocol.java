@@ -590,6 +590,8 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         return protocolReferences;
     }
 
+    // TODO *********code has been moved to base class, should ultimately be removed**********
+    // TODO these two methods have been redefined as hooks in the refactored parent class
     public ProtocolDocument getProtocolDocument() {
         return protocolDocument;
     }
@@ -597,6 +599,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     public void setProtocolDocument(ProtocolDocument protocolDocument) {
         this.protocolDocument = protocolDocument;
     }
+    // TODO **********************end************************
 
     public void setProtocolLocations(List<ProtocolLocation> protocolLocations) {
         this.protocolLocations = protocolLocations;

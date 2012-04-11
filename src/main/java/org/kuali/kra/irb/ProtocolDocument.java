@@ -100,18 +100,13 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     /**
      * Constructs a ProtocolDocument object.
      */
-	public ProtocolDocument() { 
+	public ProtocolDocument() {
+	    // TODO *********code has been moved to base class, should ultimately be removed**********
         super();
-        
-        // TODO *********code has been moved to base class, should ultimately be removed**********
         protocolList = new ArrayList<Protocol>();
-        // TODO **********************end************************
-        
-        // TODO replace the following two statements with corresponding hook overrides, see superclass constructor
+        // TODO the method below is replaced by a creator hook in the refactored parent class
         Protocol newProtocol = new Protocol();
         newProtocol.setProtocolDocument(this);
-        
-        // TODO *********code has been moved to base class, should ultimately be removed**********
         protocolList.add(newProtocol);
         // TODO **********************end************************
         

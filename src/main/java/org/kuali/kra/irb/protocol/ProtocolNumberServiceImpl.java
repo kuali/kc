@@ -1,3 +1,4 @@
+// TODO *********code has been moved to base class, should ultimately be removed**********
 /*
  * Copyright 2005-2010 The Kuali Foundation
  * 
@@ -97,6 +98,10 @@ public class ProtocolNumberServiceImpl implements ProtocolNumberService {
      * @return the next database sequence number
      */
     protected synchronized Long getSequenceNumber() {
+        // TODO the constant SEQUENCE_NAME is now replaced by a hook invocation in the refactored parent code
         return sequenceAccessorService.getNextAvailableSequenceNumber(SEQUENCE_NAME);
     }
+    
+    
 }
+// TODO **********************end************************
