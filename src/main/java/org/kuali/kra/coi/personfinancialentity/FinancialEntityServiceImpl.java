@@ -247,7 +247,8 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
             if (leadUnit != null) {
                 reporter.getFinancialEntityReporterUnits().add(leadUnit);
             }
-            if (!StringUtils.equals(GlobalVariables.getUserSession().getPrincipalName(),"cate") || reporterSaved == null) {
+            if (StringUtils.equals(GlobalVariables.getUserSession().getPrincipalName(),"quickstart")  || StringUtils.equals(GlobalVariables.getUserSession().getPrincipalName(),"jtester") 
+                    || StringUtils.equals(GlobalVariables.getUserSession().getPrincipalName(),"majors") || reporterSaved == null) {
                 // TODO : temporary debug app double save issue
                 System.out.println("Save FE reporter person id " + personId+" save reporter ");
                 businessObjectService.save(reporter);
