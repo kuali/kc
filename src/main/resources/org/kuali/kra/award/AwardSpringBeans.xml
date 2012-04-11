@@ -718,7 +718,7 @@
 		    	<property name="viewName" value="Sponsor View"/>
 		    	<property name="groupByDisplayCols">
 		    		<list>
-		    			<value>sponsorCode</value>
+		    			<value>sponsor.sponsorName</value>
 		    		</list>
 		    	</property>
 		    	<property name="detailCols">
