@@ -51,9 +51,9 @@ suitably parameterized fragments that are then included and reused by these thre
 
 
 <kul:innerTab tabTitle="${tabTitle}"
-					 tabErrorKey="${property}.answerHeaders[${answerHeaderIndex}]*"
-					 auditCluster="${property}${bean.headerLabels[answerHeaderIndex]}${answerHeaderIndex}" 
-					 tabAuditKey="${property}.answerHeaders[${answerHeaderIndex}]*" 
+					 tabErrorKey="questionnaireHelper.answerHeaders[${answerHeaderIndex}]*"
+					 auditCluster="questionnaireHelper${bean.headerLabels[answerHeaderIndex]}${answerHeaderIndex}" 
+					 tabAuditKey="questionnaireHelper.answerHeaders[${answerHeaderIndex}]*" 
 			         tabDescription=""
 			         defaultOpen="${showQuestions}" 
 					 useCurrentTabIndexAsKey="true"
