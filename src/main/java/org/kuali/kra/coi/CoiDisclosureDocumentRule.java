@@ -17,6 +17,7 @@ package org.kuali.kra.coi;
 
 import org.kuali.kra.coi.disclosure.DisclosureFinancialEntityAuditRule;
 import org.kuali.kra.coi.disclosure.SaveDisclosureReporterUnitEvent;
+import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireAuditRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -79,6 +80,7 @@ public class CoiDisclosureDocumentRule extends ResearchDocumentRuleBase implemen
         
         retval &= super.processRunAuditBusinessRules(document);
         retval &= new DisclosureFinancialEntityAuditRule().processRunAuditBusinessRules((CoiDisclosureDocument) document);
+        retval &= new DisclosureQuestionnaireAuditRule().processRunAuditBusinessRules((CoiDisclosureDocument) document);
         return retval;
     }
 
