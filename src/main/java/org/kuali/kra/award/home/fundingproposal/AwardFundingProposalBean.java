@@ -74,7 +74,7 @@ public class AwardFundingProposalBean implements Serializable {
      * This method adds a Funding Proposal
      */
     public void addFundingProposal() {
-        
+       
         if (getNewFundingProposal() != null) {
             if (validateForAdd()) {
                 getAward().add(newFundingProposal);                
@@ -198,7 +198,7 @@ public class AwardFundingProposalBean implements Serializable {
         Long proposalId = newFundingProposal.getProposalId();
         String proposalNumber = newFundingProposal.getProposalNumber();
         InstitutionalProposal foundProposal = null;
-        if (proposalId != null && proposalNumber == null) {
+        if (proposalId != null) {
             foundProposal = findProposalById(proposalId);
         } else if (proposalNumber != null && proposalId == null) {
             foundProposal = findProposalByProposalNumber(proposalNumber);
