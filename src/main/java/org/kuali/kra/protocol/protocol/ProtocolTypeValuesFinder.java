@@ -45,7 +45,7 @@ public abstract class ProtocolTypeValuesFinder extends KeyValuesBase {
      */
     public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Collection protocolTypes = keyValuesService.findAllOrderBy(getProtocolTypeBOClass(),"description",true);
+        Collection protocolTypes = keyValuesService.findAllOrderBy(getProtocolTypeBOClassHook(),"description",true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (Iterator iter = protocolTypes.iterator(); iter.hasNext();) {
             ProtocolType protocolType = (ProtocolType) iter.next();
@@ -58,6 +58,6 @@ public abstract class ProtocolTypeValuesFinder extends KeyValuesBase {
         return keyValues;
     }
 
-    protected abstract Class<? extends ProtocolType> getProtocolTypeBOClass();
+    protected abstract Class<? extends ProtocolType> getProtocolTypeBOClassHook();
    
 }
