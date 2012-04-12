@@ -26,7 +26,7 @@ public class IacucProtocolTypeValuesFinder extends ProtocolTypeValuesFinder {
     private static final long serialVersionUID = -5060541304454896014L;
 
     @Override
-    protected Class<? extends ProtocolType> getProtocolTypeBOClass() {
+    protected Class<? extends ProtocolType> getProtocolTypeBOClassHook() {
         return IacucProtocolType.class;
     }
 
