@@ -24,9 +24,10 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
 public class DisclosureModuleQuestionnaireBean extends ModuleQuestionnaireBean {
     
-    public DisclosureModuleQuestionnaireBean(CoiDisclosure disclosure) {
-        super(CoeusModule.COI_DISCLOSURE_MODULE_CODE, disclosure.getCoiDisclosureNumber(), disclosure.getEventTypeCode(), String.valueOf(disclosure.getSequenceNumber()), 
-                disclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isApproved());
+    public  DisclosureModuleQuestionnaireBean(CoiDisclosure coiDisclosure) {
+        super(CoeusModule.COI_DISCLOSURE_MODULE_CODE, coiDisclosure.getCoiDisclosureNumber(), "0", coiDisclosure.getSequenceNumber().toString(), 
+                coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isApproved());
+
     }
 
 }
