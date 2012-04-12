@@ -29,6 +29,7 @@ public class NotifyCommitteeNotificationRenderer extends IRBNotificationRenderer
 
     private static final long serialVersionUID = -5315801471642797815L;
     
+    private String committeeName;
     private String actionComments;
     private Date actionDate;
 
@@ -37,26 +38,23 @@ public class NotifyCommitteeNotificationRenderer extends IRBNotificationRenderer
      * @param protocol
      * @param actionComments
      */
-    public NotifyCommitteeNotificationRenderer(Protocol protocol, String actionComments, Date actionDate) {
+    public NotifyCommitteeNotificationRenderer(Protocol protocol, String committeeName, String actionComments, Date actionDate) {
         super(protocol);
         this.actionDate = actionDate;
         this.actionComments = actionComments;
+        this.committeeName = committeeName;
     }
     
     public String getActionComments() {
         return actionComments;
     }
 
-    public void setActionComments(String actionComments) {
-        this.actionComments = actionComments;
-    }
-    
     public Date getActionDate() {
         return actionDate;
     }
 
-    public void setActionDate(Date actionDate) {
-        this.actionDate = actionDate;
+    public String getCommitteeName() {
+        return committeeName;
     }
 
     /**
@@ -66,7 +64,8 @@ public class NotifyCommitteeNotificationRenderer extends IRBNotificationRenderer
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
-        params.put("{ACTION_COMMENTS}", getSafeMessage("{ACTION_COMMENTS}", actionComments));
+        params.put("{COMMITTEE_NAME}", getSafeMessage("{COMMITTEE_NAME}", getCommitteeName()));
+        params.put("{ACTION_COMMENTS}", getSafeMessage("{ACTION_COMMENTS}", getActionComments()));
         params.put("{ACTION_DATE}", (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(getActionDate()));
         return params;
     }
