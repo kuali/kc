@@ -17,13 +17,21 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="budgetProjectIncomeAttributes" value="${DataDictionary.BudgetProjectIncome.attributes}" />
+<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 
 <kul:tab tabTitle="Project Income" tabItemCount="${KualiForm.document.budget.budgetProjectIncomeCount}" defaultOpen="false" tabErrorKey="newBudgetProjectIncome.*,document.budgets[0].budgetProjectIncome*">
 	<div class="tab-container" align="center">
 		<h3>
             <span class="subhead-left">Income Details</span>
-          	<span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetDistributionAndIncomeDetailsHelpUrl" altText="help"/></span>
-          </h3>
+ 			<c:choose>
+		 		<c:when test="${proposalBudgetFlag}">
+        			<span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetDistributionAndIncomeDetailsHelpUrl" altText="help"/></span>
+         		</c:when>
+         		<c:otherwise>
+        			<span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetDistributionAndIncomeDetailsHelpUrl" altText="help"/></span>
+        		</c:otherwise>
+    		</c:choose>          
+    	</h3>
 		<div align="center">
 			<table id="budget-proj-income-table" cellpadding="0" cellspacing="0" summary="Budget Period Incomes">
 				<tr>
@@ -85,9 +93,15 @@
     
     	<h3>
             <span class="subhead-left">Income Summary</span>
-  	        <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetDistributionAndIncomeSummaryHelpUrl" altText="help"/></span>
-        </h3>
-    
+ 			<c:choose>
+		 		<c:when test="${proposalBudgetFlag}">
+        			<span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetDistributionAndIncomeSummaryHelpUrl" altText="help"/></span>
+         		</c:when>
+         		<c:otherwise>
+        			<span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetDistributionAndIncomeSummaryHelpUrl" altText="help"/></span>
+        		</c:otherwise>
+    		</c:choose>             
+    	</h3>
     	<div align="center">
 	    	<table id="budget-proj-income-summary-table" cellpadding="0" cellspacing="0" summary="Budget Period Income Totals">
 	    		<c:forEach var="periodIncomeTotal" items="${KualiForm.document.budget.projectIncomePeriodTotalsForEachBudgetPeriod}" varStatus="status">

@@ -69,8 +69,14 @@
     </c:if>
    	<h3>
    		<span class="subhead-left">Budget Overview (Period ${budgetPeriod})</span>
-     	<span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelOverviewHelpUrl" altText="help"/></span>
-    </h3>
+     <c:choose>
+		 <c:when test="${proposalBudgetFlag}">
+        	<div align="right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetOverviewHelpUrlPeriod" altText="help"/></div>
+         </c:when>
+         <c:otherwise>
+        	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetOverviewHelpUrlPeriod" altText="help"/></div>
+        </c:otherwise>
+    </c:choose>    </h3>
     <table cellpadding=0 cellspacing=0 summary="">
 	    	<tr>
 	    		<th width="25%"><div align="right"><a title="[Help] Start Date" target="helpWindow" tabindex="32767" href="${ConfigProperties.kr.url}/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.kra.budget.parameters.BudgetPeriod&attributeName=startDate">Period ${budgetPeriod} Start Date</a></div></th>

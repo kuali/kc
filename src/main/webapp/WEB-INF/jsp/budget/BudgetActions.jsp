@@ -29,7 +29,14 @@
   	auditCount="0"
   	showTabButtons="true">
   	
-  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Budget Actions" /></div>
+	 <c:choose>
+		 <c:when test="${proposalBudgetFlag}">
+        	<div align="right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetActionsHelp" altText="help"/></div>
+		</c:when>
+ 		<c:otherwise>
+			<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetActionsHelpUrl" altText="help"/></div>
+		</c:otherwise>
+    </c:choose>
 
 	<div align="center">
 		<c:choose>
@@ -45,7 +52,7 @@
 			<kra-b:budgetSubAwardsBudget />
 	    </c:if>
 	    <c:if test="${not proposalBudgetFlag}">
-             <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
+             <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"  helpParameterNamespace="KC-AB" helpParameterName="awardBudgetDataValidationHelpUrl" helpParameterDetailType="Document"/>
         </c:if>
         <kul:adHocRecipients />
 	    <c:if test="${not proposalBudgetFlag}">

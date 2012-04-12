@@ -28,15 +28,17 @@
   	headerTabActive="parameters"
   	extraTopButtons="${KualiForm.extraTopButtons}">
   	
-  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Parameters" /></div>
    	<c:choose>
 		<c:when test="${proposalBudgetFlag}">
+        	<div align="right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetParametersHelp" altText="help"/></div>
 			<kra-b:budgetParameters />
 		</c:when>
 		<c:otherwise>
+        	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetParametersHelpUrl" altText="help"/></div>
 			<kra-b:awardBudgetParameters />
 		</c:otherwise>
 	</c:choose>
+
 	<kra-b:budgetPeriodAndTotals /> 
 <script language="javascript" src="scripts/kuali_application.js"></script>
 

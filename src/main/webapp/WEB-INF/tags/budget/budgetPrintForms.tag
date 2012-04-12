@@ -45,7 +45,14 @@
 						<h3>
 							<div align="center">
 								<span align="center">Actions</span>
-		    					<span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetActionPrintFormsHelpUrl" altText="help"/></span>
+									<c:choose>
+										<c:when test="${proposalBudgetFlag}">
+		    								<span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetActionPrintFormsHelpUrl" altText="help"/></span>
+										</c:when>
+ 										<c:otherwise>
+		    								<span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetActionPrintFormsHelpUrl" altText="help"/></span>
+										</c:otherwise>
+    								</c:choose>
 							</div>
 						</h3>
 					</td>

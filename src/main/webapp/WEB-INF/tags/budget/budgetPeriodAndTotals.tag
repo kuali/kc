@@ -25,8 +25,19 @@
 	useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
-            <span class="subhead-left">Budget Periods</span>
-            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.parameters.BudgetPeriod" altText="help"/></span>
+            <span class="subhead-left">Budget Periods</span>		
+      		<c:choose>	
+				<c:when test="${proposalBudgetFlag}">
+        		    <span class="subhead-right">	
+		 			    <kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetPeriodHelpUrl" altText="help"/>
+	    		    </span>
+				</c:when>
+				<c:otherwise>
+            		<span class="subhead-right">
+ 			    		<kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetPeriodHelpUrl" altText="help"/>
+	        		</span>
+				</c:otherwise>
+			</c:choose> 			
         </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">

@@ -96,18 +96,36 @@
 		<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">${budgetCategoryTypeCodeLabel}</span>
-    		<c:if test="${budgetCategoryTypeCodeLabel eq 'Equipment'}">
-                <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelEquipmentHelpUrl" altText="help"/></span>
-            </c:if>
-            <c:if test="${budgetCategoryTypeCodeLabel eq 'Travel'}">
-                <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelTravelHelpUrl" altText="help"/></span>
-            </c:if>
-            <c:if test="${budgetCategoryTypeCodeLabel eq 'Participant Support'}">
-                <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelParticipantSupportHelpUrl" altText="help"/></span>
-            </c:if>
-            <c:if test="${budgetCategoryTypeCodeLabel eq 'Other Direct'}">
-                <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelOtherDirectHelpUrl" altText="help"/></span>
-            </c:if>
+    		<c:choose>
+  	  			<c:when test="${proposalBudgetFlag}" >
+    				<c:if test="${budgetCategoryTypeCodeLabel eq 'Equipment'}">
+ 	    	        	<span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelEquipmentHelpUrl" altText="help"/></span>
+    	    		</c:if>
+        	    	<c:if test="${budgetCategoryTypeCodeLabel eq 'Travel'}">
+    	        	    <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelTravelHelpUrl" altText="help"/></span>
+	    	    	</c:if>
+    	    	    <c:if test="${budgetCategoryTypeCodeLabel eq 'Participant Support'}">
+        	    	    <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelParticipantSupportHelpUrl" altText="help"/></span>
+ 	           		</c:if>
+    	  	      	<c:if test="${budgetCategoryTypeCodeLabel eq 'Other Direct'}">
+        		        <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonPersonnelOtherDirectHelpUrl" altText="help"/></span>
+            		</c:if>
+				</c:when>
+				<c:otherwise>
+    				<c:if test="${budgetCategoryTypeCodeLabel eq 'Equipment'}">
+ 	        	       <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetNonPersonnelEquipmentHelpUrl" altText="help"/></span>
+  	  	        	</c:if>
+    	    	    <c:if test="${budgetCategoryTypeCodeLabel eq 'Travel'}">
+        	    	    <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetNonPersonnelTravelHelpUrl" altText="help"/></span>
+	        	    </c:if>
+    	        	<c:if test="${budgetCategoryTypeCodeLabel eq 'Participant Support'}">
+	        	        <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetNonPersonnelParticipantSupportHelpUrl" altText="help"/></span>
+    	        	</c:if>
+      		      <c:if test="${budgetCategoryTypeCodeLabel eq 'Other Direct'}">
+        		        <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetNonPersonnelOtherDirectHelpUrl" altText="help"/></span>
+            		</c:if>
+            	</c:otherwise>
+            </c:choose>
         </h3>
         <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 		<c:set target="${paramMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCodeKey}" />
@@ -119,6 +137,7 @@
           		<th width="6%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.quantity}" noColon="true" /></div></th>
           		<th width="16%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${lineItemCostAttribute.lineItemCost}" noColon="true" /></div></th>
           		<c:if test="${!proposalBudgetFlag}">
+          		
           			<th width="16%" class="darkInfoline"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardBudgetLineItemAttributes.obligatedAmount}" noColon="true" /></div></th>
           		</c:if>
           		<th width="9%" class="darkInfoline"><div align="center">Action</div></th>
