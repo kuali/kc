@@ -31,7 +31,14 @@
   	headerTabActive="expenses"
   	extraTopButtons="${KualiForm.extraTopButtons}">
   	
-  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Non-Personnel" /></div>
+	<c:choose>
+		 <c:when test="${proposalBudgetFlag}">
+              <div align="right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetNonpersonnelHelpUrl" altText="help"/></div>
+         </c:when>
+         <c:otherwise>
+              <div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetNonpersonnelHelpUrl" altText="help"/></div>
+         </c:otherwise>
+    </c:choose>
 		
 	<kra-b:budgetExpenses /> 
 	<kul:panelFooter />

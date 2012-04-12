@@ -123,8 +123,17 @@
 
     	<h3>
             <span class="subhead-left">Budget Versions</span>
-            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.versions.BudgetVersionOverview" altText="help"/></span>
-        </h3>
+            
+          <c:choose>
+		       <c:when test="${proposalBudgetFlag}">
+               <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetVersionsHelp" altText="help"/></span>
+            </c:when>
+            <c:otherwise>
+               <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetVersionsHelpUrl" altText="help"/></span>
+            </c:otherwise>
+         </c:choose>
+            
+         </h3>
         <table id="budget-versions-table" cellpadding="0" cellspacing="0" summary="Budget Versions">
             <thead>
 			<tr>

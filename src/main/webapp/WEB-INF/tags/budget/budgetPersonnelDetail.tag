@@ -88,8 +88,14 @@
 		
    		<h3>
             <span class="subhead-left">Add Details</span>
-            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.personnel.BudgetPersonnelDetails" altText="help"/></span>
-        </h3>
+      <c:choose>
+		 <c:when test="${proposalBudgetFlag}">
+        	<div align="right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetPersonnelDetailsHelpUrl" altText="help"/></div>
+         </c:when>
+         <c:otherwise>
+        	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetPersonnelDetailsHelpUrl" altText="help"/></div>
+        </c:otherwise>
+    </c:choose>        </h3>
         <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 		<c:set target="${paramMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCodeKey}" />
         <table border="0" cellpadding=0 cellspacing=0 summary="">

@@ -45,7 +45,7 @@
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetPersonnelHelp" p:parameterDetailType="Document"/>
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetPersonnelHelpUrl" p:parameterDetailType="Document"/>
           </property>
           <property name="headerTabDisplayName" value="Personnel"/>
           <property name="headerTabNavigateTo" value="personnel"/>

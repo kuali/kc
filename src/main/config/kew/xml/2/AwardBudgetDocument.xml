@@ -13,6 +13,7 @@
 			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/awardBudgetVersions.do?methodToCall=docHandler</docHandler>
+		    <helpDefinitionURL>default.htm?turl=Documents/awardbudget.htm</helpDefinitionURL>
 			<active>true</active>
 			<attributes>
 				<attribute>
