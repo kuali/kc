@@ -29,12 +29,13 @@
   	headerTabActive="summaryTotals"
   	extraTopButtons="${extraTopButtons}">
   	
-  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Summary" /></div>
    	<c:choose>
 		<c:when test="${proposalBudgetFlag}">
+         	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Summary" /></div>
 			<kra-b:budgetSummaryTotals headerDispatch="reload" /> 
 		</c:when>
 		<c:otherwise>
+		  	<div align="right"><kul:help documentTypeName="AwardBudgetDocument" pageName="Summary" /></div>
 			<kra-b:awardBudgetSummaryTotals/> 
 		</c:otherwise>
 	</c:choose>

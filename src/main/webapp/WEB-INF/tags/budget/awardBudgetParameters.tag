@@ -37,7 +37,7 @@
     	<h3>
     		<span class="subhead-left">Budget Overview</span>
     		<span class="subhead-right">
-    			<kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardBudgetOverviewHelp" altText="help"/>
+    			<kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetOverviewHelpUrl" altText="help"/>
 			</span>
         </h3>
         <table cellpadding=0 cellspacing=0 summary="">
