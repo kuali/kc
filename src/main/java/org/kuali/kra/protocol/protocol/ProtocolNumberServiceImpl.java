@@ -96,7 +96,7 @@ public abstract class ProtocolNumberServiceImpl implements ProtocolNumberService
      * @return the next database sequence number
      */
     protected synchronized Long getSequenceNumber() {
-        // TODO the constant SEQUENCE_NAME is now replaced by a hook invocation in the refactored parent code
+        // the actual sequence name is obtained from the subclass via the getSequenceNameHook()
         return sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNameHook());
     }
 
