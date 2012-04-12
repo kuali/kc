@@ -115,7 +115,7 @@
 						</div>
 					</th>
 	         			<td align="left" valign="middle" colspan="3">
-	         		    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactEmailAddress" attributeEntry="${attributes.contactEmailAddress}"readOnly="${!modify}" />
+	         		    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactEmailAddress" attributeEntry="${attributes.contactEmailAddress}" readOnly="${!modify}" />
 	         			
 	                	<div align="left">
 		            	</div>
