@@ -144,10 +144,10 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
         return canEdit(document, user);
     }
     
-    @Override
-    public boolean canClose(Document document, Person user) {
-        return canEdit(document, user);
-    }
+//    @Override
+//    public boolean canClose(Document document, Person user) {
+//        return canEdit(document, user);
+//    }
     
     /**
      * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
