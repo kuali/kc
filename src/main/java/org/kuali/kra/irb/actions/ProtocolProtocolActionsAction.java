@@ -609,6 +609,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         recordProtocolActionSuccess("Notify Committee");
 
         ProtocolNotificationRequestBean newNotificationBean = new ProtocolNotificationRequestBean(protocol, ProtocolActionType.NOTIFIED_COMMITTEE, "Notify Committee");
+        newNotificationBean.setCommitteeName(actionHelper.getProtocolNotifyCommitteeBean().getCommitteeName());
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, newNotificationBean, false));
 
         if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
@@ -3674,7 +3675,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (StringUtils.equals(ProtocolActionType.NOTIFY_IRB, notificationRequestBean.getActionType())) {
             renderer = new NotifyIrbNotificationRenderer(notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolNotifyIrbBean().getComment());
         } else if (StringUtils.equals(ProtocolActionType.NOTIFIED_COMMITTEE, notificationRequestBean.getActionType())) {
-            renderer = new NotifyCommitteeNotificationRenderer(notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getComment(), protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getActionDate());
+            renderer = new NotifyCommitteeNotificationRenderer(notificationRequestBean.getProtocol(), 
+                    protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getCommitteeName(), 
+                    protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getComment(), 
+                    protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getActionDate());
         } else if (StringUtils.equals(ProtocolActionType.TERMINATED, notificationRequestBean.getActionType())) {
             renderer = new ProtocolTerminatedNotificationRenderer(notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolTerminateRequestBean().getReason());
         } else if (StringUtils.equals(ProtocolActionType.EXPIRED, notificationRequestBean.getActionType())) {
