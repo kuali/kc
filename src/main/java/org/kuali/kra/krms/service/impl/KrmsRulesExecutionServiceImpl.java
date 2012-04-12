@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
@@ -34,6 +36,8 @@ import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
 
 public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService {
     
+    protected final Log LOG = LogFactory.getLog(KrmsRulesExecutionServiceImpl.class);
+    
     public List<String> processUnitValidations(String unitNumber, KrmsRulesContext rulesContext) {
         Map<String, String> contextQualifiers = new HashMap<String, String>();
         rulesContext.populateContextQualifiers(contextQualifiers);
@@ -44,15 +48,18 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
         rulesContext.addFacts(factsBuilder);
 
         Engine engine = KrmsApiServiceLocator.getEngine();
-        EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);
+        if (engine == null) {
+            LOG.error("Could not resolve KRMS Rules Engine - Unit Validations will not be evaluated!");
+        } else {
+            EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);
         
-        // comma-delimited list of error & warning messages
-        String errors = (String) results.getAttribute(ValidationActionTypeService.VALIDATIONS_ACTION_ATTRIBUTE);
-        if (errors != null) {
-            String[] errorArray = StringUtils.split(errors, ",");
-            return Arrays.asList(errorArray);
+            // comma-delimited list of error & warning messages
+            String errors = (String) results.getAttribute(ValidationActionTypeService.VALIDATIONS_ACTION_ATTRIBUTE);
+            if (errors != null) {
+                String[] errorArray = StringUtils.split(errors, ",");
+                return Arrays.asList(errorArray);
+            }
         }
         return Collections.emptyList();
     }
-
 }
