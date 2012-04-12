@@ -28,6 +28,7 @@ public class ProtocolNotificationRequestBean implements Serializable {
     private String description;
     private String docNumber;
     private String olrEvent;
+    private String committeeName;
 
     public ProtocolNotificationRequestBean(Protocol protocol, String actionType, String description) {
         this.protocol = protocol;
@@ -91,4 +92,13 @@ public class ProtocolNotificationRequestBean implements Serializable {
     public void setOlrEvent(String olrEvent) {
         this.olrEvent = olrEvent;
     }
+
+    public String getCommitteeName() {
+        return committeeName;
+    }
+
+    public void setCommitteeName(String committeeName) {
+        this.committeeName = committeeName;
+    }
+        
 }
