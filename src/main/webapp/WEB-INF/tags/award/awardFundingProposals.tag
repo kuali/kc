@@ -46,7 +46,7 @@
 			    	  	 								attributeEntry="${fundingProposalAttributes.proposalNumber}"
 			    	  	 								readOnly="false" />		    	  	 	
 	        	  	 	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" 
-	        	  	 				fieldConversions="proposalId:fundingProposalBean.newFundingProposal.proposalId"  
+	        	  	 				fieldConversions="proposalId:fundingProposalBean.newFundingProposal.proposalId,proposalNumber:fundingProposalBean.newFundingProposal.proposalNumber"  
 	        	  	 				lookupParameters="fundingProposalBean.newFundingProposal.proposalNumber:proposalNumber" 
 	        	  	 				anchor="${tabKey}" />
 			    	 	</div>
