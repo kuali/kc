@@ -82,7 +82,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         for (AwardFandaRate awardFnARate : awardFnARates) {
             InstituteRate awardRate = createAwardFnAInstitueRate(awardFnARate,award,instituteRates);
             instituteRatesForAward.add(awardRate);
-            budgetDocument.getBudget().setOhRateClassCode(awardRate.getRateClassCode());
+//            budgetDocument.getBudget().setOhRateClassCode(awardRate.getRateClassCode());
         }
         if(!instituteRatesForAward.isEmpty()){
             QueryList<InstituteRate> qlInstituteRates = new QueryList<InstituteRate>(instituteRatesForAward);
@@ -159,7 +159,6 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         if (awardInstituteRate.getInstituteRate()==null) { 
             awardInstituteRate.setInstituteRate(applicableRate);
         }
-        awardInstituteRate.setUnitNumber(award.getUnitNumber());
         String awardFnArateTypeCode = awardFnARate.getFandaRateTypeCode().toString();
         awardInstituteRate.setRateTypeCode(awardFnArateTypeCode);
         awardInstituteRate.setRateType(awardFnARate.getFandaRateType());
@@ -174,12 +173,10 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     private InstituteRate filterInstituteRate(AwardFandaRate awardFnARate, Award award,Collection<InstituteRate> instituteRates) {
         QueryList<InstituteRate> qlInstituteRates = new QueryList<InstituteRate>(instituteRates);
         Equals eqActivityType = new Equals("activityTypeCode",award.getActivityTypeCode());
-        Equals eqUnitNumber = new Equals("unitNumber",award.getUnitNumber());
         Equals eqCampusFlag = new Equals("onOffCampusFlag",new Boolean(awardFnARate.getOnCampusFlag().equals("N")));
         Equals eqRateClassCode = new Equals("rateClassCode",awardFnARate.getFandaRateType().getRateClassCode());
         Equals eqRateTypeCode = new Equals("rateTypeCode",awardFnARate.getFandaRateTypeCode());
-        And actTypeAndUnitNum = new And(eqActivityType,eqUnitNumber);
-        And campFlagAndActTypeAndUnitNum = new And(actTypeAndUnitNum,eqCampusFlag);
+        And campFlagAndActTypeAndUnitNum = new And(eqActivityType,eqCampusFlag);
         And rateClassAndRateType = new And(eqRateClassCode,eqRateTypeCode);
         And filterCondition = new And(campFlagAndActTypeAndUnitNum,rateClassAndRateType);
         QueryList<InstituteRate> qlfilteredList = qlInstituteRates.filter(filterCondition);

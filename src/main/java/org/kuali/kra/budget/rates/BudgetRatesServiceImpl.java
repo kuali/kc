@@ -33,6 +33,12 @@ import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.calculator.QueryList;
+import org.kuali.kra.budget.calculator.query.And;
+import org.kuali.kra.budget.calculator.query.Equals;
+import org.kuali.kra.budget.calculator.query.GreaterThan;
+import org.kuali.kra.budget.calculator.query.LesserThan;
+import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
@@ -488,29 +494,35 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     /* get applicable rates before project start date  
      * get the latest 
      * */
-    @SuppressWarnings("unchecked")
-    protected void getApplicableRates(Budget budget, Collection allRates, Collection filteredRates, Date personSalaryEffectiveDate) {
-        List<AbstractInstituteRate> allAbstractInstituteRates = (List<AbstractInstituteRate>) allRates;
-        Map<String, AbstractInstituteRate> instRates = new HashMap<String, AbstractInstituteRate>();
-        for(AbstractInstituteRate instituteRate : allAbstractInstituteRates) {
-            Date rateStartDate = instituteRate.getStartDate();
-            Date rateEffectiveDate = getRateEffectiveStartDate(budget, instituteRate, personSalaryEffectiveDate);
-            if(rateStartDate.before(rateEffectiveDate)) {
-                String hKey = generateThreePartKey(instituteRate);
-                AbstractInstituteRate instRate = instRates.get(hKey);
-                if((instRate != null) && (instRate.getStartDate().compareTo(rateStartDate) <=0 )) {
-                    Date currentStartDate = instRate.getStartDate();
-                    if(currentStartDate.compareTo(rateStartDate) <= 0) {
-                        instRates.remove(hKey);
-                    }
-                }
-                if (!instRates.keySet().contains(hKey)) {
-                    instRates.put(hKey, instituteRate);
+    protected void filterInstituteRates(Budget budget, Collection<AbstractInstituteRate> allRates, Collection<AbstractInstituteRate> filteredRates, Date personSalaryEffectiveDate) {
+        List<String> addedList = new ArrayList<String>();
+        QueryList<AbstractInstituteRate> instituteRates = new QueryList<AbstractInstituteRate>(allRates);
+        for (AbstractInstituteRate instituteRate : allRates) {
+            String hKey = generateThreePartKey(instituteRate);
+            if(!addedList.contains(hKey)){
+                addedList.add(hKey);
+                Equals eqRateClassCode = new Equals("rateClassCode",instituteRate.getRateClassCode());
+                Equals eqRateTypeCode = new Equals("rateTypeCode",instituteRate.getRateTypeCode());
+                Equals eqCampusFlag = new Equals("onOffCampusFlag",instituteRate.getOnOffCampusFlag());
+                And rateClassAndRateType = new And(eqRateClassCode,eqRateTypeCode);
+                And rcRtCampus = new And(rateClassAndRateType,eqCampusFlag);
+                QueryList<AbstractInstituteRate> tempFilteredRates = instituteRates.filter(rcRtCampus);
+                Date effectiveStartDate = getRateEffectiveStartDate(budget, instituteRate, personSalaryEffectiveDate);
+                Equals eqEndDate = new Equals("startDate",budget.getEndDate());
+                LesserThan ltEndDate = new LesserThan("startDate",budget.getEndDate());
+                Or ltEqEndDate = new Or(eqEndDate,ltEndDate);
+                tempFilteredRates = tempFilteredRates.filter(ltEqEndDate);
+                GreaterThan gtStartDate = new GreaterThan("startDate",effectiveStartDate);
+                QueryList<AbstractInstituteRate> rateWithinProjectPeriod = tempFilteredRates.filter(gtStartDate);
+                filteredRates.addAll(rateWithinProjectPeriod);
+                tempFilteredRates.removeAll(rateWithinProjectPeriod);
+                if(!tempFilteredRates.isEmpty()){
+                    tempFilteredRates.sort("startDate",false);
+                    filteredRates.add(tempFilteredRates.get(0));
                 }
             }
             
         }
-        filteredRates.addAll(instRates.values());
     }
 
     protected String generateThreePartKey(AbstractInstituteRate instituteRate) {
@@ -527,8 +539,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     protected void filterRates(Budget budget, Collection allAbstractInstituteRates, Collection filteredAbstractInstituteRates) {
         filteredAbstractInstituteRates.clear();
         Date personSalaryEffectiveDate = getBudgetPersonSalaryEffectiveDate(budget);
-        getRatesForProjectDates(budget, allAbstractInstituteRates, filteredAbstractInstituteRates, personSalaryEffectiveDate);
-        getApplicableRates(budget, allAbstractInstituteRates, filteredAbstractInstituteRates, personSalaryEffectiveDate);
+        filterInstituteRates(budget, allAbstractInstituteRates, filteredAbstractInstituteRates, personSalaryEffectiveDate);
     }
     
     protected boolean isOutOfSync(Budget budget) {
