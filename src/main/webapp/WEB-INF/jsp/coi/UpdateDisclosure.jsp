@@ -88,6 +88,10 @@
 <div align="right"><kul:help documentTypeName="CoiDisclosureDocument" pageName="CoiDisclosure" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-coi:disclosureReporter />
+<c:if test="${KualiForm.document.coiDisclosureList[0].annualUpdate}" >  
+<kra-coi:disclosureQuestionnaire />
+<script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
+</c:if> 
 <kra-coi:updateDisclosureProjects/>
 <kra-coi:coiNoteAndAttachment/>
 <kra-coi:coiCertification topTab="false" />
