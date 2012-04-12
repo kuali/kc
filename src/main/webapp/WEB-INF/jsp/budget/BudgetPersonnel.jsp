@@ -33,7 +33,16 @@
   	headerTabActive="personnel"
   	extraTopButtons="${KualiForm.extraTopButtons}">
   	
-  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Personnel" /></div>
+	<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
+
+     <c:choose>
+		 <c:when test="${proposalBudgetFlag}">
+        	<div align="right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetPersonnelHelpUrl" altText="help"/></div>
+         </c:when>
+         <c:otherwise>
+        	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetPersonnelHelpUrl" altText="help"/></div>
+        </c:otherwise>
+    </c:choose>
   	
 	<kra-b:budgetExpensesSelectBudgetPeriod />
 	<br><br>
