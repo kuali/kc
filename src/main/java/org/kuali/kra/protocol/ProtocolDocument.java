@@ -54,7 +54,8 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
     public ProtocolDocument() { 
         super();
         protocolList = new ArrayList<Protocol>();
-        Protocol newProtocol = createNewProtocolInstanceHook(); // direct instantiation replaced by hook invocation
+        // direct instantiation replaced by hook invocation
+        Protocol newProtocol = createNewProtocolInstanceHook(); 
         newProtocol.setProtocolDocument(this);
         protocolList.add(newProtocol);
 

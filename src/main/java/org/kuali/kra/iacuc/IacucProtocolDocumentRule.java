@@ -15,52 +15,13 @@
  */
 package org.kuali.kra.iacuc;
 
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.krad.document.Document;
+import org.kuali.kra.protocol.ProtocolDocumentRule;
 
 /**
  * Main Business Rule class for <code>{@link IacucProtocolDocument}</code>. Responsible for delegating rules to independent rule classes.
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class IacucProtocolDocumentRule extends ResearchDocumentRuleBase  implements BusinessRuleInterface {
+public class IacucProtocolDocumentRule extends ProtocolDocumentRule {
 
-    
-    @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean retval = true;
-        retval &= super.processCustomRouteDocumentBusinessRules(document);
-
-        return retval;
-    }
-
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        if (!(document instanceof IacucProtocolDocument)) {
-            return false;
-        }
-
-        // TODO : uncomment following when we start to implement disclosure
-//        MessageMap errorMap = GlobalVariables.getMessageMap();
-//        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-//        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
-//               document, getMaxDictionaryValidationDepth(),
-//               VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
-
-        boolean valid = true;
-        IacucProtocolDocument iacucProtocolDocument = (IacucProtocolDocument) document;
-        return valid;
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
-     */
-    public boolean processRules(KraDocumentEventBaseExtension event) {
-        boolean retVal = false;
-        retVal = event.getRule().processRules(event);
-        return retVal;
-    }
 }
