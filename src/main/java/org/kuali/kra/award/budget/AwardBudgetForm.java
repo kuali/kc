@@ -53,6 +53,12 @@ public class AwardBudgetForm extends BudgetForm {
     private String budgetParentId;
     private AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount;
     
+    /** {@inheritDoc} */
+    @Override
+    protected String getDefaultDocumentTypeName() {
+        return "AwardBudgetDocument";
+    }
+    
     public AwardBudgetForm() {
         super();
         awardBudgetPeriodSummaryCalculatedAmount = new AwardBudgetPeriodSummaryCalculatedAmount();
