@@ -1608,7 +1608,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         newProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
         newProject.setCoiProjectId(projectIdFk);
         newProject.setModuleItemKey(moduleItemKey);
-        newProject.setCoiProjectTitle(moduleItemKey); 
+        newProject.setCoiProjectTitle(projectTitle); 
         
         this.initializeDisclosureDetails(newProject);
         coiDisclProjects.add(newProject);
@@ -1616,7 +1616,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
     
 
-    
+/* this is apparently no longer used...    
     private CoiDisclProject createDisclProject(CoiDisclosure coiDisclosure, String projectId, String projectName) {
         CoiDisclProject disclProject = new CoiDisclProject();
 
@@ -1633,6 +1633,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         
         return disclProject;
     }
+*/    
     
     /*
      * This method is compare the person FE and the FE disclosed.  If there is any addition/activate/inactivate,
