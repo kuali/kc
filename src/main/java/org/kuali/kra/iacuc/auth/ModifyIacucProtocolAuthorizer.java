@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc.auth;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 
 public class ModifyIacucProtocolAuthorizer  extends IacucProtocolAuthorizer {
 
@@ -43,6 +44,12 @@ public boolean isAuthorized(String userId, IacucProtocolTask task) {
 
     }
     return hasPermission;
+}
+
+@Override
+public boolean isAuthorized(String userId, ProtocolTask task) {
+    // TODO Auto-generated method stub
+    return false;
 }
 
 

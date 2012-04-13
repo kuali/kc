@@ -20,6 +20,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonEditableService;
 
@@ -720,6 +721,118 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
 
     public void setPersonEditableService(PersonEditableService personEditableService) {
         this.personEditableService = personEditableService;
+    }
+
+
+    @Override
+    public void addProtocolPerson(Protocol protocol, ProtocolPerson protocolPerson) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void deleteProtocolPerson(Protocol protocol) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void addProtocolPersonAttachment(Protocol protocol, ProtocolAttachmentPersonnel newAttachment, int selectedPersonIndex) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void addProtocolPersonUnit(List<ProtocolUnit> protocolPersonUnits, ProtocolPerson protocolPerson, int selectedPersonIndex) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void deleteProtocolPersonUnit(Protocol protocol, int selectedPersonIndex, int lineNumber) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void syncProtocolPersonRoleChanges(List<ProtocolPerson> protocolPersons) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void selectProtocolUnit(List<ProtocolPerson> protocolPersons) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public boolean isPIExists(List<ProtocolPerson> protocolPersons) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+
+    @Override
+    public void switchInvestigatorCoInvestigatorRole(List<ProtocolPerson> protocolPersons) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public List<ProtocolPersonRoleMapping> getPersonRoleMapping(String sourceRoleId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public ProtocolPersonRole getProtocolPersonRole(String sourceRoleId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public void syncPersonRoleAndUnit(ProtocolPerson protocolPerson) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void syncPersonRoleAndAffiliation(ProtocolPerson protocolPerson) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public boolean isValidStudentFacultyMatch(List<ProtocolPerson> protocolPersons) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+
+    @Override
+    public boolean isPISameAsCoI(ProtocolPerson piProtocolPerson, ProtocolPerson newProtocolPerson) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+
+    @Override
+    public List<Integer> getAffiliationStudentMap(List<ProtocolPerson> protocolPersons) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
