@@ -67,6 +67,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
@@ -77,7 +78,10 @@ public class CoiDisclosureAction extends CoiAction {
     private static final String ATTACHMENT_PATH = "document.coiDisclosureList[0].attachmentCoiDisclosures[";
     private static final String CONFIRM_NO_DELETE = "";
     private static final String UPDATE_DISCLOSURE = "updateDisclosure";
-   
+    private static final String DEFAULT_EVENT_ID_STRING = "label.coi.disclosure.type.id";
+    private static final String DEFAULT_EVENT_TITLE_STRING = "label.coi.disclosure.type.title";
+
+    
     public ActionForward addDisclosurePersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -867,6 +871,13 @@ public class CoiDisclosureAction extends CoiAction {
                 }
             }
             
+            // disclosure ID and label are always required, so put in a default
+            if (StringUtils.isEmpty(disclosureEventType.getProjectIdLabel())) {
+                disclosureEventType.setProjectIdLabel(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(DEFAULT_EVENT_ID_STRING));
+            }
+            if (StringUtils.isEmpty(disclosureEventType.getProjectTitleLabel())) {
+                disclosureEventType.setProjectTitleLabel(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(DEFAULT_EVENT_TITLE_STRING));
+            }
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(writer, disclosureEventTypeAjaxBean);
             
