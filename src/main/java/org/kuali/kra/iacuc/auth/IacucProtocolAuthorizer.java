@@ -20,9 +20,11 @@ import org.kuali.kra.protocol.auth.ProtocolAuthorizer;
 
 public abstract class IacucProtocolAuthorizer extends ProtocolAuthorizer {
     
+    /*
     public final boolean isAuthorized(String userId, Task task) {
         return isAuthorized(userId, (IacucProtocolTask) task);
     }
+    */
 
     public abstract boolean isAuthorized(String userId, IacucProtocolTask task);
 

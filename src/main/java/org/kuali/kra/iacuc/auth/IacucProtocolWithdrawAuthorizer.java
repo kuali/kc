@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 
 public class IacucProtocolWithdrawAuthorizer extends IacucProtocolAuthorizer {
 
@@ -28,6 +29,12 @@ public class IacucProtocolWithdrawAuthorizer extends IacucProtocolAuthorizer {
 //               kraWorkflowService.isDocumentOnNode(task.getProtocol().getIacucProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) &&
 //               canExecuteAction(task.getProtocol(), ProtocolActionType.WITHDRAWN) &&
                hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_IACUC_PROTOCOL);
+    }
+
+    @Override
+    public boolean isAuthorized(String userId, ProtocolTask task) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

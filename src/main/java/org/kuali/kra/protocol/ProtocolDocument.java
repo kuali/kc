@@ -47,6 +47,7 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
 
     
     private List<Protocol> protocolList;
+    private String protocolWorkflowType;
     
     /**
      * Constructs a ProtocolDocument object.
@@ -158,9 +159,9 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
 //        return DOCUMENT_TYPE_CODE;
 //    }
 //    
-//    public String getProtocolWorkflowType() {
-//        return protocolWorkflowType;
-//    }
+    public String getProtocolWorkflowType() {
+        return protocolWorkflowType;
+    }
 //
 //    public void setProtocolWorkflowType(ProtocolWorkflowType protocolWorkflowType) {
 //        this.protocolWorkflowType = protocolWorkflowType.getName();
@@ -388,40 +389,40 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
 //        }
 //    }
 //    
-//    /**
-//     * Contains all the property names in this class.
-//     */
-//    public static enum ProtocolWorkflowType {
-//        NORMAL("Normal"), APPROVED("Approved"), APPROVED_AMENDMENT("ApprovedAmendment");
-//        
-//        private final String name;
-//        
-//        /**
-//         * Sets the enum properties.
-//         * @param name the name.
-//         */
-//        ProtocolWorkflowType(final String name) {
-//            this.name = name;
-//        }
-//        
-//        /**
-//         * Gets the ProtocolWorkflowType name.
-//         * @return the the ProtocolWorkflowType name.
-//         */
-//        public String getName() {
-//            return this.name;
-//        }
-//        
-//        /**
-//         * Gets the {@link #getName() }.
-//         * @return {@link #getName() }
-//         */
-//        @Override
-//        public String toString() {
-//            return this.name;
-//        }
-//    }
-//
+    /**
+     * Contains all the property names in this class.
+     */
+    public static enum ProtocolWorkflowType {
+        NORMAL("Normal"), APPROVED("Approved"), APPROVED_AMENDMENT("ApprovedAmendment");
+        
+        private final String name;
+        
+        /**
+         * Sets the enum properties.
+         * @param name the name.
+         */
+        ProtocolWorkflowType(final String name) {
+            this.name = name;
+        }
+        
+        /**
+         * Gets the ProtocolWorkflowType name.
+         * @return the the ProtocolWorkflowType name.
+         */
+        public String getName() {
+            return this.name;
+        }
+        
+        /**
+         * Gets the {@link #getName() }.
+         * @return {@link #getName() }
+         */
+        @Override
+        public String toString() {
+            return this.name;
+        }
+    }
+
 //    @Override
 //    public void prepareForSave() {
 //        super.prepareForSave();
