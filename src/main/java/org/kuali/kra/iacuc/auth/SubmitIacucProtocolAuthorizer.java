@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 
 public class SubmitIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
 
@@ -24,6 +25,12 @@ public class SubmitIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
         
 //        return canExecuteAction(task.getProtocol(), ProtocolActionType.SUBMIT_TO_IRB) &&
           return  hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_IACUC_PROTOCOL);
+    }
+
+    @Override
+    public boolean isAuthorized(String userId, ProtocolTask task) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }
