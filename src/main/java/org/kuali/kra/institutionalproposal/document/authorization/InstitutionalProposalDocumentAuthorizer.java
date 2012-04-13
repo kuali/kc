@@ -16,18 +16,36 @@
 package org.kuali.kra.institutionalproposal.document.authorization;
 
 import java.util.Map;
+import java.util.Set;
 
+import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class is the Institutional Proposal Document Authorizer.  It determines the edit modes and
  * document actions for all institutional proposal documents.
  */
-public class InstitutionalProposalDocumentAuthorizer extends TransactionalDocumentAuthorizerBase 
+public class InstitutionalProposalDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase 
     implements TransactionalDocumentAuthorizer {
+    
+    public static final String ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY = "DISAPPROVED_PD_WITH_LINKED_IP";
+    
+    TransactionalDocumentAuthorizer baseAuthorizer = new TransactionalDocumentAuthorizerBase() {
+    
+        @Override
+        protected void addRoleQualification(
+                Object primaryBusinessObjectOrDocument,
+                Map<String, String> attributes) {
+            super.addRoleQualification(primaryBusinessObjectOrDocument, attributes);
+        }
+
+    };
     
     @Override
     protected void addRoleQualification(
@@ -41,6 +59,34 @@ public class InstitutionalProposalDocumentAuthorizer extends TransactionalDocume
         } else {
             attributes.put(KcKimAttributes.UNIT_NUMBER, "*");
         }
+    }    
+    
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
+     */
+    public boolean canInitiate(String documentTypeName, Person user) {
+        if (GlobalVariables.getUserSession().getObjectMap().get(ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY) != null) {
+            GlobalVariables.getUserSession().removeObject(ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY);
+            return true;
+        } else {
+            return baseAuthorizer.canInitiate(documentTypeName, user);
+        }
     }
+
+    @Override
+    public Set<String> getEditModes(Document document, Person user, Set<String> editModes) {
+        return baseAuthorizer.getEditModes(document, user, editModes);
+    }
+
+    @Override
+    public boolean canOpen(Document document, Person user) {
+        return baseAuthorizer.canOpen(document, user);
+    }
+
+    @Override
+    public boolean canSendNoteFyi(Document document, Person user) {
+        return baseAuthorizer.canSendNoteFyi(document, user);
+    }
+    
     
 }

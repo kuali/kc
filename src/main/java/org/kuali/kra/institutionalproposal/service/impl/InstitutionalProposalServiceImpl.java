@@ -406,7 +406,12 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     protected void doBaseFieldsDataFeed(InstitutionalProposal institutionalProposal, DevelopmentProposal developmentProposal) {
         institutionalProposal.setProposalTypeCode(Integer.parseInt(developmentProposal.getProposalTypeCode()));
         institutionalProposal.setActivityTypeCode(developmentProposal.getActivityTypeCode());
-        institutionalProposal.setStatusCode(getDefaultStatusCode());
+        if (developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+            //if rejected set status code to WITHDRAWN
+            institutionalProposal.setStatusCode(getWithdrawnStatusCode());
+        } else {
+            institutionalProposal.setStatusCode(getDefaultStatusCode());
+        }
         institutionalProposal.setSponsorCode(developmentProposal.getSponsorCode());
         institutionalProposal.setTitle(developmentProposal.getTitle());
         institutionalProposal.setSubcontractFlag(developmentProposal.getSubcontracts());
@@ -565,6 +570,10 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     
     protected Integer getDefaultStatusCode() {
         return 1;
+    }
+    
+    protected Integer getWithdrawnStatusCode() {
+        return 5;
     }
     
     protected Integer getDefaultCostShareTypeCode() {
