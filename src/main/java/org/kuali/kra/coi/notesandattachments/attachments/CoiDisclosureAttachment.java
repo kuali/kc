@@ -59,6 +59,7 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     private String projectName;
     private Long financialEntityId;
     private final String MESSAGE_UPDATED_BY = "message.updated.by";
+    @SkipVersioning
     private PersonFinIntDisclosure financialEntity;
     private static String updatedByString;
 
