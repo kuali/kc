@@ -725,8 +725,9 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
     @Override
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
-        // TODO Auto-generated method stub
-        
+        if (getCoiDisclosureId() != null) {
+            qualifiedRoleAttributes.put("coiDisclosureId", getCoiDisclosureId().toString());
+        }
     }
     // end permissionable related override
 
