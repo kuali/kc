@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureAssociate;
@@ -45,6 +46,7 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     private Long originalCoiDisclosureId; 
     private CoiDisclosure originalCoiDisclosure; 
     private Long financialEntityId;
+    @SkipVersioning
     private PersonFinIntDisclosure financialEntity;
     private String eventTypeCode;
 
