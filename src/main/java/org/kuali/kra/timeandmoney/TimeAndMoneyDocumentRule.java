@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.timeandmoney;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
@@ -33,7 +32,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardAmountTransactionSaveEvent;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardAmountTransactionRuleImpl;
@@ -45,7 +43,6 @@ import org.kuali.kra.timeandmoney.transactions.TransactionRuleEvent;
 import org.kuali.kra.timeandmoney.transactions.TransactionRuleImpl;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -113,34 +110,18 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
      */
     protected boolean checkReportTrackingValueChanges(TimeAndMoneyDocument timeAndMoneyDocument) {
         Map<String, AwardHierarchyNode> formAwardHierarchyNodes = timeAndMoneyDocument.getAwardHierarchyNodes();
-        TimeAndMoneyDocument dbTmd = getDbTimeAndMoneyDocument(timeAndMoneyDocument.getDocumentNumber());
-        Map<String, AwardHierarchyNode> dbAwardHierarchyNodes = dbTmd.getAwardHierarchyNodes();
-        
-        AwardHierarchyService ahs = KraServiceLocator.getService(AwardHierarchyService.class);
-        ahs.populateAwardHierarchyNodesForTandMDoc(timeAndMoneyDocument.getAwardHierarchyItems(), dbTmd.getAwardHierarchyNodes(), 
-                timeAndMoneyDocument.getAward().getAwardNumber(),  timeAndMoneyDocument.getAward().getSequenceNumber().toString(), 
-                dbTmd.getDocumentNumber());
         for (String key : formAwardHierarchyNodes.keySet()) {
             AwardHierarchyNode formNode = formAwardHierarchyNodes.get(key);
-            AwardHierarchyNode dbNode = dbAwardHierarchyNodes.get(key);
-            if (!formNode.equals(dbNode)) {
+            AwardAmountInfo awardAmountInfo = formNode.getAward().getAwardAmountInfos().get(formNode.getAward().getAwardAmountInfos().size() - 1);           
+            if (!ObjectUtils.equals(formNode.getCurrentFundEffectiveDate(), awardAmountInfo.getCurrentFundEffectiveDate())
+                    || !ObjectUtils.equals(formNode.getObligationExpirationDate(), awardAmountInfo.getObligationExpirationDate())
+                    || !ObjectUtils.equals(formNode.getFinalExpirationDate(), awardAmountInfo.getFinalExpirationDate())
+                    || !ObjectUtils.equals(formNode.getAmountObligatedToDate(), awardAmountInfo.getAmountObligatedToDate())
+                    || !ObjectUtils.equals(formNode.getAnticipatedTotalAmount(), awardAmountInfo.getAnticipatedTotalAmount())) {
                 return true;
             }
         }
         return false;
-    }
-    
-    /**
-     * 
-     * This method returns a NON initialized database version of the current time and money document.
-     * @param documentNumber
-     * @return
-     */
-    protected TimeAndMoneyDocument getDbTimeAndMoneyDocument(String documentNumber) {
-        Map params = new HashMap();
-        params.put("DOCUMENT_NUMBER", documentNumber);
-        TimeAndMoneyDocument tmd = (TimeAndMoneyDocument) this.getBusinessObjectService().findByPrimaryKey(TimeAndMoneyDocument.class, params);
-        return tmd;
     }
     
     /**
