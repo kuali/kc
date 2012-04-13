@@ -476,11 +476,17 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         return StringUtils.equals(CoiDisclosureEventType.UPDATE, this.getEventTypeCode());
     }
 
+    // Good gracious, this is inefficient...
     public boolean isManualEvent() {
-        return StringUtils.equals(CoiDisclosureEventType.MANUAL_AWARD, this.getEventTypeCode())
-                || StringUtils.equals(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, this.getEventTypeCode())
-                || StringUtils.equals(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, this.getEventTypeCode())
-                || StringUtils.equals(CoiDisclosureEventType.TRAVEL, this.getEventTypeCode());
+        return !StringUtils.equals(CoiDisclosureEventType.ANNUAL, this.getEventTypeCode())
+            && !StringUtils.equals(CoiDisclosureEventType.AWARD, this.getEventTypeCode())
+            && !StringUtils.equals(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, this.getEventTypeCode())
+            && !StringUtils.equals(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, this.getEventTypeCode())
+            && !StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.getEventTypeCode())
+            && !StringUtils.equals(CoiDisclosureEventType.IACUC_PROTOCOL, this.getEventTypeCode())
+            && !StringUtils.equals(CoiDisclosureEventType.NEW, this.getEventTypeCode())
+            && !StringUtils.equals(CoiDisclosureEventType.UPDATE, this.getEventTypeCode())
+            && !StringUtils.equals(CoiDisclosureEventType.OTHER, this.getEventTypeCode());
     }
 
 
