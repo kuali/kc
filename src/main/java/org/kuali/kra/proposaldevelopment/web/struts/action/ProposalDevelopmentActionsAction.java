@@ -56,6 +56,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
+import org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentAuthorizer;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
@@ -1517,7 +1518,33 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     @Override
     public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
-        return super.disapprove(mapping, form, request, response);
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
+        ActionForward forward = super.disapprove(mapping, form, request, response);
+        if (StringUtils.isNotBlank(request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME))) {
+            Long instPropId = findInstProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
+            if (instPropId != null) {
+                //we must have already submitted this proposal to sponsor so we need to create a new version of the inst prop
+                //that has been withdrawn.
+                InstitutionalProposal instProp = getBusinessObjectService().findBySinglePrimaryKey(InstitutionalProposal.class, instPropId);
+                GlobalVariables.getUserSession().addObject(InstitutionalProposalDocumentAuthorizer.ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY, Boolean.TRUE);
+                String versionNumber = createInstitutionalProposalVersion(
+                        instProp.getProposalNumber(),
+                        pdDoc.getDevelopmentProposal(),
+                        pdDoc.getFinalBudgetForThisProposal());
+                GlobalVariables.getUserSession().removeObject(InstitutionalProposalDocumentAuthorizer.ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY);
+                KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
+                        versionNumber,
+                        pdForm.getInstitutionalProposalToVersion());
+                
+                boolean isIPProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(
+                        "KC-PROTOCOL", "Document", "irb.protocol.institute.proposal.linking.enabled");
+                Long institutionalProposalId = getActiveProposalId(instProp.getProposalNumber());
+                persistProposalAdminDetails(pdDoc.getDevelopmentProposal().getProposalNumber(), institutionalProposalId);
+                persistSpecialReviewProtocolFundingSourceLink(institutionalProposalId, isIPProtocolLinkingEnabled);
+            }
+        }
+        return forward;
     }
     
     @Override
