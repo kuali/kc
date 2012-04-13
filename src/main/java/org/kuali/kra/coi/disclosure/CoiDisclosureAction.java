@@ -258,6 +258,8 @@ public class CoiDisclosureAction extends CoiAction {
                     && KRADConstants.DOC_HANDLER_METHOD.equals(coiDisclosureForm.getMethodToCall()) && isMasterDisclosureExist())) {
                 // update master disclosure or annual event with master disclosure exist
                 if (!isMasterDisclosureExist()) {
+                    // minor hack to force CoiDisclosureForm to hide Actions tab
+                    coiDisclosureForm.setMethodToCall("viewMasterDisclosure");
                     forward = mapping.findForward("masterDisclosureNotAvailable");
                 }
                 else {
