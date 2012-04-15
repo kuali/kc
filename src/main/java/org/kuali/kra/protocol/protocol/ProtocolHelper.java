@@ -176,7 +176,7 @@ public abstract class ProtocolHelper implements Serializable {
         
         findPrincipalInvestigatorIdFromFields();
         findAndSetLeadUnitFromFields();
-// TODO this becomes live when we have the db artifacts for person role and unit etc
+
 //        // Since we are saving, we will always reset the PI and lead unit to field values        
 //        getProtocolPersonnelService().setPrincipalInvestigator(createPrincipalInvestigator(), getProtocol());
 //        ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(getProtocol().getProtocolPersons());
