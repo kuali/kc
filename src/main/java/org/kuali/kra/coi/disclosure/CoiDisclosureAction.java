@@ -457,12 +457,11 @@ public class CoiDisclosureAction extends CoiAction {
             HttpServletResponse response) throws Exception {
 
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        
+        save(mapping, coiDisclosureForm, request, response);
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
-        
+       
         if (checkRule(new CertifyDisclosureEvent("disclosureHelper.certifyDisclosure", coiDisclosure))) {
             coiDisclosureForm.setAuditActivated(true);
             AuditActionHelper auditActionHelper = new AuditActionHelper();
