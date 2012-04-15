@@ -25,7 +25,4 @@ public class IacucProtocolPerson extends ProtocolPerson {
      */
     private static final long serialVersionUID = 6676849646094141708L;
 
-    public IacucProtocolPerson() {
-        super();
-    }
 }
