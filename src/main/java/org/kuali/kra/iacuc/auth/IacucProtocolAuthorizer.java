@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import org.kuali.kra.authorization.Task;
 import org.kuali.kra.protocol.auth.ProtocolAuthorizer;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 
 public abstract class IacucProtocolAuthorizer extends ProtocolAuthorizer {
     
-    /*
-    public final boolean isAuthorized(String userId, Task task) {
+    
+    public final boolean isAuthorized(String userId, ProtocolTask task) {
         return isAuthorized(userId, (IacucProtocolTask) task);
     }
-    */
+    
 
     public abstract boolean isAuthorized(String userId, IacucProtocolTask task);
 

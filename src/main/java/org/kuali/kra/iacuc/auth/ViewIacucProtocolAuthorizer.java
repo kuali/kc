@@ -16,7 +16,6 @@
 package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.auth.ProtocolTask;
 
 public class ViewIacucProtocolAuthorizer  extends IacucProtocolAuthorizer {
 
@@ -24,12 +23,5 @@ public class ViewIacucProtocolAuthorizer  extends IacucProtocolAuthorizer {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.VIEW_IACUC_PROTOCOL)
             || kraWorkflowService.hasWorkflowPermission(userId, task.getProtocol().getProtocolDocument());
     }
-
-    @Override
-    public boolean isAuthorized(String userId, ProtocolTask task) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    
 
 }
