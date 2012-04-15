@@ -2124,16 +2124,17 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         this.lookupProtocolPersonId = lookupProtocolPersonId;
     }
 
-    /**
-     * 
-     * This method is to check if the actiontypecode is a followup action.
-     * @param actionTypeCode
-     * @return
-     */
-    public boolean isFollowupAction(String actionTypeCode) {
-        return (getLastProtocolAction() == null || StringUtils.isBlank(getLastProtocolAction().getFollowupActionCode())) ? false 
-                : actionTypeCode.equals(getLastProtocolAction().getFollowupActionCode());
-    }
+// TODO *********uncomment the code below in increments as needed during refactoring*********     
+//    /**
+//     * 
+//     * This method is to check if the actiontypecode is a followup action.
+//     * @param actionTypeCode
+//     * @return
+//     */
+//    public boolean isFollowupAction(String actionTypeCode) {
+//        return (getLastProtocolAction() == null || StringUtils.isBlank(getLastProtocolAction().getFollowupActionCode())) ? false 
+//                : actionTypeCode.equals(getLastProtocolAction().getFollowupActionCode());
+//    }
 
     public boolean isMergeAmendment() {
         return mergeAmendment;
