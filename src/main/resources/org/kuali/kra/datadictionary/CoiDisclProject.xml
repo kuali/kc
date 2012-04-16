@@ -155,13 +155,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="COI Project Title" />
         <property name="shortLabel" value="COI Project Title" />
-        <property name="maxLength" value="20" />
+        <property name="maxLength" value="200" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="20" />
+                p:size="200" />
         </property>
         <property name="summary" value="COI Project Title" />
         <property name="description" value="COI Project Title" />
