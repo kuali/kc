@@ -46,6 +46,10 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="institutionalProposalService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="institutionalProposalService" />
+    </bean>
 
     <bean id="protocolCorrespondenceTemplateAuthorizationService" class="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
@@ -73,7 +77,7 @@
         
     <bean id="protocolParticipantTypeService" class="org.kuali.kra.irb.protocol.participant.ProtocolParticipantServiceImpl" />
     
-    <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl">
+    <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl" lazy-init="true">
         <property name="fundingSourceTypeService" ref="fundingSourceTypeService" />
         <property name="sponsorService" ref="sponsorService" />
         <property name="unitService" ref="unitService" />
