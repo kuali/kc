@@ -54,14 +54,6 @@ public class BudgetCategoryServiceImpl implements BudgetCategoryService {
             }
             budgetCategories =  new ArrayList<BudgetCategory>(businessObjectService.findMatching(BudgetCategory.class, searchCriteria));      
         }
-        
-        for (BudgetCategory budget : budgetCategories) {
-            budgetCategoryDTO.add(budgetCategoryBoToDTO(budget));
-            System.out.println("budget is " + budget.getBudgetCategoryCode() + budget.getAuthorPersonName() 
-                    + budget.getBudgetCategoryTypeCode() + budget.getDescription() + budget.getBudgetCategoryType()
-                    + budget.getAuthorPersonName());
-           
-        }
        
         return budgetCategoryDTO;
     }
