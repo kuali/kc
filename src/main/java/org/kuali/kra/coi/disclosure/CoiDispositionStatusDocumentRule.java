@@ -65,15 +65,14 @@ public class CoiDispositionStatusDocumentRule extends KraMaintenanceDocumentRule
     public boolean isDocumentValidForSave(MaintenanceDocument document) {
         boolean result = super.isDocumentValidForSave(document);
         final CoiDispositionStatus coiDispositionStatus = (CoiDispositionStatus) document.getNewMaintainableObject().getDataObject();
-        System.out.println("action " + document.getNewMaintainableObject().getMaintenanceAction());
         if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION)) {
-                final CoiDispositionStatus oldDocument = (CoiDispositionStatus) document.getOldMaintainableObject().getDataObject();
-                if (isNotDuplicate(coiDispositionStatus) && isValidCoiDisclosureStatus(coiDispositionStatus)) {
-                    result = true;
-                } else {
-                    result = false;
-                }
-            
+            final CoiDispositionStatus oldDocument = (CoiDispositionStatus) document.getOldMaintainableObject().getDataObject();
+            if (isNotDuplicate(coiDispositionStatus) && isValidCoiDisclosureStatus(coiDispositionStatus)) {
+                result = true;
+            } else {
+                result = false;
+            }
+
         }   else {
             result = true;
         }
