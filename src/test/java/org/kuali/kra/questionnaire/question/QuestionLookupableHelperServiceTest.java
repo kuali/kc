@@ -87,8 +87,8 @@ public class QuestionLookupableHelperServiceTest extends KcUnitTestBase {
         
         // Create & submit new Question document for version 2 of the question
         maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KraServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Question.class));
-        maintDocument.getDocumentHeader().setDocumentDescription("test 2222"); 
-        maintDocument.getNewMaintainableObject().setBusinessObject(createQuestion(2222, SEQUENCE_STATUS_CURRENT));
+        maintDocument.getDocumentHeader().setDocumentDescription("test 1112"); 
+        maintDocument.getNewMaintainableObject().setBusinessObject(createQuestion(1112, SEQUENCE_STATUS_CURRENT));
         documentService.routeDocument(maintDocument, null, null);
         
         List<? extends Question> searchResults = (List<? extends Question>) questionLookupableHelperServiceImpl.getSearchResults(new HashMap());
