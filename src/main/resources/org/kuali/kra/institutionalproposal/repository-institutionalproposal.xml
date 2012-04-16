@@ -15,15 +15,84 @@
 -->
 <descriptor-repository version="1.0">
 
+    <!-- Proposal Log Mappings -->
+    
+    <class-descriptor class="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" table="PROPOSAL_LOG">
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_NUMBER" />
+        <field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="proposalLogTypeCode" column="PROPOSAL_LOG_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="piId" column="PI_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="mergedWith" column="MERGED_WITH" jdbc-type="VARCHAR" />
+        <field-descriptor name="instProposalNumber" column="INST_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="piName" column="PI_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="leadUnit" column="LEAD_UNIT" jdbc-type="VARCHAR" />
+        <field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="sponsorName" column="SPONSOR_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="logStatus" column="LOG_STATUS" jdbc-type="VARCHAR" />
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="deadlineDate" column="DEADLINE_DATE" jdbc-type="DATE" />
+        <field-descriptor name="fiscalMonth" column="FISCAL_MONTH" jdbc-type="INTEGER" />
+        <field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="INTEGER" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
+        <reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="leadUnit"/>
+        </reference-descriptor>
+        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.NonOrganizationalRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="rolodexId"/>
+        </reference-descriptor>
+        <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="sponsorCode" />
+        </reference-descriptor>
+        <reference-descriptor name="proposalLogStatus" class-ref="org.kuali.kra.institutionalproposal.proposallog.ProposalLogStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="logStatus" />
+        </reference-descriptor>
+        <reference-descriptor name="proposalLogType" class-ref="org.kuali.kra.institutionalproposal.proposallog.ProposalLogType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalLogTypeCode" />
+        </reference-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.institutionalproposal.proposallog.ProposalLogStatus" table="PROPOSAL_LOG_STATUS">
+        <field-descriptor name="proposalLogStatusCode" column="PROPOSAL_LOG_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.institutionalproposal.proposallog.ProposalLogType" table="PROPOSAL_LOG_TYPE">
+        <field-descriptor name="proposalLogTypeCode" column="PROPOSAL_LOG_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    
+    <!-- Institutional Proposal Mappings -->
+
 	<class-descriptor class="org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument" table="INSTITUTE_PROPOSAL_DOCUMENT">			
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+    	
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
+    	
     	<collection-descriptor name="institutionalProposalList" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
@@ -83,16 +152,48 @@
 		<field-descriptor name="unitNumber" column="LEAD_UNIT_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
 		<!-- 
 		<reference-descriptor name="intellectualPropertyReview" class-ref="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="proposalId"/>
         </reference-descriptor>
          -->
+        <reference-descriptor name="institutionalProposalDocument" class-ref="org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="documentNumber" />
+        </reference-descriptor>
+        <reference-descriptor name="noticeOfOpportunity" class-ref="org.kuali.kra.bo.NoticeOfOpportunity" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="noticeOfOpportunityCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="rolodexId"/>
+        </reference-descriptor>
+        <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="sponsorCode" />
+        </reference-descriptor>
+        <reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="primeSponsorCode" />
+        </reference-descriptor>
+        <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="unitNumber"/>
+        </reference-descriptor>
+        <reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="activityTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="proposalStatus" class-ref="org.kuali.kra.institutionalproposal.ProposalStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="statusCode"/>
+        </reference-descriptor>
+        <!-- 
+        <reference-descriptor name="awardType" class-ref="org.kuali.kra.bo.AwardType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="awardTypeCode"/>
+        </reference-descriptor>
+        -->
          
-         <collection-descriptor name="awardFundingProposals" element-class-ref="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="awardFundingProposals" element-class-ref="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		
         <collection-descriptor name="proposalIpReviewJoins" proxy="true" orderby="proposalIpReviewJoinId" sort="DESC" element-class-ref="org.kuali.kra.institutionalproposal.ProposalIpReviewJoin" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
             <inverse-foreignkey field-ref="proposalId"/>
         </collection-descriptor>
@@ -138,40 +239,6 @@
 		<collection-descriptor name="proposalComments" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		<reference-descriptor name="institutionalProposalDocument" class-ref="org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="documentNumber" />
-        </reference-descriptor>
-
-		<reference-descriptor name="noticeOfOpportunity" class-ref="org.kuali.kra.bo.NoticeOfOpportunity" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="noticeOfOpportunityCode"/>
-		</reference-descriptor>
-
-		<reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="proposalTypeCode"/>
-		</reference-descriptor>
-		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="rolodexId"/>
-		</reference-descriptor>
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="sponsorCode" />
-        </reference-descriptor>
-        <reference-descriptor name="primeSponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="primeSponsorCode" />
-        </reference-descriptor>
-        <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="unitNumber"/>
-		</reference-descriptor>
-		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="activityTypeCode"/>
-		</reference-descriptor>
-		<reference-descriptor name="proposalStatus" class-ref="org.kuali.kra.institutionalproposal.ProposalStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="statusCode"/>
-        </reference-descriptor>
-		<!-- 
-		<reference-descriptor name="awardType" class-ref="org.kuali.kra.bo.AwardType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="awardTypeCode"/>
-		</reference-descriptor>
-		-->
 	</class-descriptor>
 	
 	<!--
@@ -189,6 +256,7 @@
 		<field-descriptor name="submissionType" column="SUBMISSION_TYPE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
 		<reference-descriptor name="Proposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalNumber"/>
 		</reference-descriptor>
@@ -206,6 +274,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
 		<reference-descriptor name="commentType" class-ref="org.kuali.kra.bo.CommentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="commentTypeCode"/>
 		</reference-descriptor>
@@ -213,6 +282,26 @@
 			<foreignkey field-ref="proposalId"/>
 		</reference-descriptor>
 	</class-descriptor>
+	
+    <class-descriptor class="org.kuali.kra.institutionalproposal.ProposalComment" table="PROPOSAL_COMMENTS">
+        <field-descriptor name="proposalCommentsId" column="PROPOSAL_COMMENTS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IP_COMMENT" />
+        <field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="commentTypeCode" column="COMMENT_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
+        <reference-descriptor name="commentType" class-ref="org.kuali.kra.bo.CommentType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="commentTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="proposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalId"/>
+        </reference-descriptor>
+    </class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare" table="PROPOSAL_COST_SHARING">
 		<field-descriptor name="proposalCostShareId" column="PROPOSAL_COST_SHARING_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_COST_SHARE_ID"/>
@@ -228,6 +317,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
 		<reference-descriptor name="costShareType" class-ref="org.kuali.kra.bo.CostShareType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="costShareTypeCode"/> 
 		</reference-descriptor>	
@@ -235,40 +325,27 @@
 			<foreignkey field-ref="proposalId"/>
 		</reference-descriptor>
 	</class-descriptor>
-					
-	<class-descriptor class="org.kuali.kra.institutionalproposal.IndirectcostRateType" table="IDC_RATE_TYPE">
-		<field-descriptor name="indirectcostRateTypeCode" column="IDC_RATE_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor>
-						
-	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA" table="PROPOSAL_IDC_RATE">
-		<field-descriptor name="proposalUnrecoveredFandAId" column="PROPOSAL_IDC_RATE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_UNRECOVERED_FNA_ID"/>
-		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="INTEGER" access="anonymous"/>
-		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="applicableIndirectcostRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
-		<field-descriptor name="indirectcostRateTypeCode" column="IDC_RATE_TYPE_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR" />
-		<field-descriptor name="onCampusFlag" column="ON_CAMPUS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		<field-descriptor name="underrecoveryOfIndirectcost" column="UNDERRECOVERY_OF_IDC" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
-		<field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="proposalId"/>
-		</reference-descriptor>
-		<reference-descriptor name="indirectcostRateType" class-ref="org.kuali.kra.institutionalproposal.IndirectcostRateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="indirectcostRateTypeCode"/>
-		</reference-descriptor>
-	</class-descriptor>
 	
-	
+	   <class-descriptor class="org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData" table="PROPOSAL_CUSTOM_DATA">
+        <field-descriptor name="proposalCustomDataId" column="PROPOSAL_CUSTOM_DATA_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_CUSTOM_DATA_ID"/>
+        <field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" access="anonymous"/>
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
+        <reference-descriptor name="customAttribute" class-ref="org.kuali.kra.bo.CustomAttribute" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="customAttributeId"/>
+        </reference-descriptor>
+        <reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalId"/>
+        </reference-descriptor>
+    </class-descriptor> 
+
 	<class-descriptor class="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" table="PROPOSAL_PERSONS">
 		<field-descriptor name="institutionalProposalContactId" column="PROPOSAL_PERSON_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_PROPOSAL_ID" />
 		
@@ -297,18 +374,16 @@
 		<reference-descriptor name="contactRole" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="roleCode"/> 
 		</reference-descriptor>
+        <reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalId"/>
+        </reference-descriptor>     
 		
 		<collection-descriptor name="units" element-class-ref="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none"> 
             <inverse-foreignkey field-ref="institutionalProposalContactId" />
         </collection-descriptor>
-        
         <collection-descriptor name="creditSplits" element-class-ref="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="institutionalProposalContactId"/>
 		</collection-descriptor>
-			
-		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="proposalId"/>
-		</reference-descriptor>		
 	</class-descriptor>
 	
 	
@@ -352,10 +427,34 @@
 		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/> 
 		</reference-descriptor>
+		
 		<collection-descriptor name="creditSplits" element-class-ref="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnitCreditSplit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="institutionalProposalPersonUnitId"/>
 		</collection-descriptor>
 	</class-descriptor>
+	
+    <!--                    
+    <class-descriptor class="org.kuali.kra.institutionalproposal.personnel.InstitutionalProposalPersonCreditSplit" table="PROPOSAL_PER_CREDIT_SPLIT">
+        <field-descriptor name="proposalPerCreditSplitId" column="PROPOSAL_PER_CREDIT_SPLIT_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="investigatorCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="INTEGER" />
+        <field-descriptor name="credit" column="CREDIT" jdbc-type="DECIMAL" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
+        <reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalId"/>
+        </reference-descriptor>
+        <reference-descriptor name="investigatorCreditType" class-ref="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="invCreditTypeCode"/>
+        </reference-descriptor>
+    </class-descriptor> 
+    -->     
 	
 	<class-descriptor class="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnitCreditSplit" table="PROPOSAL_PERS_UNIT_CRED_SPLITS">
         <field-descriptor name="institutionalProposalPersonUnitCreditSplitId" column="PPU_CREDIT_SPLIT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_IPPUCS_ID" />
@@ -392,31 +491,13 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
 		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalId"/>
 		</reference-descriptor>
 	</class-descriptor>
-	<!--					
-	<class-descriptor class="org.kuali.kra.institutionalproposal.personnel.InstitutionalProposalPersonCreditSplit" table="PROPOSAL_PER_CREDIT_SPLIT">
-		<field-descriptor name="proposalPerCreditSplitId" column="PROPOSAL_PER_CREDIT_SPLIT_ID" jdbc-type="INTEGER" primarykey="true" />
-		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="investigatorCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="credit" column="CREDIT" jdbc-type="DECIMAL" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="proposalId"/>
-		</reference-descriptor>
-		<reference-descriptor name="investigatorCreditType" class-ref="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="invCreditTypeCode"/>
-		</reference-descriptor>
-	</class-descriptor>	
-	-->											
+	
+									
 	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword" table="PROPOSAL_SCIENCE_KEYWORD">
 		<field-descriptor name="proposalScienceKeywordId" column="PROPOSAL_SCIENCE_KEYWORD_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROP_SCIENCE_KEYWORD_ID"/>
 		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="INTEGER" access="anonymous"/>
@@ -427,6 +508,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
 		<reference-descriptor name="scienceKeyword" class-ref="org.kuali.kra.bo.ScienceKeyword" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scienceKeywordCode"/>
 		</reference-descriptor>
@@ -450,9 +532,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<collection-descriptor name="specialReviewExemptions" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-            <inverse-foreignkey field-ref="proposalSpecialReviewId"/>
-        </collection-descriptor> 
+
         <reference-descriptor name="sequenceOwner" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="proposalId"/>
         </reference-descriptor>
@@ -462,6 +542,10 @@
         <reference-descriptor name="approvalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="approvalTypeCode"/>
         </reference-descriptor>
+        
+        <collection-descriptor name="specialReviewExemptions" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="proposalSpecialReviewId"/>
+        </collection-descriptor> 
 	</class-descriptor>	
 	
 	
@@ -473,6 +557,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
 		<reference-descriptor name="exemptionType" class-ref="org.kuali.kra.bo.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="exemptionTypeCode"/>
 		</reference-descriptor>
@@ -488,7 +573,8 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor>	
+	</class-descriptor>
+	
 	<!--
 	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnit" table="PROPOSAL_UNITS">
 		<field-descriptor name="proposalUnitsId" column="PROPOSAL_UNITS_ID" jdbc-type="INTEGER" primarykey="true" />
@@ -501,11 +587,35 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
 		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
 	</class-descriptor>
-	-->	
+	-->
+	
+    <class-descriptor class="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact" table="PROPOSAL_UNIT_CONTACTS">
+        <field-descriptor name="institutionalProposalContactId" column="PROPOSAL_UNIT_CONTACT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_PROPOSAL_ID" />     
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" nullable="true" />
+        <field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" nullable="false"  />       
+        <field-descriptor name="unitContactType" column="UNIT_CONTACT_TYPE" jdbc-type="VARCHAR" nullable="false" conversion="org.kuali.kra.award.contacts.UnitContactTypeConverter"/>
+        <field-descriptor name="unitAdministratorTypeCode" column="UNIT_ADMINISTRATOR_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" access="anonymous" />
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" nullable="false" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" nullable="false" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        
+        <reference-descriptor name="unitAdministratorType" class-ref="org.kuali.kra.bo.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="unitAdministratorTypeCode"/> 
+        </reference-descriptor>
+        <reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalId"/>
+        </reference-descriptor>         
+    </class-descriptor>
+	
 	<!--	
 	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnitCreditSplit" table="PROPOSAL_UNIT_CREDIT_SPLIT">
 		<field-descriptor name="proposalUnitCreditSplitId" column="PROPOSAL_UNIT_CREDIT_SPLIT_ID" jdbc-type="INTEGER" primarykey="true" />
@@ -520,6 +630,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
 		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.institutionalProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalId"/>
 		</reference-descriptor>
@@ -527,62 +638,42 @@
 			<foreignkey field-ref="invCreditTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>	
-	-->		
-	<class-descriptor class="org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData" table="PROPOSAL_CUSTOM_DATA">
-		<field-descriptor name="proposalCustomDataId" column="PROPOSAL_CUSTOM_DATA_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_CUSTOM_DATA_ID"/>
-		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" access="anonymous"/>
-		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-		<field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT" />
-		<field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="customAttribute" class-ref="org.kuali.kra.bo.CustomAttribute" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="customAttributeId"/>
-		</reference-descriptor>
-		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="proposalId"/>
-		</reference-descriptor>
-	</class-descriptor>	
-	
-	<class-descriptor class="org.kuali.kra.institutionalproposal.ProposalComment" table="PROPOSAL_COMMENTS">
-        <field-descriptor name="proposalCommentsId" column="PROPOSAL_COMMENTS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IP_COMMENT" />
-        <field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" />
+	-->
+	           
+    <class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA" table="PROPOSAL_IDC_RATE">
+        <field-descriptor name="proposalUnrecoveredFandAId" column="PROPOSAL_IDC_RATE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_UNRECOVERED_FNA_ID"/>
+        <field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="INTEGER" access="anonymous"/>
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-        <field-descriptor name="commentTypeCode" column="COMMENT_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="applicableIndirectcostRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="indirectcostRateTypeCode" column="IDC_RATE_TYPE_CODE" jdbc-type="INTEGER" />
+        <field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR" />
+        <field-descriptor name="onCampusFlag" column="ON_CAMPUS_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="underrecoveryOfIndirectcost" column="UNDERRECOVERY_OF_IDC" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <reference-descriptor name="commentType" class-ref="org.kuali.kra.bo.CommentType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="commentTypeCode"/>
-        </reference-descriptor>
-        <reference-descriptor name="proposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="proposalId"/>
-        </reference-descriptor>
-    </class-descriptor>
-    
-    <!-- Begin Intellectual Property Review Mappings -->
-    
-    <class-descriptor class="org.kuali.kra.institutionalproposal.ProposalIpReviewJoin" table="PROPOSAL_IP_REVIEW_JOIN">
-        <field-descriptor name="proposalIpReviewJoinId" column="PROPOSAL_IP_REVIEW_JOIN_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_IP_REVIEW_JOIN_ID" />
-        <field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" />
-        <field-descriptor name="ipReviewId" column="IP_REVIEW_ID" jdbc-type="BIGINT" />
-        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
         <reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="proposalId"/>
         </reference-descriptor>
-        <reference-descriptor name="intellectualPropertyReview" class-ref="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="ipReviewId"/>
+        <reference-descriptor name="indirectcostRateType" class-ref="org.kuali.kra.institutionalproposal.IndirectcostRateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="indirectcostRateTypeCode"/>
         </reference-descriptor>
     </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.institutionalproposal.IndirectcostRateType" table="IDC_RATE_TYPE">
+        <field-descriptor name="indirectcostRateTypeCode" column="IDC_RATE_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    
+    <!-- Institutional Proposal Intellectual Property Review Mappings -->
     
     <class-descriptor class="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview" table="IP_REVIEW">
         <field-descriptor name="ipReviewId" column="IP_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IP_REVIEW_ID" />
@@ -598,9 +689,7 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <collection-descriptor name="proposalIpReviewJoins" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.ProposalIpReviewJoin" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-            <inverse-foreignkey field-ref="ipReviewId"/>
-        </collection-descriptor>
+        
         <!-- 
         <reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="proposalId"/>
@@ -612,6 +701,10 @@
         <reference-descriptor name="reviewResult" class-ref="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewResultType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="reviewResultCode"/>
         </reference-descriptor>
+        
+        <collection-descriptor name="proposalIpReviewJoins" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.ProposalIpReviewJoin" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="ipReviewId"/>
+        </collection-descriptor>
         <!-- 
         <collection-descriptor name="comments" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.ProposalComment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="proposalId"/>
@@ -635,6 +728,7 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
         <reference-descriptor name="ipReviewActivityType" class-ref="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivityType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="ipReviewActivityTypeCode"/>
         </reference-descriptor>
@@ -647,6 +741,23 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.institutionalproposal.ProposalIpReviewJoin" table="PROPOSAL_IP_REVIEW_JOIN">
+        <field-descriptor name="proposalIpReviewJoinId" column="PROPOSAL_IP_REVIEW_JOIN_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_IP_REVIEW_JOIN_ID" />
+        <field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="ipReviewId" column="IP_REVIEW_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
+        <reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalId"/>
+        </reference-descriptor>
+        <reference-descriptor name="intellectualPropertyReview" class-ref="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="ipReviewId"/>
+        </reference-descriptor>
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewRequirementType" table="IP_REVIEW_REQ_TYPE">
@@ -667,94 +778,4 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
     
-    <!-- End Intellectual Property Review Mappings -->
-    
-    <!-- Begin Proposal Log Mappings -->
-    
-    <class-descriptor class="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" table="PROPOSAL_LOG">
-        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_NUMBER" />
-        <field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="proposalLogTypeCode" column="PROPOSAL_LOG_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
-        <field-descriptor name="piId" column="PI_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="mergedWith" column="MERGED_WITH" jdbc-type="VARCHAR" />
-        <field-descriptor name="instProposalNumber" column="INST_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
-        <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
-        <field-descriptor name="piName" column="PI_NAME" jdbc-type="VARCHAR" />
-        <field-descriptor name="leadUnit" column="LEAD_UNIT" jdbc-type="VARCHAR" />
-        <field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="sponsorName" column="SPONSOR_NAME" jdbc-type="VARCHAR" />
-        <field-descriptor name="logStatus" column="LOG_STATUS" jdbc-type="VARCHAR" />
-        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
-        <field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-        <field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="deadlineDate" column="DEADLINE_DATE" jdbc-type="DATE" />
-        <field-descriptor name="fiscalMonth" column="FISCAL_MONTH" jdbc-type="INTEGER" />
-        <field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="INTEGER" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="proposalTypeCode"/>
-        </reference-descriptor>
-        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="leadUnit"/>
-        </reference-descriptor>
-        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.NonOrganizationalRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="rolodexId"/>
-        </reference-descriptor>
-        <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="sponsorCode" />
-        </reference-descriptor>
-        <reference-descriptor name="proposalLogStatus" class-ref="org.kuali.kra.institutionalproposal.proposallog.ProposalLogStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="logStatus" />
-        </reference-descriptor>
-        <reference-descriptor name="proposalLogType" class-ref="org.kuali.kra.institutionalproposal.proposallog.ProposalLogType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="proposalLogTypeCode" />
-        </reference-descriptor>
-    </class-descriptor>
-    
-    <class-descriptor class="org.kuali.kra.institutionalproposal.proposallog.ProposalLogStatus" table="PROPOSAL_LOG_STATUS">
-        <field-descriptor name="proposalLogStatusCode" column="PROPOSAL_LOG_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    </class-descriptor>
-    
-    <class-descriptor class="org.kuali.kra.institutionalproposal.proposallog.ProposalLogType" table="PROPOSAL_LOG_TYPE">
-        <field-descriptor name="proposalLogTypeCode" column="PROPOSAL_LOG_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    </class-descriptor>
-    
-    <class-descriptor class="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact" table="PROPOSAL_UNIT_CONTACTS">
-		<field-descriptor name="institutionalProposalContactId" column="PROPOSAL_UNIT_CONTACT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_PROPOSAL_ID" />		
-		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" nullable="true" />
-		<field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" nullable="false"  />		
-		<field-descriptor name="unitContactType" column="UNIT_CONTACT_TYPE" jdbc-type="VARCHAR" nullable="false" conversion="org.kuali.kra.award.contacts.UnitContactTypeConverter"/>
-		<field-descriptor name="unitAdministratorTypeCode" column="UNIT_ADMINISTRATOR_TYPE_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" access="anonymous" />
-		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" nullable="false" />
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" nullable="false" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<reference-descriptor name="unitAdministratorType" class-ref="org.kuali.kra.bo.UnitAdministratorType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="unitAdministratorTypeCode"/> 
-		</reference-descriptor>
-		<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="proposalId"/>
-        </reference-descriptor>			
-	</class-descriptor>
-    
-    <!-- End Proposal Log Mappings -->
-    
 </descriptor-repository>
-	

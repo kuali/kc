@@ -36,6 +36,8 @@ public class AbstractConfigurer extends ModuleConfigurer implements SmartApplica
 
     public AbstractConfigurer(String moduleName, String moduleTitle) {
         super(moduleName);
+        
+        this.moduleTitle = moduleTitle;
     }
     
     public String getModuleTitle() {
