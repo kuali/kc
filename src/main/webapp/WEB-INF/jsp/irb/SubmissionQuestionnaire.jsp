@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kra-questionnaire:qnInfopage title="Questionnaire" action="questionnaire" htmlFormAction="questionnaire">
+<kra:infopage title="Questionnaire" action="questionnaire" htmlFormAction="questionnaire">
 
 <script type="text/javascript">
    var $j = jQuery.noConflict();
@@ -48,4 +48,4 @@
 
     </SCRIPT> 
 		
-</kra-questionnaire:qnInfopage>
+</kra:infopage>
