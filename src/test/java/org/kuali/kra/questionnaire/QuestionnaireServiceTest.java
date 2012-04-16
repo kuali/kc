@@ -45,8 +45,7 @@ public class QuestionnaireServiceTest  extends KcUnitTestBase {
             expectedModules = new HashSet<String>();
             expectedModules.add("3");
             expectedModules.add("7");
-            expectedModules.add("2");
-            expectedModules.add("8");
+            expectedModules.add("2");            
         }  
 
 
