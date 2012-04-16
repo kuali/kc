@@ -15,8 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kra:infopage title="Questionnaire" action="questionnaire" htmlFormAction="questionnaire">
-  	<script src="scripts/jquery/jquery.js"></script>
+<kra-questionnaire:qnInfopage title="Questionnaire" action="questionnaire" htmlFormAction="questionnaire">
+
 <script type="text/javascript">
    var $j = jQuery.noConflict();
 </script>
@@ -24,8 +24,6 @@
     <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
-    <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
-    <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
     
    	
   	
@@ -50,4 +48,4 @@
 
     </SCRIPT> 
 		
-</kra:infopage>
+</kra-questionnaire:qnInfopage>
