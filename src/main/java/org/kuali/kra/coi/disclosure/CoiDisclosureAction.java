@@ -156,7 +156,7 @@ public class CoiDisclosureAction extends CoiAction {
                 && GlobalVariables.getMessageMap().hasNoErrors()) {
             actionForward = mapping.findForward("disclosureActions");
         }
-        else if (coiDisclosure.isUpdateEvent()) {
+        else if (coiDisclosure.isUpdateEvent() || (coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
             actionForward = mapping.findForward(UPDATE_DISCLOSURE);
         }
 
