@@ -23,7 +23,6 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclProject;
-import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -36,6 +35,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AddManualProjectRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddManualProjectEvent>  {
 
+    private static final String DISCLOSURE_EVENT_TYPE = "disclosureEventType";
     
     @Override
     public boolean processRules(AddManualProjectEvent event) {
@@ -50,16 +50,38 @@ public class AddManualProjectRule extends ResearchDocumentRuleBase implements Bu
             CoiDisclosureEventType disclosureEventType = getDisclosureEventType(eventTypeId);
             if (disclosureEventType != null) {
                 valid = validateRequiredFields(coiDisclProject, disclosureEventType);
+                valid &= isValidProjectId(coiDisclProject);
             }
         } else {
-            GlobalVariables.getMessageMap().putError("disclosureEventType", RiceKeyConstants.ERROR_REQUIRED, "Event Type (Event Type)" );
+            GlobalVariables.getMessageMap().putError(DISCLOSURE_EVENT_TYPE, RiceKeyConstants.ERROR_REQUIRED, "Event Type (Event Type)" );
             valid = false;
         }
 
         return valid;
     }
     
-    
+    /**
+     * This method is used to verify that there are no others disclosures present in the system for the user for the same projectId and event type.
+     * @param coiDisclProject
+     * @return
+     */
+    protected boolean isValidProjectId(CoiDisclProject coiDisclProject) {
+        boolean isValid = true;
+        String eventDisclosureNumber = coiDisclProject.getCoiDisclosureNumber();
+        String eventType = coiDisclProject.getDisclosureEventType();
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("coiProjectId", coiDisclProject.getCoiProjectId());
+        criteria.put("disclosureEventType", eventType);
+        List<CoiDisclProject> projects = (List<CoiDisclProject>) getBusinessObjectService().findMatching(CoiDisclProject.class, criteria);
+        
+        for (CoiDisclProject project : projects) {
+            if (StringUtils.equalsIgnoreCase(project.getCoiDisclosureNumber(), eventDisclosureNumber)) {
+                GlobalVariables.getMessageMap().putError("coiProjectId", KeyConstants.ERROR_COI_DUPLICATE_PROJECT_ID, "(" + coiDisclProject.getCoiProjectId() + ")"); 
+                isValid = false;
+            }
+        }
+        return isValid;
+    }
     
     private boolean validateRequiredFields(CoiDisclProject coiDisclProject, CoiDisclosureEventType disclosureEventType) {
         boolean valid = true;
