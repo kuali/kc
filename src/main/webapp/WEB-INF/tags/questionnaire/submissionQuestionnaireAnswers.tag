@@ -58,7 +58,7 @@
         </c:if>
 	 --%>
         <h3>
-            <span class="subhead-left"><a href="#" id ="questionpanelcontrol${answerHeaderIndex}" class="questionpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
+            <span class="subhead-left"><a href="#" id ="questionpanelcontrol:${property}:${answerHeaderIndex}" class="questionpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
                 ${tabTitle} </span>
  	        <span class="subhead-right">
 	        <c:if test = "${not empty bean.answerHeaders[answerHeaderIndex].answerHeaderId}" > 
@@ -74,7 +74,7 @@
    --%> 
    </span>
         </h3>
-        <div id="questionpanelcontent${answerHeaderIndex}">
+        <div id="questionpanelcontent:${property}:${answerHeaderIndex}">
             <c:set var="questionid" value="" />
             <c:forEach items="${bean.answerHeaders[answerHeaderIndex].answers}" var="answer" varStatus="status">   
 
