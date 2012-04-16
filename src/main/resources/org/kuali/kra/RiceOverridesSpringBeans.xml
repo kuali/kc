@@ -180,7 +180,6 @@
                 <value>roleLookupable</value>
                 <value>multiCampusIdentityService</value>
 
-                <value>s2sOpportunityLookupable</value> 
                 <value>protocolLookupable</value>
                 <value>coiDisclosureLookupable</value>
                 <value>protocolOnlineReviewLookupable</value>   
@@ -214,7 +213,6 @@
                 <value>roleLookupable</value>
                 <value>multiCampusIdentityService</value>
           
-                <value>s2sOpportunityLookupable</value> 
                 <value>protocolLookupable</value>
                 <value>coiDisclosureLookupable</value>
                 <value>protocolOnlineReviewLookupable</value>   
