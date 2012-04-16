@@ -59,4 +59,24 @@
     
     <bean id="commonDefaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
     
+    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
+        <property name="jcdAlias" value="kradApplicationDataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
+    
+    <bean id="platformAwareDaoJdbc" class="org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc" abstract="true">
+        <property name="dataSource" ref="dataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
+    
+    <bean id="dbPlatform" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dbPlatform" />
+    </bean>
+    
+    <bean id="kcService" class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition" abstract="true">
+        <!-- DO NOT CHANGE THIS EMPTY NAMESPACE STRING -->
+        <property name="serviceNameSpaceURI" value="" />
+        <property name="retryAttempts" value="0" />
+    </bean>
+    
 </beans>

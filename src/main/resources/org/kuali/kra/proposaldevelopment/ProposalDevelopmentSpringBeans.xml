@@ -118,6 +118,10 @@
         <property name="serviceName" value="kcPersonService" />
     </bean>
     
+    <bean id="kraWorkflowService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kraWorkflowService" />
+    </bean>
+    
     <bean id="knsSessionDocumentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="knsSessionDocumentService" />
     </bean>
@@ -149,6 +153,14 @@
     <bean id="persistenceStructureService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="persistenceStructureService" />
     </bean>
+    
+    <bean id="persistenceStructureServiceOjb" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="persistenceStructureServiceOjb" />
+    </bean>
+    
+    <bean id="persistenceStructureServiceJpa" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="persistenceStructureServiceJpa" />
+    </bean> 
     
     <bean id="personService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="personService" />
@@ -210,26 +222,6 @@
         <property name="lookupResultsService" ref="lookupResultsService" />
     </bean>
     
-    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
-        <property name="jcdAlias" value="kradApplicationDataSource" />
-        <property name="dbPlatform" ref="dbPlatform" />
-    </bean>
-    
-    <bean id="platformAwareDaoJdbc" class="org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc" abstract="true">
-        <property name="dataSource" ref="dataSource" />
-        <property name="dbPlatform" ref="dbPlatform" />
-    </bean>
-    
-    <bean id="dbPlatform" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="dbPlatform" />
-    </bean>
-    
-    <bean id="kcService" class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition" abstract="true">
-        <!-- DO NOT CHANGE THIS EMPTY NAMESPACE STRING -->
-        <property name="serviceNameSpaceURI" value="" />
-        <property name="retryAttempts" value="0" />
-    </bean>
-    
     <!-- Proposal Development Services -->
     
 	<bean id="proposalDevelopmentService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl">
@@ -284,13 +276,13 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
-    <bean id="proposalDevelopmentNotificationRoleQualifierService" 
-          class="org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRoleQualifierServiceImpl" scope="prototype" />
-
     <bean id="proposalDevelopmentNotificationRenderer" class="org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRenderer" 
           scope="prototype">
         <property name="proposalDevelopmentService" ref="proposalDevelopmentService"/>
     </bean>
+    
+    <bean id="proposalDevelopmentNotificationRoleQualifierService" 
+          class="org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRoleQualifierServiceImpl" scope="prototype" />
     
     <bean id="proposalHierarchyDao" parent="platformAwareDao" class="org.kuali.kra.proposaldevelopment.hierarchy.dao.ojb.ProposalHierarchyDaoOjb" />
 
@@ -363,7 +355,7 @@
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
     </bean>
 
-    <!--Proposal Development Printing Services -->
+    <!-- Proposal Development Printing Services -->
     
     <bean id="proposalDevelopmentPrintingService" class="org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl">
         <property name="printCertificationPrint" ref="printCertificationPrint" />

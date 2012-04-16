@@ -25,13 +25,10 @@ import org.kuali.rice.core.api.config.module.RunMode;
 public class CoreConfigurer extends AbstractConfigurer {
     
     private static final String CORE_SPRING_BEANS_PATH = "classpath:org/kuali/kra/CoreSpringBeans.xml";
-    private static final String NEGOTIATION_SPRING_BEANS_PATH = "classpath:/org/kuali/kra/negotiation/NegotiationSpringBeans.xml";
+    private static final String BUDGET_SPRING_BEANS_PATH = "classpath:org/kuali/kra/budget/BudgetSpringBeans.xml";
     private static final String PERSON_MASS_CHANGE_SPRING_BEANS_PATH = "classpath:org/kuali/kra/personmasschange/PersonMassChangeSpringBeans.xml";
     private static final String QUESTIONNAIRE_SPRING_BEANS_PATH = "classpath:org/kuali/kra/questionnaire/QuestionnaireSpringBeans.xml";
-    private static final String SPECIAL_REVIEW_SPRING_BEANS_PATH = "classpath:org/kuali/kra/common/specialreview/SpecialReviewSpringBeans.xml";
 
-    private static final String BUDGET_SPRING_BEANS_PATH = "classpath:org/kuali/kra/budget/BudgetSpringBeans.xml";
-    private static final String INSTITUTIONAL_PROPOSAL_SPRING_BEANS_PATH = "classpath:org/kuali/kra/institutionalproposal/InstitutionalProposalSpringBeans.xml";
     private static final String TIME_AND_MONEY_SPRING_BEANS_PATH = "classpath:org/kuali/kra/awardtimeandmoney/TimeAndMoneySpringBeans.xml";
     private static final String AWARD_SPRING_BEANS_PATH = "classpath:org/kuali/kra/award/AwardSpringBeans.xml"; 
         
@@ -52,13 +49,10 @@ public class CoreConfigurer extends AbstractConfigurer {
     public List<String> getPrimarySpringFiles() {
         final List<String> springFileLocations = new ArrayList<String>();
         springFileLocations.add(CORE_SPRING_BEANS_PATH);
-        springFileLocations.add(NEGOTIATION_SPRING_BEANS_PATH);
+        springFileLocations.add(BUDGET_SPRING_BEANS_PATH);
         springFileLocations.add(PERSON_MASS_CHANGE_SPRING_BEANS_PATH);
         springFileLocations.add(QUESTIONNAIRE_SPRING_BEANS_PATH);
-        springFileLocations.add(SPECIAL_REVIEW_SPRING_BEANS_PATH);
-        
-        springFileLocations.add(BUDGET_SPRING_BEANS_PATH);
-        springFileLocations.add(INSTITUTIONAL_PROPOSAL_SPRING_BEANS_PATH);
+
         springFileLocations.add(TIME_AND_MONEY_SPRING_BEANS_PATH);
         springFileLocations.add(AWARD_SPRING_BEANS_PATH);
         
