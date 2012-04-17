@@ -58,6 +58,7 @@ import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.BudgetLimitSummaryHelper;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
+import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -496,6 +497,9 @@ public class AwardAction extends BudgetParentActionBase {
         }
         for(AwardComment comment : award.getAwardComments()) {
             comment.setAward(award);
+        }
+        for(AwardCustomData customData : award.getAwardCustomDataList()) {
+            customData.setAward(award);
         }
     }
     
