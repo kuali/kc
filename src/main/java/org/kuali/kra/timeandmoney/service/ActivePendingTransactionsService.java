@@ -42,14 +42,14 @@ public interface ActivePendingTransactionsService {
     List<Award> processTransactionsForAddRuleProcessing(TimeAndMoneyDocument doc, AwardAmountTransaction newAwardAmountTransaction, Map<String
             , AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems);
     
-    /**
-     * 
-     * This method retrieves the active award using the version history service.
-     * @param awardNumber
-     * @return
-     */
-    Award getPendingAwardVersion(String awardNumber);
-    Award getActiveAwardVersion(String awardNumber);
-    Award getWorkingAwardVersion(String awardNumber);
+//    /**
+//     * 
+//     * This method retrieves the active award using the version history service.
+//     * @param awardNumber
+//     * @return
+//     */
+//    Award getPendingAwardVersion(String awardNumber);
+//    Award getActiveAwardVersion(String awardNumber);
+//    Award getWorkingAwardVersion(String awardNumber);
 
 }

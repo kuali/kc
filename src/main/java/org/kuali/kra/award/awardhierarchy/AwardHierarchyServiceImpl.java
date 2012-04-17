@@ -41,9 +41,11 @@ import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
+import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersionHistoryService;
@@ -75,6 +77,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     ActivePendingTransactionsService activePendingTransactionsService;
     ParameterService parameterService;
     private AwardService awardService;
+    AwardVersionService awardVersionService;
 
     /**
      * 
@@ -677,12 +680,13 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
 
         VersionHistory pendingVersionHistory = versionHistoryService.findPendingVersion(Award.class, awardNumber);
         VersionHistory activeVersionHistory = versionHistoryService.findActiveVersion(Award.class, awardNumber);
-        Award award = null;
-        if (pendingVersionHistory != null) {
-            award = (Award) pendingVersionHistory.getSequenceOwner();
-        } else if (activeVersionHistory != null) {
-            award = (Award) activeVersionHistory.getSequenceOwner();
-        }
+//        Award award = null;
+//        if (pendingVersionHistory != null) {
+//            award = (Award) pendingVersionHistory.getSequenceOwner();
+//        } else if (activeVersionHistory != null) {
+//            award = (Award) activeVersionHistory.getSequenceOwner();
+//        }
+        Award award = awardVersionService.getWorkingAwardVersion(awardNumber);
         //KRACOEUS-4879 - The above is the same as the commented out section below as long as we prefer the pending version in 
         //the getWorkingAwardVersion call.
         //Award award = activePendingTransactionsService.getWorkingAwardVersion(awardNumber); 
@@ -757,12 +761,13 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             
             VersionHistory pendingVersionHistory = versionHistoryService.findPendingVersion(Award.class, tmpAwardNumber);
             VersionHistory activeVersionHistory = versionHistoryService.findActiveVersion(Award.class, tmpAwardNumber);
-            Award award = null;
-            if (pendingVersionHistory != null) {
-                award = (Award) pendingVersionHistory.getSequenceOwner();
-            } else if (activeVersionHistory != null) {
-                award = (Award) activeVersionHistory.getSequenceOwner();
-            }
+//            Award award = null;
+//            if (pendingVersionHistory != null) {
+//                award = (Award) pendingVersionHistory.getSequenceOwner();
+//            } else if (activeVersionHistory != null) {
+//                award = (Award) activeVersionHistory.getSequenceOwner();
+//            }
+            Award award = awardVersionService.getWorkingAwardVersion(tmpAwardNumber);
             //KRACOEUS-4879 - The above is the same as the commented out section below as long as we prefer the pending version in 
             
             /*//Award award = null;
@@ -819,6 +824,11 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNode.setAwardDocumentFinalStatus(pendingVersionHistory == null && activeVersionHistory != null);
             awardHierarchyNodes.put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
         }  
+    }
+    
+    public AwardVersionService getAwardVersionService() {
+        awardVersionService = KraServiceLocator.getService(AwardVersionService.class);
+        return awardVersionService;
     }
     
     public void createNodeMapsOnFormForSummaryPanel(Map<String, AwardHierarchyNode> awardHierarchyNodes, Map<String, String> previousNodeMap, Map<String, String> nextNodeMap) {
@@ -927,6 +937,10 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
 
     public void setAwardService(AwardService awardService) {
         this.awardService = awardService;
+    }
+    
+    public void setAwardVersionService(AwardVersionService awardVersionService) {
+        this.awardVersionService = awardVersionService;
     }
 
     public void setParameterService(ParameterService parameterService) {

@@ -30,6 +30,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionBean;
+import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardHierarchyUIService;
@@ -231,6 +232,9 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         return KraServiceLocator.getService(ActivePendingTransactionsService.class);
     }
     
+    public AwardVersionService getAwardVersionService() {
+        return KraServiceLocator.getService(AwardVersionService.class);
+    }
     /**
      * Gets the transactionBean attribute. 
      * @return Returns the transactionBean.
@@ -611,7 +615,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
 //            map.put("awardNumber", timeAndMoneyDocument.getRootAwardNumber());
 //            List<Award> awardList = (List<Award>) getBusinessObjectService().findMatching(Award.class, map);
 //            timeAndMoneyDocument.setAward(awardList.get(0)); 
-               Award award = getActivePendingTransactionsService().getWorkingAwardVersion(timeAndMoneyDocument.getRootAwardNumber());
+               Award award = getAwardVersionService().getWorkingAwardVersion(timeAndMoneyDocument.getRootAwardNumber());
                timeAndMoneyDocument.setAward(award);
         }
         AwardDocument awardDocument = timeAndMoneyDocument.getAward().getAwardDocument();
