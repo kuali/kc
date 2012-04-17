@@ -15,21 +15,15 @@
  */
 package org.kuali.kra.coi.questionnaire;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
 public class DisclosureModuleQuestionnaireBean extends ModuleQuestionnaireBean {
     
     public  DisclosureModuleQuestionnaireBean(CoiDisclosure coiDisclosure) {
-        super(CoeusModule.COI_DISCLOSURE_MODULE_CODE, coiDisclosure.getCoiDisclosureNumber(), "0", coiDisclosure.getSequenceNumber().toString(), 
+        super(CoeusModule.COI_DISCLOSURE_MODULE_CODE, coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getEventTypeCode(), coiDisclosure.getSequenceNumber().toString(), 
                 coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isApproved());
-        if (coiDisclosure.isAnnualEvent()) {
-            this.setModuleSubItemCode(CoiDisclosureEventType.ANNUAL);
-        }
     }
 
 }
