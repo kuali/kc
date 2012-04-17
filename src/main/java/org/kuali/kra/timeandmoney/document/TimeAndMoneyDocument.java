@@ -27,6 +27,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
+import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -148,10 +149,14 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     private Award getCurrentAward(TimeAndMoneyDocument timeAndMoneyDocument) {
         Award tmpAward = timeAndMoneyDocument.getAward();
         if(tmpAward == null) {
-            tmpAward = getActivePendingTransactionsService().getWorkingAwardVersion(timeAndMoneyDocument.getAwardNumber());
+            tmpAward = getAwardVersionService().getWorkingAwardVersion(timeAndMoneyDocument.getAwardNumber());
         }
         
         return tmpAward;
+    }
+    
+    public AwardVersionService getAwardVersionService() {
+        return KraServiceLocator.getService(AwardVersionService.class);
     }
     
     protected ActivePendingTransactionsService getActivePendingTransactionsService(){

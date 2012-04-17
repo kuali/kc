@@ -235,11 +235,6 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
     
     private boolean isCurrentAwardTheFirstVersion(Award currentAward) {
-        //ActivePendingTransactionsService activePendingTransactionsService = KraServiceLocator.getService(ActivePendingTransactionsService.class);
-        //Award activeAward = activePendingTransactionsService.getWorkingAwardVersion(currentAward.getAwardNumber());
-//        if(activeAward != null && activeAward.getSequenceNumber().equals(currentAward.getSequenceNumber())) {
-//            return true;
-//        }
         if(currentAward.getSequenceNumber() == 1) {
             return true;
         }else {

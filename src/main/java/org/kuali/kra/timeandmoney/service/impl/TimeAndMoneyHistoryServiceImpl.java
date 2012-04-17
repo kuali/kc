@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchDocumentService;
@@ -50,6 +51,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     private static final int NUMBER_30 = 30;
     BusinessObjectService businessObjectService; 
     DocumentService documentService;
+    AwardVersionService awardVersionService;
     private String DASH = "-";
     private static final String DEFAULT_TAB = "Versions";
     private static final String ALTERNATE_OPEN_TAB = "Parameters";
@@ -66,7 +68,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         
         AwardAmountTransaction awardAmountTransaction = null;
         timeAndMoneyHistory.clear();
-        Award award = getWorkingAwardVersion(awardNumber);       
+        Award award = awardVersionService.getWorkingAwardVersion(awardNumber);       
         List<TimeAndMoneyDocument> docs = null;
         int key = 150;
         int j = -1;
@@ -412,53 +414,60 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     }
                      
     
-    
-    public Award getWorkingAwardVersion(String goToAwardNumber) {
-        Award award = null;
-        award = getPendingAwardVersion(goToAwardNumber);
-        if (award == null) {
-            award = getActiveAwardVersion(goToAwardNumber);
-        }
-        return award;
+    public AwardVersionService getAwardVersionService() {
+        awardVersionService = KraServiceLocator.getService(AwardVersionService.class);
+        return awardVersionService;
     }
-    
-    /*
-     * This method retrieves the pending award version.
-     * 
-     * @param doc
-     * @param goToAwardNumber
-     */
-    @SuppressWarnings("unchecked")
-    public Award getPendingAwardVersion(String goToAwardNumber) {
-        
-        Award award = null;
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);
-        if(!(awards.size() == 0)) {
-            award = awards.get(awards.size() - 1);
-        }
-      
-        return award;
-    }
-    
-   
-    protected Award getActiveAwardVersion(String goToAwardNumber) {
-        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
-        VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
-        Award award = null;
-        
-        if(vh!=null){
-            award = (Award) vh.getSequenceOwner();
-        }else{
-            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-            award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber))).get(0);              
-        }
-        return award;
-    }
+//    public Award getWorkingAwardVersion(String goToAwardNumber) {
+//        Award award = null;
+//        award = getPendingAwardVersion(goToAwardNumber);
+//        if (award == null) {
+//            award = getActiveAwardVersion(goToAwardNumber);
+//        }
+//        return award;
+//    }
+//    
+//    /*
+//     * This method retrieves the pending award version.
+//     * 
+//     * @param doc
+//     * @param goToAwardNumber
+//     */
+//    @SuppressWarnings("unchecked")
+//    public Award getPendingAwardVersion(String goToAwardNumber) {
+//        
+//        Award award = null;
+//        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+//        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);
+//        if(!(awards.size() == 0)) {
+//            award = awards.get(awards.size() - 1);
+//        }
+//      
+//        return award;
+//    }
+//    
+//   
+//    protected Award getActiveAwardVersion(String goToAwardNumber) {
+//        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
+//        VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
+//        Award award = null;
+//        
+//        if(vh!=null){
+//            award = (Award) vh.getSequenceOwner();
+//        }else{
+//            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+//            award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber))).get(0);              
+//        }
+//        return award;
+//    }
     protected Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
         Map<String, String> map = new HashMap<String,String>();
         map.put("awardNumber", goToAwardNumber);
         return map;
+    }
+
+    public void setAwardVersionService(AwardVersionService awardVersionService) {
+        this.awardVersionService = awardVersionService;
     }
 
     /**

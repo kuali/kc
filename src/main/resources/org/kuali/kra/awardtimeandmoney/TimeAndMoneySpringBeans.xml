@@ -74,6 +74,12 @@
         </property>
     </bean>
     
+    <bean id="awardVersionService" class="org.kuali.kra.award.version.service.impl.AwardVersionServiceImpl" scope="prototype">
+        <property name="versionHistoryService">
+            <ref bean="versionHistoryService" />
+        </property>
+  	</bean>
+    
     <bean id="activePendingTransactionsService" class="org.kuali.kra.timeandmoney.service.impl.ActivePendingTransactionsServiceImpl">
     	<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -81,6 +87,9 @@
 		<property name="awardAmountInfoService">
 			<ref bean="awardAmountInfoService" />
 		</property>
+		<property name="awardVersionService">
+        	<ref bean="awardVersionService"/>
+       	</property>
 		<property name="personService" ref="personService"/>        
 		<property name="versionHistoryService" ref="versionHistoryService"/>
     </bean>
@@ -91,7 +100,10 @@
 		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
-		</property>        
+		</property>
+		<property name="awardVersionService">
+        	<ref bean="awardVersionService"/>
+       	</property>        
     </bean>
     
     <bean id="timeAndMoneyActionSummaryService" class="org.kuali.kra.timeandmoney.service.impl.TimeAndMoneyActionSummaryServiceImpl">
