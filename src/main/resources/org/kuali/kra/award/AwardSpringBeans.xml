@@ -293,6 +293,9 @@
         <property name="awardService">
         	<ref bean="awardService"/>
        	</property>
+       	<property name="awardVersionService">
+        	<ref bean="awardVersionService"/>
+       	</property>
     </bean>
     
     <bean id="awardAmountInfoService" class="org.kuali.kra.award.AwardAmountInfoServiceImpl">	
@@ -303,6 +306,12 @@
 		    <ref bean="documentService" />
 		</property>
 	</bean>
+	
+	<bean id="awardVersionService" class="org.kuali.kra.award.version.service.impl.AwardVersionServiceImpl" scope="prototype">
+        <property name="versionHistoryService">
+            <ref bean="versionHistoryService" />
+        </property>
+  	</bean>
 	
 	<bean id="awardLockService" class="org.kuali.kra.award.AwardLockServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
