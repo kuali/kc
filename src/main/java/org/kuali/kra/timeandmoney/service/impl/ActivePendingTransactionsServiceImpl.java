@@ -27,8 +27,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -48,6 +50,8 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
     
     BusinessObjectService businessObjectService;
     AwardAmountInfoService awardAmountInfoService;
+    AwardVersionService awardVersionService;
+
     @SuppressWarnings("unchecked")
     private PersonService personService;
     private VersionHistoryService versionHistoryService;
@@ -132,7 +136,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         
         
         for(Entry<String,AwardHierarchyNode> awardHierarchyNode : doc.getAwardHierarchyNodes().entrySet()){
-            Award award = getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
+            Award award = awardVersionService.getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
             AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
             awardHierarchyNode.getValue().setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
             awardHierarchyNode.getValue().setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
@@ -841,7 +845,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions,
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
-        Award award = getWorkingAwardVersion(awardNumber);
+        Award award = awardVersionService.getWorkingAwardVersion(awardNumber);
         AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
         award.getAwardAmountInfos().add(getUpdatedDestinationDownNodeAmountInfo(pendingTransaction, awardAmountInfo, awardAmountTransactionItems, newAwardAmountTransaction, documentNumber, award));
         awardItems.add(award);
@@ -851,7 +855,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions,
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
-        Award award = getWorkingAwardVersion(awardNumber);
+        Award award = awardVersionService.getWorkingAwardVersion(awardNumber);
         AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
         award.getAwardAmountInfos().add(getUpdatedDestinationUpNodeAmountInfo(pendingTransaction, awardAmountInfo, awardAmountTransactionItems, newAwardAmountTransaction, documentNumber, award));
         awardItems.add(award);
@@ -943,7 +947,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions,
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
-        Award award = getWorkingAwardVersion(awardNumber);
+        Award award = awardVersionService.getWorkingAwardVersion(awardNumber);
         AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
         award.getAwardAmountInfos().add(getUpdatedSourceDownNodeAmountInfo(pendingTransaction, awardAmountInfo, awardAmountTransactionItems, newAwardAmountTransaction, documentNumber, award));
         awardItems.add(award);
@@ -953,7 +957,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions,
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
-        Award award = getWorkingAwardVersion(awardNumber);
+        Award award = awardVersionService.getWorkingAwardVersion(awardNumber);
         AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
         award.getAwardAmountInfos().add(getUpdatedSourceUpNodeAmountInfo(pendingTransaction, awardAmountInfo, awardAmountTransactionItems, newAwardAmountTransaction, documentNumber, award));
         awardItems.add(award);
@@ -1045,7 +1049,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions,
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
-        Award award = getWorkingAwardVersion(awardNumber);
+        Award award = awardVersionService.getWorkingAwardVersion(awardNumber);
         AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
         award.getAwardAmountInfos().add(getUpdatedIntermediateDownNodeAmountInfo(pendingTransaction, awardAmountInfo, awardAmountTransactionItems, newAwardAmountTransaction, documentNumber, award));
         awardItems.add(award);
@@ -1055,7 +1059,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
             Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<PendingTransaction> pendingTransactions,
             AwardAmountTransaction newAwardAmountTransaction, String documentNumber) {
         
-        Award award = getWorkingAwardVersion(awardNumber);
+        Award award = awardVersionService.getWorkingAwardVersion(awardNumber);
         AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
         award.getAwardAmountInfos().add(getUpdatedIntermediateUpNodeAmountInfo(pendingTransaction, awardAmountInfo, awardAmountTransactionItems, newAwardAmountTransaction, documentNumber, award));
         awardItems.add(award);
@@ -1223,57 +1227,62 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         }       
     }
     
-    public Award getWorkingAwardVersion(String goToAwardNumber) {
-        Award award = null;
-        award = getPendingAwardVersion(goToAwardNumber);
-        if (award == null) {
-            award = getActiveAwardVersion(goToAwardNumber);
-        }
-        return award;
+    public AwardVersionService getAwardVersionService() {
+        awardVersionService = KraServiceLocator.getService(AwardVersionService.class);
+        return awardVersionService;
     }
     
-    /*
-     * This method retrieves the pending award version.
-     * 
-     * @param doc
-     * @param goToAwardNumber
-     */
-    @SuppressWarnings("unchecked")
-    public Award getPendingAwardVersion(String goToAwardNumber) {
-        
-        Award award = null;
-        VersionHistory versionHistory = versionHistoryService.findPendingVersion(Award.class, goToAwardNumber);
-        if (versionHistory != null) {
-            return (Award) versionHistory.getSequenceOwner();
-        } else {
-            return null;
-        }
-    }
-    
-    protected Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
-        Map<String, String> map = new HashMap<String,String>();
-        map.put("awardNumber", goToAwardNumber);
-        return map;
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService#getActiveAwardVersion(java.lang.String)
-     */
-    @SuppressWarnings("unchecked")
-    public Award getActiveAwardVersion(String awardNumber) {
-          
-        VersionHistory vh = versionHistoryService.findActiveVersion(Award.class, awardNumber);
-        Award award = null;
-        
-        if(vh!=null){
-            award = (Award) vh.getSequenceOwner();
-        }else{
-            List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, getHashMap(awardNumber));     
-            award = (CollectionUtils.isEmpty(awards) ? null : awards.get(0));
-        }
-        return award;
-    }
+//    public Award getWorkingAwardVersion(String goToAwardNumber) {
+//        Award award = null;
+//        award = getPendingAwardVersion(goToAwardNumber);
+//        if (award == null) {
+//            award = getActiveAwardVersion(goToAwardNumber);
+//        }
+//        return award;
+//    }
+//    
+//    /*
+//     * This method retrieves the pending award version.
+//     * 
+//     * @param doc
+//     * @param goToAwardNumber
+//     */
+//    @SuppressWarnings("unchecked")
+//    public Award getPendingAwardVersion(String goToAwardNumber) {
+//        
+//        Award award = null;
+//        VersionHistory versionHistory = versionHistoryService.findPendingVersion(Award.class, goToAwardNumber);
+//        if (versionHistory != null) {
+//            return (Award) versionHistory.getSequenceOwner();
+//        } else {
+//            return null;
+//        }
+//    }
+//    
+//    protected Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
+//        Map<String, String> map = new HashMap<String,String>();
+//        map.put("awardNumber", goToAwardNumber);
+//        return map;
+//    }
+//    
+//    /**
+//     * 
+//     * @see org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService#getActiveAwardVersion(java.lang.String)
+//     */
+//    @SuppressWarnings("unchecked")
+//    public Award getActiveAwardVersion(String awardNumber) {
+//          
+//        VersionHistory vh = versionHistoryService.findActiveVersion(Award.class, awardNumber);
+//        Award award = null;
+//        
+//        if(vh!=null){
+//            award = (Award) vh.getSequenceOwner();
+//        }else{
+//            List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, getHashMap(awardNumber));     
+//            award = (CollectionUtils.isEmpty(awards) ? null : awards.get(0));
+//        }
+//        return award;
+//    }
     
     /**
      * Replace the UserSession with one for the user who routed the parent award.
@@ -1358,6 +1367,10 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      */
     public AwardAmountInfoService getAwardAmountInfoService() {
         return awardAmountInfoService;
+    }
+    
+    public void setAwardVersionService(AwardVersionService awardVersionService) {
+        this.awardVersionService = awardVersionService;
     }
 
     /**

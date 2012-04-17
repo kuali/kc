@@ -70,6 +70,7 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
+import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -805,7 +806,7 @@ public class AwardAction extends BudgetParentActionBase {
             List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
                 (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues, "documentNumber", true);
             
-            Award rootAward = getWorkingAwardVersion(rootAwardNumber);   
+            Award rootAward = getAwardVersionService().getWorkingAwardVersion(rootAwardNumber);   
             //this logic so we set Transaction Type on new T&M doc.  Defaults to "new" on first creation of T&M doc of a Root Award.
             TimeAndMoneyDocument timeAndMoneyDocument = getLastFinalTandMDocument(timeAndMoneyDocuments);
             //if timeAndMoneyDocument is null then either it is first creation or all the previous T&M docs have a route status of 'canceled'.
@@ -985,13 +986,17 @@ public class AwardAction extends BudgetParentActionBase {
         return awards;
     }
     
-    public Award getWorkingAwardVersion(String goToAwardNumber) {
-        Award award = null;
-        award = getPendingAwardVersion(goToAwardNumber);
-        if (award == null) {
-            award = getActiveAwardVersion(goToAwardNumber);
-        }
-        return award;
+//    public Award getWorkingAwardVersion(String goToAwardNumber) {
+//        Award award = null;
+//        award = getPendingAwardVersion(goToAwardNumber);
+//        if (award == null) {
+//            award = getActiveAwardVersion(goToAwardNumber);
+//        }
+//        return award;
+//    }
+    
+    public AwardVersionService getAwardVersionService() {
+        return KraServiceLocator.getService(AwardVersionService.class);
     }
     
     /*
@@ -1000,33 +1005,33 @@ public class AwardAction extends BudgetParentActionBase {
      * @param doc
      * @param goToAwardNumber
      */
-    @SuppressWarnings("unchecked")
-    public Award getPendingAwardVersion(String goToAwardNumber) {
-        
-        Award award = null;
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);
-        if(!(awards.size() == 0)) {
-            award = awards.get(awards.size() - 1);
-        }
-      
-        return award;
-    }
+//    @SuppressWarnings("unchecked")
+//    public Award getPendingAwardVersion(String goToAwardNumber) {
+//        
+//        Award award = null;
+//        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+//        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);
+//        if(!(awards.size() == 0)) {
+//            award = awards.get(awards.size() - 1);
+//        }
+//      
+//        return award;
+//    }
     
    
-    private Award getActiveAwardVersion(String goToAwardNumber) {
-        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
-        VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
-        Award award = null;
-        
-        if(vh!=null){
-            award = (Award) vh.getSequenceOwner();
-        }else{
-            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-            award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber))).get(0);              
-        }
-        return award;
-    }
+//    private Award getActiveAwardVersion(String goToAwardNumber) {
+//        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
+//        VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
+//        Award award = null;
+//        
+//        if(vh!=null){
+//            award = (Award) vh.getSequenceOwner();
+//        }else{
+//            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+//            award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber))).get(0);              
+//        }
+//        return award;
+//    }
     private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
         Map<String, String> map = new HashMap<String,String>();
         map.put("awardNumber", goToAwardNumber);

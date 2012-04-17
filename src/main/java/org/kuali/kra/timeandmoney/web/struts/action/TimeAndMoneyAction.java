@@ -38,7 +38,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
+import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -85,6 +85,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     private static final String ZERO = "0";
     private static final Integer TEN = 10;
     BusinessObjectService businessObjectService;
+    AwardVersionService awardVersionService;
     private ParameterService parameterService;
     TransactionRuleImpl transactionRuleImpl;
     
@@ -110,7 +111,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         updateAwardAmountTransactions(timeAndMoneyDocument);
         if(timeAndMoneyDocument.getAwardHierarchyNodes().size() == 1) {
             for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
-                Award award = aptService.getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
+                //Award award = aptService.getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
+                Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
                 AwardAmountInfo aai = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
                 inspectAndCaptureAmountChanges(timeAndMoneyForm, aai, award, timeAndMoneyDocument, awardHierarchyNode.getValue(), moneyTransactionDetailItems);
                 getBusinessObjectService().save(award);
@@ -294,7 +296,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         updateDocumentFromSession(timeAndMoneyDocument);//not sure if I need to do this.
         updateAwardAmountTransactions(timeAndMoneyDocument);
         for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
-            Award award = aptService.getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber()); 
+            //Award award = aptService.getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber()); 
+            Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
             //capture any changes of DirectFandADistributions, and add them to the Award working version for persistence.
             if(award.getAwardNumber().equals(timeAndMoneyDocument.getAward().getAwardNumber())) {
                 //must use documentService to save the award document. businessObjectService.save() builds deletion award list on T&M doc and we
@@ -604,7 +607,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         Map<String, AwardHierarchy> awardHierarchyItems = timeAndMoneyDocument.getAwardHierarchyItems();
         for (Map.Entry<String, AwardHierarchy> awardHierarchyEntry : awardHierarchyItems.entrySet()) {
             AwardHierarchy awardHierarchy = awardHierarchyEntry.getValue();
-            Award award = getWorkingAwardVersion(awardHierarchy.getAwardNumber());
+            //Award award = getWorkingAwardVersion(awardHierarchy.getAwardNumber());
+            Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchy.getAwardNumber());
             List<AwardAmountInfo> deleteCollection = new ArrayList<AwardAmountInfo>();
             for (AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()) {
                 if(!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
@@ -689,7 +693,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     private Award getCurrentAward(TimeAndMoneyDocument timeAndMoneyDocument) {
         Award tmpAward = timeAndMoneyDocument.getAward();
         if(tmpAward == null) {
-            tmpAward = getActivePendingTransactionsService().getWorkingAwardVersion(timeAndMoneyDocument.getAwardNumber());
+           // tmpAward = getActivePendingTransactionsService().getWorkingAwardVersion(timeAndMoneyDocument.getAwardNumber());
+            tmpAward = getAwardVersionService().getWorkingAwardVersion(timeAndMoneyDocument.getAwardNumber());
         }
         
         return tmpAward;
@@ -843,7 +848,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      */
     private void populateOtherPanels(AwardAmountTransaction newAwardAmountTransaction, TimeAndMoneyForm timeAndMoneyForm, String goToAwardNumber)
             throws LookupException, SQLException, WorkflowException {
-        Award award = getWorkingAwardVersion(goToAwardNumber);
+        //Award award = getWorkingAwardVersion(goToAwardNumber);
+        Award award = getAwardVersionService().getWorkingAwardVersion(goToAwardNumber);
         if (award == null) {
             GlobalVariables.getMessageMap().putError("goToAwardNumber", "error.timeandmoney.invalidawardnumber", goToAwardNumber);
             return;
@@ -889,57 +895,66 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     protected AwardDirectFandADistributionService getAwardDirectFandADistributionService() {
         return KraServiceLocator.getService(AwardDirectFandADistributionService.class);
     }
-
-    public Award getWorkingAwardVersion(String goToAwardNumber) {
-        Award award = null;
-        award = getPendingAwardVersion(goToAwardNumber);
-        if (award == null) {
-            award = getActiveAwardVersion(goToAwardNumber);
-        }
-        return award;
-    }
     
-    /*
-     * This method retrieves the pending award version.
-     * 
-     * @param doc
-     * @param goToAwardNumber
+    /**
+     * Gets the businessObjectService attribute. 
+     * @return Returns the businessObjectService.
      */
-    @SuppressWarnings("unchecked")
-    public Award getPendingAwardVersion(String goToAwardNumber) {
-        
-        Award award = null;
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);
-        if(!(awards.size() == 0)) {
-            award = awards.get(awards.size() - 1);
-        }
-      
-        return award;
+    public AwardVersionService getAwardVersionService() {
+        awardVersionService = KraServiceLocator.getService(AwardVersionService.class);
+        return awardVersionService;
     }
-    
-   
-    private Award getActiveAwardVersion(String goToAwardNumber) {
-        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
-        VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
-        Award award = null;
-        
-        if(vh!=null){
-            award = (Award) vh.getSequenceOwner();
-        }else{
-            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-            List<Award> matchingAwards = (List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber));
-            if (matchingAwards != null && !matchingAwards.isEmpty()) {
-                award = matchingAwards.get(0);
-            }
-        }
-        return award;
-    }
-    private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
-        Map<String, String> map = new HashMap<String,String>();
-        map.put("awardNumber", goToAwardNumber);
-        return map;
-    }
+
+//    public Award getWorkingAwardVersion(String goToAwardNumber) {
+//        Award award = null;
+//        award = getPendingAwardVersion(goToAwardNumber);
+//        if (award == null) {
+//            award = getActiveAwardVersion(goToAwardNumber);
+//        }
+//        return award;
+//    }
+//    
+//    /*
+//     * This method retrieves the pending award version.
+//     * 
+//     * @param doc
+//     * @param goToAwardNumber
+//     */
+//    @SuppressWarnings("unchecked")
+//    public Award getPendingAwardVersion(String goToAwardNumber) {
+//        
+//        Award award = null;
+//        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+//        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);
+//        if(!(awards.size() == 0)) {
+//            award = awards.get(awards.size() - 1);
+//        }
+//      
+//        return award;
+//    }
+//    
+//   
+//    private Award getActiveAwardVersion(String goToAwardNumber) {
+//        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
+//        VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
+//        Award award = null;
+//        
+//        if(vh!=null){
+//            award = (Award) vh.getSequenceOwner();
+//        }else{
+//            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+//            List<Award> matchingAwards = (List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber));
+//            if (matchingAwards != null && !matchingAwards.isEmpty()) {
+//                award = matchingAwards.get(0);
+//            }
+//        }
+//        return award;
+//    }
+//    private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
+//        Map<String, String> map = new HashMap<String,String>();
+//        map.put("awardNumber", goToAwardNumber);
+//        return map;
+//    }
     /*
      * Retrieves an ActivePendingTransactionsService.
      */
@@ -1144,7 +1159,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         TimeAndMoneyDocument doc = timeAndMoneyForm.getTimeAndMoneyDocument();
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         String rootAwardNumber = doc.getRootAwardNumber();
-        Award rootAward = getWorkingAwardVersion(rootAwardNumber);
+        //Award rootAward = getWorkingAwardVersion(rootAwardNumber);
+        Award rootAward = getAwardVersionService().getWorkingAwardVersion(rootAwardNumber);
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
         timeAndMoneyDocument.getDocumentHeader().setDocumentDescription("timeandmoney document");
         timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);

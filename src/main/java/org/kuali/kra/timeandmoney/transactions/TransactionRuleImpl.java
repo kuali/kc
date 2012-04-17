@@ -22,8 +22,10 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -153,10 +155,10 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
         List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
         for (Award award : awards) {
-            Award activeAward = getWorkingAwardVersion(award.getAwardNumber());
-            if(award == null){
-                activeAward = getActiveAwardVersion(award.getAwardNumber());
-            }
+            Award activeAward = getAwardVersionService().getWorkingAwardVersion(award.getAwardNumber());
+//            if(award == null){
+//                activeAward = getActiveAwardVersion(award.getAwardNumber());
+//            }
             AwardAmountInfo awardAmountInfo = activeAward.getAwardAmountInfos().get(activeAward.getAwardAmountInfos().size() -1);
             if (awardAmountInfo.getAnticipatedTotalAmount().subtract(awardAmountInfo.getAmountObligatedToDate()).isNegative()) {
                 reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_TOTAL_AMOUNT_INVALID, activeAward.getAwardNumber());
@@ -176,10 +178,10 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
         List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
         for (Award award : awards) {
-            Award activeAward = getWorkingAwardVersion(award.getAwardNumber());
-            if(award == null){
-                activeAward = getActiveAwardVersion(award.getAwardNumber());
-            }
+            Award activeAward = getAwardVersionService().getWorkingAwardVersion(award.getAwardNumber());
+//            if(award == null){
+//                activeAward = getActiveAwardVersion(award.getAwardNumber());
+//            }
             AwardAmountInfo awardAmountInfo = activeAward.getAwardAmountInfos().get(activeAward.getAwardAmountInfos().size() -1);
             if (awardAmountInfo.getAmountObligatedToDate().isPositive() && 
                     (awardAmountInfo.getCurrentFundEffectiveDate() == null || awardAmountInfo.getObligationExpirationDate() == null)) {
@@ -202,10 +204,10 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
             }
         }
         if(returnAward == null) {
-            returnAward = getWorkingAwardVersion(rootAwardNumber);
-            if(returnAward == null){
-                returnAward = getActiveAwardVersion(rootAwardNumber);
-            }
+            returnAward = getAwardVersionService().getWorkingAwardVersion(rootAwardNumber);
+//            if(returnAward == null){
+//                returnAward = getActiveAwardVersion(rootAwardNumber);
+//            }
         }
         return returnAward;
     }
@@ -229,10 +231,10 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
             }
         }
         if(returnAward == null) {
-            returnAward = getWorkingAwardVersion(sourceAwardNumber);
-            if(returnAward == null){
-                returnAward = getActiveAwardVersion(sourceAwardNumber);
-            }
+            returnAward = getAwardVersionService().getWorkingAwardVersion(sourceAwardNumber);
+//            if(returnAward == null){
+//                returnAward = getActiveAwardVersion(sourceAwardNumber);
+//            }
         }
         return returnAward;
     }
@@ -361,14 +363,25 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         return GlobalVariables.getMessageMap().containsMessageKey(KeyConstants.ERROR_TNM_PENDING_TRANSACTION_ITEM_NOT_UNIQUE);
     }
     
-    public Award getWorkingAwardVersion(String goToAwardNumber) {
-        Award award = null;
-        award = getPendingAwardVersion(goToAwardNumber);
-        if (award == null) {
-            award = getActiveAwardVersion(goToAwardNumber);
-        }
-        return award;
+    /*
+     * This method retrieves AwardHierarchyService
+     */
+    protected AwardHierarchyService getAwardHierarchyService(){        
+        return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
     }
+    
+    public AwardVersionService getAwardVersionService() {
+        return KraServiceLocator.getService(AwardVersionService.class);
+    }
+    
+//    public Award getWorkingAwardVersion(String goToAwardNumber) {
+//        Award award = null;
+//        award = getPendingAwardVersion(goToAwardNumber);
+//        if (award == null) {
+//            award = getActiveAwardVersion(goToAwardNumber);
+//        }
+//        return award;
+//    }
     
     /**
      * This method...
@@ -480,43 +493,45 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         return true;
     }
     
+  
+    
     /*
      * This method retrieves the pending award version.
      * 
      * @param doc
      * @param goToAwardNumber
      */
-    @SuppressWarnings("unchecked")
-    public Award getPendingAwardVersion(String goToAwardNumber) {
-        
-        Award award = null;
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);
-        if(!(awards.size() == 0)) {
-            award = awards.get(awards.size() - 1);
-        }
-        return award;
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService#getActiveAwardVersion(java.lang.String)
-     */
-    @SuppressWarnings("unchecked")
-    public Award getActiveAwardVersion(String awardNumber) {
-        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
-        VersionHistory vh = vhs.findActiveVersion(Award.class, awardNumber);
-        Award award = null;
-        
-        if(vh!=null){
-            award = (Award) vh.getSequenceOwner();
-        }else{
-            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-            List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, getHashMap(awardNumber));     
-            award = (CollectionUtils.isEmpty(awards) ? null : awards.get(0));
-        }
-        return award;
-    }
+//    @SuppressWarnings("unchecked")
+//    public Award getPendingAwardVersion(String goToAwardNumber) {
+//        
+//        Award award = null;
+//        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+//        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);
+//        if(!(awards.size() == 0)) {
+//            award = awards.get(awards.size() - 1);
+//        }
+//        return award;
+//    }
+//    
+//    /**
+//     * 
+//     * @see org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService#getActiveAwardVersion(java.lang.String)
+//     */
+//    @SuppressWarnings("unchecked")
+//    public Award getActiveAwardVersion(String awardNumber) {
+//        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
+//        VersionHistory vh = vhs.findActiveVersion(Award.class, awardNumber);
+//        Award award = null;
+//        
+//        if(vh!=null){
+//            award = (Award) vh.getSequenceOwner();
+//        }else{
+//            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+//            List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, getHashMap(awardNumber));     
+//            award = (CollectionUtils.isEmpty(awards) ? null : awards.get(0));
+//        }
+//        return award;
+//    }
     
     private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
         Map<String, String> map = new HashMap<String,String>();

@@ -27,6 +27,7 @@ import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleImpl;
+import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -91,10 +92,10 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
      * @param document
      */
     protected void reportAwardReportTrackingError(Document document) {
-        ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
+        //ActivePendingTransactionsService aptService = getActivePendingTransactionsService();
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
         for (Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()) {
-            Award award = aptService.getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber()); 
+            Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber()); 
             if (!this.getReportTrackingService().getReportTacking(award).isEmpty() && checkReportTrackingValueChanges(timeAndMoneyDocument)) {
                 KNSGlobalVariables.getMessageList().add(KeyConstants.REPORT_TRACKING_WARNING_UPDATE_FROM_DATE_CHANGE, "");
                 return;
@@ -251,6 +252,10 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
     
     protected ActivePendingTransactionsService getActivePendingTransactionsService(){
         return (ActivePendingTransactionsService) KraServiceLocator.getService(ActivePendingTransactionsService.class);
+    }
+    
+    public AwardVersionService getAwardVersionService() {
+        return KraServiceLocator.getService(AwardVersionService.class);
     }
     
 }
