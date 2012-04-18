@@ -47,6 +47,10 @@
         </property>
     </bean>
     
+    <bean id="awardService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="awardService" />
+    </bean>
+    
     <bean id="institutionalProposalService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="institutionalProposalService" />
     </bean>
