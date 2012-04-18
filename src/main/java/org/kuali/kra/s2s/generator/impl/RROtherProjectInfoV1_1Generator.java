@@ -37,12 +37,19 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -55,6 +62,7 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
 
 
     private static final Log LOG = LogFactory.getLog(RROtherProjectInfoV1_1Generator.class);
+    List<AnswerHeader> answerHeaders;
 
     /**
      * 
@@ -70,6 +78,10 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
         RROtherProjectInfoDocument.RROtherProjectInfo rrOtherProjectInfo = RROtherProjectInfoDocument.RROtherProjectInfo.Factory
                 .newInstance();
         rrOtherProjectInfo.setFormVersion(S2SConstants.FORMVERSION_1_1);
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(
+                CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,CoeusSubModule.ZERO_SUBMODULE, true);
+        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
         setHumanSubjAndVertebrateAnimals(rrOtherProjectInfo);
         Enum answer = YesNoDataType.N_NO;
         String answerExplanation = " ";
@@ -77,67 +89,70 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
         /**
          * ProprietaryInformationIndicator is of YnQ type
          */
-        ProposalYnq proposalYnq = getAnswer(PROPRIETARY_INFORMATION_INDICATOR, pdDoc);
         EnvironmentalImpact environmentalImpact = EnvironmentalImpact.Factory.newInstance();
         InternationalActivities internationalActivities = InternationalActivities.Factory.newInstance();
-        if (proposalYnq != null) {
-            answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(proposalYnq.getAnswer()) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
+        String propertyInformationAnswer = getAnswers(PROPRIETARY_INFORMATION_INDICATOR);
+        if(propertyInformationAnswer != null){
+            answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(propertyInformationAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
             rrOtherProjectInfo.setProprietaryInformationIndicator(answer);
-        }else{
-            rrOtherProjectInfo.setProprietaryInformationIndicator(YesNoDataType.N_NO);
+        } else {
+            rrOtherProjectInfo.setProprietaryInformationIndicator(null);
         }
         /**
          * EnvironmentalImpact is of YnQ type
          */
-        proposalYnq = getAnswer(ENVIRONMENTAL_IMPACT_YNQ, pdDoc);
-
-        if (proposalYnq != null) {
-            answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(proposalYnq.getAnswer()) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
-            answerExplanation = proposalYnq.getExplanation();
-            environmentalImpact.setEnvironmentalImpactIndicator(answer);
+        String environmentalImpactAnswer = getAnswers(ENVIRONMENTAL_IMPACT_YNQ);
+        answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(environmentalImpactAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
+        answerExplanation = getChildQuestionAnswer(ENVIRONMENTAL_IMPACT_YNQ, EXPLANATION);
+        environmentalImpact.setEnvironmentalImpactIndicator(answer);
+        if (environmentalImpactAnswer != null){
             if (answerExplanation != null) {
                 environmentalImpact.setEnvironmentalImpactExplanation(answerExplanation);
+            } else {
+                environmentalImpact.setEnvironmentalImpactIndicator(YesNoDataType.N_NO);
             }
-        }else{
-            environmentalImpact.setEnvironmentalImpactIndicator(YesNoDataType.N_NO);
+        } else {
+            environmentalImpact.setEnvironmentalImpactIndicator(null);
         }
-        proposalYnq = getAnswer(ENVIRONMENTAL_EXEMPTION_YNQ, pdDoc);
-        if (proposalYnq != null) {
-            answerExplanation = proposalYnq.getExplanation();
-            String ynqAnswer = proposalYnq.getAnswer();
+        if (answer.equals(YesNoDataType.Y_YES)) {
+            answerExplanation = getChildQuestionAnswer(ENVIRONMENTAL_EXEMPTION_YNQ, EXPLANATION);
+            String ynqAnswer = getAnswers(ENVIRONMENTAL_EXEMPTION_YNQ);
             if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(ynqAnswer)) {
                 answer = YesNoDataType.Y_YES;
-            }
-            else {
+            } else {
                 answer = YesNoDataType.N_NO;
             }
-
-            if (!S2SConstants.PROPOSAL_YNQ_ANSWER_NA.equals(ynqAnswer)) {
-                // Answer not equal to X (not-applicable)
-                EnvironmentalImpact.EnvironmentalExemption environmentalExemption = EnvironmentalImpact.EnvironmentalExemption.Factory
-                        .newInstance();
-                environmentalExemption.setEnvironmentalExemptionIndicator(answer);
-
-                environmentalExemption.setEnvironmentalExemptionExplanation(answerExplanation);
-                environmentalImpact.setEnvironmentalExemption(environmentalExemption);
-
+            EnvironmentalImpact.EnvironmentalExemption environmentalExemption = EnvironmentalImpact.EnvironmentalExemption.Factory
+                .newInstance();
+            if (ynqAnswer != null) {
+                if (!S2SConstants.PROPOSAL_YNQ_ANSWER_NA.equals(ynqAnswer)) {
+                    // Answer not equal to X (not-applicable)
+                    environmentalExemption.setEnvironmentalExemptionIndicator(answer);
+    
+                    environmentalExemption.setEnvironmentalExemptionExplanation(answerExplanation);
+                    environmentalImpact.setEnvironmentalExemption(environmentalExemption);
+    
+                }
+            } else {
+                environmentalExemption.setEnvironmentalExemptionIndicator(null);
             }
-
         }
         rrOtherProjectInfo.setEnvironmentalImpact(environmentalImpact);
 
         /**
          * InternationalActivities is of YnQ type
          */
-
-        proposalYnq = getAnswer(INTERNATIONAL_ACTIVITIES_YNQ, pdDoc);
-        if (proposalYnq != null) {
-            answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(proposalYnq.getAnswer()) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
-            answerExplanation = proposalYnq.getExplanation();
+        String internationalActivitiesAnswer = getAnswers(INTERNATIONAL_ACTIVITIES_YNQ);
+        if(internationalActivitiesAnswer != null) {
+            answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
+            answerExplanation = getAnswers(INTERNATIONAL_ACTIVITIES_EXPL);
             internationalActivities.setInternationalActivitiesIndicator(answer);
             if (answerExplanation != null) {
                 internationalActivities.setActivitiesPartnershipsCountries(answerExplanation);
+                internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION));
             }
+        } else {
+            internationalActivities.setInternationalActivitiesIndicator(null);
         }
         rrOtherProjectInfo.setInternationalActivities(internationalActivities);
         /**
@@ -337,6 +352,65 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
         }
         return ynQ;
     }
+    
+    /**
+     * 
+     * This method is used to get the answer for a particular Questionnaire question
+     * question based on the question id.
+     * 
+     * @param questionId
+     *            the question id to be passed.
+     * @return returns the answer for a particular
+     *         question based on the question id passed.
+     */
+    private String getAnswers(String questionId) {
+        String answer = null;
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for (AnswerHeader answerHeader : answerHeaders) {
+                List<Answer> answerDetails = answerHeader.getAnswers();
+                for (Answer answers : answerDetails) {
+                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
+                        answer = answers.getAnswer();
+                        return answer;
+                    }
+                }
+            }
+        }
+        return answer;        
+    }
+    
+    /**
+     * 
+     * This method is used to get the answer for a particular Questionnaire question
+     * question based on the question id and parentQuestionId.
+     * 
+     * @param questionId
+     *            the question id to be passed.
+     *            
+     * @param parentQuestionId
+     *            the parentQuestionId to be passed.
+     * @return returns the answer for a particular
+     *         question based on the question id passed.
+     */
+    private String getChildQuestionAnswer(String parentQuestionId,String questionId) {
+        String answer = null;
+        for (AnswerHeader answerHeader:answerHeaders) {            
+            List<Answer> answerDetails = answerHeader.getAnswers();
+            for (Answer answers:answerDetails) {
+                if (answers.getParentAnswer() != null) {
+                    Answer parentAnswer =  answers.getParentAnswer().get(0);
+                    if (questionId.equals(answers.getQuestion().getQuestionId()) && parentAnswer.getQuestion().getQuestionId().equals(parentQuestionId)) {
+                        answer = answers.getAnswer();
+                        return answer;
+                    }
+                }
+            }
+        }
+        
+        return answer;
+        
+    }
+
 
     /**
      * 

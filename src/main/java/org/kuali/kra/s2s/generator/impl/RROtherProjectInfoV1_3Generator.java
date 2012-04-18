@@ -36,13 +36,20 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -56,10 +63,11 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class RROtherProjectInfoV1_3Generator extends
 		RROtherProjectInfoBaseGenerator {
-	private static final String HISTORIC_DESTIONATION_YNQ = "G6";
+	private static final String HISTORIC_DESTIONATION_YNQ = "125";
 	private static final String EMPTY_STRING = " ";
 	private static final Log LOG = LogFactory
 			.getLog(RROtherProjectInfoV1_3Generator.class);
+	List<AnswerHeader> answerHeaders;
 
 	/*
 	 * This method gives information about RROtherProjectInfo of proposal
@@ -72,6 +80,10 @@ public class RROtherProjectInfoV1_3Generator extends
 		RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo = RROtherProjectInfo13Document.RROtherProjectInfo13.Factory
 				.newInstance();
 		rrOtherProjectInfo.setFormVersion(S2SConstants.FORMVERSION_1_3);
+		ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(
+                CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,CoeusSubModule.ZERO_SUBMODULE, true);
+        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
 		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO);
 		rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.N_NO);
 		Organization organization = pdDoc.getDevelopmentProposal()
@@ -91,25 +103,27 @@ public class RROtherProjectInfoV1_3Generator extends
 	 */
 	private void setHistoricDestionation(
 			RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo) {
-		ProposalYnq proposalYnq = getAnswer(HISTORIC_DESTIONATION_YNQ);
-		if (proposalYnq != null && proposalYnq.getAnswer() != null) {
-			YesNoDataType.Enum answer = (proposalYnq.getAnswer().equals("Y") ? YesNoDataType.Y_YES
-					: YesNoDataType.N_NO);
-			String answerExplanation = proposalYnq.getExplanation();
-			rrOtherProjectInfo.setHistoricDesignation(answer);
-			if (answerExplanation != null) {
-				if (answerExplanation.trim().length() > EXPLANATION_MAX_LENGTH) {
-					rrOtherProjectInfo
-							.setHistoricDesignationExplanation(answerExplanation
-									.trim()
-									.substring(0, EXPLANATION_MAX_LENGTH));
-				} else {
-					rrOtherProjectInfo
-							.setHistoricDesignationExplanation(answerExplanation
-									.trim());
-				}
-			}
-		}
+	    String historicDestinationAnswer = getAnswers(HISTORIC_DESTIONATION_YNQ);	   	    
+	    if (historicDestinationAnswer != null) {
+	        YesNoDataType.Enum answer = historicDestinationAnswer.equals("Y") ? YesNoDataType.Y_YES
+	                : YesNoDataType.N_NO;
+	        String answerExplanation = getChildQuestionAnswer(HISTORIC_DESTIONATION_YNQ, EXPLANATION);
+	        rrOtherProjectInfo.setHistoricDesignation(answer);
+	        if (answerExplanation != null) {
+	            if (answerExplanation.trim().length() > EXPLANATION_MAX_LENGTH) {
+	                rrOtherProjectInfo
+						    .setHistoricDesignationExplanation(answerExplanation
+						            .trim()
+						            .substring(0, EXPLANATION_MAX_LENGTH));
+	            } else {
+	                rrOtherProjectInfo
+						    .setHistoricDesignationExplanation(answerExplanation
+						            .trim());
+	            }
+	        }	
+	    } else {
+	        rrOtherProjectInfo.setHistoricDesignation(null);
+	    }
 	}
 
 	/*
@@ -117,15 +131,15 @@ public class RROtherProjectInfoV1_3Generator extends
 	 */
 	private void setProprietaryInformationIndicator(
 			RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo) {
-		ProposalYnq proposalYnq = getAnswer(PROPRIETARY_INFORMATION_INDICATOR);
 		YesNoDataType.Enum answer = null;
-		if (proposalYnq != null) {
-			answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(proposalYnq
-					.getAnswer()) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
-			rrOtherProjectInfo.setProprietaryInformationIndicator(answer);
-		}else{
-            rrOtherProjectInfo.setProprietaryInformationIndicator(YesNoDataType.N_NO);
-        }
+		String propertyInformationAnswer = getAnswers(PROPRIETARY_INFORMATION_INDICATOR);
+		if (propertyInformationAnswer != null) {
+    		answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(
+    			       propertyInformationAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
+    		rrOtherProjectInfo.setProprietaryInformationIndicator(answer);
+		} else {
+		    rrOtherProjectInfo.setProprietaryInformationIndicator(null);
+		}
 	}
 
 	/*
@@ -146,30 +160,29 @@ public class RROtherProjectInfoV1_3Generator extends
 	 */
 	private void setEnvironmentalImpactIndicatorAndExplanation(
 			EnvironmentalImpact environmentalImpact) {
-		ProposalYnq proposalYnq = null; 
-		proposalYnq = getAnswer(ENVIRONMENTAL_IMPACT_YNQ);
 		String answerExplanation = null;
-		if (proposalYnq != null) {
-			YesNoDataType.Enum answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y
-					.equals(proposalYnq.getAnswer()) ? YesNoDataType.Y_YES
-					: YesNoDataType.N_NO);
-			answerExplanation = proposalYnq.getExplanation();
-			environmentalImpact.setEnvironmentalImpactIndicator(answer);
-			if (answerExplanation != null) {
-				if (answerExplanation.trim().length() > EXPLANATION_MAX_LENGTH) {
-					environmentalImpact
-							.setEnvironmentalImpactExplanation(answerExplanation
-									.trim()
-									.substring(0, EXPLANATION_MAX_LENGTH));
-				} else {
-					environmentalImpact
-							.setEnvironmentalImpactExplanation(answerExplanation
-									.trim());
-				}
-			}
-		}else{
-            environmentalImpact.setEnvironmentalImpactIndicator(YesNoDataType.N_NO);
-        }
+		String environmentalImpactAnswer = getAnswers(ENVIRONMENTAL_IMPACT_YNQ);
+		if (environmentalImpactAnswer != null) {
+    		YesNoDataType.Enum answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y
+    				.equals(environmentalImpactAnswer) ? YesNoDataType.Y_YES
+    				: YesNoDataType.N_NO;
+    		answerExplanation =  getChildQuestionAnswer(ENVIRONMENTAL_IMPACT_YNQ, EXPLANATION);
+    		environmentalImpact.setEnvironmentalImpactIndicator(answer);
+    		if (answerExplanation != null) {
+    			if (answerExplanation.trim().length() > EXPLANATION_MAX_LENGTH) {
+    				environmentalImpact
+    						.setEnvironmentalImpactExplanation(answerExplanation
+    								.trim()
+    								.substring(0, EXPLANATION_MAX_LENGTH));
+    			} else {
+    				environmentalImpact
+    						.setEnvironmentalImpactExplanation(answerExplanation
+    								.trim());
+    			}
+    		}
+		} else {
+		    environmentalImpact.setEnvironmentalImpactIndicator(null);
+		}
 	}
 
 	/*
@@ -202,40 +215,36 @@ public class RROtherProjectInfoV1_3Generator extends
 	 */
 	private void setEnvironmentalExemption(
 			EnvironmentalImpact environmentalImpact) {
-		ProposalYnq proposalYnq = getAnswer(ENVIRONMENTAL_EXEMPTION_YNQ);
 		YesNoDataType.Enum answer = null;
-		String answerExplanation;
-		if (proposalYnq != null) {
-			answerExplanation = proposalYnq.getExplanation();
-			String ynqAnswer = proposalYnq.getAnswer();
-			if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(ynqAnswer)) {
-				answer = YesNoDataType.Y_YES;
-			} else {
-				answer = YesNoDataType.N_NO;
-			}
-			if (!S2SConstants.PROPOSAL_YNQ_ANSWER_NA.equals(ynqAnswer)) {
-				// Answer not equal to X (not-applicable)
-				EnvironmentalImpact.EnvironmentalExemption environmentalExemption = EnvironmentalImpact.EnvironmentalExemption.Factory
-						.newInstance();
-				environmentalExemption
-						.setEnvironmentalExemptionIndicator(answer);
-				if (answerExplanation != null) {
-					if (answerExplanation.trim().length() > EXPLANATION_MAX_LENGTH) {
-						environmentalExemption
-								.setEnvironmentalExemptionExplanation(answerExplanation
-										.trim().substring(0,
-												EXPLANATION_MAX_LENGTH));
-					} else {
-						environmentalExemption
-								.setEnvironmentalExemptionExplanation(answerExplanation
-										.trim());
-					}
-				}
-				environmentalImpact
-						.setEnvironmentalExemption(environmentalExemption);
-
-			}
+		String answerExplanation;		
+		answerExplanation = getChildQuestionAnswer(ENVIRONMENTAL_EXEMPTION_YNQ, EXPLANATION);
+		String ynqAnswer = getAnswers(ENVIRONMENTAL_EXEMPTION_YNQ);
+		if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(ynqAnswer)) {
+			answer = YesNoDataType.Y_YES;
+		} else {
+			answer = YesNoDataType.N_NO;
 		}
+		EnvironmentalImpact.EnvironmentalExemption environmentalExemption = EnvironmentalImpact.EnvironmentalExemption.Factory
+        .newInstance();
+		if (ynqAnswer != null) {
+    		if (!S2SConstants.PROPOSAL_YNQ_ANSWER_NA.equals(ynqAnswer)) {
+    			// Answer not equal to X (not-applicable)			
+    			environmentalExemption.setEnvironmentalExemptionIndicator(answer);
+    			if (answerExplanation != null) {
+    				if (answerExplanation.trim().length() > EXPLANATION_MAX_LENGTH) {
+    					environmentalExemption
+    							.setEnvironmentalExemptionExplanation(answerExplanation
+    									.trim().substring(0,EXPLANATION_MAX_LENGTH));
+    				} else {
+    					environmentalExemption.setEnvironmentalExemptionExplanation(answerExplanation.trim());
+    				}
+    			}
+    		    environmentalImpact.setEnvironmentalExemption(environmentalExemption);
+    
+    		}
+		} else {
+		    environmentalExemption.setEnvironmentalExemptionIndicator(null);
+        }    		
 	}
 
 	/*
@@ -248,25 +257,27 @@ public class RROtherProjectInfoV1_3Generator extends
 				.newInstance();
 		YesNoDataType.Enum answer = null;
 		String answerExplanation;
-		ProposalYnq proposalYnq = null;
-		proposalYnq = getAnswer(INTERNATIONAL_ACTIVITIES_YNQ);
-		if (proposalYnq != null && proposalYnq.getAnswer() != null) {
-			answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(proposalYnq
-					.getAnswer()) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
-			answerExplanation = proposalYnq.getExplanation();
-			internationalActivities.setInternationalActivitiesIndicator(answer);
-			if (answerExplanation != null) {
-				if (answerExplanation.trim().length() > EXPLANATION_MAX_LENGTH) {
-					internationalActivities
-							.setActivitiesPartnershipsCountries(answerExplanation
-									.trim()
-									.substring(0, EXPLANATION_MAX_LENGTH));
-				} else {
-					internationalActivities
-							.setActivitiesPartnershipsCountries(answerExplanation
-									.trim());
-				}
-			}
+		String internationalActivitiesAnswer = getAnswers(INTERNATIONAL_ACTIVITIES_YNQ);
+		if (internationalActivitiesAnswer != null) {
+    		answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(
+    				internationalActivitiesAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
+    		answerExplanation = getAnswers(INTERNATIONAL_ACTIVITIES_EXPL);
+    		internationalActivities.setInternationalActivitiesIndicator(answer);
+    		if (answerExplanation != null) {
+    			if (answerExplanation.trim().length() > EXPLANATION_MAX_LENGTH) {
+    				internationalActivities
+    						.setActivitiesPartnershipsCountries(answerExplanation
+    								.trim()
+    								.substring(0, EXPLANATION_MAX_LENGTH));
+    			} else {
+    				internationalActivities
+    						.setActivitiesPartnershipsCountries(answerExplanation
+    								.trim());
+    			}
+    			internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION));
+    		}
+		} else {
+		    internationalActivities.setInternationalActivitiesIndicator(null);
 		}
 		rrOtherProjectInfo.setInternationalActivities(internationalActivities);
 	}
@@ -392,6 +403,63 @@ public class RROtherProjectInfoV1_3Generator extends
 			}
 		}
 	}
+	
+	/**
+     * 
+     * This method is used to get the answer for a particular Questionnaire question
+     * question based on the question id .
+     * 
+     * @param questionId
+     *            the question id to be passed.       
+     * @return returns the answer for a particular
+     *         question based on the question id passed.
+     */
+    private String getAnswers(String questionId) {
+        String answer = null;
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for (AnswerHeader answerHeader : answerHeaders) {
+                List<Answer> answerDetails = answerHeader.getAnswers();
+                for (Answer answers : answerDetails) {
+                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
+                        answer = answers.getAnswer();
+                        return answer;
+                    }
+                }
+            }
+        }
+        return answer;        
+    }
+    
+    /**
+     * 
+     * This method is used to get the answer for a particular Questionnaire question
+     * question based on the question id and parentQuestionId.
+     * 
+     * @param questionId
+     *            the question id to be passed.
+     * @param parentQuestionId
+     *            the parentQuestionId to be passed.
+     * @return returns the answer for a particular
+     *         question based on the question id passed.
+     */
+    private String getChildQuestionAnswer(String parentQuestionId,String questionId) {
+        String answer = null;
+        for (AnswerHeader answerHeader:answerHeaders) {            
+            List<Answer> answerDetails = answerHeader.getAnswers();
+            for (Answer answers:answerDetails) {
+                if (answers.getParentAnswer() != null) {
+                    Answer parentAnswer =  answers.getParentAnswer().get(0);
+                    if (questionId.equals(answers.getQuestion().getQuestionId()) && parentAnswer.getQuestion().getQuestionId().equals(parentQuestionId)) {
+                        answer = answers.getAnswer();
+                        return answer;
+                    }
+                }
+            }
+        }
+        
+        return answer;
+        
+    }
 
 	/*
 	 * This method will set the attachments to RR Other Project info document
