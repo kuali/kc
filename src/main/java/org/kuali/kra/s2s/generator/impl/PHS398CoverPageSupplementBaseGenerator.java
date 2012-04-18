@@ -31,11 +31,14 @@ import org.kuali.kra.s2s.service.S2SUtilService;
  */
 public abstract class PHS398CoverPageSupplementBaseGenerator extends
 		S2SBaseFormGenerator {
-
+	
+	public static final String IS_CLINICAL_TRIAL = "2";
+	public static final String PHASE_III_CLINICAL_TRIAL = "3";
+	public static final String IS_HUMAN_STEM_CELLS_INVOLVED = "5";
+	public static final String SPECIFIC_STEM_CELL_LINE = "6"; 
+	public static final String REGISTRATION_NUMBER = "7";
 	public static final String IS_NEW_INVESTIGATOR = "13";
-	public static final String PHASE_III_CLINICAL_TRIAL = "17";
-	public static final String IS_HUMAN_STEM_CELLS_INVOLVED = "18";
-	public static final String IS_CLINICAL_TRIAL = "28";
+	public static final String NOT_ANSWERED = "No";
 
 	protected S2SUtilService s2sUtilService;
 	protected static final int MAX_NUMBER_OF_DEGREES = 3;
