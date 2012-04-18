@@ -345,7 +345,7 @@
 	
 				                    <includes>
 										<!-- only allow in this specific version -->
-	                                    <include>javax.servlet:jstl:${jstl.version}</include>
+	                                    <!-- <include>javax.servlet:jstl:${jstl.version}</include> -->
 										<include>org.slf4j:*:${slf4j.version}</include>
 				                    </includes>
 								</bannedDependencies>
@@ -684,12 +684,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${jstl.version}</version>
-	        <!-- should be provided scope on newer containers like tomcat 7 -->
-	        <scope>compile</scope>			
-		</dependency>
+		    <groupId>org.glassfish.web</groupId>
+		    <artifactId>jstl-impl</artifactId>
+		    <version>${jstl.version}</version>
+	        <scope>compile</scope>		    
+		</dependency>		
 	    <dependency>
 	        <groupId>javax.servlet.jsp</groupId>
 	        <artifactId>jsp-api</artifactId>
