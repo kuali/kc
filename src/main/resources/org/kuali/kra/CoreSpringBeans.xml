@@ -586,18 +586,6 @@
         <property name="watermarkService" ref="watermarkService" />
     </bean>
     
-    <bean id="proposalAllUnitAdministratorDerivedRoleTypeService" 
-          class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl">
-        <property name="unitService" ref="unitService" />
-    </bean>
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kcService" 
-                  p:service-ref="proposalAllUnitAdministratorDerivedRoleTypeService"
-                  p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService" />
-        </property>
-    </bean> 
-    
     <bean id="researchAreaReferencesDao" class="org.kuali.kra.dao.ojb.ResearchAreaReferencesDaoOjb" parent="platformAwareDao" />
     
     <bean id="researchAreasService" class="org.kuali.kra.service.impl.ResearchAreasServiceImpl">
@@ -746,6 +734,14 @@
     </bean>
     
     <!-- Cross-Module Services -->
+    
+    <bean id="awardService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="awardService" />
+    </bean>
+    
+    <bean id="awardAmountInfoService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="awardAmountInfoService" />
+    </bean>
     
     <bean id="institutionalProposalService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="institutionalProposalService" />
