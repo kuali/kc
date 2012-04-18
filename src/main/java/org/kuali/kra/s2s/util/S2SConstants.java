@@ -52,6 +52,9 @@ public interface S2SConstants {
     public static final String PROPOSAL_YNQ_ANSWER_NA = "X";
     public static final String PROPOSAL_YNQ_ANSWER_N = "N";
     public static final String YNQ_REVIEW_DATE = "reviewDate";
+    public static final String YNQ_STATE_REVIEW_DATA = "stateReviewData";
+    public static final String YNQ_STATE_NOT_SELECTED = "Not Selected";
+    public static final String YNQ_STATE_NOT_COVERED = "Not Covered";
 
 //    public static final String S2S_PROPERTY = "/S2SAuthentication.properties";
     public static final int DEFAULT_SSL_PORT = 446;

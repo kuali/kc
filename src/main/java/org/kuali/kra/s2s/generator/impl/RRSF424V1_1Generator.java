@@ -40,12 +40,14 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -69,6 +71,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -369,27 +374,30 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 	 * @return stateReview(StateReview) corresponding to the state review code.
 	 */
 	private StateReview getStateReview() {
-		Map<String, String> eoStateReview = s2sUtilService
-				.getEOStateReview(pdDoc);
-		StateReviewCodeTypeDataType.Enum stateReviewCodeType = null;
-		String strReview = eoStateReview.get(S2SConstants.YNQ_ANSWER);
-		String stateReviewDate = null;
-		if (STATE_REVIEW_YES.equals(strReview)) {
-			stateReviewCodeType = StateReviewCodeTypeDataType.Y_YES;
-			stateReviewDate = eoStateReview.get(S2SConstants.YNQ_REVIEW_DATE);
-		} else if (STATE_REVIEW_NO.equals(strReview)) {
-			stateReviewCodeType = StateReviewCodeTypeDataType.PROGRAM_HAS_NOT_BEEN_SELECTED_BY_STATE_FOR_REVIEW;
-		} else {
-			stateReviewCodeType = StateReviewCodeTypeDataType.PROGRAM_IS_NOT_COVERED_BY_E_O_12372;
-		}
-		StateReview stateReview = StateReview.Factory.newInstance();
-		stateReview.setStateReviewCodeType(stateReviewCodeType);
-		if (stateReviewDate != null) {
-			stateReview.setStateReviewDate(s2sUtilService
-					.convertDateStringToCalendar(stateReviewDate));
-		}
-		return stateReview;
-	}
+        Map<String, String> eoStateReview = s2sUtilService.getEOStateReview(pdDoc);
+        StateReviewCodeTypeDataType.Enum stateReviewCodeType = null;
+        String strReview = eoStateReview.get(S2SConstants.YNQ_ANSWER);
+        String stateReviewData = null;
+        String stateReviewDate = null;
+        
+        if (STATE_REVIEW_YES.equals(strReview)) {
+            stateReviewCodeType = StateReviewCodeTypeDataType.Y_YES;
+            stateReviewDate = eoStateReview.get(S2SConstants.YNQ_REVIEW_DATE);
+        } else if (STATE_REVIEW_NO.equals(strReview)) {
+            stateReviewData = eoStateReview.get(S2SConstants.YNQ_STATE_REVIEW_DATA);
+            if (stateReviewData != null && S2SConstants.YNQ_STATE_NOT_COVERED.equals(stateReviewData)) {
+                stateReviewCodeType = StateReviewCodeTypeDataType.PROGRAM_IS_NOT_COVERED_BY_E_O_12372;
+            } else if (stateReviewData != null && S2SConstants.YNQ_STATE_NOT_SELECTED.equals(stateReviewData)) {
+                stateReviewCodeType = StateReviewCodeTypeDataType.PROGRAM_HAS_NOT_BEEN_SELECTED_BY_STATE_FOR_REVIEW;
+            }
+        }
+        StateReview stateReview = StateReview.Factory.newInstance();
+        stateReview.setStateReviewCodeType(stateReviewCodeType);
+        if (stateReviewDate != null) {
+            stateReview.setStateReviewDate(s2sUtilService.convertDateStringToCalendar(stateReviewDate));
+        }
+        return stateReview;
+    }
 
 	/**
 	 * 

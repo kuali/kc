@@ -63,6 +63,7 @@ import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -108,12 +109,16 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
     private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
     private static final String PROPOSAL_YNQ_STATE_REVIEW = "EO";
-    private static final String YNQ_NOT_REVIEWED = "X";
+    private static final String YNQ_NOT_REVIEWED = "X";   
     private static final int DIVISION_NAME_MAX_LENGTH = 30;
     private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
     private static final String CONTACT_TYPE_O = "O";
     private static final Log LOG = LogFactory.getLog(S2SUtilServiceImpl.class);
     private static final Integer UNIT_HEIRARCHY_NODE = 3;
+    
+    public static final String PROPOSAL_YNQ_QUESTION_129 = "129";
+    public static final String PROPOSAL_YNQ_QUESTION_130 = "130";
+    public static final String PROPOSAL_YNQ_QUESTION_131 = "131";
     
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
     private static final String MODULE_ITEM_CODE = "moduleItemCode";
@@ -301,23 +306,31 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public Map<String, String> getEOStateReview(ProposalDevelopmentDocument pdDoc) {
         Map<String, String> stateReview = new HashMap<String, String>();
-        for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
-            if (proposalYnq.getQuestionId().equals(PROPOSAL_YNQ_STATE_REVIEW)) {
-                stateReview.put(S2SConstants.YNQ_ANSWER, proposalYnq.getAnswer());
-                if (proposalYnq.getReviewDate() != null) {
-                    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                    stateReview.put(S2SConstants.YNQ_REVIEW_DATE, dateFormat.format(proposalYnq.getReviewDate()));
-                }
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE,
+            pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE, CoeusSubModule.ZERO_SUBMODULE, true);
+        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+        for (Answer answers : answerHeaders.get(0).getAnswers()) {
+            if (answers.getQuestion().getQuestionId() != null
+                    && answers.getQuestion().getQuestionId().equals(PROPOSAL_YNQ_QUESTION_129)) {
+                stateReview.put(S2SConstants.YNQ_ANSWER, answers.getAnswer());
+            }
+            if (answers.getQuestion().getQuestionId() != null
+                    && answers.getQuestion().getQuestionId().equals(PROPOSAL_YNQ_QUESTION_130)) {
+                stateReview.put(S2SConstants.YNQ_REVIEW_DATE, answers.getAnswer());
+            }
+            if (answers.getQuestion().getQuestionId() != null
+                    && answers.getQuestion().getQuestionId().equals(PROPOSAL_YNQ_QUESTION_131)) {
+                stateReview.put(S2SConstants.YNQ_STATE_REVIEW_DATA, answers.getAnswer());
             }
         }
-
         // If question is not answered or question is inactive
         if (stateReview.size() == 0) {
             stateReview.put(S2SConstants.YNQ_ANSWER, YNQ_NOT_REVIEWED);
             stateReview.put(S2SConstants.YNQ_REVIEW_DATE, null);
         }
         return stateReview;
-
     }
 
     /**
