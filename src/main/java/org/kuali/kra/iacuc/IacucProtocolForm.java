@@ -16,7 +16,9 @@
 package org.kuali.kra.iacuc;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataHelper;
 import org.kuali.kra.iacuc.protocol.IacucProtocolHelper;
+import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewHelper;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
@@ -31,6 +33,8 @@ public class IacucProtocolForm extends ProtocolForm {
 
     public IacucProtocolForm() throws Exception {
         super();
+        setProtocolCustomDataHelper(new IacucProtocolCustomDataHelper(this));
+        setProtocolSpecialReviewHelper(new IacucProtocolSpecialReviewHelper(this));
     }
 
     @Override

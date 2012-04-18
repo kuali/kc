@@ -22,9 +22,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.protocol.customdata.ProtocolCustomDataAction;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -60,24 +62,14 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     
     // TODO invoke these hooks at appropriate points in action methods to get the actual forward name from the subclasses
     protected abstract String getProtocolForwardNameHook();
-    
     protected abstract String getQuestionnaireForwardNameHook();
-    
     protected abstract String getPersonnelForwardNameHook();
-
-    protected abstract String getCustomDataForwardNameHook();
-
-    protected abstract String getSpecialReviewForwardNameHook();
-
     protected abstract String getNoteAndAttachmentForwardNameHook();
-
     protected abstract String getProtocolActionsForwardNameHook();
-
     protected abstract String getProtocolOnlineReviewForwardNameHook();
-    
     protected abstract String getProtocolPermissionsForwardNameHook();
-    
-    
+    protected abstract String getCustomAttributeMappingHook();
+    protected abstract String getSpecialReviewForwardNameHook();
     
     public ActionForward protocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((ProtocolForm)form).getProtocolHelper().prepareView();
@@ -162,20 +154,20 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
 //        ((ProtocolForm) form).getNotesAttachmentsHelper().prepareView();
 //        return mapping.findForward("noteAndAttachment");
 //    }
-//    
-//    /**
-//     * This method gets called upon navigation to Special Review tab.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     */
-//    public ActionForward specialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ((ProtocolForm) form).getSpecialReviewHelper().prepareView();
-//        return mapping.findForward("specialReview");
-//    }
-//    
+    
+    /**
+     * This method gets called upon navigation to Special Review tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward specialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((ProtocolForm) form).getSpecialReviewHelper().prepareView();
+        return mapping.findForward(getSpecialReviewForwardNameHook());
+    }
+    
 //    public ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
 //        // for protocol lookup copy link - rice 1.1 need this
 //        ProtocolForm protocolForm = (ProtocolForm) form;
@@ -192,17 +184,17 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
 //
 //       return mapping.findForward("protocolActions");
 //    }
-//    
-//    public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ((ProtocolForm)form).getCustomDataHelper().prepareView(((ProtocolForm)form).getProtocolDocument());
-//        return CustomDataAction.customData(mapping, form, request, response);
-//    }
-//
-//    /**
-//     * {@inheritDoc}
-//     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
-//     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-//     */
+    
+    public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((ProtocolForm)form).getProtocolCustomDataHelper().prepareView(((ProtocolForm)form).getProtocolDocument());
+        return ProtocolCustomDataAction.staticCustomData(mapping, form, request, response, getCustomAttributeMappingHook());
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
@@ -409,15 +401,15 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
 //        return KraServiceLocator.getService(KualiRuleService.class);
 //    }
 //    
-//    /**
-//     * Use the Kuali Rule Service to apply the rules for the given event.
-//     * @param event the event to process
-//     * @return true if success; false if there was a validation error
-//     */
-//    protected final boolean applyRules(KualiDocumentEvent event) {
-//        return getKualiRuleService().applyRules(event);
-//    }
-//
+    /**
+     * Use the Kuali Rule Service to apply the rules for the given event.
+     * @param event the event to process
+     * @return true if success; false if there was a validation error
+     */
+    protected final boolean applyRules(KualiDocumentEvent event) {
+        return getKualiRuleService().applyRules(event);
+    }
+
 //    /**
 //     * This method is to get protocol personnel training service
 //     * @return ProtocolPersonTrainingService
