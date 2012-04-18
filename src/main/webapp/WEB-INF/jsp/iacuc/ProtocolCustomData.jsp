@@ -25,8 +25,11 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="iacucCustomData">
+  	headerTabActive="customData">
   	
-    Custom data page to be implemented
+  	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Custom Data" /></div>
+
+	<kra-customdata:customDataTab name="${KualiForm.actionName}" excludeInactive="true" />
+	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 </kul:documentPage>

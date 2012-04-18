@@ -119,12 +119,6 @@ public class ProtocolPermissionsAction extends ProtocolAction implements Permiss
     }
 
     @Override
-    protected String getProtocolForwardNameHook() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     protected String getQuestionnaireForwardNameHook() {
         // TODO Auto-generated method stub
         return null;
@@ -132,18 +126,6 @@ public class ProtocolPermissionsAction extends ProtocolAction implements Permiss
 
     @Override
     protected String getPersonnelForwardNameHook() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected String getCustomDataForwardNameHook() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected String getSpecialReviewForwardNameHook() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -168,6 +150,24 @@ public class ProtocolPermissionsAction extends ProtocolAction implements Permiss
 
     @Override
     protected String getProtocolPermissionsForwardNameHook() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected String getProtocolForwardNameHook() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected String getCustomAttributeMappingHook() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected String getSpecialReviewForwardNameHook() {
         // TODO Auto-generated method stub
         return null;
     }

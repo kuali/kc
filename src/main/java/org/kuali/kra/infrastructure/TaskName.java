@@ -245,5 +245,7 @@ public interface TaskName {
     public static final String VIEW_IACUC_PROTOCOL = "viewIacucProtocol";
     public static final String SUBMIT_IACUC_PROTOCOL = "submitIacucProtocol";
     public static final String IACUC_PROTOCOL_WITHDRAW = "iacucProtocolWithdraw";
+    public static final String MODIFY_IACUC_PROTOCOL_SPECIAL_REVIEW = "modifyIacucProtocolSpecialReview";
+    public static final String MODIFY_IACUC_PROTOCOL_OTHERS = "modifyIacucProtocolOthers";
 
 }
