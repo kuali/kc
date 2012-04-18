@@ -26,14 +26,10 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatus;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.document.Copyable;
@@ -173,29 +169,30 @@ public class ProtocolOnlineReviewDocument extends ResearchDocumentBase implement
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        if (StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_CANCEL_CD) 
-                || StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(String.format("Protocol Online Review Document %s has been cancelled, deleting associated review comments.", getDocumentNumber()));
-            }
-            getProtocolOnlineReview().getProtocolSubmission().getProtocolReviewers().remove(getProtocolOnlineReview().getProtocolReviewer());
-            
-            List<CommitteeScheduleMinute> reviewComments = getProtocolOnlineReview().getCommitteeScheduleMinutes();
-            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
-            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
-            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
-
-            List<ProtocolReviewAttachment> reviewAttachments = getProtocolOnlineReview().getReviewAttachments();
-            List<ProtocolReviewAttachment> deletedReviewAttachments = new ArrayList<ProtocolReviewAttachment>();
-            
-            /* -- commented as part of GENERATED CODE need to verify
-            getReviewerCommentsService().deleteAllReviewAttachments(reviewAttachments, deletedReviewAttachments);
-            getReviewerCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
-            */
-
-            getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
-            getBusinessObjectService().save(getProtocolOnlineReview());
-        }
+// TODO *********commented the code below during IACUC refactoring*********         
+//        if (StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_CANCEL_CD) 
+//                || StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+//            if (LOG.isDebugEnabled()) {
+//                LOG.debug(String.format("Protocol Online Review Document %s has been cancelled, deleting associated review comments.", getDocumentNumber()));
+//            }
+//            getProtocolOnlineReview().getProtocolSubmission().getProtocolReviewers().remove(getProtocolOnlineReview().getProtocolReviewer());
+//            
+//            List<CommitteeScheduleMinute> reviewComments = getProtocolOnlineReview().getCommitteeScheduleMinutes();
+//            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+//            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
+//            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
+//
+//            List<ProtocolReviewAttachment> reviewAttachments = getProtocolOnlineReview().getReviewAttachments();
+//            List<ProtocolReviewAttachment> deletedReviewAttachments = new ArrayList<ProtocolReviewAttachment>();
+//            
+//            /* -- commented as part of GENERATED CODE need to verify
+//            getReviewerCommentsService().deleteAllReviewAttachments(reviewAttachments, deletedReviewAttachments);
+//            getReviewerCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
+//            */
+//
+//            getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+//            getBusinessObjectService().save(getProtocolOnlineReview());
+//        }
     }
   
     /**

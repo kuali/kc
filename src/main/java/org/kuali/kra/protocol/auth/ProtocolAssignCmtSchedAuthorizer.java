@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 
 /**

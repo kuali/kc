@@ -22,7 +22,7 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
 
 

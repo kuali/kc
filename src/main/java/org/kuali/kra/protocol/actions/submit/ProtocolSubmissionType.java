@@ -1,0 +1,77 @@
+/*
+ * Copyright 2005-2010 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.protocol.actions.submit;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+public abstract class ProtocolSubmissionType extends KraPersistableBusinessObjectBase {
+
+// TODO *********commented the code below during IACUC refactoring*********     
+//    public static final String INITIAL_SUBMISSION = "100";
+//
+//    public static final String CONTINUATION = "101";
+//
+//    public static final String AMENDMENT = "102";
+//
+//    public static final String RESPONSE_TO_PREV_IRB_NOTIFICATION = "103";
+//
+//    public static final String REQUEST_TO_CLOSE = "109";
+//
+//    public static final String CONTINUATION_WITH_AMENDMENT = "115";
+//
+//    public static final String REQUEST_FOR_SUSPENSION = "110";
+//
+//    public static final String REQUEST_TO_CLOSE_ENROLLMENT = "111";
+//
+//    public static final String REQUEST_TO_REOPEN_ENROLLMENT = "114";
+//
+//    public static final String REQUEST_FOR_DATA_ANALYSIS_ONLY = "113";
+//
+//    public static final String NOTIFY_IRB = "112";
+//
+//    // also known as FYI  
+//    public static final String REQUEST_FOR_TERMINATION = "108";
+//
+//    public static final String RESUBMISSION = "116";
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 4046718710443500371L;
+
+    private String submissionTypeCode;
+
+    private String description;
+
+    public ProtocolSubmissionType() {
+    }
+
+    public String getSubmissionTypeCode() {
+        return submissionTypeCode;
+    }
+
+    public void setSubmissionTypeCode(String submissionTypeCode) {
+        this.submissionTypeCode = submissionTypeCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+}
