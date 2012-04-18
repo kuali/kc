@@ -35,7 +35,7 @@ import org.springframework.util.CollectionUtils;
  * This class extends the notification context base and provides some helpful functions for
  * any IRB specific events.
  */
-public class IRBNotificationContext extends NotificationContextBase {
+public class ProtocolNotificationContext extends NotificationContextBase {
 
     private static final long serialVersionUID = 6642334312368480034L;
     
@@ -54,10 +54,10 @@ public class IRBNotificationContext extends NotificationContextBase {
      * @param actionTypeCode
      * @param contextName
      */
-    public IRBNotificationContext(Protocol protocol, ProtocolOnlineReview protocolOnlineReview, String actionTypeCode, String contextName, NotificationRenderer renderer) {
+    public ProtocolNotificationContext(Protocol protocol, ProtocolOnlineReview protocolOnlineReview, String actionTypeCode, String contextName, NotificationRenderer renderer) {
         this(protocol, actionTypeCode, contextName, renderer);
         
-        ((IRBNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocolOnlineReview(protocolOnlineReview);
+        ((ProtocolNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocolOnlineReview(protocolOnlineReview);
     }
 
     /**
@@ -66,7 +66,7 @@ public class IRBNotificationContext extends NotificationContextBase {
      * @param actionTypeCode
      * @param contextName
      */
-    public IRBNotificationContext(Protocol protocol, String actionTypeCode, String contextName, NotificationRenderer renderer) {
+    public ProtocolNotificationContext(Protocol protocol, String actionTypeCode, String contextName, NotificationRenderer renderer) {
         super(renderer);
         
         this.documentNumber = protocol.getProtocolDocument().getDocumentNumber();
@@ -75,9 +75,9 @@ public class IRBNotificationContext extends NotificationContextBase {
         
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        setNotificationRoleQualifierService(KraServiceLocator.getService(IRBNotificationRoleQualifierService.class));
+        setNotificationRoleQualifierService(KraServiceLocator.getService(ProtocolNotificationRoleQualifierService.class));
         
-        ((IRBNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocol(protocol);
+        ((ProtocolNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocol(protocol);
     }
     
     /**

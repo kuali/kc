@@ -19,7 +19,7 @@ package org.kuali.kra.protocol.notification;
  * 
  * This class defines the replacement parameters available for the IRB coeus module
  */
-public class IRBReplacementParameters {
+public class ProtocolReplacementParameters {
 
     public static final String DOCUMENT_NUMBER = "{DOCUMENT_NUMBER}";
     public static final String PROTOCOL_NUMBER = "{PROTOCOL_NUMBER}";
