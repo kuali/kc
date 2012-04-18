@@ -22,7 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.ProtocolAction;
+
+
 
 public class ProtocolSummary implements Serializable {
 

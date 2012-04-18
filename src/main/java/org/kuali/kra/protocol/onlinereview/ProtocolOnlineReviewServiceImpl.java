@@ -36,7 +36,7 @@ import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.kew.KraDocumentRejectionService;
@@ -158,8 +158,8 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         protocolReviewDocument.setDocumentNumber(docHeader.getDocumentNumber());
         protocolReviewDocument.setDocumentHeader(docHeader);
         
-      //-- commented as part of GENERATED CODE need to verify
-        //protocolReviewDocument.getProtocolOnlineReview().setProtocol(protocolSubmission.getProtocol());
+      
+        protocolReviewDocument.getProtocolOnlineReview().setProtocol(protocolSubmission.getProtocol());
         
         
         protocolReviewDocument.getProtocolOnlineReview().setProtocolId(protocolSubmission.getProtocolId());
@@ -246,8 +246,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         }
         
         
-      //-- commented as part of GENERATED CODE need to verify
-        /*
+     
         List<ProtocolOnlineReview> currentReviews = submission.getProtocolOnlineReviews();
         List<CommitteeMembership> committeeMembers = getCommitteeService().getAvailableMembers(submission.getCommitteeId(), submission.getScheduleId());
         //TODO: Make this better.
@@ -263,7 +262,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
                 results.add(member);
             }
         }
-        */
+        
         return results;
     }
     
@@ -275,14 +274,13 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber);
         List<ProtocolOnlineReview> reviews = null;
         
-      //-- commented as part of GENERATED CODE need to verify
-        /*
+     
         if (protocol != null && protocol.getProtocolSubmission() != null) {
             reviews = protocol.getProtocolSubmission().getProtocolOnlineReviews();
         } else {
             reviews = new ArrayList<ProtocolOnlineReview>();
         }
-        */
+        
         return reviews;
     }
     
@@ -293,8 +291,6 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     public List<ProtocolOnlineReview> getProtocolReviews(Long submissionId) {
         List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
         
-      //-- commented as part of GENERATED CODE need to verify
-        /*
         ProtocolSubmission submission = getBusinessObjectService().findBySinglePrimaryKey(ProtocolSubmission.class, submissionId);
         if (submission != null) {
             for(ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
@@ -303,7 +299,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
                 }
             }
         }
-        */
+        
         return reviews;
     }
     
@@ -314,8 +310,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      */
     public ProtocolReviewer getProtocolReviewer(String personId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission) {
         ProtocolReviewer protocolReviewer = null;
-      //-- commented as part of GENERATED CODE need to verify
-        /*
+
         if (protocolSubmission != null) {
             for (ProtocolOnlineReview protocolOnlineReview : protocolSubmission.getProtocolOnlineReviews()) {
                 if (protocolOnlineReview.getProtocolReviewer().isPersonIdProtocolReviewer(personId,nonEmployeeFlag) 
@@ -325,7 +320,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
                 }
             }
         }
-        */
+       
         return protocolReviewer;
     }
 
@@ -336,8 +331,6 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     public ProtocolOnlineReviewDocument getProtocolOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission) {
         ProtocolOnlineReviewDocument protocolOnlineReviewDocument = null;
         
-      //-- commented as part of GENERATED CODE need to verify
-        /*
         if (protocolSubmission != null) {
             for (ProtocolOnlineReview protocolOnlineReview : protocolSubmission.getProtocolOnlineReviews()) {
                 if (protocolOnlineReview.getProtocolReviewer().isPersonIdProtocolReviewer(personId,nonEmployeeFlag) 
@@ -359,7 +352,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
                 }
             }
         }
-        */
+ 
         return protocolOnlineReviewDocument;
     }
     
@@ -370,8 +363,6 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     public boolean isProtocolReviewer(String personId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission) {
         boolean isReviewer = false;
         
-      //-- commented as part of GENERATED CODE need to verify
-        /*
         if (protocolSubmission != null) {
             for (ProtocolOnlineReview review : protocolSubmission.getProtocolOnlineReviews()) {
                 if (review.getProtocolReviewer().isPersonIdProtocolReviewer(personId,nonEmployeeFlag) && review.isActive()) {
@@ -380,7 +371,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
                 }
             }
         }
-        */
+        
         
         return isReviewer;
     }
@@ -480,28 +471,28 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     }
     
     protected void removeOnlineReviewDocument(ProtocolOnlineReviewDocument protocolOnlineReviewDocument, ProtocolSubmission submission, String annotation) {
-
-        if (protocolOnlineReviewDocument != null) {
-            if(LOG.isDebugEnabled()) {
-                LOG.debug(String.format("Found protocolOnlineReviewDocument %s, removing it.",protocolOnlineReviewDocument.getDocumentNumber()));
-            }
-            cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
-            protocolOnlineReviewDocument.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
-            
-            List<CommitteeScheduleMinute> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
-            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
-            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
-            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
-
-//            for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
-//                if (protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().getProtocolReviewerId().equals(reviewer.getProtocolReviewerId())) {
-//                    protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().setSubmissionIdFk(null);
-//                    boolean success = submission.getProtocolReviewers().remove(reviewer);
-//                }
+// TODO *********commented the code below during IACUC refactoring********* 
+//        if (protocolOnlineReviewDocument != null) {
+//            if(LOG.isDebugEnabled()) {
+//                LOG.debug(String.format("Found protocolOnlineReviewDocument %s, removing it.",protocolOnlineReviewDocument.getDocumentNumber()));
 //            }
-            submission.getProtocolReviewers().remove(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer());
-            getBusinessObjectService().save(protocolOnlineReviewDocument.getProtocolOnlineReview());
-        } 
+//            cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
+//            protocolOnlineReviewDocument.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+//            
+//            List<CommitteeScheduleMinute> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
+//            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+//            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
+//            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
+//
+////            for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
+////                if (protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().getProtocolReviewerId().equals(reviewer.getProtocolReviewerId())) {
+////                    protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().setSubmissionIdFk(null);
+////                    boolean success = submission.getProtocolReviewers().remove(reviewer);
+////                }
+////            }
+//            submission.getProtocolReviewers().remove(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer());
+//            getBusinessObjectService().save(protocolOnlineReviewDocument.getProtocolOnlineReview());
+//        } 
                 
     }
         
@@ -512,15 +503,13 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         ProtocolOnlineReviewDocument protocolOnlineReviewDocument = this.getProtocolOnlineReviewDocument(personId, nonEmployeeFlag, submission);
         
         ProtocolOnlineReview submissionsProtocolOnlineReview = null;
-        //-- commented as part of GENERATED CODE need to verify
-        /*
+ 
         for (ProtocolOnlineReview rev : submission.getProtocolOnlineReviews()) {
             if (rev.getProtocolOnlineReviewId().equals(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolOnlineReviewId())) {
                 submissionsProtocolOnlineReview = rev;
                 break;
             }
         }
-        */
         
         
         if (submissionsProtocolOnlineReview == null) {

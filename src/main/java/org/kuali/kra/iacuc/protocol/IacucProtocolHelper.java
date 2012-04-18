@@ -15,11 +15,14 @@
  */
 package org.kuali.kra.iacuc.protocol;
 
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolUnit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.protocol.personnel.ProtocolUnit;
@@ -62,6 +65,18 @@ public class IacucProtocolHelper extends ProtocolHelper {
     // implementation of hook method
     protected IacucProtocolPerson createNewProtocolPersonInstanceHook() {
         return new IacucProtocolPerson();
+    }
+
+
+    @Override
+    protected Class<? extends ProtocolDocument> getProtocolDocumentClassHook() {
+        return IacucProtocolDocument.class;
+    }
+
+
+    @Override
+    protected String getProtocolCreatedProtocolActionTypeCodeHook() {
+        return IacucProtocolActionType.PROTOCOL_CREATED;
     } 
 
 }
