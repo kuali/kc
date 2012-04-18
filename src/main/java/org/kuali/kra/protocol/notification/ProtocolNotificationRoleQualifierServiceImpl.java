@@ -24,7 +24,7 @@ import org.kuali.kra.kim.bo.KcKimAttributes;
 /**
  * Implements the IRBNotificationRoleQualifierService.
  */
-public class IRBNotificationRoleQualifierServiceImpl implements IRBNotificationRoleQualifierService {
+public class ProtocolNotificationRoleQualifierServiceImpl implements ProtocolNotificationRoleQualifierService {
 
     private Protocol protocol;
     private ProtocolOnlineReview protocolOnlineReview;
