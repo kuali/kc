@@ -22,7 +22,7 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 /**
  * Defines the service to fill in module role qualifier information for Protocol.
  */
-public interface IRBNotificationRoleQualifierService extends KcNotificationRoleQualifierService {
+public interface ProtocolNotificationRoleQualifierService extends KcNotificationRoleQualifierService {
 
     /**
      * Returns the Protocol.
