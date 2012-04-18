@@ -21,24 +21,24 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="IacucSpeciesCountType" parent="IacucSpeciesCountType-parentBean" />
-	<bean id="IacucSpeciesCountType-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.iacuc.IacucSpeciesCountType" />
-		<property name="objectLabel" value="Species Count Type" />
+	<bean id="IacucSpecies" parent="IacucSpecies-parentBean" />
+	<bean id="IacucSpecies-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.iacuc.IacucSpecies" />
+		<property name="objectLabel" value="Species" />
 		<property name="inquiryDefinition" >
-			<ref bean="IacucSpeciesCountType-inquiryDefinition" />
+			<ref bean="IacucSpecies-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition" >
-			<ref bean="IacucSpeciesCountType-lookupDefinition" />
+			<ref bean="IacucSpecies-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="speciesCountCode" />
+		<property name="titleAttribute" value="speciesCode" />
 		<property name="attributes" >
 			<list>
-				<ref bean="IacucSpeciesCountType-speciesCountCode" />
-				<ref bean="IacucSpeciesCountType-description" />
-				<ref bean="IacucSpeciesCountType-versionNumber" />
+				<ref bean="IacucSpecies-speciesCode" />
+				<ref bean="IacucSpecies-speciesName" />
+				<ref bean="IacucSpecies-versionNumber" />
 				<!--  
-				<ref bean="IacucSpeciesCountType-active" />
+				<ref bean="IacucSpecies-active" />
 				-->
 			</list>
 		</property>
@@ -46,13 +46,13 @@
 
 	<!-- Attribute Definitions -->
 	
-	<bean id="IacucSpeciesCountType-speciesCountCode" parent="IacucSpeciesCountType-speciesCountCode-parentBean" />
-	<bean id="IacucSpeciesCountType-speciesCountCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="speciesCountCode" />
+	<bean id="IacucSpecies-speciesCode" parent="IacucSpecies-speciesCode-parentBean" />
+	<bean id="IacucSpecies-speciesCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="speciesCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Species Count Code" />
-		<property name="shortLabel" value="Species Count Code" />
-		<property name="maxLength" value="3" />
+		<property name="label" value="Species Code" />
+		<property name="shortLabel" value="Species Code" />
+		<property name="maxLength" value="4" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
 		</property>
@@ -60,46 +60,50 @@
 			<bean parent="TextControlDefinition"
 				p:size="3" />
 		</property>
-		<property name="summary" value="Species Count Code" />
-		<property name="description" value="Species Count Code" />
+		<property name="summary" value="Species Code" />
+		<property name="description" value="Species Code" />
 	</bean>
 	
 	<!-- 
-	<bean id="IacucSpeciesCountType-active" parent="IacucSpeciesCountType-active-parentBean"/>
-	<bean abstract="true" id="IacucSpeciesCountType-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+	<bean id="IacucSpecies-active" parent="IacucSpecies-active-parentBean"/>
+	<bean abstract="true" id="IacucSpecies-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
 	    <property name="name" value="active"/>
 	    <property name="label" value="Active"/>
 	    <property name="shortLabel" value="Active"/>
 	    <property name="summary" value="Active"/>
-	    <property name="description" value="Active"/>
+	    <property name="speciesName" value="Active"/>
 	</bean>
 	 -->
 
-	<bean id="IacucSpeciesCountType-description" parent="IacucSpeciesCountType-description-parentBean" />
-	<bean id="IacucSpeciesCountType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
-		<property name="maxLength" value="200" />
+	<bean id="IacucSpecies-speciesName" parent="IacucSpecies-speciesName-parentBean" />
+	<bean id="IacucSpecies-speciesName-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+		<property name="name" value="speciesName" />
+		<property name="label" value="Species Name" />
+		<property name="shortLabel" value="Species Name" />
+		<property name="summary" value="Species Name" />
+		<property name="description" value="Species Name" />
 	</bean>
 
-	<bean id="IacucSpeciesCountType-versionNumber" parent="IacucSpeciesCountType-versionNumber-parentBean" />
-	<bean id="IacucSpeciesCountType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+	<bean id="IacucSpecies-versionNumber" parent="IacucSpecies-versionNumber-parentBean" />
+	<bean id="IacucSpecies-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
-	<bean id="IacucSpeciesCountType-inquiryDefinition" parent="IacucSpeciesCountType-inquiryDefinition-parentBean" />
-	<bean id="IacucSpeciesCountType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Species Count Type" />
+	<bean id="IacucSpecies-inquiryDefinition" parent="IacucSpecies-inquiryDefinition-parentBean" />
+	<bean id="IacucSpecies-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Species" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Species Count Type" />
+					<property name="title" value="Species" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
 							<bean parent="FieldDefinition"
-								p:attributeName="speciesCountCode" 
+								p:attributeName="speciesCode" 
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
-								p:attributeName="description" />
+								p:attributeName="speciesName" />
 							<!--  	
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							-->
@@ -111,9 +115,9 @@
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
-	<bean id="IacucSpeciesCountType-lookupDefinition" parent="IacucSpeciesCountType-lookupDefinition-parentBean" />
-	<bean id="IacucSpeciesCountType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Species Count Type Lookup" />
+	<bean id="IacucSpecies-lookupDefinition" parent="IacucSpecies-lookupDefinition-parentBean" />
+	<bean id="IacucSpecies-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Species Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
 		<property name="defaultSort" >
@@ -123,19 +127,19 @@
 		<property name="lookupFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="speciesCountCode" 
+					p:attributeName="speciesCode" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="description" />
+					p:attributeName="speciesName" />
 			</list>
 		</property>
 		<property name="resultFields" >
 			<list>
 				<bean parent="FieldDefinition"
-					p:attributeName="speciesCountCode" 
+					p:attributeName="speciesCode" 
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
-					p:attributeName="description" />
+					p:attributeName="speciesName" />
 				<!-- 	
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				 -->
