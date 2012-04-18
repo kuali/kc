@@ -29,6 +29,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -36,6 +38,11 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.questionnaire.QuestionnaireQuestion;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.RolodexService;
@@ -52,9 +59,13 @@ public class NASAOtherProjectInformationV1_0Generator extends
 
 	private static final String PRINCIPAL_INVESTIGATOR = "PI";
 	private static final String COLLABORATOR_ROLE = "Collaborator";
-	private static final String C0_INVESTIGATOR = "COI";
-	private static final String HISTORICAL_IMPACT = "G6";
-	private static final String INTERNATIONAL_PARTICIPATION = "H1";
+	private static final String C0_INVESTIGATOR = "Co-I";
+	private static final String EQUIPMENT = "Equipment";
+	private static final String FACILITY = "Facility";
+	private static final String HISTORICAL_IMPACT = "106";
+	private static final String EXPLATATION = "107";
+	private static final String INTERNATIONAL_PARTICIPATION = "108";
+	private static final String INTERNATIONAL_PARTICIPATION_SUPPORT = "109";
 	private static final int PROGRAM_SPECIFIC_DATA = 47;
 	private static final int APPENDICES = 48;
 	private static final int NON_US_ORGANIZATION_LETTERS_OF_ENDORSEMENT = 49;
@@ -64,6 +75,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
 	private static final String COUNTRY_CODE_PUERTO_RICO = "PRI";
 	private static final String COUNTRY_CODE_VIRGIN_ISLANDS = "VIR";
 	private static final int MAX_PROPOSAL_PERSON_COUNT = 40;
+	List<AnswerHeader> answerHeaders;
 
 	/**
 	 * 
@@ -90,7 +102,6 @@ public class NASAOtherProjectInformationV1_0Generator extends
 				.setInternationalParticipation(getInternationalParticipation());
 		nasaOtherInformationDocument
 				.setNASAOtherProjectInformation(nasaOtherProjectInformation);
-
 		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
@@ -154,26 +165,25 @@ public class NASAOtherProjectInformationV1_0Generator extends
 	 */
 	private HistoricImpact getHistoricImpact() {
 		HistoricImpact historicImpact = HistoricImpact.Factory.newInstance();
-		ProposalYnq proposalYnq = getAnswer(HISTORICAL_IMPACT, pdDoc);
-		if (proposalYnq != null) {
-			YesNoDataType.Enum answer = null;
-			if (proposalYnq.getAnswer() != null) {
-				answer = (proposalYnq.getAnswer().equals(
-						S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
-						: YesNoDataType.N_NO);
-			}
-			historicImpact.setHistoricImpactQ(answer);
-
-			if (proposalYnq.getExplanation() != null) {
-				if (proposalYnq.getExplanation().length() > MAX_EXPLANATION_LENGTH) {
-					historicImpact.setHistoricImpactEx(proposalYnq
-							.getExplanation().substring(0,
-									MAX_EXPLANATION_LENGTH));
-				} else {
-					historicImpact.setHistoricImpactEx(proposalYnq
-							.getExplanation());
-				}
-			}
+		
+		String answerDetails = getAnswer(HISTORICAL_IMPACT);
+		YesNoDataType.Enum answer = null;
+		if(answerDetails!= null){
+		    answer = (answerDetails.equals(
+                    S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
+                    : YesNoDataType.N_NO);
+		}
+		historicImpact.setHistoricImpactQ(answer);
+		
+		answerDetails = getChildQuestionAnswer(HISTORICAL_IMPACT,EXPLATATION);
+		
+		if(answerDetails!= null){
+		    if (answerDetails.length() > MAX_EXPLANATION_LENGTH) {
+		        historicImpact.setHistoricImpactEx(answerDetails.substring(0,
+                                MAX_EXPLANATION_LENGTH));            
+		    }else{
+		        historicImpact.setHistoricImpactEx(answerDetails);
+		    }
 		}
 		return historicImpact;
 	}
@@ -190,79 +200,77 @@ public class NASAOtherProjectInformationV1_0Generator extends
 	private InternationalParticipation getInternationalParticipation() {
 		InternationalParticipation inParticipation = InternationalParticipation.Factory
 				.newInstance();
-		inParticipation.setInternationalParticipationQ(YesNoDataType.N_NO);
-		ProposalYnq proposalYnq = getAnswer(INTERNATIONAL_PARTICIPATION, pdDoc);
-		if (proposalYnq != null) {
-			YesNoDataType.Enum answer = YesNoDataType.N_NO;
-			if (proposalYnq.getAnswer() != null) {
-				answer = (proposalYnq.getAnswer().equals(
-						S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
-						: YesNoDataType.N_NO);
-			}
-			inParticipation.setInternationalParticipationQ(answer);
-
-			if (inParticipation.getInternationalParticipationQ() != null
-					&& inParticipation.getInternationalParticipationQ().equals(
-							YesNoDataType.Y_YES)) {
-				if (proposalYnq.getExplanation() != null) {
-					if (proposalYnq.getExplanation().length() > MAX_EXPLANATION_LENGTH) {
-						inParticipation
-								.setInternationalParticipatioEx(proposalYnq
-										.getExplanation().substring(0,
-												MAX_EXPLANATION_LENGTH));
-					} else {
-						inParticipation
-								.setInternationalParticipatioEx(proposalYnq
-										.getExplanation());
-					}
-				}
-				List<ProposalPerson> sortedPersonList = pdDoc
-						.getDevelopmentProposal().getProposalPersons();
-				Collections.sort(sortedPersonList,
-						new ProposalPersonComparator());
-
-				// Limit proposal person count to 40
-				while (sortedPersonList.size() > MAX_PROPOSAL_PERSON_COUNT) {
-					sortedPersonList.remove(MAX_PROPOSAL_PERSON_COUNT);
-				}
-
-				boolean isForeign;
-				for (ProposalPerson proposalPerson : sortedPersonList) {
-					isForeign = isProposalPersonForeign(proposalPerson);
-					if (proposalPerson.getProposalPersonRoleId() != null
-							&& isForeign) {
-						if (proposalPerson.getProposalPersonRoleId().equals(
-								PRINCIPAL_INVESTIGATOR)) {
-							inParticipation
-									.setInternationalParticipationPI(YesNoDataType.Y_YES);
-						} else if (proposalPerson.getProposalPersonRoleId()
-								.equals(C0_INVESTIGATOR)) {
-							inParticipation
-									.setInternationalParticipationCoI(YesNoDataType.Y_YES);
-						} else if (COLLABORATOR_ROLE
-								.equalsIgnoreCase(proposalPerson
-										.getProjectRole())) {
-							inParticipation
-									.setInternationalParticipationCollaborator(YesNoDataType.Y_YES);
-						}
-					}
-				}
-
-				if (inParticipation.getInternationalParticipationPI() == null
-						&& inParticipation.getInternationalParticipationCoI() == null
-						&& inParticipation
-								.getInternationalParticipationCollaborator() == null) {
-					// Because the answer of this question is "Yes",
-					// if none of PI, Co-I and Collaborator was checked, then
-					// check Facility,
-					inParticipation
-							.setInternationalParticipationFacility(YesNoDataType.Y_YES);
-				}
-			}
+		
+		String answerDetails = getAnswer(INTERNATIONAL_PARTICIPATION);
+		
+		if(answerDetails != null){
+		    YesNoDataType.Enum answer = YesNoDataType.N_NO;
+		    answer = (answerDetails.equals(
+                    S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
+                    : YesNoDataType.N_NO);
+		    inParticipation.setInternationalParticipationQ(answer);
 		}
+		answerDetails = getChildQuestionAnswer(INTERNATIONAL_PARTICIPATION,EXPLATATION);
+		if(answerDetails != null){
+		    if (inParticipation.getInternationalParticipationQ() != null
+		            && inParticipation.getInternationalParticipationQ().equals(
+		                    YesNoDataType.Y_YES)) {
+		        if (answerDetails.length() > MAX_EXPLANATION_LENGTH) {
+		            inParticipation
+		            .setInternationalParticipatioEx(answerDetails
+		                    .substring(0,
+		                            MAX_EXPLANATION_LENGTH));
+		        } else {
+		            inParticipation
+		            .setInternationalParticipatioEx(answerDetails);
+		        }
+		    }
+		}
+		  List<String> answerList = getAnswerList(INTERNATIONAL_PARTICIPATION_SUPPORT);
+		  if(answerList.size()>0){
+		      if(answerList.contains(PRINCIPAL_INVESTIGATOR)){
+		          inParticipation.setInternationalParticipationPI(YesNoDataType.Y_YES);
+		      }
+		      if(answerList.contains(C0_INVESTIGATOR)){
+                  inParticipation.setInternationalParticipationCoI(YesNoDataType.Y_YES);
+              }
+		      if(answerList.contains(COLLABORATOR_ROLE)){
+                  inParticipation.setInternationalParticipationCollaborator(YesNoDataType.Y_YES);
+              }
+		      if(answerList.contains(EQUIPMENT)){
+                  inParticipation.setInternationalParticipationEquipment(YesNoDataType.Y_YES);
+              }
+		      if(answerList.contains(FACILITY)){
+                  inParticipation.setInternationalParticipationFacility(YesNoDataType.Y_YES);
+              }
+		  }
+		
 		return inParticipation;
 	}
-
+	/**
+     * 
+     * This method is used to get the answerList for a particular Questionnaire question
+     * question based on the question id.
+     * 
+     * @param questionId
+     *            the question id to be passed.
+     * @return returns the answerList for a particular
+     *         question based on the question id passed.
+     */
+	private List<String> getAnswerList(String questionId){
+	    List <String> answerList= new ArrayList();
+	    for(AnswerHeader answerHeader:answerHeaders){
+	        List<Answer> answerDetails = answerHeader.getAnswers();
+	        for(Answer answers:answerDetails){
+	            if(questionId.equals(answers.getQuestion().getQuestionId())){
+	                if(answers.getAnswer()!=null){
+	                    answerList.add(answers.getAnswer());
+	                }
+	            }
+	        }
+	    }
+	    return answerList;
+	}
 	/*
 	 * This method checks whether the Proposal Person is Foreign
 	 */
@@ -396,31 +404,62 @@ public class NASAOtherProjectInformationV1_0Generator extends
 
 	/**
 	 * 
-	 * This method is used to get the answer for a particular ProposalYnq
+	 * This method is used to get the answer for a particular Questionnaire question
 	 * question based on the question id.
 	 * 
 	 * @param questionId
 	 *            the question id to be passed.
-	 * @param pdDoc
-	 *            ProposalDevelopmentDocument
-	 * @return proposalYnq (ProposalYnq) returns the answer for a particular
+	 * @return returns the answer for a particular
 	 *         question based on the question id passed.
 	 */
-	private ProposalYnq getAnswer(String questionId,
-			ProposalDevelopmentDocument pdDoc) {
-		String question = null;
-		ProposalYnq ynQ = null;
-		for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal()
-				.getProposalYnqs()) {
-			question = proposalYnq.getQuestionId();
-			if (question != null && question.equals(questionId)) {
-				ynQ = proposalYnq;
-				break;
-			}
-		}
-		return ynQ;
-	}
+	private String getAnswer(String questionId) {
+	    String answer= null;
+	    for(AnswerHeader answerHeader:answerHeaders){
+	        if(answerHeader!=null){
+	            List<Answer> answerDetails = answerHeader.getAnswers();
+	            for(Answer answers:answerDetails){
+	                if(questionId.equals(answers.getQuestion().getQuestionId())){
+	                    answer = answers.getAnswer();
+	                    return answer;
+	                }
+	            }
+	        }
+	    }
 
+	    return answer;
+
+	}
+	/**
+     * 
+     * This method is used to get the child question answer for a particular Questionnaire question
+     * question based on the question id.
+     * @param parentQuestionId
+     *            the parentQuestion id to be passed.
+     * @param questionId
+     *            the question id to be passed.
+     * @return returns the answer for a particular
+     *         question based on the question id passed.
+     */
+	private String getChildQuestionAnswer(String parentQuestionId,String questionId) {
+	    String answer= null;
+	    for(AnswerHeader answerHeader:answerHeaders){
+	        if(answerHeader!=null){
+	            List<Answer> answerDetails = answerHeader.getAnswers();
+	            for(Answer answers:answerDetails){
+	                if(answers.getParentAnswer()!= null){
+	                    Answer parentAnswer =  answers.getParentAnswer().get(0);
+	                    if(questionId.equals(answers.getQuestion().getQuestionId()) && parentAnswer.getQuestion().getQuestionId().equals(parentQuestionId) ){
+	                        answer = answers.getAnswer();
+	                        return answer;
+	                    }
+	                }
+	            }
+	        }
+	    }
+
+	    return answer;
+
+	}
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link NASAOtherProjectInformationDocument} by populating data from the
@@ -435,6 +474,8 @@ public class NASAOtherProjectInformationV1_0Generator extends
 	public XmlObject getFormObject(
 			ProposalDevelopmentDocument proposalDevelopmentDocument) {
 		this.pdDoc = proposalDevelopmentDocument;
+		 ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,CoeusSubModule.ZERO_SUBMODULE, true);
+	     answerHeaders =KraServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(moduleQuestionnaireBean);
 		return getNasaOtherProjectInformation();
 	}
 
