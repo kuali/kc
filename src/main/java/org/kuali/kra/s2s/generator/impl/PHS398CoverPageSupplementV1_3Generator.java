@@ -22,13 +22,21 @@ import gov.grants.apply.forms.phs398CoverPageSupplement13V13.PHS398CoverPageSupp
 import gov.grants.apply.forms.phs398CoverPageSupplement13V13.PHS398CoverPageSupplement13Document.PHS398CoverPageSupplement13.PDPI;
 import gov.grants.apply.forms.phs398CoverPageSupplement13V13.PHS398CoverPageSupplement13Document.PHS398CoverPageSupplement13.StemCells;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
+import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -41,7 +49,8 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class PHS398CoverPageSupplementV1_3Generator extends
 		PHS398CoverPageSupplementBaseGenerator {
-
+    
+    List<AnswerHeader> answerHeaders;
 	/**
 	 * 
 	 * This method gives information of Cover Page Supplement such as PDPI
@@ -55,6 +64,9 @@ public class PHS398CoverPageSupplementV1_3Generator extends
 				.newInstance();
 		PHS398CoverPageSupplement13 coverPageSupplement = PHS398CoverPageSupplement13.Factory
 				.newInstance();
+		ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE  ,CoeusSubModule.ZERO_SUBMODULE , true);
+        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
 		coverPageSupplement.setFormVersion(S2SConstants.FORMVERSION_1_3);
 		coverPageSupplement.setPDPI(getPDPI());
 		coverPageSupplement.setClinicalTrial(getClinicalTrial());
@@ -100,19 +112,33 @@ public class PHS398CoverPageSupplementV1_3Generator extends
 	 * @return ClinicalTrial object containing Clinical Trail Details.
 	 */
 	private ClinicalTrial getClinicalTrial() {
-		ClinicalTrial clinicalTrial = ClinicalTrial.Factory.newInstance();
-        ProposalYnq proposalYnq = getProposalYnQ(IS_CLINICAL_TRIAL);
-        if (proposalYnq != null && proposalYnq.getAnswer() != null) {
-            clinicalTrial
-                    .setIsClinicalTrial(getProposalYnQAnswer(proposalYnq));
+
+        ClinicalTrial clinicalTrial = ClinicalTrial.Factory.newInstance();
+        String answer = null;
+        String subAnswer = null;
+        answer = getAnswer(IS_CLINICAL_TRIAL);
+        if (answer != null) {
+            if (!answer.equals(NOT_ANSWERED)) {
+                if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
+                    clinicalTrial.setIsClinicalTrial(YesNoDataType.Y_YES);
+                    subAnswer = getAnswer(PHASE_III_CLINICAL_TRIAL);
+                    if (subAnswer != null) {
+                        if (!subAnswer.equals(NOT_ANSWERED)) {
+                            if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
+                                clinicalTrial.setIsPhaseIIIClinicalTrial(YesNoDataType.Y_YES);   
+                            } else {
+                                clinicalTrial.setIsPhaseIIIClinicalTrial(YesNoDataType.N_NO);   
+                            }
+
+                        }
+                    }
+                } else {
+                    clinicalTrial.setIsClinicalTrial(YesNoDataType.N_NO);
+                }
+            }
         }
-		proposalYnq = getProposalYnQ(PHASE_III_CLINICAL_TRIAL);
-		if (proposalYnq != null && proposalYnq.getAnswer() != null) {
-			clinicalTrial
-					.setIsPhaseIIIClinicalTrial(getProposalYnQAnswer(proposalYnq));
-		}
-		return clinicalTrial;
-	}
+        return clinicalTrial;
+    }
 
 	/**
 	 * 
@@ -152,33 +178,87 @@ public class PHS398CoverPageSupplementV1_3Generator extends
 	 *         involvement.
 	 */
 	private StemCells getStemCells() {
-		StemCells stemCells = StemCells.Factory.newInstance();
-		YesNoDataType.Enum answer = null;
-		ProposalYnq proposalYnq = getProposalYnQ(IS_HUMAN_STEM_CELLS_INVOLVED);
-		if (proposalYnq != null) {
-			if (proposalYnq.getAnswer() != null) {
-				answer = getProposalYnQAnswer(proposalYnq);
-			}
-			stemCells.setIsHumanStemCellsInvolved(answer);
-			if (YesNoDataType.Y_YES.equals(answer)) {
-				String explanation = proposalYnq.getExplanation();
-				if (explanation != null) {
-					if (S2SConstants.VALUE_UNKNOWN
-							.equalsIgnoreCase(explanation)) {
-						stemCells.setStemCellsIndicator(answer);
-					} else {
-						List<String> cellLines = getCellLines(explanation);
-						if (cellLines.size() > 0) {
-							stemCells.setCellLinesArray(cellLines
-									.toArray(new String[0]));
-						}
-					}
-				}
-			}
-		}
-		return stemCells;
-	}
 
+        StemCells stemCells = StemCells.Factory.newInstance();  
+        Enum answers = YesNoDataType.N_NO;
+        String childAnswer = null;  
+        String answer = getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED);
+        if (answer != null) {
+            if (!answer.equals(NOT_ANSWERED)) {
+                answers = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED)) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
+                if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
+                    stemCells.setIsHumanStemCellsInvolved(YesNoDataType.Y_YES);
+                    String subAnswer = getAnswer(SPECIFIC_STEM_CELL_LINE);
+                    if (subAnswer != null) {
+                        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
+                            childAnswer = getAnswers(REGISTRATION_NUMBER);
+                        }
+                    }
+                    if (childAnswer != null) {
+                        if (S2SConstants.VALUE_UNKNOWN.equalsIgnoreCase(childAnswer)) {
+                            stemCells.setStemCellsIndicator(answers);
+                        } else {
+                            List<String> cellLines = getCellLines(childAnswer);
+                            if (cellLines.size() > 0) {
+                                stemCells.setCellLinesArray(cellLines.toArray(new String[0]));
+                            }
+                        }
+                    }
+                } else {
+                    stemCells.setIsHumanStemCellsInvolved(YesNoDataType.N_NO); 
+                }
+            }
+        }
+        return stemCells;
+    }
+
+
+    /*
+     * This method will get the Answer for sub question
+     */
+    private String getAnswer(String questionId) {
+
+        String answer = null;
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for (AnswerHeader answerHeader : answerHeaders) {
+                List<Answer> answerDetails = answerHeader.getAnswers();
+                for (Answer answers : answerDetails) {
+                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
+                        answer = answers.getAnswer();
+                    }
+                }
+            }
+        }
+        return answer;   
+    }
+
+    /*
+     * This method will get the childAnswer for sub question
+     */
+    private String getAnswers(String questionId) {
+
+        String answer = null;
+        String childAnswer = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for (AnswerHeader answerHeader : answerHeaders) {
+                List<Answer> answerDetails = answerHeader.getAnswers();
+                for (Answer answers : answerDetails) {
+                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
+                        answer = answers.getAnswer();
+                        if (answer != null) {
+                            if (!answer.equals(NOT_ANSWERED)) {
+                                stringBuilder.append(answer);
+                                stringBuilder.append(",");
+                            }
+                        }
+                        childAnswer = stringBuilder.toString();
+                    }
+                }
+            }
+        }
+        return childAnswer;
+    }
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link PHS398CoverPageSupplement13Document} by populating data from the
