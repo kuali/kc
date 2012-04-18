@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import java.math.BigDecimal;
+import java.util.List;
 import gov.grants.apply.forms.nasaPIandAORSupplementalDataSheetV10.FederalAgencyDataType;
 import gov.grants.apply.forms.nasaPIandAORSupplementalDataSheetV10.NasaPIandAORSupplementalDataSheetDocument;
 import gov.grants.apply.forms.nasaPIandAORSupplementalDataSheetV10.NasaPIandAORSupplementalDataSheetDocument.NasaPIandAORSupplementalDataSheet;
@@ -26,10 +28,16 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -51,9 +59,13 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 			.getLog(NasaPIandAORSupplementalDataSheetV1_0Generator.class);
 	private S2SUtilService s2sUtilService;
 	private S2SBudgetCalculatorService s2sBudgetCalculatorService;
-	private static final String PROPOSAL_YNQ_INTERNATIONAL_PARTICIPATION = "25";
-	private static final String PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION = "24";
-
+	private static final String PI_PROPOSAL_YNQ_INTERNATIONAL_PARTICIPATION = "112";
+	private static final String PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT = "113";
+	private static final String PI_SUB_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT = "111";
+	private static final String PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION = "110";
+	private static final String NOT_ANSWERED = "No";
+	List<AnswerHeader> answerHeaders ;
+	
 	/**
 	 * 
 	 * Constructs a NasaPIandAORSupplementalDataSheetV1_0Generator.java.
@@ -136,76 +148,73 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 					.newInstance());
 		}
 
-		// Mandatory fields. So set default values
-		principalInvestigatorName
-				.setUSGovernmentParticipation(YesNoDataType.N_NO);
-		principalInvestigatorName
-				.setInternationalParticipation(YesNoDataType.N_NO);
-
-		for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal()
-				.getProposalYnqs()) {
-			if (proposalYnq.getQuestionId() != null
-					&& proposalYnq.getQuestionId().equals(
-							PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION)) {
-				String answer = null;
-				String explanation = null;
-				if (proposalYnq.getAnswer() != null) {
-					answer = proposalYnq.getAnswer();
-				}
-				if (proposalYnq.getExplanation() != null) {
-					explanation = proposalYnq.getExplanation();
-				}
-
-				if (answer != null) {
-					if (answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
-						principalInvestigatorName
-								.setUSGovernmentParticipation(YesNoDataType.Y_YES);
-						FederalAgencyDataType.Enum FederalAgencyEnum = getFederalAgency(explanation);
-						if (FederalAgencyEnum != null) {
-							principalInvestigatorName
-									.setFederalAgency(FederalAgencyEnum);
-						}
-						try {
-							principalInvestigatorName
-									.setFederalAgencyDollar(s2sBudgetCalculatorService
-											.getProposalPersonSalary(pdDoc, PI)
-											.bigDecimalValue());
-						} catch (S2SException e) {
-							LOG.error(e.getMessage(), e);
-						}
-					} else if (answer
-							.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_N)) {
-						principalInvestigatorName
-								.setUSGovernmentParticipation(YesNoDataType.N_NO);
-					}
-				}
-			}
-		}
-
-		for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal()
-				.getProposalYnqs()) {
-			if (proposalYnq.getQuestionId() != null
-					&& proposalYnq.getQuestionId().equals(
-							PROPOSAL_YNQ_INTERNATIONAL_PARTICIPATION)) {
-				String answer = null;
-				if (proposalYnq.getAnswer() != null) {
-					answer = proposalYnq.getAnswer();
-				}
-				if (answer != null) {
-					if (answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
-						principalInvestigatorName
-								.setInternationalParticipation(YesNoDataType.Y_YES);
-						break;
-					} else if (answer
-							.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_N)) {
-						principalInvestigatorName
-								.setInternationalParticipation(YesNoDataType.N_NO);
-						break;
-					}
-				}
-			}
-		}
-
+		ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(
+	                CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,CoeusSubModule.ZERO_SUBMODULE, true);
+	    QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+	    answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+	    
+	    for (AnswerHeader answerHeader : answerHeaders){
+	        for (Answer answers : answerHeader.getAnswers()) {
+	            if (answers.getQuestion().getQuestionId() != null
+	                    && answers.getQuestion().getQuestionId().equals(
+	                            PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION)){
+	                String answer = null;
+	                String explanation = null;
+	                if(answers.getAnswer() != null ){
+	                    if(!answers.getAnswer().equals(NOT_ANSWERED)){
+	                        answer = answers.getAnswer();
+	                        if ((getExplanation(PI_SUB_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT)) != null ){
+	                            explanation = getExplanation(PI_SUB_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT);  
+	                        }
+	                        if (answer != null) {
+	                            if (answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+	                                principalInvestigatorName
+	                                    .setUSGovernmentParticipation(YesNoDataType.Y_YES);
+	                                FederalAgencyDataType.Enum FederalAgencyEnum = getFederalAgency(explanation);
+	                                if (FederalAgencyEnum != null) {
+	                                    principalInvestigatorName
+	                                        .setFederalAgency(FederalAgencyEnum);
+	                                }
+	                                principalInvestigatorName
+	                                    .setFederalAgencyDollar(getAmount(PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT));
+	                            } else if (answer
+	                                    .equals(S2SConstants.PROPOSAL_YNQ_ANSWER_N)) {
+	                                principalInvestigatorName
+	                                .setUSGovernmentParticipation(YesNoDataType.N_NO);
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }    
+	    }    
+	    for (AnswerHeader answerHeader : answerHeaders){
+            for (Answer answers : answerHeader.getAnswers()) {
+                if (answers.getQuestion().getQuestionId() != null
+                        && answers.getQuestion().getQuestionId().equals(
+                                PI_PROPOSAL_YNQ_INTERNATIONAL_PARTICIPATION)) {
+                    String answer = null;
+                    if(answers.getAnswer() != null ){
+                        if(!answers.getAnswer().equals(NOT_ANSWERED)){
+                            answer = answers.getAnswer();
+                                if (answer != null) {
+                                    if (answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+                                        principalInvestigatorName
+                                        .setInternationalParticipation(YesNoDataType.Y_YES);
+                                        break;
+                                    } else if (answer
+                                            .equals(S2SConstants.PROPOSAL_YNQ_ANSWER_N)) {
+                                        principalInvestigatorName
+                                        .setInternationalParticipation(YesNoDataType.N_NO);
+                                        break;
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                }   
+            }   
+	    }
 		return principalInvestigatorName;
 	}
 
@@ -266,5 +275,44 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 				.setNasaPIandAORSupplementalDataSheet(nasapIandAORSupplementalDataSheet);
 		return nasapIandAORSupplementalDataSheetDocument;
 	}
+	
+	/*
+     * This method will get the Answer for question id
+     */
+    private String getExplanation(String questionID) {
+        String answer = null;
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for(AnswerHeader answerHeader : answerHeaders){
+                for (Answer answers : answerHeader.getAnswers()) {
+                    if (answers.getQuestion().getQuestionId() != null
+                            && questionID.equals(answers.getQuestion().getQuestionId())) {
+                        answer = answers.getAnswer();  
+                        break;                    
+                    }
+                }
+            }
+        }
+        return answer;
+    }
+    
+    /*
+     * This method will get the Amount for question id
+     */
+    private BigDecimal getAmount(String questionID) {
+        BigDecimal amount = BigDecimal.ZERO;
+        BudgetDecimalFormatter b = new BudgetDecimalFormatter();
+        String answer;
+        for(AnswerHeader answerHeader : answerHeaders){
+            for (Answer answers : answerHeader.getAnswers()) {
+                if (answers.getQuestion().getQuestionId() != null
+                        && questionID.equals(answers.getQuestion().getQuestionId())) {
+                  answer = answers.getAnswer();
+                  amount=  new BigDecimal(Integer.parseInt(answer));
+                               
+                }
+            }
+        }
+        return amount;
+    }
 
 }
