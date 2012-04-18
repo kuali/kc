@@ -32,10 +32,12 @@ public abstract class RROtherProjectInfoBaseGenerator extends
 	public static final int HUMAN_SUBJECT_SUPPLEMENT = 1;
 	public static final int VERTEBRATE_ANIMALS_SUPPLEMENT = 2;
 	// Its an YnQ fields that are required for RROtherProjectInfo
-	public static final String PROPRIETARY_INFORMATION_INDICATOR = "G8";
-	public static final String ENVIRONMENTAL_IMPACT_YNQ = "G9";
-	public static final String ENVIRONMENTAL_EXEMPTION_YNQ = "27";
-	public static final String INTERNATIONAL_ACTIVITIES_YNQ = "H1";
+	public static final String PROPRIETARY_INFORMATION_INDICATOR = "122";
+	public static final String ENVIRONMENTAL_IMPACT_YNQ = "123";
+	public static final String ENVIRONMENTAL_EXEMPTION_YNQ = "124";
+	public static final String INTERNATIONAL_ACTIVITIES_YNQ = "126";
+	public static final String INTERNATIONAL_ACTIVITIES_EXPL = "127";
+	public static final String EXPLANATION = "107";	
 	// Attachments
 	public static final int EQUIPMENT_ATTACHMENT = 3;
 	public static final int FACILITIES_ATTACHMENT = 2;
