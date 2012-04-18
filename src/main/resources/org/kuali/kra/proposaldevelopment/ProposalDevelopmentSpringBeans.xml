@@ -251,6 +251,18 @@
         <property name="personService" ref="personService" />
     </bean>
     
+    <bean id="proposalAllUnitAdministratorDerivedRoleTypeService" 
+          class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl">
+        <property name="unitService" ref="unitService" />
+    </bean>
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean parent="kcService" 
+                  p:service-ref="proposalAllUnitAdministratorDerivedRoleTypeService"
+                  p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService" />
+        </property>
+    </bean> 
+    
     <bean id="proposalCopyService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalCopyServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="keyPersonnelService" ref="keyPersonnelService" />
@@ -357,7 +369,8 @@
 
     <!-- Proposal Development Printing Services -->
     
-    <bean id="proposalDevelopmentPrintingService" class="org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl">
+    <bean id="proposalDevelopmentPrintingService" class="org.kuali.kra.proposaldevelopment.printing.service.impl.ProposalDevelopmentPrintingServiceImpl"
+          lazy-init="true">
         <property name="printCertificationPrint" ref="printCertificationPrint" />
         <property name="proposalSponsorFormsPrint" ref="proposalSponsorFormsPrint" />
         <property name="printingService" ref="printingService" />
@@ -370,7 +383,7 @@
         <property name="xmlStream" ref="printCertificationXmlStream" />
     </bean>
     
-    <bean id="proposalSponsorFormsPrint" class="org.kuali.kra.proposaldevelopment.printing.print.ProposalSponsorFormsPrint" scope="prototype">
+    <bean id="proposalSponsorFormsPrint" class="org.kuali.kra.proposaldevelopment.printing.print.ProposalSponsorFormsPrint" scope="prototype" lazy-init="true">
         <property name="nihResearchAndRelatedXmlStream" ref="nihResearchAndRelatedXmlStream" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="proposalDevelopmentXmlStream" ref="proposalDevelopmentXmlStream" />
@@ -397,7 +410,7 @@
           parent="abstractResearchAndRelatedStream" />
     
     <bean id="nihResearchAndRelatedXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.NIHResearchAndRelatedXmlStream"
-          parent="abstractResearchAndRelatedStream">
+          parent="abstractResearchAndRelatedStream" lazy-init="true">
         <property name="parameterService" ref="parameterService" />
         <property name="awardService" ref="awardService" />
         <property name="sponsorService" ref="sponsorService" />
@@ -406,7 +419,7 @@
     <bean id="proposalDevelopmentXmlStream" class="org.kuali.kra.proposaldevelopment.printing.xmlstream.ProposalDevelopmentXmlStream" 
           parent="proposalBaseStream" />
 
-    <!-- Current and Pending Support Services -->
+    <!-- Current and Pending Report Services -->
     
     <bean id="currentAndPendingReportService" class="org.kuali.kra.printing.service.impl.CurrentAndPendingReportServiceImpl" scope="prototype">
         <property name="currentReportDao" ref="currentReportDao" />

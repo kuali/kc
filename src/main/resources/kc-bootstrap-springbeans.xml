@@ -27,6 +27,8 @@
     
     <bean id="kcInstitutionalProposalConfigurer" class="org.kuali.kra.institutionalproposal.config.InstitutionalProposalConfigurer" />
     
+    <bean id="kcAwardConfigurer" class="org.kuali.kra.award.config.AwardConfigurer" />
+    
     <bean id="kcNegotiationConfigurer" class="org.kuali.kra.negotiations.config.NegotiationConfigurer" />
 
 </beans>
