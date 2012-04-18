@@ -90,11 +90,19 @@ public class OjbRepositoryMappingTest {
     
     private static final String[] repositoryFiles = {   "repository.xml", 
                                                         "org/kuali/kra/award/repository-award.xml",  
+                                                        //"org/kuali/kra/budget/repository-budget.xml",
+                                                        "org/kuali/kra/coi/repository-coi.xml",
                                                         "org/kuali/kra/committee/repository-committee.xml",
+                                                        //"org/kuali/kra/iacuc/repository-iacuc.xml",
+                                                        "org/kuali/kra/institutionalproposal/repository-institutionalproposal.xml",
                                                         "org/kuali/kra/irb/repository-irb.xml",
-                                                        "org/kuali/kra/awardtimeandmoney/repository-timeandmoney.xml",
-                                                        "org/kuali/kra/questionnaire/repository-questionnaire.xml"
-                                                      };
+                                                        "org/kuali/kra/negotiation/repository-negotiation.xml",
+                                                        "org/kuali/kra/personmasschange/repository-personmasschange.xml",
+                                                        "org/kuali/kra/proposaldevelopment/repository-proposaldevelopment.xml",
+                                                        "org/kuali/kra/questionnaire/repository-questionnaire.xml",
+                                                        //"org/kuali/kra/subaward/repository-subAward.xml",
+                                                        "org/kuali/kra/timeandmoney/repository-timeandmoney.xml"
+                                                    };
 
     private static Map<String, String> configFileParms;
     
