@@ -20,6 +20,7 @@ import gov.grants.apply.forms.rrSF424V10.ApplicantTypeCodeDataType;
 import gov.grants.apply.forms.rrSF424V10.ApplicationTypeCodeDataType;
 import gov.grants.apply.forms.rrSF424V10.OrganizationContactPersonDataType;
 import gov.grants.apply.forms.rrSF424V10.RRSF424Document;
+import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.StateReview.StateReviewDate;
 import gov.grants.apply.forms.rrSF424V10.StateReviewCodeTypeDataType;
 import gov.grants.apply.forms.rrSF424V10.SubmissionTypeDataType;
 import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424;
@@ -35,6 +36,7 @@ import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.ApplicantType.S
 import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.ApplicationType.OtherAgencySubmissionExplanation;
 import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.ApplicationType.RevisionCode;
 import gov.grants.apply.forms.rrSF424V10.RRSF424Document.RRSF424.ApplicationType.RevisionCodeOtherExplanation;
+import gov.grants.apply.forms.sf424V10.StateReviewCodeType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV10.OrganizationDataTypeV2;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
@@ -353,15 +355,18 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 		Map<String, String> eoStateReview = s2sUtilService
 				.getEOStateReview(pdDoc);
 		StateReviewCodeTypeDataType.Enum stateReviewCodeType = null;
+		String stateReviewData = null;
 		String strReview = eoStateReview.get(S2SConstants.YNQ_ANSWER);
 		if (STATE_REVIEW_YES.equals(strReview)) {
 			stateReviewCodeType = StateReviewCodeTypeDataType.YES;
 		} else if (STATE_REVIEW_NO.equals(strReview)) {
-			stateReviewCodeType = StateReviewCodeTypeDataType.PROGRAM_HAS_NOT_BEEN_SELECTED_BY_STATE_FOR_REVIEW;
-		} else {
-			stateReviewCodeType = StateReviewCodeTypeDataType.PROGRAM_IS_NOT_COVERED_BY_E_O_12372;
-		}
-
+		    stateReviewData = eoStateReview.get(S2SConstants.YNQ_STATE_REVIEW_DATA);
+            if (stateReviewData != null && StateReviewCodeType.NOT_COVERED.toString().equals(stateReviewData)) {
+                stateReviewCodeType = StateReviewCodeTypeDataType.PROGRAM_IS_NOT_COVERED_BY_E_O_12372;
+            } else if (stateReviewData != null && S2SConstants.YNQ_STATE_NOT_SELECTED.equals(stateReviewData)) {
+                stateReviewCodeType = StateReviewCodeTypeDataType.PROGRAM_HAS_NOT_BEEN_SELECTED_BY_STATE_FOR_REVIEW;
+            }
+        }
 		StateReview stateReview = StateReview.Factory.newInstance();
 		stateReview.setStateReviewCodeType(stateReviewCodeType);
 		return stateReview;

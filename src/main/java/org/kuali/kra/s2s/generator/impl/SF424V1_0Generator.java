@@ -221,28 +221,37 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	 *            (ProposalDevelopmentDocument)
 	 * @return stateType (StateReviewCodeType.Enum) revision details.
 	 */
-	private StateReviewCodeType.Enum getStateReviewCode() {
+    private StateReviewCodeType.Enum getStateReviewCode() {
+        
+        Map<String, String> eoStateReview = s2sUtilService.getEOStateReview(pdDoc);
+        StateReviewCodeType.Enum stateType = null;
+        StateReviewCodeTypeDataType.Enum stateReviewCodeType = null;
+        String strReview = eoStateReview.get(S2SConstants.YNQ_ANSWER);
+        String stateReviewData = null;
 
-		Map<String, String> eoStateReview = s2sUtilService
-				.getEOStateReview(pdDoc);
-		StateReviewCodeType.Enum stateType = null;
-		StateReviewCodeTypeDataType.Enum stateReviewCodeType = null;
-		String strReview = eoStateReview.get(S2SConstants.YNQ_ANSWER);
+        if (STATE_REVIEW_YES.equals(strReview)) {
+            stateType = StateReviewCodeType.YES;
+        }
+        else {
+            stateReviewData = eoStateReview.get(S2SConstants.YNQ_STATE_REVIEW_DATA);
+            if (stateReviewData != null && StateReviewCodeType.NOT_COVERED.toString().equals(stateReviewData)) {
+                stateType = StateReviewCodeType.NOT_COVERED;
+                stateReviewCodeType = StateReviewCodeTypeDataType.PROGRAM_IS_NOT_COVERED_BY_E_O_12372;
+            }
+            else if (stateReviewData != null && S2SConstants.YNQ_STATE_NOT_SELECTED.equals(stateReviewData)) {
+                stateType = StateReviewCodeType.NOT_REVIEWED;
+                stateReviewCodeType = StateReviewCodeTypeDataType.PROGRAM_HAS_NOT_BEEN_SELECTED_BY_STATE_FOR_REVIEW;
+            }
+        }
 
-		if (STATE_REVIEW_YES.equals(strReview)) {
-			stateType = StateReviewCodeType.YES;
-		} else if (STATE_REVIEW_NO.equals(strReview)) {
-			stateType = StateReviewCodeType.NOT_REVIEWED;
-		} else {
-			stateType = StateReviewCodeType.NOT_COVERED;
-		}
-		if (eoStateReview.get(S2SConstants.YNQ_REVIEW_DATE) != null) {
-			stateReviewDate = eoStateReview.get(S2SConstants.YNQ_REVIEW_DATE);
-		}
-		StateReview stateReview = StateReview.Factory.newInstance();
-		stateReview.setStateReviewCodeType(stateReviewCodeType);
-		return stateType;
-	}
+        if (eoStateReview.get(S2SConstants.YNQ_REVIEW_DATE) != null) {
+            stateReviewDate = eoStateReview.get(S2SConstants.YNQ_REVIEW_DATE);
+        }
+
+        StateReview stateReview = StateReview.Factory.newInstance();
+        stateReview.setStateReviewCodeType(stateReviewCodeType);
+        return stateType;
+    }
 
 	/**
 	 * 
