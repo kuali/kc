@@ -15,56 +15,13 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.protocol.actions.ProtocolActionType;
 
-public class IacucProtocolActionType extends KraPersistableBusinessObjectBase { 
-
-
+public class IacucProtocolActionType extends ProtocolActionType { 
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = -7507534134436245199L;
-    private String protocolActionTypeCode; 
-    private String description; 
-    private boolean triggerSubmission; 
-    private boolean triggerCorrespondence; 
+    private static final long serialVersionUID = 162958759286804034L;
     
-    
-    public IacucProtocolActionType() { 
-
-    } 
-    
-    public String getProtocolActionTypeCode() {
-        return protocolActionTypeCode;
-    }
-
-    public void setProtocolActionTypeCode(String protocolActionTypeCode) {
-        this.protocolActionTypeCode = protocolActionTypeCode;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean getTriggerSubmission() {
-        return triggerSubmission;
-    }
-
-    public void setTriggerSubmission(boolean triggerSubmission) {
-        this.triggerSubmission = triggerSubmission;
-    }
-
-    public boolean getTriggerCorrespondence() {
-        return triggerCorrespondence;
-    }
-
-    public void setTriggerCorrespondence(boolean triggerCorrespondence) {
-        this.triggerCorrespondence = triggerCorrespondence;
-    }
-
-    
+    public static final String PROTOCOL_CREATED = "100";
 }

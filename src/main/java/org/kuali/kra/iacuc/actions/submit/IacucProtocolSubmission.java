@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions;
+package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.kra.protocol.actions.ProtocolStatus;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
-public class IacucProtocolStatus extends ProtocolStatus { 
-    
+public class IacucProtocolSubmission extends ProtocolSubmission {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = -3782529092395093228L;
-    
-    public static final String IN_PROGRESS = "100";
-    
+    private static final long serialVersionUID = 5068646990304087082L;
+
 }

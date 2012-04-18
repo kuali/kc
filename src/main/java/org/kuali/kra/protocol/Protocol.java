@@ -41,17 +41,15 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.irb.actions.ProtocolStatus;
-import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
-import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
-import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
+import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.ProtocolStatus;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilter;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
@@ -98,12 +96,15 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
    
     private static final long serialVersionUID = -5556152547067349988L;
       
-// TODO *********uncomment the code below in increments as needed during refactoring*********       
+    
     private static final CharSequence AMENDMENT_LETTER = "A";
     private static final CharSequence RENEWAL_LETTER = "R";
-    private static final String DEFAULT_PROTOCOL_TYPE_CODE = "1";
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    private static final String DEFAULT_PROTOCOL_TYPE_CODE = "1";
+    
     private static final String NEXT_ACTION_ID_KEY = "actionId";
-// TODO **********************end************************    
+     
     
     private Long protocolId; 
     private String protocolNumber; 
@@ -124,27 +125,26 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     
     private String specialReviewIndicator = "Y";
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********    
+ 
     private String vulnerableSubjectIndicator;
-// TODO **********************end************************    
+     
     
     private String keyStudyPersonIndicator; 
     private String fundingSourceIndicator; 
     private String correspondentIndicator; 
     private String referenceIndicator;
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********    
+ 
     private String relatedProjectsIndicator; 
     private ProtocolDocument protocolDocument;
     
     private ProtocolStatus protocolStatus;
-// TODO **********************end************************
+ 
     
     private ProtocolType protocolType; 
 
- // TODO *********uncomment the code below in increments as needed during refactoring*********
-
-    private List<ProtocolRiskLevel> protocolRiskLevels;
+// TODO *********commented the code below during IACUC refactoring********* 
+//    private List<ProtocolRiskLevel> protocolRiskLevels;
     private List<ProtocolParticipant> protocolParticipants;
     
     private List<ProtocolResearchArea> protocolResearchAreas;
@@ -158,12 +158,12 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     private boolean nonEmployeeFlag;
     
     private List<ProtocolFundingSource> protocolFundingSources; 
-// TODO **********************end************************
+ 
     
     private String leadUnitNumber;
     private String principalInvestigatorId;
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********       
+    
     // lookup field
     private String keyPerson;
     private String investigator;
@@ -171,12 +171,12 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     
     private String performingOrganizationId;
     private String researchAreaCode;
-// TODO **********************end************************    
+     
  
     private String leadUnitName;
     private List<ProtocolPerson> protocolPersons;
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********      
+   
     private List<ProtocolSpecialReview> specialReviews;
     
     //these are the m:m attachment protocols that that a protocol has
@@ -191,7 +191,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     private transient List<ProtocolAction> sortedActions;
  
 
-    
+     
     /*
      * There should only be zero or one entry in the protocolAmendRenewals
      * list.  It is because of OJB that a list is used instead of a single item.
@@ -231,46 +231,42 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         return protocolSubmissionStatus;
     }
 
-// TODO **********************end************************    
+     
 
-    
-    
+       
     /**
      * 
      * Constructs an Protocol BO.
      */
     public Protocol() {
         super();
-        sequenceNumber = new Integer(0);
-
-        
-// TODO *********uncomment the code below in increments as needed during refactoring*********        
+        sequenceNumber = new Integer(0);  
         //billable = false;
-        protocolRiskLevels = new ArrayList<ProtocolRiskLevel>();
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        protocolRiskLevels = new ArrayList<ProtocolRiskLevel>();
         protocolParticipants = new ArrayList<ProtocolParticipant>();
         protocolResearchAreas = new ArrayList<ProtocolResearchArea>();
         protocolReferences = new ArrayList<ProtocolReference>(); 
         newDescription = getDefaultNewDescription();
-        protocolStatus = new ProtocolStatus();
+        protocolStatus = getProtocolStatusNewInstanceHook();
         protocolStatusCode = protocolStatus.getProtocolStatusCode();
         protocolLocations = new ArrayList<ProtocolLocation>(); 
-// TODO **********************end************************    
-        
-        
         protocolPersons = new ArrayList<ProtocolPerson>();
         
-        
-// TODO *********uncomment the code below in increments as needed during refactoring*********
         // set the default protocol type
-        protocolTypeCode = DEFAULT_PROTOCOL_TYPE_CODE;
-//        initializeProtocolLocation();
+        protocolTypeCode = getDefaultProtocolTypeCodeHook();
+
         protocolFundingSources = new ArrayList<ProtocolFundingSource>();        
         specialReviews = new ArrayList<ProtocolSpecialReview>();
         setProtocolActions(new ArrayList<ProtocolAction>());
         setProtocolSubmissions(new ArrayList<ProtocolSubmission>());
+        
+        
         protocolAmendRenewals = new ArrayList<ProtocolAmendRenewal>();
+        
         // set statuscode default
-        setProtocolStatusCode(Constants.DEFAULT_PROTOCOL_STATUS_CODE);
+        setProtocolStatusCode(getDefaultProtocolStatusCodeHook());
         this.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
         initializeProtocolAttachmentFilter();
         
@@ -279,13 +275,19 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         // By adding the comment, a null pointer exception occurs when navigating to the Protocol Actions tab.
         //populateTempViewDate();
 
-// TODO **********************end************************
+ 
         
         
     }
     
     
+    protected abstract ProtocolStatus getProtocolStatusNewInstanceHook();
+
+    protected abstract String getDefaultProtocolStatusCodeHook();
+
+    protected abstract String getDefaultProtocolTypeCodeHook();
     
+
     public Long getProtocolId() {
         return protocolId;
     }
@@ -352,7 +354,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
  
 
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********       
+    
     /**
      * Gets the submission date.  If the submission date is the last
      * submission for the protocol.  If the protocol has not been submitted,
@@ -371,7 +373,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
         return submissionDate;
     }
-// TODO **********************end************************
+ 
     
     
     
@@ -440,7 +442,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
 
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********       
+    
     public String getVulnerableSubjectIndicator() {
         return vulnerableSubjectIndicator;
     }
@@ -448,7 +450,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     public void setVulnerableSubjectIndicator(String vulnerableSubjectIndicator) {
         this.vulnerableSubjectIndicator = vulnerableSubjectIndicator;
     }
-// TODO **********************end************************    
+     
 
     
     public String getKeyStudyPersonIndicator() {
@@ -484,7 +486,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
     
 
-// TODO *********uncomment the code below in increments as needed during refactoring*********       
+    
     public String getRelatedProjectsIndicator() {
         return relatedProjectsIndicator;
     }
@@ -500,13 +502,9 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
      */
     public List<ProtocolOnlineReview> getProtocolOnlineReviews() {
         List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
-
-        /* -- commented as part of GENERATED CODE need to verify
         for (ProtocolSubmission submission : getProtocolSubmissions()) {
             reviews.addAll(submission.getProtocolOnlineReviews());
-        }
-        */
-        
+        }        
         return reviews;
     }
 
@@ -526,19 +524,17 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         this.protocolType = protocolType;
     }
 
-    public List<ProtocolRiskLevel> getProtocolRiskLevels() {
-        return protocolRiskLevels;
-    }
-
-    public void setProtocolRiskLevels(List<ProtocolRiskLevel> protocolRiskLevels) {
-        this.protocolRiskLevels = protocolRiskLevels;
-        
-        /* -- commented as part of GENERATED CODE need to verify
-        for (ProtocolRiskLevel riskLevel : protocolRiskLevels) {
-            riskLevel.init(this);
-        }
-        */
-    }
+// TODO *********commented the code below during IACUC refactoring*********     
+//    public List<ProtocolRiskLevel> getProtocolRiskLevels() {
+//        return protocolRiskLevels;
+//    }
+//
+//    public void setProtocolRiskLevels(List<ProtocolRiskLevel> protocolRiskLevels) {
+//        this.protocolRiskLevels = protocolRiskLevels;
+//        for (ProtocolRiskLevel riskLevel : protocolRiskLevels) {
+//            riskLevel.init(this);
+//        }
+//    }
     
     public List<ProtocolParticipant> getProtocolParticipants() {
         return protocolParticipants;
@@ -629,22 +625,24 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         managedLists.add(this.protocolReferences);
         managedLists.add(getProtocolFundingSources());
         managedLists.add(getProtocolLocations());
-        managedLists.add(getProtocolRiskLevels());
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        managedLists.add(getProtocolRiskLevels());
+        
         managedLists.add(getProtocolParticipants());
         managedLists.add(getProtocolAttachmentPersonnel());
         managedLists.add(getProtocolUnits());
         managedLists.add(getAttachmentProtocols());
         managedLists.add(getProtocolPersons());
         managedLists.add(getProtocolActions());
-        managedLists.add(getProtocolSubmissions());
+        managedLists.add(getProtocolSubmissions());        
         if (getProtocolAmendRenewal() != null) {
             managedLists.add(getProtocolAmendRenewal().getModules());
         } else {
             // needed to ensure that the OjbCollectionHelper receives constant list size. 
             managedLists.add(new ArrayList<ProtocolAmendRenewModule>());
         }
-        managedLists.add(getProtocolAmendRenewals());
-        
+        managedLists.add(getProtocolAmendRenewals());        
         List<ProtocolSpecialReviewExemption> specialReviewExemptions = new ArrayList<ProtocolSpecialReviewExemption>();
         for (ProtocolSpecialReview specialReview : getSpecialReviews()) {
             specialReviewExemptions.addAll(specialReview.getSpecialReviewExemptions());
@@ -670,7 +668,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
         return protocolAttachmentPersonnel;
     }
- // TODO **********************end************************
+  
     
     
     /**
@@ -756,7 +754,6 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
 
 
-// TODO *********uncomment the code below in increments as needed during refactoring*********
     public boolean isNonEmployeeFlag() {
         return this.nonEmployeeFlag;
     }
@@ -781,7 +778,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     private void initializeProtocolLocation() {
         getProtocolLocationService().addDefaultProtocolLocation(this);
     }
-// TODO **********************end************************    
+     
     
 
     public List<ProtocolPerson> getProtocolPersons() {
@@ -796,7 +793,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
 
     
- // TODO *********uncomment the code below in increments as needed during refactoring*********
+
     /**
      * Gets index i from the protocol person list.
      * 
@@ -806,7 +803,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     public ProtocolPerson getProtocolPerson(int index) {
         return getProtocolPersons().get(index);
     }
-// TODO **********************end************************
+ 
     
     
     
@@ -818,7 +815,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
 
     
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********    
+ 
     public List<ProtocolFundingSource> getProtocolFundingSources() {
         return protocolFundingSources;
     }
@@ -853,7 +850,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     public void setPerformingOrganizationId(String performingOrganizationId) {
         this.performingOrganizationId = performingOrganizationId;
     }
-// TODO **********************end************************
+ 
 
     
    public String getLeadUnitName() {
@@ -870,7 +867,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
 
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********    
+ 
     public void setSpecialReviews(List<ProtocolSpecialReview> specialReviews) {
         this.specialReviews = specialReviews;
     }
@@ -1014,14 +1011,17 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
     }
 
+    
     public String getKeyPerson() {
         return keyPerson;
     }
 
+    
     public void setKeyPerson(String keyPerson) {
         this.keyPerson = keyPerson;
     }
 
+    
     public String getInvestigator() {
         if (StringUtils.isBlank(principalInvestigatorId)) {
             if (getPrincipalInvestigator() != null) {
@@ -1031,75 +1031,79 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         return investigator;
     }
 
+    
+    
     public void setInvestigator(String investigator) {
         this.investigator = investigator;
     }
+
     
-    /* TODO : why this temp method is in Protocol method */
-    private void populateTempViewDate() {
-        this.protocolSubmission = new ProtocolSubmission();
-        
-        Committee committee = new Committee();
-        committee.setId(1L);
-        committee.setCommitteeId("Comm-1");
-        committee.setCommitteeName("Test By Kiltesh");
-        this.protocolSubmission.setCommittee(committee);
-        
-        this.protocolSubmission.setSubmissionNumber(1);
-        this.protocolSubmission.setSubmissionDate(new Date(System.currentTimeMillis()));
-        this.protocolSubmission.setSubmissionStatusCode("100");
-        
-        ProtocolSubmissionType submissionType = new ProtocolSubmissionType();
-        submissionType.setDescription("Initial Protocol Application for Approval ");
-        this.protocolSubmission.setProtocolSubmissionType(submissionType);
-        
-        ProtocolReviewType review = new ProtocolReviewType();
-        review.setDescription("Full");
-        this.protocolSubmission.setProtocolReviewType(review);
-        
-        ProtocolSubmissionQualifierType qual = new ProtocolSubmissionQualifierType();
-        qual.setDescription("Lorem Ipsum Dolor ");
-        this.protocolSubmission.setProtocolSubmissionQualifierType(qual);
-        
-        ProtocolSubmissionStatus substatus = new ProtocolSubmissionStatus();
-        substatus.setDescription("Approved");
-        this.protocolSubmission.setSubmissionStatus(substatus);
-        
-        CommitteeMembershipType committeeMembershipType1 = new CommitteeMembershipType();
-        committeeMembershipType1.setDescription("Primary");
-        CommitteeMembershipType committeeMembershipType2 = new CommitteeMembershipType();
-        committeeMembershipType2.setDescription("Secondary");
-        
-        CommitteeMembership committeeMembership1 = new CommitteeMembership();
-        committeeMembership1.setPersonName("Bryan Hutchinson");
-        committeeMembership1.setMembershipType(committeeMembershipType1);
-        CommitteeMembership committeeMembership2 = new CommitteeMembership();
-        committeeMembership2.setPersonName("Kiltesh Patel");
-        committeeMembership2.setMembershipType(committeeMembershipType2);
-        
-        List<CommitteeMembership>  list = new ArrayList<CommitteeMembership>();
-        list.add(committeeMembership1);
-        list.add(committeeMembership2);
-        
-        committee.setCommitteeMemberships(list);
-        
-        this.protocolSubmission.setYesVoteCount(2);
-        this.protocolSubmission.setNoVoteCount(3);
-        this.protocolSubmission.setAbstainerCount(1);
-        this.protocolSubmission.setVotingComments("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Suspendisse purus. Nullam et justo. In volutpat odio sit amet pede. Pellentesque ipsum dui, convallis in, mollis a, lacinia vel, diam. " +
-                "Phasellus molestie neque at sapien condimentum massa nunc" +
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Suspendisse purus. Nullam et justo. In volutpat odio sit amet pede. Pellentesque ipsum dui, convallis in, mollis a, lacinia vel, diam. " +
-                "Phasellus molestie neque at sapien condimentum massa nunc");
-        
-        CommitteeSchedule committeeSchedule= new CommitteeSchedule();        
-        CommitteeScheduleAttendance committeeScheduleAttendance = new CommitteeScheduleAttendance();        
-        List<CommitteeScheduleAttendance> cslist = new ArrayList<CommitteeScheduleAttendance>();
-        cslist.add(committeeScheduleAttendance);
-        committeeSchedule.setCommitteeScheduleAttendances(cslist);        
-        this.protocolSubmission.setCommitteeSchedule(committeeSchedule);
-    }
+// TODO *********commented the code below during IACUC refactoring*********     
+//    /* TODO : why this temp method is in Protocol method */
+//    private void populateTempViewDate() {
+//        this.protocolSubmission = new ProtocolSubmission();
+//        
+//        Committee committee = new Committee();
+//        committee.setId(1L);
+//        committee.setCommitteeId("Comm-1");
+//        committee.setCommitteeName("Test By Kiltesh");
+//        this.protocolSubmission.setCommittee(committee);
+//        
+//        this.protocolSubmission.setSubmissionNumber(1);
+//        this.protocolSubmission.setSubmissionDate(new Date(System.currentTimeMillis()));
+//        this.protocolSubmission.setSubmissionStatusCode("100");
+//        
+//        ProtocolSubmissionType submissionType = new ProtocolSubmissionType();
+//        submissionType.setDescription("Initial Protocol Application for Approval ");
+//        this.protocolSubmission.setProtocolSubmissionType(submissionType);
+//        
+//        ProtocolReviewType review = new ProtocolReviewType();
+//        review.setDescription("Full");
+//        this.protocolSubmission.setProtocolReviewType(review);
+//        
+//        ProtocolSubmissionQualifierType qual = new ProtocolSubmissionQualifierType();
+//        qual.setDescription("Lorem Ipsum Dolor ");
+//        this.protocolSubmission.setProtocolSubmissionQualifierType(qual);
+//        
+//        ProtocolSubmissionStatus substatus = new ProtocolSubmissionStatus();
+//        substatus.setDescription("Approved");
+//        this.protocolSubmission.setSubmissionStatus(substatus);
+//        
+//        CommitteeMembershipType committeeMembershipType1 = new CommitteeMembershipType();
+//        committeeMembershipType1.setDescription("Primary");
+//        CommitteeMembershipType committeeMembershipType2 = new CommitteeMembershipType();
+//        committeeMembershipType2.setDescription("Secondary");
+//        
+//        CommitteeMembership committeeMembership1 = new CommitteeMembership();
+//        committeeMembership1.setPersonName("Bryan Hutchinson");
+//        committeeMembership1.setMembershipType(committeeMembershipType1);
+//        CommitteeMembership committeeMembership2 = new CommitteeMembership();
+//        committeeMembership2.setPersonName("Kiltesh Patel");
+//        committeeMembership2.setMembershipType(committeeMembershipType2);
+//        
+//        List<CommitteeMembership>  list = new ArrayList<CommitteeMembership>();
+//        list.add(committeeMembership1);
+//        list.add(committeeMembership2);
+//        
+//        committee.setCommitteeMemberships(list);
+//        
+//        this.protocolSubmission.setYesVoteCount(2);
+//        this.protocolSubmission.setNoVoteCount(3);
+//        this.protocolSubmission.setAbstainerCount(1);
+//        this.protocolSubmission.setVotingComments("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+//                "Suspendisse purus. Nullam et justo. In volutpat odio sit amet pede. Pellentesque ipsum dui, convallis in, mollis a, lacinia vel, diam. " +
+//                "Phasellus molestie neque at sapien condimentum massa nunc" +
+//                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+//                "Suspendisse purus. Nullam et justo. In volutpat odio sit amet pede. Pellentesque ipsum dui, convallis in, mollis a, lacinia vel, diam. " +
+//                "Phasellus molestie neque at sapien condimentum massa nunc");
+//        
+//        CommitteeSchedule committeeSchedule= new CommitteeSchedule();        
+//        CommitteeScheduleAttendance committeeScheduleAttendance = new CommitteeScheduleAttendance();        
+//        List<CommitteeScheduleAttendance> cslist = new ArrayList<CommitteeScheduleAttendance>();
+//        cslist.add(committeeScheduleAttendance);
+//        committeeSchedule.setCommitteeScheduleAttendances(cslist);        
+//        this.protocolSubmission.setCommitteeSchedule(committeeSchedule);
+//    }
     
     public ProtocolSubmission getProtocolSubmission() {
         // TODO : this is a fix to remove 'populateTempViewDate'
@@ -1122,10 +1126,10 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
 
         }
         else {
-            protocolSubmission = new ProtocolSubmission();
+            protocolSubmission = getProtocolSubmissionNewInstanceHook();
             // TODO : the update protocol rule may not like null
-            protocolSubmission.setProtocolSubmissionType(new ProtocolSubmissionType());
-            protocolSubmission.setSubmissionStatus(new ProtocolSubmissionStatus());
+            protocolSubmission.setProtocolSubmissionType(getProtocolSubmissionTypeNewInstanceHook());
+            protocolSubmission.setSubmissionStatus(getProtocolSubmissionStatusNewInstanceHook());
         }
         // }
         refreshReferenceObject(protocolSubmission);
@@ -1133,6 +1137,13 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
 
     
+    protected abstract ProtocolSubmissionStatus getProtocolSubmissionStatusNewInstanceHook();
+
+    protected abstract ProtocolSubmissionType getProtocolSubmissionTypeNewInstanceHook();
+
+    protected abstract ProtocolSubmission getProtocolSubmissionNewInstanceHook();
+    
+
     private void refreshReferenceObject(ProtocolSubmission submission) {
         // if submission just added, then these probably are empty
         if (StringUtils.isNotBlank(submission.getProtocolReviewTypeCode()) 
@@ -1167,8 +1178,6 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
     
     public ProtocolAction getLastProtocolAction() {
-        return null;
-        /* -- commented as part of GENERATED CODE need to verify
         if (protocolActions.size() == 0) {
             return null;
         }
@@ -1178,7 +1187,6 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
             }
         });
         return protocolActions.get(0);
-    */
     }
 
     public void setProtocolSubmissions(List<ProtocolSubmission> protocolSubmissions) {
@@ -1226,7 +1234,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     public void setProtocolAmendRenewals(List<ProtocolAmendRenewal> protocolAmendRenewals) {
         this.protocolAmendRenewals = protocolAmendRenewals;
     }
-// TODO **********************end************************
+ 
     
     
     
@@ -1262,8 +1270,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         this.protocolId = null;
     }
    
-
-// TODO *********uncomment the code below in increments as needed during refactoring********* 
+ 
     /**
      * 
      * This method merges the data of the amended protocol into this protocol.
@@ -1274,20 +1281,20 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
     
     public void merge(Protocol amendment, boolean mergeActions) {
-        List<ProtocolAmendRenewModule> modules = amendment.getProtocolAmendRenewal().getModules();
-        for (ProtocolAmendRenewModule module : modules) {
-            merge(amendment, module.getProtocolModuleTypeCode());
-        }
-        if (amendment.isRenewalWithoutAmendment() && isRenewalWithNewAttachment(amendment)) {
-            merge(amendment, ProtocolModule.ADD_MODIFY_ATTACHMENTS);
-        }
-        mergeProtocolSubmission(amendment);
-        
-        /*
-        if (mergeActions) {
-            mergeProtocolAction(amendment); -- commented as part of GENERATED CODE need to verify
-        }
-        */
+// TODO *********commented the code below during IACUC refactoring*********         
+//        List<ProtocolAmendRenewModule> modules = amendment.getProtocolAmendRenewal().getModules();
+//        for (ProtocolAmendRenewModule module : modules) {
+//            merge(amendment, module.getProtocolModuleTypeCode());
+//        }
+//        if (amendment.isRenewalWithoutAmendment() && isRenewalWithNewAttachment(amendment)) {
+//            merge(amendment, ProtocolModule.ADD_MODIFY_ATTACHMENTS);
+//        }
+//        mergeProtocolSubmission(amendment);
+//        
+//        if (mergeActions) {
+//            mergeProtocolAction(amendment);
+//        }
+//        
     }
 
     private boolean isRenewalWithNewAttachment(Protocol renewal) {
@@ -1308,48 +1315,49 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
      * @param protocolModuleTypeCode
      */
     public void merge(Protocol amendment, String protocolModuleTypeCode) {
-        if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.GENERAL_INFO)) {
-            mergeGeneralInfo(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.AREAS_OF_RESEARCH)) {
-            mergeResearchAreas(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.FUNDING_SOURCE)) {
-            mergeFundingSources(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_ORGANIZATIONS)) {
-            mergeOrganizations(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERSONNEL)) {
-            mergePersonnel(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
-            if (amendment.isAmendment() || amendment.isRenewal()
-                    || (!amendment.getAttachmentProtocols().isEmpty() && this.getAttachmentProtocols().isEmpty())) {
-                mergeAttachments(amendment);
-            }
-            else {
-                restoreAttachments(this);
-            }
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_REFERENCES)) {
-            mergeReferences(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.SPECIAL_REVIEW)) {
-            mergeSpecialReview(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.SUBJECTS)) {
-            mergeSubjects(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.OTHERS)) {
-            mergeOthers(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERMISSIONS)) {
-            mergeProtocolPermissions(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.QUESTIONNAIRE)) {
-            mergeProtocolQuestionnaire(amendment);
-        }
+// TODO *********commented the code below during IACUC refactoring*********         
+//        if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.GENERAL_INFO)) {
+//            mergeGeneralInfo(amendment);
+//        }
+//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.AREAS_OF_RESEARCH)) {
+//            mergeResearchAreas(amendment);
+//        }
+//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.FUNDING_SOURCE)) {
+//            mergeFundingSources(amendment);
+//        }
+//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_ORGANIZATIONS)) {
+//            mergeOrganizations(amendment);
+//        }
+//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERSONNEL)) {
+//            mergePersonnel(amendment);
+//        }
+//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
+//            if (amendment.isAmendment() || amendment.isRenewal()
+//                    || (!amendment.getAttachmentProtocols().isEmpty() && this.getAttachmentProtocols().isEmpty())) {
+//                mergeAttachments(amendment);
+//            }
+//            else {
+//                restoreAttachments(this);
+//            }
+//        }
+//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_REFERENCES)) {
+//            mergeReferences(amendment);
+//        }
+//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.SPECIAL_REVIEW)) {
+//            mergeSpecialReview(amendment);
+//        }
+//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.SUBJECTS)) {
+//            mergeSubjects(amendment);
+//        }
+//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.OTHERS)) {
+//            mergeOthers(amendment);
+//        }
+//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERMISSIONS)) {
+//            mergeProtocolPermissions(amendment);
+//        }
+//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.QUESTIONNAIRE)) {
+//            mergeProtocolQuestionnaire(amendment);
+//        }
     }
 
     private void mergeProtocolQuestionnaire(Protocol amendment) {
@@ -1424,11 +1432,10 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
     }
     
+    
     /*
      * merge amendment/renewal protocol action to original protocol when A/R is approved
      */
-    
-    /* -- commented as part of GENERATED CODE need to verify
     @SuppressWarnings("unchecked")
     private void mergeProtocolAction(Protocol amendment) {
         List<ProtocolAction> protocolActions = (List<ProtocolAction>) deepCopy(amendment.getProtocolActions());  
@@ -1460,7 +1467,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
             this.getProtocolActions().add(protocolAction);
         }
     }
-    */
+    
     
     public void mergeGeneralInfo(Protocol amendment) {
         this.protocolTypeCode = amendment.getProtocolTypeCode();
@@ -1622,7 +1629,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
         this.setNotepads(notepads);
     }
-// TODO **********************end************************ 
+  
     
     
     
@@ -1645,7 +1652,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     
     
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********       
+    
     @SuppressWarnings("unchecked")
     private void mergeSpecialReview(Protocol amendment) {
         setSpecialReviews((List<ProtocolSpecialReview>) deepCopy(amendment.getSpecialReviews()));
@@ -1685,14 +1692,14 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     private void mergeProtocolPermissions(Protocol amendment) {
         // ToDo: merge permissions
     }
-// TODO **********************end************************   
+    
     
     private Object deepCopy(Object obj) {
         return ObjectUtils.deepCopy((Serializable) obj);
     }
     
     
- // TODO *********uncomment the code below in increments as needed during refactoring*********    
+  
     public ProtocolSummary getProtocolSummary() {
         ProtocolSummary protocolSummary = createProtocolSummary();
         addPersonnelSummaries(protocolSummary);
@@ -1840,7 +1847,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     private ProtocolSummary createProtocolSummary() {
         ProtocolSummary summary = new ProtocolSummary();
         
-        //summary.setLastProtocolAction(getLastProtocolAction()); -- commented as part of GENERATED CODE need to verify
+        summary.setLastProtocolAction(getLastProtocolAction());
         
         
         summary.setProtocolNumber(getProtocolNumber().toString());
@@ -1861,7 +1868,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         summary.setTitle(getTitle());
         return summary;
     }
-// TODO **********************end************************
+ 
     
 
     /**
@@ -1896,15 +1903,13 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
     
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********       
+    
     public void resetForeignKeys() {
-        /* -- commented as part of GENERATED CODE need to verify
         for (ProtocolAction action : protocolActions) {
             action.resetForeignKeys();
         }
-        */
     }
-// TODO **********************end************************
+ 
     
     
     
@@ -1935,7 +1940,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
 
     
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********       
+    
     public boolean isNew() {
         return !isAmendment() && !isRenewal();
     }
@@ -2124,7 +2129,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         this.lookupProtocolPersonId = lookupProtocolPersonId;
     }
 
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
+  
 //    /**
 //     * 
 //     * This method is to check if the actiontypecode is a followup action.
@@ -2215,7 +2220,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
             dstSpecialReview.resetPersistenceState();
         }
     }
-// TODO **********************end************************    
+     
     
     
    
@@ -2264,7 +2269,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
     
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********       
+    
     /**
      * 
      * This method is to return the first submission date as application date. see kccoi-36 comment
@@ -2277,7 +2282,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
             return null;
         }
     }
-// TODO **********************end************************
+ 
 
     @Override
     public String getProjectName() {
@@ -2292,13 +2297,12 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
  
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********       
+    
     // This is for viewhistory/corespondence to search prev submission
     public List<ProtocolAction> getSortedActions() {
         if (sortedActions == null) {
             sortedActions = new ArrayList<ProtocolAction>();
             
-            /* -- commented as part of GENERATED CODE need to verify
             for (ProtocolAction action : getProtocolActions()) {
                 sortedActions.add((ProtocolAction) ObjectUtils.deepCopy(action));
             }
@@ -2308,10 +2312,10 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
                     return action1.getActionId().compareTo(action2.getActionId());
                 }
             });
-            */
+            
         }
         return sortedActions;
     }
-// TODO **********************end************************
+ 
 
 }

@@ -18,11 +18,19 @@ package org.kuali.kra.iacuc;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.actions.ProtocolStatus;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
 
 /**
  * 
@@ -49,37 +57,7 @@ public class IacucProtocol extends Protocol {
     private Timestamp createTimestamp;
     private String createUser;
     private IacucProtocolDocument iacucProtocolDocument;
-    
-    
-    public IacucProtocol() {
-        
-        // TODO : temporary only; remove this when protocol is ready
-        initializaTestData();
-    } 
-   
-    
-    private void initializaTestData() {
-        // TODO : this is just for plumbing work.  remove it when working on required fields tab.
-        // Long protNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
-        // setProtocolNumber(protNumber.toString());
-        setSequenceNumber(0);
-        setProtocolStatusCode("100");
-//        setProjectTypeCode("1");
-        setApplicationDate(new Date(new java.util.Date().getTime()));
-        setCreateTimestamp(new Timestamp(new java.util.Date().getTime()));
-        setCreateUser("test");
-        setScientificJustifIndicator("no");
-        setSpecialReviewIndicator("no");
-        setSpeciesStudyGroupIndicator("no");
-        setKeyStudyPersonIndicator("no");
-        setFundingSourceIndicator("no");
-        setCorrespondentIndicator("no");
-        setReferenceIndicator("no");
-        setAlternativeSearchIndicator("no");
-        
-    }
-    
-   
+      
 
     public Date getApplicationDate() {
         return applicationDate;
@@ -194,6 +172,43 @@ public class IacucProtocol extends Protocol {
 
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_IACUC;
+    }
+
+
+    @Override
+    protected String getDefaultProtocolStatusCodeHook() {
+        return IacucProtocolStatus.IN_PROGRESS;
+    }
+
+
+    @Override
+    protected String getDefaultProtocolTypeCodeHook() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    protected ProtocolSubmissionStatus getProtocolSubmissionStatusNewInstanceHook() {
+        return new IacucProtocolSubmissionStatus();
+    }
+
+
+    @Override
+    protected ProtocolSubmissionType getProtocolSubmissionTypeNewInstanceHook() {
+        return new IacucProtocolSubmissionType();
+    }
+
+
+    @Override
+    protected ProtocolSubmission getProtocolSubmissionNewInstanceHook() {
+        return new IacucProtocolSubmission();
+    }
+
+
+    @Override
+    protected ProtocolStatus getProtocolStatusNewInstanceHook() {
+        return new IacucProtocolStatus();
     }    
 
 
