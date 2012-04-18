@@ -18,6 +18,19 @@
 
 <descriptor-repository version="1.0">
 
+	<class-descriptor class="org.kuali.kra.iacuc.IacucSpeciesCountType" table="IACUC_SPECIES_COUNT_TYPE">
+		<field-descriptor name="speciesCountCode" column="SPECIES_COUNT_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<!--  
+		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		-->
+	</class-descriptor>
+
+
     <class-descriptor class="org.kuali.kra.iacuc.IacucProtocolDocument" table="IACUC_PROTOCOL_DOCUMENT">
         <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>      
