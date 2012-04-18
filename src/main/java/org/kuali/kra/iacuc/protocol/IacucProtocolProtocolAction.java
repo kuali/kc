@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -619,6 +620,15 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
 //        }
 //    }
     
+    public ActionForward iacucCustomData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return super.customData(mapping, form, request, response);
+    }
+    
+    public ActionForward iacucSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return super.specialReview(mapping, form, request, response);
+    }
+
+
     private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
     }
