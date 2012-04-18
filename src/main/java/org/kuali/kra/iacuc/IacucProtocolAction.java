@@ -19,40 +19,54 @@ import org.kuali.kra.protocol.ProtocolAction;
 
 public class IacucProtocolAction extends ProtocolAction {
    
+    public final String IACUC_PROTOCOL_NAME_HOOK = "iacucProtocol";
+    public final String IACUC_PROTOCOL_QUESTIONNAIRE_HOOK = "iacucQuestionnaire";
+    public final String IACUC_PROTOCOL_PERSONNEL_HOOK = "iacucPersonnel";
+    public final String IACUC_PROTOCOL_CUSTOM_DATA_HOOK = "iacucCustomData";
+    public final String IACUC_PROTOCOL_SPECIAL_REVIEW_HOOK = "iacucSpecialReview";
+    public final String IACUC_PROTOCOL_NOTE_ATTACHMENT_HOOK = "iacucNoteAndAttachment";
+    public final String IACUC_PROTOCOL_ACTIONS_HOOK = "iacucProtocolActions";
+    public final String IACUC_PROTOCOL_ONLINE_REVIEW_HOOK = "iacucProtocolOnlineReview";
+    public final String IACUC_PROTOCOL_PERMISSIONS_HOOK = "iacucProtocolPermissions";
+    
     protected String getProtocolForwardNameHook() {
-        return  "iacucProtocol";
+        return  IACUC_PROTOCOL_NAME_HOOK;
     }
 
     protected String getQuestionnaireForwardNameHook() {
-        return "iacucQuestionnaire";
+        return IACUC_PROTOCOL_QUESTIONNAIRE_HOOK;
     }
 
     protected String getPersonnelForwardNameHook() {
-        return "iacucPersonnel";
+        return IACUC_PROTOCOL_PERSONNEL_HOOK;
     }
 
     protected String getCustomDataForwardNameHook() {
-        return "iacucCustomData";
+        return IACUC_PROTOCOL_CUSTOM_DATA_HOOK;
+    }
+
+    protected String getCustomAttributeMappingHook() {
+        return IACUC_PROTOCOL_CUSTOM_DATA_HOOK;
     }
 
     protected String getSpecialReviewForwardNameHook() {
-        return "iacucSpecialReview";
+        return IACUC_PROTOCOL_SPECIAL_REVIEW_HOOK;
     }
 
     protected String getNoteAndAttachmentForwardNameHook() {
-        return "iacucNoteAndAttachment";
+        return IACUC_PROTOCOL_NOTE_ATTACHMENT_HOOK;
     }
 
     protected String getProtocolActionsForwardNameHook() {
-        return "iacucProtocolActions";
+        return IACUC_PROTOCOL_ACTIONS_HOOK;
     }
 
     protected String getProtocolOnlineReviewForwardNameHook() {
-        return "iacucProtocolOnlineReview";
+        return IACUC_PROTOCOL_ONLINE_REVIEW_HOOK;
     }
     
     protected String getProtocolPermissionsForwardNameHook() {
-        return "iacucProtocolPermissions";
+        return IACUC_PROTOCOL_PERMISSIONS_HOOK;
     }
 
 }
