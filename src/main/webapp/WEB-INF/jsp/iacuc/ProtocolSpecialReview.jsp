@@ -23,8 +23,21 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="iacucSpecialReview">
+  	headerTabActive="specialReview">
 
-    Special  page to be implemented
+<div align="right"><kul:help documentTypeName="IacucProtocolDocument" pageName="Special Review" /></div>
+
+<div id="workarea">
+	<kra-specialreview:specialReviewPage businessObjectClassName="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReview"
+	                                     attributes="${DataDictionary.IacucProtocolSpecialReview.attributes}"
+	                                     exemptionAttributes="${DataDictionary.IacucProtocolSpecialReviewExemption.attributes}"
+	                                     collectionReference="${KualiForm.document.protocol.specialReviews}"
+	                                     collectionProperty="document.protocolList[0].specialReviews"
+	                                     action="protocolSpecialReview" />
+	
+	<kul:panelFooter />
+</div>
+
+<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" />
 
 </kul:documentPage>

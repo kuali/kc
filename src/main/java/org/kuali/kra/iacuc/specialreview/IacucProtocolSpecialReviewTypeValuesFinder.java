@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.onlinereview.rules;
+package org.kuali.kra.iacuc.specialreview;
 
-import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
-import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.common.specialreview.lookup.keyvalue.SpecialReviewTypeValuesFinder;
 
-public interface AddOnlineReviewCommentRule extends BusinessRule  {
+/**
+ * Provides a value finder for the Protocol-specific Special Review Types.
+ */
+public class IacucProtocolSpecialReviewTypeValuesFinder extends SpecialReviewTypeValuesFinder {
 
-    /**
-     * 
-     * This method validates the AddProtocolOnlineReviewCommentEvent
-     * @param addProtocolOnlineReviewCommentEvent
-     * @return true if it validates correctly
-     */
-    public boolean processAddProtocolOnlineReviewComment( AddProtocolOnlineReviewCommentEvent event );
-    
-    
-    
-    
+    @Override
+    public String getModuleCode() {
+        return CoeusModule.IRB_MODULE_CODE;
+    }
+
 }
