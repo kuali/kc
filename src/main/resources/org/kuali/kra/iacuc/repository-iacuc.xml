@@ -208,4 +208,140 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
     
+    <class-descriptor class="org.kuali.kra.iacuc.personnel.IacucProtocolPerson" table="IACUC_PROTOCOL_PERSONS">
+        <field-descriptor name="protocolPersonId" column="PROTOCOL_PERSON_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PROTOCOL_ID" autoincrement="true" />
+        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="personName" column="PERSON_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="protocolPersonRoleId" column="PROTOCOL_PERSON_ROLE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="affiliationTypeCode" column="AFFILIATION_TYPE_CODE" jdbc-type="INTEGER" />
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <!-- field-descriptor name="socialSecurityNumber" column="SSN" jdbc-type="VARCHAR" / -->
+        <field-descriptor name="lastName" column="LAST_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="firstName" column="FIRST_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="middleName" column="MIDDLE_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="priorName" column="PRIOR_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="userName" column="USER_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="emailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR" />
+        <field-descriptor name="dateOfBirth" column="DATE_OF_BIRTH" jdbc-type="DATE" />
+        <field-descriptor name="age" column="AGE" jdbc-type="INTEGER" />
+        <field-descriptor name="ageByFiscalYear" column="AGE_BY_FISCAL_YEAR" jdbc-type="INTEGER" />
+        <field-descriptor name="gender" column="GENDER" jdbc-type="VARCHAR" />
+        <field-descriptor name="race" column="RACE" jdbc-type="VARCHAR" />
+        <field-descriptor name="educationLevel" column="EDUCATION_LEVEL" jdbc-type="VARCHAR" />
+        <field-descriptor name="degree" column="DEGREE" jdbc-type="VARCHAR" />
+        <field-descriptor name="major" column="MAJOR" jdbc-type="VARCHAR" />
+        <field-descriptor name="handicappedFlag" column="IS_HANDICAPPED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="handicapType" column="HANDICAP_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="veteranFlag" column="IS_VETERAN" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="veteranType" column="VETERAN_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="visaCode" column="VISA_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="visaType" column="VISA_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="visaRenewalDate" column="VISA_RENEWAL_DATE" jdbc-type="DATE" />
+        <field-descriptor name="hasVisa" column="HAS_VISA" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="officeLocation" column="OFFICE_LOCATION" jdbc-type="VARCHAR" />
+        <field-descriptor name="officePhone" column="OFFICE_PHONE" jdbc-type="VARCHAR" />
+        <field-descriptor name="secondaryOfficeLocation" column="SECONDRY_OFFICE_LOCATION" jdbc-type="VARCHAR" />
+        <field-descriptor name="secondaryOfficePhone" column="SECONDRY_OFFICE_PHONE" jdbc-type="VARCHAR" />
+        <field-descriptor name="school" column="SCHOOL" jdbc-type="VARCHAR" />
+        <field-descriptor name="yearGraduated" column="YEAR_GRADUATED" jdbc-type="VARCHAR" />
+        <field-descriptor name="directoryDepartment" column="DIRECTORY_DEPARTMENT" jdbc-type="VARCHAR" />
+        <field-descriptor name="saluation" column="SALUTATION" jdbc-type="VARCHAR" />
+        <field-descriptor name="countryOfCitizenship" column="COUNTRY_OF_CITIZENSHIP" jdbc-type="VARCHAR" />
+        <field-descriptor name="primaryTitle" column="PRIMARY_TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="directoryTitle" column="DIRECTORY_TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="homeUnit" column="HOME_UNIT" jdbc-type="VARCHAR" />
+        <field-descriptor name="facultyFlag" column="IS_FACULTY" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="graduateStudentStaffFlag" column="IS_GRADUATE_STUDENT_STAFF" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="researchStaffFlag" column="IS_RESEARCH_STAFF" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="serviceStaffFlag" column="IS_SERVICE_STAFF" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="supportStaffFlag" column="IS_SUPPORT_STAFF" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="otherAcademicGroupFlag" column="IS_OTHER_ACCADEMIC_GROUP" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="medicalStaffFlag" column="IS_MEDICAL_STAFF" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="vacationAccrualFlag" column="VACATION_ACCURAL" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="onSabbaticalFlag" column="IS_ON_SABBATICAL" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="idProvided" column="ID_PROVIDED" jdbc-type="VARCHAR" />
+        <field-descriptor name="idVerified" column="ID_VERIFIED" jdbc-type="VARCHAR" />
+        <field-descriptor name="addressLine1" column="ADDRESS_LINE_1" jdbc-type="VARCHAR" />
+        <field-descriptor name="addressLine2" column="ADDRESS_LINE_2" jdbc-type="VARCHAR" />
+        <field-descriptor name="addressLine3" column="ADDRESS_LINE_3" jdbc-type="VARCHAR" />
+        <field-descriptor name="city" column="CITY" jdbc-type="VARCHAR" />
+        <field-descriptor name="county" column="COUNTY" jdbc-type="VARCHAR" />
+        <field-descriptor name="state" column="STATE" jdbc-type="VARCHAR" />
+        <field-descriptor name="postalCode" column="POSTAL_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="countryCode" column="COUNTRY_CODE" jdbc-type="CHAR" />
+        <field-descriptor name="faxNumber" column="FAX_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="pagerNumber" column="PAGER_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="mobilePhoneNumber" column="MOBILE_PHONE_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="eraCommonsUserName" column="ERA_COMMONS_USER_NAME" jdbc-type="VARCHAR" />
+        
+        
+        <reference-descriptor name="affiliationType" class-ref="org.kuali.kra.bo.AffiliationType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="affiliationTypeCode"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolId"/>
+        </reference-descriptor>
+        
+        <collection-descriptor name="protocolUnits" proxy="true" element-class-ref="org.kuali.kra.iacuc.personnel.IacucProtocolUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="protocolPersonId"/>
+        </collection-descriptor>
+        
+        
+        <!-- 
+        <reference-descriptor name="protocolPersonRole" class-ref="org.kuali.kra.irb.personnel.ProtocolPersonRole" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolPersonRoleId"/>
+        </reference-descriptor>
+         
+         
+        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.irb.personnel.ProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="rolodexId"/>
+        </reference-descriptor>
+         -->
+         
+        
+        <!--
+        <collection-descriptor name="attachmentPersonnels" proxy="true" element-class-ref="org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="personId" />
+        </collection-descriptor>
+         -->
+         
+    </class-descriptor>
+    
+    
+    <class-descriptor class="org.kuali.kra.iacuc.personnel.IacucProtocolUnit" table="IACUC_PROTOCOL_UNITS">
+        <field-descriptor name="protocolUnitsId" column="IACUC_PROTOCOL_UNITS_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="IACUC_SEQ_PROTOCOL_ID" />
+        <field-descriptor name="protocolPersonId" column="IACUC_PROT_INVESTIGATORS_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <!-- <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT"/>-->
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="leadUnitFlag" column="LEAD_UNIT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <reference-descriptor name="protocolPerson" class-ref="org.kuali.kra.iacuc.personnel.IacucProtocolPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolPersonId"/>
+        </reference-descriptor>
+        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="unitNumber"/>
+        </reference-descriptor>
+        
+<!--        <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> -->
+<!--            <foreignkey field-ref="protocolId"/>-->
+<!--        </reference-descriptor>-->
+    </class-descriptor>
+    
+    
 </descriptor-repository>
