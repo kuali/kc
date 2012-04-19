@@ -81,7 +81,8 @@ public class RROtherProjectInfoV1_3Generator extends
 				.newInstance();
 		rrOtherProjectInfo.setFormVersion(S2SConstants.FORMVERSION_1_3);
 		ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(
-                CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,CoeusSubModule.ZERO_SUBMODULE, true);
+                CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,
+                    CoeusSubModule.ZERO_SUBMODULE, true);
         QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
         answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
 		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO);
@@ -104,7 +105,7 @@ public class RROtherProjectInfoV1_3Generator extends
 	private void setHistoricDestionation(
 			RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo) {
 	    String historicDestinationAnswer = getAnswers(HISTORIC_DESTIONATION_YNQ);	   	    
-	    if (historicDestinationAnswer != null) {
+	    if (historicDestinationAnswer != null && !historicDestinationAnswer.equals(NOT_ANSWERED)) {
 	        YesNoDataType.Enum answer = historicDestinationAnswer.equals("Y") ? YesNoDataType.Y_YES
 	                : YesNoDataType.N_NO;
 	        String answerExplanation = getChildQuestionAnswer(HISTORIC_DESTIONATION_YNQ, EXPLANATION);
@@ -133,7 +134,7 @@ public class RROtherProjectInfoV1_3Generator extends
 			RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo) {
 		YesNoDataType.Enum answer = null;
 		String propertyInformationAnswer = getAnswers(PROPRIETARY_INFORMATION_INDICATOR);
-		if (propertyInformationAnswer != null) {
+		if (propertyInformationAnswer != null && !propertyInformationAnswer.equals(NOT_ANSWERED)) {
     		answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(
     			       propertyInformationAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
     		rrOtherProjectInfo.setProprietaryInformationIndicator(answer);
@@ -162,7 +163,7 @@ public class RROtherProjectInfoV1_3Generator extends
 			EnvironmentalImpact environmentalImpact) {
 		String answerExplanation = null;
 		String environmentalImpactAnswer = getAnswers(ENVIRONMENTAL_IMPACT_YNQ);
-		if (environmentalImpactAnswer != null) {
+		if (environmentalImpactAnswer != null && !environmentalImpactAnswer.equals(NOT_ANSWERED)) {
     		YesNoDataType.Enum answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y
     				.equals(environmentalImpactAnswer) ? YesNoDataType.Y_YES
     				: YesNoDataType.N_NO;
@@ -226,7 +227,7 @@ public class RROtherProjectInfoV1_3Generator extends
 		}
 		EnvironmentalImpact.EnvironmentalExemption environmentalExemption = EnvironmentalImpact.EnvironmentalExemption.Factory
         .newInstance();
-		if (ynqAnswer != null) {
+		if (ynqAnswer != null && !ynqAnswer.equals(NOT_ANSWERED)) {
     		if (!S2SConstants.PROPOSAL_YNQ_ANSWER_NA.equals(ynqAnswer)) {
     			// Answer not equal to X (not-applicable)			
     			environmentalExemption.setEnvironmentalExemptionIndicator(answer);
@@ -263,7 +264,7 @@ public class RROtherProjectInfoV1_3Generator extends
     				internationalActivitiesAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
     		answerExplanation = getAnswers(INTERNATIONAL_ACTIVITIES_EXPL);
     		internationalActivities.setInternationalActivitiesIndicator(answer);
-    		if (answerExplanation != null) {
+    		if (answerExplanation != null && !answerExplanation.equals(NOT_ANSWERED)) {
     			if (answerExplanation.trim().length() > EXPLANATION_MAX_LENGTH) {
     				internationalActivities
     						.setActivitiesPartnershipsCountries(answerExplanation
