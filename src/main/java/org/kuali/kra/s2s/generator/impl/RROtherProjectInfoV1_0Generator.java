@@ -170,7 +170,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         environmentalImpact.setEnvironmentalImpactIndicator(YesNoDataType.NO);
         internationalActivities.setInternationalActivitiesIndicator(YesNoDataType.NO);
         String propertyInformationAnswer = getAnswers(PROPRIETARY_INFORMATION_INDICATOR);
-        if (propertyInformationAnswer != null) {
+        if (propertyInformationAnswer != null && !propertyInformationAnswer.equals(NOT_ANSWERED)) {
             answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(propertyInformationAnswer) ? YesNoDataType.YES : YesNoDataType.NO;
             rrOtherProjectInfo.setProprietaryInformationIndicator(answer);
         } else {
@@ -183,7 +183,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
        
         answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(environmentalImpactAnswer) ? YesNoDataType.YES : YesNoDataType.NO;
         answerExplanation = getChildQuestionAnswer(ENVIRONMENTAL_IMPACT_YNQ, EXPLANATION); 
-        if (environmentalImpactAnswer != null) {
+        if (environmentalImpactAnswer != null && !environmentalImpactAnswer.equals(NOT_ANSWERED)) {
             environmentalImpact.setEnvironmentalImpactIndicator(answer);              
             if (YesNoDataType.YES.equals(answer) && answerExplanation != null) {           
                 EnvironmentalImpact.EnvironmentalImpactExplanation environmentalImpactExplanation = EnvironmentalImpact.EnvironmentalImpactExplanation.Factory
@@ -208,7 +208,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
             }
             EnvironmentalImpact.EnvironmentalExemption environmentalExemption = EnvironmentalImpact.EnvironmentalExemption.Factory
                 .newInstance();
-            if (environmentalExemptionAnswer != null) {
+            if (ynqAnswer != null && !ynqAnswer.equals(NOT_ANSWERED)) {
                 if (!S2SConstants.PROPOSAL_YNQ_ANSWER_NA.equals(ynqAnswer)) {
                     // Answer not equal to X (not-applicable)
                     
@@ -234,12 +234,12 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         String internationalActivitiesAnswer = getAnswers(INTERNATIONAL_ACTIVITIES_YNQ);
         answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer) ? YesNoDataType.YES : YesNoDataType.NO;
         answerExplanation = getAnswers(INTERNATIONAL_ACTIVITIES_EXPL);
-        if(internationalActivitiesAnswer != null){
+        if (internationalActivitiesAnswer != null && !internationalActivities.equals(NOT_ANSWERED)){
             internationalActivities.setInternationalActivitiesIndicator(answer);
         } else {
             internationalActivities.setInternationalActivitiesIndicator(null);
         }        
-        if (answerExplanation != null) {
+        if (answerExplanation != null && !answerExplanation.equals(NOT_ANSWERED)) {
             InternationalActivities.ActivitiesPartnershipsCountries activitiesPartnershipsCountries = 
                 InternationalActivities.ActivitiesPartnershipsCountries.Factory.newInstance();
             

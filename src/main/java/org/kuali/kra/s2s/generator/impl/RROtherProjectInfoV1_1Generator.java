@@ -79,7 +79,8 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
                 .newInstance();
         rrOtherProjectInfo.setFormVersion(S2SConstants.FORMVERSION_1_1);
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(
-                CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,CoeusSubModule.ZERO_SUBMODULE, true);
+                CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,
+                    CoeusSubModule.ZERO_SUBMODULE, true);
         QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
         answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
         setHumanSubjAndVertebrateAnimals(rrOtherProjectInfo);
@@ -92,7 +93,7 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
         EnvironmentalImpact environmentalImpact = EnvironmentalImpact.Factory.newInstance();
         InternationalActivities internationalActivities = InternationalActivities.Factory.newInstance();
         String propertyInformationAnswer = getAnswers(PROPRIETARY_INFORMATION_INDICATOR);
-        if(propertyInformationAnswer != null){
+        if(propertyInformationAnswer != null && !propertyInformationAnswer.equals(NOT_ANSWERED)){
             answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(propertyInformationAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
             rrOtherProjectInfo.setProprietaryInformationIndicator(answer);
         } else {
@@ -124,7 +125,7 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
             }
             EnvironmentalImpact.EnvironmentalExemption environmentalExemption = EnvironmentalImpact.EnvironmentalExemption.Factory
                 .newInstance();
-            if (ynqAnswer != null) {
+            if (ynqAnswer != null && !ynqAnswer.equals(NOT_ANSWERED)) {
                 if (!S2SConstants.PROPOSAL_YNQ_ANSWER_NA.equals(ynqAnswer)) {
                     // Answer not equal to X (not-applicable)
                     environmentalExemption.setEnvironmentalExemptionIndicator(answer);
@@ -147,7 +148,7 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
             answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
             answerExplanation = getAnswers(INTERNATIONAL_ACTIVITIES_EXPL);
             internationalActivities.setInternationalActivitiesIndicator(answer);
-            if (answerExplanation != null) {
+            if (answerExplanation != null && !answerExplanation.equals(NOT_ANSWERED)) {
                 internationalActivities.setActivitiesPartnershipsCountries(answerExplanation);
                 internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION));
             }
