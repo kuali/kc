@@ -327,7 +327,7 @@
     
     
     <class-descriptor class="org.kuali.kra.iacuc.personnel.IacucProtocolUnit" table="IACUC_PROTOCOL_UNITS">
-        <field-descriptor name="protocolUnitsId" column="IACUC_PROTOCOL_UNITS_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="IACUC_SEQ_PROTOCOL_ID" />
+        <field-descriptor name="protocolUnitsId" column="IACUC_PROTOCOL_UNITS_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_PROTOCOL_ID" />
         <field-descriptor name="protocolPersonId" column="IACUC_PROT_INVESTIGATORS_ID" jdbc-type="INTEGER" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
