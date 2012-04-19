@@ -21,11 +21,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataAction;
+import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -250,33 +256,39 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
    
   
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
-//    /**
-//     * Create the original set of Protocol Users for a new Protocol Document.
-//     * The creator the protocol is assigned to the PROTOCOL_AGGREGATOR role.
-//     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#initialDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
-//     */
-//    @Override
-//    protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
-//        
-//        // Assign the creator of the protocol the AGGREGATOR role.
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument doc = protocolForm.getProtocolDocument();
-//        String userId = GlobalVariables.getUserSession().getPrincipalId();
+  
+    /**
+     * Create the original set of Protocol Users for a new Protocol Document.
+     * The creator the protocol is assigned to the PROTOCOL_AGGREGATOR role.
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#initialDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
+        
+        // Assign the creator of the protocol the AGGREGATOR role.
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument doc = protocolForm.getProtocolDocument();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
 //        kraAuthService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
 //        kraAuthService.addRole(userId, RoleConstants.PROTOCOL_APPROVER, doc.getProtocol()); 
-//        
-//        // Add the users defined in the access control list for the protocol's lead unit
-//        
-//        Permissionable permissionable = protocolForm.getProtocolDocument().getProtocol();
-//        UnitAclLoadService unitAclLoadService = KraServiceLocator.getService(UnitAclLoadService.class);
-//        unitAclLoadService.loadUnitAcl(permissionable);
-//        
+        
+        // Add the users defined in the access control list for the protocol's lead unit
+        
+        Permissionable permissionable = protocolForm.getProtocolDocument().getProtocol();
+        UnitAclLoadService unitAclLoadService = KraServiceLocator.getService(UnitAclLoadService.class);
+        unitAclLoadService.loadUnitAcl(permissionable);
+        
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        sendNotification(protocolForm);
-//    }
-//    
+    }
+    
+    
+
 //    @Override
 //    protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //        ActionForward forward = super.saveOnClose(mapping, form, request, response);
