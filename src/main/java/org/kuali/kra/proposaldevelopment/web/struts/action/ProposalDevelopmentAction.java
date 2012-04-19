@@ -50,6 +50,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -146,8 +147,14 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             if (proposalDevelopmentForm.getDocTypeName() == null || proposalDevelopmentForm.getDocTypeName().equals("")) {
                 proposalDevelopmentForm.setDocTypeName("ProposalDevelopmentDocument");
             }
+            boolean rejectedDocument = false;
+            KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
+            if(proposalDevelopmentForm.getDocument().getDocumentNumber() != null){
+                rejectedDocument = documentRejectionService.isDocumentOnInitialNode(proposalDevelopmentForm.getDocument().getDocumentNumber());
+            }
+             
             KraWorkflowService workflowService = KraServiceLocator.getService(KraWorkflowService.class);
-            if (workflowService.canPerformWorkflowAction(proposalDevelopmentForm.getProposalDevelopmentDocument())) {
+            if (workflowService.canPerformWorkflowAction(proposalDevelopmentForm.getProposalDevelopmentDocument()) && !rejectedDocument) {
 
                 ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
                 proposalDevelopmentForm.setApproverViewDO(approverViewDO);
