@@ -15,16 +15,6 @@
 --%>
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
-
-<script src="scripts/jquery/jquery.js"></script>
-<script type="text/javascript">
-   var $j = jQuery.noConflict();
-   $j(document).ready(function() {
-	   populateSelect('getCoiDispositionStatus', 'coiDisclosureStatusCode', 'coiDispositionCode');
-   });
-</script>
- 
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="coiDisclosureActions"
@@ -34,6 +24,15 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="disclosureActions">
+
+<script type="text/javascript">
+   var $j = jQuery.noConflict();
+   $j(document).ready(function() {
+	   populateSelect('getCoiDispositionStatus', 'coiDisclosureStatusCode', 'coiDispositionCode');
+   });
+</script>
+ 
+
   
    	<div align="right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="disclosureActionsHelp" altText="help"/></div>
   	<%-- TODO : 'data validation' is not in mock.  however, for audit rule consistency, we should

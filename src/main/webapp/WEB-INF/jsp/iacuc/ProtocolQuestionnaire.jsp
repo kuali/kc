@@ -24,7 +24,6 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="iacucQuestionnaire">
   	
-  	<script src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
    var $j = jQuery.noConflict();
 </script>

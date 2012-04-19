@@ -16,21 +16,24 @@
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<kul:documentPage
+    showDocumentInfo="true"
+    htmlFormAction="coiDisclosure"
+    documentTypeName="CoiDisclosureDocument"
+    renderMultipart="true"
+    showTabButtons="true"
+    auditCount="0"
+    headerDispatch="${KualiForm.headerDispatch}"
+    headerTabActive="disclosure"
+    >
 
-
+<link type="text/css" rel="stylesheet" href="krad/plugins/fancybox/jquery.fancybox-1.3.4.css"></link>
+     	<script type="text/javascript" src="krad/plugins/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
     <link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
-        <script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
-         <script type="text/javascript" src="scripts/jquery/jquery.fancybox-1.3.4jh.js"></script>
-        <link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css" media="screen"/>    
-        <style type="text/css">div#fancybox-wrap {top:100px !important;}</style>
+        
+        
         <script type="text/javascript">
             var $j = jQuery.noConflict();
-            // Fancybox calculates the div sizes wrong in Chrome and some other browsers for some reason 
-            //and the grey background image ends up being a tiny bit bigger
-            // this makes Rice JS expand the page, which makes Fancybox try to expand the grey image to cover the entire page and this happens in a loop 
-            // and causes the dropbox to move downward. To prevent this, remove the background grey image completely in Chrome. This also required a modification
-            // of Fancybox code in order to disable dropshadow.
-            $j.fancybox.setup({ dropshadow : true, overlayShow : true });  
             var proposalType;
             var protocolType;
             $j(document).ready(function() {
@@ -72,16 +75,7 @@
 
         </script>
  
-<kul:documentPage
-    showDocumentInfo="true"
-    htmlFormAction="coiDisclosure"
-    documentTypeName="CoiDisclosureDocument"
-    renderMultipart="true"
-    showTabButtons="true"
-    auditCount="0"
-    headerDispatch="${KualiForm.headerDispatch}"
-    headerTabActive="disclosure"
-    >
+
     
 <%-- --%>
 <c:set var="readOnly" value="false" scope="request"/>
