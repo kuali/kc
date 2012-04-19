@@ -59,6 +59,31 @@ public class IacucProtocol extends Protocol {
     private IacucProtocolDocument iacucProtocolDocument;
       
 
+    public IacucProtocol() {
+        
+        // TODO : temporary only; remove this when protocol is ready
+        initializaTestData();
+    } 
+   
+    
+    private void initializaTestData() {
+        // TODO : this is just for plumbing work.  remove it when working on required fields tab.
+//        setSequenceNumber(0);
+//        setProtocolStatusCode("100");
+        setApplicationDate(new Date(new java.util.Date().getTime()));
+        setCreateTimestamp(new Timestamp(new java.util.Date().getTime()));
+        setCreateUser("test");
+        setScientificJustifIndicator("no");
+        setSpecialReviewIndicator("no");
+        setSpeciesStudyGroupIndicator("no");
+        setKeyStudyPersonIndicator("no");
+        setFundingSourceIndicator("no");
+        setCorrespondentIndicator("no");
+        setReferenceIndicator("no");
+        setAlternativeSearchIndicator("no");
+        
+    }
+    
     public Date getApplicationDate() {
         return applicationDate;
     }
