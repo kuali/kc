@@ -133,7 +133,7 @@
         <property name="serviceName" value="versioningService" />
     </bean>
     
-    <bean id="lookupableHelperService" class="org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl" scope="prototype">
+    <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
@@ -152,13 +152,11 @@
     </bean>
 	    
     <bean id="proposalLogLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService">
-            <ref bean="proposalLogLookupableHelperService" />
-        </property>         
+        <property name="lookupableHelperService" ref="proposalLogLookupableHelperService" /> 
     </bean> 
 
     <bean id="proposalLogLookupableHelperService" class="org.kuali.kra.institutionalproposal.proposallog.ProposalLogLookupableHelperServiceImpl" 
-          parent="lookupableHelperService" scope="prototype">
+          parent="parentLookupableHelperService" scope="prototype">
         <property name="documentService" ref="documentService" />
     </bean>
 
@@ -198,15 +196,12 @@
     </bean>
     
     <bean id="institutionalProposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService">
-            <ref bean="institutionalProposalLookupableHelperService" />
-        </property>
+        <property name="lookupableHelperService" ref="institutionalProposalLookupableHelperService" />
     </bean> 
 
     <bean id="institutionalProposalLookupableHelperService" 
-          class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalLookupableHelperServiceImpl" parent="lookupableHelperService" 
+          class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
           scope="prototype">
-        <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
     </bean>
     
