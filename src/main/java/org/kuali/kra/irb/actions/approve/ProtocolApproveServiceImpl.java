@@ -77,7 +77,9 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         
         protocol.setApprovalDate(actionBean.getApprovalDate());
         protocol.setExpirationDate(actionBean.getExpirationDate());
-        
+        if (protocol.isRenewal()) {
+            protocol.setLastApprovalDate(actionBean.getApprovalDate());
+        }
         finalizeReviewsAndSave(protocol, ProtocolActionType.EXPEDITE_APPROVAL, EXPEDITED_APPROVAL_FINALIZE_OLR_ANNOTATION);
         
         protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
