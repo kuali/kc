@@ -32,12 +32,22 @@ import java.util.TreeMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.questionnaire.QuestionnaireQuestion;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -49,9 +59,10 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	private static final int ZERO = 0;
-	private static final String YNQANSWER_29 = "29";
+	private static final String YNQANSWER_121 = "121";
 	private static final Log LOG = LogFactory
 			.getLog(PHS398ChecklistV1_3Generator.class);
+	List<AnswerHeader> answerHeaders;
 
 	/*
 	 * This method returns PHS398ChecklistDocument object based on proposal
@@ -65,8 +76,12 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	private PHS398Checklist13Document getPHS398Checklist() {
 		PHS398Checklist13Document phsChecklistDocument = PHS398Checklist13Document.Factory
 				.newInstance();
-		PHS398Checklist13 phsChecklist = PHS398Checklist13.Factory
-				.newInstance();
+		PHS398Checklist13 phsChecklist = PHS398Checklist13.Factory.newInstance();
+		ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(
+                CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,
+                    CoeusSubModule.ZERO_SUBMODULE, true);
+        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
 		setPhsCheckListBasicProperties(phsChecklist);
 		setFormerPDNameAndIsChangeOfPDPI(phsChecklist);
 		setFormerInstitutionNameAndChangeOfInstitution(phsChecklist);
@@ -85,7 +100,7 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 		} else {
 			phsChecklist.setProgramIncome(YesNoDataType.N_NO);
 		}
-		phsChecklist.setDisclosurePermission(getYNQAnswer(YNQANSWER_29));
+		phsChecklist.setDisclosurePermission(getYNQAnswer(YNQANSWER_121));
 		phsChecklistDocument.setPHS398Checklist13(phsChecklist);
 		return phsChecklistDocument;
 	}
@@ -182,24 +197,35 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	 */
 	private void setIsInventionsAndPatentsAndIsPreviouslyReported(
 			PHS398Checklist13 phsChecklist) {
-		DevelopmentProposal developmentProposal = pdDoc
-				.getDevelopmentProposal();
-		for (ProposalYnq proposalYnq : developmentProposal.getProposalYnqs()) {
-			if (proposalYnq.getQuestionId() != null
-					&& proposalYnq.getQuestionId().equals(
-							PROPOSAL_YNQ_QUESTION_16)) {
-				String answer = proposalYnq.getAnswer();
-				if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
-					phsChecklist.setIsInventionsAndPatents(YesNoDataType.Y_YES);
-					phsChecklist.setIsPreviouslyReported(YesNoDataType.Y_YES);
-				} else if (S2SConstants.PROPOSAL_YNQ_ANSWER_NA.equals(answer)) {
-					phsChecklist.setIsInventionsAndPatents(YesNoDataType.N_NO);
-				} else {
-					phsChecklist.setIsInventionsAndPatents(YesNoDataType.Y_YES);
-					phsChecklist.setIsPreviouslyReported(YesNoDataType.N_NO);
-				}
-			}
-		}
+	    String answer = getAnswer(PROPOSAL_YNQ_QUESTION_118);
+	    boolean hasSubQuestionExplanation = false;
+	    if (answer != null && !answer.equals(NOT_ANSWERED)) {
+    	    if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
+                String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_119);
+                if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(explanation)) {
+                    phsChecklist.setIsInventionsAndPatents(YesNoDataType.Y_YES);
+                    String subQuestionExplanation = getAnswer(PROPOSAL_YNQ_QUESTION_120);
+                    if (subQuestionExplanation != null && !subQuestionExplanation.equals(NOT_ANSWERED)) {
+                        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subQuestionExplanation)) {
+                            phsChecklist.setIsPreviouslyReported(YesNoDataType.Y_YES);
+                        } else {
+                            phsChecklist.setIsPreviouslyReported(YesNoDataType.N_NO);
+                        }
+                        hasSubQuestionExplanation = true;
+                    }                   
+                } else {
+                    phsChecklist.setIsInventionsAndPatents(YesNoDataType.Y_YES);
+                    if (hasSubQuestionExplanation) {
+                        phsChecklist.setIsPreviouslyReported(YesNoDataType.N_NO); 
+                    } 
+                }
+            } else {
+                phsChecklist.setIsInventionsAndPatents(YesNoDataType.N_NO);
+                if (hasSubQuestionExplanation) {
+                    phsChecklist.setIsPreviouslyReported(YesNoDataType.N_NO);
+                }
+            }
+	    }
 	}
 
 	/*
@@ -208,25 +234,17 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	 */
 	private void setFormerInstitutionNameAndChangeOfInstitution(
 			PHS398Checklist13 phsChecklist) {
-		DevelopmentProposal developmentProposal = pdDoc
-				.getDevelopmentProposal();
-		for (ProposalYnq proposalYnq : developmentProposal.getProposalYnqs()) {
-			if (proposalYnq.getQuestionId() != null
-					&& proposalYnq.getQuestionId().equals(
-							PROPOSAL_YNQ_QUESTION_23)) {
-				String answer = proposalYnq.getAnswer();
-				String explanation = proposalYnq.getExplanation();
-
-				if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
-					phsChecklist.setIsChangeOfInstitution(YesNoDataType.Y_YES);
-					if (explanation != null) {
-						phsChecklist.setFormerInstitutionName(explanation);
-					}
-				} else {
-					phsChecklist.setIsChangeOfInstitution(YesNoDataType.N_NO);
-				}
-			}
-		}
+	    String answer = getAnswer(PROPOSAL_YNQ_QUESTION_116);
+        String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_117);
+        
+        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
+            phsChecklist.setIsChangeOfInstitution(YesNoDataType.Y_YES);
+            if (explanation != null) {
+                phsChecklist.setFormerInstitutionName(explanation);
+            }
+        } else {
+            phsChecklist.setIsChangeOfInstitution(YesNoDataType.N_NO);
+        }
 	}
 
 	/*
@@ -234,56 +252,66 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	 * based on condition
 	 */
 	private void setFormerPDNameAndIsChangeOfPDPI(PHS398Checklist13 phsChecklist) {
-		DevelopmentProposal developmentProposal = pdDoc
-				.getDevelopmentProposal();
-		for (ProposalYnq proposalYnq : developmentProposal.getProposalYnqs()) {
-			if (proposalYnq.getQuestionId() != null
-					&& proposalYnq.getQuestionId().equals(
-							PROPOSAL_YNQ_QUESTION_22)) {
-				String answer = proposalYnq.getAnswer();
-				String explanation = proposalYnq.getExplanation();
-
-				if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
-					phsChecklist.setIsChangeOfPDPI(YesNoDataType.Y_YES);
-					if (explanation != null) {
-						HumanNameDataType formerPDName = globLibV20Generator
-								.getHumanNameDataType(explanation);
-						if (formerPDName != null
-								&& formerPDName.getFirstName() != null
-								&& formerPDName.getLastName() != null) {
-							phsChecklist.setFormerPDName(formerPDName);
-						}
-					}
-				} else {
-					phsChecklist.setIsChangeOfPDPI(YesNoDataType.N_NO);
-				}
-			}
-		}
-	}
+		String answer = getAnswer(PROPOSAL_YNQ_QUESTION_114);
+	    String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_115);
+	    if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
+            phsChecklist.setIsChangeOfPDPI(YesNoDataType.Y_YES);
+            if (explanation != null) {
+                BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+                Rolodex rolodex = businessObjectService.findBySinglePrimaryKey(Rolodex.class, explanation); 
+                HumanNameDataType formerPDName = globLibV20Generator
+                        .getHumanNameDataType(rolodex);
+                if (formerPDName != null
+                        && formerPDName.getFirstName() != null
+                        && formerPDName.getLastName() != null) {
+                    phsChecklist.setFormerPDName(formerPDName);
+                }
+            }
+        } else {
+            phsChecklist.setIsChangeOfPDPI(YesNoDataType.N_NO);
+        }
+    }
 
 	/*
 	 * This method will get the YNQ Answer for question id
 	 */
 	private YesNoDataType.Enum getYNQAnswer(String questionID) {
-		YesNoDataType.Enum answerType = null;
-		DevelopmentProposal developmentProposal = pdDoc
-				.getDevelopmentProposal();
-		List<ProposalYnq> proposalYnqList = developmentProposal
-				.getProposalYnqs();
-		if (proposalYnqList != null && !proposalYnqList.isEmpty()) {
-			for (ProposalYnq proposalYnq : proposalYnqList) {
-				if (proposalYnq.getQuestionId() != null) {
-					if (questionID.equals(proposalYnq.getQuestionId())) {
-						String answer = proposalYnq.getAnswer();
-						answerType = "Y".equals(answer) ? YesNoDataType.Y_YES
-								: YesNoDataType.N_NO;
-						break;
-					}
-				}
-			}
-		}
-		return answerType;
+	    YesNoDataType.Enum answerType = null;
+	    String answer = getAnswer(questionID);
+	    if (answer != null && !answer.equals(NOT_ANSWERED)) {
+	        answerType = "Y".equals(answer) ? YesNoDataType.Y_YES
+                : YesNoDataType.N_NO;
+	        return answerType;
+	    } else {
+            return null;
+        }
 	}
+	
+	/**
+     * 
+     * This method is used to get the answer for a particular Questionnaire question
+     * question based on the question id.
+     * 
+     * @param questionId
+     *            the question id to be passed.              
+     * @return returns the answer for a particular
+     *         question based on the question id passed.
+     */
+	private String getAnswer(String questionId) {
+        String answer = null;
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for (AnswerHeader answerHeader : answerHeaders) {
+                List<Answer> answerDetails = answerHeader.getAnswers();
+                for (Answer answers : answerDetails) {
+                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
+                        answer = answers.getAnswer();
+                        return answer;
+                    }
+                }
+            }
+        }
+        return answer;        
+    }
 
 	/**
 	 * This method creates {@link XmlObject} of type
