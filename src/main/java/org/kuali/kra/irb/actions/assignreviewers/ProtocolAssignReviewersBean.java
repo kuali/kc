@@ -25,6 +25,7 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
@@ -63,7 +64,7 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements S
                 currentCommitteeId = committeeId;
                 currentScheduleId = scheduleId;
                 reviewers.clear();
-                if (!StringUtils.isBlank(committeeId) && !StringUtils.isBlank(scheduleId)) {
+                if (!StringUtils.isBlank(committeeId) && (!StringUtils.isBlank(scheduleId) || isExpeditedSubmission(submission))) {
                     List<CommitteeMembership> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
                     for (CommitteeMembership member : members) {
                         reviewers.add(new ProtocolReviewerBean(member));
@@ -124,5 +125,9 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements S
             rightReviewers.add(reviewers.get(i));
         }
         return rightReviewers;
+    }
+    
+    private boolean isExpeditedSubmission(ProtocolSubmission submission) {
+        return submission != null && ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(submission.getProtocolReviewTypeCode());
     }
 }

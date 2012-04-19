@@ -251,7 +251,9 @@
                                                                  Protocol must be enroute in workflow." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Assign Reviewers"
                                                          canPerformAction="${KualiForm.actionHelper.canAssignReviewersUnavailable}" 
-                                                         reason="Protocol must be assigned to a committee and committee schedule.
+                                                         reason="Protocol must be assigned to a committee.
+                                                         		 <p>
+                                                         		 Protocol must be assigned to committee schedule or Protocol review type must be Expedited.
                                                                  <p>
                                                                  Protocol submission status must be Pending or Submitted To Committee.
                                                                  <p>
