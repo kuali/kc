@@ -269,15 +269,6 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         setProtocolStatusCode(getDefaultProtocolStatusCodeHook());
         this.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
         initializeProtocolAttachmentFilter();
-        
-        // TODO : not sure why this method is here.  It looks like a temp method.  commented out to see if it is ok.
-        // I had to remove the comment in front of the following statement. 
-        // By adding the comment, a null pointer exception occurs when navigating to the Protocol Actions tab.
-        //populateTempViewDate();
-
- 
-        
-        
     }
     
     
