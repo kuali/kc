@@ -107,12 +107,20 @@
         <field-descriptor name="scientificJustifIndicator" column="SCIENTIFIC_JUSTIF_INDICATOR" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
         <reference-descriptor name="iacucProtocolDocument" class-ref="org.kuali.kra.iacuc.IacucProtocolDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
+        
         <collection-descriptor name="specialReviews" proxy="true" element-class-ref="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
-        </collection-descriptor>        
+        </collection-descriptor>
+        
+        <collection-descriptor name="protocolPersons" element-class-ref="org.kuali.kra.iacuc.personnel.IacucProtocolPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
+            <orderby name="protocolPersonId" sort="ASC" />
+            <inverse-foreignkey field-ref="protocolId" />
+        </collection-descriptor>
+                
      </class-descriptor>
     
      <class-descriptor class="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReview" table="IACUC_SPECIAL_REVIEW">

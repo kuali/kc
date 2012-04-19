@@ -33,7 +33,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 public class IacucProtocolProtocolAction extends IacucProtocolAction {
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
+// TODO *********commented the code below during IACUC refactoring*********     
 //   private static final String CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY = "confirmDeleteProtocolFundingSource";
  
     /**
@@ -49,7 +49,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         // Following is for protocol lookup - edit protocol
         ProtocolForm protocolForm = (ProtocolForm) form;
 
-// TODO *********uncomment the code below in increments as needed during refactoring*********         
+// TODO *********commented the code below during IACUC refactoring*********         
 //        String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
 //
 //        if (StringUtils.isNotBlank(commandParam) && commandParam.equals(KewApiConstants.DOCSEARCH_COMMAND)
@@ -88,7 +88,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         return super.headerTab(mapping, form, request, response);
     }
 
-// TODO *********uncomment the code below in increments as needed during refactoring********* 
+// TODO *********commented the code below during IACUC refactoring********* 
 //    @Override
 //    protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocument protocolDocument,
 //            Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
@@ -115,7 +115,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     }*/
 
 
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * 
 //     * This method adds an <code>ProtocolParticipant</code> business object to the list of <code>ProtocolParticipants</code>
@@ -196,7 +196,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     
     
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public ActionForward addProtocolReferenceBean(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 //            HttpServletResponse response) throws Exception {
 //        ProtocolForm protocolForm = (ProtocolForm) form;
@@ -461,7 +461,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
 
 
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * 
 //     * Takes care of forwarding to the lookup action.
@@ -526,7 +526,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
         
-// TODO *********uncomment the code below in increments as needed during refactoring*********         
+// TODO *********commented the code below during IACUC refactoring*********         
 //        List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
 //        List<ProtocolFundingSource> deletedProtocolFundingSources = protocolForm.getProtocolHelper().getDeletedProtocolFundingSources();
 //        protocolForm.getProtocolHelper().setNewProtocolFundingSources(protocolForm.getProtocolHelper().findNewFundingSources());
@@ -535,7 +535,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
 
-// TODO *********uncomment the code below in increments as needed during refactoring*********         
+// TODO *********commented the code below during IACUC refactoring*********         
 //        protocolForm.getProtocolHelper().createInitialProtocolAction();
 //        
 //        if (protocolDocument.getProtocol().isNew()) {
@@ -549,7 +549,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     
     
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    private void setDeletedFundingSource(ActionForm form) {
 //        
 //        ProtocolForm protocolForm = (ProtocolForm) form;
@@ -571,7 +571,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         preSaveProtocol(form);        
         ActionForward forward = super.saveOnClose(mapping, form, request, response);
         
-// TODO *********uncomment the code below in increments as needed during refactoring*********         
+// TODO *********commented the code below during IACUC refactoring*********         
  //       if (GlobalVariables.getMessageMap().hasNoErrors()) {
  //           fundingSourceNotification(form);
  //       }
@@ -579,10 +579,9 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         
         return forward;
     }
+
     
-    
-    
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public ActionForward performProtocolAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 //            HttpServletResponse response) throws Exception {
 //        super.docHandler(mapping, form, request, response);

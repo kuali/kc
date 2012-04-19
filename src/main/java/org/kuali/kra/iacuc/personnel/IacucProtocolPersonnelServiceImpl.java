@@ -16,7 +16,13 @@
 package org.kuali.kra.iacuc.personnel;
 
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelServiceImpl;
+import org.kuali.kra.protocol.personnel.ProtocolUnit;
 
 public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImpl implements IacucProtocolPersonnelService {
+
+    @Override
+    protected ProtocolUnit createNewProtocolUnitInstanceHook() {
+        return new IacucProtocolUnit();
+    }
 
 }
