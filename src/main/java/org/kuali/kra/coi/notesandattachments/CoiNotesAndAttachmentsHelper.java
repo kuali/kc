@@ -464,7 +464,8 @@ public class CoiNotesAndAttachmentsHelper {
     private void addNewNotepad(CoiDisclosureNotepad notepad) {
         setUpdateFields(notepad);
         // set notepad to be editable
-        notepad.setEditable(true);
+        notepad.resetUpdateTimestamp();
+        notepad.setEditable(false);
         notepad.setCoiDisclosureId(getCoiDisclosure().getCoiDisclosureId());
         notepad.setCoiDisclosureNumber(getCoiDisclosure().getCoiDisclosureNumber());
         notepad.setSequenceNumber(getCoiDisclosure().getSequenceNumber());        
