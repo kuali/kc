@@ -333,10 +333,7 @@ public abstract class ProtocolHelper implements Serializable {
         }
     }
    
-    
-    
-    
-    // TODO *********code has been moved to base class, should ultimately be removed**********
+  
     public String getPrincipalInvestigatorId() {
         return principalInvestigatorId;
     }
@@ -408,9 +405,7 @@ public abstract class ProtocolHelper implements Serializable {
     public void setLookupUnitNumber(String lookupUnitNumber) {
         this.lookupUnitNumber = lookupUnitNumber;
     }
-    // TODO **********************end************************
-
-    
+ 
     
     
     /**
@@ -419,23 +414,17 @@ public abstract class ProtocolHelper implements Serializable {
      * the unsaved Protocol.
      */
     private void prepareRequiredFields() {
-        
-        // TODO *********code has been moved to base class, should ultimately be removed**********
         Protocol theProtocol = getProtocol();
         if (theProtocol.getProtocolId() == null) {
             findPrincipalInvestigatorIdFromFields();
             findAndSetLeadUnitFromFields();
         } 
-        // TODO **********************end************************
-        
         else {
             resolveRequiredFieldsFromBO();
         }
     }
     
     
-    
-    // TODO *********code has been moved to base class, should ultimately be removed**********
     public boolean isLeadUnitAutoPopulated() {
         return leadUnitAutoPopulated;
     }
@@ -470,8 +459,6 @@ public abstract class ProtocolHelper implements Serializable {
         ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(getProtocol().getProtocolPersons());
         getProtocolPersonnelService().setLeadUnit(createLeadUnit(), principalInvestigator, getProtocol());
     }
-    // TODO **********************end************************
-
     
     
     
@@ -489,6 +476,8 @@ public abstract class ProtocolHelper implements Serializable {
       
     protected abstract String getProtocolCreatedProtocolActionTypeCodeHook();
     
+    
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * Synchronizes the information between this Protocol's Funding Sources and any Institutional Proposal or Award Special Review entries.
 //     */
@@ -525,9 +514,7 @@ public abstract class ProtocolHelper implements Serializable {
 
     // hook method
     protected abstract ProtocolNumberService getProtocolNumberService();
-    
-    
-    // TODO *********code has been moved to base class, should ultimately be removed**********
+ 
     private KcPersonService getPersonService() {
         if(personService == null) {
             personService = KraServiceLocator.getService(KcPersonService.class);
@@ -633,12 +620,7 @@ public abstract class ProtocolHelper implements Serializable {
 
     // hook method
     protected abstract ProtocolPerson createNewProtocolPersonInstanceHook();
-    
-    
-    
- // TODO **********************end************************
-    
-    
+   
     private void resolveRequiredFieldsFromBO() {
         ProtocolPerson pi = getProtocol().getPrincipalInvestigator();
         if (pi !=null){
@@ -657,11 +639,9 @@ public abstract class ProtocolHelper implements Serializable {
         }
     }
     
-    // TODO *********code has been moved to base class, should ultimately be removed**********
     private UnitService getUnitService() {
         return KraServiceLocator.getService(UnitService.class);
     }
-    // TODO **********************end************************
 
     public ProtocolLocation getNewProtocolLocation() {
         return newProtocolLocation;
