@@ -15,8 +15,16 @@
 --%>
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
-<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
+<kul:documentPage
+	showDocumentInfo="true"
+	htmlFormAction="protocolProtocolActions"
+	documentTypeName="ProtocolDocument"
+	renderMultipart="true"
+	showTabButtons="true"
+	auditCount="0"
+  	headerDispatch="${KualiForm.headerDispatch}"
+  	headerTabActive="protocolActions">
+  	
 <script type="text/javascript">
    var $j = jQuery.noConflict();
 </script>
@@ -37,16 +45,6 @@
    .compare { color: #666666 }
    .compare td, .compare th { color:#666666; }
 </style>
-
-<kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="protocolProtocolActions"
-	documentTypeName="ProtocolDocument"
-	renderMultipart="true"
-	showTabButtons="true"
-	auditCount="0"
-  	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="protocolActions">
   	
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol Actions" /></div>
 <kra-irb:protocolRequestAction />

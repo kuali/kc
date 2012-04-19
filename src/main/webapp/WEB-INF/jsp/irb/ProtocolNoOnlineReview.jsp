@@ -16,8 +16,15 @@
 
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
-<script src="scripts/jquery/jquery.js"></script>
+<kul:documentPage
+	showDocumentInfo="true"
+	htmlFormAction="protocolOnlineReviewInactive"
+	documentTypeName="ProtocolOnlineReviewDocument"
+	renderMultipart="true"
+	showTabButtons="true"
+	auditCount="0"
+  	headerDispatch="${KualiForm.headerDispatch}"
+  	headerTabActive="onlineReview">
 <script type="text/javascript">
     var $j = jQuery.noConflict();
 </script>
@@ -36,15 +43,7 @@
    .compare td, .compare th { color:#666666; }
 </style>
 
-<kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="protocolOnlineReviewInactive"
-	documentTypeName="ProtocolOnlineReviewDocument"
-	renderMultipart="true"
-	showTabButtons="true"
-	auditCount="0"
-  	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="onlineReview">
+
 
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />

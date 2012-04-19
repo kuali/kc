@@ -10,14 +10,12 @@
 	type="text/css" />
 <script>var jsContextPath = "${pageContext.request.contextPath}";</script>
 <title>Kuali :: Financial Entities</title>
-<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script>
-<script type="text/javascript" src="scripts/jquery/jquery.fancybox-1.3.4jh.js"></script>
-<link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="krad/plugins/fancybox/jquery.fancybox-1.3.4.css"></link>
+<script type="text/javascript" src="krad/plugins/fancybox/jquery.fancybox-1.3.4.pack.js"></script>     
 
 <script type="text/javascript">
             var $j = jQuery.noConflict();
-        	$j.fancybox.setup({ dropshadow : false, overlayShow : false});  
         	$j(document).ready(function() {       		 
         		        $j('#previousEntry').hide();
        		       		$j(".change2").hide();
