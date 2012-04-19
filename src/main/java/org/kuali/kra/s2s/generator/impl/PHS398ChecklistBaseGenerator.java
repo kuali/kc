@@ -29,12 +29,17 @@ public abstract class PHS398ChecklistBaseGenerator extends S2SBaseFormGenerator 
     protected S2SUtilService s2sUtilService;
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
     protected static final int NARRATIVE_CODE_CERTIFICATIONS_ATTACHMENT = 38;
-    protected static final String PROPOSAL_YNQ_QUESTION_22 = "22";
-    protected static final String PROPOSAL_YNQ_QUESTION_23 = "23";
-    protected static final String PROPOSAL_YNQ_QUESTION_16 = "16";
+    protected static final String PROPOSAL_YNQ_QUESTION_114 = "114";
+    protected static final String PROPOSAL_YNQ_QUESTION_115 = "115";
+    protected static final String PROPOSAL_YNQ_QUESTION_116 = "116";
+    protected static final String PROPOSAL_YNQ_QUESTION_117 = "117";
+    protected static final String PROPOSAL_YNQ_QUESTION_118 = "118";
+    protected static final String PROPOSAL_YNQ_QUESTION_119 = "119";
+    protected static final String PROPOSAL_YNQ_QUESTION_120 = "120";
     protected static final int CERTIFICATIONS_ATTACHMENT_CODE = 38;
     protected static final int PROJECT_INCOME_DESCRIPTION_MAX_LENGTH = 150;
     protected static final int PROPOSAL_TYPE_CODE_6 = 6;
+    public static final String NOT_ANSWERED = "No";
 
     /**
      * 
