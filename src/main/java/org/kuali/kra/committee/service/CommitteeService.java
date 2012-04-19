@@ -61,6 +61,13 @@ public interface CommitteeService {
     public List<CommitteeMembership> getAvailableMembers(String committeeId, String scheduleId);
     
     /**
+     * Get the active members in a committee.
+     * @param committeeId the committee's id
+     * @return the list of active members on the committee now
+     */
+    public List<CommitteeMembership> getAvailableMembersNow(String committeeId);
+    
+    /**
      * Get the committee schedule.
      * @param committee the committee to search
      * @param scheduleId the id of the schedule to find

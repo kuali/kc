@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 
@@ -34,7 +35,7 @@ public class ProtocolAssignReviewersUnavailableAuthorizer extends ProtocolAuthor
         Protocol protocol = task.getProtocol();
         return (!kraWorkflowService.isDocumentOnNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) ||
                 !isPendingOrSubmittedToCommittee(protocol) ||
-                !isInSchedule(protocol)) &&
+                !(isInSchedule(protocol) || isExpeditedSubmission(protocol))) &&
                hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 
@@ -74,4 +75,14 @@ public class ProtocolAssignReviewersUnavailableAuthorizer extends ProtocolAuthor
         }
         return null;
     }
+    /**
+     * Is the submission expedited?
+     * @param protocol
+     * @return
+     */
+    private boolean isExpeditedSubmission(Protocol protocol) {
+        ProtocolSubmission submission = findSubmission(protocol);
+        return submission != null && ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(submission.getProtocolReviewTypeCode());
+    }
+
 }
