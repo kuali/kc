@@ -45,7 +45,6 @@
 
 
 
-<script src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
    var $j = jQuery.noConflict();
    $j(document).ready(function () {

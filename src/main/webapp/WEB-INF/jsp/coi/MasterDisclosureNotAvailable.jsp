@@ -16,12 +16,16 @@
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-
-
-        <script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
-         <script type="text/javascript" src="scripts/jquery/jquery.fancybox-1.3.4jh.js"></script>
-        <link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css" media="screen"/>    
-       	<style type="text/css">div#fancybox-wrap {top:100px !important;}</style>
+<kul:documentPage
+	showDocumentInfo="true"
+	htmlFormAction="coiDisclosure"
+	documentTypeName="CoiDisclosureDocument"
+	renderMultipart="false"
+	showTabButtons="true"
+	auditCount="0"
+  	headerDispatch="${KualiForm.headerDispatch}"
+  	headerTabActive="disclosure"
+  	>   
         <script type="text/javascript">
             var $j = jQuery.noConflict();
         	$j(document).ready(function() {
@@ -34,17 +38,7 @@
 
         </script>
  
-<kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="coiDisclosure"
-	documentTypeName="CoiDisclosureDocument"
-	renderMultipart="false"
-	showTabButtons="true"
-	auditCount="0"
-  	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="disclosure"
-  	>
-  	
+
 
 <div align="right"><kul:help documentTypeName="CoiDisclosureDocument" pageName="CoiDisclosure" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />

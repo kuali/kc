@@ -47,7 +47,6 @@
         extraButtonAlt="${extraButtonAlt}"
         viewOnly="${KualiForm.editingMode['viewOnly']}" />
        
-    <script type="text/javascript" src="scripts/jquery/jquery.js"></script>      
     <script type="text/javascript">
         var kualiForm = document.forms['KualiForm'];
         var kualiElements = kualiForm.elements;
