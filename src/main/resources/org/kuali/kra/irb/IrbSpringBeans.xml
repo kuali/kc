@@ -559,7 +559,7 @@
     </bean> 
 
     <bean id="protocolLookupableHelperService" class="org.kuali.kra.irb.ProtocolLookupableHelperServiceImpl" 
-        scope="prototype" parent="lookupableHelperService">
+        scope="prototype" parent="parentLookupableHelperService">
         <property name="protocolDao">
             <ref bean="protocolDao" />
         </property>
@@ -593,7 +593,7 @@
     </bean> 
     
 	<bean id="protocolOnlineReviewLookupableHelperService" class="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewLookupableHelperServiceImpl" 
-        scope="prototype" parent="lookupableHelperService">
+        scope="prototype" parent="parentLookupableHelperService">
         <property name="protocolOnlineReviewDao">
             <ref bean="protocolOnlineReviewDao" />
         </property>
@@ -611,7 +611,7 @@
         </property>         
     </bean> 
     <bean id="protocolSubmissionLookupableHelperService" class="org.kuali.kra.irb.ProtocolSubmissionLookupableHelperServiceImpl" 
-        scope="prototype" parent="lookupableHelperService">
+        scope="prototype" parent="parentLookupableHelperService">
         <property name="protocolSubmitActionService">
             <ref bean="protocolSubmitActionService" />
         </property>

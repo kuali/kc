@@ -60,7 +60,7 @@
   		</property>
 	</bean>
 	
-    <bean id="financialEntityLookupableHelperService" class="org.kuali.kra.coi.lookup.FinancialEntityLookupableHelper" parent="lookupableHelperService" scope="prototype">
+    <bean id="financialEntityLookupableHelperService" class="org.kuali.kra.coi.lookup.FinancialEntityLookupableHelper" parent="parentLookupableHelperService" scope="prototype">
     	
     </bean>
     
@@ -70,7 +70,7 @@
   		</property>
 	</bean>
 	
-    <bean id="coiEventDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiEventDisclosureLookupableHelper" parent="lookupableHelperService" scope="prototype">
+    <bean id="coiEventDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiEventDisclosureLookupableHelper" parent="parentLookupableHelperService" scope="prototype">
     </bean>
     
     
@@ -80,7 +80,7 @@
   		</property>
 	</bean>
     
-    <bean id="coiDisclosureEventTypeLookupableHelperService" class="org.kuali.kra.coi.maintenance.CoiDisclosureEventTypeLookupableHelper" parent="lookupableHelperService" scope="prototype">
+    <bean id="coiDisclosureEventTypeLookupableHelperService" class="org.kuali.kra.coi.maintenance.CoiDisclosureEventTypeLookupableHelper" parent="parentLookupableHelperService" scope="prototype">
     </bean>
     
     
@@ -90,7 +90,7 @@
   		</property>
 	</bean>
 	
-    <bean id="coiSubmittedDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiSubmittedDisclosureLookupableHelper" parent="lookupableHelperService" scope="prototype">
+    <bean id="coiSubmittedDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiSubmittedDisclosureLookupableHelper" parent="parentLookupableHelperService" scope="prototype">
     </bean>
     
     <bean id="coiNonProjectEventDisclosureLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -99,7 +99,7 @@
   		</property>
 	</bean>
 	
-    <bean id="coiNonProjectEventDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiNonProjectEventDisclosureLookupableHelper" parent="lookupableHelperService" scope="prototype">
+    <bean id="coiNonProjectEventDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiNonProjectEventDisclosureLookupableHelper" parent="parentLookupableHelperService" scope="prototype">
     </bean>
     
     <bean id="coiAnnualEventDisclosureLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -108,7 +108,7 @@
   		</property>
 	</bean>
 	
-    <bean id="coiAnnualEventDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiAnnualEventDisclosureLookupableHelper" parent="lookupableHelperService" scope="prototype">
+    <bean id="coiAnnualEventDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiAnnualEventDisclosureLookupableHelper" parent="parentLookupableHelperService" scope="prototype">
     </bean>
     
     <bean id="coiDisclosureReviewsLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -117,7 +117,7 @@
   		</property>
 	</bean>
 	
-    <bean id="coiDisclosureReviewsLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiDisclosureReviewsLookupableHelper" parent="lookupableHelperService" scope="prototype">
+    <bean id="coiDisclosureReviewsLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiDisclosureReviewsLookupableHelper" parent="parentLookupableHelperService" scope="prototype">
     </bean>
     
     <bean id="coiDisclosureUndisclosedEventsLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -126,7 +126,7 @@
   		</property>
 	</bean>
 	
-    <bean id="coiDisclosureUndisclosedEventsLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiDisclosureUndisclosedEventsLookupableHelper" parent="lookupableHelperService" scope="prototype">
+    <bean id="coiDisclosureUndisclosedEventsLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiDisclosureUndisclosedEventsLookupableHelper" parent="parentLookupableHelperService" scope="prototype">
       	  <property name="coiDisclosureService" ref="coiDisclosureService" />
     </bean>
     
@@ -256,7 +256,7 @@
     </bean> 
 	
 	<bean id="coiDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiDisclosureLookupableHelperServiceImpl" 
-        scope="prototype" parent="lookupableHelperService">
+        scope="prototype" parent="parentLookupableHelperService">
     </bean>
 
 </beans>

@@ -48,12 +48,6 @@
 		</property>
 	</bean>
 
-	<bean id="parentBudgetAuthorizer" abstract="true">
-        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="kraWorkflowService" ref="kraWorkflowService" />
-        <property name="kcPersonService" ref="kcPersonService" />
-        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
-    </bean>
 	<bean id="budgetLockService" class="org.kuali.kra.budget.service.impl.BudgetLockServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
@@ -136,21 +130,6 @@
     <bean id="pessimisticLockService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="pessimisticLockService" />
     </bean>
-    
-	<bean id="awardBudgetService"  class="org.kuali.kra.award.budget.AwardBudgetServiceImpl">
-        <property name="budgetService" ref="budgetService" />
-		<property name="parameterService" ref="parameterService" />
-		<property name="businessObjectService" ref="businessObjectService" />
-        <property name="documentService" ref="documentService" />
-        <property name="budgetSummaryService" ref="budgetSummaryService" />
-        <property name="budgetCalculationService" ref="budgetCalculationService" />
-        <property name="awardBudgetCalculationService" ref="awardBudgetCalculationService" />
-        <property name="versionHistoryService" ref="versionHistoryService" />
-	</bean>
-	
-	<bean id="awardBudgetCalculationService" class="org.kuali.kra.award.budget.calculator.AwardBudgetCalculationServiceImpl" 
-		  parent="budgetCalculationService"/>
-
 	
 	<bean id="jobCodeService" class="org.kuali.kra.budget.personnel.JobCodeServiceImpl">
 		<property name="businessObjectService">
@@ -179,54 +158,6 @@
 		</property>
 	</bean>
 
-    <!-- Budget Authorizers -->
-    
-    <bean id="awardBudgetTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
-        <property name="groupName" value="awardBudget" />
-        <property name="taskAuthorizers">
-            <list>
-                <bean class="org.kuali.kra.award.budget.document.authorizer.ModifyAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="modifyBudget" />
-                </bean>
-                
-                <bean class="org.kuali.kra.award.budget.document.authorizer.ViewAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="viewBudget" />
-                </bean>
-                
-                <bean class="org.kuali.kra.award.budget.document.authorizer.SubmitAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="submitToWorkflow" />
-                </bean>
-                
-                <bean class="org.kuali.kra.award.budget.document.authorizer.ApproveAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="approveAwardBudget" />
-                </bean>
-
-                <bean class="org.kuali.kra.award.budget.document.authorizer.ApproveAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="disapproveAwardBudget" />
-                </bean>
-                
-                <bean class="org.kuali.kra.award.budget.document.authorizer.PostAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="postAwardBudget" />
-                </bean>
-                <bean class="org.kuali.kra.award.budget.document.authorizer.ToggleAwardBudgetStatusAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="toggleAwardBudgetStatus" />
-                </bean>
-                 
-                <bean class="org.kuali.kra.award.budget.document.authorizer.RejectAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="rejectBudget" />
-                    <property name="requiresWritableDoc" value="true"/>
-                    <property name="kraDocumentRejectionService" ref="kraDocumentRejectionService"/>
-                </bean>
-                <bean class="org.kuali.kra.award.budget.document.authorizer.CancelAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="cancelBudget" />
-                    <property name="requiresWritableDoc" value="true"/>
-                    <property name="kraDocumentRejectionService" ref="kraDocumentRejectionService"/>
-                </bean>                
-                 
-            </list>
-        </property>
-    </bean>
-
 	<bean id="budgetModularService" class="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularServiceImpl">
 		<property name="parameterService">
 			<ref bean="parameterService" />
@@ -243,7 +174,7 @@
 	</bean>	
 
 	<bean id="budgetExpenseLookupableHelperService" class="org.kuali.kra.lookup.BudgetExpenseLookupableHelperServiceImpl" 
- 		scope="prototype" parent="lookupableHelperService">
+ 		scope="prototype" parent="parentLookupableHelperService">
   	</bean>
   	
 	<bean id="objectCodeToBudgetCategoryCodeService" class="org.kuali.kra.service.impl.ObjectCodeToBudgetCategoryCodeServiceImpl">
@@ -259,7 +190,7 @@
 	</bean>	
 	
 	<bean id="onOffCampusLookupableHelperServiceImpl" class="org.kuali.kra.lookup.OnOffCampusLookupableHelperServiceImpl" 
- 		scope="prototype" parent="lookupableHelperService">
+ 		scope="prototype" parent="parentLookupableHelperService">
   	</bean>
   	
 	<bean id="activeFlagLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -269,7 +200,7 @@
 	</bean>	
 	
 	<bean id="activeFlagLookupableHelperServiceImpl" class="org.kuali.kra.lookup.ActiveFlagLookupableHelperServiceImpl" 
- 		scope="prototype" parent="lookupableHelperService">
+ 		scope="prototype" parent="parentLookupableHelperService">
   	</bean>
   	
   	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" scope="prototype" />
@@ -401,7 +332,7 @@
   		</property>  		
 	</bean>	
 	<bean id="budgetPeriodLookupableHelperService" class="org.kuali.kra.lookup.BudgetPeriodLookupableHelperServiceImpl" 
- 		scope="prototype" parent="lookupableHelperService"> 
+ 		scope="prototype" parent="parentLookupableHelperService"> 
  		<property name="awardBudgetService" ref="awardBudgetService"/>
   	</bean>		
   	

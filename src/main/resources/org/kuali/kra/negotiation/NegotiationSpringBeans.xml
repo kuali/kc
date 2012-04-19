@@ -150,7 +150,7 @@
         <property name="serviceName" value="unitAuthorizationService" />
     </bean>
     
-    <bean id="lookupableHelperService" class="org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl" scope="prototype">
+    <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
@@ -177,7 +177,8 @@
         <property name="lookupableHelperService" ref="negotiationLookupableHelperService" />
     </bean>
     
-    <bean id="negotiationLookupableHelperService" class="org.kuali.kra.negotiations.lookup.NegotiationLookupableHelperServiceImpl">
+    <bean id="negotiationLookupableHelperService" class="org.kuali.kra.negotiations.lookup.NegotiationLookupableHelperServiceImpl" 
+          parent="parentLookupableHelperService" scope="prototype">
         <property name="negotiationDao" ref="negotiationDao" />
     </bean>
     

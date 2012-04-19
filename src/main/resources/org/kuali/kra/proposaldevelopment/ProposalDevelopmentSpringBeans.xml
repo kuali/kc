@@ -210,7 +210,7 @@
         <property name="serviceName" value="ynqService" />
     </bean>
     
-    <bean id="lookupableHelperService" class="org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl" scope="prototype">
+    <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
@@ -239,7 +239,7 @@
 	</bean>
 	
     <bean id="proposalDevelopmentLookupableHelperService" class="org.kuali.kra.proposaldevelopment.service.impl.DevelopmentProposalLookupableHelperServiceImpl" 
-          parent="lookupableHelperService" scope="prototype">
+          parent="parentLookupableHelperService" scope="prototype">
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
     </bean>
     
