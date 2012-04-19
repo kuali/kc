@@ -201,6 +201,9 @@ public class CommitteeServiceImpl implements CommitteeService {
      * @see org.kuali.kra.committee.service.CommitteeService#getAvailableMembers(java.lang.String, java.lang.String)
      */
     public List<CommitteeMembership> getAvailableMembers(String committeeId, String scheduleId) {
+        if (StringUtils.isBlank(scheduleId)) {
+            return getAvailableMembersNow(committeeId);
+        }
         List<CommitteeMembership> availableMembers = new ArrayList<CommitteeMembership>();
         Committee committee = getCommitteeById(committeeId);
         if (committee != null) {
@@ -211,6 +214,24 @@ public class CommitteeServiceImpl implements CommitteeService {
                     if (isMemberAvailable(member, schedule.getScheduledDate())) {
                         availableMembers.add(member);
                     }
+                }
+            }
+        }
+        return availableMembers;
+    }
+    
+    /**
+     * @see org.kuali.kra.committee.service.CommitteeService#getAvailableMembers(java.lang.String, java.lang.String)
+     */
+    public List<CommitteeMembership> getAvailableMembersNow(String committeeId) {
+        List<CommitteeMembership> availableMembers = new ArrayList<CommitteeMembership>();
+        Committee committee = getCommitteeById(committeeId);
+        if (committee != null) {
+            List<CommitteeMembership> members = committee.getCommitteeMemberships();
+            Date currentDate = new Date(); 
+            for (CommitteeMembership member : members) {
+                if (isMemberAvailable(member, currentDate)) {
+                    availableMembers.add(member);
                 }
             }
         }
