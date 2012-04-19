@@ -318,8 +318,6 @@
 		<property name="targetMethod" value="execute" />
 		<property name="concurrent" value="false" />
 	</bean>
-	
-	<!-- Commented out temporarily because of embedded-mode issue
 
 	<bean id="preValidationTrigger"
 		class="org.kuali.kra.s2s.polling.S2SCronTrigger">
@@ -367,9 +365,7 @@
 			</list>
 		</property>
 	</bean>
-	-->
-	<!--  S2S Scheduler configuration end -->
 	
-
+	<!--  S2S Scheduler configuration end -->
 	
 </beans>

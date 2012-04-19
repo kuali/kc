@@ -36,6 +36,8 @@
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
                            
+    <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
+    <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
     <import resource="classpath:org/kuali/kra/core/CommonSpringBeans.xml" />
     
     <bean id="awardModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
@@ -96,6 +98,10 @@
     
     <bean id="kraLookupDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kraLookupDao" />
+    </bean>
+    
+    <bean id="kcNotificationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcNotificationService" />
     </bean>
     
     <bean id="kcPersonService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
@@ -728,8 +734,6 @@
         </property>
     </bean>
     
-    <!-- Commented out temporarily because of embedded-mode issue -->
-    <!--
     <bean id="cfdaTrigger" class="org.kuali.kra.external.Cfda.CfdaCronTrigger">
         <property name="jobDetail" ref="cfdaBatchJobDetail" />
         <property name="parameterService" ref="parameterService" />
@@ -741,9 +745,10 @@
                 <ref local="cfdaTrigger"/>
             </list>
         </property>
-         Injecting these services into the scheduler factory so it can be added to the job context 
-        which is passed to the executeInternal method of the job class.
-        
+        <!-- 
+            Injecting these services into the scheduler factory so it can be added to the job context 
+            which is passed to the executeInternal method of the job class.
+        -->
         <property name= "schedulerContextAsMap">
             <map>
                 <entry key="cfdaService" > 
@@ -755,7 +760,7 @@
                 <entry key="kcNotificationService"> 
                     <ref bean="kcNotificationService" /> 
                 </entry>
-                <entry key="user" value= "${batchJobUserName}" />
+                <entry key="user" value="${batchJobUserName}" />
             </map>
         </property>
         <property name="quartzProperties">
@@ -763,13 +768,13 @@
                 <prop key="org.quartz.jobStore.tablePrefix">${kcQuartzDatabasePrefix}</prop>
             </props>
         </property>
-         Datasource is defined in RiceOverridesSpringbeans.xml 
         <property name="dataSource" ref="dataSource" />
-         This is set to true so that the tables are modified when the job is modified, otherwise
-        manual deletion of values from tables will be required every time job is changed
+        <!--
+            This is set to true so that the tables are modified when the job is modified, otherwise
+            manual deletion of values from tables will be required every time job is changed
+        -->
         <property name="overwriteExistingJobs" value="true" />
      </bean>
-     -->
      
      <!-- Award Task Authorizers -->
      
