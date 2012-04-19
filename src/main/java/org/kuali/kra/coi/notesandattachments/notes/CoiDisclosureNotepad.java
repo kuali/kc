@@ -170,6 +170,11 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
         }     
     }
 
+    public void resetUpdateTimestamp() {
+        Timestamp timestamp = new Timestamp(new java.util.Date().getTime());
+        setUpdateTimestamp(timestamp);
+    }
+    
     @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
         if (updateTimestamp == null || getUpdateTimestamp() == null || isEditable()) {

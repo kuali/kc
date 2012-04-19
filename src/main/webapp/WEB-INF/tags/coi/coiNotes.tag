@@ -29,7 +29,7 @@
 
 	<div class="tab-container" align="center">
     	<h3>
-    		<span class="subhead-left">Notes (${tabItemCount})</span>
+    		<span class="subhead-left"> Notes (${tabItemCount}) </span>
 	   		<span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiNotesAndAttachmentsHelp" altText="help"/></span>
         </h3>
         <table id="coiDisclosure-notepad-table" cellpadding="0" cellspacing="0" summary="Coi Disclosure Notepad">
@@ -167,7 +167,7 @@
 						</td>
 						<td>
 			            	<div align=center><nobr> 
-								<c:if test="${modifyPermission and disclosureEditable and not readOnly}">
+								<c:if test="${modifyPermission and not disclosureEditable and not readOnly}">
 									<html:image property="methodToCall.editNote.line${status.index}.anchor${tabKey}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/>
 								</c:if>
