@@ -55,6 +55,8 @@
         <property name="proposalHierarchyService" ref="proposalHierarchyService" />
     </bean>
     
+    <!-- Proposal Development Budget Task Authorizers -->
+    
     <bean id="parentBudgetAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />

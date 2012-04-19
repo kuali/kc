@@ -64,12 +64,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     
     private boolean includeMainSearchCustomActionUrls;
     private boolean includeMergeCustomActionUrls;
-    private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;

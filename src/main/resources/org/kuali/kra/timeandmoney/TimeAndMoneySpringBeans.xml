@@ -82,7 +82,7 @@
 	
 	<!-- Time and Money Task Authorizers -->
 	
-    <bean id="parentAwardAuthorizer" abstract="true">
+    <bean id="parentTimeAndMoneyAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
         <property name="kcPersonService" ref="kcPersonService" />
@@ -93,16 +93,16 @@
         <property name="groupName" value="timeAndMoney" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.kra.timeandmoney.document.authorizer.ModifyTimeAndMoneyAuthorizer" parent="parentAwardAuthorizer">
+                <bean class="org.kuali.kra.timeandmoney.document.authorizer.ModifyTimeAndMoneyAuthorizer" parent="parentTimeAndMoneyAuthorizer">
                     <property name="taskName" value="modifyTimeAndMoney" />
                 </bean>
                 
-                <bean class="org.kuali.kra.timeandmoney.document.authorizer.ViewTimeAndMoneyAuthorizer" parent="parentAwardAuthorizer">
+                <bean class="org.kuali.kra.timeandmoney.document.authorizer.ViewTimeAndMoneyAuthorizer" parent="parentTimeAndMoneyAuthorizer">
                     <property name="taskName" value="viewTimeAndMoney" />
                 </bean>
                 
                 <!--  Task Authorizer for modifying persons and their roles on an award -->
-                <bean class="org.kuali.kra.timeandmoney.document.authorizer.ModifyTimeAndMoneyPermissionsAuthorizer" parent="parentAwardAuthorizer">
+                <bean class="org.kuali.kra.timeandmoney.document.authorizer.ModifyTimeAndMoneyPermissionsAuthorizer" parent="parentTimeAndMoneyAuthorizer">
                     <property name="taskName" value="modifyTimeAndMoneyRoles" />
                 </bean>
             </list>

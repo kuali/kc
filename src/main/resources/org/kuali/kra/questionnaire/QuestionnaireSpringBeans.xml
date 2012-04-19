@@ -75,7 +75,7 @@
 	</bean>
 
 	<bean id="questionnaireLookupableHelperService" class="org.kuali.kra.questionnaire.QuestionnaireLookupableHelperServiceImpl" 
- 	    scope="prototype" parent="lookupableHelperService">
+ 	    scope="prototype" parent="parentLookupableHelperService">
         <property name="documentService">
             <ref bean="documentService" />
         </property>
@@ -94,7 +94,7 @@
     </bean>
     
     <bean id="questionLookupableHelperService" class="org.kuali.kra.questionnaire.question.QuestionLookupableHelperServiceImpl" 
-         scope="prototype" parent="lookupableHelperService">
+         scope="prototype" parent="parentLookupableHelperService">
         <property name="questionAuthorizationService">
             <ref bean="questionAuthorizationService" />
         </property>
