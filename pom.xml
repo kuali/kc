@@ -650,7 +650,7 @@
         <dependency>
             <groupId>org.directwebremoting</groupId>
             <artifactId>dwr</artifactId>
-            <version>3.0.M1</version>
+            <version>3.0.RC2</version>
             <exclusions>
                 <exclusion>
                     <artifactId>commons-logging</artifactId>
@@ -668,6 +668,10 @@
                     <artifactId>xml-apis</artifactId>
                     <groupId>xml-apis</groupId>
                 </exclusion>
+                <exclusion>
+ 					<groupId>org.mortbay.jetty</groupId>
+  					<artifactId>jetty-util</artifactId>
+  				</exclusion>                
             </exclusions>
         </dependency>
 		<dependency>
@@ -687,11 +691,19 @@
 		    <artifactId>jstl-impl</artifactId>
 		    <version>${jstl.version}</version>
 	        <scope>compile</scope>	
-	         <exclusions>
-		    	<exclusion>
-		    		<groupId>javax.servlet.jsp</groupId>
-		    		<artifactId>jsp-api</artifactId>
-		    	</exclusion>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet.jsp</groupId>
+					<artifactId>jsp-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet.jsp.jstl</groupId>
+					<artifactId>jstl-api</artifactId>
+				</exclusion>
 		    </exclusions>	    
 		</dependency>
 		<dependency>
@@ -716,8 +728,8 @@
 		    		<groupId>xml-apis</groupId>
 		    	</exclusion>
 		    	<exclusion>
-		    		<artifactId>xerces</artifactId>
-		    		<groupId>xercesImpl</groupId>
+		    		<groupId>xerces</groupId>
+		    		<artifactId>xercesImpl</artifactId>
 		    	</exclusion>
 		    	<exclusion>
 		            <groupId>xalan</groupId>
@@ -773,6 +785,10 @@
 					<groupId>xml-apis</groupId>
 					<artifactId>xmlParserAPIs</artifactId>
 				</exclusion>
+		    	<exclusion>
+		    		<groupId>xerces</groupId>
+		    		<artifactId>xercesImpl</artifactId>
+		    	</exclusion>				
 				<exclusion>
                     <groupId>commons-io</groupId>
                     <artifactId>commons-io</artifactId>
@@ -820,6 +836,12 @@
 		    <artifactId>jetty-server</artifactId>
 		    <version>${jetty.version}</version>
 		    <scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>		    
 		</dependency>
 		<dependency>
 		    <groupId>org.eclipse.jetty</groupId>
@@ -1040,6 +1062,10 @@
 					<groupId>org.mortbay.jetty</groupId>
 					<artifactId>servlet-api</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>				
 			</exclusions>
 		</dependency>
 		<dependency>
