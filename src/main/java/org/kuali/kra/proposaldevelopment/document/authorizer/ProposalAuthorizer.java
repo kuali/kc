@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -34,7 +35,7 @@ public abstract class ProposalAuthorizer extends TaskAuthorizerImpl {
      * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
      */
     public final boolean isAuthorized(String userId, Task task) {
-        if (isRequiresWritableDoc() && ((ProposalTask)task).getDocument().isViewOnly()) {
+        if (isRequiresWritableDoc() && ((ProposalTask)task).getDocument().isViewOnly() && task.getTaskName() != null && !StringUtils.equals(task.getTaskName(),"rejectProposal")) {
             return false;
         } else {
             return isAuthorized(userId, (ProposalTask) task);
