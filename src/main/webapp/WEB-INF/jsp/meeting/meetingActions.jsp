@@ -51,7 +51,6 @@
                 src="${pageContext.request.contextPath}/${javascriptFile}"></script>
 </c:if>
 </c:forEach>
-        <script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
         <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script> 
         <script language="JavaScript" type="text/javascript"
 				src="dwr/interface/MeetingService.js"></script>

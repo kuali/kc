@@ -16,8 +16,16 @@
 
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<kul:documentPage
+	showDocumentInfo="true"
+	htmlFormAction="protocolOnlineReview"
+	documentTypeName="ProtocolDocument"
+	renderMultipart="true"
+	showTabButtons="true"
+	auditCount="0"
+  	headerDispatch="${KualiForm.headerDispatch}"
+  	headerTabActive="onlineReview">
 
-<script src="scripts/jquery/jquery.js"></script>
 <script type="text/javascript">
     var $j = jQuery.noConflict();
     
@@ -40,15 +48,6 @@
    .compare td, .compare th { color:#666666; }
 </style>
 
-<kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="protocolOnlineReview"
-	documentTypeName="ProtocolDocument"
-	renderMultipart="true"
-	showTabButtons="true"
-	auditCount="0"
-  	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="onlineReview">
 
 <c:choose>
 	<c:when test = "${KualiForm.editingMode['maintainProtocolOnlineReviews']}">

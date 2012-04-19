@@ -51,21 +51,14 @@
                 src="${pageContext.request.contextPath}/${javascriptFile}"></script>
 </c:if>
 </c:forEach>
-      <!--  <script type="text/javascript" src="scripts/jquery/jquery.js"></script> -->
-        <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script> 
-        <script type="text/javascript" src="scripts/jquery/jquery.fancybox-1.3.4jh.js"></script>
-        <link rel="stylesheet" type="text/css" href="scripts/jquery/fancybox/jquery.fancybox-1.3.4.css"" media="screen"/>    
-       	<style type="text/css">div#fancybox-wrap {top:100px !important;}</style>
-       
-        <script type="text/javascript">
+
+       <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script> 
+       <link type="text/css" rel="stylesheet" href="krad/plugins/fancybox/jquery.fancybox-1.3.4.css"></link>
+       <script type="text/javascript" src="krad/plugins/fancybox/jquery.fancybox-1.3.4.pack.js"></script>     
+       <script type="text/javascript">
         
             var $j = jQuery.noConflict();          
-            // Fancybox calculates the div sizes wrong in Chrome and some other browsers for some reason 
-            //and the grey background image ends up being a tiny bit bigger
-            // this makes Rice JS expand the page, which makes Fancybox try to expand the grey image to cover the entire page and this happens in a loop 
-            // and causes the dropbox to move downward. To prevent this, remove the background grey image completely in Chrome. This also required a modification
-            // of Fancybox code in order to disable dropshadow.
-        	$j.fancybox.setup({ dropshadow : false, overlayShow : false });  
+           
         	$j(document).ready(function() {
         		$j("a#history").fancybox({ 
         			'width':600,
@@ -84,8 +77,7 @@
         		$j("a[href='#top']").click(function() {
         			  $j("html, body").animate({ scrollTop: 0 }, "slow");
         			  return true;
-        		});
-				
+        		});			
         	})
         </script>
     </head>

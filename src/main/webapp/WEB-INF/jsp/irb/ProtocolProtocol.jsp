@@ -17,12 +17,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
-
-<script src="scripts/jquery/jquery.js"></script>
-<script type="text/javascript">
-   var $j = jQuery.noConflict();
-</script>
- 
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="protocolProtocol"
@@ -32,6 +26,12 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="protocol">
+
+<script type="text/javascript">
+   var $j = jQuery.noConflict();
+</script>
+ 
+
   	
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />

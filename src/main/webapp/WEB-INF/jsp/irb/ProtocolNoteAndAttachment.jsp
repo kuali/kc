@@ -16,8 +16,15 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="readOnly" value="${!KualiForm.notesAttachmentsHelper.modifyAttachments}" scope="request" />
-
-<script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
+<kul:documentPage
+	showDocumentInfo="true"
+	htmlFormAction="protocolNoteAndAttachment"
+	documentTypeName="ProtocolDocument"
+	renderMultipart="true"
+	showTabButtons="true"
+	auditCount="0"
+  	headerDispatch="${KualiForm.headerDispatch}"
+  	headerTabActive="noteAndAttachment">
 
 <!--
 "ATTP", "Attachment Type"
@@ -326,15 +333,7 @@
     });
 </script>
 
-<kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="protocolNoteAndAttachment"
-	documentTypeName="ProtocolDocument"
-	renderMultipart="true"
-	showTabButtons="true"
-	auditCount="0"
-  	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="noteAndAttachment">
+
   	
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Notes%20%26%20Attachments" /></div>
 <div id="workarea">
