@@ -231,7 +231,7 @@
 
 	<bean id="committeeLookupableHelperService"
 		class="org.kuali.kra.committee.lookup.CommitteeLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService">
+		scope="prototype" parent="parentLookupableHelperService">
 	</bean>
 
     <bean id="committeeNotificationService" class="org.kuali.kra.committee.service.impl.CommitteeNotificationServiceImpl">
@@ -252,9 +252,8 @@
 	</bean>
 	<bean id="committeeScheduleLookupableHelperService"
 		class="org.kuali.kra.committee.lookup.CommitteeScheduleLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService">
+		scope="prototype" parent="parentLookupableHelperService">
 		<property name="taskAuthorizationService" ref="taskAuthorizationService" />
-		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
 	<bean id="committeeBatchCorrespondenceDao" parent="platformAwareDao"

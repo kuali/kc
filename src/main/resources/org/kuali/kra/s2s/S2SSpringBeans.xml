@@ -56,7 +56,7 @@
 	</bean>	
 
 	<bean id="s2sOpportunityLookupableHelperService" class="org.kuali.kra.lookup.S2sOpportunityLookupableHelperServiceImpl" 
- 		scope="prototype" parent="lookupableHelperService"> 
+ 		scope="prototype" parent="parentLookupableHelperService"> 
  		<property name="s2SService" >
   			<ref bean="s2SService"/>
   		</property>

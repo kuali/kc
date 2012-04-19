@@ -168,7 +168,6 @@
         <property name="serviceNameSpaceURI" value="KC" />
         <property name="beanNames">
             <set>
-                <value>lookupableHelperService</value>
                 <!--
                 <value>docSearchCriteriaDTOLookupable</value>
                 -->
@@ -201,7 +200,6 @@
     <bean id="kcResourceLoader-parentBean" class="org.kuali.kra.rice.KraResourceLoader" abstract="true">
         <property name="overridableServices">
             <set>
-                <value>lookupableHelperService</value>  
                 <!--
                 <value>docSearchCriteriaDTOLookupable</value>
                 -->
@@ -230,7 +228,7 @@
         </property>
     </bean>
     
-    <bean id="lookupableHelperService" class="org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl" scope="prototype">
+    <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
@@ -255,7 +253,7 @@
     
     <bean id="groupLookupable" class="org.kuali.rice.kim.lookup.GroupLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kra.lookup.GroupLookupableHelperServiceImpl" parent="lookupableHelperService">
+            <bean class="org.kuali.kra.lookup.GroupLookupableHelperServiceImpl" parent="parentLookupableHelperService">
                 <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
             </bean>
         </property>
@@ -263,7 +261,7 @@
     
     <bean id="kimPersonLookupable" class="org.kuali.rice.kim.lookup.PersonLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kra.lookup.PersonLookupableHelperServiceImpl" parent="lookupableHelperService">
+            <bean class="org.kuali.kra.lookup.PersonLookupableHelperServiceImpl" parent="parentLookupableHelperService">
                 <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
             </bean>
         </property>
@@ -271,7 +269,7 @@
     
     <bean id="permissionLookupable" class="org.kuali.rice.kim.lookup.PermissionLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kra.lookup.PermissionLookupableHelperServiceImpl" parent="lookupableHelperService">
+            <bean class="org.kuali.kra.lookup.PermissionLookupableHelperServiceImpl" parent="parentLookupableHelperService">
                 <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
             </bean>
         </property>
@@ -296,7 +294,7 @@
     
     <bean id="responsibilityLookupable" class="org.kuali.rice.kim.impl.responsibility.ResponsibilityLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kra.lookup.ResponsibilityLookupableHelperServiceImpl" parent="lookupableHelperService">
+            <bean class="org.kuali.kra.lookup.ResponsibilityLookupableHelperServiceImpl" parent="parentLookupableHelperService">
                 <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
             </bean>
         </property>
@@ -304,7 +302,7 @@
     
     <bean id="roleLookupable" class="org.kuali.rice.kim.lookup.RoleLookupableImpl" scope="prototype">         
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kra.lookup.RoleLookupableHelperServiceImpl" parent="lookupableHelperService" p:roleDao-ref="kimRoleDao">
+            <bean class="org.kuali.kra.lookup.RoleLookupableHelperServiceImpl" parent="parentLookupableHelperService" p:roleDao-ref="kimRoleDao">
                 <property name="multiCampusIdentityService" ref="multiCampusIdentityService" />
             </bean>
         </property>

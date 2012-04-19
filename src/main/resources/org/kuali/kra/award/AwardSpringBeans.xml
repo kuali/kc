@@ -190,7 +190,7 @@
         <property name="serviceName" value="xmlObjectSerializerService" />
     </bean>
     
-    <bean id="lookupableHelperService" class="org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl" scope="prototype">
+    <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
@@ -217,7 +217,8 @@
         <property name="lookupableHelperService" ref="awardLookupableHelperService" />  
     </bean>
     
-    <bean id="awardLookupableHelperService" class="org.kuali.kra.award.lookup.AwardLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
+    <bean id="awardLookupableHelperService" class="org.kuali.kra.award.lookup.AwardLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
+          scope="prototype">
         <property name="kcPersonService" ref="kcPersonService" /> 
         <property name="versionHistoryService" ref="versionHistoryService" />
     </bean>
@@ -226,7 +227,8 @@
         <property name="lookupableHelperService" ref="awardPersonLookupableHelperService" />        
     </bean>
 
-    <bean id="awardPersonLookupableHelperService" class="org.kuali.kra.award.lookup.AwardPersonLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
+    <bean id="awardPersonLookupableHelperService" class="org.kuali.kra.award.lookup.AwardPersonLookupableHelperServiceImpl" 
+          parent="parentLookupableHelperService" scope="prototype">
         <property name="awardPersonDao" ref="awardPersonDao" />
     </bean>
     
@@ -235,7 +237,7 @@
     </bean>
       
     <bean id="awardTemplateLookupableHelperServiceImpl" class="org.kuali.kra.award.lookup.AwardTemplateLookupableHelperServiceImpl" 
-          parent="lookupableHelperService" scope="prototype" />
+          parent="parentLookupableHelperService" scope="prototype" />
           
     <bean id="awardAccountService" class="org.kuali.kra.external.award.impl.AwardAccountServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -460,7 +462,7 @@
         <property name="lookupableHelperService" ref="reportTrackingLookupableHelperService" />
     </bean>     
     
-    <bean id="reportTrackingLookupableHelperService" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
+    <bean id="reportTrackingLookupableHelperService" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingLookupableHelperServiceImpl" parent="parentLookupableHelperService" scope="prototype">
         <property name="reportTrackingDao" ref="reportTrackingDao" />
     </bean>
 
@@ -655,6 +657,10 @@
         </property>
     </bean>
     
+    <bean id="awardSyncBase" abstract="true">
+        <property name="awardSyncUtilityService" ref="awardSyncUtilityService"/>
+    </bean>
+    
     <bean id="awardSyncAwardHelper" class="org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncAwardHelper" parent="awardSyncBase" />
         
     <bean id="awardSyncPersonHelper" class="org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncPersonHelper" parent="awardSyncBase" />
@@ -678,10 +684,6 @@
     <bean id="awardSyncUtilityService" class="org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncUtilityServiceImpl">
         <property name="workflowUtility" ref="workflowDocumentActionsService" />
         <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
-    </bean>
-    
-    <bean id="awardSyncBase" abstract="true">
-        <property name="awardSyncUtilityService" ref="awardSyncUtilityService"/>
     </bean>
     
     <!-- Award CFDA Services -->

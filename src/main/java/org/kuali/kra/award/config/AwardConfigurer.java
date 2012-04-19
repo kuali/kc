@@ -24,7 +24,8 @@ import org.kuali.rice.core.api.config.module.RunMode;
 
 public class AwardConfigurer extends AbstractConfigurer {
 
-    private static final String AWARD_SPRING_BEANS_PATH = "classpath:org/kuali/kra/award/AwardSpringBeans.xml"; 
+    private static final String AWARD_SPRING_BEANS_PATH = "classpath:org/kuali/kra/award/AwardSpringBeans.xml";
+    private static final String AWARD_BUDGET_SPRING_BEANS_PATH = "classpath:org/kuali/kra/budget/AwardBudgetSpringBeans.xml"; 
     private static final String TIME_AND_MONEY_SPRING_BEANS_PATH = "classpath:org/kuali/kra/timeandmoney/TimeAndMoneySpringBeans.xml";
 
     public AwardConfigurer() {
@@ -38,6 +39,7 @@ public class AwardConfigurer extends AbstractConfigurer {
         
         if (RunMode.LOCAL.equals(getRunMode())) {
             springFileLocations.add(AWARD_SPRING_BEANS_PATH);
+            springFileLocations.add(AWARD_BUDGET_SPRING_BEANS_PATH);
             springFileLocations.add(TIME_AND_MONEY_SPRING_BEANS_PATH);
         }
         
