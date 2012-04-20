@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.permissions.web.struts.action.PermissionsAction;
+import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.protocol.ProtocolAction;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -32,7 +33,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolPermissionsAction extends ProtocolAction implements PermissionsAction {
+public class ProtocolPermissionsAction extends IacucProtocolAction implements PermissionsAction {
      
     private ProtocolPermissionsActionHelper permissionsActionHelper = new ProtocolPermissionsActionHelper(this);
     

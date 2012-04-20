@@ -35,63 +35,63 @@
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolProtocolHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Protocol"/>
-                <property name="headerTabNavigateTo" value="iacucProtocol"/>
+                <property name="headerTabNavigateTo" value="protocol"/>
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolPersonnelHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Personnel"/>
-                <property name="headerTabNavigateTo" value="iacucPersonnel"/>
+                <property name="headerTabNavigateTo" value="personnel"/>
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolQuestionnaireHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Questionnaire"/>
-                <property name="headerTabNavigateTo" value="iacucQuestionnaire"/>
+                <property name="headerTabNavigateTo" value="questionnaire"/>
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolCustomDataHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Custom Data"/>
-                <property name="headerTabNavigateTo" value="iacucCustomData"/>
+                <property name="headerTabNavigateTo" value="customData"/>
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolSpecialReviewHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Special Review"/>
-                <property name="headerTabNavigateTo" value="iacucSpecialReview"/>
+                <property name="headerTabNavigateTo" value="specialReview"/>
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolPermissionsHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Permissions"/>
-                <property name="headerTabNavigateTo" value="iacucProtocolPermissions"/>
+                <property name="headerTabNavigateTo" value="permissions"/>
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolNotesAndAttachmentsHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Notes &amp; Attachments"/>
-                <property name="headerTabNavigateTo" value="iacucNoteAndAttachment"/>
+                <property name="headerTabNavigateTo" value="noteAndAttachment"/>
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolActionsHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Iacuc Protocol Actions"/>
-                <property name="headerTabNavigateTo" value="iacucProtocolActions"/>
+                <property name="headerTabNavigateTo" value="protocolActions"/>
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolOnlineReviewHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Online Review"/>
-                <property name="headerTabNavigateTo" value="iacucProtocolOnlineReview"/>
+                <property name="headerTabNavigateTo" value="onlineReview"/>
             </bean>
             
         </list>

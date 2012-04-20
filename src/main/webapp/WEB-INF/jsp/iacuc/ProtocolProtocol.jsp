@@ -16,7 +16,12 @@
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="protocolAttributes" value="${DataDictionary.IacucProtocolDocument.attributes}" />
+<c:set var="protocolDocumentAttributes" value="${DataDictionary.IacucProtocolDocument.attributes}" />
+<c:set var="protocolAttributes" value="${DataDictionary.IacucProtocol.attributes}" />
+<c:set var="textAreaFieldName" value="document.protocolList[0].title" />
+<c:set var="action" value="protocolProtocol" />
+<c:set var="nonEmpFlag" value="false" />
+<c:set var="className" value="org.kuali.kra.iacuc.document.IacucProtocolDocument" />
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="iacucProtocolProtocol"
@@ -35,7 +40,15 @@
 <div align="right"><kul:help documentTypeName="IacucProtocolDocument" pageName="Protocol" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
-<kra-iacuc:iacucProtocolRequiredFields />
+<kra-protocol:protocolRequiredFields
+    protocolDocumentAttributes="${protocolDocumentAttributes}" 
+    protocolAttributes="${protocolAttributes}"
+    textAreaFieldName="${textAreaFieldName}"
+    action="${action}"
+    nonEmpFlag="${nonEmpFlag}"
+    className="${className}"/>
+
+    
 
 <kul:panelFooter />
 	<kul:documentControls 

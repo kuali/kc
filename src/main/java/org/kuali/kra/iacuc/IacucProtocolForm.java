@@ -16,7 +16,10 @@
 package org.kuali.kra.iacuc;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataHelper;
+import org.kuali.kra.iacuc.permission.IacucPermissionsHelper;
+import org.kuali.kra.iacuc.personnel.IacucPersonnelHelper;
 import org.kuali.kra.iacuc.protocol.IacucProtocolHelper;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewHelper;
 import org.kuali.kra.protocol.ProtocolDocument;
@@ -73,4 +76,27 @@ public class IacucProtocolForm extends ProtocolForm {
         return new IacucProtocolHelper((IacucProtocolForm) protocolForm);
     }
     
+    
+    public IacucPermissionsHelper getPermissionsHelper(ProtocolForm protocolForm) {
+        return (IacucPermissionsHelper)super.getPermissionsHelper();
+    }
+    
+    @Override
+    protected IacucPermissionsHelper createNewPermissionsHelperInstanceHook(ProtocolForm protocolForm) {
+        return new IacucPermissionsHelper((IacucProtocolForm) protocolForm);
+    }
+    
+    public IacucPersonnelHelper getPersonnelHelper(ProtocolForm protocolForm) {
+        return (IacucPersonnelHelper)super.getPersonnelHelper();
+    }
+    
+    @Override
+    protected IacucPersonnelHelper createNewPersonnelHelperInstanceHook(ProtocolForm protocolForm) {
+        return new IacucPersonnelHelper((IacucProtocolForm)protocolForm);
+    }
+
+    @Override
+    public String getModuleCode() {
+        return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
+    }
 }
