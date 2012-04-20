@@ -162,5 +162,5 @@ var kualiElements = kualiForm.elements;
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <script type="text/javascript">var $j = jQuery.noConflict();</script>
 <script language="javascript" src="dwr/interface/UnitService.js"></script>
-
+<script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
 </kul:documentPage>
