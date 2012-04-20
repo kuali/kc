@@ -34,6 +34,7 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="CoiDisclosureAttachment-attachmentId" />
+				<ref bean="CoiDisclosureAttachment-typeCode" />
 				<ref bean="CoiDisclosureAttachment-documentId" />
 				<ref bean="CoiDisclosureAttachment-fileId" />
 				<ref bean="CoiDisclosureAttachment-description" />
@@ -49,7 +50,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="CoiDisclosureAttachment-financialEntityId" parent="CoiDisclosureAttachment-financialEntityId-parentBean" />
 	<bean id="CoiDisclosureAttachment-financialEntityId-parentBean" abstract="true" parent="AttributeDefinition" >
 	<property name="name" value="financialEntityId" />
@@ -106,6 +107,23 @@
 		<property name="description" value="Attachment Id" />
 	</bean>
 	
+	<bean id="CoiDisclosureAttachment-typeCode" parent="CoiDisclosureAttachment-typeCode-parentBean" />
+	<bean id="CoiDisclosureAttachment-typeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="typeCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Attachment Type" />
+		<property name="shortLabel" value="Attachment Type" />
+		<property name="maxLength" value="5" />
+		<property name="required" value="true" />
+		<property name="control" >	
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureAttachmentTypeValuesFinder"
+                  p:includeKeyInLabel="false" />
+		</property>
+		<property name="summary" value="Submission Review Type" />
+		<property name="description" value="Submission Review Type" />
+	</bean>	
+
 	<bean id="CoiDisclosureAttachment-contactName" parent="CoiDisclosureAttachment-contactName-parentBean" />
 	<bean id="CoiDisclosureAttachment-contactName-parentBean" abstract="true" parent="AttributeDefinition">
 	  <property name="name" value="contactName" />
