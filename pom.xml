@@ -700,10 +700,6 @@
 					<groupId>javax.servlet.jsp</groupId>
 					<artifactId>jsp-api</artifactId>
 				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet.jsp.jstl</groupId>
-					<artifactId>jstl-api</artifactId>
-				</exclusion>
 		    </exclusions>	    
 		</dependency>
 		<dependency>
