@@ -68,7 +68,7 @@ public class ProtocolSpecialReviewAction extends IacucProtocolAction {
         if (applyRules(new AddSpecialReviewEvent<ProtocolSpecialReview>(document, specialReview, specialReviews, false))) {
             specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
             document.getProtocol().getSpecialReviews().add(specialReview);
-            protocolForm.getSpecialReviewHelper().setNewSpecialReview(new ProtocolSpecialReview());
+            protocolForm.getSpecialReviewHelper().setNewSpecialReview();
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);

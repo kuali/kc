@@ -24,11 +24,20 @@ import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewExemption;
  */
 public class IacucProtocolSpecialReview extends ProtocolSpecialReview {
 
+    private static final long serialVersionUID = 8844844156781463843L;
+
     public IacucProtocol getSequenceOwner() {
         return (IacucProtocol) getSequenceOwner();
     }
 
-    @Override
+    public void resetPersistenceState() {
+        super.resetPersistenceState();
+        for (ProtocolSpecialReviewExemption exemption : getSpecialReviewExemptions()) {
+            exemption.setProtocolSpecialReviewExemptionId(null);
+            exemption.setProtocolSpecialReviewId(null);
+        }
+    }
+
     public ProtocolSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {
         IacucProtocolSpecialReviewExemption protocolSpecialReviewExemption = new IacucProtocolSpecialReviewExemption();
         protocolSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);

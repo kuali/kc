@@ -22,4 +22,11 @@ import org.kuali.kra.iacuc.IacucProtocolAction;
  */
 public class IacucProtocolCustomDataAction extends IacucProtocolAction {
 
+    public String getCustomAttributeNameHook() {
+        return "IacucCustomDataAttribute";
+    }
+
+    public String getCustomAttributeActionNameHook() {
+        return IacucProtocolAction.IACUC_PROTOCOL_CUSTOM_DATA_HOOK;
+    }
 }
