@@ -1096,8 +1096,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         if(!getKraWorkflowService().isInWorkflow(timeAndMoneyDocument)){
             this.save(mapping, form, request, response);
         }
-        
-        AwardDocument awardDocument = timeAndMoneyDocument.getAward().getAwardDocument();
+        AwardDocument awardDocument = (AwardDocument) GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.AWARD_DOCUMENT_STRING_FOR_SESSION);
+        //AwardDocument awardDocument = timeAndMoneyDocument.getAward().getAwardDocument();
         //reload document to make sure we have a valid workflow document
         awardDocument = (AwardDocument) getDocumentService().getByDocumentHeaderId(awardDocument.getDocumentNumber());       
         String routeHeaderId = awardDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();

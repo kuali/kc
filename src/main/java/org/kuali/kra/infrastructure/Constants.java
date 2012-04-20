@@ -762,7 +762,8 @@ public interface Constants {
     public static final String PARAMETER_MODULE_QUESTIONNAIRE = "KC-QUESTIONNAIRE";
     public static final String PARAMETER_COMPONENT_PERMISSION = "P";
     
-    public static final String TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION = "TIME_AND_MONEY";    
+    public static final String TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION = "TIME_AND_MONEY";
+    public static final String AWARD_DOCUMENT_STRING_FOR_SESSION = "returnToAwardDocument";
     public static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
     public static final String KR_EXTERNALIZABLE_IMAGES_URI_KEY = "kr.externalizable.images.url";
     
