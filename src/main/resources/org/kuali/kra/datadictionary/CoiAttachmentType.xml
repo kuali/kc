@@ -56,8 +56,12 @@
     
     <bean id="CoiAttachmentType-description" parent="CoiAttachmentType-description-parentBean"/>
     <bean abstract="true" id="CoiAttachmentType-description-parentBean" parent="KraAttributeReferenceDummy-description">
+        <property name="name" value="description"/>
+        <property name="label" value="Attachment Type"/>
+        <property name="shortLabel" value="Attachment Type"/>
     	<property name="required" value="true"/>
-    <property name="maxLength" value="300"/></bean>
+    	<property name="maxLength" value="300"/>
+    </bean>
 
     <bean id="CoiAttachmentType-versionNumber" parent="CoiAttachmentType-versionNumber-parentBean"/>
     <bean abstract="true" id="CoiAttachmentType-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber"/>

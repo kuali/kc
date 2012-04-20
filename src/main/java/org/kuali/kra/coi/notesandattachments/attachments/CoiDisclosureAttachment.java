@@ -23,10 +23,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.coi.CoiAttachmentType;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureAssociate;
-import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclDet;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -58,6 +58,8 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     private CoiDisclosure originalCoiDisclosure; 
     private String projectName;
     private Long financialEntityId;
+    private String typeCode;
+    private CoiAttachmentType coiAttachmentType;
     private final String MESSAGE_UPDATED_BY = "message.updated.by";
     @SkipVersioning
     private PersonFinIntDisclosure financialEntity;
@@ -193,6 +195,18 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     }
     public String getDocumentStatusCode() {
         return documentStatusCode;
+    }
+    public CoiAttachmentType getCoiAttachmentType() {
+        return coiAttachmentType;
+    }
+    public void setCoiAttachmentType(CoiAttachmentType coiAttachmentType) {
+        this.coiAttachmentType = coiAttachmentType;
+    }
+    public String getTypeCode() {
+        return typeCode;
+    }
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
     }
     public static void addAttachmentToCollection(CoiDisclosureAttachment coiDisclosureAttachment,
             List<CoiDisclosureAttachment> coiDisclosureAttachments) {
