@@ -15,6 +15,9 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:set var="permissionsUserAttributes" value="${DataDictionary.PermissionsUser.attributes}" />
+<c:set var="modifyPermissions" value="${KualiForm.permissionsHelper.modifyPermissions && (empty DocumentPessimisticLockMessages)}" />
+  
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="${KualiForm.actionName}Permissions"
@@ -24,7 +27,13 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="iacucProtocolPermissions">
-  	
-  	Permission page to be implemented.
+
+	
+    <kra-protocol:protocolPermissionsPage 
+           name="${KualiForm.actionName}" 
+           documentTypeName="${KualiForm.docTypeName}"
+           modifyPermissions="${moidfyPermissions}"
+           permissionsUserAttributes="${permissionsUserAttributes}"
+           />
   	
 </kul:documentPage>

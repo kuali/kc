@@ -31,6 +31,7 @@ public interface RoleConstants {
     public static final String AWARD_ROLE_TYPE = Constants.MODULE_NAMESPACE_AWARD;
     public static final String NEGOTIATION_ROLE_TYPE = Constants.MODULE_NAMESPACE_NEGOTIATION;
     public static final String COI_DISCLOSURE_ROLE_TYPE = Constants.MODULE_NAMESPACE_COIDISCLOSURE;
+    public static final String IACUC_ROLE_TYPE = Constants.MODULE_NAMESPACE_IACUC;
 
     // The names of the standard roles as used by KIM to identify a role.
     
@@ -71,6 +72,13 @@ public interface RoleConstants {
     public static final String COI_REVIEWER = "COI Reviewer";
     
     public static final String PI = "PI";
+    
+    public static final String IACUC_PROTOCOL_AGGREGATOR = "IACUC Protocol Aggregator";
+    public static final String IACUC_PROTOCOL_VIEWER = "IACUC Protocol Viewer";
+    public static final String IACUC_PROTOCOL_APPROVER = "IACUC ProtocolApprover";
+    public static final String IACUC_PROTOCOL_UNASSIGNED = "IACUC Protocol Unassigned";
+
+
 }
 
 

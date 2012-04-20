@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
+import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolAction;
@@ -34,7 +35,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 /**
  * This class represents the Struts Action for Special Review page(ProtocolSpecialReview.jsp).
  */
-public class ProtocolSpecialReviewAction extends ProtocolAction {
+public class ProtocolSpecialReviewAction extends IacucProtocolAction {
     
     private static final String CONFIRM_DELETE_SPECIAL_REVIEW_KEY = "confirmDeleteSpecialReview";
     

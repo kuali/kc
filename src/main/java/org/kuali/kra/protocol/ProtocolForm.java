@@ -27,6 +27,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContext;
+import org.kuali.kra.protocol.permission.PermissionsHelper;
+import org.kuali.kra.protocol.personnel.PersonnelHelper;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelper;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
@@ -52,16 +54,18 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     
     
     private ProtocolHelper protocolHelper;
-
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
-//    private PersonnelHelper personnelHelper;
-//    private PermissionsHelper permissionsHelper;
+    private PermissionsHelper permissionsHelper;
+    private PersonnelHelper personnelHelper;
     private ProtocolCustomDataHelper protocolCustomDataHelper;
     private ProtocolSpecialReviewHelper protocolSpecialReviewHelper;
+
+    private NotificationHelper<ProtocolNotificationContext> protocolNotificationHelper;
+
+// TODO *********uncomment the code below in increments as needed during refactoring*********     
+
 //    private ActionHelper actionHelper;
 //    private OnlineReviewsActionHelper onlineReviewsActionHelper;
 //    private QuestionnaireHelper questionnaireHelper;
-    private NotificationHelper<ProtocolNotificationContext> protocolNotificationHelper;
 //    //transient so that the helper and its members don't have to be serializable or transient
 //    //reinitialized in the getter
 //    private transient NotesAttachmentsHelper notesAttachmentsHelper;
@@ -99,9 +103,10 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     public void initialize() throws Exception {
         // hook invocation 
         setProtocolHelper(createNewProtocolHelperInstanceHook(this));
+        setPermissionsHelper(createNewPermissionsHelperInstanceHook(this));
+        setPersonnelHelper(createNewPersonnelHelperInstanceHook(this));
+
 // TODO *********uncomment the code below in increments as needed during refactoring*********         
-//        setPersonnelHelper(new PersonnelHelper(this));
-//        setPermissionsHelper(new PermissionsHelper(this));
 //        setActionHelper(new ActionHelper(this));
 //        setQuestionnaireHelper(new QuestionnaireHelper(this));
 //        setNotesAttachmentsHelper(new NotesAttachmentsHelper(this));
@@ -111,6 +116,9 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     }
 
     protected abstract ProtocolHelper createNewProtocolHelperInstanceHook(ProtocolForm protocolForm);
+    protected abstract PermissionsHelper createNewPermissionsHelperInstanceHook(ProtocolForm protocolForm);
+    protected abstract PersonnelHelper createNewPersonnelHelperInstanceHook(ProtocolForm protocolForm);
+
     
     
 // TODO *********uncomment the code below in increments as needed during refactoring*********     
@@ -298,25 +306,23 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     public ProtocolHelper getProtocolHelper() {
         return protocolHelper;
     }
-
     
-//    private void setPersonnelHelper(PersonnelHelper personnelHelper) {
-//        this.personnelHelper = personnelHelper;
-//    }
-//    
-//    public PersonnelHelper getPersonnelHelper() {
-//        return personnelHelper;
-//    }
-//    
-//    private void setPermissionsHelper(PermissionsHelper permissionsHelper) {
-//        this.permissionsHelper = permissionsHelper;
-//    }
+    private void setPersonnelHelper(PersonnelHelper personnelHelper) {
+        this.personnelHelper = personnelHelper;
+    }
     
-      // TODO change this method after adding permissions helper
-      public PermissionsHelperBase getPermissionsHelper() {
-          return null;
-         // return permissionsHelper;
-      }
+    public PersonnelHelper getPersonnelHelper() {
+        return personnelHelper;
+    }
+    
+    private void setPermissionsHelper(PermissionsHelper permissionsHelper) {
+        this.permissionsHelper = permissionsHelper;
+    }
+    
+    public PermissionsHelper getPermissionsHelper() {
+          return permissionsHelper;
+    }
+    
 //    
 //    public void setNewProtocolReferenceBean(ProtocolReferenceBean newProtocolReferenceBean) {
 //        this.newProtocolReferenceBean = newProtocolReferenceBean;
@@ -339,7 +345,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     public ProtocolCustomDataHelper getProtocolCustomDataHelper() {
         return protocolCustomDataHelper;
     }
-    
+
     public void setProtocolCustomDataHelper(ProtocolCustomDataHelper customDataHelper) {
         this.protocolCustomDataHelper = customDataHelper;
     }
@@ -481,6 +487,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 //        return extraButtons;
 //    }
 //     
+      public abstract String getModuleCode();
 //    public String getModuleCode() {
 //        return CoeusModule.IRB_MODULE_CODE;
 //    }

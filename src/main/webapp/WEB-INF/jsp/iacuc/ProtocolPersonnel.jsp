@@ -31,6 +31,8 @@
   	headerTabActive="iacucPersonnel">
   	
     Personnel page to be implemented
+    <kra-protocol:protocolAddPersonnelSection protocolPersonAttributes="${protocolPersonAttributes}"/>
+    <kra-protocol:protocolPerson protocolPersonAttributes="${protocolPersonAttributes}"/>
 
 <script type="text/javascript">
    var $j = jQuery.noConflict();
