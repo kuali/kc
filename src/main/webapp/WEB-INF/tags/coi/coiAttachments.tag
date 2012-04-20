@@ -40,6 +40,19 @@
 	</h3>
 	<table cellpadding="4" cellspacing="0" summary="">	
 	         	<tr>
+	         		<th>
+	         			<div align="right">
+	         				<kul:htmlAttributeLabel attributeEntry="${attributes.typeCode}" noColon="false"/>
+	         			</div>
+	         		</th>
+	         		<td align="left" valign="middle" colspan="0">
+	                	<div align="left">
+	                        <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.typeCode" 
+    	                                              attributeEntry="${attributes.typeCode}" />
+		            	</div>
+					</td>
+	         	</tr>
+				<tr>
 					<th>
 						<div align="right">
 	         				<kul:htmlAttributeLabel attributeEntry="${attributes.contactName}" noColon="false"/>
@@ -92,11 +105,11 @@
 				attributeEntry="${attributes.financialEntityId}" noColon="false" /></div>
 			</th>
 			<td>        					
-						<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.financialEntityId" attributeEntry="${attributes.financialEntityId}" readOnly="${!modify}"/>                                              
-					</td>
+				<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.financialEntityId" attributeEntry="${attributes.financialEntityId}" readOnly="${!modify}"/>                                              
+			</td>
 					
 					
-	         	</tr>
+	        </tr>
 	         	<tr>
 	         		<th>
 	         			<div align="right">
@@ -269,6 +282,18 @@
 		    		<kul:innerTab tabTitle="${attachment.shortDescription}" parentTab="Coi Disclosure Attachments" defaultOpen="false" tabErrorKey="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*,document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
 					<div class="innerTab-container" align="left">
             		<table class=tab cellpadding=0 cellspacing="0" summary="">
+	         			<tr>
+	         				<th>
+	         					<div align="right">
+	         						<kul:htmlAttributeLabel attributeEntry="${attributes.typeCode}" noColon="false"/>
+	    		     			</div>
+			         		</th>
+	         				<td align="left" valign="middle" colspan="0">
+	    		            	<div align="left">
+			                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].coiAttachmentType.description" attributeEntry="${attributes.contactName}" readOnly="${!modify}"/>
+		        		    	</div>
+							</td>
+			         	</tr>
 			         	<tr>
 							<th>
 								<div align="right">
@@ -277,7 +302,6 @@
 							</th>
 			         		<td align="left" valign="middle">
 			                	<div align="left">
-			                		
 			                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].contactName" attributeEntry="${attributes.contactName}" readOnly="${!modify}"/>
 				            	</div>
 							</td>
