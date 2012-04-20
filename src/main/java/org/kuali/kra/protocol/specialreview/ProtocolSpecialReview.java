@@ -22,7 +22,7 @@ import org.kuali.kra.protocol.Protocol;
 /**
  * Defines a Special Review for a Protocol.
  */
-public class ProtocolSpecialReview extends SpecialReview<ProtocolSpecialReviewExemption> implements SequenceAssociate<Protocol> {
+public abstract class ProtocolSpecialReview extends SpecialReview<ProtocolSpecialReviewExemption> implements SequenceAssociate<Protocol> {
 
     private static final long serialVersionUID = -9010537404528653558L;
 
@@ -66,19 +66,17 @@ public class ProtocolSpecialReview extends SpecialReview<ProtocolSpecialReviewEx
      */
     public void resetPersistenceState() {
         protocolSpecialReviewId = null;
-        for (ProtocolSpecialReviewExemption exemption : getSpecialReviewExemptions()) {
-            exemption.setProtocolSpecialReviewExemptionId(null);
-            exemption.setProtocolSpecialReviewId(null);
-        }
     }
 
-    @Override
-    public ProtocolSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {
-        ProtocolSpecialReviewExemption protocolSpecialReviewExemption = new ProtocolSpecialReviewExemption();
-        protocolSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
-        protocolSpecialReviewExemption.setProtocolSpecialReview(this);
-        return protocolSpecialReviewExemption;
-    }
+    public abstract ProtocolSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode);
+    
+//    @Override
+//    public ProtocolSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {
+//        ProtocolSpecialReviewExemption protocolSpecialReviewExemption = new ProtocolSpecialReviewExemption();
+//        protocolSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
+//        protocolSpecialReviewExemption.setProtocolSpecialReview(this);
+//        return protocolSpecialReviewExemption;
+//    }
 
     @Override
     public int hashCode() {
