@@ -29,15 +29,15 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class IacucProtocolAction extends ProtocolAction {
    
-    public final String IACUC_PROTOCOL_NAME_HOOK = "iacucProtocol";
-    public final String IACUC_PROTOCOL_QUESTIONNAIRE_HOOK = "iacucQuestionnaire";
-    public final String IACUC_PROTOCOL_PERSONNEL_HOOK = "iacucPersonnel";
-    public final String IACUC_PROTOCOL_CUSTOM_DATA_HOOK = "iacucCustomData";
-    public final String IACUC_PROTOCOL_SPECIAL_REVIEW_HOOK = "iacucSpecialReview";
-    public final String IACUC_PROTOCOL_NOTE_ATTACHMENT_HOOK = "iacucNoteAndAttachment";
-    public final String IACUC_PROTOCOL_ACTIONS_HOOK = "iacucProtocolActions";
-    public final String IACUC_PROTOCOL_ONLINE_REVIEW_HOOK = "iacucProtocolOnlineReview";
-    public final String IACUC_PROTOCOL_PERMISSIONS_HOOK = "iacucProtocolPermissions";
+    public static final String IACUC_PROTOCOL_NAME_HOOK = "iacucProtocol";
+    public static final String IACUC_PROTOCOL_QUESTIONNAIRE_HOOK = "iacucQuestionnaire";
+    public static final String IACUC_PROTOCOL_PERSONNEL_HOOK = "iacucPersonnel";
+    public static final String IACUC_PROTOCOL_CUSTOM_DATA_HOOK = "iacucCustomData";
+    public static final String IACUC_PROTOCOL_SPECIAL_REVIEW_HOOK = "iacucSpecialReview";
+    public static final String IACUC_PROTOCOL_NOTE_ATTACHMENT_HOOK = "iacucNoteAndAttachment";
+    public static final String IACUC_PROTOCOL_ACTIONS_HOOK = "iacucProtocolActions";
+    public static final String IACUC_PROTOCOL_ONLINE_REVIEW_HOOK = "iacucProtocolOnlineReview";
+    public static final String IACUC_PROTOCOL_PERMISSIONS_HOOK = "iacucProtocolPermissions";
     
     protected String getProtocolForwardNameHook() {
         return  IACUC_PROTOCOL_NAME_HOOK;
