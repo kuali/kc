@@ -845,7 +845,8 @@ public class AwardAction extends BudgetParentActionBase {
         } else {
             actionForward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
-        
+        //add this to session and leverage in T&M for return to award action.
+        GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.AWARD_DOCUMENT_STRING_FOR_SESSION, awardForm.getAwardDocument());
         return actionForward;
 
     }
