@@ -47,18 +47,18 @@ import org.kuali.rice.kim.api.permission.PermissionQueryResults;
  * The PermissionsHelper is used to manage the Permissions tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
-public class PermissionsHelper extends PermissionsHelperBase {
+public abstract class PermissionsHelper extends PermissionsHelperBase {
     
-    private static final String AGGREGATOR_NAME = "Aggregator";
-    private static final String VIEWER_NAME = "Viewer";
-    private static final String UNASSIGNED_NAME = "unassigned";
+    protected static final String AGGREGATOR_NAME = "Aggregator";
+    protected static final String VIEWER_NAME = "Viewer";
+    protected static final String UNASSIGNED_NAME = "unassigned";
     private static final Log LOG = LogFactory.getLog(PermissionsHelper.class);
 
     //A collection of role names within the namespace that should not be assignable 
     //in the permissions page.
-    private static final Collection<String> excludeRoles;
+    protected Collection<String> excludeRoles = new HashSet<String>();
     
-    
+    /* old way of initializing excluded roles
     static {
         excludeRoles = new HashSet<String>();
         excludeRoles.add(RoleConstants.IRB_PROTOCOL_ONLINE_REVIEWER);
@@ -67,31 +67,44 @@ public class PermissionsHelper extends PermissionsHelperBase {
         excludeRoles.add(RoleConstants.PROTOCOL_APPROVER);
         excludeRoles.add(RoleConstants.ACTIVE_COMMITTEE_MEMBER_ON_PROTOCOL);
     }
+    */
     
     
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
      */
-    private ProtocolForm form;
+    protected ProtocolForm form;
     
     /**
      * Stores mapping of role names to display names.
      */
-    private Map<String, String> displayNameMap = null;
+    protected Map<String, String> displayNameMap = null;
     
     /**
      * Constructs a PermissionsHelper.
      * @param form the form
      */
-    public PermissionsHelper(ProtocolForm form) {
-        super(RoleConstants.PROTOCOL_ROLE_TYPE);
+    public PermissionsHelper(ProtocolForm form, String roleType) {
+        //super(RoleConstants.PROTOCOL_ROLE_TYPE);
+        super(roleType);
         this.form = form;
-    }   
+        
+        initExcludedRolesHook();
+    }
+    
+    /**
+     * 
+     * This method initializes excluded role names within the namespace that should not be assignable 
+     * in the permissions page.
+     */
+    protected abstract void initExcludedRolesHook();
 
     /*
      * Build the mapping of role names to display.
      */
+    protected abstract void buildDisplayNameMap();
+    /*
     private void buildDisplayNameMap() {
         if (displayNameMap == null) {
             displayNameMap = new HashMap<String, String>();
@@ -100,6 +113,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
             displayNameMap.put(RoleConstants.PROTOCOL_UNASSIGNED, UNASSIGNED_NAME);
         }
     }
+    */
 
     @Override
     /*
@@ -120,13 +134,14 @@ public class PermissionsHelper extends PermissionsHelperBase {
     /*
      * Get the Protocol.
      */
-    private Protocol getProtocol() {
+    protected Protocol getProtocol() {
         ProtocolDocument document = form.getProtocolDocument();
         if (document == null || document.getProtocol() == null) {
             throw new IllegalArgumentException("invalid (null) ProtocolDocument in ProtocolForm");
         }
         return document.getProtocol();
     }
+
     
     /**
      * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#getUnassignedRoleName()
@@ -134,15 +149,6 @@ public class PermissionsHelper extends PermissionsHelperBase {
     @Override
     public String getUnassignedRoleName() {
         return RoleConstants.PROTOCOL_UNASSIGNED;
-    }
-
-    /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#isStandardRoleName(java.lang.String)
-     */
-    @Override
-    protected boolean isStandardRoleName(String roleName) {
-        return StringUtils.equals(roleName, RoleConstants.PROTOCOL_AGGREGATOR) ||
-               StringUtils.equals(roleName, RoleConstants.PROTOCOL_VIEWER);
     }
     
     /**
@@ -171,7 +177,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
         List<org.kuali.rice.kim.api.role.Role> kimRoles = getSortedKimRoles(roleType);
         for (org.kuali.rice.kim.api.role.Role kimRole : kimRoles) {
             
-            if ( !excludeRoles.contains(kimRole.getName()) ) {
+            if ( excludeRoles != null && !excludeRoles.contains(kimRole.getName()) ) {
                 QueryByCriteria.Builder queryBuilder = QueryByCriteria.Builder.create();
                 List<Predicate> predicates = new ArrayList<Predicate>();
                 predicates.add(PredicateFactory.equal("rolePermissions.roleId", kimRole.getId()));
@@ -194,12 +200,4 @@ public class PermissionsHelper extends PermissionsHelperBase {
         return kraAuthorizationService.getPersonsInRole(getProtocol(), roleName);
     }
 
-    /**
-     * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#canModifyPermissions()
-     */
-    @Override
-    public boolean canModifyPermissions() {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
 }

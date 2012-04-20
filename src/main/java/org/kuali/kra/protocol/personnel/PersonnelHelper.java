@@ -31,25 +31,28 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class PersonnelHelper implements Serializable {
+public abstract class PersonnelHelper implements Serializable {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -411537473714173061L;
+
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the actual document.
      */
-    private ProtocolForm form;
+    protected ProtocolForm form;
     
-    private boolean modifyPersonnel;
-    private ProtocolPerson newProtocolPerson;
-    private List<ProtocolUnit> newProtocolPersonUnits;
-    private List<ProtocolAttachmentPersonnel> newProtocolAttachmentPersonnels;
-    private boolean personTrainingSectionRequired;
-    private transient ParameterService parameterService;
+    protected boolean modifyPersonnel;
+    protected ProtocolPerson newProtocolPerson;
+    protected List<ProtocolUnit> newProtocolPersonUnits;
+    protected List<ProtocolAttachmentPersonnel> newProtocolAttachmentPersonnels;
+    protected boolean personTrainingSectionRequired;
+    protected transient ParameterService parameterService;
 
     public PersonnelHelper(ProtocolForm form) {
         setForm(form); 
-        //-- commented as part of GENERATED CODE need to verify
-        //setNewProtocolPerson(new ProtocolPerson());
         setNewProtocolPersonUnits(new ArrayList<ProtocolUnit>());
         setNewProtocolAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnel>());
     }    
@@ -61,7 +64,7 @@ public class PersonnelHelper implements Serializable {
 
     }
     
-    private Protocol getProtocol() {
+    protected Protocol getProtocol() {
         ProtocolDocument document = form.getProtocolDocument();
         if (document == null || document.getProtocol() == null) {
             throw new IllegalArgumentException("invalid (null) ProtocolDocument in ProtocolForm");
@@ -73,20 +76,23 @@ public class PersonnelHelper implements Serializable {
         return form.getDocument().getDocumentHeader().getWorkflowDocument().isFinal();
     }
    
-    private void initializePermissions(Protocol protocol) {
+    protected void initializePermissions(Protocol protocol) {
         initializeModifyProtocolPermission(protocol);
     }
 
+    protected abstract void initializeModifyProtocolPermission(Protocol protocol);
+    /*
     private void initializeModifyProtocolPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_PERSONNEL, protocol);
         modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
     }
+    */
     
-    private TaskAuthorizationService getTaskAuthorizationService() {
+    protected TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
     
-    private String getUserIdentifier() {
+    protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
     }
     
@@ -133,15 +139,18 @@ public class PersonnelHelper implements Serializable {
         this.form = form;
     }
 
+    protected abstract void initializeTrainingSection();
+    /*
     private void initializeTrainingSection() {
         setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION)));
     }
+    */
 
     /**
      * This method is to get parameter value
      * @return parameter value
      */
-    private String getParameterValue(String parameterName) {
+    protected String getParameterValue(String parameterName) {
         return this.getParameterService().getParameterValueAsString(ProtocolDocument.class, parameterName);        
     }
 

@@ -195,6 +195,7 @@ public class IacucProtocol extends Protocol {
         return this.getIacucProtocolDocument();
     }
 
+    @Override
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_IACUC;
     }

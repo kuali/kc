@@ -1903,11 +1903,11 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
  
     
     
-    
-    
-    public String getNamespace() {
-        return Constants.MODULE_NAMESPACE_PROTOCOL;
-    }
+    public abstract String getNamespace();    
+// TODO *********commented the code below during IACUC refactoring*********       
+//    public String getNamespace() {
+//        return Constants.MODULE_NAMESPACE_PROTOCOL;
+//    }
     
     /**
      * 

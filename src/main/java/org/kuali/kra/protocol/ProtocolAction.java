@@ -23,16 +23,18 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.protocol.customdata.ProtocolCustomDataAction;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.protocol.customdata.ProtocolCustomDataAction;
+import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -64,18 +66,26 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         
         return forward;
     }
-    
+
+
     
     // TODO invoke these hooks at appropriate points in action methods to get the actual forward name from the subclasses
     protected abstract String getProtocolForwardNameHook();
+    
     protected abstract String getQuestionnaireForwardNameHook();
+    
     protected abstract String getPersonnelForwardNameHook();
     protected abstract String getNoteAndAttachmentForwardNameHook();
+
     protected abstract String getProtocolActionsForwardNameHook();
+
     protected abstract String getProtocolOnlineReviewForwardNameHook();
+    
     protected abstract String getProtocolPermissionsForwardNameHook();
     protected abstract String getCustomAttributeMappingHook();
     protected abstract String getSpecialReviewForwardNameHook();
+    
+    
     
     public ActionForward protocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((ProtocolForm)form).getProtocolHelper().prepareView();
@@ -83,21 +93,20 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return mapping.findForward(getProtocolForwardNameHook());
     }
 
-    
-    
+    public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((ProtocolForm)form).getPermissionsHelper().prepareView();
+        return mapping.findForward(getProtocolPermissionsForwardNameHook());
+    }    
+
+    public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        getProtocolPersonnelService().selectProtocolUnit(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());
+        getProtocolPersonTrainingService().updatePersonTrained(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());
+        ((ProtocolForm)form).getPersonnelHelper().prepareView();
+        return mapping.findForward(getPersonnelForwardNameHook());
+    }    
 // TODO *********uncomment the code below in increments as needed during refactoring*********    
 //    
-//    public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        getProtocolPersonnelService().selectProtocolUnit(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());
-//        getProtocolPersonTrainingService().updatePersonTrained(((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons());
-//        ((ProtocolForm)form).getPersonnelHelper().prepareView();
-//        return mapping.findForward("personnel");
-//    }
-//    
-//    public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ((ProtocolForm)form).getPermissionsHelper().prepareView();
-//        return mapping.findForward("permissions");
-//    }
+
 //    
 //    /**
 //     * This method gets called upon navigation to Questionnaire tab.
@@ -254,9 +263,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         //do nothing
     }
-   
-  
-  
+
+
     /**
      * Create the original set of Protocol Users for a new Protocol Document.
      * The creator the protocol is assigned to the PROTOCOL_AGGREGATOR role.
@@ -264,31 +272,40 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      */
     @Override
     protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
-        
-        // Assign the creator of the protocol the AGGREGATOR role.
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument doc = protocolForm.getProtocolDocument();
-        String userId = GlobalVariables.getUserSession().getPrincipalId();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-//        kraAuthService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
-//        kraAuthService.addRole(userId, RoleConstants.PROTOCOL_APPROVER, doc.getProtocol()); 
-        
-        // Add the users defined in the access control list for the protocol's lead unit
-        
-        Permissionable permissionable = protocolForm.getProtocolDocument().getProtocol();
-        UnitAclLoadService unitAclLoadService = KraServiceLocator.getService(UnitAclLoadService.class);
-        unitAclLoadService.loadUnitAcl(permissionable);
-        
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        sendNotification(protocolForm);
-    }
-    
-    
+      
+      // Assign the creator of the protocol the AGGREGATOR role.
+     
+      ProtocolForm protocolForm = (ProtocolForm) form;
+      ProtocolDocument doc = protocolForm.getProtocolDocument();
+      String userId = GlobalVariables.getUserSession().getPrincipalId();
+      
+//    TODO *********commented the code below during IACUC refactoring*********         
+//    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+//    kraAuthService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
+//    kraAuthService.addRole(userId, RoleConstants.PROTOCOL_APPROVER, doc.getProtocol());       
+      initialDocumentSaveAddRolesHook(userId, doc.getProtocol());
+      
+      // Add the users defined in the access control list for the protocol's lead unit
+      Permissionable permissionable = protocolForm.getProtocolDocument().getProtocol();
+      UnitAclLoadService unitAclLoadService = getUnitAclLoadService();
+      unitAclLoadService.loadUnitAcl(permissionable);
 
+      // TODO *********commented the code below during IACUC refactoring*********               
+      //sendNotification(protocolForm);
+   }
+    
+    /**
+     * 
+     * This method is used in conjunction with initialDocumentSave to populuate the 
+     * appropriate roles for the given protocl (iacuc or irb).
+     * @param userId
+     * @param protocol
+     */
+    protected abstract void initialDocumentSaveAddRolesHook(String userId, Protocol protocol);
+  
+// TODO *********uncomment the code below in increments as needed during refactoring*********     
+
+//    
 //    @Override
 //    protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //        ActionForward forward = super.saveOnClose(mapping, form, request, response);
@@ -566,4 +583,28 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
 //    }
 // TODO **********************end************************  
 
+    
+    protected KraAuthorizationService getKraAuthorizationService() {
+        return KraServiceLocator.getService(KraAuthorizationService.class);
+    }
+    
+    protected UnitAclLoadService getUnitAclLoadService() {
+        return KraServiceLocator.getService(UnitAclLoadService.class);
+    }
+
+    /**
+     * This method is to get protocol personnel service
+     * @return ProtocolPersonnelService
+     */
+    protected ProtocolPersonnelService getProtocolPersonnelService() {
+        return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
+    }
+    
+    /**
+     * This method is to get protocol personnel training service
+     * @return ProtocolPersonTrainingService
+     */
+    private ProtocolPersonTrainingService getProtocolPersonTrainingService() {
+        return (ProtocolPersonTrainingService)KraServiceLocator.getService("protocolPersonTrainingService");
+    }    
 }
