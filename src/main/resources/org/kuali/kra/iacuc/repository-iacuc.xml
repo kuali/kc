@@ -124,7 +124,7 @@
      </class-descriptor>
     
      <class-descriptor class="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReview" table="IACUC_SPECIAL_REVIEW">
-        <field-descriptor name="protocolSpecialReviewId" column="IACUC_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_SPECIAL_REVIEW_ID"/>
+        <field-descriptor name="protocolSpecialReviewId" column="IACUC_PROT_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_PROT_SPECIAL_REVIEW_ID"/>
         <field-descriptor name="protocolId" column="IACUC_ID" jdbc-type="BIGINT" access="anonymous"/>
         <field-descriptor name="specialReviewNumber" column="SPECIAL_REVIEW_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="specialReviewTypeCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR" />
@@ -153,8 +153,8 @@
     </class-descriptor>
 
     
-    <class-descriptor class="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewExemption" table="IACUC_EXEMPT_NUMBER">
-        <field-descriptor name="protocolSpecialReviewExemptionId" column="IACUC_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_EXEMPT_NUMBER_ID"/>
+    <class-descriptor class="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewExemption" table="IACUC_PROTOCOL_EXEMPT_NUMBER">
+        <field-descriptor name="protocolSpecialReviewExemptionId" column="IACUC_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_PROT_EXEMPT_NUMBER_ID"/>
         <field-descriptor name="protocolSpecialReviewId" column="IACUC_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" access="anonymous"/>
         <field-descriptor name="exemptionTypeCode" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
