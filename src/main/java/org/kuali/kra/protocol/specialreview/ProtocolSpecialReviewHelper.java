@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
+import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolForm;
@@ -42,7 +43,6 @@ public abstract class ProtocolSpecialReviewHelper extends SpecialReviewHelperBas
      */
     public ProtocolSpecialReviewHelper(ProtocolForm form) {
         this.form = form;
-        setNewSpecialReview(new ProtocolSpecialReview());
         setLinkedProtocolNumbers(new ArrayList<String>());    
     }
 
@@ -75,4 +75,6 @@ public abstract class ProtocolSpecialReviewHelper extends SpecialReviewHelperBas
         this.taskAuthorizationService = taskAuthorizationService;
     }
     
+    protected abstract void setNewSpecialReview();
+
 }
