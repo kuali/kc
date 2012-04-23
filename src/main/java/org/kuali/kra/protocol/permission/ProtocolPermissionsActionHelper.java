@@ -17,6 +17,7 @@ package org.kuali.kra.protocol.permission;
 
 import org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.ProtocolAction;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.krad.document.Document;
@@ -37,7 +38,7 @@ public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase
      * Constructs a ProtocolPermissionsActionHelper.
      * @param parentAction the parent Action instance that will delegate to this helper
      */
-    public ProtocolPermissionsActionHelper(ProtocolPermissionsAction parentAction) {
+    public ProtocolPermissionsActionHelper(ProtocolAction parentAction) {
         super(parentAction);
     }
     

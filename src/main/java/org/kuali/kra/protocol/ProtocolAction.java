@@ -15,15 +15,25 @@
  */
 package org.kuali.kra.protocol;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.CustomAttributeDocValue;
+import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.protocol.customdata.ProtocolCustomDataAction;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
@@ -34,9 +44,11 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * The ProtocolAction is the base class for all Protocol actions.  Each derived
@@ -83,6 +95,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     
     protected abstract String getProtocolPermissionsForwardNameHook();
     protected abstract String getCustomAttributeMappingHook();
+    protected abstract String getCustomDataForwardNameHook();
     protected abstract String getSpecialReviewForwardNameHook();
     
     
@@ -202,9 +215,11 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((ProtocolForm)form).getProtocolCustomDataHelper().prepareView(((ProtocolForm)form).getProtocolDocument());
-        return ProtocolCustomDataAction.staticCustomData(mapping, form, request, response, getCustomAttributeMappingHook());
+        return ((ProtocolForm)form).getProtocolCustomDataHelper().getCustomDataAction(mapping, form, request, response, getCustomDataForwardNameHook());
     }
 
+
+    
     /**
      * {@inheritDoc}
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
@@ -597,7 +612,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      * @return ProtocolPersonnelService
      */
     protected ProtocolPersonnelService getProtocolPersonnelService() {
-        return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
+        return (ProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
     }
     
     /**
@@ -605,6 +620,6 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      * @return ProtocolPersonTrainingService
      */
     private ProtocolPersonTrainingService getProtocolPersonTrainingService() {
-        return (ProtocolPersonTrainingService)KraServiceLocator.getService("protocolPersonTrainingService");
+        return (ProtocolPersonTrainingService)KraServiceLocator.getService("iacucProtocolPersonTrainingService");
     }    
 }
