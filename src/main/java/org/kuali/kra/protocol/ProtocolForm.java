@@ -17,6 +17,9 @@ package org.kuali.kra.protocol;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
@@ -77,9 +80,9 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 // TODO *********uncomment the code below in increments as needed during refactoring*********      
 //    private ProtocolReferenceBean newProtocolReferenceBean;
 //    
-//    //KNS Lookup hooks
-//    private String lookupResultsSequenceNumber;
-//    private String lookupResultsBOClassName;
+    //KNS Lookup hooks
+    private String lookupResultsSequenceNumber;
+    private String lookupResultsBOClassName;
 //    
 //    private boolean javaScriptEnabled = true;
 //    
@@ -270,33 +273,33 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 //        getDocInfo().add(expirationDate);
 //    }
 //
-//    /* Reset method
-//     * @param mapping
-//     * @param request
-//     */
-//    @Override
-//    public void reset(ActionMapping mapping, HttpServletRequest request) {
-//        super.reset(mapping, request);
-//        this.setLookupResultsSequenceNumber(null);
-//        this.setLookupResultsBOClassName(null);
-//        onlineReviewsActionHelper.init(true);
-//    }
-//    
-//    public String getLookupResultsSequenceNumber() {
-//        return lookupResultsSequenceNumber;
-//    }
-//
-//    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
-//        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
-//    }
-//    
-//    public String getLookupResultsBOClassName() {
-//        return lookupResultsBOClassName;
-//    }
-//
-//    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
-//        this.lookupResultsBOClassName = lookupResultsBOClassName;
-//    }
+    /* Reset method
+     * @param mapping
+     * @param request
+     */
+    @Override
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+        super.reset(mapping, request);
+        this.setLookupResultsSequenceNumber(null);
+        this.setLookupResultsBOClassName(null);
+        //onlineReviewsActionHelper.init(true);
+    }
+    
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
+
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }
+    
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
     
 
     public void setProtocolHelper(ProtocolHelper protocolHelper) {
@@ -456,16 +459,18 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         return KraServiceLocator.getService(KraAuthorizationService.class);
     }
     
-//    /**
-//     * 
-//     * This method returns true if the risk level panel should be displayed.
-//     * @return
-//     */
-//    public boolean getDisplayRiskLevelPanel() {
+    /**
+     * 
+     * This method returns true if the risk level panel should be displayed.
+     * @return
+     */
+    public boolean getDisplayRiskLevelPanel() {
+        return true;
+// TODO *********commented the code below during IACUC refactoring*********         
 //        return this.getProtocolDocument().getProtocol().getProtocolRiskLevels() != null 
 //            && this.getProtocolDocument().getProtocol().getProtocolRiskLevels().size() > 0;
-//        
-//    }
+        
+    }
 //    
 //    public List<ExtraButton> getExtraActionsButtons() {
 //        // clear out the extra buttons array

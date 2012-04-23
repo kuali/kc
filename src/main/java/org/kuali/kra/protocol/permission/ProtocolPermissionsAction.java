@@ -35,7 +35,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  */
 public class ProtocolPermissionsAction extends IacucProtocolAction implements PermissionsAction {
      
-    private ProtocolPermissionsActionHelper permissionsActionHelper = new ProtocolPermissionsActionHelper(this);
+    protected ProtocolPermissionsActionHelper permissionsActionHelper = new ProtocolPermissionsActionHelper(this);
     
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -119,57 +119,4 @@ public class ProtocolPermissionsAction extends IacucProtocolAction implements Pe
        return permissionsActionHelper.setEditRoles(mapping, form, request, response);
     }
 
-    @Override
-    protected String getQuestionnaireForwardNameHook() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected String getPersonnelForwardNameHook() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected String getNoteAndAttachmentForwardNameHook() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected String getProtocolActionsForwardNameHook() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected String getProtocolOnlineReviewForwardNameHook() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected String getProtocolPermissionsForwardNameHook() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected String getProtocolForwardNameHook() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected String getCustomAttributeMappingHook() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected String getSpecialReviewForwardNameHook() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

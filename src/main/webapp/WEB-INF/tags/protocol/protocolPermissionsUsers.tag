@@ -127,11 +127,7 @@
         </tbody>
     	</table>
     </div>
-    
-    <c:if test="${name == 'protocol'}" >    	
-    	<input type="hidden" name="lookup.leadUnit" value="${KualiForm.document.protocolList[0].leadUnit.unitNumber}" />
-    </c:if>
-    <c:if test="${name == 'award'}" >    	
-    	<input type="hidden" name="lookup.leadUnit" value="${KualiForm.document.awardList[0].leadUnit.unitNumber}" />
-    </c:if>
+ 
+    <input type="hidden" name="lookup.leadUnit" value="${KualiForm.document.protocolList[0].leadUnit.unitNumber}" />
+
 </kul:tab>

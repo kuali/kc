@@ -26,7 +26,12 @@ import org.kuali.rice.krad.document.Document;
  * for the Permissions tab web page.  The ProtocolPermissionsAction delegates all
  * of the work to this helper.
  */
-class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
+public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -4490013895383993701L;
 
     /**
      * Constructs a ProtocolPermissionsActionHelper.

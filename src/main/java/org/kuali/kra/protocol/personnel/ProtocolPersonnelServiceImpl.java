@@ -516,9 +516,8 @@ public abstract class ProtocolPersonnelServiceImpl implements ProtocolPersonnelS
                 if (newPrincipalInvestigator.getPersonId() != null) {
                     personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
                     KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-// TODO *********commented the code below during IACUC refactoring*********                     
-//                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
-//                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
+                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
+                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
                 } else {
                     personEditableService.populateContactFieldsFromRolodexId(newPrincipalInvestigator);
                 }

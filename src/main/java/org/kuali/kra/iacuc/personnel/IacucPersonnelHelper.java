@@ -48,6 +48,8 @@ public class IacucPersonnelHelper extends PersonnelHelper implements Serializabl
 
     protected void initializeModifyProtocolPermission(Protocol protocol) {
         modifyPersonnel = true;
+     // TODO *********commented the code below during IACUC refactoring*********         
+
         //TODO fix once authorizers are done
         //ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_PERSONNEL, protocol);
         //modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
@@ -56,6 +58,8 @@ public class IacucPersonnelHelper extends PersonnelHelper implements Serializabl
 
     protected void initializeTrainingSection() {
         setPersonTrainingSectionRequired(true);
+     // TODO *********commented the code below during IACUC refactoring*********         
+
         //TODO add new parameter
         //setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_IACUC_PROTOCOL_PERSON_TRAINING_SECTION)));
     }
