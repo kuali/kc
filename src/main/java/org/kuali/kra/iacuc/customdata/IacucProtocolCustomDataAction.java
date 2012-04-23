@@ -15,7 +15,22 @@
  */
 package org.kuali.kra.iacuc.customdata;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.common.customattributes.CustomDataAction;
+import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * This class...
@@ -25,8 +40,76 @@ public class IacucProtocolCustomDataAction extends IacucProtocolAction {
     public String getCustomAttributeNameHook() {
         return "IacucCustomDataAttribute";
     }
+    
+    /**
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
 
-    public String getCustomAttributeActionNameHook() {
-        return IacucProtocolAction.IACUC_PROTOCOL_CUSTOM_DATA_HOOK;
+        /*
+         * Primarily, the customdata.tag is using 'customdatahelper.xxx' as field name, 
+         * but the field value is coming from document,  so this copy has to be done 
+         * every time custom data page is refreshed. 
+         */
+        CustomDataAction.copyCustomDataToDocument(form);
+
+        ((ProtocolForm)form).getCustomDataHelper().initializePermissions();
+        
+        return super.execute(mapping, form, request, response);
     }
+    
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward reload(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception { 
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        super.reload(mapping, form, request, response);
+        CustomDataAction.copyCustomDataToDocument(form);
+        ((ProtocolForm)form).getProtocolCustomDataHelper().prepareView(((ProtocolForm)form).getProtocolDocument());
+        
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        
+        for (Map.Entry<String, String[]> customAttributeValue : protocolForm.getCustomDataHelper().getCustomAttributeValues().entrySet()) {
+            String customAttributeId = customAttributeValue.getKey().substring(2);
+            String value = customAttributeValue.getValue()[0];
+            protocolDocument.getCustomAttributeDocuments().get(customAttributeId).getCustomAttribute().setValue(value);
+        }
+        return mapping.findForward("customData");    
+    }
+
+    /**
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#postDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    public void postDocumentSave(KualiDocumentFormBase form) throws Exception {
+        super.postDocumentSave(form);
+        CustomDataAction.setCustomAttributeContent(form, getCustomAttributeNameHook());
+
+    }
+    
+    /**
+     * Clears the lookup value for the customAttributeId given in the parameter methodToCall.clearLookupValue.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearLookupValue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        CustomDataHelperBase customDataHelper = protocolForm.getCustomDataHelper();
+        Map<String, CustomAttributeDocument> customAttributeDocuments = protocolForm.getProtocolDocument().getCustomAttributeDocuments();
+        String customAttributeId = request.getParameter("methodToCall.clearLookupValue");
+        
+        customDataHelper.clearCustomAttributeValue(customAttributeId);
+        if (customAttributeDocuments.containsKey(customAttributeId)) {
+            customAttributeDocuments.get(customAttributeId).getCustomAttribute().setValue(null);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }    
 }

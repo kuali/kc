@@ -76,8 +76,9 @@ public abstract class ProtocolPersonnelServiceImpl implements ProtocolPersonnelS
      * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#addProtocolPerson(org.kuali.kra.protocol.Protocol, org.kuali.kra.protocol.personnel.ProtocolPerson)
      */
     public void addProtocolPerson(Protocol protocol, ProtocolPerson protocolPerson) {
-        
-        Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID").intValue();
+
+        Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber(getSequenceNumberNameHook()).intValue();
+        //Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID").intValue();
         protocolPerson.setProtocolPersonId(nextPersonId);
         //TODO - How to handle protocol number and sequence number
         protocolPerson.setProtocolNumber(protocol.getProtocolNumber());
@@ -93,6 +94,14 @@ public abstract class ProtocolPersonnelServiceImpl implements ProtocolPersonnelS
         getProtocolPersonTrainingService().setTrainedFlag(protocolPerson);
         protocol.getProtocolPersons().add(protocolPerson);
     }
+    
+    /**
+     * 
+     * This method provides the name of the sequence number
+     * @return the sequence name
+     */
+    protected abstract String getSequenceNumberNameHook();
+
 
     /**
      * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#deleteProtocolPerson(org.kuali.kra.protocol.Protocol, int)

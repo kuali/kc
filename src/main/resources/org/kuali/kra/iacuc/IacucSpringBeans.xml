@@ -80,13 +80,45 @@
     
      <bean id="iacucProtocolPersonnelService" class="org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelServiceImpl">
         <!--  Additional service properties will be added here as needed -->
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="sequenceAccessorService">
+            <ref bean="sequenceAccessorService" />
+        </property>        
+        <property name="protocolPersonTrainingService">
+            <ref bean="iacucProtocolPersonTrainingService" />
+        </property>         
         <property name="personEditableService" ref="personEditableService" />
+    </bean> 
+
+    <bean id="iacucProtocolDao" parent="platformAwareDao" class="org.kuali.kra.protocol.ProtocolDaoOjb">
+        <property name="lookupDao">
+            <ref bean="lookupDao" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+    </bean>
+    
+    <bean id="iacucProtocolPersonTrainingService" class="org.kuali.kra.protocol.personnel.ProtocolPersonTrainingServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>        
     </bean> 
     
     <bean id="iacucProtocolNumberService" class="org.kuali.kra.iacuc.protocol.IacucProtocolNumberServiceImpl">
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
     </bean>
     
+    <bean id="iacucProtocolAttachmentService" class="org.kuali.kra.protocol.noteattachment.ProtocolAttachmentServiceImpl">
+        <constructor-arg index="0" ref="businessObjectService"/>
+        <constructor-arg index="1" ref="iacucProtocolDao"/>
+        <property name = "personService" ref = "personService"/>
+    </bean>    
 </beans>
 
 
