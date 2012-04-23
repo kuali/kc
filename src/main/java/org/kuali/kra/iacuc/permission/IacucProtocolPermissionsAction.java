@@ -18,54 +18,10 @@ package org.kuali.kra.iacuc.permission;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.common.permissions.web.struts.action.PermissionsAction;
-import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.protocol.permission.ProtocolPermissionsAction;
 
-public class IacucProtocolPermissionsAction extends IacucProtocolAction  implements PermissionsAction {
 
-    @Override
-    public ActionForward getPermissionsRoleRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
-    }
+public class IacucProtocolPermissionsAction extends ProtocolPermissionsAction {
 
-    @Override
-    public ActionForward addUser(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ActionForward deleteUser(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ActionForward confirmDeletePermissionsUser(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ActionForward editRoles(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ActionForward setEditRoles(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
 }

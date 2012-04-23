@@ -515,11 +515,10 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         this.protocolType = protocolType;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
 //    public List<ProtocolRiskLevel> getProtocolRiskLevels() {
 //        return protocolRiskLevels;
 //    }
-//
+
 //    public void setProtocolRiskLevels(List<ProtocolRiskLevel> protocolRiskLevels) {
 //        this.protocolRiskLevels = protocolRiskLevels;
 //        for (ProtocolRiskLevel riskLevel : protocolRiskLevels) {
@@ -1883,15 +1882,16 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
      * 
      * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
      */
-    // TODO Check if this should be a hook method instead
-    public List<String> getRoleNames() {
-        List<String> roleNames = new ArrayList<String>();
+    public abstract List<String> getRoleNames();
+// TODO *********commented the code below during IACUC refactoring*********      
+//    public List<String> getRoleNames() {
+//        List<String> roleNames = new ArrayList<String>();
 
-        roleNames.add(RoleConstants.PROTOCOL_AGGREGATOR);
-        roleNames.add(RoleConstants.PROTOCOL_VIEWER);
+//        roleNames.add(RoleConstants.PROTOCOL_AGGREGATOR);
+//        roleNames.add(RoleConstants.PROTOCOL_VIEWER);
 
-        return roleNames;
-    }
+//        return roleNames;
+//    }
     
     
     
@@ -1921,9 +1921,11 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
      * 
      * @see org.kuali.kra.UnitAclLoadable#getDocumentRoleTypeCode()
      */
-    public String getDocumentRoleTypeCode() {
-        return RoleConstants.PROTOCOL_ROLE_TYPE;
-    }
+     public abstract String getDocumentRoleTypeCode();
+// TODO *********commented the code below during IACUC refactoring*********      
+//    public String getDocumentRoleTypeCode() {
+//        return RoleConstants.PROTOCOL_ROLE_TYPE;
+//    }
 
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         return;

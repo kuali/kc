@@ -15,27 +15,14 @@
  */
 package org.kuali.kra.iacuc.permission;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.permissions.web.bean.Role;
-import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
-import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.permission.PermissionsHelper;
 
 
@@ -95,14 +82,20 @@ public class IacucPermissionsHelper extends PermissionsHelper {
     @Override
     public boolean canModifyPermissions() {
         return true;
-        /*
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-        */
+     // TODO *********commented the code below during IACUC refactoring*********         
+        
+        
+//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, getProtocol());
+//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        
     }
 
     @Override
     protected void initExcludedRolesHook() {
+        if (excludeRoles == null) {
+            excludeRoles = new HashSet<String>();
+        }
+        
         excludeRoles.add(RoleConstants.IACUC_PROTOCOL_APPROVER);
     }
 

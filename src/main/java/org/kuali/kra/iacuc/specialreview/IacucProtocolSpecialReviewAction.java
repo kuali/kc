@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.specialreview;
 
-import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewAction;
 
-public class IacucProtocolSpecialReviewAction extends IacucProtocolAction {
+public class IacucProtocolSpecialReviewAction extends ProtocolSpecialReviewAction {
 
 }

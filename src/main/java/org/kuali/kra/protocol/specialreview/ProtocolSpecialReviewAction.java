@@ -27,7 +27,6 @@ import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.protocol.ProtocolAction;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -115,49 +114,5 @@ public class ProtocolSpecialReviewAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    @Override
-    protected String getProtocolForwardNameHook() {
-        return null;
-    }
-
-    @Override
-    protected String getQuestionnaireForwardNameHook() {
-        return null;
-    }
-
-    @Override
-    protected String getPersonnelForwardNameHook() {
-        return null;
-    }
-
-    @Override
-    protected String getNoteAndAttachmentForwardNameHook() {
-        return null;
-    }
-
-    @Override
-    protected String getProtocolActionsForwardNameHook() {
-        return null;
-    }
-
-    @Override
-    protected String getProtocolOnlineReviewForwardNameHook() {
-        return null;
-    }
-
-    @Override
-    protected String getProtocolPermissionsForwardNameHook() {
-        return null;
-    }
-
-    @Override
-    protected String getCustomAttributeMappingHook() {
-        return null;
-    }
-
-    @Override
-    protected String getSpecialReviewForwardNameHook() {
-        return null;
-    }
     
 }
