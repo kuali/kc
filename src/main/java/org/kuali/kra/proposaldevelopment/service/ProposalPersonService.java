@@ -39,4 +39,11 @@ public interface ProposalPersonService {
     
     public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber, String roleName);
     
+    /**
+     * This method is to get division name using the 4th level node on the Unit hierarchy
+     * 
+     * @param proposalPerson Proposal person.
+     * @return divisionName based on the 4th level node on the Unit hierarchy.
+     */
+    public String getProposalPersonDivisionName(ProposalPerson proposalPerson);
 }

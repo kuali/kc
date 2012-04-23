@@ -638,25 +638,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         return divisionName;
     }
-    /**
-     * This method is to get division name using the 4th level node on the Unit hierarchy
-     * 
-     * @param proposalPerson Proposal person.
-     * @return divisionName based on the 4th level node on the Unit hierarchy.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getDivisionName(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument).
-     */
-    public String getProposalPersonDivisionName(ProposalPerson proposalPerson){
-        String personDivisionName = null;
-        if(proposalPerson != null ) {
-            UnitService unitService = KraServiceLocator.getService(UnitService.class);
-            List<Unit> units = unitService.getAllSubUnits(proposalPerson.getHomeUnit());
-            if(units.size()>=UNIT_HEIRARCHY_NODE){
-                Unit unit=units.get(UNIT_HEIRARCHY_NODE);
-                personDivisionName=unit.getUnitName();
-            }
-        }
-        return personDivisionName;
-    }
             
     /**
      * This method is to get PrincipalInvestigator from person list
