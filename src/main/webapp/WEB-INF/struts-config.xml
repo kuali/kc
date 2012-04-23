@@ -419,7 +419,7 @@
       </action>
       
       <action path="/iacucPersonnel" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolPersonnel.jsp" type="org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocoPersonnel.jsp" />
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolPersonnel.jsp" />
         &iacuc_forwards;
       </action>
       <action path="/iacucProtocolCustomData" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolCustomData.jsp" type="org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >

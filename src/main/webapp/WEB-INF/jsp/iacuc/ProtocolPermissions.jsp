@@ -26,7 +26,7 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="iacucProtocolPermissions">
+  	headerTabActive="permissions">
 
 	
     <kra-protocol:protocolPermissionsPage 
