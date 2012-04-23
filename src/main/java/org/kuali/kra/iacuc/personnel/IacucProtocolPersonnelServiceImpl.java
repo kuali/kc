@@ -25,4 +25,11 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
         return new IacucProtocolUnit();
     }
 
+    @Override
+    protected String getSequenceNumberNameHook() {
+        return "SEQ_IACUC_PROTOCOL_ID";
+    }
+    
+    
+
 }

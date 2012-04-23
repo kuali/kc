@@ -21,10 +21,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.auth.ProtocolTask;
@@ -156,5 +164,53 @@ return true;
     protected String getUserIdentifier() {
          return GlobalVariables.getUserSession().getPrincipalId();
     }
+    
+
+    public ActionForward getCustomDataAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String mappingName) {
+        SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ResearchDocumentBase doc = (ResearchDocumentBase) protocolForm.getDocument();
+
+        Map<String, CustomAttributeDocument> customAttributeDocuments = doc.getCustomAttributeDocuments();
+        String documentNumber = doc.getDocumentNumber();
+        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
+            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
+            CustomAttributeDocValue customAttributeDocValue = 
+                getCustomAttributeDocValue(documentNumber, customAttributeDocument.getCustomAttributeId());
+            if (customAttributeDocValue != null) {
+                customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
+                protocolForm.getProtocolCustomDataHelper().getCustomAttributeValues()
+                .put("id" + customAttributeDocument.getCustomAttributeId().toString(), 
+                        new String[]{customAttributeDocValue.getValue()});
+            }
+
+            String groupName = protocolForm.getProtocolCustomDataHelper().getValidCustomAttributeGroupName(customAttributeDocument.getCustomAttribute().getGroupName());
+            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
+
+            if (customAttributeDocumentList == null) {
+                customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
+                customAttributeGroups.put(groupName, customAttributeDocumentList);
+            }
+            customAttributeDocumentList.add(customAttributeDocument);
+        }
+
+        protocolForm.getProtocolCustomDataHelper().setCustomAttributeGroups(customAttributeGroups);
+        return mapping.findForward(mappingName);
+    }    
+
+    /**
+     * Get the Custom Attribute Doc value.
+     * @param documentNumber
+     * @param customAttributeId
+     * @return
+     */
+    private CustomAttributeDocValue getCustomAttributeDocValue(String documentNumber, Integer customAttributeId) {
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
+        return (CustomAttributeDocValue) getBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
+    }    
+  
     
 }

@@ -46,7 +46,7 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="iacucProtocol">
+  	headerTabActive="protocol">
 <script type="text/javascript">
    var $j = jQuery.noConflict();
 </script>

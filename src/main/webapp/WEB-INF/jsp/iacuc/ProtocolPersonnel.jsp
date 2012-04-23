@@ -28,11 +28,10 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="iacucPersonnel">
+  	headerTabActive="personnel">
   	
-    Personnel page to be implemented
     <kra-protocol:protocolAddPersonnelSection protocolPersonAttributes="${protocolPersonAttributes}"/>
-    <kra-protocol:protocolPerson protocolPersonAttributes="${protocolPersonAttributes}"/>
+    <kra-protocol:protocolPersons protocolPersonAttributes="${protocolPersonAttributes}"/>
 
 <script type="text/javascript">
    var $j = jQuery.noConflict();
