@@ -32,7 +32,7 @@
     <kra-protocol:protocolPermissionsPage 
            name="${KualiForm.actionName}" 
            documentTypeName="${KualiForm.docTypeName}"
-           modifyPermissions="${moidfyPermissions}"
+           modifyPermissions="${modifyPermissions}"
            permissionsUserAttributes="${permissionsUserAttributes}"
            />
   	

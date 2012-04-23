@@ -123,13 +123,13 @@
                 
      </class-descriptor>
     
-     <class-descriptor class="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReview" table="IACUC_SPECIAL_REVIEW">
+     <class-descriptor class="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReview" table="IACUC_PROTOCOL_SPECIAL_REVIEW">
         <field-descriptor name="protocolSpecialReviewId" column="IACUC_PROT_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_PROT_SPECIAL_REVIEW_ID"/>
-        <field-descriptor name="protocolId" column="IACUC_ID" jdbc-type="BIGINT" access="anonymous"/>
+        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" access="anonymous"/>
         <field-descriptor name="specialReviewNumber" column="SPECIAL_REVIEW_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="specialReviewTypeCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="protocolNumber" column="IACUC_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="applicationDate" column="APPLICATION_DATE" jdbc-type="DATE" />
         <field-descriptor name="approvalDate" column="APPROVAL_DATE" jdbc-type="DATE" />
         <field-descriptor name="expirationDate" column="EXPIRATION_DATE" jdbc-type="DATE"/>

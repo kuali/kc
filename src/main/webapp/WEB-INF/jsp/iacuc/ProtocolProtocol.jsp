@@ -18,10 +18,26 @@
 
 <c:set var="protocolDocumentAttributes" value="${DataDictionary.IacucProtocolDocument.attributes}" />
 <c:set var="protocolAttributes" value="${DataDictionary.IacucProtocol.attributes}" />
-<c:set var="textAreaFieldName" value="document.protocolList[0].title" />
-<c:set var="action" value="protocolProtocol" />
-<c:set var="nonEmpFlag" value="false" />
+<c:set var="protocolRiskLevelsAttributes" value="${DataDictionary.ProtocolRiskLevel.attributes}" />
+<c:set var="riskLevelAttributes" value="${DataDictionary.RiskLevel.attributes}" />
+<c:set var="protocolReferenceAttributes" value="${DataDictionary.ProtocolReference.attributes}" />
+<c:set var="protocolReferenceBeanAttributes" value="${DataDictionary.ProtocolReferenceBean.attributes}" />
+<c:set var="protocolReferenceTypeAttributes" value="${DataDictionary.ProtocolReferenceType.attributes}" />
+<c:set var="researchAreasAttributes" value="${DataDictionary.ResearchArea.attributes}" />
+<c:set var="protocolLocationAttributes" value="${DataDictionary.ProtocolLocation.attributes}" />
+<c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />
+<c:set var="protocolOrganizationTypeAttributes" value="${DataDictionary.ProtocolOrganizationType.attributes}" />
+<c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
+<c:set var="protocolFundingSourceAttributes" value="${DataDictionary.ProtocolFundingSource.attributes}" />
+<c:set var="fundingSourceTypeAttributes" value="${DataDictionary.FundingSourceType.attributes}" />
+<c:set var="protocolParticipantAttributes" value="${DataDictionary.ProtocolParticipant.attributes}" />
+
 <c:set var="className" value="org.kuali.kra.iacuc.document.IacucProtocolDocument" />
+<c:set var="iacucProtocolProtocol" value="iacucProtocolProtocol" />
+<c:set var="iacucProtocolLocation" value="iacucProtocolLocation" />
+<c:set var="iacucProtocolParticipant" value="iacucProtocolParticipant" />
+
+
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="iacucProtocolProtocol"
@@ -43,11 +59,33 @@
 <kra-protocol:protocolRequiredFields
     protocolDocumentAttributes="${protocolDocumentAttributes}" 
     protocolAttributes="${protocolAttributes}"
-    textAreaFieldName="${textAreaFieldName}"
-    action="${action}"
-    nonEmpFlag="${nonEmpFlag}"
+    action="${iacucProtocolProtocol}"
     className="${className}"/>
+<kra-protocol:protocolStatusDate 
+    protocolAttributes="${protocolAttributes}"/>
+    
 
+<kra-protocol:protocolAdditionalInformation
+     protocolDocumentAttributes="${protocolDocumentAttributes}"
+     protocolAttributes="${protocolAttributes}"
+     protocolReferenceAttributes="${protocolReferenceAttributes}"
+     protocolReferenceBeanAttributes="${protocolReferenceBeanAttributes}"
+     protocolReferenceTypeAttributes="${protocolReferenceTypeAttributes}"
+     researchAreasAttributes="${researchAreasAttributes}"
+     action="${iacucProtocolProtocol}"
+     className="${className}"/>
+<kra-protocol:protocolLocations 
+    protocolLocationAttributes="${protocolLocationAttributes}"
+    organizationAttributes="${organizationAttributes}"
+    protocolOrganizationTypeAttributes="${protocolOrganizationTypeAttributes}"
+    rolodexAttributes="${rolodexAttributes}"
+    action="${iacucProtocolLocation}"/>
+<kra-protocol:protocolFundingSources 
+    protocolFundingSourceAttributes="${protocolFundingSourceAttributes}"
+    fundingSourceTypeAttributes="${fundingSourceTypeAttributes}"/>
+<kra-protocol:protocolParticipants 
+    attributes="${protocolParticipantAttributes}"
+    action="${iacucProtocolParticipant}"/>
     
 
 <kul:panelFooter />

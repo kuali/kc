@@ -56,8 +56,9 @@ public abstract class PermissionsHelper extends PermissionsHelperBase {
 
     //A collection of role names within the namespace that should not be assignable 
     //in the permissions page.
-    protected Collection<String> excludeRoles = new HashSet<String>();
+    protected Collection<String> excludeRoles;
     
+ // TODO *********commented the code below during IACUC refactoring*********      
     /* old way of initializing excluded roles
     static {
         excludeRoles = new HashSet<String>();
@@ -88,9 +89,7 @@ public abstract class PermissionsHelper extends PermissionsHelperBase {
     public PermissionsHelper(ProtocolForm form, String roleType) {
         //super(RoleConstants.PROTOCOL_ROLE_TYPE);
         super(roleType);
-        this.form = form;
-        
-        initExcludedRolesHook();
+        this.form = form;        
     }
     
     /**
@@ -104,6 +103,7 @@ public abstract class PermissionsHelper extends PermissionsHelperBase {
      * Build the mapping of role names to display.
      */
     protected abstract void buildDisplayNameMap();
+// TODO *********commented the code below during IACUC refactoring*********      
     /*
     private void buildDisplayNameMap() {
         if (displayNameMap == null) {
@@ -172,12 +172,13 @@ public abstract class PermissionsHelper extends PermissionsHelperBase {
      */
     @Override
     protected void buildRoles(String roleType) {
-       
+        initExcludedRolesHook();
+
         List<Role> roles = new ArrayList<Role>();
         List<org.kuali.rice.kim.api.role.Role> kimRoles = getSortedKimRoles(roleType);
         for (org.kuali.rice.kim.api.role.Role kimRole : kimRoles) {
             
-            if ( excludeRoles != null && !excludeRoles.contains(kimRole.getName()) ) {
+            if (!excludeRoles.contains(kimRole.getName()) ) {
                 QueryByCriteria.Builder queryBuilder = QueryByCriteria.Builder.create();
                 List<Predicate> predicates = new ArrayList<Predicate>();
                 predicates.add(PredicateFactory.equal("rolePermissions.roleId", kimRole.getId()));

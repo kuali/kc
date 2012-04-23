@@ -17,6 +17,8 @@ package org.kuali.kra.iacuc;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
@@ -25,6 +27,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
@@ -235,7 +238,22 @@ public class IacucProtocol extends Protocol {
     @Override
     protected ProtocolStatus getProtocolStatusNewInstanceHook() {
         return new IacucProtocolStatus();
+    }
+
+
+    @Override
+    public String getDocumentRoleTypeCode() {
+        return RoleConstants.IACUC_ROLE_TYPE;
     }    
 
+    @Override
+    public List<String> getRoleNames() {
+      List<String> roleNames = new ArrayList<String>();
+
+      roleNames.add(RoleConstants.IACUC_PROTOCOL_AGGREGATOR);
+      roleNames.add(RoleConstants.IACUC_PROTOCOL_VIEWER);
+
+      return roleNames;        
+    }
 
 }

@@ -81,6 +81,7 @@ public abstract class PersonnelHelper implements Serializable {
     }
 
     protected abstract void initializeModifyProtocolPermission(Protocol protocol);
+// TODO *********commented the code below during IACUC refactoring*********      
     /*
     private void initializeModifyProtocolPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_PERSONNEL, protocol);
@@ -140,6 +141,7 @@ public abstract class PersonnelHelper implements Serializable {
     }
 
     protected abstract void initializeTrainingSection();
+// TODO *********commented the code below during IACUC refactoring*********      
     /*
     private void initializeTrainingSection() {
         setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION)));
