@@ -21,16 +21,22 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 /**
  * 
  * This class...
  */
 public class ProposalPersonServiceImpl implements ProposalPersonService {
+    
+    private static final Integer UNIT_HEIRARCHY_NODE = 3;
+    
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
      
@@ -98,5 +104,24 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         keys.put("proposalPersonRoleId", roleCode);
           
         return (List<ProposalPerson>) getBusinessObjectService().findMatching(ProposalPerson.class, keys);
+    }
+    
+    /**
+     * This method is to get division name using the 4th level node on the Unit hierarchy
+     * 
+     * @param proposalPerson Proposal person.
+     * @return divisionName based on the 4th level node on the Unit hierarchy.
+     */
+    public String getProposalPersonDivisionName(ProposalPerson proposalPerson){
+        String personDivisionName = null;
+        if(proposalPerson != null ) {
+            UnitService unitService = KraServiceLocator.getService(UnitService.class);
+            List<Unit> units = unitService.getAllSubUnits(proposalPerson.getHomeUnit());
+            if(units.size()> UNIT_HEIRARCHY_NODE){
+                Unit unit=units.get(UNIT_HEIRARCHY_NODE);
+                personDivisionName=unit.getUnitName();
+            }
+        }
+        return personDivisionName;
     }
 }

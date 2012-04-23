@@ -69,11 +69,11 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CalculateCreditSplitEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
+import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
-import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -319,8 +319,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 }                
             }
             if(proposalPerson.getHomeUnit()!=null){
-                S2SUtilService s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-                String divisionName=s2sUtilService.getProposalPersonDivisionName(proposalPerson);
+                ProposalPersonService proposalPersonService = KraServiceLocator.getService(ProposalPersonService.class);
+                String divisionName = proposalPersonService.getProposalPersonDivisionName(proposalPerson);
                 proposalPerson.setDivision(divisionName);
             }
             else
