@@ -38,6 +38,7 @@
                 <ref bean="Question-questionRefId" />
                 <ref bean="Question-documentNumber" />
                 <ref bean="Question-questionId" />
+                <ref bean="Question-questionIdAsInteger" />
                 <ref bean="Question-sequenceNumber" />
                 <ref bean="Question-question" />
                 <ref bean="Question-status" />
@@ -114,6 +115,24 @@
         <property name="summary" value="Question Id" />
         <property name="description" value="Question Id" />
     </bean>
+    
+    <bean id="Question-questionIdAsInteger" parent="Question-questionIdAsInteger-parentBean" />
+    <bean id="Question-questionIdAsInteger-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionIdAsInteger" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question Id" />
+        <property name="shortLabel" value="Question Id" />
+        <property name="maxLength" value="6" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="6" />
+        </property>
+        <property name="summary" value="Question Id" />
+        <property name="description" value="Question Id" />
+    </bean>    
 
     <bean id="Question-sequenceNumber" parent="Question-sequenceNumber-parentBean" />
     <bean id="Question-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -511,7 +530,7 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="questionId" 
+                    p:attributeName="questionIdAsInteger" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="sequenceNumber" />
