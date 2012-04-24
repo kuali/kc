@@ -17,6 +17,16 @@ package org.kuali.kra.subaward.subawardrule;
 
 import org.kuali.kra.subaward.bo.SubAwardCloseout;
 
+/**
+ * This class deals with rule validations for SubAwardCloseOut...
+ */
 public interface SubAwardCloseoutRule extends org.kuali.rice.krad.rules.rule.BusinessRule {
-    public boolean processAddSubAwardCloseoutBusinessRules(SubAwardCloseout subAwardCloseout);
+
+	/**.
+	 * This subAwardCloseOutRule validation
+	 * @param subAwardCloseout the subAwardCloseout..
+	 * @return boolean value
+	 */
+    public boolean processAddSubAwardCloseoutBusinessRules(
+    		SubAwardCloseout subAwardCloseout);
 }

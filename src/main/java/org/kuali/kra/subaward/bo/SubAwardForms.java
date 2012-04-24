@@ -29,57 +29,121 @@ public class SubAwardForms extends KraPersistableBusinessObjectBase implements P
     private String fileName;
     private String contentType;
     private transient FormFile templateFile;    
-    
-    
-    public SubAwardForms() { 
 
-    } 
-    
-    public String getFormId() {
-        return formId;
-    }
+    /**
+     * Constructs a SubAwardForms.java.
+     */
+public SubAwardForms() {
 
-    public void setFormId(String formId) {
-        this.formId = formId;
-    }
+}
 
-    public String getDescription() {
-        return description;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  /**.
+   * This is the Getter Method for formId
+   * @return Returns the formId.
+	 */
+	public String getFormId() {
+		return formId;
+	}
 
-    public FormFile getTemplateFile() {
-        return templateFile;
-    }
 
-    public void setTemplateFile(FormFile templateFile) {
-        this.templateFile = templateFile;
-    }
-    
-    public byte[] getAttachmentContent() {
-        return attachmentContent;
-    }
+	/**.
+	 * This is the Setter Method for formId
+	 * @param formId The formId to set.
+	 */
+	public void setFormId(String formId) {
+		this.formId = formId;
+	}
 
-    public void setAttachmentContent(byte[] attachmentContent) {
-        this.attachmentContent = attachmentContent;
-    }
 
-    public String getFileName() {
-        return fileName;
-    }
+	/**.
+	 * This is the Getter Method for description
+	 * @return Returns the description.
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
 
-    public String getContentType() {
-        return contentType;
-    }
+	/**.
+	 * This is the Setter Method for description
+	 * @param description The description to set.
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
+
+	/**.
+	 * This is the Getter Method for attachmentContent
+	 * @return Returns the attachmentContent.
+	 */
+	public byte[] getAttachmentContent() {
+		return attachmentContent;
+	}
+
+
+	/**.
+	 * This is the Setter Method for attachmentContent
+	 * @param attachmentContent The attachmentContent to set.
+	 */
+	public void setAttachmentContent(byte[] attachmentContent) {
+		this.attachmentContent = attachmentContent;
+	}
+
+
+	/**.
+	 * This is the Getter Method for fileName
+	 * @return Returns the fileName.
+	 */
+	public String getFileName() {
+		return fileName;
+	}
+
+
+	/**.
+	 * This is the Setter Method for fileName
+	 * @param fileName The fileName to set.
+	 */
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+
+	/**.
+	 * This is the Getter Method for contentType
+	 * @return Returns the contentType.
+	 */
+	public String getContentType() {
+		return contentType;
+	}
+
+
+	/**.
+	 * This is the Setter Method for contentType
+	 * @param contentType The contentType to set.
+	 */
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
+
+	/**.
+	 * This is the Getter Method for templateFile
+	 * @return Returns the templateFile.
+	 */
+	public FormFile getTemplateFile() {
+		return templateFile;
+	}
+
+
+	/**.
+	 * This is the Setter Method for templateFile
+	 * @param templateFile The templateFile to set.
+	 */
+	public void setTemplateFile(FormFile templateFile) {
+		this.templateFile = templateFile;
+	}
+   
+
 }

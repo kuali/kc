@@ -47,7 +47,10 @@ import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
-public class SubAwardServiceImpl implements SubAwardService{
+/**
+ * This class is service impl for subAward...
+ */
+public class SubAwardServiceImpl implements SubAwardService {
 
 
     private BusinessObjectService businessObjectService;
@@ -55,112 +58,198 @@ public class SubAwardServiceImpl implements SubAwardService{
     private DocumentService documentService;
     private SequenceAccessorService sequenceAccessorService;
     private ParameterService parameterService;
-    
-    public SubAwardDocument createNewSubAwardVersion(SubAwardDocument subAwardDocument) throws VersionException, WorkflowException {
 
-        SubAward newVersion = getVersioningService().createNewVersion(subAwardDocument.getSubAward());
+    /**.
+     * This method is for creating new subAward version
+     * @param subAwardDocument
+     * @return newSubAwardDocument the newSubAwardDocument
+     */
+    public SubAwardDocument createNewSubAwardVersion(
+    SubAwardDocument subAwardDocument) throws
+    VersionException, WorkflowException {
 
-        SubAwardDocument newSubAwardDocument = (SubAwardDocument) getDocumentService().getNewDocument(SubAwardDocument.class);
-        newSubAwardDocument.getDocumentHeader().setDocumentDescription(subAwardDocument.getDocumentHeader().getDocumentDescription());
+        SubAward newVersion = getVersioningService().
+        createNewVersion(subAwardDocument.getSubAward());
+
+        SubAwardDocument newSubAwardDocument =
+        (SubAwardDocument) getDocumentService().
+        getNewDocument(SubAwardDocument.class);
+        newSubAwardDocument.getDocumentHeader().
+        setDocumentDescription(subAwardDocument.
+        getDocumentHeader().getDocumentDescription());
         newSubAwardDocument.setSubAward(newVersion);
         newVersion.setSubAwardDocument(newSubAwardDocument);
         return newSubAwardDocument;
     }
 
-    protected void incrementVersionNumberIfCanceledVersionsExist(SubAward subAward) {
-        List<VersionHistory> versionHistory = (List<VersionHistory>) getBusinessObjectService().findMatching(VersionHistory.class, getHashMap(Long.toString(subAward.getSubAwardId())));
+    /**.
+     * This method is for incrementVersionNumberIfCanceledVersionsExist
+     * @param subAward...
+     *
+     */
+    protected void incrementVersionNumberIfCanceledVersionsExist(
+    SubAward subAward) {
+        List<VersionHistory> versionHistory =
+        (List<VersionHistory>) getBusinessObjectService().
+        findMatching(VersionHistory.class, getHashMap(
+        Long.toString(subAward.getSubAwardId())));
         subAward.setSequenceNumber(versionHistory.size() + 1);
     }
+    /**.
+     * This method is for getting hashMap
+     * @param subAwardNumber
+     * @return map
+     */
     protected Map<String, String> getHashMap(String subAwardNumber) {
-        Map<String, String> map = new HashMap<String,String>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put("sequenceOwnerVersionNameValue", subAwardNumber);
         return map;
     }
+    /**.
+     * This method is for  getVersioningService
+     * @return versioningService...
+     *
+     */
     protected VersioningService getVersioningService() {
         return versioningService;
     }
 
+    /**
+     * This method is for setting versioningService...
+     * @param versioningService the versioningService
+     */
     public void setVersioningService(VersioningService versioningService) {
         this.versioningService = versioningService;
     }
-    protected DocumentService getDocumentService() {
-        return documentService;
-    }
 
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
 
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
+    /**.
+    * This is the Getter Method for documentService
+	 * @return Returns the documentService.
+	 */
+	public DocumentService getDocumentService() {
+		return documentService;
+	}
 
-    @Override
-    public void updateSubAwardSequenceStatus(SubAward subAward, VersionStatus status) {
+	/**.
+	 * This is the Setter Method for documentService
+	 * @param documentService The documentService to set.
+	 */
+	public void setDocumentService(DocumentService documentService) {
+		this.documentService = documentService;
+	}
+
+	/**.
+	 * This is the Getter Method for parameterService
+	 * @return Returns the parameterService.
+	 */
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+	/**.
+	 * This is the Setter Method for parameterService
+	 * @param parameterService The parameterService to set.
+	 */
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
+	}
+
+	@Override
+    public void updateSubAwardSequenceStatus(
+    SubAward subAward, VersionStatus status) {
         if (status.equals(VersionStatus.ACTIVE)) {
             archiveCurrentActiveSubAward(subAward.getSubAwardId());
         }
         subAward.setSubAwardSequenceStatus(status.toString());
-        getBusinessObjectService().save(subAward);   
+       getBusinessObjectService().save(subAward);
     }
+    /**
+     * This method is for archiveCurrentActiveSubAward...
+     * @param subAwardId
+     */
     protected void archiveCurrentActiveSubAward(Long subAwardId) {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("subAwardId", Long.toString(subAwardId));
         values.put("subAwardSequenceStatus", VersionStatus.ACTIVE.name());
-        Collection<SubAward> subAwards = getBusinessObjectService().findMatching(SubAward.class, values);
+        Collection<SubAward> subAwards = getBusinessObjectService().
+        findMatching(SubAward.class, values);
         for (SubAward subAward : subAwards) {
             subAward.setSubAwardSequenceStatus(VersionStatus.ARCHIVED.name());
             getBusinessObjectService().save(subAward);
         }
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
 
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-    /** {@inheritDoc} */
+    /**.
+	 * This is the Getter Method for businessObjectService
+	 * @return Returns the businessObjectService.
+	 */
+	public BusinessObjectService getBusinessObjectService() {
+		return businessObjectService;
+	}
+
+	/**.
+	 * This is the Setter Method for businessObjectService
+	 * @param businessObjectService The businessObjectService to set.
+	 */
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
+
+	/** {@inheritDoc} */
     public String getNextSubAwardCode() {
-        Long nextAwardNumber = sequenceAccessorService.getNextAvailableSequenceNumber(Constants.SUBAWARD_SEQUENCE_SUBAWARD_CODE);
-        
+ Long nextAwardNumber = sequenceAccessorService.
+ getNextAvailableSequenceNumber(Constants.SUBAWARD_SEQUENCE_SUBAWARD_CODE);
+
         return nextAwardNumber.toString();
     }
     /**
      * Set the Sequence Accessor Service.
      * @param sequenceAccessorService the Sequence Accessor Service
      */
-    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+    public void setSequenceAccessorService(
+    SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
     }
-    
-    public SubAward getAmountInfo(SubAward subAward){
 
-        List<SubAwardAmountInfo> subAwardAmountInfoList = subAward.getSubAwardAmountInfoList();  
-        List<SubAwardAmountReleased> subAwardAmountReleasedList = subAward.getSubAwardAmountReleasedList();
-        KualiDecimal totalOblicatedAmount = new KualiDecimal(0.00); ;
-        KualiDecimal totalAnticipatedAmount = new KualiDecimal(0.00) ;
-        KualiDecimal totalAmountReleased = new KualiDecimal(0.00) ;
-        if(subAwardAmountInfoList!=null){
-            for(SubAwardAmountInfo subAwardAmountInfo : subAwardAmountInfoList){
-                if(subAwardAmountInfo.getObligatedChange()!=null){
-                   
-                    subAward.setTotalObligatedAmount(totalOblicatedAmount.add(subAwardAmountInfo.getObligatedChange()));
+    /**.
+     * This method is using for getAmountInfo
+     * @param subAward
+     * @return subAward
+     */
+    public SubAward getAmountInfo(SubAward subAward) {
+
+        List<SubAwardAmountInfo> subAwardAmountInfoList =
+        subAward.getSubAwardAmountInfoList();
+        List<SubAwardAmountReleased> subAwardAmountReleasedList =
+        subAward.getSubAwardAmountReleasedList();
+        KualiDecimal totalOblicatedAmount = new KualiDecimal(0.00);
+        KualiDecimal totalAnticipatedAmount = new KualiDecimal(0.00);
+        KualiDecimal totalAmountReleased = new KualiDecimal(0.00);
+        if (subAwardAmountInfoList != null) {
+            for (SubAwardAmountInfo subAwardAmountInfo
+            : subAwardAmountInfoList) {
+                if (subAwardAmountInfo.getObligatedChange() != null) {
+
+                    subAward.setTotalObligatedAmount(totalOblicatedAmount.
+                    add(subAwardAmountInfo.getObligatedChange()));
                     totalOblicatedAmount = subAward.getTotalObligatedAmount();
                 }
-                if(subAwardAmountInfo.getAnticipatedChange()!=null){
-                    subAward.setTotalAnticipatedAmount(totalAnticipatedAmount.add(subAwardAmountInfo.getAnticipatedChange()));
-                    totalAnticipatedAmount = subAward.getTotalAnticipatedAmount();
+                if (subAwardAmountInfo.getAnticipatedChange() != null) {
+                    subAward.setTotalAnticipatedAmount(
+                    totalAnticipatedAmount.add(subAwardAmountInfo.
+                    getAnticipatedChange()));
+                    totalAnticipatedAmount = subAward.
+                    getTotalAnticipatedAmount();
                 }
             }
-            for(SubAwardAmountReleased subAwardAmountReleased:subAwardAmountReleasedList){
-                
-                if(subAwardAmountReleased.getAmountReleased()!=null){
-                    subAward.setTotalAmountReleased(totalAmountReleased.add(subAwardAmountReleased.getAmountReleased()));
+            for (SubAwardAmountReleased subAwardAmountReleased
+            :subAwardAmountReleasedList) {
+
+                if (subAwardAmountReleased.getAmountReleased() != null) {
+                    subAward.setTotalAmountReleased(totalAmountReleased.add(
+                    subAwardAmountReleased.getAmountReleased()));
                     totalAmountReleased = subAward.getTotalAmountReleased();
                 }
             }
@@ -168,39 +257,46 @@ public class SubAwardServiceImpl implements SubAwardService{
         subAward.setTotalObligatedAmount(totalOblicatedAmount);
         subAward.setTotalAnticipatedAmount(totalAnticipatedAmount);
         subAward.setTotalAmountReleased(totalAmountReleased);
-        subAward.setTotalAvailableAmount(totalOblicatedAmount.subtract(totalAmountReleased));
+        subAward.setTotalAvailableAmount(
+        totalOblicatedAmount.subtract(totalAmountReleased));
+
         return subAward;
     }
     /**
      * This method will downloadAttachment  to subaward.
-     * @param subAward
-     * @return
+     * @param attachmentDataSource the attachmentDataSource
+     * @param response the response
+     *
      */
-    public void downloadAttachment(KraPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception {
-        
+    public void downloadAttachment(KraPersistableBusinessObjectBase
+    attachmentDataSource, HttpServletResponse response) throws Exception {
+
         SubAwardAmountInfo subAwardAmountInfo = new SubAwardAmountInfo();
-        SubAwardAmountReleased subAwardAmountReleased = new SubAwardAmountReleased();
+        SubAwardAmountReleased subAwardAmountReleased =
+        new SubAwardAmountReleased();
         byte[] data = null;
         String contentType = null;
         String fileName = null;
-        if(attachmentDataSource.getClass().isInstance(subAwardAmountInfo)){
-            subAwardAmountInfo =(SubAwardAmountInfo)attachmentDataSource;
+        if (attachmentDataSource.getClass().isInstance(subAwardAmountInfo)) {
+            subAwardAmountInfo = (SubAwardAmountInfo) attachmentDataSource;
             data = subAwardAmountInfo.getData();
             contentType = subAwardAmountInfo.getContentType();
             fileName = subAwardAmountInfo.getFileName();
-        }
-        else if(attachmentDataSource.getClass().isInstance(subAwardAmountReleased)){
-            subAwardAmountReleased = (SubAwardAmountReleased)attachmentDataSource;  
+        } else if (attachmentDataSource.getClass().
+        isInstance(subAwardAmountReleased)) {
+            subAwardAmountReleased =
+            (SubAwardAmountReleased) attachmentDataSource;
             data = subAwardAmountReleased.getData();
             contentType = subAwardAmountReleased.getContentType();
             fileName = subAwardAmountReleased.getFileName();
-        }
-         
+            }
+
         ByteArrayOutputStream baos = null;
         try {
             baos = new ByteArrayOutputStream(data.length);
             baos.write(data);
-            WebUtils.saveMimeOutputStreamAsFile(response, contentType, baos, fileName);
+            WebUtils.saveMimeOutputStreamAsFile(
+            response, contentType, baos, fileName);
         } finally {
             try {
                 if (baos != null) {
@@ -212,31 +308,51 @@ public class SubAwardServiceImpl implements SubAwardService{
             }
         }
     }
-    
+    /**.
+     * this method is for getFollowupDateDefaultLength
+     *
+     * @return followupDateRange
+     */
     public String getFollowupDateDefaultLength() {
         String namespaceCode = "KC-SUBAWARD";
         String componentCode = "Document";
         String parameterName = "Subaward Follow Up";
-        String followupDateRange = this.getParameterService().getParameterValueAsString(namespaceCode, componentCode, parameterName);
+        String followupDateRange = this.getParameterService().
+        getParameterValueAsString(namespaceCode, componentCode, parameterName);
         return followupDateRange;
     }
-    
+    /**.
+     * this method is for getCalculatedFollowupDate
+     * @param baseDate
+     * @return retDate
+     */
     public Date getCalculatedFollowupDate(Date baseDate) {
-        Date retDate = new Date(DateUtils.addDays(baseDate, getFollowupDateDefaultLengthInDays()).getTime());
+        Date retDate =
+        new Date(DateUtils.addDays(
+        baseDate, getFollowupDateDefaultLengthInDays()).getTime());
         return retDate;
     }
-    
+
+    /**.
+     * this method is for gettingFollowUpDates
+     * @return returnAmount
+     */
     public int getFollowupDateDefaultLengthInDays() {
         String followupDateRange = getFollowupDateDefaultLength();
-        String rangeUnit = followupDateRange.substring(followupDateRange.length() - 1, followupDateRange.length());
-        int rangeAmount = Integer.parseInt(followupDateRange.substring(0, followupDateRange.length() - 1));
+        String rangeUnit = followupDateRange.substring(
+        followupDateRange.length() - 1, followupDateRange.length());
+        int rangeAmount =
+        Integer.parseInt(followupDateRange.substring(
+        0, followupDateRange.length() - 1));
         int returnAmount = 0;
         if (StringUtils.equalsIgnoreCase(rangeUnit, "D")) {
             returnAmount = rangeAmount;
         } else if (StringUtils.equalsIgnoreCase(rangeUnit, "W")) {
             returnAmount = rangeAmount * 7;
         } else {
-            throw new IllegalArgumentException("An invalid range unit was set in the 'Subaward Follow Up' parameter: " + rangeUnit);
+            throw new IllegalArgumentException(
+            "An invalid range unit was set in the "
+            + "'Subaward Follow Up' parameter: " + rangeUnit);
         }
         return returnAmount;
     }

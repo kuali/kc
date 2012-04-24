@@ -20,6 +20,9 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
+/**
+ * This class is using for SubAward rule validation...
+ */
 public interface SubAwardRule extends BusinessRule {
 
     public boolean processAddSubAwardBusinessRules(SubAward subAward);

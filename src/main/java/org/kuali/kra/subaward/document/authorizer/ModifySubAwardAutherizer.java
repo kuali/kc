@@ -1,4 +1,4 @@
-/*
+/*.
  * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -21,28 +21,40 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.document.authorization.SubAwardTask;
 
-public class ModifySubAwardAutherizer extends SubAwardAuthorizer{
+/**
+ * This class checks the authorization for modifySubAward...
+ */
+public class ModifySubAwardAutherizer extends SubAwardAuthorizer {
 
     @Override
     public boolean isAuthorized(String userId, SubAwardTask task) {
-        
+
         SubAwardDocument subAwardDocument = task.getSubAwardDocument();
-        if(subAwardDocument.getSubAward().getSubAwardId()!=null){
-            
-            if(hasPermission(userId, task.getSubAwardDocument().getSubAward(), PermissionConstants.MODIFY_SUBAWARD)){
+        if (subAwardDocument.getSubAward().getSubAwardId() != null) {
+
+            if (hasPermission(userId, task.getSubAwardDocument().
+            getSubAward(), PermissionConstants.MODIFY_SUBAWARD)) {
                 subAwardDocument.getSubAward().setEditSubAward(true);
             }
-            return !subAwardDocument.isViewOnly() && hasPermission(userId, task.getSubAwardDocument().getSubAward(), PermissionConstants.MODIFY_SUBAWARD)&&
-            !kraWorkflowService.isInWorkflow(subAwardDocument);
-        }else{
-            
-            return canUserCreateSubAward(userId, subAwardDocument.getSubAward());
+            return !subAwardDocument.isViewOnly()
+            && hasPermission(userId, task.getSubAwardDocument().
+            getSubAward(), PermissionConstants.MODIFY_SUBAWARD)
+           && !kraWorkflowService.isInWorkflow(subAwardDocument);
+        } else {
+            return canUserCreateSubAward(
+            userId, subAwardDocument.getSubAward());
 
         }
     }
 
-    
-    protected boolean canUserCreateSubAward(String userId, SubAward award){
-        return hasUnitPermission(userId, Constants.MODULE_NAMESPACE_SUBAWARD, PermissionConstants.CREATE_SUBAWARD);
+    /**.
+     * This method is for checking whether user can create subAward
+     *@param award the SubAward
+     *@param userId the userId
+     *@return boolean
+     */
+ protected boolean canUserCreateSubAward(String userId, SubAward award) {
+        return hasUnitPermission(userId, Constants.
+        MODULE_NAMESPACE_SUBAWARD, PermissionConstants.CREATE_SUBAWARD);
     }
 }

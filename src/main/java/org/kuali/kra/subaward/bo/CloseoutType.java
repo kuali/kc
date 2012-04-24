@@ -17,6 +17,10 @@ package org.kuali.kra.subaward.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+* This class represents closeout type.
+*  Here Close out description and corresponding type codes are getting.
+ */
 public class CloseoutType extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
@@ -25,22 +29,43 @@ public class CloseoutType extends KraPersistableBusinessObjectBase {
 
     private String description;
 
+    /**
+     * Constructs a CloseoutType.java.
+     */
     public CloseoutType() {
     }
 
-    public Integer getCloseoutTypeCode() {
-        return closeoutTypeCode;
-    }
+ /**.
+	 * This is the Getter Method for closeoutTypeCode
+	 * @return Returns the closeoutTypeCode.
+	 */
+	public Integer getCloseoutTypeCode() {
+		return closeoutTypeCode;
+	}
 
-    public void setCloseoutTypeCode(Integer closeoutTypeCode) {
-        this.closeoutTypeCode = closeoutTypeCode;
-    }
+	/**.
+	 * This is the Setter Method for closeoutTypeCode
+	 * @param closeoutTypeCode The closeoutTypeCode to set.
+	 */
+	public void setCloseoutTypeCode(Integer closeoutTypeCode) {
+		this.closeoutTypeCode = closeoutTypeCode;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	/**.
+	 * This is the Getter Method for description
+	 * @return Returns the description.
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	/**.
+	 * This is the Setter Method for description
+	 * @param description The description to set.
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
 }

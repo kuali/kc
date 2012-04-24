@@ -18,6 +18,18 @@ package org.kuali.kra.subaward.subawardrule;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardContact;
 
-public interface SubAwardContactRule extends org.kuali.rice.krad.rules.rule.BusinessRule {
-    public boolean processAddSubAwardContactBusinessRules(SubAwardContact subAwardContact,SubAward subAward);
+/**
+ * This class is for rule validation for subAwardContact...
+ */
+public interface SubAwardContactRule extends
+org.kuali.rice.krad.rules.rule.BusinessRule {
+	/**.
+	 *
+	 * This method is for @param subAwardContact rule validation
+	 * @param subAwardContact
+	 * @param subAward
+	 * @return boolean value
+	 */
+    public boolean processAddSubAwardContactBusinessRules(
+    SubAwardContact subAwardContact, SubAward subAward);
 }

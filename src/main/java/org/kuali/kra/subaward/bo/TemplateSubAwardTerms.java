@@ -32,46 +32,91 @@ public class TemplateSubAwardTerms extends KraPersistableBusinessObjectBase {
 
     private AwardTemplate awardTemplate;
 
+    /**
+     * Constructs a TemplateSubAwardTerms.java.
+     */
     public TemplateSubAwardTerms() {
     }
 
+    /**.
+    * This is the Getter Method for templateSubAwardTermsId
+    * @return Returns the templateSubAwardTermsId.
+    */
     public Integer getTemplateSubAwardTermsId() {
-        return templateSubAwardTermsId;
-    }
+     return templateSubAwardTermsId;
+   }
 
-    public void setTemplateSubAwardTermsId(Integer templateSubAwardTermsId) {
-        this.templateSubAwardTermsId = templateSubAwardTermsId;
-    }
+	/**.
+	 * This is the Setter Method for templateSubAwardTermsId
+	 * @param templateSubAwardTermsId The templateSubAwardTermsId to set.
+	 */
+	public void setTemplateSubAwardTermsId(Integer templateSubAwardTermsId) {
+		this.templateSubAwardTermsId = templateSubAwardTermsId;
+	}
 
-    public Integer getTemplateCode() {
-        return templateCode;
-    }
+	/**.
+	 * This is the Getter Method for templateCode
+	 * @return Returns the templateCode.
+	 */
+	public Integer getTemplateCode() {
+		return templateCode;
+	}
 
-    public void setTemplateCode(Integer templateCode) {
-        this.templateCode = templateCode;
-    }
+	/**.
+	 * This is the Setter Method for templateCode
+	 * @param templateCode The templateCode to set.
+	 */
+	public void setTemplateCode(Integer templateCode) {
+		this.templateCode = templateCode;
+	}
 
-    public Integer getSubAwardApprovalTypeCode() {
-        return subAwardApprovalTypeCode;
-    }
+	/**.
+	 * This is the Getter Method for subAwardApprovalTypeCode
+	 * @return Returns the subAwardApprovalTypeCode.
+	 */
+	public Integer getSubAwardApprovalTypeCode() {
+		return subAwardApprovalTypeCode;
+	}
 
-    public void setSubAwardApprovalTypeCode(Integer subAwardApprovalTypeCode) {
-        this.subAwardApprovalTypeCode = subAwardApprovalTypeCode;
-    }
+	/**.
+	 * This is the Setter Method for subAwardApprovalTypeCode
+	 * @param subAwardApprovalTypeCode The subAwardApprovalTypeCode to set.
+	 */
+	public void setSubAwardApprovalTypeCode(Integer subAwardApprovalTypeCode) {
+		this.subAwardApprovalTypeCode = subAwardApprovalTypeCode;
+	}
 
-    public SubAwardApprovalType getSubAwardApprovalType() {
-        return subAwardApprovalType;
-    }
+	/**.
+	 * This is the Getter Method for subAwardApprovalType
+	 * @return Returns the subAwardApprovalType.
+	 */
+	public SubAwardApprovalType getSubAwardApprovalType() {
+		return subAwardApprovalType;
+	}
 
-    public void setSubAwardApprovalType(SubAwardApprovalType subAwardApprovalType) {
-        this.subAwardApprovalType = subAwardApprovalType;
-    }
+	/**.
+	 * This is the Setter Method for subAwardApprovalType
+	 * @param subAwardApprovalType The subAwardApprovalType to set.
+	 */
+	public void setSubAwardApprovalType(SubAwardApprovalType subAwardApprovalType) {
+		this.subAwardApprovalType = subAwardApprovalType;
+	}
 
-    public AwardTemplate getAwardTemplate() {
-        return awardTemplate;
-    }
+	/**.
+	 * This is the Getter Method for awardTemplate
+	 * @return Returns the awardTemplate.
+	 */
+	public AwardTemplate getAwardTemplate() {
+		return awardTemplate;
+	}
 
-    public void setAwardTemplate(AwardTemplate awardTemplate) {
-        this.awardTemplate = awardTemplate;
-    }
+	/**.
+	 * This is the Setter Method for awardTemplate
+	 * @param awardTemplate The awardTemplate to set.
+	 */
+	public void setAwardTemplate(AwardTemplate awardTemplate) {
+		this.awardTemplate = awardTemplate;
+	}
+
+ 
 }

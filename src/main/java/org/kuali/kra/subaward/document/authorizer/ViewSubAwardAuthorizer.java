@@ -18,11 +18,16 @@ package org.kuali.kra.subaward.document.authorizer;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.subaward.document.authorization.SubAwardTask;
 
-public class ViewSubAwardAuthorizer extends SubAwardAuthorizer{
+/**
+ * This class is using for checking the authorization
+ * for viewing subAward ...
+ */
+public class ViewSubAwardAuthorizer extends SubAwardAuthorizer {
 
     @Override
     public boolean isAuthorized(String userId, SubAwardTask task) {
-        return hasPermission(userId, task.getSubAwardDocument().getSubAward(), PermissionConstants.VIEW_SUBAWARD);
+        return hasPermission(userId, task.getSubAwardDocument().
+        	getSubAward(), PermissionConstants.VIEW_SUBAWARD);
 
     }
 

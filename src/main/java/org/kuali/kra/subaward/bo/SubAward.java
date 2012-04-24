@@ -47,14 +47,15 @@ import org.springframework.util.AutoPopulatingList;
 
 /**
  * 
- * This class...
+ * This class is using for SubAward...
  */
-public class SubAward extends KraPersistableBusinessObjectBase implements Permissionable,SequenceOwner<SubAward>, Negotiable{ 
+public class SubAward extends KraPersistableBusinessObjectBase
+implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 
     private static final long serialVersionUID = 1L;
     private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
-    
-    private Long subAwardId; 
+
+    private Long subAwardId;
     private String subAwardCode;
 
     private Integer sequenceNumber;
@@ -130,104 +131,178 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     private String awardNumber;
     private transient boolean editSubAward = false;
     private transient boolean defaultOpen = true;
-    
-    public String getSubAwardSequenceStatus() {
-        return subAwardSequenceStatus;
-    }
 
-    public void setSubAwardSequenceStatus(String subAwardSequenceStatus) {
-        this.subAwardSequenceStatus = subAwardSequenceStatus;
-    }
 
-    public KcPerson getKcPerson() {
-        return kcPerson;
-    }
+    /**.
+	 * This is the Getter Method for rolodex
+	 * @return Returns the rolodex.
+	 */
+	public Rolodex getRolodex() {
+		return rolodex;
+	}
 
-    public void setKcPerson(KcPerson kcPerson) {
-        this.kcPerson = kcPerson;
-    }
+	/**.
+	 * This is the Setter Method for rolodex
+	 * @param rolodex The rolodex to set.
+	 */
+	public void setRolodex(Rolodex rolodex) {
+		this.rolodex = rolodex;
+	}
 
-    public Rolodex getRolodex() {
-        return rolodex;
-    }
+	/**.
+	 * This is the Getter Method for kcPerson
+	 * @return Returns the kcPerson.
+	 */
+	public KcPerson getKcPerson() {
+		return kcPerson;
+	}
 
-    public void setRolodex(Rolodex rolodex) {
-        this.rolodex = rolodex;
-    }
-    
-    public String getRolodexFirstName() {
+	/**.
+	 * This is the Setter Method for kcPerson
+	 * @param kcPerson The kcPerson to set.
+	 */
+	public void setKcPerson(KcPerson kcPerson) {
+		this.kcPerson = kcPerson;
+	}
+
+	/**.
+	 * This is the Getter Method for subAwardSequenceStatus
+	 * @return Returns the subAwardSequenceStatus.
+	 */
+	public String getSubAwardSequenceStatus() {
+		return subAwardSequenceStatus;
+	}
+
+	/**.
+	 * This is the Setter Method for subAwardSequenceStatus
+	 * @param subAwardSequenceStatus The subAwardSequenceStatus to set.
+	 */
+	public void setSubAwardSequenceStatus(String subAwardSequenceStatus) {
+		this.subAwardSequenceStatus = subAwardSequenceStatus;
+	}
+
+	public String getRolodexFirstName() {
         if (getRolodex() == null) {
             return this.rolodexFirstName;
         } else {
             return getRolodex().getFirstName();
         }
     }
-    
+
     public void setRolodexFirstName(String rolodexFirstName) {
         this.rolodexFirstName = rolodexFirstName;
     }
 
-    public Organization getOrganization() {
-        return organization;
-    }
+    /**.
+	 * This is the Getter Method for organization
+	 * @return Returns the organization.
+	 */
+	public Organization getOrganization() {
+		return organization;
+	}
 
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
+	/**.
+	 * This is the Setter Method for organization
+	 * @param organization The organization to set.
+	 */
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
 
-    public Unit getUnit() {
-        return unit;
-    }
+	/**.
+	 * This is the Getter Method for unit
+	 * @return Returns the unit.
+	 */
+	public Unit getUnit() {
+		return unit;
+	}
 
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-    }
-
-    public String getOrganizationName() {
-        Organization organization=getOrganization();
-        if(organization!=null){
+	/**.
+	 * This is the Setter Method for unit
+	 * @param unit The unit to set.
+	 */
+	public void setUnit(Unit unit) {
+		this.unit = unit;
+	}
+	/**.
+	 * This is the Getter Method for OrganizationName
+	 * @return Returns organizationName.
+	 */
+	public String getOrganizationName() {
+        Organization organization = getOrganization();
+        if (organization != null) {
             return organization.getOrganizationName();
-        }else{
+        } else {
             return organizationName;
         }
     }
-
+	/**.
+	 * This is the Setter Method for Organizationname
+	 * @param organizationName The organizationName to set.
+	 */
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
     }
 
-    public String getRequisitionerName() {
-        return this.requisitionerName;
-    }
 
-    public void setRequisitionerName(String requisitionerName) {
-        this.requisitionerName = requisitionerName;
-    }
 
-    public String getRequisitionerUnitName() {
-        return requisitionerUnitName;
-    }
+    /**.
+	 * This is the Getter Method for requisitionerName
+	 * @return Returns the requisitionerName.
+	 */
+	public String getRequisitionerName() {
+		return requisitionerName;
+	}
 
-    public void setRequisitionerUnitName(String requisitionerUnitName) {
-        this.requisitionerUnitName = requisitionerUnitName;
-    }
+	/**.
+	 * This is the Setter Method for requisitionerName
+	 * @param requisitionerName The requisitionerName to set.
+	 */
+	public void setRequisitionerName(String requisitionerName) {
+		this.requisitionerName = requisitionerName;
+	}
 
-    public String getRequisitionerUserName() {
-        if (requisitionerId != null) { 
-            KcPerson requisitioner = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(requisitionerId); 
+	/**.
+	 * This is the Getter Method for requisitionerUnitName
+	 * @return Returns the requisitionerUnitName.
+	 */
+	public String getRequisitionerUnitName() {
+		return requisitionerUnitName;
+	}
+
+	/**.
+	 * This is the Setter Method for requisitionerUnitName
+	 * @param requisitionerUnitName The requisitionerUnitName to set.
+	 */
+	public void setRequisitionerUnitName(String requisitionerUnitName) {
+		this.requisitionerUnitName = requisitionerUnitName;
+	}
+	/**.
+	 * This is the Getter Method for requisitionerUserName
+	 * @return Returns the requisitionerUserName.
+	 */
+	public String getRequisitionerUserName() {
+        if (requisitionerId != null) {
+            KcPerson requisitioner = KraServiceLocator.getService(
+            KcPersonService.class).getKcPersonByPersonId(requisitionerId);
             if (requisitioner != null) {
-                requisitionerName = requisitioner.getFullName(); 
+                requisitionerName = requisitioner.getFullName();
                 requisitionerUserName = requisitioner.getUserName();
             }
         } else {
             this.requisitionerName = null;
         }
-        return this.requisitionerUserName;        
+        return this.requisitionerUserName;
     }
-
+	/**.
+	 * This is the Setter Method for requisitionerUserName
+	 * @param requisitionerUserName The requisitionerUserName to set.
+	 */
     public void setRequisitionerUserName(String requisitionerUserName) {
-        if (requisitionerUserName != null) { 
-            KcPerson requisitioner = KraServiceLocator.getService(KcPersonService.class).getKcPersonByUserName(requisitionerUserName);
+        if (requisitionerUserName != null) {
+            KcPerson requisitioner = KraServiceLocator.
+            getService(KcPersonService.class).getKcPersonByUserName(
+            		requisitionerUserName);
             if (requisitioner != null) {
                 requisitionerId = requisitioner.getPersonId();
             }
@@ -237,15 +312,27 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
         this.requisitionerUserName = requisitionerUserName;
     }
 
-    public String getSiteInvestigatorName() {
-        return siteInvestigatorName;
-    }
+  
 
-    public void setSiteInvestigatorName(String siteInvestigatorName) {
-        this.siteInvestigatorName = siteInvestigatorName;
-    }
+    /**.
+	 * This is the Getter Method for siteInvestigatorName
+	 * @return Returns the siteInvestigatorName.
+	 */
+	public String getSiteInvestigatorName() {
+		return siteInvestigatorName;
+	}
 
-    private List<SubAwardFundingSource> subAwardFundingSourceList;
+	/**.
+	 * This is the Setter Method for siteInvestigatorName
+	 * @param siteInvestigatorName The siteInvestigatorName to set.
+	 */
+	public void setSiteInvestigatorName(String siteInvestigatorName) {
+		this.siteInvestigatorName = siteInvestigatorName;
+	}
+
+
+
+	private List<SubAwardFundingSource> subAwardFundingSourceList;
 
     private List<SubAwardAmountInfo> subAwardAmountInfoList;
 
@@ -257,11 +344,14 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
 
     private List<SubAwardCustomData> subAwardCustomDataList;
 
+    /**.
+	 * This creates subAwardConstructor
+	 */
     public SubAward() {
         super();
         initializeCollections();
         initialize();
-        
+
     }
 
     protected void initialize() {
@@ -269,327 +359,620 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
         subAwardSequenceStatus = VersionStatus.PENDING.name();
         setNewVersion(false);
     }
-    public Long getSubAwardId() {
-        return subAwardId;
-    }
 
-    public void setSubAwardId(Long subAwardId) {
-        this.subAwardId = subAwardId;
-    }
 
-    public String getSubAwardCode() {
-        return subAwardCode;
-    }
+    /**.
+	 * This is the Getter Method for subAwardId
+	 * @return Returns the subAwardId.
+	 */
+	public Long getSubAwardId() {
+		return subAwardId;
+	}
 
-    public void setSubAwardCode(String subAwardCode) {
-        this.subAwardCode = subAwardCode;
-    }
+	/**.
+	 * This is the Setter Method for subAwardId
+	 * @param subAwardId The subAwardId to set.
+	 */
+	public void setSubAwardId(Long subAwardId) {
+		this.subAwardId = subAwardId;
+	}
 
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
+	/**.
+	 * This is the Getter Method for subAwardCode
+	 * @return Returns the subAwardCode.
+	 */
+	public String getSubAwardCode() {
+		return subAwardCode;
+	}
 
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
+	/**.
+	 * This is the Setter Method for subAwardCode
+	 * @param subAwardCode The subAwardCode to set.
+	 */
+	public void setSubAwardCode(String subAwardCode) {
+		this.subAwardCode = subAwardCode;
+	}
 
-    public String getOrganizationId() {
-        OrganizationService organizationService = KraServiceLocator.getService(OrganizationService.class);
+	/**.
+	 * This is the Getter Method for sequenceNumber
+	 * @return Returns the sequenceNumber.
+	 */
+	public Integer getSequenceNumber() {
+		return sequenceNumber;
+	}
+
+	/**.
+	 * This is the Setter Method for sequenceNumber
+	 * @param sequenceNumber The sequenceNumber to set.
+	 */
+	public void setSequenceNumber(Integer sequenceNumber) {
+		this.sequenceNumber = sequenceNumber;
+	}
+	/**.
+	 * This is the Getter Method for OrganizationId
+	 * @return Returns the OrganizationId.
+	 */
+	public String getOrganizationId() {
+        OrganizationService organizationService = KraServiceLocator.
+       getService(OrganizationService.class);
         this.organization = organizationService.getOrganization(organizationId);
-        
         return organizationId;
     }
-
+	/**.
+	 * This is the Setter Method for organizationId
+	 * @param organizationId The organizationId to set.
+	 */
     public void setOrganizationId(String organizationId) {
         this.organizationId = organizationId;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
+   
+    /**.
+	 * This is the Getter Method for startDate
+	 * @return Returns the startDate.
+	 */
+	public Date getStartDate() {
+		return startDate;
+	}
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
+	/**.
+	 * This is the Setter Method for startDate
+	 * @param startDate The startDate to set.
+	 */
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
 
-    public Date getEndDate() {
-        return endDate;
-    }
+	/**.
+	 * This is the Getter Method for endDate
+	 * @return Returns the endDate.
+	 */
+	public Date getEndDate() {
+		return endDate;
+	}
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+	/**.
+	 * This is the Setter Method for endDate
+	 * @param endDate The endDate to set.
+	 */
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 
-    public Integer getSubAwardTypeCode() {
-        return subAwardTypeCode;
-    }
+	/**.
+	 * This is the Getter Method for subAwardTypeCode
+	 * @return Returns the subAwardTypeCode.
+	 */
+	public Integer getSubAwardTypeCode() {
+		return subAwardTypeCode;
+	}
 
-    public void setSubAwardTypeCode(Integer subAwardTypeCode) {
-        this.subAwardTypeCode = subAwardTypeCode;
-    }
+	/**.
+	 * This is the Setter Method for subAwardTypeCode
+	 * @param subAwardTypeCode The subAwardTypeCode to set.
+	 */
+	public void setSubAwardTypeCode(Integer subAwardTypeCode) {
+		this.subAwardTypeCode = subAwardTypeCode;
+	}
 
-    public String getPurchaseOrderNum() {
-        return purchaseOrderNum;
-    }
+	
 
-    public void setPurchaseOrderNum(String purchaseOrderNum) {
-        this.purchaseOrderNum = purchaseOrderNum;
-    }
+    /**.
+	 * This is the Getter Method for purchaseOrderNum
+	 * @return Returns the purchaseOrderNum.
+	 */
+	public String getPurchaseOrderNum() {
+		return purchaseOrderNum;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	/**.
+	 * This is the Setter Method for purchaseOrderNum
+	 * @param purchaseOrderNum The purchaseOrderNum to set.
+	 */
+	public void setPurchaseOrderNum(String purchaseOrderNum) {
+		this.purchaseOrderNum = purchaseOrderNum;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	/**.
+	 * This is the Getter Method for title
+	 * @return Returns the title.
+	 */
+	public String getTitle() {
+		return title;
+	}
 
-    public Integer getStatusCode() {
-        return statusCode;
-    }
+	/**.
+	 * This is the Setter Method for title
+	 * @param title The title to set.
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public void setStatusCode(Integer statusCode) {
-        this.statusCode = statusCode;
-    }
+	/**.
+	 * This is the Getter Method for statusCode
+	 * @return Returns the statusCode.
+	 */
+	public Integer getStatusCode() {
+		return statusCode;
+	}
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
+	/**.
+	 * This is the Setter Method for statusCode
+	 * @param statusCode The statusCode to set.
+	 */
+	public void setStatusCode(Integer statusCode) {
+		this.statusCode = statusCode;
+	}
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
+	/**.
+	 * This is the Getter Method for accountNumber
+	 * @return Returns the accountNumber.
+	 */
+	public String getAccountNumber() {
+		return accountNumber;
+	}
 
-    public String getVendorNumber() {
-        return vendorNumber;
-    }
+	/**.
+	 * This is the Setter Method for accountNumber
+	 * @param accountNumber The accountNumber to set.
+	 */
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
 
-    public void setVendorNumber(String vendorNumber) {
-        this.vendorNumber = vendorNumber;
-    }
+	/**.
+	 * This is the Getter Method for vendorNumber
+	 * @return Returns the vendorNumber.
+	 */
+	public String getVendorNumber() {
+		return vendorNumber;
+	}
 
-    public String getRequisitionerId() {
-        return requisitionerId;
-    }
+	/**.
+	 * This is the Setter Method for vendorNumber
+	 * @param vendorNumber The vendorNumber to set.
+	 */
+	public void setVendorNumber(String vendorNumber) {
+		this.vendorNumber = vendorNumber;
+	}
 
-    public void setRequisitionerId(String requisitionerId) {
-        this.requisitionerId = requisitionerId;
-    }
+	/**.
+	 * This is the Getter Method for requisitionerId
+	 * @return Returns the requisitionerId.
+	 */
+	public String getRequisitionerId() {
+		return requisitionerId;
+	}
 
-    public String getRequisitionerUnit() {
+	/**.
+	 * This is the Setter Method for requisitionerId
+	 * @param requisitionerId The requisitionerId to set.
+	 */
+	public void setRequisitionerId(String requisitionerId) {
+		this.requisitionerId = requisitionerId;
+	}
+	/**.
+	 * This is the Getter Method for RequisitionerUnit
+	 * @return Returns the requisitionerUnit.
+	 */
+	public String getRequisitionerUnit() {
         if (this.requisitionerUnit != null) {
-            UnitService unitService = KraServiceLocator.getService(UnitService.class);
+            UnitService unitService = KraServiceLocator.
+            getService(UnitService.class);
             this.unit = unitService.getUnit(requisitionerUnit);
         }
         return requisitionerUnit;
     }
+	/**.
+	 * This is the Setter Method for requisitionerUnit
+	 * @param requisitionerUnit The requisitionerUnit to set.
+	 */
 
     public void setRequisitionerUnit(String requisitionerUnit) {
         this.requisitionerUnit = requisitionerUnit;
     }
 
-    public String getArchiveLocation() {
-        return archiveLocation;
-    }
+    /**.
+	 * This is the Getter Method for archiveLocation
+	 * @return Returns the archiveLocation.
+	 */
+	public String getArchiveLocation() {
+		return archiveLocation;
+	}
 
-    public void setArchiveLocation(String archiveLocation) {
-        this.archiveLocation = archiveLocation;
-    }
+	/**.
+	 * This is the Setter Method for archiveLocation
+	 * @param archiveLocation The archiveLocation to set.
+	 */
+	public void setArchiveLocation(String archiveLocation) {
+		this.archiveLocation = archiveLocation;
+	}
 
-    public Date getCloseoutDate() {
-        return closeoutDate;
-    }
+	/**.
+	 * This is the Getter Method for closeoutDate
+	 * @return Returns the closeoutDate.
+	 */
+	public Date getCloseoutDate() {
+		return closeoutDate;
+	}
 
-    public void setCloseoutDate(Date closeoutDate) {
-        this.closeoutDate = closeoutDate;
-    }
+	/**.
+	 * This is the Setter Method for closeoutDate
+	 * @param closeoutDate The closeoutDate to set.
+	 */
+	public void setCloseoutDate(Date closeoutDate) {
+		this.closeoutDate = closeoutDate;
+	}
 
-    public String getCloseoutIndicator() {
-        return closeoutIndicator;
-    }
+	/**.
+	 * This is the Getter Method for closeoutIndicator
+	 * @return Returns the closeoutIndicator.
+	 */
+	public String getCloseoutIndicator() {
+		return closeoutIndicator;
+	}
 
-    public void setCloseoutIndicator(String closeoutIndicator) {
-        this.closeoutIndicator = closeoutIndicator;
-    }
+	/**.
+	 * This is the Setter Method for closeoutIndicator
+	 * @param closeoutIndicator The closeoutIndicator to set.
+	 */
+	public void setCloseoutIndicator(String closeoutIndicator) {
+		this.closeoutIndicator = closeoutIndicator;
+	}
 
-    public String getFundingSourceIndicator() {
-        return fundingSourceIndicator;
-    }
+	/**.
+	 * This is the Getter Method for fundingSourceIndicator
+	 * @return Returns the fundingSourceIndicator.
+	 */
+	public String getFundingSourceIndicator() {
+		return fundingSourceIndicator;
+	}
 
-    public void setFundingSourceIndicator(String fundingSourceIndicator) {
-        this.fundingSourceIndicator = fundingSourceIndicator;
-    }
+	/**.
+	 * This is the Setter Method for fundingSourceIndicator
+	 * @param fundingSourceIndicator The fundingSourceIndicator to set.
+	 */
+	public void setFundingSourceIndicator(String fundingSourceIndicator) {
+		this.fundingSourceIndicator = fundingSourceIndicator;
+	}
 
-    public String getComments() {
-        return comments;
-    }
+	/**.
+	 * This is the Getter Method for comments
+	 * @return Returns the comments.
+	 */
+	public String getComments() {
+		return comments;
+	}
 
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public Integer getSiteInvestigator() {
+	/**.
+	 * This is the Setter Method for comments
+	 * @param comments The comments to set.
+	 */
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+	/**.
+	 * This is the Getter Method for siteinvestigator
+	 * @return Returns the siteInvestigator.
+	 */
+	public Integer getSiteInvestigator() {
         if (siteInvestigator != null) {
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-            this.rolodex = (NonOrganizationalRolodex) businessObjectService.findByPrimaryKey(
-                   NonOrganizationalRolodex.class, getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
+            BusinessObjectService businessObjectService = KraServiceLocator.
+            getService(BusinessObjectService.class);
+            this.rolodex = (NonOrganizationalRolodex) businessObjectService.
+            findByPrimaryKey(NonOrganizationalRolodex.class,
+           getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
             this.siteInvestigatorId = rolodex.getRolodexId().toString();
         } else {
             this.rolodex = null;
         }
         return siteInvestigator;
     }
-
+	/**.
+	 * This is the Setter Method for siteInvestigator
+	 * @param siteInvestigator The siteInvestigator to set.
+	 */
     public void setSiteInvestigator(Integer siteInvestigator) {
         if (siteInvestigator != null) {
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-            this.rolodex = (NonOrganizationalRolodex) businessObjectService.findByPrimaryKey(
-                    NonOrganizationalRolodex.class, getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
+            BusinessObjectService businessObjectService = KraServiceLocator.
+            getService(BusinessObjectService.class);
+            this.rolodex = (NonOrganizationalRolodex) businessObjectService.
+            findByPrimaryKey(NonOrganizationalRolodex.class,
+            getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
             this.siteInvestigatorId = rolodex.getRolodexId().toString();
         }
         this.siteInvestigator = siteInvestigator;
     }
 
-    public SubAwardFundingSource getSubAwardFundingSource() {
-        return subAwardFundingSource;
-    }
+    /**.
+	 * This is the Getter Method for subAwardFundingSource
+	 * @return Returns the subAwardFundingSource.
+	 */
+	public SubAwardFundingSource getSubAwardFundingSource() {
+		return subAwardFundingSource;
+	}
 
-    public void setSubAwardFundingSource(SubAwardFundingSource subAwardFundingSource) {
-        this.subAwardFundingSource = subAwardFundingSource;
-    }
+	/**.
+	 * This is the Setter Method for subAwardFundingSource
+	 * @param subAwardFundingSource The subAwardFundingSource to set.
+	 */
+	public void setSubAwardFundingSource(SubAwardFundingSource subAwardFundingSource) {
+		this.subAwardFundingSource = subAwardFundingSource;
+	}
 
-    public SubAwardContact getSubAwardContact() {
-        return subAwardContact;
-    }
+	/**.
+	 * This is the Getter Method for subAwardContact
+	 * @return Returns the subAwardContact.
+	 */
+	public SubAwardContact getSubAwardContact() {
+		return subAwardContact;
+	}
 
-    public void setSubAwardContact(SubAwardContact subAwardContact) {
-        this.subAwardContact = subAwardContact;
-    }
+	/**.
+	 * This is the Setter Method for subAwardContact
+	 * @param subAwardContact The subAwardContact to set.
+	 */
+	public void setSubAwardContact(SubAwardContact subAwardContact) {
+		this.subAwardContact = subAwardContact;
+	}
 
-    public SubAwardCloseout getSubAwardCloseout() {
-        return subAwardCloseout;
-    }
+	/**.
+	 * This is the Getter Method for subAwardCloseout
+	 * @return Returns the subAwardCloseout.
+	 */
+	public SubAwardCloseout getSubAwardCloseout() {
+		return subAwardCloseout;
+	}
 
-    public void setSubAwardCloseout(SubAwardCloseout subAwardCloseout) {
-        this.subAwardCloseout = subAwardCloseout;
-    }
+	/**.
+	 * This is the Setter Method for subAwardCloseout
+	 * @param subAwardCloseout The subAwardCloseout to set.
+	 */
+	public void setSubAwardCloseout(SubAwardCloseout subAwardCloseout) {
+		this.subAwardCloseout = subAwardCloseout;
+	}
 
-    public SubAwardAmountReleased getSubAwardAmountReleased() {
-        return subAwardAmountReleased;
-    }
+	/**.
+	 * This is the Getter Method for subAwardAmountReleased
+	 * @return Returns the subAwardAmountReleased.
+	 */
+	public SubAwardAmountReleased getSubAwardAmountReleased() {
+		return subAwardAmountReleased;
+	}
 
-    public void setSubAwardAmtReleased(SubAwardAmountReleased subAwardAmountReleased) {
-        this.subAwardAmountReleased = subAwardAmountReleased;
-    }
+	/**.
+	 * This is the Setter Method for subAwardAmountReleased
+	 * @param subAwardAmountReleased The subAwardAmountReleased to set.
+	 */
+	public void setSubAwardAmountReleased(
+			SubAwardAmountReleased subAwardAmountReleased) {
+		this.subAwardAmountReleased = subAwardAmountReleased;
+	}
 
-    public SubAwardAmountInfo getSubAwardAmountInfo() {
-        return subAwardAmountInfo;
-    }
+	/**.
+	 * This is the Getter Method for subAwardAmountInfo
+	 * @return Returns the subAwardAmountInfo.
+	 */
+	public SubAwardAmountInfo getSubAwardAmountInfo() {
+		return subAwardAmountInfo;
+	}
 
-    public void setSubAwardAmountInfo(SubAwardAmountInfo subAwardAmountInfo) {
-        this.subAwardAmountInfo = subAwardAmountInfo;
-    }
+	/**.
+	 * This is the Setter Method for subAwardAmountInfo
+	 * @param subAwardAmountInfo The subAwardAmountInfo to set.
+	 */
+	public void setSubAwardAmountInfo(SubAwardAmountInfo subAwardAmountInfo) {
+		this.subAwardAmountInfo = subAwardAmountInfo;
+	}
 
-    public List<SubAwardFundingSource> getSubAwardFundingSourceList() {
-        return subAwardFundingSourceList;
-    }
+    /**.
+	 * This is the Getter Method for subAwardFundingSourceList
+	 * @return Returns the subAwardFundingSourceList.
+	 */
+	public List<SubAwardFundingSource> getSubAwardFundingSourceList() {
+		return subAwardFundingSourceList;
+	}
 
-    public void setSubAwardFundingSourceList(List<SubAwardFundingSource> subAwardFundingSourceList) {
-        this.subAwardFundingSourceList = subAwardFundingSourceList;
-    }
+	/**.
+	 * This is the Setter Method for subAwardFundingSourceList
+	 * @param subAwardFundingSourceList
+	 *  The subAwardFundingSourceList to set.
+	 */
+	public void setSubAwardFundingSourceList(
+			List<SubAwardFundingSource> subAwardFundingSourceList) {
+		this.subAwardFundingSourceList = subAwardFundingSourceList;
+	}
 
-    public List<SubAwardAmountInfo> getSubAwardAmountInfoList() {
-        return subAwardAmountInfoList;
-    }
+	
 
-    public void setSubAwardAmountInfoList(List<SubAwardAmountInfo> subAwardAmountInfoList) {
-        this.subAwardAmountInfoList = subAwardAmountInfoList;
-    }
+    /**.
+	 * This is the Getter Method for subAwardAmountInfoList
+	 * @return Returns the subAwardAmountInfoList.
+	 */
+	public List<SubAwardAmountInfo> getSubAwardAmountInfoList() {
+		return subAwardAmountInfoList;
+	}
 
-    public List<SubAwardAmountReleased> getSubAwardAmountReleasedList() {
-        return subAwardAmountReleasedList;
-    }
+	/**.
+	 * This is the Setter Method for subAwardAmountInfoList
+	 * @param subAwardAmountInfoList The subAwardAmountInfoList to set.
+	 */
+	public void setSubAwardAmountInfoList(
+			List<SubAwardAmountInfo> subAwardAmountInfoList) {
+		this.subAwardAmountInfoList = subAwardAmountInfoList;
+	}
 
-    public void setSubAwardAmountReleasedList(List<SubAwardAmountReleased> subAwardAmountReleasedList) {
-        this.subAwardAmountReleasedList = subAwardAmountReleasedList;
-    }
+	/**.
+	 * This is the Getter Method for subAwardAmountReleasedList
+	 * @return Returns the subAwardAmountReleasedList.
+	 */
+	public List<SubAwardAmountReleased> getSubAwardAmountReleasedList() {
+		return subAwardAmountReleasedList;
+	}
 
-    public List<SubAwardContact> getSubAwardContactsList() {
-        return subAwardContactsList;
-    }
+	/**.
+	 * This is the Setter Method for subAwardAmountReleasedList
+	 * @param subAwardAmountReleasedList The subAwardAmountReleasedList to set.
+	 */
+	public void setSubAwardAmountReleasedList(
+			List<SubAwardAmountReleased> subAwardAmountReleasedList) {
+		this.subAwardAmountReleasedList = subAwardAmountReleasedList;
+	}
 
-    public void setSubAwardContactsList(List<SubAwardContact> subAwardContactsList) {
-        this.subAwardContactsList = subAwardContactsList;
-    }
+	/**.
+	 * This is the Getter Method for subAwardContactsList
+	 * @return Returns the subAwardContactsList.
+	 */
+	public List<SubAwardContact> getSubAwardContactsList() {
+		return subAwardContactsList;
+	}
 
-    public List<SubAwardCloseout> getSubAwardCloseoutList() {
-        return subAwardCloseoutList;
-    }
+	/**.
+	 * This is the Setter Method for subAwardContactsList
+	 * @param subAwardContactsList The subAwardContactsList to set.
+	 */
+	public void setSubAwardContactsList(List<SubAwardContact> subAwardContactsList) {
+		this.subAwardContactsList = subAwardContactsList;
+	}
 
-    public void setSubAwardCloseoutList(List<SubAwardCloseout> subAwardCloseoutList) {
-        this.subAwardCloseoutList = subAwardCloseoutList;
-    }
+	/**.
+	 * This is the Getter Method for subAwardCloseoutList
+	 * @return Returns the subAwardCloseoutList.
+	 */
+	public List<SubAwardCloseout> getSubAwardCloseoutList() {
+		return subAwardCloseoutList;
+	}
 
-    public List<SubAwardCustomData> getSubAwardCustomDataList() {
-        return subAwardCustomDataList;
-    }
+	/**.
+	 * This is the Setter Method for subAwardCloseoutList
+	 * @param subAwardCloseoutList The subAwardCloseoutList to set.
+	 */
+	public void setSubAwardCloseoutList(List<SubAwardCloseout> subAwardCloseoutList) {
+		this.subAwardCloseoutList = subAwardCloseoutList;
+	}
 
-    public void setSubAwardCustomDataList(List<SubAwardCustomData> subAwardCustomDataList) {
-        this.subAwardCustomDataList = subAwardCustomDataList;
-    }
+	/**.
+	 * This is the Getter Method for subAwardCustomDataList
+	 * @return Returns the subAwardCustomDataList.
+	 */
+	public List<SubAwardCustomData> getSubAwardCustomDataList() {
+		return subAwardCustomDataList;
+	}
 
-
-    public String getStatusDescription() {
+	/**.
+	 * This is the Setter Method for subAwardCustomDataList
+	 * @param subAwardCustomDataList The subAwardCustomDataList to set.
+	 */
+	public void setSubAwardCustomDataList(
+			List<SubAwardCustomData> subAwardCustomDataList) {
+		this.subAwardCustomDataList = subAwardCustomDataList;
+	}
+	/**.
+	 * This is the Getter Method for getStatusDescription
+	 * @return Returns the statusDescription.
+	 */
+	public String getStatusDescription() {
         SubAwardStatus status = getSubAwardStatus();
         statusDescription = status != null ? status.getDescription() : null;
         return statusDescription;
     }
-
+	/**.
+	 * This is the Getter Method for initializeCollections
+	 */
     protected void initializeCollections() {
-        subAwardFundingSourceList = new AutoPopulatingList<SubAwardFundingSource>(SubAwardFundingSource.class);
-        subAwardAmountInfoList = new AutoPopulatingList<SubAwardAmountInfo>(SubAwardAmountInfo.class);
-        subAwardAmountReleasedList = new AutoPopulatingList<SubAwardAmountReleased>(SubAwardAmountReleased.class);
-        subAwardContactsList = new AutoPopulatingList<SubAwardContact>(SubAwardContact.class);
-        subAwardCloseoutList = new AutoPopulatingList<SubAwardCloseout>(SubAwardCloseout.class);
-        subAwardCustomDataList = new AutoPopulatingList<SubAwardCustomData>(SubAwardCustomData.class);
+        subAwardFundingSourceList = new AutoPopulatingList<
+        SubAwardFundingSource>(SubAwardFundingSource.class);
+        subAwardAmountInfoList = new AutoPopulatingList<
+        SubAwardAmountInfo>(SubAwardAmountInfo.class);
+        subAwardAmountReleasedList = new AutoPopulatingList<
+        SubAwardAmountReleased>(SubAwardAmountReleased.class);
+        subAwardContactsList = new AutoPopulatingList<
+        SubAwardContact>(SubAwardContact.class);
+        subAwardCloseoutList = new AutoPopulatingList<
+        SubAwardCloseout>(SubAwardCloseout.class);
+        subAwardCustomDataList = new AutoPopulatingList<
+        SubAwardCustomData>(SubAwardCustomData.class);
     }
-
+    /**.
+	 * This is the Setter Method for subAwardDocument
+	 * @param subAwardDocument
+	 *  The subAwardDocument to set.
+	 */
     public void setSubAwardDocument(SubAwardDocument subAwardDocument) {
         this.subAwardDocument = subAwardDocument;
     }
-
+    /**.
+	 * This is the Getter Method for getSubAwardDocument
+	 * @return Returns the subAwardDocument.
+	 */
     public SubAwardDocument getSubAwardDocument() {
         if (subAwardDocument == null) {
             this.refreshReferenceObject("subAwardDocument");
         }
         return subAwardDocument;
     }
-
+    /*.
+	 * This is the Setter Method for subAwardStatus
+	 * @param subAwardStatus
+	 *  The subAwardStatus to set.
+	 */
     public void setSubAwardStatus(SubAwardStatus subAwardStatus) {
         this.subAwardStatus = subAwardStatus;
     }
-
+    /**.
+	 * This is the Getter Method for getSubAwardStatus
+	 * @return Returns the subAwardDocument.
+	 */
     public SubAwardStatus getSubAwardStatus() {
         if (subAwardStatus == null && statusCode != null) {
             refreshReferenceObject("subAwardStatus");
         }
         return subAwardStatus;
     }
-
+    /*.
+	 * This is the Setter Method for subAwardType
+	 * @param subAwardType
+	 *  The subAwardType to set.
+	 */
     public void setSubAwardType(AwardType subAwardType) {
         this.subAwardType = subAwardType;
     }
-
+    /**.
+	 * This is the Getter Method for subAwardType
+	 * @return Returns the subAwardType.
+	 */
     public AwardType getSubAwardType() {
         return subAwardType;
     }
 
     @Override
     public String getDocumentNumberForPermission() {
-        if(subAwardId!=null)
+        if (subAwardId != null) {
             return subAwardId.toString();
-        else
+        } else {
             return null;
+    }
     }
 
     @Override
@@ -610,7 +993,8 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
 }
     @Override
     public String getLeadUnitNumber() {
-        return this.getUnit() != null ? this.getUnit().getUnitNumber() : EMPTY_STRING;
+        return this.getUnit() != null ?
+       this.getUnit().getUnitNumber() : EMPTY_STRING;
     }
 
     @Override
@@ -623,7 +1007,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         if(getSubAwardDocument()!=null)
             qualifiedRoleAttributes.put("documentNumber", getSubAwardDocument().getDocumentNumber());
-        
+
     }
     /**
      * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
@@ -637,7 +1021,6 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     @Override
     public void setSequenceOwner(SubAward newlyVersionedOwner) {
         // TODO Auto-generated method stub
-        
     }
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
@@ -652,7 +1035,6 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     @Override
     public void resetPersistenceState() {
        this.subAwardId=null;
-        
     }
 
     @Override
@@ -666,71 +1048,134 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
     }
 
 
-  
-    /**
+
+    /**.
      * sets newVersion to specified value
      * @param newVersion the newVersion to be set
      */
-    public void setNewVersion (boolean newVersion)
-    {
+    public void setNewVersion (boolean newVersion){
         this.newVersion = newVersion;
-       
+
     }
 
-    /**
+    /**.
      * Gets the newVersion attribute
      * @return Returns the newVersion attribute
      */
-    public boolean getNewVersion ()
-    {
+    public boolean getNewVersion( ) {
         return this.newVersion;
     }
-    public KualiDecimal getTotalObligatedAmount() {
-        return totalObligatedAmount;
-    }
-
-    public void setTotalObligatedAmount(KualiDecimal totalObligatedAmount) {
-            this.totalObligatedAmount = totalObligatedAmount;
-    }
-
-    public KualiDecimal getTotalAnticipatedAmount() {
-        return totalAnticipatedAmount;
-    }
-
-    public void setTotalAnticipatedAmount(KualiDecimal totalAnticipatedAmount) {
-        this.totalAnticipatedAmount = totalAnticipatedAmount;
-    }
-
-    public KualiDecimal getTotalAmountReleased() {
-        return totalAmountReleased;
-    }
-
-    public void setTotalAmountReleased(KualiDecimal totalAmountReleased) {
-        this.totalAmountReleased = totalAmountReleased;
-    }
-
-    public KualiDecimal getTotalAvailableAmount() {
-        return totalAvailableAmount;
-    }
-
-    public void setTotalAvailableAmount(KualiDecimal totalAvailableAmount) {
-        this.totalAvailableAmount = totalAvailableAmount;
-    }
     
-    public String getDocIdStatus() {
-        return docIdStatus;
-    }
-    public String getLastUpdate() {
-        return lastUpdate;
-    }
-    
-    public String getSiteInvestigatorId() {
+
+    /**.
+	 * This is the Getter Method for totalObligatedAmount
+	 * @return Returns the totalObligatedAmount.
+	 */
+	public KualiDecimal getTotalObligatedAmount() {
+		return totalObligatedAmount;
+	}
+
+	/**.
+	 * This is the Getter Method for lastUpdate
+	 * @return Returns the lastUpdate.
+	 */
+	public String getLastUpdate() {
+		return lastUpdate;
+	}
+
+	/**.
+	 * This is the Setter Method for lastUpdate
+	 * @param lastUpdate The lastUpdate to set.
+	 */
+	public void setLastUpdate(String lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	/**.
+	 * This is the Setter Method for totalObligatedAmount
+	 * @param totalObligatedAmount The totalObligatedAmount to set.
+	 */
+	public void setTotalObligatedAmount(KualiDecimal totalObligatedAmount) {
+		this.totalObligatedAmount = totalObligatedAmount;
+	}
+
+	/**.
+	 * This is the Getter Method for totalAnticipatedAmount
+	 * @return Returns the totalAnticipatedAmount.
+	 */
+	public KualiDecimal getTotalAnticipatedAmount() {
+		return totalAnticipatedAmount;
+	}
+
+	/**.
+	 * This is the Setter Method for totalAnticipatedAmount
+	 * @param totalAnticipatedAmount The totalAnticipatedAmount to set.
+	 */
+	public void setTotalAnticipatedAmount(KualiDecimal totalAnticipatedAmount) {
+		this.totalAnticipatedAmount = totalAnticipatedAmount;
+	}
+
+	/**.
+	 * This is the Getter Method for totalAmountReleased
+	 * @return Returns the totalAmountReleased.
+	 */
+	public KualiDecimal getTotalAmountReleased() {
+		return totalAmountReleased;
+	}
+
+	/**.
+	 * This is the Setter Method for totalAmountReleased
+	 * @param totalAmountReleased The totalAmountReleased to set.
+	 */
+	public void setTotalAmountReleased(KualiDecimal totalAmountReleased) {
+		this.totalAmountReleased = totalAmountReleased;
+	}
+
+	/**.
+	 * This is the Getter Method for totalAvailableAmount
+	 * @return Returns the totalAvailableAmount.
+	 */
+	public KualiDecimal getTotalAvailableAmount() {
+		return totalAvailableAmount;
+	}
+
+	/**.
+	 * This is the Setter Method for totalAvailableAmount
+	 * @param totalAvailableAmount The totalAvailableAmount to set.
+	 */
+	public void setTotalAvailableAmount(KualiDecimal totalAvailableAmount) {
+		this.totalAvailableAmount = totalAvailableAmount;
+	}
+
+	/**.
+	 * This is the Getter Method for docIdStatus
+	 * @return Returns the docIdStatus.
+	 */
+	public String getDocIdStatus() {
+		return docIdStatus;
+	}
+
+	/**.
+	 * This is the Setter Method for docIdStatus
+	 * @param docIdStatus The docIdStatus to set.
+	 */
+	public void setDocIdStatus(String docIdStatus) {
+		this.docIdStatus = docIdStatus;
+	}
+	/**.
+	 * This is the Getter Method for SiteInvestigatorId
+	 * @return Returns the siteInvestigatorId.
+	 */
+	public String getSiteInvestigatorId() {
         if (this.siteInvestigatorId == null && this.siteInvestigator != null) {
             siteInvestigatorId = this.siteInvestigator.toString();
         }
         return siteInvestigatorId;
     }
-    
+	/**.
+	 * This is the Setter Method for SiteInvestigatorId
+	 * @param siteInvestigatorId The siteInvestigatorId to set.
+	 */
     public void setSiteInvestigatorId(String siteInvestigatorId) {        
         this.siteInvestigatorId = siteInvestigatorId;
     }
@@ -792,12 +1237,14 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
 
     @Override
     public String getSubAwardOrganizationName() {
-        return this.getOrganization() != null ? this.getOrganization().getOrganizationName() : EMPTY_STRING;
+        return this.getOrganization() != null ?
+       this.getOrganization().getOrganizationName() : EMPTY_STRING;
     }
 
     @Override
     public List<NegotiationPersonDTO> getProjectPeople() {
-        List<NegotiationPersonDTO> people = new ArrayList<NegotiationPersonDTO>();
+        List<NegotiationPersonDTO> people = new
+        ArrayList<NegotiationPersonDTO>();
         if (this.getKcPerson() != null) {
             people.add(new NegotiationPersonDTO(this.getKcPerson(), "admin"));
         }
@@ -826,30 +1273,48 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
 
     @Override
     public String getSubAwardRequisitionerUnitName() {
-        return this.getUnit() != null ? this.getUnit().getUnitName() : EMPTY_STRING;
+        return this.getUnit() != null ? this.getUnit().
+        		getUnitName() : EMPTY_STRING;
     }
 
     @Override
     public String getSubAwardRequisitionerId() {
         return this.getRequisitionerId();
     }
-    public void setAwardNumber(String awardNumber) {
-        this.awardNumber = awardNumber;
-    }
 
-    public String getAwardNumber() {
-        return awardNumber;
-    }
+    /**.
+	 * This is the Getter Method for awardNumber
+	 * @return Returns the awardNumber.
+	 */
+	public String getAwardNumber() {
+		return awardNumber;
+	}
 
-    public void setEditSubAward(boolean editSubAward) {
-        this.editSubAward = editSubAward;
-    }
+	/**.
+	 * This is the Setter Method for awardNumber
+	 * @param awardNumber The awardNumber to set.
+	 */
+	public void setAwardNumber(String awardNumber) {
+		this.awardNumber = awardNumber;
+	}
 
-    public boolean isEditSubAward() {
-        return editSubAward;
-    }
-    
-    /**
+	/**.
+	 * This is the Getter Method for editSubAward
+	 * @return Returns the editSubAward.
+	 */
+	public boolean isEditSubAward() {
+		return editSubAward;
+	}
+
+	/**.
+	 * This is the Setter Method for editSubAward
+	 * @param editSubAward The editSubAward to set.
+	 */
+	public void setEditSubAward(boolean editSubAward) {
+		this.editSubAward = editSubAward;
+	}
+
+	/**.
      * Build an identifier map for the BOS lookup
      * @param identifierField
      * @param identifierValue
@@ -859,7 +1324,7 @@ public class SubAward extends KraPersistableBusinessObjectBase implements Permis
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(identifierField, identifierValue);
         return map;
-    } 
+    }
 
     public boolean isDefaultOpen() {
         return defaultOpen;

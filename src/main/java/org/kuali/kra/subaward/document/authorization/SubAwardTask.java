@@ -1,4 +1,4 @@
-/*
+/*.
  * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -19,21 +19,37 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 
-public class SubAwardTask extends Task{
-    
+/**
+ * This class is for SubAwardTask...
+ */
+public class SubAwardTask extends Task {
+
     private SubAwardDocument subAwardDocument;
 
+    /**
+     * Constructs a SubAwardTask.java.
+     * @param taskName the taskName
+     * @param subAwardDocument the SubAwardDocument
+     */
     public SubAwardTask(String taskName, SubAwardDocument subAwardDocument) {
         super(TaskGroupName.SUBAWARD, taskName);
         this.setSubAwardDocument(subAwardDocument);
     }
 
-    public void setSubAwardDocument(SubAwardDocument subAwardDocument) {
-        this.subAwardDocument = subAwardDocument;
-    }
+	/**.
+	 * This is the Getter Method for subAwardDocument
+	 * @return Returns the subAwardDocument.
+	 */
+	public SubAwardDocument getSubAwardDocument() {
+		return subAwardDocument;
+	}
 
-    public SubAwardDocument getSubAwardDocument() {
-        return subAwardDocument;
-    }
+	/**.
+	 * This is the Setter Method for subAwardDocument
+	 * @param subAwardDocument The subAwardDocument to set.
+	 */
+	public void setSubAwardDocument(SubAwardDocument subAwardDocument) {
+		this.subAwardDocument = subAwardDocument;
+	}
 
 }
