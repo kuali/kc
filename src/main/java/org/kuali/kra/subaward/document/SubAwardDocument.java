@@ -30,29 +30,33 @@ import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class SubAwardDocument extends ResearchDocumentBase implements  Copyable, SessionDocument{
-    
-    /**
+/**
+ * This class is for subAwardDocument...
+ */
+public class SubAwardDocument extends ResearchDocumentBase
+implements  Copyable, SessionDocument {
+
+    /**.
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 5454534590787613256L;
     private transient boolean documentSaveAfterVersioning;
-    private List<SubAward> subAwardList;    
+    private List<SubAward> subAwardList;
     public static final String DOCUMENT_TYPE_CODE = "SAWD";
     @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
-    /**
+    /**.
      * Constructs a subAwardDocument object
      */
-    public SubAwardDocument(){        
-        super();        
+    public SubAwardDocument() {
+        super();
         init();
     }
     public SubAward getSubAward() {
         return getSubAwardList().size() > 0 ? getSubAwardList().get(0) : new SubAward();
-    }    
+    }
     public void setSubAward(SubAward subAward){
         subAwardList.set(0, subAward);
     }
@@ -61,41 +65,50 @@ public class SubAwardDocument extends ResearchDocumentBase implements  Copyable,
     }
     public List<SubAward> getSubAwardList() {
         return subAwardList;
-    }    
+    }
 
-    /**
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+    /**.
+     * The method is for doRouteStatusChange
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
+    public void doRouteStatusChange(
+    DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        
+
         String newStatus = statusChangeEvent.getNewRouteStatus();
         String oldStatus = statusChangeEvent.getOldRouteStatus();
-        
+
         if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
-            getVersionHistoryService().updateVersionHistoryOnRouteToFinal(getSubAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+            getVersionHistoryService().updateVersionHistoryOnRouteToFinal(
+            getSubAward(), VersionStatus.ACTIVE, GlobalVariables.
+            getUserSession().getPrincipalName());
         }
-        if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
-            getVersionHistoryService().updateVersionHistoryOnCancel(getSubAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
+        if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD)
+        || newStatus.equalsIgnoreCase(
+        KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+            getVersionHistoryService().updateVersionHistoryOnCancel(
+            getSubAward(), VersionStatus.CANCELED, GlobalVariables.
+            getUserSession().getPrincipalName());
         }
-   
+
         for (SubAward subAward : subAwardList) {
             subAward.setSubAwardDocument(this);
         }
     }
     /**
-     * This method specifies if this document may be edited; i.e. it's only initiated or saved
-     * @return
+     * This method specifies if this document may be
+     * edited; i.e. it's only initiated or saved
+     * @return boolean
      */
     public boolean isEditable() {
-        WorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
-        return workflowDoc.isInitiated() || workflowDoc.isSaved(); 
+        WorkflowDocument workflowDoc =
+        getDocumentHeader().getWorkflowDocument();
+        return workflowDoc.isInitiated() || workflowDoc.isSaved();
     }
     
     protected void init() {
         subAwardList = new ArrayList<SubAward>();
-        subAwardList.add(new SubAward());       
+        subAwardList.add(new SubAward());
     }
     /**
      * @return
@@ -117,10 +130,13 @@ public class SubAwardDocument extends ResearchDocumentBase implements  Copyable,
         return KraServiceLocator.getService(VersionHistoryService.class);
     }
     /**
-     * This method is to check whether rice async routing is ok now.   
+     * This method is to check whether rice
+     * async routing is ok now.
      * Close to hack.  called by holdingpageaction
-     * Different document type may have different routing set up, so each document type
-     * can implement its own isProcessComplete
+     * Different document type may have different
+     * routing set up, so each document type
+     * can implement its own
+     *  isProcessComplete
      * @return
      */
     public boolean isProcessComplete() {

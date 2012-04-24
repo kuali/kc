@@ -1,12 +1,12 @@
-/*
+/*.
  * Copyright 2005-2010 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,16 +40,20 @@ import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.ui.HeaderField;
-public class SubAwardForm extends KraTransactionalDocumentFormBase implements PermissionsForm,CustomDataForm, Auditable{
-    
+/**
+ * This class represents the SubAward Form Struts class....
+ */
+public class SubAwardForm extends KraTransactionalDocumentFormBase
+implements PermissionsForm, CustomDataForm, Auditable {
+
     private static final long serialVersionUID = -1452575757578523254L;
 
-    
+
     public static final String COLUMN = ":";
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
     private SubAwardCloseout newSubAwardCloseout;
-    private SubAwardFundingSource newSubAwardFundingSource;  
+    private SubAwardFundingSource newSubAwardFundingSource;
     private SubAwardAmountInfo newSubAwardAmountInfo;
     private SubAwardContact newSubAwardContact;
     private SubAwardAmountReleased newSubAwardAmountReleased;
@@ -58,64 +62,122 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
     private MedusaBean medusaBean;
     private FormFile newFile;
     private int defaultFollowUpDayDifference = 0;
-    
-    public FormFile getNewFile() {
-        return newFile;
-    }
 
-    public void setNewFile(FormFile newFile) {
-        this.newFile = newFile;
-    }
-    
-    public boolean isAuditActivated() {
-        return auditActivated;
-    }
+    /**.
+    * This is the Getter Method for newFile
+    * @return Returns the newFile.
+    */
+	public FormFile getNewFile() {
+		return newFile;
+	}
 
-    public void setAuditActivated(boolean auditActivated) {
-        this.auditActivated = auditActivated;
-    }
+	/**.
+	 * This is the Setter Method for newFile
+	 * @param newFile The newFile to set.
+	 */
+	public void setNewFile(FormFile newFile) {
+		this.newFile = newFile;
+	}
 
-    public SubAwardFundingSource getNewSubAwardFundingSource() {
-        return newSubAwardFundingSource;
-    }
+	/**.
+	 * This is the Getter Method for auditActivated
+	 * @return Returns the auditActivated.
+	 */
+	public boolean isAuditActivated() {
+		return auditActivated;
+	}
 
-    public void setNewSubAwardFundingSource(SubAwardFundingSource newSubAwardFundingSource) {
-        this.newSubAwardFundingSource = newSubAwardFundingSource;
-    }
+	/**.
+	 * This is the Setter Method for auditActivated
+	 * @param auditActivated The auditActivated to set.
+	 */
+	public void setAuditActivated(boolean auditActivated) {
+		this.auditActivated = auditActivated;
+	}
 
-    public SubAwardAmountInfo getNewSubAwardAmountInfo() {
-        return newSubAwardAmountInfo;
-    }
+	/**.
+	 * This is the Getter Method for newSubAwardFundingSource
+	 * @return Returns the newSubAwardFundingSource.
+	 */
+	public SubAwardFundingSource getNewSubAwardFundingSource() {
+		return newSubAwardFundingSource;
+	}
 
-    public void setNewSubAwardAmountInfo(SubAwardAmountInfo newSubAwardAmountInfo) {
-        this.newSubAwardAmountInfo = newSubAwardAmountInfo;
-    }
+	/**.
+	 * This is the Setter Method for newSubAwardFundingSource
+	 * @param newSubAwardFundingSource The newSubAwardFundingSource to set.
+	 */
+	public void setNewSubAwardFundingSource(
+			SubAwardFundingSource newSubAwardFundingSource) {
+		this.newSubAwardFundingSource = newSubAwardFundingSource;
+	}
 
-    public SubAwardAmountReleased getNewSubAwardAmountReleased() {
-        return newSubAwardAmountReleased;
-    }
+	 /**.
+	 * This is the Getter Method for newSubAwardAmountInfo
+	 * @return Returns the newSubAwardAmountInfo.
+	 */
+	public SubAwardAmountInfo getNewSubAwardAmountInfo() {
+		return newSubAwardAmountInfo;
+	}
 
-    public void setNewSubAwardAmountReleased(SubAwardAmountReleased newSubAwardAmountReleased) {
-        this.newSubAwardAmountReleased = newSubAwardAmountReleased;
-    }
+	/**.
+	 * This is the Setter Method for newSubAwardAmountInfo
+	 * @param newSubAwardAmountInfo The newSubAwardAmountInfo to set.
+	 */
+	public void setNewSubAwardAmountInfo(SubAwardAmountInfo newSubAwardAmountInfo) {
+		this.newSubAwardAmountInfo = newSubAwardAmountInfo;
+	}
 
-    public CustomDataHelper getCustomDataHelper() {
-        return customDataHelper;
-    }
+	/**.
+	 * This is the Getter Method for newSubAwardAmountReleased
+	 * @return Returns the newSubAwardAmountReleased.
+	 */
+	public SubAwardAmountReleased getNewSubAwardAmountReleased() {
+		return newSubAwardAmountReleased;
+	}
 
-    public void setCustomDataHelper(CustomDataHelper customDataHelper) {
-        this.customDataHelper = customDataHelper;
-    }
+	/**.
+	 * This is the Setter Method for newSubAwardAmountReleased
+	 * @param newSubAwardAmountReleased
+	 *  The newSubAwardAmountReleased to set.
+	 */
+	public void setNewSubAwardAmountReleased(
+			SubAwardAmountReleased newSubAwardAmountReleased) {
+		this.newSubAwardAmountReleased = newSubAwardAmountReleased;
+	}
 
-    public SubAwardForm() {
+	/**.
+	 * This is the Getter Method for customDataHelper
+	 * @return Returns the customDataHelper.
+	 */
+	public CustomDataHelper getCustomDataHelper() {
+		return customDataHelper;
+	}
+
+	/**.
+	 * This is the Setter Method for customDataHelper
+	 * @param customDataHelper The customDataHelper to set.
+	 */
+	public void setCustomDataHelper(CustomDataHelper customDataHelper) {
+		this.customDataHelper = customDataHelper;
+	}
+
+	/**
+	 * Constructs a SubAwardForm.java.
+	 */
+	public SubAwardForm() {
         super();
         initialize();
-    } 
+    }
+
+   /**.
+   * this method for subAward
+   */
    private SubAward subAward;
-    
-   
-    /**
-     * 
+
+
+    /**.
+     *
      * This method initialize all form variables
      */
     public void initialize() {
@@ -126,25 +188,27 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
         newSubAwardAmountReleased = new SubAwardAmountReleased();
         newSubAwardAmountInfo = new SubAwardAmountInfo();
     }
-  
+
     /**
-     * 
+     *
      * This method returns the SubAwardDocument object.
-     * @return
+     * @return SubAwardDocument
      */
     public SubAwardDocument getSubAwardDocument() {
         return (SubAwardDocument) super.getDocument();
     }
-    /**
+    /**.
      * This method returns a string representation of the document type
-     * @return
+     * @return SubAwardDocument
      */
     public String getDocumentTypeName() {
         return "SubAwardDocument";
     }
     /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kew.api.WorkflowDocument)
+     *
+     * @see org.kuali.rice.kns.web.struts.form.
+     * KualiDocumentFormBase#populateHeaderFields(
+     * org.kuali.rice.kew.api.WorkflowDocument)
      */
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
@@ -154,42 +218,58 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
         getDocInfo().clear();
         String docIdAndStatus = COLUMN;
         if (workflowDocument != null) {
-            docIdAndStatus = getDocument().getDocumentNumber() + COLUMN + workflowDocument.getStatus().getLabel();
+            docIdAndStatus = getDocument().getDocumentNumber()
+            + COLUMN + workflowDocument.getStatus().getLabel();
         }
         String lastUpdated ="";
-        if(subAwardDocument.getSubAward().getUpdateTimestamp()!=null && subAwardDocument.getSubAward().getUpdateUser()!=null){
-            
-            lastUpdated = subAwardDocument.getSubAward().getUpdateTimestamp().toString() +" By " +  subAwardDocument.getSubAward().getUpdateUser();
+        if (subAwardDocument.getSubAward().getUpdateTimestamp() != null
+        && subAwardDocument.getSubAward().getUpdateUser() != null) {
+
+            lastUpdated = subAwardDocument.getSubAward().getUpdateTimestamp().
+            toString() + " By " +  subAwardDocument.getSubAward().
+            getUpdateUser();
         }
-        
-        getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.requisitionerId",subAwardDocument.getSubAward().getRequisitionerUserName()));
-        getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.docIdStatus", docIdAndStatus));
-        if(subAwardDocument.getSubAward().getUnit()!=null){
-            getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.requisitionerUnit",subAwardDocument.getSubAward().getUnit().getUnitName()));
-        }else{
-            getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.requisitionerUnit",""));
+
+        getDocInfo().add(new HeaderField(
+        "DataDictionary.SubAward.attributes.requisitionerId",
+        subAwardDocument.getSubAward().getRequisitionerUserName()));
+        getDocInfo().add(new HeaderField(
+        "DataDictionary.SubAward.attributes.docIdStatus", docIdAndStatus));
+        if (subAwardDocument.getSubAward().getUnit() != null) {
+            getDocInfo().add(new HeaderField(""
+          +  "DataDictionary.SubAward.attributes.requisitionerUnit",
+          subAwardDocument.getSubAward().getUnit().getUnitName()));
+        } else {
+            getDocInfo().add(new HeaderField(
+            "DataDictionary.SubAward.attributes.requisitionerUnit", ""));
 
         }
-        getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.subAwardId",subAwardDocument.getSubAward().getSubAwardCode()));
-        getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.organizationId",subAwardDocument.getSubAward().getOrganizationName()));
-        getDocInfo().add(new HeaderField("DataDictionary.SubAward.attributes.lastUpdate",lastUpdated));
+        getDocInfo().add(new HeaderField(""
+        + "DataDictionary.SubAward.attributes.subAwardId",
+        subAwardDocument.getSubAward().getSubAwardCode()));
+        getDocInfo().add(new HeaderField(""
+      + "DataDictionary.SubAward.attributes.organizationId",
+       subAwardDocument.getSubAward().getOrganizationName()));
+        getDocInfo().add(new HeaderField(""
+       + "DataDictionary.SubAward.attributes.lastUpdate", lastUpdated));
 
 
     }
-    
+
     /**
      * 
-     * This method initializes either the document or the form based on the command value.
+     * This method initializes either the document
+     *  or the form based on the command value.
      */
     public void initializeFormOrDocumentBasedOnCommand(){
         if (KewApiConstants.INITIATE_COMMAND.equals(getCommand())) {
             getSubAwardDocument().initialize();
-        }else{
+        } else {
             initialize();
         }
     }
-    
-    
+
+
     @Override
     protected String getLockRegion() {
         // TODO Auto-generated method stub
@@ -199,14 +279,14 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
     @Override
     protected void setSaveDocumentControl(Map editMode) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     protected String getDefaultDocumentTypeName() {
         return "SubAwardDocument";
     }
-   
+
     public SubAward getSubAward() {
         return subAward;
     }
@@ -257,7 +337,7 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
     public MedusaBean getMedusaBean() {
         return medusaBean;
     }
-  
+
     /**
      * Sets the medusaBean attribute value.
      * @param medusaBean The medusaBean to set.
@@ -265,15 +345,18 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase implements Pe
     public void setMedusaBean(MedusaBean medusaBean) {
         this.medusaBean = medusaBean;
     }
-    
-    /**
+
+    /**.
      * 
-     * This returns the value of subawardservice.getFollowupDateDefaultLengthInDays() to be used on subAwardCloseout.tag
+     * This returns the value of subawardservice.
+     * getFollowupDateDefaultLengthInDays()
+     * to be used on subAwardCloseout.tag
      * @return
      */
     public int getDefaultFollowUpDayDifference() {
         if (defaultFollowUpDayDifference == 0) {
-            defaultFollowUpDayDifference = KraServiceLocator.getService(SubAwardService.class).getFollowupDateDefaultLengthInDays();
+            defaultFollowUpDayDifference = KraServiceLocator.
+            getService(SubAwardService.class).getFollowupDateDefaultLengthInDays();
         }
         return defaultFollowUpDayDifference;
     }

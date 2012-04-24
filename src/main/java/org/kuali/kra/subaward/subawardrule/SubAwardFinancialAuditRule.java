@@ -31,26 +31,33 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 /**
- * This class processes audit rules (warnings) for the Report Information related
+ * This class processes audit rules (warnings)
+ *  for the Report Information related
  * data of the SubAwardDocument.
  */
-public class SubAwardFinancialAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
+public class SubAwardFinancialAuditRule extends
+ResearchDocumentRuleBase implements DocumentAuditRule {
 
-    private static final String SUBAWARD_FINANCIAL_AUDIT_ERRORS = "subawardFinancialdAuditErrors";
+    private static final String SUBAWARD_FINANCIAL_AUDIT_ERRORS
+    = "subawardFinancialdAuditErrors";
     private List<AuditError> auditErrors;
 
 
     /**
-     * 
-     * Constructs a SubAwardFinancialAuditRule.java. Added so unit test would not
-     * need to call processRunAuditBusinessRules and therefore declare a document.
+     *
+     * Constructs a SubAwardFinancialAuditRule.java.
+     *  Added so unit test would not
+     * need to call processRunAuditBusinessRules
+     * and therefore declare a document.
      */
     public SubAwardFinancialAuditRule() {
-        auditErrors = new ArrayList<AuditError>(); 
+        auditErrors = new ArrayList<AuditError>();
     }
 
     /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.core.rule.DocumentAuditRule
+     * #processRunAuditBusinessRules(org.kuali.core.document.Document)
+     * @return boolean
      */
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
@@ -59,64 +66,84 @@ public class SubAwardFinancialAuditRule extends ResearchDocumentRuleBase impleme
         valid &= checkForObligatedAmountZero(document);
         valid &= checkForAnticipatedAmountZero(document);
 
-        reportAndCreateFinancialAuditCluster(); 
+        reportAndCreateFinancialAuditCluster();
 
         return valid;
 
     }
 
     /**
-     * This method creates and adds the AuditCluster to the Global AuditErrorMap.
+     * This method creates and adds the
+     * AuditCluster to the Global AuditErrorMap.
      */
     @SuppressWarnings("unchecked")
     protected void reportAndCreateFinancialAuditCluster() {
         if (auditErrors.size() > 0) {
-            AuditCluster existingErrors = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(SUBAWARD_FINANCIAL_AUDIT_ERRORS);
+            AuditCluster existingErrors = (AuditCluster) KNSGlobalVariables.
+            getAuditErrorMap().get(SUBAWARD_FINANCIAL_AUDIT_ERRORS);
             if (existingErrors == null) {
-                KNSGlobalVariables.getAuditErrorMap().put(SUBAWARD_FINANCIAL_AUDIT_ERRORS, new AuditCluster(Constants.SUBAWARD_FINANCIAL_PANEL_NAME,
-                        auditErrors, Constants.AUDIT_ERRORS));
+                KNSGlobalVariables.getAuditErrorMap().put(
+                SUBAWARD_FINANCIAL_AUDIT_ERRORS, new AuditCluster(Constants.
+                SUBAWARD_FINANCIAL_PANEL_NAME, auditErrors,
+                Constants.AUDIT_ERRORS));
             } else {
                 existingErrors.getAuditErrorList().addAll(auditErrors);
             }
         }
     }
-
+    /**.
+     * This method is for checking whether obligated amount is zero
+     * @param document
+     * @return boolean
+     */
     protected boolean checkForObligatedAmountZero(Document document) {
-        SubAwardDocument subAwardDocument = (SubAwardDocument)document;
-        KualiDecimal obligatedAmount=KualiDecimal.ZERO;
-        for(SubAwardAmountInfo subAwardAmountInfo:subAwardDocument.getSubAward().getSubAwardAmountInfoList()){
-            if(subAwardAmountInfo.getObligatedChange()!=null){
-                obligatedAmount = obligatedAmount .add(subAwardAmountInfo.getObligatedChange());
+        SubAwardDocument subAwardDocument = (SubAwardDocument) document;
+        KualiDecimal obligatedAmount = KualiDecimal.ZERO;
+        for (SubAwardAmountInfo subAwardAmountInfo
+        :subAwardDocument.getSubAward().getSubAwardAmountInfoList()) {
+            if (subAwardAmountInfo.getObligatedChange() != null) {
+              obligatedAmount = obligatedAmount.
+              add(subAwardAmountInfo.getObligatedChange());
             }
         }
-        if(obligatedAmount.isZero()) {
+        if (obligatedAmount.isZero()) {
             subAwardDocument.getSubAward().setDefaultOpen(false);
-            auditErrors.add(new AuditError(Constants.SUBAWARD_FINANCIAL_OBLIGATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO,
-                    Constants.MAPPING_FINANCIAL_PAGE + "." + Constants.SUBAWARD_FINANCIAL_PANEL));
-            
+            auditErrors.add(new AuditError(Constants.
+           SUBAWARD_FINANCIAL_OBLIGATED_AMOUNT, KeyConstants.
+           ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO, Constants.
+           MAPPING_FINANCIAL_PAGE + "." + Constants.SUBAWARD_FINANCIAL_PANEL));
             return false;
         } else {
             return true;
         }
     }
 
+    /**.
+     * This method is for checking whether anticipated amount is zero
+     * @param document
+     * @return boolean
+     */
     protected boolean checkForAnticipatedAmountZero(Document document) {
-        KualiDecimal anticipateAmount=KualiDecimal.ZERO;
-        SubAwardDocument subAwardDocument = (SubAwardDocument)document;
-        for(SubAwardAmountInfo subAwardAmountInfo:subAwardDocument.getSubAward().getSubAwardAmountInfoList()){
-            if(subAwardAmountInfo.getAnticipatedChange()!=null){
-                anticipateAmount = anticipateAmount.add(subAwardAmountInfo.getAnticipatedChange());
-            }    
+        KualiDecimal anticipateAmount = KualiDecimal.ZERO;
+        SubAwardDocument subAwardDocument = (SubAwardDocument) document;
+        for (SubAwardAmountInfo subAwardAmountInfo
+        :subAwardDocument.getSubAward().getSubAwardAmountInfoList()) {
+            if (subAwardAmountInfo.getAnticipatedChange() != null) {
+             anticipateAmount = anticipateAmount.add(
+           subAwardAmountInfo.getAnticipatedChange());
+            }
         }
-        if(anticipateAmount.isZero()){
+        if (anticipateAmount.isZero()) {
             subAwardDocument.getSubAward().setDefaultOpen(false);
-            auditErrors.add(new AuditError(Constants.SUBAWARD_FINANCIAL_ANTICIPATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO,
-                    Constants.MAPPING_FINANCIAL_PAGE + "." + Constants.SUBAWARD_FINANCIAL_PANEL));
+            auditErrors.add(new AuditError(
+            Constants.SUBAWARD_FINANCIAL_ANTICIPATED_AMOUNT,
+            KeyConstants.ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO,
+            Constants.MAPPING_FINANCIAL_PAGE + "."
+           + Constants.SUBAWARD_FINANCIAL_PANEL));
 
             return false;
-        }
-        else {
+        } else {
             return true;
-        }  
-    }   
+        }
+    }
 }

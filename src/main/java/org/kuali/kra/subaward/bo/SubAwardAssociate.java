@@ -23,6 +23,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 
 
+/**
+ * This class is for SubAwardAssociate...
+ */
 public abstract class SubAwardAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<SubAward>, Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -31,43 +34,49 @@ public abstract class SubAwardAssociate extends KraPersistableBusinessObjectBase
     private Integer sequenceNumber;
     private SubAward subAward;
     
+   
     /**
-     * @return
-     */
-    public String getSubAwardCode() {
-        return subAwardCode;
-    }
+	 * This is the Getter Method for subAwardCode  
+	 * @return Returns the subAwardCode.
+	 */
+	public String getSubAwardCode() {
+		return subAwardCode;
+	}
 
-    /**
-     * @return
-     */
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
+	/**
+	 * This is the Setter Method for subAwardCode
+	 * @param subAwardCode The subAwardCode to set.
+	 */
+	public void setSubAwardCode(String subAwardCode) {
+		this.subAwardCode = subAwardCode;
+	}
 
-    /**
-     * @return
-     */
-    public SubAward getSubAward() {
-        return subAward;
-    }
+	/**
+	 * This is the Getter Method for sequenceNumber  
+	 * @return Returns the sequenceNumber.
+	 */
+	public Integer getSequenceNumber() {
+		return sequenceNumber;
+	}
 
-    /**
-     * @param subAwardCode
-     */
-    public void setSubAwardCode(String subAwardCode) {
-        this.subAwardCode = subAwardCode;
-    }
+	/**
+	 * This is the Setter Method for sequenceNumber
+	 * @param sequenceNumber The sequenceNumber to set.
+	 */
+	public void setSequenceNumber(Integer sequenceNumber) {
+		this.sequenceNumber = sequenceNumber;
+	}
 
-    /**
-     * @param sequenceNumber
-     */
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
+	/**.
+	 * This is the Getter Method for subAward
+	 * @return Returns the subAward.
+	 */
+	public SubAward getSubAward() {
+		return subAward;
+	}
 
-    /**
-     * @param subAward
+	/**
+     * @param subAward 
      */
     public void setSubAward(SubAward subAward) {
         this.subAward = subAward;

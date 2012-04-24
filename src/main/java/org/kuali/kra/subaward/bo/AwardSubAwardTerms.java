@@ -37,51 +37,101 @@ public class AwardSubAwardTerms extends KraPersistableBusinessObjectBase {
     public AwardSubAwardTerms() {
     }
 
-    public Integer getAwardSubAwardTermsId() {
-        return awardSubAwardTermsId;
-    }
+	/**.
+	 * This is the Getter Method for awardSubAwardTermsId
+	 * @return Returns the awardSubAwardTermsId.
+	 */
+	public Integer getAwardSubAwardTermsId() {
+		return awardSubAwardTermsId;
+	}
 
-    public void setAwardSubAwardTermsId(Integer awardSubAwardTermsId) {
-        this.awardSubAwardTermsId = awardSubAwardTermsId;
-    }
+	/**.
+	 * This is the Setter Method for awardSubAwardTermsId
+	 * @param awardSubAwardTermsId The awardSubAwardTermsId to set.
+	 */
+	public void setAwardSubAwardTermsId(Integer awardSubAwardTermsId) {
+		this.awardSubAwardTermsId = awardSubAwardTermsId;
+	}
 
-    public Integer getAwardId() {
-        return awardId;
-    }
+	/**.
+	 * This is the Getter Method for awardId
+	 * @return Returns the awardId.
+	 */
+	public Integer getAwardId() {
+		return awardId;
+	}
 
-    public void setAwardId(Integer awardId) {
-        this.awardId = awardId;
-    }
+	/**.
+	 * This is the Setter Method for awardId
+	 * @param awardId The awardId to set.
+	 */
+	public void setAwardId(Integer awardId) {
+		this.awardId = awardId;
+	}
 
-    public String getMitAwardNumber() {
-        return mitAwardNumber;
-    }
+	/**.
+	 * This is the Getter Method for mitAwardNumber
+	 * @return Returns the mitAwardNumber.
+	 */
+	public String getMitAwardNumber() {
+		return mitAwardNumber;
+	}
 
-    public void setMitAwardNumber(String mitAwardNumber) {
-        this.mitAwardNumber = mitAwardNumber;
-    }
+	/**.
+	 * This is the Setter Method for mitAwardNumber
+	 * @param mitAwardNumber The mitAwardNumber to set.
+	 */
+	public void setMitAwardNumber(String mitAwardNumber) {
+		this.mitAwardNumber = mitAwardNumber;
+	}
 
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
+	/**.
+	 * This is the Getter Method for sequenceNumber
+	 * @return Returns the sequenceNumber.
+	 */
+	public Integer getSequenceNumber() {
+		return sequenceNumber;
+	}
 
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
+	/**.
+	 * This is the Setter Method for sequenceNumber
+	 * @param sequenceNumber The sequenceNumber to set.
+	 */
+	public void setSequenceNumber(Integer sequenceNumber) {
+		this.sequenceNumber = sequenceNumber;
+	}
 
-    public Integer getSubAwardApprovalTypeCode() {
-        return subAwardApprovalTypeCode;
-    }
+	/**.
+	 * This is the Getter Method for subAwardApprovalTypeCode
+	 * @return Returns the subAwardApprovalTypeCode.
+	 */
+	public Integer getSubAwardApprovalTypeCode() {
+		return subAwardApprovalTypeCode;
+	}
 
-    public void setSubAwardApprovalTypeCode(Integer subAwardApprovalTypeCode) {
-        this.subAwardApprovalTypeCode = subAwardApprovalTypeCode;
-    }
+	/**.
+	 * This is the Setter Method for subAwardApprovalTypeCode
+	 * @param subAwardApprovalTypeCode The subAwardApprovalTypeCode to set.
+	 */
+	public void setSubAwardApprovalTypeCode(
+	Integer subAwardApprovalTypeCode) {
+		this.subAwardApprovalTypeCode = subAwardApprovalTypeCode;
+	}
 
-    public Award getAward() {
-        return award;
-    }
+	/**.
+	 * This is the Getter Method for award
+	 * @return Returns the award.
+	 */
+	public Award getAward() {
+		return award;
+	}
 
-    public void setAward(Award award) {
-        this.award = award;
-    }
+	/**.
+	 * This is the Setter Method for award
+	 * @param award The award to set.
+	 */
+	public void setAward(Award award) {
+		this.award = award;
+	}
+
 }

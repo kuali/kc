@@ -19,9 +19,12 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAssociate;
 import org.kuali.kra.bo.CustomAttribute;
 
-public class SubAwardCustomData extends SubAwardAssociate{
+/**
+ * This class is for SubAwardCustomData...
+ */
+public class SubAwardCustomData extends SubAwardAssociate {
 
-    /**
+    /**.
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 4125090813618033094L;
@@ -38,7 +41,7 @@ public class SubAwardCustomData extends SubAwardAssociate{
     private SubAward subAward;
 
     /**
-     * Gets the customAttributeId attribute. 
+     * Gets the customAttributeId attribute.
      * @return Returns the customAttributeId.
      */
     public Long getCustomAttributeId() {
@@ -62,15 +65,15 @@ public class SubAwardCustomData extends SubAwardAssociate{
     }
 
     /**
-     * Sets the awardCustomDataId attribute value.
-     * @param awardCustomDataId The awardCustomDataId to set.
+     * Sets the SubAwardCustomDataId attribute value.
+     * @param subAwardCustomDataId The subAwardCustomDataId to set.
      */
     public void setSubAwardCustomDataId(Long subAwardCustomDataId) {
         this.subAwardCustomDataId = subAwardCustomDataId;
     }
 
     /**
-     * Gets the value attribute. 
+     * Gets the value attribute.
      * @return Returns the value.
      */
     public String getValue() {
@@ -94,14 +97,18 @@ public class SubAwardCustomData extends SubAwardAssociate{
 
     /**
      * @see java.lang.Object#hashCode()
+     * &return result
      */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((subAwardCustomDataId == null) ? 0 : subAwardCustomDataId.hashCode());
-        result = prime * result + ((customAttribute == null) ? 0 : customAttribute.hashCode());
-        result = prime * result + ((customAttributeId == null) ? 0 : customAttributeId.hashCode());
+        result = prime * result + ((subAwardCustomDataId == null)
+        ? 0 : subAwardCustomDataId.hashCode());
+        result = prime * result + ((customAttribute == null)
+        ? 0 : customAttribute.hashCode());
+        result = prime * result + ((customAttributeId == null)
+        ? 0 : customAttributeId.hashCode());
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
     }
@@ -111,42 +118,49 @@ public class SubAwardCustomData extends SubAwardAssociate{
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!super.equals(obj))
+            }
+        if (!super.equals(obj)) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         SubAwardCustomData other = (SubAwardCustomData) obj;
         if (subAwardCustomDataId == null) {
-            if (other.subAwardCustomDataId != null)
+            if (other.subAwardCustomDataId != null) {
                 return false;
         }
-        else if (!subAwardCustomDataId.equals(other.subAwardCustomDataId))
+        } else if (!subAwardCustomDataId.equals(other.subAwardCustomDataId)) {
             return false;
+        }
         if (customAttribute == null) {
-            if (other.customAttribute != null)
+            if (other.customAttribute != null) {
                 return false;
         }
-        else if (!customAttribute.equals(other.customAttribute))
+        } else if (!customAttribute.equals(other.customAttribute)) {
             return false;
+        }
         if (customAttributeId == null) {
-            if (other.customAttributeId != null)
+            if (other.customAttributeId != null) {
                 return false;
         }
-        else if (!customAttributeId.equals(other.customAttributeId))
+        } else if (!customAttributeId.equals(other.customAttributeId)) {
             return false;
+        }
         if (value == null) {
-            if (other.value != null)
+            if (other.value != null) {
                 return false;
-        }
-        else if (!value.equals(other.value))
+            }
+        } else if (!value.equals(other.value)) {
             return false;
-        return true;
+        }
+           return true;
     }
 
     /**
-     * Gets the customAttribute attribute. 
+     * Gets the customAttribute attribute.
      * @return Returns the customAttribute.
      */
     public CustomAttribute getCustomAttribute() {
@@ -161,13 +175,23 @@ public class SubAwardCustomData extends SubAwardAssociate{
         this.customAttribute = customAttribute;
     }
 
-    public String getSubAwardCode() {
-        return subAwardCode;
-    }
-    public void setSubAwardCode(String subAwardCode) {
-        this.subAwardCode = subAwardCode;
-    }
+  /**.
+	 * This is the Getter Method for subAwardCode
+	 * @return Returns the subAwardCode.
+	 */
+	public String getSubAwardCode() {
+		return subAwardCode;
+	}
 
-    
-    
+	/**.
+	 * This is the Setter Method for subAwardCode
+	 * @param subAwardCode The subAwardCode to set.
+	 */
+	public void setSubAwardCode(String subAwardCode) {
+		this.subAwardCode = subAwardCode;
+	}
+
+
+
+
 }

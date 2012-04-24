@@ -26,31 +26,38 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
+/**
+ * This class represents SubAwardService...
+ */
 public interface SubAwardService {
-    
-    
-    /**
+
+    /**.
      * Create new version of the Subaward document
      * @param subAwardDocument
      * @return
      * @throws VersionException
      */
-    public SubAwardDocument createNewSubAwardVersion(SubAwardDocument subAwardDocument) throws VersionException, WorkflowException;
-    
-    /**
-     * Update the subaward to use the new VersionStatus. If the version status is ACTIVE, any other active version of this
+    public SubAwardDocument createNewSubAwardVersion(
+    SubAwardDocument subAwardDocument) throws VersionException,
+    WorkflowException;
+
+    /**.
+     * Update the subaward to use the new VersionStatus.
+     *  If the version status is ACTIVE, any other
+     *  active version of this
      * subAward will be set to ARCHIVED.
      * @param subAward
      * @param status
      */
-    public void updateSubAwardSequenceStatus(SubAward subAward, VersionStatus status);
-    
+    public void updateSubAwardSequenceStatus(
+    SubAward subAward, VersionStatus status);
+
     /**
      * This method returns an unused SubAwardCode.
      * @return
      */
     String getNextSubAwardCode();
-    
+
     /**
      * This method will add AmountInfo details to subaward.
      * @param subAward
@@ -63,27 +70,30 @@ public interface SubAwardService {
      * @param subAward
      * @return
      */
-     public void downloadAttachment(KraPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception;
-     
-     /**
+     public void downloadAttachment(KraPersistableBusinessObjectBase
+   attachmentDataSource, HttpServletResponse response) throws Exception;
+
+     /**.
       * 
       * This method returns the value of the parameter 'Subaward Follow Up'.
       * @return
       */
      public String getFollowupDateDefaultLength();
-     
+
      /**
       * 
-      * This method calculates a follow date based on getFollowupDateDefaultLength and the passed in baseDate.
+      * This method calculates a follow date based on
+      * getFollowupDateDefaultLength and the passed in baseDate.
       * @param baseDate
       * @return
       */
      public Date getCalculatedFollowupDate(Date baseDate);
-     
-     
+
      /**
-      * 
-      * This method calls getFollowupDateDefaultLength translates the value into days or weeks, and then returns the value in days.
+      *
+      * This method calls getFollowupDateDefaultLength
+      *  translates the value into days or weeks,
+      *   and then returns the value in days.
       * @return
       */
      public int getFollowupDateDefaultLengthInDays();

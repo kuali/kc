@@ -21,39 +21,42 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.authorization.SubAwardTask;
 
-public abstract class SubAwardAuthorizer extends TaskAuthorizerImpl{
+/**
+ * This class is using for SubAwardAuthorizer...
+ */
+public abstract class SubAwardAuthorizer extends TaskAuthorizerImpl {
 
     private KraAuthorizationService kraAuthorizationService;
-    
+
     @Override
     public boolean isAuthorized(String userId, Task task) {
-        return isAuthorized(userId, (SubAwardTask) task); 
+        return isAuthorized(userId, (SubAwardTask) task);
     }
     /**
      * Is the user authorized to execute the given Subaward task?
-     * @param username the user's unique username
-     * @param task the Subaward task
+     * @param task the SubAwardTask
      * @return true if the user is authorized; otherwise false
      */
     public abstract boolean isAuthorized(String userId, SubAwardTask task);
-    
-    
+
     /**
-     * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
+     * Set the Kra Authorization Service.
+     * Usually injected by the Spring Framework.
      * @param kraAuthorizationService
      */
     public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
-    
+
     /**
      * Does the given user has the permission for this Subaward?
-     * @param username the unique username of the user
-     * @param Subaward the Subaward
+     * @param subAward the SubAward
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
-    protected final boolean hasPermission(String userId, SubAward subAward, String permissionName) {
-        return kraAuthorizationService.hasPermission(userId, subAward, permissionName);
+    protected final boolean hasPermission(String userId,
+    SubAward subAward, String permissionName) {
+        return kraAuthorizationService.hasPermission(userId,
+        subAward, permissionName);
     }
 }
