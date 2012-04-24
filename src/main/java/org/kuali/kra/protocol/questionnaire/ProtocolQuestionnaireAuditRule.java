@@ -18,14 +18,13 @@ package org.kuali.kra.protocol.questionnaire;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.questionnaire.BaseQuestionnaireAuditRule;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -37,7 +36,7 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
-public class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<ProtocolDocument> implements DocumentAuditRule {
+public abstract class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<ProtocolDocument> implements DocumentAuditRule {
     
     //private static final String MANDATORY_QUESTIONNAIRE_AUDIT_ERRORS = "questionnaireHelper%s%s";
     
@@ -50,7 +49,7 @@ public class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<P
         Protocol protocol = ((ProtocolDocument)document).getProtocol();
         
         boolean isValid = true;
-        ProtocolModuleQuestionnaireBean pmqb = new ProtocolModuleQuestionnaireBean(protocol);
+        ProtocolModuleQuestionnaireBean pmqb = getProtocolModuleQuestionnaireBean(protocol);
         List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(pmqb);
         
         if (headers!=null) {
@@ -74,13 +73,13 @@ public class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<P
         // extra validation to check if any default usage-only qnnrs are made incomplete in an questionnaire amendment submission
         if( !(protocol.isNew()) && (protocol.getProtocolAmendRenewal().hasModule(ProtocolModule.QUESTIONNAIRE)) ) {
             // create a module bean with the amendment protocol number but with default sub module to retrieve answer headers
-            pmqb = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 
+            pmqb = new ProtocolModuleQuestionnaireBean(getModuleCodeHook(), protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 
                 protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved());
             List<AnswerHeader> defAmendHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(pmqb);           
             // now check that each 'mandatory' (default) header is complete, signaling an error otherwise.
             for (int i = 0; i < defAmendHeaders.size(); i++) {
                 AnswerHeader header = defAmendHeaders.get(i);
-                QuestionnaireUsage usage = header.getQuestionnaire().getHighestVersionUsageFor(CoeusModule.IRB_MODULE_CODE,
+                QuestionnaireUsage usage = header.getQuestionnaire().getHighestVersionUsageFor(getModuleCodeHook(),
                         CoeusSubModule.ZERO_SUBMODULE);
                 if ((usage != null) && (usage.isMandatory()) && !(header.getCompleted()) && (header.isActiveQuestionnaire())) {
                     isValid = false;
@@ -102,11 +101,11 @@ public class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<P
     
     protected List<Integer> getIncompleteMandatoryQuestionnaire(ProtocolDocument protocolDocument) {
         Protocol protocol = protocolDocument.getProtocol();
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(protocol);
+        ModuleQuestionnaireBean moduleQuestionnaireBean = getProtocolModuleQuestionnaireBean(protocol);
         if (isRequestSubmission()) {
             moduleQuestionnaireBean.setModuleSubItemCode(CoeusSubModule.PROTOCOL_SUBMISSION);
         }
-        return super.getIncompleteMandatoryQuestionnaire(CoeusModule.IRB_MODULE_CODE, moduleQuestionnaireBean);
+        return super.getIncompleteMandatoryQuestionnaire(getModuleCodeHook(), moduleQuestionnaireBean);
     }    
     
     protected void addQuestionnaireNotUpdatedErrorToAuditErrors(Integer answerHeaderIndex, QuestionnaireUsage usage) {
@@ -172,7 +171,7 @@ public class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<P
     public boolean isMandatorySubmissionQuestionnaireComplete(List<AnswerHeader> answerHeaders) {
         boolean isValid = true;
         for (AnswerHeader answerHeader : answerHeaders) {
-            if (getQuestionnaireUsage(CoeusModule.IRB_MODULE_CODE, CoeusSubModule.PROTOCOL_SUBMISSION, answerHeader.getQuestionnaire().getQuestionnaireUsages()).isMandatory() 
+            if (getQuestionnaireUsage(getModuleCodeHook(), CoeusSubModule.PROTOCOL_SUBMISSION, answerHeader.getQuestionnaire().getQuestionnaireUsages()).isMandatory() 
                     && !getQuestionnaireAnswerService().isQuestionnaireAnswerComplete(answerHeader.getAnswers())) {
                 isValid = false;
                 break;
@@ -212,4 +211,9 @@ public class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<P
     public void setRequestSubmittion(boolean requestSubmission) {
         this.requestSubmission = requestSubmission;
     }
+    
+    protected abstract String getModuleCodeHook();
+
+    protected abstract ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(Protocol protocol);
+
 }
