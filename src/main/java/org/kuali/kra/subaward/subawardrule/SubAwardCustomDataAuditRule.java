@@ -30,29 +30,44 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
-
-public class SubAwardCustomDataAuditRule implements DocumentAuditRule {  /**
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
+/**
+ * This class handles rule validations for
+ * subAwardCustomData...
+ */
+public class SubAwardCustomDataAuditRule implements DocumentAuditRule { 
+/**
+     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule
+     * #processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
+     * @param document
+     * @return boolean value
      */
     @SuppressWarnings("unchecked")
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         SubAwardDocument  subAwardDocument = (SubAwardDocument) document;
-        Map<String, CustomAttributeDocument> customAttributeDocuments = subAwardDocument.getCustomAttributeDocuments();
-        List<SubAwardCustomData> subAwardCustomDataList = 
+        Map<String, CustomAttributeDocument> customAttributeDocuments =
+        subAwardDocument.getCustomAttributeDocuments();
+        List<SubAwardCustomData> subAwardCustomDataList =
             subAwardDocument.getSubAward().getSubAwardCustomDataList();
-        if(subAwardCustomDataList.size() == 0) {
-            subAwardCustomDataList = buildDummyListForAuditDisplay(customAttributeDocuments);
+        if (subAwardCustomDataList.size() == 0) {
+            subAwardCustomDataList =
+           buildDummyListForAuditDisplay(customAttributeDocuments);
         }
-        for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry : customAttributeDocuments.entrySet()) {
-            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
+        for (Map.Entry<String, CustomAttributeDocument>
+        customAttributeDocumentEntry: customAttributeDocuments.entrySet()) {
+            CustomAttributeDocument customAttributeDocument =
+            customAttributeDocumentEntry.getValue();
             if (customAttributeDocument.isRequired()) {
-                for (SubAwardCustomData subAwardCustomData : subAwardCustomDataList) {
-                    if (customAttributeDocument.getCustomAttributeId() == subAwardCustomData.getCustomAttributeId().longValue()
+                for (SubAwardCustomData subAwardCustomData
+                : subAwardCustomDataList) {
+                    if (customAttributeDocument.getCustomAttributeId()
+                    == subAwardCustomData.getCustomAttributeId()
+                   .longValue()
                              && subAwardCustomData.getValue() == null) {
                         valid = false;
                         getAuditClusterAndReportErrors(customAttributeDocument);
-                    }else if (customAttributeDocument.getCustomAttributeId() == subAwardCustomData.getCustomAttributeId().longValue()
+                    } else if (customAttributeDocument.getCustomAttributeId()
+                    == subAwardCustomData.getCustomAttributeId().longValue()
                             && subAwardCustomData.getValue().equals("")) {
                         valid = false;
                         getAuditClusterAndReportErrors(customAttributeDocument);
@@ -63,41 +78,55 @@ public class SubAwardCustomDataAuditRule implements DocumentAuditRule {  /**
 
         return valid;
     }
-    
+
     /**
-     * This method gets global audit cluster and generates new error and adds to error list on audit cluster.
+     * This method gets global audit cluster and
+     * generates new error and adds to error list on audit cluster.
      * @param customAttributeDocument
      */
     @SuppressWarnings("unchecked")
-    private void getAuditClusterAndReportErrors(CustomAttributeDocument customAttributeDocument) {
-        String key = "CustomData" + StringUtils.deleteWhitespace(customAttributeDocument.getCustomAttribute().getGroupName()) + "Errors";
-        AuditCluster auditCluster = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(key);
+    private void getAuditClusterAndReportErrors(
+    CustomAttributeDocument customAttributeDocument) {
+        String key = "CustomData" + StringUtils.deleteWhitespace(
+        customAttributeDocument.getCustomAttribute().getGroupName()) + "Errors";
+        AuditCluster auditCluster = (AuditCluster)
+        KNSGlobalVariables.getAuditErrorMap().get(key);
         if (auditCluster == null) {
             List<AuditError> auditErrors = new ArrayList<AuditError>();
-            auditCluster = new AuditCluster(customAttributeDocument.getCustomAttribute().getGroupName(), auditErrors, Constants.AUDIT_ERRORS);
+            auditCluster = new AuditCluster(customAttributeDocument.
+            getCustomAttribute().getGroupName(), auditErrors,
+            Constants.AUDIT_ERRORS);
             KNSGlobalVariables.getAuditErrorMap().put(key, auditCluster);
         }
         List<AuditError> auditErrors = auditCluster.getAuditErrorList();
-        auditErrors.add(new AuditError("customAttributeValues(id" + customAttributeDocument.getCustomAttributeId() + ")",
-                 RiceKeyConstants.ERROR_REQUIRED, 
-                 StringUtils.deleteWhitespace(Constants.CUSTOM_ATTRIBUTES_PAGE + "." + customAttributeDocument.getCustomAttribute().getGroupName()), 
-                 new String[]{customAttributeDocument.getCustomAttribute().getLabel()}));
+        auditErrors.add(new AuditError("customAttributeValues(id"
+        + customAttributeDocument.getCustomAttributeId() + ")",
+        RiceKeyConstants.ERROR_REQUIRED,
+        StringUtils.deleteWhitespace(Constants.CUSTOM_ATTRIBUTES_PAGE + "."
+        + customAttributeDocument.getCustomAttribute().getGroupName()),
+           new String[]{customAttributeDocument.
+        getCustomAttribute().getLabel()}));
     }
-    
-    
-    
+
     /**
-     * This method creates dummy custom data list if a new custom data tab has not been previously visited.
+     * This method creates dummy custom data list if a
+     *  new custom data tab has not been previously visited.
      * @param customAttributeDocuments
-     * @return
+     * @return a list 
      */
-    private List<SubAwardCustomData> buildDummyListForAuditDisplay(Map<String, CustomAttributeDocument> customAttributeDocuments) {
-        List<SubAwardCustomData> subAwardCustomDataList = new ArrayList<SubAwardCustomData>();
-        for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry : customAttributeDocuments.entrySet()) {
-            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();           
+    private List<SubAwardCustomData> buildDummyListForAuditDisplay(
+    Map<String, CustomAttributeDocument> customAttributeDocuments) {
+        List<SubAwardCustomData> subAwardCustomDataList =
+        new ArrayList<SubAwardCustomData>();
+        for (Map.Entry<String, CustomAttributeDocument>
+        customAttributeDocumentEntry: customAttributeDocuments.entrySet()) {
+            CustomAttributeDocument customAttributeDocument =
+            customAttributeDocumentEntry.getValue();
             SubAwardCustomData subAwardCustomData = new SubAwardCustomData();
-            subAwardCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
-            subAwardCustomData.setCustomAttributeId((long) customAttributeDocument.getCustomAttribute().getId());
+            subAwardCustomData.setCustomAttribute(
+            customAttributeDocument.getCustomAttribute());
+            subAwardCustomData.setCustomAttributeId((long)
+            customAttributeDocument.getCustomAttribute().getId());
             subAwardCustomDataList.add(subAwardCustomData);
         }
         return subAwardCustomDataList;

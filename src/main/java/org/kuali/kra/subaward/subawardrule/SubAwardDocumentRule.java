@@ -1,4 +1,5 @@
 /*
+ * 
  * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -49,13 +50,18 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
-public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements SubAwardRule,
-                                                                                 SubAwardAmountInfoRule,
-                                                                                 SubAwardAmountReleasedRule,
-                                                                                 SubAwardContactRule,
-                                                                                 SubAwardCloseoutRule,
-                                                                                 SubAwardFundingSourceRule{
-    
+/**
+ * This class is for rule validation while
+ * subAwardDocumentRule is used...
+ */
+public class SubAwardDocumentRule extends
+ResearchDocumentRuleBase implements SubAwardRule,
+SubAwardAmountInfoRule,
+SubAwardAmountReleasedRule,
+SubAwardContactRule,
+SubAwardCloseoutRule,
+SubAwardFundingSourceRule {
+
     private static final String STATUS_CODE = ".statusCode";
     private static final String SUBAWARD_TYPE_CODE = ".subAwardTypeCode";
     private static final String REQUISITIONER = ".requisitionerUserName";
@@ -65,8 +71,6 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     private static final String NEW_SUBAWARD = "document.subAwardList[0]";
     private static final String SUBAWARD_START_DATE =".startDate";
     private static final String SITEINVESTIGATOR =".siteInvestigatorId";
-    
-    
     private static final String AMOUNT_INFO_EFFECTIVE_DATE = "newSubAwardAmountInfo.effectiveDate";
     private static final String AMOUNT_INFO_OBLIGATED_AMOUNT = "newSubAwardAmountInfo.obligatedChange";
     private static final String AMOUNT_INFO_ANTICIPATED_AMOUNT = "newSubAwardAmountInfo.anticipatedChange";
@@ -84,23 +88,33 @@ public class SubAwardDocumentRule extends ResearchDocumentRuleBase implements Su
     private static final String DATE_REQUESTED = "newSubAwardCloseout.dateRequested";
     
     private static final String AWARD_NUMBER="newSubAwardFundingSource.award.awardNumber";
-    
 
+    /**.
+     * This method is for AddSubAwardBusinessRules
+     * @param subAward
+     * @return rulePassed boolean...
+     */
     public boolean processAddSubAwardBusinessRules(SubAward subAward) {
- 
-        boolean rulePassed = true;        
-        rulePassed &= processSaveSubAwardBusinessRules(subAward, NEW_SUBAWARD);        
+
+        boolean rulePassed = true;
+        rulePassed &= processSaveSubAwardBusinessRules(subAward, NEW_SUBAWARD);
         return rulePassed;
-    }      
- 
-    protected boolean  processSaveSubAwardBusinessRules(SubAward subAward,String propertyPrefix){    
+}
+    /**.
+     * This method is for SaveSubAwardBusinessRules
+     * @param subAward
+     * @param propertyPrefix
+     * @return  boolean...
+     */
+    protected boolean  processSaveSubAwardBusinessRules(
+    SubAward subAward,String propertyPrefix){
      
-        boolean rulePassed = true;   
-        
-        if(subAward.getOrganizationId()==null ){ 
-            rulePassed = false;            
+        boolean rulePassed = true;
+
+        if (subAward.getOrganizationId() == null ){ 
+            rulePassed = false;
             reportError(propertyPrefix+SUBCONTRACTOR_ID
-                    , KeyConstants.ERROR_REQUIRED_SUBRECIPIENT_ID); 
+                    , KeyConstants.ERROR_REQUIRED_SUBRECIPIENT_ID);
         }   
         
         if(subAward.getStatusCode()==null ){ 

@@ -20,19 +20,33 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
+/**
+ * This class is using as a
+ * Event class for Rule processing on
+ * Save for subAward Custom Data.
+
+ */
 public class SubAwardSaveCustomDataRuleEvent extends KraDocumentEventBase {
 
-    
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
+
+    private static final org.apache.commons.
+    logging.Log LOG = org.apache.commons.logging.LogFactory
     .getLog(SubAwardSaveCustomDataRuleEvent.class);
 
-    public SubAwardSaveCustomDataRuleEvent(String errorPathPrefix, ResearchDocumentBase document) {
-        super("Adding custom attribute to document " + getDocumentId(document), errorPathPrefix, document);
-    }
-    
     /**
+     * Constructs a SubAwardSaveCustomDataRuleEvent.java.
+     * @param errorPathPrefix
+     * @param document
+     */
+    public SubAwardSaveCustomDataRuleEvent(
+    String errorPathPrefix, ResearchDocumentBase document) {
+        super("Adding custom attribute to document "
+        + getDocumentId(document), errorPathPrefix, document);
+    }
+
+    /**.
      * Convenience method to return an SubAwardDocument
-     * @return
+     * @return SubAwardDocument
      */
     public SubAwardDocument getSubAwardDocument() {
         return (SubAwardDocument) getDocument();
@@ -47,18 +61,20 @@ public class SubAwardSaveCustomDataRuleEvent extends KraDocumentEventBase {
         LOG.info("Save subaward custom data event");
     }
 
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+    /**.
+     * This class is for getting SubAwardCustomDataRule
+     * @return SubAwardCustomDataRule
      */
     public Class getRuleInterfaceClass() {
         return SubAwardCustomDataRule.class;
     }
-    
-    /**
-     * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
+
+    /**.
+     * This is for invoking rule methods
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((SubAwardCustomDataRule) rule).processSaveSubAwardCustomDataBusinessRules(this);
+        return ((SubAwardCustomDataRule) rule).
+        processSaveSubAwardCustomDataBusinessRules(this);
     }
 
 

@@ -28,5 +28,6 @@ public interface SubAwardCustomDataRule extends BusinessRule {
      * @param subAwardCustomDataRuleEvent
      * @return
      */
-    boolean processSaveSubAwardCustomDataBusinessRules(SubAwardSaveCustomDataRuleEvent subAwardSaveCustomDataRuleEvent);
+    boolean processSaveSubAwardCustomDataBusinessRules(
+    SubAwardSaveCustomDataRuleEvent subAwardSaveCustomDataRuleEvent);
 }

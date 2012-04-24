@@ -25,22 +25,43 @@ public class SubAwardStatus extends KraPersistableBusinessObjectBase {
 
     private String description;
 
+    /**
+     * Constructs a SubAwardStatus.java.
+     */
     public SubAwardStatus() {
     }
 
-    public Integer getSubAwardStatusCode() {
-        return subAwardStatusCode;
-    }
+    /**.
+    * This is the Getter Method for subAwardStatusCode
+    * @return Returns the subAwardStatusCode.
+    */
+  public Integer getSubAwardStatusCode() {
+   return subAwardStatusCode;
+   }
 
-    public void setSubAwardStatusCode(Integer subAwardStatusCode) {
-        this.subAwardStatusCode = subAwardStatusCode;
-    }
+	/**.
+	 * This is the Setter Method for subAwardStatusCode
+	 * @param subAwardStatusCode The subAwardStatusCode to set.
+	 */
+	public void setSubAwardStatusCode(Integer subAwardStatusCode) {
+		this.subAwardStatusCode = subAwardStatusCode;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	/**.
+	 * This is the Getter Method for description
+	 * @return Returns the description.
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	/**.
+	 * This is the Setter Method for description
+	 * @param description The description to set.
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
 }

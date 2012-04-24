@@ -46,9 +46,13 @@ import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 
+/**
+ * This class is for SubAwardLookupableHelperServiceImpl
+ * for lookup searches...
+ */
 public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
-    
+
     private static final String COPY_HREF_PATTERN = "../DocCopyHandler.do?docId=%s&command=displayDocSearchView&documentTypeName=%s";
     static final String PERSON_ID = "personId";
     static final String ROLODEX_ID = "rolodexId";
@@ -57,84 +61,103 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
     static final String PI_NAME = "principalInvestigatorName";
     static final String OSP_ADMIN_NAME = "ospAdministratorName";
     private VersionHistoryService versionHistoryService; 
-    
+
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        super.setBackLocationDocFormKey(fieldValues);  
+    public List<? extends BusinessObject>
+    getSearchResults(Map<String, String> fieldValues) {
+        super.setBackLocationDocFormKey(fieldValues);
         String awardNumber = fieldValues.get("awardNumber");
         String subrecipientName = fieldValues.get("organizationName");
         fieldValues.remove("awardNumber");
         fieldValues.remove("organizationName");
-        List<SubAward> unboundedResults = (List<SubAward>) super.getSearchResultsUnbounded(fieldValues);
+        List<SubAward> unboundedResults =
+        (List<SubAward>) super.getSearchResultsUnbounded(fieldValues);
         List<SubAward> returnResults = new ArrayList<SubAward>();
         try {
-            returnResults = filterForActiveSubAwards(unboundedResults,awardNumber,subrecipientName);
-        }
-        catch (WorkflowException e) {
+            returnResults = filterForActiveSubAwards(
+            unboundedResults, awardNumber, subrecipientName);
+        } catch (WorkflowException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-     
+
         return returnResults;
     }
 
 
-    
-    /**
-     * add open links to actions list
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+
+    /**.
+     * this method for getCustomActionUrls
+     * @param businessObject
+     * @param pkNames
+     *
      */
     @Override
     @SuppressWarnings("unchecked")
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
-        SubAwardDocument document = ((SubAward) businessObject).getSubAwardDocument();
+    public List<HtmlData> getCustomActionUrls(
+    BusinessObject businessObject, List pkNames) {
+        List<HtmlData> htmlDataList =
+        super.getCustomActionUrls(businessObject, pkNames);
+        SubAwardDocument document =
+        ((SubAward) businessObject).getSubAwardDocument();
         htmlDataList.add(getOpenLink((SubAward) businessObject, false));
         htmlDataList.add(getMedusaLink((SubAward) businessObject, false));
         return htmlDataList;
     }
-   /**
+   /**.
+    * This method is for getOpenLink
      * @param subaward
-     * @return
+     * @param viewOnly
+     * @return htmlData
      */
     protected AnchorHtmlData getOpenLink(SubAward subAward, Boolean viewOnly) {
         SubAwardDocument subAwardDocument = subAward.getSubAwardDocument();
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("open");
         Properties parameters = new Properties();
-        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
-        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER,
+        KRADConstants.DOC_HANDLER_METHOD);
+        parameters.put(KRADConstants.PARAMETER_COMMAND,
+        KewApiConstants.DOCSEARCH_COMMAND);
         parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", viewOnly.toString());
         parameters.put("docOpenedFromAwardSearch", "true");
         parameters.put("docId", subAwardDocument.getDocumentNumber());
-        parameters.put("placeHolderAwardId", subAward.getSubAwardId().toString());
-        String href = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
+        parameters.put("placeHolderAwardId",
+        subAward.getSubAwardId().toString());
+        String href = UrlFactory.parameterizeUrl(
+        "../" + getHtmlAction(), parameters);
         htmlData.setHref(href);
         return htmlData;
     }
-    /**
+    /**.
+     * This Method is for getMedusaLink
      * @param subaward
-     * @return
+     * @param readOnly
+     * @return htmlData
      */
-    protected AnchorHtmlData getMedusaLink(SubAward subAward, Boolean readOnly) {
+    protected AnchorHtmlData getMedusaLink(
+    SubAward subAward, Boolean readOnly) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText(MEDUSA);
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "medusa");
-        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.PARAMETER_COMMAND,
+        KewApiConstants.DOCSEARCH_COMMAND);
         parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", readOnly.toString());
-        parameters.put("docId", subAward.getSubAwardDocument().getDocumentNumber());
+        parameters.put("docId", subAward.
+        getSubAwardDocument().getDocumentNumber());
         parameters.put("docOpenedFromAwardSearch", "true");
-        parameters.put("placeHolderAwardId", subAward.getSubAwardId().toString());
-        String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
-        
+        parameters.put("placeHolderAwardId",
+        subAward.getSubAwardId().toString());
+        String href  = UrlFactory.parameterizeUrl(
+         "../" + getHtmlAction(), parameters);
         htmlData.setHref(href);
         return htmlData;
-    }    
-    
-      /**
+    }
+
+      /**.
        * This override is reset field definitions
        * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getRows()
        */
@@ -143,9 +166,10 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
           List<Row> rows =  super.getRows();
           for (Row row : rows) {
               for (Field field : row.getFields()) {
-                 
-                  if (field.getPropertyName().equals("startDate")||field.getPropertyName().equals("endDate")
-                          ||field.getPropertyName().equals("closeoutDate")) {
+
+    if (field.getPropertyName().equals("startDate")
+    || field.getPropertyName().equals("endDate")
+                          || field.getPropertyName().equals("closeoutDate")) {
                       field.setDatePicker(true);
                   }
               }
@@ -158,76 +182,93 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
       }
       
       @SuppressWarnings("unchecked")
-      protected List<SubAward> filterForActiveSubAwards(Collection<SubAward> collectionByQuery, String awardNumber,String subrecipientName) throws WorkflowException {
-          BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+      protected List<SubAward> filterForActiveSubAwards(
+     Collection<SubAward> collectionByQuery, String awardNumber,
+     String subrecipientName) throws WorkflowException {
+          BusinessObjectService businessObjectService =  KraServiceLocator.
+          getService(BusinessObjectService.class);
           Set<String> subAwardCodes = new TreeSet<String>();
           List<Integer> subAwardCodeList = new ArrayList<Integer>();
           List<String> subAwardCodeSortedList = new ArrayList<String>();
-          for(SubAward subAward: collectionByQuery) {
+          for (SubAward subAward: collectionByQuery) {
               subAwardCodes.add(subAward.getSubAwardCode());
           }
-          for(String subAwardCode: subAwardCodes) {
+          for (String subAwardCode: subAwardCodes) {
               subAwardCodeList.add(Integer.parseInt(subAwardCode));
           }
           Collections.sort(subAwardCodeList);
-          for(Integer subAward: subAwardCodeList){
+          for (Integer subAward: subAwardCodeList) {
               subAwardCodeSortedList.add(Integer.toString(subAward));
           }
           List<SubAward> activeSubAwards = new ArrayList<SubAward>();
-          for(String versionName: subAwardCodeSortedList) {
-              VersionHistory versionHistory = versionHistoryService.findActiveVersion(SubAward.class, versionName);
-              if(versionHistory != null) {
-                  SubAward activeSubAward = (SubAward) versionHistory.getSequenceOwner();
-                  if(activeSubAward != null) {
+          for (String versionName: subAwardCodeSortedList) {
+              VersionHistory versionHistory = versionHistoryService.
+              findActiveVersion(SubAward.class, versionName);
+              if (versionHistory != null) {
+                  SubAward activeSubAward =
+                 (SubAward) versionHistory.getSequenceOwner();
+                  if (activeSubAward != null) {
                       activeSubAwards.add(activeSubAward);
                   }
               }
-          } 
+          }
           List<SubAward> filteredSubAwards = new ArrayList<SubAward>();
-        
-              for(SubAward subAward : activeSubAwards){
-                  if(subrecipientName!=null && !subrecipientName.equals("") && subAward.getOrganizationName() !=null){
-                      if(subAward.getOrganizationName().equals(subrecipientName)){
+
+              for (SubAward subAward : activeSubAwards) {
+                  if (subrecipientName != null
+                && !subrecipientName.equals("")
+                && subAward.getOrganizationName() != null) {
+                 if (subAward.getOrganizationName().equals(subrecipientName)) {
                           filteredSubAwards.add(subAward);
                       }
-                  }else{
+                  } else {
                       filteredSubAwards.add(subAward);
                   }
               }
-          
+
           List<SubAward> filteredSubAwardList = new ArrayList<SubAward>();
-          if(awardNumber!=null && !awardNumber.equals("")){
-              Collection <Award>awards = getBusinessObjectService().findMatching(Award.class, ServiceHelper.getInstance().
-                      buildCriteriaMap(new String[] { "awardNumber"}, new Object[] { awardNumber }));
+          if (awardNumber != null && !awardNumber.equals("")) {
+              Collection <Award>awards =
+            getBusinessObjectService().findMatching(
+            Award.class, ServiceHelper.getInstance().
+             buildCriteriaMap(new String[] {
+           "awardNumber"}, new Object[] {awardNumber }));
               List<Award> linkedAwards = new ArrayList<Award>();
-              for(Award award : awards){
+              for (Award award : awards) {
                   linkedAwards.add(award);
               }
-              List<SubAwardFundingSource> fundingSourceList = new ArrayList<SubAwardFundingSource>();
-              for(Award linkedAward : linkedAwards){
-                  Collection <SubAwardFundingSource> subAwardFundingSource = getBusinessObjectService().findMatching
-                  (SubAwardFundingSource.class, ServiceHelper.getInstance().buildCriteriaMap(new String[] { "awardId"}, new Object[] { linkedAward.getAwardId() }));
-                  for (SubAwardFundingSource subAwardFunding : subAwardFundingSource){
+              List<SubAwardFundingSource> fundingSourceList =
+             new ArrayList<SubAwardFundingSource>();
+              for (Award linkedAward : linkedAwards) {
+                  Collection <SubAwardFundingSource> subAwardFundingSource =
+                getBusinessObjectService().findMatching(
+                SubAwardFundingSource.class, ServiceHelper.getInstance().
+                buildCriteriaMap(new String[] {"awardId"}, new Object[]
+                {linkedAward.getAwardId() }));
+               for (SubAwardFundingSource subAwardFunding
+            : subAwardFundingSource) {
                       fundingSourceList.add(subAwardFunding);
                   }
               }
 
-              for(SubAward subAward : filteredSubAwards){
-                  for (SubAwardFundingSource subAwardFunding : fundingSourceList){
-                      if(subAward.getSubAwardId().equals(subAwardFunding.getSubAwardId())){
+              for (SubAward subAward : filteredSubAwards) {
+                  for (SubAwardFundingSource subAwardFunding
+                : fundingSourceList) {
+                      if (subAward.getSubAwardId().
+                     equals(subAwardFunding.getSubAwardId())) {
                           filteredSubAwardList.add(subAward);
                       }
                   }
               }
-          }else{
-              for(SubAward subAward : filteredSubAwards){
+          } else {
+              for (SubAward subAward : filteredSubAwards) {
                   filteredSubAwardList.add(subAward);
               }
 
           }
           return filteredSubAwardList;
       }
-      
+
     @Override
     protected String getHtmlAction() {
         return "subAwardHome.do";
@@ -243,9 +284,11 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
         return "SubAwardId";
     }
     /**
+     * This Method is for setVersionHistoryService
      * @param versionHistoryService
      */
-    public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
-       this.versionHistoryService = versionHistoryService; 
+    public void setVersionHistoryService(
+    VersionHistoryService versionHistoryService) {
+       this.versionHistoryService = versionHistoryService;
     }
 }
