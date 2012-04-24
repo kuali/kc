@@ -25,6 +25,10 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -36,8 +40,12 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.protocol.actions.ProtocolActionType;
+import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -57,14 +65,12 @@ import org.kuali.rice.krad.util.KRADPropertyConstants;
  */
 public abstract class ProtocolAction extends KraTransactionalDocumentActionBase {
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
-//    private static final Log LOG = LogFactory.getLog(ProtocolAction.class);
-//    private static final String PROTOCOL_NUMBER = "protocolNumber";
-//    private static final String SUBMISSION_NUMBER = "submissionNumber";
-//    private static final String SUFFIX_T = "T";
-//    private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
-//    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
-// TODO **********************end************************    
+    private static final Log LOG = LogFactory.getLog(ProtocolAction.class);
+    private static final String PROTOCOL_NUMBER = "protocolNumber";
+    private static final String SUBMISSION_NUMBER = "submissionNumber";
+    private static final String SUFFIX_T = "T";
+    private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
+    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     
    
     /** {@inheritDoc} */
@@ -117,58 +123,58 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         ((ProtocolForm)form).getPersonnelHelper().prepareView();
         return mapping.findForward(getPersonnelForwardNameHook());
     }    
-// TODO *********uncomment the code below in increments as needed during refactoring*********    
 //    
 
-//    
-//    /**
-//     * This method gets called upon navigation to Questionnaire tab.
-//     * @param mapping the Action Mapping
-//     * @param form the Action Form
-//     * @param request the Http Request
-//     * @param response Http Response
-//     * @return the Action Forward
-//     */
-//    public ActionForward questionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//
-//        ((ProtocolForm)form).getQuestionnaireHelper().prepareView();
-//        ((ProtocolForm)form).getQuestionnaireHelper().setSubmissionActionTypeCode(getSubmitActionType(request));
-//        // TODO : if questionnaire is already populated, then don't need to do it
-//        if (StringUtils.isBlank(((ProtocolForm)form).getQuestionnaireHelper().getSubmissionActionTypeCode()) || CollectionUtils.isEmpty(((ProtocolForm)form).getQuestionnaireHelper().getAnswerHeaders())) {
-//            ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
-//        } else {
-//            ProtocolSubmissionBeanBase submissionBean = getSubmissionBean(form, ((ProtocolForm)form).getQuestionnaireHelper().getSubmissionActionTypeCode());
-//            if (CollectionUtils.isEmpty(submissionBean.getAnswerHeaders())) {
-//                ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
-//                submissionBean.setAnswerHeaders(((ProtocolForm)form).getQuestionnaireHelper().getAnswerHeaders());
-//            } else {
-//                ((ProtocolForm)form).getQuestionnaireHelper().setAnswerHeaders(submissionBean.getAnswerHeaders());
-//            }
-//        }
-//        ((ProtocolForm)form).getQuestionnaireHelper().setQuestionnaireActiveStatuses();
-//        return mapping.findForward("questionnaire");
-//    }
-//    
-//    protected ProtocolSubmissionBeanBase getSubmissionBean(ActionForm form,String submissionActionType) {
-//        ProtocolSubmissionBeanBase submissionBean;
-//        if (ProtocolActionType.NOTIFY_IRB.equals(submissionActionType)) {
-//            submissionBean = ((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean();
-//        } else {
-//            submissionBean = ((ProtocolForm) form).getActionHelper().getRequestBean(submissionActionType);
-//        }
-//        return submissionBean;
-//    }
-//
-//    protected String getSubmitActionType(HttpServletRequest request) {
-//        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
-//        String actionTypeCode = "";
-//        if (StringUtils.isNotBlank(parameterName)) {
-//            actionTypeCode = StringUtils.substringBetween(parameterName, ".actionType", ".");
-//        }
-//
-//        return actionTypeCode;
-//    }
-//
+    
+    /**
+     * This method gets called upon navigation to Questionnaire tab.
+     * @param mapping the Action Mapping
+     * @param form the Action Form
+     * @param request the Http Request
+     * @param response Http Response
+     * @return the Action Forward
+     */
+    public ActionForward questionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+
+        ((ProtocolForm)form).getQuestionnaireHelper().prepareView();
+        ((ProtocolForm)form).getQuestionnaireHelper().setSubmissionActionTypeCode(getSubmitActionType(request));
+        // TODO : if questionnaire is already populated, then don't need to do it
+        if (StringUtils.isBlank(((ProtocolForm)form).getQuestionnaireHelper().getSubmissionActionTypeCode()) || CollectionUtils.isEmpty(((ProtocolForm)form).getQuestionnaireHelper().getAnswerHeaders())) {
+            ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
+        } else {
+            ProtocolSubmissionBeanBase submissionBean = getSubmissionBean(form, ((ProtocolForm)form).getQuestionnaireHelper().getSubmissionActionTypeCode());
+            if (CollectionUtils.isEmpty(submissionBean.getAnswerHeaders())) {
+                ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
+                submissionBean.setAnswerHeaders(((ProtocolForm)form).getQuestionnaireHelper().getAnswerHeaders());
+            } else {
+                ((ProtocolForm)form).getQuestionnaireHelper().setAnswerHeaders(submissionBean.getAnswerHeaders());
+            }
+        }
+        ((ProtocolForm)form).getQuestionnaireHelper().setQuestionnaireActiveStatuses();
+        return mapping.findForward(getQuestionnaireForwardNameHook());
+    }
+    
+    protected ProtocolSubmissionBeanBase getSubmissionBean(ActionForm form,String submissionActionType) {
+        ProtocolSubmissionBeanBase submissionBean = null;
+//TODO        if (ProtocolActionType.NOTIFY_IRB.equals(submissionActionType)) {
+//TODO            submissionBean = ((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean();
+//TODO        } else {
+//TODO            submissionBean = ((ProtocolForm) form).getActionHelper().getRequestBean(submissionActionType);
+//TODO        }
+        return submissionBean;
+    }
+
+    protected String getSubmitActionType(HttpServletRequest request) {
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String actionTypeCode = "";
+        if (StringUtils.isNotBlank(parameterName)) {
+            actionTypeCode = StringUtils.substringBetween(parameterName, ".actionType", ".");
+        }
+
+        return actionTypeCode;
+    }
+
+// TODO *********uncomment the code below in increments as needed during refactoring*********    
 //    /**
 //     * This method gets called upon navigation to Notes and attachments tab.
 //     * @param mapping the Action Mapping
@@ -531,33 +537,33 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
 //        }
 //        return forward;
 //    }
-//    
-//    /*
-//     * This is to retrieve answer header based on answerheaderid
-//     */
-//    private AnswerHeader getAnswerHeader(HttpServletRequest request) {
-//
-//        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put("answerHeaderId", Integer.toString(this.getSelectedLine(request)));
-//        return  (AnswerHeader)getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, fieldValues);
-//    }
-//
+    
+    /*
+     * This is to retrieve answer header based on answerheaderid
+     */
+    private AnswerHeader getAnswerHeader(HttpServletRequest request) {
+
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("answerHeaderId", Integer.toString(this.getSelectedLine(request)));
+        return  (AnswerHeader)getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, fieldValues);
+    }
+
 //    protected QuestionnairePrintingService getQuestionnairePrintingService() {
 //        return KraServiceLocator.getService(QuestionnairePrintingService.class);
 //    }
-//
-//    /*
-//     * get protocolnumber for answerheader moduleitemkey
-//     * a saved but not submitted answer has "T" at the end of protocolnumber
-//     */
-//    private String getProtocolNumber(AnswerHeader answerHeader) {
-//        String protocolNumber = answerHeader.getModuleItemKey();
-//        if (protocolNumber.endsWith(SUFFIX_T)) {
-//            protocolNumber = protocolNumber.substring(0, protocolNumber.length() - 1);
-//        }
-//        return protocolNumber;
-//    }
-//    
+
+    /*
+     * get protocolnumber for answerheader moduleitemkey
+     * a saved but not submitted answer has "T" at the end of protocolnumber
+     */
+    private String getProtocolNumber(AnswerHeader answerHeader) {
+        String protocolNumber = answerHeader.getModuleItemKey();
+        if (protocolNumber.endsWith(SUFFIX_T)) {
+            protocolNumber = protocolNumber.substring(0, protocolNumber.length() - 1);
+        }
+        return protocolNumber;
+    }
+    
 //    private ProtocolFinderDao getProtocolFinder() {
 //        return KraServiceLocator.getService(ProtocolFinderDao.class);
 //    }
@@ -622,4 +628,9 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     private ProtocolPersonTrainingService getProtocolPersonTrainingService() {
         return (ProtocolPersonTrainingService)KraServiceLocator.getService("iacucProtocolPersonTrainingService");
     }    
+
+    protected QuestionnairePrintingService getQuestionnairePrintingService() {
+        return KraServiceLocator.getService(QuestionnairePrintingService.class);
+    }
+
 }
