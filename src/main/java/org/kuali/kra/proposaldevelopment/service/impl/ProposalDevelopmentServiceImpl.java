@@ -31,7 +31,6 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hamcrest.core.IsInstanceOf;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Sponsor;
@@ -44,7 +43,6 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
@@ -67,16 +65,13 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
