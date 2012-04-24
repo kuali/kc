@@ -21,8 +21,9 @@ import org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataHelper;
 import org.kuali.kra.iacuc.permission.IacucPermissionsHelper;
 import org.kuali.kra.iacuc.personnel.IacucPersonnelHelper;
 import org.kuali.kra.iacuc.protocol.IacucProtocolHelper;
+import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireHelper;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewHelper;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
 
@@ -93,6 +94,10 @@ public class IacucProtocolForm extends ProtocolForm {
     @Override
     protected IacucPersonnelHelper createNewPersonnelHelperInstanceHook(ProtocolForm protocolForm) {
         return new IacucPersonnelHelper((IacucProtocolForm)protocolForm);
+    }
+    
+    protected QuestionnaireHelper createNewQuestionnaireHelper(ProtocolForm form) {
+        return new IacucProtocolQuestionnaireHelper(form);
     }
 
     @Override

@@ -32,7 +32,7 @@ public class ProtocolModuleQuestionnaireBean extends ModuleQuestionnaireBean {
         super(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
     }
    
-    private void setProtocolSubItemCode(Protocol protocol) {
+    protected void setProtocolSubItemCode(Protocol protocol) {
         // For now check renewal/amendment.  will add 'Protocol Submission' when it is cleared
         String subModuleCode = CoeusSubModule.ZERO_SUBMODULE;
         
@@ -66,5 +66,4 @@ public class ProtocolModuleQuestionnaireBean extends ModuleQuestionnaireBean {
     public int hashCode() {
         return 0;
     }
-
 }

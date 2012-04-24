@@ -40,12 +40,8 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
  * 
  * This is Helper class for protocol questionnaire.
  */
-public class QuestionnaireHelper extends QuestionnaireHelperBase {
+public abstract class QuestionnaireHelper extends QuestionnaireHelperBase {
 
-
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = -8923292365833681926L;
 
     /**
@@ -74,18 +70,14 @@ public class QuestionnaireHelper extends QuestionnaireHelperBase {
         initializePermissions(getProtocol());
     }
 
-
     /*
      * authorization check.
      */
-    private void initializePermissions(Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.ANSWER_PROTOCOL_QUESTIONNAIRE, protocol);
-        setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
-    }
+    protected abstract void initializePermissions(Protocol protocol);
 
-    public String getModuleCode() {
-        return CoeusModule.IRB_MODULE_CODE;
-    }
+    public abstract String getModuleCode();
+
+    protected abstract ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(Protocol protocol);
 
     public ModuleQuestionnaireBean getModuleQnBean() {
         //return new ModuleQuestionnaireBean(getModuleCode(), getProtocol());
@@ -257,4 +249,5 @@ public class QuestionnaireHelper extends QuestionnaireHelperBase {
     public void setSubmissionNumber(String submissionNumber) {
         this.submissionNumber = submissionNumber;
     }
+
 }

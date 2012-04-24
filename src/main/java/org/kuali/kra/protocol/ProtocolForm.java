@@ -33,6 +33,7 @@ import org.kuali.kra.protocol.notification.ProtocolNotificationContext;
 import org.kuali.kra.protocol.permission.PermissionsHelper;
 import org.kuali.kra.protocol.personnel.PersonnelHelper;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
+import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelper;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -68,7 +69,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 
 //    private ActionHelper actionHelper;
 //    private OnlineReviewsActionHelper onlineReviewsActionHelper;
-//    private QuestionnaireHelper questionnaireHelper;
+    private QuestionnaireHelper questionnaireHelper;
 //    //transient so that the helper and its members don't have to be serializable or transient
 //    //reinitialized in the getter
 //    private transient NotesAttachmentsHelper notesAttachmentsHelper;
@@ -111,7 +112,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 
 // TODO *********uncomment the code below in increments as needed during refactoring*********         
 //        setActionHelper(new ActionHelper(this));
-//        setQuestionnaireHelper(new QuestionnaireHelper(this));
+        setQuestionnaireHelper(createNewQuestionnaireHelper(this));
 //        setNotesAttachmentsHelper(new NotesAttachmentsHelper(this));
 //        this.notesAttachmentsHelper.prepareView();
 //        setNewProtocolReferenceBean(new ProtocolReferenceBean());
@@ -121,8 +122,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     protected abstract ProtocolHelper createNewProtocolHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract PermissionsHelper createNewPermissionsHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract PersonnelHelper createNewPersonnelHelperInstanceHook(ProtocolForm protocolForm);
-
-    
+    protected abstract QuestionnaireHelper createNewQuestionnaireHelper(ProtocolForm protocolForm);
     
 // TODO *********uncomment the code below in increments as needed during refactoring*********     
 //    /**
@@ -418,15 +418,14 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         return (ProtocolDocument) getDocument();
     }
 
+    public QuestionnaireHelper getQuestionnaireHelper() {
+        return questionnaireHelper;
+    }
 
-//    public QuestionnaireHelper getQuestionnaireHelper() {
-//        return questionnaireHelper;
-//    }
-//
-//    public void setQuestionnaireHelper(QuestionnaireHelper questionnaireHelper) {
-//        this.questionnaireHelper = questionnaireHelper;
-//    }
-//
+    public void setQuestionnaireHelper(QuestionnaireHelper questionnaireHelper) {
+        this.questionnaireHelper = questionnaireHelper;
+    }
+
 //    public void setOnlineReviewsActionHelper(OnlineReviewsActionHelper onlineReviewActionHelper) {
 //        this.onlineReviewsActionHelper = onlineReviewActionHelper;
 //    }
