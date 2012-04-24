@@ -20,21 +20,19 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * This class represents the Protocol Attachment Type.
  */
-public class ProtocolAttachmentType extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolAttachmentType extends KraPersistableBusinessObjectBase {
 
-    private static final long serialVersionUID = 2053606476193782286L;
+    private static final long serialVersionUID = 8188183900415658970L;
 
-    private String code;
+    protected String code;
 
-    private String description;
+    protected String description;
 
-    /**
-     * empty ctor to satisfy JavaBean convention.
-     */
-    public ProtocolAttachmentType() {
+    
+    protected ProtocolAttachmentType() {
         super();
     }
-
+    
     /**
      * Convenience ctor to set the relevant properties of this class.
      * 
@@ -45,7 +43,7 @@ public class ProtocolAttachmentType extends KraPersistableBusinessObjectBase {
      * @param code the code.
      * @param description the description.
      */
-    public ProtocolAttachmentType(String code, String description) {
+    protected ProtocolAttachmentType(String code, String description) {
         this.code = code;
         this.description = description;
     }
