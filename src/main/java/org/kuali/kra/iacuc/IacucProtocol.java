@@ -25,6 +25,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
+import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -61,6 +62,7 @@ public class IacucProtocol extends Protocol {
     private String createUser;
     private IacucProtocolDocument iacucProtocolDocument;
       
+    private List<IacucProtocolSpecies> iacucProtocolSpeciesList;
 
     public IacucProtocol() {
         
@@ -254,6 +256,16 @@ public class IacucProtocol extends Protocol {
       roleNames.add(RoleConstants.IACUC_PROTOCOL_VIEWER);
 
       return roleNames;        
+    }
+
+
+    public List<IacucProtocolSpecies> getIacucProtocolSpeciesList() {
+        return iacucProtocolSpeciesList;
+    }
+
+
+    public void setIacucProtocolSpeciesList(List<IacucProtocolSpecies> iacucProtocolSpeciesList) {
+        this.iacucProtocolSpeciesList = iacucProtocolSpeciesList;
     }
 
 }
