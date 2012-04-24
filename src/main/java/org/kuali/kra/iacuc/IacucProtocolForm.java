@@ -23,9 +23,10 @@ import org.kuali.kra.iacuc.personnel.IacucPersonnelHelper;
 import org.kuali.kra.iacuc.protocol.IacucProtocolHelper;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireHelper;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewHelper;
-import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
+import org.kuali.kra.iacuc.species.IacucProtocolSpeciesHelper;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
+import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
 
 /**
  * This class...
@@ -33,14 +34,21 @@ import org.kuali.kra.protocol.protocol.ProtocolHelper;
 public class IacucProtocolForm extends ProtocolForm {
     
     private static final long serialVersionUID = -535557943052220820L;
+    private IacucProtocolSpeciesHelper iacucProtocolSpeciesHelper;
     
 
     public IacucProtocolForm() throws Exception {
         super();
         setProtocolCustomDataHelper(new IacucProtocolCustomDataHelper(this));
         setProtocolSpecialReviewHelper(new IacucProtocolSpecialReviewHelper(this));
+        initializeIacucProtocolSpecies();
     }
 
+    public void initializeIacucProtocolSpecies() throws Exception {
+        setIacucProtocolSpeciesHelper(new IacucProtocolSpeciesHelper(this));
+    }
+    
+    
     @Override
     public String getActionName() {
         return "iacucProtocol";
@@ -103,5 +111,13 @@ public class IacucProtocolForm extends ProtocolForm {
     @Override
     public String getModuleCode() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
+    }
+
+    public IacucProtocolSpeciesHelper getIacucProtocolSpeciesHelper() {
+        return iacucProtocolSpeciesHelper;
+    }
+
+    public void setIacucProtocolSpeciesHelper(IacucProtocolSpeciesHelper iacucProtocolSpeciesHelper) {
+        this.iacucProtocolSpeciesHelper = iacucProtocolSpeciesHelper;
     }
 }
