@@ -122,20 +122,16 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
          * task. The permission attributes could be a combination of module doce & coeus permission right
          */
 
-System.out.println("\n\n");        
         Set<String> modules = new HashSet<String>();
         Collection<String> parameters = this.parameterService.getParameterValuesAsString(Constants.PARAMETER_MODULE_QUESTIONNAIRE, Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME);
         for (String permission : parameters) {
-System.out.println("QQQQQ parameter = " + permission);
             String[] params = permission.split(":");
             boolean unitAuthCheck = unitAuthorizationService.hasPermission(GlobalVariables.getUserSession().getPerson()
                     .getPrincipalId(), params[1], params[0]);
 //temp            if (unitAuthCheck && !modules.contains(permissionModuleMap.get(permission))) {
-System.out.println("       allowed!");
                 modules.add(permissionModuleMap.get(permission));
 //temp            }
         }
-System.out.println("\n\n");        
         return new ArrayList<String>(modules);
     }
 
