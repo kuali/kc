@@ -50,7 +50,11 @@ public interface ProposalDevelopmentService {
 
     public String populateProposalEditableFieldMetaDataForAjaxCall(String proposalNumber, String editableFieldDBColumn);
     
+    public String populateBudgetEditableFieldMetaDataForAjaxCall(String proposalNumber, String documentNumber, String editableFieldDBColumn);
+    
     public Object getProposalFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) ;
+    
+    public Object getBudgetFieldValueFromDBColumnName(String documentNumber, String dbColumnName);
     
     public Award getProposalCurrentAwardVersion(ProposalDevelopmentDocument proposal);
     

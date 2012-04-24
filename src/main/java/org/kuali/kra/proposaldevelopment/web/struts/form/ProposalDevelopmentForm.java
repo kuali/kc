@@ -73,6 +73,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
@@ -205,6 +206,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     private ReportHelperBean reportHelperBean;
     private List<String> proposalDataOverrideMethodToCalls;
+    
+    private List<String> BudgetDataOverrideMethodToCalls;
+    
     private boolean canCreateProposal;
     
     private boolean viewFundingSource;
@@ -220,10 +224,13 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private List<AnswerHeader> answerHeadersToDelete;
     private List<ProposalPerson> proposalPersonsToDelete;
     private transient S2sOpportunity s2sOpportunity;
+    private BudgetChangedData newBudgetChangedData;
    
+   
+
     public ProposalDevelopmentForm() {
         super();
-        initialize();
+        initialize();        
         sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
     }
     
@@ -269,6 +276,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         proposalDevelopmentParameters = new HashMap<String, Parameter>();
         newProposalPersonRoleRendered = false;
         setNewProposalChangedData(new ProposalChangedData());
+        setNewBudgetChangedData(new BudgetChangedData());
         versionNumberForS2sOpportunity = null;
         setHierarchyProposalSummaries(new ArrayList<HierarchyProposalSummary>());
         medusaBean = new MedusaBean();
@@ -1926,4 +1934,22 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         String[] ends = {DEFAULT_END, DEFAULT_END};
         return ends;
     }
+
+    public void setNewBudgetChangedData(BudgetChangedData newBudgetChangedData) {
+        this.newBudgetChangedData = newBudgetChangedData;
+    }
+
+    public BudgetChangedData getNewBudgetChangedData() {
+        return newBudgetChangedData;
+    }
+
+    public void setBudgetDataOverrideMethodToCalls(List<String> budgetDataOverrideMethodToCalls) {
+        BudgetDataOverrideMethodToCalls = budgetDataOverrideMethodToCalls;
+    }
+
+    public List<String> getBudgetDataOverrideMethodToCalls() {
+        return BudgetDataOverrideMethodToCalls;
+    }
+
+   
 }

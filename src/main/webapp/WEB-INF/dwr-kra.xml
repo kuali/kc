@@ -74,6 +74,7 @@
 			<param name="beanName" value="proposalDevelopmentService" />
 			<include method="populateProposalEditableFieldMetaDataForAjaxCall" />
 			<include method="isGrantsGovEnabledOnSponsorChange" />
+			<include method="populateBudgetEditableFieldMetaDataForAjaxCall" />
 		</create>
 		<create creator="spring" javascript="JobCodeService">
 			<param name="beanName" value="jobCodeService" />
@@ -130,7 +131,7 @@
 		
 		<create creator="spring" javascript="BudgetService">
 			<param name="beanName" value="budgetService" />
-			<include method="getApplicableCostElementsForAjaxCall" />
+			<include method="getApplicableCostElementsForAjaxCall" />					
 		</create>
 		
 		<create creator="spring" javascript="ArgValueLookupService">
