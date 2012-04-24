@@ -24,24 +24,38 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.subaward.SubAwardForm;
 
-/**
- * 
+/**.
+ *
  * This class represents the Struts Action for Medusa page(AwardMedusa.jsp)
  */
-public class SubAwardMedusaAction extends SubAwardAction{
+public class SubAwardMedusaAction extends SubAwardAction {
 
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) throws Exception {SubAwardForm subAwardForm = (SubAwardForm)form;
+           , HttpServletRequest request, HttpServletResponse response)
+        throws Exception { SubAwardForm subAwardForm = (SubAwardForm) form;
             if (subAwardForm.getDocument().getDocumentNumber() == null) {
                 loadDocumentInForm(request, subAwardForm);
             }
             subAwardForm.getMedusaBean().setMedusaViewRadio("0");
             subAwardForm.getMedusaBean().setModuleName("subaward");
-            subAwardForm.getMedusaBean().setModuleIdentifier(subAwardForm.getSubAwardDocument().getSubAward().getSubAwardId());
-            return mapping.findForward(Constants.MAPPING_AWARD_MEDUSA_PAGE);}
-    public ActionForward refreshView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+            subAwardForm.getMedusaBean().
+            setModuleIdentifier(subAwardForm.getSubAwardDocument().
+            getSubAward().getSubAwardId());
+            return mapping.findForward(Constants.MAPPING_AWARD_MEDUSA_PAGE); }
+    /**.
+     * This method is for refreshView
+     * @param mapping the ActionMapping
+     * @param form the ActionForm
+     * @param request the HttpServletRequest
+     * @param response the HttpServletResponse
+     * @throws Exception
+     * @return mapping
+     */
+    public ActionForward refreshView(ActionMapping mapping,
+    	ActionForm form, HttpServletRequest request,
+    	HttpServletResponse response) throws Exception {
+
         return mapping.findForward(Constants.MAPPING_AWARD_MEDUSA_PAGE);
     }
 }

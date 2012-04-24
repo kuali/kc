@@ -17,6 +17,9 @@ package org.kuali.kra.subaward.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * This class is for defining subAwardApprovalType...
+ */
 public class SubAwardApprovalType extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
@@ -29,37 +32,66 @@ public class SubAwardApprovalType extends KraPersistableBusinessObjectBase {
 
     private AwardSubAwardTerms awardSubAwardTerms;
 
+    /**
+     * Constructs a SubAwardApprovalType.java.
+     */
     public SubAwardApprovalType() {
     }
 
+    /**
+     * This method is for getting subAwardApprovalTypeCode ...
+     * @return subAwardApprovalTypeCode
+     */
     public Integer getSubAwardApprovalTypeCode() {
         return subAwardApprovalTypeCode;
     }
-
+    
+    /**
+     * This method is for setting subAwardApprovalTypeCode...
+     * @param subAwardApprovalTypeCode the subAwardApprovalTypeCode to set
+     */
     public void setSubAwardApprovalTypeCode(Integer subAwardApprovalTypeCode) {
         this.subAwardApprovalTypeCode = subAwardApprovalTypeCode;
     }
-
+    /**
+     * This method is for getting Description ...
+     * @return description
+     */
     public String getDescription() {
         return description;
     }
-
+    /**
+     * This method is for setting description...
+     * @param description the description to set
+     */
     public void setDescription(String description) {
         this.description = description;
     }
-
+    /**
+     * This method is for getting TemplateSubAwardTerms ...
+     * @return templateSubAwardTerms
+     */
     public TemplateSubAwardTerms getTemplateSubAwardTerms() {
         return templateSubAwardTerms;
     }
-
+    /**
+     * This method is for setting templateSubAwardTerms...
+     * @param templateSubAwardTerms the templateSubAwardTerms to set
+     */
     public void setTemplateSubAwardTerms(TemplateSubAwardTerms templateSubAwardTerms) {
         this.templateSubAwardTerms = templateSubAwardTerms;
     }
-
+    /**
+     * This method is for getting awardSubAwardTerms ...
+     * @return awardSubAwardTerms
+     */
     public AwardSubAwardTerms getAwardSubAwardTerms() {
         return awardSubAwardTerms;
     }
-
+    /**
+     * This method is for setting awardSubAwardTerms...
+     * @param awardSubAwardTerms the awardSubAwardTerms to set
+     */
     public void setAwardSubAwardTerms(AwardSubAwardTerms awardSubAwardTerms) {
         this.awardSubAwardTerms = awardSubAwardTerms;
     }

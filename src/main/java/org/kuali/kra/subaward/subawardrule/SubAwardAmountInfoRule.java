@@ -19,7 +19,27 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
+/**
+ * This class is for rule validation for subAward
+ * AmountInfo section...
+ */
 public interface SubAwardAmountInfoRule extends BusinessRule {
-    public boolean processAddSubAwardAmountInfoBusinessRules(SubAwardAmountInfo subAwardAmountInfo,SubAward subAward);
-    public boolean processDeleteSubAwardAmountInfoBusinessRules(SubAwardAmountInfo amountInfo,SubAward subAward);
+
+/**.
+	 * This method is for rule validation while
+	 *  adding subAwardamount info details
+	 *@param subAwardAmountInfo the subAwardAmountInfo
+	 * @param subAward The subAward
+	 * @return boolean value
+	 */
+	public boolean processAddSubAwardAmountInfoBusinessRules(
+    SubAwardAmountInfo subAwardAmountInfo, SubAward subAward);
+    /**.
+     * This method is for rule validation while deleting subAwardAmountInfo
+     * @param amountInfo The amountInfo
+     * @param subAward the subAward
+     * @return boolean value
+     */
+    public boolean processDeleteSubAwardAmountInfoBusinessRules(
+    SubAwardAmountInfo amountInfo, SubAward subAward);
 }
