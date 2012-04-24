@@ -95,7 +95,9 @@ http://www.osedu.org/licenses/ECL-2.0
 		<kra:section permission="showAlterProposalData">
 			<kra-pd:proposalDataOverride />
 		</kra:section>
-	
+		<kra:section permission="showAlterProposalData">
+			<kra-pd:budgetDataOverride />
+		</kra:section>
 		<c:if test="${hierarchyStatus != hierarchyChildStatus}">
 			<kul:routeLog />
 			<kul:adHocRecipients />

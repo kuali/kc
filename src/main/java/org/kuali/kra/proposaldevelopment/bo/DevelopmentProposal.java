@@ -42,6 +42,7 @@ import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
@@ -207,8 +208,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private boolean sponsorNihOsc;
 
     private List<ProposalChangedData> proposalChangedDataList;
+    
+    private List<BudgetChangedData> budgetChangedDataList;
 
     private Map<String, List<ProposalChangedData>> proposalChangeHistory;
+    
+    private Map<String, List<BudgetChangedData>> budgetChangeHistory;
 
     private Boolean submitFlag = Boolean.FALSE;
 
@@ -233,8 +238,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private Sponsor primeSponsor;
  
     private String proposalNumberForGG;
-
-
+ 
 
     /**
      * Gets the proposalNumberForGG attribute. 
@@ -401,6 +405,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         s2sAppSubmission = new ArrayList<S2sAppSubmission>();
         proposalChangedDataList = new AutoPopulatingList<ProposalChangedData>(ProposalChangedData.class);
         proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
+        budgetChangedDataList = new AutoPopulatingList<BudgetChangedData>(BudgetChangedData.class);
+        budgetChangeHistory = new TreeMap<String, List<BudgetChangedData>>();
         hierarchyStatus = HierarchyStatusConstants.None.code();
         hierarchyStatusName = HierarchyStatusConstants.None.description();
         initProposalSites();
@@ -2166,4 +2172,40 @@ public String getProjectId() {
     // TODO Auto-generated method stub
     return getProposalNumber();
 }
+public void setBudgetChangeHistory(Map<String, List<BudgetChangedData>> budgetChangeHistory) {
+    this.budgetChangeHistory = budgetChangeHistory;
+}
+
+public Map<String, List<BudgetChangedData>> getBudgetChangeHistory() {
+    return budgetChangeHistory;
+}
+/*
+This method will update the budget change data history
+*/
+
+public void updateBudgetChangeHistory() {
+    budgetChangeHistory = new TreeMap<String, List<BudgetChangedData>>();
+    // Arranging Budget Change History  
+   if (CollectionUtils.isNotEmpty(this.getBudgetChangedDataList())) {
+        for (BudgetChangedData budgetChangedData : this.getBudgetChangedDataList()) {
+            if (this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()) == null) {
+                this.getBudgetChangeHistory().put(budgetChangedData.getEditableColumn().getColumnLabel(),
+                        new ArrayList<BudgetChangedData>());
+            }
+
+            this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()).add(
+                    budgetChangedData);
+        }
+    }
+}
+
+public void setBudgetChangedDataList(List<BudgetChangedData> budgetChangedDataList) {
+    this.budgetChangedDataList = budgetChangedDataList;
+}
+
+public List<BudgetChangedData> getBudgetChangedDataList() {
+    return budgetChangedDataList;
+}
+
+
 }

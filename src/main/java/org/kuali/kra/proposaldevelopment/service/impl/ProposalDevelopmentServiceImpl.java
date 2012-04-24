@@ -31,6 +31,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hamcrest.core.IsInstanceOf;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Sponsor;
@@ -41,6 +42,7 @@ import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -54,6 +56,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -64,12 +67,16 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
@@ -81,7 +88,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private BudgetService budgetService;
     private ParameterService parameterService;
     private DocumentService documentService;
-    private VersionHistoryService versionHistoryService;
+    private VersionHistoryService versionHistoryService;      
 
 
     /**
@@ -210,6 +217,13 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         return StringUtils.EMPTY;
     }
+    public String populateBudgetEditableFieldMetaDataForAjaxCall(String proposalNumber, String documentNumber, String editableFieldDBColumn) {
+        if (isAuthorizedToAccess(proposalNumber)) {
+            return populateBudgetEditableFieldMetaData(documentNumber, editableFieldDBColumn);
+        }
+        return StringUtils.EMPTY;
+        
+    }
 
     protected ProposalOverview getProposalOverview(String proposalNumber) {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
@@ -217,6 +231,21 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         ProposalOverview currentProposal = (ProposalOverview) businessObjectService.findByPrimaryKey(ProposalOverview.class,
                 primaryKeys);
         return currentProposal;
+    }
+    
+    protected BudgetVersionOverview getBudgetVersionOverview(String documentNumber) {
+        BudgetVersionOverview currentBudget=null;
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put("documentNumber", documentNumber);
+        Collection<BudgetVersionOverview> currentBudgets = businessObjectService.findMatching(BudgetVersionOverview.class,
+                primaryKeys);
+        for (BudgetVersionOverview budgetVersionOverview:currentBudgets) {
+            if (budgetVersionOverview.isFinalVersionFlag()) {
+                currentBudget = budgetVersionOverview;
+                break;
+            }
+        }
+        return currentBudget;
     }
 
     protected String getLookupDisplayValue(String lookupClassName, String value, String displayAttributeName) {
@@ -330,6 +359,20 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         return fieldValue;
     }
+    
+    public Object getBudgetFieldValueFromDBColumnName(String documentNumber, String dbColumnName) {
+        Object fieldValue = null;        
+        Map<String, String> fieldMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(BudgetVersionOverview.class);
+        String budgetAttributeName = fieldMap.get(dbColumnName);
+        if (StringUtils.isNotEmpty(budgetAttributeName)) {
+            BudgetVersionOverview currentBudget = getBudgetVersionOverview(documentNumber);            
+            if (currentBudget != null) {
+                fieldValue = ObjectUtils.getPropertyValue(currentBudget, budgetAttributeName);
+            }
+        }            
+        return fieldValue;    
+             
+    }
 
     protected String populateProposalEditableFieldMetaData(String proposalNumber, String editableFieldDBColumn) {
         String returnValue = "";
@@ -367,7 +410,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         return returnValue;
     }
-
+ 
     @SuppressWarnings("unchecked")
     public Award getProposalCurrentAwardVersion(ProposalDevelopmentDocument proposal) {
         String awardNumber = proposal.getDevelopmentProposal().getCurrentAwardNumber();
@@ -618,5 +661,45 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         return null;
     }
+    protected String populateBudgetEditableFieldMetaData(
+            String documentNumber, String editableFieldDBColumn) {
+        String returnValue  = "";
+      
+        //BudgetDocument budgetDocument = null;
+        if (GlobalVariables.getMessageMap() != null) {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+        }      
+        Object fieldValue = getBudgetFieldValueFromDBColumnName(documentNumber, editableFieldDBColumn);
+        
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put("columnName", editableFieldDBColumn);
+        BudgetColumnsToAlter editableColumn = (BudgetColumnsToAlter) businessObjectService.findByPrimaryKey(
+                BudgetColumnsToAlter.class, primaryKeys);            
+        if (editableColumn.getHasLookup()) {
+            returnValue = getDataOverrideLookupDisplayReturnValue(editableColumn.getLookupClass())
+                    + ","
+                    + editableColumn.getLookupReturn()
+                    + ","
+                    + getDataOverrideLookupDisplayDisplayValue(editableColumn.getLookupClass(),
+                            (fieldValue != null ? fieldValue.toString() : ""), editableColumn.getLookupReturn());
+        }
+        else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")) {
+            returnValue = ",," + CoreApiServiceLocator.getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
+        }
+        else if (fieldValue != null) {
+            returnValue = ",," + fieldValue.toString();
+        }
+        else {
+            returnValue = ",,";
+        }
+        if (fieldValue instanceof Boolean) {
+            editableColumn.setDataType("boolean");
+        }
+      
+        returnValue += "," + editableColumn.getDataType();
+        returnValue += "," + editableColumn.getHasLookup();
+        returnValue += "," + editableColumn.getLookupClass();
 
+        return returnValue;
+    }
 }

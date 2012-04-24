@@ -401,6 +401,14 @@ public interface Constants {
     public static final String PROPOSALDATA_DISPLAY_VAL_KEY = "newProposalChangedData.displayValue";
     public static final String PROPOSALDATA_CURRENT_DISPLAY_KEY = "newProposalChangedData.oldDisplayValue";
     public static final String PROPOSALDATA_COMMENTS_KEY = "newProposalChangedData.comments";
+    
+    //Budget Change Data
+    public static final String BUDGETDATA_OVERRIDE_PROPERTY_KEY = "newBudgetChangedData";
+    public static final String BUDGETDATA_CHANGED_VAL_KEY = "newBudgetChangedData.changedValue";
+    public static final String BUDGETDATA_DISPLAY_VAL_KEY = "newBudgetChangedData.displayValue";
+    public static final String BUDGETDATA_CURRENT_DISPLAY_KEY = "newBudgetChangedData.oldDisplayValue";
+    public static final String BUDGETDATA_COMMENTS_KEY = "newBudgetChangedData.comments";
+    
 
     public static final String BUDGET_SALARY_REPORT = "ProposalBudget/Salaries";
     public static final String PERSONNEL_BUDGET_PANEL_NAME = "Personnel Budget";

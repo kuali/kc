@@ -1562,6 +1562,163 @@ function dynamicDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnValue, c
 			  button : "newProposalChangedData.changedValue_datepicker" // ID of the button
 		    }
 		);
+	}	
+}
+
+function updateBudgetOtherFields(editableColumnNameField, proposalNumberFieldId, documentNumberFieldId, callbackFunction ) {
+	var proposalNumber = dwr.util.getValue( proposalNumberFieldId );
+	var documentNumber = dwr.util.getValue(documentNumberFieldId);
+	fieldPrefix = findElPrefix( editableColumnNameField.name );
+	oldDisplayValue =  fieldPrefix + ".oldDisplayValue" ;
+	displayValue =  fieldPrefix + ".displayValue" ;
+	dataType =  fieldPrefix + ".editableColumn.dataType" ;
+	hasLookup =  fieldPrefix + ".editableColumn.hasLookup" ;
+	lookupArgument =  fieldPrefix + ".editableColumn.lookupClass" ;
+	lookupReturn = fieldPrefix + ".editableColumn.lookupReturn" ;
+	lookupPkReturn = fieldPrefix + ".editableColumn.lookupPkReturn" ;
+	changedValue = fieldPrefix + ".changedValue" ;
+	comments = fieldPrefix + ".comments" ;
+	var editableColumnNameRef = fieldPrefix + ".editableColumn.columnName" ;
+	document.getElementById(editableColumnNameRef).value = editableColumnNameField.value; 
+	document.getElementById(changedValue).style.display="inline";
+	var editableColumnName = editableColumnNameField.value;
+	if (editableColumnName != "") {
+		var docFormKey = dwr.util.getValue( "docFormKey" );
+		var dwrReply = {				
+			callback:callbackFunction,
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;				
+			}
+		};
+		
+		
+		ProposalDevelopmentService.populateBudgetEditableFieldMetaDataForAjaxCall(proposalNumber + ":" + docFormKey,documentNumber, editableColumnName, dwrReply );
+		} else {
+			document.getElementById(oldDisplayValue).value = ""; 
+			document.getElementById(displayValue).value = ""; 
+			document.getElementById(dataType).value = "";
+			document.getElementById(hasLookup).value = "";
+			document.getElementById(lookupArgument).value = "";
+			document.getElementById(lookupReturn).value = "";
+			document.getElementById(lookupPkReturn).value = "";
+			document.getElementById(changedValue).value = "";
+			document.getElementById(changedValue).style.borderColor = "";
+			document.getElementById(comments).value = "";
+	}
+}
+
+function updateBudgetOtherFields_Callback( data ) {
+	var value_array = data.split(",");
+	var counter=0;	
+	//reset
+	document.getElementById(oldDisplayValue).value = ""; 
+	document.getElementById(displayValue).value = ""; 
+	document.getElementById(dataType).value = "";
+	document.getElementById(hasLookup).value = "";
+	document.getElementById(lookupArgument).value = "";
+	document.getElementById(lookupReturn).value = "";
+	document.getElementById(lookupPkReturn).value = "";
+	document.getElementById(changedValue).value = "";
+	document.getElementById(changedValue).style.borderColor = "";
+	document.getElementById(comments).value = "";
+	
+	
+	while (counter < value_array.length)
+	{
+		if(counter == 0) {
+			document.getElementById(lookupPkReturn).value = value_array[counter];
+		}
+
+		if(counter == 1) {
+			document.getElementById(lookupReturn).value = value_array[counter];
+		}
+		
+		if(counter == 2) {
+			document.getElementById(oldDisplayValue).value = value_array[counter];
+			document.getElementById(displayValue).value = value_array[counter];
+			document.getElementById(oldDisplayValue).disabled = true;
+			document.getElementById(displayValue).disabled = true;
+		}
+		
+		if(counter == 3) {
+			document.getElementById(dataType).value = value_array[counter];
+			
+		}
+		
+		if(counter == 4) {
+			document.getElementById(hasLookup).value = value_array[counter];
+		}
+		
+		if(counter == 5) {
+			document.getElementById(lookupArgument).value = value_array[counter];
+		}
+		
+		counter+=1;
+	}
+	
+	var displayValueField = document.getElementById(displayValue).name;	
+	var prefix = findElPrefix( document.getElementById(displayValue).name );
+	var imageUrl = document.getElementById("imageUrl").value;
+	var tabIndex = document.getElementById("tabIndex").value;
+	var lookupClass = document.getElementById(lookupArgument).value;
+	var lookupPkReturnValue = document.getElementById(lookupPkReturn).value;
+	var changedValueFieldName = document.getElementById(changedValue).name;	
+	var myDiv = document.getElementById('changedValueBudgetExtraBody');
+	var dataTypeValue = document.getElementById(dataType).value;	
+	var lookupReturnValue = document.getElementById(lookupReturn).value;
+	dynamicBudgetDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnValue, changedValueFieldName, displayValueField, dataTypeValue);
+}
+
+function dynamicBudgetDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnValue, changedValueFieldName, displayValueField, dataTypeValue) {
+   	var imageUrl = document.getElementById("imageUrl").value;
+   	var tabIndex = document.getElementById("tabIndex").value;
+	var myDiv = document.getElementById('changedValueBudgetExtraBody');
+	var innerDivContent = "";
+	if(lookupClass != "" && lookupPkReturnValue != "" && changedValueFieldName != "") {
+		innerDivContent = "<input type='image' tabindex='' ";
+		innerDivContent = innerDivContent + " name='methodToCall.performLookup.(!!" + lookupClass + "!!).(((" + lookupPkReturnValue + ":" + changedValueFieldName + "," + lookupReturnValue + ":" + displayValueField + "))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchorBudgetDataOverride' ";
+		innerDivContent = innerDivContent + " src='" + imageUrl + "searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search' title='Search' /> ";
+	} 
+	
+	if(dataTypeValue != "" && (dataTypeValue == 'DATE' || dataTypeValue == 'date')) {
+		innerDivContent = innerDivContent + "<img src=\"" + imageUrl + "cal.gif\" id=\"newBudgetChangedData.changedValue_datepicker\" style=\"cursor: pointer;\"";
+		innerDivContent = innerDivContent + " title=\"Date selector\" alt=\"Date selector\" onmouseover=\"this.style.backgroundColor='red';\" onmouseout=\"this.style.backgroundColor='transparent';\" />";
+	}
+	
+	if(dataTypeValue!="" && (dataTypeValue == 'boolean' || dataTypeValue == 'Boolean')){
+		document.getElementById(changedValue).style.display="none";
+		document.getElementById(changedValue).value = "false";
+		innerDivContent = "<input type='checkbox' tabindex='' name ='submitCostShare' onchange = 'updateBudgetFlag()'/>"; 
+	}
+	
+	myDiv.innerHTML = innerDivContent;
+	
+	if(dataTypeValue != "" && (dataTypeValue == 'DATE' || dataTypeValue == 'date')) {
+		Calendar.setup(
+			{
+			  inputField : "newBudgetChangedData.changedValue", // ID of the input field
+			  ifFormat : "%m/%d/%Y", // the date format
+			  button : "newBudgetChangedData.changedValue_datepicker" // ID of the button
+		    }
+		);
+	}
+	
+}
+
+function updateBudgetFlag(){
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+		 var e = document.KualiForm.elements[i];
+		 if(e.type == 'checkbox') {
+			 if(e.name == 'submitCostShare'){				
+				 if(e.checked){
+					 document.getElementById(changedValue).value="true";					 	 
+				 }
+				 else{
+					 document.getElementById(changedValue).value="false";
+				 }
+				 
+			 }
+		 }
 	}
 }
 
