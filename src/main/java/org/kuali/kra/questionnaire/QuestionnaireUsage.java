@@ -143,7 +143,10 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
             if (ObjectUtils.equals(this.getQuestionnaireRefIdFk(), argQuestionnaireUsage.getQuestionnaireRefIdFk())) {
                 return argQuestionnaireUsage.getQuestionnaireSequenceNumber().compareTo(this.getQuestionnaireSequenceNumber());
             } else {
-                return argQuestionnaireUsage.getQuestionnaireRefIdFk().compareTo(this.getQuestionnaireRefIdFk());
+                // compare refid is not good : 1. it's a string now, so '753' > '1001'. 2. the proposalpersonqn has high refid 6111.
+                // so the assumption of newer version of qnnaire has higher refid is not right for this case.
+                // compare qnnaire sequence is the right approach
+                return argQuestionnaireUsage.getQuestionnaire().getSequenceNumber().compareTo(this.getQuestionnaire().getSequenceNumber());
             }
         } else {
             return this.getQuestionnaire().getQuestionnaireIdAsInteger().compareTo(argQuestionnaireUsage.getQuestionnaire().getQuestionnaireIdAsInteger());
