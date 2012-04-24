@@ -47,6 +47,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
@@ -72,12 +73,14 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalType;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
+import org.kuali.kra.proposaldevelopment.rule.event.BudgetDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRejectionRule;
@@ -1703,4 +1706,139 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         this.kraWorkflowService = kraWorkflowService;
     }
     
+   /**
+     * Updates an Editable Budget Field and 
+     * adds it to the Budget Change History
+     * 
+     * @param mapping the Struct's Action Mapping.
+     * @param form the Proposal Development Form.
+     * @param request the HTTP request.
+     * @param response the HTTP response
+     * @return the next web page to display
+     * @throws Exception
+     */
+    public ActionForward addProposalBudgetChangedData(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        BudgetDocument budgetDocument = null;
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        KraPersistenceStructureService kraPersistenceStructureService = KraServiceLocator
+                .getService(KraPersistenceStructureService.class);
+
+        ActionForward forward = mapping.findForward("basic");
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
+        Map budgetMap = new HashMap();
+        budgetMap.put("parentDocumentKey", pdDocument.getDocumentNumber());
+        BudgetChangedData newBudgetChangedData = pdForm.getNewBudgetChangedData();
+        newBudgetChangedData.setProposalNumber(pdDocument.getDevelopmentProposal().getProposalNumber());
+
+        Collection<BudgetDocument> budgetDocuments = boService.findMatching(BudgetDocument.class, budgetMap);
+        for (BudgetDocument document : budgetDocuments) {
+            if (document.getBudget().getFinalVersionFlag()) {
+                budgetDocument = document;
+                break;
+            }
+        }
+
+        newBudgetChangedData.setChangeNumber(getBudgetNextChangeNumber(boService, newBudgetChangedData.getProposalNumber(),
+                newBudgetChangedData.getColumnName()));
+
+        if (StringUtils.isEmpty(newBudgetChangedData.getDisplayValue())
+                && StringUtils.isNotEmpty(newBudgetChangedData.getChangedValue())) {
+            newBudgetChangedData.setDisplayValue(newBudgetChangedData.getChangedValue());
+        }
+
+        String tmpLookupReturnPk = "";
+        if (newBudgetChangedData.getEditableColumn() != null) {
+            tmpLookupReturnPk = newBudgetChangedData.getEditableColumn().getLookupPkReturn();
+        }
+
+        newBudgetChangedData.refreshReferenceObject("editableColumn");
+        newBudgetChangedData.getEditableColumn().setLookupPkReturn(tmpLookupReturnPk);
+
+        if (newBudgetChangedData.getEditableColumn() != null) {
+            if (!newBudgetChangedData.getEditableColumn().getHasLookup()) {
+                newBudgetChangedData.setDisplayValue(newBudgetChangedData.getChangedValue());
+            }
+        }
+        if (getKualiRuleService().applyRules(
+                new BudgetDataOverrideEvent(pdForm.getProposalDevelopmentDocument(), newBudgetChangedData))) {
+            boService.save(newBudgetChangedData);
+            BudgetVersionOverview budgetVersionWrapper = createProposalBudgetWrapper(budgetDocument);
+            Map<String, String> columnToAttributesMap = kraPersistenceStructureService
+                    .getDBColumnToObjectAttributeMap(BudgetVersionOverview.class);
+            String proposalAttributeToPersist = columnToAttributesMap.get(newBudgetChangedData.getColumnName());
+            ObjectUtils.setObjectProperty(budgetVersionWrapper, proposalAttributeToPersist, newBudgetChangedData.getChangedValue());
+            ObjectUtils.setObjectProperty(budgetDocument.getBudget(), proposalAttributeToPersist,
+                    newBudgetChangedData.getChangedValue());
+            boService.save(budgetVersionWrapper);
+            budgetDocument.setVersionNumber(budgetVersionWrapper.getVersionNumber());
+            pdForm.setNewBudgetChangedData(new BudgetChangedData());
+            growProposalBudgetChangedHistory(pdDocument, newBudgetChangedData);
+
+        }
+        return forward;
+
+    }
+
+    private void growProposalBudgetChangedHistory(ProposalDevelopmentDocument proposalDevelopmentDocument,
+            BudgetChangedData newBudgetChangedData) {
+        Map<String, List<BudgetChangedData>> changeHistory = proposalDevelopmentDocument.getDevelopmentProposal()
+                .getBudgetChangeHistory();
+
+        if (changeHistory.get(newBudgetChangedData.getEditableColumn().getColumnLabel()) == null) {
+            changeHistory.put(newBudgetChangedData.getEditableColumn().getColumnLabel(), new ArrayList<BudgetChangedData>());
+        }
+
+        changeHistory.get(newBudgetChangedData.getEditableColumn().getColumnLabel()).add(0, newBudgetChangedData);
+    }
+    
+    private BudgetVersionOverview createProposalBudgetWrapper(BudgetDocument budgetDocument) throws Exception {
+        BudgetVersionOverview budgetVersionWrapper = new BudgetVersionOverview();
+        PersistenceStructureService persistentStructureService = KraServiceLocator.getService(PersistenceStructureService.class);
+        List<String> fieldsToUpdate = (List<String>) persistentStructureService.listFieldNames(BudgetVersionOverview.class);
+        for (String field : fieldsToUpdate) {
+            boolean noSuchFieldPD = false;
+            boolean noSuchFieldBO = false;
+            Object tempVal = null;
+
+            try {
+                tempVal = ObjectUtils.getPropertyValue(budgetDocument, field);
+            }
+            catch (Exception e) {
+                noSuchFieldPD = true;
+            }
+
+            try {
+                tempVal = ObjectUtils.getPropertyValue(budgetDocument.getBudget(), field);
+            }
+            catch (Exception e) {
+                noSuchFieldBO = true;
+            }
+
+            if (tempVal == null && noSuchFieldPD && noSuchFieldBO) {
+                LOG.warn("Could not find property " + field + " in BudgettDocument or Budget bo.");
+            }
+
+            ObjectUtils.setObjectProperty(budgetVersionWrapper, field, (tempVal != null) ? tempVal : null);
+        }
+        return budgetVersionWrapper;
+    }
+
+    private int getBudgetNextChangeNumber(BusinessObjectService boService, String proposalNumber, String columnName) {
+        int changeNumber = 0;
+        Map<String, Object> keyMap = new HashMap<String, Object>();
+        keyMap.put("proposalNumber", proposalNumber);
+        keyMap.put("columnName", columnName);
+        List<BudgetChangedData> changedDataList = (List<BudgetChangedData>) boService.findMatchingOrderBy(BudgetChangedData.class,
+                keyMap, "changeNumber", true);
+        if (CollectionUtils.isNotEmpty(changedDataList)) {
+            changeNumber = ((BudgetChangedData) changedDataList.get(changedDataList.size() - 1)).getChangeNumber();
+        }
+
+        return ++changeNumber;
+    }
+
+
 }
