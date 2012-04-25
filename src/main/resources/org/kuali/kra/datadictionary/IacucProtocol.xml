@@ -434,11 +434,12 @@
         <property name="shortLabel" value="Lay Statement 1" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AlphaNumericValidationPattern" 
+            	p:allowWhitespace="true" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="20" />
         </property>
         <property name="summary" value="Lay Statement 1" />
         <property name="description" value="Lay Statement 1" />
@@ -452,11 +453,12 @@
         <property name="shortLabel" value="Lay Statement 2" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AlphaNumericValidationPattern" 
+            	p:allowWhitespace="true" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="20" />
         </property>
         <property name="summary" value="Lay Statement 2" />
         <property name="description" value="Lay Statement 2" />

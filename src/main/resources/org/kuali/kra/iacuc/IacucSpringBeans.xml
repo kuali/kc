@@ -62,6 +62,10 @@
                     <property name="taskName" value="modifyIacucProtocol" />
                 </bean>
                 
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolGeneralInfoAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolGeneralInfo" />
+                </bean>
+                
                 <bean class="org.kuali.kra.iacuc.auth.ViewIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="viewIacucProtocol" />
                 </bean>
