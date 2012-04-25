@@ -30,11 +30,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -60,24 +60,14 @@ public class IacucProtocol extends Protocol {
 
     private Timestamp createTimestamp;
     private String createUser;
-    private IacucProtocolDocument iacucProtocolDocument;
       
     private List<IacucProtocolSpecies> iacucProtocolSpeciesList;
 
     public IacucProtocol() {
-        
-        // TODO : temporary only; remove this when protocol is ready
-        initializaTestData();
-    } 
-   
-    
-    private void initializaTestData() {
-        // TODO : this is just for plumbing work.  remove it when working on required fields tab.
-//        setSequenceNumber(0);
-//        setProtocolStatusCode("100");
+        // initialize the various fields of the protocol BO that are specific to IACUC
         setApplicationDate(new Date(new java.util.Date().getTime()));
         setCreateTimestamp(new Timestamp(new java.util.Date().getTime()));
-        setCreateUser("test");
+        setCreateUser(GlobalVariables.getUserSession().getPrincipalId());
         setScientificJustifIndicator("no");
         setSpecialReviewIndicator("no");
         setSpeciesStudyGroupIndicator("no");
@@ -86,9 +76,8 @@ public class IacucProtocol extends Protocol {
         setCorrespondentIndicator("no");
         setReferenceIndicator("no");
         setAlternativeSearchIndicator("no");
-        
-    }
-    
+    } 
+   
     public Date getApplicationDate() {
         return applicationDate;
     }
@@ -156,11 +145,11 @@ public class IacucProtocol extends Protocol {
     
 
     public void setIacucProtocolDocument(IacucProtocolDocument iacucProtocolDocument) {
-        this.iacucProtocolDocument = iacucProtocolDocument;
+        this.setProtocolDocument(iacucProtocolDocument);
     }
 
     public IacucProtocolDocument getIacucProtocolDocument() {
-        return iacucProtocolDocument;
+        return (IacucProtocolDocument) this.getProtocolDocument();
     }
 
     public void setBillable(boolean isBillable) {
@@ -190,15 +179,6 @@ public class IacucProtocol extends Protocol {
         return (IacucProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
     }
 
-    @Override
-    public void setProtocolDocument(ProtocolDocument protocolDocument) {
-        this.setIacucProtocolDocument((IacucProtocolDocument) protocolDocument);
-    }
-
-    @Override
-    public ProtocolDocument getProtocolDocument() {
-        return this.getIacucProtocolDocument();
-    }
 
     @Override
     public String getNamespace() {
