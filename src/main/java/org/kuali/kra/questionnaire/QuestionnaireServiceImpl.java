@@ -57,7 +57,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         permissionModuleMap.put(PermissionConstants.MODIFY_PROTOCOL + ":" + "KC-PROTOCOL", "7");
         permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_PROTOCOL, "7");
         permissionModuleMap.put(PermissionConstants.MAINTAIN_COI_DISCLOSURE + ":" + Constants.MODULE_NAMESPACE_COIDISCLOSURE, "8");
-        permissionModuleMap.put(PermissionConstants.MODIFY_IACUC_PROTOCOL + ":" + Constants.MODULE_NAMESPACE_IACUC, "9");
+        permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_IACUC, "9");
     }
 
     /**
@@ -128,9 +128,9 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
             String[] params = permission.split(":");
             boolean unitAuthCheck = unitAuthorizationService.hasPermission(GlobalVariables.getUserSession().getPerson()
                     .getPrincipalId(), params[1], params[0]);
-//temp            if (unitAuthCheck && !modules.contains(permissionModuleMap.get(permission))) {
+            if (unitAuthCheck && !modules.contains(permissionModuleMap.get(permission))) {
                 modules.add(permissionModuleMap.get(permission));
-//temp            }
+            }
         }
         return new ArrayList<String>(modules);
     }
