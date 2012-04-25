@@ -60,7 +60,9 @@
     protocolDocumentAttributes="${protocolDocumentAttributes}" 
     protocolAttributes="${protocolAttributes}"
     action="${iacucProtocolProtocol}"
-    className="${className}"/>
+    className="${className}"
+    displayLayStatementsRow = "true"/>
+    
 <kra-protocol:protocolStatusDate 
     protocolAttributes="${protocolAttributes}"/>
     

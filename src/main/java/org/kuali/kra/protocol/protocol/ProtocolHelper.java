@@ -220,7 +220,10 @@ public abstract class ProtocolHelper implements Serializable {
 //        if(displayBillable) {
 //            initializeBillablePermission(protocol);   
 //        }
-//        initializeModifyGeneralInfoPermission(protocol);
+        
+        initializeModifyGeneralInfoPermission(protocol);
+
+// TODO *********commented the code below during IACUC refactoring*********         
 //        initializeModifyFundingSourcePermission(protocol);
 //        initializeModifyReferencesPermission(protocol);
 //        initializeModifyOrganizationsPermission(protocol);
@@ -239,10 +242,12 @@ public abstract class ProtocolHelper implements Serializable {
     }
     
     private void initializeModifyGeneralInfoPermission(Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_GENERAL_INFO, protocol);
+        ProtocolTask task = getNewInstanceModifyProtocolGeneralInfoTaskHook(protocol);
         modifyGeneralInfo = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    protected abstract ProtocolTask getNewInstanceModifyProtocolGeneralInfoTaskHook(Protocol protocol);
+
     private void initializeModifyFundingSourcePermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_FUNDING_SOURCE, protocol);
         modifyFundingSource = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);

@@ -4,11 +4,12 @@
 <%@ attribute name="protocolAttributes" required="true" type="java.util.Map" %>
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="className" required="true" %>
+<%@ attribute name="displayLayStatementsRow" required="false" type="java.lang.Boolean" %>
 
 <c:set var="textAreaFieldName" value="document.protocolList[0].title" />
 <c:set var="nonEmpFlag" value="false" />
 
-<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.protocolList[0].principalInvestigatorId,document.protocolList[0].protocolTypeCode,document.protocolList[0].title,document.protocolList[0].leadUnitNumber,document.protocolHelper.personId,document.protocolList[0].protocolTypeCode*,principalInvestigator*,protocolHelper.principalInvestigator*,document.protocolList[0].title*,protocolHelper.leadUnitNumber*,document.ProtocolTypeCode*,document.activityTypeCode*,document.title" >
+<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.protocolList[0].principalInvestigatorId,document.protocolList[0].protocolTypeCode,document.protocolList[0].title,document.protocolList[0].leadUnitNumber,document.protocolHelper.personId,document.protocolList[0].protocolTypeCode*,principalInvestigator*,protocolHelper.principalInvestigator*,document.protocolList[0].title*,protocolHelper.leadUnitNumber*,document.ProtocolTypeCode*,document.activityTypeCode*,document.title,document.protocolList[0].layStatement*" >
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Required Fields for Saving Document</span>
@@ -184,14 +185,29 @@
                     </tbody>
                     </table>
                     
-				</td>
-                
-                
-				
-                
-				
-				
+				</td>				
             </tr>
+         <c:if test="${displayLayStatementsRow}">
+            <tr>
+            	<th>
+            		<div align="right">
+            			<kul:htmlAttributeLabel attributeEntry="${protocolAttributes.layStatement1}" />
+            		</div>
+            	</th>
+            	<td align="left" valign="top">
+                	<kul:htmlControlAttribute property="document.protocolList[0].layStatement1" attributeEntry="${protocolAttributes.layStatement1}" readOnly="${readOnly}" />
+                </td>
+                
+                <th>
+            		<div align="right">
+            			<kul:htmlAttributeLabel attributeEntry="${protocolAttributes.layStatement2}" />
+            		</div>
+            	</th>
+            	<td align="left" valign="top">
+                	<kul:htmlControlAttribute property="document.protocolList[0].layStatement2" attributeEntry="${protocolAttributes.layStatement2}" readOnly="${readOnly}" />
+                </td>       
+            </tr>
+         </c:if>  
 		</table>
 	</div>	
 </kul:tab>		

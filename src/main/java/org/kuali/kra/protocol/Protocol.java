@@ -41,6 +41,7 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
@@ -592,9 +593,13 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
 
     
-    public abstract ProtocolDocument getProtocolDocument();
+    public ProtocolDocument getProtocolDocument() {
+        return protocolDocument;
+    }
 
-    public abstract void setProtocolDocument(ProtocolDocument protocolDocument);
+    public void setProtocolDocument(ProtocolDocument protocolDocument) {
+        this.protocolDocument = protocolDocument;
+    }
 
     public void setProtocolLocations(List<ProtocolLocation> protocolLocations) {
         this.protocolLocations = protocolLocations;
