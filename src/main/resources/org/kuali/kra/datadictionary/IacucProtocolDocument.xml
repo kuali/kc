@@ -46,6 +46,13 @@
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
+                    <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolThreeRs" p:parameterDetailType="Document"/>
+                </property>
+                <property name="headerTabDisplayName" value="The Three R's"/>
+                <property name="headerTabNavigateTo" value="threeRs"/>
+            </bean>            
+            <bean parent="HeaderNavigation">
+                <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolQuestionnaireHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Questionnaire"/>
