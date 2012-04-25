@@ -126,7 +126,7 @@
         </collection-descriptor>
                 
      </class-descriptor>
-     
+    
      
      <class-descriptor class="org.kuali.kra.iacuc.actions.IacucProtocolStatus" table="IACUC_PROTOCOL_STATUS">
         <field-descriptor name="protocolStatusCode" column="PROTOCOL_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
@@ -373,6 +373,25 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.iacuc.threers.IacucAlternateSearchDatabase" table="IACUC_ALT_SEARCH_DB">
+        <field-descriptor name="alternateSearchDbCode" column="ALT_SEARCH_DB_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="alternateSearchDbName" column="ALT_SEARCH_DB_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>    
-    
+
+    <class-descriptor class="org.kuali.kra.iacuc.threers.IacucPrinciples" table="IACUC_PRINCIPLES">
+        <field-descriptor name="iacucPrinciplesId" column="IACUC_PRINCIPLES_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PRINCIPLES_ID" autoincrement="true" />
+        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />            
+    </class-descriptor>    
 </descriptor-repository>

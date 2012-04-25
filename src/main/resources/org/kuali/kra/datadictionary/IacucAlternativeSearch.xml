@@ -1,0 +1,232 @@
+<!--
+/*
+ * Copyright 2005-2010 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="IacucAlternativeSearch" parent="IacucAlternativeSearch-parentBean" />
+    <bean id="IacucAlternativeSearch-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.iacuc.threers.IacucAlternativeSearch" />
+        <property name="objectLabel" value="Alternative Search" />
+        <property name="inquiryDefinition" >
+            <ref bean="IacucAlternativeSearch-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="IacucAlternativeSearch-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="alternativeSearch" />
+        <property name="attributes" >
+            <list>
+                <ref bean="IacucAlternativeSearch-searchRequired" />
+                <ref bean="IacucAlternativeSearch-searchDate" />
+                <ref bean="IacucAlternativeSearch-databases" />
+                <ref bean="IacucAlternativeSearch-yearsSearched" />
+                <ref bean="IacucAlternativeSearch-keywords" />
+                <ref bean="IacucAlternativeSearch-comments" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="IacucAlternativeSearch-searchRequired" parent="IacucAlternativeSearch-searchRequired-parentBean" />
+    <bean id="IacucAlternativeSearch-searchRequired-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="searchRequired" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Does the protocol involve proceedures which cause more than momentary pain and distress?" />
+        <property name="shortLabel" value="Search Required" />
+        <property name="maxLength" value="3" />
+        <property name="required" value="true" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kra.iacuc.threers.IndicatorYNSelectValuesFinder" />
+        </property>
+        <property name="summary" value="Search Required" />
+        <property name="description" value="Search Required" />
+    </bean>
+
+    <bean id="IacucAlternativeSearch-searchDate" parent="IacucAlternativeSearch-searchDate-parentBean" />
+    <bean id="IacucAlternativeSearch-searchDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="searchDate" />
+        <property name="label" value="Date" />
+        <property name="shortLabel" value="Search Date" />
+        <property name="summary" value="Search Date" />
+        <property name="description" value="Search Date" />
+    </bean>
+
+    <bean id="IacucAlternativeSearch-databases" parent="IacucAlternativeSearch-databases-parentBean" />
+    <bean id="IacucAlternativeSearch-databases-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="databases" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Database(s)" />
+        <property name="shortLabel" value="Databases" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="MultiselectControlDefinition"
+                p:valuesFinderClass="org.kuali.kra.iacuc.threers.IacucAlternativeSearchDatabaseValuesFinder"
+                p:rows="5" />
+        </property>
+        <property name="summary" value="Databases" />
+        <property name="description" value="Databases" />
+    </bean>
+    
+    <bean id="IacucAlternativeSearch-yearsSearched" parent="IacucAlternativeSearch-yearsSearched-parentBean" />
+    <bean id="IacucAlternativeSearch-yearsSearched-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="yearsSearched" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Years" />
+        <property name="shortLabel" value="Years Searched" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="5"
+                p:cols="40"
+                p:expandedTextArea="true" />
+        </property>
+        <property name="summary" value="Years Searched" />
+        <property name="description" value="Years Searched" />
+    </bean>  
+
+    <bean id="IacucAlternativeSearch-keywords" parent="IacucAlternativeSearch-keywords-parentBean" />
+    <bean id="IacucAlternativeSearch-keywords-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="keywords" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Years" />
+        <property name="shortLabel" value="Keywords" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="5"
+                p:cols="40"
+                p:expandedTextArea="true" />
+        </property>
+        <property name="summary" value="Keywords" />
+        <property name="description" value="Keywords" />
+    </bean>
+
+    <bean id="IacucAlternativeSearch-comments" parent="IacucAlternativeSearch-comments-parentBean" />
+    <bean id="IacucAlternativeSearch-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="comments" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Comments" />
+        <property name="shortLabel" value="Comments" />
+        <property name="maxLength" value="2000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="5"
+                p:cols="60"
+                p:expandedTextArea="true" />
+        </property>
+        <property name="summary" value="Comments" />
+        <property name="description" value="Comments" />
+    </bean>           
+
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="IacucAlternativeSearch-inquiryDefinition" parent="IacucAlternativeSearch-inquiryDefinition-parentBean" />
+    <bean id="IacucAlternativeSearch-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Alternative Search" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Alternative Search" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition"
+                                p:attributeName="searchRequired" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="searchDate" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="databases" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="yearsSearched" />     
+                            <bean parent="FieldDefinition"
+                                p:attributeName="keywords" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="comments" />                                                                                                                         
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="IacucAlternativeSearch-lookupDefinition" parent="IacucAlternativeSearch-lookupDefinition-parentBean" />
+    <bean id="IacucAlternativeSearch-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Alternative Search Lookup" />
+
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" >
+        </bean>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="searchRequired" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="searchDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="databases" />                    
+                <bean parent="FieldDefinition"
+                    p:attributeName="yearsSearched" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="keywords" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="comments" />                                                            
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition"
+                    p:attributeName="searchRequired" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="searchDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="databases" />                    
+                <bean parent="FieldDefinition"
+                    p:attributeName="yearsSearched" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="keywords" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="comments" /> 
+            </list>
+        </property>
+    </bean>                 
+</beans>

@@ -15,6 +15,12 @@
  */
 package org.kuali.kra.iacuc;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -39,6 +45,10 @@ public class IacucProtocolAction extends ProtocolAction {
     public static final String IACUC_PROTOCOL_ACTIONS_HOOK = "iacucProtocolActions";
     public static final String IACUC_PROTOCOL_ONLINE_REVIEW_HOOK = "iacucProtocolOnlineReview";
     public static final String IACUC_PROTOCOL_PERMISSIONS_HOOK = "iacucProtocolPermissions";
+    
+    public ActionForward threeRs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward("iacucProtocolThreeRs");
+    }    
     
     protected String getProtocolForwardNameHook() {
         return  IACUC_PROTOCOL_NAME_HOOK;
