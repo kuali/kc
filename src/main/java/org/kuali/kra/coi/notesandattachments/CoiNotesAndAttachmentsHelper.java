@@ -172,10 +172,8 @@ public class CoiNotesAndAttachmentsHelper {
         this.refreshAttachmentReferences(Collections.singletonList(this.getNewCoiDisclosureAttachment()));
         this.syncNewFiles(Collections.singletonList(this.getNewCoiDisclosureAttachment()));
 
-
         final AddCoiDisclosureAttachmentRule rule = new AddCoiDisclosureAttachmentRuleImpl();
         final AddCoiDisclosureAttachmentEvent event = new AddCoiDisclosureAttachmentEvent(coiDisclosureForm.getDocument(), newCoiDisclosureAttachment);
-
 
         assignDocumentId(Collections.singletonList(this.getNewCoiDisclosureAttachment()), 
                 this.createTypeToMaxDocNumber(getCoiDisclosure().getCoiDisclosureAttachments()));
@@ -341,7 +339,8 @@ public class CoiNotesAndAttachmentsHelper {
 
         for (final CoiDisclosureAttachment attachment : coiDisclosureAttachments) {   
             if (attachment instanceof CoiDisclosureAttachment) {
-                attachment.refreshReferenceObject("status");   
+                attachment.refreshReferenceObject("status");  
+                attachment.refreshReferenceObject("coiAttachmentType");
             }
 
         }
