@@ -25,11 +25,13 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
+import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
@@ -60,6 +62,8 @@ public class IacucProtocol extends Protocol {
 
     private Timestamp createTimestamp;
     private String createUser;
+    
+    private IacucPrinciples iacucPrinciples;
       
     private List<IacucProtocolSpecies> iacucProtocolSpeciesList;
 
@@ -77,7 +81,7 @@ public class IacucProtocol extends Protocol {
         setReferenceIndicator("no");
         setAlternativeSearchIndicator("no");
     } 
-   
+    
     public Date getApplicationDate() {
         return applicationDate;
     }
@@ -239,6 +243,15 @@ public class IacucProtocol extends Protocol {
     }
 
 
+    public IacucPrinciples getIacucPrinciples() {
+        return iacucPrinciples;
+    }
+
+
+    public void setIacucPrinciples(IacucPrinciples iacucPrinciples) {
+        this.iacucPrinciples = iacucPrinciples;
+    }
+    
     public List<IacucProtocolSpecies> getIacucProtocolSpeciesList() {
         return iacucProtocolSpeciesList;
     }

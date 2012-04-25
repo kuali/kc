@@ -32,6 +32,15 @@
   	
     <kra-protocol:protocolAddPersonnelSection protocolPersonAttributes="${protocolPersonAttributes}"/>
     <kra-protocol:protocolPersons protocolPersonAttributes="${protocolPersonAttributes}"/>
+    
+    <kul:documentControls 
+        transactionalDocument="false"
+        suppressRoutingControls="true"
+        extraButtonSource="${extraButtonSource}"
+        extraButtonProperty="${extraButtonProperty}"
+        extraButtonAlt="${extraButtonAlt}"
+        viewOnly="${KualiForm.editingMode['viewOnly']}"
+        />    
 
 <script type="text/javascript">
    var $j = jQuery.noConflict();

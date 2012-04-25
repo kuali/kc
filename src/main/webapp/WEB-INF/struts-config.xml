@@ -422,6 +422,12 @@
         <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolPersonnel.jsp" />
         &iacuc_forwards;
       </action>
+      
+      <action path="/iacucProtocolThreeRs" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolThreeRs.jsp" type="org.kuali.kra.iacuc.threers.IacucProtocolThreeRsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolThreeRs.jsp" />
+        &iacuc_forwards;
+      </action>      
+      
       <action path="/iacucProtocolCustomData" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolCustomData.jsp" type="org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
         <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolCustomData.jsp" />
         &iacuc_forwards;
