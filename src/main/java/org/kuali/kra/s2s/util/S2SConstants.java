@@ -70,6 +70,7 @@ public interface S2SConstants {
     public static final String GRANTS_GOV_SUBMISION_ERROR_MESSAGE="Error occured while submitting to Grants.Gov, Root Cause: ";
     public static final String GRANTS_GOV_SUBMISSION_MESSAGE="Submitted to Grants.Gov";
     public static final String GRANTS_GOV_PROCESSING_MESSAGE="Grants.Gov is processing the request";
+    public static final String GRANTS_GOV_STIPEND_ERROR_MESSAGE="A stipend budget line item is required equal to or greater than the trainee numbers and associated stipend levels indicated in the questionnaire.Currently the stipend value in the budget is in deficit by (amount) for Year period of the budget.";
     public static final String STATUS_RECEIVING = "Receiving";
     public static final String STATUS_RECEIVED = "Received";
     public static final String STATUS_PROCESSING = "Processing";
