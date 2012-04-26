@@ -727,6 +727,22 @@
 		<FixLink>questions</FixLink>
 	</Error>
 	<Error>
+		<MessageKey>/GrantApplication/Forms/Nasa_PIandAORSupplementalDataSheet/PrincipalInvestigatorName</MessageKey>
+		<Message>Please answer all required questions for this form within the Questions tab.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/Nasa_PIandAORSupplementalDataSheet/PrincipalInvestigatorName/FederalAgency</MessageKey>
+		<Message>Please select a U.S. Government Agency within the Questions tab.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/Nasa_PIandAORSupplementalDataSheet/PrincipalInvestigatorName/FederalAgencyDollar</MessageKey>
+		<Message>Please enter the total dollar amount requested within the Questions tab.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	
+	<Error>
 		<MessageKey>/GrantApplication/Forms/Nasa_PIandAORSupplementalDataSheet/PrincipalInvestigatorName/InternationalParticipation</MessageKey>
 		<Message>Please answer the international participation question.</Message>
 		<FixLink>questions</FixLink>
