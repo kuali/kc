@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.iacuc.species;
 
+import org.kuali.kra.iacuc.IacucPainCategory;
+import org.kuali.kra.iacuc.IacucSpecies;
+import org.kuali.kra.iacuc.IacucSpeciesCountType;
 import org.kuali.kra.protocol.ProtocolAssociate;
 
 public class IacucProtocolSpecies extends ProtocolAssociate { 
@@ -32,6 +35,10 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
     private Integer speciesCountCode; 
     private boolean exceptionsPresent;
     private String procedureSummary;
+    
+    private IacucSpecies iacucSpecies;
+    private IacucSpeciesCountType iacucSpeciesCountType;
+    private IacucPainCategory iacucPainCategory;
     
     //private IacucProtocolExceptions iacucProtocolExceptions; 
     
@@ -131,6 +138,30 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
 
     public void setProcedureSummary(String procedureSummary) {
         this.procedureSummary = procedureSummary;
+    }
+
+    public IacucSpecies getIacucSpecies() {
+        return iacucSpecies;
+    }
+
+    public void setIacucSpecies(IacucSpecies iacucSpecies) {
+        this.iacucSpecies = iacucSpecies;
+    }
+
+    public IacucSpeciesCountType getIacucSpeciesCountType() {
+        return iacucSpeciesCountType;
+    }
+
+    public void setIacucSpeciesCountType(IacucSpeciesCountType iacucSpeciesCountType) {
+        this.iacucSpeciesCountType = iacucSpeciesCountType;
+    }
+
+    public IacucPainCategory getIacucPainCategory() {
+        return iacucPainCategory;
+    }
+
+    public void setIacucPainCategory(IacucPainCategory iacucPainCategory) {
+        this.iacucPainCategory = iacucPainCategory;
     }
 
     /*

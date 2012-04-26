@@ -31,9 +31,13 @@
 		<property name="lookupDefinition" >
 			<ref bean="IacucProtocolSpecies-lookupDefinition" />
 		</property>
+		
+		<!--  
 		<property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="IacucProtocolSpeciesHelpUrl" p:parameterDetailType="Document" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="iacucProtocolSpeciesHelp" p:parameterDetailType="Document" />
         </property>
+        -->
+        
 		<property name="titleAttribute" value="iacucProtocolSpeciesId" />
 		<property name="attributes" >
 			<list>
@@ -113,16 +117,21 @@
 	<bean id="IacucProtocolSpecies-speciesCode" parent="IacucProtocolSpecies-speciesCode-parentBean" />
 	<bean id="IacucProtocolSpecies-speciesCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="speciesCode" />
-		<property name="label" value="Protocol Species" />
-        <property name="shortLabel" value="Species" />
 		<property name="required" value="true" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Species" />
+		<property name="shortLabel" value="Species" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
 		<property name="control" >
             <bean parent="SelectControlDefinition"
                 p:valuesFinderClass="org.kuali.kra.iacuc.species.IacucSpeciesValuesFinder" 
                 p:includeKeyInLabel="false" />
         </property>
-		<property name="summary" value="Protocol Species" />
-		<property name="description" value="Protocol Species" />
+		<property name="summary" value="Species Code" />
+		<property name="description" value="Species Code" />
 	</bean>
 
 	<bean id="IacucProtocolSpecies-speciesGroup" parent="IacucProtocolSpecies-speciesGroup-parentBean" />
@@ -130,7 +139,7 @@
 		<property name="name" value="speciesGroup" />
 		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Species Group" />
+		<property name="label" value="Group" />
 		<property name="shortLabel" value="Group" />
 		<property name="maxLength" value="50" />
 		<property name="validationPattern" >
@@ -138,7 +147,7 @@
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="50" />
 		</property>
 		<property name="summary" value="Species Group" />
 		<property name="description" value="Species Group" />
@@ -200,8 +209,14 @@
 	<bean id="IacucProtocolSpecies-painCategoryCode" parent="IacucProtocolSpecies-painCategoryCode-parentBean" />
 	<bean id="IacucProtocolSpecies-painCategoryCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="painCategoryCode" />
+		<property name="required" value="false" />
+		<property name="forceUppercase" value="false" />
 		<property name="label" value="Pain Category" />
         <property name="shortLabel" value="Pain Category" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
 		<property name="control" >
             <bean parent="SelectControlDefinition"
                 p:valuesFinderClass="org.kuali.kra.iacuc.species.IacucPainCategoryValuesFinder" 
@@ -215,8 +230,14 @@
 	<bean id="IacucProtocolSpecies-speciesCountCode" parent="IacucProtocolSpecies-speciesCountCode-parentBean" />
 	<bean id="IacucProtocolSpecies-speciesCountCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="speciesCountCode" />
+		<property name="required" value="false" />
+		<property name="forceUppercase" value="false" />
 		<property name="label" value="Count Type" />
         <property name="shortLabel" value="Count Type" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
 		<property name="control" >
             <bean parent="SelectControlDefinition"
                 p:valuesFinderClass="org.kuali.kra.iacuc.species.IacucSpeciesCountTypeValuesFinder" 
@@ -232,7 +253,7 @@
 	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Exceptions" />
 	    <property name="shortLabel" value="Exceptions" />
-		<property name="required" value="true" />
+		<property name="required" value="false" />
 	    <property name="maxLength" value="3" />
 	    <property name="validationPattern" >
 	      <bean parent="AnyCharacterValidationPattern" />
@@ -255,11 +276,11 @@
       		<bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
 		</property>
-    	<property name="required" value="true" />
+    	<property name="required" value="false" />
 		<property name="control" >
       		<bean parent="TextareaControlDefinition"
             	p:rows="1"
-            	p:cols="40" />
+            	p:cols="200" />
 		</property>
 		<property name="summary" value="Procedure Summary" />
 		<property name="description" value="Procedure Summary" />
@@ -270,14 +291,15 @@
 	<bean id="IacucProtocolSpecies-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
+
 	<!-- Business Object Inquiry Definition -->
 	<bean id="IacucProtocolSpecies-inquiryDefinition" parent="IacucProtocolSpecies-inquiryDefinition-parentBean" />
 	<bean id="IacucProtocolSpecies-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Protocol Participant" />
+		<property name="title" value="Protocol Species" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Protocol Participant" />
+					<property name="title" value="Protocol Species" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
@@ -286,10 +308,12 @@
 								p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="protocolId" />
+                             <!--     
 							<bean parent="FieldDefinition"
 								p:attributeName="speciesCode" />
 							<bean parent="FieldDefinition"
 								p:attributeName="speciesGroup" />
+								-->
 						</list>
 					</property>
 				</bean>
@@ -300,7 +324,7 @@
 	<!-- Business Object Lookup Definition -->
 	<bean id="IacucProtocolSpecies-lookupDefinition" parent="IacucProtocolSpecies-lookupDefinition-parentBean" />
 	<bean id="IacucProtocolSpecies-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Protocol Participant Lookup" />
+		<property name="title" value="Protocol Species Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
 		<property name="defaultSort" >
@@ -314,10 +338,12 @@
 					p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="protocolId" />
+                    <!--  
 				<bean parent="FieldDefinition"
 					p:attributeName="speciesCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="speciesGroup" />
+					-->
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -327,10 +353,12 @@
 					p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="protocolId" />
+                    <!--  
 				<bean parent="FieldDefinition"
 					p:attributeName="speciesCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="speciesGroup" />
+					-->
 			</list>
 		</property>
 	</bean>

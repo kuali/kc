@@ -26,18 +26,11 @@
 <%@ attribute name="action" required="true" 
               description="The name of the action class" %>
 
-<c:set var="canModify" value="${KualiForm.iacucProtocolSpeciesHelper.canModifyProtocolSpecies}"/>
-
 <c:set var="readOnly" value="${!KualiForm.iacucProtocolSpeciesHelper.modifyProtocolSpecies}" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.SPECIAL_REVIEW_COMMENT_LENGTH%>" />
 
-<!--  
-<%@ attribute name="exemptionAttributes" required="true" type="java.util.Map"
-              description="The Data Dictionary reference to the Species Exemption attributes" %>
-<c:set var="enableIrbProtocolLinking" value="${KualiForm.iacucProtocolSpeciesHelper.isIrbProtocolLinkingEnabled}" />
--->
 
-<kul:tab tabTitle="Species/Groups" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="iacucProtocolSpeciesHelper.newProtocolSpecies*,${collectionProperty}*">
+<kul:tab tabTitle="Species/Groups" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="iacucProtocolSpeciesHelper.newIacucProtocolSpecies*,${collectionProperty}*">
     <div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Species/Groups</span>
@@ -47,14 +40,13 @@
         <table id="protocolSpeciesTableId" cellpadding="0" cellspacing="0" summary="">
           	<tr>
           		<th><div align="left">&nbsp;</div></th> 
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.speciesGroup}" noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.speciesCode}" noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.strain}" noColon="true" /></nobr></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.painCategoryCode}" noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.usdaCovered}" noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${attributes.speciesCountCode}" noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${exemptionAttributes.speciesCount}" noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${exemptionAttributes.exceptionsPresent}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolSpeciesAttributes.speciesGroup}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolSpeciesAttributes.speciesCode}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolSpeciesAttributes.strain}" noColon="true" /></nobr></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolSpeciesAttributes.painCategoryCode}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolSpeciesAttributes.usdaCovered}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolSpeciesAttributes.speciesCountCode}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolSpeciesAttributes.speciesCount}" noColon="true" /></div></th>
 				<c:if test="${!readOnly}">
 					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 				</c:if>
@@ -62,67 +54,58 @@
 
         	<kra:permission value="${KualiForm.iacucProtocolSpeciesHelper.modifyProtocolSpecies}">            
                 <tr>
-                
-                	<!--  
-                    <c:set var="protocolLinkingReadOnly" value="${KualiForm.iacucProtocolSpeciesHelper.newProtocolSpecies.specialReviewTypeCode == '1'}" />
-                    <c:choose>
-                       <c:when test="${protocolLinkingReadOnly}">
-                           <c:set var="initialStyle" value="display:inline"/>
-                       </c:when>
-                       <c:otherwise>
-                          <c:set var="initialStyle" value="display:none"/>
-                       </c:otherwise>
-                    </c:choose>
-                    -->
-	                <c:set var="textAreaFieldName" value="iacucProtocolSpeciesHelper.newProtocolSpecies.procedureSummary" />
+	                <c:set var="textAreaFieldName" value="iacucProtocolSpeciesHelper.newIacucProtocolSpecies.procedureSummary" />
 					<th class="infoline" rowspan="2">
 						Add:
 					</th>
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
-		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newProtocolSpecies.speciesGroup" 
+		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newIacucProtocolSpecies.speciesGroup" 
 		               		                          attributeEntry="${protocolSpeciesAttributes.speciesGroup}" 
 		               		                          readOnly="${readOnly}" />
 		            	</div>
 					</td>
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
-		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newProtocolSpecies.speciesCode" 
+		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newIacucProtocolSpecies.speciesCode" 
 		               		                          attributeEntry="${protocolSpeciesAttributes.speciesCode}" 
+		                                              styleClass="fixed-size-500-select"
 		               		                          readOnly="${readOnly}" />
 		            	</div>
 					</td>
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
-		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newProtocolSpecies.strain" 
+		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newIacucProtocolSpecies.strain" 
 		               		                          attributeEntry="${protocolSpeciesAttributes.strain}" 
 		               		                          readOnly="${readOnly}" />
 		            	</div>
 					</td>
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
-		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newProtocolSpecies.painCategoryCode" 
+		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newIacucProtocolSpecies.painCategoryCode" 
 		               		                          attributeEntry="${protocolSpeciesAttributes.painCategoryCode}" 
+		                                              styleClass="fixed-size-200-select"
 		               		                          readOnly="${readOnly}" />
 		            	</div>
 					</td>
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
-		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newProtocolSpecies.usdaCovered" 
+		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newIacucProtocolSpecies.usdaCovered" 
 		               		                          attributeEntry="${protocolSpeciesAttributes.usdaCovered}" 
 		               		                          readOnly="${readOnly}" />
 		            	</div>
 					</td>
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
-		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newProtocolSpecies.speciesCountCode" 
+		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newIacucProtocolSpecies.speciesCountCode" 
 		               		                          attributeEntry="${protocolSpeciesAttributes.speciesCountCode}" 
+		                                              styleClass="fixed-size-200-select"
 		               		                          readOnly="${readOnly}" />
 		            	</div>
 					</td>
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
-		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newProtocolSpecies.speciesCount" 
+		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newIacucProtocolSpecies.speciesCount" 
 		               		                          attributeEntry="${protocolSpeciesAttributes.speciesCount}" 
 		               		                          readOnly="${readOnly}" />
 		            	</div>
@@ -136,31 +119,18 @@
 	                </td>
 	            </tr>
 	            <tr>
-	            	<th>
-	            		<div align="right">
-	            			<kul:htmlAttributeLabel attributeEntry="${protocolSpeciesAttributes.procedureSummary}" noColon="false" />
-	            		</div>
-	            	</th>
-	            	<td colspan="7">
-	            		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newProtocolSpecies.procedureSummary" 
+	            	<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolSpeciesAttributes.procedureSummary}" noColon="false" /></div></th>
+	            	<td align="left" valign="middle" class="infoline" colspan="7">
+	            		<div align="left">
+	            			<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newIacucProtocolSpecies.procedureSummary" 
 	            		                          attributeEntry="${protocolSpeciesAttributes.procedureSummary}" />
+	            		</div>                          
 	            	</td>  
 	            </tr>
 	        </kra:permission>          
             
         	<c:forEach var="protocolSpecies" items="${collectionReference}" varStatus="status">
                 <tr>
-                	<!--  
-                    <c:set var="protocolLinkingReadOnly" value="${enableIrbProtocolLinking and collectionReference[status.index].specialReviewTypeCode == '1'}" />
-	                <c:choose>
-	                    <c:when test="${collectionReference[status.index].specialReviewTypeCode == '1'}">
-	                        <c:set var="initialStyle" value="display:inline"/>
-	                    </c:when>
-	                    <c:otherwise>
-	                        <c:set var="initialStyle" value="display:none"/>
-	                    </c:otherwise>
-	                </c:choose>
-	                -->
 	                <c:set var="textAreaFieldName" value="${collectionProperty}[${status.index}].procedureSummary" />
 					<th class="infoline" rowspan="2">
 					   <c:out value="${status.index+1}" />
@@ -177,7 +147,7 @@
 	                        <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].speciesCode" 
 		                                              attributeEntry="${protocolSpeciesAttributes.speciesCode}"  
 		                                              readOnly="${readOnly}"
-		                                              styleClass="fixed-size-200-select"
+		                                              styleClass="fixed-size-500-select"
 		                                              readOnlyAlternateDisplay="${iacucProtocolSpecies.iacucSpecies.speciesName}" 
 		                                              />
 		            	</div>

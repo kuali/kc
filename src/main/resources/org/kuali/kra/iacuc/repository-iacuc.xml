@@ -133,6 +133,10 @@
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
                 
+        <collection-descriptor name="iacucProtocolSpeciesList" element-class-ref="org.kuali.kra.iacuc.species.IacucProtocolSpecies" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="protocolId" />
+        </collection-descriptor>
+                
      </class-descriptor>
     
      
@@ -435,4 +439,41 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />   
     </class-descriptor>    
+
+	<class-descriptor class="org.kuali.kra.iacuc.species.IacucProtocolSpecies" table="IACUC_PROTOCOL_SPECIES">
+		<field-descriptor name="iacucProtocolSpeciesId" column="IACUC_PROTOCOL_SPECIES_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="speciesId" column="SPECIES_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="speciesCode" column="SPECIES_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="speciesGroup" column="SPECIES_GROUP" jdbc-type="VARCHAR" />
+		<field-descriptor name="usdaCovered" column="IS_USDA_COVERED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="strain" column="STRAIN" jdbc-type="VARCHAR" />
+		<field-descriptor name="speciesCount" column="SPECIES_COUNT" jdbc-type="INTEGER" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="painCategoryCode" column="PAIN_CATEGORY_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="speciesCountCode" column="SPECIES_COUNT_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="exceptionsPresent" column="EXCEPTIONS_PRESENT" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
+		<reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="protocolId"/>
+		</reference-descriptor>
+        <reference-descriptor name="iacucSpecies" class-ref="org.kuali.kra.iacuc.IacucSpecies" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="speciesCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="iacucSpeciesCountType" class-ref="org.kuali.kra.iacuc.IacucSpeciesCountType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="speciesCountCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="iacucPainCategory" class-ref="org.kuali.kra.iacuc.IacucPainCategory" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="painCategoryCode"/>
+        </reference-descriptor>
+
+	</class-descriptor>
+
+
+
 </descriptor-repository>
