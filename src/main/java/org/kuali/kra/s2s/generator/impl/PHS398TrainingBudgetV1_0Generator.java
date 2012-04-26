@@ -33,6 +33,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.TrainingStipendRate;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -52,6 +53,7 @@ import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 
@@ -73,12 +75,13 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private static final String UNDERGRADS = "Undergraduates";
     private static final String PREDOC = "Predoctoral";
     private static final String POSTDOC = "Postdoctoral";
+    private static final String STIPEND_AMOUNT = "amount";
+    private static final String BUDGET_PERIOD = "period";
     private S2SBudgetCalculatorService s2sBudgetCalculatorService;
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private static final int PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130 = 130;
-    
 
     private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD1 = { 2, 5, 8, 11, 53, 54, 56 };
     private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD2 = { 59, 60, 63, 66, 108, 109, 111 };
@@ -95,6 +98,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private static final int SN_INDEX = 1;
     private static final int FD_INDEX = 2;
     private static final int SD_INDEX = 3;
+    private static final int ZERO = 0;
 
     /** Creates a new instance of PHS398TrainingBudgetV1_0Generator */
     public PHS398TrainingBudgetV1_0Generator() {
@@ -887,6 +891,20 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                                     subtract(trainingTraveCost).subtract(consTrainingCost).bigDecimalValue();
             researchDirectCosts = researchDirectCosts.subtract(phs398TrainingBudgetYearDataType.getTotalStipendsAndTuitionFeesRequested());
             phs398TrainingBudgetYearDataType.setResearchDirectCostsRequested(researchDirectCosts);
+            if (phs398TrainingBudgetYearDataType.getResearchDirectCostsRequested() != null) {
+                Double researchDirectCostValue = phs398TrainingBudgetYearDataType.getResearchDirectCostsRequested().doubleValue();
+                if (researchDirectCostValue < ZERO) {
+                    String researchDirectCostValueStipend = researchDirectCostValue.toString();
+                    String budgetYear = budgetPeriod.getBudgetPeriod().toString(); 
+                    AuditError stipendError = new AuditError(Constants.NO_FIELD, S2SConstants.GRANTS_GOV_STIPEND_ERROR_MESSAGE, Constants.GRANTS_GOV_PAGE + "."
+                            + Constants.GRANTS_GOV_PANEL_ANCHOR );
+                    String errorMessage = stipendError.getMessageKey();
+                    errorMessage = errorMessage.replace(STIPEND_AMOUNT, researchDirectCostValueStipend);
+                    errorMessage = errorMessage.replace(BUDGET_PERIOD, budgetYear);
+                    stipendError.setMessageKey(errorMessage);
+                    getAuditErrors().add(stipendError);
+                }    
+            }
 
             totalOtherDirectCostsRequested = budgetPeriod.getTotalDirectCost().bigDecimalValue();
             totalOtherDirectCostsRequested = totalOtherDirectCostsRequested.subtract(phs398TrainingBudgetYearDataType
