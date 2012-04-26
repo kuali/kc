@@ -15,22 +15,29 @@
  */
 package org.kuali.kra.iacuc.threers;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.IndicatorYNOnlyValuesFinder;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class IndicatorYNSelectValuesFinder extends IndicatorYNOnlyValuesFinder {
+public class IacucAlternateSearchDatabaseValuesFinder extends KeyValuesBase{
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
-     */
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> activeLabels = super.getKeyValues();
-        activeLabels.add(0,new ConcreteKeyValue("", "select..."));
+        List<IacucAlternateSearchDatabase> databases = (List<IacucAlternateSearchDatabase>) getBusinessObjectService().findAll(IacucAlternateSearchDatabase.class);
+        List<KeyValue> activeLabels = new ArrayList<KeyValue>();
+        for (IacucAlternateSearchDatabase db : databases) {
+            activeLabels.add(new ConcreteKeyValue(db.getAlternateSearchDbName(), db.getAlternateSearchDbName()));
+        }
         return activeLabels;
+    }
+    
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
 }

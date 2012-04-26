@@ -25,6 +25,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
+import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.infrastructure.Constants;
@@ -64,6 +65,7 @@ public class IacucProtocol extends Protocol {
     private String createUser;
     
     private IacucPrinciples iacucPrinciples;
+    private List<IacucAlternateSearch> iacucAlternateSearches;
       
     private List<IacucProtocolSpecies> iacucProtocolSpeciesList;
 
@@ -80,7 +82,17 @@ public class IacucProtocol extends Protocol {
         setCorrespondentIndicator("no");
         setReferenceIndicator("no");
         setAlternativeSearchIndicator("no");
+        
+        iacucAlternateSearches = new ArrayList<IacucAlternateSearch>();
     } 
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        
+        return managedLists;
+    }
     
     public Date getApplicationDate() {
         return applicationDate;
@@ -259,6 +271,14 @@ public class IacucProtocol extends Protocol {
 
     public void setIacucProtocolSpeciesList(List<IacucProtocolSpecies> iacucProtocolSpeciesList) {
         this.iacucProtocolSpeciesList = iacucProtocolSpeciesList;
+    }
+
+    public List<IacucAlternateSearch> getIacucAlternateSearches() {
+        return iacucAlternateSearches;
+    }
+
+    public void setIacucAlternateSearch(List<IacucAlternateSearch> iacucAlternateSearches) {
+        this.iacucAlternateSearches = iacucAlternateSearches;
     }
 
 }

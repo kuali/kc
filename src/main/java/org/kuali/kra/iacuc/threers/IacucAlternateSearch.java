@@ -15,28 +15,36 @@
  */
 package org.kuali.kra.iacuc.threers;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.SortedSet;
+import java.util.List;
 
 import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
-public class IacucAlternativeSearch extends ProtocolAssociate {
+public class IacucAlternateSearch extends ProtocolAssociate {
 
     private static final long serialVersionUID = -7711644839097962481L;
     
-    private Long iacucAltSearchId;
-    private boolean searchRequired;
+    private Integer iacucAltSearchId;
+    private boolean searchRequired = true;
     private Date searchDate;
-    private SortedSet<String> databases;
+    private List<IacucProtocolAlternateSearchDatabase> databases;
     private String yearsSearched;
     private String keywords;
     private String comments;
+    
+    
+    public IacucAlternateSearch() {
+        databases = new ArrayList<IacucProtocolAlternateSearchDatabase>();
+    }
 
-    public Long getIacucAltSearchId() {
+    public Integer getIacucAltSearchId() {
         return iacucAltSearchId;
     }
 
-    public void setIacucAltSearchId(Long iacucAltSearchId) {
+    public void setIacucAltSearchId(Integer iacucAltSearchId) {
         this.iacucAltSearchId = iacucAltSearchId;
     }
 
@@ -56,11 +64,11 @@ public class IacucAlternativeSearch extends ProtocolAssociate {
         this.searchDate = searchDate;
     }
 
-    public SortedSet<String> getDatabases() {
+    public List<IacucProtocolAlternateSearchDatabase> getDatabases() {
         return databases;
     }
 
-    public void setDatabases(SortedSet<String> databases) {
+    public void setDatabases(List<IacucProtocolAlternateSearchDatabase> databases) {
         this.databases = databases;
     }
 
@@ -93,4 +101,11 @@ public class IacucAlternativeSearch extends ProtocolAssociate {
         this.setIacucAltSearchId(null);        
     }
     
+    @Override
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {      
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getDatabases());
+        
+        return managedLists;
+    }
 }

@@ -24,6 +24,7 @@ import org.kuali.kra.iacuc.protocol.IacucProtocolHelper;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireHelper;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewHelper;
 import org.kuali.kra.iacuc.species.IacucProtocolSpeciesHelper;
+import org.kuali.kra.iacuc.threers.IacucAlternateSearchHelper;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
@@ -35,6 +36,7 @@ public class IacucProtocolForm extends ProtocolForm {
     
     private static final long serialVersionUID = -535557943052220820L;
     private IacucProtocolSpeciesHelper iacucProtocolSpeciesHelper;
+    private IacucAlternateSearchHelper iacucAlternateSearchHelper;
     
 
     public IacucProtocolForm() throws Exception {
@@ -42,12 +44,16 @@ public class IacucProtocolForm extends ProtocolForm {
         setProtocolCustomDataHelper(new IacucProtocolCustomDataHelper(this));
         setProtocolSpecialReviewHelper(new IacucProtocolSpecialReviewHelper(this));
         initializeIacucProtocolSpecies();
+        initializeIacucAlternateSearchHelper();
     }
 
     public void initializeIacucProtocolSpecies() throws Exception {
         setIacucProtocolSpeciesHelper(new IacucProtocolSpeciesHelper(this));
     }
     
+    protected void initializeIacucAlternateSearchHelper() throws Exception {
+        setIacucAlternateSearchHelper(new IacucAlternateSearchHelper(this));
+    }
     
     @Override
     public String getActionName() {
@@ -119,5 +125,13 @@ public class IacucProtocolForm extends ProtocolForm {
 
     public void setIacucProtocolSpeciesHelper(IacucProtocolSpeciesHelper iacucProtocolSpeciesHelper) {
         this.iacucProtocolSpeciesHelper = iacucProtocolSpeciesHelper;
+    }
+
+    public IacucAlternateSearchHelper getIacucAlternateSearchHelper() {
+        return iacucAlternateSearchHelper;
+    }
+
+    public void setIacucAlternateSearchHelper(IacucAlternateSearchHelper iacucAlternateSearchHelper) {
+        this.iacucAlternateSearchHelper = iacucAlternateSearchHelper;
     }
 }
