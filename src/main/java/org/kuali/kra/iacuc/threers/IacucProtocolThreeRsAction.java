@@ -15,8 +15,57 @@
  */
 package org.kuali.kra.iacuc.threers;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.protocol.ProtocolForm;
 
 public class IacucProtocolThreeRsAction extends IacucProtocolAction {
 
+    
+    public ActionForward addAlternateSearchDatabase (ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        //IacucAlternateSearch altSearch = protocolForm.getIacucAlternateSearchHelper().getNewAlternateSearch();
+        
+        IacucAlternateSearch altSearch = new IacucAlternateSearch();
+        altSearch.setComments("test comments");
+        altSearch.setKeywords("test keywords");
+        altSearch.setSearchDate(new Date());
+        altSearch.setSearchRequired(true);
+        altSearch.setYearsSearched("2000 - 2012");
+        
+        List<IacucProtocolAlternateSearchDatabase> databases = new ArrayList<IacucProtocolAlternateSearchDatabase>();
+        
+        databases.add(createAltSearchDB("Poxnet"));
+        databases.add(createAltSearchDB("ARIA"));
+        
+        altSearch.setDatabases(databases);
+        
+        List<IacucAlternateSearch> searches = new ArrayList<IacucAlternateSearch>();     
+        searches.add(altSearch);
+        
+        ((IacucProtocol)protocolForm.getProtocolDocument().getProtocol()).setIacucAlternateSearch(searches);
+        
+        getDocumentService().saveDocument(protocolForm.getProtocolDocument());
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);        
+    }
+    
+    private IacucProtocolAlternateSearchDatabase createAltSearchDB(String dbName) {
+        IacucProtocolAlternateSearchDatabase db = new IacucProtocolAlternateSearchDatabase();
+        db.setAlternateSearchDatabaseName(dbName);
+        return db;
+    }    
 }

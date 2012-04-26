@@ -21,31 +21,31 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="IacucAlternativeSearch" parent="IacucAlternativeSearch-parentBean" />
-    <bean id="IacucAlternativeSearch-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.iacuc.threers.IacucAlternativeSearch" />
+    <bean id="IacucAlternateSearch" parent="IacucAlternateSearch-parentBean" />
+    <bean id="IacucAlternateSearch-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.iacuc.threers.IacucAlternateSearch" />
         <property name="objectLabel" value="Alternative Search" />
         <property name="inquiryDefinition" >
-            <ref bean="IacucAlternativeSearch-inquiryDefinition" />
+            <ref bean="IacucAlternateSearch-inquiryDefinition" />
         </property>
         <property name="lookupDefinition" >
-            <ref bean="IacucAlternativeSearch-lookupDefinition" />
+            <ref bean="IacucAlternateSearch-lookupDefinition" />
         </property>
         <property name="titleAttribute" value="alternativeSearch" />
         <property name="attributes" >
             <list>
-                <ref bean="IacucAlternativeSearch-searchRequired" />
-                <ref bean="IacucAlternativeSearch-searchDate" />
-                <ref bean="IacucAlternativeSearch-databases" />
-                <ref bean="IacucAlternativeSearch-yearsSearched" />
-                <ref bean="IacucAlternativeSearch-keywords" />
-                <ref bean="IacucAlternativeSearch-comments" />
+                <ref bean="IacucAlternateSearch-searchRequired" />
+                <ref bean="IacucAlternateSearch-searchDate" />
+                <ref bean="IacucAlternateSearch-databases" />
+                <ref bean="IacucAlternateSearch-yearsSearched" />
+                <ref bean="IacucAlternateSearch-keywords" />
+                <ref bean="IacucAlternateSearch-comments" />
             </list>
         </property>
     </bean>
 
-    <bean id="IacucAlternativeSearch-searchRequired" parent="IacucAlternativeSearch-searchRequired-parentBean" />
-    <bean id="IacucAlternativeSearch-searchRequired-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="IacucAlternateSearch-searchRequired" parent="IacucAlternateSearch-searchRequired-parentBean" />
+    <bean id="IacucAlternateSearch-searchRequired-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="searchRequired" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Does the protocol involve proceedures which cause more than momentary pain and distress?" />
@@ -58,14 +58,14 @@
         </property>
         <property name="control" >
             <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.iacuc.threers.IndicatorYNSelectValuesFinder" />
+                p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorYNOnlyValuesFinder" />
         </property>
         <property name="summary" value="Search Required" />
         <property name="description" value="Search Required" />
     </bean>
 
-    <bean id="IacucAlternativeSearch-searchDate" parent="IacucAlternativeSearch-searchDate-parentBean" />
-    <bean id="IacucAlternativeSearch-searchDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+    <bean id="IacucAlternateSearch-searchDate" parent="IacucAlternateSearch-searchDate-parentBean" />
+    <bean id="IacucAlternateSearch-searchDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="searchDate" />
         <property name="label" value="Date" />
         <property name="shortLabel" value="Search Date" />
@@ -73,8 +73,8 @@
         <property name="description" value="Search Date" />
     </bean>
 
-    <bean id="IacucAlternativeSearch-databases" parent="IacucAlternativeSearch-databases-parentBean" />
-    <bean id="IacucAlternativeSearch-databases-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="IacucAlternateSearch-databases" parent="IacucAlternateSearch-databases-parentBean" />
+    <bean id="IacucAlternateSearch-databases-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="databases" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Database(s)" />
@@ -86,15 +86,15 @@
         </property>
         <property name="control" >
             <bean parent="MultiselectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.iacuc.threers.IacucAlternativeSearchDatabaseValuesFinder"
+                p:valuesFinderClass="org.kuali.kra.iacuc.threers.IacucAlternateSearchDatabaseValuesFinder"
                 p:rows="5" />
         </property>
         <property name="summary" value="Databases" />
         <property name="description" value="Databases" />
     </bean>
     
-    <bean id="IacucAlternativeSearch-yearsSearched" parent="IacucAlternativeSearch-yearsSearched-parentBean" />
-    <bean id="IacucAlternativeSearch-yearsSearched-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="IacucAlternateSearch-yearsSearched" parent="IacucAlternateSearch-yearsSearched-parentBean" />
+    <bean id="IacucAlternateSearch-yearsSearched-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="yearsSearched" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Years" />
@@ -107,18 +107,18 @@
         <property name="control" >
             <bean parent="TextareaControlDefinition"
                 p:rows="5"
-                p:cols="40"
+                p:cols="20"
                 p:expandedTextArea="true" />
         </property>
         <property name="summary" value="Years Searched" />
         <property name="description" value="Years Searched" />
     </bean>  
 
-    <bean id="IacucAlternativeSearch-keywords" parent="IacucAlternativeSearch-keywords-parentBean" />
-    <bean id="IacucAlternativeSearch-keywords-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="IacucAlternateSearch-keywords" parent="IacucAlternateSearch-keywords-parentBean" />
+    <bean id="IacucAlternateSearch-keywords-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="keywords" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Years" />
+        <property name="label" value="Keywords" />
         <property name="shortLabel" value="Keywords" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
@@ -128,15 +128,15 @@
         <property name="control" >
             <bean parent="TextareaControlDefinition"
                 p:rows="5"
-                p:cols="40"
+                p:cols="20"
                 p:expandedTextArea="true" />
         </property>
         <property name="summary" value="Keywords" />
         <property name="description" value="Keywords" />
     </bean>
 
-    <bean id="IacucAlternativeSearch-comments" parent="IacucAlternativeSearch-comments-parentBean" />
-    <bean id="IacucAlternativeSearch-comments-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="IacucAlternateSearch-comments" parent="IacucAlternateSearch-comments-parentBean" />
+    <bean id="IacucAlternateSearch-comments-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="comments" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Comments" />
@@ -149,7 +149,7 @@
         <property name="control" >
             <bean parent="TextareaControlDefinition"
                 p:rows="5"
-                p:cols="60"
+                p:cols="40"
                 p:expandedTextArea="true" />
         </property>
         <property name="summary" value="Comments" />
@@ -158,8 +158,8 @@
 
 
     <!-- Business Object Inquiry Definition -->
-    <bean id="IacucAlternativeSearch-inquiryDefinition" parent="IacucAlternativeSearch-inquiryDefinition-parentBean" />
-    <bean id="IacucAlternativeSearch-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <bean id="IacucAlternateSearch-inquiryDefinition" parent="IacucAlternateSearch-inquiryDefinition-parentBean" />
+    <bean id="IacucAlternateSearch-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Alternative Search" />
         <property name="inquirySections" >
             <list>
@@ -188,8 +188,8 @@
     </bean>
 
     <!-- Business Object Lookup Definition -->
-    <bean id="IacucAlternativeSearch-lookupDefinition" parent="IacucAlternativeSearch-lookupDefinition-parentBean" />
-    <bean id="IacucAlternativeSearch-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <bean id="IacucAlternateSearch-lookupDefinition" parent="IacucAlternateSearch-lookupDefinition-parentBean" />
+    <bean id="IacucAlternateSearch-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Alternative Search Lookup" />
 
         <property name="defaultSort" >

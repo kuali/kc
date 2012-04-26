@@ -115,7 +115,15 @@
         <reference-descriptor name="protocolStatus" class-ref="org.kuali.kra.iacuc.actions.IacucProtocolStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolStatusCode"/>
         </reference-descriptor>
-        
+
+        <reference-descriptor name="iacucPrinciples" class-ref="org.kuali.kra.iacuc.threers.IacucPrinciples" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolId"/>
+        </reference-descriptor>
+
+        <collection-descriptor name="iacucAlternateSearches" proxy="true" element-class-ref="org.kuali.kra.iacuc.threers.IacucAlternateSearch" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="protocolId" />
+        </collection-descriptor>
+                        
         <collection-descriptor name="specialReviews" proxy="true" element-class-ref="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
@@ -389,9 +397,42 @@
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="reduction" column="REDUCTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="refinement" column="REFINEMENT" jdbc-type="VARCHAR" />
+        <field-descriptor name="replacement" column="REPLACEMENT" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />            
+    </class-descriptor>    
+
+    <class-descriptor class="org.kuali.kra.iacuc.threers.IacucAlternateSearch" table="IACUC_PROTOCOL_ALT_SEARCH">
+        <field-descriptor name="iacucAltSearchId" column="IACUC_PROTOCOL_ALT_SEARCH_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PRTCL_ALT_SRCH_ID" autoincrement="true" />
+        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="searchRequired" column="SEARCH_REQUIRED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>        
+        <field-descriptor name="searchDate" column="SEARCH_DATE" jdbc-type="DATE" />
+        <field-descriptor name="yearsSearched" column="YEARS_SEARCHED" jdbc-type="VARCHAR" />
+        <field-descriptor name="keywords" column="KEYWORDS" jdbc-type="VARCHAR" />
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />     
+        
+        <collection-descriptor name="databases" proxy="true" element-class-ref="org.kuali.kra.iacuc.threers.IacucProtocolAlternateSearchDatabase" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="iacucAltSearchId" />
+        </collection-descriptor>               
+    </class-descriptor>     
+    
+    <class-descriptor class="org.kuali.kra.iacuc.threers.IacucProtocolAlternateSearchDatabase" table="IACUC_PROTOCOL_ALT_SEARCH_DBS">
+        <field-descriptor name="iacucProtocolAltSearchDbId" column="IACUC_PRTCL_ALT_SEARCH_DBS_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IAC_PRTCL_ALT_SRCH_DBS_ID" autoincrement="true" />
+        <field-descriptor name="iacucAltSearchId" column="IACUC_ALT_SEARCH_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="alternateSearchDatabaseName" column="ALT_SEARCH_DATABASE_NAME" jdbc-type="VARCHAR" />        
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />   
     </class-descriptor>    
 </descriptor-repository>
