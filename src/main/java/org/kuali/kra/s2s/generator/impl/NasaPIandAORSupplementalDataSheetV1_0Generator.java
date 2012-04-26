@@ -171,10 +171,7 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 	                                principalInvestigatorName
 	                                    .setUSGovernmentParticipation(YesNoDataType.Y_YES);
 	                                FederalAgencyDataType.Enum FederalAgencyEnum = getFederalAgency(explanation);
-	                                if (FederalAgencyEnum != null) {
-	                                    principalInvestigatorName
-	                                        .setFederalAgency(FederalAgencyEnum);
-	                                }
+	                                principalInvestigatorName.setFederalAgency(FederalAgencyEnum);
 	                                principalInvestigatorName
 	                                    .setFederalAgencyDollar(getAmount(PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT));
 	                            } else if (answer
@@ -299,7 +296,7 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
      * This method will get the Amount for question id
      */
     private BigDecimal getAmount(String questionID) {
-        BigDecimal amount = BigDecimal.ZERO;
+        BigDecimal amount = null;
         BudgetDecimalFormatter b = new BudgetDecimalFormatter();
         String answer;
         for(AnswerHeader answerHeader : answerHeaders){
@@ -307,8 +304,9 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
                 if (answers.getQuestion().getQuestionId() != null
                         && questionID.equals(answers.getQuestion().getQuestionId())) {
                   answer = answers.getAnswer();
-                  amount=  new BigDecimal(Integer.parseInt(answer));
-                               
+                  if(answer!=null){
+                      amount=  new BigDecimal(Integer.parseInt(answer));   
+                  }
                 }
             }
         }
