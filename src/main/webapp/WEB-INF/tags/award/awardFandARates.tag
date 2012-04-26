@@ -169,8 +169,7 @@
 						  <c:if test="${readOnly}">&nbsp;</c:if>
 						</div>
 						</td>
-						<c:set var="total" value="${total + KualiForm.document.awardList[0].awardFandaRate[status.index].underrecoveryOfIndirectCost}" />
-	
+							<c:set var="total" value="${total + KualiForm.document.awardList[0].awardFandaRate[status.index].underrecoveryOfIndirectCostLongValue}" />
 		            </tr>
 	        	</c:forEach>
 	        	<c:if test="${not empty KualiForm.document.awardList[0].awardFandaRate}" >

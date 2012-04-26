@@ -29,6 +29,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -47,6 +49,7 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
     
     protected BusinessObjectService businessObjectService;
     private ParameterService parameterService;
+    private FiscalYearMonthService fiscalYearMonthService;
     
     /**
      * Sets the ParameterService.
@@ -62,17 +65,12 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
      */
     public List<String> getStartAndEndDatesBasedOnFiscalYear(String fiscalYear){
         List<String> listDates = new ArrayList<String>();
-                
-        if (StringUtils.isNotEmpty(fiscalYear) && fiscalYear.length()==FOUR_DIGIT_YEAR_LENGTH) {            
-            String budgetFiscalYearStart
-                = this.parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR);
+        if (StringUtils.isNotEmpty(fiscalYear) && fiscalYear.length()==FOUR_DIGIT_YEAR_LENGTH) {
             DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
-            for(Date date:getFiscalYearStartAndDates(
-                                Integer.valueOf(fiscalYear), budgetFiscalYearStart.split("/"))){
-                listDates.add(dateFormat.format(date));
-            }
+            Integer fy = Integer.parseInt(fiscalYear);
+            listDates.add(dateFormat.format(new Date(this.getFiscalYearMonthService().getFiscalYearStartDate(fy).getTimeInMillis())));
+            listDates.add(dateFormat.format(new Date(this.getFiscalYearMonthService().getFiscalYearEndDate(fy).getTimeInMillis())));
         }
-        
         return listDates;
     }
     
@@ -120,6 +118,14 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    public FiscalYearMonthService getFiscalYearMonthService() {
+        return this.fiscalYearMonthService;
+    }
+    
+    public void setFiscalYearMonthService(FiscalYearMonthService fiscalYearMonthService) {
+        this.fiscalYearMonthService = fiscalYearMonthService;
     }
    
 }
