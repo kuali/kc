@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="protocolPrinciples" value="${DataDictionary.IacucPrinciples.attributes}" />
+<c:set var="protocolAlternateSearch" value="${DataDictionary.IacucAlternateSearch.attributes}" />
 
 
 <kul:documentPage
@@ -27,13 +28,38 @@
     auditCount="0"
     headerDispatch="${KualiForm.headerDispatch}"
     headerTabActive="threeRs">
-    
+
+<script type="text/javascript" src="scripts/jquery/jquery.multiselects.js" /></script>    
 <script type="text/javascript">
    var $j = jQuery.noConflict();
+   
+   function alternateSearchRequired(element) {
+	   if (element.value == 'No') {
+		   $j("#alternate-search-div").hide();
+	   } else {
+		   $j("#alternate-search-div").show();
+	   }
+   }
+
+   
+   $j(document).ready(function() {
+	    var selectEl = document.getElementById("iacucAlternateSearchHelper.newAlternateSearch.searchRequired");
+	    alternateSearchRequired(selectEl);
+	    
+	    var options = {
+	        button_select: "#move_right",
+	        button_deselect: "#move_left"
+        };
+        $j("#iacucAlternateSearchHelper.newAlternateSearch.databases").multiSelect("#new-databases-select", options);	    
+   });   
 </script>
 
 <kra-iacuc:iacucProtocolPrinciples 
     protocolPrinciples="${protocolPrinciples}" />
+<kra-iacuc:iacucProtocolAlternateSearch
+    protocolAlternateSearch="${protocolAlternateSearch}" />   
+
+<kul:panelFooter />
 
     <kul:documentControls 
         transactionalDocument="false"
