@@ -92,6 +92,10 @@
         <property name="serviceName" value="encryptionService" />
     </bean>
     
+    <bean id="fiscalYearMonthService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="fiscalYearMonthService" />
+    </bean>
+    
     <bean id="kraAuthorizationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kraAuthorizationService" />
     </bean>
@@ -305,7 +309,8 @@
     
     <bean id="awardFandaRateService" class="org.kuali.kra.award.commitments.AwardFandaRateServiceImpl">
         <property name="parameterService" ref="parameterService" />     
-        <property name="businessObjectService" ref="businessObjectService" />           
+       <property name="businessObjectService" ref="businessObjectService" />  
+       <property name="fiscalYearMonthService" ref="fiscalYearMonthService" />           
     </bean>
     
     <bean id="keywordsService" class="org.kuali.kra.service.impl.KeywordsServiceImpl" />

@@ -95,6 +95,24 @@ public class FiscalYearMonthServiceImplTest extends KcUnitTestBase {
     }
     
     @Test
+    public void testGetFiscalYearStartDate1() {
+        assertEquals(new Integer(6), fiscalYearMonthService.getFiscalYearMonth());
+        Calendar result = this.fiscalYearMonthService.getFiscalYearStartDate(2010);
+        assertEquals(Calendar.JULY, result.get(Calendar.MONTH));
+        assertEquals(2009, result.get(Calendar.YEAR));
+        assertEquals(1, result.get(Calendar.DATE));
+    }
+    
+    @Test
+    public void testGetFiscalYearEndDate1() {
+        assertEquals(new Integer(6), fiscalYearMonthService.getFiscalYearMonth());
+        Calendar result = this.fiscalYearMonthService.getFiscalYearEndDate(2010);
+        assertEquals(Calendar.JUNE, result.get(Calendar.MONTH));
+        assertEquals(2010, result.get(Calendar.YEAR));
+        assertEquals(30, result.get(Calendar.DATE));
+    }
+    
+    @Test
     public void testGetCurrentFiscalData2() {
         Parameter parm = getParameterService().getParameter(FiscalYearMonthServiceImpl.KC_GENERAL_NAMESPACE, 
                 FiscalYearMonthServiceImpl.DOCUMENT_COMPONENT_NAME, FiscalYearMonthServiceImpl.FISCAL_YEAR_MONTH_PARAMETER_NAME);
@@ -125,5 +143,23 @@ public class FiscalYearMonthServiceImplTest extends KcUnitTestBase {
         data = fiscalYearMonthService.getCurrentFiscalData(july);
         assertEquals(new Integer(Calendar.JULY), data.get(FiscalYearMonthServiceImpl.MONTH_KEY));
         assertEquals(new Integer(2012), data.get(FiscalYearMonthServiceImpl.YEAR_KEY));
+    }
+    
+    @Test
+    public void testGetFiscalYearStartDate2() {
+        assertEquals(new Integer(0), fiscalYearMonthService.getFiscalYearMonth());
+        Calendar result = this.fiscalYearMonthService.getFiscalYearStartDate(2010);
+        assertEquals(Calendar.JANUARY, result.get(Calendar.MONTH));
+        assertEquals(2010, result.get(Calendar.YEAR));
+        assertEquals(1, result.get(Calendar.DATE));
+    }
+    
+    @Test
+    public void testGetFiscalYearEndDate2() {
+        assertEquals(new Integer(0), fiscalYearMonthService.getFiscalYearMonth());
+        Calendar result = this.fiscalYearMonthService.getFiscalYearEndDate(2010);
+        assertEquals(Calendar.DECEMBER, result.get(Calendar.MONTH));
+        assertEquals(2010, result.get(Calendar.YEAR));
+        assertEquals(31, result.get(Calendar.DATE));
     }
 }
