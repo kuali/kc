@@ -63,6 +63,13 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
         else if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_BUDGET)) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             editModes.add("viewBudgets");
+            
+            if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_INSTITUTIONAL_SALARIES )) {
+                editModes.add("viewInstitutionalSalaries");
+            }
+            if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_PROP_PERSON_INST_SALARIES )) {
+                editModes.add("viewPropPersonInstSalaries");
+            }
             setPermissions(userId, parentDocument, editModes);
         }
         else {

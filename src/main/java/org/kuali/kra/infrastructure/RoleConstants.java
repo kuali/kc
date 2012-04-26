@@ -59,6 +59,9 @@ public interface RoleConstants {
     
     public static final String AGGREGATOR_ONLY = "Aggregator Only";
     public static final String BUDGET_CREATOR_ONLY = "Budget Creator Only";
+    public static final String ACCESS_PROPOSAL_PERSON_INSTITUTIONAL_SALARIES = "Access_Proposal_Person_Institutional_Salaries";
+    public static final String VIEW_INSTITUTIONALLY_MAINTAINED_SALARIES = "View Institutionally Maintained Salaries";
+    
     
     public static final String KC_ADMIN_NAMESPACE = "KC-ADM";
     
