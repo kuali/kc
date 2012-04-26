@@ -176,6 +176,10 @@ public class AwardFandaRate extends AwardAssociate {
     public KualiDecimal getUnderrecoveryOfIndirectCost() {
         return underrecoveryOfIndirectCost;
     }
+    
+    public long getUnderrecoveryOfIndirectCostLongValue() {
+        return underrecoveryOfIndirectCost != null ? underrecoveryOfIndirectCost.longValue() : 0;
+    }
 
     /**
      * 

@@ -53,4 +53,20 @@ public interface FiscalYearMonthService {
      */
     Integer getFiscalYearFromDate(Calendar date);
     
+    /**
+     * 
+     * This method determines the date the passed in fiscal year started on.
+     * @param fiscalYear
+     * @return
+     */
+    Calendar getFiscalYearStartDate(Integer fiscalYear);
+    
+    /**
+     * 
+     * This method  determines the date the passed in fiscal year ended on.
+     * @param fiscalYear
+     * @return
+     */
+    Calendar getFiscalYearEndDate(Integer fiscalYear);
+    
 }

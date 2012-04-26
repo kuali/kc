@@ -18,26 +18,24 @@ package org.kuali.kra.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.kra.award.commitments.AwardFandaRateService;
 import org.kuali.kra.award.commitments.AwardFandaRateServiceImpl;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * 
  * This class tests <code>AwardFandaRateService</code>
  */
-@RunWith(JMock.class)
-public class AwardFandaRateServiceImplTest {
+public class AwardFandaRateServiceImplTest extends KcUnitTestBase {
     
     private static final String FISCAL_LEAP_YEAR_STRING = "2008";
     private static final String FISCAL_NON_LEAP_YEAR_STRING = "2010";
@@ -45,31 +43,22 @@ public class AwardFandaRateServiceImplTest {
     private static final List<String> MOCK_EXPECTED_DATE_NON_LEAP_YEAR = new ArrayList<String>();
     private static final List<String> MOCK_EXPECTED_DATE_LEAP_YEAR = new ArrayList<String>();
     private static final List<String> MOCK_EXPECTED_DATE_EMPTY = new ArrayList<String>();
+    private AwardFandaRateServiceImpl awardFandaRateService;
 
-    private Mockery context = new JUnit4Mockery();
+    //private Mockery context = new JUnit4Mockery();
     
     @Before
     public void setUp() throws Exception {
-    
+        awardFandaRateService = (AwardFandaRateServiceImpl) KraServiceLocator.getService(AwardFandaRateService.class);
     }
 
     @After
     public void tearDown() throws Exception {
-    
+        awardFandaRateService = null;
     }    
     
     @Test
     public final void testGetStartAndEndDatesWhenValidFiscalLeapYearPassed(){
-        AwardFandaRateServiceImpl awardFandaRateService =  new AwardFandaRateServiceImpl();
-        
-        final ParameterService parameterService
-            = context.mock(ParameterService.class);
-        context.checking(new Expectations() {{
-            one(parameterService).getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
-        }});
-
-        awardFandaRateService.setParameterService(parameterService);
-        
         MOCK_EXPECTED_DATE_LEAP_YEAR.add("07/01/2007");
         MOCK_EXPECTED_DATE_LEAP_YEAR.add("06/30/2008");
                 
@@ -78,17 +67,7 @@ public class AwardFandaRateServiceImplTest {
     }
     
     @Test
-    public final void testGetStartAndEndDatesWhenValidFiscalNonLeapYearPassed(){
-        AwardFandaRateServiceImpl awardFandaRateService =  new AwardFandaRateServiceImpl();
-        
-        final ParameterService parameterService
-        = context.mock(ParameterService.class);
-        context.checking(new Expectations() {{
-            one(parameterService).getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR); will(returnValue("07/01/2000"));
-        }});
-
-        awardFandaRateService.setParameterService(parameterService);
-                
+    public final void testGetStartAndEndDatesWhenValidFiscalNonLeapYearPassed(){ 
         MOCK_EXPECTED_DATE_NON_LEAP_YEAR.add("07/01/2009");
         MOCK_EXPECTED_DATE_NON_LEAP_YEAR.add("06/30/2010");        
                 

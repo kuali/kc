@@ -55,7 +55,7 @@ public class FiscalYearMonthServiceImpl implements FiscalYearMonthService {
     public Integer getFiscalYearFromDate(Calendar date) {
         Integer fiscalStartMonth = getFiscalYearMonth();
         Integer year = date.get(Calendar.YEAR);
-        Integer month = date.get(Calendar.MONDAY);
+        Integer month = date.get(Calendar.MONTH);
         if (fiscalStartMonth != 0 && month >= fiscalStartMonth) {
             year = year.intValue() + 1;
         }
@@ -118,5 +118,24 @@ public class FiscalYearMonthServiceImpl implements FiscalYearMonthService {
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+    
+    public Calendar getFiscalYearStartDate(Integer fiscalYear) {
+        Calendar cal =  Calendar.getInstance();
+        if (getFiscalYearMonth().equals(new Integer(0))) {
+            cal.set(Calendar.YEAR, fiscalYear);
+        } else {
+            cal.set(Calendar.YEAR, fiscalYear - 1);
+        }        
+        cal.set(Calendar.DATE, 1);
+        cal.set(Calendar.MONTH, getFiscalYearMonth());
+        return cal;
+    }
+    
+    public Calendar getFiscalYearEndDate(Integer fiscalYear) {
+        Calendar cal =  getFiscalYearStartDate(fiscalYear);
+        cal.add(Calendar.DATE, -1);
+        cal.add(Calendar.YEAR, 1);
+        return cal;
     }
 }
