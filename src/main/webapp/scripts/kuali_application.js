@@ -3272,10 +3272,16 @@ function loadRolodexInfoById() {
 		{
 			var dwrReply = {
 					callback:function(data) {
-				if ( data != null ) {
-					jq(fullNameElement).parent().find('div').html(data.fullName);
+					if ( data != null ) {
+						jq(fullNameElement).parent().find('div').html(data.fullName);
+					} else {
+						jq(fullNameElement).parent().find('div').html( "not found" );
+					}
+					},
+				errorHandler:function( errorMessage ) {
+					window.status = errorMessage;
+					jq(fullNameElement).parent().find('div').html(wrapError( "not found" ));
 				}
-			}
 			};
 			RolodexService.getRolodex(rolodexId, dwrReply);
 		}
