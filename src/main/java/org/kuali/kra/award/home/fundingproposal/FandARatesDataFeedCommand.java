@@ -28,6 +28,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
+import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -36,6 +37,7 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
+    private FiscalYearMonthService fiscalYearMonthService;
     
     /**
      * Constructs a FandARatesDataFeedCommand
@@ -70,49 +72,8 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     }
     
     private void assignDates(AwardFandaRate awardFandA, Calendar calendar) {
-        awardFandA.setStartDate(calculateFirstDayOfYear(calendar));
-        awardFandA.setEndDate(calculateLastDayOfYear(calendar));
-    }
-
-    private void calculateDates(AwardFandaRate awardFandA) {
-        String fiscalYearStartDate = readFiscalYearStartDate();
-        if(fiscalYearStartDate != null) {
-            calculateDatesFromSystemParam(awardFandA, fiscalYearStartDate);
-        } else {
-            calculateDatesForCalendarYear(awardFandA);
-        }
-    }
-
-    private void calculateDatesForCalendarYear(AwardFandaRate awardFandA) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.set(getFiscalYear(awardFandA), Calendar.JANUARY, 1);
-        assignDates(awardFandA, calendar);
-    }
-
-    private void calculateDatesFromSystemParam(AwardFandaRate awardFandA, String fiscalYearStartDate) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        String[] tokens = fiscalYearStartDate.split("/");
-        calendar.set(getFiscalYear(awardFandA), Integer.valueOf(tokens[0]) - 1, Integer.valueOf(tokens[1]));
-        assignDates(awardFandA, calendar);
-    }
-
-    /*
-     * note: method has side effect of changing parameter calendar
-     */
-    private Date calculateFirstDayOfYear(Calendar calendar) {
-        if (calendar.get(Calendar.DAY_OF_YEAR) != 1) {
-            calendar.add(Calendar.YEAR, -1);
-        }
-        return new Date(calendar.getTimeInMillis());
-    }
-    
-    /*
-     * note: method has side effect of changing parameter calendar
-     */
-    private Date calculateLastDayOfYear(Calendar calendar) {
-        calendar.add(Calendar.YEAR, 1);
-        calendar.add(Calendar.DATE, -1);
-        return new Date(calendar.getTimeInMillis());
+        awardFandA.setStartDate(new Date(this.getFiscalYearMonthService().getFiscalYearStartDate(calendar.get(Calendar.YEAR)).getTimeInMillis()));
+        awardFandA.setEndDate(new Date(this.getFiscalYearMonthService().getFiscalYearEndDate(calendar.get(Calendar.YEAR)).getTimeInMillis()));
     }
 
     private String convertOnCampusBooleanToString(boolean onCampusFlag) {
@@ -132,16 +93,10 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
         awardFandA.setOnCampusFlag(convertOnCampusBooleanToString(ipUnrecoveredFandA.getOnCampusFlag()));
         awardFandA.setSourceAccount(ipUnrecoveredFandA.getSourceAccount());
         awardFandA.setUnderrecoveryOfIndirectCost(ipUnrecoveredFandA.getAmount());
-        calculateDates(awardFandA);
+        Integer fy = Integer.parseInt(ipUnrecoveredFandA.getFiscalYear());
+        awardFandA.setStartDate(new Date(this.getFiscalYearMonthService().getFiscalYearStartDate(fy).getTimeInMillis()));
+        awardFandA.setEndDate(new Date(this.getFiscalYearMonthService().getFiscalYearEndDate(fy).getTimeInMillis()));
         return awardFandA;
-    }
-
-    private Integer getFiscalYear(AwardFandaRate awardFandA) {
-        return Integer.valueOf(awardFandA.getFiscalYear());
-    }
-    
-    private String readFiscalYearStartDate() {
-        return this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR);
     }
     
     /**
@@ -164,6 +119,13 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
             this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
         }
         return this.businessObjectService;
+    }
+    
+    protected FiscalYearMonthService getFiscalYearMonthService() {
+        if (this.fiscalYearMonthService == null) {
+            this.fiscalYearMonthService = KraServiceLocator.getService(FiscalYearMonthService.class);
+        }
+        return this.fiscalYearMonthService;
     }
     
 }
