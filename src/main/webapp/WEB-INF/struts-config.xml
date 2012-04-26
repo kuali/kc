@@ -428,6 +428,11 @@
         &iacuc_forwards;
       </action>      
       
+      <action path="/iacucProtocolSpeciesAndGroups" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolSpeciesAndGroups.jsp" type="org.kuali.kra.iacuc.species.IacucProtocolSpeciesAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolSpeciesAndGroups.jsp" />
+        &iacuc_forwards;
+      </action>
+      
       <action path="/iacucProtocolCustomData" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolCustomData.jsp" type="org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm" >
         <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolCustomData.jsp" />
         &iacuc_forwards;

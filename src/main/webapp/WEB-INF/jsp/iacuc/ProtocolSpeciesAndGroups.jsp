@@ -14,42 +14,43 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%@ page import="java.util.HashMap" %>
 
-<c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
+
+<c:set var="protocolSpeciesList" value="${KualiForm.document.protocol.iacucProtocolSpeciesList}" />
 <c:set var="protocolSpeciesAttributes" value="${DataDictionary.IacucProtocolSpecies.attributes}" />
-<c:set var="protocolSpeciesList" value="${KualiForm.document.protocol.protocolSpeciesList}" />
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="iacucProtocolSpecies"
+	htmlFormAction="iacucProtocolSpeciesAndGroups"
 	documentTypeName="IacucProtocolDocument"
 	renderMultipart="true"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="iacucProtocolSpecies">
+  	headerTabActive="iacucProtocolSpeciesAndGroups">
 
   	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Protocol Species" /></div>
   	
-	<kra-iacuc:speciesAndGroups businessObjectClassName="org.kuali.kra.iacuc.species.IacucProtocolSpecies"
-	                            protocolSpeciesAttributes="${protocolSpeciesAttributes}"
-	                            collectionReference="${protocolSpeciesList}"
-	                            collectionProperty="document.protocolList[0].protocolSpeciesList"
-	                            action="protocolSpecies" />
+	<div id="workarea">
+		<kra-iacuc:speciesAndGroups businessObjectClassName="org.kuali.kra.iacuc.species.IacucProtocolSpecies"
+		                            protocolSpeciesAttributes="${protocolSpeciesAttributes}"
+		                            collectionReference="${protocolSpeciesList}"
+		                            collectionProperty="document.protocolList[0].iacucProtocolSpeciesList"
+		                            action="iacucProtocolSpeciesAndGroups" />
+		<kul:panelFooter />
+	</div>
 
 
-  <!--  exemptionAttributes="${DataDictionary.ProtocolSpecialReviewExemption.attributes}" -->
+	<script type="text/javascript">
+	   var $j = jQuery.noConflict();
+	</script>
+	
+	<SCRIPT type="text/javascript">
+	var kualiForm = document.forms['KualiForm'];
+	var kualiElements = kualiForm.elements;
+	</SCRIPT>
+	<script language="javascript" src="scripts/kuali_application.js"></script>
+	<!--   <script language="javascript" src="dwr/interface/UnitService.js"></script> -->
 
-<script type="text/javascript">
-   var $j = jQuery.noConflict();
-</script>
-
-<SCRIPT type="text/javascript">
-var kualiForm = document.forms['KualiForm'];
-var kualiElements = kualiForm.elements;
-</SCRIPT>
-<script language="javascript" src="scripts/kuali_application.js"></script>
-<!--   <script language="javascript" src="dwr/interface/UnitService.js"></script> -->
-
+	<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" />
 </kul:documentPage>

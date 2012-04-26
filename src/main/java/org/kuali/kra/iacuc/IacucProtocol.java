@@ -82,6 +82,7 @@ public class IacucProtocol extends Protocol {
         setCorrespondentIndicator("no");
         setReferenceIndicator("no");
         setAlternativeSearchIndicator("no");
+        setIacucProtocolSpeciesList(new ArrayList<IacucProtocolSpecies>());
         
         iacucAlternateSearches = new ArrayList<IacucAlternateSearch>();
     } 
@@ -90,7 +91,7 @@ public class IacucProtocol extends Protocol {
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        
+        managedLists.add(getIacucProtocolSpeciesList());
         return managedLists;
     }
     

@@ -60,6 +60,13 @@
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
+                    <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="iacucProtocolSpeciesHelp" p:parameterDetailType="Document"/>
+                </property>
+                <property name="headerTabDisplayName" value="Species/Groups"/>
+                <property name="headerTabNavigateTo" value="speciesAndGroups"/>
+            </bean>
+            <bean parent="HeaderNavigation">
+                <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolCustomDataHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Custom Data"/>
