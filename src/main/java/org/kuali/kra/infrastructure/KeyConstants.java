@@ -1062,6 +1062,11 @@ public final class KeyConstants {
     public static final String ERROR_PERSON_MASS_CHANGE_REPLACER_SELECTION = "error.personMassChange.replacer.selection";
     public static final String ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED = "error.personMassChange.document.locked";
     
+    
+    // IACUC protocol species
+    public static final String QUESTION_PROTOCOL_SPECIES_DELETE_CONFIRMATION = "question.iacuc.protocol.species.delete.confirmation";
+
+    
     // Disclosure and Financial Entity errors
     public static final String ERROR_DISCLOSURE_SEARCH_INVALID_DATE = "error.search.invalid.date";
     public static final String MESSAGE_CANCEL_FE = "message.cancel.fe";

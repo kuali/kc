@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.iacuc.species;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,8 +25,12 @@ import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class IacucProtocolSpeciesAction extends IacucProtocolAction{
+    private static final String CONFIRM_DELETE_PROTOCOL_SPECIES_KEY = "confirmDeleteProtocolSpecies";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -45,15 +47,39 @@ public class IacucProtocolSpeciesAction extends IacucProtocolAction{
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
         IacucProtocolSpecies iacucProtocolSpecies = protocolForm.getIacucProtocolSpeciesHelper().getNewIacucProtocolSpecies();
-        List<IacucProtocolSpecies> iacucProtocolSpeciesList = document.getIacucProtocol().getIacucProtocolSpeciesList();
         
         //if (applyRules(new AddIacucProtocolSpeciesEvent(document, iacucProtocolSpecies, iacucProtocolSpeciesList, false))) {
             //iacucProtocolSpecies.setIacucProtocolSpeciesId(document.getDocumentNextValue(Constants.SPECIES_ID));
-            iacucProtocolSpeciesList.add(iacucProtocolSpecies);
+            getIacucProtocolSpeciesService().addProtocolSpecies(document.getIacucProtocol(), iacucProtocolSpecies);
             protocolForm.getIacucProtocolSpeciesHelper().setNewIacucProtocolSpecies(new IacucProtocolSpecies());
         //}
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    
+    public ActionForward deleteProtocolSpecies(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+    throws Exception {
+        return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROTOCOL_SPECIES_KEY,
+                KeyConstants.QUESTION_PROTOCOL_SPECIES_DELETE_CONFIRMATION), CONFIRM_DELETE_PROTOCOL_SPECIES_KEY, "");
+    }
+
+
+    @SuppressWarnings("deprecation")
+    public ActionForward confirmDeleteProtocolSpecies(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+    throws Exception {
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_DELETE_PROTOCOL_SPECIES_KEY.equals(question)) {
+            IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+            IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
+            
+            document.getIacucProtocol().getIacucProtocolSpeciesList().remove(getLineToDelete(request));
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    protected IacucProtocolSpeciesService getIacucProtocolSpeciesService() {
+        return (IacucProtocolSpeciesService)KraServiceLocator.getService("iacucProtocolSpeciesService");
+    }
+    
 }
