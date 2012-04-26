@@ -26,9 +26,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
@@ -634,6 +634,11 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         return super.specialReview(mapping, form, request, response);
     }
 
+    public ActionForward speciesAndGroups(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+        ((IacucProtocolForm) form).getIacucProtocolSpeciesHelper().prepareView();
+        return mapping.findForward("iacucSpeciesAndGroups");
+    }
+    
 
     private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);

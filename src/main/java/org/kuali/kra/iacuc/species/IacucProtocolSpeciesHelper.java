@@ -38,6 +38,7 @@ public class IacucProtocolSpeciesHelper implements Serializable{
 
     public IacucProtocolSpeciesHelper(IacucProtocolForm form) {
         setForm(form); 
+        setNewIacucProtocolSpecies(new IacucProtocolSpecies());
     }    
     
     public void prepareView() {
