@@ -41,6 +41,8 @@ public interface PermissionConstants {
     public static final String ADD_PROPOSAL_VIEWER = "Add Proposal Viewer";
     public static final String MAINTAIN_PROPOSAL_HIERARCHY = "Maintain ProposalHierarchy";
     public static final String DELETE_PROPOSAL = "Delete Proposal";
+    public static final String VIEW_INSTITUTIONAL_SALARIES = "ViewInstitutionalSalaries";
+    public static final String VIEW_PROP_PERSON_INST_SALARIES="ViewPropPersonInstSalaries";
         
     /* IRB Permissions */
     

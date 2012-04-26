@@ -83,6 +83,12 @@
                     <property name="taskName" value="modifyProposalBudgetRates" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
+                
+                 <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ViewProposalBudgetPersonSalaryAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="viewPropPersonInstSalaries" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
+               
             </list>
         </property>
     </bean>
