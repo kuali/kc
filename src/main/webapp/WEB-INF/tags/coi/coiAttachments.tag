@@ -290,7 +290,7 @@
 			         		</th>
 	         				<td align="left" valign="middle" colspan="0">
 	    		            	<div align="left">
-			                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].coiAttachmentType.description" attributeEntry="${attributes.contactName}" readOnly="${!modify}"/>
+			                		<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].typeCode" attributeEntry="${attributes.typeCode}" readOnly="${!modify}"/>
 		        		    	</div>
 							</td>
 			         	</tr>
