@@ -82,13 +82,13 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
     public boolean canOpen(Document document, Person user) {
         // TODO : this is temporarily return 'true' because the required fields are not done.  unit number is not saved.
         // so, the permission check can't be done properly.
-//        IacucProtocolDocument protocolDocument = (IacucProtocolDocument) document;
-//        if (protocolDocument.getProtocol().getProtocolId() == null) {
-//            return canCreateIacucProtocol(user);
-//        }
-//        return canExecuteIacucProtocolTask(user.getPrincipalId(), (IacucProtocolDocument) document, TaskName.VIEW_IACUC_PROTOCOL);
-//
-          return true;
+        IacucProtocolDocument protocolDocument = (IacucProtocolDocument) document;
+        if (protocolDocument.getProtocol().getProtocolId() == null) {
+            return canCreateIacucProtocol(user);
+        }
+        return canExecuteIacucProtocolTask(user.getPrincipalId(), (IacucProtocolDocument) document, TaskName.VIEW_IACUC_PROTOCOL);
+
+//          return true;
         }
     
     /**
