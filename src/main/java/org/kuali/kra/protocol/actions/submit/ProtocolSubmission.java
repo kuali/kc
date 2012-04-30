@@ -28,6 +28,7 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 //import org.kuali.kra.irb.ProtocolAssociate;
 //import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 //import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
@@ -109,7 +110,7 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
     @SkipVersioning
     private transient List<ProtocolReviewAttachment> reviewAttachments;
 
-    private ProtocolReviewType protocolReviewType;
+    private IacucProtocolReviewType protocolReviewType;
 
     @SkipVersioning
     private transient Committee committee;
@@ -343,11 +344,11 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
         this.protocolOnlineReviews = protocolOnlineReviews;
     }
 
-    public ProtocolReviewType getProtocolReviewType() {
+    public IacucProtocolReviewType getProtocolReviewType() {
         return protocolReviewType;
     }
 
-    public void setProtocolReviewType(ProtocolReviewType protocolReviewType) {
+    public void setProtocolReviewType(IacucProtocolReviewType protocolReviewType) {
         this.protocolReviewType = protocolReviewType;
     }
 

@@ -40,7 +40,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * 
  * This class manages all the attributes needed to maintain a protocol action.
  */
-public class ProtocolAction extends ProtocolAssociate {
+public abstract class ProtocolAction extends ProtocolAssociate {
 
     private static final long serialVersionUID = -2148599171919464303L;
 
@@ -435,7 +435,7 @@ public class ProtocolAction extends ProtocolAssociate {
 
     public int getAnswerHeaderCount(String moduleSubItemCode, String moduleItemKey, String moduleSubItemKey) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
+        fieldValues.put("moduleItemCode", getCoeusModule());
         fieldValues.put("moduleItemKey", moduleItemKey);
         if (!moduleItemKey.contains("A") && !moduleItemKey.contains("R") && !getProtocol().isAmendment() && !getProtocol().isRenewal()) {
             fieldValues.put("moduleSubItemCode", moduleSubItemCode);
@@ -554,5 +554,6 @@ public class ProtocolAction extends ProtocolAssociate {
         this.committeeService = committeeService;
     }   
     
-
+    protected abstract String getCoeusModule();
+    
 }

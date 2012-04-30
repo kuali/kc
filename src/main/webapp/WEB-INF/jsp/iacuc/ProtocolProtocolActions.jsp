@@ -23,7 +23,8 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="iacucProtocolActions">
+  	headerTabActive="protocolActions">
+  	
 <script type="text/javascript">
    var $j = jQuery.noConflict();
 </script>
@@ -35,14 +36,32 @@
     <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script> 
     <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script>     
 
+<c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
+<c:set var="showActions" value="${empty DocumentPessimisticLockMessages}" scope="request"/>
+<c:set var="suppressRoutingControls" value="${KualiForm.actionHelper.canApproveFull || !KualiForm.actionHelper.canApproveOther}" scope="request"/>
+<c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/>
 
 <style type="text/css">
    .compare { color: #666666 }
    .compare td, .compare th { color:#666666; }
 </style>
 
+<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="IACUC Protocol Actions" /></div>
 
-  	
-    Protocol actions page to be implemented
- 
+<kra-iacuc:protocolRequestAction />
+
+<c:if test="${showActions}" >
+    <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false" helpParameterNamespace="KC-IACUC" helpParameterName="protocolDataValidationHelp" helpParameterDetailType="Document"/>
+</c:if>
+<kul:panelFooter />
+	            
+	<kul:documentControls 
+		transactionalDocument="true"
+		suppressRoutingControls="${suppressRoutingControls}"
+		extraButtonSource="${extraButtonSource}"
+		extraButtonProperty="${extraButtonProperty}"
+		extraButtonAlt="${extraButtonAlt}"
+		extraButtons="${extraButtons}"
+		viewOnly="${KualiForm.editingMode['viewOnly']}"
+		/>
 </kul:documentPage>

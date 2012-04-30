@@ -18,21 +18,20 @@ package org.kuali.kra.iacuc.protocol;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolUnit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.auth.ProtocolTask;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
-import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
-import org.kuali.kra.protocol.personnel.ProtocolUnit;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
-import org.kuali.kra.protocol.protocol.ProtocolNumberService;
 
 public class IacucProtocolHelper extends ProtocolHelper {
       
@@ -95,5 +94,9 @@ public class IacucProtocolHelper extends ProtocolHelper {
     protected ProtocolTask getNewInstanceModifyProtocolResearchAreasTaskHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_RESEARCH_AREAS, (IacucProtocol)protocol);
     } 
+
+    protected ProtocolAction createProtocolActionHook(Protocol protocol, ProtocolSubmission protocolSubmission) {
+        return new IacucProtocolAction(protocol, protocolSubmission, getProtocolCreatedProtocolActionTypeCodeHook());
+    }
 
 }

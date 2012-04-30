@@ -19,11 +19,46 @@ import org.kuali.kra.protocol.actions.ProtocolStatus;
 
 public class IacucProtocolStatus extends ProtocolStatus { 
     
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = -3782529092395093228L;
-    
     public static final String IN_PROGRESS = "100";
+    
+    public static final String SUBMITTED_TO_IACUC = "101";
+    
+    public static final String RETURN_TO_PI = "102";
+    
+    public static final String TABLED = "103";
+    
+    public static final String MINOR_REVISIONS_REQUIRED = "104";
+    
+    public static final String WITHDRAWN = "105";
+    
+    public static final String MAJOR_REVISIONS_REQUIRED = "107";
+    
+    public static final String ROUTING_IN_PROGRESS = "108";
+    
+    public static final String ACTIVE = "200";
+    
+    public static final String ACTIVE_ON_HOLD = "201";
+    
+    public static final String ADMINISTRATIVELY_APPROVED = "202";
+    
+    public static final String ADMINISTRATIVELY_INCOMPLETE = "203";
+    
+    public static final String IACUC_REVIEW_NOT_REQUIRED = "300";
+    
+    public static final String ADMINISTRATIVELY_WITHDRAWN = "302";
+    
+    public static final String DISAPPROVED = "303";
+    
+    public static final String SUSPENDED = "304";
+    
+    public static final String DEACTIVATED = "305";
+    
+    public static final String ADMINISTRATIVELY_DEACTIVATED = "306";
+    
+    public static final String TERMINATED = "307";
+    
+    public static final String EXPIRED = "308";
+    
+    public static final String ABANDONED = "309";
     
 }

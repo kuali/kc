@@ -53,15 +53,18 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * The ProtocolAction is the base class for all Protocol actions.  Each derived
@@ -207,7 +210,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         ((ProtocolForm) form).getSpecialReviewHelper().prepareView();
         return mapping.findForward(getSpecialReviewForwardNameHook());
     }
-    
+
+//TODO: The following method is demoted to IACUC/IRB    
 //    public ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
 //        // for protocol lookup copy link - rice 1.1 need this
 //        ProtocolForm protocolForm = (ProtocolForm) form;
