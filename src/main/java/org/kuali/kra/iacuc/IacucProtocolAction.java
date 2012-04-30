@@ -21,19 +21,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolAction;
-import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.UnitAclLoadService;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class IacucProtocolAction extends ProtocolAction {
    
@@ -47,6 +47,32 @@ public class IacucProtocolAction extends ProtocolAction {
     public static final String IACUC_PROTOCOL_ONLINE_REVIEW_HOOK = "iacucProtocolOnlineReview";
     public static final String IACUC_PROTOCOL_PERMISSIONS_HOOK = "iacucProtocolPermissions";
     
+    /**
+     * This method gets called upon navigation to Protocol Actions tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
+        // for protocol lookup copy link - rice 1.1 need this
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        String command = request.getParameter("command");
+        if (KewApiConstants.DOCSEARCH_COMMAND.equals(command)) {
+            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            protocolForm.setDocument(retrievedDocument);
+            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
+       }
+        // make sure current submission is displayed when navigate to action page.
+        protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
+       ((ProtocolForm)form).getActionHelper().prepareView();
+
+       return mapping.findForward("iacucProtocolActions");
+    }
+    
+
     public ActionForward threeRs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("iacucProtocolThreeRs");
     }    

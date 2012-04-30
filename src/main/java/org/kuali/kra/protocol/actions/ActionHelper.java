@@ -42,11 +42,43 @@ import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.ProtocolVersionService;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
+//import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
+//import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
+//import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
+//import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
+//import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
+//import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
+//import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
+//import org.kuali.kra.protocol.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
+//import org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersBean;
+//import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
+//import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
+//import org.kuali.kra.protocol.actions.decision.CommitteeDecisionService;
+//import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
+//import org.kuali.kra.protocol.actions.followup.FollowupActionService;
+//import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
+//import org.kuali.kra.protocol.actions.grantexemption.ProtocolGrantExemptionBean;
+//import org.kuali.kra.protocol.actions.modifysubmission.ProtocolModifySubmissionBean;
+//import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredBean;
+//import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
+//import org.kuali.kra.protocol.actions.notifyirb.ProtocolActionAttachment;
+//import org.kuali.kra.protocol.actions.notifyirb.ProtocolNotifyIrbBean;
+//import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
+//import org.kuali.kra.protocol.actions.print.QuestionnairePrintOptionComparator;
+//import org.kuali.kra.protocol.actions.request.ProtocolRequestBean;
+//import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
+//import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
+//import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
+//import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+//import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
+//import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
+//import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionService;
+//import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
+//import org.kuali.kra.protocol.actions.undo.UndoLastActionBean;
+import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
+import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
 import org.kuali.kra.protocol.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
@@ -76,137 +108,133 @@ import org.kuali.rice.krad.util.ObjectUtils;
 @SuppressWarnings("serial")
 public abstract class ActionHelper implements Serializable {
 
-    private static final long ONE_DAY = 1000L * 60L * 60L * 24L;
-    private static final String NAMESPACE = "KC-UNT";
-    private static final List<String> ACTION_TYPE_SUBMISSION_DOC;
-    static {
-        final List<String> codes = new ArrayList<String>();     
-// TODO *********commented the code below during IACUC refactoring*********     
-//        codes.add(ProtocolActionType.NOTIFY_IACUC);
-//        codes.add(ProtocolActionType.REQUEST_TO_CLOSE);
-//        codes.add(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
-//        codes.add(ProtocolActionType.REQUEST_FOR_SUSPENSION);
-//        codes.add(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT);
-//        codes.add(ProtocolActionType.REQUEST_FOR_TERMINATION);
-//        codes.add(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT);
-// TODO *********end commented code below during IACUC refactoring*********     
-        ACTION_TYPE_SUBMISSION_DOC = codes;
-    }
+    protected static final long ONE_DAY = 1000L * 60L * 60L * 24L;
+    protected static final String NAMESPACE = "KC-UNT";
 
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
      */
-    private ProtocolForm form;
+    protected ProtocolForm form;
     
-    private boolean canSubmitProtocol = false;
-    private boolean canSubmitProtocolUnavailable = false;
+    protected boolean canSubmitProtocol = false;
+    protected boolean canSubmitProtocolUnavailable = false;
     private String submissionConstraint;
     
-    private boolean canCreateAmendment = false;
-    private boolean canCreateAmendmentUnavailable = false;
-    private boolean canModifyAmendmentSections = false;
-    private boolean canModifyAmendmentSectionsUnavailable = false;
-    private boolean canCreateRenewal = false;
-    private boolean canCreateRenewalUnavailable = false;
-    private boolean canNotifyIrb = false;
-    private boolean canNotifyIrbUnavailable = false;
-    private boolean canNotifyCommittee = false;
-    private boolean canNotifyCommitteeUnavailable = false;
-    private boolean canWithdraw = false;
-    private boolean canWithdrawUnavailable = false;
-    private boolean canRequestClose = false;
-    private boolean canRequestCloseUnavailable = false;
-    private boolean canRequestSuspension = false;
-    private boolean canRequestSuspensionUnavailable = false;
-    private boolean canRequestCloseEnrollment = false;
-    private boolean canRequestCloseEnrollmentUnavailable = false;
-    private boolean canRequestReOpenEnrollment = false;
-    private boolean canRequestReOpenEnrollmentUnavailable = false;
-    private boolean canRequestDataAnalysis = false;
-    private boolean canRequestDataAnalysisUnavailable = false;
-    private boolean canRequestTerminate = false;
-    private boolean canRequestTerminateUnavailable = false;
-    private boolean canDeleteProtocolAmendRenew = false;
-    private boolean canDeleteProtocolAmendRenewUnavailable = false;
-    private boolean canAssignToAgenda = false;
-    private boolean canAssignToAgendaUnavailable = false;
-    private boolean canAssignCmtSched = false;
-    private boolean canAssignCmtSchedUnavailable = false;
-    private boolean canAssignReviewers = false;
-    private boolean canAssignReviewersCmtSel = false;
-    private boolean canAssignReviewersUnavailable = false;
-    private boolean canGrantExemption = false;
-    private boolean canGrantExemptionUnavailable = false;
-    private boolean canApproveFull = false;
-    private boolean canApproveFullUnavailable = false;
-    private boolean canApproveExpedited = false;
-    private boolean canApproveExpeditedUnavailable = false;
-    private boolean canApproveResponse = false;
-    private boolean canApproveResponseUnavailable = false;
-    private boolean canDisapprove = false;
-    private boolean canDisapproveUnavailable = false;
-    private boolean canReturnForSMR = false;
-    private boolean canReturnForSMRUnavailable = false;
-    private boolean canReturnForSRR = false;
-    private boolean canReturnForSRRUnavailable = false;
-    private boolean canReopenEnrollment = false;
-    private boolean canReopenEnrollmentUnavailable = false;
-    private boolean canCloseEnrollment = false;
-    private boolean canCloseEnrollmentUnavailable = false;
-    private boolean canSuspend = false;
-    private boolean canSuspendUnavailable = false;
-    private boolean canSuspendByDsmb = false;
-    private boolean canSuspendByDsmbUnavailable = false;
-    private boolean canClose = false;
-    private boolean canCloseUnavailable = false;
-    private boolean canExpire = false;
-    private boolean canExpireUnavailable = false;
-    private boolean canTerminate = false;
-    private boolean canTerminateUnavailable = false;
-    private boolean canPermitDataAnalysis = false;
-    private boolean canPermitDataAnalysisUnavailable = false;
-    private boolean canEnterRiskLevel = false;
-    private boolean canMakeAdminCorrection = false;
-    private boolean canMakeAdminCorrectionUnavailable = false;
-    private boolean canRecordCommitteeDecision = false;
-    private boolean canRecordCommitteeDecisionUnavailable = false;
-    private boolean canUndoLastAction = false;
-    private boolean canUndoLastActionUnavailable = false;
-    private boolean canModifyProtocolSubmission = false;
-    private boolean canModifyProtocolSubmissionUnavailable = false;
-    private boolean canIrbAcknowledgement = false;
-    private boolean canIrbAcknowledgementUnavailable = false;
-    private boolean canDefer = false;
-    private boolean canDeferUnavailable = false;
-    private boolean canReviewNotRequired = false;
-    private boolean canReviewNotRequiredUnavailable = false;
-    private boolean canManageReviewComments = false;
-    private boolean canManageReviewCommentsUnavailable = false;
-    private boolean canApproveOther = false;
-    private boolean canManageNotes = false;
-    private boolean canManageNotesUnavailable = false;
-    private boolean canAbandon = false;
+    protected boolean canReturnToPI = false;
+    protected boolean canReturnToPIUnavailable = false;
+    protected boolean canCreateAmendment = false;
+    protected boolean canCreateAmendmentUnavailable = false;
+    protected boolean canModifyAmendmentSections = false;
+    protected boolean canModifyAmendmentSectionsUnavailable = false;
+    protected boolean canCreateRenewal = false;
+    protected boolean canCreateRenewalUnavailable = false;
+//TODO: Demote this to IRB
+//    protected boolean canNotifyIrb = false;
+//    protected boolean canNotifyIrbUnavailable = false;
+    protected boolean canNotifyCommittee = false;
+    protected boolean canNotifyCommitteeUnavailable = false;
+    protected boolean canWithdraw = false;
+    protected boolean canWithdrawUnavailable = false;
+    protected boolean canRequestClose = false;
+    protected boolean canRequestCloseUnavailable = false;
+    protected boolean canRequestSuspension = false;
+    protected boolean canRequestSuspensionUnavailable = false;
+//TODO: Demote this to IRB
+//    protected boolean canRequestCloseEnrollment = false;
+//    protected boolean canRequestCloseEnrollmentUnavailable = false;
+//    protected boolean canRequestReOpenEnrollment = false;
+//    protected boolean canRequestReOpenEnrollmentUnavailable = false;
 
-    private boolean isApproveOpenForFollowup;
-    private boolean isDisapproveOpenForFollowup;
-    private boolean isReturnForSMROpenForFollowup;
-    private boolean isReturnForSRROpenForFollowup;
+//TODO: Demote this to IRB
+//    protected boolean canRequestDataAnalysis = false;
+//    protected boolean canRequestDataAnalysisUnavailable = false;
+    protected boolean canRequestTerminate = false;
+    protected boolean canRequestTerminateUnavailable = false;
+    protected boolean canDeleteProtocolAmendRenew = false;
+    protected boolean canDeleteProtocolAmendRenewUnavailable = false;
+    protected boolean canAssignToAgenda = false;
+    protected boolean canAssignToAgendaUnavailable = false;
+    protected boolean canAssignCmtSched = false;
+    protected boolean canAssignCmtSchedUnavailable = false;
+    protected boolean canRemoveFromToAgenda = false;
+    protected boolean canRemoveFromAgendaUnavailable = false;
+    protected boolean canAssignReviewers = false;
+    protected boolean canAssignReviewersCmtSel = false;
+    protected boolean canAssignReviewersUnavailable = false;
+//TODO: Demote this to IRB
+//    protected boolean canGrantExemption = false;
+//    protected boolean canGrantExemptionUnavailable = false;
+    protected boolean canApproveFull = false;
+    protected boolean canApproveFullUnavailable = false;
+
+//    protected boolean canApproveExpeditedUnavailable = false;
+    protected boolean canApproveResponse = false;
+    protected boolean canApproveResponseUnavailable = false;
+    protected boolean canDisapprove = false;
+    protected boolean canDisapproveUnavailable = false;
+    protected boolean canReturnForSMR = false;
+    protected boolean canReturnForSMRUnavailable = false;
+    protected boolean canReturnForSRR = false;
+    protected boolean canReturnForSRRUnavailable = false;
+//    protected boolean canReopenEnrollment = false;
+//    protected boolean canReopenEnrollmentUnavailable = false;
+//    protected boolean canCloseEnrollment = false;
+//    protected boolean canCloseEnrollmentUnavailable = false;
+    protected boolean canSuspend = false;
+    protected boolean canSuspendUnavailable = false;
+//TODO: Demote this to IRB
+//    protected boolean canSuspendByDsmb = false;
+//    protected boolean canSuspendByDsmbUnavailable = false;
+    protected boolean canClose = false;
+    protected boolean canCloseUnavailable = false;
+    protected boolean canExpire = false;
+    protected boolean canExpireUnavailable = false;
+    protected boolean canTerminate = false;
+    protected boolean canTerminateUnavailable = false;
+//    protected boolean canPermitDataAnalysis = false;
+//    protected boolean canPermitDataAnalysisUnavailable = false;
+    protected boolean canEnterRiskLevel = false;
+    protected boolean canMakeAdminCorrection = false;
+    protected boolean canMakeAdminCorrectionUnavailable = false;
+    protected boolean canRecordCommitteeDecision = false;
+    protected boolean canRecordCommitteeDecisionUnavailable = false;
+    protected boolean canUndoLastAction = false;
+    protected boolean canUndoLastActionUnavailable = false;
+    protected boolean canModifyProtocolSubmission = false;
+    protected boolean canModifyProtocolSubmissionUnavailable = false;
+//TODO: Demote this to IRB
+//    protected boolean canIrbAcknowledgement = false;
+//    protected boolean canIrbAcknowledgementUnavailable = false;
+
+//    protected boolean canDefer = false;
+//    protected boolean canDeferUnavailable = false;
+//    protected boolean canReviewNotRequired = false;
+//    protected boolean canReviewNotRequiredUnavailable = false;
+    protected boolean canManageReviewComments = false;
+    protected boolean canManageReviewCommentsUnavailable = false;
+    protected boolean canApproveOther = false;
+    protected boolean canManageNotes = false;
+    protected boolean canManageNotesUnavailable = false;
+    protected boolean canAbandon = false;
+
+    protected List<ValidProtocolActionAction> followupActionActions;
     
-//TODO    private List<ValidProtocolActionAction> followupActionActions;
+    protected boolean canViewOnlineReviewers;
+    protected boolean canViewOnlineReviewerComments;
     
-    private boolean canViewOnlineReviewers;
-    private boolean canViewOnlineReviewerComments;
+    protected boolean canAddCloseReviewerComments;
+
+//TODO: Demote this to IRB
+//    protected boolean canAddCloseEnrollmentReviewerComments;
+//    protected boolean canAddDataAnalysisReviewerComments;
+//    protected boolean canAddReopenEnrollmentReviewerComments;
+
+    protected boolean canAddSuspendReviewerComments;
+    protected boolean canAddTerminateReviewerComments;
     
-    private boolean canAddCloseReviewerComments;
-    private boolean canAddCloseEnrollmentReviewerComments;
-    private boolean canAddDataAnalysisReviewerComments;
-    private boolean canAddReopenEnrollmentReviewerComments;
-    private boolean canAddSuspendReviewerComments;
-    private boolean canAddTerminateReviewerComments;
-    
-//    private ProtocolSubmitAction protocolSubmitAction;
-//    private ProtocolWithdrawBean protocolWithdrawBean;
+    protected ProtocolSubmitAction protocolSubmitAction;
+    protected ProtocolWithdrawBean protocolWithdrawBean;
 //    private ProtocolRequestBean protocolCloseRequestBean;
 //    private ProtocolRequestBean protocolSuspendRequestBean;
 //    private ProtocolRequestBean protocolCloseEnrollmentRequestBean;
@@ -252,26 +280,26 @@ public abstract class ActionHelper implements Serializable {
     private transient ParameterService parameterService;
     private transient TaskAuthorizationService taskAuthorizationService;
 //    private transient ProtocolAmendRenewService protocolAmendRenewService;
-    private transient ProtocolVersionService protocolVersionService;
+//    private transient ProtocolVersionService protocolVersionService;
 //    private transient ProtocolSubmitActionService protocolSubmitActionService;
 //    private transient ProtocolActionService protocolActionService;
-    private boolean hasAmendments;
-    private boolean hasRenewals;
-    private boolean submissionHasNoAmendmentDetails;
-    /*
-     * Identifies the protocol "document" to print.
-     */
-    private String printTag;
-    
-//TODO    private ProtocolSummaryPrintOptions protocolSummaryPrintOptions;
-
+//    private boolean hasAmendments;
+//    private boolean hasRenewals;
+//    private boolean submissionHasNoAmendmentDetails;
+//    /*
+//     * Identifies the protocol "document" to print.
+//     */
+//    private String printTag;
+//    
+//    private ProtocolSummaryPrintOptions protocolSummaryPrintOptions;
+//
     private Boolean summaryReport;
     private Boolean fullReport;
     private Boolean historyReport;
     private Boolean reviewCommentsReport;
     
-    private ProtocolSummary protocolSummary;
-    private ProtocolSummary prevProtocolSummary;
+//    private ProtocolSummary protocolSummary;
+//    private ProtocolSummary prevProtocolSummary;
     private int currentSequenceNumber = -1;
     
     private String selectedHistoryItem;
@@ -284,7 +312,7 @@ public abstract class ActionHelper implements Serializable {
     private List<ProtocolReviewAttachment> reviewAttachments;        
     private List<ProtocolVoteAbstainee> abstainees;        
     private List<ProtocolVoteRecused> recusers;        
-//TODO    private List<ProtocolReviewer> protocolReviewers;        
+//    private List<ProtocolReviewer> protocolReviewers;        
     private int currentSubmissionNumber;
     private String renewalSummary;
     
@@ -298,14 +326,14 @@ public abstract class ActionHelper implements Serializable {
     private transient KcPersonService kcPersonService;
     private transient KraAuthorizationService kraAuthorizationService;
     private transient BusinessObjectService businessObjectService;
-//TODO    private transient FollowupActionService followupActionService;
-//TODO    private Map<String, ProtocolRequestBean>  actionTypeRequestBeanMap = new HashMap<String, ProtocolRequestBean>();
+//    private transient FollowupActionService followupActionService;
+//    private Map<String, ProtocolRequestBean>  actionTypeRequestBeanMap = new HashMap<String, ProtocolRequestBean>();
     private Map<String,Boolean> followupActionMap = new HashMap<String,Boolean>();
     
-//TODO    private Map<String, ProtocolActionBean> actionBeanTaskMap = new HashMap<String, ProtocolActionBean>();    
+    protected Map<String, ProtocolActionBean> actionBeanTaskMap = new HashMap<String, ProtocolActionBean>();    
     // protocol print
-//TODO    private ProtocolSummaryPrintOptions protocolPrintOption = new ProtocolSummaryPrintOptions();
-//TODO    private List<QuestionnairePrintOption> questionnairesToPrints;
+//    private ProtocolSummaryPrintOptions protocolPrintOption = new ProtocolSummaryPrintOptions();
+//    private List<QuestionnairePrintOption> questionnairesToPrints;
     // flag if versioned protocol questionnaire exist
     private boolean summaryQuestionnaireExist;
     private boolean hideReviewerName;
@@ -320,15 +348,14 @@ public abstract class ActionHelper implements Serializable {
      */
     public ActionHelper(ProtocolForm form) throws Exception {
         this.form = form;
-        
-// TODO *********commented the code below during IACUC refactoring*********     
-//        protocolSubmitAction = new ProtocolSubmitAction(this);
+
+//TODO: Following lines commented out for IRB refactor
 //        protocolWithdrawBean = new ProtocolWithdrawBean(this);
 //        protocolNotifyIrbBean = new ProtocolNotifyIrbBean(this);
-        // setting the attachment here so new files can be attached to newActionAttachment
+//        // setting the attachment here so new files can be attached to newActionAttachment
 //        protocolNotifyIrbBean.setNewActionAttachment(new ProtocolActionAttachment());
 //        protocolNotifyCommitteeBean = new ProtocolNotifyCommitteeBean(this);
-
+//
 //        protocolAmendmentBean = createAmendmentBean();
 //        protocolRenewAmendmentBean = createAmendmentBean();
 //        protocolDeleteBean = new ProtocolDeleteBean(this);
@@ -404,15 +431,17 @@ public abstract class ActionHelper implements Serializable {
 //        initActionBeanTaskMap();
 //        
 //        protocolSummaryPrintOptions = new ProtocolSummaryPrintOptions();
-        toAnswerSubmissionQuestionnaire = hasSubmissionQuestionnaire();
-////        protocolPrintOption = new ProtocolSummaryPrintOptions();
-////        initPrintQuestionnaire();
+//        toAnswerSubmissionQuestionnaire = hasSubmissionQuestionnaire();
+//        protocolPrintOption = new ProtocolSummaryPrintOptions();
+//        initPrintQuestionnaire();
     }
+
+    protected abstract List<String>getActionTypeSubmissionDocList();
     
-    /**
-     * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
-     * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
-     */
+//    /**
+//     * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
+//     * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
+//     */
 //    private void initActionBeanTaskMap() {
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolAdminCorrectionBean);
 //        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolAmendmentBean);
@@ -502,64 +531,64 @@ public abstract class ActionHelper implements Serializable {
 //        bean.setExpirationDate(buildExpirationDate(getProtocol(), bean.getApprovalDate()));
 //        return bean;
 //    }
-    
-    /**
-     * Builds an approval date, defaulting to the approval date from the protocol.
-     * 
-     * If the approval date from the protocol is null, or if the protocol is new or a renewal, then if the committee has scheduled a meeting to approve the 
-     * protocol, sets to the scheduled approval date; otherwise, sets to the current date.
-     * 
-     * @param protocol
-     * @return a non-null approval date
-     */
-    private Date buildApprovalDate(Protocol protocol) {
-        Date approvalDate = protocol.getApprovalDate();
-        
-        if (approvalDate == null || protocol.isNew() || protocol.isRenewal()) {
-            CommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
-            if (committeeSchedule != null) {
-                approvalDate = committeeSchedule.getScheduledDate();
-            } else {
-                approvalDate = new Date(System.currentTimeMillis());
-            }
-        }
-        
-        return approvalDate;
-    }
-    
-    /**
-     * Builds an expiration date, defaulting to the expiration date from the protocol.  
-     * 
-     * If the expiration date from the protocol is null, or if the protocol is new or a renewal, creates an expiration date exactly one year ahead and one day 
-     * less than the approval date.
-     * 
-     * @param protocol
-     * @param approvalDate
-     * @return a non-null expiration date
-     */
-    private Date buildExpirationDate(Protocol protocol, Date approvalDate) {
-        Date expirationDate = protocol.getExpirationDate();
-        
-        if (expirationDate == null || protocol.isNew() || protocol.isRenewal()) {
-            java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, 1);
-            newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
-            expirationDate = DateUtils.convertToSqlDate(newExpirationDate);
-        }
-        
-        return expirationDate;
-    }
-
-    private ProtocolAction findProtocolAction(String actionTypeCode, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) {
-
-        for (ProtocolAction pa : protocolActions) {
-            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(actionTypeCode)
-                    && (pa.getProtocolSubmission() == null || pa.getProtocolSubmission().equals(currentSubmission))) {
-                return pa;
-            }
-        }
-        return null;
-    }
-
+//    
+//    /**
+//     * Builds an approval date, defaulting to the approval date from the protocol.
+//     * 
+//     * If the approval date from the protocol is null, or if the protocol is new or a renewal, then if the committee has scheduled a meeting to approve the 
+//     * protocol, sets to the scheduled approval date; otherwise, sets to the current date.
+//     * 
+//     * @param protocol
+//     * @return a non-null approval date
+//     */
+//    private Date buildApprovalDate(Protocol protocol) {
+//        Date approvalDate = protocol.getApprovalDate();
+//        
+//        if (approvalDate == null || protocol.isNew() || protocol.isRenewal()) {
+//            CommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
+//            if (committeeSchedule != null) {
+//                approvalDate = committeeSchedule.getScheduledDate();
+//            } else {
+//                approvalDate = new Date(System.currentTimeMillis());
+//            }
+//        }
+//        
+//        return approvalDate;
+//    }
+//    
+//    /**
+//     * Builds an expiration date, defaulting to the expiration date from the protocol.  
+//     * 
+//     * If the expiration date from the protocol is null, or if the protocol is new or a renewal, creates an expiration date exactly one year ahead and one day 
+//     * less than the approval date.
+//     * 
+//     * @param protocol
+//     * @param approvalDate
+//     * @return a non-null expiration date
+//     */
+//    private Date buildExpirationDate(Protocol protocol, Date approvalDate) {
+//        Date expirationDate = protocol.getExpirationDate();
+//        
+//        if (expirationDate == null || protocol.isNew() || protocol.isRenewal()) {
+//            java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, 1);
+//            newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
+//            expirationDate = DateUtils.convertToSqlDate(newExpirationDate);
+//        }
+//        
+//        return expirationDate;
+//    }
+//
+//    private ProtocolAction findProtocolAction(String actionTypeCode, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) {
+//
+//        for (ProtocolAction pa : protocolActions) {
+//            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(actionTypeCode)
+//                    && (pa.getProtocolSubmission() == null || pa.getProtocolSubmission().equals(currentSubmission))) {
+//                return pa;
+//            }
+//        }
+//        return null;
+//    }
+//
 //    // always reinitialize amendment beans, otherwise a second pass thru prepareView() will show same
 //    // amendment creation options as previous passes
 //    public void initAmendmentBeans() throws Exception {
@@ -729,16 +758,16 @@ public abstract class ActionHelper implements Serializable {
 //        }
 //        return this.protocolAmendRenewService;
 //    }
-//
+
     public void prepareView() throws Exception {
-//        protocolSubmitAction.prepareView();
+        protocolSubmitAction.prepareView();
 //        canSubmitProtocol = hasSubmitProtocolPermission();
 //        canSubmitProtocolUnavailable = hasSubmitProtocolUnavailablePermission();
 //        assignToAgendaBean.prepareView();
 //        assignCmtSchedBean.prepareView();
 //        protocolAssignReviewersBean.prepareView();
 //        submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
-//        
+        
 //        canCreateAmendment = hasCreateAmendmentPermission();
 //        canCreateAmendmentUnavailable = hasCreateAmendmentUnavailablePermission();
 //        canModifyAmendmentSections = hasModifyAmendmentSectionsPermission();
@@ -846,11 +875,11 @@ public abstract class ActionHelper implements Serializable {
 //        initAmendmentBeans();
 //        initPrintQuestionnaire();
     }
-    
-    /**
-     * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
-     */
-    public void prepareCommentsView() {
+//    
+//    /**
+//     * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
+//     */
+//    public void prepareCommentsView() {
 //        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolIrbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
@@ -877,8 +906,8 @@ public abstract class ActionHelper implements Serializable {
 //        if (CollectionUtils.isNotEmpty(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments())) {
 //            protocolManageReviewCommentsBean.getReviewAttachmentsBean().setHideReviewerName(getReviewerCommentsService().setHideReviewerName(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments()));
 //        }
-    }
-    
+//    }
+//    
 //    private List<CommitteeScheduleMinute> getCopiedReviewComments() {
 //        List<CommitteeScheduleMinute> clonedMinutes = new ArrayList<CommitteeScheduleMinute>();
 //        Long scheduleIdFk = getProtocol().getProtocolSubmission().getScheduleIdFk();
@@ -891,21 +920,21 @@ public abstract class ActionHelper implements Serializable {
 //        
 //        return clonedMinutes;
 //    }
-        
-    private CommitteeScheduleService getCommitteeScheduleService() {
-        if (committeeScheduleService == null) {
-            committeeScheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);        
-        }
-        return committeeScheduleService;
-    }
-    
-    private ProtocolVersionService getProtocolVersionService() {
-        if (this.protocolVersionService == null) {
-            this.protocolVersionService = KraServiceLocator.getService(ProtocolVersionService.class);        
-        }
-        return this.protocolVersionService;
-    }
-    
+//        
+//    private CommitteeScheduleService getCommitteeScheduleService() {
+//        if (committeeScheduleService == null) {
+//            committeeScheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);        
+//        }
+//        return committeeScheduleService;
+//    }
+//    
+//    private ProtocolVersionService getProtocolVersionService() {
+//        if (this.protocolVersionService == null) {
+//            this.protocolVersionService = KraServiceLocator.getService(ProtocolVersionService.class);        
+//        }
+//        return this.protocolVersionService;
+//    }
+//    
 //    private ProtocolSubmitActionService getProtocolSubmitActionService() {
 //        if (protocolSubmitActionService == null) {
 //            protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
@@ -920,161 +949,178 @@ public abstract class ActionHelper implements Serializable {
 //        return protocolActionService;
 //    }
 
-    private String getParameterValue(String parameterName) {
+    protected String getParameterValue(String parameterName) {
         return this.getParameterService().getParameterValueAsString(ProtocolDocument.class, parameterName);      
     }
     
-//    private boolean hasSubmitProtocolPermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL, getProtocol());
+    protected boolean hasSubmitProtocolPermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasSubmitProtocolUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL_UNAVAILABLE, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasSubmitProtocolUnavailablePermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasCreateAmendmentPermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasCreateAmendmentPermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasCreateAmendmentUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT_UNAVAILABLE, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasCreateAmendmentUnavailablePermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasModifyAmendmentSectionsPermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasModifyAmendmentSectionsPermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, getProtocol());
 //        return ((!getProtocol().isRenewalWithoutAmendment())&&(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)));
-//    }
-//    
-//    private boolean hasModifyAmendmentSectionsUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS_UNAVAILABLE, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasModifyAmendmentSectionsUnavailablePermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasCreateRenewalPermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasCreateRenewalPermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasCreateRenewalUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL_UNAVAILABLE, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasCreateRenewalUnavailablePermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasNotifyIrbPermission() {
+return true;        
+    }
+    
+//TODO: Demote this to IRB
+//    protected boolean hasNotifyIrbPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_IRB, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasNotifyIrbUnavailablePermission() {
+//    protected boolean hasNotifyIrbUnavailablePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_IRB_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
-//    
-//    private boolean hasNotifyCommitteePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_COMMITTEE, getProtocol());
+    
+    protected boolean hasNotifyCommitteePermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_COMMITTEE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasNotifyCommitteeUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_COMMITTEE_UNAVAILABLE, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasNotifyCommitteeUnavailablePermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_COMMITTEE_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasWithdrawPermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasWithdrawPermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasWithdrawUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_UNAVAILABLE, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasWithdrawUnavailablePermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasRequestClosePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasRequestClosePermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasRequestCloseUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_UNAVAILABLE, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasRequestCloseUnavailablePermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasRequestSuspensionPermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasRequestSuspensionPermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasRequestSuspensionUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION_UNAVAILABLE, getProtocol());
+return true;        
+    }
+    
+    protected boolean hasRequestSuspensionUnavailablePermission() {
+//TODO        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasRequestCloseEnrollmentPermission() {
+return true;        
+    }
+    
+//    protected boolean hasRequestCloseEnrollmentPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasRequestCloseEnrollmentUnavailablePermission() {
+//    protected boolean hasRequestCloseEnrollmentUnavailablePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasRequestReOpenEnrollmentPermission() {
+//    protected boolean hasRequestReOpenEnrollmentPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasRequestReOpenEnrollmentUnavailablePermission() {
+//    protected boolean hasRequestReOpenEnrollmentUnavailablePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasRequestDataAnalysisPermission() {
+//    protected boolean hasRequestDataAnalysisPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasRequestDataAnalysisUnavailablePermission() {
+//    protected boolean hasRequestDataAnalysisUnavailablePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasRequestTerminatePermission() {
+//    protected boolean hasRequestTerminatePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_TERMINATE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasRequestTerminateUnavailablePermission() {
+//    protected boolean hasRequestTerminateUnavailablePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_TERMINATE_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasDeleteProtocolAmendRenewPermission() {
+//    protected boolean hasDeleteProtocolAmendRenewPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasDeleteProtocolAmendRenewUnavailablePermission() {
+//    protected boolean hasDeleteProtocolAmendRenewUnavailablePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasAssignToAgendaPermission() {
+//    protected boolean hasAssignToAgendaPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasAssignToAgendaUnavailablePermission() {
+//    protected boolean hasAssignToAgendaUnavailablePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasAssignCmtSchedPermission() {
+//    protected boolean hasAssignCmtSchedPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
@@ -1089,309 +1135,311 @@ public abstract class ActionHelper implements Serializable {
 //        return tas.isAuthorized(userId, task);
 //    }
 //    
-//    private boolean hasAssignCmtSchedUnavailablePermission() {
+//    protected boolean hasAssignCmtSchedUnavailablePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasAssignReviewersPermission() {
+//    protected boolean hasAssignReviewersPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_REVIEWERS, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasAssignReviewersUnavailablePermission() {
+//    protected boolean hasAssignReviewersUnavailablePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_REVIEWERS_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasAssignReviewersCmtSel() {
+//    protected boolean hasAssignReviewersCmtSel() {
 //        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_REVIEWERS_CMT_SEL, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasGrantExemptionPermission() {
+//    protected boolean hasGrantExemptionPermission() {
 //        return hasPermission(TaskName.GRANT_EXEMPTION);
 //    }
 //    
-//    private boolean hasGrantExemptionUnavailablePermission() {
+//    protected boolean hasGrantExemptionUnavailablePermission() {
 //        return hasPermission(TaskName.GRANT_EXEMPTION_UNAVAILABLE);
 //    }
-//    
-//    private boolean hasFullApprovePermission() {
-//        return hasPermission(TaskName.APPROVE_PROTOCOL);
-//    }
-//    
-//    private boolean hasFullApproveUnavailablePermission() {
+    
+    protected boolean hasFullApprovePermission() {
+//TODO        return hasPermission(TaskName.APPROVE_PROTOCOL);
+return true;        
+    }
+    
+//    protected boolean hasFullApproveUnavailablePermission() {
 //        return hasPermission(TaskName.APPROVE_PROTOCOL_UNAVAILABLE);
 //    }
 //    
-//    private boolean hasExpeditedApprovalPermission() {
+//    protected boolean hasExpeditedApprovalPermission() {
 //        return hasPermission(TaskName.EXPEDITE_APPROVAL);
 //    }
 //    
-//    private boolean hasExpeditedApprovalUnavailablePermission() {
+//    protected boolean hasExpeditedApprovalUnavailablePermission() {
 //        return hasPermission(TaskName.EXPEDITE_APPROVAL_UNAVAILABLE);
 //    }
 //    
-//    private boolean hasResponseApprovalPermission() {
+//    protected boolean hasResponseApprovalPermission() {
 //        return hasPermission(TaskName.RESPONSE_APPROVAL);
 //    }
 //    
-//    private boolean hasResponseApprovalUnavailablePermission() {
+//    protected boolean hasResponseApprovalUnavailablePermission() {
 //        return hasPermission(TaskName.RESPONSE_APPROVAL_UNAVAILABLE);
 //    }
 //    
-//    private boolean hasDisapprovePermission() {
+//    protected boolean hasDisapprovePermission() {
 //        return hasPermission(TaskName.DISAPPROVE_PROTOCOL);
 //    }
 //    
-//    private boolean hasDisapproveUnavailablePermission() {
+//    protected boolean hasDisapproveUnavailablePermission() {
 //        return hasPermission(TaskName.DISAPPROVE_PROTOCOL_UNAVAILABLE);
 //    }
 //    
-//    private boolean hasReturnForSMRPermission() {
+//    protected boolean hasReturnForSMRPermission() {
 //        return hasPermission(TaskName.RETURN_FOR_SMR);
 //    }
 //    
-//    private boolean hasReturnForSMRUnavailablePermission() {
+//    protected boolean hasReturnForSMRUnavailablePermission() {
 //        return hasPermission(TaskName.RETURN_FOR_SMR_UNAVAILABLE);
 //    }
 //    
-//    private boolean hasReturnForSRRPermission() {
+//    protected boolean hasReturnForSRRPermission() {
 //        return hasPermission(TaskName.RETURN_FOR_SRR);
 //    }
 //    
-//    private boolean hasReturnForSRRUnavailablePermission() {
+//    protected boolean hasReturnForSRRUnavailablePermission() {
 //        return hasPermission(TaskName.RETURN_FOR_SRR_UNAVAILABLE);
 //    }
 //    
-//    private boolean hasReopenEnrollmentPermission() {
+//    protected boolean hasReopenEnrollmentPermission() {
 //        return hasGenericPermission(GenericProtocolAuthorizer.REOPEN_PROTOCOL);
 //    }
 //    
-//    private boolean hasReopenEnrollmentUnavailablePermission() {
+//    protected boolean hasReopenEnrollmentUnavailablePermission() {
 //        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.REOPEN_PROTOCOL);
 //    }
 //    
-//    private boolean hasCloseEnrollmentPermission() {
+//    protected boolean hasCloseEnrollmentPermission() {
 //        return hasGenericPermission(GenericProtocolAuthorizer.CLOSE_ENROLLMENT_PROTOCOL);
 //    }
 //    
-//    private boolean hasCloseEnrollmentUnavailablePermission() {
+//    protected boolean hasCloseEnrollmentUnavailablePermission() {
 //        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.CLOSE_ENROLLMENT_PROTOCOL);
 //    }
 //    
-//    private boolean hasSuspendPermission() {
+//    protected boolean hasSuspendPermission() {
 //        return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL);
 //    }
 //    
-//    private boolean hasSuspendUnavailablePermission() {
+//    protected boolean hasSuspendUnavailablePermission() {
 //        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL);
 //    }
 //    
-//    private boolean hasSuspendByDsmbPermission() {
+//    protected boolean hasSuspendByDsmbPermission() {
 //        return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB);
 //    }
 //    
-//    private boolean hasSuspendByDsmbUnavailablePermission() {
+//    protected boolean hasSuspendByDsmbUnavailablePermission() {
 //        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB);
 //    }
 //    
-//    private boolean hasClosePermission() {
+//    protected boolean hasClosePermission() {
 //        return hasGenericPermission(GenericProtocolAuthorizer.CLOSE_PROTOCOL);
 //    }
 //    
-//    private boolean hasCloseUnavailablePermission() {
+//    protected boolean hasCloseUnavailablePermission() {
 //        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.CLOSE_PROTOCOL);
 //    }
 //    
-//    private boolean hasExpirePermission() {
+//    protected boolean hasExpirePermission() {
 //        return hasGenericPermission(GenericProtocolAuthorizer.EXPIRE_PROTOCOL);
 //    }
 //    
-//    private boolean hasExpireUnavailablePermission() {
+//    protected boolean hasExpireUnavailablePermission() {
 //        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.EXPIRE_PROTOCOL);
 //    }
 //    
-//    private boolean hasTerminatePermission() {
+//    protected boolean hasTerminatePermission() {
 //        return hasGenericPermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL);
 //    }
 //    
-//    private boolean hasTerminateUnavailablePermission() {
+//    protected boolean hasTerminateUnavailablePermission() {
 //        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL);
 //    }
 //    
-//    private boolean hasPermitDataAnalysisPermission() {
+//    protected boolean hasPermitDataAnalysisPermission() {
 //        return hasGenericPermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS);
 //    }
 //    
-//    private boolean hasPermitDataAnalysisUnavailablePermission() {
+//    protected boolean hasPermitDataAnalysisUnavailablePermission() {
 //        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS);
 //    }
 //    
-//    private boolean hasAdminCorrectionPermission() {
+//    protected boolean hasAdminCorrectionPermission() {
 //        return hasPermission(TaskName.PROTOCOL_ADMIN_CORRECTION);
 //    }
 //    
-//    private boolean hasAdminCorrectionUnavailablePermission() {
+//    protected boolean hasAdminCorrectionUnavailablePermission() {
 //        return hasPermission(TaskName.PROTOCOL_ADMIN_CORRECTION_UNAVAILABLE);
 //    }
 //    
-//    private boolean hasUndoLastActionPermission() {
+//    protected boolean hasUndoLastActionPermission() {
 //        return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && undoLastActionBean.canUndoLastAction();
 //    }
 //    
-//    private boolean hasUndoLastActionUnavailablePermission() {
+//    protected boolean hasUndoLastActionUnavailablePermission() {
 //        return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && !undoLastActionBean.canUndoLastAction();
 //    }
 //    
-//    private boolean hasRecordCommitteeDecisionPermission() {
+//    protected boolean hasRecordCommitteeDecisionPermission() {
 //        return hasPermission(TaskName.RECORD_COMMITTEE_DECISION);
 //    }
 //    
-//    private boolean hasRecordCommitteeDecisionUnavailablePermission() {
+//    protected boolean hasRecordCommitteeDecisionUnavailablePermission() {
 //        return hasPermission(TaskName.RECORD_COMMITTEE_DECISION_UNAVAILABLE);
 //    }
 //    
-//    private boolean hasEnterRiskLevelPermission() {
+//    protected boolean hasEnterRiskLevelPermission() {
 //        return hasPermission(TaskName.ENTER_RISK_LEVEL);
 //    }
 //    
-//    private boolean hasDeferPermission() {
+//    protected boolean hasDeferPermission() {
 //        return hasPermission(TaskName.DEFER_PROTOCOL);
 //    }
 //    
-//    private boolean hasDeferUnavailablePermission() {
+//    protected boolean hasDeferUnavailablePermission() {
 //        return hasPermission(TaskName.DEFER_PROTOCOL_UNAVAILABLE);
 //    }
 //    
-//    private boolean hasManageReviewCommentsPermission() {
+//    protected boolean hasManageReviewCommentsPermission() {
 //        return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS); 
 //    }
 //    
-//    private boolean hasManageReviewCommentsUnavailablePermission() {
+//    protected boolean hasManageReviewCommentsUnavailablePermission() {
 //        return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE); 
 //    }
-//    
-//    private boolean hasApproveOtherPermission() {
+    
+    protected boolean hasApproveOtherPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_APPROVE_OTHER, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    private boolean hasManageNotesPermission() {
+return true;        
+    }
+    
+//    protected boolean hasManageNotesPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_MANAGE_NOTES, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasManageNotesUnavailablePermission() {
+//    protected boolean hasManageNotesUnavailablePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_MANAGE_NOTES_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasAbandonProtocolPermission() {
+//    protected boolean hasAbandonProtocolPermission() {
 ////        return hasGenericPermission(GenericProtocolAuthorizer.ABANDON_PROTOCOL);
 //        ProtocolTask task = new ProtocolTask(TaskName.ABANDON_PROTOCOL, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasPermission(String taskName) {
+//    protected boolean hasPermission(String taskName) {
 //        ProtocolTask task = new ProtocolTask(taskName, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasGenericPermission(String genericActionName) {
+//    protected boolean hasGenericPermission(String genericActionName) {
 //        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, getProtocol(), genericActionName);
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasGenericUnavailablePermission(String genericActionName) {
+//    protected boolean hasGenericUnavailablePermission(String genericActionName) {
 //        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION_UNAVAILABLE, getProtocol(), genericActionName);
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasIrbAcknowledgementPermission() {
+//    protected boolean hasIrbAcknowledgementPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.IRB_ACKNOWLEDGEMENT, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasIrbAcknowledgementUnavailablePermission() {
+//    protected boolean hasIrbAcknowledgementUnavailablePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.IRB_ACKNOWLEDGEMENT_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasCanModifySubmissionPermission() {
+//    protected boolean hasCanModifySubmissionPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBMISSION, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasCanModifySubmissionUnavailablePermission() {
+//    protected boolean hasCanModifySubmissionUnavailablePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    private boolean hasReviewNotRequiredPermission() {
+//    protected boolean hasReviewNotRequiredPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, getProtocol());
 //        boolean retVal = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //        return retVal;
 //    }
 //    
-//    private boolean hasReviewNotRequiredUnavailablePermission() {
+//    protected boolean hasReviewNotRequiredUnavailablePermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED_UNAVAILABLE, getProtocol());
 //        boolean retVal = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //        return retVal;
 //    }
-//    
-//    private boolean hasFollowupAction(String actionCode) {
+    
+    protected boolean hasFollowupAction(String actionCode) {
 //        for (ValidProtocolActionAction action : followupActionActions) {
 //            if (StringUtils.equals(action.getFollowupActionCode(),actionCode)) {
 //                return true;
 //            }
 //        }
-//        return false;
-//    }
-//    
-//  private boolean hasCanViewOnlineReviewersPermission() {
+        return false;
+    }
+    
+//	protected boolean hasCanViewOnlineReviewersPermission() {
 //        return getReviewerCommentsService().canViewOnlineReviewers(getUserIdentifier(), getSelectedSubmission());
 //    }
 //    
-//    private boolean hasCanViewOnlineReviewerCommentsPermission() {
+//    protected boolean hasCanViewOnlineReviewerCommentsPermission() {
 //        return getReviewerCommentsService().canViewOnlineReviewerComments(getUserIdentifier(), getSelectedSubmission());
 //    }
 //    
-//    private boolean hasCloseRequestLastAction() {
+//    protected boolean hasCloseRequestLastAction() {
 //        return ProtocolActionType.REQUEST_TO_CLOSE.equals(getLastPerformedAction().getProtocolActionTypeCode());
 //    }
 //    
-//    private boolean hasCloseEnrollmentRequestLastAction() {
+//    protected boolean hasCloseEnrollmentRequestLastAction() {
 //        return ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT.equals(getLastPerformedAction().getProtocolActionTypeCode());
 //    }
 //    
-//    private boolean hasDataAnalysisRequestLastAction() {
+//    protected boolean hasDataAnalysisRequestLastAction() {
 //        return ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY.equals(getLastPerformedAction().getProtocolActionTypeCode());
 //    }
 //    
-//    private boolean hasReopenEnrollmentRequestLastAction() {
+//    protected boolean hasReopenEnrollmentRequestLastAction() {
 //        return ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT.equals(getLastPerformedAction().getProtocolActionTypeCode());
 //    }
 //    
-//    private boolean hasSuspendRequestLastAction() {
+//    protected boolean hasSuspendRequestLastAction() {
 //        return ProtocolActionType.REQUEST_FOR_SUSPENSION.equals(getLastPerformedAction().getProtocolActionTypeCode());
 //    }
 //    
-//    private boolean hasTerminateRequestLastAction() {
+//    protected boolean hasTerminateRequestLastAction() {
 //        return ProtocolActionType.REQUEST_FOR_TERMINATION.equals(getLastPerformedAction().getProtocolActionTypeCode());
 //    }
 //
-//    private TaskAuthorizationService getTaskAuthorizationService() {
+//    protected TaskAuthorizationService getTaskAuthorizationService() {
 //        if (this.taskAuthorizationService == null) {
 //            this.taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);        
 //        }
 //        return this.taskAuthorizationService;
 //    }
-//    
-//    public ProtocolSubmitAction getProtocolSubmitAction() {
-//        return protocolSubmitAction;
-//    }
+    
+    public ProtocolSubmitAction getProtocolSubmitAction() {
+        return protocolSubmitAction;
+    }
 
     public ProtocolForm getProtocolForm() {
         return form;
@@ -1412,18 +1460,18 @@ public abstract class ActionHelper implements Serializable {
      * Get the userName of the user for the current session.
      * @return the current session's userName
      */
-    private String getUserIdentifier() {
+    protected String getUserIdentifier() {
          return GlobalVariables.getUserSession().getPrincipalId();
     }
 
-    public String getSubmissionConstraint() {
-        return submissionConstraint;
-    }
-
-//    public ProtocolWithdrawBean getProtocolWithdrawBean() {
-//        return protocolWithdrawBean;
+//    public String getSubmissionConstraint() {
+//        return submissionConstraint;
 //    }
-//    
+
+    public ProtocolWithdrawBean getProtocolWithdrawBean() {
+        return protocolWithdrawBean;
+    }
+    
 //    public ProtocolRequestBean getProtocolCloseRequestBean() {
 //        return protocolCloseRequestBean;
 //    }
@@ -1594,14 +1642,14 @@ public abstract class ActionHelper implements Serializable {
     public boolean getCanCreateRenewalUnavailable() {
         return canCreateRenewalUnavailable;
     }
-    
-    public boolean getCanNotifyIrb() {
-        return canNotifyIrb;
-    }
-    
-    public boolean getCanNotifyIrbUnavailable() {
-        return canNotifyIrbUnavailable;
-    }
+//    
+//    public boolean getCanNotifyIrb() {
+//        return canNotifyIrb;
+//    }
+//    
+//    public boolean getCanNotifyIrbUnavailable() {
+//        return canNotifyIrbUnavailable;
+//    }
     
     public boolean getCanNotifyCommittee() {
         return canNotifyCommittee;
@@ -1619,13 +1667,13 @@ public abstract class ActionHelper implements Serializable {
         return canWithdrawUnavailable;
     }
     
-    public boolean getCanRequestClose() {
-        return canRequestClose;
-    }
-    
-    public boolean getCanRequestCloseUnavailable() {
-        return canRequestCloseUnavailable;
-    }
+//    public boolean getCanRequestClose() {
+//        return canRequestClose;
+//    }
+//    
+//    public boolean getCanRequestCloseUnavailable() {
+//        return canRequestCloseUnavailable;
+//    }
     
     public boolean getCanRequestSuspension() {
         return canRequestSuspension;
@@ -1635,29 +1683,29 @@ public abstract class ActionHelper implements Serializable {
         return canRequestSuspensionUnavailable;
     }
     
-    public boolean getCanRequestCloseEnrollment() {
-        return canRequestCloseEnrollment;
-    }
-    
-    public boolean getCanRequestCloseEnrollmentUnavailable() {
-        return canRequestCloseEnrollmentUnavailable;
-    }
-    
-    public boolean getCanRequestReOpenEnrollment() {
-        return canRequestReOpenEnrollment;
-    }
-    
-    public boolean getCanRequestReOpenEnrollmentUnavailable() {
-        return canRequestReOpenEnrollmentUnavailable;
-    }
-    
-    public boolean getCanRequestDataAnalysis() {
-        return canRequestDataAnalysis;
-    }
-    
-    public boolean getCanRequestDataAnalysisUnavailable() {
-        return canRequestDataAnalysisUnavailable;
-    }
+//    public boolean getCanRequestCloseEnrollment() {
+//        return canRequestCloseEnrollment;
+//    }
+//    
+//    public boolean getCanRequestCloseEnrollmentUnavailable() {
+//        return canRequestCloseEnrollmentUnavailable;
+//    }
+//    
+//    public boolean getCanRequestReOpenEnrollment() {
+//        return canRequestReOpenEnrollment;
+//    }
+//    
+//    public boolean getCanRequestReOpenEnrollmentUnavailable() {
+//        return canRequestReOpenEnrollmentUnavailable;
+//    }
+//    
+//    public boolean getCanRequestDataAnalysis() {
+//        return canRequestDataAnalysis;
+//    }
+//    
+//    public boolean getCanRequestDataAnalysisUnavailable() {
+//        return canRequestDataAnalysisUnavailable;
+//    }
     
     public boolean getcanRequestTerminate(){
         return this.canRequestTerminate;
@@ -1703,13 +1751,13 @@ public abstract class ActionHelper implements Serializable {
         return canAssignReviewersCmtSel;
     }
     
-    public boolean getCanGrantExemption() {
-        return canGrantExemption;
-    }
-    
-    public boolean getCanGrantExemptionUnavailable() {
-        return canGrantExemptionUnavailable;
-    }
+//    public boolean getCanGrantExemption() {
+//        return canGrantExemption;
+//    }
+//    
+//    public boolean getCanGrantExemptionUnavailable() {
+//        return canGrantExemptionUnavailable;
+//    }
     
     public boolean getCanApproveFull() {
         return canApproveFull;
@@ -1719,13 +1767,13 @@ public abstract class ActionHelper implements Serializable {
         return canApproveFullUnavailable;
     }
     
-    public boolean getCanApproveExpedited() {
-        return canApproveExpedited;
-    }
-    
-    public boolean getCanApproveExpeditedUnavailable() {
-        return canApproveExpeditedUnavailable;
-    }
+//    public boolean getCanApproveExpedited() {
+//        return canApproveExpedited;
+//    }
+//    
+//    public boolean getCanApproveExpeditedUnavailable() {
+//        return canApproveExpeditedUnavailable;
+//    }
     
     public boolean getCanApproveResponse() {
         return canApproveResponse;
@@ -1759,21 +1807,21 @@ public abstract class ActionHelper implements Serializable {
         return canReturnForSRRUnavailable;
     }
     
-    public boolean getCanReopenEnrollment() {
-        return canReopenEnrollment;
-    }
-    
-    public boolean getCanReopenEnrollmentUnavailable() {
-        return canReopenEnrollmentUnavailable;
-    }
-    
-    public boolean getCanCloseEnrollment() {
-        return canCloseEnrollment;
-    }
-    
-    public boolean getCanCloseEnrollmentUnavailable() {
-        return canCloseEnrollmentUnavailable;
-    }
+//    public boolean getCanReopenEnrollment() {
+//        return canReopenEnrollment;
+//    }
+//    
+//    public boolean getCanReopenEnrollmentUnavailable() {
+//        return canReopenEnrollmentUnavailable;
+//    }
+//    
+//    public boolean getCanCloseEnrollment() {
+//        return canCloseEnrollment;
+//    }
+//    
+//    public boolean getCanCloseEnrollmentUnavailable() {
+//        return canCloseEnrollmentUnavailable;
+//    }
     
     public boolean getCanSuspend() {
         return canSuspend;
@@ -1783,13 +1831,13 @@ public abstract class ActionHelper implements Serializable {
         return canSuspendUnavailable;
     }
     
-    public boolean getCanSuspendByDsmb() {
-        return canSuspendByDsmb;
-    }
-    
-    public boolean getCanSuspendByDsmbUnavailable() {
-        return canSuspendByDsmbUnavailable;
-    }
+//    public boolean getCanSuspendByDsmb() {
+//        return canSuspendByDsmb;
+//    }
+//    
+//    public boolean getCanSuspendByDsmbUnavailable() {
+//        return canSuspendByDsmbUnavailable;
+//    }
     
     public boolean getCanClose() {
         return canClose;
@@ -1815,17 +1863,17 @@ public abstract class ActionHelper implements Serializable {
         return canTerminateUnavailable;
     }
     
-    public boolean getCanPermitDataAnalysis() {
-        return canPermitDataAnalysis;
-    }
-    
-    public boolean getCanPermitDataAnalysisUnavailable() {
-        return canPermitDataAnalysisUnavailable;
-    }
-    
-    public boolean getCanEnterRiskLevel() {
-        return canEnterRiskLevel;
-    }
+//    public boolean getCanPermitDataAnalysis() {
+//        return canPermitDataAnalysis;
+//    }
+//    
+//    public boolean getCanPermitDataAnalysisUnavailable() {
+//        return canPermitDataAnalysisUnavailable;
+//    }
+//    
+//    public boolean getCanEnterRiskLevel() {
+//        return canEnterRiskLevel;
+//    }
     
     public boolean getCanMakeAdminCorrection() {
         return canMakeAdminCorrection;
@@ -1859,29 +1907,29 @@ public abstract class ActionHelper implements Serializable {
         return this.canModifyProtocolSubmissionUnavailable;
     }
     
-    public boolean getCanIrbAcknowledgement() {
-        return canIrbAcknowledgement;
-    }
-    
-    public boolean getCanIrbAcknowledgementUnavailable() {
-        return canIrbAcknowledgementUnavailable;
-    }
-    
-    public boolean getCanDefer() {
-        return canDefer;
-    }
-    
-    public boolean getCanDeferUnavailable() {
-        return canDeferUnavailable;
-    }
-    
-    public boolean getCanReviewNotRequired() {
-        return this.canReviewNotRequired;
-    }
-
-    public boolean getCanReviewNotRequiredUnavailable() {
-        return this.canReviewNotRequiredUnavailable;
-    }
+//    public boolean getCanIrbAcknowledgement() {
+//        return canIrbAcknowledgement;
+//    }
+//    
+//    public boolean getCanIrbAcknowledgementUnavailable() {
+//        return canIrbAcknowledgementUnavailable;
+//    }
+//    
+//    public boolean getCanDefer() {
+//        return canDefer;
+//    }
+//    
+//    public boolean getCanDeferUnavailable() {
+//        return canDeferUnavailable;
+//    }
+//    
+//    public boolean getCanReviewNotRequired() {
+//        return this.canReviewNotRequired;
+//    }
+//
+//    public boolean getCanReviewNotRequiredUnavailable() {
+//        return this.canReviewNotRequiredUnavailable;
+//    }
 
     public boolean getCanManageReviewComments() {  
         return canManageReviewComments;
@@ -1919,6 +1967,12 @@ public abstract class ActionHelper implements Serializable {
 //        return hasFollowupAction(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED);
 //    }
 //    
+    
+  public abstract boolean getIsApproveOpenForFollowup();  
+  public abstract boolean getIsDisapproveOpenForFollowup();
+  public abstract boolean getIsReturnForSMROpenForFollowup();
+  public abstract boolean getIsReturnForSRROpenForFollowup();
+  
 //    /**
 //     * 
 //     * This method is one of the criteria to decide if there is a followup action for requested action panel to open
@@ -1927,83 +1981,83 @@ public abstract class ActionHelper implements Serializable {
 //    public boolean isOpenForFollowup() {
 //        return getIsApproveOpenForFollowup() || getIsDisapproveOpenForFollowup() || getIsReturnForSMROpenForFollowup() || getIsReturnForSRROpenForFollowup();
 //    }
-    
-    public Map<String,Boolean> getFollowupActionMap() {
-        return followupActionMap;
-    }
-    
-    public boolean getCanViewOnlineReviewers() {
-        return canViewOnlineReviewers;
-    }
-    
-    public boolean getCanViewOnlineReviewerComments() {
-        return canViewOnlineReviewerComments;
-    }
-
-    public boolean getCanAddCloseReviewerComments() {
-        return canAddCloseReviewerComments;
-    }
-
-    public boolean getCanAddCloseEnrollmentReviewerComments() {
-        return canAddCloseEnrollmentReviewerComments;
-    }
-
-    public boolean getCanAddDataAnalysisReviewerComments() {
-        return canAddDataAnalysisReviewerComments;
-    }
-
-    public boolean getCanAddReopenEnrollmentReviewerComments() {
-        return canAddReopenEnrollmentReviewerComments;
-    }
-
-    public boolean getCanAddSuspendReviewerComments() {
-        return canAddSuspendReviewerComments;
-    }
-
-    public boolean getCanAddTerminateReviewerComments() {
-        return canAddTerminateReviewerComments;
-    }
-
-    public void setPrintTag(String printTag) {
-        this.printTag = printTag;
-    }
-    
-    public String getPrintTag() {
-        return printTag;
-    }
-    
-    public ProtocolSummary getProtocolSummary() {
-        return protocolSummary;
-    }
-    
-    public ProtocolSummary getPrevProtocolSummary() {
-        return prevProtocolSummary;
-    }
-    
-    public void setSelectedHistoryItem(String selectedHistoryItem) {
-        this.selectedHistoryItem = selectedHistoryItem;
-    }
-    
-    public String getSelectedHistoryItem() {
-        return selectedHistoryItem;
-    }
-    
-    public Date getFilteredHistoryStartDate() {
-        return filteredHistoryStartDate;
-    }
-    
-    public void setFilteredHistoryStartDate(Date filteredHistoryStartDate) {
-        this.filteredHistoryStartDate = filteredHistoryStartDate;
-    }
-    
-    public Date getFilteredHistoryEndDate() {
-        return filteredHistoryEndDate;
-    }
-    
-    public void setFilteredHistoryEndDate(Date filteredHistoryEndDate) {
-        this.filteredHistoryEndDate = filteredHistoryEndDate;
-    }
-    
+//    
+//    public Map<String,Boolean> getFollowupActionMap() {
+//        return followupActionMap;
+//    }
+//    
+//    public boolean getCanViewOnlineReviewers() {
+//        return canViewOnlineReviewers;
+//    }
+//    
+//    public boolean getCanViewOnlineReviewerComments() {
+//        return canViewOnlineReviewerComments;
+//    }
+//
+//    public boolean getCanAddCloseReviewerComments() {
+//        return canAddCloseReviewerComments;
+//    }
+//
+//    public boolean getCanAddCloseEnrollmentReviewerComments() {
+//        return canAddCloseEnrollmentReviewerComments;
+//    }
+//
+//    public boolean getCanAddDataAnalysisReviewerComments() {
+//        return canAddDataAnalysisReviewerComments;
+//    }
+//
+//    public boolean getCanAddReopenEnrollmentReviewerComments() {
+//        return canAddReopenEnrollmentReviewerComments;
+//    }
+//
+//    public boolean getCanAddSuspendReviewerComments() {
+//        return canAddSuspendReviewerComments;
+//    }
+//
+//    public boolean getCanAddTerminateReviewerComments() {
+//        return canAddTerminateReviewerComments;
+//    }
+//
+//    public void setPrintTag(String printTag) {
+//        this.printTag = printTag;
+//    }
+//    
+//    public String getPrintTag() {
+//        return printTag;
+//    }
+//    
+//    public ProtocolSummary getProtocolSummary() {
+//        return protocolSummary;
+//    }
+//    
+//    public ProtocolSummary getPrevProtocolSummary() {
+//        return prevProtocolSummary;
+//    }
+//    
+//    public void setSelectedHistoryItem(String selectedHistoryItem) {
+//        this.selectedHistoryItem = selectedHistoryItem;
+//    }
+//    
+//    public String getSelectedHistoryItem() {
+//        return selectedHistoryItem;
+//    }
+//    
+//    public Date getFilteredHistoryStartDate() {
+//        return filteredHistoryStartDate;
+//    }
+//    
+//    public void setFilteredHistoryStartDate(Date filteredHistoryStartDate) {
+//        this.filteredHistoryStartDate = filteredHistoryStartDate;
+//    }
+//    
+//    public Date getFilteredHistoryEndDate() {
+//        return filteredHistoryEndDate;
+//    }
+//    
+//    public void setFilteredHistoryEndDate(Date filteredHistoryEndDate) {
+//        this.filteredHistoryEndDate = filteredHistoryEndDate;
+//    }
+//    
 //    public ProtocolAction getLastPerformedAction() {
 //        List<ProtocolAction> protocolActions = form.getProtocolDocument().getProtocol().getProtocolActions();
 //        Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
@@ -2095,7 +2149,7 @@ public abstract class ActionHelper implements Serializable {
 //    
 //    public int getAnswerHeaderCount(String moduleSubItemCode, String moduleItemKey, String moduleSubItemKey) {
 //        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put("moduleItemCode", getCoeusModule());
+//        fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
 //        fieldValues.put("moduleItemKey", moduleItemKey);
 //        if (!moduleItemKey.contains("A") && !moduleItemKey.contains("R") && !getProtocol().isAmendment() && !getProtocol().isRenewal()) {
 //            fieldValues.put("moduleSubItemCode", moduleSubItemCode);
@@ -2168,14 +2222,14 @@ public abstract class ActionHelper implements Serializable {
 //        return getBusinessObjectService().findMatchingOrderBy(ProtocolSubmissionDoc.class, fieldValues, "documentId", true);
 //    }
 //    
-    public ProtocolAction getSelectedProtocolAction() {
-        for (ProtocolAction action : getProtocol().getProtocolActions()) {
-            if (StringUtils.equals(action.getProtocolActionId().toString(), selectedHistoryItem)) {
-                return action;
-            }
-        }
-        return null;
-    }
+//    public ProtocolAction getSelectedProtocolAction() {
+//        for (ProtocolAction action : getProtocol().getProtocolActions()) {
+//            if (StringUtils.equals(action.getProtocolActionId().toString(), selectedHistoryItem)) {
+//                return action;
+//            }
+//        }
+//        return null;
+//    }
     
     public void setCurrentSequenceNumber(int currentSequenceNumber) {
         this.currentSequenceNumber = currentSequenceNumber;
@@ -2231,28 +2285,28 @@ public abstract class ActionHelper implements Serializable {
 //        return protocolSubmission;
 //    }
 //  
-    private CommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommitteeService.class);
-    }
-
-
-    public List<CommitteeScheduleMinute> getReviewComments() {
-        return reviewComments;
-    }
-
-    private void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
-        this.reviewComments = reviewComments;
-    }
-
-
-    public List<ProtocolVoteAbstainee> getAbstainees() {
-        return abstainees;
-    }
-
-
-    public void setAbstainees(List<ProtocolVoteAbstainee> abstainees) {
-        this.abstainees = abstainees;
-    }
+//    private CommitteeService getCommitteeService() {
+//        return KraServiceLocator.getService(CommitteeService.class);
+//    }
+//
+//
+//    public List<CommitteeScheduleMinute> getReviewComments() {
+//        return reviewComments;
+//    }
+//
+//    private void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
+//        this.reviewComments = reviewComments;
+//    }
+//
+//
+//    public List<ProtocolVoteAbstainee> getAbstainees() {
+//        return abstainees;
+//    }
+//
+//
+//    public void setAbstainees(List<ProtocolVoteAbstainee> abstainees) {
+//        this.abstainees = abstainees;
+//    }
     
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
@@ -2275,14 +2329,14 @@ public abstract class ActionHelper implements Serializable {
 //    private CommitteeDecisionService getCommitteeDecisionService() {
 //        return KraServiceLocator.getService("protocolCommitteeDecisionService");
 //    }
-//    
-//    protected KcPersonService getKcPersonService() {
-//        if (this.kcPersonService == null) {
-//            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
-//        }
-//        
-//        return this.kcPersonService;
-//    }
+    
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        
+        return this.kcPersonService;
+    }
     
     public int getCurrentSubmissionNumber() {
         return currentSubmissionNumber;
@@ -2295,7 +2349,7 @@ public abstract class ActionHelper implements Serializable {
 //    public int getTotalSubmissions() {
 //        return getProtocolSubmitActionService().getTotalSubmissions(getProtocol());
 //    }
-    
+//    
 //    /**
 //     * Sets up the summary details subpanel.
 //     * @throws Exception 
@@ -2461,34 +2515,35 @@ public abstract class ActionHelper implements Serializable {
 //        }
 //        return null;
 //    }
-    
-    private boolean hasAnsweredQuestionnaire(String moduleSubItemCode, String moduleSubItemKey) {
-        return getAnswerHeaderCount(moduleSubItemCode, moduleSubItemKey) > 0;
-    }
-
-    int getAnswerHeaderCount(String moduleSubItemCode, String moduleSubItemKey) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("moduleItemCode", getCoeusModule());
-        fieldValues.put("moduleItemKey", getProtocol().getProtocolNumber());
-        fieldValues.put("moduleSubItemCode", moduleSubItemCode);
-        fieldValues.put("moduleSubItemKey", moduleSubItemKey);
-        return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues);
-    }
-    
-    /*
-     * This will check whether there is submission questionnaire.
-     * When business rule is implemented, this will become more complicated because
-     * each request action may have different set of questionnaire, so this has to be changed.
-     */
-    private boolean hasSubmissionQuestionnaire() {
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(getCoeusModule(), this.getProtocolForm().getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, "999", false);
-        return CollectionUtils.isNotEmpty(getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
-    }
-
-    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
-    }
-
+//    
+//    private boolean hasAnsweredQuestionnaire(String moduleSubItemCode, String moduleSubItemKey) {
+//        return getAnswerHeaderCount(moduleSubItemCode, moduleSubItemKey) > 0;
+//    }
+//
+//    int getAnswerHeaderCount(String moduleSubItemCode, String moduleSubItemKey) {
+//        Map<String, String> fieldValues = new HashMap<String, String>();
+//        fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
+//        fieldValues.put("moduleItemKey", getProtocol().getProtocolNumber());
+//        fieldValues.put("moduleSubItemCode", moduleSubItemCode);
+//        fieldValues.put("moduleSubItemKey", moduleSubItemKey);
+//        return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues);
+//        
+//    }
+//    
+//    /*
+//     * This will check whetehr there is submission questionnaire.
+//     * When business rule is implemented, this will become more complicated because
+//     * each request action may have different set of questionnaire, so this has to be changed.
+//     */
+//    private boolean hasSubmissionQuestionnaire() {
+//        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, this.getProtocolForm().getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, "999", false);
+//        return CollectionUtils.isNotEmpty(getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
+//    }
+//
+//    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
+//        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+//    }
+//
 //    /**
 //     * 
 //     * This method is to get previous submission number.  Current implementation is based on submission number in sequence.
@@ -2941,7 +2996,7 @@ public abstract class ActionHelper implements Serializable {
 //           // Collections.reverse((List<QuestionnaireUsage>) usages);
 //        }
 //        for (QuestionnaireUsage usage : usages) {
-//            if (getCoeusModule().equals(usage.getModuleItemCode()) && answerHeader.getModuleSubItemCode().equals(usage.getModuleSubItemCode())) {
+//            if (CoeusModule.IRB_MODULE_CODE.equals(usage.getModuleItemCode()) && answerHeader.getModuleSubItemCode().equals(usage.getModuleSubItemCode())) {
 //                if ("0".equals(answerHeader.getModuleSubItemCode())) {
 //                    label = usage.getQuestionnaireLabel();
 //                } else if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())) {
@@ -3067,7 +3122,7 @@ public abstract class ActionHelper implements Serializable {
 //    public boolean isIrbAdmin() {
 //        return getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
 //    }
-//    
+    
     protected KraAuthorizationService getKraAuthorizationService() {
         if (this.kraAuthorizationService == null) {
             this.kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
@@ -3075,8 +3130,6 @@ public abstract class ActionHelper implements Serializable {
         
         return this.kraAuthorizationService;
     }
+    
 
-    protected abstract String getCoeusModule();
 }
-
-

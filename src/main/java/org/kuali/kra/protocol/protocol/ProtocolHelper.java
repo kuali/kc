@@ -35,6 +35,7 @@ import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionType;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 // TODO *********commented the code below during IACUC refactoring********* 
 // import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.protocol.auth.ProtocolTask;
@@ -475,7 +476,7 @@ public abstract class ProtocolHelper implements Serializable {
     public void createInitialProtocolAction() {
         if (getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
             getProtocol().getProtocolActions().clear();
-            ProtocolAction protocolAction = new ProtocolAction(getProtocol(), null, getProtocolCreatedProtocolActionTypeCodeHook());
+            ProtocolAction protocolAction = createProtocolActionHook(getProtocol(), null);
             protocolAction.setComments(PROTOCOL_CREATED);
             getProtocol().getProtocolActions().add(protocolAction);
         }
@@ -483,7 +484,8 @@ public abstract class ProtocolHelper implements Serializable {
       
     protected abstract String getProtocolCreatedProtocolActionTypeCodeHook();
     
-    
+    protected abstract ProtocolAction createProtocolActionHook(Protocol protocol, ProtocolSubmission protocolSubmission);
+       
 // TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * Synchronizes the information between this Protocol's Funding Sources and any Institutional Proposal or Award Special Review entries.

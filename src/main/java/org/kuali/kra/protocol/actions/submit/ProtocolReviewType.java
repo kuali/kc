@@ -22,18 +22,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * IRB Committee will perform, e.g. Full, Expedited, Exempt, etc.
  */
 @SuppressWarnings("serial")
-public abstract class ProtocolReviewType extends KraPersistableBusinessObjectBase {
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public static final String FULL_TYPE_CODE = "1";
-//
-//    public static final String EXPEDITED_REVIEW_TYPE_CODE = "2";
-//
-//    public static final String EXEMPT_STUDIES_REVIEW_TYPE_CODE = "3";
-//
-//    public static final String RESPONSE_REVIEW_TYPE_CODE = "6";
-//
-//    public static final String FYI_TYPE_CODE = "7";
+public class ProtocolReviewType extends KraPersistableBusinessObjectBase {
 
     private String reviewTypeCode;
 

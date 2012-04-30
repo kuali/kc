@@ -242,14 +242,111 @@ public interface TaskName {
      * Iacuc Tasks
      */
     
-    public static final String CREATE_IACUC_PROTOCOL = "createIacucProtocol";
-    public static final String MODIFY_IACUC_PROTOCOL = "modifyIacucProtocol";
+    public static final String CREATE_IACUC_PROTOCOL = "createIacucProtocol"; 
+    public static final String MODIFY_IACUC_PROTOCOL = "modifyIacucProtocol"; 
+    public static final String DELETE_IACUC_PROTOCOL = "deleteIacucProtocol"; 
+    public static final String DELETE_IACUC_PROTOCOL_UNAVAILABLE = "deleteIacucProtocolUnavailable"; 
+    public static final String ADMIN_APPROVE_IACUC_PROTOCOL = "adminApproveIacucProtocol"; 
+    public static final String ADMIN_APPROVE_IACUC_PROTOCOL_UNAVAILABLE = "adminApproveIacucProtocolUnavailable"; 
+    public static final String ADMIN_INCOMPLETE_IACUC_PROTOCOL = "adminMarkIncompleteIacucProtocol"; 
+    public static final String ADMIN_INCOMPLETE_IACUC_PROTOCOL_UNAVAILABLE = "adminMarkIncompleteIacucProtocolUnavailable"; 
+    public static final String ADMIN_WITHDRAW_IACUC_PROTOCOL = "adminWithdrawIacucProtocol"; 
+    public static final String ADMIN_WITHDRAW_IACUC_PROTOCOL_UNAVAILABLE = "adminWithdrawIacucProtocolUnavailable"; 
+    public static final String RETURN_TO_PI_IACUC_PROTOCOL = "returnToPIIacucProtocol"; 
+    public static final String RETURN_TO_PI_IACUC_PROTOCOL_UNAVAILABLE = "returnToPIIacucProtocolUnavailable"; 
+    public static final String REVIEW_NOT_REQUIRED_IACUC_PROTOCOL = "reviewNotRequiredIacucProtocol"; 
+    public static final String REVIEW_NOT_REQUIRED_IACUC_PROTOCOL_UNAVAILABLE = "reviewNotRequiredIacucProtocolUnavailable"; 
     public static final String VIEW_IACUC_PROTOCOL = "viewIacucProtocol";
-    public static final String SUBMIT_IACUC_PROTOCOL = "submitIacucProtocol";
-    public static final String IACUC_PROTOCOL_WITHDRAW = "iacucProtocolWithdraw";
+    public static final String SUBMIT_IACUC_PROTOCOL = "submitIacucProtocol"; 
+    public static final String SUBMIT_IACUC_PROTOCOL_UNAVAILABLE = "submitIacucProtocolUnavailable"; 
     public static final String MODIFY_IACUC_PROTOCOL_SPECIAL_REVIEW = "modifyIacucProtocolSpecialReview";
     public static final String MODIFY_IACUC_PROTOCOL_OTHERS = "modifyIacucProtocolOthers";
     public static final String MODIFY_IACUC_PROTOCOL_GENERAL_INFO = "modifyIacucProtocolGeneralInfo";
+    public static final String MODIFY_IACUC_PROTOCOL_ROLES = "modifyIacucProtocolRoles";
+    public static final String ADD_IACUC_PROTOCOL_NOTES = "addIacucProtocolNotes";
+    public static final String CREATE_IACUC_PROTOCOL_AMENDMENT = "createIacucAmendment"; 
+    public static final String CREATE_IACUC_PROTOCOL_AMENDMENT_UNAVAILABLE = "createIacucAmendmentUnavailable"; 
+    public static final String MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS = "modifyIacucAmendmentSections"; 
+    public static final String MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS_UNAVAILABLE = "modifyIacucAmendmentSectionsUnavailable"; 
+    public static final String CREATE_IACUC_PROTOCOL_RENEWAL = "createIacucRenewal"; 
+    public static final String CREATE_IACUC_PROTOCOL_RENEWAL_UNAVAILABLE = "createIacucRenewalUnavailable"; 
+    public static final String MODIFY_IACUC_PROTOCOL_BILLABLE = "modifyIacucBillable"; //?
+    public static final String MODIFY_IACUC_PROTOCOL_FUNDING_SOURCE = "modifyIacucProtocolFundingSource"; 
+    public static final String MODIFY_IACUC_PROTOCOL_REFERENCES = "modifyIacucProtocolReferences";
+    public static final String MODIFY_IACUC_PROTOCOL_ORGANIZATIONS = "modifyIacucProtocolOrganizations";
+    public static final String MODIFY_IACUC_PROTOCOL_SUBJECTS = "modifyIacucProtocolSubjects";
+    public static final String MODIFY_IACUC_PROTOCOL_AREAS_OF_RESEARCH = "modifyIacucProtocolAreasOfResearch";
+    public static final String MODIFY_IACUC_PROTOCOL_ATTACHMENTS = "modifyIacucProtocolAttachments";
+    public static final String MODIFY_IACUC_PROTOCOL_PERSONNEL = "modifyIacucProtocolPersonnel";
+    public static final String IACUC_NOTIFY_COMMITTEE = "iacucProtocolNotifyCommittee"; 
+    public static final String IACUC_NOTIFY_COMMITTEE_UNAVAILABLE = "iacucProtocolNotifyCommitteeUnavailable"; 
+    public static final String IACUC_ACKNOWLEDGEMENT = "iacucAcknowledgement"; 
+    public static final String IACUC_ACKNOWLEDGEMENT_UNAVAILABLE = "iacucAcknowledgementUnavailable"; 
+    public static final String IACUC_PROTOCOL_WITHDRAW = "iacucProtocolWithdraw"; 
+    public static final String IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE = "iacucProtocolWithdrawUnavailable"; 
+    public static final String IACUC_PROTOCOL_REQUEST_CLOSE = "iacucProtocolRequestClose"; //?
+    public static final String IACUC_PROTOCOL_REQUEST_CLOSE_UNAVAILABLE = "iacucProtocolRequestCloseUnavailable"; //?
+    public static final String IACUC_PROTOCOL_REQUEST_SUSPENSION = "iacucProtocolRequestSuspension"; //?
+    public static final String IACUC_PROTOCOL_REQUEST_SUSPENSION_UNAVAILABLE = "iacucProtocolRequestSuspensionUnavailable"; //?
+    public static final String IACUC_PROTOCOL_REQUEST_TERMINATE = "iacucProtocolRequestTerminate"; //?
+    public static final String IACUC_PROTOCOL_REQUEST_TERMINATE_UNAVAILABLE = "iacucProtocolRequestTerminateUnavailable"; //?
+    public static final String IACUC_PROTOCOL_AMEND_RENEW_DELETE = "iacucProtocolAmendRenewDelete";//?
+    public static final String IACUC_PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE = "iacucProtocolAmendRenewDeleteUnavailable"; //?
+    public static final String IACUC_ASSIGN_TO_AGENDA = "iacucProtocolAssignToAgenda"; 
+    public static final String IACUC_ASSIGN_TO_AGENDA_UNAVAILABLE = "iacucProtocolAssignToAgendaUnavailable"; 
+    public static final String IACUC_ASSIGN_TO_COMMITTEE_SCHEDULE = "iacucProtocolAssignToCmtSched"; 
+    public static final String IACUC_ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE = "iacucProtocolAssignToCmtSchedUnavailable"; 
+    public static final String IACUC_ASSIGN_REVIEWERS = "iacucProtocolAssignReviewers"; 
+    public static final String IACUC_ASSIGN_REVIEWERS_UNAVAILABLE = "iacucProtocolAssignReviewersUnavailable"; 
+    public static final String IACUC_ASSIGN_REVIEWERS_CMT_SEL = "iacucProtocolAssignReviewersCmtSel"; 
+    public static final String IACUC_VIEW_RESTRICTED_NOTES = "viewRestrictedNotes";
+    public static final String IACUC_RESPONSE_APPROVAL = "iacucProtocolResponseApproval"; 
+    public static final String IACUC_RESPONSE_APPROVAL_UNAVAILABLE = "iacucProtocolResponseApprovalUnavailable"; 
+    public static final String IACUC_APPROVE_PROTOCOL = "iacucProtocolApprove"; 
+    public static final String IACUC_APPROVE_PROTOCOL_UNAVAILABLE = "iacucProtocolApproveUnavailable"; 
+    public static final String IACUC_DISAPPROVE_PROTOCOL = "iacucProtocolDisapprove"; 
+    public static final String IACUC_DISAPPROVE_PROTOCOL_UNAVAILABLE = "iacucProtocolDisapproveUnavailable"; 
     public static final String MODIFY_IACUC_PROTOCOL_RESEARCH_AREAS = "modifyIacucProtocolResearchAreas";
-
+    public static final String IACUC_RETURN_FOR_SMR = "iacucProtocolReturnForSMR"; 
+    public static final String IACUC_RETURN_FOR_SMR_UNAVAILABLE = "iacucProtocolReturnForSMRUnavailable"; 
+    public static final String IACUC_RETURN_FOR_SRR = "iacucProtocolReturnForSRR"; 
+    public static final String IACUC_RETURN_FOR_SRR_UNAVAILABLE = "iacucProtocolReturnForSRRUnavailable"; 
+    public static final String IACUC_REOPEN_PROTOCOL = "iacucProtocolReopen";
+    public static final String IACUC_SUSPEND_PROTOCOL = "iacucProtocolSuspend"; 
+    public static final String IACUC_CLOSE_PROTOCOL = "iacucProtocolClose";
+    public static final String IACUC_EXPIRE_PROTOCOL = "iacucProtocolExpire"; 
+    public static final String IACUC_TERMINATE_PROTOCOL = "iacucProtocolTerminate"; 
+    public static final String IACUC_PROTOCOL_ADMIN_CORRECTION = "iacucProtocolAdminCorrection"; 
+    public static final String IACUC_PROTOCOL_ADMIN_CORRECTION_UNAVAILABLE = "iacucProtocolAdminCorrectionUnavailable"; 
+    public static final String IACUC_PROTOCOL_UNDO_LAST_ACTION = "iacucProtocolUndoLastAction"; 
+    public static final String IACUC_RECORD_COMMITTEE_DECISION = "iacucProtocolRecordCommitteeDecision";
+    public static final String IACUC_RECORD_COMMITTEE_DECISION_UNAVAILABLE = "iacucProtocolRecordCommitteeDecisionUnavailable";
+    public static final String IACUC_MODIFY_PROTOCOL_SUBMISSION = "modifyIacucProtocolSubmisison";
+    public static final String IACUC_MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE = "modifyIacucProtocolSubmisisonUnavailable";
+    public static final String IACUC_PROTOCOL_TABLE = "iacucProtocolTable"; 
+    public static final String IACUC_PROTOCOL_TABLE_UNAVAILABLE = "iacucProtocolTableUnavailable"; 
+    public static final String IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS = "iacucProtocolManageReviewComments";
+    public static final String IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE = "iacucProtocolManageReviewCommentsUnavailable";
+    public static final String IACUC_PROTOCOL_APPROVE_OTHER = "iacucProtocolApproveOther"; 
+    public static final String IACUC_PROTOCOL_MANAGE_NOTES = "iacucProtocolManageNotes";
+    public static final String IACUC_PROTOCOL_MANAGE_NOTES_UNAVAILABLE = "iacucProtocolManageNotesUnavailable";
+    public static final String IACUC_ABANDON_PROTOCOL = "iacucProtocolAbandon"; 
+    public static final String IACUC_ABANDON_PROTOCOL_UNAVAILABLE = "iacucProtocolAbandonUnavailable"; 
+    public static final String IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL = "iacucProtocolDesignatedApproval";  
+    public static final String IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL_UNAVAILABLE = "iacucProtocolDesignatedApprovalUnavailable"; 
+    public static final String IACUC_PROTOCOL_HOLD = "iacucProtocolHold"; 
+    public static final String IACUC_PROTOCOL_HOLD_UNAVAILABLE = "iacucProtocolHoldUnavailable"; 
+    public static final String IACUC_PROTOCOL_LIFT_HOLD = "iacucProtocolLiftHold"; 
+    public static final String IACUC_PROTOCOL_LIFT_HOLD_UNAVAILABLE = "iacucProtocolLiftHoldUnavailable"; 
+    public static final String IACUC_PROTOCOL_REQUEST_LIFT_HOLD = "iacucProtocolRequestLiftHold"; 
+    public static final String IACUC_PROTOCOL_REQUEST_LIFT_HOLD_UNAVAILABLE = "iacucProtocolRequestLiftHoldUnavailable"; 
+    public static final String IACUC_PROTOCOL_REQUEST_DEACTIVATE = "iacucProtocolRequestDeactivate"; 
+    public static final String IACUC_PROTOCOL_REQUEST_DEACTIVATE_UNAVAILABLE = "iacucProtocolRequestDeactivateUnavailable"; 
+    
+    /**
+     * Generic IACUC Action task
+     */
+    public static final String GENERIC_IACUC_PROTOCOL_ACTION = "genericProtocolAction";
+    public static final String GENERIC_IACUC_PROTOCOL_ACTION_UNAVAILABLE = "genericProtocolActionUnavailable";
+    
 }

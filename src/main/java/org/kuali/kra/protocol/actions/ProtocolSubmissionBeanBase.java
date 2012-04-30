@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.actions;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.protocol.actions.notifyiacuc.ProtocolActionAttachment;
+import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 
 /**
