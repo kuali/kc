@@ -55,7 +55,7 @@
                 
                 </div></th>
                 <td align="left" valign="middle">
-                	<fmt:formatDate value="${KualiForm.document.budget.startDate}" pattern="MM/dd/yyyy" />
+                	<fmt:formatDate value="${KualiForm.budgetStartDate}" pattern="MM/dd/yyyy" />
                 </td>
 				<kra-b:swapProposalDevelopmentEditModes/>
        		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.modularBudgetFlag}" noColon="true" /></div></th>
@@ -79,7 +79,7 @@
 				
 				</div></th>
                 <td>
-                	<fmt:formatDate value="${KualiForm.document.budget.endDate}" pattern="MM/dd/yyyy" />
+                	<fmt:formatDate value="${KualiForm.budgetEndDate}" pattern="MM/dd/yyyy" />
                 </td>
            		<kra-b:swapProposalDevelopmentEditModes/>
         		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.residualFunds}" /></div></th>
