@@ -167,11 +167,11 @@
   <bean id="BudgetColumnsToAlter-inquiryDefinition" parent="BudgetColumnsToAlter-inquiryDefinition-parentBean" />
 
   <bean id="BudgetColumnsToAlter-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Prop Columns To Alter" />
+    <property name="title" value="Budegt Columns To Alter" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Prop Columns To Alter" />
+          <property name="title" value="Budget Columns To Alter" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -203,7 +203,7 @@
   <bean id="BudgetColumnsToAlter-lookupDefinition" parent="BudgetColumnsToAlter-lookupDefinition-parentBean" />
 
   <bean id="BudgetColumnsToAlter-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Proposal Columns To Alter Lookup" />
+    <property name="title" value="Budget Columns To Alter Lookup" />
     <property name="lookupableID" value="customLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
