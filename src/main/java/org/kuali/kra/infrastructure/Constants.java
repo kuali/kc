@@ -864,4 +864,7 @@ public interface Constants {
     public static final String ENABLE_SALARY_INFLATION_ANNIV_DATE = "enableSalaryInflationAnniversaryDate";
     
 
+    // Iacuc - procedureSummary length
+    public static final Integer IACUC_PROCEDURE_SUMMARY_LENGTH = 40;
+
 }
