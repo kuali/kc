@@ -27,10 +27,10 @@
               description="The name of the action class" %>
 
 <c:set var="readOnly" value="${!KualiForm.iacucProtocolSpeciesHelper.modifyProtocolSpecies}" />
-<c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.SPECIAL_REVIEW_COMMENT_LENGTH%>" />
+<c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.IACUC_PROCEDURE_SUMMARY_LENGTH%>" />
 
 
-<kul:tab tabTitle="Species/Groups" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="iacucProtocolSpeciesHelper.newIacucProtocolSpecies*,${collectionProperty}*">
+<kul:tab tabTitle="Species/Groups" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="newIacucProtocolSpecies*,iacucProtocolSpeciesHelper.newIacucProtocolSpecies*,${collectionProperty}*">
     <div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Species/Groups</span>
