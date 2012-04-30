@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.protocol.research;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.protocol.ProtocolAssociate;
 
-public class ProtocolResearchArea extends ProtocolAssociate {
+public abstract class ProtocolResearchArea extends ProtocolAssociate {
 
     private static final long serialVersionUID = -1522011425745031200L;
 

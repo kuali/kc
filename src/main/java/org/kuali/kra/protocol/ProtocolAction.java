@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,8 +41,10 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.actions.ProtocolActionType;
 import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -50,7 +53,9 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -156,11 +161,12 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     
     protected ProtocolSubmissionBeanBase getSubmissionBean(ActionForm form,String submissionActionType) {
         ProtocolSubmissionBeanBase submissionBean = null;
-//TODO        if (ProtocolActionType.NOTIFY_IRB.equals(submissionActionType)) {
-//TODO            submissionBean = ((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean();
-//TODO        } else {
-//TODO            submissionBean = ((ProtocolForm) form).getActionHelper().getRequestBean(submissionActionType);
-//TODO        }
+// TODO *********commented the code below during IACUC refactoring*********         
+//        if (ProtocolActionType.NOTIFY_IRB.equals(submissionActionType)) {
+//            submissionBean = ((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean();
+//        } else {
+//            submissionBean = ((ProtocolForm) form).getActionHelper().getRequestBean(submissionActionType);
+//        }
         return submissionBean;
     }
 
@@ -237,13 +243,13 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         ProtocolForm protocolForm = (ProtocolForm) form;
-// TODO *********uncomment the code below in increments as needed during refactoring*********         
-//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocolForm.getProtocolDocument().getProtocol());
+
+        ProtocolTask task = new ProtocolTask(getModifyProtocolTaskNameHook(), protocolForm.getProtocolDocument().getProtocol());
         AuditActionHelper auditActionHelper = new AuditActionHelper();
         
- //      if (isAuthorized(task)) {
-            if ( //!protocolForm.getProtocolDocument().getProtocol().isCorrectionMode() || 
-                    auditActionHelper.auditUnconditionally(protocolForm.getDocument())) {
+        if (isAuthorized(task)) {
+            if ( protocolForm.getProtocolDocument().getProtocol().isCorrectionMode() || 
+                    auditActionHelper.auditUnconditionally(protocolForm.getDocument()) ) {
                 this.preSave(mapping, form, request, response);
                 actionForward = super.save(mapping, form, request, response);
                 this.postSave(mapping, form, request, response);
@@ -254,11 +260,15 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
                     actionForward = mapping.findForward(getProtocolActionsForwardNameHook());
                 }
             }
- //       }
+        }
 
         return actionForward;
     }
     
+    protected abstract String getModifyProtocolTaskNameHook();
+
+
+
     /**
      * This method allows logic to be executed before a save, after authorization is confirmed.
      * 
@@ -337,58 +347,59 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
 //        
 //        return forward;
 //    }
-//
-//    /** {@inheritDoc} */
-//    @Override
-//    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-//            throws Exception {
-//        super.refresh(mapping, form, request, response);
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-//                     
-//        // KNS UI hook for lookup resultset, check to see if we are coming back from a lookup
-//        if (Constants.MULTIPLE_VALUE.equals(protocolForm.getRefreshCaller())) {
-//            // Multivalue lookup. Note that the multivalue keyword lookup results are returned persisted to avoid using session.
-//            // Since URLs have a max length of 2000 chars, field conversions can not be done.
-//            String lookupResultsSequenceNumber = protocolForm.getLookupResultsSequenceNumber();
-//            
-//            if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
-//                
-//                @SuppressWarnings("unchecked")
-//                Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(protocolForm.getLookupResultsBOClassName());
-//                String userName = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-//                LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
-//                Collection<BusinessObject> selectedBOs
-//                    = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
-//                
-//                processMultipleLookupResults(protocolDocument, lookupResultsBOClass, selectedBOs);
-//            }
-//        }
-//        
-//        // TODO : hack for rice 11 upgrade
-//        // when return from lookup
-//        if (StringUtils.isNotBlank(protocolForm.getFormKey())) {
-//            protocolForm.setFormKey("");
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC );
-//    }
-//    
-//    /**
-//     * This method must be overridden by a derived class if that derived class has a field that requires a 
-//     * Lookup that returns multiple values.  The derived class should first check the class of the selected BOs.
-//     * Based upon the class, the Protocol can be updated accordingly.  This is necessary since there may be
-//     * more than one multi-lookup on a web page.
-//     * 
-//     * @param protocolDocument the Protocol Document
-//     * @param lookupResultsBOClass the class of the BOs that are returned by the Lookup
-//     * @param selectedBOs the selected BOs
-//     */
-//    protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocument protocolDocument,
-//        Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
-//        // do nothing
-//    }
-//
+
+    /** {@inheritDoc} */
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        super.refresh(mapping, form, request, response);
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+                     
+        // KNS UI hook for lookup resultset, check to see if we are coming back from a lookup
+        if (Constants.MULTIPLE_VALUE.equals(protocolForm.getRefreshCaller())) {
+            // Multivalue lookup. Note that the multivalue keyword lookup results are returned persisted to avoid using session.
+            // Since URLs have a max length of 2000 chars, field conversions can not be done.
+            String lookupResultsSequenceNumber = protocolForm.getLookupResultsSequenceNumber();
+            
+            if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
+                
+                @SuppressWarnings("unchecked")
+                Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(protocolForm.getLookupResultsBOClassName());
+                String userName = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+                LookupResultsService service = KraServiceLocator.getService(LookupResultsService.class);
+                Collection<BusinessObject> selectedBOs
+                    = service.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, userName);
+                
+                processMultipleLookupResults(protocolDocument, lookupResultsBOClass, selectedBOs);
+            }
+        }
+        
+        // TODO : hack for rice 11 upgrade
+        // when return from lookup
+        if (StringUtils.isNotBlank(protocolForm.getFormKey())) {
+            protocolForm.setFormKey("");
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }
+    
+    /**
+     * This method must be overridden by a derived class if that derived class has a field that requires a 
+     * Lookup that returns multiple values.  The derived class should first check the class of the selected BOs.
+     * Based upon the class, the Protocol can be updated accordingly.  This is necessary since there may be
+     * more than one multi-lookup on a web page.
+     * 
+     * @param protocolDocument the Protocol Document
+     * @param lookupResultsBOClass the class of the BOs that are returned by the Lookup
+     * @param selectedBOs the selected BOs
+     */
+    protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocument protocolDocument,
+        Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
+        // do nothing
+    }
+
+    
 //    /**
 //     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
 //     * org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)

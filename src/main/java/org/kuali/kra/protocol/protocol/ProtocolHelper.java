@@ -228,7 +228,8 @@ public abstract class ProtocolHelper implements Serializable {
 //        initializeModifyReferencesPermission(protocol);
 //        initializeModifyOrganizationsPermission(protocol);
 //        initializeModifySubjectsPermission(protocol);
-//        initializeModifyAreasOfResearchPermission(protocol);
+        
+        initializeModifyAreasOfResearchPermission(protocol);
     }
 
     private void initializeModifyProtocolPermission(Protocol protocol) {
@@ -269,10 +270,11 @@ public abstract class ProtocolHelper implements Serializable {
     }
     
     private void initializeModifyAreasOfResearchPermission(Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AREAS_OF_RESEARCH, protocol);
+        ProtocolTask task = getNewInstanceModifyProtocolResearchAreasTaskHook(protocol);
         modifyAreasOfResearch = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    protected abstract ProtocolTask getNewInstanceModifyProtocolResearchAreasTaskHook(Protocol protocol);
     /**
      * This method is to get parameter value
      * @return parameter value
