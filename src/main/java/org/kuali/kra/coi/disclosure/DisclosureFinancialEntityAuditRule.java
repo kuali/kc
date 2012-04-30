@@ -29,7 +29,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -38,9 +37,11 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+@SuppressWarnings("deprecation")
 public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
 
     private static final String FINANCIAL_ENTITY_AUDIT_ERRORS = "financialEntityDiscAuditErrors";
+    private static final String NEW_TAG = "disclosureHelper.newCoiDisclProject.finEntityStatusMissing";
     private List<AuditError> auditErrors;
     
     public boolean processRunAuditBusinessRules(Document document) {
@@ -82,6 +83,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PAGE);
         stringBuilder.append(".");
         stringBuilder.append(Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR);
+System.out.println("AAAAAAAAAAAAAAA errorKey = " + String.format(errorKey, index, index1) + ", anchor = " + stringBuilder.toString());
         auditErrors.add(new AuditError(String.format(errorKey, index, index1),
                                         KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED,
                                         stringBuilder.toString()));   
@@ -101,7 +103,8 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         int i = 0;
         for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails()) {
             if (coiDiscDetail.getEntityStatusCode() == null) {
-                addErrorToAuditErrors(i, Constants.DISCLOSURE_FINANCIAL_ENTITY_KEY,
+                addErrorToAuditErrors(i, 
+                                        Constants.DISCLOSURE_FINANCIAL_ENTITY_KEY2,
                                         Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
                                         KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED);
                 isSelected = false;
@@ -121,7 +124,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
                     int j = 0;
                     for (CoiDiscDetail coiDiscDetail : disclProject.getCoiDiscDetails()) {
                         if (coiDiscDetail.getEntityStatusCode() == null) {
-                            addErrorToAuditErrors(i, j, Constants.DISCLOSURE_ANNUAL_FINANCIAL_ENTITY_KEY);
+                            addErrorToAuditErrors(i, j, Constants.DISCLOSURE_ANNUAL_FINANCIAL_ENTITY_KEY2);
                             isSelected = false;
                         }
                         j++;
@@ -146,8 +149,11 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
             if (!coiDisclosure.getCoiDisclosureEventType().isExcludeFinancialEntities()) {
                 for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails()) {
                     if (coiDiscDetail.getEntityStatusCode() == null) {
-                            addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY, 
-                                                    Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
+                            addErrorToAuditErrors(i, 
+//                                    Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY, 
+"document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails[%s].entityStatusCode",
+//                                                    Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
+NEW_TAG,                                    
                                                     KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED);
                         isSelected = false;
                     }

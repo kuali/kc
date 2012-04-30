@@ -19,8 +19,8 @@
 <c:set var="financialEntityAttributes" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
 <c:set var="award" value="${KualiForm.document.coiDisclosureList[0].coiDisclProjects[0].award}" />
 <c:set var="readOnly" value="${!KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
-<kul:tab defaultOpen="false" tabTitle="Project & Financial Entity Relationships" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDiscDetails*" useRiceAuditMode="true"
-    tabErrorKey="document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails*" >
+<kul:tab defaultOpen="false" tabTitle="Project & Financial Entity Relationships" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDisclEventProjects*" useRiceAuditMode="true"
+	       tabErrorKey="document.coiDisclosureList[0].coiDisclEventProjects*" >
 	<div class="tab-container" align="center">
 	 <div>
     	<h3>
