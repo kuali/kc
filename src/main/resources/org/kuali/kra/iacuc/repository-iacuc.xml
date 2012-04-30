@@ -132,6 +132,10 @@
             <orderby name="protocolPersonId" sort="ASC" />
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
+        
+        <collection-descriptor name="protocolResearchAreas" element-class-ref="org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="protocolId" />
+        </collection-descriptor>
                 
         <collection-descriptor name="iacucProtocolSpeciesList" element-class-ref="org.kuali.kra.iacuc.species.IacucProtocolSpecies" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
@@ -149,6 +153,24 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
      
+     
+     <class-descriptor class="org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea" table="IACUC_PROTOCOL_RESEARCH_AREAS">
+        <field-descriptor name="id" column="IACUC_PROT_RESEARCH_AREAS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROTOCOL_RES_AREA_ID" autoincrement="true"/>
+        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="researchAreaCode" column="RESEARCH_AREA_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolId"/>
+        </reference-descriptor>
+        <reference-descriptor name="researchAreas" class-ref="org.kuali.kra.bo.ResearchArea" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="researchAreaCode"/>
+        </reference-descriptor>
+    </class-descriptor>
     
      <class-descriptor class="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReview" table="IACUC_PROTOCOL_SPECIAL_REVIEW">
         <field-descriptor name="protocolSpecialReviewId" column="IACUC_PROT_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_SPECIAL_REVIEW_ID"/>
