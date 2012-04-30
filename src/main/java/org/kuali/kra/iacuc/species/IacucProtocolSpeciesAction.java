@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc.species;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +26,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -46,13 +49,13 @@ public class IacucProtocolSpeciesAction extends IacucProtocolAction{
     public ActionForward addProtocolSpecies(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
+        List<IacucProtocolSpecies> iacucProtocolSpeciesList = document.getIacucProtocol().getIacucProtocolSpeciesList();
         IacucProtocolSpecies iacucProtocolSpecies = protocolForm.getIacucProtocolSpeciesHelper().getNewIacucProtocolSpecies();
         
-        //if (applyRules(new AddIacucProtocolSpeciesEvent(document, iacucProtocolSpecies, iacucProtocolSpeciesList, false))) {
-            //iacucProtocolSpecies.setIacucProtocolSpeciesId(document.getDocumentNextValue(Constants.SPECIES_ID));
+        if (applyRules(new AddProtocolSpeciesEvent(Constants.EMPTY_STRING, document, iacucProtocolSpecies))) {
             getIacucProtocolSpeciesService().addProtocolSpecies(document.getIacucProtocol(), iacucProtocolSpecies);
             protocolForm.getIacucProtocolSpeciesHelper().setNewIacucProtocolSpecies(new IacucProtocolSpecies());
-        //}
+        }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

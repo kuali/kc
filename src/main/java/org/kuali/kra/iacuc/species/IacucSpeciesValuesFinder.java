@@ -43,24 +43,19 @@ public class IacucSpeciesValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyValue> getKeyValues() {
-        System.out.println("*********** get key value pair **********" + getKeyValuesService());
         Collection<IacucSpecies> iacucSpeciesList = getKeyValuesService().findAllOrderBy(IacucSpecies.class,
                 "speciesCode", true);
-        System.out.println("------ get key value pair => 1");
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
-        System.out.println("------ get key value pair => 2");
         for (Iterator<IacucSpecies> iter = iacucSpeciesList.iterator(); iter.hasNext();) {
             IacucSpecies iacucSpecies = (IacucSpecies) iter.next();
             keyValues.add(new ConcreteKeyValue(iacucSpecies.getSpeciesCode().toString(),
                     iacucSpecies.getSpeciesName()));
         }
-        System.out.println("------ get key value pair => 3");
         return keyValues;
     }
     
     protected KeyValuesService getKeyValuesService() {
-        System.out.println("------ kv service -----");
         return (KeyValuesService) KraServiceLocator.getService("keyValuesService");
     }
 

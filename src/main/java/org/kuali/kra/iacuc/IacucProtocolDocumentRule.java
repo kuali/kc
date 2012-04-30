@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.iacuc;
 
+import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesEvent;
+import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesRule;
+import org.kuali.kra.iacuc.species.rule.ProtocolSpeciesRule;
 import org.kuali.kra.protocol.ProtocolDocumentRule;
 
 /**
@@ -22,6 +25,11 @@ import org.kuali.kra.protocol.ProtocolDocumentRule;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class IacucProtocolDocumentRule extends ProtocolDocumentRule {
+public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements AddProtocolSpeciesRule{
+
+    @Override
+    public boolean processAddProtocolSpeciesBusinessRules(AddProtocolSpeciesEvent addProtocolSpeciesEvent) {
+        return new ProtocolSpeciesRule().processAddProtocolSpeciesBusinessRules(addProtocolSpeciesEvent);
+    }
 
 }
