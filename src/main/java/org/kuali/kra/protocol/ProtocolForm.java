@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.protocol;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,7 @@ import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
-import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
+import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
@@ -39,7 +40,13 @@ import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.ActionFormUtilMap;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.web.ui.HeaderField;
 
 /**
  * This class...
@@ -67,7 +74,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 
 // TODO *********uncomment the code below in increments as needed during refactoring*********     
 
-//    private ActionHelper actionHelper;
+    private IacucActionHelper actionHelper;
 //    private OnlineReviewsActionHelper onlineReviewsActionHelper;
     private QuestionnaireHelper questionnaireHelper;
 //    //transient so that the helper and its members don't have to be serializable or transient
@@ -111,8 +118,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         setPersonnelHelper(createNewPersonnelHelperInstanceHook(this));
 
 // TODO *********uncomment the code below in increments as needed during refactoring*********         
-//        setActionHelper(new ActionHelper(this));
-        setQuestionnaireHelper(createNewQuestionnaireHelper(this));
+//        setQuestionnaireHelper(new QuestionnaireHelper(this));
 //        setNotesAttachmentsHelper(new NotesAttachmentsHelper(this));
 //        this.notesAttachmentsHelper.prepareView();
 //        setNewProtocolReferenceBean(new ProtocolReferenceBean());
@@ -123,6 +129,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     protected abstract PermissionsHelper createNewPermissionsHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract PersonnelHelper createNewPersonnelHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract QuestionnaireHelper createNewQuestionnaireHelper(ProtocolForm protocolForm);
+    protected abstract IacucActionHelper createNewActionHelper(ProtocolForm protocolForm) throws Exception;
     
 // TODO *********uncomment the code below in increments as needed during refactoring*********     
 //    /**
@@ -396,15 +403,15 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 //    public void setNotesAttachmentsHelper(NotesAttachmentsHelper notesAttachmentsHelper) {
 //        this.notesAttachmentsHelper = notesAttachmentsHelper;
 //    }
-//    
-//    public ActionHelper getActionHelper() {
-//        return actionHelper;
-//    }
-//    
-//    private void setActionHelper(ActionHelper actionHelper) {
-//        this.actionHelper = actionHelper;
-//    }
-//
+    
+    public IacucActionHelper getActionHelper() {
+        return actionHelper;
+    }
+    
+    protected void setActionHelper(IacucActionHelper actionHelper) {
+        this.actionHelper = actionHelper;
+    }
+
 //    public boolean isJavaScriptEnabled() {
 //        return javaScriptEnabled;
 //    }
@@ -470,27 +477,27 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 //            && this.getProtocolDocument().getProtocol().getProtocolRiskLevels().size() > 0;
         
     }
-//    
-//    public List<ExtraButton> getExtraActionsButtons() {
-//        // clear out the extra buttons array
-//        extraButtons.clear();
-//
-//        String externalImageURL = Constants.KR_EXTERNALIZABLE_IMAGES_URI_KEY;
-//        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
-//        
-//        boolean suppressRoutingControls = getActionHelper().getCanApproveFull() || !getActionHelper().getCanApproveOther();
-//        if (suppressRoutingControls && getDocumentActions().get(KRADConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS) != null) {
-//            String sendAdHocRequestsImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_sendadhocreq.gif";
-//            addExtraButton("methodToCall.sendAdHocRequests", sendAdHocRequestsImage, "Send AdHoc Requests");
-//        }
-//        externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-//        
-//        String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
-//        addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
-//        
-//        return extraButtons;
-//    }
-//     
+    
+    public List<ExtraButton> getExtraActionsButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+
+        String externalImageURL = Constants.KR_EXTERNALIZABLE_IMAGES_URI_KEY;
+        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
+        
+        boolean suppressRoutingControls = getActionHelper().getCanApproveFull() || !getActionHelper().getCanApproveOther();
+        if (suppressRoutingControls && getDocumentActions().get(KRADConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS) != null) {
+            String sendAdHocRequestsImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_sendadhocreq.gif";
+            addExtraButton("methodToCall.sendAdHocRequests", sendAdHocRequestsImage, "Send AdHoc Requests");
+        }
+        externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        
+        String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
+        addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
+        
+        return extraButtons;
+    }
+     
       public abstract String getModuleCode();
 //    public String getModuleCode() {
 //        return CoeusModule.IRB_MODULE_CODE;

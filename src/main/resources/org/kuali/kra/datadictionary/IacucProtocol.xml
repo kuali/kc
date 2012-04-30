@@ -434,7 +434,7 @@
         <property name="shortLabel" value="Lay Statement 1" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" 
+            <bean parent="AnyCharacterValidationPattern" 
             	p:allowWhitespace="true" />
         </property>
         <property name="required" value="true" />
@@ -455,7 +455,7 @@
         <property name="shortLabel" value="Lay Statement 2" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" 
+            <bean parent="AnyCharacterValidationPattern" 
             	p:allowWhitespace="true" />
         </property>
         <property name="control" >

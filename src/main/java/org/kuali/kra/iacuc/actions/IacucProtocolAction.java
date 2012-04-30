@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2010 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,103 +15,36 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import java.sql.Date;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
-public class IacucProtocolAction extends KraPersistableBusinessObjectBase { 
+/**
+ * 
+ * This class manages all the attributes needed to maintain a protocol action.
+ */
+public class IacucProtocolAction extends ProtocolAction {
     
+    private static final long serialVersionUID = -4895673225969021493L;
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 8406562215380399942L;
-    private Long iacucProtocolActionsId; 
-    private String protocolNumber; 
-    private Integer sequenceNumber; 
-    private Integer actionId; 
-    private String protocolActionTypeCode; 
-    private Integer submissionNumber; 
-    private String comments; 
-    private Date actionDate; 
+    Long iacucProtocolActionId;
     
-    private IacucProtocolActionType iacucProtocolActionType; 
+    public IacucProtocolAction(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolActionTypeCode) {
+        super(protocol, protocolSubmission, protocolActionTypeCode);
+    }
+        
+    protected String getCoeusModule() {
+        return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
+    }
+
+    public Long getIacucProtocolActionId() {
+        return iacucProtocolActionId;
+    }
+
+    public void setIacucProtocolActionId(Long iacucProtocolActionId) {
+        this.iacucProtocolActionId = iacucProtocolActionId;
+    }
     
-    public IacucProtocolAction() { 
-
-    } 
-    
-    public String getProtocolNumber() {
-        return protocolNumber;
-    }
-
-    public void setProtocolNumber(String protocolNumber) {
-        this.protocolNumber = protocolNumber;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
-    public Integer getActionId() {
-        return actionId;
-    }
-
-    public void setActionId(Integer actionId) {
-        this.actionId = actionId;
-    }
-
-    public String getProtocolActionTypeCode() {
-        return protocolActionTypeCode;
-    }
-
-    public void setProtocolActionTypeCode(String protocolActionTypeCode) {
-        this.protocolActionTypeCode = protocolActionTypeCode;
-    }
-
-    public Integer getSubmissionNumber() {
-        return submissionNumber;
-    }
-
-    public void setSubmissionNumber(Integer submissionNumber) {
-        this.submissionNumber = submissionNumber;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public Date getActionDate() {
-        return actionDate;
-    }
-
-    public void setActionDate(Date actionDate) {
-        this.actionDate = actionDate;
-    }
-
-    public Long getIacucProtocolActionsId() {
-        return iacucProtocolActionsId;
-    }
-
-    public void setIacucProtocolActionsId(Long iacucProtocolActionsId) {
-        this.iacucProtocolActionsId = iacucProtocolActionsId;
-    }
-
-    public IacucProtocolActionType getIacucProtocolActionType() {
-        return iacucProtocolActionType;
-    }
-
-    public void setIacucProtocolActionType(IacucProtocolActionType iacucProtocolActionType) {
-        this.iacucProtocolActionType = iacucProtocolActionType;
-    }
-
     
 }
