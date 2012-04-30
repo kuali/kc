@@ -29,10 +29,10 @@
         <property name="lookupDefinition" >
             <ref bean="IacucProtocolAction-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="iacucProtocolActionsId" />
+        <property name="titleAttribute" value="iacucProtocolActionId" />
         <property name="attributes" >
             <list>
-                <ref bean="IacucProtocolAction-iacucProtocolActionsId" />
+                <ref bean="IacucProtocolAction-iacucProtocolActionId" />
                 <ref bean="IacucProtocolAction-protocolNumber" />
                 <ref bean="IacucProtocolAction-sequenceNumber" />
                 <ref bean="IacucProtocolAction-actionId" />
@@ -47,12 +47,12 @@
 
     <!-- Attribute Definitions -->
     
-    <bean id="IacucProtocolAction-iacucProtocolActionsId" parent="IacucProtocolAction-iacucProtocolActionsId-parentBean" />
-    <bean id="IacucProtocolAction-iacucProtocolActionsId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="iacucProtocolActionsId" />
+    <bean id="IacucProtocolAction-iacucProtocolActionId" parent="IacucProtocolAction-iacucProtocolActionId-parentBean" />
+    <bean id="IacucProtocolAction-iacucProtocolActionId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="iacucProtocolActionId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Ac Protocol Actions Id" />
-        <property name="shortLabel" value="Ac Protocol Actions Id" />
+        <property name="label" value="IACUC Protocol Actions Id" />
+        <property name="shortLabel" value="IACUC Protocol Actions Id" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -199,7 +199,7 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="iacucProtocolActionsId" 
+                                p:attributeName="iacucProtocolActionId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="protocolNumber" />
@@ -234,7 +234,7 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="iacucProtocolActionsId" 
+                    p:attributeName="iacucProtocolActionId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="protocolNumber" />
@@ -255,7 +255,7 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="iacucProtocolActionsId" 
+                    p:attributeName="iacucProtocolActionId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="protocolNumber" />

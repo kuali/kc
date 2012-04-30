@@ -218,6 +218,33 @@
         </reference-descriptor>
     </class-descriptor>
    
+     <class-descriptor class="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType" table="IACUC_SUBMISSION_TYPE">
+        <field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType" table="IACUC_SUBMISSION_TYPE_QUALIF">
+        <field-descriptor name="submissionQualifierTypeCode" column="SUBMISSION_TYPE_QUAL_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType" table="IACUC_PROTO_REVIEW_TYPE">
+        <field-descriptor name="reviewTypeCode" column="PROTOCOL_REVIEW_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+    </class-descriptor>
+    
     <class-descriptor class="org.kuali.kra.iacuc.protocol.IacucProtocolType" table="IACUC_PROTOCOL_TYPE">
         <field-descriptor name="protocolTypeCode" column="PROTOCOL_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -239,7 +266,7 @@
     </class-descriptor>
     
         <class-descriptor class="org.kuali.kra.iacuc.actions.IacucProtocolAction" table="IACUC_PROTOCOL_ACTIONS">
-        <field-descriptor name="iacucProtocolActionsId" column="IACUC_PROTOCOL_ACTIONS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROTOCOL_ACTIONS_ID" autoincrement="true"/>
+        <field-descriptor name="iacucProtocolActionId" column="IACUC_PROTOCOL_ACTION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROTOCOL_ACTIONS_ID" autoincrement="true"/>
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="actionId" column="ACTION_ID" jdbc-type="INTEGER" />

@@ -19,39 +19,6 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public abstract class ProtocolSubmissionStatus extends KraPersistableBusinessObjectBase {
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static final long serialVersionUID = -3005754570292744646L;
-//
-//    public static final String SUBMITTED_TO_COMMITTEE = "100";
-//
-//    public static final String IN_AGENDA = "101";
-//
-//    public static final String PENDING = "102";
-//
-//    public static final String COMPLETE = "200";
-//
-//    public static final String SUBSTANTIVE_REVISIONS_REQUIRED = "201";
-//
-//    public static final String SPECIFIC_MINOR_REVISIONS_REQUIRED = "202";
-//
-//    public static final String APPROVED = "203";
-//
-//    public static final String EXEMPT = "204";
-//
-//    public static final String DISAPPROVED = "205";
-//
-//    public static final String DEFERRED = "206";
-//
-//    public static final String CLOSED = "207";
-//
-//    public static final String TERMINATED = "208";
-//
-//    public static final String WITHDRAWN = "210";
-//
-//    public static final String CLOSED_FOR_ENROLLMENT = "211";
-//
-//    public static final String IRB_ACKNOWLEDGEMENT = "212";
-
     /**
      * Comment for <code>serialVersionUID</code>
      */

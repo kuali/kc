@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.protocol.actions.ProtocolActionType;
 
 public class IacucProtocolActionType extends ProtocolActionType { 
@@ -24,4 +27,23 @@ public class IacucProtocolActionType extends ProtocolActionType {
     private static final long serialVersionUID = 162958759286804034L;
     
     public static final String PROTOCOL_CREATED = "100";
+    public static final String APPROVED = "204";
+    public static final String DISAPPROVED = "301";
+    public static final String MAJOR_REVISIONS_REQUIRED = "211";
+    public static final String REVISIONS_REQUIRED = "213";
+
+    public static List<String>getActionTypeSubmissionDocs() {
+        return ACTION_TYPE_SUBMISSION_DOC;
+    }
+    protected static final List<String> ACTION_TYPE_SUBMISSION_DOC;
+    static {
+      final List<String> codes = new ArrayList<String>();     
+      codes.add(PROTOCOL_CREATED);
+      codes.add(APPROVED);
+      codes.add(DISAPPROVED);
+      codes.add(MAJOR_REVISIONS_REQUIRED);
+      codes.add(REVISIONS_REQUIRED);
+      ACTION_TYPE_SUBMISSION_DOC = codes;
+  }
+
 }
