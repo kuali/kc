@@ -30,14 +30,9 @@ public class NotifyCommitteeAuthorizer extends ProtocolAuthorizer {
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-boolean result = isStatusValid(task.getProtocol()) &&
-                 canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE) &&
-                 hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
-System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA returning " + result);
-return result;
-//        return isStatusValid(task.getProtocol()) &&
-//        canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE) &&
-//        hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
+        return isStatusValid(task.getProtocol()) &&
+        canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE) &&
+        hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
     
     private boolean isStatusValid(Protocol protocol) {
