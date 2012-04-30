@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolAction;
 import org.kuali.kra.protocol.ProtocolDocument;
@@ -95,6 +96,11 @@ public class IacucProtocolAction extends ProtocolAction {
         KraAuthorizationService kraAuthService = getKraAuthorizationService();
         kraAuthService.addRole(userId, RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
         kraAuthService.addRole(userId, RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);         
+    }
+
+    @Override
+    protected String getModifyProtocolTaskNameHook() {
+        return TaskName.MODIFY_IACUC_PROTOCOL;
     }
 
 }

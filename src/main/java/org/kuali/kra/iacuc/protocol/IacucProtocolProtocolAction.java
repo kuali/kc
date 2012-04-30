@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.protocol;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,15 +27,23 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
+
+import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.common.customattributes.CustomDataAction;
+
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentRule;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
@@ -95,20 +104,21 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         return super.headerTab(mapping, form, request, response);
     }
 
-// TODO *********commented the code below during IACUC refactoring********* 
-//    @Override
-//    protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocument protocolDocument,
-//            Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
-//        if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
-//            ProtocolResearchAreaService service = (ProtocolResearchAreaService) KraServiceLocator
-//                    .getService("protocolResearchAreaService");
-//            service.addProtocolResearchArea(protocolDocument.getProtocol(), (Collection<ResearchArea>) selectedBOs);
-//            // finally do validation and error reporting for inactive research areas
-//            (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolDocument);
-//        }
-//        
-//        
-//    }
+
+    
+    @Override
+    protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocument protocolDocument,
+            Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
+        if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
+            ProtocolResearchAreaService service = (ProtocolResearchAreaService) KraServiceLocator
+                    .getService("iacucProtocolResearchAreaService");
+            service.addProtocolResearchArea(protocolDocument.getProtocol(), (Collection<ResearchArea>) selectedBOs);
+            // finally do validation and error reporting for inactive research areas
+            (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolDocument);
+        }
+        
+        
+    }
     
     
     /**
@@ -245,27 +255,29 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
 //
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
-//
-//    /**
-//     * This method is hook to KNS, it deletes selected ProtocolResearchArea from the UI list. Method is called in
-//     * protocolAdditonalInformation.tag
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward deleteProtocolResearchArea(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        protocolForm.getProtocolDocument().getProtocol().getProtocolResearchAreas().remove(getLineToDelete(request));
-//        // finally do validation and error reporting for inactive research areas
-//        (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolForm.getProtocolDocument());
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
+
+    
+    /**
+     * This method is hook to KNS, it deletes selected ProtocolResearchArea from the UI list. Method is called in
+     * protocolAdditonalInformation.tag
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteProtocolResearchArea(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        protocolForm.getProtocolDocument().getProtocol().getProtocolResearchAreas().remove(getLineToDelete(request));
+        // finally do validation and error reporting for inactive research areas
+        (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolForm.getProtocolDocument());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * This method is linked to ProtocolLocationService to perform the action - Add Protocol Location. Method is called in
 //     * protocolLocations.tag
