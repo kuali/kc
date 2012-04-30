@@ -23,7 +23,7 @@ import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.protocol.Protocol;
 
 
-public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaService {
+public abstract class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaService {
 
        
     /**
@@ -54,7 +54,7 @@ public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaServ
      * @return
      */
     protected ProtocolResearchArea createInstanceOfProtocolResearchAreas(Protocol protocol, ResearchArea researchAreas) {
-        ProtocolResearchArea protocolResearchAreas = new ProtocolResearchArea();
+        ProtocolResearchArea protocolResearchAreas = getNewProtocolResearchAreaInstanceHook();
         protocolResearchAreas.setProtocol(protocol);                            
         
         if(null != protocol.getProtocolNumber())
@@ -71,6 +71,9 @@ public class ProtocolResearchAreaServiceImpl implements ProtocolResearchAreaServ
         protocolResearchAreas.setResearchAreas(researchAreas);
         return protocolResearchAreas;
     }
+    
+    protected abstract ProtocolResearchArea getNewProtocolResearchAreaInstanceHook();
+    
     
     /**
      * This method is private helper method, to restrict duplicate ProtocolResearchAreas insertion in list.

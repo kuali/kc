@@ -33,21 +33,15 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.Disclosurable;
-import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.bo.CommitteeMembershipType;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
@@ -576,10 +570,12 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
 
     public ProtocolResearchArea getProtocolResearchAreas(int index) {
         while (getProtocolResearchAreas().size() <= index) {
-            getProtocolResearchAreas().add(new ProtocolResearchArea());
+            getProtocolResearchAreas().add(getNewProtocolResearchAreaInstance());
         }
         return getProtocolResearchAreas().get(index);
     }
+
+    protected abstract ProtocolResearchArea getNewProtocolResearchAreaInstance();
 
     public void setProtocolReferences(List<ProtocolReference> protocolReferences) {
         this.protocolReferences = protocolReferences;

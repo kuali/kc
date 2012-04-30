@@ -15,10 +15,14 @@
  */
 package org.kuali.kra.protocol;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
@@ -99,36 +103,38 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase
         return valid;
     }
 
-//    /**
-//     * This method will check if all the research areas that have been added to the protocol are indeed active.
-//     * @param document
-//     * @return
-//     */
-//    public boolean processProtocolResearchAreaBusinessRules(ProtocolDocument document) {
-//        boolean inactiveFound = false;
-//        StringBuffer inactiveResearchAreaIndices = new StringBuffer();
-//        
-//        List<ProtocolResearchArea> pras = document.getProtocol().getProtocolResearchAreas();
-//        // iterate over all the research areas for this protocol looking for inactive research areas
-//        if(CollectionUtils.isNotEmpty(pras)) {
-//            int raIndex = 0;
-//            for (ProtocolResearchArea protocolResearchArea : pras) {
-//                if(!(protocolResearchArea.getResearchAreas().isActive())) {
-//                    inactiveFound = true;
-//                    inactiveResearchAreaIndices.append(raIndex).append(SEPERATOR);
-//                }
-//                raIndex++;
-//            }
-//        }
-//        // if we found any inactive research areas in the above loop, report as a single error key suffixed by the list of indices of the inactive areas
-//        if(inactiveFound) { 
-//            String protocolResearchAreaInactiveErrorPropertyKey = INACTIVE_RESEARCH_AREAS_PREFIX + SEPERATOR + inactiveResearchAreaIndices.toString();
-//            reportError(protocolResearchAreaInactiveErrorPropertyKey, KeyConstants.ERROR_PROTOCOL_RESEARCH_AREA_INACTIVE);
-//        }
-//        
-//        return !inactiveFound;
-//    }
-//
+    /**
+     * This method will check if all the research areas that have been added to the protocol are indeed active.
+     * @param document
+     * @return
+     */
+    public boolean processProtocolResearchAreaBusinessRules(ProtocolDocument document) {
+        boolean inactiveFound = false;
+        StringBuffer inactiveResearchAreaIndices = new StringBuffer();
+        
+        List<ProtocolResearchArea> pras = document.getProtocol().getProtocolResearchAreas();
+        // iterate over all the research areas for this protocol looking for inactive research areas
+        if(CollectionUtils.isNotEmpty(pras)) {
+            int raIndex = 0;
+            for (ProtocolResearchArea protocolResearchArea : pras) {
+                if(!(protocolResearchArea.getResearchAreas().isActive())) {
+                    inactiveFound = true;
+                    inactiveResearchAreaIndices.append(raIndex).append(SEPERATOR);
+                }
+                raIndex++;
+            }
+        }
+        // if we found any inactive research areas in the above loop, report as a single error key suffixed by the list of indices of the inactive areas
+        if(inactiveFound) { 
+            String protocolResearchAreaInactiveErrorPropertyKey = INACTIVE_RESEARCH_AREAS_PREFIX + SEPERATOR + inactiveResearchAreaIndices.toString();
+            reportError(protocolResearchAreaInactiveErrorPropertyKey, KeyConstants.ERROR_PROTOCOL_RESEARCH_AREA_INACTIVE);
+        }
+        
+        return !inactiveFound;
+    }
+
+    
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
 //     */

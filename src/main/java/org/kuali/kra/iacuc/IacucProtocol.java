@@ -25,6 +25,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
+import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
@@ -32,11 +33,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -273,6 +274,13 @@ public class IacucProtocol extends Protocol {
     public void setIacucProtocolSpeciesList(List<IacucProtocolSpecies> iacucProtocolSpeciesList) {
         this.iacucProtocolSpeciesList = iacucProtocolSpeciesList;
     }
+
+
+    @Override
+    protected ProtocolResearchArea getNewProtocolResearchAreaInstance() {
+        return new IacucProtocolResearchArea();
+    }
+
 
     public List<IacucAlternateSearch> getIacucAlternateSearches() {
         return iacucAlternateSearches;

@@ -78,6 +78,10 @@
                     <property name="taskName" value="iacucProtocolWithdraw" />
                 </bean>
                 
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolAreasOfResearchAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolResearchAreas" />
+                </bean>
+                
            </list>
         </property>
     </bean>
@@ -134,7 +138,11 @@
         <constructor-arg index="0" ref="businessObjectService"/>
         <constructor-arg index="1" ref="iacucProtocolDao"/>
         <property name = "personService" ref = "personService"/>
-    </bean>    
+    </bean>
+    
+    <bean id="iacucProtocolResearchAreaService" class="org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaServiceImpl">
+    </bean> 
+        
 </beans>
 
 
