@@ -437,10 +437,12 @@
             <bean parent="AlphaNumericValidationPattern" 
             	p:allowWhitespace="true" />
         </property>
+        <property name="required" value="true" />
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="20" />
-        </property>
+      		<bean parent="TextareaControlDefinition"
+            	p:rows="4"
+            	p:cols="40" />
+		</property>
         <property name="summary" value="Lay Statement 1" />
         <property name="description" value="Lay Statement 1" />
     </bean>
@@ -457,9 +459,10 @@
             	p:allowWhitespace="true" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="20" />
-        </property>
+      		<bean parent="TextareaControlDefinition"
+            	p:rows="4"
+            	p:cols="40" />
+		</property>
         <property name="summary" value="Lay Statement 2" />
         <property name="description" value="Lay Statement 2" />
     </bean>
