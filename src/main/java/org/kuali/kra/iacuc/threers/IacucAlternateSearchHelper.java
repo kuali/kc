@@ -25,12 +25,15 @@ public class IacucAlternateSearchHelper implements Serializable {
 
     protected IacucProtocolForm form;
     private IacucAlternateSearch newAlternateSearch;
-    private List<IacucProtocolAlternateSearchDatabase> newDatabases;
+    private List<String> newDatabases;
+    
+    //TODO: Tie in with authorizer
+    private boolean modifyPermissions = true;
 
     public IacucAlternateSearchHelper(IacucProtocolForm form) {
         setForm(form);
         newAlternateSearch = new IacucAlternateSearch();
-        newDatabases = new ArrayList<IacucProtocolAlternateSearchDatabase>();
+        newDatabases = new ArrayList<String>();
     }
     
     public IacucAlternateSearch getNewAlternateSearch() {
@@ -43,7 +46,7 @@ public class IacucAlternateSearchHelper implements Serializable {
     
     public void prepareView() {
         newAlternateSearch = new IacucAlternateSearch();
-        newDatabases = new ArrayList<IacucProtocolAlternateSearchDatabase>();
+        newDatabases = new ArrayList<String>();
     }
     
     public IacucProtocolForm getForm() {
@@ -54,12 +57,20 @@ public class IacucAlternateSearchHelper implements Serializable {
         this.form = form;
     }
 
-    public List<IacucProtocolAlternateSearchDatabase> getNewDatabases() {
+    public List<String> getNewDatabases() {
         return newDatabases;
     }
 
-    public void setNewDatabases(List<IacucProtocolAlternateSearchDatabase> newDatabases) {
+    public void setNewDatabases(List<String> newDatabases) {
         this.newDatabases = newDatabases;
+    }
+
+    public boolean isModifyPermissions() {
+        return modifyPermissions;
+    }
+
+    public void setModifyPermissions(boolean modifyPermissions) {
+        this.modifyPermissions = modifyPermissions;
     }
     
 }

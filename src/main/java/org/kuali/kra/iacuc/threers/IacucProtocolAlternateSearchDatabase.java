@@ -21,9 +21,9 @@ public class IacucProtocolAlternateSearchDatabase extends KraPersistableBusiness
 
     private static final long serialVersionUID = -1319710309210165533L;
     
-    Integer iacucProtocolAltSearchDbId;
-    Integer iacucAltSearchId;
-    String alternateSearchDatabaseName;
+    private Integer iacucProtocolAltSearchDbId;
+    private Integer iacucAltSearchId;
+    private String alternateSearchDatabaseName;
     
     public Integer getIacucProtocolAltSearchDbId() {
         return iacucProtocolAltSearchDbId;
