@@ -46,13 +46,15 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     private Date projectEndDate;
     private Date previousPeriodEndDate;
     private String[] errorParameter;
+    private BudgetDocument budgetDocument;
 
     /**
      * 
      * @see org.kuali.kra.budget.parameters.AddBudgetPeriodRule#processAddBudgetPeriodBusinessRules(org.kuali.kra.budget.parameters.AddBudgetPeriodEvent)
      */
     public boolean processAddBudgetPeriodBusinessRules(AddBudgetPeriodEvent addBudgetPeriodEvent) {
-        Budget budget = ((BudgetDocument)addBudgetPeriodEvent.getDocument()).getBudget();
+        this.budgetDocument = (BudgetDocument) addBudgetPeriodEvent.getDocument();
+        Budget budget = budgetDocument.getBudget();
         BudgetPeriod newBudgetPeriod = addBudgetPeriodEvent.getBudgetPeriod();
         
         boolean rulePassed = true;
@@ -70,9 +72,9 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     }
 
     public boolean processSaveBudgetPeriodBusinessRules(SaveBudgetPeriodEvent saveBudgetPeriodEvent) {
-        Budget budget = ((BudgetDocument)saveBudgetPeriodEvent.getDocument()).getBudget();
+        this.budgetDocument = (BudgetDocument) saveBudgetPeriodEvent.getDocument();
+        Budget budget = budgetDocument.getBudget();
         BudgetPeriod newBudgetPeriod = saveBudgetPeriodEvent.getBudgetPeriod();
-        
         boolean rulePassed = true;
 
         if (!isValidBudgetPeriod(budget, newBudgetPeriod)) {
@@ -90,7 +92,8 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     }
 
     public boolean processGenerateBudgetPeriodBusinessRules(GenerateBudgetPeriodEvent generateBudgetPeriodEvent) {
-        Budget document = ((BudgetDocument)generateBudgetPeriodEvent.getDocument()).getBudget();
+        this.budgetDocument = (BudgetDocument) generateBudgetPeriodEvent.getDocument();
+        Budget document = budgetDocument.getBudget();
         BudgetPeriod newBudgetPeriod = generateBudgetPeriodEvent.getBudgetPeriod();
         MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean rulePassed = true;
@@ -133,10 +136,10 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     }
 
     public boolean processDeleteBudgetPeriodBusinessRules(DeleteBudgetPeriodEvent deleteBudgetPeriodEvent) {
-        Budget budget = ((BudgetDocument)deleteBudgetPeriodEvent.getDocument()).getBudget();
+        this.budgetDocument = (BudgetDocument) deleteBudgetPeriodEvent.getDocument();
+        Budget budget = budgetDocument.getBudget();
         int budgetPeriodNumber = deleteBudgetPeriodEvent.getBudgetPeriodNumber();
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        
         boolean rulePassed = true;
 
         if(getBudgetSummaryService().budgetLineItemExists(budget, budgetPeriodNumber)) {
@@ -404,16 +407,18 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         String returnErrorValue = null;
         LOG.info("prd st dt " + periodStartDate.getTime() + periodEndDate.getTime() + getProjectStartDate().getTime()
                 + getProjectEndDate().getTime());
-        if (periodStartDate.after(getProjectEndDate())) {
+        Date budgetEndDate = new Date(this.budgetDocument.getBudgetEndDate().getTime());
+        Date budgetStartDate = new Date(this.budgetDocument.getBudgetStartDate().getTime());
+        if (periodStartDate.after(budgetEndDate)) {
             LOG.info("ERROR_PERIOD_START_AFTER_PROJECT_END" + periodStartDate + getProjectEndDate());
             returnErrorValue = "ERROR_PERIOD_START_AFTER_PROJECT_END";
-        } else if (periodStartDate.before(getProjectStartDate())) {
+        } else if (periodStartDate.before(budgetStartDate)) {
             LOG.info("ERROR_PERIOD_START_BEFORE_PROJECT_START" + periodStartDate + getProjectStartDate());
             returnErrorValue = "ERROR_PERIOD_START_BEFORE_PROJECT_START";
         } else if (periodEndDate.before(getProjectStartDate())) {
             LOG.info("ERROR_PERIOD_END_BEFORE_PROJECT_START" + periodEndDate + getProjectStartDate());
             returnErrorValue = "ERROR_PERIOD_END_BEFORE_PROJECT_START";
-        } else if (periodEndDate.after(getProjectEndDate())) {
+        } else if (periodEndDate.after(budgetEndDate)) {
             LOG.info("ERROR_PERIOD_END_AFTER_PROJECT_END" + periodEndDate + getProjectEndDate());
             returnErrorValue = "ERROR_PERIOD_END_AFTER_PROJECT_END";
         } else if (periodStartDate.after(periodEndDate)) {
