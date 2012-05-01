@@ -109,7 +109,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         List<TransactionDetail> moneyTransactionDetailItems = new ArrayList<TransactionDetail>();
         //updateDocumentFromSession(timeAndMoneyDocument);//not sure if I need to do this.
         updateAwardAmountTransactions(timeAndMoneyDocument);
-        if(timeAndMoneyDocument.getAwardHierarchyNodes().size() == 1) {
+        //If single node, we don't want to capture amount changes in hierarchy view if pending view is enabled.
+        if(timeAndMoneyDocument.getAwardHierarchyNodes().size() == 1 && (StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(),ACTIVE_VIEW))) {
             for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
                 //Award award = aptService.getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
                 Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
@@ -553,6 +554,10 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward actionForward;
+        //Must reset to current view before we save.  single node hierarchy will 
+//        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+//        timeAndMoneyForm.setCurrentOrPendingView(ACTIVE_VIEW);
+//        refreshView(mapping, timeAndMoneyForm, request, response);
         save(mapping, form, request, response);
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
@@ -650,8 +655,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             updateDocumentFromSession(doc);
 
             ActivePendingTransactionsService service = KraServiceLocator.getService(ActivePendingTransactionsService.class);
-            //service.processTransactions(doc, doc.getNewAwardAmountTransaction(), awardAmountTransactionItems, awardItems, transactionDetailItems);
-            service.processTransactions(doc, doc.getAwardAmountTransactions().get(0), awardAmountTransactionItems, awardItems, transactionDetailItems);
+            //added refreshFlag boolean to service method. If doing a refresh, we don't want to reset the processed flag.  Only when T&M doc is routed for approval.
+            service.processTransactions(doc, doc.getAwardAmountTransactions().get(0), awardAmountTransactionItems, awardItems, transactionDetailItems, true);
             GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
             //doc.refreshReferenceObject(PENDING_TRANSACTIONS_ATTRIBUTE_NAME);
         //perform this logic if active view
@@ -666,10 +671,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 getAwardHierarchyService().populateAwardHierarchyNodesForTandMDoc(doc.getAwardHierarchyItems(), doc.getAwardHierarchyNodes(), null, null, timeAndMoneyForm.getDocument().getDocumentNumber());
             }
             GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
-        }
-        //must reset the processed flag.
-        for(PendingTransaction transaction : doc.getPendingTransactions()) {
-            transaction.setProcessedFlag(false);
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
