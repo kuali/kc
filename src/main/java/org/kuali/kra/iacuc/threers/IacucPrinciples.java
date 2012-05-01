@@ -30,6 +30,7 @@ public class IacucPrinciples extends ProtocolAssociate {
     private String reduction;
     private String refinement;
     private String replacement;
+    private boolean exceptionsPresent;
     
     public Long getIacucPrinciplesId() {
         return iacucPrinciplesId;
@@ -59,5 +60,11 @@ public class IacucPrinciples extends ProtocolAssociate {
     @Override
     public void resetPersistenceState() {
         this.setIacucPrinciplesId(null);        
+    }
+    public boolean isExceptionsPresent() {
+        return exceptionsPresent;
+    }
+    public void setExceptionsPresent(boolean exceptionsPresent) {
+        this.exceptionsPresent = exceptionsPresent;
     }
 }

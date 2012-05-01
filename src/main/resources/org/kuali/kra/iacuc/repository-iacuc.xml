@@ -453,6 +453,7 @@
         <field-descriptor name="reduction" column="REDUCTION" jdbc-type="VARCHAR" />
         <field-descriptor name="refinement" column="REFINEMENT" jdbc-type="VARCHAR" />
         <field-descriptor name="replacement" column="REPLACEMENT" jdbc-type="VARCHAR" />
+        <field-descriptor name="exceptionsPresent" column="EXCEPTIONS_PRESENT" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>        
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -468,7 +469,7 @@
         <field-descriptor name="searchDate" column="SEARCH_DATE" jdbc-type="DATE" />
         <field-descriptor name="yearsSearched" column="YEARS_SEARCHED" jdbc-type="VARCHAR" />
         <field-descriptor name="keywords" column="KEYWORDS" jdbc-type="VARCHAR" />
-        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -481,7 +482,7 @@
     
     <class-descriptor class="org.kuali.kra.iacuc.threers.IacucProtocolAlternateSearchDatabase" table="IACUC_PROTOCOL_ALT_SEARCH_DBS">
         <field-descriptor name="iacucProtocolAltSearchDbId" column="IACUC_PRTCL_ALT_SEARCH_DBS_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IAC_PRTCL_ALT_SRCH_DBS_ID" autoincrement="true" />
-        <field-descriptor name="iacucAltSearchId" column="IACUC_ALT_SEARCH_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="iacucAltSearchId" column="IACUC_ALT_SEARCH_ID" jdbc-type="INTEGER" />
         <field-descriptor name="alternateSearchDatabaseName" column="ALT_SEARCH_DATABASE_NAME" jdbc-type="VARCHAR" />        
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

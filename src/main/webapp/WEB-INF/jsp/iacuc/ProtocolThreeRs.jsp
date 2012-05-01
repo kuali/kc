@@ -41,6 +41,13 @@
 	   }
    }
 
+   function addOtherDatabase() {
+	   var inputVal = $j("#otherAltSearchDatabase").val().trim();
+	   
+	   if (inputVal) {
+		   $j("#new-databases-select").append(new Option(inputVal,inputVal));	   
+	   }
+   }
    
    $j(document).ready(function() {
 	    var selectEl = document.getElementById("iacucAlternateSearchHelper.newAlternateSearch.searchRequired");
@@ -50,14 +57,15 @@
 	        button_select: "#move_right",
 	        button_deselect: "#move_left"
         };
-        $j("#iacucAlternateSearchHelper.newAlternateSearch.databases").multiSelect("#new-databases-select", options);	    
+        $j("#iacucAlternateSearchHelper\\.newAlternateSearch\\.databases").multiSelect("#new-databases-select", options);	    
    });   
 </script>
 
 <kra-iacuc:iacucProtocolPrinciples 
     protocolPrinciples="${protocolPrinciples}" />
 <kra-iacuc:iacucProtocolAlternateSearch
-    protocolAlternateSearch="${protocolAlternateSearch}" />   
+    protocolAlternateSearch="${protocolAlternateSearch}"
+    modifyPermissions="${KualiForm.iacucAlternateSearchHelper.modifyPermissions}" />   
 
 <kul:panelFooter />
 
