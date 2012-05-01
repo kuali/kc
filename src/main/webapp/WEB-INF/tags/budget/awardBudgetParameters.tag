@@ -17,6 +17,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
+<c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
 <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
 <c:set var="awardBudgetAttributes" value="${DataDictionary.AwardBudgetExt.attributes}" />
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
@@ -46,9 +47,11 @@
                 <td align="left" valign="middle">
                 	<bean:write name="KualiForm" property="document.parentDocument.budgetParent.accountNumber"/>
                 </td>
-                <th><div align="right">Budget Start Date</div></th>
+                <th><div align="right">
+                	<kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" />
+                </div></th>
                 <td align="left" valign="middle">
-                	<fmt:formatDate value="${KualiForm.document.budget.startDate}" pattern="MM/dd/yyyy" />
+                	<fmt:formatDate value="${KualiForm.budgetStartDate}" pattern="MM/dd/yyyy" />
                 </td>
             </tr>
         	<tr>
@@ -56,9 +59,11 @@
            		<td>
            			<bean:write name="KualiForm" property="document.parentDocument.budgetParent.awardNumber"/> 
            		</td>
-				<th><div align="right">Budget End Date</div></th>
+				<th><div align="right">
+					<kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" />
+				</div></th>
                 <td>
-                	<fmt:formatDate value="${KualiForm.document.budget.endDate}" pattern="MM/dd/yyyy" />
+                	<fmt:formatDate value="${KualiForm.budgetEndDate}" pattern="MM/dd/yyyy" />
                 </td>
         	</tr>
 			<tr>
