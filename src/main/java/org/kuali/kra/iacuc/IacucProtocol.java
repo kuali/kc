@@ -83,9 +83,9 @@ public class IacucProtocol extends Protocol {
         setCorrespondentIndicator("no");
         setReferenceIndicator("no");
         setAlternativeSearchIndicator("no");
+        setIacucPrinciples(new IacucPrinciples());
         setIacucProtocolSpeciesList(new ArrayList<IacucProtocolSpecies>());
-        
-        iacucAlternateSearches = new ArrayList<IacucAlternateSearch>();
+        setIacucAlternateSearches(new ArrayList<IacucAlternateSearch>());
     } 
     
     @SuppressWarnings("unchecked")
@@ -93,6 +93,7 @@ public class IacucProtocol extends Protocol {
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getIacucProtocolSpeciesList());
+        managedLists.add(getIacucAlternateSearches());
         return managedLists;
     }
     
@@ -286,7 +287,7 @@ public class IacucProtocol extends Protocol {
         return iacucAlternateSearches;
     }
 
-    public void setIacucAlternateSearch(List<IacucAlternateSearch> iacucAlternateSearches) {
+    public void setIacucAlternateSearches(List<IacucAlternateSearch> iacucAlternateSearches) {
         this.iacucAlternateSearches = iacucAlternateSearches;
     }
 
