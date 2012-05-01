@@ -71,6 +71,9 @@
         <property name="shortLabel" value="Search Date" />
         <property name="summary" value="Search Date" />
         <property name="description" value="Search Date" />
+        <property name="validationPattern" >
+            <bean parent="DateValidationPattern" />
+        </property>
     </bean>
 
     <bean id="IacucAlternateSearch-databases" parent="IacucAlternateSearch-databases-parentBean" />
@@ -149,7 +152,7 @@
         <property name="control" >
             <bean parent="TextareaControlDefinition"
                 p:rows="5"
-                p:cols="40"
+                p:cols="35"
                 p:expandedTextArea="true" />
         </property>
         <property name="summary" value="Comments" />

@@ -22,6 +22,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -30,33 +31,49 @@ import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.util.CollectionUtils;
 
 public class IacucProtocolThreeRsAction extends IacucProtocolAction {
 
+
+    /**
+     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        
+        return actionForward;
+    }
     
     public ActionForward addAlternateSearchDatabase (ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        //IacucAlternateSearch altSearch = protocolForm.getIacucAlternateSearchHelper().getNewAlternateSearch();
+        IacucAlternateSearch altSearch = protocolForm.getIacucAlternateSearchHelper().getNewAlternateSearch();
+        List<String> newDatabases = protocolForm.getIacucAlternateSearchHelper().getNewDatabases();
         
-        IacucAlternateSearch altSearch = new IacucAlternateSearch();
-        altSearch.setComments("test comments");
-        altSearch.setKeywords("test keywords");
+        //TODO fix this...
         altSearch.setSearchDate(new Date());
-        altSearch.setSearchRequired(true);
-        altSearch.setYearsSearched("2000 - 2012");
-        
+               
         List<IacucProtocolAlternateSearchDatabase> databases = new ArrayList<IacucProtocolAlternateSearchDatabase>();
-        
-        databases.add(createAltSearchDB("Poxnet"));
-        databases.add(createAltSearchDB("ARIA"));
+        for (String newDb : newDatabases) {
+            databases.add(createAltSearchDB(newDb));
+        }
         
         altSearch.setDatabases(databases);
         
-        List<IacucAlternateSearch> searches = new ArrayList<IacucAlternateSearch>();     
+        List<IacucAlternateSearch> searches = ((IacucProtocol)protocolForm.getProtocolDocument().getProtocol()).getIacucAlternateSearches();
+        if (searches == null) {
+          searches = new ArrayList<IacucAlternateSearch>(); 
+        }
+                
         searches.add(altSearch);
         
-        ((IacucProtocol)protocolForm.getProtocolDocument().getProtocol()).setIacucAlternateSearch(searches);
+        ((IacucProtocol)protocolForm.getProtocolDocument().getProtocol()).setIacucAlternateSearches(searches);
         
         getDocumentService().saveDocument(protocolForm.getProtocolDocument());
         
@@ -67,5 +84,29 @@ public class IacucProtocolThreeRsAction extends IacucProtocolAction {
         IacucProtocolAlternateSearchDatabase db = new IacucProtocolAlternateSearchDatabase();
         db.setAlternateSearchDatabaseName(dbName);
         return db;
-    }    
+    }
+    
+    public ActionForward deleteAlternateSearch (ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        int commentIndex = getAlternateSearchIndexNumber(parameterName, "deleteAlternateSearch");
+
+        return mapping.findForward(Constants.MAPPING_BASIC);        
+    }
+    
+    private int getAlternateSearchIndexNumber(String parameterName, String actionMethodToCall) {
+        int result = -1;
+        if (StringUtils.isBlank(parameterName)||parameterName.indexOf("."+actionMethodToCall+".") == -1) {
+            throw new IllegalArgumentException(
+                    String.format("getAlternateSearchIndex expects a non-empty value for parameterName parameter, "+
+                            "and it must contain as a substring the parameter actionMethodToCall. "+
+                            "The passed values were (%s,%s)."
+                            ,parameterName,actionMethodToCall)
+                    );
+        }
+        String idxNmbr = StringUtils.substringBetween(parameterName, ".line.", ".anchor");
+        result = Integer.parseInt(idxNmbr);
+        return result;
+    }
 }
