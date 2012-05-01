@@ -213,7 +213,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return StringUtils.EMPTY;
     }
     public String populateBudgetEditableFieldMetaDataForAjaxCall(String proposalNumber, String documentNumber, String editableFieldDBColumn) {
-        if (isAuthorizedToAccess(proposalNumber)) {
+        if (isAuthorizedToAccess(proposalNumber) && StringUtils.isNotBlank(documentNumber) && StringUtils.isNotBlank(editableFieldDBColumn)) {
             return populateBudgetEditableFieldMetaData(documentNumber, editableFieldDBColumn);
         }
         return StringUtils.EMPTY;
