@@ -761,8 +761,8 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String reloadImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_reload.gif";
-        addExtraButton("methodToCall.reload", reloadImage, "Reload");
-        
+        //addExtraButton("methodToCall.reload", reloadImage, "Reload");
+        addExtraButton("methodToCall.reload", reloadImage, null);
         return extraButtons;
     }
     

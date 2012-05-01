@@ -69,7 +69,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         //if Single node, we don't need to process transactions since they have already been processed when created.
         //if (doc.getAwardHierarchyNodes().size() > 1) {
             List<AwardAmountTransaction> awardAmountTransactions = processTransactions(doc, newAwardAmountTransaction,
-                    awardAmountTransactionItems, awardItems, transactionDetailItems);
+                    awardAmountTransactionItems, awardItems, transactionDetailItems, false);
             performSave(doc, transactionDetailItems, awardItems, awardAmountTransactions);
         //}else {
             //businessObjectService.save(transactionDetailItems);
@@ -89,7 +89,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      * @return
      */
     public List<AwardAmountTransaction> processTransactions(TimeAndMoneyDocument doc,AwardAmountTransaction newAwardAmountTransaction
-            , Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems) {
+            , Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems, Boolean refreshFlag) {
         
         List<PendingTransaction> updatedPendingTransactions = new ArrayList<PendingTransaction>();
         List<PendingTransaction> pendingTransactionsToBeDeleted = new ArrayList<PendingTransaction>();
@@ -101,7 +101,10 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
                 AwardHierarchyNode sourceAwardNode = awardHierarchyNodes.get(pendingTransaction.getSourceAwardNumber());
                 AwardHierarchyNode destinationAwardNode = awardHierarchyNodes.get(pendingTransaction.getDestinationAwardNumber());            
                 AwardHierarchyNode parentNode = new AwardHierarchyNode();
-                pendingTransaction.setProcessedFlag(true);
+                //if we are just doing a refresh view in T&M, there is no need to change the processed flag.
+                if(!refreshFlag){
+                    pendingTransaction.setProcessedFlag(true);
+                }
                 //
                 if(StringUtils.equalsIgnoreCase(pendingTransaction.getSourceAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
                     //working
