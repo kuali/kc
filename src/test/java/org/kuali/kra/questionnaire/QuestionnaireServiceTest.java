@@ -46,6 +46,8 @@ public class QuestionnaireServiceTest  extends KcUnitTestBase {
             expectedModules.add("3");
             expectedModules.add("7");
             expectedModules.add("2");
+            expectedModules.add("8");
+            expectedModules.add("9");
         }  
 
 
@@ -120,18 +122,12 @@ public class QuestionnaireServiceTest  extends KcUnitTestBase {
         public void testValidCodes() {
             GlobalVariables.setUserSession(new UserSession("quickstart"));
 
-            final QuestionnaireServiceImpl questionnaireService = new QuestionnaireServiceImpl();
-
-
             List<String> modules = KraServiceLocator.getService(QuestionnaireService.class).getAssociateModules();
-            //assertEquals(3, modules.size());
             assertEquals(modules.size(), expectedModules.size());
-//TEMP            for (String module : modules ) {
-//TEMP                assertTrue(expectedModules.contains(module));
-//TEMP            }
-            
+            for (String module : modules ) {
+                assertTrue(expectedModules.contains(module));
+            }
             context.assertIsSatisfied();
-                        
         }
         
         @Test
