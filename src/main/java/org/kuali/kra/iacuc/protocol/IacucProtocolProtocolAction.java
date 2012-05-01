@@ -33,6 +33,7 @@ import org.kuali.kra.common.customattributes.CustomDataAction;
 
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -114,7 +115,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
                     .getService("iacucProtocolResearchAreaService");
             service.addProtocolResearchArea(protocolDocument.getProtocol(), (Collection<ResearchArea>) selectedBOs);
             // finally do validation and error reporting for inactive research areas
-            (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolDocument);
+            (new IacucProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolDocument);
         }
         
         
@@ -273,7 +274,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         protocolForm.getProtocolDocument().getProtocol().getProtocolResearchAreas().remove(getLineToDelete(request));
         // finally do validation and error reporting for inactive research areas
-        (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolForm.getProtocolDocument());
+        (new IacucProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolForm.getProtocolDocument());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
