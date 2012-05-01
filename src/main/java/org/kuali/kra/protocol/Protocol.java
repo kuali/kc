@@ -2310,6 +2310,10 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
         return sortedActions;
     }
+    
+    public boolean isEmptyProtocolResearchAreas() {
+        return CollectionUtils.isEmpty(getProtocolResearchAreas());
+    }
  
 
 }

@@ -23,6 +23,8 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRule;
+import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
@@ -35,15 +37,19 @@ import org.kuali.rice.krad.util.MessageMap;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolDocumentRule extends ResearchDocumentRuleBase  
-
-// TODO *********uncomment the code below in increments as needed during refactoring********* 
-//                                                                    implements
+public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase   
+                                                                    implements
+                                                                    
+// TODO *********commented the code below during IACUC refactoring*********                                                                    
 //                                                                                AddProtocolReferenceRule, 
 //                                                                                AddProtocolLocationRule,  
 //                                                                                AddProtocolAttachmentPersonnelRule, 
-//                                                                                AddProtocolUnitRule, 
-//                                                                                BusinessRuleInterface, 
+//                                                                                AddProtocolUnitRule,
+                                                                    
+                                                                    
+                                                                                BusinessRuleInterface
+                                                                                
+// TODO *********commented the code below during IACUC refactoring*********                                                                                 
 //                                                                                ExecuteProtocolSubmitActionRule, 
 //                                                                                ExecuteProtocolAssignCmtSchedRule, 
 //                                                                                ExecuteProtocolAssignReviewersRule, 
@@ -88,12 +94,17 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase
         boolean valid = true;
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
         
-// TODO *********uncomment the code below in increments as needed during refactoring*********         
-//        if ((protocolDocument.getDocumentHeader().getWorkflowDocument().isInitiated() || protocolDocument.getDocumentHeader().getWorkflowDocument().isSaved()) && ProtocolStatus.IN_PROGRESS.equals(protocolDocument.getProtocol().getProtocolStatusCode())
-//                && StringUtils.isBlank(protocolDocument.getDocumentHeader().getDocumentTemplateNumber())) {
-//            valid &= processProtocolResearchAreaBusinessRules((ProtocolDocument) document);
-//        } 
-//        valid &= processLeadUnitBusinessRules((ProtocolDocument) document);
+         
+        if ( ( protocolDocument.getDocumentHeader().getWorkflowDocument().isInitiated() || protocolDocument.getDocumentHeader().getWorkflowDocument().isSaved() ) 
+                && getInProgressProtocolStatusCodeHook().equals(protocolDocument.getProtocol().getProtocolStatusCode())
+                && StringUtils.isBlank(protocolDocument.getDocumentHeader().getDocumentTemplateNumber()) ) {
+            valid &= processProtocolResearchAreaBusinessRules((ProtocolDocument) document);
+        }
+        
+       
+        valid &= processLeadUnitBusinessRules((ProtocolDocument) document);
+        
+// TODO *********commented the code below during IACUC refactoring*********          
 //        valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
 //        valid &= processProtocolPersonnelBusinessRules((ProtocolDocument) document);
 //        valid &= processProtocolCustomDataBusinessRules((ProtocolDocument) document);
@@ -102,6 +113,8 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase
         
         return valid;
     }
+
+    protected abstract String getInProgressProtocolStatusCodeHook();
 
     /**
      * This method will check if all the research areas that have been added to the protocol are indeed active.
@@ -134,24 +147,32 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase
     }
 
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
-//     */
-//    @Override
-//    public boolean processRunAuditBusinessRules(Document document){
-//        boolean retval = true;
-//        
+    
+    /**
+     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
+     */
+    @Override
+    public boolean processRunAuditBusinessRules(Document document){
+        boolean retval = true;
+
+// TODO *********commented the code below during IACUC refactoring*********         
 //        retval &= super.processRunAuditBusinessRules(document);
 //        retval &= new ProtocolFundingSourceAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
-//        retval &= new ProtocolResearchAreaAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
+         
+        retval &= getNewProtocolResearchAreaAuditRuleInstanceHook().processRunAuditBusinessRules((ProtocolDocument) document);
+
+// TODO *********commented the code below during IACUC refactoring*********        
 //        retval &= new ProtocolPersonnelAuditRule().processRunAuditBusinessRules(document);
 //        retval &= this.processNoteAndAttachmentAuditRules((ProtocolDocument) document);
 //        retval &= new ProtocolQuestionnaireAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
-//        return retval;
-//    }
+        return retval;
+    }
+    
+    
 
     
+    protected abstract ProtocolResearchAreaAuditRule getNewProtocolResearchAreaAuditRuleInstanceHook();
+
     /**
      * Validates lead unit rules for a {@link ProtocolDocument ProtocolDocument}.
      * @param document the document
@@ -353,7 +374,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase
     }
 
 
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean processReviewNotRequiredRule(ProtocolDocument document, ProtocolReviewNotRequiredBean actionBean) {
 //        return new ProtocolReviewNotRequiredRule().processReviewNotRequiredRule(document, actionBean);
 //    }
