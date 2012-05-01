@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
@@ -31,6 +32,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
@@ -56,6 +58,7 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
     private BudgetParentDocument<T> parentDocument;
     private List<Budget> budgets;
     private boolean budgetDeleted;
+    
     
     public BudgetDocument(){
         super();
@@ -312,4 +315,23 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
         return true;
     }
     
+    public java.util.Date getBudgetStartDate() {
+        if (StringUtils.equalsIgnoreCase("true", getProposalBudgetFlag())) {
+            ProposalDevelopmentDocument pdd = (ProposalDevelopmentDocument) getParentDocument();
+            return pdd.getDevelopmentProposal().getRequestedStartDateInitial();
+        } else {
+            AwardDocument ad = (AwardDocument) getParentDocument();
+            return ad.getAward().getAwardAmountInfos().get(ad.getAward().getAwardAmountInfos().size() - 1).getCurrentFundEffectiveDate();
+        }
+    }
+    
+    public java.util.Date getBudgetEndDate() {
+        if (StringUtils.equalsIgnoreCase("true", getProposalBudgetFlag())) {
+            ProposalDevelopmentDocument pdd = (ProposalDevelopmentDocument) getParentDocument();
+            return pdd.getDevelopmentProposal().getRequestedEndDateInitial();
+        } else {
+            AwardDocument ad = (AwardDocument) getParentDocument();
+            return ad.getAward().getAwardAmountInfos().get(ad.getAward().getAwardAmountInfos().size() - 1).getObligationExpirationDate();
+        }
+    }    
 }

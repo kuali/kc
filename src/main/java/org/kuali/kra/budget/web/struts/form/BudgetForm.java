@@ -21,7 +21,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -949,26 +948,10 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
     
     public java.util.Date getBudgetStartDate() {
-        if (StringUtils.equalsIgnoreCase("true", this.getBudgetDocument().getProposalBudgetFlag())) {
-            //PD
-            ProposalDevelopmentDocument pdd = (ProposalDevelopmentDocument)this.getBudgetDocument().getParentDocument();
-            pdd.getDevelopmentProposal().getRequestedStartDateInitial();
-            return pdd.getDevelopmentProposal().getRequestedStartDateInitial();
-        } else {
-            //Award
-            return this.getBudgetDocument().getBudget().getStartDate();
-        }
+        return this.getBudgetDocument().getBudgetStartDate();
     }
     
     public java.util.Date getBudgetEndDate() {
-        if (StringUtils.equalsIgnoreCase("true", this.getBudgetDocument().getProposalBudgetFlag())) {
-            ProposalDevelopmentDocument pdd = (ProposalDevelopmentDocument)this.getBudgetDocument().getParentDocument();
-            pdd.getDevelopmentProposal().getRequestedStartDateInitial();
-            return pdd.getDevelopmentProposal().getRequestedEndDateInitial();
-        } else {
-            return this.getBudgetDocument().getBudget().getEndDate();
-        }
+        return this.getBudgetDocument().getBudgetEndDate();
     }
-    
-    
 }
