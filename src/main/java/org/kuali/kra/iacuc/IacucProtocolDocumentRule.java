@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.iacuc;
 
+import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaAuditRule;
 import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesEvent;
 import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesRule;
 import org.kuali.kra.iacuc.species.rule.ProtocolSpeciesRule;
 import org.kuali.kra.protocol.ProtocolDocumentRule;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRule;
 
 /**
  * Main Business Rule class for <code>{@link IacucProtocolDocument}</code>. Responsible for delegating rules to independent rule classes.
@@ -27,9 +30,21 @@ import org.kuali.kra.protocol.ProtocolDocumentRule;
  */
 public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements AddProtocolSpeciesRule{
 
+
+    @Override
+    protected String getInProgressProtocolStatusCodeHook() {
+        return IacucProtocolStatus.IN_PROGRESS;
+    }
+
+    @Override
+    protected ProtocolResearchAreaAuditRule getNewProtocolResearchAreaAuditRuleInstanceHook() {
+        return new IacucProtocolResearchAreaAuditRule();
+    }
+
     @Override
     public boolean processAddProtocolSpeciesBusinessRules(AddProtocolSpeciesEvent addProtocolSpeciesEvent) {
         return new ProtocolSpeciesRule().processAddProtocolSpeciesBusinessRules(addProtocolSpeciesEvent);
     }
+
 
 }

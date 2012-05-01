@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
-public class ProtocolResearchAreaAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
+public abstract class ProtocolResearchAreaAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
     
     private static final String ADDITIONAL_INFORMATION_AUDIT_ERRORS = "additionalInformationAuditErrors";
     
@@ -45,12 +45,12 @@ public class ProtocolResearchAreaAuditRule extends ResearchDocumentRuleBase impl
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
         auditErrors = new ArrayList<AuditError>();
         
-        isValid = !getProtocolResearchAreaService().isEmptyProtocolResearchAreas(protocolDocument.getProtocol());
+        isValid = !protocolDocument.getProtocol().isEmptyProtocolResearchAreas();
 
         if (!isValid) {
             addErrorToAuditErrors();
         }
-        isValid &= isResearchAreaActive(protocolDocument);
+        isValid &= isEveryResearchAreaActive(protocolDocument);
         reportAndCreateAuditCluster();
         
         return isValid;
@@ -70,7 +70,7 @@ public class ProtocolResearchAreaAuditRule extends ResearchDocumentRuleBase impl
     }
 
     
-    private boolean isResearchAreaActive(ProtocolDocument document) {
+    private boolean isEveryResearchAreaActive(ProtocolDocument document) {
         boolean inactiveFound = false;
         String inactiveResearchAreaCode = "";
         
@@ -113,8 +113,6 @@ public class ProtocolResearchAreaAuditRule extends ResearchDocumentRuleBase impl
         }
     }
     
-    private ProtocolResearchAreaService getProtocolResearchAreaService() {
-        return KraServiceLocator.getService(ProtocolResearchAreaService.class);
-    }
+    
 
 }

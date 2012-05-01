@@ -252,7 +252,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         AuditActionHelper auditActionHelper = new AuditActionHelper();
         
         if (isAuthorized(task)) {
-            if ( protocolForm.getProtocolDocument().getProtocol().isCorrectionMode() || 
+            if ( !protocolForm.getProtocolDocument().getProtocol().isCorrectionMode() || 
                     auditActionHelper.auditUnconditionally(protocolForm.getDocument()) ) {
                 this.preSave(mapping, form, request, response);
                 actionForward = super.save(mapping, form, request, response);
