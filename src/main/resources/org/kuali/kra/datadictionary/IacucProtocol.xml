@@ -42,9 +42,9 @@
                 <ref bean="IacucProtocol-protocolTypeCode" />
                 
                 <ref bean="IacucProtocol-protocolStatusCode" />
-                <ref bean="Protocol-leadUnitNumber" />
-				<ref bean="Protocol-leadUnitName" />
-				<ref bean="Protocol-principalInvestigatorId" />
+                <ref bean="IacucProtocol-leadUnitNumber" />
+				<ref bean="IacucProtocol-leadUnitName" />
+				<ref bean="IacucProtocol-principalInvestigatorId" />
                 <ref bean="IacucProtocol-title" />
                 <ref bean="IacucProtocol-description" />
                 <ref bean="IacucProtocol-applicationDate" />
@@ -169,8 +169,8 @@
         <property name="description" value="Protocol Status Code" />
     </bean>
     
-    <bean id="Protocol-leadUnitNumber" parent="Protocol-leadUnitNumber-parentBean" />
-	<bean id="Protocol-leadUnitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="IacucProtocol-leadUnitNumber" parent="IacucProtocol-leadUnitNumber-parentBean" />
+	<bean id="IacucProtocol-leadUnitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="leadUnitNumber" />
 		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
@@ -188,8 +188,8 @@
 		<property name="description" value="The protocol's fixed home unit that will be used for routing and business rule purposes." />
 	</bean>
 	
-	<bean id="Protocol-principalInvestigatorId" parent="Protocol-principalInvestigatorId-parentBean" />
-	<bean id="Protocol-principalInvestigatorId-parentBean" abstract="true" parent="AttributeDefinition" >
+	<bean id="IacucProtocol-principalInvestigatorId" parent="IacucProtocol-principalInvestigatorId-parentBean" />
+	<bean id="IacucProtocol-principalInvestigatorId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="principalInvestigatorId" />
     	<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
@@ -551,6 +551,26 @@
     <bean id="IacucProtocol-versionNumber" parent="IacucProtocol-versionNumber-parentBean" />
     <bean id="IacucProtocol-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
+    
+    <bean id="IacucProtocol-leadUnitName" parent="IacucProtocol-leadUnitName-parentBean" />
+	<bean id="IacucProtocol-leadUnitName-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="leadUnitName" />
+		<property name="required" value="false" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Lead Unit Name" />
+		<property name="shortLabel" value="Lead Unit Name" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+           <bean parent="AnyCharacterValidationPattern"
+                 p:allowWhitespace="true" />
+        </property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Lead Unit Name" />
+		<property name="description" value="The protocol's fixed home unit that will be used for routing and business rule purposes." />
+	</bean>
 
     <!-- Business Object Inquiry Definition -->
     <bean id="IacucProtocol-inquiryDefinition" parent="IacucProtocol-inquiryDefinition-parentBean" />

@@ -93,10 +93,27 @@ public class IacucProtocolHelper extends ProtocolHelper {
     @Override
     protected ProtocolTask getNewInstanceModifyProtocolResearchAreasTaskHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_RESEARCH_AREAS, (IacucProtocol)protocol);
-    } 
+    }
+    
+    
+    @Override
+    protected ProtocolTask getNewInstanceModifyProtocolTaskHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL, (IacucProtocol) protocol);
+    }
 
+
+    @Override
+    protected ProtocolTask getNewInstanceModifyProtocolReferencesTaskHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_REFERENCES, (IacucProtocol) protocol);
+    }
+
+    
+    
     protected ProtocolAction createProtocolActionHook(Protocol protocol, ProtocolSubmission protocolSubmission) {
         return new IacucProtocolAction(protocol, protocolSubmission, getProtocolCreatedProtocolActionTypeCodeHook());
     }
+
+
+    
 
 }

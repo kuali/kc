@@ -21,8 +21,8 @@
 <c:set var="protocolRiskLevelsAttributes" value="${DataDictionary.ProtocolRiskLevel.attributes}" />
 <c:set var="riskLevelAttributes" value="${DataDictionary.RiskLevel.attributes}" />
 <c:set var="protocolReferenceAttributes" value="${DataDictionary.ProtocolReference.attributes}" />
-<c:set var="protocolReferenceBeanAttributes" value="${DataDictionary.ProtocolReferenceBean.attributes}" />
-<c:set var="protocolReferenceTypeAttributes" value="${DataDictionary.ProtocolReferenceType.attributes}" />
+<c:set var="protocolReferenceBeanAttributes" value="${DataDictionary.IacucProtocolReferenceBean.attributes}" />
+<%-- <c:set var="protocolReferenceTypeAttributes" value="${DataDictionary.IacucProtocolReferenceType.attributes}" /> --%>
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchArea.attributes}" />
 <c:set var="protocolLocationAttributes" value="${DataDictionary.ProtocolLocation.attributes}" />
 <c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />
@@ -72,7 +72,6 @@
      protocolAttributes="${protocolAttributes}"
      protocolReferenceAttributes="${protocolReferenceAttributes}"
      protocolReferenceBeanAttributes="${protocolReferenceBeanAttributes}"
-     protocolReferenceTypeAttributes="${protocolReferenceTypeAttributes}"
      researchAreasAttributes="${researchAreasAttributes}"
      action="${iacucProtocolProtocol}"
      className="${className}"/>
