@@ -183,7 +183,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return actionTypeCode;
     }
 
-// TODO *********uncomment the code below in increments as needed during refactoring*********    
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * This method gets called upon navigation to Notes and attachments tab.
 //     * @param mapping the Action Mapping
@@ -228,6 +228,11 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
 //
 //       return mapping.findForward("protocolActions");
 //    }
+    
+    public abstract ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    
+    
+    
     
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((ProtocolForm)form).getProtocolCustomDataHelper().prepareView(((ProtocolForm)form).getProtocolDocument());
@@ -403,7 +408,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         // do nothing
     }
 
-    
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
 //     * org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -475,6 +481,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return getKualiRuleService().applyRules(event);
     }
 
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * This method is to get protocol personnel training service
 //     * @return ProtocolPersonTrainingService
@@ -563,6 +570,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return  (AnswerHeader)getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, fieldValues);
     }
 
+// TODO *********commented the code below during IACUC refactoring*********     
 //    protected QuestionnairePrintingService getQuestionnairePrintingService() {
 //        return KraServiceLocator.getService(QuestionnairePrintingService.class);
 //    }
@@ -578,7 +586,9 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         }
         return protocolNumber;
     }
+
     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    private ProtocolFinderDao getProtocolFinder() {
 //        return KraServiceLocator.getService(ProtocolFinderDao.class);
 //    }
@@ -617,7 +627,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
 //        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.PROTOCOL_CREATED_NOTIFICATION, "Created", renderer);
 //        KraServiceLocator.getService(KcNotificationService.class).sendNotification(context);
 //    }
-// TODO **********************end************************  
+
 
     
     protected KraAuthorizationService getKraAuthorizationService() {
