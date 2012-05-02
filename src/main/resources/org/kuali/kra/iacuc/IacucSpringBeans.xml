@@ -157,6 +157,9 @@
     
     <bean id="iacucProtocolResearchAreaService" class="org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaServiceImpl">
     </bean> 
+    
+    <bean id="iacucProtocolReferenceService" class="org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceServiceImpl">
+    </bean> 
         
 </beans>
 

@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceRule;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaAuditRule;
 import org.kuali.kra.iacuc.species.exception.rule.AddProtocolExceptionEvent;
 import org.kuali.kra.iacuc.species.exception.rule.AddProtocolExceptionRule;
@@ -53,6 +54,12 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements A
     public boolean processAddProtocolExceptionBusinessRules(AddProtocolExceptionEvent addProtocolExceptionEvent) {
         return new ProtocolExceptionRule().processAddProtocolExceptionBusinessRules(addProtocolExceptionEvent);
     }
+    
 
+    @Override
+    protected IacucProtocolReferenceRule getNewProtocolReferenceRuleInstanceHook() {
+        return new IacucProtocolReferenceRule();
+    }
+    
 
 }

@@ -27,7 +27,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * This class is implementation of <code>AddProtocolReferenceRule</code> interface. Impl makes sure necessary rules are satisfied 
  * before object can be used.
  */
-public class ProtocolReferenceRule extends ResearchDocumentRuleBase implements AddProtocolReferenceRule {
+public abstract class ProtocolReferenceRule extends ResearchDocumentRuleBase implements AddProtocolReferenceRule {
 
     /**
      * @see org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceRule#processAddProtocolReferenceBusinessRules(org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceEvent)

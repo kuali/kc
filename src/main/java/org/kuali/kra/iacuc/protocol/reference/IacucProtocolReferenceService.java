@@ -15,27 +15,8 @@
  */
 package org.kuali.kra.iacuc.protocol.reference;
 
-import java.text.ParseException;
+import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceService;
 
-import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.protocol.protocol.reference.ProtocolReference;
+public interface IacucProtocolReferenceService extends ProtocolReferenceService {
 
-public class IacucProtocolReference extends ProtocolReference {
-    
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = -5606862862070468479L;
-
-
-    public IacucProtocolReference(IacucProtocolReferenceBean bean, IacucProtocol protocol, IacucProtocolReferenceType type) throws ParseException {
-        super(bean, protocol, type);                
-    }
-
-
-    public IacucProtocolReference() {
-        super();
-    }
-
-    
 }
