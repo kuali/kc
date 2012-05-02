@@ -459,7 +459,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.subaward.subawardrule.SubAwardDocumentRuleTest.class,
     org.kuali.kra.subaward.web.struts.action.SubAwardActionTest.class,
     org.kuali.kra.subaward.web.struts.action.SubAwardFinancialActionTest.class,
-    org.kuali.kra.subaward.document.authorization.TestSubAwardAuthorizers.class,
+    //org.kuali.kra.subaward.document.authorization.TestSubAwardAuthorizers.class,
     org.kuali.kra.scheduling.service.ScheduleServiceTest.class,
     org.kuali.kra.common.notification.rules.AddNotificationTypeRecipientRuleTest.class,
     org.kuali.kra.common.notification.rules.SendNotificationRuleTest.class,
