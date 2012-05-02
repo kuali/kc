@@ -42,8 +42,6 @@
         <ref bean="KcPersonExtendedAttributes-onSabbaticalFlag"/>
         <ref bean="KcPersonExtendedAttributes-idProvided"/>
         <ref bean="KcPersonExtendedAttributes-idVerified"/>
-        <ref bean="KcPersonExtendedAttributes-biosketchDescription"/>
-        <ref bean="KcPersonExtendedAttributes-templateFile" />
         <ref bean="KcPersonExtendedAttributes-county"/>
         <ref bean="KcPersonExtendedAttributes-versionNumber"/>
         <ref bean="KcPersonExtendedAttributes-citizenshipTypeCode"/>
@@ -394,35 +392,6 @@
 
   <bean abstract="true" id="KcPersonExtendedAttributes-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
   </bean>
-
-  <bean id="KcPersonExtendedAttributes-biosketchDescription" parent="KcPersonExtendedAttributes-biosketchDescription-parentBean" />
-  <bean id="KcPersonExtendedAttributes-biosketchDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="biosketchDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Biosketch Description" />
-    <property name="shortLabel" value="Biosketch Description" />
-    <property name="maxLength" value="4000" />
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:size="40" />
-    </property>
-    <property name="summary" value="Biosketch Description" />
-    <property name="description" value="Biosketch Description" />
-  </bean>  
-  <bean id="KcPersonExtendedAttributes-templateFile" parent="KcPersonExtendedAttributes-templateFile-parentBean" />
-  <bean id="KcPersonExtendedAttributes-templateFile-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="templateFile" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Biosketch" />
-    <property name="shortLabel" value="Biosketch" />
-    <property name="control" >
-      <bean parent="FileControlDefinition"
-            p:size="50" />
-    </property>   
-    <property name="summary" value="Biosketch" />
-    <property name="description" value="Biosketch" />
-  </bean>  
   
   <bean id="KcPersonExtendedAttributes-citizenshipTypeCode" parent="KcPersonExtendedAttributes-citizenshipTypeCode-parentBean" />
 	<bean id="KcPersonExtendedAttributes-citizenshipTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >

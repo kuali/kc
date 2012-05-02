@@ -29,6 +29,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.PersonBiosketch;
 import org.kuali.kra.bo.PersonDegree;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
@@ -229,29 +230,28 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                     newDegree.setDegreeSequenceNumber(document.getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
                     person.addDegree(newDegree);                
                 }
-                if (StringUtils.isNotEmpty(origPerson.getExtendedAttributes().getFileName()) &&
-                        StringUtils.isNotEmpty(origPerson.getExtendedAttributes().getContentType()) &&
-                        origPerson.getExtendedAttributes().getAttachmentContent() != null &&
-                        origPerson.getExtendedAttributes().getAttachmentContent().length > 0) {
-                    ProposalPersonBiography bio = new ProposalPersonBiography(); 
-                    bio.setDescription(origPerson.getExtendedAttributes().getBiosketchDescription());
-                    bio.setProposalPersonNumber(person.getProposalPersonNumber());
-                    bio.setDocumentTypeCode(getDefaultPersonAttachmentDocType()); //biosketch
-                    bio.setFileName(origPerson.getExtendedAttributes().getFileName());
-                    bio.setContentType(origPerson.getExtendedAttributes().getContentType());
-                    
-                    ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
-                    personnelAttachment.setFileName(origPerson.getExtendedAttributes().getFileName());
-                    personnelAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-                    personnelAttachment.setProposalPersonNumber(person.getProposalPersonNumber());
-                    personnelAttachment.setBiographyData(origPerson.getExtendedAttributes().getAttachmentContent());
-                    personnelAttachment.setContentType(origPerson.getExtendedAttributes().getContentType());
-                    if (bio.getPersonnelAttachmentList().isEmpty()) {
-                        bio.getPersonnelAttachmentList().add(personnelAttachment);
-                    } else {
-                        bio.getPersonnelAttachmentList().set(0, personnelAttachment);
+                if (origPerson.getExtendedAttributes().getAttachments() != null) {
+                    for (PersonBiosketch attachment : origPerson.getExtendedAttributes().getAttachments()) {
+                        ProposalPersonBiography bio = new ProposalPersonBiography(); 
+                        bio.setProposalPersonNumber(person.getProposalPersonNumber());
+                        bio.setDocumentTypeCode(getDefaultPersonAttachmentDocType());
+                        bio.setDescription(attachment.getDescription());
+                        bio.setFileName(attachment.getFileName());
+                        bio.setContentType(attachment.getContentType());
+                        
+                        ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
+                        personnelAttachment.setFileName(attachment.getFileName());
+                        personnelAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+                        personnelAttachment.setProposalPersonNumber(person.getProposalPersonNumber());
+                        personnelAttachment.setBiographyData(attachment.getAttachmentContent());
+                        personnelAttachment.setContentType(attachment.getContentType());
+                        if (bio.getPersonnelAttachmentList().isEmpty()) {
+                            bio.getPersonnelAttachmentList().add(personnelAttachment);
+                        } else {
+                            bio.getPersonnelAttachmentList().set(0, personnelAttachment);
+                        }
+                        document.getDevelopmentProposal().addProposalPersonBiography(bio);
                     }
-                    document.getDevelopmentProposal().addProposalPersonBiography(bio);
                 }
             }
         } catch (IllegalArgumentException e) {
