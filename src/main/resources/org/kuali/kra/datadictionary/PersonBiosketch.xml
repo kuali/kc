@@ -1,0 +1,84 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="PersonBiosketch" parent="PersonBiosketch-parentBean" />
+    <bean id="PersonBiosketch-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.PersonBiosketch" />
+        <property name="titleAttribute" value="personBiosketchId" />
+        <property name="objectLabel" value="Person Biosketch" />
+        <property name="attributes">
+            <list>
+                <ref bean="PersonBiosketch-personBiosketchId" />
+                <ref bean="PersonBiosketch-description" />
+                <ref bean="PersonBiosketch-attachmentFile" />
+                <ref bean="PersonBiosketch-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="PersonBiosketch-personBiosketchId" parent="PersonBiosketch-personBiosketchId-parentBean" />
+    <bean id="PersonBiosketch-personBiosketchId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="personBiosketchId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Person Biosketch Id" />
+        <property name="shortLabel" value="Person Biosketch Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"
+                  p:size="10" />
+        </property>
+        <property name="summary" value="Person Biosketch Id" />
+        <property name="description" value="Person Biosketch Id" />
+    </bean>
+
+    <bean id="PersonBiosketch-personId" parent="PersonBiosketch-personId-parentBean"/>
+    <bean id="PersonBiosketch-personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+        <property name="name" value="personId"/>
+        <property name="label" value="KcPersonExtendedAttributes Id"/>
+        <property name="shortLabel" value="KcPersonExtendedAttributes Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="summary" value="KcPersonExtendedAttributes Id"/>
+        <property name="description" value="KcPersonExtendedAttributes Id"/>  
+    </bean>
+    
+    <bean id="PersonBiosketch-description" parent="PersonBiosketch-description-parentBean" />
+    <bean id="PersonBiosketch-description-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Description" />
+        <property name="shortLabel" value="Description" />
+        <property name="maxLength" value="4000" />
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                  p:size="40" />
+        </property>
+        <property name="summary" value="Description" />
+        <property name="description" value="Description" />
+    </bean>
+
+    <bean id="PersonBiosketch-attachmentFile" parent="PersonBiosketch-attachmentFile-parentBean" />
+    <bean id="PersonBiosketch-attachmentFile-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="attachmentFile" />
+        <property name="label" value="Attachment File" />
+        <property name="shortLabel" value="Attachment File" />
+        <property name="required" value="true" />
+        <property name="control" >
+            <bean parent="FileControlDefinition"
+                  p:size="50" />
+        </property>
+        <property name="summary" value="Person Biosketch File" />
+        <property name="description" value="Person Biosketch File" />
+    </bean>
+   
+    <bean id="PersonBiosketch-versionNumber" parent="PersonBiosketch-versionNumber-parentBean" />
+    <bean id="PersonBiosketch-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
+   
+</beans>

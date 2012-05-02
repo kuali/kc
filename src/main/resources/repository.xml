@@ -170,24 +170,22 @@
 		<field-descriptor name="idProvided" column="ID_PROVIDED" jdbc-type="VARCHAR" />
 		<field-descriptor name="idVerified" column="ID_VERIFIED" jdbc-type="VARCHAR" />
 		<field-descriptor name="county" column="COUNTY" jdbc-type="VARCHAR" />
-		<field-descriptor name="biosketchDescription" column="BIOSKETCH_DESCRIPTION" jdbc-type="VARCHAR"/>
-        <field-descriptor name="fileName" column="BIOSKETCH_FILENAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="contentType" column="BIOSKETCH_FILE_CONTENT_TYPE" jdbc-type="VARCHAR"/>
-        <field-descriptor name="attachmentContent" column="BIOSKETCH_FILE" jdbc-type="LONGVARBINARY"/>
         <field-descriptor name="citizenshipTypeCode" column="CITIZENSHIP_TYPE_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="multiCampusPrincipalId" column="MULTI_CAMPUS_PRINCIPAL_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="multiCampusPrincipalName" column="MULTI_CAMPUS_PRINCIPAL_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="salaryAnniversaryDate" column="SALARY_ANNIVERSARY_DATE" jdbc-type="DATE"/>
-		
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         
-		<collection-descriptor name="personDegrees" proxy="true" element-class-ref="org.kuali.kra.bo.PersonDegree" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+        <collection-descriptor name="attachments" proxy="true" element-class-ref="org.kuali.kra.bo.PersonBiosketch" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="personId"/>
+        </collection-descriptor>
+		<collection-descriptor name="personDegrees" proxy="true" element-class-ref="org.kuali.kra.bo.PersonDegree" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="personId"/>
 		</collection-descriptor>
-		<collection-descriptor name="personAppointments" proxy="true" element-class-ref="org.kuali.kra.bo.PersonAppointment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="personAppointments" proxy="true" element-class-ref="org.kuali.kra.bo.PersonAppointment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="personId"/>
 		</collection-descriptor>
 		<collection-descriptor name="personCustomDataList" proxy="true" element-class-ref="org.kuali.kra.bo.PersonCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
@@ -1509,6 +1507,19 @@
         <reference-descriptor name="customAttribute" class-ref="org.kuali.kra.bo.CustomAttribute" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="customAttributeId" />
         </reference-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.bo.PersonBiosketch" table="PERSON_BIOSKETCH">
+        <field-descriptor name="personBiosketchId" column="PERSON_BIOSKETCH_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_BIOSKETCH_ID" />
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="attachmentContent" column="ATTACHMENT_FILE" jdbc-type="LONGVARBINARY" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
     
 </descriptor-repository>
