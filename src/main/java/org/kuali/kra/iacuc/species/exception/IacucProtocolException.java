@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.species.exception;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucExceptionCategory;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
+import org.kuali.kra.protocol.ProtocolAssociate;
 
-public class IacucProtocolException extends KraPersistableBusinessObjectBase { 
+public class IacucProtocolException extends ProtocolAssociate { 
     
     private static final long serialVersionUID = 1L;
 
@@ -108,6 +108,11 @@ public class IacucProtocolException extends KraPersistableBusinessObjectBase {
 
     public void setIacucProtocolSpecies(IacucProtocolSpecies iacucProtocolSpecies) {
         this.iacucProtocolSpecies = iacucProtocolSpecies;
+    }
+
+    @Override
+    public void resetPersistenceState() {
+        this.setIacucProtocolExceptionId(null);        
     }
 
 }
