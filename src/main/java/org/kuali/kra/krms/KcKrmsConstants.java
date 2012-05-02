@@ -54,6 +54,8 @@ public final class KcKrmsConstants {
         
         public static final String OPPORTUNITY_ID = "opportunityId";
         
+        public static final String SPONSOR_CODE = "sponsorCode";
+        
     }
     
     public static final class IrbProtocol {
