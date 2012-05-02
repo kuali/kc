@@ -113,13 +113,12 @@ public class PHS398CoverPageSupplementV1_4Generator extends
         ClinicalTrial clinicalTrial = ClinicalTrial.Factory.newInstance();
         String answer = null;
         String subAnswer = null;
-        answer = getAnswer(IS_CLINICAL_TRIAL);
+          answer = getAnswer(IS_CLINICAL_TRIAL);
         if (answer != null) {
             if (!answer.equals(NOT_ANSWERED)) {
                 if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
                     clinicalTrial.setIsClinicalTrial(YesNoDataType.Y_YES);
                     subAnswer = getAnswer(PHASE_III_CLINICAL_TRIAL);
-                    if (subAnswer != null) {
                         if (!subAnswer.equals(NOT_ANSWERED)) {
                             if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
                                 clinicalTrial.setIsPhaseIIIClinicalTrial(YesNoDataType.Y_YES);   
@@ -127,8 +126,9 @@ public class PHS398CoverPageSupplementV1_4Generator extends
                                 clinicalTrial.setIsPhaseIIIClinicalTrial(YesNoDataType.N_NO);   
                             }
 
+                        }else{
+                        	clinicalTrial.setIsPhaseIIIClinicalTrial(null);   
                         }
-                    }
                 } else {
                     clinicalTrial.setIsClinicalTrial(YesNoDataType.N_NO);
                 }
