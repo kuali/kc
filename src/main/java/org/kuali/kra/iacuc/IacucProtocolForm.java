@@ -26,6 +26,7 @@ import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceBean;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireHelper;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewHelper;
 import org.kuali.kra.iacuc.species.IacucProtocolSpeciesHelper;
+import org.kuali.kra.iacuc.species.exception.IacucProtocolExceptionHelper;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearchHelper;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
@@ -40,6 +41,7 @@ public class IacucProtocolForm extends ProtocolForm {
     private static final long serialVersionUID = -535557943052220820L;
     private IacucProtocolSpeciesHelper iacucProtocolSpeciesHelper;
     private IacucAlternateSearchHelper iacucAlternateSearchHelper;
+    private IacucProtocolExceptionHelper iacucProtocolExceptionHelper;
     
 
     public IacucProtocolForm() throws Exception {
@@ -47,6 +49,7 @@ public class IacucProtocolForm extends ProtocolForm {
         initializeIacucProtocolHelpers();
         initializeIacucProtocolSpecies();
         initializeIacucAlternateSearchHelper();
+        initializeIacucProtocolException();
     }
 
     public void initializeIacucProtocolHelpers() throws Exception {
@@ -60,6 +63,10 @@ public class IacucProtocolForm extends ProtocolForm {
         setIacucProtocolSpeciesHelper(new IacucProtocolSpeciesHelper(this));
     }
     
+    public void initializeIacucProtocolException() throws Exception {
+        setIacucProtocolExceptionHelper(new IacucProtocolExceptionHelper(this));
+    }
+
     protected void initializeIacucAlternateSearchHelper() throws Exception {
         setIacucAlternateSearchHelper(new IacucAlternateSearchHelper(this));
     }
@@ -151,5 +158,13 @@ public class IacucProtocolForm extends ProtocolForm {
     @Override
     protected ProtocolReferenceBean createNewProtocolReferenceBeanInstance() {
         return new IacucProtocolReferenceBean();
+    }
+
+    public IacucProtocolExceptionHelper getIacucProtocolExceptionHelper() {
+        return iacucProtocolExceptionHelper;
+    }
+
+    public void setIacucProtocolExceptionHelper(IacucProtocolExceptionHelper iacucProtocolExceptionHelper) {
+        this.iacucProtocolExceptionHelper = iacucProtocolExceptionHelper;
     }
 }
