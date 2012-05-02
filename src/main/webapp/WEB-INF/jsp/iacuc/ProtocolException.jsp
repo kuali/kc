@@ -16,27 +16,27 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
-<c:set var="protocolSpeciesList" value="${KualiForm.document.protocol.iacucProtocolSpeciesList}" />
-<c:set var="protocolSpeciesAttributes" value="${DataDictionary.IacucProtocolSpecies.attributes}" />
+<c:set var="protocolExceptions" value="${KualiForm.document.protocol.iacucProtocolExceptions}" />
+<c:set var="protocolExceptionAttributes" value="${DataDictionary.IacucProtocolException.attributes}" />
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="iacucProtocolSpeciesAndGroups"
+	htmlFormAction="iacucProtocolException"
 	documentTypeName="IacucProtocolDocument"
 	renderMultipart="true"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="speciesAndGroups">
+  	headerTabActive="protocolException">
 
-  	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Protocol Species" /></div>
+  	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Protocol Exception" /></div>
   	
 	<div id="workarea">
-		<kra-iacuc:speciesAndGroups businessObjectClassName="org.kuali.kra.iacuc.species.IacucProtocolSpecies"
-		                            protocolSpeciesAttributes="${protocolSpeciesAttributes}"
-		                            collectionReference="${protocolSpeciesList}"
-		                            collectionProperty="document.protocolList[0].iacucProtocolSpeciesList"
-		                            action="iacucProtocolSpeciesAndGroups" />
+		<kra-iacuc:protocolException businessObjectClassName="org.kuali.kra.iacuc.species.exception.IacucProtocolException"
+		                            protocolExceptionAttributes="${protocolExceptionAttributes}"
+		                            collectionReference="${protocolExceptions}"
+		                            collectionProperty="document.protocolList[0].iacucProtocolExceptions"
+		                            action="iacucProtocolException" />
 		<kul:panelFooter />
 	</div>
 
