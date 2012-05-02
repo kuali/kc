@@ -332,7 +332,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
             KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this.getDevelopmentProposal());
     
             getDevelopmentProposal().updateProposalChangeHistory();
-            getDevelopmentProposal().updateBudgetChangeHistory();
             
         }
     }
@@ -591,10 +590,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     
     public void addFacts(Facts.Builder factsBuilder) {
         
-        // TODO Add your facts here!
-        
-//      factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_COST, 
-//      proposalDevelopmentDocument.getFinalBudgetVersion().getBudgetVersionOverview().getTotalCost());
+      factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_COST, 
+      getFinalBudgetVersion().getBudgetVersionOverview().getTotalCost().toString());
+      factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.SPONSOR_CODE,getDevelopmentProposal().getSponsorCode()); 
     }
     
 }

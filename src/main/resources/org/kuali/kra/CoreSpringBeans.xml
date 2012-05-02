@@ -889,6 +889,14 @@
     
     <bean id="unitAgendaTypeService" class="org.kuali.kra.krms.UnitAgendaTypeService">
     </bean>
+
+    <bean id="storedFunctionResolverTypeService" class="org.kuali.kra.krms.service.impl.StoredFunctionResolverTypeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+
+    <bean id="storedFunctionDao" class="org.kuali.kra.dao.ojb.StoredFunctionDao">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
     
     <bean 
       class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
