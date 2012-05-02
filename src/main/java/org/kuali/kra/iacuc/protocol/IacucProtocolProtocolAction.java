@@ -29,18 +29,21 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.common.customattributes.CustomDataAction;
-
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.protocol.reference.AddIacucProtocolReferenceEvent;
+import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReference;
+import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceBean;
+import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceService;
+import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceType;
+import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.ProtocolDocumentRule;
 import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -111,8 +114,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocument protocolDocument,
             Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
-            ProtocolResearchAreaService service = (ProtocolResearchAreaService) KraServiceLocator
-                    .getService("iacucProtocolResearchAreaService");
+            IacucProtocolResearchAreaService service = KraServiceLocator.getService("iacucProtocolResearchAreaService");
             service.addProtocolResearchArea(protocolDocument.getProtocol(), (Collection<ResearchArea>) selectedBOs);
             // finally do validation and error reporting for inactive research areas
             (new IacucProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolDocument);
@@ -120,18 +122,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         
         
     }
-    
-    
-    /**
-     * @see org.kuali.kra.irb.ProtocolAction#processMultipleLookupResults(org.kuali.kra.irb.ProtocolDocument, java.lang.Class,
-     *      java.util.Collection)
-     */
-/*    @Override
-    protected <T extends ResearchArea> void processMultipleLookupResults(ProtocolDocument protocolDocument, Class<T> lookupResultsBOClass,
-            Collection<T> selectedBOs) {
-
-    }*/
-
+ 
 
 // TODO *********commented the code below during IACUC refactoring*********     
 //    /**
@@ -183,9 +174,35 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
 //
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
+    
+
+    public ActionForward addProtocolReferenceBean(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        IacucProtocolForm iacucProtocolForm = (IacucProtocolForm) form;
+        IacucProtocolReferenceBean iacucProtocolReferenceBean = (IacucProtocolReferenceBean)iacucProtocolForm.getNewProtocolReferenceBean();
+        IacucProtocolDocument iacucProtocolDoc = iacucProtocolForm.getIacucProtocolDocument(); 
+        
+        
+        if (applyRules(new AddIacucProtocolReferenceEvent(Constants.EMPTY_STRING, iacucProtocolDoc, iacucProtocolReferenceBean))) {
+            IacucProtocolReferenceType type = this.getBusinessObjectService().findBySinglePrimaryKey(IacucProtocolReferenceType.class, iacucProtocolReferenceBean.getProtocolReferenceTypeCode());
+            
+            IacucProtocolReference ref = new IacucProtocolReference(iacucProtocolReferenceBean, iacucProtocolDoc.getIacucProtocol(), type);
+            
+            IacucProtocolReferenceService service = KraServiceLocator.getService(IacucProtocolReferenceService.class);
+
+            service.addProtocolReference(iacucProtocolDoc.getIacucProtocol(), ref);
+            
+            //protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().add(ref);
+            iacucProtocolForm.setNewProtocolReferenceBean(new IacucProtocolReferenceBean());
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
 
     /**
-     * This method is hook to KNS, it adds ProtocolReference. Method is called in protocolAdditonalInformation.tag
+     * This method is hook to KNS, it deletes selected ProtocolReference from the UI list. Method is called in
+     * protocolAdditonalInformation.tag
      * 
      * @param mapping
      * @param form
@@ -193,69 +210,15 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      * @param response
      * @return
      * @throws Exception
-     
-    public ActionForward addProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+     */
+    public ActionForward deleteProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolReference newProtocolReference = protocolForm.getNewProtocolReference();
 
-        if (applyRules(new AddProtocolReferenceEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolReference))) {
-
-            ProtocolReferenceService service = KraServiceLocator.getService(ProtocolReferenceService.class);
-
-            service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), newProtocolReference);
-
-            protocolForm.setNewProtocolReference(new ProtocolReference());
-
-        }
+        protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().remove(getLineToDelete(request));
 
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }*/
-    
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public ActionForward addProtocolReferenceBean(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolReferenceBean bean = protocolForm.getNewProtocolReferenceBean();
-//        
-//        if (applyRules(new AddProtocolReferenceEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), bean))) {
-//            ProtocolReferenceType type = this.getBusinessObjectService().findBySinglePrimaryKey(ProtocolReferenceType.class, bean.getProtocolReferenceTypeCode());
-//            
-//            ProtocolReference ref = new ProtocolReference(bean, protocolForm.getProtocolDocument().getProtocol(), type);
-//            
-//            ProtocolReferenceService service = KraServiceLocator.getService(ProtocolReferenceService.class);
-//
-//            service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), ref);
-//            
-//            //protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().add(ref);
-//            protocolForm.setNewProtocolReferenceBean(new ProtocolReferenceBean());
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//
-//    /**
-//     * This method is hook to KNS, it deletes selected ProtocolReference from the UI list. Method is called in
-//     * protocolAdditonalInformation.tag
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward deleteProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//
-//        protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().remove(getLineToDelete(request));
-//
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
+    }
 
     
     /**

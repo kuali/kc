@@ -22,6 +22,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceEvent;
+import org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceRule;
+import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceRule;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
@@ -38,10 +41,9 @@ import org.kuali.rice.krad.util.MessageMap;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase   
-                                                                    implements
-                                                                    
-// TODO *********commented the code below during IACUC refactoring*********                                                                    
-//                                                                                AddProtocolReferenceRule, 
+                                                                    implements                                                                  
+                                                                                AddProtocolReferenceRule, 
+// TODO *********commented the code below during IACUC refactoring*********                                                                          
 //                                                                                AddProtocolLocationRule,  
 //                                                                                AddProtocolAttachmentPersonnelRule, 
 //                                                                                AddProtocolUnitRule,
@@ -153,10 +155,10 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
      */
     @Override
     public boolean processRunAuditBusinessRules(Document document){
-        boolean retval = true;
-
+        boolean retval = true;  
+        retval &= super.processRunAuditBusinessRules(document);
+        
 // TODO *********commented the code below during IACUC refactoring*********         
-//        retval &= super.processRunAuditBusinessRules(document);
 //        retval &= new ProtocolFundingSourceAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
          
         retval &= getNewProtocolResearchAreaAuditRuleInstanceHook().processRunAuditBusinessRules((ProtocolDocument) document);
@@ -230,13 +232,15 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
 //        List<ProtocolSpecialReview> specialReviews = document.getProtocol().getSpecialReviews();
 //        return processRules(new SaveSpecialReviewEvent<ProtocolSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, false));
 //    }
-//
-//    public boolean processAddProtocolReferenceBusinessRules(AddProtocolReferenceEvent addProtocolReferenceEvent) {
-//
-//        return new ProtocolReferenceRule().processAddProtocolReferenceBusinessRules(addProtocolReferenceEvent);
-//        
-//    }
-//
+
+    public boolean processAddProtocolReferenceBusinessRules(AddProtocolReferenceEvent addProtocolReferenceEvent) {
+        return getNewProtocolReferenceRuleInstanceHook().processAddProtocolReferenceBusinessRules(addProtocolReferenceEvent);        
+    }
+    
+    protected abstract ProtocolReferenceRule getNewProtocolReferenceRuleInstanceHook();
+
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * @see org.kuali.kra.irb.protocol.location.AddProtocolLocationRule#processAddProtocolLocationBusinessRules(org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent)
 //     */

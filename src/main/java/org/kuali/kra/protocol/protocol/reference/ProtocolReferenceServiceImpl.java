@@ -19,10 +19,11 @@ package org.kuali.kra.protocol.protocol.reference;
 import org.kuali.kra.protocol.Protocol;
 
 
-public class ProtocolReferenceServiceImpl implements ProtocolReferenceService {
+public abstract class ProtocolReferenceServiceImpl implements ProtocolReferenceService {
     
-    @SuppressWarnings("unused")
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolReferenceServiceImpl.class);
+// TODO *********commented the code below during IACUC refactoring*********     
+//    @SuppressWarnings("unused")
+//    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolReferenceServiceImpl.class);
     
     /**
      * @see org.kuali.kra.protocol.protocol.reference.ProtocolReferenceService#addProtocolReference(org.kuali.kra.protocol.document.ProtocolDocument, org.kuali.kra.protocol.protocol.reference.ProtocolReference)
