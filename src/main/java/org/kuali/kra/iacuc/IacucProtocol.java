@@ -97,6 +97,7 @@ public class IacucProtocol extends Protocol {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getIacucProtocolSpeciesList());
         managedLists.add(getIacucAlternateSearches());
+        managedLists.add(getIacucProtocolExceptions());
         return managedLists;
     }
     
