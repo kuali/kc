@@ -414,6 +414,14 @@ public class AwardAction extends BudgetParentActionBase {
         if (newAwardSaved) {
             getAwardService().updateAwardSequenceStatus(award, VersionStatus.PENDING);
             getVersionHistoryService().createVersionHistory(award, VersionStatus.PENDING, userId);
+            
+            // set awardDirectFandADistributions on award
+            if(isNewAward(awardForm) && !(award.getAwardEffectiveDate() == null)){
+                AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
+                awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
+                                    (awardDirectFandADistributionService.
+                                            generateDefaultAwardDirectFandADistributionPeriods(awardForm.getAwardDocument().getAward()));
+            }
         }
 
         AwardHierarchyBean bean = awardForm.getAwardHierarchyBean();
@@ -790,13 +798,7 @@ public class AwardAction extends BudgetParentActionBase {
             populateAwardHierarchy(form);
     
             Award award = awardForm.getAwardDocument().getAward();
-            if(isNewAward(awardForm) && !(award.getAwardEffectiveDate() == null)){
-                AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
-                awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
-                                    (awardDirectFandADistributionService.
-                                            generateDefaultAwardDirectFandADistributionPeriods(awardForm.getAwardDocument().getAward()));
-                getBusinessObjectService().save(awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions());
-            }
+           
     
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             String rootAwardNumber = awardForm.getAwardHierarchyNodes().get(award.getAwardNumber()).getRootAwardNumber();
