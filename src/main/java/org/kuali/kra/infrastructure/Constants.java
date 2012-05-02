@@ -870,5 +870,7 @@ public interface Constants {
 
     // Iacuc - procedureSummary length
     public static final Integer IACUC_PROCEDURE_SUMMARY_LENGTH = 40;
+    // Iacuc - exceptionDescription length
+    public static final Integer IACUC_PROTOCOL_EXCEPTION_DESC_LENGTH = 40;
 
 }

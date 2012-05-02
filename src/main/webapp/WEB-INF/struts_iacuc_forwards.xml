@@ -24,3 +24,4 @@
 <forward name="iacucQuestionnaire" path="/WEB-INF/jsp/iacuc/ProtocolQuestionnaire.jsp" />
 <forward name="iacucProtocolThreeRs" path="/WEB-INF/jsp/iacuc/ProtocolThreeRs.jsp" />
 <forward name="iacucSpeciesAndGroups" path="/WEB-INF/jsp/iacuc/ProtocolSpeciesAndGroups.jsp" />
+<forward name="iacucProtocolException" path="/WEB-INF/jsp/iacuc/ProtocolException.jsp" />
