@@ -22,7 +22,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 /**
  * This class hooks Rule to Event in KNS
  */
-public class AddProtocolReferenceEvent extends ProtocolReferenceEventBase {
+public abstract class AddProtocolReferenceEvent extends ProtocolReferenceEventBase {
 
     /*
 
