@@ -577,6 +577,25 @@
         
     </class-descriptor>     
 	
+	<class-descriptor class="org.kuali.kra.iacuc.species.exception.IacucProtocolException" table="IACUC_PROTOCOL_EXCEPTIONS">
+		<field-descriptor name="iacucProtocolExceptionId" column="IACUC_PROTOCOL_EXCEPTIONS_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="iacucProtocolSpeciesId" column="IACUC_PROTOCOL_SPECIES_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="exceptionId" column="EXCEPTION_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="exceptionCategoryCode" column="EXCEPTION_CATEGORY_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="exceptionDescription" column="EXCEPTION_DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="iacucExceptionCategory" class-ref="org.kuali.kra.iacuc.IacucExceptionCategory" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="exceptionCategoryCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="iacucProtocolSpecies" class-ref="org.kuali.kra.iacuc.species.IacucProtocolSpecies" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="iacucProtocolSpeciesId"/>
+		</reference-descriptor>
+	</class-descriptor>
 
 
 </descriptor-repository>

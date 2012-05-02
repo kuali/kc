@@ -67,6 +67,13 @@
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
+                    <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="iacucProtocolExceptionHelp" p:parameterDetailType="Document"/>
+                </property>
+                <property name="headerTabDisplayName" value="Protocol Exception"/>
+                <property name="headerTabNavigateTo" value="protocolException"/>
+            </bean>
+            <bean parent="HeaderNavigation">
+                <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolCustomDataHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Custom Data"/>

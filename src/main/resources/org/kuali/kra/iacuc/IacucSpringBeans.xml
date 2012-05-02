@@ -101,6 +101,18 @@
         </property>        
     </bean> 
     
+     <bean id="iacucProtocolExceptionService" class="org.kuali.kra.iacuc.species.exception.IacucProtocolExceptionServiceImpl">
+        <!--  Additional service properties will be added here as needed -->
+        <!--  
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        -->
+        <property name="sequenceAccessorService">
+            <ref bean="sequenceAccessorService" />
+        </property>        
+    </bean> 
+
      <bean id="iacucProtocolPersonnelService" class="org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelServiceImpl">
         <!--  Additional service properties will be added here as needed -->
         <property name="businessObjectService">
