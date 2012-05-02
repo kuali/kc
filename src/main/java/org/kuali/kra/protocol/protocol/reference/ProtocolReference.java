@@ -27,7 +27,7 @@ import org.kuali.kra.protocol.ProtocolAssociate;
  * 
  * This class...
  */
-public class ProtocolReference extends ProtocolAssociate {
+public abstract class ProtocolReference extends ProtocolAssociate {
 
     /**
      * Comment for <code>serialVersionUID</code>

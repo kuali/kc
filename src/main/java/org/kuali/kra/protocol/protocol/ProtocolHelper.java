@@ -216,8 +216,10 @@ public abstract class ProtocolHelper implements Serializable {
      * @param protocol
      */
     private void initializePermissions(Protocol protocol) {
-// TODO *********commented the code below during IACUC refactoring*********         
-//        initializeModifyProtocolPermission(protocol);        
+         
+        initializeModifyProtocolPermission(protocol);
+
+// TODO *********commented the code below during IACUC refactoring*********        
 //        if(displayBillable) {
 //            initializeBillablePermission(protocol);   
 //        }
@@ -226,7 +228,10 @@ public abstract class ProtocolHelper implements Serializable {
 
 // TODO *********commented the code below during IACUC refactoring*********         
 //        initializeModifyFundingSourcePermission(protocol);
-//        initializeModifyReferencesPermission(protocol);
+        
+        initializeModifyReferencesPermission(protocol);
+
+// TODO *********commented the code below during IACUC refactoring*********         
 //        initializeModifyOrganizationsPermission(protocol);
 //        initializeModifySubjectsPermission(protocol);
         
@@ -234,9 +239,11 @@ public abstract class ProtocolHelper implements Serializable {
     }
 
     private void initializeModifyProtocolPermission(Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL, protocol);
+        ProtocolTask task = getNewInstanceModifyProtocolTaskHook(protocol);
         modifyProtocol = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);   
     }
+
+    protected abstract ProtocolTask getNewInstanceModifyProtocolTaskHook(Protocol protocol);
 
     private void initializeBillablePermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_BILLABLE, protocol);
@@ -256,10 +263,12 @@ public abstract class ProtocolHelper implements Serializable {
     }
     
     private void initializeModifyReferencesPermission(Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_REFERENCES, protocol);
+        ProtocolTask task = getNewInstanceModifyProtocolReferencesTaskHook(protocol);
         modifyReferences = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    protected abstract ProtocolTask getNewInstanceModifyProtocolReferencesTaskHook(Protocol protocol);
+
     private void initializeModifyOrganizationsPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ORGANIZATIONS, protocol);
         modifyOrganizations = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -276,6 +285,8 @@ public abstract class ProtocolHelper implements Serializable {
     }
     
     protected abstract ProtocolTask getNewInstanceModifyProtocolResearchAreasTaskHook(Protocol protocol);
+    
+    
     /**
      * This method is to get parameter value
      * @return parameter value

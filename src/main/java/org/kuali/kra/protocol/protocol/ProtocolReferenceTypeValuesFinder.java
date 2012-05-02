@@ -26,10 +26,16 @@ import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
-public class ProtocolReferenceTypeValuesFinder extends KeyValuesBase {
+public abstract class ProtocolReferenceTypeValuesFinder extends KeyValuesBase {
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -7074168804030309949L;
+    
     KeyValueFinderService keyValueFinderService = (KeyValueFinderService) KraServiceLocator.getService("keyValueFinderService");
 
     /**
@@ -42,7 +48,7 @@ public class ProtocolReferenceTypeValuesFinder extends KeyValuesBase {
      */
     public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Collection protocolReferenceTypes = keyValuesService.findAllOrderBy(ProtocolReferenceType.class,
+        Collection protocolReferenceTypes = keyValuesService.findAllOrderBy(getProtocolReferenceTypeBOClassHook(),
                 "protocolReferenceTypeCode", true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
@@ -56,5 +62,6 @@ public class ProtocolReferenceTypeValuesFinder extends KeyValuesBase {
         return keyValues;
     }
 
+    protected abstract Class<? extends ProtocolReferenceType> getProtocolReferenceTypeBOClassHook();
 
 }

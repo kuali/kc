@@ -5,7 +5,7 @@
 <%@ attribute name="protocolAttributes" required="true" type="java.util.Map" %>
 <%@ attribute name="protocolReferenceAttributes" required="true" type="java.util.Map" %>
 <%@ attribute name="protocolReferenceBeanAttributes" required="true" type="java.util.Map" %>
-<%@ attribute name="protocolReferenceTypeAttributes" required="true" type="java.util.Map" %>
+<%-- <%@ attribute name="protocolReferenceTypeAttributes" required="true" type="java.util.Map" %> --%>
 <%@ attribute name="researchAreasAttributes" required="true" type="java.util.Map" %>
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="className" required="true" %>

@@ -22,13 +22,14 @@ import org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataHelper;
 import org.kuali.kra.iacuc.permission.IacucPermissionsHelper;
 import org.kuali.kra.iacuc.personnel.IacucPersonnelHelper;
 import org.kuali.kra.iacuc.protocol.IacucProtocolHelper;
+import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceBean;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireHelper;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewHelper;
 import org.kuali.kra.iacuc.species.IacucProtocolSpeciesHelper;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearchHelper;
 import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
+import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
 
 /**
@@ -145,5 +146,10 @@ public class IacucProtocolForm extends ProtocolForm {
 
     public void setIacucAlternateSearchHelper(IacucAlternateSearchHelper iacucAlternateSearchHelper) {
         this.iacucAlternateSearchHelper = iacucAlternateSearchHelper;
+    }
+
+    @Override
+    protected ProtocolReferenceBean createNewProtocolReferenceBeanInstance() {
+        return new IacucProtocolReferenceBean();
     }
 }
