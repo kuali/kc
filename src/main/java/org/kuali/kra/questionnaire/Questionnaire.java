@@ -22,9 +22,10 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableAttachment;
 import org.springframework.util.AutoPopulatingList;
 
-public class Questionnaire extends KraPersistableBusinessObjectBase implements Comparable<Questionnaire>, SequenceOwner<Questionnaire>, MutableInactivatable {
+public class Questionnaire extends KraPersistableBusinessObjectBase implements Comparable<Questionnaire>, SequenceOwner<Questionnaire>, MutableInactivatable, PersistableAttachment {
 
     private static final long serialVersionUID = 8679896046435777084L;
 
@@ -251,5 +252,27 @@ public class Questionnaire extends KraPersistableBusinessObjectBase implements C
             }
         }
         return retVal;
+    }
+    
+    // TODO: Added temporarily, pending official fix in KCINFR-579
+
+    @Override
+    public byte[] getAttachmentContent() {
+        return template;
+    }
+    
+    @Override
+    public void setAttachmentContent(byte[] attachmentContent) {
+        this.template = attachmentContent;
+    }
+
+    @Override
+    public String getContentType() {
+        return null;
+    }
+
+    @Override
+    public void setContentType(String arg0) {
+        // do nothing
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2010 The Kuali Foundation
+\ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,17 @@
 package org.kuali.kra.bo;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
 
-import org.apache.struts.upload.FormFile;
-import org.kuali.rice.krad.bo.PersistableAttachment;
+import org.kuali.rice.krad.bo.PersistableAttachmentList;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.springframework.util.AutoPopulatingList;
 
 /**
  * Class contains attributes related to a KIM entity that do not currently have a home inside of KIM.
  */
-public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase implements PersistableAttachment {
+public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase implements PersistableAttachmentList<PersonBiosketch> {
 
     private static final long serialVersionUID = 4705483839362366571L;
 
@@ -87,16 +88,8 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
 
     private String multiCampusPrincipalName;
     private Date salaryAnniversaryDate;
-
-    private String biosketchDescription;
-
-    private String fileName;
-
-    private String contentType;
-
-    private byte[] attachmentContent;
-
-    private transient FormFile templateFile;
+    
+    private List<PersonBiosketch> attachments = new AutoPopulatingList<PersonBiosketch>(PersonBiosketch.class);
 
     private List<PersonDegree> personDegrees = new AutoPopulatingList<PersonDegree>(PersonDegree.class);
 
@@ -522,6 +515,16 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     public void setCounty(String argCounty) {
         this.county = argCounty;
     }
+    
+    @Override
+    public List<PersonBiosketch> getAttachments() {
+        return attachments;
+    }
+
+    @Override
+    public void setAttachments(List<PersonBiosketch> attachments) {
+        this.attachments = attachments;
+    }
 
     public List<PersonDegree> getPersonDegrees() {
         return personDegrees;
@@ -545,46 +548,6 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
 
     public void setPersonCustomDataList(List<PersonCustomData> personCustomDataList) {
         this.personCustomDataList = personCustomDataList;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-    public byte[] getAttachmentContent() {
-        return attachmentContent;
-    }
-
-    public void setAttachmentContent(byte[] attachmentContent) {
-        this.attachmentContent = attachmentContent;
-    }
-
-    public FormFile getTemplateFile() {
-        return templateFile;
-    }
-
-    public void setTemplateFile(FormFile templateFile) {
-        this.templateFile = templateFile;
-    }
-
-    public String getBiosketchDescription() {
-        return biosketchDescription;
-    }
-
-    public void setBiosketchDescription(String biosketchDescription) {
-        this.biosketchDescription = biosketchDescription;
     }
 
     public Integer getCitizenshipTypeCode() {
@@ -633,6 +596,16 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
      */
     public void setSalaryAnniversaryDate(Date salaryAnniversaryDate) {
         this.salaryAnniversaryDate = salaryAnniversaryDate;
+    }
+    
+    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List<Collection<PersistableBusinessObject>> deleteAwareList = super.buildListOfDeletionAwareLists();
+        deleteAwareList.add((Collection) getAttachments());
+        deleteAwareList.add((Collection) getPersonDegrees());
+        deleteAwareList.add((Collection) getPersonAppointments());
+        return deleteAwareList;
     }
     
 }

@@ -665,4 +665,9 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     public boolean canSendAnyTypeAdHocRequests(Document document, Person user) {
         return true;
     }
+    
+    @Override
+    public boolean canRecall(Document document, Person user) {
+        return true;
+    }
 }

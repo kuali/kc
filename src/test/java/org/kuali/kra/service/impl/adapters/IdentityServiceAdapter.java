@@ -271,6 +271,11 @@ public class IdentityServiceAdapter implements IdentityService {
     public Principal getPrincipal(String principalId) throws RiceIllegalArgumentException {
         return null;
     }
+    
+    @Override
+    public List<Principal> getPrincipals(List<String> principalIds) {
+        return null;
+    }
 
     @Override
     public Principal getPrincipalByPrincipalName(String principalName) throws RiceIllegalArgumentException {

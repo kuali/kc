@@ -8,6 +8,7 @@
     <property name="maintainableSections">
       <list>
         <ref bean="KcPersonExtendedAttributesMaintenanceDocument-EditPerson"/>
+        <ref bean="PersonBiosketchMaintenanceDocument-EditPersonBiosketchList"/>
         <ref bean="PersonDegreeMaintenanceDocument-EditPersonDegreeList"/>
         <ref bean="PersonAppointmentMaintenanceDocument-EditPersonAppointmentList"/>
         <ref bean="PersonCustomDataMaintenanceDocument-EditPersonCustomDataList"/>
@@ -61,8 +62,6 @@
         <bean parent="MaintainableFieldDefinition" p:name="onSabbaticalFlag"/>
         <bean parent="MaintainableFieldDefinition" p:name="idProvided"/>
         <bean parent="MaintainableFieldDefinition" p:name="idVerified"/>
-        <bean parent="MaintainableFieldDefinition" p:name="biosketchDescription"/>
-        <bean parent="MaintainableFieldDefinition" p:name="templateFile"/>
         <bean parent="MaintainableFieldDefinition" p:name="citizenshipTypeCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="multiCampusPrincipalId"/>
         <bean parent="MaintainableFieldDefinition" p:name="multiCampusPrincipalName"/> 
