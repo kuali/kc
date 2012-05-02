@@ -524,6 +524,16 @@
  		<Message>You must have an at least one Narrative with the proposal.</Message> 
   		<FixLink>abstractsAttachments</FixLink> 
 	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/InternationalActivities/InternationalActivitiesIndicator</MessageKey>
+		<Message> Please answer the International Activities question for this form within the Questions tab.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<Error>
+      	<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/EnvironmentalImpact/EnvironmentalImpactIndicator</MessageKey>
+      	<Message> Please answer the Environmental Impact question for this form within the Questions tab.</Message>
+      	<FixLink>questions</FixLink>
+    </Error>
 	<!-- # RR_OtherProjectInfo-V1_2- -->
 	<Error>
  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/InternationalActivities</MessageKey> 
@@ -545,6 +555,26 @@
  		<Message> You must include all required attachments and answer all required questions for this form.</Message> 
   		<FixLink>questions</FixLink> 
 	</Error>
+	<Error>
+      	<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/ProprietaryInformationIndicator</MessageKey>
+     	<Message> Please answer the Proprietary Information question for this form within the Questions tab.</Message>
+    	<FixLink>questions</FixLink>
+    </Error>
+    <Error>
+      	<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/EnvironmentalImpact/EnvironmentalImpactIndicator</MessageKey>
+      	<Message> Please answer the Environmental Impact question for this form within the Questions tab.</Message>
+      	<FixLink>questions</FixLink>
+    </Error>
+    <Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/HistoricDesignation</MessageKey>
+		<Message> Please answer the Historic Designation question for this form	within the Questions tab.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/InternationalActivities/InternationalActivitiesIndicator</MessageKey>
+		<Message> Please answer the International Activities question for this form within the Questions tab.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
 	<!-- # RR_OtherProjectInfo-V1_3- -->
 	<Error>
  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/InternationalActivities</MessageKey> 
@@ -565,6 +595,26 @@
  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3</MessageKey> 
  		<Message>You  must include all required attachments and answered all required questions for this form.</Message> 
   		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+      	<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/ProprietaryInformationIndicator</MessageKey>
+     	<Message> Please answer the Proprietary Information question for this form within the Questions tab.</Message>
+    	<FixLink>questions</FixLink>
+    </Error>
+    <Error>
+      	<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/EnvironmentalImpact/EnvironmentalImpactIndicator</MessageKey>
+      	<Message> Please answer the Environmental Impact question for this form within the Questions tab.</Message>
+      	<FixLink>questions</FixLink>
+    </Error>
+    <Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/HistoricDesignation</MessageKey>
+		<Message> Please answer the Historic Designation question for this form	within the Questions tab.</Message>
+		<FixLink>questions</FixLink>
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/InternationalActivities/InternationalActivitiesIndicator</MessageKey>
+		<Message> Please answer the International Activities question for this form within the Questions tab.</Message>
+		<FixLink>questions</FixLink>
 	</Error>	
 	<!-- # RRKeyPersonExpanded- -->
 	<Error>
