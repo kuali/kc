@@ -21,7 +21,7 @@ import java.io.Serializable;
  * 
  * This class is a form helper for ProtocolReference objects.
  */
-public class ProtocolReferenceBean implements Serializable {
+public abstract class ProtocolReferenceBean implements Serializable {
 
     /**
      * Comment for <code>serialVersionUID</code>

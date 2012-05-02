@@ -82,6 +82,9 @@
                     <property name="taskName" value="modifyIacucProtocolResearchAreas" />
                 </bean>
                 
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolReferencesAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolReferences" />
+                </bean>
            </list>
         </property>
     </bean>

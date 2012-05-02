@@ -34,6 +34,7 @@ import org.kuali.kra.protocol.notification.ProtocolNotificationContext;
 import org.kuali.kra.protocol.permission.PermissionsHelper;
 import org.kuali.kra.protocol.personnel.PersonnelHelper;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
+import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelper;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
@@ -42,11 +43,9 @@ import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.kns.web.ui.HeaderField;
 
 /**
  * This class...
@@ -55,7 +54,8 @@ import org.kuali.rice.kns.web.ui.HeaderField;
 public abstract class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable, QuestionableFormInterface {
     
     private static final long serialVersionUID = 4646326030098259702L;
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
+    
+// TODO *********commented the code below during IACUC refactoring*********   
 //    /**
 //     * When true, the online review header will not be displayed when it is disabled.
 //     */
@@ -85,9 +85,9 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
       private boolean auditActivated;
 
       
-// TODO *********uncomment the code below in increments as needed during refactoring*********      
-//    private ProtocolReferenceBean newProtocolReferenceBean;
-//    
+      
+    private ProtocolReferenceBean newProtocolReferenceBean;
+    
     //KNS Lookup hooks
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
@@ -121,15 +121,23 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 //        setQuestionnaireHelper(new QuestionnaireHelper(this));
 //        setNotesAttachmentsHelper(new NotesAttachmentsHelper(this));
 //        this.notesAttachmentsHelper.prepareView();
-//        setNewProtocolReferenceBean(new ProtocolReferenceBean());
+        setNewProtocolReferenceBean(createNewProtocolReferenceBeanInstance());
+
+// TODO *********commented the code below during IACUC refactoring*********         
 //        setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
     }
+
+    
+    protected abstract ProtocolReferenceBean createNewProtocolReferenceBeanInstance();
 
     protected abstract ProtocolHelper createNewProtocolHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract PermissionsHelper createNewPermissionsHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract PersonnelHelper createNewPersonnelHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract QuestionnaireHelper createNewQuestionnaireHelper(ProtocolForm protocolForm);
     protected abstract IacucActionHelper createNewActionHelper(ProtocolForm protocolForm) throws Exception;
+    
+    
+    
     
 // TODO *********uncomment the code below in increments as needed during refactoring*********     
 //    /**
@@ -193,7 +201,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
     }
 
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
+// TODO *********commented the code below during IACUC refactoring********* 
 //    /**
 //     * 
 //     * This method is a wrapper method for getting ProtocolOnlineReviewerService service.
@@ -333,14 +341,14 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
           return permissionsHelper;
     }
     
-//    
-//    public void setNewProtocolReferenceBean(ProtocolReferenceBean newProtocolReferenceBean) {
-//        this.newProtocolReferenceBean = newProtocolReferenceBean;
-//    }
-//
-//    public ProtocolReferenceBean getNewProtocolReferenceBean() {
-//        return newProtocolReferenceBean;
-//    }
+    
+    public void setNewProtocolReferenceBean(ProtocolReferenceBean newProtocolReferenceBean) {
+        this.newProtocolReferenceBean = newProtocolReferenceBean;
+    }
+
+    public ProtocolReferenceBean getNewProtocolReferenceBean() {
+        return newProtocolReferenceBean;
+    }
     
     @Override
     protected void setSaveDocumentControl(Map editMode) {
@@ -384,6 +392,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         this.protocolSpecialReviewHelper = specialReviewHelper;
     }
 
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * Gets the Notes & Attachments Helper.
 //     * @return Notes & Attachments Helper
@@ -412,6 +421,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         this.actionHelper = actionHelper;
     }
 
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean isJavaScriptEnabled() {
 //        return javaScriptEnabled;
 //    }
@@ -433,6 +443,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         this.questionnaireHelper = questionnaireHelper;
     }
 
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public void setOnlineReviewsActionHelper(OnlineReviewsActionHelper onlineReviewActionHelper) {
 //        this.onlineReviewsActionHelper = onlineReviewActionHelper;
 //    }
@@ -449,6 +460,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         this.protocolNotificationHelper = notificationHelper;
     }
 
+// TODO *********commented the code below during IACUC refactoring*********     
 //    @Override
 //    public boolean isPropertyEditable(String propertyName) {
 //        if (propertyName.startsWith("actionHelper.protocolSubmitAction.reviewer") ||
@@ -472,7 +484,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
      */
     public boolean getDisplayRiskLevelPanel() {
         return true;
-// TODO *********commented the code below during IACUC refactoring*********         
+// TODO *********commented the code below during IACUC refactoring*********        
 //        return this.getProtocolDocument().getProtocol().getProtocolRiskLevels() != null 
 //            && this.getProtocolDocument().getProtocol().getProtocolRiskLevels().size() > 0;
         
@@ -498,11 +510,14 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         return extraButtons;
     }
      
-      public abstract String getModuleCode();
+    public abstract String getModuleCode();
+// TODO *********commented the code below during IACUC refactoring*********       
 //    public String getModuleCode() {
 //        return CoeusModule.IRB_MODULE_CODE;
 //    }
-//
+
+      
+// TODO *********commented the code below during IACUC refactoring*********       
 //    public String getDetailId() {
 //        return detailId;
 //    }
