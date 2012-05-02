@@ -17,6 +17,9 @@ package org.kuali.kra.iacuc;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaAuditRule;
+import org.kuali.kra.iacuc.species.exception.rule.AddProtocolExceptionEvent;
+import org.kuali.kra.iacuc.species.exception.rule.AddProtocolExceptionRule;
+import org.kuali.kra.iacuc.species.exception.rule.ProtocolExceptionRule;
 import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesEvent;
 import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesRule;
 import org.kuali.kra.iacuc.species.rule.ProtocolSpeciesRule;
@@ -28,7 +31,7 @@ import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRule;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements AddProtocolSpeciesRule{
+public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements AddProtocolSpeciesRule, AddProtocolExceptionRule{
 
 
     @Override
@@ -44,6 +47,11 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements A
     @Override
     public boolean processAddProtocolSpeciesBusinessRules(AddProtocolSpeciesEvent addProtocolSpeciesEvent) {
         return new ProtocolSpeciesRule().processAddProtocolSpeciesBusinessRules(addProtocolSpeciesEvent);
+    }
+
+    @Override
+    public boolean processAddProtocolExceptionBusinessRules(AddProtocolExceptionEvent addProtocolExceptionEvent) {
+        return new ProtocolExceptionRule().processAddProtocolExceptionBusinessRules(addProtocolExceptionEvent);
     }
 
 

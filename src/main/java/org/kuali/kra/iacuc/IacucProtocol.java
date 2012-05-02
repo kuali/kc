@@ -26,9 +26,10 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
+import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
+import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
-import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -69,6 +70,7 @@ public class IacucProtocol extends Protocol {
     private List<IacucAlternateSearch> iacucAlternateSearches;
       
     private List<IacucProtocolSpecies> iacucProtocolSpeciesList;
+    private List<IacucProtocolException> iacucProtocolExceptions;
 
     public IacucProtocol() {
         // initialize the various fields of the protocol BO that are specific to IACUC
@@ -86,6 +88,7 @@ public class IacucProtocol extends Protocol {
         setIacucPrinciples(new IacucPrinciples());
         setIacucProtocolSpeciesList(new ArrayList<IacucProtocolSpecies>());
         setIacucAlternateSearches(new ArrayList<IacucAlternateSearch>());
+        setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
     } 
     
     @SuppressWarnings("unchecked")
@@ -289,6 +292,14 @@ public class IacucProtocol extends Protocol {
 
     public void setIacucAlternateSearches(List<IacucAlternateSearch> iacucAlternateSearches) {
         this.iacucAlternateSearches = iacucAlternateSearches;
+    }
+
+    public List<IacucProtocolException> getIacucProtocolExceptions() {
+        return iacucProtocolExceptions;
+    }
+
+    public void setIacucProtocolExceptions(List<IacucProtocolException> iacucProtocolExceptions) {
+        this.iacucProtocolExceptions = iacucProtocolExceptions;
     }
 
 }
