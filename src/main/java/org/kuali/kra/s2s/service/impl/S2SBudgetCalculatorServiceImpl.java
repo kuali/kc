@@ -789,8 +789,10 @@ public class S2SBudgetCalculatorServiceImpl implements
                             .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                     Constants.S2SBUDGET_RATE_CLASS_TYPE_LAB_ALLOCATION_SALARIES))) {
                         mrLaCost = mrLaCost.add(lineItemCalculatedAmount.getCalculatedCost());
-                        mrLaCostSharingAmount = mrLaCostSharingAmount.add(lineItemCalculatedAmount
-                                .getCalculatedCostSharing());
+                        if(lineItem.getSubmitCostSharingFlag()){
+                            mrLaCostSharingAmount = mrLaCostSharingAmount.add(lineItemCalculatedAmount
+                                    .getCalculatedCostSharing());
+                        }
                     }
 
                     // Calculate the fringe
@@ -810,8 +812,10 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                             .getRateTypeCode().equals(
                                                                     rateTypeAdministrativeSalaries))) {
                         mrLaFringeCost = mrLaFringeCost.add(lineItemCalculatedAmount.getCalculatedCost());
-                        mrLaFringeCostSharingAmount = mrLaFringeCostSharingAmount.add(lineItemCalculatedAmount
-                                .getCalculatedCostSharing());
+                        if(lineItem.getSubmitCostSharingFlag()){
+                            mrLaFringeCostSharingAmount = mrLaFringeCostSharingAmount.add(lineItemCalculatedAmount
+                                    .getCalculatedCostSharing());
+                        }
                     }
                 }
             }
@@ -847,8 +851,9 @@ public class S2SBudgetCalculatorServiceImpl implements
                                     }
                                     if (!personExistsAsProposalPerson) {
                                         salaryRequested = salaryRequested.add(personDetails.getSalaryRequested());
-                                        salaryCostSharing = salaryCostSharing.add(personDetails.getCostSharingAmount());
-
+                                        if(lineItem.getSubmitCostSharingFlag()){
+                                            salaryCostSharing = salaryCostSharing.add(personDetails.getCostSharingAmount());
+                                        }
                                         numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(),
                                                 personDetails.getEndDate());
                                         if (personDetails.getPeriodTypeCode().equals(
@@ -893,8 +898,10 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                                     .getRateTypeCode().equals(
                                                                             rateTypeAdministrativeSalaries))) {
                                                 fringeCost = fringeCost.add(personCalculatedAmount.getCalculatedCost());
-                                                fringeCostSharingAmount = fringeCostSharingAmount.add(personCalculatedAmount
-                                                        .getCalculatedCostSharing());
+                                                if(lineItem.getSubmitCostSharingFlag()){
+                                                    fringeCostSharingAmount = fringeCostSharingAmount.add(personCalculatedAmount
+                                                            .getCalculatedCostSharing());
+                                                }
                                             }
                                         }
                                     }
@@ -912,7 +919,9 @@ public class S2SBudgetCalculatorServiceImpl implements
                             // get costs for this budget category that do not have
                             // persons attached to the cost element
                             lineItemCost = lineItemCost.add(lineItem.getLineItemCost());
-                            lineItemCostSharingAmount = lineItemCostSharingAmount.add(lineItem.getCostSharingAmount());
+                            if(lineItem.getSubmitCostSharingFlag()){
+                                lineItemCostSharingAmount = lineItemCostSharingAmount.add(lineItem.getCostSharingAmount());
+                            }
                             count = lineItem.getQuantity();
                             for (BudgetLineItemCalculatedAmount lineItemCalculatedAmount : lineItem
                                     .getBudgetLineItemCalculatedAmounts()) {
@@ -930,8 +939,10 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                         rateClassCodeVacation) && !lineItemCalculatedAmount
                                                         .getRateTypeCode().equals(
                                                                 rateTypeAdministrativeSalaries))) {
-                                    fringeCostSharingAmount = fringeCostSharingAmount.add(lineItemCalculatedAmount
-                                            .getCalculatedCostSharing());
+                                    if(lineItem.getSubmitCostSharingFlag()){
+                                        fringeCostSharingAmount = fringeCostSharingAmount.add(lineItemCalculatedAmount
+                                                .getCalculatedCostSharing());
+                                    }
                                 }
                             }
                         }
