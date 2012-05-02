@@ -20,13 +20,12 @@ import java.util.List;
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.bo.PersonAppointment;
 import org.kuali.kra.bo.PersonDegree;
-import org.kuali.rice.krad.bo.PersistableAttachment;
 
 /**
  * 
  * This class manages the copy of each proposal person's extended attributes, and are edit-able.
  */
-public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes implements PersistableAttachment {
+public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -104,10 +103,6 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
         this.setIdProvided(personExtendedAttributes.getIdProvided());
         this.setIdVerified(personExtendedAttributes.getIdVerified());
         this.setCounty(personExtendedAttributes.getCounty());
-        this.setBiosketchDescription(personExtendedAttributes.getBiosketchDescription());
-        this.setFileName(personExtendedAttributes.getFileName());
-        this.setContentType(personExtendedAttributes.getContentType());
-        this.setAttachmentContent(personExtendedAttributes.getAttachmentContent());
         this.setCitizenshipTypeCode(personExtendedAttributes.getCitizenshipTypeCode());
         this.setCitizenshipType(personExtendedAttributes.getCitizenshipType());
     }

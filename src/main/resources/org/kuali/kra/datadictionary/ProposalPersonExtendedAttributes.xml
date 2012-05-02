@@ -49,12 +49,6 @@
         <ref bean="ProposalPersonExtendedAttributes-idVerified"/>
         <ref bean="ProposalPersonExtendedAttributes-versionNumber"/>
         <ref bean="ProposalPersonExtendedAttributes-citizenshipTypeCode"/>
-        
-        <!-- 
-        <ref bean="ProposalPersonExtendedAttributes-biosketchDescription"/>
-        <ref bean="ProposalPersonExtendedAttributes-templateFile" />
-         -->
-         
       </list>
     </property>
   </bean>
@@ -213,28 +207,4 @@
   <bean id="ProposalPersonExtendedAttributes-citizenshipTypeCode-parentBean" abstract="true" parent="KcPersonExtendedAttributes-citizenshipTypeCode" >
   </bean>
   
-  <!-- 
-  <bean id="ProposalPersonExtendedAttributes-biosketchDescription" parent="ProposalPersonExtendedAttributes-biosketchDescription-parentBean" />
-  <bean id="ProposalPersonExtendedAttributes-biosketchDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="biosketchDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Biosketch Description" />
-    <property name="shortLabel" value="Biosketch Description" />
-    <property name="maxLength" value="4000" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:size="40" />
-    </property>
-    <property name="summary" value="Biosketch Description" />
-    <property name="description" value="Biosketch Description" />
-  </bean> 
-   
-  
-  <bean id="ProposalPersonExtendedAttributes-templateFile" parent="ProposalPersonExtendedAttributes-templateFile-parentBean" />
-  <bean id="ProposalPersonExtendedAttributes-templateFile-parentBean" abstract="true" parent="KcPersonExtendedAttributes-templateFile" >
-  </bean>
-  
-  </bean>
-   -->
 </beans>

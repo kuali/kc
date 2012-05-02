@@ -134,5 +134,8 @@ public class DocumentServiceAdapter implements DocumentService {
         return null;
     }
 
-
+    @Override
+    public Document recallDocument(Document document, String annotation, boolean cancel) throws WorkflowException {
+        return null;
+    }
 }
