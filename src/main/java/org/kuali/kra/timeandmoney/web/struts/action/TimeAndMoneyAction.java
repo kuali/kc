@@ -858,14 +858,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
         timeAndMoneyDocument.setAward(award);
-        if(isNewAward(timeAndMoneyForm) && !(timeAndMoneyDocument.getAward().getAwardEffectiveDate() == null)){
-            AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
-            timeAndMoneyForm.getTimeAndMoneyDocument().getAward().setAwardDirectFandADistributions
-                                (awardDirectFandADistributionService.
-                                        generateDefaultAwardDirectFandADistributionPeriods(timeAndMoneyForm.getTimeAndMoneyDocument().getAward()));
-        }
-        
-        
+
         TimeAndMoneyHistoryService tamhs = KraServiceLocator.getService(TimeAndMoneyHistoryService.class);
         
         tamhs.getTimeAndMoneyHistory(timeAndMoneyDocument.getAwardNumber(), timeAndMoneyDocument.getTimeAndMoneyHistory(), timeAndMoneyForm.getColumnSpan());
