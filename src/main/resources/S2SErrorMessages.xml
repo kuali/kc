@@ -1362,6 +1362,11 @@
   		<FixLink>questions</FixLink> 
 	</Error>
 	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_1_4/ClinicalTrial/isPhaseIIIClinicalTrial</MessageKey> 
+ 		<Message>Please select the an NIH-defined Phase III clinical trial with in the questionnaire tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
  		<MessageKey>/GrantApplication/Forms/PHS_Fellowship_Supplemental_1_2/AdditionalInformation/Citizenship</MessageKey> 
  		<Message>Citizenship is not valid for PI, please make sure a PI has been added and that person has a valid citizenship type indicated.</Message> 
   		<FixLink>keyPersonnel</FixLink> 
