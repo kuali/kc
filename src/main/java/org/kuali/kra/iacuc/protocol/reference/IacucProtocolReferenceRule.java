@@ -15,27 +15,13 @@
  */
 package org.kuali.kra.iacuc.protocol.reference;
 
-import java.text.ParseException;
+import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceRule;
 
-import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.protocol.protocol.reference.ProtocolReference;
+public class IacucProtocolReferenceRule extends ProtocolReferenceRule {
 
-public class IacucProtocolReference extends ProtocolReference {
-    
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = -5606862862070468479L;
+    private static final long serialVersionUID = 4841520122192138380L;
 
-
-    public IacucProtocolReference(IacucProtocolReferenceBean bean, IacucProtocol protocol, IacucProtocolReferenceType type) throws ParseException {
-        super(bean, protocol, type);                
-    }
-
-
-    public IacucProtocolReference() {
-        super();
-    }
-
-    
 }

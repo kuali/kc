@@ -15,14 +15,9 @@
  */
 package org.kuali.kra.protocol;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,16 +28,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.bo.CustomAttributeDocValue;
-import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
 import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
@@ -53,18 +41,13 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.KRADPropertyConstants;
-import org.kuali.rice.krad.document.Document;
 
 /**
  * The ProtocolAction is the base class for all Protocol actions.  Each derived
