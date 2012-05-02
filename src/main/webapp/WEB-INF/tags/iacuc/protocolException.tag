@@ -28,6 +28,7 @@
 
 <c:set var="readOnly" value="${!KualiForm.iacucProtocolExceptionHelper.modifyProtocolException}" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.IACUC_PROTOCOL_EXCEPTION_DESC_LENGTH%>" />
+<c:set var="modifyPermission" value="${KualiForm.iacucProtocolExceptionHelper.modifyProtocolException}" />
 
 
 <kul:tab tabTitle="Protocol Exceptions" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="newIacucProtocolException*,iacucProtocolExceptionHelper.newIacucProtocolException*,${collectionProperty}*">
@@ -48,10 +49,10 @@
 				</c:if>
           	</tr>     
 
-        	<kra:permission value="${KualiForm.iacucProtocolExceptionHelper.modifyProtocolException}">            
+        	<kra:permission value="${modifyPermission}">            
                 <tr>
 	                <c:set var="textAreaFieldName" value="iacucProtocolExceptionHelper.newIacucProtocolException.exceptionDescription" />
-					<th class="infoline" rowspan="2">
+					<th class="infoline">
 						Add:
 					</th>
 		            <td align="left" valign="middle" class="infoline">
@@ -77,7 +78,7 @@
 		               		                          readOnly="${readOnly}" />
 		            	</div>
 					</td>
-					<td class="infoline" rowspan="1">
+					<td class="infoline">
 						<div align="center">
 							<html:image property="methodToCall.addProtocolException.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
@@ -90,7 +91,7 @@
         	<c:forEach var="protocolException" items="${collectionReference}" varStatus="status">
                 <tr>
 	                <c:set var="textAreaFieldName" value="${collectionProperty}[${status.index}].exceptionDescription" />
-					<th class="infoline" rowspan="2">
+					<th class="infoline">
 					   <c:out value="${status.index+1}" />
 					</th>
 		            <td align="left" valign="middle" class="infoline">
@@ -117,17 +118,34 @@
 		               	<div align="center">
 	                        <c:choose>
 	                            <c:when test="${!readOnly}">
-	                                <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].exceptionCategoryDesc" 
-	                                                          attributeEntry="${protocolExceptionAttributes.exceptionCategoryDesc}"/>
+	                                <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].exceptionDescription" 
+	                                                          attributeEntry="${protocolExceptionAttributes.exceptionDescription}"/>
 	                            </c:when>
 	                            <c:otherwise>
-			            		    <kra:truncateComment textAreaFieldName="${collectionProperty}[${status.index}].exceptionCategoryDesc" action="${action}" 
-		                                                 textAreaLabel="${protocolExceptionAttributes.exceptionCategoryDesc.label}" textValue="${protocolException.exceptionCategoryDesc}"  
+			            		    <kra:truncateComment textAreaFieldName="${collectionProperty}[${status.index}].exceptionDescription" action="${action}" 
+		                                                 textAreaLabel="${protocolExceptionAttributes.exceptionDescription.label}" textValue="${protocolException.exceptionDescription}"  
 		                                                 displaySize="${commentDisplayLength}"/>
 	                            </c:otherwise>
 	                        </c:choose>
 		            	</div>
 					</td>
+                    <c:choose>
+                        <c:when test="${modifyPermission}">
+                        <td align="center" valign="middle">
+                            <div align="center">
+                            <nobr>
+                                <!--   html:image property="methodToCall.editProtocolException.line${status.index}.anchor${tabKey}"
+                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/ -->                            
+                                <html:image property="methodToCall.deleteProtocolException.line${status.index}.anchor${tabKey}"
+                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+                            </nobr>
+                            </div>
+                        </td>
+                        </c:when>
+                        <c:otherwise>
+                            <td>&nbsp;</td>
+                        </c:otherwise>
+                    </c:choose>
 	            </tr>
         	</c:forEach>
         </table>

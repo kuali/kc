@@ -15,9 +15,13 @@
  */
 package org.kuali.kra.iacuc.species;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.IacucSpeciesCountType;
+import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.protocol.ProtocolAssociate;
 
 public class IacucProtocolSpecies extends ProtocolAssociate { 
@@ -40,9 +44,10 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
     private IacucSpeciesCountType iacucSpeciesCountType;
     private IacucPainCategory iacucPainCategory;
     
-    //private IacucProtocolExceptions iacucProtocolExceptions; 
+    private List<IacucProtocolException> iacucProtocolExceptions; 
     
     public IacucProtocolSpecies() { 
+        setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
 
     } 
     
@@ -162,6 +167,14 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
 
     public void setIacucPainCategory(IacucPainCategory iacucPainCategory) {
         this.iacucPainCategory = iacucPainCategory;
+    }
+
+    public List<IacucProtocolException> getIacucProtocolExceptions() {
+        return iacucProtocolExceptions;
+    }
+
+    public void setIacucProtocolExceptions(List<IacucProtocolException> iacucProtocolExceptions) {
+        this.iacucProtocolExceptions = iacucProtocolExceptions;
     }
 
     /*
