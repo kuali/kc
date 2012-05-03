@@ -36,7 +36,7 @@ public class AwardReportTermRecipientRuleImpl extends ResearchDocumentRuleBase
     
     private static final String AWARD_REPORT_TERM_RECIPIENT_CONTACT_ID_PROPERTY = "contactId";
     private static final String AWARD_REPORT_TERM_RECIPIENT_RELODEX_ID_PROPERTY="rolodexId";
-    private static final String CONTACT_ERROR_PARM = "Contact (Contact)";
+    private static final String CONTACT_ERROR_PARM = "Contact Type (Contact)";
     private static final String ORGANIZATION_ERROR_PARM = "Name/Organization (Organization)";
     
     /**
