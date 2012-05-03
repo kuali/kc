@@ -176,38 +176,44 @@ public class PHS398CoverPageSupplementV1_4Generator extends
 	 */
 	private StemCells getStemCells() {
 
-        StemCells stemCells = StemCells.Factory.newInstance();  
-        Enum answers = YesNoDataType.N_NO;
-        String childAnswer = null;  
-        String answer = getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED);
-        if (answer != null) {
-            if (!answer.equals(NOT_ANSWERED)) {
-                answers = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED)) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
-                if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
-                    stemCells.setIsHumanStemCellsInvolved(YesNoDataType.Y_YES);
-                    String subAnswer = getAnswer(SPECIFIC_STEM_CELL_LINE);
-                    if (subAnswer != null) {
-                        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
-                            childAnswer = getAnswers(REGISTRATION_NUMBER);
-                        }
-                    }
-                    if (childAnswer != null) {
-                        if (S2SConstants.VALUE_UNKNOWN.equalsIgnoreCase(childAnswer)) {
-                            stemCells.setStemCellsIndicator(answers);
-                        } else {
-                            List<String> cellLines = getCellLines(childAnswer);
-                            if (cellLines.size() > 0) {
-                                stemCells.setCellLinesArray(cellLines.toArray(new String[0]));
-                            }
-                        }
-                    }
-                } else {
-                    stemCells.setIsHumanStemCellsInvolved(YesNoDataType.N_NO); 
-                }
-            }
-        }
-        return stemCells;
-    }
+	    StemCells stemCells = StemCells.Factory.newInstance();  
+	    Enum answers = YesNoDataType.N_NO;
+	    String childAnswer = null;  
+	    String answer = getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED);
+	    if (answer != null) {
+	        if (!answer.equals(NOT_ANSWERED)) {
+	            answers = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED)) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
+	            if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
+	                stemCells.setIsHumanStemCellsInvolved(YesNoDataType.Y_YES);
+	                String subAnswer = getAnswer(SPECIFIC_STEM_CELL_LINE);
+	                if (subAnswer != null) {
+	                    if(!subAnswer.equals(NOT_ANSWERED)) {
+	                        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
+	                            stemCells.setStemCellsIndicator(YesNoDataType.N_NO);
+	                            childAnswer = getAnswers(REGISTRATION_NUMBER);
+	                        }
+	                        else {
+	                            stemCells.setStemCellsIndicator(YesNoDataType.Y_YES);
+	                        }
+	                    }
+	                }
+	                if (childAnswer != null) {
+	                    if (S2SConstants.VALUE_UNKNOWN.equalsIgnoreCase(childAnswer)) {
+	                        stemCells.setStemCellsIndicator(answers);
+	                    } else {
+	                        List<String> cellLines = getCellLines(childAnswer);
+	                        if (cellLines.size() > 0) {
+	                            stemCells.setCellLinesArray(cellLines.toArray(new String[0]));
+	                        }
+	                    }
+	                }
+	            } else {
+	                stemCells.setIsHumanStemCellsInvolved(YesNoDataType.N_NO); 
+	            }
+	        }
+	    }
+	    return stemCells;
+	}
 
 
 
