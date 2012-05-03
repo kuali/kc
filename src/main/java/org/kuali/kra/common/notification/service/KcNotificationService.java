@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.common.notification.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +23,7 @@ import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
+import org.kuali.rice.ken.api.notification.NotificationRecipient;
 
 /**
  * Defines methods for creating and sending KC Notifications.
@@ -104,5 +106,22 @@ public interface KcNotificationService {
      * @param notificationContext
      */
     void sendEmailNotification(NotificationContext notificationContext);
+    
+    /**
+     * Return the notification recipients for this notification context.
+     * @param context
+     * @return
+     */
+    Set<NotificationRecipient.Builder> getNotificationRecipients(NotificationContext context);
+    
+    /**
+     * Send a notification to the specified recipients.
+     * @param contextName
+     * @param subject
+     * @param message
+     * @param notificationRecipients
+     */
+    void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients);
+
     
 }

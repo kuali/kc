@@ -748,6 +748,7 @@
         <property name="triggers">
             <list>
                 <ref local="cfdaTrigger"/>
+				<ref local="reportTrackingNotificationTrigger"/>
             </list>
         </property>
         <!-- 
@@ -765,6 +766,9 @@
                 <entry key="kcNotificationService"> 
                     <ref bean="kcNotificationService" /> 
                 </entry>
+				<entry key="reportTrackingNotificationService" > 
+					<ref bean="reportTrackingNotificationService" /> 
+				</entry>                
                 <entry key="user" value="${batchJobUserName}" />
             </map>
         </property>
@@ -840,4 +844,189 @@
         </property>
     </bean>
     
+    <bean id="abstractReportTrackingNotification" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotification"/>
+    <bean id="abstractReportTrackingNotificationTask" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationTask"/>
+	<bean id="reportTrackingNotificationService" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceImpl">
+		<property name="parameterService" ref="parameterService"/>
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="notificationService" ref="kcNotificationService" />
+		<property name="awardService" ref="awardService" />
+		<property name="notifications">
+			<list>
+			    <!-- add a new bean for each report tracking notification you wish to send
+			    	 name - name of the notification
+			    	 actionCode - notification type actionCode
+			    	 days - days before or after today the due date must be for this notification to trigger
+			    	 overdue - determines whether looking for due dates before or after today
+			    	 scope - defaults to 30, and determines the number of days after the specified due date to check for records that
+			    	 	haven't had this notification already sent. Allows for the batch process to not run everyday and
+			    	 	not pick up records covered by other notifications.
+			    	 each notification must have one or more notification tasks. The tasks specify the criteria used to select
+			    	 report tracking records. Arguments that can be used are 
+			    	 	reportClassCode
+			    	 	reportCode
+			    	 	frequencyCode
+			    	 	frequencyBaseCode
+			    	 	ospDistributionCode
+			   	-->
+				<bean parent="abstractReportTrackingNotification" 
+					p:name="Fiscal Report Notification - 1" p:actionCode="401" p:days="90" p:overdue="false" p:scope="30">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="1"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Fiscal Report Notification - 2" p:actionCode="402" p:days="60" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="1"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Fiscal Report Notification - 3" p:actionCode="403" p:days="30" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="1"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Fiscal Report Notification - Overdue" p:actionCode="404" p:days="0" p:overdue="true">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="1"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - 1" p:actionCode="405" p:days="90" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="2"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - 2" p:actionCode="406" p:days="60" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="2"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - 3" p:actionCode="407" p:days="30" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="2"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - Overdue" p:actionCode="408" p:days="0" p:overdue="true">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="2"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - 1" p:actionCode="409" p:days="90" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="3"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - 2" p:actionCode="410" p:days="60" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="3"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - 3" p:actionCode="411" p:days="30" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="3"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - Overdue" p:actionCode="412" p:days="0" p:overdue="true">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="3"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - 1" p:actionCode="413" p:days="90" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="4"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - 2" p:actionCode="414" p:days="60" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="4"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - 3" p:actionCode="415" p:days="30" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="4"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - Overdue" p:actionCode="416" p:days="0" p:overdue="true">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="4"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - 1" p:actionCode="417" p:days="90" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="5"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - 2" p:actionCode="418" p:days="60" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="5"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - 3" p:actionCode="419" p:days="30" p:overdue="false">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="5"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - Overdue" p:actionCode="420" p:days="0" p:overdue="true">
+					<property name="tasks">
+						<list>
+							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="5"/>
+						</list>
+					</property>
+				</bean>
+				
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="reportTrackingNotificationJobDetail" class="org.quartz.JobDetail" >
+		<property name="jobClass" value="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationJobDetail" />
+		<property name="name" value="reportTrackingNotificationJobDetail" />
+	</bean>
+	
+	<bean id="reportTrackingNotificationTrigger" class="org.kuali.kra.scheduling.quartz.KcCronTriggerBean">
+		<property name="parameterNamespace" value="KC-AWARD" />
+		<property name="parameterComponent" value="Document" />
+		<property name="cronExpressionParameterName" value="REPORT_TRACKING_NOTIFICATIONS_BATCH_CRON_TRIGGER" />
+		<property name="jobDetail" ref="reportTrackingNotificationJobDetail" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>  
 </beans>

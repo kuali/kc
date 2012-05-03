@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.Distribution;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.FrequencyBase;
@@ -119,6 +120,8 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
     //item count is used during the search and returning grouped results.
     private transient int itemCount;
     private transient KcPersonService kcPersonService;
+    //used to make notifications easier 
+    private transient Award award;
 
     private transient BusinessObjectService businessObjectService;
     private boolean multiEditSelected;
@@ -524,5 +527,13 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
             }
         }
         return retVal;
+    }
+
+    public Award getAward() {
+        return award;
+    }
+
+    public void setAward(Award award) {
+        this.award = award;
     }
 }

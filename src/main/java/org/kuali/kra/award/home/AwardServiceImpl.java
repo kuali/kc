@@ -192,4 +192,28 @@ public class AwardServiceImpl implements AwardService {
             businessObjectService.save(award);
         }
     }
+
+    /**
+     * 
+     * @see org.kuali.kra.award.home.AwardService#getActiveOrNewestAward(java.lang.String)
+     */
+    public Award getActiveOrNewestAward(String awardNumber) {
+        List<VersionHistory> versions = getVersionHistoryService().loadVersionHistory(Award.class, awardNumber);
+        VersionHistory newest = null;
+        for (VersionHistory version: versions) {
+            if (version.getStatus() == VersionStatus.ACTIVE) {
+                newest = version;
+//                break;
+            } else if (newest == null || (version.getStatus() != VersionStatus.CANCELED && version.getSequenceOwnerSequenceNumber() > newest.getSequenceOwnerSequenceNumber())) {
+                newest = version;
+            }  
+        }
+        if (newest != null) {
+            return (Award) newest.getSequenceOwner();
+        } else {
+            return null;
+        }
+        
+    }
+    
 }
