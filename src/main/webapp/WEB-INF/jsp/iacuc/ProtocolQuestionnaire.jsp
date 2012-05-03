@@ -22,7 +22,7 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="iacucQuestionnaire">
+  	headerTabActive="questionnaire">
   	
 <script type="text/javascript">
    var $j = jQuery.noConflict();
