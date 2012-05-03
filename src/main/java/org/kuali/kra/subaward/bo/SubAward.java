@@ -977,8 +977,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 
     @Override
     public String getDocumentKey() {
-        // TODO Auto-generated method stub
-        return null;
+        return Permissionable.SUBAWARD_KEY;
     }
 
     @Override
