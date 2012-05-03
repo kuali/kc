@@ -91,11 +91,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     protected abstract String getProtocolOnlineReviewForwardNameHook();
     
     protected abstract String getProtocolPermissionsForwardNameHook();
-    protected abstract String getCustomAttributeMappingHook();
-    protected abstract String getCustomDataForwardNameHook();
     protected abstract String getSpecialReviewForwardNameHook();
-    
-    
     
     public ActionForward protocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((ProtocolForm)form).getProtocolHelper().prepareView();
@@ -218,11 +214,10 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     
     
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((ProtocolForm)form).getProtocolCustomDataHelper().prepareView(((ProtocolForm)form).getProtocolDocument());
-        return ((ProtocolForm)form).getProtocolCustomDataHelper().getCustomDataAction(mapping, form, request, response, getCustomDataForwardNameHook());
+        ProtocolForm protocolForm = (ProtocolForm)form;
+        protocolForm.getProtocolCustomDataHelper().prepareView(protocolForm.getProtocolDocument().getProtocol());
+        return protocolForm.getProtocolCustomDataHelper().getCustomDataAction(mapping, form, request, response);
     }
-
-
     
     /**
      * {@inheritDoc}

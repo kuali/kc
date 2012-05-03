@@ -21,8 +21,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.common.customattributes.CustomDataForm;
-import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
@@ -51,7 +49,7 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public abstract class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable, QuestionableFormInterface {
+public abstract class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, Auditable, QuestionableFormInterface {
     
     private static final long serialVersionUID = 4646326030098259702L;
     
@@ -356,7 +354,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     }
    
 
-    public CustomDataHelperBase getCustomDataHelper() {
+    public ProtocolCustomDataHelper getCustomDataHelper() {
         return protocolCustomDataHelper;
     }
     

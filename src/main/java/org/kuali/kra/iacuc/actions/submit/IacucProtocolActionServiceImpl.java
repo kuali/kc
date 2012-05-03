@@ -26,14 +26,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.drools.util.DroolsRuleHandler;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDao;
-import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.actions.ProtocolSubmissionDoc;
-import org.kuali.kra.irb.actions.followup.FollowupActionService;
-import org.kuali.kra.irb.onlinereview.ProtocolReviewable;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolDao;
+import org.kuali.kra.iacuc.actions.IacucProtocolAction;
+import org.kuali.kra.iacuc.actions.followup.IacucFollowupActionService;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.protocol.actions.submit.ActionRightMapping;
+import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
@@ -52,24 +51,24 @@ public class IacucProtocolActionServiceImpl implements IacucProtocolActionServic
 
     static private final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(IacucProtocolActionServiceImpl.class);
     
-    private static final String PERMISSIONS_LEADUNIT_FILE = "org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl";
+    private static final String PERMISSIONS_LEADUNIT_FILE = "org/kuali/kra/iacuc/drools/rules/permissionForLeadUnitRules.drl";
 
-    private static final String PERMISSIONS_SUBMIT_FILE = "org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl";
+    private static final String PERMISSIONS_SUBMIT_FILE = "org/kuali/kra/iacuc/drools/rules/permissionToSubmitRules.drl";
 
-    private static final String PERMISSIONS_COMMITTEEMEMBERS_FILE = "org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl";
+    private static final String PERMISSIONS_COMMITTEEMEMBERS_FILE = "org/kuali/kra/iacuc/drools/rules/permissionToCommitteeMemberRules.drl";
 
-    private static final String PERMISSIONS_SPECIAL_FILE = "org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl";
+    private static final String PERMISSIONS_SPECIAL_FILE = "org/kuali/kra/iacuc/drools/rules/permissionForSpecialRules.drl";
 
-    private static final String PERFORMACTION_FILE = "org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl";
+    private static final String PERFORMACTION_FILE = "org/kuali/kra/iacuc/drools/rules/canPerformProtocolActionRules.drl";
 
-    private static final String UPDATE_FILE = "org/kuali/kra/irb/drools/rules/updateProtocolRules.drl";
+    private static final String UPDATE_FILE = "org/kuali/kra/iacuc/drools/rules/updateProtocolRules.drl";
     
-    private static final String UNDO_ACTION_FILE = "org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl";
+    private static final String UNDO_ACTION_FILE = "org/kuali/kra/iacuc/drools/rules/undoProtocolUpdateRules.drl";
     
-    private static final String FOLLOWUP_FILE = "org/kuali/kra/irb/drools/rules/isProtocolActionOpenForFollowupRules.drl";
+    private static final String FOLLOWUP_FILE = "org/kuali/kra/iacuc/drools/rules/isProtocolActionOpenForFollowupRules.drl";
 
-    private static final int PERMISSIONS_LEADUNIT_RULE = 0;
-
+    private static final int PERMISSIONS_LEADUNIT_RULE = 0;    
+    
     private static final int PERMISSIONS_SUBMIT_RULE = 1;
 
     private static final int PERMISSIONS_COMMITTEEMEMBERS_RULE = 2;
@@ -84,7 +83,7 @@ public class IacucProtocolActionServiceImpl implements IacucProtocolActionServic
    
     private static final String MODIFY_ANY_PROTOCOL = "Modify Any Protocol";
 
-    private static final String PERFORM_IRB_ACTIONS_ON_PROTO = "Perform IRB Actions on a Protocol";
+    private static final String PERFORM_IACUC_ACTIONS_ON_PROTO = "Perform IACUC Actions on a Protocol";
 
     private static final String DEFAULT_ORGANIZATION_UNIT = "000001";
 
@@ -102,9 +101,9 @@ public class IacucProtocolActionServiceImpl implements IacucProtocolActionServic
 
     private UnitAuthorizationService unitAuthorizationService;
     
-    private FollowupActionService followupActionService;
+    private IacucFollowupActionService followupActionService;
    
-    private ProtocolDao protocolDao;
+    private IacucProtocolDao protocolDao;
 
     private DroolsRuleHandler canPerformRuleHandler;
 
@@ -132,27 +131,25 @@ public class IacucProtocolActionServiceImpl implements IacucProtocolActionServic
         this.unitAuthorizationService = unitAuthorizationService;
     }
 
-    public void setProtocolDao(ProtocolDao protocolDao) {
+    public void setProtocolDao(IacucProtocolDao protocolDao) {
         this.protocolDao = protocolDao;
     }
 
-    public void setFollowupActionService(FollowupActionService followupActionService) {
+    public void setFollowupActionService(IacucFollowupActionService followupActionService) {
         this.followupActionService = followupActionService;
     }
 
-    
-    
     /**
-     * @see org.kuali.kra.irb.actions.submit.ProtocolActionService#isActionAllowed(java.lang.String, org.kuali.kra.irb.Protocol)
+     * @see org.kuali.kra.irb.actions.submit.IacucProtocolActionService#isActionAllowed(java.lang.String, org.kuali.kra.irb.IacucProtocol)
      */
-    public boolean isActionAllowed(String actionTypeCode, Protocol protocol) {
+    public boolean isActionAllowed(String actionTypeCode, IacucProtocol protocol) {
         return canPerformAction(actionTypeCode, protocol) || protocol.isFollowupAction(actionTypeCode);
     }
 
     /**
      * This method is to check if user is authorized to perform action of 'actionTypeCode'
      */
-    protected boolean isAuthorizedtoPerform(String actionTypeCode, Protocol protocol) {
+    protected boolean isAuthorizedtoPerform(String actionTypeCode, IacucProtocol protocol) {
         boolean flag = false;
 //TODO: To be implemented for IACUC
 //      ActionRightMapping rightMapper = new ActionRightMapping();
@@ -176,9 +173,9 @@ return true;
     }
 
     /**
-     * @see org.kuali.kra.irb.actions.submit.ProtocolActionService#getActionsAllowed(org.kuali.kra.irb.Protocol)
+     * @see org.kuali.kra.irb.actions.submit.IacucProtocolActionService#getActionsAllowed(org.kuali.kra.irb.IacucProtocol)
      */
-    public List<String> getActionsAllowed(Protocol protocol) {
+    public List<String> getActionsAllowed(IacucProtocol protocol) {
 
         List<String> actionList = new ArrayList<String>();
         for (String actionTypeCode : actions) {
@@ -193,7 +190,7 @@ return true;
 //    /*
 //     * This method is to check if user has permission in lead unit
 //     */
-//    protected boolean hasPermissionLeadUnit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
+//    protected boolean hasPermissionLeadUnit(String actionTypeCode, IacucProtocol protocol, ActionRightMapping rightMapper) {
 //        rightMapper.setActionTypeCode(actionTypeCode);
 //        rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
 //        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
@@ -203,17 +200,17 @@ return true;
 //    /**
 //     * This method is to check if user has permission to submit
 //     */
-//    protected boolean hasPermissionToSubmit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
+//    protected boolean hasPermissionToSubmit(String actionTypeCode, IacucProtocol protocol, ActionRightMapping rightMapper) {
 //        rightMapper.setActionTypeCode(actionTypeCode);
 //        rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
 //        return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
 //                .getRightId()) : false;
 //    } 
 
-    private List<String> getPersonnelIds(Protocol protcol) {
+    private List<String> getPersonnelIds(IacucProtocol protocol) {
         List<String> PersonnelIds = new ArrayList<String>();
        
-            for (ProtocolPerson person : protcol.getProtocolPersons()) {
+            for (ProtocolPerson person : protocol.getProtocolPersons()) {
                 if (StringUtils.isNotBlank(person.getPersonId())) {
                     PersonnelIds.add(person.getPersonId());
                 }
@@ -226,20 +223,20 @@ return true;
     }
    
     
-   public boolean isProtocolPersonnel(Protocol protocol) {
+   public boolean isProtocolPersonnel(IacucProtocol protocol) {
         Person person = GlobalVariables.getUserSession().getPerson();
         return getPersonnelIds(protocol).contains(person.getPrincipalId());        
     }
     /**
      * This method is to check if user has permission in committee home unit
      */
-    protected boolean hasPermissionAsCommitteeMember(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
+    protected boolean hasPermissionAsCommitteeMember(String actionTypeCode, IacucProtocol protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rightMapper.setCommitteeId(protocol.getProtocolSubmission().getCommitteeId());
         rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
         rulesList.get(PERMISSIONS_COMMITTEEMEMBERS_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
-                KC_PROTOCOL, PERFORM_IRB_ACTIONS_ON_PROTO) : false;
+                KC_PROTOCOL, PERFORM_IACUC_ACTIONS_ON_PROTO) : false;
     }
 
     /**
@@ -249,7 +246,7 @@ return true;
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_SPECIAL_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), unit,
-                KC_PROTOCOL, PERFORM_IRB_ACTIONS_ON_PROTO) : false;
+                KC_PROTOCOL, PERFORM_IACUC_ACTIONS_ON_PROTO) : false;
     }
 
     protected String getUserIdentifier() {
@@ -260,7 +257,7 @@ return true;
      * This method is to check whether 'actionTypeCode' can be performed based on protocol's status code or submission code or other
      * condition specified in rule.
      */
-    public boolean canPerformAction(String actionTypeCode, Protocol protocol) {
+    public boolean canPerformAction(String actionTypeCode, IacucProtocol protocol) {
 //TODO: to be implemented for IACUC
 //        LOG.info(actionTypeCode);
 //        String submissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
@@ -280,10 +277,10 @@ return true;
     }
 
     /**
-     * @see org.kuali.kra.irb.actions.submit.ProtocolActionService#updateProtocolStatus(org.kuali.kra.irb.actions.ProtocolAction,
-     *      org.kuali.kra.irb.Protocol)
+     * @see org.kuali.kra.irb.actions.submit.IacucProtocolActionService#updateProtocolStatus(org.kuali.kra.irb.actions.IacucProtocolAction,
+     *      org.kuali.kra.irb.IacucProtocol)
      */
-    public void updateProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
+    public void updateProtocolStatus(IacucProtocolAction protocolActionBo, IacucProtocol protocol) {
 //TODO: to be implemented for IACUC
 //        String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();
 //        String specialCondition = protocolNumberUpper.contains(AMEND) ? AMEND : (protocolNumberUpper.contains(RENEW) ? RENEW : NONE);
@@ -300,9 +297,9 @@ return true;
     
     /**
      * 
-     * @see org.kuali.kra.irb.actions.submit.ProtocolActionService#resetProtocolStatus(org.kuali.kra.irb.actions.ProtocolAction, org.kuali.kra.irb.Protocol)
+     * @see org.kuali.kra.irb.actions.submit.IacucProtocolActionService#resetProtocolStatus(org.kuali.kra.irb.actions.IacucProtocolAction, org.kuali.kra.irb.IacucProtocol)
      */
-    public void resetProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
+    public void resetProtocolStatus(IacucProtocolAction protocolActionBo, IacucProtocol protocol) {
 //TODO: to be implemented for IACUC
 //        ProtocolUndoActionMapping protocolAction = new ProtocolUndoActionMapping(protocolActionBo.getProtocolActionTypeCode(), 
 //                    protocolActionBo.getSubmissionTypeCode(), protocol.getProtocolStatusCode());
@@ -325,7 +322,7 @@ return true;
     /*
      * This is to remove the questionnaire answered for request submission
      */
-    private void removeQuestionnaireAnswer(ProtocolAction protocolActionBo, Protocol protocol) {
+    private void removeQuestionnaireAnswer(IacucProtocolAction protocolActionBo, IacucProtocol protocol) {
         // 'bos.deletematching' will not work because it is not deleting 'answers'
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
@@ -339,12 +336,12 @@ return true;
     }
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.ProtocolActionFollowupService#isActionOpenForFollowup(java.lang.String, org.kuali.kra.irb.Protocol)
+     * @see org.kuali.kra.irb.actions.IacucProtocolActionFollowupService#isActionOpenForFollowup(java.lang.String, org.kuali.kra.irb.IacucProtocol)
      */
-    public boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol) {
+    public boolean isActionOpenForFollowup(String protocolActionTypeCode, IacucProtocol protocol) {
         return followupActionService.isActionOpenForFollowup(protocolActionTypeCode, protocol);
 //        String motionTypeCode = protocol.getProtocolSubmission().getCommitteeDecisionMotionTypeCode();
-//        ProtocolActionFollowupMapping mapping = new ProtocolActionFollowupMapping(protocolActionTypeCode, motionTypeCode);
+//        IacucProtocolActionFollowupMapping mapping = new IacucProtocolActionFollowupMapping(protocolActionTypeCode, motionTypeCode);
 //        rulesList.get(FOLLOWUP_RULE).executeRules(mapping);
 //        return mapping.getIsOpenForFollowup();
     }

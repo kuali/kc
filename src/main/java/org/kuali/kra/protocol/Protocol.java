@@ -32,6 +32,7 @@ import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.PersonCustomData;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.permissions.Permissionable;
@@ -85,6 +86,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.util.AutoPopulatingList;
 
 
 public abstract class Protocol extends KraPersistableBusinessObjectBase implements SequenceOwner<Protocol>, Permissionable, UnitAclLoadable, Disclosurable {
@@ -172,7 +174,11 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     private List<ProtocolPerson> protocolPersons;
     
    
+//TODO: This should be refactored when IRB and IACUC are merged. For now, demote into IACUC
+//    private List<ProtocolCustomData> personCustomDataList = new AutoPopulatingList<PersonCustomData>(PersonCustomData.class);
+
     private List<ProtocolSpecialReview> specialReviews;
+    
     
     //these are the m:m attachment protocols that that a protocol has
     private List<ProtocolAttachmentProtocol> attachmentProtocols;
@@ -2124,16 +2130,16 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
 
   
-//    /**
-//     * 
-//     * This method is to check if the actiontypecode is a followup action.
-//     * @param actionTypeCode
-//     * @return
-//     */
-//    public boolean isFollowupAction(String actionTypeCode) {
-//        return (getLastProtocolAction() == null || StringUtils.isBlank(getLastProtocolAction().getFollowupActionCode())) ? false 
-//                : actionTypeCode.equals(getLastProtocolAction().getFollowupActionCode());
-//    }
+    /**
+     * 
+     * This method is to check if the actiontypecode is a followup action.
+     * @param actionTypeCode
+     * @return
+     */
+    public boolean isFollowupAction(String actionTypeCode) {
+        return (getLastProtocolAction() == null || StringUtils.isBlank(getLastProtocolAction().getFollowupActionCode())) ? false 
+                : actionTypeCode.equals(getLastProtocolAction().getFollowupActionCode());
+    }
 
     public boolean isMergeAmendment() {
         return mergeAmendment;

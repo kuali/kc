@@ -33,6 +33,7 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.Constants;
@@ -481,8 +482,7 @@ public class IacucActionHelper extends ActionHelper {
 //        assignToAgendaBean.prepareView();
 //        assignCmtSchedBean.prepareView();
 //        protocolAssignReviewersBean.prepareView();
-//        submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
-
+        submissionConstraint = getParameterValue(Constants.PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION);
 
         canDeleteIacucProtocol = hasPermission(TaskName.DELETE_IACUC_PROTOCOL);
         canDeleteIacucProtocolUnavailable = hasPermission(TaskName.DELETE_IACUC_PROTOCOL_UNAVAILABLE);
@@ -1759,19 +1759,19 @@ return true;
 //    }
 
     public boolean getIsApproveOpenForFollowup() {
-        return hasFollowupAction(IacucProtocolActionType.APPROVED);
+        return hasFollowupAction(IacucProtocolActionType.IACUC_APPROVED);
     }
 
     public boolean getIsDisapproveOpenForFollowup() {
-        return hasFollowupAction(IacucProtocolActionType.DISAPPROVED);
+        return hasFollowupAction(IacucProtocolActionType.IACUC_DISAPPROVED);
     }
 
     public boolean getIsReturnForSMROpenForFollowup() {
-        return hasFollowupAction(IacucProtocolActionType.REVISIONS_REQUIRED);
+        return hasFollowupAction(IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED);
     }
 
     public boolean getIsReturnForSRROpenForFollowup() {
-        return hasFollowupAction(IacucProtocolActionType.MAJOR_REVISIONS_REQUIRED);
+        return hasFollowupAction(IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED);
     }
 
     public boolean isOpenForFollowup() {
@@ -1893,6 +1893,14 @@ return true;
     
     public boolean canIacucRequestDeactivateUnavailable() {
         return canIacucRequestDeactivateUnavailable;
+    }
+
+    protected String getParameterValue(String parameterName) {
+        String result = getParameterService().getParameterValueAsString(IacucProtocolDocument.class, parameterName);
+        if (result == null) {
+            result = super.getParameterValue(parameterName);
+        }
+        return result;
     }
 
 }

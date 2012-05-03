@@ -17,8 +17,9 @@ package org.kuali.kra.iacuc.actions.submit;
 
 import java.util.List;
 
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.actions.IacucProtocolAction;
+
 
 
 public interface IacucProtocolActionService {
@@ -30,7 +31,7 @@ public interface IacucProtocolActionService {
      * @param protocol
      * @return
      */
-    public List<String> getActionsAllowed(Protocol protocol);
+    public List<String> getActionsAllowed(IacucProtocol protocol);
 
     /**
      * 
@@ -38,7 +39,7 @@ public interface IacucProtocolActionService {
      * @param protocolActionBo
      * @param protocol
      */
-    public void updateProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol);
+    public void updateProtocolStatus(IacucProtocolAction protocolActionBo, IacucProtocol protocol);
     
     /**
      * 
@@ -46,7 +47,7 @@ public interface IacucProtocolActionService {
      * @param protocolActionBo
      * @param protocol
      */
-    public void resetProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol);
+    public void resetProtocolStatus(IacucProtocolAction protocolActionBo, IacucProtocol protocol);
 
     /**
      * 
@@ -56,7 +57,7 @@ public interface IacucProtocolActionService {
      * @param protocol
      * @return
      */
-    public boolean isActionAllowed(String actionTypeCode, Protocol protocol);
+    public boolean isActionAllowed(String actionTypeCode, IacucProtocol protocol);
     
     /**
      * Determines whether the given action in the protocol should be opened, based on whether it is a followup action.
@@ -64,14 +65,14 @@ public interface IacucProtocolActionService {
      * @param protocol The Protocol
      * @return true, if the Drools rules state that the action should now be open for followup, false otherwise
      */
-    public boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol);
+    public boolean isActionOpenForFollowup(String protocolActionTypeCode, IacucProtocol protocol);
     
     
     /**
      * Determines whether the logged in user is Protocol Personnel
-     *@param protocol The Protocol
+     *@param protocol The IacucProtocol
      * @return true, if the logged in user is protocol personnel else returns false
      */
     
-    public boolean isProtocolPersonnel(Protocol protocol) ;
+    public boolean isProtocolPersonnel(IacucProtocol protocol) ;
 }

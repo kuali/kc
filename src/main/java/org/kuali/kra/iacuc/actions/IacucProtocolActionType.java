@@ -26,11 +26,15 @@ public class IacucProtocolActionType extends ProtocolActionType {
      */
     private static final long serialVersionUID = 162958759286804034L;
     
-    public static final String PROTOCOL_CREATED = "100";
-    public static final String APPROVED = "204";
-    public static final String DISAPPROVED = "301";
-    public static final String MAJOR_REVISIONS_REQUIRED = "211";
-    public static final String REVISIONS_REQUIRED = "213";
+    public static final String IACUC_PROTOCOL_CREATED = "100";
+    public static final String SUBMITTED_TO_IACUC = "101";
+    public static final String IACUC_APPROVED = "204";
+    public static final String IACUC_DISAPPROVED = "301";
+    public static final String IACUC_MAJOR_REVISIONS_REQUIRED = "211";
+    public static final String IACUC_MINOR_REVISIONS_REQUIRED = "213";
+
+    //We need a unique Action code to map if the option to be chosen is 'Approve' since we need to enable 'Approve' action subsequently 
+    public static final String RECORD_COMMITTEE_DECISION = "308";
 
     public static List<String>getActionTypeSubmissionDocs() {
         return ACTION_TYPE_SUBMISSION_DOC;
@@ -38,11 +42,11 @@ public class IacucProtocolActionType extends ProtocolActionType {
     protected static final List<String> ACTION_TYPE_SUBMISSION_DOC;
     static {
       final List<String> codes = new ArrayList<String>();     
-      codes.add(PROTOCOL_CREATED);
-      codes.add(APPROVED);
-      codes.add(DISAPPROVED);
-      codes.add(MAJOR_REVISIONS_REQUIRED);
-      codes.add(REVISIONS_REQUIRED);
+      codes.add(IACUC_PROTOCOL_CREATED);
+      codes.add(IACUC_APPROVED);
+      codes.add(IACUC_DISAPPROVED);
+      codes.add(IACUC_MAJOR_REVISIONS_REQUIRED);
+      codes.add(IACUC_MINOR_REVISIONS_REQUIRED);
       ACTION_TYPE_SUBMISSION_DOC = codes;
   }
 
