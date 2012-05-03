@@ -1066,6 +1066,10 @@ public final class KeyConstants {
     // IACUC protocol species
     public static final String QUESTION_PROTOCOL_SPECIES_DELETE_CONFIRMATION = "question.iacuc.protocol.species.delete.confirmation";
     public static final String QUESTION_PROTOCOL_EXCEPTION_DELETE_CONFIRMATION = "question.iacuc.protocol.exception.delete.confirmation";
+    
+    // IACUC error messages
+    public static final String ERROR_IACUC_VALIDATION_ALTERNATE_SEARCH = "error.iacuc.validation.alternate.search";
+    public static final String ERROR_IACUC_VALIDATION_SEARCHDATE_AFTER_CURRENTDATE = "error.iacuc.validation.searchdate.after.currentdate";
 
     
     // Disclosure and Financial Entity errors

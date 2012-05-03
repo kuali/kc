@@ -9,12 +9,12 @@
 <forward name="iacucProtocol" path="/WEB-INF/jsp/iacuc/ProtocolProtocol.jsp" />
 <forward name="iacucPersonnel" path="/WEB-INF/jsp/iacuc/ProtocolPersonnel.jsp" />
 <forward name="iacucProtocolPermissions" path="/WEB-INF/jsp/iacuc/ProtocolPermissions.jsp" />
-<forward name="iacucPermissionsRoleRights" path="/WEB-INF/jsp/iacuc/ProtocolPermissionsRoleRights.jsp" />
+<forward name="permissionsRoleRights" path="/WEB-INF/jsp/iacuc/ProtocolPermissionsRoleRights.jsp" />
 <forward name="iacucViewQuestionnaire" path="/WEB-INF/jsp/iacuc/ViewQuestionnaire.jsp" />
 <forward name="iacucAjaxQuestionnaire" path="/WEB-INF/jsp/iacuc/AjaxQuestionnaire.jsp" />
 <forward name="iacucSubmissionQuestionnaire" path="/WEB-INF/jsp/iacuc/SubmissionQuestionnaire.jsp" />
-<forward name="iacucPermissionsEditRoles" path="/WEB-INF/jsp/iacuc/ProtocolPermissionsEditRoles.jsp" />
-<forward name="iacucPermissionsCloseEditRoles" path="/WEB-INF/jsp/iacuc/ProtocolPermissionsCloseEditRoles.jsp" />
+<forward name="permissionsEditRoles" path="/WEB-INF/jsp/iacuc/ProtocolPermissionsEditRoles.jsp" />
+<forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/iacuc/ProtocolPermissionsCloseEditRoles.jsp" />
 <forward name="iacucNoteAndAttachment" path="/WEB-INF/jsp/iacuc/ProtocolNoteAndAttachment.jsp" />
 <forward name="iacucProtocolOnlineReview" path = "/WEB-INF/jsp/iacuc/ProtocolOnlineReview.jsp"/>
 <forward name="iacucProtocolActions" path="/WEB-INF/jsp/iacuc/ProtocolProtocolActions.jsp" />

@@ -23,6 +23,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.permission.PermissionsHelper;
 
 
@@ -80,14 +82,9 @@ public class IacucPermissionsHelper extends PermissionsHelper {
      * @see org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase#canModifyPermissions()
      */
     @Override
-    public boolean canModifyPermissions() {
-        return true;
-     // TODO *********commented the code below during IACUC refactoring*********         
-        
-        
-//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ROLES, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-        
+    public boolean canModifyPermissions() {              
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ROLES, getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
     }
 
     @Override
@@ -97,6 +94,13 @@ public class IacucPermissionsHelper extends PermissionsHelper {
         }
         
         excludeRoles.add(RoleConstants.IACUC_PROTOCOL_APPROVER);
+        excludeRoles.add(RoleConstants.IACUC_PROTOCOL_UNASSIGNED);
+        excludeRoles.add(RoleConstants.MODIFY_IACUC_PROTOCOLS);
+        excludeRoles.add(RoleConstants.ACTIVE_IACUC_COMMITTEE_MEMBER);
+        excludeRoles.add(RoleConstants.ACTIVE_IACUC_COMMITTEE_MEMBER_ON_PROTOCOL);
+        excludeRoles.add(RoleConstants.ACTIVE_IACUC_COMMITTEE_MEMBER_ON_SCHEDULED_DATE);
+        excludeRoles.add(RoleConstants.IACUC_PROTOCOL_CREATOR);
+        excludeRoles.add(RoleConstants.IACUC_PROTOCOL_DELETER);        
     }
 
 }
