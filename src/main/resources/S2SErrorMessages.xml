@@ -559,6 +559,21 @@
       	<Message> Please answer the Environmental Impact question for this form within the Questions tab.</Message>
       	<FixLink>questions</FixLink>
     </Error>
+     <Error>
+  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/EnvironmentalImpact/EnvironmentalImpactExplanation</MessageKey> 
+  		<Message>Please explain the Environmental Impact question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+  	</Error>
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/EnvironmentalImpact/EnvironmentalExemption/EnvironmentalExemptionExplanation</MessageKey> 
+  		<Message>Please explain the Environmental Exemption question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+  	</Error>  	
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo/InternationalActivities/ActivitiesPartnershipsCountries</MessageKey> 
+  		<Message>Please explain the Activities Partnerships Countries question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+  	</Error>
 	<!-- # RR_OtherProjectInfo-V1_2- -->
 	<Error>
  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/InternationalActivities</MessageKey> 
@@ -600,6 +615,26 @@
 		<Message> Please answer the International Activities question for this form within the Questions tab.</Message>
 		<FixLink>questions</FixLink>
 	</Error>
+	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/EnvironmentalImpact/EnvironmentalImpactExplanation</MessageKey> 
+  		<Message>Please explain the Environmental Impact question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+  	</Error>
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/EnvironmentalImpact/EnvironmentalExemption/EnvironmentalExemptionExplanation</MessageKey> 
+  		<Message>Please explain the Environmental Exemption question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+  	</Error>
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/HistoricDesignationExplanation</MessageKey> 
+  		<Message>Please explain the Historic Designation question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+  	</Error>
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/InternationalActivities/ActivitiesPartnershipsCountries</MessageKey> 
+  		<Message>Please explain the Activities Partnerships Countries question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+  	</Error>	
 	<!-- # RR_OtherProjectInfo-V1_3- -->
 	<Error>
  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/InternationalActivities</MessageKey> 
@@ -641,6 +676,26 @@
 		<Message> Please answer the International Activities question for this form within the Questions tab.</Message>
 		<FixLink>questions</FixLink>
 	</Error>	
+	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/EnvironmentalImpact/EnvironmentalImpactExplanation</MessageKey> 
+  		<Message>Please explain the Environmental Impact question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+  	</Error>
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/EnvironmentalImpact/EnvironmentalExemption/EnvironmentalExemptionExplanation</MessageKey> 
+  		<Message>Please explain the Environmental Exemption question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+  	</Error>
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/HistoricDesignationExplanation</MessageKey> 
+  		<Message>Please explain the Historic Designation question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+  	</Error>
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/InternationalActivities/ActivitiesPartnershipsCountries</MessageKey> 
+  		<Message>Please explain the Activities Partnerships Countries question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+  	</Error>
 	<!-- # RRKeyPersonExpanded- -->
 	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded/KeyPerson/Profile/BioSketchsAttached</MessageKey>

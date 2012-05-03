@@ -106,7 +106,7 @@ public class RROtherProjectInfoV1_3Generator extends
 			RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo) {
 	    String historicDestinationAnswer = getAnswers(HISTORIC_DESTIONATION_YNQ);	   	    
 	    if (historicDestinationAnswer != null && !historicDestinationAnswer.equals(NOT_ANSWERED)) {
-	        YesNoDataType.Enum answer = historicDestinationAnswer.equals("Y") ? YesNoDataType.Y_YES
+	        YesNoDataType.Enum answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(historicDestinationAnswer) ? YesNoDataType.Y_YES
 	                : YesNoDataType.N_NO;
 	        String answerExplanation = getChildQuestionAnswer(HISTORIC_DESTIONATION_YNQ, EXPLANATION);
 	        rrOtherProjectInfo.setHistoricDesignation(answer);
@@ -121,7 +121,9 @@ public class RROtherProjectInfoV1_3Generator extends
 						    .setHistoricDesignationExplanation(answerExplanation
 						            .trim());
 	            }
-	        }	
+	        } else if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(historicDestinationAnswer)) {
+	            rrOtherProjectInfo.setHistoricDesignationExplanation(answerExplanation);
+	        }
 	    } else {
 	        rrOtherProjectInfo.setHistoricDesignation(null);
 	    }
@@ -180,6 +182,8 @@ public class RROtherProjectInfoV1_3Generator extends
     						.setEnvironmentalImpactExplanation(answerExplanation
     								.trim());
     			}
+    		} else if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(environmentalImpactAnswer)) {
+    		    environmentalImpact.setEnvironmentalImpactExplanation(answerExplanation);
     		}
 		} else {
 		    environmentalImpact.setEnvironmentalImpactIndicator(null);
@@ -239,6 +243,8 @@ public class RROtherProjectInfoV1_3Generator extends
     				} else {
     					environmentalExemption.setEnvironmentalExemptionExplanation(answerExplanation.trim());
     				}
+    			} else if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(ynqAnswer)) {
+    			    environmentalExemption.setEnvironmentalExemptionExplanation(answerExplanation);
     			}
     		    environmentalImpact.setEnvironmentalExemption(environmentalExemption);
     
@@ -276,6 +282,8 @@ public class RROtherProjectInfoV1_3Generator extends
     								.trim());
     			}
     			internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION));
+    		} else if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer)) {
+    		    internationalActivities.setActivitiesPartnershipsCountries(answerExplanation);
     		}
 		} else {
 		    internationalActivities.setInternationalActivitiesIndicator(null);

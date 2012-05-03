@@ -116,7 +116,9 @@ public class RROtherProjectInfoV1_2Generator extends
     						.setHistoricDesignationExplanation(answerExplanation
     								.trim());
     			}
-    		}
+    		}  else if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(historicDestinationAnswer)) {
+                rrOtherProjectInfo.setHistoricDesignationExplanation(answerExplanation);
+            }
 	    } else {
 	        rrOtherProjectInfo.setHistoricDesignation(null);
         }
@@ -175,7 +177,9 @@ public class RROtherProjectInfoV1_2Generator extends
     						.setEnvironmentalImpactExplanation(answerExplanation
     								.trim());
     			}
-    		}
+    		}  else if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(environmentalImpactAnswer)) {
+                environmentalImpact.setEnvironmentalImpactExplanation(answerExplanation);
+            }
 		} else {
 		    environmentalImpact.setEnvironmentalImpactIndicator(null);
 		}
@@ -238,7 +242,9 @@ public class RROtherProjectInfoV1_2Generator extends
     							.setEnvironmentalExemptionExplanation(answerExplanation
     									.trim());
     				}
-    			}
+    			} else if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(ynqAnswer)) {
+                    environmentalExemption.setEnvironmentalExemptionExplanation(answerExplanation);
+                }
     			environmentalImpact
     					.setEnvironmentalExemption(environmentalExemption);
     
@@ -278,7 +284,9 @@ public class RROtherProjectInfoV1_2Generator extends
     					
     			}
     			internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION));
-    		}
+    		} else if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer)) {
+                internationalActivities.setActivitiesPartnershipsCountries(answerExplanation);
+            }
 		} else {
 		    internationalActivities.setInternationalActivitiesIndicator(null);
 		}
