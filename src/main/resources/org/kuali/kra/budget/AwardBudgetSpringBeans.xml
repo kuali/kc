@@ -61,6 +61,7 @@
         <property name="budgetCalculationService" ref="budgetCalculationService" />
         <property name="awardBudgetCalculationService" ref="awardBudgetCalculationService" />
         <property name="versionHistoryService" ref="versionHistoryService" />
+        <property name="awardService" ref="awardService" />
     </bean>
     
     <bean id="awardBudgetCalculationService" class="org.kuali.kra.award.budget.calculator.AwardBudgetCalculationServiceImpl">

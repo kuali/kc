@@ -16,11 +16,16 @@
 package org.kuali.kra.scheduling.quartz;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -32,7 +37,7 @@ import org.springframework.scheduling.quartz.CronTriggerBean;
  * the Cron Expression from the SpringBeans.xml file.  Rather,
  * we have to retrieve the Cron Expression from the System Parameters.
  */
-public class KcCronTriggerBean extends CronTriggerBean implements ApplicationListener {
+public class KcCronTriggerBean extends CronTriggerBean {
 
     private static final Log LOG = LogFactory.getLog(KcCronTriggerBean.class);
 
@@ -41,8 +46,14 @@ public class KcCronTriggerBean extends CronTriggerBean implements ApplicationLis
      */
     private static final String DEFAULT_CRON_EXPRESSION = "0 0 1 * * ?";
     
+    private String defaultCronExpression = DEFAULT_CRON_EXPRESSION;
+    private String parameterNamespace;
+    private String parameterComponent;
+    private String cronExpressionParameterName = KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION;
+    private String triggerEnabledParameterName;
+    private String startTimeParameterName;
     private ParameterService parameterService;
-    private boolean refreshed = false;
+    private DateTimeService dateTimeService;
     
     /**
      * Sets the ParameterService.
@@ -58,8 +69,8 @@ public class KcCronTriggerBean extends CronTriggerBean implements ApplicationLis
      * @see org.springframework.scheduling.quartz.CronTriggerBean#afterPropertiesSet()
      */
     public void afterPropertiesSet() throws Exception {
-        //setCronExpression(DEFAULT_CRON_EXPRESSION); 
         setCronExpression(getSystemCronExpression());
+        setStartTime(getCronStartTime());
         super.afterPropertiesSet();
     }
     
@@ -67,48 +78,114 @@ public class KcCronTriggerBean extends CronTriggerBean implements ApplicationLis
      * Get the Cron Expression from the system parameters.
      * @return the Cron Expression
      */
-    private String getSystemCronExpression() {
-        final String param = this.getParameterValue(KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION);
-        if (param != null) {
-            return param;
-        } 
-        LOG.warn("parameter [" + KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION + "] not found using default value of [" + DEFAULT_CRON_EXPRESSION + "].");
-
+    protected String getSystemCronExpression() {
+        if (StringUtils.isNotBlank(cronExpressionParameterName) 
+                && getParameterService().parameterExists(parameterNamespace, parameterComponent, cronExpressionParameterName)) {
+            final String param = getParameterService().getParameterValueAsString(parameterNamespace, parameterComponent, cronExpressionParameterName);
+            if (param != null) {
+                return param;
+            } 
+            LOG.warn("parameter [" + cronExpressionParameterName + "] not found using default value of [" + DEFAULT_CRON_EXPRESSION + "].");
+    
+        }
         return DEFAULT_CRON_EXPRESSION;
     }
     
-    /**
-     * Get a proposal development system parameter value.
-     * @param key the key (name) of the parameter
-     * @return the parameter's value or null if the parameter does not exist.
-     */
-    private String getParameterValue(String key) {
-        if (this.parameterService.parameterExists(ProposalDevelopmentDocument.class, key)) {
-            return this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, key);
-        }
-        
-        return null;
-    }
-
-    /**
-     * FIXME
-     * This is a hack as a result of a rice upgrade to reset the cron expression after it is initialized.
-     * This is because the ParamterService not being available when this Bean is being created by Spring
-     * and lazy-init or depends-on will not work in this case.
-     * {@inheritDoc}
-     */
-    public void onApplicationEvent(ApplicationEvent event) {
-        /*
-        if (event instanceof ContextStartedEvent && !this.refreshed) {
+    protected Date getCronStartTime() {
+        Calendar today = dateTimeService.getCurrentCalendar();
+        today.add(Calendar.YEAR, 2);
+        Date cronStartTime = today.getTime();
+        if (!isTriggerEnabled()) {
+            return cronStartTime;
+        } else if (StringUtils.isBlank(startTimeParameterName)) {
+            cronStartTime = dateTimeService.getCurrentDate();
+        } else {
+            String CUSTOM_DATE_FORMAT = "dd-MMM-yyyy hh:mm a";
+            SimpleDateFormat dateFormat = new SimpleDateFormat(CUSTOM_DATE_FORMAT);
             try {
-                final String newExpr = this.getSystemCronExpression();
-                this.refreshed = true;
-                this.setCronExpression(newExpr);
-                LOG.info("refreshing cron expression to [" + newExpr + "].");
-            } catch (ParseException e) {
-                LOG.warn("unable refresh cron expression");
+                String parmStartTime = getParameterService().getParameterValueAsString(parameterNamespace, parameterComponent, startTimeParameterName);
+                try {
+                    cronStartTime = dateTimeService.convertToDate(parmStartTime);
+                } catch (ParseException e) {
+                    cronStartTime = dateFormat.parse(parmStartTime);
+                }
+            } catch (Exception e) {
+                String defaultDateStr = dateFormat.format(cronStartTime);
+                LOG.warn("Not able to get the starttime for " + this.getJobName() + " scheduler from system param table. Set it to " + defaultDateStr);
             }
         }
-        */
+        return cronStartTime;
+    }
+    
+    protected boolean isTriggerEnabled() {
+        if (StringUtils.isNotBlank(triggerEnabledParameterName)) {
+            if (getParameterService().parameterExists(parameterNamespace, parameterComponent, triggerEnabledParameterName)) {
+                return getParameterService().getParameterValueAsBoolean(parameterNamespace, parameterComponent, triggerEnabledParameterName);
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    public String getDefaultCronExpression() {
+        return defaultCronExpression;
+    }
+
+    public void setDefaultCronExpression(String defaultCronExpression) {
+        this.defaultCronExpression = defaultCronExpression;
+    }
+
+    public String getCronExpressionParameterName() {
+        return cronExpressionParameterName;
+    }
+
+    public void setCronExpressionParameterName(String cronExpressionParameterName) {
+        this.cronExpressionParameterName = cronExpressionParameterName;
+    }
+
+    public String getTriggerEnabledParameterName() {
+        return triggerEnabledParameterName;
+    }
+
+    public void setTriggerEnabledParameterName(String triggerEnabledParameterName) {
+        this.triggerEnabledParameterName = triggerEnabledParameterName;
+    }
+
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public String getStartTimeParameterName() {
+        return startTimeParameterName;
+    }
+
+    public void setStartTimeParameterName(String startTimeParameterName) {
+        this.startTimeParameterName = startTimeParameterName;
+    }
+
+    protected DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public String getParameterNamespace() {
+        return parameterNamespace;
+    }
+
+    public void setParameterNamespace(String parameterNamespace) {
+        this.parameterNamespace = parameterNamespace;
+    }
+
+    public String getParameterComponent() {
+        return parameterComponent;
+    }
+
+    public void setParameterComponent(String parameterComponent) {
+        this.parameterComponent = parameterComponent;
     }
 }
