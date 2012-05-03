@@ -115,6 +115,9 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
         } else {
             environmentalImpact.setEnvironmentalImpactIndicator(null);
         }
+        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(environmentalImpactAnswer) &&  answerExplanation == null) {
+            environmentalImpact.setEnvironmentalImpactExplanation(answerExplanation);
+        }
         if (answer.equals(YesNoDataType.Y_YES)) {
             answerExplanation = getChildQuestionAnswer(ENVIRONMENTAL_EXEMPTION_YNQ, EXPLANATION);
             String ynqAnswer = getAnswers(ENVIRONMENTAL_EXEMPTION_YNQ);
@@ -129,14 +132,14 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
                 if (!S2SConstants.PROPOSAL_YNQ_ANSWER_NA.equals(ynqAnswer)) {
                     // Answer not equal to X (not-applicable)
                     environmentalExemption.setEnvironmentalExemptionIndicator(answer);
-    
-                    environmentalExemption.setEnvironmentalExemptionExplanation(answerExplanation);
-                    environmentalImpact.setEnvironmentalExemption(environmentalExemption);
-    
+                    if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(ynqAnswer)) {                       
+                        environmentalExemption.setEnvironmentalExemptionExplanation(answerExplanation);
+                    }
                 }
             } else {
                 environmentalExemption.setEnvironmentalExemptionIndicator(null);
             }
+            environmentalImpact.setEnvironmentalExemption(environmentalExemption);
         }
         rrOtherProjectInfo.setEnvironmentalImpact(environmentalImpact);
 
@@ -144,13 +147,18 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
          * InternationalActivities is of YnQ type
          */
         String internationalActivitiesAnswer = getAnswers(INTERNATIONAL_ACTIVITIES_YNQ);
-        if(internationalActivitiesAnswer != null) {
+        if (internationalActivitiesAnswer != null) {
             answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
             answerExplanation = getAnswers(INTERNATIONAL_ACTIVITIES_EXPL);
             internationalActivities.setInternationalActivitiesIndicator(answer);
             if (answerExplanation != null && !answerExplanation.equals(NOT_ANSWERED)) {
                 internationalActivities.setActivitiesPartnershipsCountries(answerExplanation);
-                internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION));
+                if (getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION) != null) {
+                    internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION));
+                }
+            }
+            if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer) && answerExplanation == null) {
+                internationalActivities.setActivitiesPartnershipsCountries(answerExplanation);
             }
         } else {
             internationalActivities.setInternationalActivitiesIndicator(null);
