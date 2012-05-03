@@ -42,6 +42,7 @@ import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -332,15 +333,19 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 	 * @return stateReview(StateReview) corresponding to the state review code.
 	 */
 	private StateReview getStateReview() {
+	    StateReview stateReview = StateReview.Factory.newInstance();
         Map<String, String> eoStateReview = s2sUtilService.getEOStateReview(pdDoc);
         StateReviewCodeTypeDataType.Enum stateReviewCodeType = null;
         String strReview = eoStateReview.get(S2SConstants.YNQ_ANSWER);
         String stateReviewData = null;
         String stateReviewDate = null;
+        Calendar reviewDate = null;
         
         if (STATE_REVIEW_YES.equals(strReview)) {
             stateReviewCodeType = StateReviewCodeTypeDataType.Y_YES;
             stateReviewDate = eoStateReview.get(S2SConstants.YNQ_REVIEW_DATE);
+            reviewDate = s2sUtilService.convertDateStringToCalendar(stateReviewDate);
+            stateReview.setStateReviewDate(reviewDate);
         } else if (STATE_REVIEW_NO.equals(strReview)) {
             stateReviewData = eoStateReview.get(S2SConstants.YNQ_STATE_REVIEW_DATA);
             if (stateReviewData != null && S2SConstants.YNQ_STATE_NOT_COVERED.equals(stateReviewData)) {
@@ -349,11 +354,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
                 stateReviewCodeType = StateReviewCodeTypeDataType.PROGRAM_HAS_NOT_BEEN_SELECTED_BY_STATE_FOR_REVIEW;
             }
         }
-        StateReview stateReview = StateReview.Factory.newInstance();
         stateReview.setStateReviewCodeType(stateReviewCodeType);
-        if (stateReviewDate != null) {
-            stateReview.setStateReviewDate(s2sUtilService.convertDateStringToCalendar(stateReviewDate));
-        }
         return stateReview;
     }
 
@@ -402,20 +403,25 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 	}
 
 	private void setOtherAgencySubmissionDetails(ApplicationType applicationType) {
-	    YesNoDataType.Enum answer = null;    
-        answer = getAnswer(ANSWER_128).equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
-        applicationType.setIsOtherAgencySubmission(answer);
-        if (answer.equals(YesNoDataType.Y_YES)) {
-            String answerExplanation = getAnswer(ANSWER_111);
-            if (answerExplanation != null) {
-                if (answerExplanation.length() > ANSWER_EXPLANATION_MAX_LENGTH) {
-                    applicationType.setOtherAgencySubmissionExplanation(answerExplanation);
-                } else {
-                    applicationType.setOtherAgencySubmissionExplanation(answerExplanation);
-                }
-            }
-        }
+	    YesNoDataType.Enum answer = null;
+	    String answerdetails = getAnswer(ANSWER_128);
+	    if(answerdetails != null && answerdetails.equals(NOT_ANSWERED)){
+	        answer =  answerdetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
+	        applicationType.setIsOtherAgencySubmission(answer);
+	    }
+
+	    if (answerdetails !=null && answerdetails.equals(YesNoDataType.Y_YES)) {
+	        String answerExplanation = getAnswer(ANSWER_111);
+	        if (answerExplanation != null) {
+	            if (answerExplanation.length() > ANSWER_EXPLANATION_MAX_LENGTH) {
+	                applicationType.setOtherAgencySubmissionExplanation(answerExplanation);
+	            } else {
+	                applicationType.setOtherAgencySubmissionExplanation(answerExplanation);
+	            }
+	        }
+	    }
 	}
+    
 	/**
      * 
      * This method is used to get the answer for a particular Questionnaire question

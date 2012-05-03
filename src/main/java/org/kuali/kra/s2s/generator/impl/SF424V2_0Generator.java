@@ -28,6 +28,7 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -374,8 +375,10 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         sf424V2.setLocalEstimatedFunding(BigDecimal.ZERO);
         sf424V2.setOtherEstimatedFunding(BigDecimal.ZERO);
         sf424V2.setStateReview(getStateReviewCode());
-        if (stateReviewDate != null) {
-            sf424V2.setStateReviewAvailableDate(s2sUtilService.convertDateStringToCalendar(stateReviewDate));
+        if(sf424V2.getStateReview() != null) {
+            Calendar reviewDate = null;
+            reviewDate = s2sUtilService.convertDateStringToCalendar(stateReviewDate);
+            sf424V2.setStateReviewAvailableDate(reviewDate);
         }
         YesNoDataType.Enum yesNo = YesNoDataType.N_NO;
         Organization applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
@@ -542,7 +545,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             stateReviewDate = eoStateReview.get(S2SConstants.YNQ_REVIEW_DATE);
         }
         return stateType;
-       }
+    }
 
     /**
      * 
