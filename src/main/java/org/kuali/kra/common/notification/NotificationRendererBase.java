@@ -61,7 +61,7 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
      * @param replacementParameters the parameters to replace in the message
      * @return the message with all the possible search and replace 
      */
-    private String render(String text, Map<String,String> replacementParameters) { 
+    protected String render(String text, Map<String,String> replacementParameters) { 
         for (String key : replacementParameters.keySet()) {
             text = StringUtils.replace(text, key, replacementParameters.get(key));
         }

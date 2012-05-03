@@ -380,6 +380,10 @@
     <bean id="kcCronTrigger" class="org.kuali.kra.scheduling.quartz.KcCronTriggerBean">
         <property name="jobDetail" ref="kcLockJobDetail" />
         <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="cronExpressionParameterName" value="pessimisticLocking.cronExpression" />
+        <property name="parameterNamespace" value="KC-PD" />
+        <property name="parameterComponent" value="Document" />
     </bean>
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">

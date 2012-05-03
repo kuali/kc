@@ -70,4 +70,12 @@ public interface AwardService {
      */
     void updateAwardSequenceStatus(Award award, VersionStatus status);
     
+    /**
+     * Returns the active award or if none exist, the newest non-cancelled award.
+     * @param awardNumber
+     * @return
+     */
+    Award getActiveOrNewestAward(String awardNumber);
+    
+    
 }
