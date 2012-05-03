@@ -15,55 +15,61 @@
  */
 package org.kuali.kra.krms;
 
+import java.io.ByteArrayInputStream;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.framework.support.krms.RulesEngineExecutor;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
-import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.Engine;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
 import org.w3c.dom.Document;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import java.io.ByteArrayInputStream;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * A simple sample RulesEngineExecutor usable in the sample app which is hard-coded to select a context with
- * namespaceCode="KR-SAP" and name="Travel Account ".  It also is hardcoded to select an agenda from the context with an
- * event name of "workflow".
- *
- * @author Kuali Rice Team (rice.collab@kuali.org)
- */
 public class KcRulesEngineExecutor implements RulesEngineExecutor {
 
-    private static final String CONTEXT_NAMESPACE_CODE = "KC-PD";
-    private static final String CONTEXT_NAME = "Proposal Development Routing";
-
-    @Override
     public EngineResults execute(RouteContext routeContext, Engine engine) {
         Map<String, String> contextQualifiers = new HashMap<String, String>();
-        contextQualifiers.put("namespaceCode", CONTEXT_NAMESPACE_CODE);
-        contextQualifiers.put("name", CONTEXT_NAME);
+        contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
+        contextQualifiers.put("name", KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT);
 
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
         
+        // TODO Need logic in here to only add these from the final, complete budget version (if it exists)
         String unitNumber = getElementValue(docContent, "//ownedByUnitNumber");
-        String sponsorCode = getElementValue(docContent, "//sponsorCode");
+        String totalCost = getElementValue(docContent, "//totalCost");
+        String totalDirectCost = getElementValue(docContent, "//totalDirectCost");
+        String totalIndirectCost = getElementValue(docContent, "//totalIndirectCost");
+        String costShareAmount = getElementValue(docContent, "//costShareAmount");
+        String underrecoveryAmount = getElementValue(docContent, "//underrecoveryAmount");
+        String totalCostInitial = getElementValue(docContent, "//totalCostInitial");
+        String totalDirectCostLimit = getElementValue(docContent, "//totalDirectCostLimit");
+        String cfdaNumber = getElementValue(docContent, "//cfdaNumber");
+        String opportunityId = getElementValue(docContent, "//opportunityId");
         
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
-                Collections.singletonMap("unitNumber", unitNumber));
+                Collections.singletonMap("Unit Number", unitNumber));
 
         Facts.Builder factsBuilder = Facts.Builder.create();
-
-        factsBuilder.addFact("Sponsor Code", sponsorCode);
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_COST, totalCost);
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST, totalDirectCost);
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_INDIRECT_COST, totalIndirectCost);
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.COST_SHARE_AMOUNT, costShareAmount);
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.UNDERRECOVERY_AMOUNT, underrecoveryAmount);
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_COST_INITIAL, totalCostInitial);
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST_LIMIT, totalDirectCostLimit);
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.CFDA_NUMBER, cfdaNumber);
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.OPPORTUNITY_ID, opportunityId);
 
         EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);
         return results;
@@ -82,18 +88,4 @@ public class KcRulesEngineExecutor implements RulesEngineExecutor {
             throw new RiceRuntimeException();
         }
     }
-
-//    public static void main(String [] args) throws Exception {
-//
-//        String sampleDocContent = FileUtils.readFileToString(new File("/home/gilesp/tmp/SampleDocContent.txt"));
-//
-//        RouteContext rc = new RouteContext();
-//        DocumentRouteHeaderValue document = new DocumentRouteHeaderValue();
-//        DocumentRouteHeaderValueContent content = new DocumentRouteHeaderValueContent();
-//        content.setDocumentContent(sampleDocContent);
-//        document.setDocumentContent(content);
-//        rc.setDocument(document);
-//
-//        new TravelAccountRulesEngineExecutor().execute(rc, null);
-//    }
 }
