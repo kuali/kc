@@ -80,7 +80,7 @@ public class IacucProtocolHelper extends ProtocolHelper {
 
     @Override
     protected String getProtocolCreatedProtocolActionTypeCodeHook() {
-        return IacucProtocolActionType.PROTOCOL_CREATED;
+        return IacucProtocolActionType.IACUC_PROTOCOL_CREATED;
     }
 
 

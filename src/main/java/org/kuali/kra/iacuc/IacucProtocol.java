@@ -24,6 +24,7 @@ import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
+import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
@@ -66,6 +67,8 @@ public class IacucProtocol extends Protocol {
     private Timestamp createTimestamp;
     private String createUser;
     
+    private List<IacucProtocolCustomData> iacucProtocolCustomDataList;
+
     private List<IacucPrinciples> iacucPrinciples;
     private List<IacucAlternateSearch> iacucAlternateSearches;
       
@@ -87,6 +90,7 @@ public class IacucProtocol extends Protocol {
         setAlternativeSearchIndicator("no");
         setIacucProtocolSpeciesList(new ArrayList<IacucProtocolSpecies>());
         setIacucAlternateSearches(new ArrayList<IacucAlternateSearch>());
+        setIacucProtocolCustomDataList(new ArrayList<IacucProtocolCustomData>());
         setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
         
         initIacucPrinciples();
@@ -97,9 +101,14 @@ public class IacucProtocol extends Protocol {
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getIacucProtocolSpeciesList());
+        managedLists.add(getIacucProtocolCustomDataList());
         managedLists.add(getIacucAlternateSearches());
         managedLists.add(getIacucProtocolExceptions());
         return managedLists;
+    }
+
+    public IacucProtocolSubmission getIacucProtocolSubmission() {
+        return (IacucProtocolSubmission)getProtocolSubmission();
     }
     
     public Date getApplicationDate() {
@@ -294,6 +303,14 @@ public class IacucProtocol extends Protocol {
 
     public void setIacucAlternateSearches(List<IacucAlternateSearch> iacucAlternateSearches) {
         this.iacucAlternateSearches = iacucAlternateSearches;
+    }
+
+    public List<IacucProtocolCustomData> getIacucProtocolCustomDataList() {
+        return iacucProtocolCustomDataList;
+    }
+
+    public void setIacucProtocolCustomDataList(List<IacucProtocolCustomData> iacucProtocolCustomDataList) {
+        this.iacucProtocolCustomDataList = iacucProtocolCustomDataList;
     }
 
     public List<IacucProtocolException> getIacucProtocolExceptions() {

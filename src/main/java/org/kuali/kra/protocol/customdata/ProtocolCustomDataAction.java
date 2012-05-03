@@ -36,6 +36,7 @@ import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolAction;
@@ -77,18 +78,8 @@ System.out.println("\nEEEEEEE execute called, copying data to document\n");
     public ActionForward reload(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) throws Exception { 
         ProtocolForm protocolForm = (ProtocolForm) form;
-        super.reload(mapping, form, request, response);
-        copyCustomDataToDocument(form);
-        protocolForm.getProtocolCustomDataHelper().prepareView(protocolForm.getProtocolDocument());
-        
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        
-        for (Map.Entry<String, String[]> customAttributeValue : protocolForm.getCustomDataHelper().getCustomAttributeValues().entrySet()) {
-            String customAttributeId = customAttributeValue.getKey().substring(2);
-            String value = customAttributeValue.getValue()[0];
-            protocolDocument.getCustomAttributeDocuments().get(customAttributeId).getCustomAttribute().setValue(value);
-        }
-        return mapping.findForward("customData");    
+        protocolForm.getProtocolCustomDataHelper().prepareView(protocolForm.getProtocolDocument().getProtocol());
+        return mapping.findForward(IacucProtocolAction.IACUC_PROTOCOL_CUSTOM_DATA_HOOK);
     }
 
     /**
@@ -140,44 +131,42 @@ System.out.println("\nEEEEEEE execute called, copying data to document\n");
      * @param response
      * @return
      */
-    public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return staticCustomData(mapping, form, request, response, getCustomAttributeMappingHook());
-    }
-    
-    public static ActionForward staticCustomData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String mappingDestination) {
-        SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
-
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ResearchDocumentBase doc = (ResearchDocumentBase) protocolForm.getDocument();
-
-        Map<String, CustomAttributeDocument> customAttributeDocuments = doc.getCustomAttributeDocuments();
-        String documentNumber = doc.getDocumentNumber();
-        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
-            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
-            CustomAttributeDocValue customAttributeDocValue = 
-                getCustomAttributeDocValue(documentNumber, customAttributeDocument.getCustomAttributeId());
-            if (customAttributeDocValue != null) {
-                customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
-                protocolForm.getProtocolCustomDataHelper().getCustomAttributeValues()
-                .put("id" + customAttributeDocument.getCustomAttributeId().toString(), 
-                        new String[]{customAttributeDocValue.getValue()});
-            }
-
-            String groupName = protocolForm.getProtocolCustomDataHelper().getValidCustomAttributeGroupName(customAttributeDocument.getCustomAttribute().getGroupName());
-            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
-
-            if (customAttributeDocumentList == null) {
-                customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
-                customAttributeGroups.put(groupName, customAttributeDocumentList);
-            }
-            customAttributeDocumentList.add(customAttributeDocument);
-        }
-
-        protocolForm.getProtocolCustomDataHelper().setCustomAttributeGroups(customAttributeGroups);
-        return mapping.findForward(mappingDestination);
-    }
-
-
+//    public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+//        return staticCustomData(mapping, form, request, response, getCustomAttributeMappingHook());
+//    }
+//    
+//    public static ActionForward staticCustomData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String mappingDestination) {
+//        SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
+//
+//        ProtocolForm protocolForm = (ProtocolForm) form;
+//        ResearchDocumentBase doc = (ResearchDocumentBase) protocolForm.getDocument();
+//
+//        Map<String, CustomAttributeDocument> customAttributeDocuments = doc.getCustomAttributeDocuments();
+//        String documentNumber = doc.getDocumentNumber();
+//        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
+//            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
+//            CustomAttributeDocValue customAttributeDocValue = 
+//                getCustomAttributeDocValue(documentNumber, customAttributeDocument.getCustomAttributeId());
+//            if (customAttributeDocValue != null) {
+//                customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
+//                protocolForm.getProtocolCustomDataHelper().getCustomAttributeValues()
+//                .put("id" + customAttributeDocument.getCustomAttributeId().toString(), 
+//                        new String[]{customAttributeDocValue.getValue()});
+//            }
+//
+//            String groupName = protocolForm.getProtocolCustomDataHelper().getValidCustomAttributeGroupName(customAttributeDocument.getCustomAttribute().getGroupName());
+//            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
+//
+//            if (customAttributeDocumentList == null) {
+//                customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
+//                customAttributeGroups.put(groupName, customAttributeDocumentList);
+//            }
+//            customAttributeDocumentList.add(customAttributeDocument);
+//        }
+//
+//        protocolForm.getProtocolCustomDataHelper().setCustomAttributeGroups(customAttributeGroups);
+//        return mapping.findForward(mappingDestination);
+//    }
     
     /**
      * Get the Custom Attribute Doc value.

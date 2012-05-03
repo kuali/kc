@@ -21,7 +21,8 @@ public class SubmitIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
 
 
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
-          return  hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_IACUC_PROTOCOL);
+//TODO: Temp for IACUC          return  hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_IACUC_PROTOCOL);
+return true;
     }
 
 }
