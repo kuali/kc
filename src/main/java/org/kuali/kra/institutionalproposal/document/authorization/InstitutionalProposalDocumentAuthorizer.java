@@ -31,22 +31,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This class is the Institutional Proposal Document Authorizer.  It determines the edit modes and
  * document actions for all institutional proposal documents.
  */
-public class InstitutionalProposalDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase 
+public class InstitutionalProposalDocumentAuthorizer extends TransactionalDocumentAuthorizerBase 
     implements TransactionalDocumentAuthorizer {
     
     public static final String ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY = "DISAPPROVED_PD_WITH_LINKED_IP";
-    
-    TransactionalDocumentAuthorizer baseAuthorizer = new TransactionalDocumentAuthorizerBase() {
-    
-        @Override
-        protected void addRoleQualification(
-                Object primaryBusinessObjectOrDocument,
-                Map<String, String> attributes) {
-            super.addRoleQualification(primaryBusinessObjectOrDocument, attributes);
-        }
-
-    };
-    
+   
     @Override
     protected void addRoleQualification(
             Object primaryBusinessObjectOrDocument,
@@ -69,24 +58,7 @@ public class InstitutionalProposalDocumentAuthorizer extends KcTransactionalDocu
             GlobalVariables.getUserSession().removeObject(ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY);
             return true;
         } else {
-            return baseAuthorizer.canInitiate(documentTypeName, user);
+            return super.canInitiate(documentTypeName, user);
         }
-    }
-
-    @Override
-    public Set<String> getEditModes(Document document, Person user, Set<String> editModes) {
-        return baseAuthorizer.getEditModes(document, user, editModes);
-    }
-
-    @Override
-    public boolean canOpen(Document document, Person user) {
-        return baseAuthorizer.canOpen(document, user);
-    }
-
-    @Override
-    public boolean canSendNoteFyi(Document document, Person user) {
-        return baseAuthorizer.canSendNoteFyi(document, user);
-    }
-    
-    
+    }    
 }
