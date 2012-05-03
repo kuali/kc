@@ -238,6 +238,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private Sponsor primeSponsor;
  
     private String proposalNumberForGG;
+    
+    private String opportunityIdForGG;
  
 
     /**
@@ -250,7 +252,14 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
         return proposalNumberForGG;
     }
-
+    
+    public String getOpportunityIdForGG() {
+        if(s2sOpportunity != null){
+            opportunityIdForGG = s2sOpportunity.getOpportunityId();
+        }
+        return opportunityIdForGG;
+    }
+    
     /**
      * Sets the proposalNumberForGG attribute value.
      * @param proposalNumberForGG The proposalNumberForGG to set.
@@ -260,6 +269,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
        
     }
 
+    public void setOpportunityIdForGG(String opportunityIdForGG) {
+        this.opportunityIdForGG = opportunityIdForGG;
+        
+     }
+
+    
     /**
      * Looks up and returns the ParameterService.
      * @return the parameter service. 

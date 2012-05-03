@@ -68,6 +68,7 @@
 				<ref bean="DevelopmentProposal-anticipatedAwardTypeCode" />
 				<ref bean="DevelopmentProposal-budgetStatus" />
 				<ref bean="DevelopmentProposal-proposalNumberForGG" />
+				<ref bean="DevelopmentProposal-opportunityIdForGG" />
 			</list>
 		</property>
 		<property name="collections">
@@ -115,6 +116,24 @@
 		<property name="description"
 			value="The unique proposal number identifying a proposal. This is a system generated, sequential number." />
 	</bean>
+<bean id="DevelopmentProposal-opportunityIdForGG" parent="DevelopmentProposal-opportunityIdForGG-parentBean" />
+	<bean id="DevelopmentProposal-opportunityIdForGG-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="opportunityIdForGG" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Grants.gov Opportunity" />
+		<property name="shortLabel" value="Grants.gov Opportunity" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+		<property name="summary" value="Grants.gov Opportunity" />
+		<property name="description"
+			value="Grants.gov Opportunity" />
+	</bean>
 <bean id="DevelopmentProposal-proposalNumberForGG" parent="DevelopmentProposal-proposalNumberForGG-parentBean" />
 	<bean id="DevelopmentProposal-proposalNumberForGG-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -127,7 +146,7 @@
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+			<bean parent="TextControlDefinition" p:size="40" />
 		</property>
 		<property name="summary" value="Grants.gov Opportunity" />
 		<property name="description"
@@ -917,7 +936,7 @@
 				<bean parent="FieldDefinition" p:attributeName="ownedByUnitNumber" />
 				<bean parent="FieldDefinition" p:attributeName="ownedByUnit.unitName" />
 				<bean parent="FieldDefinition" p:attributeName="currentAwardNumber" />
-				<bean parent="FieldDefinition" p:attributeName="proposalNumberForGG" />
+				<bean parent="FieldDefinition" p:attributeName="opportunityIdForGG" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatus" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
 				
@@ -937,6 +956,7 @@
 				<bean parent="FieldDefinition" p:attributeName="ownedByUnit.unitName" />
 				<bean parent="FieldDefinition" p:attributeName="deadlineDate" />
 				<bean parent="FieldDefinition" p:attributeName="currentAwardNumber" />
+				<bean parent="FieldDefinition" p:attributeName="opportunityIdForGG" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatusName" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
 			</list>
