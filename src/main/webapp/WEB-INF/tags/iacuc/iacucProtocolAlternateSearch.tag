@@ -28,7 +28,7 @@
     -->
 </style>
 
-<kul:tab tabTitle="Alternate Search" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Alternate Search" defaultOpen="false" tabErrorKey="iacucAlternateSearchHelper.newAlternateSearch.*">
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Alternate Search Required?</span>
@@ -162,9 +162,9 @@
                         <td align="center" valign="middle">
                             <div align="center">
                             <nobr>
-                                <!--   html:image property="methodToCall.editAlternateSearch.line${status.index}.anchor${tabKey}"
+                                <!--   html:image property="methodToCall.editAlternateSearch.line.${status.index}.anchor${tabKey}"
                                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/ -->                            
-                                <html:image property="methodToCall.deleteAlternateSearch.line${status.index}.anchor${tabKey}"
+                                <html:image property="methodToCall.deleteAlternateSearch.line.${status.index}.anchor${tabKey}"
                                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
                             </nobr>
                             </div>

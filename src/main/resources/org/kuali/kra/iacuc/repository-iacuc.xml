@@ -116,9 +116,9 @@
             <foreignkey field-ref="protocolStatusCode"/>
         </reference-descriptor>
 
-        <reference-descriptor name="iacucPrinciples" class-ref="org.kuali.kra.iacuc.threers.IacucPrinciples" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="protocolId"/>
-        </reference-descriptor>
+        <collection-descriptor name="iacucPrinciples" proxy="true" element-class-ref="org.kuali.kra.iacuc.threers.IacucPrinciples" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="protocolId" />
+        </collection-descriptor>
 
         <collection-descriptor name="iacucAlternateSearches" proxy="true" element-class-ref="org.kuali.kra.iacuc.threers.IacucAlternateSearch" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
@@ -140,11 +140,11 @@
         <collection-descriptor name="iacucProtocolSpeciesList" element-class-ref="org.kuali.kra.iacuc.species.IacucProtocolSpecies" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
-        
+                
         <collection-descriptor name="protocolReferences" element-class-ref="org.kuali.kra.iacuc.protocol.reference.IacucProtocolReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>   
-
+                
         <collection-descriptor name="iacucProtocolExceptions" element-class-ref="org.kuali.kra.iacuc.species.exception.IacucProtocolException" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
@@ -546,8 +546,8 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
-	
-	
+
+
 	
 	<class-descriptor class="org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceType" table="IACUC_PROTOCOL_REFERENCE_TYPE">
         <field-descriptor name="protocolReferenceTypeCode" column="PROTOCOL_REFERENCE_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
