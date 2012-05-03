@@ -218,8 +218,14 @@ public class PHS398CoverPageSupplementV1_0Generator extends
 	                stemCells.setIsHumanStemCellsInvolved(YesNoDataType.YES);
 	                String subAnswer = getAnswer(SPECIFIC_STEM_CELL_LINE);
 	                if (subAnswer != null) {
-	                    if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
-	                        childAnswer = getAnswers(REGISTRATION_NUMBER);
+	                    if(!subAnswer.equals(NOT_ANSWERED)) {
+	                        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
+	                            stemCells.setStemCellsIndicator(YesNoDataType.NO);
+	                            childAnswer = getAnswers(REGISTRATION_NUMBER);
+	                        }
+	                        else {
+	                            stemCells.setStemCellsIndicator(YesNoDataType.YES);
+	                        }
 	                    }
 	                }
 	                if (childAnswer != null) {
