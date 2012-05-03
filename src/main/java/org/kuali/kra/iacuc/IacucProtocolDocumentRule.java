@@ -16,6 +16,9 @@
 package org.kuali.kra.iacuc;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.actions.submit.IacucExecuteProtocolSubmitActionRule;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionRule;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceRule;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaAuditRule;
 import org.kuali.kra.iacuc.species.exception.rule.AddProtocolExceptionEvent;
@@ -24,6 +27,10 @@ import org.kuali.kra.iacuc.species.exception.rule.ProtocolExceptionRule;
 import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesEvent;
 import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesRule;
 import org.kuali.kra.iacuc.species.rule.ProtocolSpeciesRule;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.actions.submit.IacucExecuteProtocolSubmitActionRule;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionRule;
 import org.kuali.kra.protocol.ProtocolDocumentRule;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRule;
 
@@ -32,8 +39,7 @@ import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRule;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements AddProtocolSpeciesRule, AddProtocolExceptionRule{
-
+public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements AddProtocolSpeciesRule, AddProtocolExceptionRule, IacucExecuteProtocolSubmitActionRule {
 
     @Override
     protected String getInProgressProtocolStatusCodeHook() {
@@ -50,6 +56,13 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements A
         return new ProtocolSpeciesRule().processAddProtocolSpeciesBusinessRules(addProtocolSpeciesEvent);
     }
 
+    /**
+     * @see org.kuali.kra.iacuc.actions.submit.IacucExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionBean)
+     */
+    public boolean processSubmitAction(IacucProtocolDocument document, IacucProtocolSubmitAction submitAction) {
+        return new IacucProtocolSubmitActionRule().processSubmitAction(document, submitAction);
+    }
+
     @Override
     public boolean processAddProtocolExceptionBusinessRules(AddProtocolExceptionEvent addProtocolExceptionEvent) {
         return new ProtocolExceptionRule().processAddProtocolExceptionBusinessRules(addProtocolExceptionEvent);
@@ -61,5 +74,4 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements A
         return new IacucProtocolReferenceRule();
     }
     
-
 }

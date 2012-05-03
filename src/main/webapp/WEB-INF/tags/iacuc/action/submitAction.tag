@@ -33,6 +33,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 
 <%--<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
 --%>
+<br/>action helper = ${actionHelper}<br/>
 <kul:innerTab tabTitle="Submit for Review" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSubmitAction*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -73,7 +74,6 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
                         <kul:htmlControlAttribute property="actionHelper.iacucProtocolSubmitAction.submissionQualifierTypeCode" attributeEntry="${attributes.submissionQualifierTypeCode}" />
                     </td>
                 </tr>
-<%--                
                 <c:if test="${KualiForm.actionHelper.showCommittee}">
 	                <c:set var="hasCommitteeError" value="false"/>
 	                <c:set var="fieldName" value="actionHelper.iacucProtocolSubmitAction.committeeId" />
@@ -217,43 +217,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 	                </tr>
 	              
                 </c:if>
---%>
 
-<%--                   
-                <c:choose>
-	                <c:when test="${KualiForm.actionHelper.iacucProtocolSubmitAction.protocolReviewTypeCode == '2'}">
-	                	<tr id="expeditedReviewCheckList">
-	                </c:when>
-	                <c:otherwise>
-	                    <tr id="expeditedReviewCheckList" style="display:none">
-	                </c:otherwise>
-                </c:choose>
-                
-                	<th>
-                	    <div align="right">
-                            *Checklist<br/>(Expedited)
-                        </div>
-                    </th>
-                	<td colspan="3" style="padding: 0">
-                	   	<table cellpadding="0" cellspacing="0" summary=""> 
-				            <tbody>
-			                	<c:forEach items="${KualiForm.actionHelper.iacucProtocolSubmitAction.expeditedReviewCheckList}" var="item" varStatus="status">
-			                		<tr>
-                                        <td style="border-left: 0 none; border-right: 1 none; align: center; vertical-align:center">
-	                                        <kul:htmlControlAttribute property="actionHelper.iacucProtocolSubmitAction.expeditedReviewCheckList[${status.index}].checked"
-	                                                                  attributeEntry="${expeditedAttributes.checked}" />
-	                                       
-                                        </td>
-                                        <td style="border-left: 1 none; border-right: 0 none; padding: 5px ">
-                                            <kra:truncateComment textAreaFieldName="actionHelper.iacucProtocolSubmitAction.expeditedReviewCheckList[${status.index}].description" action="protocolProtocolActions" textAreaLabel="CheckList Item" textValue="${item.description}" displaySize="250"/>
-                                        </td>
-                                    </tr>
-								</c:forEach>
-							</tbody>
-						</table>
-                	</td>
-                </tr>
---%>
 <%--                
                  <c:choose>
 	                <c:when test="${KualiForm.actionHelper.iacucProtocolSubmitAction.protocolReviewTypeCode == '3'}">
@@ -288,6 +252,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 						</table>
                 	</td>
                 </tr>
+--%>               
                 <tr>
 					<td align="center" colspan="4">
 						<div align="center">
@@ -299,8 +264,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
 						</div>
 	                </td>
-                </tr>
---%>                
+                </tr>                
             </tbody>
         </table>
     </div>
