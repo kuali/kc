@@ -231,7 +231,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         }
     }
     
-    private void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients) {
+    public void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients) {
         LOG.info("Sending Notification [" + contextName + "]");
         
         Notification.Builder notification = getNotification();
@@ -319,7 +319,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         return new Long(parameterValue);
     }
     
-    private Set<NotificationRecipient.Builder> getNotificationRecipients(NotificationContext context) {
+    public Set<NotificationRecipient.Builder> getNotificationRecipients(NotificationContext context) {
         Set<NotificationRecipient.Builder> uniqueRecipients = new TreeSet<NotificationRecipient.Builder>(new Comparator<NotificationRecipient.Builder>() {
             public int compare(NotificationRecipient.Builder o1, NotificationRecipient.Builder o2) {
                 return o1.getRecipientId().compareTo(o2.getRecipientId());
