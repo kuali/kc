@@ -15,12 +15,30 @@
  */
 package org.kuali.kra.protocol.permission;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.common.permissions.bo.PermissionsRoleState;
+import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
+import org.kuali.kra.common.permissions.web.bean.Role;
+import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.common.permissions.web.struts.action.PermissionsActionHelperBase;
+import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
+import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolAction;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * The Protocol Permissions Action Helper performs all of the presentation logic
@@ -67,4 +85,121 @@ public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase
     private KraAuthorizationService getKraAuthorizationService() {
         return KraServiceLocator.getService(KraAuthorizationService.class);
     }
+
+    /**
+     * Edit the roles for a user.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public ActionForward editRoles(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        PermissionsForm permissionsForm = (PermissionsForm) form;
+        PermissionsHelperBase permissionsHelper = permissionsForm.getPermissionsHelper();
+           
+        int lineNum = getLineNum(request);
+        User user = permissionsHelper.getUsers().get(lineNum);
+            
+        /*
+         * Create an Edit Roles BO that will be used by the form for setting
+         * the boolean flags for the roles. 
+         */   
+        PermissionsUserEditRoles editRoles = new PermissionsUserEditRoles();
+        editRoles.setLineNum(lineNum);
+        editRoles.setJavaScriptEnabled(isJavaScriptEnabled(request));
+        editRoles.setUserName(user.getPerson().getUserName());
+        editRoles.setPrinipalInvestigator(isPrincipalInvestigator((ProtocolDocument) permissionsForm.getDocument(), user.getPerson().getPersonId()));
+            
+        List<PermissionsRoleState> roleStates = new ArrayList<PermissionsRoleState>();
+        List<Role> roles = permissionsHelper.getNormalRoles();
+        for (Role role : roles) {
+            PermissionsRoleState roleState = new PermissionsRoleState(role);
+            roleStates.add(roleState);
+        }
+        editRoles.setRoleStates(roleStates);
+        
+        /*
+         * Initialize the Edit Roles BO to the roles that the user is currently assigned to.
+         */
+        List<Role> userRoles = user.getRoles();
+        for (Role userRole : userRoles) {
+            editRoles.setRoleState(userRole.getName(), Boolean.TRUE);
+        }
+        
+        permissionsHelper.setUserEditRoles(editRoles);
+        
+        return mapping.findForward(Constants.MAPPING_PERMISSIONS_EDIT_ROLES_PAGE);
+    }
+
+    
+    /*
+     * Get the line number of the user to operate on.  
+     * 
+     * @param request the HTTP request
+     * @return the line number
+     */
+    private int getLineNum(HttpServletRequest request) {
+        
+        // If JavaScript is enabled, the line is returned to the web server
+        // as an HTTP parameter.  If not, it is embedded within the "methodToCall" syntax.
+        
+        String lineNumStr = request.getParameter("line");
+        try {
+            return Integer.parseInt(lineNumStr);
+        } catch (Exception ex) {
+            return this.getLineToDelete(request);
+        }
+    }
+
+    /*
+     * Parses the method to call attribute to pick off the line number which should be deleted.
+     */
+    private int getLineToDelete(HttpServletRequest request) {
+        return getSelectedLine(request);
+    }
+
+    /*
+     * Parses the method to call attribute to pick off the line number which should have an action performed on it.
+     */
+    private int getSelectedLine(HttpServletRequest request) {
+        int selectedLine = -1;
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            String lineNumber = StringUtils.substringBetween(parameterName, ".line", ".");
+            selectedLine = Integer.parseInt(lineNumber);
+        }
+
+        return selectedLine;
+    }
+    
+    /*
+     * Is JavaScript enabled on the user's browser?  This implementation is
+     * a bit of a hack.  When JavaScript is enabled, the line is returned
+     * to the web server as an HTTP request.  If not, it is embedded with
+     * the "methodToCall" syntax.
+     * 
+     * @param request the HTTP request
+     * @return true if JavaScript is enabled; otherwise false
+     */
+    private boolean isJavaScriptEnabled(HttpServletRequest request) {
+        String lineNumStr = request.getParameter("line");
+        try {
+            Integer.parseInt(lineNumStr);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+    
+    /*
+     * Check if user is PI
+     */
+    private boolean isPrincipalInvestigator(ProtocolDocument protocolDocument, String personId) {
+        return StringUtils.equals(personId, protocolDocument.getProtocol().getPrincipalInvestigatorId());
+    }    
 }

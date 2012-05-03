@@ -29,19 +29,19 @@
             <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolPrinciples.reduction}" /></div></th>
                 <td align="left" valign="center">
-                    <kul:htmlControlAttribute property="document.protocolList[0].iacucPrinciples.reduction" readOnly="${readOnly}" attributeEntry="${protocolPrinciples.reduction}" />
+                    <kul:htmlControlAttribute property="document.protocolList[0].iacucPrinciples[0].reduction" readOnly="${readOnly}" attributeEntry="${protocolPrinciples.reduction}" />
                 </td>        
             </tr>
             <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolPrinciples.refinement}" /></div></th>
                 <td align="left" valign="center">
-                    <kul:htmlControlAttribute property="document.protocolList[0].iacucPrinciples.refinement" readOnly="${readOnly}" attributeEntry="${protocolPrinciples.refinement}" />
+                    <kul:htmlControlAttribute property="document.protocolList[0].iacucPrinciples[0].refinement" readOnly="${readOnly}" attributeEntry="${protocolPrinciples.refinement}" />
                 </td>        
             </tr>
             <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolPrinciples.replacement}" /></div></th>
                 <td align="left" valign="center">
-                    <kul:htmlControlAttribute property="document.protocolList[0].iacucPrinciples.replacement" readOnly="${readOnly}" attributeEntry="${protocolPrinciples.replacement}" />
+                    <kul:htmlControlAttribute property="document.protocolList[0].iacucPrinciples[0].replacement" readOnly="${readOnly}" attributeEntry="${protocolPrinciples.replacement}" />
                 </td>        
             </tr>                        
         </table>

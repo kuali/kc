@@ -80,6 +80,12 @@ public interface RoleConstants {
     public static final String IACUC_PROTOCOL_VIEWER = "IACUC Protocol Viewer";
     public static final String IACUC_PROTOCOL_APPROVER = "IACUC ProtocolApprover";
     public static final String IACUC_PROTOCOL_UNASSIGNED = "IACUC Protocol Unassigned";
+    public static final String IACUC_PROTOCOL_CREATOR = "IACUC Protocol Creator";
+    public static final String IACUC_PROTOCOL_DELETER = "IACUC Protocol Deleter";
+    public static final String MODIFY_IACUC_PROTOCOLS = "Modify IACUC Protocols";
+    public static final String ACTIVE_IACUC_COMMITTEE_MEMBER = "Active IACUC Committee Member";
+    public static final String ACTIVE_IACUC_COMMITTEE_MEMBER_ON_PROTOCOL = "Active IACUC Committee Member on Protocol";
+    public static final String ACTIVE_IACUC_COMMITTEE_MEMBER_ON_SCHEDULED_DATE = "Active IACUC Committee Member on Scheduled Date";
 
 
 }
