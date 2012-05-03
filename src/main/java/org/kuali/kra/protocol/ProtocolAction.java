@@ -490,18 +490,18 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
 //        return KraServiceLocator.getService(ProtocolOnlineReviewService.class);
 //    }
 //    
-//    /**
-//     * This method gets called upon navigation to Online Review tab.
-//     * @param mapping the Action Mapping
-//     * @param form the Action Form
-//     * @param request the Http Request
-//     * @param response Http Response
-//     * @return the Action Forward
-//     */
-//    public ActionForward onlineReview(ActionMapping mapping, ActionForm form
-//            , HttpServletRequest request, HttpServletResponse response) {        
-//        return mapping.findForward(Constants.MAPPING_PROTOCOL_ONLINE_REVIEW);
-//    }
+    /**
+     * This method gets called upon navigation to Online Review tab.
+     * @param mapping the Action Mapping
+     * @param form the Action Form
+     * @param request the Http Request
+     * @param response Http Response
+     * @return the Action Forward
+     */
+    public ActionForward onlineReview(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
+        return mapping.findForward(getProtocolOnlineReviewForwardNameHook());
+    }
 //    
 //    
 //    /**
