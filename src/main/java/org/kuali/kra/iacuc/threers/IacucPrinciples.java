@@ -26,16 +26,16 @@ public class IacucPrinciples extends ProtocolAssociate {
 
     private static final long serialVersionUID = 580264349919894175L;
     
-    private Long iacucPrinciplesId;
+    private Integer iacucPrinciplesId;
     private String reduction;
     private String refinement;
     private String replacement;
     private boolean exceptionsPresent;
     
-    public Long getIacucPrinciplesId() {
+    public Integer getIacucPrinciplesId() {
         return iacucPrinciplesId;
     }
-    public void setIacucPrinciplesId(Long iacucPrinciplesId) {
+    public void setIacucPrinciplesId(Integer iacucPrinciplesId) {
         this.iacucPrinciplesId = iacucPrinciplesId;
     }
     public String getReduction() {

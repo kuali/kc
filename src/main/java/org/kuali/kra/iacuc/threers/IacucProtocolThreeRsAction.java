@@ -30,6 +30,7 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.util.CollectionUtils;
@@ -46,6 +47,7 @@ public class IacucProtocolThreeRsAction extends IacucProtocolAction {
             throws Exception {
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
+        ((IacucProtocolForm)form).getIacucAlternateSearchHelper().prepareView();
         
         return actionForward;
     }
@@ -56,41 +58,27 @@ public class IacucProtocolThreeRsAction extends IacucProtocolAction {
         IacucAlternateSearch altSearch = protocolForm.getIacucAlternateSearchHelper().getNewAlternateSearch();
         List<String> newDatabases = protocolForm.getIacucAlternateSearchHelper().getNewDatabases();
         
-        //TODO fix this...
+        //TODO fix date field
         altSearch.setSearchDate(new Date());
-               
-        List<IacucProtocolAlternateSearchDatabase> databases = new ArrayList<IacucProtocolAlternateSearchDatabase>();
-        for (String newDb : newDatabases) {
-            databases.add(createAltSearchDB(newDb));
+        
+        if (applyRules(new AddAlternateSearchEvent(protocolForm.getProtocolDocument(), altSearch, newDatabases))) {
+            getIacucAlternateSearchService().addAlternateSearch(((IacucProtocol)protocolForm.getIacucProtocolDocument().getProtocol()),
+                     altSearch, newDatabases);       
+            getDocumentService().saveDocument(protocolForm.getProtocolDocument());
         }
-        
-        altSearch.setDatabases(databases);
-        
-        List<IacucAlternateSearch> searches = ((IacucProtocol)protocolForm.getProtocolDocument().getProtocol()).getIacucAlternateSearches();
-        if (searches == null) {
-          searches = new ArrayList<IacucAlternateSearch>(); 
-        }
-                
-        searches.add(altSearch);
-        
-        ((IacucProtocol)protocolForm.getProtocolDocument().getProtocol()).setIacucAlternateSearches(searches);
-        
-        getDocumentService().saveDocument(protocolForm.getProtocolDocument());
         
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
     
-    private IacucProtocolAlternateSearchDatabase createAltSearchDB(String dbName) {
-        IacucProtocolAlternateSearchDatabase db = new IacucProtocolAlternateSearchDatabase();
-        db.setAlternateSearchDatabaseName(dbName);
-        return db;
-    }
-    
     public ActionForward deleteAlternateSearch (ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;        
         String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
-        int commentIndex = getAlternateSearchIndexNumber(parameterName, "deleteAlternateSearch");
+        int index = getAlternateSearchIndexNumber(parameterName, "deleteAlternateSearch");
+        
+        getIacucAlternateSearchService().deleteAlternateSearch(((IacucProtocol)protocolForm.getIacucProtocolDocument().getProtocol()),
+                index);
+        getDocumentService().saveDocument(protocolForm.getProtocolDocument());
 
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
@@ -108,5 +96,9 @@ public class IacucProtocolThreeRsAction extends IacucProtocolAction {
         String idxNmbr = StringUtils.substringBetween(parameterName, ".line.", ".anchor");
         result = Integer.parseInt(idxNmbr);
         return result;
+    }
+    
+    private IacucAlternateSearchService getIacucAlternateSearchService() {
+        return KraServiceLocator.getService(IacucAlternateSearchService.class);
     }
 }

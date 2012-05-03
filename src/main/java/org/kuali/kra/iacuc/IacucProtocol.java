@@ -66,7 +66,7 @@ public class IacucProtocol extends Protocol {
     private Timestamp createTimestamp;
     private String createUser;
     
-    private IacucPrinciples iacucPrinciples;
+    private List<IacucPrinciples> iacucPrinciples;
     private List<IacucAlternateSearch> iacucAlternateSearches;
       
     private List<IacucProtocolSpecies> iacucProtocolSpeciesList;
@@ -85,10 +85,11 @@ public class IacucProtocol extends Protocol {
         setCorrespondentIndicator("no");
         setReferenceIndicator("no");
         setAlternativeSearchIndicator("no");
-        setIacucPrinciples(new IacucPrinciples());
         setIacucProtocolSpeciesList(new ArrayList<IacucProtocolSpecies>());
         setIacucAlternateSearches(new ArrayList<IacucAlternateSearch>());
         setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
+        
+        initIacucPrinciples();
     } 
     
     @SuppressWarnings("unchecked")
@@ -262,12 +263,12 @@ public class IacucProtocol extends Protocol {
     }
 
 
-    public IacucPrinciples getIacucPrinciples() {
+    public List<IacucPrinciples> getIacucPrinciples() {
         return iacucPrinciples;
     }
 
 
-    public void setIacucPrinciples(IacucPrinciples iacucPrinciples) {
+    public void setIacucPrinciples(List<IacucPrinciples> iacucPrinciples) {
         this.iacucPrinciples = iacucPrinciples;
     }
     
@@ -301,6 +302,14 @@ public class IacucProtocol extends Protocol {
 
     public void setIacucProtocolExceptions(List<IacucProtocolException> iacucProtocolExceptions) {
         this.iacucProtocolExceptions = iacucProtocolExceptions;
+    }    
+    
+    private void initIacucPrinciples() {
+        List<IacucPrinciples> newPrinciples = new ArrayList<IacucPrinciples>();
+        IacucPrinciples iPrinciples = new IacucPrinciples();
+        newPrinciples.add(iPrinciples);
+        setIacucPrinciples(newPrinciples);
+
     }
 
 }

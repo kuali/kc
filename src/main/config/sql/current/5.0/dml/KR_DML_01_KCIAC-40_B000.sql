@@ -38,7 +38,7 @@ INSERT INTO KRIM_TYP_T (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSP
   VALUES( KRIM_TYP_ID_BS_S.NEXTVAL, SYS_GUID(), 1, 'Derived Role: Active IACUC Committee Member on Protocol', 'activeIacucCommitteeMemberOnProtocolDerivedRoleTypeService', 'Y', 'KC-IACUC')
 /
 INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
-  VALUES(KRIM_ROLE_ID_BS_S.NEXTVAL, SYS_GUID(), 1, 'Active IACUC Committee Member  on Protocol', 'KC-IACUC', 'Role members are derived from active committee members on protocol.', KRIM_TYP_ID_BS_S.CURRVAL, 'Y', SYSDATE)
+  VALUES(KRIM_ROLE_ID_BS_S.NEXTVAL, SYS_GUID(), 1, 'Active IACUC Committee Member on Protocol', 'KC-IACUC', 'Role members are derived from active committee members on protocol.', KRIM_TYP_ID_BS_S.CURRVAL, 'Y', SYSDATE)
 /
 /*Assinging all the permissions to IACUC Admin*/
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, ROLE_ID, PERM_ID, OBJ_ID, VER_NBR, ACTV_IND) 
