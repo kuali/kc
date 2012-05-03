@@ -43,6 +43,8 @@ public interface Permissionable {
     
     String SPONSOR_HIREARCHY_KEY = "sponsorhirearchy";
     
+    String SUBAWARD_KEY = "SubAwardDocument";
+    
     /**
      * 
      * This method returns the appropriate document number for implementing documents
