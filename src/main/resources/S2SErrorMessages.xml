@@ -78,6 +78,16 @@
  		<Message>Email address missing for PD/PI.</Message> 
  	    <FixLink>keyPersonnel</FixLink> 
   	</Error>  
+  	<Error>
+	    <MessageKey>/GrantApplication/Forms/SF424/StateReview</MessageKey> 
+ 		<Message>Please answer the State Executive Order questions for this form within the Questions tab.</Message> 
+ 	    <FixLink>questions</FixLink> 
+  	</Error> 
+  	<Error>
+	    <MessageKey>/GrantApplication/Forms/SF424/StateReviewAvailableDate</MessageKey> 
+ 		<Message>Please answer the State Review Date questions for this form within the Questions tab.</Message> 
+ 	    <FixLink>questions</FixLink> 
+  	</Error> 
 	<!-- #SF424_Short-V1_0 -->	
 	<Error>
   		<MessageKey>/GrantApplication/Forms/SF424_Short/ProjectDescription</MessageKey> 
@@ -408,6 +418,21 @@
   		<MessageKey>/GrantApplication/Forms/RR_SF424_1_2/PDPIContactInfo</MessageKey> 
  		<Message> Contact information missing for PD/PI, please make sure a Principal Investigator has been added.</Message> 
  	    <FixLink>keyPersonnel</FixLink> 
+  	</Error>
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_SF424_1_2/StateReview/StateReviewCodeType</MessageKey> 
+ 		<Message> Please answer the State Executive Order questions for this form within the Questions tab.</Message> 
+ 	    <FixLink>questions</FixLink> 
+  	</Error>
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_SF424_1_2/StateReview/StateReviewDate</MessageKey> 
+ 		<Message> Please answer the State Review Date questions for this form within the Questions tab.</Message> 
+ 	    <FixLink>questions</FixLink> 
+  	</Error>
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_SF424_1_2/ApplicationType</MessageKey> 
+ 		<Message> Please answer the Application Type questions for this form within the Questions tab.</Message> 
+ 	    <FixLink>questions</FixLink> 
   	</Error>
 	<!-- #RR_KeyPersonV1_0 -->
 	<Error>
@@ -1134,6 +1159,11 @@
  		<Message>Please answer the Stem Cells question.</Message> 
   		<FixLink>questions</FixLink> 
 	</Error>	
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_1_4/StemCells</MessageKey> 
+ 		<Message>Please answer the required stem cell questions for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
 	<!-- #PHS398_CoverPageSupplement-V1_4-->
 	<Error>
  		<MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_1_4/PDPI/PDPIName</MessageKey> 
