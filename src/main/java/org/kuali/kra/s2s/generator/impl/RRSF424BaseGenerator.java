@@ -49,6 +49,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected static final int SFLLL_OTHEREXPLANATORY = 86;
     protected static final String ANSWER_128 = "128";
     protected static final String ANSWER_111 = "111"; 
+    protected static final String NOT_ANSWERED = "No";
 
     /**
      * 
