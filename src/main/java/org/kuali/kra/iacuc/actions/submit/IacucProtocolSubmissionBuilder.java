@@ -28,6 +28,10 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolFinderDao;
+import org.kuali.kra.iacuc.actions.IacucProtocolSubmissionDoc;
+import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolActionAttachment;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolFinderDao;
@@ -50,14 +54,14 @@ public class IacucProtocolSubmissionBuilder {
     
     private IacucProtocolSubmission protocolSubmission;
     private List<FormFile> attachments = new ArrayList<FormFile>();
-    private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
+    private List<IacucProtocolActionAttachment> actionAttachments = new ArrayList<IacucProtocolActionAttachment>();
     
     /**
-     * Constructs a ProtocolSubmissionBuilder.
+     * Constructs a IacucProtocolSubmissionBuilder.
      * @param protocol
      * @param submissionTypeCode
      */
-    public IacucProtocolSubmissionBuilder(Protocol protocol, String submissionTypeCode) {
+    public IacucProtocolSubmissionBuilder(IacucProtocol protocol, String submissionTypeCode) {
         protocolSubmission = new IacucProtocolSubmission();
         protocolSubmission.setProtocol(protocol);
         protocolSubmission.setProtocolId(protocol.getProtocolId());
@@ -68,7 +72,7 @@ public class IacucProtocolSubmissionBuilder {
         protocolSubmission.setSubmissionDate(new Date(System.currentTimeMillis()));
         protocolSubmission.setSubmissionTypeCode(submissionTypeCode);
         
-        ProtocolSubmission oldSubmission = protocol.getProtocolSubmission();
+        IacucProtocolSubmission oldSubmission = protocol.getIacucProtocolSubmission();
         setValuesFromOldSubmission(protocolSubmission, oldSubmission);
         
         
@@ -78,13 +82,14 @@ public class IacucProtocolSubmissionBuilder {
         protocolSubmission.setSubmissionStatusCode("100");
     }
     
-    private Integer getNextSubmissionNumber(Protocol protocol) {
+    private Integer getNextSubmissionNumber(IacucProtocol protocol) {
         Integer nextSubmissionNumber;
         if (protocol.isAmendment() || protocol.isRenewal()) {
             String origProtocolNumber = protocol.getProtocolNumber();
             String protocolNumber = origProtocolNumber.substring(0, 10);
-            Protocol origProtocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
-            nextSubmissionNumber = origProtocol.getNextValue(NEXT_SUBMISSION_NUMBER_KEY);            
+            IacucProtocol origProtocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+            nextSubmissionNumber = origProtocol.getNextValue(NEXT_SUBMISSION_NUMBER_KEY);
+            
             getBusinessObjectService().save(origProtocol.getProtocolDocument().getDocumentNextvalues());
             
         } else {
@@ -95,11 +100,11 @@ public class IacucProtocolSubmissionBuilder {
         return nextSubmissionNumber;
     }
     
-    private ProtocolFinderDao getProtocolFinderDao() {
-        return KraServiceLocator.getService(ProtocolFinderDao.class);    
+    private IacucProtocolFinderDao getProtocolFinderDao() {
+        return KraServiceLocator.getService(IacucProtocolFinderDao.class);    
     }
     
-    private void setValuesFromOldSubmission(ProtocolSubmission newSubmission, ProtocolSubmission oldSubmission) {
+    private void setValuesFromOldSubmission(IacucProtocolSubmission newSubmission, IacucProtocolSubmission oldSubmission) {
         if (oldSubmission != null) {
             //old submission may not be found if in a unit test
             //TODO : some of these, such as scheduleid/scheduleidfk, should not be copied over.
@@ -129,15 +134,11 @@ public class IacucProtocolSubmissionBuilder {
      * Saves the submission to the database and adds it to the protocol.
      * @return the submission
      */
-    public ProtocolSubmission create() {
+    public IacucProtocolSubmission create() {
         protocolSubmission.setSubmissionDate(new Date(System.currentTimeMillis()));
         getBusinessObjectService().save(protocolSubmission);
         protocolSubmission.getProtocol().getProtocolSubmissions().add(protocolSubmission);
-//        if (ProtocolSubmissionType.NOTIFY_IRB.equals(protocolSubmission.getSubmissionTypeCode())) {
-            saveAttachments();
-//        } else {
-//            saveAttachments();
-//        }
+        saveAttachments();
         return protocolSubmission;
     }
     
@@ -286,7 +287,7 @@ public class IacucProtocolSubmissionBuilder {
      * save notify irb attachments.
      */
     private void saveAttachments() {
-        for (ProtocolActionAttachment attachment : actionAttachments) {
+        for (IacucProtocolActionAttachment attachment : actionAttachments) {
             saveAttachment(attachment.getFile(), attachment.getDescription());
         }
         
@@ -299,7 +300,7 @@ public class IacucProtocolSubmissionBuilder {
         try {
             byte[] data = file.getFileData();
             if (data.length > 0) {
-                ProtocolSubmissionDoc submissionDoc = createProtocolSubmissionDoc(protocolSubmission, file.getFileName(), file.getContentType(), data, description);
+                IacucProtocolSubmissionDoc submissionDoc = createProtocolSubmissionDoc(protocolSubmission, file.getFileName(), file.getContentType(), data, description);
                 getBusinessObjectService().save(submissionDoc);
             }
         }
@@ -318,8 +319,8 @@ public class IacucProtocolSubmissionBuilder {
      * @param document
      * @return
      */
-    private ProtocolSubmissionDoc createProtocolSubmissionDoc(ProtocolSubmission submission, String fileName, String contentType, byte[] document, String description) {
-        ProtocolSubmissionDoc submissionDoc = new ProtocolSubmissionDoc();
+    private IacucProtocolSubmissionDoc createProtocolSubmissionDoc(IacucProtocolSubmission submission, String fileName, String contentType, byte[] document, String description) {
+        IacucProtocolSubmissionDoc submissionDoc = new IacucProtocolSubmissionDoc();
         submissionDoc.setProtocolNumber(submission.getProtocolNumber());
         submissionDoc.setSequenceNumber(submission.getSequenceNumber());
         submissionDoc.setSubmissionNumber(submission.getSubmissionNumber());
@@ -343,11 +344,11 @@ public class IacucProtocolSubmissionBuilder {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
-    public List<ProtocolActionAttachment> getActionAttachments() {
+    public List<IacucProtocolActionAttachment> getActionAttachments() {
         return actionAttachments;
     }
 
-    public void setActionAttachments(List<ProtocolActionAttachment> actionAttachments) {
+    public void setActionAttachments(List<IacucProtocolActionAttachment> actionAttachments) {
         this.actionAttachments = actionAttachments;
     }
 }

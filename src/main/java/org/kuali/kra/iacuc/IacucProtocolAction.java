@@ -101,10 +101,6 @@ public class IacucProtocolAction extends ProtocolAction {
         return IACUC_PROTOCOL_CUSTOM_DATA_HOOK;
     }
 
-    protected String getCustomAttributeMappingHook() {
-        return IACUC_PROTOCOL_CUSTOM_DATA_HOOK;
-    }
-
     protected String getSpecialReviewForwardNameHook() {
         return IACUC_PROTOCOL_SPECIAL_REVIEW_HOOK;
     }

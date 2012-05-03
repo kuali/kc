@@ -88,6 +88,7 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
 //
 //    private List<ProtocolExpeditedReviewCheckListItem> expeditedReviewCheckList = new ArrayList<ProtocolExpeditedReviewCheckListItem>();
 
+//TODO: the following should be changed to not initialize the list once OLR is developed.    
     @SkipVersioning
     private transient List<ProtocolOnlineReview> protocolOnlineReviews;
 
@@ -456,7 +457,7 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(protocolOnlineReviews);
+//TODO: add this back in for IACUC development        managedLists.add(protocolOnlineReviews);
         return managedLists;
     }
 

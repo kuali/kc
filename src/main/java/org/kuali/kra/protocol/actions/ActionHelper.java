@@ -119,7 +119,7 @@ public abstract class ActionHelper implements Serializable {
     
     protected boolean canSubmitProtocol = false;
     protected boolean canSubmitProtocolUnavailable = false;
-    private String submissionConstraint;
+    protected String submissionConstraint;
     
     protected boolean canReturnToPI = false;
     protected boolean canReturnToPIUnavailable = false;
@@ -435,8 +435,6 @@ public abstract class ActionHelper implements Serializable {
 //        protocolPrintOption = new ProtocolSummaryPrintOptions();
 //        initPrintQuestionnaire();
     }
-
-    protected abstract List<String>getActionTypeSubmissionDocList();
     
 //    /**
 //     * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
@@ -1464,9 +1462,9 @@ return true;
          return GlobalVariables.getUserSession().getPrincipalId();
     }
 
-//    public String getSubmissionConstraint() {
-//        return submissionConstraint;
-//    }
+    public String getSubmissionConstraint() {
+        return submissionConstraint;
+    }
 
     public ProtocolWithdrawBean getProtocolWithdrawBean() {
         return protocolWithdrawBean;
@@ -1967,12 +1965,6 @@ return true;
 //        return hasFollowupAction(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED);
 //    }
 //    
-    
-  public abstract boolean getIsApproveOpenForFollowup();  
-  public abstract boolean getIsDisapproveOpenForFollowup();
-  public abstract boolean getIsReturnForSMROpenForFollowup();
-  public abstract boolean getIsReturnForSRROpenForFollowup();
-  
 //    /**
 //     * 
 //     * This method is one of the criteria to decide if there is a followup action for requested action panel to open
@@ -2684,16 +2676,16 @@ return true;
 //    public void setRecusers(List<ProtocolVoteRecused> recusers) {
 //        this.recusers = recusers;
 //    }
-//    
-//    /**
-//     * 
-//     * This method determines whether the committee select list should be displayed or not.
-//     * @return
-//     */
-//    public boolean isShowCommittee() {
-//        return "O".equals(this.getSubmissionConstraint()) || "M".equals(this.getSubmissionConstraint());
-//    }
-//
+    
+    /**
+     * 
+     * This method determines whether the committee select list should be displayed or not.
+     * @return
+     */
+    public boolean isShowCommittee() { 
+        return "O".equals(this.getSubmissionConstraint()) || "M".equals(this.getSubmissionConstraint());
+    }
+
 //    public ProtocolGenericActionBean getProtocolDeferBean() {
 //        return protocolDeferBean;
 //    }

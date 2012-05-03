@@ -17,8 +17,7 @@ package org.kuali.kra.iacuc.actions.submit;
 
 import java.util.List;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.iacuc.IacucProtocol;
 
 /**
  * Handles the processing of submitting a protocol to the IRB office.
@@ -30,14 +29,14 @@ public interface IacucProtocolSubmitActionService {
      * @param protocol protocol
      * @return the total number of submissions for the given protocolNumber
      */
-    int getTotalSubmissions(Protocol protocol);
+    int getTotalSubmissions(IacucProtocol protocol);
     
     /**
      * Finds all submissions for the given protocolNumber.
      * @param protocolNumber The human-readable protocol number
      * @return the list of submissions for the given protocolNumber
      */
-    List<ProtocolSubmission> getProtocolSubmissions(String protocolNumber);
+    List<IacucProtocolSubmission> getProtocolSubmissions(String protocolNumber);
     
     /**
      * Finds all submissions for the given protocolNumber and submissionNumber.
@@ -47,7 +46,7 @@ public interface IacucProtocolSubmitActionService {
      * @param submissionNumber The submission number
      * @return the list of submissions for the given protocolNumber
      */
-    List<ProtocolSubmission> getProtocolSubmissions(String protocolNumber, int submissionNumber);
+    List<IacucProtocolSubmission> getProtocolSubmissions(String protocolNumber, int submissionNumber);
 
     /**
      * Submit a protocol to the IACUC office for review.
@@ -55,15 +54,15 @@ public interface IacucProtocolSubmitActionService {
      * @param submitAction the submission data
      * @throws Exception 
      */
-    void submitToIacucForReview(Protocol protocol, IacucProtocolSubmitAction submitAction) throws Exception;
+    void submitToIacucForReview(IacucProtocol protocol, IacucProtocolSubmitAction submitAction) throws Exception;
     
     /**
      * 
-     * This method for getting ProtocolSubmissionsLookup from given protocolNumber...
+     * This method for getting IacucProtocolSubmissionsLookup from given protocolNumber...
      * @param protocolNumber
      * @return
      * @throws Exception
      */
    
-    public List<ProtocolSubmission> getProtocolSubmissionsLookupData(List<ProtocolSubmission> protocolSubmissionList) throws Exception;
+    public List<IacucProtocolSubmission> getProtocolSubmissionsLookupData(List<IacucProtocolSubmission> protocolSubmissionList) throws Exception;
 }

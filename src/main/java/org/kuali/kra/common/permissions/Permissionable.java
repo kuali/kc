@@ -32,9 +32,11 @@ public interface Permissionable {
     String PROPOSAL_BUDGET_KEY = "proposalbudget";
     
     String PROTOCOL_KEY = "protocol";
+    String IACUC_PROTOCOL_KEY = "iacuc";
     String COMMITTEE_KEY = "committee";
     String COMMITTEE_SCHEDULE_KEY="committeeSchedule";
     String PROTOCOL_ONLINE_REVIEW_KEY="protocolOnlineReview";
+    String IACUC_PROTOCOL_ONLINE_REVIEW_KEY="iacucOnlineReview";
     
     String NEGOTIATION_KEY = "negotiation";
     String COI_DISCLOSURE_KEY = "coiDisclosure";
