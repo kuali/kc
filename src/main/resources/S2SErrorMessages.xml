@@ -1140,8 +1140,44 @@
 	</Error>
 	<!-- #NASA_OtherProjectInformation-V1_0-->
 	<Error>
+		<MessageKey>/GrantApplication/Forms/NASA_OtherProjectInformation/InternationalParticipation/InternationalParticipationPI</MessageKey> 
+ 		<Message>Please select the support provided by International Participation for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/NASA_OtherProjectInformation/InternationalParticipation/InternationalParticipatioEx</MessageKey> 
+ 		<Message>Please answer the International Participation Explanation question.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/NASA_OtherProjectInformation/HistoricImpact/HistoricImpactEx</MessageKey> 
+ 		<Message>Please answer the Historic Sites Explanation question.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/NASA_OtherProjectInformation/NASACivilServicePersonnel/FYFTE1</MessageKey> 
+ 		<Message>Please answer the Civil Service FTEs question.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	
+	<Error>
+		<MessageKey>/GrantApplication/Forms/NASA_OtherProjectInformation/NASACivilServicePersonnel</MessageKey> 
+ 		<Message>Please answer the Civil Service Personnel question.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
 		<MessageKey>/GrantApplication/Forms/NASA_OtherProjectInformation/HistoricImpact/HistoricImpactQ</MessageKey> 
  		<Message>Please answer the Historical Sites question.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/NASA_OtherProjectInformation/HistoricImpact</MessageKey> 
+ 		<Message>Please answer the Historical Sites question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+		<MessageKey>/GrantApplication/Forms/NASA_OtherProjectInformation/InternationalParticipation</MessageKey> 
+ 		<Message>Please answer the International Participation question for this form within the Questions tab.</Message> 
   		<FixLink>questions</FixLink> 
 	</Error>
 	<!-- #NASA_SeniorKeyPersonSupplementalDataSheet-V1_0-->

@@ -22,12 +22,19 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.kra.s2s.generator.util.S2STestUtils;
 
@@ -45,14 +52,13 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
     @Override
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
 
-        ProposalYnq proposalYnq = new ProposalYnq();
-        proposalYnq.setQuestionId("G6");
-        proposalYnq.setAnswer("Y");
-        proposalYnq.setExplanation("Nasa");
-        ProposalYnq proposalYnq2 = new ProposalYnq();
-        proposalYnq2.setQuestionId("H1");
-        proposalYnq2.setAnswer("Y");
-        proposalYnq2.setExplanation("International");
+        String INTERNATIONAL_PARTICIPATION = "108";
+        String HISTORICAL_IMPACT = "106";
+        String EXPLATATION = "107";
+        String INTERNATIONAL_PARTICIPATION_SUPPORT = "109";
+        String CIVIL_SERVICE_PERSONNEL = "101";
+        String FTE = "104";
+        String FISCAL_YEAR = "103";
         ProposalPerson person = new ProposalPerson();
         person.setProposalPersonRoleId("PI");
         person.setFirstName("SCHULTE");
@@ -65,10 +71,7 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         List<ProposalPerson> perList = new ArrayList<ProposalPerson>();
         perList.add(person);
         List<ProposalYnq> proList = new ArrayList<ProposalYnq>();
-        proList.add(proposalYnq);
-        proList.add(proposalYnq2);
         document.getDevelopmentProposal().setProposalPersons(perList);
-        document.getDevelopmentProposal().setProposalYnqs(proList);
 
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
@@ -93,5 +96,39 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         narrative.setNarrativeType(narrativeType);
         naList.add(narrative);
         document.getDevelopmentProposal().setNarratives(naList);
+        
+        List<AnswerHeader> answerHeaders;
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, document.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,CoeusSubModule.ZERO_SUBMODULE, true);
+        answerHeaders =KraServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(moduleQuestionnaireBean);
+       
+        for(AnswerHeader answerHeader:answerHeaders){
+            if(answerHeader!=null){
+                List<Answer> answerDetails = answerHeader.getAnswers();
+                for(Answer answers:answerDetails){
+                    if(answers.getParentAnswer()!= null){
+                        Answer parentAnswer =  answers.getParentAnswer().get(0);
+
+                        if(EXPLATATION.equals(answers.getQuestion().getQuestionId()) && parentAnswer.getQuestion().getQuestionId().equals(HISTORICAL_IMPACT) ){
+                            answers.setAnswer("TEST");
+                        }
+
+                        if(EXPLATATION.equals(answers.getQuestion().getQuestionId()) && parentAnswer.getQuestion().getQuestionId().equals(INTERNATIONAL_PARTICIPATION) ){
+                            answers.setAnswer("TEST");
+                        }
+                    }
+                    if(INTERNATIONAL_PARTICIPATION.equals(answers.getQuestion().getQuestionId())
+                            || HISTORICAL_IMPACT.equals(answers.getQuestion().getQuestionId())||
+                            INTERNATIONAL_PARTICIPATION_SUPPORT.equals(answers.getQuestion().getQuestionId())
+                                    || CIVIL_SERVICE_PERSONNEL.equals(answers.getQuestion().getQuestionId())){
+                         answers.setAnswer("Y");
+                    }
+                    if(FTE.equals(answers.getQuestion().getQuestionId())
+                            || FISCAL_YEAR.equals(answers.getQuestion().getQuestionId())){
+                        answers.setAnswer("2012");
+                    }
+                }
+            }
+        }
+        getBusinessObjectService().save(answerHeaders);
     }
 }
