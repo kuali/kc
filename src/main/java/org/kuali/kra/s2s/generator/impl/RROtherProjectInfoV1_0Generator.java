@@ -194,6 +194,9 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
             } else {
                 environmentalImpact.setEnvironmentalImpactIndicator(YesNoDataType.NO);
             }
+            if (YesNoDataType.YES.equals(answer) && answerExplanation == null) {
+                environmentalImpact.setEnvironmentalImpactExplanation(null);
+            }
         } else {
             environmentalImpact.setEnvironmentalImpactIndicator(null);
         }  
@@ -221,6 +224,9 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                         environmentalExemptionExplanation.setStringValue(answerExplanation);
                         environmentalExemption.setEnvironmentalExemptionExplanation(environmentalExemptionExplanation);
                     }
+                    if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(ynqAnswer) && answerExplanation == null) {
+                        environmentalExemption.setEnvironmentalExemptionExplanation(null);
+                    }
                     environmentalImpact.setEnvironmentalExemption(environmentalExemption);
                 }
             } else {
@@ -246,7 +252,12 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
             activitiesPartnershipsCountries.setInternationalActivitiesIndicator(answer);
             activitiesPartnershipsCountries.setStringValue(answerExplanation);
             internationalActivities.setActivitiesPartnershipsCountries(activitiesPartnershipsCountries);
-            internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ,EXPLANATION));
+            if (getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ,EXPLANATION) != null) {
+                internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ,EXPLANATION));
+            }
+        }
+        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer) && answerExplanation == null) {
+            internationalActivities.setActivitiesPartnershipsCountries(null);
         }
         rrOtherProjectInfo.setInternationalActivities(internationalActivities);
         /**
