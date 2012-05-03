@@ -15,15 +15,23 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import gov.grants.apply.forms.nasaOtherProjectInformationV10.FYDataType;
 import gov.grants.apply.forms.nasaOtherProjectInformationV10.NASAOtherProjectInformationDocument;
 import gov.grants.apply.forms.nasaOtherProjectInformationV10.NASAOtherProjectInformationDocument.NASAOtherProjectInformation;
 import gov.grants.apply.forms.nasaOtherProjectInformationV10.NASAOtherProjectInformationDocument.NASAOtherProjectInformation.HistoricImpact;
 import gov.grants.apply.forms.nasaOtherProjectInformationV10.NASAOtherProjectInformationDocument.NASAOtherProjectInformation.InternationalParticipation;
 import gov.grants.apply.forms.nasaOtherProjectInformationV10.NASAOtherProjectInformationDocument.NASAOtherProjectInformation.NASACivilServicePersonnel;
+import gov.grants.apply.forms.nasaOtherProjectInformationV10.NASAOtherProjectInformationDocument.NASAOtherProjectInformation.NASACivilServicePersonnel.FYFTE1;
+import gov.grants.apply.forms.nasaOtherProjectInformationV10.NASAOtherProjectInformationDocument.NASAOtherProjectInformation.NASACivilServicePersonnel.FYFTE2;
+import gov.grants.apply.forms.nasaOtherProjectInformationV10.NASAOtherProjectInformationDocument.NASAOtherProjectInformation.NASACivilServicePersonnel.FYFTE3;
+import gov.grants.apply.forms.nasaOtherProjectInformationV10.NASAOtherProjectInformationDocument.NASAOtherProjectInformation.NASACivilServicePersonnel.FYFTE4;
+import gov.grants.apply.forms.nasaOtherProjectInformationV10.NASAOtherProjectInformationDocument.NASAOtherProjectInformation.NASACivilServicePersonnel.FYFTE5;
+import gov.grants.apply.forms.nasaOtherProjectInformationV10.NASAOtherProjectInformationDocument.NASAOtherProjectInformation.NASACivilServicePersonnel.FYFTE6;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -63,9 +71,12 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private static final String EQUIPMENT = "Equipment";
     private static final String FACILITY = "Facility";
     private static final String HISTORICAL_IMPACT = "106";
+    private static final String CIVIL_SERVICE_PERSONNEL = "101";
     private static final String EXPLATATION = "107";
     private static final String INTERNATIONAL_PARTICIPATION = "108";
     private static final String INTERNATIONAL_PARTICIPATION_SUPPORT = "109";
+    private static final String FTE = "104";
+    private static final String FISCAL_YEAR = "103";
     private static final int PROGRAM_SPECIFIC_DATA = 47;
     private static final int APPENDICES = 48;
     private static final int NON_US_ORGANIZATION_LETTERS_OF_ENDORSEMENT = 49;
@@ -75,6 +86,31 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private static final String COUNTRY_CODE_PUERTO_RICO = "PRI";
     private static final String COUNTRY_CODE_VIRGIN_ISLANDS = "VIR";
     private static final int MAX_PROPOSAL_PERSON_COUNT = 40;
+    private static final String NOT_ANSWERED = "No";
+    
+    private static final int FISCAL_YEAR_2006 = 2006;
+    private static final int FISCAL_YEAR_2007 = 2007;
+    private static final int FISCAL_YEAR_2008 = 2008;
+    private static final int FISCAL_YEAR_2009 = 2009;
+    private static final int FISCAL_YEAR_2010 = 2010;
+    private static final int FISCAL_YEAR_2011 = 2011;
+    private static final int FISCAL_YEAR_2012 = 2012;
+    private static final int FISCAL_YEAR_2013 = 2013;
+    private static final int FISCAL_YEAR_2014 = 2014;
+    private static final int FISCAL_YEAR_2015 = 2015;
+    private static final int FISCAL_YEAR_2016 = 2016;
+    private static final int FISCAL_YEAR_2017 = 2017;
+    private static final int FISCAL_YEAR_2018 = 2018;
+    private static final int FISCAL_YEAR_2019 = 2019;
+    private static final int FISCAL_YEAR_2020 = 2020;
+    private static final int FISCAL_YEAR_2021 = 2021;
+    private static final int FISCAL_YEAR_1 = 0;
+    private static final int FISCAL_YEAR_2 = 1;
+    private static final int FISCAL_YEAR_3 = 2;
+    private static final int FISCAL_YEAR_4 = 3;
+    private static final int FISCAL_YEAR_5 = 4;
+    private static final int FISCAL_YEAR_6 = 5;
+    
     List<AnswerHeader> answerHeaders;
 
     /**
@@ -150,12 +186,152 @@ public class NASAOtherProjectInformationV1_0Generator extends
         NASACivilServicePersonnel nasaCivilServicePersonnel = NASACivilServicePersonnel.Factory
                 .newInstance();
 
-        // hard coding "No" for question "Will NASA civil service personnel work
-        // on this project?"
-        nasaCivilServicePersonnel.setCivilServicePersonnel(YesNoDataType.N_NO);
+        String answerDetails = getAnswer(CIVIL_SERVICE_PERSONNEL);
+        if(answerDetails!=null && !answerDetails.equals(NOT_ANSWERED)){
+            YesNoDataType.Enum answer = (answerDetails.equals(
+                    S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
+                            : YesNoDataType.N_NO);
+            nasaCivilServicePersonnel.setCivilServicePersonnel(answer);
+        }
+        
+        List<String> fteAnswerDetails = getAnswerList(FTE);
+        List<String> fiscalYearDetails = getAnswerList(FISCAL_YEAR);
+        if(fteAnswerDetails.size()>FISCAL_YEAR_1){
+            FYFTE1 fyfte1 = FYFTE1.Factory.newInstance();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_1).toString();
+            BigDecimal fte1= BigDecimal.valueOf(Double.parseDouble(fte));
+            fyfte1.setFTE1(fte1);
+            if(fiscalYearDetails.size()>FISCAL_YEAR_1){
+                String fiscalYear =fiscalYearDetails.get(FISCAL_YEAR_1);
+                FYDataType.Enum fyscalYear = getFisaclYear(fiscalYear);
+                fyfte1.setFY1(fyscalYear);
+                nasaCivilServicePersonnel.setFYFTE1(fyfte1);
+            }           
+        }else if(answerDetails!=null && answerDetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)){
+            nasaCivilServicePersonnel.setFYFTE1(null);
+        }
+        if(fteAnswerDetails.size()>FISCAL_YEAR_2){
+            FYFTE2 fyfte2 = FYFTE2.Factory.newInstance();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_2).toString();
+            BigDecimal fte2= BigDecimal.valueOf(Double.parseDouble(fte));
+            fyfte2.setFTE2(fte2);
+            if(fiscalYearDetails.size()>FISCAL_YEAR_2){
+                String fiscalYear =fiscalYearDetails.get(FISCAL_YEAR_2);
+                FYDataType.Enum fyscalYear = getFisaclYear(fiscalYear);
+                fyfte2.setFY2(fyscalYear);
+                nasaCivilServicePersonnel.setFYFTE2(fyfte2);
+            }
+        }
+        if(fteAnswerDetails.size()>FISCAL_YEAR_3){
+            FYFTE3 fyfte3 = FYFTE3.Factory.newInstance();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_3).toString();
+            BigDecimal fte3= BigDecimal.valueOf(Double.parseDouble(fte));
+            fyfte3.setFTE3(fte3);
+            if(fiscalYearDetails.size()>FISCAL_YEAR_3){
+            String fiscalYear =fiscalYearDetails.get(FISCAL_YEAR_3);
+            FYDataType.Enum fyscalYear = getFisaclYear(fiscalYear);
+            fyfte3.setFY3(fyscalYear);
+            nasaCivilServicePersonnel.setFYFTE3(fyfte3);
+            }
+        }
+        if(fteAnswerDetails.size()>FISCAL_YEAR_4){
+            FYFTE4 fyfte4 = FYFTE4.Factory.newInstance();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_4).toString();
+            BigDecimal fte4= BigDecimal.valueOf(Double.parseDouble(fte));
+            fyfte4.setFTE4(fte4);
+            if(fiscalYearDetails.size()>FISCAL_YEAR_4){
+                String fiscalYear =fiscalYearDetails.get(FISCAL_YEAR_4);
+                FYDataType.Enum fyscalYear = getFisaclYear(fiscalYear);
+                fyfte4.setFY4(fyscalYear);
+                nasaCivilServicePersonnel.setFYFTE4(fyfte4);
+            }
+        }
+        if(fteAnswerDetails.size()>FISCAL_YEAR_5){
+            FYFTE5 fyfte5 = FYFTE5.Factory.newInstance();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_5).toString();
+            BigDecimal fte5= BigDecimal.valueOf(Double.parseDouble(fte));
+            fyfte5.setFTE5(fte5);
+            if(fiscalYearDetails.size()>FISCAL_YEAR_5){
+                String fiscalYear =fiscalYearDetails.get(FISCAL_YEAR_5);
+                FYDataType.Enum fyscalYear = getFisaclYear(fiscalYear);
+                fyfte5.setFY5(fyscalYear);
+                nasaCivilServicePersonnel.setFYFTE5(fyfte5);
+            }
+        }
+        if(fteAnswerDetails.size()>FISCAL_YEAR_6){
+            FYFTE6 fyfte6 = FYFTE6.Factory.newInstance();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_6).toString();
+            BigDecimal fte6= BigDecimal.valueOf(Double.parseDouble(fte));
+            fyfte6.setFTE6(fte6);
+            if(fiscalYearDetails.size()>FISCAL_YEAR_6){
+                String fiscalYear =fiscalYearDetails.get(FISCAL_YEAR_6);
+                FYDataType.Enum fyscalYear = getFisaclYear(fiscalYear);
+                fyfte6.setFY6(fyscalYear);
+                nasaCivilServicePersonnel.setFYFTE6(fyfte6);
+            }
+        }
+        if(fteAnswerDetails.size()!=fiscalYearDetails.size()){
+            nasaCivilServicePersonnel.setFYFTE1(null);
+        }
         return nasaCivilServicePersonnel;
     }
-
+    
+    
+    private FYDataType.Enum getFisaclYear(String fiscalYear){
+        FYDataType.Enum fyscalYear = null;
+        switch(Integer.parseInt(fiscalYear)){
+            case FISCAL_YEAR_2006:
+                fyscalYear = FYDataType.X_2006;
+                break;
+            case FISCAL_YEAR_2007:
+                fyscalYear = FYDataType.X_2007;
+                break;
+            case FISCAL_YEAR_2008:
+                fyscalYear = FYDataType.X_2008;
+                break;
+            case FISCAL_YEAR_2009:
+                fyscalYear = FYDataType.X_2009;
+                break;
+            case FISCAL_YEAR_2010:
+                fyscalYear = FYDataType.X_2010;
+                break;
+            case FISCAL_YEAR_2011:
+                fyscalYear = FYDataType.X_2011;
+                break;
+            case FISCAL_YEAR_2012:
+                fyscalYear = FYDataType.X_2012;
+                break;
+            case FISCAL_YEAR_2013:
+                fyscalYear = FYDataType.X_2013;
+                break;
+            case FISCAL_YEAR_2014:
+                fyscalYear = FYDataType.X_2014;
+                break;
+            case FISCAL_YEAR_2015:
+                fyscalYear = FYDataType.X_2015;
+                break;
+            case FISCAL_YEAR_2016:
+                fyscalYear = FYDataType.X_2016;
+                break;
+            case FISCAL_YEAR_2017:
+                fyscalYear = FYDataType.X_2017;
+                break;
+            case FISCAL_YEAR_2018:
+                fyscalYear = FYDataType.X_2018;
+                break;
+            case FISCAL_YEAR_2019:
+                fyscalYear = FYDataType.X_2019;
+                break;
+            case FISCAL_YEAR_2020:
+                fyscalYear = FYDataType.X_2020;
+                break;
+            case FISCAL_YEAR_2021:
+                fyscalYear = FYDataType.X_2021;
+                break;
+        }
+        
+        return fyscalYear;
+    }
     /**
      * 
      * This method gives HistoricalImpact information based on the proposal Ynq
@@ -166,24 +342,26 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private HistoricImpact getHistoricImpact() {
         HistoricImpact historicImpact = HistoricImpact.Factory.newInstance();
         
-        String answerDetails = getAnswer(HISTORICAL_IMPACT);
-        YesNoDataType.Enum answer = YesNoDataType.N_NO;
-        if(answerDetails!= null){
-            answer = (answerDetails.equals(
+       String answerDetails = getAnswer(HISTORICAL_IMPACT);
+        if(answerDetails!= null && !answerDetails.equals(NOT_ANSWERED)){
+            YesNoDataType.Enum answer = (answerDetails.equals(
                     S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
                     : YesNoDataType.N_NO);
+            historicImpact.setHistoricImpactQ(answer);
         }
-        historicImpact.setHistoricImpactQ(answer);
+      
         
-        answerDetails = getChildQuestionAnswer(HISTORICAL_IMPACT,EXPLATATION);
+        String childAnswerrDetails = getChildQuestionAnswer(HISTORICAL_IMPACT,EXPLATATION);
         
-        if(answerDetails!= null){
-            if (answerDetails.length() > MAX_EXPLANATION_LENGTH) {
-                historicImpact.setHistoricImpactEx(answerDetails.substring(0,
+        if(childAnswerrDetails!= null && !childAnswerrDetails.equals(NOT_ANSWERED)){
+            if (childAnswerrDetails.length() > MAX_EXPLANATION_LENGTH) {
+                historicImpact.setHistoricImpactEx(childAnswerrDetails.substring(0,
                                 MAX_EXPLANATION_LENGTH));            
             }else{
-                historicImpact.setHistoricImpactEx(answerDetails);
+                historicImpact.setHistoricImpactEx(childAnswerrDetails);
             }
+        }else if(answerDetails!=null && answerDetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)){
+            historicImpact.setHistoricImpactEx(null);
         }
         return historicImpact;
     }
@@ -202,30 +380,34 @@ public class NASAOtherProjectInformationV1_0Generator extends
                 .newInstance();
         
         String answerDetails = getAnswer(INTERNATIONAL_PARTICIPATION);
-        YesNoDataType.Enum answer = YesNoDataType.N_NO;
-        if(answerDetails != null){
-            answer = (answerDetails.equals(
+        if(answerDetails != null && !answerDetails.equals(NOT_ANSWERED)){
+            YesNoDataType.Enum  answer = (answerDetails.equals(
                     S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
                     : YesNoDataType.N_NO);
+            inParticipation.setInternationalParticipationQ(answer);
         }
-        inParticipation.setInternationalParticipationQ(answer);
-        answerDetails = getChildQuestionAnswer(INTERNATIONAL_PARTICIPATION,EXPLATATION);
-        if(answerDetails != null){
+       
+        String childAnswerDetails = getChildQuestionAnswer(INTERNATIONAL_PARTICIPATION,EXPLATATION);
+        if(childAnswerDetails != null){
             if (inParticipation.getInternationalParticipationQ() != null
                     && inParticipation.getInternationalParticipationQ().equals(
                             YesNoDataType.Y_YES)) {
-                if (answerDetails.length() > MAX_EXPLANATION_LENGTH) {
+                if (childAnswerDetails.length() > MAX_EXPLANATION_LENGTH) {
                     inParticipation
-                    .setInternationalParticipatioEx(answerDetails
+                    .setInternationalParticipatioEx(childAnswerDetails
                             .substring(0,
                                     MAX_EXPLANATION_LENGTH));
                 } else {
                     inParticipation
-                    .setInternationalParticipatioEx(answerDetails);
+                    .setInternationalParticipatioEx(childAnswerDetails);
                 }
             }
+        }else if(answerDetails!=null && answerDetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)){
+            inParticipation
+            .setInternationalParticipatioEx(null);
         }
           List<String> answerList = getAnswerList(INTERNATIONAL_PARTICIPATION_SUPPORT);
+          
           if(answerList.size()>0){
               if(answerList.contains(PRINCIPAL_INVESTIGATOR)){
                   inParticipation.setInternationalParticipationPI(YesNoDataType.Y_YES);
@@ -242,6 +424,8 @@ public class NASAOtherProjectInformationV1_0Generator extends
               if(answerList.contains(FACILITY)){
                   inParticipation.setInternationalParticipationFacility(YesNoDataType.Y_YES);
               }
+          }else if(answerDetails != null && answerDetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)){
+              inParticipation.setInternationalParticipationPI(null);
           }
         
         return inParticipation;
@@ -401,7 +585,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
     }
 
-    /**
+   /**
      * 
      * This method is used to get the answer for a particular Questionnaire question
      * question based on the question id.
