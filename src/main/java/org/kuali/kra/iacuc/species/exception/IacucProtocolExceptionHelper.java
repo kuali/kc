@@ -33,7 +33,7 @@ public class IacucProtocolExceptionHelper implements Serializable{
 
     protected IacucProtocolForm form;
     
-    protected boolean modifyProtocolException;
+    protected boolean modifyProtocolException = true;
     protected IacucProtocolException newIacucProtocolException;
 
     public IacucProtocolExceptionHelper(IacucProtocolForm form) {
