@@ -281,7 +281,9 @@ public class RROtherProjectInfoV1_3Generator extends
     						.setActivitiesPartnershipsCountries(answerExplanation
     								.trim());
     			}
-    			internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION));
+    			if (getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION) != null) {
+    			    internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION));
+    			}
     		} else if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer)) {
     		    internationalActivities.setActivitiesPartnershipsCountries(answerExplanation);
     		}
