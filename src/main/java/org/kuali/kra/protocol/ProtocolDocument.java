@@ -23,14 +23,16 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public abstract class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
         
 //    private static final Log LOG = LogFactory.getLog(ProtocolDocument.class);
 //    public static final String DOCUMENT_TYPE_CODE = "PROT";
-//    private static final String AMENDMENT_KEY = "A";
-//    private static final String RENEWAL_KEY = "R";
-//    private static final String OLR_DOC_ID_PARAM = "&olrDocId=";
+    private static final String AMENDMENT_KEY = "A";
+    private static final String RENEWAL_KEY = "R";
+    private static final String OLR_DOC_ID_PARAM = "&olrDocId=";
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -346,31 +348,31 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
 //    private boolean isDisapproved(DocumentRouteStatusChange statusChangeEvent) {
 //        return StringUtils.equals(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD, statusChangeEvent.getNewRouteStatus());
 //    }
-//    
-//    /**
-//     * Is this a renewal protocol document?
-//     * @return
-//     */
-//    public boolean isRenewal() {
-//        return getProtocol().getProtocolNumber().contains(RENEWAL_KEY);
-//    }
-//
-//    /**
-//     * Is this an amendment protocol document?
-//     * @return
-//     */
-//    public boolean isAmendment() {
-//        return getProtocol().getProtocolNumber().contains(AMENDMENT_KEY);
-//    }
-//    
-//    /**
-//     * Is this a normal protocol document?
-//     * @return
-//     */
-//    public boolean isNormal() {
-//        return !isAmendment() && !isRenewal();
-//    }
-//    
+    
+    /**
+     * Is this a renewal protocol document?
+     * @return
+     */
+    public boolean isRenewal() {
+        return getProtocol().getProtocolNumber().contains(RENEWAL_KEY);
+    }
+
+    /**
+     * Is this an amendment protocol document?
+     * @return
+     */
+    public boolean isAmendment() {
+        return getProtocol().getProtocolNumber().contains(AMENDMENT_KEY);
+    }
+    
+    /**
+     * Is this a normal protocol document?
+     * @return
+     */
+    public boolean isNormal() {
+        return !isAmendment() && !isRenewal();
+    }
+    
 //    /**
 //     * Has the document been submitted to workflow now
 //     * @param statusChangeEvent
@@ -467,11 +469,11 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
 //    public void setReRouted(boolean reRouted) {
 //        this.reRouted = reRouted;
 //    }
-//
-//    private WorkflowDocumentService getWorkflowDocumentService() {
-//        return KRADServiceLocatorWeb.getWorkflowDocumentService();
-//    }    
-//
+
+    protected WorkflowDocumentService getWorkflowDocumentService() {
+        return KRADServiceLocatorWeb.getWorkflowDocumentService();
+    }    
+
 //    /**
 //     * 
 //     * This method is to check whether rice async routing is ok now.   
