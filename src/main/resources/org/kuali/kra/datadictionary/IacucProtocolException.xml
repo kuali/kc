@@ -42,7 +42,7 @@
 		<property name="attributes" >
 			<list>
 			    <ref bean="IacucProtocolException-iacucProtocolExceptionId" />
-				<ref bean="IacucProtocolException-iacucProtocolSpeciesId" />
+				<ref bean="IacucProtocolException-speciesCode" />
 				<ref bean="IacucProtocolException-exceptionId" />
 				<ref bean="IacucProtocolException-exceptionCategoryCode" />
 				<ref bean="IacucProtocolException-exceptionDescription" />
@@ -72,9 +72,9 @@
         <property name="description" value="Protocol Exception Id" />
     </bean>
 
-	<bean id="IacucProtocolException-iacucProtocolSpeciesId" parent="IacucProtocolException-iacucProtocolSpeciesId-parentBean" />
-	<bean id="IacucProtocolException-iacucProtocolSpeciesId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="iacucProtocolSpeciesId" />
+	<bean id="IacucProtocolException-speciesCode" parent="IacucProtocolException-speciesCode-parentBean" />
+	<bean id="IacucProtocolException-speciesCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="speciesCode" />
 		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Species" />
@@ -191,7 +191,7 @@
 								p:attributeName="iacucProtocolExceptionId" 
 								p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="iacucProtocolSpeciesId" />
+                                p:attributeName="speciesCode" />
 						</list>
 					</property>
 				</bean>
@@ -215,7 +215,7 @@
 					p:attributeName="iacucProtocolExceptionId" 
 					p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="iacucProtocolSpeciesId" />
+                    p:attributeName="speciesCode" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -224,7 +224,7 @@
 					p:attributeName="iacucProtocolExceptionId"
 					p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="iacucProtocolSpeciesId" />
+                    p:attributeName="speciesCode" />
 			</list>
 		</property>
 	</bean>
