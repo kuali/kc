@@ -28,9 +28,7 @@ public class CoreConfigurer extends AbstractConfigurer {
     private static final String BUDGET_SPRING_BEANS_PATH = "classpath:org/kuali/kra/budget/BudgetSpringBeans.xml";
     private static final String PERSON_MASS_CHANGE_SPRING_BEANS_PATH = "classpath:org/kuali/kra/personmasschange/PersonMassChangeSpringBeans.xml";
     private static final String QUESTIONNAIRE_SPRING_BEANS_PATH = "classpath:org/kuali/kra/questionnaire/QuestionnaireSpringBeans.xml";
-        
-    private static final String SUBAWARD_SPRING_BEANS_PATH = "classpath:org/kuali/kra/subaward/SubAwardSpringBeans.xml";
-    
+            
     private static final String IRB_SPRING_BEANS_PATH = "classpath:org/kuali/kra/irb/IrbSpringBeans.xml";
     private static final String IACUC_SPRING_BEANS_PATH = "classpath:org/kuali/kra/iacuc/IacucSpringBeans.xml";
     private static final String COMMITTEE_SPRING_BEANS_PATH = "classpath:org/kuali/kra/committee/CommitteeSpringBeans.xml";
@@ -49,8 +47,6 @@ public class CoreConfigurer extends AbstractConfigurer {
         springFileLocations.add(BUDGET_SPRING_BEANS_PATH);
         springFileLocations.add(PERSON_MASS_CHANGE_SPRING_BEANS_PATH);
         springFileLocations.add(QUESTIONNAIRE_SPRING_BEANS_PATH);
-        
-        springFileLocations.add(SUBAWARD_SPRING_BEANS_PATH);
         
         springFileLocations.add(IRB_SPRING_BEANS_PATH);
         springFileLocations.add(IACUC_SPRING_BEANS_PATH);
