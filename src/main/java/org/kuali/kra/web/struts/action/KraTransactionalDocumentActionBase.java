@@ -60,6 +60,7 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -735,7 +736,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
         
         // Only forward to Portal if it will eventually go to the holding page
-        if (form instanceof ProposalDevelopmentForm || form instanceof InstitutionalProposalForm || form instanceof AwardForm 
+        if (form instanceof ProposalDevelopmentForm || form instanceof InstitutionalProposalForm || form instanceof AwardForm || form instanceof IacucProtocolForm 
             || form instanceof ProtocolForm || form instanceof CommitteeForm || form instanceof TimeAndMoneyForm || form instanceof SubAwardForm) {
             ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
             if (StringUtils.equals(forward.getPath(), basicForward.getPath())) {
