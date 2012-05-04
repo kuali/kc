@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.core.impl.datetime.DateTimeServiceImpl;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.quartz.JobDetail;
 
@@ -55,10 +56,10 @@ public class KcCronTriggerBeanTest {
         final ParameterService parameterService = context.mock(ParameterService.class);
         context.checking(new Expectations() {
             {
-                one(parameterService).parameterExists(ProposalDevelopmentDocument.class,
+                one(parameterService).parameterExists("KC-PD", "Document",
                         KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION);
                 will(returnValue(true));
-                one(parameterService).getParameterValueAsString(ProposalDevelopmentDocument.class,
+                one(parameterService).getParameterValueAsString("KC-PD", "Document",
                         KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION);
                 will(returnValue(CRON_EXPRESSION));
             }
@@ -69,6 +70,10 @@ public class KcCronTriggerBeanTest {
         jobDetail.setName("test");
         cronTrigger.setBeanName("test");
         cronTrigger.setJobDetail(jobDetail);
+        cronTrigger.setParameterNamespace("KC-PD");
+        cronTrigger.setParameterComponent("Document");
+        cronTrigger.setCronExpressionParameterName(KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION);
+        cronTrigger.setDateTimeService(new DateTimeServiceImpl());
         cronTrigger.afterPropertiesSet();
         
         assertEquals(CRON_EXPRESSION, cronTrigger.getCronExpression());
