@@ -46,6 +46,7 @@
 				<ref bean="IacucProtocolException-exceptionId" />
 				<ref bean="IacucProtocolException-exceptionCategoryCode" />
 				<ref bean="IacucProtocolException-exceptionDescription" />
+				<ref bean="IacucProtocolException-exceptionCount" />
 				<ref bean="IacucProtocolException-versionNumber" />
 			</list>
 		</property>
@@ -74,7 +75,7 @@
 	<bean id="IacucProtocolException-iacucProtocolSpeciesId" parent="IacucProtocolException-iacucProtocolSpeciesId-parentBean" />
 	<bean id="IacucProtocolException-iacucProtocolSpeciesId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="iacucProtocolSpeciesId" />
-		<property name="required" value="false" />
+		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Species" />
         <property name="shortLabel" value="Species" />
@@ -114,8 +115,8 @@
 		<property name="name" value="exceptionCategoryCode" />
 		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Category" />
-		<property name="shortLabel" value="Category" />
+		<property name="label" value="Exception" />
+		<property name="shortLabel" value="Exception" />
 		<property name="maxLength" value="50" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -125,14 +126,15 @@
                 p:valuesFinderClass="org.kuali.kra.iacuc.species.exception.IacucExceptionCategoryValuesFinder" 
                 p:includeKeyInLabel="false" />
         </property>
-		<property name="summary" value="Category" />
-		<property name="description" value="Category" />
+		<property name="summary" value="Exception Category" />
+		<property name="description" value="Exception Category" />
 	</bean>
 
 
 	<bean id="IacucProtocolException-exceptionDescription" parent="IacucProtocolException-exceptionDescription-parentBean" />
 	<bean id="IacucProtocolException-exceptionDescription-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="exceptionDescription" />
+		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Exception Justification and Description" />
 		<property name="shortLabel" value="Exception Justification and Description" />
@@ -141,14 +143,31 @@
       		<bean parent="AnyCharacterValidationPattern"
             	p:allowWhitespace="true" />
 		</property>
-    	<property name="required" value="false" />
 		<property name="control" >
       		<bean parent="TextareaControlDefinition"
-            	p:rows="0"
+            	p:rows="1"
             	p:cols="100" />
 		</property>
 		<property name="summary" value="Exception Justification and Description" />
 		<property name="description" value="Exception Justification and Description" />
+	</bean>
+
+	<bean id="IacucProtocolException-exceptionCount" parent="IacucProtocolException-exceptionCount-parentBean" />
+	<bean id="IacucProtocolException-exceptionCount-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="exceptionCount" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Exception Count" />
+		<property name="shortLabel" value="Exception Count" />
+		<property name="maxLength" value="8" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="4" />
+		</property>
+		<property name="summary" value="Exception Count" />
+		<property name="description" value="Exception Count" />
 	</bean>
 
 

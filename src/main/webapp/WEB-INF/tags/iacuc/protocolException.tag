@@ -44,6 +44,7 @@
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolExceptionAttributes.exceptionCategoryCode}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolExceptionAttributes.iacucProtocolSpeciesId}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolExceptionAttributes.exceptionDescription}" noColon="true" /></nobr></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolExceptionAttributes.exceptionCount}" noColon="true" /></div></th>
 				<c:if test="${!readOnly}">
 					<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 				</c:if>
@@ -75,6 +76,13 @@
 		               	<div align="center">
 		               		<kul:htmlControlAttribute property="iacucProtocolExceptionHelper.newIacucProtocolException.exceptionDescription" 
 		               		                          attributeEntry="${protocolExceptionAttributes.exceptionDescription}" 
+		               		                          readOnly="${readOnly}" />
+		            	</div>
+					</td>
+		            <td align="left" valign="middle" class="infoline">
+		               	<div align="center">
+		               		<kul:htmlControlAttribute property="iacucProtocolExceptionHelper.newIacucProtocolException.exceptionCount" 
+		               		                          attributeEntry="${protocolExceptionAttributes.exceptionCount}" 
 		               		                          readOnly="${readOnly}" />
 		            	</div>
 					</td>
@@ -127,6 +135,13 @@
 		                                                 displaySize="${commentDisplayLength}"/>
 	                            </c:otherwise>
 	                        </c:choose>
+		            	</div>
+					</td>
+		            <td align="left" valign="middle" class="infoline">
+		               	<div align="center">
+		               		<kul:htmlControlAttribute property="${collectionProperty}[${status.index}].exceptionCount" 
+		               		                          attributeEntry="${protocolExceptionAttributes.exceptionCount}" 
+		               		                          readOnly="${readOnly}" />
 		            	</div>
 					</td>
                     <c:choose>
