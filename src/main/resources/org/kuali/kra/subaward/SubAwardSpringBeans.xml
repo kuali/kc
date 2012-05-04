@@ -35,28 +35,139 @@
                            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+                           
+    <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
+    <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
+    <import resource="classpath:org/kuali/kra/core/CommonSpringBeans.xml" />
+    
+    <bean id="subAwardModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
+        <property name="moduleConfiguration" ref="subAwardModuleConfiguration"/>
+        <property name="kualiModuleService" ref="kualiModuleService"/>
+    </bean>
   	
     <bean id="subAwardModuleConfiguration" parent="subAwardModuleConfiguration-parentBean" />
-	
     <bean id="subAwardModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
     	<property name="namespaceCode" value="KC-AWARD" />
+    	<property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kra.subaward</value>
+            </list>
+        </property>
 		<property name="databaseRepositoryFilePaths">
 			<list>
 				<value>org/kuali/kra/subaward/repository-subAward.xml</value>				
 			</list>
 		</property>
 	</bean>
+	
+    <bean id="businessObjectService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="businessObjectService" />
+    </bean>
+    
+    <bean id="businessObjectDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="businessObjectDictionaryService" />
+    </bean>
+    
+    <bean id="businessObjectMetaDataService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="businessObjectMetaDataService" />
+    </bean>
+    
+    <bean id="dataDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataDictionaryService" />
+    </bean>
+    
+    <bean id="documentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="documentService" />
+    </bean>
+    
+    <bean id="encryptionService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="encryptionService" />
+    </bean>
+    
+    <bean id="kraAuthorizationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kraAuthorizationService" />
+    </bean>
+    
+    <bean id="kcPersonService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcPersonService" />
+    </bean>
+    
+    <bean id="kraWorkflowService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kraWorkflowService" />
+    </bean>
+    
+    <bean id="kualiModuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiModuleService" />
+    </bean>
+    
+    <bean id="lookupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="lookupService" />
+    </bean>
+    
+    <bean id="lookupResultsService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="lookupResultsService" />
+    </bean>
+    
+    <bean id="parameterService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="parameterService" />
+    </bean>
+    
+    <bean id="persistenceStructureService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="persistenceStructureService" />
+    </bean>
+    
+    <bean id="persistenceStructureServiceOjb" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="persistenceStructureServiceOjb" />
+    </bean>
+    
+    <bean id="persistenceStructureServiceJpa" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="persistenceStructureServiceJpa" />
+    </bean>
+    
+    <bean id="sequenceAccessorService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="sequenceAccessorService" />
+    </bean>
+    
+    <bean id="unitAuthorizationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="unitAuthorizationService" />
+    </bean>
+    
+    <bean id="versioningService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="versioningService" />
+    </bean>
+	
+    <bean id="parentLookupableHelperService" abstract="true">
+        <property name="persistenceStructureService" ref="persistenceStructureService" />
+        <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="encryptionService" ref="encryptionService" />
+        <property name="lookupService" ref="lookupService" />
+        <property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
+        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="lookupResultsService" ref="lookupResultsService" />
+    </bean>
+    
+    <!-- SubAward Services -->
+    
+    <bean id="subAwardService" class="org.kuali.kra.subaward.service.impl.SubAwardServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
+        <property name="versioningService" ref="versioningService" />
+        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+    
 	<bean id="subAwardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-  		<property name="lookupableHelperService">
-    		<ref bean="subAwardLookupableHelperService" />
-  		</property>  
+  		<property name="lookupableHelperService" ref="subAwardLookupableHelperService" />  
 	</bean>
 	
-	<bean id="subAwardLookupableHelperService" class="org.kuali.kra.subaward.lookup.SubAwardLookupableHelperServiceImpl" parent="parentLookupableHelperService" scope="prototype">
-		<property name="versionHistoryService">
-            <ref bean="versionHistoryService" />
-        </property>	
+	<bean id="subAwardLookupableHelperService" class="org.kuali.kra.subaward.lookup.SubAwardLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
+	      scope="prototype">
+		<property name="versionHistoryService" ref="versionHistoryService" />
   	</bean>
+  	
+  	<!-- SubAward Task Authorizers -->
   	
   	<bean id="parentSubAwardAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
@@ -79,21 +190,5 @@
             </list>
          </property>
      </bean>
-  	<bean id="subAwardService" class="org.kuali.kra.subaward.service.impl.SubAwardServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="documentService">
-            <ref bean="documentService" />
-        </property>
-        <property name="versioningService">
-            <ref bean="versioningService" />
-        </property>
-        <property name="sequenceAccessorService">
-            <ref bean="sequenceAccessorService" />
-        </property>
-        <property name="parameterService">
-            <ref bean="parameterService" />
-        </property>
-    </bean>
+
 </beans>	
