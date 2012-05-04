@@ -690,6 +690,7 @@
 		<field-descriptor name="exceptionId" column="EXCEPTION_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="exceptionCategoryCode" column="EXCEPTION_CATEGORY_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="exceptionDescription" column="EXCEPTION_DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="exceptionCount" column="EXCEPTION_COUNT" jdbc-type="INTEGER" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

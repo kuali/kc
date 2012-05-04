@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
@@ -32,6 +34,7 @@ import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
+import org.kuali.rice.kns.util.ActionFormUtilMap;
 
 /**
  * This class...
@@ -167,4 +170,15 @@ public class IacucProtocolForm extends ProtocolForm {
     public void setIacucProtocolExceptionHelper(IacucProtocolExceptionHelper iacucProtocolExceptionHelper) {
         this.iacucProtocolExceptionHelper = iacucProtocolExceptionHelper;
     }
+    
+    @Override
+    public void populate(HttpServletRequest request) { 
+        super.populate(request);
+        
+        // Temporary hack for KRACOEUS-489
+        if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
+            ((ActionFormUtilMap) getActionFormUtilMap()).clear();
+        }
+    }
+    
 }

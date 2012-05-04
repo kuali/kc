@@ -30,6 +30,7 @@ public class IacucProtocolException extends ProtocolAssociate {
     private Integer exceptionId; 
     private Integer exceptionCategoryCode; 
     private String exceptionDescription; 
+    private Integer exceptionCount;
     
     private IacucExceptionCategory iacucExceptionCategory; 
     private IacucProtocolSpecies iacucProtocolSpecies; 
@@ -113,6 +114,14 @@ public class IacucProtocolException extends ProtocolAssociate {
     @Override
     public void resetPersistenceState() {
         this.setIacucProtocolExceptionId(null);        
+    }
+
+    public Integer getExceptionCount() {
+        return exceptionCount;
+    }
+
+    public void setExceptionCount(Integer exceptionCount) {
+        this.exceptionCount = exceptionCount;
     }
 
 }
