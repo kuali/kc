@@ -233,6 +233,9 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                 environmentalExemption.setEnvironmentalExemptionIndicator(null);
             }
         }
+        if(environmentalImpactAnswer == null || environmentalImpactAnswer.equals(NOT_ANSWERED)) {
+            environmentalImpact = EnvironmentalImpact.Factory.newInstance();
+        }
         rrOtherProjectInfo.setEnvironmentalImpact(environmentalImpact);
         /**
          * InternationalActivities is of YnQ type
@@ -258,6 +261,9 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         }
         if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer) && answerExplanation == null) {
             internationalActivities.setActivitiesPartnershipsCountries(null);
+        }
+        if(internationalActivitiesAnswer == null){
+            internationalActivities = InternationalActivities.Factory.newInstance();
         }
         rrOtherProjectInfo.setInternationalActivities(internationalActivities);
         /**
