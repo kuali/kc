@@ -15,8 +15,15 @@
  */
 package org.kuali.kra.iacuc.species;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class IacucProtocolSpeciesServiceImpl implements IacucProtocolSpeciesService {
     private SequenceAccessorService sequenceAccessorService;
@@ -66,12 +73,31 @@ public class IacucProtocolSpeciesServiceImpl implements IacucProtocolSpeciesServ
         int totalSpecies = protocol.getIacucProtocolSpeciesList().size();
         Integer nextSpeciesId = 1;
         if(totalSpecies > 0) {
-            IacucProtocolSpecies protocolSpecies = protocol.getIacucProtocolSpeciesList().get(totalSpecies - 1);
-            nextSpeciesId = protocolSpecies.getIacucProtocolSpeciesId() + 1;
+            List<IacucProtocolSpecies> sortedProtocolSpecies = getSortedSpecies(protocol);
+            IacucProtocolSpecies protocolSpecies = sortedProtocolSpecies.get(totalSpecies - 1);
+            nextSpeciesId = protocolSpecies.getSpeciesId() + 1;
         }
         return nextSpeciesId;
     }
 
+    /**
+     * This method is to get a sorted list of current protocol species.
+     * @param protocol
+     * @return
+     */
+    public List<IacucProtocolSpecies> getSortedSpecies(IacucProtocol protocol) {
+        List<IacucProtocolSpecies> protocolSpeciesList = new ArrayList<IacucProtocolSpecies>();
+        for (IacucProtocolSpecies species : protocol.getIacucProtocolSpeciesList()) {
+            protocolSpeciesList.add((IacucProtocolSpecies) ObjectUtils.deepCopy(species));
+        }
+        Collections.sort(protocolSpeciesList, new Comparator<IacucProtocolSpecies>() {
+            public int compare(IacucProtocolSpecies species1, IacucProtocolSpecies species2) {
+                return species1.getSpeciesId().compareTo(species2.getSpeciesId());
+            }
+        });
+        return protocolSpeciesList;
+    }
+    
     /**
      * Gets the SequenceAccessorService attribute.
      * 

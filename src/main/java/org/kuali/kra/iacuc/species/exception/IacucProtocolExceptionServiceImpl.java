@@ -15,8 +15,15 @@
  */
 package org.kuali.kra.iacuc.species.exception;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class IacucProtocolExceptionServiceImpl implements IacucProtocolExceptionService {
     private SequenceAccessorService sequenceAccessorService;
@@ -63,12 +70,31 @@ public class IacucProtocolExceptionServiceImpl implements IacucProtocolException
         int totalExceptions = protocol.getIacucProtocolExceptions().size();
         Integer nextExceptionId = 1;
         if(totalExceptions > 0) {
-            IacucProtocolException protocolException = protocol.getIacucProtocolExceptions().get(totalExceptions - 1);
-            nextExceptionId = protocolException.getIacucProtocolExceptionId() + 1;
+            List<IacucProtocolException> sortedProtocolExceptions = getSortedExceptions(protocol);
+            IacucProtocolException protocolException = sortedProtocolExceptions.get(totalExceptions - 1);
+            nextExceptionId = protocolException.getExceptionId() + 1;
         }
         return nextExceptionId;
     }
 
+    /**
+     * This method is to get a sorted list of current protocol exceptions.
+     * @param protocol
+     * @return
+     */
+    public List<IacucProtocolException> getSortedExceptions(IacucProtocol protocol) {
+        List<IacucProtocolException> protocolExceptionsList = new ArrayList<IacucProtocolException>();
+        for (IacucProtocolException exception : protocol.getIacucProtocolExceptions()) {
+            protocolExceptionsList.add((IacucProtocolException) ObjectUtils.deepCopy(exception));
+        }
+        Collections.sort(protocolExceptionsList, new Comparator<IacucProtocolException>() {
+            public int compare(IacucProtocolException exception1, IacucProtocolException exception2) {
+                return exception1.getExceptionId().compareTo(exception2.getExceptionId());
+            }
+        });
+        return protocolExceptionsList;
+    }
+    
     /**
      * Gets the SequenceAccessorService attribute.
      * 

@@ -33,7 +33,7 @@ public class IacucProtocolSpeciesHelper implements Serializable{
 
     protected IacucProtocolForm form;
     
-    protected boolean modifyProtocolSpecies;
+    protected boolean modifyProtocolSpecies = true;
     protected IacucProtocolSpecies newIacucProtocolSpecies;
 
     public IacucProtocolSpeciesHelper(IacucProtocolForm form) {
