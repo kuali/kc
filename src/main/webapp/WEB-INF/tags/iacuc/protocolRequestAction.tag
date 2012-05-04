@@ -76,14 +76,14 @@
                                           methodToCall="disapproveProtocol"
                                           canPerformAction="${KualiForm.actionHelper.canDisapprove}"
                                           defaultOpen="${KualiForm.actionHelper.isDisapproveOpenForFollowup}"/>
-            <kra-iacuc-action:genericAction tabTitle="Return for Specific Minor Revisions"
+            <kra-iacuc-action:genericAction tabTitle="Return for Minor Revisions"
                                           bean="${KualiForm.actionHelper.protocolSMRBean}"
                                           property="actionHelper.protocolSMRBean"
                                           taskName="protocolReturnForSMR"
                                           methodToCall="returnForSMR"
                                           canPerformAction="${KualiForm.actionHelper.canReturnForSMR}"
                                           defaultOpen="${KualiForm.actionHelper.isReturnForSMROpenForFollowup}" />
-            <kra-iacuc-action:genericAction tabTitle="Return for Substantive Revisions Required"
+            <kra-iacuc-action:genericAction tabTitle="Return for Major Revisions"
                                           bean="${KualiForm.actionHelper.protocolSRRBean}"
                                           property="actionHelper.protocolSRRBean"
                                           taskName="protocolReturnForSRR"
@@ -231,14 +231,14 @@
             	<c:if test="${KualiForm.document.protocol.active and showActions}">
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Submit for Review"
                     	                                     canPerformAction="${KualiForm.actionHelper.canSubmitProtocolUnavailable}" 
-                        	                                 reason="Protocol status must be In Progress, Specific Minor Revision Required,
-                            	                                     Substantive Revision Required, Amendment In Progress, Renewal In Progress,
+                        	                                 reason="Protocol status must be In Progress, Minor Revision Required,
+                            	                                     Major Revision Required, Amendment In Progress, Renewal In Progress,
                                 	                                 Deferred, or Withdrawn." />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Withdraw Protocol"
                     	                                     canPerformAction="${KualiForm.actionHelper.canWithdrawUnavailable}" 
                         	                                 reason="Protocol can not be an amendment or renewal.
                             	                                     <p>
-                                	                                 Protocol status must not be Specific Minor Revisions Required or Substantive 
+                                	                                 Protocol status must not be Minor Revisions Required or Major 
                                     	                             Revisions Required.
                                         	                         <p>
                                             	                     Protocol submission status must be Submitted To Committee, In Agenda, or Pending.
@@ -246,7 +246,7 @@
                                                     	             Protocol must be enroute in workflow." />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Modify Submission Request"
     	                                                     canPerformAction="${KualiForm.actionHelper.canModifyProtocolSubmissionUnavailable}" 
-        	                                                 reason="Protocol status must be Submitted To IRB." />
+        	                                                 reason="Protocol status must be Submitted To IACUC." />
 	        	    <kra-iacuc-action:genericUnavailableAction tabTitle="Assign to Committee and Schedule"
                 	                                         canPerformAction="${KualiForm.actionHelper.canAssignCmtSchedUnavailable}" 
                     	                                     reason="Protocol submission status must be Pending or Submitted To Committee.
@@ -289,27 +289,27 @@
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Disapprove"
 					                                         canPerformAction="${KualiForm.actionHelper.canDisapproveUnavailable}"
         	                                                 reason="The last protocol action must have been Record Committee Decision with the motion to disapprove. " />
-	        	    <kra-iacuc-action:genericUnavailableAction tabTitle="Return for Specific Minor Revisions"
+	        	    <kra-iacuc-action:genericUnavailableAction tabTitle="Return for Minor Revisions"
 					                                         canPerformAction="${KualiForm.actionHelper.canReturnForSMRUnavailable}"
-                    	                                     reason="The last protocol action must have been Record Committee Decision with the motion to specific minor revisions. " />
-		            <kra-iacuc-action:genericUnavailableAction tabTitle="Return for Substantive Revisions Required."
+                    	                                     reason="The last protocol action must have been Record Committee Decision with the motion to request minor revisions. " />
+		            <kra-iacuc-action:genericUnavailableAction tabTitle="Return for Major Revisions."
 					                                         canPerformAction="${KualiForm.actionHelper.canReturnForSRRUnavailable}"
-        	                                                 reason="The last protocol action must have been Record Committee Decision with the motion to substantive revisions required. " />
+        	                                                 reason="The last protocol action must have been Record Committee Decision with the motion to request major revisions. " />
 	        	    <kra-iacuc-action:genericUnavailableAction tabTitle="Notify IACUC"
 					                                         canPerformAction="${KualiForm.actionHelper.canNotifyIacucUnavailable}"
 				    	                                     reason="Protocol can not be an amendment or renewal.
 				        	                                         <p>
-				            	                                     Protocol status is In Progress, Submitted To IRB, Specific Minor Revisions Required, Defered, Amendment In Progress or Renewal In Progress." />
+				            	                                     Protocol status is In Progress, Submitted To IACUC, Minor Revisions Required, Deferred, Amendment In Progress or Renewal In Progress." />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Notify Committee"
 					                                         canPerformAction="${KualiForm.actionHelper.canNotifyCommitteeUnavailable}"
 					                                         reason="Protocol review type must be Expedited.
 					                                                 <p>
-					                                                 Protocol status is Submitted To IRB." />
+					                                                 Protocol status is Submitted To IACUC." />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Create Amendment"
 					                                         canPerformAction="${KualiForm.actionHelper.canCreateAmendmentUnavailable}"
 					                                         reason="Protocol can not be an amendment or renewal.
 					                                                 <p>
-					                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IRB, or Suspended by DSMB." />
+					                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, or Suspended by IACUC." />
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Modify Amendment Sections"
 				    	                                     canPerformAction="${KualiForm.actionHelper.canModifyAmendmentSectionsUnavailable}"
 				        	                                 reason="Protocol must be be an amendment or renewal.
@@ -319,18 +319,18 @@
 					                                         canPerformAction="${KualiForm.actionHelper.canCreateRenewalUnavailable && KualiForm.actionHelper.canCreateAmendmentUnavailable}"
 					                                         reason="Protocol can not be an amendment or renewal.
 					                                                 <p>
-					                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IRB, or Suspended by DSMB." />
+					                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, or Suspended by IACUC." />
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Create Renewal without Amendment"
 				    	                                     canPerformAction="${KualiForm.actionHelper.canCreateRenewalUnavailable}"
 				        	                                 reason="Protocol can not be an amendment or renewal.
 				            	                                     <p>
-				                	                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IRB, Suspended by DSMB, or Expired." />
+				                	                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IACUC, or Expired." />
 <%--
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Request To Close"
 		                                                     canPerformAction="${KualiForm.actionHelper.canRequestCloseUnavailable}"
 					                                         reason="Protocol can not be an amendment or renewal.
 					                                                 <p>
-					                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Suspended by Investigator, Suspended by IRB, or Suspended by DSMB.
+					                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Suspended by Investigator, or Suspended by IACUC.
 				    	                                             <p>
 				        	                                         Submission Type is Request to Close, Request for Suspension, Request to Close Enrollment, Request for Termination, Request for Data Analysis Only, or Request for Re-open Enrollment." />
 --%>
@@ -338,7 +338,7 @@
 	                	                                     canPerformAction="${KualiForm.actionHelper.canRequestTerminateUnavailable}"
 				        	                                 reason="Protocol can not be an amendment or renewal.
 				            	                                     <p>
-				                	                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IRB, or Suspended by DSMB.
+				                	                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, or Suspended by IACUC.
 				                    	                             <p>
 				                        	                         Submission Type is Request to Close, Request for Suspension, Request to Close Enrollment, Request for Termination, Request for Data Analysis Only, or Request for Re-open Enrollment." />
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Delete Protocol, Amendment, or Renewal"
@@ -363,40 +363,40 @@
 					                                                 Protocol must have a pending submission." />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Close"
 		                                                     canPerformAction="${KualiForm.actionHelper.canCloseUnavailable}"
-					                                         reason="Protocol status must be Pending/In Progress, Specific Minor Revisions Required, Substantive Revisions Required, Amendment in Progress, Renewal in Progress, Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Suspended by Investigator, Suspended by IRB, Withdrawn, or Suspended by DSMB.
+					                                         reason="Protocol status must be Pending/In Progress, Minor Revisions Required, Major Revisions Required, Amendment in Progress, Renewal in Progress, Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Suspended by Investigator, Suspended by IACUC, or Withdrawn.
 					                                                 <p>
 					                                                 Protocol must have a pending submission.
 				    	                                             <p>
 				        	                                         - or - 
 				            	                                     <p>
-				                	                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Suspended by Investigator,Suspended by IRB, Suspended by DSMB, Specific Minor Revisions Required, Substantive Revisions Required, or Withdrawn.
+				                	                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Suspended by Investigator,Suspended by IACUC, Minor Revisions Required, Major Revisions Required, or Withdrawn.
 				                    	                             <p>
 				                        	                         Submission type must be Request to Close.
 				                            	                     <p>
 				                                	                 Submission status can not be Withdrawn." />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Expire"
 		                                                     canPerformAction="${KualiForm.actionHelper.canExpireUnavailable}"
-					                                         reason="Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Withdrawn, Suspended by IRB, IRB review not required, or Suspended by DSMB.
+					                                         reason="Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Withdrawn, Suspended by IACUC, or IRB review not required.
 					                                                 <p>
 					                                                 Protocol must have a pending submission.
 				    	                                             <p>
 				        	                                         Protocol must have pending amendments or renewals." />
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Terminate"
 	                	                                     canPerformAction="${KualiForm.actionHelper.canTerminateUnavailable}"
-				        	                                 reason="Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Expired, Suspended by IRB, or Suspended by DSMB.
+				        	                                 reason="Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Expired, or Suspended by IACUC.
 				            	                                     <p>
 				                	                                 Protocol must have a pending submission.
 				                    	                             <p>
 				                        	                         - or - 
 				                            	                     <p>
-				                                	                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Expired, Suspended by IRB, or Suspended by DSMB.
+				                                	                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Expired, or Suspended by IACUC.
 				                                    	             <p>
 				                                        	         Protocol submission type must be Request for Termination.
 				                                            	     <p>
 				                                                	 Protocol submission status can not be Withdrawn. " />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Review Not Required"
 		                                                     canPerformAction="${KualiForm.actionHelper.canReviewNotRequiredUnavailable}"
-	    	                                                 reason="Protocol Status is Submitted to IRB.
+	    	                                                 reason="Protocol Status is Submitted to IACUC.
 	        	                                                     <p>
 	            	                                                 Protocol review type is IRB Review not required" />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Undo Last Action"
@@ -404,7 +404,7 @@
 	    	                                                 reason="No action to undo." />
 	        	    <kra-iacuc-action:genericUnavailableAction tabTitle="Manage Review Comments"
 	            	                                         canPerformAction="${KualiForm.actionHelper.canManageReviewCommentsUnavailable}"
-	                	                                     reason="Protocol Status is Submitted to IRB, Specific Minor Revisions Required, Substantive Revisions Required, Amendment in Progress, Renewal in Progress, Withdrawn, or Deferred.
+	                	                                     reason="Protocol Status is Submitted to IACUC, Minor Revisions Required, Major Revisions Required, Amendment in Progress, Renewal in Progress, Withdrawn, or Deferred.
 	                    	                                         <p>
 	                        	                                     Protocol must be enroute in workflow." />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Manage Notes"
