@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions.submit;
+package org.kuali.kra.protocol.actions.submit;
 
-import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public interface IacucExecuteProtocolSubmitActionRule extends BusinessRule {
+public interface ExecuteProtocolSubmitActionRule extends BusinessRule {
 
-    public boolean processSubmitAction(IacucProtocolDocument document, IacucProtocolSubmitAction submitAction);
+    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction);
 }

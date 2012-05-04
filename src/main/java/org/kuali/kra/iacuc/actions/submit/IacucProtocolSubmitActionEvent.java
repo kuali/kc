@@ -15,44 +15,22 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionEvent;
 
-public class IacucProtocolSubmitActionEvent  extends KraDocumentEventBase {
+public class IacucProtocolSubmitActionEvent extends ProtocolSubmitActionEvent {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(IacucProtocolSubmitActionEvent.class);
-    
-    private IacucProtocolSubmitAction submitAction;
-    
+
     public IacucProtocolSubmitActionEvent(IacucProtocolDocument document, IacucProtocolSubmitAction submitAction) {
-        super("Submitting for review for document " + getDocumentId(document), "", document);
-        this.submitAction = submitAction;
-        logEvent();
+        super(document, submitAction);
     }
 
     @Override
-    protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
-        logMessage.append(" with ");
-
-        // vary logging detail as needed
-        if (this.submitAction == null) {
-            logMessage.append("null submitAction");
-        }
-        else {
-            logMessage.append(this.submitAction.toString());
-        }
-
-        LOG.debug(logMessage);
+    protected Log getLOGHook() {
+        return LOG;
     }
-
-    public Class getRuleInterfaceClass() {
-        return IacucExecuteProtocolSubmitActionRule.class;
-    }
-
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((IacucExecuteProtocolSubmitActionRule) rule).processSubmitAction((IacucProtocolDocument) getDocument(), submitAction);
-    }
+    
+    
 }
