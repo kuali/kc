@@ -872,6 +872,7 @@ public interface Constants {
     public static final Integer IACUC_PROCEDURE_SUMMARY_LENGTH = 40;
     // Iacuc - exceptionDescription length
     public static final Integer IACUC_PROTOCOL_EXCEPTION_DESC_LENGTH = 40;
+    public static final String MAPPING_IACUC_PROTOCOL_ACTIONS = "iacucProtocolActions";
 
     public static final String PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION = "IACUC_COMM_SELECTION_DURING_SUBMISSION";
     public static final String PARAMETER_IACUC_DISPLAY_REVIEWER_NAME = "IACUC_DISPLAY_REVIEWER_NAME";

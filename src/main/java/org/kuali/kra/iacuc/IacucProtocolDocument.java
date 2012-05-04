@@ -20,6 +20,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -85,8 +87,68 @@ public class IacucProtocolDocument extends ProtocolDocument {
         return null;
     }
     
+    /**
+     * 
+     * This method is to check whether rice async routing is ok now.   
+     * Close to hack.  called by holdingpageaction
+     * Different document type may have different routing set up, so each document type
+     * can implement its own isProcessComplete
+     * @return
+     * @throws WorkflowException 
+     */
     public boolean isProcessComplete() {
-        return true;
+        boolean isComplete = true;
+
+        /*
+         * This happens when you submit your protocol to IRB, the current route node is Initiated
+         */
+        if (this.getProtocol().getProtocolStatusCode().equals(IacucProtocolStatus.SUBMITTED_TO_IACUC)) {
+            if (getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_INITIATED_ROUTE_NODE_NAME)) { 
+                isComplete = false;
+            }     
+            // while submitting an amendment for IRB review, the amendment moves from node Initiated to node IRBReview, 
+            //so need to check if protocolSubmissionStatus is "InAgenda" to avoid the processing page from not going away at all when 
+            // an amendment is submitted for review
+            // Added for KCIRB-1515 & KCIRB-1528
+            getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus"); 
+            String status = getProtocol().getProtocolSubmission().getSubmissionStatusCode();
+            if (isAmendment() || isRenewal()) {
+                if (status.equals(IacucProtocolSubmissionStatus.APPROVED) 
+                        && getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {
+                    isComplete = false;
+                }
+            }
+
+        } else {
+//TODO: Must implement the following for IACUC
+//            /*
+//             * If amendment has been merged, need to redirect to the newly created active protocol
+//             * Wait for the new active protocol to be created before redirecting to it.
+//             */
+//            if (getProtocol().getProtocolStatusCode().equals(ProtocolStatus.AMENDMENT_MERGED) || 
+//                    getProtocol().getProtocolStatusCode().equals(ProtocolStatus.RENEWAL_MERGED)) {
+//                String protocolId = getNewProtocolDocId();               
+//                if (ObjectUtils.isNull(protocolId)) {
+//                    isComplete = false;
+//                } else {
+//                    /*
+//                     * The new protocol document is only available after the amendment has been merged. So, once the amendment is merged,
+//                     * find the active protocol available and change the return link to point to that.
+//                     */
+//                    String oldLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
+//                    String oldDocNbr = getProtocol().getProtocolDocument().getDocumentNumber();
+//                    String returnLocation = oldLocation.replaceFirst(oldDocNbr, protocolId);
+//                    GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_RETURN_LOCATION, (Object) returnLocation);
+//                }
+//            }         
+            // approve/expedited approve/response approve
+            if (!getDocumentHeader().getWorkflowDocument().isFinal()) {
+                isComplete = false;
+            } 
+        }
+
+
+        return isComplete;
     }
 
 }

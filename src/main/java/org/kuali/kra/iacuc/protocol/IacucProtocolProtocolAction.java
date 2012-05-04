@@ -50,6 +50,7 @@ import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class IacucProtocolProtocolAction extends IacucProtocolAction {
     
@@ -64,14 +65,17 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         
+        String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
+        if (IacucProtocolAction.IACUC_PROTOCOL_ACTIONS_HOOK.equals(commandParam)) {
+            return protocolActions(mapping, form, request, response);
+        }
+
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
         // Following is for protocol lookup - edit protocol
         ProtocolForm protocolForm = (ProtocolForm) form;
 
 // TODO *********commented the code below during IACUC refactoring*********         
-//        String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
-//
 //        if (StringUtils.isNotBlank(commandParam) && commandParam.equals(KewApiConstants.DOCSEARCH_COMMAND)
 //                && StringUtils.isNotBlank(request.getParameter("submissionId"))) {
 //            // protocolsubmission lookup
