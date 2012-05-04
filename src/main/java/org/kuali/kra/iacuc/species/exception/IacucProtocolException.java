@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.species.exception;
 
 import org.kuali.kra.iacuc.IacucExceptionCategory;
-import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
+import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.protocol.ProtocolAssociate;
 
 public class IacucProtocolException extends ProtocolAssociate { 
@@ -24,7 +24,7 @@ public class IacucProtocolException extends ProtocolAssociate {
     private static final long serialVersionUID = 1L;
 
     private Integer iacucProtocolExceptionId; 
-    private Integer iacucProtocolSpeciesId; 
+    private Integer speciesCode; 
     private String protocolNumber; 
     private Integer sequenceNumber; 
     private Integer exceptionId; 
@@ -33,7 +33,7 @@ public class IacucProtocolException extends ProtocolAssociate {
     private Integer exceptionCount;
     
     private IacucExceptionCategory iacucExceptionCategory; 
-    private IacucProtocolSpecies iacucProtocolSpecies; 
+    private IacucSpecies iacucSpecies; 
     
     public IacucProtocolException() { 
 
@@ -47,12 +47,12 @@ public class IacucProtocolException extends ProtocolAssociate {
         this.iacucProtocolExceptionId = iacucProtocolExceptionId;
     }
 
-    public Integer getIacucProtocolSpeciesId() {
-        return iacucProtocolSpeciesId;
+    public Integer getSpeciesCode() {
+        return speciesCode;
     }
 
-    public void setIacucProtocolSpeciesId(Integer iacucProtocolSpeciesId) {
-        this.iacucProtocolSpeciesId = iacucProtocolSpeciesId;
+    public void setSpeciesCode(Integer speciesCode) {
+        this.speciesCode = speciesCode;
     }
 
     public String getProtocolNumber() {
@@ -103,12 +103,12 @@ public class IacucProtocolException extends ProtocolAssociate {
         this.iacucExceptionCategory = iacucExceptionCategory;
     }
 
-    public IacucProtocolSpecies getIacucProtocolSpecies() {
-        return iacucProtocolSpecies;
+    public IacucSpecies getIacucSpecies() {
+        return iacucSpecies;
     }
 
-    public void setIacucProtocolSpecies(IacucProtocolSpecies iacucProtocolSpecies) {
-        this.iacucProtocolSpecies = iacucProtocolSpecies;
+    public void setIacucSpecies(IacucSpecies iacucSpecies) {
+        this.iacucSpecies = iacucSpecies;
     }
 
     @Override

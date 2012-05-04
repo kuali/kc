@@ -612,10 +612,6 @@
             <foreignkey field-ref="painCategoryCode"/>
         </reference-descriptor>
 
-        <collection-descriptor name="iacucProtocolExceptions" element-class-ref="org.kuali.kra.iacuc.species.exception.IacucProtocolException" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
-            <inverse-foreignkey field-ref="iacucProtocolSpeciesId" />
-        </collection-descriptor>
-
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.kra.iacuc.customdata.IacucProtocolCustomData" table="IACUC_PROTOCOL_CUSTOM_DATA">
@@ -683,7 +679,7 @@
 	
 	<class-descriptor class="org.kuali.kra.iacuc.species.exception.IacucProtocolException" table="IACUC_PROTOCOL_EXCEPTIONS">
 		<field-descriptor name="iacucProtocolExceptionId" column="IACUC_PROTOCOL_EXCEPTIONS_ID" jdbc-type="INTEGER" primarykey="true" />
-		<field-descriptor name="iacucProtocolSpeciesId" column="IACUC_PROTOCOL_SPECIES_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="speciesCode" column="SPECIES_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
@@ -698,8 +694,8 @@
 		<reference-descriptor name="iacucExceptionCategory" class-ref="org.kuali.kra.iacuc.IacucExceptionCategory" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="exceptionCategoryCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="iacucProtocolSpecies" class-ref="org.kuali.kra.iacuc.species.IacucProtocolSpecies" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="iacucProtocolSpeciesId"/>
+		<reference-descriptor name="iacucSpecies" class-ref="org.kuali.kra.iacuc.IacucSpecies" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="speciesCode"/>
 		</reference-descriptor>
 	</class-descriptor>
 
