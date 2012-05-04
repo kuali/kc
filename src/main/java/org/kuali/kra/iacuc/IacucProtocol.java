@@ -53,7 +53,7 @@ public class IacucProtocol extends Protocol {
      */
     private static final long serialVersionUID = 7380281405644745576L;
     
-    private Date applicationDate;
+//    private Date applicationDate;
     private boolean isBillable;
     private String layStatement1; 
     private String layStatement2;
@@ -75,9 +75,7 @@ public class IacucProtocol extends Protocol {
     private List<IacucProtocolSpecies> iacucProtocolSpeciesList;
     private List<IacucProtocolException> iacucProtocolExceptions;
 
-    public IacucProtocol() {
-        // initialize the various fields of the protocol BO that are specific to IACUC
-        setApplicationDate(new Date(new java.util.Date().getTime()));
+    public IacucProtocol() {         
         setCreateTimestamp(new Timestamp(new java.util.Date().getTime()));
         setCreateUser(GlobalVariables.getUserSession().getPrincipalId());
         setScientificJustifIndicator("no");
@@ -111,13 +109,13 @@ public class IacucProtocol extends Protocol {
         return (IacucProtocolSubmission)getProtocolSubmission();
     }
     
-    public Date getApplicationDate() {
-        return applicationDate;
-    }
-
-    public void setApplicationDate(Date applicationDate) {
-        this.applicationDate = applicationDate;
-    }
+//    public Date getApplicationDate() {
+//        return applicationDate;
+//    }
+//
+//    public void setApplicationDate(Date applicationDate) {
+//        this.applicationDate = applicationDate;
+//    }
 
     public boolean getIsBillable() {
         return isBillable;

@@ -47,7 +47,7 @@
 				<ref bean="IacucProtocol-principalInvestigatorId" />
                 <ref bean="IacucProtocol-title" />
                 <ref bean="IacucProtocol-description" />
-                <ref bean="IacucProtocol-applicationDate" />
+                <ref bean="IacucProtocol-initialSubmissionDate" />
                 <ref bean="IacucProtocol-approvalDate" />
                 <ref bean="IacucProtocol-expirationDate" />
                 <ref bean="IacucProtocol-fdaApplicationNumber" />
@@ -90,23 +90,25 @@
         <property name="description" value="Ac Protocol Id" />
     </bean>
 
+    
     <bean id="IacucProtocol-protocolNumber" parent="IacucProtocol-protocolNumber-parentBean" />
-    <bean id="IacucProtocol-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="protocolNumber" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Protocol Number" />
-        <property name="shortLabel" value="Protocol Number" />
-        <property name="maxLength" value="20" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Protocol Number" />
-        <property name="description" value="Protocol Number" />
-    </bean>
+	<bean id="IacucProtocol-protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol #" />
+		<property name="shortLabel" value="Protocol #" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Number" />
+		<property name="description" value="Protocol Number" />
+	</bean>
+    
 
     <bean id="IacucProtocol-sequenceNumber" parent="IacucProtocol-sequenceNumber-parentBean" />
     <bean id="IacucProtocol-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -150,24 +152,29 @@
         <property name="summary" value="Protocol Type Code" />
         <property name="description" value="Protocol Type Code" />
     </bean>
-
+    
     <bean id="IacucProtocol-protocolStatusCode" parent="IacucProtocol-protocolStatusCode-parentBean" />
-    <bean id="IacucProtocol-protocolStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="protocolStatusCode" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Protocol Status Code" />
-        <property name="shortLabel" value="Protocol Status Code" />
-        <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Protocol Status Code" />
-        <property name="description" value="Protocol Status Code" />
-    </bean>
+	<bean id="IacucProtocol-protocolStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolStatusCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Status" />
+		<property name="shortLabel" value="Protocol Status" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+    	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.iacuc.actions.IacucProtocolStatus"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+            	p:keyAttribute="protocolStatusCode"
+            	p:labelAttribute="description" />
+    	</property>
+		<property name="summary" value="Protocol Status Code" />
+		<property name="description" value="Protocol Status Code" />
+	</bean>
     
     <bean id="IacucProtocol-leadUnitNumber" parent="IacucProtocol-leadUnitNumber-parentBean" />
 	<bean id="IacucProtocol-leadUnitNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -245,24 +252,30 @@
         <property name="summary" value="Description" />
         <property name="description" value="Description" />
     </bean>
-
-    <bean id="IacucProtocol-applicationDate" parent="IacucProtocol-applicationDate-parentBean" />
-    <bean id="IacucProtocol-applicationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-        <property name="name" value="applicationDate" />
-        <property name="label" value="Application Date" />
-        <property name="shortLabel" value="Application Date" />
-        <property name="summary" value="Application Date" />
-        <property name="description" value="Application Date" />
+    
+    <bean id="IacucProtocol-initialSubmissionDate" parent="IacucProtocol-initialSubmissionDate-parentBean" />
+    <bean id="IacucProtocol-initialSubmissionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="initialSubmissionDate" />
+        <property name="label" value="Initial Submission Date" />
+        <property name="shortLabel" value="Initial Submission Date" />
+        <property name="summary" value="Initial Submission Date" />
+        <property name="description" value="Initial Submission Date" />
+        <property name="validationPattern" >
+            <bean parent="DateValidationPattern" />
+        </property>
     </bean>
-
+    
     <bean id="IacucProtocol-approvalDate" parent="IacucProtocol-approvalDate-parentBean" />
     <bean id="IacucProtocol-approvalDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
-        <property name="name" value="approvalDate" />
-        <property name="label" value="Approval Date" />
-        <property name="shortLabel" value="Approval Date" />
-        <property name="summary" value="Approval Date" />
-        <property name="description" value="Approval Date" />
-    </bean>
+		<property name="name" value="approvalDate" />
+		<property name="label" value="Initial Approval Date" />
+		<property name="shortLabel" value="Initial Approval Date" />
+		<property name="summary" value="Approval Date" />
+		<property name="description" value="Approval Date" />
+		<property name="validationPattern" >
+			<bean parent="DateValidationPattern" />
+		</property>
+	</bean>
 
     <bean id="IacucProtocol-expirationDate" parent="IacucProtocol-expirationDate-parentBean" />
     <bean id="IacucProtocol-expirationDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
@@ -601,7 +614,7 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="description" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="applicationDate" />
+                                p:attributeName="initialSubmissionDate" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="approvalDate" />
                             <bean parent="FieldDefinition"
@@ -674,7 +687,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="applicationDate" />
+                    p:attributeName="initialSubmissionDate" />
                 <bean parent="FieldDefinition"
                     p:attributeName="approvalDate" />
                 <bean parent="FieldDefinition"
@@ -733,7 +746,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="applicationDate" />
+                    p:attributeName="initialSubmissionDate" />
                 <bean parent="FieldDefinition"
                     p:attributeName="approvalDate" />
                 <bean parent="FieldDefinition"
