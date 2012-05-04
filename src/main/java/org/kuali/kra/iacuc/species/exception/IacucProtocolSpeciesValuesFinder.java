@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
@@ -32,6 +33,9 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
+/**
+ * This class...
+ */
 public class IacucProtocolSpeciesValuesFinder extends KeyValuesBase {
 
     /**
@@ -55,15 +59,31 @@ public class IacucProtocolSpeciesValuesFinder extends KeyValuesBase {
         Map<String, Object> keyMap = new HashMap<String, Object> ();
         keyMap.put("protocolId", protocolId);
         Collection<IacucProtocolSpecies> protocolSpeciesList = getKeyValuesService().findMatching(IacucProtocolSpecies.class, keyMap);
+        HashMap<Integer, String> distinctSpecies = getDistinctSpeciesList(protocolSpeciesList); 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
+        for (Map.Entry<Integer,String> species : distinctSpecies.entrySet()) {
+            Integer speciesCode = species.getKey();
+            String speciesName = species.getValue();
+            keyValues.add(new ConcreteKeyValue(speciesCode.toString(), speciesName));
+        }
+        return keyValues;
+    }
+    
+    /**
+     * This method is to get a distinct of species
+     * @param protocolSpeciesList
+     * @return
+     */
+    protected HashMap<Integer, String> getDistinctSpeciesList(Collection<IacucProtocolSpecies> protocolSpeciesList) {
+        HashMap<Integer, String> speciesList = new HashMap<Integer, String>(); 
         for (Iterator<IacucProtocolSpecies> iter = protocolSpeciesList.iterator(); iter.hasNext();) {
             IacucProtocolSpecies iacucProtocolSpecies = (IacucProtocolSpecies) iter.next();
             iacucProtocolSpecies.refreshReferenceObject("iacucSpecies");
-            keyValues.add(new ConcreteKeyValue(iacucProtocolSpecies.getIacucProtocolSpeciesId().toString(),
-                    iacucProtocolSpecies.getIacucSpecies().getSpeciesName()));
+            IacucSpecies species = iacucProtocolSpecies.getIacucSpecies();
+            speciesList.put(species.getSpeciesCode(), species.getSpeciesName());
         }
-        return keyValues;
+        return speciesList;
     }
     
     protected KeyValuesService getKeyValuesService() {

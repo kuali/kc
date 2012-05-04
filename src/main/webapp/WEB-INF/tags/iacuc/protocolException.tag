@@ -42,7 +42,7 @@
           	<tr>
           		<th><div align="left">&nbsp;</div></th> 
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolExceptionAttributes.exceptionCategoryCode}" noColon="true" /></div></th>
-          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolExceptionAttributes.iacucProtocolSpeciesId}" noColon="true" /></div></th>
+          		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolExceptionAttributes.speciesCode}" noColon="true" /></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolExceptionAttributes.exceptionDescription}" noColon="true" /></nobr></div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolExceptionAttributes.exceptionCount}" noColon="true" /></div></th>
 				<c:if test="${!readOnly}">
@@ -66,8 +66,8 @@
 					</td>
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
-		               		<kul:htmlControlAttribute property="iacucProtocolExceptionHelper.newIacucProtocolException.iacucProtocolSpeciesId" 
-		               		                          attributeEntry="${protocolExceptionAttributes.iacucProtocolSpeciesId}" 
+		               		<kul:htmlControlAttribute property="iacucProtocolExceptionHelper.newIacucProtocolException.speciesCode" 
+		               		                          attributeEntry="${protocolExceptionAttributes.speciesCode}" 
 		                                              styleClass="fixed-size-500-select"
 		               		                          readOnly="${readOnly}" />
 		            	</div>
@@ -114,11 +114,11 @@
 		            </td>
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
-	                        <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].iacucProtocolSpeciesId" 
-		                                              attributeEntry="${protocolExceptionAttributes.iacucProtocolSpeciesId}"  
+	                        <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].speciesCode" 
+		                                              attributeEntry="${protocolExceptionAttributes.speciesCode}"  
 		                                              readOnly="${readOnly}"
 		                                              styleClass="fixed-size-500-select"
-		                                              readOnlyAlternateDisplay="${iacucProtocolException.iacucProtocolSpecies.iacucSpecies.speciesName}" 
+		                                              readOnlyAlternateDisplay="${iacucProtocolException.iacucSpecies.speciesName}" 
 		                                              />
 		            	</div>
 					</td>
