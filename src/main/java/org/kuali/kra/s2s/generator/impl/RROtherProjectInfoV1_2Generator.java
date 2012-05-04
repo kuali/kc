@@ -266,7 +266,7 @@ public class RROtherProjectInfoV1_2Generator extends
 		YesNoDataType.Enum answer = null;
 		String answerExplanation;
 		String internationalActivitiesAnswer = getAnswers(INTERNATIONAL_ACTIVITIES_YNQ);
-		if (internationalActivitiesAnswer != null && !internationalActivities.equals(NOT_ANSWERED)) {
+		if (internationalActivitiesAnswer != null && !internationalActivitiesAnswer.equals(NOT_ANSWERED)) {
     		answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(
     		        internationalActivitiesAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
     		answerExplanation = getAnswers(INTERNATIONAL_ACTIVITIES_EXPL);
