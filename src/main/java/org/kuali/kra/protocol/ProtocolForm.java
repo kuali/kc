@@ -20,6 +20,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
@@ -27,6 +28,7 @@ import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
+import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContext;
 import org.kuali.kra.protocol.permission.PermissionsHelper;
@@ -39,11 +41,14 @@ import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.web.ui.HeaderField;
 
 /**
  * This class...
@@ -240,52 +245,53 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 //    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
 //        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
 //}
-//
-//    @Override
-//    public void populateHeaderFields(WorkflowDocument workflowDocument) {
-//        super.populateHeaderFields(workflowDocument);
-//        ProtocolDocument pd = getProtocolDocument();
-//        
-//        HeaderField documentNumber = getDocInfo().get(0);
-//        documentNumber.setDdAttributeEntryName("DataDictionary.ProtocolDocument.attributes.documentNumber");
-//        
-//        ProtocolStatus protocolStatus = (pd == null) ? null : pd.getProtocol().getProtocolStatus();
-//        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", protocolStatus == null? "" : protocolStatus.getDescription());
-//        getDocInfo().set(1, docStatus);
-//        
-//        String lastUpdatedDateStr = null;
-//        if(pd != null && pd.getUpdateTimestamp() != null) {
-//            lastUpdatedDateStr = CoreApiServiceLocator.getDateTimeService().toString(pd.getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
-//        }
-//        
-//        if(getDocInfo().size() > 2) {
-//            HeaderField initiatorField = getDocInfo().get(2);
-//            String modifiedInitiatorFieldStr = initiatorField.getDisplayValue();
-//            if(StringUtils.isNotBlank(lastUpdatedDateStr)) {
-//                modifiedInitiatorFieldStr = modifiedInitiatorFieldStr + " : " + lastUpdatedDateStr;
-//            }
-//            getDocInfo().set(2, new HeaderField("DataDictionary.Protocol.attributes.initiatorLastUpdated", modifiedInitiatorFieldStr));
-//        }
-//        
-//        String protocolSubmissionStatusStr = null;
-//        if(pd != null && pd.getProtocol() != null && pd.getProtocol().getProtocolSubmission() != null) {
-//            pd.getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus");
-//            protocolSubmissionStatusStr = pd.getProtocol().getProtocolSubmission().getSubmissionStatus().getDescription();
-//        }
-//        HeaderField protocolSubmissionStatus = new HeaderField("DataDictionary.Protocol.attributes.protocolSubmissionStatus", protocolSubmissionStatusStr);
-//        getDocInfo().set(3, protocolSubmissionStatus);
-//        
-//        getDocInfo().add(new HeaderField("DataDictionary.Protocol.attributes.protocolNumber", (pd == null) ? null : pd.getProtocol().getProtocolNumber()));
-//
-//        String expirationDateStr = null;
-//        if(pd != null && pd.getProtocol().getExpirationDate() != null) {
-//            expirationDateStr = CoreApiServiceLocator.getDateTimeService().toString(pd.getProtocol().getExpirationDate(), "MM/dd/yyyy");
-//        }
-//        
-//        HeaderField expirationDate = new HeaderField("DataDictionary.Protocol.attributes.expirationDate", expirationDateStr);
-//        getDocInfo().add(expirationDate);
-//    }
-//
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
+        ProtocolDocument pd = getProtocolDocument();
+        
+        HeaderField documentNumber = getDocInfo().get(0);
+        documentNumber.setDdAttributeEntryName("DataDictionary.ProtocolDocument.attributes.documentNumber");
+        
+        ProtocolStatus protocolStatus = (pd == null) ? null : pd.getProtocol().getProtocolStatus();
+        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", protocolStatus == null? "" : protocolStatus.getDescription());
+        getDocInfo().set(1, docStatus);
+        
+        String lastUpdatedDateStr = null;
+        if(pd != null && pd.getUpdateTimestamp() != null) {
+            lastUpdatedDateStr = CoreApiServiceLocator.getDateTimeService().toString(pd.getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
+        }
+        
+        if(getDocInfo().size() > 2) {
+            HeaderField initiatorField = getDocInfo().get(2);
+            String modifiedInitiatorFieldStr = initiatorField.getDisplayValue();
+            if(StringUtils.isNotBlank(lastUpdatedDateStr)) {
+                modifiedInitiatorFieldStr = modifiedInitiatorFieldStr + " : " + lastUpdatedDateStr;
+            }
+            getDocInfo().set(2, new HeaderField("DataDictionary.Protocol.attributes.initiatorLastUpdated", modifiedInitiatorFieldStr));
+        }
+        
+        String protocolSubmissionStatusStr = null;
+        if(pd != null && pd.getProtocol() != null && pd.getProtocol().getProtocolSubmission() != null) {
+            pd.getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatusCode");
+            protocolSubmissionStatusStr = pd.getProtocol().getProtocolSubmission().getSubmissionStatus().getDescription();
+        }
+        HeaderField protocolSubmissionStatus = new HeaderField("DataDictionary.Protocol.attributes.protocolSubmissionStatus", protocolSubmissionStatusStr);
+        getDocInfo().set(3, protocolSubmissionStatus);
+        
+        getDocInfo().add(new HeaderField("DataDictionary.Protocol.attributes.protocolNumber", (pd == null) ? null : pd.getProtocol().getProtocolNumber()));
+
+        String expirationDateStr = null;
+        if(pd != null && pd.getProtocol().getExpirationDate() != null) {
+            expirationDateStr = CoreApiServiceLocator.getDateTimeService().toString(pd.getProtocol().getExpirationDate(), "MM/dd/yyyy");
+        }
+        
+        HeaderField expirationDate = new HeaderField("DataDictionary.Protocol.attributes.expirationDate", expirationDateStr);
+        getDocInfo().add(expirationDate);
+    }
+
     /* Reset method
      * @param mapping
      * @param request
