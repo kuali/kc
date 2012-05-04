@@ -106,7 +106,7 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
         answer = (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(environmentalImpactAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
         answerExplanation = getChildQuestionAnswer(ENVIRONMENTAL_IMPACT_YNQ, EXPLANATION);
         environmentalImpact.setEnvironmentalImpactIndicator(answer);
-        if (environmentalImpactAnswer != null){
+        if (environmentalImpactAnswer != null && !environmentalImpactAnswer.equals(NOT_ANSWERED)){
             if (answerExplanation != null) {
                 environmentalImpact.setEnvironmentalImpactExplanation(answerExplanation);
             } else {
@@ -147,7 +147,7 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
          * InternationalActivities is of YnQ type
          */
         String internationalActivitiesAnswer = getAnswers(INTERNATIONAL_ACTIVITIES_YNQ);
-        if (internationalActivitiesAnswer != null) {
+        if (internationalActivitiesAnswer != null && !internationalActivitiesAnswer.equals(NOT_ANSWERED)) {
             answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
             answerExplanation = getAnswers(INTERNATIONAL_ACTIVITIES_EXPL);
             internationalActivities.setInternationalActivitiesIndicator(answer);
