@@ -22,6 +22,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
+import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceEvent;
 import org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceRule;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceRule;
@@ -49,10 +52,9 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
 //                                                                                AddProtocolUnitRule,
                                                                     
                                                                     
-                                                                                BusinessRuleInterface
-                                                                                
-// TODO *********commented the code below during IACUC refactoring*********                                                                                 
-//                                                                                ExecuteProtocolSubmitActionRule, 
+                                                                                BusinessRuleInterface,                                                                                 
+                                                                                ExecuteProtocolSubmitActionRule
+// TODO *********commented the code below during IACUC refactoring*********                                                                                
 //                                                                                ExecuteProtocolAssignCmtSchedRule, 
 //                                                                                ExecuteProtocolAssignReviewersRule, 
 //                                                                                ExecuteProtocolAdminCorrectionRule, 
@@ -318,14 +320,17 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
 //     
 //        return valid;
 //    } 
-//
-//    /**
-//     * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean)
-//     */
-//    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction) {
-//        return new ProtocolSubmitActionRule().processSubmitAction(document, submitAction);
-//    }
-//
+
+    /**
+     * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean)
+     */
+    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction) {
+        return newProtocolSubmitActionRuleInstanceHook().processSubmitAction(document, submitAction);
+    }
+
+    protected abstract ProtocolSubmitActionRule newProtocolSubmitActionRuleInstanceHook();
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * @see org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule#processAssignToCommitteeSchedule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean)
 //     */

@@ -15,20 +15,13 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.actions.ActionHelper;
-import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
-import org.springframework.util.AutoPopulatingList;
 
 /**
  * This class is really just a "form" for submitting a protocol for review in the Submit for Review Action.
@@ -36,27 +29,10 @@ import org.springframework.util.AutoPopulatingList;
 @SuppressWarnings("unchecked")
 public class IacucProtocolSubmitAction extends ProtocolSubmitAction {
 
-    private String submissionTypeCode = "";
-    private String protocolReviewTypeCode = "";
-    private String submissionQualifierTypeCode = "";
-    private String scheduleId = "";
-    private boolean committeeIdChanged = false;
-    private boolean scheduleIdChanged = false;
-    private boolean reviewerListAvailable = false;
-    private int numberOfReviewers = 0;
-
-    /*
-     * We use a AutoPopulatingList because we need it to grow. When JavaScript is enabled, it will display the list of reviewers. When
-     * the form is submitted, this list will automatically grow to accommodate all of the reviewers.
+    /**
+     * Comment for <code>serialVersionUID</code>
      */
-    private List<ProtocolReviewerBean> reviewers = new AutoPopulatingList<ProtocolReviewerBean>(ProtocolReviewerBean.class);
-    private String newCommitteeId = "";
-    private String newScheduleId = "";
-
-    private int checkListItemDescriptionIndex = 0;
-    private String selectedProtocolReviewTypeCode = null;
-
-    private boolean javascriptEnabled = true;
+    private static final long serialVersionUID = -4276322966748812194L;
 
 
     /**
@@ -109,183 +85,5 @@ public class IacucProtocolSubmitAction extends ProtocolSubmitAction {
         }
     }
     
-
-    public void setNumberOfReviewers(int numberOfReviewers) {
-        this.numberOfReviewers = numberOfReviewers;
-    }
-
-
-    private CommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommitteeService.class);
-    }
-
-    public String getSubmissionTypeCode() {
-        return submissionTypeCode;
-    }
-
-    public void setSubmissionTypeCode(String submissionTypeCode) {
-        this.submissionTypeCode = submissionTypeCode;
-    }
-
-    public String getProtocolReviewTypeCode() {
-        return protocolReviewTypeCode;
-    }
-
-    public void setProtocolReviewTypeCode(String protocolReviewTypeCode) {
-        this.protocolReviewTypeCode = protocolReviewTypeCode;
-    }
-
-    public String getSubmissionQualifierTypeCode() {
-        return submissionQualifierTypeCode;
-    }
-
-    public void setSubmissionQualifierTypeCode(String submissionQualifierTypeCode) {
-        this.submissionQualifierTypeCode = submissionQualifierTypeCode;
-    }
-
-    public String getCommitteeId() {
-        return committeeId;
-    }
-
-    public void setCommitteeId(String committeeId) {
-        this.committeeIdChanged = true;
-        if (StringUtils.equals(this.committeeId, committeeId)) {
-            this.committeeIdChanged = false;
-        }
-        this.committeeId = committeeId;
-
-        // TODO: to be removed eventually
-        this.newCommitteeId = committeeId;
-    }
-
-    // TODO: to be removed eventually deleted
-    public void setNewCommitteeId(String id) {
-        this.newCommitteeId = id;
-    }
-
-    // TODO: to be removed eventually with references renamed to getCommitteeId()
-    public String getNewCommitteeId() {
-        return newCommitteeId;
-    }
-
-    public String getScheduleId() {
-        return scheduleId;
-    }
-
-    public void setScheduleId(String scheduleId) {
-        this.scheduleIdChanged = true;
-        if (StringUtils.equals(this.scheduleId, scheduleId)) {
-            this.scheduleIdChanged = false;
-        }
-        this.scheduleId = scheduleId;
-        
-        // TODO: to be removed eventually
-        this.newScheduleId = scheduleId;
-    }
-
-    // TODO: to be removed eventually with references renamed to getScheduleId()
-    public String getNewScheduleId() {
-        return newScheduleId;
-    }
-
-    public boolean isReviewerListAvailable() {
-        return reviewerListAvailable;
-    }
-
-    public List<ProtocolReviewerBean> getReviewers() {
-        return reviewers;
-    }
-
-    public ProtocolReviewerBean getReviewer(int i) {
-        return reviewers.get(i);
-    }
-
-    /**
-     * We display the reviewers in two columns. These are the reviewers in the left column.
-     * 
-     * @return
-     */
-    public List<ProtocolReviewerBean> getLeftReviewers() {
-        List<ProtocolReviewerBean> leftReviewers = new ArrayList<ProtocolReviewerBean>();
-        for (int i = 0; i < (reviewers.size() + 1) / 2; i++) {
-            leftReviewers.add(reviewers.get(i));
-        }
-        return leftReviewers;
-    }
-
-    /**
-     * We display the reviewers in two columns. These are the reviewers in the right column.
-     * 
-     * @return
-     */
-    public List<ProtocolReviewerBean> getRightReviewers() {
-        List<ProtocolReviewerBean> rightReviewers = new ArrayList<ProtocolReviewerBean>();
-        for (int i = (reviewers.size() + 1) / 2; i < reviewers.size(); i++) {
-            rightReviewers.add(reviewers.get(i));
-        }
-        return rightReviewers;
-    }
-
-    public void setReviewers(List<ProtocolReviewerBean> reviewerBeans) {
-        this.reviewers = reviewerBeans;
-    }
-
-//TODO: Must refactor the following for IRB refactoring
-//    public void setExpeditedReviewCheckList(List<ExpeditedReviewCheckListItem> checkList) {
-//        this.expeditedReviewCheckList = checkList;
-//    }
-//
-//    public List<ExpeditedReviewCheckListItem> getExpeditedReviewCheckList() {
-//        return expeditedReviewCheckList;
-//    }
-//
-//    public void setExemptStudiesCheckList(List<ExemptStudiesCheckListItem> checkList) {
-//        this.exemptStudiesCheckList = checkList;
-//    }
-//
-//    public List<ExemptStudiesCheckListItem> getExemptStudiesCheckList() {
-//        return exemptStudiesCheckList;
-//    }
-
-    /**
-     * When a user wants to display the entire description of check list item, the currently selected protocol review type and the
-     * index of the check list item are stored here for later rendering.
-     * 
-     * @param protocolReviewTypeCode
-     * @param index
-     */
-    public void setCheckListItemDescriptionInfo(String protocolReviewTypeCode, int index) {
-        this.selectedProtocolReviewTypeCode = protocolReviewTypeCode;
-        checkListItemDescriptionIndex = index;
-    }
-
-    /**
-     * Get the description of the check list item that was specified in setCheckListItemDescriptionInfo().
-     * 
-     * @return
-     */
-//TODO: Must refactor the following for IRB refactoring
-//    public String getCheckListItemDescription() {
-//        if (ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(selectedProtocolReviewTypeCode)) {
-//            return getExpeditedReviewCheckList().get(checkListItemDescriptionIndex).getDescription();
-//        }
-//        else if (ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE.equals(selectedProtocolReviewTypeCode)) {
-//            return getExemptStudiesCheckList().get(checkListItemDescriptionIndex).getDescription();
-//        }
-//        return "";
-//    }
-//
-//    private CheckListService getCheckListService() {
-//        return KraServiceLocator.getService(CheckListService.class);
-//    }
-
-    public boolean getJavascriptEnabled() {
-        return javascriptEnabled;
-    }
-
-    public void setJavascriptEnabled(boolean javascriptEnabled) {
-        this.javascriptEnabled = javascriptEnabled;
-    }
-
 
 }
