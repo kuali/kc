@@ -720,8 +720,8 @@ public class CoiDisclosureAction extends CoiAction {
     public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper(); 
-        save(mapping, form, request, response);
         helper.addNewNote();
+        save(mapping, form, request, response);
         helper.setManageNotesOpen();
         return mapping.findForward(Constants.MAPPING_BASIC);
 
