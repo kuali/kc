@@ -1,6 +1,8 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="response" required="true" %>
 <%@ attribute name="value" required="true" %>
+<%@ attribute name="topQuestion" required="false" %>
+
     <table cellspacing="0" cellpadding="0"
 					style="width: 100%; border-top: medium none;" class="elementtable">
 	   <tbody>
@@ -11,11 +13,14 @@
                 Add
             </th>
             <td style="text-align: center;" class="content_info">
+               <c:if test="${empty topQuestion or topQuestion == 'false'}" >
                  Parent Response
+                 </c:if>
             <select name="CustomData" id="parentResponse3">
                 <option selected="selected" value="0">
                      select
                 </option>
+               <c:if test="${empty topQuestion or topQuestion == 'false'}" >
                 <option value="1">
                      Contains text value
                 </option>
@@ -52,11 +57,18 @@
                 <option value="12">
                      After date
                 </option>
+                </c:if>
+                <option value="13">
+                     Rule Evaluation
+                </option>
             </select>
             </td>
             <td style="text-align: center;" class="content_info">
                  Value:
-                <input type="text" size="25">
+                <input id ="reqVal${qidx}" name ="reqVal${qidx}" type="text" size="25">
+                <a href="#"><img border="0" title="Search Rule"
+                                            alt="Search Rule" class="tinybutton" name="search${qidx}"
+                                            id="search${qidx}" src="static/images/searchicon.gif"  onClick="clickSearchRule(${qidx})"></a>
             </td>
             <td style="width: 65px; text-align: center;" class="content_info">
                 <input type="image" alt="add" style="border: medium none;"
