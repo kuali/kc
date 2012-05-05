@@ -528,7 +528,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (Answer answer : answers) {
             if (answer.getQuestionnaireQuestion().getParentQuestionNumber() == 0) {
                 // TODO : need to do rule evaluation if KRMS rule is set.
-                if (StringUtils.isNotBlank(answer.getQuestionnaireQuestion().getCondition())) {
+                if (StringUtils.isNotBlank(answer.getQuestionnaireQuestion().getCondition()) && "13".equals(answer.getQuestionnaireQuestion().getCondition())) {
                     // TODO : need to implement rulematched
                   //  if (ruleMatched(answer.getQuestionnaireQuestion().getConditionValue())) {
                     if (isRuleValid(answer.getQuestionnaireQuestion().getConditionValue(), getKrmsRulesContext(answer.getAnswerHeader()))) {
