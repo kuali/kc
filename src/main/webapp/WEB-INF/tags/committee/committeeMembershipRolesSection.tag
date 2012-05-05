@@ -31,11 +31,16 @@
                                 <th class="infoline" align="center">
                                     <c:out value="Add:" />
                                 </th>
-                                
+                                <!-- this is where I would add different roles -->
                                 <td align="left" valign="middle" class="infoline">
                                     <div align="left">
-                                        <kul:htmlControlAttribute property="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].membershipRoleCode" 
-                                                                  attributeEntry="${membershipRoleAttributes.membershipRoleCode}" />
+                                       <!--<kul:htmlControlAttribute property="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].membershipRoleCode" 
+                                                                  attributeEntry="${membershipRoleAttributes.membershipRoleCode}" />-->
+                                       <html:select property="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].membershipRoleCode" style="width:180px" tabindex="0" disabled="${readOnly}">
+										<c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.keyvalue.MembershipRoleValuesFinder', paramMap1)}" var="option">											
+											<option value="${option.key}">${option.value}</option>
+										</c:forEach>
+										</html:select>
                                     </div>
                                 </td>
                                 
@@ -65,7 +70,6 @@
                             </tr>
                         </c:if>
                         <%-- New data --%>
-
                         <%-- Existing data --%>
                         <c:forEach var="membershipRole" items="${KualiForm.document.committeeList[0].committeeMemberships[memberIndex].membershipRoles}" varStatus="status">
                             <c:set var="roleStyle" value="" scope="request"/>
@@ -82,10 +86,11 @@
                                 </th>
                                 <td align="left" valign="middle">
                                     <div align="left" style="${roleStyle}">
-                                        <kul:htmlControlAttribute property="${committeeMembership}.membershipRoles[${status.index}].membershipRoleCode" 
+                                        <!--<kul:htmlControlAttribute property="${committeeMembership}.membershipRoles[${status.index}].membershipRoleCode" 
                                                                   attributeEntry="${membershipRoleAttributes.membershipRoleCode}" 
                                                                   readOnlyAlternateDisplay="${membershipRole.membershipRole.description}" 
-                                                                  readOnly="true" />
+                                                                  readOnly="true" />-->
+                                        <c:out value="${membershipRole.membershipRole.description}" />
                                     </div>
                                 </td>
                                 <td align="left" valign="middle">

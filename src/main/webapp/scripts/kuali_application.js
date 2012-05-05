@@ -17,9 +17,9 @@
 
 
 //Fix rice ids for use with jquery
-//Takes an id and replaces the . with \\. and adds #
+//Takes an id and escapes the . : ] and [ and adds #
 function jq_escape(myid) { 
-  return '#' + myid.replace(/(:|\.)/g,'\\$1');
+  return '#' + myid.replace(/(:|\.|\[|\])/g,'\\$1');
 }
 
 
@@ -417,21 +417,23 @@ function loadSponsorName(sponsorCodeFieldName, sponsorNameFieldName ) {
   * [ { 'key' :'400', 'value' : 'Disclosed Interests Unmanageable'} , ] 
   */
 function populateSelect(methodToCall, firstSelectId, secondSelectId) {
-	var valueSelected = $j("#"+firstSelectId).attr("value");
+	var valueSelected = $j(jq_escape(firstSelectId)).attr("value");
+	var secondSelectIdEscaped = jq_escape(secondSelectId);
 	callAjaxByPath('jqueryAjax.do', methodToCall, valueSelected,
 			function(data) {
 				valuesForSecondSelect = eval('(' + $j(data).find('#ret_value').html() + ')');
-				$j("#"+secondSelectId).html('');
+				$j(secondSelectIdEscaped).html('');
 				if (valuesForSecondSelect.length == 0) {
-					$j("#"+secondSelectId).attr('disabled', 'disabled');
+					$j(secondSelectIdEscaped).attr('disabled', 'disabled');
 				} else {
 					var options = '';
 					for (var i = 0; i < valuesForSecondSelect.length; i++) {
 						var item = valuesForSecondSelect[i];
 						options += "<option value='" + item.key + "'>" + item.value + "</option>";
 					}
-					$j("#"+secondSelectId).html(options);
-					$j("#"+secondSelectId).removeAttr('disabled');
+					
+					$j(secondSelectIdEscaped).html(options);
+					$j(secondSelectIdEscaped).removeAttr('disabled');
 				}
 			},
 			function(error) {
