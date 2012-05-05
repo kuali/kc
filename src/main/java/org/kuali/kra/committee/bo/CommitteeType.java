@@ -27,6 +27,7 @@ public class CommitteeType extends KraPersistableBusinessObjectBase {
 
     public static final String IRB_TYPE_CODE = "1";
     public static final String COI_TYPE_CODE = "2";
+    public static final String IACUC_TYPE_CODE = "3";
     
     private String committeeTypeCode;
 
