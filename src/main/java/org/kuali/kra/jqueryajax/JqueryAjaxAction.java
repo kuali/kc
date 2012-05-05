@@ -16,6 +16,7 @@
 package org.kuali.kra.jqueryajax;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,13 +32,17 @@ import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
+import org.kuali.kra.committee.bo.CommitteeType;
 import org.kuali.kra.common.notification.service.NotificationRoleSubQualifierFinders;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
-
+import org.kuali.rice.krad.service.BusinessObjectService;
 /**
  * 
  * This class is to handle jquery ajax calls.
@@ -97,6 +102,39 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
 
     }
     
+    public ActionForward getProtocolReviewTypes(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
+        JqueryAjaxForm ajaxForm = (JqueryAjaxForm) form;
+        String committeeTypeCode = ajaxForm.getCode();
+        StringBuffer buffer = new StringBuffer();
+
+        if (StringUtils.equalsIgnoreCase(committeeTypeCode, CommitteeType.IRB_TYPE_CODE)) {
+            List<ProtocolReviewType> reviewTypes = (List<ProtocolReviewType>) getBusinessObjectService().findAll(ProtocolReviewType.class);
+            buffer.append("[ ");
+            for (ProtocolReviewType reviewType : reviewTypes) {
+                buffer.append("{ 'key' :'");
+                buffer.append(reviewType.getReviewTypeCode());
+                buffer.append("', 'value' : '");
+                buffer.append(reviewType.getDescription());
+                buffer.append("'} , ");
+            }
+            buffer.append("]");
+        } else if (StringUtils.equalsIgnoreCase(committeeTypeCode, CommitteeType.IACUC_TYPE_CODE)) {
+            List<IacucProtocolReviewType> reviewTypes = (List<IacucProtocolReviewType>) getBusinessObjectService().findAll(IacucProtocolReviewType.class);
+            buffer.append("[ ");
+            for (IacucProtocolReviewType reviewType : reviewTypes) {
+                buffer.append("{ 'key' :'");
+                buffer.append(reviewType.getReviewTypeCode());
+                buffer.append("', 'value' : '");
+                buffer.append(reviewType.getDescription());
+                buffer.append("'} , ");
+            }
+            buffer.append("]");
+        }       
+        
+        ajaxForm.setReturnVal(buffer.toString());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     
     private UnitService getUnitService() {
         return KraServiceLocator.getService(UnitService.class);
@@ -145,7 +183,10 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-
+    protected BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+    
     protected CoiDisclosureService getCoiDisclosureService() {
         if (coiDisclosureService == null) {
             coiDisclosureService = KraServiceLocator.getService(CoiDisclosureService.class);

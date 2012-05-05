@@ -113,6 +113,10 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="committeeTypeCode" column="COMMITTEE_TYPE_CODE" jdbc-type="VARCHAR" />
+       <reference-descriptor name="committeeType" class-ref="org.kuali.kra.committee.bo.CommitteeType" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="committeeTypeCode" />
+         </reference-descriptor>
     </class-descriptor>	
 	
 	<class-descriptor class="org.kuali.kra.committee.bo.Committee" table="COMMITTEE">

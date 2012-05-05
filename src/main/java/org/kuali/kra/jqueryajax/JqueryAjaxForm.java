@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.jqueryajax;
 
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * 
  * This class is the form class for jquery ajax call.
  */
-public class JqueryAjaxForm extends KualiForm {
+public class JqueryAjaxForm extends  KualiDocumentFormBase {
 
     private static final long serialVersionUID = 7044288457270792953L;
     private String code;
