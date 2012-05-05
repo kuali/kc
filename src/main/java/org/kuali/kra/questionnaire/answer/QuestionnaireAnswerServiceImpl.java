@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -31,11 +32,22 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
+import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krms.api.KrmsApiServiceLocator;
+import org.kuali.rice.krms.api.engine.EngineResults;
+import org.kuali.rice.krms.api.engine.ExecutionFlag;
+import org.kuali.rice.krms.api.engine.ExecutionOptions;
+import org.kuali.rice.krms.api.engine.Facts;
+import org.kuali.rice.krms.api.engine.SelectionCriteria;
+import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
+import org.kuali.rice.krms.impl.repository.AgendaBo;
+import org.kuali.rice.krms.impl.repository.AgendaItemBo;
 
 /**
  * 
@@ -453,6 +465,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 answers.addAll(getChildQuestions(questionnaire, question));
             }
         }
+        for (Answer answer : answers) {
+            answer.setAnswerHeader(answerHeader);
+        }
         setupChildAnswerIndicator(answers);
         answerHeader.setAnswers(answers);
         return answerHeader;
@@ -512,7 +527,18 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
         for (Answer answer : answers) {
             if (answer.getQuestionnaireQuestion().getParentQuestionNumber() == 0) {
-                answer.setMatchedChild(YES);
+                // TODO : need to do rule evaluation if KRMS rule is set.
+                if (StringUtils.isNotBlank(answer.getQuestionnaireQuestion().getCondition())) {
+                    // TODO : need to implement rulematched
+                  //  if (ruleMatched(answer.getQuestionnaireQuestion().getConditionValue())) {
+                    if (isRuleValid(answer.getQuestionnaireQuestion().getConditionValue(), getKrmsRulesContext(answer.getAnswerHeader()))) {
+                        answer.setMatchedChild(YES);
+                    } else {
+                        answer.setMatchedChild(NO);
+                    }
+                } else {
+                    answer.setMatchedChild(YES);
+                }
             }
             else {
                 answer.setParentAnswer(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()));
@@ -540,6 +566,11 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     }
 
+    private boolean ruleMatched(String ruleId) {
+        // TODO : implement detail here
+        return false; 
+    }
+    
     /*
      * check if all the required answers are entered.
      */
@@ -631,7 +662,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                     || (ConditionType.GREATER_THAN_NUMBER.getCondition().equals(condition) && (Integer.parseInt(parentAnswer) > Integer
                             .parseInt(conditionValue)));
         }
-        else if (Integer.parseInt(condition) >= 11) {
+        else if (Integer.parseInt(condition) == 11 || Integer.parseInt(condition) == 12) {
             final DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
             try {
                 Date date1 = new Date(dateFormat.parse(parentAnswer).getTime());
@@ -643,7 +674,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
             }
 
-        }
+        } 
         return valid;
     }
 
@@ -717,5 +748,77 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             }
         }
         return protocolNumbers;
+    }
+    
+    private KrmsRulesContext getKrmsRulesContext(AnswerHeader answerHeader) {
+        KrmsRulesContext ruleContext = null;
+        if (CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE.equals(answerHeader.getModuleItemCode())) {
+            // TODO : currently only PDDocument implement KrmsRulesContext
+            ruleContext = getRuleContextClass(answerHeader, "proposalNumber", DevelopmentProposal.class);
+        }
+        return ruleContext;
+    }
+    
+    private KrmsRulesContext getRuleContextClass(AnswerHeader answerHeader, String propertyName, Class clazz) {
+        Map <String, Object> fieldValues = new HashMap<String, Object>();
+        if (!clazz.getSimpleName().equals("DevelopmentProposal")) {
+            fieldValues.put(propertyName, answerHeader.getModuleItemKey());
+            fieldValues.put("sequenceNumber", answerHeader.getModuleSubItemKey());           
+        } else {
+            fieldValues.put(propertyName, answerHeader.getModuleItemKey().substring(0, answerHeader.getModuleItemKey().indexOf("|")));
+        }
+        return (KrmsRulesContext) ((List<DevelopmentProposal>)businessObjectService.findMatching(clazz, fieldValues)).get(0).getProposalDocument();
+    }
+   
+    private boolean isRuleValid(String ruleId, KrmsRulesContext rulesContext) {
+
+        Map<String, String> contextQualifiers = new HashMap<String, String>();
+        rulesContext.populateContextQualifiers(contextQualifiers);
+
+        Map<String,String> agendaQualifiers = new HashMap<String,String>();
+        // TODO : "name" qualifier should be working after 2.1.  currently, there is a bug.
+//        agendaQualifiers.put("name", getAgenda(ruleId).getName());  // specify a single agenda by name
+       
+        SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers, agendaQualifiers);
+
+        Facts.Builder factsBuilder = Facts.Builder.create();
+        // not sure about this addfacts.  there are many  
+        rulesContext.addFacts(factsBuilder);
+
+       // factsBuilder.addFact("unitNumber", "BL-BL");
+//        factsBuilder.addFact("unitNumber", "IN-IN");
+        Map<String,String> paramsMap = new TreeMap<String,String>();
+        paramsMap.put("Questionnaire Id", "1");
+        paramsMap.put("Question Id", "2");
+//        factsBuilder.addFact("unitNumber", paramsMap, "BL-BL");
+//        factsBuilder.addFact("ruleContext", rulesContext);
+//        rulesContext.addFacts(factsBuilder);
+        ExecutionOptions xOptions = new ExecutionOptions();
+        xOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
+
+        EngineResults results = KrmsApiServiceLocator.getEngine().execute(selectionCriteria, factsBuilder.build(), xOptions);
+        
+        String errors = (String) results.getAttribute(ValidationActionTypeService.VALIDATIONS_ACTION_ATTRIBUTE);
+        boolean isValid = true;
+        if (results.getResultsOfType("Rule Evaluated") != null) {
+            isValid = results.getResultsOfType("Rule Evaluated").get(0).getResult();
+        }
+//        if (StringUtils.isBlank(errors)) {
+            
+//            String[] errorArray = StringUtils.split(errors, ",");
+//            return Arrays.asList(errorArray);
+//        }
+//        return StringUtils.isNotBlank(errors);
+        return isValid;
+    }
+
+    private AgendaBo getAgenda(String ruleId) {
+        Map<String,String> fieldValues = new HashMap<String,String>();
+        fieldValues.put("ruleId", ruleId);
+        AgendaItemBo agendaItem = businessObjectService.findByPrimaryKey(AgendaItemBo.class, fieldValues);
+        fieldValues.clear();
+        fieldValues.put("id", agendaItem.getAgendaId());
+        return businessObjectService.findByPrimaryKey(AgendaBo.class, fieldValues);
+        
     }
 }

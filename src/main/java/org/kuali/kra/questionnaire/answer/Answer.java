@@ -203,10 +203,18 @@ public class Answer extends KraPersistableBusinessObjectBase {
         this.questionnaireQuestion = questionnaireQuestion;
     }
 
+    /**
+     * 
+     * This method is to get the flag whether to display the child question or not based on parent answer
+     * revised : this may also based rule evaluation, and eventually root node may be applied for rule evaluation.
+     * @return
+     */
     public String getMatchedChild() {
         return matchedChild;
     }
 
+    /**
+     */
     public void setMatchedChild(String matchedChild) {
         this.matchedChild = matchedChild;
     }
