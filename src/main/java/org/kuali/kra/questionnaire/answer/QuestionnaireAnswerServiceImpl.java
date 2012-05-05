@@ -528,7 +528,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (Answer answer : answers) {
             if (answer.getQuestionnaireQuestion().getParentQuestionNumber() == 0) {
                 // TODO : need to do rule evaluation if KRMS rule is set.
-                if (StringUtils.isNotBlank(answer.getQuestionnaireQuestion().getCondition()) && "13".equals(answer.getQuestionnaireQuestion().getCondition())) {
+                if (StringUtils.isNotBlank(answer.getQuestionnaireQuestion().getCondition()) && ConditionType.RULE_EVALUATION.getCondition().equals(answer.getQuestionnaireQuestion().getCondition())) {
                     // TODO : need to implement rulematched
                   //  if (ruleMatched(answer.getQuestionnaireQuestion().getConditionValue())) {
                     if (isRuleValid(answer.getQuestionnaireQuestion().getConditionValue(), getKrmsRulesContext(answer.getAnswerHeader()))) {
@@ -553,7 +553,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 else if (isParentNotDisplayed(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()))) {
                     answer.setMatchedChild(NO);
                 }
-                else if (isAnyAnswerMatched(answer.getQuestionnaireQuestion().getCondition(), parentAnswers.get(answer
+                else if ((ConditionType.RULE_EVALUATION.getCondition().equals(answer.getQuestionnaireQuestion().getCondition()) && isRuleValid(answer.getQuestionnaireQuestion().getConditionValue(), getKrmsRulesContext(answer.getAnswerHeader()))) || isAnyAnswerMatched(answer.getQuestionnaireQuestion().getCondition(), parentAnswers.get(answer
                         .getQuestionnaireQuestion().getParentQuestionNumber()), answer.getQuestionnaireQuestion()
                         .getConditionValue())) {
                     answer.setMatchedChild(YES);
@@ -684,7 +684,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     protected enum ConditionType {
         CONTAINS_TEXT("1"), BEGINS_WITH_TEXT("2"), ENDS_WITH_TEXT("3"), MATCH_TEXT("4"), LESS_THAN_NUMBER("5"), LESS_THAN_OR_EQUALS_NUMBER(
                 "6"), EQUALS_NUMBER("7"), NOT_EQUAL_TO_NUMBER("8"), GREATER_THAN_OR_EQUALS_NUMBER("9"), GREATER_THAN_NUMBER("10"), BEFORE_DATE(
-                "11"), AFTER_DATE("12");
+                "11"), AFTER_DATE("12"), RULE_EVALUATION("13");
 
         String condition;
 
@@ -787,9 +787,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
        // factsBuilder.addFact("unitNumber", "BL-BL");
 //        factsBuilder.addFact("unitNumber", "IN-IN");
-        Map<String,String> paramsMap = new TreeMap<String,String>();
-        paramsMap.put("Questionnaire Id", "1");
-        paramsMap.put("Question Id", "2");
+//        Map<String,String> paramsMap = new TreeMap<String,String>();
+//        paramsMap.put("Questionnaire Id", "1");
+//        paramsMap.put("Question Id", "2");
 //        factsBuilder.addFact("unitNumber", paramsMap, "BL-BL");
 //        factsBuilder.addFact("ruleContext", rulesContext);
 //        rulesContext.addFacts(factsBuilder);
