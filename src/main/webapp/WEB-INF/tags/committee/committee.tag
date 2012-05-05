@@ -57,10 +57,9 @@
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.committeeList[0].committeeTypeCode" 
                 	                          attributeEntry="${committeeAttributes.committeeTypeCode}" 
-                	                          readOnlyAlternateDisplay="KualiForm.document.committeeList[0].committeeType.description}"/>
-                     <c:if test="${readOnly}">
-                         <input type="hidden" id="document.committeeList[0].committeeTypeCode"  value="${KualiForm.document.committeeList[0].committeeTypeCode}" />
-                     </c:if>
+                	                          readOnlyAlternateDisplay="KualiForm.document.committeeList[0].committeeType.description}"
+                	                          onchange="populateSelect('getProtocolReviewTypes', 'document.committeeList[0].committeeTypeCode', 'reviewTypeCode');"/>
+                	
                 </td>
             </tr>
             
@@ -83,29 +82,16 @@
                 
                 <th><div align="right">*<kul:htmlAttributeLabel attributeEntry="${committeeAttributes.reviewTypeCode}" /></div></th>
                 <td align="left" valign="middle">
-                  <div id="coireview">
-                    <c:if test="${readOnly}">
-                	    ${KualiForm.document.committeeList[0].coiReviewType.description}
-                    </c:if>
-                    <c:if test="${!readOnly}">
-                	    <kul:htmlControlAttribute property="document.committeeList[0].coiReviewTypeCode" attributeEntry="${committeeAttributes.coiReviewTypeCode}" />
-                    </c:if>
-                    <kul:checkErrors keyMatch="document.committeeList[0].reviewTypeCode" />
-					<c:if test="${hasErrors}">
-						<%-- display the error icon --%>
-						<kul:fieldShowErrorIcon />
-				  	</c:if>
-                  </div>
-                  
-                  <div id="irbreview">
+                  <!-- review type  -->
                     <c:if test="${readOnly}">
                 	    ${KualiForm.document.committeeList[0].reviewType.description}
                     </c:if>
                     <c:if test="${!readOnly}">
-                	    <kul:htmlControlAttribute property="document.committeeList[0].reviewTypeCode" attributeEntry="${committeeAttributes.reviewTypeCode}" />
+                    	<html:select property="document.committeeList[0].reviewTypeCode" styleId="reviewTypeCode">                                              	                
+							<option value="Select">select</option> 
+						</html:select> 
                     </c:if>
                     <kul:checkErrors keyMatch="document.committeeList[0].reviewTypeCode" />
-                  </div>
                   
                 </td>
             </tr>
@@ -113,14 +99,14 @@
             <tr>
 		        <th><div align="right">
 		        	<div id="maxProtocolsLabel">
-		        		<c:if test="${!readOnly or KualiForm.document.committeeList[0].committeeTypeCode != '2'}">
+		        		<c:if test="${!readOnly}">
 		        			<kul:htmlAttributeLabel attributeEntry="${committeeAttributes.maxProtocols}" />
 		        		</c:if>
 		        	</div>
 		        	</div>
 		        </th>
                 <td>
-                    <c:if test="${!readOnly or KualiForm.document.committeeList[0].committeeTypeCode != '2'}">
+                    <c:if test="${!readOnly}">
                     	<kul:htmlControlAttribute property="document.committeeList[0].maxProtocols" attributeEntry="${committeeAttributes.maxProtocols}" />
                     </c:if>
                 </td>

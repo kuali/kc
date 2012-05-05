@@ -28,13 +28,11 @@
 				<value>membershipRoleCode</value>
 			</list>
 		</property>		<property name="allowsRecordDeletion" value="true" />	
-		
-		
-		
-		
+	
 		
 		<property name="documentTypeName" value="MembershipRoleMaintenanceDocument"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+		<property name="businessRulesClass" value="org.kuali.kra.committee.rules.MembershipRoleDocumentRule"/>
 		
 		
 	</bean>
@@ -49,6 +47,7 @@
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="membershipRoleCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="committeeTypeCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>

@@ -28,6 +28,26 @@ public class MembershipRole extends KraPersistableBusinessObjectBase {
     private String membershipRoleCode;
 
     private String description;
+    
+    private String committeeTypeCode;
+    
+    private CommitteeType committeeType;
+
+    public String getCommitteeTypeCode() {
+        return committeeTypeCode;
+    }
+
+    public void setCommitteeTypeCode(String committeeTypeCode) {
+        this.committeeTypeCode = committeeTypeCode;
+    }
+
+    public CommitteeType getCommitteeType() {
+        return committeeType;
+    }
+
+    public void setCommitteeType(CommitteeType committeeType) {
+        this.committeeType = committeeType;
+    }
 
     public MembershipRole() {
     }
