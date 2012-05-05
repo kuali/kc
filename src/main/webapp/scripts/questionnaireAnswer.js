@@ -58,11 +58,19 @@
      * go thru each question. if display flag is 'N', then hide this question/
      */
     $j('table[id^=table-parent-]').each(
-			function() {
-			    if ($j(this).children().children().children().children().children('input[id^=childDisplay]').attr("value") == 'N') {
-				    $j(this).hide();
-			    }
-			});
+            function() {
+                if ($j(this).children().children().children().children().children('input[id^=childDisplay]').attr("value") == 'N') {
+                    $j(this).hide();
+                }
+            });
+    
+    /* need to do this for root node too */
+    $j('table[id^=table-]').each(
+            function() {
+                if ($j(this).children().children().children().children().children('input[id^=childDisplay]').attr("value") == 'N') {
+                    $j(this).hide();
+                }
+            });
     
     // this is for root-node, for PD/opportunity/forname equivalency.  not ready yet.  so, comment out
 //    $j('input[id^=childDisplay-0]').each(
@@ -256,7 +264,7 @@
             	            (condition == 9 && (Number(parentAnswer) >= Number(conditionValue))) ||
             	            (condition == 10 && (Number(parentAnswer) > Number(conditionValue)));
             }    
-    	} else if (condition > 10) {
+    	} else if (condition > 10 && condition <= 12) {
         	if (!parseDate(parentAnswer)) {
     		    alert(parentAnswer + " is Not a Valid Date ");
         	} else {

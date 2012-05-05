@@ -151,13 +151,14 @@ function getMaintTable(description, qtypeid, vers, idx, childNode) {
 	var text = '';
 	var response = '';
 	var value = '';
-	if (childNode == 'true') {
+	// the requirement response is also including root node, so comment out this childnode check.
+//	if (childNode == 'true') {
 		var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 		response = responseArray[splitq[6]];
 		value = splitq[7];
 
 		
-	}
+//	}
 
 	jq.ajax( {
 		url : 'maintenanceQn.do',
@@ -1683,7 +1684,27 @@ function getAddRequirementRow(curidx) {
 	tdtmp.appendTo(trtmp);
 	tdtmp = jq('<td class="content_info" style="text-align:center;"></td>')
 			.html("Value:");
-	jq('<input type="text" size="25" />').appendTo(tdtmp);
+	jq('<input type="text" size="25" />').attr("id", "reqVal" + curidx).attr("name", "reqVal" + curidx).appendTo(tdtmp);
+    var atag = jq('<a href="#"></a>');
+    var image = jq('<img border="0" title="Search Rule" alt="Search Rule" class="tinybutton" src="static/images/searchicon.gif" />')
+            .attr("id", "search" + curidx).attr("name", "search" + curidx).click(function() {
+         var nodeIndex = jq(this).attr("id").substring(6);
+         var url = window.location.href
+         var pathname = window.location.pathname
+         var idx1 = url.indexOf(pathname);
+         var idx2 = url.indexOf("/", idx1 + 1);
+          var extractUrl = url.substr(0, idx2);
+         //alert("nodeidx "+nodeIndex)
+         var winPop = window.open(extractUrl + "/krmsRuleLookup.do?nodeIndex="
+            + nodeIndex  + "&anchor=topOfForm",
+            "_blank", "width=1000, height=800, scrollbars=yes");
+
+            });
+    image.appendTo(atag);
+    atag.appendTo(tdtmp);        
+//    jq('<a href="#"><img border="0" title="Search Rule"
+//                                            alt="Search Rule" class="tinybutton" 
+//                                             src="static/images/searchicon.gif"  onClick="clickSearchRule(${qidx})"></a>').appendTo(tdtmp);
 	tdtmp.appendTo(trtmp);
 	tdtmp = jq('<td class="content_info" class="content_white" style="width:65px; text-align:center;"></td>');
 	var image = jq(
@@ -1732,8 +1753,14 @@ function getAddRequirementRow(curidx) {
  */
 function okToAddRequirement(response, value, idx) {
 	jq("#qnaireid"+curi)
-	var stidx = jq("#qnaireid"+idx).parents('ul:eq(0)').parents('li:eq(0)').attr("id").substring(8);
-	var splitq = jq("#question"+stidx).attr("value").split("#f#");
+	if (value == '') {
+        alert("Please enter a value");
+        return false;
+	}
+	if (jq("#qnaireid"+idx).parents('ul:eq(0)').parents('li:eq(0)').length > 0) {
+	// this is a child node, then check
+    	var stidx = jq("#qnaireid"+idx).parents('ul:eq(0)').parents('li:eq(0)').attr("id").substring(8);
+    	var splitq = jq("#question"+stidx).attr("value").split("#f#");
 	var qtypeid = splitq[1];
 	//lookup 
 	if (qtypeid == 6 && splitq[5] > 0) {
@@ -1742,20 +1769,25 @@ function okToAddRequirement(response, value, idx) {
 //	alert (stidx+" -"+qtypeid);
 
 	var valid = false;
-	if (value == '') {
-		alert("Please enter a value");
-	} else if (response == 0) {
+//	if (value == '') {
+//		alert("Please enter a value");
+//	} else 
+	if (response == 0) {
 		alert("Please select a response");
 	} else if (!isValidBranchingCondition(qtypeid, response)) {
 		alert("Invalid Branching condition");
 	} else if (response >= 5 && response <= 10 && isNaN(value)) {
 		alert("Value must be a number");
-	} else if (response > 10 && !isDate(value, 'MM/dd/yyyy')) {
+	} else if (response > 10 && response <= 12 && !isDate(value, 'MM/dd/yyyy')) {
 		alert("Not a Valid Date (mm/dd/yyyy)");
 	} else {
 		valid = true;
 	}
 	return valid;
+	} else {
+	   // this is root node, omly rule evaluation, so no check
+	    return true;
+	}
 }
 
 function isValidBranchingCondition(parentQntypeId, response) {
@@ -1766,7 +1798,7 @@ function isValidBranchingCondition(parentQntypeId, response) {
 	} else if (response >= 5 && response <= 10 && parentQntypeId != 3) {
 		// number
 		valid = false;
-	} else if (response > 10 && parentQntypeId != 4) {
+	} else if (response > 10 && response <= 12 && parentQntypeId != 4) {
 		// date 
 		valid = false;
 	}
@@ -2189,7 +2221,7 @@ var opArray = [ 'select', 'and', 'or' ];
 var responseArray = [ 'select', 'Contains text value', 'Begins with text', 'Ends with text', 'Matches text',
 		'Less than number', 'Less than or equals number', 'Equals number', 'Not Equal to number',
 		'Greater than or equals number', 'Greater than number', 'Before date',
-		'After date' ];
+		'After date', 'Rule Evaluation' ];
 var questionType = [ 'select', 'Yes/No', 'Yes/No/NA', 'Number', 'Date', 'Text',
 		'Lookup' ];
 
@@ -2210,6 +2242,7 @@ jq('<option value="9">Greater than or equals number</option>').appendTo(
 jq('<option value="10">Greater than number</option>').appendTo(responseOptions);
 jq('<option value="11">Before date</option>').appendTo(responseOptions);
 jq('<option value="12">After date</option>').appendTo(responseOptions);
+jq('<option value="13">Rule Evaluation</option>').appendTo(responseOptions);
 
 // TODO : currently this one is not working copied to questionnairequestion.jsp
 jq("#addUsage")
@@ -3127,5 +3160,24 @@ function clickUpdateQuestionVersion(curidx) {
 	}); // end ajax
 	
 	return false;
+}
+
+function clickSearchRule(nodeIndex) {
+
+    var url = window.location.href
+    var pathname = window.location.pathname
+    var idx1 = url.indexOf(pathname);
+    var idx2 = url.indexOf("/", idx1 + 1);
+    var extractUrl = url.substr(0, idx2);
+    //alert("nodeidx "+nodeIndex)
+    var winPop = window.open(extractUrl + "/krmsRuleLookup.do?nodeIndex="
+            + nodeIndex  + "&anchor=topOfForm",
+            "_blank", "width=1000, height=800, scrollbars=yes");
+
+}
+
+function returnRule(ruleId, nodeIndex) {
+  // alert("return rule "+ruleId+" for "+nodeIndex);
+   jq("#reqVal"+nodeIndex).attr("value",ruleId);
 }
 

@@ -1,0 +1,219 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="KcKrmsRule" parent="KcKrmsRule-parentBean" />
+  <bean id="KcKrmsRule-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.krms.KcKrmsRule" />
+        <property name="objectLabel" value="KRMS Rule" />
+    <property name="inquiryDefinition" >
+      <ref bean="KcKrmsRule-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="KcKrmsRule-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="id" />
+    <property name="attributes" >
+      <list>
+        <ref bean="KcKrmsRule-id" />
+        <ref bean="KcKrmsRule-description" />
+        <ref bean="KcKrmsRule-namespace" />
+        <ref bean="KcKrmsRule-name" />
+        <ref bean="KcKrmsRule-typeId" />
+        <ref bean="KcKrmsRule-propId" />
+        <ref bean="KcKrmsRule-active" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="KcKrmsRule-id" parent="KcKrmsRule-id-parentBean" />
+  <bean id="KcKrmsRule-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rule Id" />
+    <property name="shortLabel" value="Rule Id" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Citizenship Type" />
+    <property name="description" value="Citizenship Type Code" />
+  </bean>
+  
+  <bean id="KcKrmsRule-description" parent="KcKrmsRule-description-parentBean" />
+  <bean id="KcKrmsRule-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Description" />
+    <property name="description" value="Description" />
+  </bean>
+  
+  <bean id="KcKrmsRule-active" parent="KcKrmsRule-active-parentBean" />
+    <bean id="KcKrmsRule-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="summary" value="Active" />
+    <property name="description" value="Active" />
+  </bean>
+  
+  <bean id="KcKrmsRule-namespace" parent="KcKrmsRule-namespace-parentBean" />
+  <bean id="KcKrmsRule-namespace-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="namespace" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Name Space" />
+    <property name="shortLabel" value="Name Space" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Name Space" />
+    <property name="description" value="Name Space" />
+  </bean>
+  
+  <bean id="KcKrmsRule-name" parent="KcKrmsRule-name-parentBean" />
+  <bean id="KcKrmsRule-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="100" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Name" />
+    <property name="description" value="Name" />
+  </bean>
+  
+  <bean id="KcKrmsRule-typeId" parent="KcKrmsRule-typeId-parentBean" />
+  <bean id="KcKrmsRule-typeId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="typeId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Type Id" />
+    <property name="shortLabel" value="Type Id" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Type Id" />
+    <property name="description" value="Type Id" />
+  </bean>
+  
+  <bean id="KcKrmsRule-propId" parent="KcKrmsRule-propId-parentBean" />
+  <bean id="KcKrmsRule-propId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="propId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Prop Id" />
+    <property name="shortLabel" value="Prop Id" />
+    <property name="maxLength" value="40" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="40" />
+    </property>
+    <property name="summary" value="Prop Id" />
+    <property name="description" value="Prop Id" />
+  </bean>
+  
+  <!-- Business Object Inquiry Definition -->
+
+  <bean id="KcKrmsRule-inquiryDefinition" parent="KcKrmsRule-inquiryDefinition-parentBean" />
+  <bean id="KcKrmsRule-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="KRMS Rule" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="KRMS Rule" />
+          <property name="numberOfColumns" value="3" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="id"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="namespace" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="typeId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="propId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="KcKrmsRule-lookupDefinition" parent="KcKrmsRule-lookupDefinition-parentBean" />
+  <bean id="KcKrmsRule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="KRMS Rule Lookup" />
+    <property name="lookupableID" value="kcKrmsRuleLookupable" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+                    p:attributeName="id"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="namespace" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="typeId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="propId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+                    p:attributeName="id"
+                    p:forceInquiry="true" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="namespace" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="typeId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="propId" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+  
+</beans>

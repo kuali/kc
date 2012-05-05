@@ -32,6 +32,7 @@
 	    <form-bean name="QuestionMaintenanceForm" type="org.kuali.kra.questionnaire.question.QuestionMaintenanceForm" />
         <form-bean name="KualiMaintenanceForm" type="org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm" />
         <form-bean name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupForm" />
+        <form-bean name="KrmsRuleLookupForm" type="org.kuali.kra.questionnaire.KrmsRuleLookupForm" />
         <form-bean name="MeetingForm" type="org.kuali.kra.meeting.MeetingForm" />
         <form-bean name="QuestionnaireMaintenanceForm" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceForm" />
         <form-bean name="ProposalLogMergeForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeForm" />
@@ -177,6 +178,10 @@
             <forward name="singleLookup" path="/WEB-INF/jsp/questionnaire/questionLookup.jsp" />
             <forward name="multiLookup" path="/WEB-INF/jsp/questionnaire/questionMultiLookup.jsp" />
             <forward name="replaceLookup" path="/WEB-INF/jsp/questionnaire/questionReplace.jsp" />            
+        </action>
+        
+        <action path="/krmsRuleLookup" name="KrmsRuleLookupForm" type="org.kuali.kra.questionnaire.KrmsRuleLookupAction">
+            <forward name="basic" path="/WEB-INF/jsp/questionnaire/krmsRuleLookup.jsp" />
         </action>
         
         <action path="/resubmissionPrompt" name="ProposalDevelopmentForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentResubmissionPromptAction">

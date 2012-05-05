@@ -521,6 +521,16 @@
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
     
+    <bean id="krmsRuleDao" parent="platformAwareDao" class="org.kuali.kra.krms.dao.KrmsRuleDaoOjb">
+    </bean>
+    
+    <bean id="kcKrmsRuleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="kcKrmsRuleLookupableHelperService" />      
+    </bean> 
+    <bean id="kcKrmsRuleLookupableHelperService" class="org.kuali.kra.krms.lookup.KcKrmsRuleLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
+          scope="prototype" >
+        <property name="krmsRuleDao" ref="krmsRuleDao" />      
+    </bean>
     <bean id="kcPersonExtendedAttributesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="kcPersonExtendedAttributesLookupableHelperService" /> 
     </bean> 
@@ -889,6 +899,8 @@
     </bean>       
     
     <bean id="krmsRulesExecutionService" class="org.kuali.kra.krms.service.impl.KrmsRulesExecutionServiceImpl">
+    </bean>
+    <bean id="unitNumberTermResolverTypeService" class="org.kuali.kra.krms.service.impl.UnitNumberTermResolverTypeServiceImpl">
     </bean>
     
     <bean id="unitAgendaTypeService" class="org.kuali.kra.krms.UnitAgendaTypeService">
