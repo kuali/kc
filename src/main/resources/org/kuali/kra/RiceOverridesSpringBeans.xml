@@ -179,19 +179,6 @@
                 <value>roleLookupable</value>
                 <value>multiCampusIdentityService</value>
 
-                <value>protocolLookupable</value>
-                <value>coiDisclosureLookupable</value>
-                <value>protocolOnlineReviewLookupable</value>   
-                <value>protocolSubmissionLookupable</value> 
-                <value>committeeLookupable</value>  
-                <value>committeeScheduleLookupable</value>  
-                <value>coiEventDisclosureLookupable</value>
-                <value>coiDisclosureEventTypeLookupable</value>
-                <value>coiSubmittedDisclosureLookupable</value>
-                <value>coiNonProjectEventDisclosureLookupable</value>
-                <value>coiAnnualEventDisclosureLookupable</value>
-                <value>coiDisclosureReviewsLookupable</value>
-                <value>coiDisclosureUndisclosedEventsLookupable</value>
             </set>      
         </property>
     </bean>
@@ -211,19 +198,6 @@
                 <value>roleLookupable</value>
                 <value>multiCampusIdentityService</value>
           
-                <value>protocolLookupable</value>
-                <value>coiDisclosureLookupable</value>
-                <value>protocolOnlineReviewLookupable</value>   
-                <value>protocolSubmissionLookupable</value> 
-                <value>committeeLookupable</value>  
-                <value>committeeScheduleLookupable</value>  
-                <value>coiEventDisclosureLookupable</value>
-                <value>coiDisclosureEventTypeLookupable</value>
-                <value>coiSubmittedDisclosureLookupable</value>
-                <value>coiNonProjectEventDisclosureLookupable</value>
-                <value>coiAnnualEventDisclosureLookupable</value>
-                <value>coiDisclosureReviewsLookupable</value>
-                <value>coiDisclosureUndisclosedEventsLookupable</value>
             </set>
         </property>
     </bean>
