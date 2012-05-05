@@ -144,10 +144,10 @@
 				<div id="HSReqdiv${qidx}">
 				    <c:choose>
 				        <c:when test="${KualiForm.childNode == 'true'}">
-				            <kra-questionnaire:qnQuestionResponse response="${KualiForm.response}" value = "${KualiForm.value}"/>
+				            <kra-questionnaire:qnQuestionResponse response="${KualiForm.response}" value = "${KualiForm.value}" topQuestion="false"/>
 				        </c:when>
 				        <c:otherwise>
-                           There can be no Requirements for Display on root-level questions.				
+                            <kra-questionnaire:qnQuestionResponse response="${KualiForm.response}" value = "${KualiForm.value}" topQuestion="true"/>
 				        </c:otherwise>
 				    </c:choose>
 				</div>
