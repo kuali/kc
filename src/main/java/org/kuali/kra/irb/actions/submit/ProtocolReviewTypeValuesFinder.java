@@ -57,6 +57,7 @@ public class ProtocolReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
                 GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE , PERMISSION_NAME);
         
         for (ProtocolReviewType item : getAllReviewTypes()) {
+System.out.println("RRRRRRRR, review type = " + item.getDescription() + ", global flag = " + item.isGlobalFlag() + ", can view = " + canViewNonGlobalReviewTypes);            
             if (item.isGlobalFlag() || canViewNonGlobalReviewTypes) {
                 filteredKeyValues.add(new ConcreteKeyValue(item.getReviewTypeCode(), item.getDescription()));
             }
