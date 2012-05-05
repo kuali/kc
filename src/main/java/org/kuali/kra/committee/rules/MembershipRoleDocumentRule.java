@@ -15,19 +15,14 @@
  */
 package org.kuali.kra.committee.rules;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.committee.bo.CommitteeType;
 import org.kuali.kra.committee.bo.MembershipRole;
-import org.kuali.kra.external.budget.FinancialObjectCodeMapping;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -75,8 +70,8 @@ public class MembershipRoleDocumentRule extends KraMaintenanceDocumentRuleBase {
         if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION)) {
             if (document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
                 final MembershipRole oldDocument = (MembershipRole) document.getOldMaintainableObject().getDataObject();
-                if (!oldDocument.getCommitteeTypeCode().equals(role.getCommitteeTypeCode())) {
-
+                if (! StringUtils.equalsIgnoreCase(oldDocument.getCommitteeTypeCode(), role.getCommitteeTypeCode())) {
+                    
                     result &= checkExistence(role);
                 }
             } else {
