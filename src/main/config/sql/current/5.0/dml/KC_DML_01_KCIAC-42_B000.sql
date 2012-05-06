@@ -1,4 +1,4 @@
-UPDATE MEMBERSHIP_ROLE SET COMMITTEE_TYPE_CODE = '1' WHERE COMMITTEE_TYPE_CODE = null
+update membership_role set committee_type_code = 1 where committee_type_code is null
 /
 INSERT INTO MEMBERSHIP_ROLE ( MEMBERSHIP_ROLE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID,VER_NBR, COMMITTEE_TYPE_CODE) 
 VALUES ( 15, 'Vet', sysdate, 'admin', SYS_GUID(), 1, '3' ) 
