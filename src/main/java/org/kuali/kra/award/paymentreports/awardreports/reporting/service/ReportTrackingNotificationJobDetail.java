@@ -31,6 +31,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This job is triggered by the quartz scheduler to kick off the CFDA table update.
@@ -54,6 +55,7 @@ public class ReportTrackingNotificationJobDetail extends QuartzJobBean {
      * This is the method that is called by the Quartz job scheduler.
      */
     @Override
+    @Transactional
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         if (batchProcessEnabled()) {
             StringBuilder builder = new StringBuilder();
@@ -86,6 +88,9 @@ public class ReportTrackingNotificationJobDetail extends QuartzJobBean {
         for (ReportTrackingNotificationDetails detail : details) {
             builder.append("Report Tracking Notification " + i++ + BREAK);
             builder.append("Action Code : " + detail.getActionCode() + BREAK);
+            if (StringUtils.isNotBlank(detail.getErrorMessage())) {
+                builder.append("Error Occurred : " + detail.getErrorMessage());
+            }
             if (!detail.isNotificationActive()) {
                 builder.append("Was not found, was inactive or had no recipients defined." + BREAK);
             } else {
