@@ -288,12 +288,16 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
                     hasBudegetLineItem = true;
-                    if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
-                        fedNonFedCost=fedNonFedCost.add(lineItem.getCostSharingAmount());
+                    if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {
+                        fedNonFedCost = fedNonFedCost.add(lineItem.getCostSharingAmount());
+                        for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : lineItem.getBudgetLineItemCalculatedAmounts()) {
+                            fedNonFedCost = fedNonFedCost.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
+                        }
+                    }
                 }
             }
-            if(!hasBudegetLineItem && budget.getSubmitCostSharingFlag()){
-                fedNonFedCost=fedNonFedCost.add(budget.getCostSharingAmount());
+            if (!hasBudegetLineItem && budget.getSubmitCostSharingFlag()) {
+                fedNonFedCost = fedNonFedCost.add(budget.getCostSharingAmount());
             }
             resourceLineItem.setBudgetApplicantContributionAmount(fedNonFedCost.bigDecimalValue());
             resourceLineItem.setBudgetTotalContributionAmount(fedNonFedCost.bigDecimalValue());
@@ -319,6 +323,9 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     private BudgetForecastedCashNeeds getBudgetForecastedCashNeeds() {
         BudgetDecimal totalFedCost = BudgetDecimal.ZERO;
         BudgetDecimal costSharing = BudgetDecimal.ZERO;
+        BudgetDecimal totalEstimation = BudgetDecimal.ZERO;
+        BudgetDecimal costShareEstimation = BudgetDecimal.ZERO;
+        BudgetDecimal totalFedEstimation = BudgetDecimal.ZERO;
         BudgetForecastedCashNeeds budgetForecastedCashNeeds = BudgetForecastedCashNeeds.Factory.newInstance();
         if (budget != null) {
             BudgetFirstYearAmounts budgetFirstYearAmounts = BudgetFirstYearAmounts.Factory.newInstance();
@@ -328,18 +335,26 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             BudgetFourthQuarterAmounts budgetFourthQuarterAmounts = BudgetFourthQuarterAmounts.Factory.newInstance();
             for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                    if(budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag())
-                        costSharing=costSharing.add(lineItem.getCostSharingAmount());
+                    if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {                      
+                        if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_1) {
+                            costSharing = costSharing.add(lineItem.getCostSharingAmount());                       
+                            for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : lineItem.getBudgetLineItemCalculatedAmounts()) {
+                                costSharing = costSharing.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
+                            }
+                        }
                     }
+                }
+                if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_1) {
+                    totalFedCost = budgetPeriod.getTotalCost();
+                    totalFedEstimation = totalFedCost.divide(new BudgetDecimal(4));
+                    costShareEstimation = costSharing.divide(new BudgetDecimal(4));
+                    totalEstimation = totalFedEstimation.add(costShareEstimation);                    
+                }
             }
-            totalFedCost = budget.getTotalCost().subtract(costSharing);
-            BudgetDecimal totalEstimation = budget.getTotalCost().divide(new BudgetDecimal(4));
-            BudgetDecimal costShareEstimation = costSharing.divide(new BudgetDecimal(4));
-            BudgetDecimal totalFedEstimation = totalFedCost.divide(new BudgetDecimal(4));
 
             budgetFirstYearAmounts.setBudgetFederalForecastedAmount(totalFedCost.bigDecimalValue());
             budgetFirstYearAmounts.setBudgetNonFederalForecastedAmount(costSharing.bigDecimalValue());
-            budgetFirstYearAmounts.setBudgetTotalForecastedAmount(budget.getTotalCost().bigDecimalValue());
+            budgetFirstYearAmounts.setBudgetTotalForecastedAmount(costSharing.add(totalFedCost).bigDecimalValue());
 
             budgetForecastedCashNeeds.setBudgetFirstYearAmounts(budgetFirstYearAmounts);
 
