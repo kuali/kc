@@ -44,6 +44,7 @@ import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.ExecutionFlag;
 import org.kuali.rice.krms.api.engine.ExecutionOptions;
 import org.kuali.rice.krms.api.engine.Facts;
+import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
 import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
 import org.kuali.rice.krms.impl.repository.AgendaBo;
@@ -799,9 +800,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         EngineResults results = KrmsApiServiceLocator.getEngine().execute(selectionCriteria, factsBuilder.build(), xOptions);
         
         String errors = (String) results.getAttribute(ValidationActionTypeService.VALIDATIONS_ACTION_ATTRIBUTE);
-        boolean isValid = true;
-        if (results.getResultsOfType("Rule Evaluated") != null) {
-            isValid = results.getResultsOfType("Rule Evaluated").get(0).getResult();
+        boolean isValid = false;
+        if (results.getResultsOfType(ResultEvent.RULE_EVALUATED) != null && results.getResultsOfType(ResultEvent.RULE_EVALUATED).size() > 0) {
+            isValid = results.getResultsOfType(ResultEvent.RULE_EVALUATED).get(0).getResult();
         }
 //        if (StringUtils.isBlank(errors)) {
             
