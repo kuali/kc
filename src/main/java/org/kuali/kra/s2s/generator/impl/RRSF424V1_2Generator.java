@@ -43,12 +43,14 @@ import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.KcPerson;
@@ -80,6 +82,7 @@ import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Class for generating the XML object for grants.gov RRSF424V1_0. Form is
@@ -405,23 +408,34 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 	private void setOtherAgencySubmissionDetails(ApplicationType applicationType) {
 	    YesNoDataType.Enum answer = null;
 	    String answerdetails = getAnswer(ANSWER_128);
-	    if(answerdetails != null && answerdetails.equals(NOT_ANSWERED)){
+	    if(answerdetails != null && !answerdetails.equals(NOT_ANSWERED)){
 	        answer =  answerdetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
 	        applicationType.setIsOtherAgencySubmission(answer);
+	    } else {
+	        applicationType.setIsOtherAgencySubmission(null);
 	    }
 
-	    if (answerdetails !=null && answerdetails.equals(YesNoDataType.Y_YES)) {
+	    if (answer !=null && answer.equals(YesNoDataType.Y_YES)) {
 	        String answerExplanation = getAnswer(ANSWER_111);
 	        if (answerExplanation != null) {
-	            if (answerExplanation.length() > ANSWER_EXPLANATION_MAX_LENGTH) {
-	                applicationType.setOtherAgencySubmissionExplanation(answerExplanation);
-	            } else {
-	                applicationType.setOtherAgencySubmissionExplanation(answerExplanation);
+	            Collection<ArgValueLookup> argDescription = KraServiceLocator.getService(BusinessObjectService.class).findAll(ArgValueLookup.class);
+	            if (argDescription != null) {
+	                for (ArgValueLookup argValue : argDescription) {
+	                    if (argValue.getValue().equals(answerExplanation)) {
+	                        String description = argValue.getDescription();
+	                        String submissionExplanation = description.substring(5);
+	                        if (submissionExplanation.length() > ANSWER_EXPLANATION_MAX_LENGTH) {
+	                            applicationType.setOtherAgencySubmissionExplanation(submissionExplanation.substring(0, ANSWER_EXPLANATION_MAX_LENGTH));
+	                        } else {
+	                            applicationType.setOtherAgencySubmissionExplanation(submissionExplanation);  
+	                        }
+	                    }
+	                }
 	            }
 	        }
 	    }
 	}
-    
+
 	/**
      * 
      * This method is used to get the answer for a particular Questionnaire question
