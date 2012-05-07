@@ -1206,8 +1206,28 @@
 	<!-- #PHS398_Checklist V1_3-->
 	<Error>
  		<MessageKey>/GrantApplication/Forms/PHS398_Checklist_1_3/DisclosurePermission</MessageKey> 
- 		<Message>PI is required</Message> 
+		<Message>Please select the DisclosurePermission statement for this form within the Questions tab.</Message> 
   		<FixLink>abstractsAttachments</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS398_Checklist_1_3/IsInventionsAndPatents</MessageKey> 
+ 		<Message>Please answer the Inventions and Patents question for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS398_Checklist_1_3/FormerPD_Name</MessageKey> 
+ 		<Message>Please answer the Former Principal Investigator or Program Director name for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS398_Checklist_1_3/FormerInstitutionName</MessageKey> 
+ 		<Message>Please answer the Former Institution Name for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
+	</Error>
+	<Error>
+ 		<MessageKey>/GrantApplication/Forms/PHS398_Checklist_1_3/IsPreviouslyReported</MessageKey> 
+ 		<Message>Please answer whether this invention has been reported previously to the PHS  for this form within the Questions tab.</Message> 
+  		<FixLink>questions</FixLink> 
 	</Error>
 	<!-- #PHS398_CoverPageSupplement-V1_3-->
 	<Error>
