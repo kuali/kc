@@ -38,9 +38,9 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 public class SubAwardFinancialAuditRule extends
 ResearchDocumentRuleBase implements DocumentAuditRule {
 
-    private static final String SUBAWARD_FINANCIAL_AUDIT_ERRORS
-    = "subawardFinancialdAuditErrors";
-    private List<AuditError> auditErrors;
+    private static final String SUBAWARD_FINANCIAL_AUDIT_WARNINGS
+    = "subawardFinancialdAuditWarnings";
+    private List<AuditError> auditWarnings;
 
 
     /**
@@ -51,7 +51,7 @@ ResearchDocumentRuleBase implements DocumentAuditRule {
      * and therefore declare a document.
      */
     public SubAwardFinancialAuditRule() {
-        auditErrors = new ArrayList<AuditError>();
+        auditWarnings = new ArrayList<AuditError>();
     }
 
     /**
@@ -61,7 +61,7 @@ ResearchDocumentRuleBase implements DocumentAuditRule {
      */
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
-        auditErrors = new ArrayList<AuditError>();
+        auditWarnings = new ArrayList<AuditError>();
 
         valid &= checkForObligatedAmountZero(document);
         valid &= checkForAnticipatedAmountZero(document);
@@ -78,16 +78,16 @@ ResearchDocumentRuleBase implements DocumentAuditRule {
      */
     @SuppressWarnings("unchecked")
     protected void reportAndCreateFinancialAuditCluster() {
-        if (auditErrors.size() > 0) {
+        if (auditWarnings.size() > 0) {
             AuditCluster existingErrors = (AuditCluster) KNSGlobalVariables.
-            getAuditErrorMap().get(SUBAWARD_FINANCIAL_AUDIT_ERRORS);
+            getAuditErrorMap().get(SUBAWARD_FINANCIAL_AUDIT_WARNINGS);
             if (existingErrors == null) {
                 KNSGlobalVariables.getAuditErrorMap().put(
-                SUBAWARD_FINANCIAL_AUDIT_ERRORS, new AuditCluster(Constants.
-                SUBAWARD_FINANCIAL_PANEL_NAME, auditErrors,
-                Constants.AUDIT_ERRORS));
+                SUBAWARD_FINANCIAL_AUDIT_WARNINGS, new AuditCluster(Constants.
+                SUBAWARD_FINANCIAL_PANEL_NAME, auditWarnings,
+                Constants.AUDIT_WARNINGS));
             } else {
-                existingErrors.getAuditErrorList().addAll(auditErrors);
+                existingErrors.getAuditErrorList().addAll(auditWarnings);
             }
         }
     }
@@ -108,10 +108,11 @@ ResearchDocumentRuleBase implements DocumentAuditRule {
         }
         if (obligatedAmount.isZero()) {
             subAwardDocument.getSubAward().setDefaultOpen(false);
-            auditErrors.add(new AuditError(Constants.
-           SUBAWARD_FINANCIAL_OBLIGATED_AMOUNT, KeyConstants.
-           ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO, Constants.
-           MAPPING_FINANCIAL_PAGE + "." + Constants.SUBAWARD_FINANCIAL_PANEL));
+            auditWarnings.add(new AuditError(
+            Constants.SUBAWARD_FINANCIAL_OBLIGATED_AMOUNT, 
+            KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO, 
+            Constants.MAPPING_FINANCIAL_PAGE + "." + 
+            Constants.SUBAWARD_FINANCIAL_PANEL));
             return false;
         } else {
             return true;
@@ -135,11 +136,11 @@ ResearchDocumentRuleBase implements DocumentAuditRule {
         }
         if (anticipateAmount.isZero()) {
             subAwardDocument.getSubAward().setDefaultOpen(false);
-            auditErrors.add(new AuditError(
+            auditWarnings.add(new AuditError(
             Constants.SUBAWARD_FINANCIAL_ANTICIPATED_AMOUNT,
             KeyConstants.ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO,
-            Constants.MAPPING_FINANCIAL_PAGE + "."
-           + Constants.SUBAWARD_FINANCIAL_PANEL));
+            Constants.MAPPING_FINANCIAL_PAGE + "." +
+            Constants.SUBAWARD_FINANCIAL_PANEL));
 
             return false;
         } else {
