@@ -22,6 +22,7 @@ import gov.grants.apply.forms.phs398Checklist13V13.PHS398Checklist13Document.PHS
 import gov.grants.apply.forms.phs398Checklist13V13.PHS398Checklist13Document.PHS398Checklist13.IncomeBudgetPeriod;
 import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
+import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -62,8 +63,8 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	private static final String YNQANSWER_121 = "121";
 	private static final Log LOG = LogFactory
 			.getLog(PHS398ChecklistV1_3Generator.class);
-	List<AnswerHeader> answerHeaders;
-
+	List<AnswerHeader> answerHeaders;	
+	Enum ynqAnswer;
 	/*
 	 * This method returns PHS398ChecklistDocument object based on proposal
 	 * development document which contains the PHS398ChecklistDocument
@@ -100,7 +101,8 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 		} else {
 			phsChecklist.setProgramIncome(YesNoDataType.N_NO);
 		}
-		phsChecklist.setDisclosurePermission(getYNQAnswer(YNQANSWER_121));
+		ynqAnswer = getYNQAnswer(YNQANSWER_121);
+		phsChecklist.setDisclosurePermission(ynqAnswer);
 		phsChecklistDocument.setPHS398Checklist13(phsChecklist);
 		return phsChecklistDocument;
 	}
@@ -208,17 +210,22 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
                     if (subQuestionExplanation != null && !subQuestionExplanation.equals(NOT_ANSWERED)) {
                         if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subQuestionExplanation)) {
                             phsChecklist.setIsPreviouslyReported(YesNoDataType.Y_YES);
-                        } else {
+                        } else if (S2SConstants.PROPOSAL_YNQ_ANSWER_N.equals(subQuestionExplanation)){
                             phsChecklist.setIsPreviouslyReported(YesNoDataType.N_NO);
-                        }
+                        } 
                         hasSubQuestionExplanation = true;
-                    }                   
-                } else {
+                    }
+                    else {
+                        phsChecklist.setIsPreviouslyReported(null); 
+                    }   
+                } else if(S2SConstants.PROPOSAL_YNQ_ANSWER_N.equals(explanation)) {
                     phsChecklist.setIsInventionsAndPatents(YesNoDataType.Y_YES);
                     if (hasSubQuestionExplanation) {
                         phsChecklist.setIsPreviouslyReported(YesNoDataType.N_NO); 
                     } 
-                }
+                } else {
+                    phsChecklist.setIsInventionsAndPatents(YesNoDataType.Y_YES);
+                   }
             } else {
                 phsChecklist.setIsInventionsAndPatents(YesNoDataType.N_NO);
                 if (hasSubQuestionExplanation) {
@@ -226,6 +233,8 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
                 }
             }
 	    }
+	    else
+	        phsChecklist.setIsInventionsAndPatents(null);
 	}
 
 	/*
@@ -242,6 +251,9 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
             if (explanation != null) {
                 phsChecklist.setFormerInstitutionName(explanation);
             }
+            else {
+                phsChecklist.setFormerInstitutionName(null);
+            }   
         } else {
             phsChecklist.setIsChangeOfInstitution(YesNoDataType.N_NO);
         }
@@ -266,6 +278,9 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
                         && formerPDName.getLastName() != null) {
                     phsChecklist.setFormerPDName(formerPDName);
                 }
+            }
+            else{
+                    phsChecklist.setFormerPDName(null);
             }
         } else {
             phsChecklist.setIsChangeOfPDPI(YesNoDataType.N_NO);
