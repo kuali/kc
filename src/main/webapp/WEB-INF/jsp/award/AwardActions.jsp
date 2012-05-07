@@ -36,8 +36,8 @@
   	<script>
 	  $j = jQuery.noConflict();
 	</script>
-
-	<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
+	<!-- KRACOEUS-5477 - the engine can only be included once or it causes errors to the user -->
+	<!-- <script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script> -->
 
 	<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
 		
