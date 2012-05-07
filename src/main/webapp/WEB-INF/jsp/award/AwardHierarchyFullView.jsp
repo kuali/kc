@@ -126,8 +126,8 @@ http://www.osedu.org/licenses/ECL-2.0
 <kul:panelFooter />
 
 </kul:documentPage>
-
-	<script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
+	<!-- KRACOEUS-5477 - the engine can only be included once or it causes errors to the user -->
+	<!--  <script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script> -->
 
 	<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
 		
