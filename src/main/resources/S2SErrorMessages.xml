@@ -434,6 +434,11 @@
  		<Message> Please answer the Application Type questions for this form within the Questions tab.</Message> 
  	    <FixLink>questions</FixLink> 
   	</Error>
+  	<Error>
+  		<MessageKey>/GrantApplication/Forms/RR_SF424_1_2/ApplicationType/isOtherAgencySubmission</MessageKey> 
+ 		<Message> Please answer the Application Type Other Agency Submission questions for this form within the Questions tab.</Message> 
+ 	    <FixLink>questions</FixLink> 
+  	</Error>
 	<!-- #RR_KeyPersonV1_0 -->
 	<Error>
 		<MessageKey>/GrantApplication/Forms/RR_KeyPerson/PDPI</MessageKey>
