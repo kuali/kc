@@ -27,7 +27,6 @@
 			</list>
 		</property>
 		<property name="allowsRecordDeletion" value="false" />
-		<property name="allowsNewOrCopy" value="false" />
 		<property name="documentTypeName" value="IacucProtocolSubmissionQualifierTypeMaintenanceDocument"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
 	</bean>
