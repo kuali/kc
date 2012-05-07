@@ -90,7 +90,7 @@ import org.kuali.kra.workflow.test.ProposalDevelopmentDocumentRoutingSeleniumTes
     //AwardDataValidationPanelSeleniumTest.class,
     AwardDetailsAndDatesPanelSeleniumTest.class,
     AwardDirectFandADistributionPanelSeleniumTest.class,
-    AwardReportsPanelSeleniumTest.class,
+    //AwardReportsPanelSeleniumTest.class,
     AwardSpecialReviewSeleniumTest.class,
     BudgetCategoryMaintenanceDocumentSeleniumTest.class,
     CommitteeActionsSeleniumTest.class,
