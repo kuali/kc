@@ -209,24 +209,23 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         int index = Integer.parseInt(StringUtils.substring(reversedAwardNumber, 0,reversedAwardNumber.indexOf(ZERO)));
         ActionForward forward = null;
         AwardHierarchy newRootNode = null;
-        
-        if(awardForm.getAwardHierarchyTempObjects().get(index).getCopyAwardRadio()!=null){
+        if (!StringUtils.isEmpty(awardForm.getAwardHierarchyTempObjects().get(index).getCopyAwardRadio())) {
             String radio = awardForm.getAwardHierarchyTempObjects().get(index).getCopyAwardRadio();
             Boolean copyDescendants = awardForm.getAwardHierarchyTempObjects().get(index).getCopyDescendants();
             AwardHierarchy targetNode = findTargetNode(request, awardForm);            
-            if(StringUtils.equalsIgnoreCase(radio, AWARD_COPY_NEW_OPTION)){
-                if(copyDescendants!=null && copyDescendants){
+            if (StringUtils.equalsIgnoreCase(radio, AWARD_COPY_NEW_OPTION)) {
+                if (copyDescendants!=null && copyDescendants) {
                     newRootNode = awardForm.getAwardHierarchyBean().copyAwardAndAllDescendantsAsNewHierarchy(targetNode.getAwardNumber());
                     forward = prepareToForwardToNewFinalChildAward(mapping, awardForm, request, response, targetNode, newRootNode);
 
-                }else{
+                } else {
                     newRootNode = awardForm.getAwardHierarchyBean().copyAwardAsNewHierarchy(targetNode.getAwardNumber());
                     forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);
                 }
-            }else if(StringUtils.equalsIgnoreCase(radio, AWARD_COPY_CHILD_OF_OPTION)){
+            } else if(StringUtils.equalsIgnoreCase(radio, AWARD_COPY_CHILD_OF_OPTION)) {
                 String awardNumberOfNodeToBeParent = awardForm.getAwardHierarchyTempObjects().get(index).getCopyAwardPanelTargetAward();
-                if(!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
-                    if(copyDescendants!=null && copyDescendants){    
+                if (!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
+                    if (copyDescendants!=null && copyDescendants){    
                         if(!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
                             newRootNode = awardForm.getAwardHierarchyBean().copyAwardAndDescendantsAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
                             forward = prepareToForwardToNewFinalChildAward(mapping, awardForm, request, response, targetNode, newRootNode);
