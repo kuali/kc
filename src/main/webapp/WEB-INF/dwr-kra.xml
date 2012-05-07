@@ -20,6 +20,12 @@
 	<init>
 		<creator id="spring" class="org.kuali.kra.web.servlet.dwr.KcResourceDelegatingSpringCreator"/>
 	</init>
+	
+	<init-param>
+               <param-name>debug</param-name>
+               <param-value>false</param-value>
+       </init-param>
+	
 	<allow>
 		<convert converter="bean" match="org.kuali.kra.bo.Sponsor">
 			<param name="include" value="sponsorCode,sponsorName,rolodexId" />
