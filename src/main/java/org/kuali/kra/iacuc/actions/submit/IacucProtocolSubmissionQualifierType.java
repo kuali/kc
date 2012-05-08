@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierType;
 
-public class IacucProtocolSubmissionQualifierType extends KraPersistableBusinessObjectBase {
+public class IacucProtocolSubmissionQualifierType extends ProtocolSubmissionQualifierType {
 
     public final String MODIFICATION_AMENDMENTS_NEW_FINDINGS = "1";
     public final String ANNUAL_SCHEDULED_BY_IACUC = "2";
