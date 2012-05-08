@@ -72,6 +72,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     private String applicantTypeOtherSpecify = null;
     private String federalDebtExp;
     private String stateReviewDate = null;
+    private String strReview = null;
     private static final String ORGANIZATION_YNQ_ANSWER_YES = "Y";
 
 
@@ -375,7 +376,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         sf424V2.setLocalEstimatedFunding(BigDecimal.ZERO);
         sf424V2.setOtherEstimatedFunding(BigDecimal.ZERO);
         sf424V2.setStateReview(getStateReviewCode());
-        if(sf424V2.getStateReview() != null) {
+        if (strReview.equals(STATE_REVIEW_YES)) {
             Calendar reviewDate = null;
             reviewDate = s2sUtilService.convertDateStringToCalendar(stateReviewDate);
             sf424V2.setStateReviewAvailableDate(reviewDate);
@@ -526,17 +527,15 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         Map<String, String> eoStateReview = s2sUtilService.getEOStateReview(pdDoc);
         StateReview.Enum stateType = null;
         String stateReviewData = null;
-        String strReview = eoStateReview.get(S2SConstants.YNQ_ANSWER);
+        strReview = eoStateReview.get(S2SConstants.YNQ_ANSWER);
         if (strReview != null) {
             if (strReview.equals(STATE_REVIEW_YES)) {
                 stateType = StateReview.A_THIS_APPLICATION_WAS_MADE_AVAILABLE_TO_THE_STATE_UNDER_THE_EXECUTIVE_ORDER_12372_PROCESS_FOR_REVIEW_ON;
-            }
-            else if (strReview.equals(STATE_REVIEW_NO)) {
+            } else if (strReview.equals(STATE_REVIEW_NO)) {
                 stateReviewData = eoStateReview.get(S2SConstants.YNQ_STATE_REVIEW_DATA);
                 if (stateReviewData != null && S2SConstants.YNQ_STATE_NOT_COVERED.equals(stateReviewData)) {
                     stateType = StateReview.C_PROGRAM_IS_NOT_COVERED_BY_E_O_12372;
-                }
-                else if (stateReviewData != null && S2SConstants.YNQ_STATE_NOT_SELECTED.equals(stateReviewData)) {
+                } else if (stateReviewData != null && S2SConstants.YNQ_STATE_NOT_SELECTED.equals(stateReviewData)) {
                     stateType = StateReview.B_PROGRAM_IS_SUBJECT_TO_E_O_12372_BUT_HAS_NOT_BEEN_SELECTED_BY_THE_STATE_FOR_REVIEW;
                 }
             }
