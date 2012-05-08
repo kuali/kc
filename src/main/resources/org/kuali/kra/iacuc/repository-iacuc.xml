@@ -18,6 +18,7 @@
 
 <descriptor-repository version="1.0">
 
+
 	<class-descriptor class="org.kuali.kra.iacuc.IacucPainCategory" table="IACUC_PAIN_CATEGORY">
 		<field-descriptor name="painCategoryCode" column="PAIN_CATEGORY_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="painCategory" column="PAIN_CATEGORY" jdbc-type="VARCHAR" />
@@ -114,6 +115,10 @@
         
         <reference-descriptor name="protocolStatus" class-ref="org.kuali.kra.iacuc.actions.IacucProtocolStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolStatusCode"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="protocolType" class-ref="org.kuali.kra.iacuc.protocol.IacucProtocolType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolTypeCode"/>
         </reference-descriptor>
 
         <collection-descriptor name="iacucPrinciples" proxy="true" element-class-ref="org.kuali.kra.iacuc.threers.IacucPrinciples" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">

@@ -34,7 +34,9 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
@@ -55,7 +57,7 @@ import org.kuali.rice.krad.util.OjbCollectionAware;
  * 
  * This class is the implementation for ProtocolDao interface.
  */
-class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ProtocolDao {
+public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, ProtocolDao<GenericProtocol> {
 
     private static final Log LOG = LogFactory.getLog(ProtocolDaoOjb.class);
     
@@ -115,17 +117,19 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
      * @see org.kuali.kra.protocol.ProtocolDao#getProtocols(java.util.Map)
      */
     @SuppressWarnings("unchecked")
-    public List<Protocol> getProtocols(Map<String, String> fieldValues) {
+    public List<GenericProtocol> getProtocols(Map<String, String> fieldValues) {
         Criteria crit = new Criteria();
         baseLookupFieldValues = new HashMap<String, String>();
         collectionFieldValues = new HashMap<String, CritField>();
         setupCritMaps(fieldValues);
         
-        /* -- commented as part of GENERATED CODE need to verify
         if (!baseLookupFieldValues.isEmpty()) {
-            crit = getCollectionCriteriaFromMap(new Protocol(), baseLookupFieldValues);
+            try {
+                crit = getCollectionCriteriaFromMap(getProtocolBOClassHook().newInstance(), baseLookupFieldValues);
+            }catch(Exception ex) {
+                ex.printStackTrace();
+            }
         }
-        */
 
         if (!collectionFieldValues.isEmpty()) {
             for (Entry<String, CritField> entry : collectionFieldValues.entrySet()) {
@@ -138,9 +142,10 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
                 crit.addExists(getUnitReportQuery(entry));
             }
         }
-        Query q = QueryFactory.newQuery(Protocol.class, crit, true);
+        Query q = QueryFactory.newQuery(getProtocolBOClassHook(), crit, true);
         logQuery(q);
-        return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+        
+        return (List<GenericProtocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
     /** {@inheritDoc} */
@@ -301,10 +306,23 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         collectionFieldNames.add(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID);
     }
     
+    
+    /**
+     * This method is to reset the bo class used in search with appropriate hooks
+     */
+    private void resetBOClassWithClassHooks() {
+        CritField.RESEARCHAREA.setClazz(getProtocolResearchAreaBOClassHook());
+        CritField.KEYPERSON.setClazz(getProtocolPersonBOClassHook());
+        CritField.INVESTIGATOR.setClazz(getProtocolPersonBOClassHook());
+    }
+    
     /*
      * set up key->enum lookup map
      */
     private void initEnumSearchMap() {
+        
+        resetBOClassWithClassHooks();
+        
         // map to enum
         searchMap.put(ProtocolLookupConstants.Property.KEY_PERSON, "KEYPERSON");
         searchMap.put(ProtocolLookupConstants.Property.INVESTIGATOR, "INVESTIGATOR");
@@ -554,4 +572,9 @@ class ProtocolDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAwa
         subQuery.setAttributes(new String[] { "max(sequence_number)" });
         return subQuery;
     }
+    
+    protected abstract Class<? extends Protocol> getProtocolBOClassHook();
+    protected abstract Class<? extends ProtocolResearchArea> getProtocolResearchAreaBOClassHook();
+    protected abstract Class<? extends ProtocolPerson> getProtocolPersonBOClassHook();
+
 }

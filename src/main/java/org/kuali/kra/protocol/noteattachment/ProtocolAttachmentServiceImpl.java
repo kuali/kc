@@ -211,7 +211,7 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
     public <T extends ProtocolAttachmentBase & TypedAttachment> Collection<T> getAttachmentsWithOlderFileVersions(final T attachment, final Class<T> type) {
         
         final Collection<T> olderAttachments = new ArrayList<T>();
-        for (final T version : this.protocolDao.retrieveAttachmentVersions(attachment, type)) {
+        for (final T version : (List<T>)this.protocolDao.retrieveAttachmentVersions(attachment, type)) {
             if (version.getFile().getSequenceNumber().intValue() < attachment.getFile().getSequenceNumber().intValue()) {
                 olderAttachments.add(version);
             }

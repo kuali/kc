@@ -33,7 +33,7 @@
             <li>Protocols Pending Committee Action</li>
             <li>Protocols Under Development</li>
             <li>All My Protocols</li>
-            <li>Search Protocols</li>
+            <li><portal:portalLink displayTitle="true" title="Search Protocols" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.iacuc.IacucProtocol&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
             <li>All My Reviews</li>
             <li>All My Schedules</li>
         </ul>  
