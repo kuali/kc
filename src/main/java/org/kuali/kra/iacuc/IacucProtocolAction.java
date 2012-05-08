@@ -29,6 +29,8 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolAction;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.document.Document;
@@ -132,5 +134,23 @@ public class IacucProtocolAction extends ProtocolAction {
     protected String getModifyProtocolTaskNameHook() {
         return TaskName.MODIFY_IACUC_PROTOCOL;
     }
+    
+    /**
+     * This method is to get protocol personnel service
+     * @return ProtocolPersonnelService
+     */
+    @Override
+    protected ProtocolPersonnelService getProtocolPersonnelService() {
+        return (ProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
+    }
+    
+    /**
+     * This method is to get protocol personnel training service
+     * @return ProtocolPersonTrainingService
+     */
+    @Override
+    protected ProtocolPersonTrainingService getProtocolPersonTrainingService() {
+        return (ProtocolPersonTrainingService)KraServiceLocator.getService("iacucProtocolPersonTrainingService");
+    }     
 
 }

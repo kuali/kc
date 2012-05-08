@@ -14,7 +14,14 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ attribute name="protocolAttributes" required="true" type="java.util.Map" %>
 <%@ attribute name="protocolPersonAttributes" required="true" type="java.util.Map" %>
+<%@ attribute name="personAttributes" required="true" type="java.util.Map" %>
+<%@ attribute name="protocolUnitsAttributes" required="true" type="java.util.Map" %>
+<%@ attribute name="unitAttributes" required="true" type="java.util.Map" %>
+<%@ attribute name="protocolAttachmentPersonnelAttributes" required="true" type="java.util.Map" %>
+<%@ attribute name="attachmentFileAttributes" required="true" type="java.util.Map" %>
+<%@ attribute name="optionListClass" required="true" %>
 
 <div id="workarea">
 <c:forEach items="${KualiForm.document.protocolList[0].protocolPersons}" var="person" varStatus="status">
@@ -48,11 +55,11 @@
 					<span class="subhead-left"><bean:write name="KualiForm" property="${protocolPersonProperty}.personName"/></span>
 				    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.protocol.personnel.ProtocolPerson" altText="help"/></span>
 				</h3>
-				<kra-irb:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
-				<kra-irb:personContactInformationSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
-  				<kra-irb:personAttachmentSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/> 
+				<kra-protocol:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}" protocolPersonAttributes="${protocolPersonAttributes}" optionListClass="${optionListClass}"/>
+				<kra-protocol:personContactInformationSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}" personAttributes="${personAttributes}"/>
+  				<kra-protocol:personAttachmentSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
   				<c:if test="${personUnitRequired}">
-					<kra-irb:personUnitsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
+					<kra-protocol:personUnitsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}" protocolUnitsAttributes="${protocolUnitsAttributes}" unitAttributes="${unitAttributes}"/>
   				</c:if>
 			</div>
 		 </div>

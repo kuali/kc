@@ -402,7 +402,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         String detailId;
           
         if (command.startsWith(KewApiConstants.DOCSEARCH_COMMAND+"detailId")) {
-// TODO *********commented the code below during IACUC refactoring*********             
+// TODO *********commented the code below during IACUC refactoring*********     
 //            detailId = command.substring((KewApiConstants.DOCSEARCH_COMMAND+"detailId").length());
 //            protocolForm.setDetailId(detailId);
 //            viewBatchCorrespondence(mapping, protocolForm, request, response);
@@ -628,17 +628,13 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      * This method is to get protocol personnel service
      * @return ProtocolPersonnelService
      */
-    protected ProtocolPersonnelService getProtocolPersonnelService() {
-        return (ProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
-    }
+    protected abstract ProtocolPersonnelService getProtocolPersonnelService(); 
     
     /**
      * This method is to get protocol personnel training service
      * @return ProtocolPersonTrainingService
      */
-    private ProtocolPersonTrainingService getProtocolPersonTrainingService() {
-        return (ProtocolPersonTrainingService)KraServiceLocator.getService("iacucProtocolPersonTrainingService");
-    }    
+    protected abstract ProtocolPersonTrainingService getProtocolPersonTrainingService(); 
 
     protected QuestionnairePrintingService getQuestionnairePrintingService() {
         return KraServiceLocator.getService(QuestionnairePrintingService.class);

@@ -31,9 +31,11 @@ public abstract class ProtocolPersonRole extends KraPersistableBusinessObjectBas
 
     public static final String ROLE_STUDY_PERSONNEL = "SP";
 
-    public static final String ROLE_CORRESPONDENT_CRC = "CRC";
-
-    public static final String ROLE_CORRESPONDENT_ADMINISTRATOR = "CA";
+// TODO *********commented the code below during IACUC refactoring*********
+//   These need to be moved to an IRB specific protocol person role that extends this class
+//    public static final String ROLE_CORRESPONDENT_CRC = "CRC";
+//
+//    public static final String ROLE_CORRESPONDENT_ADMINISTRATOR = "CA";
 
     private String protocolPersonRoleId;
 

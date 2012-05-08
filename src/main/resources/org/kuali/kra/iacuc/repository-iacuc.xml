@@ -18,7 +18,6 @@
 
 <descriptor-repository version="1.0">
 
-
 	<class-descriptor class="org.kuali.kra.iacuc.IacucPainCategory" table="IACUC_PAIN_CATEGORY">
 		<field-descriptor name="painCategoryCode" column="PAIN_CATEGORY_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="painCategory" column="PAIN_CATEGORY" jdbc-type="VARCHAR" />
@@ -116,7 +115,7 @@
         <reference-descriptor name="protocolStatus" class-ref="org.kuali.kra.iacuc.actions.IacucProtocolStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolStatusCode"/>
         </reference-descriptor>
-        
+
         <reference-descriptor name="protocolType" class-ref="org.kuali.kra.iacuc.protocol.IacucProtocolType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolTypeCode"/>
         </reference-descriptor>
@@ -152,8 +151,8 @@
                 
         <collection-descriptor name="protocolReferences" element-class-ref="org.kuali.kra.iacuc.protocol.reference.IacucProtocolReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
-        </collection-descriptor>
-        
+        </collection-descriptor>   
+                
          <collection-descriptor name="protocolLocations" element-class-ref="org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>   
@@ -478,13 +477,12 @@
         <collection-descriptor name="protocolUnits" proxy="true" element-class-ref="org.kuali.kra.iacuc.personnel.IacucProtocolUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="protocolPersonId"/>
         </collection-descriptor>
-        
-        
-        <!-- 
-        <reference-descriptor name="protocolPersonRole" class-ref="org.kuali.kra.iacuc.personnel.ProtocolPersonRole" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+
+        <reference-descriptor name="protocolPersonRole" class-ref="org.kuali.kra.iacuc.personnel.IacucProtocolPersonRole" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolPersonRoleId"/>
         </reference-descriptor>
-         
+        
+        <!-- 
          
         <reference-descriptor name="rolodex" class-ref="org.kuali.kra.iacuc.personnel.ProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="rolodexId"/>
@@ -552,7 +550,7 @@
         <field-descriptor name="reduction" column="REDUCTION" jdbc-type="VARCHAR" />
         <field-descriptor name="refinement" column="REFINEMENT" jdbc-type="VARCHAR" />
         <field-descriptor name="replacement" column="REPLACEMENT" jdbc-type="VARCHAR" />
-        <field-descriptor name="exceptionsPresent" column="EXCEPTIONS_PRESENT" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>        
+        <field-descriptor name="exceptionsPresent" column="EXCEPTIONS_PRESENT" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>        
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -564,7 +562,7 @@
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-        <field-descriptor name="searchRequired" column="SEARCH_REQUIRED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>        
+        <field-descriptor name="searchRequired" column="SEARCH_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>        
         <field-descriptor name="searchDate" column="SEARCH_DATE" jdbc-type="DATE" />
         <field-descriptor name="yearsSearched" column="YEARS_SEARCHED" jdbc-type="VARCHAR" />
         <field-descriptor name="keywords" column="KEYWORDS" jdbc-type="VARCHAR" />
@@ -636,8 +634,8 @@
         <reference-descriptor name="customAttribute" class-ref="org.kuali.kra.bo.CustomAttribute" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="customAttributeId" />
         </reference-descriptor>
-    </class-descriptor>
-        
+	</class-descriptor>
+
 	<class-descriptor class="org.kuali.kra.iacuc.IacucExceptionCategory" table="IACUC_EXCEPTION_CATEGORY">
 		<field-descriptor name="exceptionCategoryCode" column="EXCEPTION_CATEGORY_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="exceptionCategoryDesc" column="EXCEPTION_CATEGORY_DESC" jdbc-type="VARCHAR" />
@@ -685,9 +683,8 @@
             <foreignkey field-ref="protocolId"/>
         </reference-descriptor>
         
-    </class-descriptor>
-    
-    
+    </class-descriptor>     
+
     <class-descriptor class="org.kuali.kra.iacuc.protocol.location.IacucProtocolOrganizationType" table="IACUC_PROTOCOL_ORG_TYPE">
         <field-descriptor name="protocolOrganizationTypeCode" column="PROTOCOL_ORG_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -696,8 +693,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
-    
-    
+
     <class-descriptor class="org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation" table="IACUC_PROTOCOL_LOCATION">
         <field-descriptor name="protocolLocationId" column="IACUC_PROTOCOL_LOCATION_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PROTOCOL_LOCS_ID" autoincrement="true"/>
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT"/>
@@ -728,8 +724,8 @@
         </reference-descriptor>
         
     </class-descriptor>
-    
-         
+	
+	
 	
 	<class-descriptor class="org.kuali.kra.iacuc.species.exception.IacucProtocolException" table="IACUC_PROTOCOL_EXCEPTIONS">
 		<field-descriptor name="iacucProtocolExceptionId" column="IACUC_PROTOCOL_EXCEPTIONS_ID" jdbc-type="INTEGER" primarykey="true" />
@@ -753,4 +749,33 @@
 		</reference-descriptor>
 	</class-descriptor>
 
+    <class-descriptor class="org.kuali.kra.iacuc.personnel.IacucProtocolPersonRole" table="IACUC_PROTOCOL_PERSON_ROLES">
+        <field-descriptor name="protocolPersonRoleId" column="PROTOCOL_PERSON_ROLE_ID" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_IAC_PRTCL_PERSON_ROLE_ID" autoincrement="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="unitDetailsRequired" column="UNIT_DETAILS_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="affiliationDetailsRequired" column="AFFILIATION_DETAILS_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="trainingDetailsRequired" column="TRAINING_DETAILS_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="commentsDetailsRequired" column="COMMENTS_DETAILS_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>        
+        <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>               
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />   
+    </class-descriptor> 
+
+    <class-descriptor class="org.kuali.kra.iacuc.personnel.IacucProtocolPersonRoleMapping" table="IACUC_PROTOCOL_PRSN_ROLE_MPPNG">
+        <field-descriptor name="roleMappingId" column="ROLE_MAPPING_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IAC_PRTCL_PRSNRL_MPPNG_ID" autoincrement="true"/>
+        <field-descriptor name="sourceRoleId" column="SOURCE_ROLE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="targetRoleId" column="TARGET_ROLE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="sourceRole" class-ref="org.kuali.kra.iacuc.personnel.IacucProtocolPersonRole" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="sourceRoleId"/>
+        </reference-descriptor>
+        <reference-descriptor name="targetRole" class-ref="org.kuali.kra.iacuc.personnel.IacucProtocolPersonRole" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="targetRoleId"/>
+        </reference-descriptor>
+    </class-descriptor>
 </descriptor-repository>

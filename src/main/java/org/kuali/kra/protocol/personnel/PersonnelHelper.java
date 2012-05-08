@@ -111,8 +111,7 @@ public abstract class PersonnelHelper implements Serializable {
 
     public List<ProtocolUnit> getNewProtocolPersonUnits() {
         if (getForm().getProtocolDocument().getProtocol().getProtocolPersons().size() > this.newProtocolPersonUnits.size()) {
-            //-- commented as part of GENERATED CODE need to verify
-            //this.newProtocolPersonUnits.add(this.newProtocolPersonUnits.size(), new ProtocolUnit());
+            this.newProtocolPersonUnits.add(this.newProtocolPersonUnits.size(), createNewProtocolUnitInstanceHook());
         }
         return newProtocolPersonUnits;
     }
@@ -175,4 +174,11 @@ public abstract class PersonnelHelper implements Serializable {
         }
         return this.parameterService;
     }
+    
+    /**
+     * 
+     * This method returns the appropriate implementation of protocol unit
+     * @return
+     */
+    public abstract ProtocolUnit createNewProtocolUnitInstanceHook();
 }
