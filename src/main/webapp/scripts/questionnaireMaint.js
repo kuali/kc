@@ -3170,10 +3170,17 @@ function clickSearchRule(nodeIndex) {
     var idx2 = url.indexOf("/", idx1 + 1);
     var extractUrl = url.substr(0, idx2);
     //alert("nodeidx "+nodeIndex)
-    var winPop = window.open(extractUrl + "/krmsRuleLookup.do?nodeIndex="
+    
+     var winPop = window.open(extractUrl + "/krmsRuleLookup.do?nodeIndex="
             + nodeIndex  + "&anchor=topOfForm",
             "_blank", "width=1000, height=800, scrollbars=yes");
-
+         
+         //http://127.0.0.1:8080/kc-dev/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.RuleBo&amp;returnLocation=http://127.0.0.1:8080/kc-dev/portal.do&amp;hideReturnLink=true" 
+/*
+ *   var winPop = window.open(extractUrl + "/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.rice.krms.impl.repository.RuleBo&nodeIndex="
+ *           + nodeIndex  + "&anchor=topOfForm",
+ *           "_blank", "width=1000, height=800, scrollbars=yes");
+*/
 }
 
 function returnRule(ruleId, nodeIndex) {
