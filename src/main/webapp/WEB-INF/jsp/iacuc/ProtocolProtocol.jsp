@@ -22,7 +22,7 @@
 <%-- <c:set var="protocolRiskLevelsAttributes" value="${DataDictionary.ProtocolRiskLevel.attributes}" /> --%>
 <%-- <c:set var="riskLevelAttributes" value="${DataDictionary.RiskLevel.attributes}" /> --%>
 
-<c:set var="protocolReferenceAttributes" value="${DataDictionary.ProtocolReference.attributes}" />
+<c:set var="protocolReferenceAttributes" value="${DataDictionary.IacucProtocolReference.attributes}" />
 <c:set var="protocolReferenceBeanAttributes" value="${DataDictionary.IacucProtocolReferenceBean.attributes}" />
 <%-- <c:set var="protocolReferenceTypeAttributes" value="${DataDictionary.IacucProtocolReferenceType.attributes}" /> --%>
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchArea.attributes}" />

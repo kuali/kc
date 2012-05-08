@@ -16,14 +16,21 @@
 package org.kuali.kra.protocol;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
@@ -68,27 +75,25 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
         initializeProtocolLocation();
     }
     
-    // hook method invoked from the constructor
     protected abstract Protocol createNewProtocolInstanceHook();
 
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    
-//    /**
-//     * 
-//     * @see org.kuali.kra.document.ResearchDocumentBase#initialize()
-//     */
-//    public void initialize() {
-//        super.initialize();
-//        Map<String, String> primaryKeys = new HashMap<String, String>();
-//        primaryKeys.put("RESEARCH_AREA_CODE", "000001");
-//        ResearchArea ra = (ResearchArea) this.getBusinessObjectService().findByPrimaryKey(ResearchArea.class, primaryKeys);
-//        Collection<ResearchArea> selectedBOs = new ArrayList<ResearchArea>();
-//        selectedBOs.add(ra);
-//        KraServiceLocator.getService(ProtocolResearchAreaService.class).addProtocolResearchArea(this.getProtocol(), selectedBOs);
-//    }
+         
+    /**
+     * 
+     * @see org.kuali.kra.document.ResearchDocumentBase#initialize()
+     */
+    public void initialize() {
+        super.initialize();
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("RESEARCH_AREA_CODE", "000001");
+        ResearchArea ra = (ResearchArea) this.getBusinessObjectService().findByPrimaryKey(ResearchArea.class, primaryKeys);
+        Collection<ResearchArea> selectedBOs = new ArrayList<ResearchArea>();
+        selectedBOs.add(ra);
+        KraServiceLocator.getService(getProtocolResearchAreaServiceClassHook()).addProtocolResearchArea(this.getProtocol(), selectedBOs);
+    }
 
-    
+    protected abstract Class<? extends ProtocolResearchAreaService> getProtocolResearchAreaServiceClassHook();
+
     /**
      * 
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
@@ -322,11 +327,12 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
 //    private DocumentService getDocumentService() {
 //        return KraServiceLocator.getService(DocumentService.class);
 //    }
-//    
-//    private BusinessObjectService getBusinessObjectService() {
-//        return KraServiceLocator.getService(BusinessObjectService.class);
-//    }
-//
+    
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * Amendments/Renewals have a protocol number with a 4 character suffix.
 //     * The first 10 characters is the protocol number of the original protocol.
