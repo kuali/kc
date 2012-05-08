@@ -192,8 +192,8 @@ public abstract class ProtocolHelper implements Serializable {
 
 // TODO *********commented the code below during IACUC refactoring*********         
 //        syncFundingSources(getProtocol());
-//        initializeConfigurationParams();
         
+        initializeConfigurationParams();        
         initializePermissions(getProtocol());    
     }
     
@@ -206,11 +206,17 @@ public abstract class ProtocolHelper implements Serializable {
     }
     
     private void initializeConfigurationParams() {        
-        setReferenceId1Label(getParameterValue(Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID1));
-        setReferenceId2Label(getParameterValue(Constants.PARAMETER_MODULE_PROTOCOL_REFERENCEID2));
-        boolean flag = (getParameterValue(Constants.PARAMETER_MODULE_PROTOCOL_BILLABLE).equalsIgnoreCase("Y") ? true : false);
-        setDisplayBillable(flag);
+        setReferenceId1Label(getParameterValue(getReferenceID1ParameterNameHook()));
+        setReferenceId2Label(getParameterValue(getReferenceID2ParameterNameHook()));
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        boolean flag = (getParameterValue(Constants.PARAMETER_MODULE_PROTOCOL_BILLABLE).equalsIgnoreCase("Y") ? true : false);
+//        setDisplayBillable(flag);
     }
+
+    protected abstract String getReferenceID1ParameterNameHook();
+
+    protected abstract String getReferenceID2ParameterNameHook();
 
     /**
      * This method initializes permission related to form.

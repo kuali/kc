@@ -25,6 +25,7 @@ import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolUnit;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.infrastructure.TaskName;
@@ -125,6 +126,18 @@ public class IacucProtocolHelper extends ProtocolHelper {
     @Override
     protected ProtocolLocation getNewProtocolLocationInstanceHook() {
         return new IacucProtocolLocation();
+    }
+
+
+    @Override
+    protected String getReferenceID1ParameterNameHook() {
+        return Constants.PARAMETER_MODULE_IACUC_PROTOCOL_REFERENCEID1;
+    }
+
+
+    @Override
+    protected String getReferenceID2ParameterNameHook() {
+        return Constants.PARAMETER_MODULE_IACUC_PROTOCOL_REFERENCEID2;
     }
 
     

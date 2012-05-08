@@ -873,7 +873,10 @@ public interface Constants {
     // Iacuc - exceptionDescription length
     public static final Integer IACUC_PROTOCOL_EXCEPTION_DESC_LENGTH = 40;
     public static final String MAPPING_IACUC_PROTOCOL_ACTIONS = "iacucProtocolActions";
-
+    
+    public static final String PARAMETER_MODULE_IACUC_PROTOCOL_REFERENCEID1 = "iacuc.protocol.referenceID1";;
+    public static final String PARAMETER_MODULE_IACUC_PROTOCOL_REFERENCEID2 = "iacuc.protocol.referenceID2";;
+    
     public static final String PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION = "IACUC_COMM_SELECTION_DURING_SUBMISSION";
     public static final String PARAMETER_IACUC_DISPLAY_REVIEWER_NAME = "IACUC_DISPLAY_REVIEWER_NAME";
     public static final String PARAMETER_IACUC_DISPLAY_REVIEWER_NAME_TO_PROTOCOL_PERSONNEL = "IACUC_DISPLAY_REVIEWER_NAME_TO_PROTOCOL_PERSONNEL";
@@ -885,6 +888,7 @@ public interface Constants {
     //Award report tracking notifications
     public static final String REPORT_TRACKING_NOTIFICATIONS_BATCH_RECIPIENT = "REPORT_TRACKING_NOTIFICATIONS_BATCH_RECIPIENT";
     public static final String REPORT_TRACKING_NOTIFICATIONS_BATCH_ENABLED = "REPORT_TRACKING_NOTIFICATIONS_BATCH_ENABLED";
+    
 
 }
 
