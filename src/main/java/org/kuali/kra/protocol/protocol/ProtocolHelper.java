@@ -170,14 +170,17 @@ public abstract class ProtocolHelper implements Serializable {
     public ProtocolHelper(ProtocolForm form) {
 
         this.form = form;
+        setNewProtocolLocation(getNewProtocolLocationInstanceHook());
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//        setNewProtocolLocation(new ProtocolLocation());
+// TODO *********commented the code below during IACUC refactoring*********    
 //        setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSource>());
 //        setNewFundingSource(new ProtocolFundingSource());
 //        setNewProtocolParticipant(new ProtocolParticipant());
 //        setNewProtocolFundingSources(new ArrayList<ProtocolFundingSource>());
     }    
+    
+    protected abstract ProtocolLocation getNewProtocolLocationInstanceHook();
+    
     
     /**
      * This method prepares view for rendering UI.
@@ -230,9 +233,9 @@ public abstract class ProtocolHelper implements Serializable {
 //        initializeModifyFundingSourcePermission(protocol);
         
         initializeModifyReferencesPermission(protocol);
+        initializeModifyOrganizationsPermission(protocol);
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//        initializeModifyOrganizationsPermission(protocol);
+// TODO *********commented the code below during IACUC refactoring*********                 
 //        initializeModifySubjectsPermission(protocol);
         
         initializeModifyAreasOfResearchPermission(protocol);
@@ -270,9 +273,11 @@ public abstract class ProtocolHelper implements Serializable {
     protected abstract ProtocolTask getNewInstanceModifyProtocolReferencesTaskHook(Protocol protocol);
 
     private void initializeModifyOrganizationsPermission(Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ORGANIZATIONS, protocol);
+        ProtocolTask task = getNewInstanceModifyProtocolOrganizationsTaskHook(protocol);
         modifyOrganizations = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
+    
+    protected abstract ProtocolTask getNewInstanceModifyProtocolOrganizationsTaskHook(Protocol protocol);
     
     private void initializeModifySubjectsPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBJECTS, protocol);

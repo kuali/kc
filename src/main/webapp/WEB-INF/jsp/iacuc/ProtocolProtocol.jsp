@@ -18,24 +18,29 @@
 
 <c:set var="protocolDocumentAttributes" value="${DataDictionary.IacucProtocolDocument.attributes}" />
 <c:set var="protocolAttributes" value="${DataDictionary.IacucProtocol.attributes}" />
-<c:set var="protocolRiskLevelsAttributes" value="${DataDictionary.ProtocolRiskLevel.attributes}" />
-<c:set var="riskLevelAttributes" value="${DataDictionary.RiskLevel.attributes}" />
+
+<%-- <c:set var="protocolRiskLevelsAttributes" value="${DataDictionary.ProtocolRiskLevel.attributes}" /> --%>
+<%-- <c:set var="riskLevelAttributes" value="${DataDictionary.RiskLevel.attributes}" /> --%>
+
 <c:set var="protocolReferenceAttributes" value="${DataDictionary.ProtocolReference.attributes}" />
 <c:set var="protocolReferenceBeanAttributes" value="${DataDictionary.IacucProtocolReferenceBean.attributes}" />
 <%-- <c:set var="protocolReferenceTypeAttributes" value="${DataDictionary.IacucProtocolReferenceType.attributes}" /> --%>
 <c:set var="researchAreasAttributes" value="${DataDictionary.ResearchArea.attributes}" />
-<c:set var="protocolLocationAttributes" value="${DataDictionary.ProtocolLocation.attributes}" />
+
+<c:set var="protocolLocationAttributes" value="${DataDictionary.IacucProtocolLocation.attributes}" />
 <c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />
-<c:set var="protocolOrganizationTypeAttributes" value="${DataDictionary.ProtocolOrganizationType.attributes}" />
+<c:set var="protocolOrganizationTypeAttributes" value="${DataDictionary.IacucProtocolOrganizationType.attributes}" />
 <c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
+
 <c:set var="protocolFundingSourceAttributes" value="${DataDictionary.ProtocolFundingSource.attributes}" />
 <c:set var="fundingSourceTypeAttributes" value="${DataDictionary.FundingSourceType.attributes}" />
-<c:set var="protocolParticipantAttributes" value="${DataDictionary.ProtocolParticipant.attributes}" />
+<%-- <c:set var="protocolParticipantAttributes" value="${DataDictionary.ProtocolParticipant.attributes}" /> --%>
+
 
 <c:set var="className" value="org.kuali.kra.iacuc.document.IacucProtocolDocument" />
 <c:set var="iacucProtocolProtocol" value="iacucProtocolProtocol" />
 <c:set var="iacucProtocolLocation" value="iacucProtocolLocation" />
-<c:set var="iacucProtocolParticipant" value="iacucProtocolParticipant" />
+<%-- <c:set var="iacucProtocolParticipant" value="iacucProtocolParticipant" /> --%>
 
 
 <kul:documentPage
@@ -84,9 +89,9 @@
 <kra-protocol:protocolFundingSources 
     protocolFundingSourceAttributes="${protocolFundingSourceAttributes}"
     fundingSourceTypeAttributes="${fundingSourceTypeAttributes}"/>
-<kra-protocol:protocolParticipants 
-    attributes="${protocolParticipantAttributes}"
-    action="${iacucProtocolParticipant}"/>
+<%-- <kra-protocol:protocolParticipants  --%>
+<%--     attributes="${protocolParticipantAttributes}" --%>
+<%--     action="${iacucProtocolParticipant}"/> --%>
     
 
 <kul:panelFooter />

@@ -66,6 +66,7 @@
                 <ref bean="IacucProtocol-speciesStudyGroupIndicator" />
                 <ref bean="IacucProtocol-alternativeSearchIndicator" />
                 <ref bean="IacucProtocol-scientificJustifIndicator" />
+                <ref bean="IacucProtocol-performingOrganizationId" />
             </list>
         </property>
     </bean>
@@ -584,6 +585,27 @@
 		<property name="summary" value="Lead Unit Name" />
 		<property name="description" value="The protocol's fixed home unit that will be used for routing and business rule purposes." />
 	</bean>
+	
+	
+ 	<bean id="IacucProtocol-performingOrganizationId" parent="IacucProtocol-performingOrganizationId-parentBean" />
+	<bean id="IacucProtocol-performingOrganizationId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="performingOrganizationId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Performing Organization" />
+		<property name="shortLabel" value="Org Id" />
+		<property name="maxLength" value="8" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Performing Organization Id" />
+		<property name="description" value="Performing Organization Id" />
+	</bean>
+    
 
     <!-- Business Object Inquiry Definition -->
     <bean id="IacucProtocol-inquiryDefinition" parent="IacucProtocol-inquiryDefinition-parentBean" />
@@ -706,6 +728,8 @@
                     p:attributeName="keyStudyPersonIndicator" />
                 <bean parent="FieldDefinition"
                     p:attributeName="fundingSourceIndicator" />
+                <bean parent="FieldDefinition"
+					p:attributeName="performingOrganizationId" />
                 <bean parent="FieldDefinition"
                     p:attributeName="correspondentIndicator" />
                 <bean parent="FieldDefinition"
