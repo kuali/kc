@@ -46,6 +46,6 @@
 	<script language="javascript" src="scripts/kuali_application.js"></script>
 	<script language="javascript" src="dwr/interface/KraPersonService.js"></script>
 	<script type='text/javascript' src='dwr/util.js'></script>
-	<script type='text/javascript' src='dwr/engine.js'></script>
+	<!-- <script type='text/javascript' src='dwr/engine.js'></script> -->
 	<script>loadPersonName('newProposalUser.username', 'fullname');</script>
 </kul:documentPage>
