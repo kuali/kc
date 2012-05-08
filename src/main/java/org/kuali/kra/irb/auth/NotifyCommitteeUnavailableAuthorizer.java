@@ -35,8 +35,9 @@ public class NotifyCommitteeUnavailableAuthorizer extends ProtocolAuthorizer {
 //               !hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
 boolean result = !isStatusValid(task.getProtocol()) ||
         !canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE) ||
-        !hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
-System.out.println("UUUUUUUUUUUUUUUUUUUUUUUUU returning " + result);
+        !hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO)
+         || hasScheduleId(task.getProtocol(), task.getTaskName());
+
 return result;
     }
 
