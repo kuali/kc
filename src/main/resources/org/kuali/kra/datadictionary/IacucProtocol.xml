@@ -67,6 +67,7 @@
                 <ref bean="IacucProtocol-alternativeSearchIndicator" />
                 <ref bean="IacucProtocol-scientificJustifIndicator" />
                 <ref bean="IacucProtocol-performingOrganizationId" />
+                <ref bean="IacucProtocol-researchAreaCode" />
             </list>
         </property>
     </bean>
@@ -90,6 +91,12 @@
         <property name="summary" value="Ac Protocol Id" />
         <property name="description" value="Ac Protocol Id" />
     </bean>
+    
+    <bean id="IacucProtocol-researchAreaCode" parent="IacucProtocol-researchAreaCode-parentBean" />
+  	<bean id="IacucProtocol-researchAreaCode-parentBean" abstract="true" parent="ResearchArea-researchAreaCode">
+    	<property name="label" value="Area of Research" />
+    	<property name="shortLabel" value="Area of Research" />
+  	</bean>
 
     
     <bean id="IacucProtocol-protocolNumber" parent="IacucProtocol-protocolNumber-parentBean" />
@@ -748,6 +755,8 @@
                     p:attributeName="alternativeSearchIndicator" />
                 <bean parent="FieldDefinition"
                     p:attributeName="scientificJustifIndicator" />
+                <bean parent="FieldDefinition"
+					p:attributeName="researchAreaCode" />    
             </list>
         </property>
         <property name="resultFields" >
