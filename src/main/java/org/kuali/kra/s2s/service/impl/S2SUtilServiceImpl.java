@@ -915,10 +915,8 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         DepartmentalPerson depPerson = new DepartmentalPerson();
         if (isNumber) {
-            for (ProposalPerson person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
-                for (ProposalPersonUnit unit : person.getUnits()) {
-                    if (unit.isLeadUnit()) {
-                        Unit leadUnit = unit.getUnit();
+            Unit leadUnit = pdDoc.getDevelopmentProposal().getOwnedByUnit();
+                    if (leadUnit!=null) {
                         leadUnit.refreshReferenceObject("unitAdministrators");
                         KcPerson unitAdmin = null;
                         for (UnitAdministrator admin : leadUnit.getUnitAdministrators()) {
@@ -972,12 +970,11 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                             }
                         }
                     }
-                }
-            }
+                
+            
         }
         return depPerson;
     }
-
     public void deleteSystemGeneratedAttachments(ProposalDevelopmentDocument pdDoc) {
         List<Narrative> narratives = pdDoc.getDevelopmentProposal().getNarratives();
         List<Integer> deletedItems = new ArrayList<Integer>();
