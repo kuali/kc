@@ -22,7 +22,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.rice.kns.util.ActionFormUtilMap;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LookupService;
 
@@ -30,7 +30,7 @@ import org.kuali.rice.krad.service.LookupService;
  * 
  * Form of the ProtocolCorrespondenceTemplate.
  */
-public class ProtocolCorrespondenceTemplateForm extends KualiForm {
+public class ProtocolCorrespondenceTemplateForm extends KualiTransactionalDocumentFormBase {
 
     private static final long serialVersionUID = 6043169784839779473L;
     
