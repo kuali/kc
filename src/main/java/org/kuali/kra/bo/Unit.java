@@ -16,6 +16,7 @@
 package org.kuali.kra.bo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -133,6 +134,10 @@ public class Unit extends KraPersistableBusinessObjectBase implements MutableIna
     }
 
     public List<UnitAdministrator> getUnitAdministrators() {
+        //KRACOEUS-5499 - Sort the List for better grouping.
+        if (unitAdministrators != null){            
+            Collections.sort(unitAdministrators);    
+        }
         return unitAdministrators;
     }
 
