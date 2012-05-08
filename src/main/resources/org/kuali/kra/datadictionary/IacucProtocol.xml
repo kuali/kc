@@ -68,6 +68,11 @@
                 <ref bean="IacucProtocol-scientificJustifIndicator" />
                 <ref bean="IacucProtocol-performingOrganizationId" />
                 <ref bean="IacucProtocol-researchAreaCode" />
+				<ref bean="IacucProtocol-active" />
+				<ref bean="IacucProtocol-protocolType.description" />
+				<ref bean="IacucProtocol-protocolStatus.description" />
+				<ref bean="IacucProtocol-investigator" />
+				<ref bean="IacucProtocol-keyPerson" />
             </list>
         </property>
     </bean>
@@ -612,6 +617,69 @@
 		<property name="summary" value="Performing Organization Id" />
 		<property name="description" value="Performing Organization Id" />
 	</bean>
+
+  <bean id="IacucProtocol-protocolStatus.description" parent="IacucProtocol-protocolStatus.description-parentBean" />
+  <bean id="IacucProtocol-protocolStatus.description-parentBean" abstract="true" parent="ProtocolStatus-description">
+    <property name="name" value="protocolStatus.description" />
+    <property name="required" value="false"/>
+    <property name="label" value="Protocol Status" />
+    <property name="shortLabel" value="Protocol Status" />
+  </bean>
+
+	<bean id="IacucProtocol-active" parent="IacucProtocol-active-parentBean" />
+	<bean id="IacucProtocol-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+		<property name="summary" value="Active" />
+		<property name="description" value="Active" />
+	</bean>
+
+  <bean id="IacucProtocol-protocolType.description" parent="IacucProtocol-protocolType.description-parentBean" />
+  <bean id="IacucProtocol-protocolType.description-parentBean" abstract="true" parent="ProtocolType-description">
+    <property name="name" value="protocolType.description" />
+    <property name="required" value="false"/>
+    <property name="label" value="Protocol Type" />
+    <property name="shortLabel" value="Protocol Type" />
+  </bean>
+
+ 	<bean id="IacucProtocol-investigator" parent="IacucProtocol-investigator-parentBean" />
+	<bean id="IacucProtocol-investigator-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="investigator" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Investigator" />
+		<property name="shortLabel" value="Investigator" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="20" />
+		</property>
+		<property name="summary" value="Investigator" />
+		<property name="description" value="Investigator" />
+	</bean>
+
+ 	<bean id="IacucProtocol-keyPerson" parent="IacucProtocol-keyPerson-parentBean" />
+	<bean id="IacucProtocol-keyPerson-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="keyPerson" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Key Person" />
+		<property name="shortLabel" value="Person" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="20" />
+		</property>
+		<property name="summary" value="Person" />
+		<property name="description" value="Person" />
+	</bean>
     
 
     <!-- Business Object Inquiry Definition -->
@@ -686,11 +754,11 @@
             </list>
         </property>
     </bean>
-
     <!-- Business Object Lookup Definition -->
     <bean id="IacucProtocol-lookupDefinition" parent="IacucProtocol-lookupDefinition-parentBean" />
     <bean id="IacucProtocol-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Ac Protocol Lookup" />
+        <property name="title" value="Iacuc Protocol Lookup" />
+        <property name="lookupableID" value="iacucProtocolLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
@@ -698,125 +766,101 @@
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="versionNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolStatusCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="title" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-                <bean parent="FieldDefinition"
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolNumber"
+					p:forceInquiry="true"  />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolTypeCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolStatusCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="referenceNumber1" />
+				<bean parent="FieldDefinition"
+					p:attributeName="title" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
+				<bean parent="FieldDefinition"
                     p:attributeName="initialSubmissionDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="approvalDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="expirationDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="fdaApplicationNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="referenceNumber1" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="referenceNumber2" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="isBillable" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="specialReviewIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="keyStudyPersonIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="fundingSourceIndicator" />
-                <bean parent="FieldDefinition"
+				<bean parent="FieldDefinition"
+					p:attributeName="expirationDate" />
+			    <bean parent="FieldDefinition"
+					p:attributeName="approvalDate" />				
+				<bean parent="FieldDefinition"
+					p:attributeName="lastApprovalDate" />
+
+				<bean parent="FieldDefinition"
+					p:attributeName="investigator" />
+				<bean parent="FieldDefinition"
+					p:attributeName="keyPerson"/>
+				<bean parent="FieldDefinition"
+					p:attributeName="researchAreaCode" />
+
+				<!--  	
+										
+				<bean parent="FieldDefinition"
+					p:attributeName="fundingSource" />
+				<bean parent="FieldDefinition"
 					p:attributeName="performingOrganizationId" />
+
+				<bean parent="FieldDefinition"
+					p:attributeName="leadUnitNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="leadUnitName" />
+				<bean parent="FieldDefinition"
+				    p:attributeName="active"  p:defaultValue="Y" />
+				<bean parent="FieldDefinition" 
+                    p:attributeName="lookupPendingProtocol" p:noLookup="true" p:hidden="true" />
+                <bean parent="FieldDefinition" 
+                    p:attributeName="lookupPendingPIActionProtocol" p:noLookup="true" p:hidden="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="correspondentIndicator" />
+                    p:attributeName="lookupActionAmendRenewProtocol" p:noLookup="true" p:hidden="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="referenceIndicator" />
+                    p:attributeName="lookupActionNotifyIRBProtocol" p:noLookup="true" p:hidden="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="layStatement1" />
+                    p:attributeName="lookupActionRequestProtocol" p:noLookup="true" p:hidden="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="layStatement2" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="lastApprovalDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="overviewTimeline" />
+                    p:attributeName="lookupProtocolPersonId" p:noLookup="true" p:hidden="true" />
+
                 <bean parent="FieldDefinition"
                     p:attributeName="speciesStudyGroupIndicator" />
                 <bean parent="FieldDefinition"
                     p:attributeName="alternativeSearchIndicator" />
                 <bean parent="FieldDefinition"
                     p:attributeName="scientificJustifIndicator" />
-                <bean parent="FieldDefinition"
-					p:attributeName="researchAreaCode" />    
+				-->
+
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolId" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="sequenceNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="versionNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolTypeCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolStatusCode" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="title" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-                <bean parent="FieldDefinition"
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolNumber"
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolType.description"/>
+				<bean parent="FieldDefinition"
+					p:attributeName="protocolStatus.description"/>
+				<bean parent="FieldDefinition"
+					p:attributeName="title" />
+				<bean parent="FieldDefinition"
+					p:attributeName="description" />
+				<bean parent="FieldDefinition"
                     p:attributeName="initialSubmissionDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="approvalDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="expirationDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="fdaApplicationNumber" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="referenceNumber1" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="referenceNumber2" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="isBillable" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="specialReviewIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="keyStudyPersonIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="fundingSourceIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="correspondentIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="referenceIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="layStatement1" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="layStatement2" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="lastApprovalDate" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="overviewTimeline" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="speciesStudyGroupIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="alternativeSearchIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="scientificJustifIndicator" />
+				<bean parent="FieldDefinition"
+					p:attributeName="expirationDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="lastApprovalDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="investigator" />
+				<bean parent="FieldDefinition"
+					p:attributeName="leadUnitNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="leadUnitName" />
+				<bean parent="FieldDefinition"
+					p:attributeName="active" />
             </list>
         </property>
     </bean>
+
+
 </beans>
