@@ -13,7 +13,12 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/WEB-INF/jsp/irb/ProtocolPerson.jsp"%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<%@ attribute name="personIndex" description="Index of a ProposalPerson" required="true" %>
+<%@ attribute name="protocolPerson" description="Index of a Protocol person" required="true" %>
+<%@ attribute name="personAttributes" required="true" type="java.util.Map" %>
+
 <bean:define id="personEditableFields" name="KualiForm" property="personEditableFields" />  
 
 <c:choose>

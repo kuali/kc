@@ -65,4 +65,10 @@ public class IacucPersonnelHelper extends PersonnelHelper implements Serializabl
     }
 
 
+    @Override
+    public ProtocolUnit createNewProtocolUnitInstanceHook() {
+        return new IacucProtocolUnit();
+    }
+
+
 }

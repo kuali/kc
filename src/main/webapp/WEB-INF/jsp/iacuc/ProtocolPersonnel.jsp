@@ -16,9 +16,14 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ page import="java.util.HashMap" %>
 
-<c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
-<c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
-<c:set var="personAttributes" value="${DataDictionary.Person.attributes}" />
+<c:set var="protocolAttributes" value="${DataDictionary.IacucProtocolDocument.attributes}" />
+<c:set var="protocolPersonAttributes" value="${DataDictionary.IacucProtocolPerson.attributes}" />
+<c:set var="personAttributes" value="${DataDictionary.KcPerson.attributes}" />
+<c:set var="protocolUnitsAttributes" value="${DataDictionary.ProtocolUnit.attributes}" />
+<c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
+<c:set var="protocolAttachmentPersonnelAttributes" value="${DataDictionary.ProtocolAttachmentPersonnel.attributes}" />
+<c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
+<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -31,7 +36,15 @@
   	headerTabActive="personnel">
   	
     <kra-protocol:protocolAddPersonnelSection protocolPersonAttributes="${protocolPersonAttributes}"/>
-    <kra-protocol:protocolPersons protocolPersonAttributes="${protocolPersonAttributes}"/>
+    <kra-protocol:protocolPersons 
+        protocolAttributes="${protocolAttributes}"
+        protocolPersonAttributes="${protocolPersonAttributes}"
+        personAttributes="${personAttributes}"
+        protocolUnitsAttributes="${protocolUnitsAttributes}"
+        unitAttributes="${unitAttributes}"
+        protocolAttachmentPersonnelAttributes="${protocolAttachmentPersonnelAttributes}"
+        attachmentFileAttributes="${attachmentFileAttributes}"
+        optionListClass="org.kuali.kra.iacuc.personnel.ProtocolPersonRoleValuesFinder"/>
     
     <kul:documentControls 
         transactionalDocument="false"

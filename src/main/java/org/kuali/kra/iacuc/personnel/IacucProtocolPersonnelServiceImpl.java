@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
+import org.kuali.kra.protocol.personnel.ProtocolPersonRole;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRoleMapping;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelServiceImpl;
 import org.kuali.kra.protocol.personnel.ProtocolUnit;
 
@@ -28,6 +30,16 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
     @Override
     protected String getSequenceNumberNameHook() {
         return "SEQ_IACUC_PROTOCOL_ID";
+    }
+
+    @Override
+    public Class<? extends ProtocolPersonRoleMapping> getProtocolPersonRoleMappingClassHook() {
+        return IacucProtocolPersonRoleMapping.class;
+    }
+
+    @Override
+    public Class<? extends ProtocolPersonRole> getProtocolPersonRoleClassHook() {
+        return IacucProtocolPersonRole.class;
     }
     
     

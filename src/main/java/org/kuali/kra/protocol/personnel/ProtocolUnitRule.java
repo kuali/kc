@@ -25,7 +25,7 @@ import org.kuali.kra.service.UnitService;
 /**
  * This class contains rules to validate protocol units for each protocol personnel.
  */
-public class ProtocolUnitRule extends ResearchDocumentRuleBase implements AddProtocolUnitRule {
+public abstract class ProtocolUnitRule extends ResearchDocumentRuleBase implements AddProtocolUnitRule {
 
     private static final String ERROR_PROPERTY_NEW_PERSON_UNIT = "personnelHelper.newProtocolPersonUnits"; 
     private static final String ERROR_PROPERTY_UNIT_NUMBER = ".unitNumber"; 
@@ -123,8 +123,6 @@ public class ProtocolUnitRule extends ResearchDocumentRuleBase implements AddPro
      * This method is to get protocol personnel service
      * @return ProtocolPersonnelService
      */
-    private ProtocolPersonnelService getProtocolPersonnelService() {
-        return KraServiceLocator.getService(ProtocolPersonnelService.class);
-    }
+    protected abstract ProtocolPersonnelService getProtocolPersonnelService();
 
 }

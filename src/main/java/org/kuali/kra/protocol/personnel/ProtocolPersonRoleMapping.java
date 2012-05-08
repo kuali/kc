@@ -20,7 +20,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * This class represents protocol person role mapping business object
  */
-public class ProtocolPersonRoleMapping extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolPersonRoleMapping extends KraPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

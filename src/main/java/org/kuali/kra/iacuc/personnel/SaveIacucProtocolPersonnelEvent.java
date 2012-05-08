@@ -13,24 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.personnel;
+package org.kuali.kra.iacuc.personnel;
 
 import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.personnel.SaveProtocolPersonnelEvent;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * Represents the event to save a ProtocolPersonnel.
  */
-public abstract class SaveProtocolPersonnelEvent extends KraDocumentEventBaseExtension {
+public class SaveIacucProtocolPersonnelEvent extends SaveProtocolPersonnelEvent {
 
     /**
      * Constructs an SaveProtocolPersonnelEvent.
      * @param errorPathPrefix The error path prefix
      * @param document The document to validate
      */
-    protected SaveProtocolPersonnelEvent(String errorPathPrefix, ProtocolDocument document) {
-        super("Saving protocol personnel on document " + getDocumentId(document), errorPathPrefix, document);
+    public SaveIacucProtocolPersonnelEvent(String errorPathPrefix, ProtocolDocument document) {
+        super(errorPathPrefix, document);
     }
-  
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public BusinessRuleInterface getRule() {
+        return new SaveIacucProtocolPersonnelRule();
+    }
+    
 }
