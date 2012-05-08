@@ -15,14 +15,13 @@
  */
 package org.kuali.kra.iacuc;
 
-import org.kuali.kra.protocol.ProtocolDao;
+import org.kuali.kra.protocol.ProtocolLookupableHelperServiceImpl;
 
+public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupableHelperServiceImpl<IacucProtocol> {
 
-/**
- * 
- * This class is used to run ojb query directly.
- */
-public interface IacucProtocolDao extends ProtocolDao<IacucProtocol>{
-    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -4930225152545760432L;
 
 }

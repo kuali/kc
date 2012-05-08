@@ -27,7 +27,7 @@ import org.kuali.kra.protocol.noteattachment.TypedAttachment;
  * 
  * This class is used to run ojb query directly.
  */
-public interface ProtocolDao {
+public interface ProtocolDao<GenericProtocol extends Protocol> {
     
     /**
      * 
@@ -35,7 +35,7 @@ public interface ProtocolDao {
      * @param fieldValues
      * @return
      */
-    List<Protocol> getProtocols(Map<String,String> fieldValues);
+    List<GenericProtocol> getProtocols(Map<String,String> fieldValues);
     
     /**
      * 
