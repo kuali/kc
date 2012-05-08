@@ -18,6 +18,22 @@
 <html:form styleId="kualiForm" method="post"
     action="/krmsRuleLookup.do" enctype=""
     onsubmit="return hasFormAlreadyBeenSubmitted();"> 
+<%--  
+        <c:forEach items="${fn:split(ConfigProperties.kns.css.files, ',')}"
+        var="cssFile">
+<c:if test="${fn:length(fn:trim(cssFile)) > 0}">
+            <link href="${pageContext.request.contextPath}/${cssFile}"
+                rel="stylesheet" type="text/css" />
+</c:if>
+</c:forEach>
+    <c:forEach items="${fn:split(ConfigProperties.kns.javascript.files, ',')}"
+        var="javascriptFile">
+<c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
+            <script language="JavaScript" type="text/javascript"
+                src="${pageContext.request.contextPath}/${javascriptFile}"></script>
+</c:if>
+</c:forEach>
+  --%>     
     <input type="hidden" id="methodToCall"
         name="methodToCall" value="${KrmsRuleLookupForm.methodToCall}"/>
     <input type="hidden" id="nodeIndex"
@@ -34,8 +50,15 @@
             <input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionRefId:newRuleId,question:newQuestion))).((%true%)).anchor" id = "lookupBtn" 
        src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
         --%>
-                <input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.krms.KcKrmsRule!!).(((id:ruleId))).((%false%)).anchor" id = "lookupBtn" 
+        <!-- 
+                <input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.rice.krms.impl.repository.RuleBo!!).(((id:ruleId))).((%false%)).anchor" id = "lookupBtn" 
        src="kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search on " title="Search on " />
+        -->
+        <%--  can't do 'click()' on anchor when page load
+        <a id = "lookupBtn" href="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.RuleBo&amp;returnLocation=${ConfigProperties.application.url}/krmsRuleLookup.do&returnFormKey=1&conversionFields=id:ruleId&criteriaFields[typeId]=1&readOnlyFields=typeId" title="Rule Lookup">Rule Lookup</a>
+         --%>
+
+       <input type="button" id = "lookupBtn" value="Rule lookup" onclick="window.location.href='${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.RuleBo&amp;returnLocation=${ConfigProperties.application.url}/krmsRuleLookup.do&returnFormKey=1&conversionFields=id:ruleId'" />
         
             </label><br>
             
@@ -59,14 +82,20 @@
                         }
                  
                  }
+             //    var $j = jQuery.noConflict();
+
+              //   $j(document).ready(function()     {
                  var lookupBtn=document.getElementById("lookupBtn");
-                // alert("methodtocall "+document.getElementById("methodToCall").value);
+                 //alert("methodtocall "+document.getElementById("methodToCall").value);
                  if (document.getElementById("methodToCall").value != "refresh") {
-                    lookupBtn.click();
+                	 lookupBtn.click();
+                    // $j("#lookupBtn").click();
                  } else {
                //   alert("else "+document.getElementById("methodToCall").value);
                     returnRule();
                     window.close();
                  }
+                 
+           //      });
             </script>
 </html:form>

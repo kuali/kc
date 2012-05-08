@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -46,6 +45,7 @@ import org.kuali.rice.krms.api.engine.ExecutionOptions;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
+import org.kuali.rice.krms.framework.engine.BasicRule;
 import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
 import org.kuali.rice.krms.impl.repository.AgendaBo;
 import org.kuali.rice.krms.impl.repository.AgendaItemBo;
@@ -778,6 +778,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
         Map<String,String> agendaQualifiers = new HashMap<String,String>();
         // TODO : "name" qualifier should be working after 2.1.  currently, there is a bug.
+        // However, there was a bug at one point in AgendaTypeServiceBase where the agenda name attribute wasn't 
+        // making it into the agenda instance and thus matching on agenda name was broken. That was fixed in 2.1 on 4/4.
+        // if this agenda is not set, then it probably will check everything ?
 //        agendaQualifiers.put("name", getAgenda(ruleId).getName());  // specify a single agenda by name
        
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers, agendaQualifiers);
@@ -802,6 +805,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         String errors = (String) results.getAttribute(ValidationActionTypeService.VALIDATIONS_ACTION_ATTRIBUTE);
         boolean isValid = false;
         if (results.getResultsOfType(ResultEvent.RULE_EVALUATED) != null && results.getResultsOfType(ResultEvent.RULE_EVALUATED).size() > 0) {
+            ResultEvent resultEvent = results.getResultsOfType(ResultEvent.RULE_EVALUATED).get(0);
+            // can't access 'proposition of basicrule
+            // ((BasicRule)resultEvent.getSource()).
             isValid = results.getResultsOfType(ResultEvent.RULE_EVALUATED).get(0).getResult();
         }
 //        if (StringUtils.isBlank(errors)) {
