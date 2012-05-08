@@ -86,6 +86,10 @@
                     <property name="taskName" value="modifyIacucProtocolReferences" />
                 </bean>
                 
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolOrganizationsAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolOrganizations" />
+                </bean>                
+                
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolPermissionsAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolPermissions" />
                 </bean>                
@@ -163,6 +167,10 @@
     </bean> 
 
     <bean id="iacucProtocolReferenceService" class="org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceServiceImpl">
+    </bean>
+    
+    <bean id="iacucProtocolLocationService" class="org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationServiceImpl">
+        <property name="organizationService" ref="organizationService" />
     </bean>
             
     <bean id="iacucAlternateSearchService" class="org.kuali.kra.iacuc.threers.IacucAlternateSearchServiceImpl">

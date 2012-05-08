@@ -22,8 +22,10 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
@@ -149,6 +151,13 @@ public class IacucProtocolDocument extends ProtocolDocument {
 
 
         return isComplete;
+    }
+    
+    
+
+    @Override
+    protected Class<? extends ProtocolLocationService> getProtocolLocationServiceClassHook() {
+        return IacucProtocolLocationService.class;
     }
 
 }

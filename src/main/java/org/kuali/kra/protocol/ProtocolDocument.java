@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
@@ -27,7 +28,8 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public abstract class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
-        
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    private static final Log LOG = LogFactory.getLog(ProtocolDocument.class);
 //    public static final String DOCUMENT_TYPE_CODE = "PROT";
     private static final String AMENDMENT_KEY = "A";
@@ -39,7 +41,7 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
      */
     private static final long serialVersionUID = 6493566444038807312L;
     
-    
+// TODO *********commented the code below during IACUC refactoring*********     
 //    private static final String APPROVED_COMMENT = "Approved";
 //    private static final String DISAPPROVED_COMMENT = "Disapproved";
 //    private static final String listOfStatiiEligibleForMerging = ProtocolStatus.SUBMITTED_TO_IRB + " " + ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED + " " + 
@@ -60,14 +62,17 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
         newProtocol.setProtocolDocument(this);
         protocolList.add(newProtocol);
 
-        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        setProtocolWorkflowType(ProtocolWorkflowType.NORMAL);
-//        initializeProtocolLocation();
+        
+        initializeProtocolLocation();
     }
     
     // hook method invoked from the constructor
     protected abstract Protocol createNewProtocolInstanceHook();
 
+    
+// TODO *********commented the code below during IACUC refactoring*********     
 //    
 //    /**
 //     * 
@@ -143,7 +148,7 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
 
     
     
-    
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
 //     */
@@ -348,6 +353,8 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
 //    private boolean isDisapproved(DocumentRouteStatusChange statusChangeEvent) {
 //        return StringUtils.equals(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD, statusChangeEvent.getNewRouteStatus());
 //    }
+   
+    
     
     /**
      * Is this a renewal protocol document?
@@ -373,6 +380,8 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
         return !isAmendment() && !isRenewal();
     }
     
+    
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * Has the document been submitted to workflow now
 //     * @param statusChangeEvent
@@ -430,15 +439,22 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
 //            this.setVersionNumber(new Long(0));
 //        }
 //    }
-//    
-//    /*
-//     * Initialize protocol location.
-//     * Add default organization.
-//     */
-//    private void initializeProtocolLocation() {
-//        KraServiceLocator.getService(ProtocolLocationService.class).addDefaultProtocolLocation(this.getProtocol());
-//    }
-// 
+    
+    
+    
+    /*
+     * Initialize protocol location.
+     * Add default organization.
+     */
+    private void initializeProtocolLocation() {
+        KraServiceLocator.getService(getProtocolLocationServiceClassHook()).addDefaultProtocolLocation(this.getProtocol());
+    }
+    
+    protected abstract Class<? extends ProtocolLocationService> getProtocolLocationServiceClassHook();
+
+    
+    
+// TODO *********commented the code below during IACUC refactoring*********     
 //    @Override
 //    public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
 //        this.getProtocol().getLeadUnitNumber();
@@ -470,10 +486,15 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
 //        this.reRouted = reRouted;
 //    }
 
+    
+    
     protected WorkflowDocumentService getWorkflowDocumentService() {
         return KRADServiceLocatorWeb.getWorkflowDocumentService();
     }    
+    
+    
 
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * 
 //     * This method is to check whether rice async routing is ok now.   
