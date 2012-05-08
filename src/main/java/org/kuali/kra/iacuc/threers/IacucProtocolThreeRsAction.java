@@ -58,9 +58,6 @@ public class IacucProtocolThreeRsAction extends IacucProtocolAction {
         IacucAlternateSearch altSearch = protocolForm.getIacucAlternateSearchHelper().getNewAlternateSearch();
         List<String> newDatabases = protocolForm.getIacucAlternateSearchHelper().getNewDatabases();
         
-        //TODO fix date field
-        altSearch.setSearchDate(new Date());
-        
         if (applyRules(new AddAlternateSearchEvent(protocolForm.getProtocolDocument(), altSearch, newDatabases))) {
             getIacucAlternateSearchService().addAlternateSearch(((IacucProtocol)protocolForm.getIacucProtocolDocument().getProtocol()),
                      altSearch, newDatabases);       

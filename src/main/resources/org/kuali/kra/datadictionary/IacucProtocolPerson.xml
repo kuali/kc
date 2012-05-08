@@ -209,8 +209,8 @@
 		<property name="maxLength" value="12" />
 		<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.protocol.personnel.ProtocolPersonRole"
-            	p:valuesFinderClass="org.kuali.kra.protocol.personnel.NewProtocolPersonRoleValuesFinder"
+            	p:businessObjectClass="org.kuali.kra.iacuc.personnel.IacucProtocolPersonRole"
+            	p:valuesFinderClass="org.kuali.kra.iacuc.personnel.NewIacucProtocolPersonRoleValuesFinder"
             	p:includeKeyInLabel="false"
             	p:includeBlankRow="false"
             	p:keyAttribute="protocolPersonRoleId"

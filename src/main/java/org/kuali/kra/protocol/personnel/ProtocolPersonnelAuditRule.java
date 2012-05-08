@@ -34,7 +34,7 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 /**
  * Rules that invoke audit mode for KeyPersonnel
  */
-public class ProtocolPersonnelAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
+public abstract class ProtocolPersonnelAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonnelAuditRule.class);
     private List<AuditError> auditErrors;
     private static final String PERSONNEL_AUDIT_ERRORS = "personnelAuditErrors";
@@ -84,7 +84,5 @@ public class ProtocolPersonnelAuditRule extends ResearchDocumentRuleBase impleme
      * This method is to get personnel sevice
      * @return ProtocolPersonnelService
      */
-    private ProtocolPersonnelService getProtocolPersonnelService() {
-        return getService(ProtocolPersonnelService.class);
-    }
+    protected abstract ProtocolPersonnelService getProtocolPersonnelService();
 }

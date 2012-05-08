@@ -23,9 +23,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Represents the event to add a ProtocolPersonnel.
  */
-public class AddProtocolPersonnelEvent extends KraDocumentEventBaseExtension {
+public abstract class AddProtocolPersonnelEvent extends KraDocumentEventBaseExtension {
     
-    private ProtocolPerson protocolPerson;
+    protected ProtocolPerson protocolPerson;
     
     /**
      * Constructs a AddProtocolPersonnelEvent.
@@ -33,7 +33,7 @@ public class AddProtocolPersonnelEvent extends KraDocumentEventBaseExtension {
      * @param document The document to validate
      * @param protocolPerson the person to add
      */
-    public AddProtocolPersonnelEvent(String errorPathPrefix, ProtocolDocument document, ProtocolPerson protocolPerson) {
+    protected AddProtocolPersonnelEvent(String errorPathPrefix, ProtocolDocument document, ProtocolPerson protocolPerson) {
         super("Adding ProtocolPerson to document " + getDocumentId(document), errorPathPrefix, document);
     
         this.protocolPerson = (ProtocolPerson) ObjectUtils.deepCopy(protocolPerson);
@@ -41,12 +41,6 @@ public class AddProtocolPersonnelEvent extends KraDocumentEventBaseExtension {
     
     public ProtocolPerson getProtocolPerson() {
         return protocolPerson;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
-        return new AddProtocolPersonnelRule();
     }
 
 }

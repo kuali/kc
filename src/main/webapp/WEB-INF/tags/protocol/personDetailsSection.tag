@@ -13,7 +13,12 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/WEB-INF/jsp/irb/ProtocolPerson.jsp"%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<%@ attribute name="personIndex" description="Index of a ProposalPerson" required="true" %>
+<%@ attribute name="protocolPerson" description="Index of a Protocol person" required="true" %>
+<%@ attribute name="protocolPersonAttributes" required="true" type="java.util.Map" %>
+<%@ attribute name="optionListClass" required="true" %>
 
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 <c:set target="${paramMap}" property="sourceRoleId" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRoleId}" />
@@ -51,7 +56,7 @@
 									    </c:when>
 									    <c:otherwise>
 							                <html:select property="${protocolPerson}.protocolPersonRoleId" tabindex="0">
-							                <c:forEach items="${krafn:getOptionList('org.kuali.kra.irb.personnel.ProtocolPersonRoleValuesFinder', paramMap)}" var="option">
+							                <c:forEach items="${krafn:getOptionList(optionListClass, paramMap)}" var="option">
 							                <c:choose>
 							                    <c:when test="${KualiForm.document.protocol.protocolPersons[personIndex].protocolPersonRoleId == option.key}">
 							                    <option value="${option.key}" selected>${option.value}</option>
