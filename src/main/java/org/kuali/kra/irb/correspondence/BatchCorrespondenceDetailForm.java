@@ -19,8 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 
-public class BatchCorrespondenceDetailForm extends KualiForm {
+public class BatchCorrespondenceDetailForm extends KualiTransactionalDocumentFormBase {
 
     private static final long serialVersionUID = 8987463989398244188L;
 
