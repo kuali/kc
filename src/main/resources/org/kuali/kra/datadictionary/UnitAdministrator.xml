@@ -121,7 +121,7 @@
   <bean id="UnitAdministrator-inquiryDefinition" parent="UnitAdministrator-inquiryDefinition-parentBean" />
 
   <bean id="UnitAdministrator-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Unit Administrator" />
+    <property name="title" value="Unit Administrator" /> 
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -157,6 +157,12 @@
 
     <property name="defaultSort" >
       <bean parent="SortDefinition">
+      	<property name="attributeNames">
+          <list> 
+            <value>person.personId</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
       </bean>
     </property>
     <property name="lookupFields" >
