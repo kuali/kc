@@ -23,7 +23,7 @@ import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.OrganizationService;
 
-public class ProtocolLocationRule extends ResearchDocumentRuleBase implements AddProtocolLocationRule {
+public abstract class ProtocolLocationRule extends ResearchDocumentRuleBase implements AddProtocolLocationRule {
 
     private static final String ERROR_PROPERTY_ORGANIZATION_ID = "protocolHelper.newProtocolLocation.organizationId"; 
     private static final String ERROR_PROPERTY_ORGANIZATION_TYPE_CODE = "protocolHelper.newProtocolLocation.protocolOrganizationTypeCode"; 

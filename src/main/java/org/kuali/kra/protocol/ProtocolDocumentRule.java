@@ -25,6 +25,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
+import org.kuali.kra.protocol.protocol.location.AddProtocolLocationEvent;
+import org.kuali.kra.protocol.protocol.location.AddProtocolLocationRule;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationRule;
 import org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceEvent;
 import org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceRule;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceRule;
@@ -45,9 +48,9 @@ import org.kuali.rice.krad.util.MessageMap;
  */
 public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase   
                                                                     implements                                                                  
-                                                                                AddProtocolReferenceRule, 
-// TODO *********commented the code below during IACUC refactoring*********                                                                          
-//                                                                                AddProtocolLocationRule,  
+                                                                                AddProtocolReferenceRule,                                                                          
+                                                                                AddProtocolLocationRule,
+// TODO *********commented the code below during IACUC refactoring*********                                                                                 
 //                                                                                AddProtocolAttachmentPersonnelRule, 
 //                                                                                AddProtocolUnitRule,
                                                                     
@@ -106,10 +109,10 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
         }
         
        
-        valid &= processLeadUnitBusinessRules((ProtocolDocument) document);
+        valid &= processLeadUnitBusinessRules((ProtocolDocument) document);               
+        valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
         
-// TODO *********commented the code below during IACUC refactoring*********          
-//        valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
+// TODO *********commented the code below during IACUC refactoring*********         
 //        valid &= processProtocolPersonnelBusinessRules((ProtocolDocument) document);
 //        valid &= processProtocolCustomDataBusinessRules((ProtocolDocument) document);
 //        valid &= processProtocolSpecialReviewBusinessRules((ProtocolDocument) document);
@@ -206,22 +209,25 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
     }
  
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
-//    /**
-//     * At least one organization must be entered.  
-//     * If the default value is removed, another organization must be added before user 
-//     * can save
-//     * @see org.kuali.kra.irb.rule.SaveProtocolLocationRule#processSaveProtocolLocationBusinessRules(org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent)
-//     */
-//    public boolean processProtocolLocationBusinessRules(ProtocolDocument document) {
-//        boolean isValid = true;
-//        if(CollectionUtils.isEmpty(document.getProtocol().getProtocolLocations())) {
-//            reportError(ERROR_PROPERTY_ORGANIZATION_ID, KeyConstants.ERROR_PROTOCOL_LOCATION_SHOULD_EXIST);
-//            isValid = false;
-//        }
-//        return isValid;
-//    }
-//    
+     
+    /**
+     * At least one organization must be entered.  
+     * If the default value is removed, another organization must be added before user 
+     * can save
+     * @see org.kuali.kra.irb.rule.SaveProtocolLocationRule#processSaveProtocolLocationBusinessRules(org.kuali.kra.irb.rule.event.SaveProtocolLocationEvent)
+     */
+    public boolean processProtocolLocationBusinessRules(ProtocolDocument document) {
+        boolean isValid = true;
+        if(CollectionUtils.isEmpty(document.getProtocol().getProtocolLocations())) {
+            reportError(ERROR_PROPERTY_ORGANIZATION_ID, KeyConstants.ERROR_PROTOCOL_LOCATION_SHOULD_EXIST);
+            isValid = false;
+        }
+        return isValid;
+    }
+ 
+ 
+
+// TODO *********uncomment the code below in increments as needed during refactoring*********    
 //    private boolean processProtocolPersonnelBusinessRules(ProtocolDocument document) {
 //        return processRules(new SaveProtocolPersonnelEvent(Constants.EMPTY_STRING, document));
 //    }
@@ -242,16 +248,19 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
     protected abstract ProtocolReferenceRule getNewProtocolReferenceRuleInstanceHook();
 
 
+
+    /**
+     * @see org.kuali.kra.irb.protocol.location.AddProtocolLocationRule#processAddProtocolLocationBusinessRules(org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent)
+     */
+    public boolean processAddProtocolLocationBusinessRules(AddProtocolLocationEvent addProtocolLocationEvent) {
+        return getNewProtocolLocationRuleInstanceHook().processAddProtocolLocationBusinessRules(addProtocolLocationEvent);       
+    }    
+    
+    protected abstract ProtocolLocationRule getNewProtocolLocationRuleInstanceHook();
+    
+    
+
 // TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * @see org.kuali.kra.irb.protocol.location.AddProtocolLocationRule#processAddProtocolLocationBusinessRules(org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent)
-//     */
-//    public boolean processAddProtocolLocationBusinessRules(AddProtocolLocationEvent addProtocolLocationEvent) {
-//
-//        return new ProtocolLocationRule().processAddProtocolLocationBusinessRules(addProtocolLocationEvent);
-//        
-//    }
-//    
 //    /**
 //     * @see org.kuali.kra.irb.protocol.AddProtocolFundingSourceRule#processAddProtocolFundingSourceBusinessRules(org.org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent)
 //     */

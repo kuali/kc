@@ -22,7 +22,7 @@ import org.kuali.kra.protocol.ProtocolAssociate;
 /**
  * This class represents the Protocol Location Business Object.
  */
-public class ProtocolLocation extends ProtocolAssociate {
+public abstract class ProtocolLocation extends ProtocolAssociate {
 
     /**
      * Comment for <code>serialVersionUID</code>

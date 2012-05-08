@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionRule;
+import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationRule;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceRule;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaAuditRule;
 import org.kuali.kra.iacuc.species.exception.rule.AddProtocolExceptionEvent;
@@ -28,6 +29,7 @@ import org.kuali.kra.iacuc.species.rule.ProtocolSpeciesRule;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.protocol.ProtocolDocumentRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationRule;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRule;
 
 /**
@@ -66,6 +68,11 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements A
     @Override
     protected ProtocolSubmitActionRule newProtocolSubmitActionRuleInstanceHook() {
         return new IacucProtocolSubmitActionRule();
+    }
+
+    @Override
+    protected ProtocolLocationRule getNewProtocolLocationRuleInstanceHook() {
+        return new IacucProtocolLocationRule();
     }
     
 }

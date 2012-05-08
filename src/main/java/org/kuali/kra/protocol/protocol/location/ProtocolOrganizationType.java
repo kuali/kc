@@ -21,7 +21,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * This class represents the Protocol Organization Type Business Object.
  */
-public class ProtocolOrganizationType extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolOrganizationType extends KraPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

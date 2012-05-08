@@ -35,6 +35,9 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.protocol.location.AddIacucProtocolLocationEvent;
+import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation;
+import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationService;
 import org.kuali.kra.iacuc.protocol.reference.AddIacucProtocolReferenceEvent;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReference;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceBean;
@@ -127,57 +130,6 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         
     }
  
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * 
-//     * This method adds an <code>ProtocolParticipant</code> business object to the list of <code>ProtocolParticipants</code>
-//     * business objects It gets called upon add action on the Participant Types sub-panel of the Protocol panel
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward addProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//        throws Exception {
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolParticipant newProtocolParticipant = protocolForm.getProtocolHelper().getNewProtocolParticipant();
-//        List<ProtocolParticipant> protocolParticipants = protocolForm.getProtocolDocument().getProtocol().getProtocolParticipants();
-//
-//        if (applyRules(new AddProtocolParticipantEvent(protocolForm.getProtocolDocument(), newProtocolParticipant, protocolParticipants))) {
-//            getProtocolParticipantService().addProtocolParticipant(protocolForm.getProtocolDocument().getProtocol(), newProtocolParticipant);
-//            protocolForm.getProtocolHelper().setNewProtocolParticipant(new ProtocolParticipant());          
-//        }
-//
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    
-//    
-//    /**
-//     * 
-//     * This method deletes an <code>ProtocolParticipant</code> business object from the list of <code>ProtocolParticipants</code>
-//     * business objects It gets called upon delete action on the Participant Types sub-panel of the Protocol panel
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//        throws Exception {
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        protocolForm.getProtocolDocument().getProtocol().getProtocolParticipants().remove(getLineToDelete(request));
-//
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
     
 
     public ActionForward addProtocolReferenceBean(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -245,86 +197,79 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * This method is linked to ProtocolLocationService to perform the action - Add Protocol Location. Method is called in
-//     * protocolLocations.tag
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward addProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolLocation newProtocolLocation = protocolForm.getProtocolHelper().getNewProtocolLocation();
-//
-//        if (applyRules(new AddProtocolLocationEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolLocation))) {
-//            getProtocolLocationService().addProtocolLocation(protocolForm.getProtocolDocument().getProtocol(), newProtocolLocation);
-//            protocolForm.getProtocolHelper().setNewProtocolLocation(new ProtocolLocation());
-//        }
-//
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * This method is linked to ProtocolLocationService to perform the action - Delete Protocol Location. Method is called in
-//     * protocolLocations.tag
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward deleteProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        protocolForm.getProtocolDocument().getProtocol().getProtocolLocations().remove(getLineToDelete(request));
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * This method is linked to ProtocolLocationService to perform the action - Clear Protocol Location address. Method is called in
-//     * protocolLocations.tag
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward clearProtocolLocationAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        getProtocolLocationService().clearProtocolLocationAddress(protocolForm.getProtocolDocument().getProtocol(),
-//                getSelectedLine(request));
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * This method is to get protocol participant service
-//     * 
-//     * @return ProtocolPersonnelService
-//     */
-//    private ProtocolParticipantService getProtocolParticipantService() {
-//        return (ProtocolParticipantService) KraServiceLocator.getService("protocolParticipantTypeService");
-//    }
-//
-//    /**
-//     * This method is to get protocol location service
-//     * 
-//     * @return ProtocolLocationService
-//     */
-//    private ProtocolLocationService getProtocolLocationService() {
-//        return (ProtocolLocationService) KraServiceLocator.getService("protocolLocationService");
-//    }
-//
+
+    /**
+     * This method is linked to ProtocolLocationService to perform the action - Add Protocol Location. Method is called in
+     * protocolLocations.tag
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolLocation newProtocolLocation = (IacucProtocolLocation) protocolForm.getProtocolHelper().getNewProtocolLocation();
+
+        if (applyRules(new AddIacucProtocolLocationEvent(Constants.EMPTY_STRING, protocolForm.getIacucProtocolDocument(), newProtocolLocation))) {
+            getProtocolLocationService().addProtocolLocation(protocolForm.getProtocolDocument().getProtocol(), newProtocolLocation);
+            protocolForm.getProtocolHelper().setNewProtocolLocation(new IacucProtocolLocation());
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * This method is linked to ProtocolLocationService to perform the action - Delete Protocol Location. Method is called in
+     * protocolLocations.tag
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        protocolForm.getProtocolDocument().getProtocol().getProtocolLocations().remove(getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * This method is linked to ProtocolLocationService to perform the action - Clear Protocol Location address. Method is called in
+     * protocolLocations.tag
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearProtocolLocationAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        getProtocolLocationService().clearProtocolLocationAddress(protocolForm.getProtocolDocument().getProtocol(),
+                getSelectedLine(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+
+    /**
+     * This method is to get protocol location service
+     * 
+     * @return ProtocolLocationService
+     */
+    private IacucProtocolLocationService getProtocolLocationService() {
+        return KraServiceLocator.getService("iacucProtocolLocationService");
+    }
+
+// TODO *********commented the code below during IACUC refactoring********* 
 //    /**
 //     * This method is linked to ProtocolFundingService to perform the action - Add Protocol Funding Source. Method is called in
 //     * protocolFundingSources.tag

@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.auth;
+package org.kuali.kra.iacuc.protocol.location;
 
-import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocation;
 
-/**
- * The Modify Protocol Organizations Authorizer determines if
- * the user can modify the organizations for a protocol.
- */
-public class ModifyProtocolOrganizationsAuthorizer extends ModifyAmendmentAuthorizer {
+public class IacucProtocolLocation extends ProtocolLocation {
 
-    public ModifyProtocolOrganizationsAuthorizer() {
-        super(ProtocolModule.PROTOCOL_ORGANIZATIONS);
-    }
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 7982031573066808319L;
+
 }
