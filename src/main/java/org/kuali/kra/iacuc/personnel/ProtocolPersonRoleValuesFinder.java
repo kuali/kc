@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.personnel;
+package org.kuali.kra.iacuc.personnel;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRoleMapping;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -79,7 +82,7 @@ public class ProtocolPersonRoleValuesFinder extends KeyValuesBase {
      * @return ProtocolPersonnelService
      */
     private ProtocolPersonnelService getProtocolPersonnelService() {
-        return getService(ProtocolPersonnelService.class);
+        return (ProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
     }
 
     public String getSourceRoleId() {

@@ -70,11 +70,8 @@
                 <th><div align="right">Add:</div></th>
                 <th>
                     <div>
-                    <!-- 
                         <kul:htmlControlAttribute property="iacucAlternateSearchHelper.newAlternateSearch.searchDate" 
-                            readOnly="${readOnly}" attributeEntry="${protocolAlternateSearch.searchDate}"  />
-                      -->
-                      &nbsp;            
+                            readOnly="${readOnly}" attributeEntry="${protocolAlternateSearch.searchDate}"  />           
                     </div>
                 </th>
                 <th>

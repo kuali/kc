@@ -17,6 +17,9 @@ package org.kuali.kra.iacuc;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionRule;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelAuditRule;
+import org.kuali.kra.iacuc.personnel.IacucProtocolUnitRule;
+import org.kuali.kra.iacuc.personnel.SaveIacucProtocolPersonnelEvent;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationRule;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceRule;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaAuditRule;
@@ -27,10 +30,19 @@ import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesEvent;
 import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesRule;
 import org.kuali.kra.iacuc.species.rule.ProtocolSpeciesRule;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.protocol.ProtocolDocumentRule;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationRule;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentRule;
+import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRule;
+import org.kuali.kra.protocol.personnel.ProtocolUnitRule;
+import org.kuali.kra.protocol.personnel.SaveProtocolPersonnelEvent;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRule;
+import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * Main Business Rule class for <code>{@link IacucProtocolDocument}</code>. Responsible for delegating rules to independent rule classes.
@@ -66,6 +78,21 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements A
     }
 
     @Override
+    protected KraDocumentEventBaseExtension getSaveProtocolPersonnelEventHook(ProtocolDocument document) {
+        return new SaveIacucProtocolPersonnelEvent(Constants.EMPTY_STRING, document);
+    }
+
+    @Override
+    protected ProtocolPersonnelAuditRule getNewProtocolPersonnelAuditRuleInstanceHook() {
+        return new IacucProtocolPersonnelAuditRule();
+    }
+
+    @Override
+    protected ProtocolUnitRule getNewProtocolUnitRuleInstanceHook() {
+        return new IacucProtocolUnitRule();
+    }
+
+    @Override
     protected ProtocolSubmitActionRule newProtocolSubmitActionRuleInstanceHook() {
         return new IacucProtocolSubmitActionRule();
     }
@@ -73,6 +100,5 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements A
     @Override
     protected ProtocolLocationRule getNewProtocolLocationRuleInstanceHook() {
         return new IacucProtocolLocationRule();
-    }
-    
+    }    
 }

@@ -13,21 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.personnel;
+package org.kuali.kra.iacuc.personnel;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelRuleBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.rule.BusinessRuleInterface;
 
 /**
  * Runs the rule processing for saving a <code>ProtocolPerson</code>.
  */
-public class SaveProtocolPersonnelRule extends ProtocolPersonnelRuleBase implements BusinessRuleInterface<SaveProtocolPersonnelEvent> {
+public class SaveIacucProtocolPersonnelRule extends ProtocolPersonnelRuleBase implements BusinessRuleInterface<SaveIacucProtocolPersonnelEvent> {
+
 
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
-    public boolean processRules(SaveProtocolPersonnelEvent event) {
+    public boolean processRules(SaveIacucProtocolPersonnelEvent event) {
         return processSaveProtocolPersonnelEvent(event);
+    }
+
+    @Override
+    public ProtocolPersonnelService getProtocolPersonnelServiceHook() {
+        return (ProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
     }
     
 }

@@ -27,7 +27,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 /**
  * This class contains rules to validate protocol personnel.
  */
-public class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase {
+public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase {
 
     private static final String ERROR_PROPERTY_NEW_PERSON = "newProtocolPerson"; 
     private static final String ERROR_PROPERTY_EXISTING_PERSON = "document.protocolList[0].protocolPersons";
@@ -271,10 +271,12 @@ public class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase {
      */
     public ProtocolPersonnelService getProtocolPersonnelService() {
         if (protocolPersonnelService == null) {
-            protocolPersonnelService = KraServiceLocator.getService(ProtocolPersonnelService.class);
+            protocolPersonnelService = getProtocolPersonnelServiceHook();
         }
         return protocolPersonnelService;
     }
+    
+    public abstract ProtocolPersonnelService getProtocolPersonnelServiceHook();
     
     /**
      * Sets the Protocol Personnel Service.
