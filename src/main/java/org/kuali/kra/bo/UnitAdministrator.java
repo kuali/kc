@@ -15,10 +15,11 @@
  */
 package org.kuali.kra.bo;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 
-public class UnitAdministrator extends KraPersistableBusinessObjectBase implements AbstractUnitAdministrator {
+public class UnitAdministrator extends KraPersistableBusinessObjectBase implements AbstractUnitAdministrator , Comparable<UnitAdministrator> {
 
     private String personId;
 
@@ -90,4 +91,24 @@ public class UnitAdministrator extends KraPersistableBusinessObjectBase implemen
     public void setUnit(Unit unit) {
         this.unit = unit;
     }
+    
+    //KRACOEUS-5499 Implemented Comparable interface.
+    @Override
+    public int compareTo(UnitAdministrator unitAdmin) {        
+        int result = 0;
+        if(unitAdmin == null){
+            result = 1;
+        }else{
+            if (! getUnitAdministratorTypeCode().equalsIgnoreCase(unitAdmin.getUnitAdministratorTypeCode())){
+                result = getUnitAdministratorTypeCode().compareTo(unitAdmin.getUnitAdministratorTypeCode());
+            }else{
+                if(getPerson() != null &&  StringUtils.isNotEmpty(getPerson().getFullName()) && 
+                   unitAdmin.getPerson() != null && StringUtils.isNotEmpty(unitAdmin.getPerson().getFullName())){
+                    result = getPerson().getFullName().compareTo(unitAdmin.getPerson().getFullName());
+                }             
+            }
+        }
+        return result;
+    } 
+    
 }
