@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.questionnaire;
 
-import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
-public class KrmsRuleLookupForm extends KualiForm  {
+public class KrmsRuleLookupForm extends KualiDocumentFormBase  {
 
     private String ruleId;
     private Integer nodeIndex;
