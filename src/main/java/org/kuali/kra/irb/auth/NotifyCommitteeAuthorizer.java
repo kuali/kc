@@ -32,7 +32,7 @@ public class NotifyCommitteeAuthorizer extends ProtocolAuthorizer {
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return isStatusValid(task.getProtocol()) &&
         canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE) &&
-        hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
+        hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO) && hasScheduleId(task.getProtocol(),task.getTaskName());
     }
     
     private boolean isStatusValid(Protocol protocol) {
