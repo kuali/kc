@@ -409,11 +409,8 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         newAward.getAwardBudgetLimits().clear();
         
         /**
-         * per KRACOEUS-5448 the payment and invoices sub panel items should not be copied.
+         * per KRACOEUS-5448 portions of the payment and invoices sub panel items should not be copied.
          */
-        newAward.setBasisOfPaymentCode(null);
-        newAward.setMethodOfPaymentCode(null);
-        newAward.setDocumentFundingId(null);
         List<AwardReportTerm> newTerms = new ArrayList<AwardReportTerm>();
         String paymentReportClassCode = getPaymentAndInvoicesReportClass().getReportClassCode();
         for (AwardReportTerm term : newAward.getAwardReportTermItems()) {
@@ -422,7 +419,6 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             }
         }
         newAward.setAwardReportTermItems(newTerms);
-        newAward.getAwardPaymentAndInvoiceRequirementsComments().setComments(null);
         newAward.getPaymentScheduleItems().clear();
     } 
     
