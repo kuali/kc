@@ -95,17 +95,17 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
             Date obligatedEndDate = awardHierarchyNode.getValue().getObligationExpirationDate();
             Date projectEndDate = awardHierarchyNode.getValue().getFinalExpirationDate();
             Date projectStartDate = awardHierarchyNode.getValue().getProjectStartDate();     
-            if(obligatedStartDate.before(projectStartDate)) {
+            if(projectStartDate != null && obligatedStartDate.before(projectStartDate)) {
                 valid = false;
                 reportError(OBLIGATED_START_DATE_PROPERTY, KeyConstants.ERROR_OBLIGATED_START_BEFORE_PROJECT_START, 
                         awardHierarchyNode.getValue().getAwardNumber());
             }
-            if(obligatedEndDate.before(projectStartDate) || obligatedEndDate.equals(projectStartDate)) {
+            if(projectStartDate != null &&  (obligatedEndDate.before(projectStartDate) || obligatedEndDate.equals(projectStartDate))) {
                 valid = false;
                 reportError(OBLIGATED_END_DATE_PROPERTY, KeyConstants.ERROR_OBLIGATED_END_BEFORE_PROJECT_START, 
                         awardHierarchyNode.getValue().getAwardNumber());
             }
-            if(projectEndDate.before(projectStartDate) || obligatedEndDate.equals(projectStartDate)) {
+            if(projectStartDate != null &&  (projectEndDate.before(projectStartDate) || obligatedEndDate.equals(projectStartDate))) {
                 valid = false;
                 reportError(FINAL_EXPIRATION_DATE_PROPERTY, KeyConstants.ERROR_PROJECT_END_BEFORE_PROJECT_START, 
                         awardHierarchyNode.getValue().getAwardNumber());
