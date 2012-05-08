@@ -144,6 +144,31 @@
         </property>
     </bean>
     
+    <bean id="iacucProtocolLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="iacucProtocolLookupableHelperService" />
+        </property>         
+    </bean> 
+
+    <bean id="iacucProtocolLookupableHelperService" class="org.kuali.kra.iacuc.IacucProtocolLookupableHelperServiceImpl" 
+        scope="prototype" parent="parentLookupableHelperService">
+        <property name="protocolDao">
+            <ref bean="iacucProtocolDao" />
+        </property>
+        <property name="kcPersonService">
+            <ref bean="kcPersonService" />
+        </property>
+        <property name="kraAuthorizationService">
+            <ref bean="kraAuthorizationService" />
+        </property>
+        <property name="taskAuthorizationService">
+            <ref bean="taskAuthorizationService" />
+        </property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+    </bean>
+    
     <bean id="iacucProtocolPersonTrainingService" class="org.kuali.kra.protocol.personnel.ProtocolPersonTrainingServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />

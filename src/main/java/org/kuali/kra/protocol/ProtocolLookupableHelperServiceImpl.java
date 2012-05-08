@@ -35,9 +35,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
-import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -45,8 +45,8 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.Field;
@@ -61,7 +61,7 @@ import org.kuali.rice.krad.util.UrlFactory;
 /**
  * This class handles searching for protocols.
  */
-public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
+public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protocol> extends KraLookupableHelperServiceImpl {    
 
     private static final String AMEND_RENEW_PROTOCOL_LOOKUP_ACTION = "lookupActionAmendRenewProtocol";
     private static final String NOTIFY_IRB_PROTOCOL_LOOKUP_ACTION = "lookupActionNotifyIRBProtocol";
@@ -100,7 +100,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
     private static final Log LOG = LogFactory.getLog(ProtocolLookupableHelperServiceImpl.class);
 
     private DictionaryValidationService dictionaryValidationService;
-    private ProtocolDao protocolDao;
+    private ProtocolDao<GenericProtocol> protocolDao;
     private KcPersonService kcPersonService;
     private KraAuthorizationService kraAuthorizationService;
     private TaskAuthorizationService taskAuthorizationService;
@@ -140,9 +140,9 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
      * @return a list of all protocols filtered by the given field values and being able to perform tasks in the taskNames
      */
     private List<? extends BusinessObject> filterProtocolsByTask(Map<String, String> fieldValues, String... taskNames) {
-        List<Protocol> filteredProtocols = new ArrayList<Protocol>();
+        List<GenericProtocol> filteredProtocols = new ArrayList<GenericProtocol>();
         
-        for (Protocol protocol : protocolDao.getProtocols(filterFieldValues(fieldValues))) {
+        for (GenericProtocol protocol : (List<GenericProtocol>)protocolDao.getProtocols(filterFieldValues(fieldValues))) {
             for (String taskName : taskNames) {
                 ProtocolTask task = new ProtocolTask(taskName, protocol);
                 if (taskAuthorizationService.isAuthorized(getUserIdentifier(), task)) {
@@ -162,10 +162,10 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
      * @return a list of all protocols filtered by the given field values and having statuses in protocolStatusCodes
      */
     private List<? extends BusinessObject> filterProtocolsByStatus(Map<String, String> fieldValues, String... protocolStatusCodes) {
-        List<Protocol> filteredProtocols = new ArrayList<Protocol>();
+        List<GenericProtocol> filteredProtocols = new ArrayList<GenericProtocol>();
 
         List<String> protocolStatusCodeList = Arrays.asList(protocolStatusCodes);
-        for (Protocol protocol : protocolDao.getProtocols(filterFieldValues(fieldValues))) {
+        for (GenericProtocol protocol : (List<GenericProtocol>)protocolDao.getProtocols(filterFieldValues(fieldValues))) {
             String statusCode = protocol.getProtocolStatusCode();
             if (protocolStatusCodeList.contains(statusCode)) {
                 filteredProtocols.add(protocol);
@@ -182,10 +182,10 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
      * @return a list of all protocols filtered by the given field values and whether the given principalId represents a protocol initiator or PI
      */
     private List<? extends BusinessObject> filterProtocolsByPrincipal(Map<String, String> fieldValues, String principalKey) {
-        List<Protocol> filteredProtocols = new ArrayList<Protocol>();
+        List<GenericProtocol> filteredProtocols = new ArrayList<GenericProtocol>();
         
         String principalId = fieldValues.get(principalKey);
-        for (Protocol protocol : protocolDao.getProtocols(filterFieldValues(fieldValues))) {
+        for (GenericProtocol protocol : (List<GenericProtocol>)protocolDao.getProtocols(filterFieldValues(fieldValues))) {
             try {
                 String principalInvestigatorId = protocol.getPrincipalInvestigator().getPersonId();
                 ProtocolDocument document = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
@@ -207,7 +207,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
      * @return a list of all protocols filtered by the given field values
      */
     private List<? extends BusinessObject> filterProtocols(Map<String, String> fieldValues) {
-        List<Protocol> protocols = protocolDao.getProtocols(filterFieldValues(fieldValues));
+        List<GenericProtocol> protocols = (List<GenericProtocol>)protocolDao.getProtocols(filterFieldValues(fieldValues));
         return getPagedResults(protocols);
     }
     
@@ -231,13 +231,13 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
      * @param protocols the list of protocols
      * @return a collection of protocol pageable results.
      */
-    private CollectionIncomplete<Protocol> getPagedResults(List<Protocol> protocols) {
+    private CollectionIncomplete<GenericProtocol> getPagedResults(List<GenericProtocol> protocols) {
         Long matchingResultsCount = new Long(protocols.size());
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Protocol.class);
         if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
-            return new CollectionIncomplete<Protocol>(protocols, new Long(0));
+            return new CollectionIncomplete<GenericProtocol>(protocols, new Long(0));
         } else {
-            return new CollectionIncomplete<Protocol>(trimResult(protocols, searchResultsLimit), matchingResultsCount);
+            return new CollectionIncomplete<GenericProtocol>(trimResult(protocols, searchResultsLimit), matchingResultsCount);
         }
     }
     
@@ -247,9 +247,9 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
      * @param trimSize, the maximum size of the trimmed result set
      * @return the trimmed result set
      */
-    protected List<Protocol> trimResult(List<Protocol> result, Integer trimSize) {
-        List<Protocol> trimedResult = new ArrayList<Protocol>();
-        for (Protocol protocol : result) {
+    protected List<GenericProtocol> trimResult(List<GenericProtocol> result, Integer trimSize) {
+        List<GenericProtocol> trimedResult = new ArrayList<GenericProtocol>();
+        for (GenericProtocol protocol : result) {
             if (trimedResult.size()< trimSize) {
                 trimedResult.add(protocol); 
             }
@@ -431,7 +431,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
      * This is spring bean will be used to get search results.
      * @param protocolDao
      */
-    public void setProtocolDao(ProtocolDao protocolDao) {
+    public void setProtocolDao(ProtocolDao<GenericProtocol> protocolDao) {
         this.protocolDao = protocolDao;
     }
     
@@ -457,7 +457,7 @@ public class ProtocolLookupableHelperServiceImpl extends KraLookupableHelperServ
             ((Unit) inqBo).setUnitNumber(((Protocol) bo).getLeadUnitNumber());
             inqPropertyName = ProtocolLookupConstants.Property.UNIT_NUMBER;
         } else if (propertyName.equals(ProtocolLookupConstants.Property.INVESTIGATOR)) {
-            Protocol protocol = (Protocol) bo;
+            GenericProtocol protocol = (GenericProtocol) bo;
             ProtocolPerson principalInvestigator = protocol.getPrincipalInvestigator();
             if (principalInvestigator != null) {
                 if (StringUtils.isNotBlank(principalInvestigator.getPersonId())) {
