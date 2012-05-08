@@ -17,12 +17,11 @@ package org.kuali.kra.protocol.protocol.location;
 
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.service.OrganizationService;
 
 
-public class ProtocolLocationServiceImpl implements ProtocolLocationService {
+public abstract class ProtocolLocationServiceImpl implements ProtocolLocationService {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolLocationServiceImpl.class);
     private OrganizationService organizationService;
@@ -53,20 +52,26 @@ public class ProtocolLocationServiceImpl implements ProtocolLocationService {
      */
     public void addDefaultProtocolLocation(Protocol protocol) {
         if(protocol.getProtocolLocations().size() == 0) {
-            ProtocolLocation protocolLocation = new ProtocolLocation();
+            ProtocolLocation protocolLocation = getNewProtocolLocationInstanceHook();
             protocolLocation.setProtocolNumber(PROTOCOL_NUMBER);
             protocolLocation.setSequenceNumber(SEQUENCE_NUMBER);
-            Organization organization = getOrganization(Constants.DEFAULT_PROTOCOL_ORGANIZATION_ID);
+            Organization organization = getOrganization(getDefaultProtocolOrganizationIdHook());
             protocolLocation.setOrganization(organization);
             protocolLocation.setOrganizationId(organization.getOrganizationId());
             protocolLocation.setRolodexId(organization.getContactAddressId());
-            protocolLocation.setProtocolOrganizationTypeCode(Constants.DEFAULT_PROTOCOL_ORGANIZATION_TYPE_CODE);
+            protocolLocation.setProtocolOrganizationTypeCode(getDefaultProtocolOrganizationTypeCodeHook());
             protocolLocation.refreshReferenceObject(REFERENCE_PROTOCOL_ORGANIZATION_TYPE);
             protocolLocation.refreshReferenceObject(REFERENCE_ROLODEX);
             protocol.getProtocolLocations().add(protocolLocation);
         }
     }
        
+    protected abstract String getDefaultProtocolOrganizationIdHook();
+
+    protected abstract String getDefaultProtocolOrganizationTypeCodeHook();
+
+    protected abstract ProtocolLocation getNewProtocolLocationInstanceHook();
+
     /**
      * @see org.kuali.kra.protocol.protocol.location.ProtocolLocationService#clearProtocolLocation(org.kuali.kra.protocol.Protocol, int)
      */
