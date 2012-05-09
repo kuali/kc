@@ -102,9 +102,9 @@ public class UnitAdministrator extends KraPersistableBusinessObjectBase implemen
             if (! getUnitAdministratorTypeCode().equalsIgnoreCase(unitAdmin.getUnitAdministratorTypeCode())){
                 result = getUnitAdministratorTypeCode().compareTo(unitAdmin.getUnitAdministratorTypeCode());
             }else{
-                if(getPerson() != null &&  StringUtils.isNotEmpty(getPerson().getFullName()) && 
-                   unitAdmin.getPerson() != null && StringUtils.isNotEmpty(unitAdmin.getPerson().getFullName())){
-                    result = getPerson().getFullName().compareTo(unitAdmin.getPerson().getFullName());
+                if(getPerson() != null &&  StringUtils.isNotEmpty(getPerson().getLastName()) && 
+                   unitAdmin.getPerson() != null && StringUtils.isNotEmpty(unitAdmin.getPerson().getLastName())){
+                    result = getPerson().getLastName().compareTo(unitAdmin.getPerson().getLastName());
                 }             
             }
         }
