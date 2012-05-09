@@ -23,6 +23,8 @@ public class ProtocolType extends KraPersistableBusinessObjectBase {
     private String protocolTypeCode;
 
     private String description;
+    
+    private boolean globalFlag;
 
     public ProtocolType() {
     }
@@ -42,5 +44,13 @@ public class ProtocolType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
+
+	public boolean isGlobalFlag() {
+		return globalFlag;
+	}
+
+	public void setGlobalFlag(boolean globalFlag) {
+		this.globalFlag = globalFlag;
+	}
 }
 // TODO **********************end************************
