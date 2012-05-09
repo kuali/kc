@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.iacuc;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +25,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
+import org.kuali.kra.iacuc.protocol.IacucProtocolProjectType;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
@@ -58,6 +58,7 @@ public class IacucProtocol extends Protocol {
     private String layStatement1; 
     private String layStatement2;
     
+    private String protocolProjectTypeCode; 
     
     private String overviewTimeline; 
     private String speciesStudyGroupIndicator; 
@@ -66,6 +67,8 @@ public class IacucProtocol extends Protocol {
 
     private Timestamp createTimestamp;
     private String createUser;
+    
+    private IacucProtocolProjectType protocolProjectType;
     
     private List<IacucProtocolCustomData> iacucProtocolCustomDataList;
 
@@ -301,6 +304,22 @@ public class IacucProtocol extends Protocol {
 
     public void setIacucAlternateSearches(List<IacucAlternateSearch> iacucAlternateSearches) {
         this.iacucAlternateSearches = iacucAlternateSearches;
+    }
+
+    public void setProtocolProjectTypeCode(String protocolProjectTypeCode) {
+        this.protocolProjectTypeCode = protocolProjectTypeCode;
+    }
+
+    public String getProtocolProjectTypeCode() {
+        return protocolProjectTypeCode;
+    }
+
+    public void setProtocolProjectType(IacucProtocolProjectType protocolProjectType) {
+        this.protocolProjectType = protocolProjectType;
+    }
+
+    public IacucProtocolProjectType getProtocolProjectType() {
+        return protocolProjectType;
     }
 
     public List<IacucProtocolCustomData> getIacucProtocolCustomDataList() {
