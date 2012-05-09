@@ -376,7 +376,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         sf424V2.setLocalEstimatedFunding(BigDecimal.ZERO);
         sf424V2.setOtherEstimatedFunding(BigDecimal.ZERO);
         sf424V2.setStateReview(getStateReviewCode());
-        if (strReview.equals(STATE_REVIEW_YES)) {
+        if (strReview != null && strReview.equals(STATE_REVIEW_YES)) {
             Calendar reviewDate = null;
             reviewDate = s2sUtilService.convertDateStringToCalendar(stateReviewDate);
             sf424V2.setStateReviewAvailableDate(reviewDate);
