@@ -31,7 +31,7 @@
         <property name="lookupDefinition" >
             <ref bean="IacucProtocol-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="protocolId" />
+        <property name="titleAttribute" value="protocolNumber" />
         
         <property name="attributes" >
             <list>
@@ -73,6 +73,7 @@
 				<ref bean="IacucProtocol-protocolStatus.description" />
 				<ref bean="IacucProtocol-investigator" />
 				<ref bean="IacucProtocol-keyPerson" />
+				<ref bean="IacucProtocol-fundingSource" />
             </list>
         </property>
     </bean>
@@ -681,6 +682,26 @@
 		<property name="description" value="Person" />
 	</bean>
     
+	<bean id="IacucProtocol-fundingSource" parent="IacucProtocol-fundingSource-parentBean" />
+	<bean id="IacucProtocol-fundingSource-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="fundingSource" />
+		<property name="required" value="false" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Funding Source" />
+		<property name="shortLabel" value="Funding Source" />
+		<property name="maxLength" value="8" />
+		<property name="validationPattern" >
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="8" />
+		</property>
+		<property name="summary" value="Funding Source" />
+		<property name="description" value="The protocol's fixed home unit that will be used for routing and business rule purposes." />
+	</bean>
+	
+    
 
     <!-- Business Object Inquiry Definition -->
     <bean id="IacucProtocol-inquiryDefinition" parent="IacucProtocol-inquiryDefinition-parentBean" />
@@ -794,6 +815,17 @@
 					p:attributeName="keyPerson"/>
 				<bean parent="FieldDefinition"
 					p:attributeName="researchAreaCode" />
+
+				<bean parent="FieldDefinition"
+					p:attributeName="fundingSource" />
+				<bean parent="FieldDefinition"
+					p:attributeName="performingOrganizationId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="leadUnitNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="leadUnitName" />
+				<bean parent="FieldDefinition"
+				    p:attributeName="active"  p:defaultValue="Y" />
 
 				<!--  	
 										

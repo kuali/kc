@@ -75,6 +75,9 @@ public interface ProtocolDao<GenericProtocol extends Protocol> {
      * @param endDate of the date range for the 
      * @return List of the requested Protocols
      */
+    /*
+    // TODO *********commented the code below during IACUC refactoring*********     
     List<Protocol> getIrbNotifiedProtocols(String committeeId, Date startDate, Date endDate);
+    */
 
 }
