@@ -163,7 +163,8 @@
         list.  If it's purely a KC service, or we want to use a different implementation of a Rice service in the KC context but not override the Rice 
         implementation bean in the Rice context, we don't add it.   
      -->
-    <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
+    <bean id="kcRiceSpringResourceLoaderConfigurer" parent="kcRiceSpringResourceLoaderConfigurer-parentBean" />
+    <bean id="kcRiceSpringResourceLoaderConfigurer-parentBean" class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
         <property name="localServiceName" value="KC-Context"/>
         <property name="serviceNameSpaceURI" value="KC" />
         <property name="beanNames">
@@ -178,26 +179,6 @@
                 <value>responsibilityLookupable</value>
                 <value>roleLookupable</value>
                 <value>multiCampusIdentityService</value>
-
-            </set>      
-        </property>
-    </bean>
-
-    <bean id="kcResourceLoader" parent="kcResourceLoader-parentBean" />
-    <bean id="kcResourceLoader-parentBean" class="org.kuali.kra.rice.KraResourceLoader" abstract="true">
-        <property name="overridableServices">
-            <set>
-                <!--
-                <value>docSearchCriteriaDTOLookupable</value>
-                -->
-                <value>groupLookupable</value>
-                <value>kimPersonLookupable</value>
-                <value>permissionLookupable</value>
-                <value>pessimisticLockLookupable</value>    
-                <value>responsibilityLookupable</value>
-                <value>roleLookupable</value>
-                <value>multiCampusIdentityService</value>
-          
             </set>
         </property>
     </bean>
