@@ -86,6 +86,7 @@
         <field-descriptor name="approvalDate" column="APPROVAL_DATE" jdbc-type="DATE" />
         <field-descriptor name="expirationDate" column="EXPIRATION_DATE" jdbc-type="DATE" />
         <field-descriptor name="fdaApplicationNumber" column="FDA_APPLICATION_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="protocolProjectTypeCode" column="PROJECT_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="referenceNumber1" column="REFERENCE_NUMBER_1" jdbc-type="VARCHAR" />
         <field-descriptor name="referenceNumber2" column="REFERENCE_NUMBER_2" jdbc-type="VARCHAR" />
         <field-descriptor name="isBillable" column="IS_BILLABLE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -118,6 +119,10 @@
 
         <reference-descriptor name="protocolType" class-ref="org.kuali.kra.iacuc.protocol.IacucProtocolType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolTypeCode"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="protocolProjectType" class-ref="org.kuali.kra.iacuc.protocol.IacucProtocolProjectType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolProjectTypeCode"/>
         </reference-descriptor>
 
         <collection-descriptor name="iacucPrinciples" proxy="true" element-class-ref="org.kuali.kra.iacuc.threers.IacucPrinciples" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -268,6 +273,15 @@
     
     <class-descriptor class="org.kuali.kra.iacuc.protocol.IacucProtocolType" table="IACUC_PROTOCOL_TYPE">
         <field-descriptor name="protocolTypeCode" column="PROTOCOL_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.iacuc.protocol.IacucProtocolProjectType" table="IACUC_PROTOCOL_PROJECT_TYPE">
+        <field-descriptor name="projectTypeCode" column="PROJECT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
