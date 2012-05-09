@@ -27,7 +27,9 @@
             <list>
                 <value>protocolTypeCode</value>
             </list>
-        </property>		<property name="allowsRecordDeletion" value="true" />	
+        </property>
+		<property name="allowsRecordDeletion" value="true" />
+	
         
         
         
@@ -49,6 +51,7 @@
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="protocolTypeCode" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="globalFlag" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
             </list>
         </property>
