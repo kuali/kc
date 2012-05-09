@@ -22,16 +22,19 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ProtocolTypeValuesFinder extends KeyValuesBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
-    
     /**
      * Constructs the list of Protocol Types.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
@@ -43,20 +46,29 @@ public class ProtocolTypeValuesFinder extends KeyValuesBase {
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    private PermissionService permissionService;
+    private static final String PERMISSION_NAME = "View Active Protocol Types";
     public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection protocolTypes = keyValuesService.findAllOrderBy(ProtocolType.class,"description",true);
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();   
+        boolean canViewNonGlobalProtocolTypes = getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), KraAuthorizationConstants.KC_SYSTEM_NAMESPACE_CODE, PERMISSION_NAME);
         for (Iterator iter = protocolTypes.iterator(); iter.hasNext();) {
             ProtocolType protocolType = (ProtocolType) iter.next();
+           if(protocolType.isGlobalFlag() || canViewNonGlobalProtocolTypes ){
             if (StringUtils.equals(protocolType.getDescription(), "Standard")) {
                 keyValues.add(0, new ConcreteKeyValue(protocolType.getProtocolTypeCode().toString(), protocolType.getDescription()));
             } else {
                 keyValues.add(new ConcreteKeyValue(protocolType.getProtocolTypeCode().toString(), protocolType.getDescription()));
             }
         }
+        }
         return keyValues;
+    }  
+    public PermissionService getPermissionService() {
+        if (permissionService == null) {
+            permissionService = KimApiServiceLocator.getPermissionService();
+        }
+        return permissionService;
     }
-   
 }
-// TODO **********************end************************
