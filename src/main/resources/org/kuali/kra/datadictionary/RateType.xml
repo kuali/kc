@@ -116,6 +116,12 @@
       <bean parent="SortDefinition">
       </bean>
     </property>
+	<property name="helpDefinition" >
+        <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-M"
+            p:parameterName="proposalRateTypeMaintenanceHelp"
+            p:parameterDetailType="Document" />
+    </property>        
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"

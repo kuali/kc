@@ -205,6 +205,12 @@
 			<bean parent="SortDefinition">
 		</bean>
 		</property>
+		<property name="helpDefinition" >
+    	    <bean parent="HelpDefinition"
+        	    p:parameterNamespace="KC-M"
+            	p:parameterName="frequencyMaintenanceHelp"
+       	   		p:parameterDetailType="Document" />
+    	</property>  				
 		<property name="lookupFields">
 			<list>
 				<bean p:attributeName="frequencyCode" p:forceInquiry="true" parent="FieldDefinition"/>

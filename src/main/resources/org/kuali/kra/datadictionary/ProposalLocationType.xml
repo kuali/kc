@@ -81,6 +81,12 @@
 		<property name="defaultSort">
 			<bean parent="SortDefinition" />
 		</property>
+		<property name="helpDefinition" >
+    	    <bean parent="HelpDefinition"
+        	    p:parameterNamespace="KC-M"
+            	p:parameterName="locationTypeMaintenanceHelp"
+ 	            p:parameterDetailType="Document" />
+   		</property>		
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="locationTypeCode" p:forceInquiry="true" />
