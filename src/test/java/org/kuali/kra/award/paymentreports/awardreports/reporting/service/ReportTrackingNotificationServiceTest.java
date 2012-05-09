@@ -62,7 +62,7 @@ public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
         service.setAwardService(mockAwardService);
         boService.save(getNewReportTracking(award, "4", "4", Calendar.getInstance().getTime()));
         Calendar newDate = Calendar.getInstance();
-        newDate.add(Calendar.DAY_OF_MONTH, -30);
+        newDate.add(Calendar.DAY_OF_MONTH, -40);
         boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
         
         service.getNotifications().clear();
