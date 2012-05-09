@@ -118,6 +118,12 @@
               p:attributeName="description" />
       </list>
     </property>
+	<property name="helpDefinition" >
+        <bean parent="HelpDefinition"
+            p:parameterNamespace="KC-M"
+            p:parameterName="s2sRevisionTypeMaintenanceHelp"
+            p:parameterDetailType="Document" />
+    </property>      
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
