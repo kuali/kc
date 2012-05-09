@@ -15,11 +15,18 @@
  */
 package org.kuali.kra.iacuc;
 
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
+import org.kuali.kra.iacuc.personnel.IacucProtocolUnit;
+import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDaoOjb;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.personnel.ProtocolUnit;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocation;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
 import org.kuali.rice.krad.util.OjbCollectionAware;
 
@@ -43,5 +50,26 @@ public class IacucProtocolDaoOjb extends ProtocolDaoOjb<IacucProtocol> implement
     @Override
     protected Class<? extends ProtocolPerson> getProtocolPersonBOClassHook() {
         return IacucProtocolPerson.class;
+    }
+
+    @Override
+    protected Class<? extends ProtocolFundingSource> getProtocolFundingSourceBOClassHook() {
+        //return IacucProtocolFundingSource.class;
+        return ProtocolFundingSource.class;
+    }
+
+    @Override
+    protected Class<? extends ProtocolLocation> getProtocolLocationBOClassHook() {
+        return IacucProtocolLocation.class;
+    }
+
+    @Override
+    protected Class<? extends ProtocolUnit> getProtocolUnitBOClassHook() {
+        return IacucProtocolUnit.class;
+    }
+
+    @Override
+    protected Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook() {
+        return IacucProtocolSubmission.class;
     }
 }

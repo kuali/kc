@@ -34,11 +34,8 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.TypedAttachment;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
@@ -193,14 +190,19 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
         crit.addEqualTo(SUBMISSION_STATUS_CODE, APPROVED_SUBMISSION_STATUS_CODE);
         crit.addEqualTo(SEQUENCE_NUMBER, getSubQueryMaxSequenceNumber());
         crit.addEqualTo(PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER, getsubQueryMaxProtocolSubmission());
-        Query q = QueryFactory.newQuery(Protocol.class, crit, true);
+        Query q = QueryFactory.newQuery(getProtocolBOClassHook(), crit, true);
         logQuery(q);
         return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
+    
     /**
      * {@inheritDoc} 
      */
+
+    /* 
+    // TODO *********commented the code below during IACUC refactoring*********     
+    
     @SuppressWarnings("unchecked")
     public List<Protocol> getIrbNotifiedProtocols(String committeeId, Date startDate, Date endDate) {
         Criteria subCritProtocolAction = new Criteria();
@@ -226,11 +228,13 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
         logQuery(q);
         return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
+    
+    */
 
     private ReportQueryByCriteria getSubQueryMaxSequenceNumber() {
         Criteria subCritMaxSequenceNumber = new Criteria();
         subCritMaxSequenceNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
-        ReportQueryByCriteria subQueryMaxSequenceNumber = QueryFactory.newReportQuery(Protocol.class, subCritMaxSequenceNumber);
+        ReportQueryByCriteria subQueryMaxSequenceNumber = QueryFactory.newReportQuery(getProtocolBOClassHook(), subCritMaxSequenceNumber);
         subQueryMaxSequenceNumber.setAttributes(new String[] { "max(sequence_number)" });
         return subQueryMaxSequenceNumber;
     }
@@ -238,7 +242,7 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
     private ReportQueryByCriteria getsubQueryMaxProtocolSubmission() {
         Criteria subCritMaxSubmissionNumber = new Criteria();
         subCritMaxSubmissionNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
-        ReportQueryByCriteria subQueryMaxProtocolSubmission = QueryFactory.newReportQuery(ProtocolSubmission.class, subCritMaxSubmissionNumber);
+        ReportQueryByCriteria subQueryMaxProtocolSubmission = QueryFactory.newReportQuery(getProtocolSubmissionBOClassHook(), subCritMaxSubmissionNumber);
         subQueryMaxProtocolSubmission.setAttributes(new String[] { "max(submission_number)" });
         return subQueryMaxProtocolSubmission;
     }
@@ -314,6 +318,8 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
         CritField.RESEARCHAREA.setClazz(getProtocolResearchAreaBOClassHook());
         CritField.KEYPERSON.setClazz(getProtocolPersonBOClassHook());
         CritField.INVESTIGATOR.setClazz(getProtocolPersonBOClassHook());
+        CritField.FUNDINGSOURCE.setClazz(getProtocolFundingSourceBOClassHook());
+        CritField.ORGANIZATION.setClazz(getProtocolLocationBOClassHook());
     }
     
     /*
@@ -345,7 +351,7 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
     /*
      * this is to set up criteria that will check existence in collection tables.
      */
-    private ReportQueryByCriteria getCollectionReportQuery(String key, CritField critField) {
+    protected ReportQueryByCriteria getCollectionReportQuery(String key, CritField critField) {
         Criteria crit = new Criteria();
         crit.addEqualToField(ProtocolLookupConstants.Property.PROTOCOL_ID, Criteria.PARENT_QUERY_PREFIX + ProtocolLookupConstants.Property.PROTOCOL_ID);
         String nameValue = critField.getFieldValue().replace('*', '%');
@@ -426,9 +432,9 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
         subCrit.addLike(propertyName, nameValue.toUpperCase());
         subCrit.addEqualToField(ProtocolLookupConstants.Property.PROTOCOL_PERSON_ID, Criteria.PARENT_QUERY_PREFIX 
                 + ProtocolLookupConstants.Property.PROTOCOL_PERSON_ID);
-        crit.addExists(QueryFactory.newReportQuery(ProtocolUnit.class, subCrit));
+        crit.addExists(QueryFactory.newReportQuery(getProtocolUnitBOClassHook(), subCrit));
 
-        return QueryFactory.newReportQuery(ProtocolPerson.class, crit);
+        return QueryFactory.newReportQuery(getProtocolPersonBOClassHook(), crit);
     }
 
     
@@ -556,7 +562,7 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
         crit.addEqualTo(SEQUENCE_NUMBER, getMaxSequenceNumberQuery());
         crit.addIn(PROTOCOL_STATUS_CODE, Arrays.asList(new String[]{"100", "101", "102", "103", "104", "105", "106"}));
         
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(Protocol.class, crit);
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(getProtocolBOClassHook(), crit);
         
         logQuery(query);
         
@@ -568,7 +574,7 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
         ReportQueryByCriteria subQuery;
         Criteria subCrit = new Criteria();
         subCrit.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
-        subQuery = QueryFactory.newReportQuery(Protocol.class, subCrit);
+        subQuery = QueryFactory.newReportQuery(getProtocolBOClassHook(), subCrit);
         subQuery.setAttributes(new String[] { "max(sequence_number)" });
         return subQuery;
     }
@@ -576,5 +582,9 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
     protected abstract Class<? extends Protocol> getProtocolBOClassHook();
     protected abstract Class<? extends ProtocolResearchArea> getProtocolResearchAreaBOClassHook();
     protected abstract Class<? extends ProtocolPerson> getProtocolPersonBOClassHook();
-
+    protected abstract Class<? extends ProtocolFundingSource> getProtocolFundingSourceBOClassHook();
+    protected abstract Class<? extends ProtocolLocation> getProtocolLocationBOClassHook();
+    protected abstract Class<? extends ProtocolUnit> getProtocolUnitBOClassHook();
+    protected abstract Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook();
+    
 }
