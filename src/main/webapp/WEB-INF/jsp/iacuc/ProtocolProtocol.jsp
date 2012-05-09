@@ -68,6 +68,7 @@
     className="${className}"
     displayLayStatementsRow = "true"/>
     
+    
 <kra-protocol:protocolStatusDate 
     protocolAttributes="${protocolAttributes}"/>
     
@@ -79,16 +80,23 @@
      protocolReferenceBeanAttributes="${protocolReferenceBeanAttributes}"
      researchAreasAttributes="${researchAreasAttributes}"
      action="${iacucProtocolProtocol}"
-     className="${className}"/>
+     className="${className}"
+     showProjectTypeInsteadOfFDAAppNumber = "true"/>
+    
+     
 <kra-protocol:protocolLocations 
     protocolLocationAttributes="${protocolLocationAttributes}"
     organizationAttributes="${organizationAttributes}"
     protocolOrganizationTypeAttributes="${protocolOrganizationTypeAttributes}"
     rolodexAttributes="${rolodexAttributes}"
     action="${iacucProtocolLocation}"/>
+    
+    
 <kra-protocol:protocolFundingSources 
     protocolFundingSourceAttributes="${protocolFundingSourceAttributes}"
     fundingSourceTypeAttributes="${fundingSourceTypeAttributes}"/>
+    
+    
 <%-- <kra-protocol:protocolParticipants  --%>
 <%--     attributes="${protocolParticipantAttributes}" --%>
 <%--     action="${iacucProtocolParticipant}"/> --%>

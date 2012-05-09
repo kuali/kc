@@ -40,7 +40,7 @@
                 <ref bean="IacucProtocol-sequenceNumber" />
                 <ref bean="IacucProtocol-versionNumber" />
                 <ref bean="IacucProtocol-protocolTypeCode" />
-                
+                <ref bean="IacucProtocol-protocolProjectTypeCode" />
                 <ref bean="IacucProtocol-protocolStatusCode" />
                 <ref bean="IacucProtocol-leadUnitNumber" />
 				<ref bean="IacucProtocol-leadUnitName" />
@@ -147,11 +147,11 @@
     <bean id="IacucProtocol-protocolTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protocolTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Protocol Type Code" />
-        <property name="shortLabel" value="Protocol Type Code" />
+        <property name="label" value="Protocol Type" />
+        <property name="shortLabel" value="Protocol Type" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
+            <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="required" value="true" />
         <property name="control" >
@@ -250,22 +250,24 @@
     </bean>
 
     <bean id="IacucProtocol-description" parent="IacucProtocol-description-parentBean" />
-    <bean id="IacucProtocol-description-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="description" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Description" />
-        <property name="shortLabel" value="Description" />
-        <property name="maxLength" value="2000" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Description" />
-        <property name="description" value="Description" />
-    </bean>
+	<bean id="IacucProtocol-description-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="description" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Summary/Keywords" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="2000" />
+		<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+		<property name="control" >
+      		<bean parent="TextareaControlDefinition"
+            	p:rows="3"
+            	p:cols="100"/> <!-- p:cols="38"/> -->
+		</property>
+		<property name="summary" value="Description" />
+		<property name="description" value="Description" />
+	</bean>
     
     <bean id="IacucProtocol-initialSubmissionDate" parent="IacucProtocol-initialSubmissionDate-parentBean" />
     <bean id="IacucProtocol-initialSubmissionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
@@ -316,7 +318,32 @@
         </property>
         <property name="summary" value="Fda Application Number" />
         <property name="description" value="Fda Application Number" />
+    </bean>    
+    
+    <bean id="IacucProtocol-protocolProjectTypeCode" parent="IacucProtocol-protocolProjectTypeCode-parentBean" />
+    <bean id="IacucProtocol-protocolProjectTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+    	<property name="name" value="protocolProjectTypeCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Project Type" />
+		<property name="shortLabel" value="Protocol Project Type" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+    	<property name="required" value="false" />
+    	<property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.iacuc.protocol.IacucProtocolProjectType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            	p:includeKeyInLabel="false"
+            	p:includeBlankRow="false"
+            	p:keyAttribute="projectTypeCode"
+            	p:labelAttribute="description" />
+    	</property>
+    	<property name="summary" value="Protocol Project Type Code" />
+        <property name="description" value="Protocol Project Type Code" />
     </bean>
+    
 
     <bean id="IacucProtocol-referenceNumber1" parent="IacucProtocol-referenceNumber1-parentBean" />
     <bean id="IacucProtocol-referenceNumber1-parentBean" abstract="true" parent="AttributeDefinition" >
