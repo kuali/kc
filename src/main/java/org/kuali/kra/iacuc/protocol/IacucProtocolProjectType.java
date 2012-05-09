@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.osedu.org/licenses/ECL-2.0
+ * http://www.opensource.org/licenses/ecl1.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,31 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.protocol;
+package org.kuali.kra.iacuc.protocol;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public abstract class ProtocolType extends KraPersistableBusinessObjectBase {
+public class IacucProtocolProjectType extends KraPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 6316259927932601122L;
-
+    private static final long serialVersionUID = 1121562998087290331L;
     
-    private String protocolTypeCode;
+    private String projectTypeCode;
 
     private String description;
 
-    public ProtocolType() {
+    public IacucProtocolProjectType() {
     }
 
-    public String getProtocolTypeCode() {
-        return protocolTypeCode;
+    public String getProjectTypeCode() {
+        return projectTypeCode;
     }
 
-    public void setProtocolTypeCode(String protocolTypeCode) {
-        this.protocolTypeCode = protocolTypeCode;
+    public void setProjectTypeCode(String projectTypeCode) {
+        this.projectTypeCode = projectTypeCode;
     }
 
     public String getDescription() {
@@ -47,4 +46,5 @@ public abstract class ProtocolType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }
