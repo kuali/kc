@@ -20,7 +20,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * This class represents the Protocol Attachment Group.
  */
-public class ProtocolAttachmentGroup extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolAttachmentGroup extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2053606476193782286L;
 
@@ -31,7 +31,7 @@ public class ProtocolAttachmentGroup extends KraPersistableBusinessObjectBase {
     /**
      * empty ctor to satisfy JavaBean convention.
      */
-    public ProtocolAttachmentGroup() {
+    protected ProtocolAttachmentGroup() {
         super();
     }
 
