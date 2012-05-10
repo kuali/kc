@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
@@ -47,7 +48,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     private static final String SUBMITTED_TO_IACUC = "Submitted to IACUC";
     
     private DocumentService documentService;
-    private IacucProtocolActionService protocolActionService;
+    private ProtocolActionService protocolActionService;
     private IacucProtocolFinderDao protocolFinderDao;
     private BusinessObjectService businessObjectService;
 //    private ProtocolAssignReviewersService protocolAssignReviewersService;
@@ -64,7 +65,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
      * Set the Protocol Action Service.
      * @param protocolActionService
      */
-    public void setProtocolActionService(IacucProtocolActionService protocolActionService) {
+    public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
     }
     

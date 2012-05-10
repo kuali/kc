@@ -19,7 +19,7 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
@@ -108,12 +108,9 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
      * @return true if the action can be executed; otherwise false
      */
     protected final boolean canExecuteAction(Protocol protocol, String protocolActionTypeCode) {
-        return false;
-        /* -- commented as part of GENERATED CODE need to verify
-        protocol.isActive() &&
+        return protocol.isActive() &&
                !protocol.getProtocolDocument().isViewOnly() &&
                protocolActionService.isActionAllowed(protocolActionTypeCode, protocol);
-               */
     }
     
     protected boolean isPessimisticLocked(Document document) {
