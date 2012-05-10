@@ -21,26 +21,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.kew.KraDocumentRejectionService;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
-import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
-import org.kuali.kra.kew.KraDocumentRejectionService;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -154,7 +154,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         DocumentHeader docHeader = new DocumentHeader();
         docHeader.setWorkflowDocument(workflowDocument);
         docHeader.setDocumentNumber(workflowDocument.getDocumentId().toString());
-        protocolReviewDocument = new ProtocolOnlineReviewDocument();
+        protocolReviewDocument = new IacucProtocolOnlineReviewDocument();
         protocolReviewDocument.setDocumentNumber(docHeader.getDocumentNumber());
         protocolReviewDocument.setDocumentHeader(docHeader);
         
@@ -806,5 +806,6 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
+
     
 }
