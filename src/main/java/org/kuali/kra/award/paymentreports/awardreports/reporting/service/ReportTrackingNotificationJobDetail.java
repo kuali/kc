@@ -87,6 +87,7 @@ public class ReportTrackingNotificationJobDetail extends QuartzJobBean {
         int i = 1;
         for (ReportTrackingNotificationDetails detail : details) {
             builder.append("Report Tracking Notification " + i++ + BREAK);
+            builder.append("Notification Name : " + detail.getNotificationName() + BREAK);
             builder.append("Action Code : " + detail.getActionCode() + BREAK);
             if (StringUtils.isNotBlank(detail.getErrorMessage())) {
                 builder.append("Error Occurred : " + detail.getErrorMessage());
