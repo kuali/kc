@@ -14,6 +14,8 @@
 	<param name="ken.mode">REMOTE</param>
 	<param name="ksb.mode">REMOTE</param>
 	<param name="kns.mode">LOCAL</param>
+	<param name="krad.mode">REMOTE</param>
+    <param name="krms.mode">REMOTE</param>
 	<param name="coreservice.mode">REMOTE</param>
 	<param name="location.mode">REMOTE</param>	
 	<param name="core.mode">LOCAL</param>

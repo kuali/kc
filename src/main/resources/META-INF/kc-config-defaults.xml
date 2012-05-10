@@ -31,6 +31,7 @@
 	<param name="ken.mode">LOCAL</param>
 	<param name="ksb.mode">LOCAL</param>
 	<param name="kns.mode">LOCAL</param>
+	<param name="krad.mode">LOCAL</param>
 	<param name="krms.mode">LOCAL</param>
 	<param name="coreservice.mode">LOCAL</param>
 	<param name="location.mode">LOCAL</param>
@@ -75,6 +76,7 @@
 	<param name="kew.url">${rice.server.url}/kew</param>
 	<param name="kim.url">${rice.server.url}/kim</param>
 	<param name="ksb.url">${rice.server.url}/ksb</param>
+	<param name="krad.url">${rice.server.url}/kr-krad</param>
 	<param name="rice.url">${rice.server.url}/kr</param>
 	<param name="workflow.url">${kew.url}</param>
 	<param name="kuali.docHandler.url.prefix">${application.url}</param>
