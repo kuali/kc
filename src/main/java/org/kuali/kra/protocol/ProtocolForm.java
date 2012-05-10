@@ -15,19 +15,19 @@
  */
 package org.kuali.kra.protocol;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContext;
 import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
@@ -46,7 +46,6 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -57,6 +56,10 @@ import org.kuali.rice.krad.util.KRADConstants;
 public abstract class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, Auditable, QuestionableFormInterface {
     
     private static final long serialVersionUID = 4646326030098259702L;
+    
+    private static final String DATE_FORMAT = "MM/dd/yyyy";
+    private static final String DATE_TIME_FORMAT = "hh:mm a MM/dd/yyyy";
+    
     
 // TODO *********commented the code below during IACUC refactoring*********   
 //    /**
@@ -250,48 +253,16 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        ProtocolDocument pd = getProtocolDocument();
-        
-        HeaderField documentNumber = getDocInfo().get(0);
-        documentNumber.setDdAttributeEntryName("DataDictionary.ProtocolDocument.attributes.documentNumber");
-        
-        ProtocolStatus protocolStatus = (pd == null) ? null : pd.getProtocol().getProtocolStatus();
-        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", protocolStatus == null? "" : protocolStatus.getDescription());
-        getDocInfo().set(1, docStatus);
-        
-        String lastUpdatedDateStr = null;
-        if(pd != null && pd.getUpdateTimestamp() != null) {
-            lastUpdatedDateStr = CoreApiServiceLocator.getDateTimeService().toString(pd.getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
-        }
-        
-        if(getDocInfo().size() > 2) {
-            HeaderField initiatorField = getDocInfo().get(2);
-            String modifiedInitiatorFieldStr = initiatorField.getDisplayValue();
-            if(StringUtils.isNotBlank(lastUpdatedDateStr)) {
-                modifiedInitiatorFieldStr = modifiedInitiatorFieldStr + " : " + lastUpdatedDateStr;
-            }
-            getDocInfo().set(2, new HeaderField("DataDictionary.Protocol.attributes.initiatorLastUpdated", modifiedInitiatorFieldStr));
-        }
-        
-        String protocolSubmissionStatusStr = null;
-        if(pd != null && pd.getProtocol() != null && pd.getProtocol().getProtocolSubmission() != null) {
-            pd.getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatusCode");
-            protocolSubmissionStatusStr = pd.getProtocol().getProtocolSubmission().getSubmissionStatus().getDescription();
-        }
-        HeaderField protocolSubmissionStatus = new HeaderField("DataDictionary.Protocol.attributes.protocolSubmissionStatus", protocolSubmissionStatusStr);
-        getDocInfo().set(3, protocolSubmissionStatus);
-        
-        getDocInfo().add(new HeaderField("DataDictionary.Protocol.attributes.protocolNumber", (pd == null) ? null : pd.getProtocol().getProtocolNumber()));
-
-        String expirationDateStr = null;
-        if(pd != null && pd.getProtocol().getExpirationDate() != null) {
-            expirationDateStr = CoreApiServiceLocator.getDateTimeService().toString(pd.getProtocol().getExpirationDate(), "MM/dd/yyyy");
-        }
-        
-        HeaderField expirationDate = new HeaderField("DataDictionary.Protocol.attributes.expirationDate", expirationDateStr);
-        getDocInfo().add(expirationDate);
+    }
+    
+    protected String getFormattedDate(Date dateInput) {
+        return CoreApiServiceLocator.getDateTimeService().toString(dateInput, DATE_FORMAT);        
     }
 
+    protected String getFormattedDateTime(Timestamp dateTimeInput) {
+        return CoreApiServiceLocator.getDateTimeService().toString(dateTimeInput, DATE_TIME_FORMAT);        
+    }
+    
     /* Reset method
      * @param mapping
      * @param request

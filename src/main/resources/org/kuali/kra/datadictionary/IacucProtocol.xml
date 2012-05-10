@@ -77,6 +77,8 @@
 				<ref bean="IacucProtocol-speciesCode" />
 				<ref bean="IacucProtocol-exceptionCategoryCode" />
 				<ref bean="IacucProtocol-lookupProtocolPersonId" />
+				<ref bean="IacucProtocol-initiatorLastUpdated" />
+				<ref bean="IacucProtocol-protocolSubmissionStatus" />
             </list>
         </property>
     </bean>
@@ -748,6 +750,25 @@
         <property name="description" value="All My Protocols" />
     </bean>
     
+   	<bean id="IacucProtocol-initiatorLastUpdated" parent="IacucProtocol-initiatorLastUpdated-parentBean" />
+	<bean id="IacucProtocol-initiatorLastUpdated-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="initiatorLastUpdated" />
+		<property name="label" value="Initiator:Last Updated" />
+		<property name="shortLabel" value="Initiator:Last Updated" />
+	    <property name="maxLength" value="30" />
+	   	<property name="required" value="false" />
+	   	<property name="control" >
+	    	<bean parent="TextControlDefinition" p:size="30" />
+	   	</property>
+		<property name="summary" value="Label for Protocol header fields" />
+		<property name="description" value="Label for Protocol header fields" />
+	</bean>
+    
+
+	<bean id="IacucProtocol-protocolSubmissionStatus" parent="IacucProtocol-protocolSubmissionStatus-parentBean" />
+	<bean id="IacucProtocol-protocolSubmissionStatus-parentBean" abstract="true" parent="ProtocolSubmission-submissionStatus.description-parentBean">
+		<property name="name" value="protocolSubmissionStatus" />
+	</bean>
 
     <!-- Business Object Inquiry Definition -->
     <bean id="IacucProtocol-inquiryDefinition" parent="IacucProtocol-inquiryDefinition-parentBean" />
