@@ -78,6 +78,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     private KcPersonService kcPersonService;
     private IrbPrintXmlUtilService irbPrintXmlUtilService;
     private String EXPEDIT_ACTION_TYPE_CODE = "205";
+    private String EXEMPT_ACTION_TYPE_CODE = "206";
     private String FOLLOW_UP_ACTION_CODE = "109";
 
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {        Committee committee = (Committee)printableBusinessObject;
@@ -137,15 +138,18 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             
             for (ProtocolAction protocolAction : protocolActions){
             	actionTypeCode = protocolAction.getProtocolActionTypeCode();
-            	if(protocolAction.getFollowupActionCode()!=null && protocolAction.getFollowupActionCode().equals(FOLLOW_UP_ACTION_CODE)){
-            	 followUpAction=protocolAction.getFollowupActionCode();
-            	}
+            	if(actionTypeCode.equals(EXPEDIT_ACTION_TYPE_CODE) || actionTypeCode.equals(EXEMPT_ACTION_TYPE_CODE)){
+                    if (protocolAction.getFollowupActionCode() != null
+                            && protocolAction.getFollowupActionCode().equals(FOLLOW_UP_ACTION_CODE)) {
+                        followUpAction = protocolAction.getFollowupActionCode();
+                    }
+                    break;
+                }
             }
-            if((actionTypeCode.equals(EXPEDIT_ACTION_TYPE_CODE)
-            && followUpAction != null && followUpAction.equals(
-            FOLLOW_UP_ACTION_CODE))
-            || !actionTypeCode.equals(EXPEDIT_ACTION_TYPE_CODE)
-           ) {
+            if ((actionTypeCode.equals(EXPEDIT_ACTION_TYPE_CODE) || actionTypeCode.equals(EXEMPT_ACTION_TYPE_CODE))
+                    && followUpAction == null) {
+                continue;
+            } 
 
 //            protocol.refreshNonUpdateableReferences();
             protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
@@ -287,7 +291,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             }
 
             getIrbPrintXmlUtilService().setProcotolMinutes(committeeSchedule,protocolSubmission,protocolSubmissionType);
-        }
+        
         setOtherActionItems(committeeSchedule,schedule);}
         return schedule;
 
