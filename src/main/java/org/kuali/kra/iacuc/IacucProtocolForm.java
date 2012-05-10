@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
@@ -31,10 +32,14 @@ import org.kuali.kra.iacuc.species.IacucProtocolSpeciesHelper;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolExceptionHelper;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearchHelper;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
+import org.kuali.rice.kns.web.ui.HeaderField;
 
 /**
  * This class...
@@ -179,6 +184,51 @@ public class IacucProtocolForm extends ProtocolForm {
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
         }
+    }
+    
+    @Override
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
+        IacucProtocolDocument pd = getIacucProtocolDocument();
+        
+        HeaderField documentNumber = getDocInfo().get(0);
+        documentNumber.setDdAttributeEntryName("DataDictionary.IacucProtocolDocument.attributes.documentNumber");
+        
+        ProtocolStatus protocolStatus = (pd == null) ? null : pd.getIacucProtocol().getProtocolStatus();
+        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", protocolStatus == null? "" : protocolStatus.getDescription());
+        getDocInfo().set(1, docStatus);
+        
+        String lastUpdatedDateStr = null;
+        if(pd != null && pd.getUpdateTimestamp() != null) {
+            lastUpdatedDateStr = getFormattedDateTime(pd.getUpdateTimestamp());
+        }
+        
+        if(getDocInfo().size() > 2) {
+            HeaderField initiatorField = getDocInfo().get(2);
+            String modifiedInitiatorFieldStr = initiatorField.getDisplayValue();
+            if(StringUtils.isNotBlank(lastUpdatedDateStr)) {
+                modifiedInitiatorFieldStr = modifiedInitiatorFieldStr + " : " + lastUpdatedDateStr;
+            }
+            getDocInfo().set(2, new HeaderField("DataDictionary.IacucProtocol.attributes.initiatorLastUpdated", modifiedInitiatorFieldStr));
+        }
+        
+        String protocolSubmissionStatusStr = null;
+        if(pd != null && pd.getIacucProtocol() != null && pd.getIacucProtocol().getProtocolSubmission() != null) {
+            pd.getIacucProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatusCode");
+            protocolSubmissionStatusStr = pd.getIacucProtocol().getProtocolSubmission().getSubmissionStatus().getDescription();
+        }
+        HeaderField protocolSubmissionStatus = new HeaderField("DataDictionary.IacucProtocol.attributes.protocolSubmissionStatus", protocolSubmissionStatusStr);
+        getDocInfo().set(3, protocolSubmissionStatus);
+        
+        getDocInfo().add(new HeaderField("DataDictionary.IacucProtocol.attributes.protocolNumber", (pd == null) ? null : pd.getIacucProtocol().getProtocolNumber()));
+
+        String expirationDateStr = null;
+        if(pd != null && pd.getProtocol().getExpirationDate() != null) {
+            expirationDateStr = getFormattedDate(pd.getIacucProtocol().getExpirationDate()); 
+        }
+        
+        HeaderField expirationDate = new HeaderField("DataDictionary.IacucProtocol.attributes.expirationDate", expirationDateStr);
+        getDocInfo().add(expirationDate);
     }
     
 }
