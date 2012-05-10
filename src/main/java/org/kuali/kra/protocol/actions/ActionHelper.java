@@ -42,40 +42,20 @@ import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.ProtocolVersionService;
-//import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
-//import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
-//import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
-//import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
-//import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
-//import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
-//import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
-//import org.kuali.kra.protocol.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
-//import org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersBean;
-//import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
-//import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
-//import org.kuali.kra.protocol.actions.decision.CommitteeDecisionService;
-//import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
-//import org.kuali.kra.protocol.actions.followup.FollowupActionService;
-//import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
-//import org.kuali.kra.protocol.actions.grantexemption.ProtocolGrantExemptionBean;
-//import org.kuali.kra.protocol.actions.modifysubmission.ProtocolModifySubmissionBean;
-//import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredBean;
-//import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
-//import org.kuali.kra.protocol.actions.notifyirb.ProtocolActionAttachment;
-//import org.kuali.kra.protocol.actions.notifyirb.ProtocolNotifyIrbBean;
-//import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
-//import org.kuali.kra.protocol.actions.print.QuestionnairePrintOptionComparator;
-//import org.kuali.kra.protocol.actions.request.ProtocolRequestBean;
-//import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
-//import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
-//import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-//import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-//import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
-//import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
-//import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionService;
-//import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
-//import org.kuali.kra.protocol.actions.undo.UndoLastActionBean;
+import org.kuali.kra.protocol.actions.undo.UndoLastActionBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
+import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
+import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
+import org.kuali.kra.protocol.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
+import org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersBean;
+import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
+import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
+import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
+import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.protocol.actions.modifysubmission.ProtocolModifySubmissionBean;
+import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
+import org.kuali.kra.protocol.actions.request.ProtocolRequestBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
@@ -235,111 +215,110 @@ public abstract class ActionHelper implements Serializable {
     
     protected ProtocolSubmitAction protocolSubmitAction;
     protected ProtocolWithdrawBean protocolWithdrawBean;
-//    private ProtocolRequestBean protocolCloseRequestBean;
-//    private ProtocolRequestBean protocolSuspendRequestBean;
-//    private ProtocolRequestBean protocolCloseEnrollmentRequestBean;
-//    private ProtocolRequestBean protocolReOpenEnrollmentRequestBean;
-//    private ProtocolRequestBean protocolDataAnalysisRequestBean;
-//    private ProtocolRequestBean protocolTerminateRequestBean;
-//    private ProtocolNotifyIrbBean protocolNotifyIrbBean;
-//    private ProtocolNotifyCommitteeBean protocolNotifyCommitteeBean;
-//    private ProtocolAmendmentBean protocolAmendmentBean;
-//    private ProtocolAmendmentBean protocolRenewAmendmentBean;
-//    private ProtocolDeleteBean protocolDeleteBean;
-//    private ProtocolAssignToAgendaBean assignToAgendaBean;
-//    private ProtocolAssignCmtSchedBean assignCmtSchedBean;
-//    private ProtocolAssignReviewersBean protocolAssignReviewersBean;
-//    private ProtocolGrantExemptionBean protocolGrantExemptionBean;
-//    private ProtocolApproveBean protocolFullApprovalBean;
-//    private ProtocolApproveBean protocolExpeditedApprovalBean;
-//    private ProtocolApproveBean protocolResponseApprovalBean;
-//    private ProtocolGenericActionBean protocolDisapproveBean;
-//    private ProtocolGenericActionBean protocolSMRBean;
-//    private ProtocolGenericActionBean protocolSRRBean;
-//    private ProtocolGenericActionBean protocolReopenEnrollmentBean;
-//    private ProtocolGenericActionBean protocolCloseEnrollmentBean;
-//    private ProtocolGenericActionBean protocolSuspendBean;
-//    private ProtocolGenericActionBean protocolSuspendByDsmbBean;
-//    private ProtocolGenericActionBean protocolCloseBean;
-//    private ProtocolGenericActionBean protocolExpireBean;
-//    private ProtocolGenericActionBean protocolTerminateBean;
-//    private ProtocolGenericActionBean protocolPermitDataAnalysisBean;
-//    private ProtocolGenericActionBean protocolIrbAcknowledgementBean;
-//    private AdminCorrectionBean protocolAdminCorrectionBean;
-//    private UndoLastActionBean undoLastActionBean;
-//    private CommitteeDecision committeeDecision;
-//    private ProtocolModifySubmissionBean protocolModifySubmissionBean;
-//    private ProtocolGenericActionBean protocolDeferBean;
-//    private ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
-//    private ProtocolGenericActionBean protocolManageReviewCommentsBean;
-//    private ProtocolGenericActionBean protocolAbandonBean;
+    protected ProtocolRequestBean protocolCloseRequestBean;
+    protected ProtocolRequestBean protocolSuspendRequestBean;
+    protected ProtocolRequestBean protocolCloseEnrollmentRequestBean;
+    protected ProtocolRequestBean protocolReOpenEnrollmentRequestBean;
+    protected ProtocolRequestBean protocolDataAnalysisRequestBean;
+    protected ProtocolRequestBean protocolTerminateRequestBean;
+    protected ProtocolNotifyCommitteeBean protocolNotifyCommitteeBean;
+    protected ProtocolAmendmentBean protocolAmendmentBean;
+    protected ProtocolAmendmentBean protocolRenewAmendmentBean;
+    protected ProtocolDeleteBean protocolDeleteBean;
+    protected ProtocolAssignToAgendaBean assignToAgendaBean;
+    protected ProtocolAssignCmtSchedBean assignCmtSchedBean;
+    protected ProtocolAssignReviewersBean protocolAssignReviewersBean;
+//    protected ProtocolGrantExemptionBean protocolGrantExemptionBean;
+    protected ProtocolApproveBean protocolFullApprovalBean;
+    protected ProtocolApproveBean protocolExpeditedApprovalBean;
+    protected ProtocolApproveBean protocolResponseApprovalBean;
+    protected ProtocolGenericActionBean protocolDisapproveBean;
+    protected ProtocolGenericActionBean protocolSMRBean;
+    protected ProtocolGenericActionBean protocolSRRBean;
+    protected ProtocolGenericActionBean protocolReopenEnrollmentBean;
+    protected ProtocolGenericActionBean protocolCloseEnrollmentBean;
+    protected ProtocolGenericActionBean protocolSuspendBean;
+    protected ProtocolGenericActionBean protocolSuspendByDsmbBean;
+    protected ProtocolGenericActionBean protocolCloseBean;
+    protected ProtocolGenericActionBean protocolExpireBean;
+    protected ProtocolGenericActionBean protocolTerminateBean;
+    protected ProtocolGenericActionBean protocolPermitDataAnalysisBean;
+    protected ProtocolGenericActionBean protocolIrbAcknowledgementBean;
+    protected AdminCorrectionBean protocolAdminCorrectionBean;
+    protected UndoLastActionBean undoLastActionBean;
+    protected CommitteeDecision committeeDecision;
+    protected ProtocolModifySubmissionBean protocolModifySubmissionBean;
+    protected ProtocolGenericActionBean protocolDeferBean;
+//    protected ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
+    protected ProtocolGenericActionBean protocolManageReviewCommentsBean;
+    protected ProtocolGenericActionBean protocolAbandonBean;
 
-    private String currentTaskName = "";
-    private boolean prevDisabled;
-    private boolean nextDisabled;
-    private transient ParameterService parameterService;
-    private transient TaskAuthorizationService taskAuthorizationService;
-//    private transient ProtocolAmendRenewService protocolAmendRenewService;
-//    private transient ProtocolVersionService protocolVersionService;
-//    private transient ProtocolSubmitActionService protocolSubmitActionService;
-//    private transient ProtocolActionService protocolActionService;
-//    private boolean hasAmendments;
-//    private boolean hasRenewals;
-//    private boolean submissionHasNoAmendmentDetails;
+    protected String currentTaskName = "";
+    protected boolean prevDisabled;
+    protected boolean nextDisabled;
+    protected transient ParameterService parameterService;
+    protected transient TaskAuthorizationService taskAuthorizationService;
+//    protected transient ProtocolAmendRenewService protocolAmendRenewService;
+//    protected transient ProtocolVersionService protocolVersionService;
+//    protected transient ProtocolSubmitActionService protocolSubmitActionService;
+//    protected transient ProtocolActionService protocolActionService;
+//    protected boolean hasAmendments;
+//    protected boolean hasRenewals;
+//    protected boolean submissionHasNoAmendmentDetails;
 //    /*
 //     * Identifies the protocol "document" to print.
 //     */
-//    private String printTag;
+//    protected String printTag;
 //    
-//    private ProtocolSummaryPrintOptions protocolSummaryPrintOptions;
+//    protected ProtocolSummaryPrintOptions protocolSummaryPrintOptions;
 //
-    private Boolean summaryReport;
-    private Boolean fullReport;
-    private Boolean historyReport;
-    private Boolean reviewCommentsReport;
+    protected Boolean summaryReport;
+    protected Boolean fullReport;
+    protected Boolean historyReport;
+    protected Boolean reviewCommentsReport;
     
-//    private ProtocolSummary protocolSummary;
-//    private ProtocolSummary prevProtocolSummary;
-    private int currentSequenceNumber = -1;
+//    protected ProtocolSummary protocolSummary;
+//    protected ProtocolSummary prevProtocolSummary;
+    protected int currentSequenceNumber = -1;
     
-    private String selectedHistoryItem;
-    private Date filteredHistoryStartDate;
-    private Date filteredHistoryEndDate;
+    protected String selectedHistoryItem;
+    protected Date filteredHistoryStartDate;
+    protected Date filteredHistoryEndDate;
     
     // additional properties for Submission Details
-    private ProtocolSubmission selectedSubmission;
-    private List<CommitteeScheduleMinute> reviewComments;        
-    private List<ProtocolReviewAttachment> reviewAttachments;        
-    private List<ProtocolVoteAbstainee> abstainees;        
-    private List<ProtocolVoteRecused> recusers;        
-//    private List<ProtocolReviewer> protocolReviewers;        
-    private int currentSubmissionNumber;
-    private String renewalSummary;
+    protected ProtocolSubmission selectedSubmission;
+    protected List<CommitteeScheduleMinute> reviewComments;        
+    protected List<ProtocolReviewAttachment> reviewAttachments;        
+    protected List<ProtocolVoteAbstainee> abstainees;        
+    protected List<ProtocolVoteRecused> recusers;        
+//    protected List<ProtocolReviewer> protocolReviewers;        
+    protected int currentSubmissionNumber;
+    protected String renewalSummary;
     
     // indicator for whether there is submission questionnaire answer exist.
     // ie, questionnaire has been saved for a request/notify irb action
-    private boolean submissionQuestionnaireExist;
+    protected boolean submissionQuestionnaireExist;
     // check if there is submission questionnaire to answer
-    private boolean toAnswerSubmissionQuestionnaire;
+    protected boolean toAnswerSubmissionQuestionnaire;
 
-    private transient CommitteeScheduleService committeeScheduleService;
-    private transient KcPersonService kcPersonService;
-    private transient KraAuthorizationService kraAuthorizationService;
-    private transient BusinessObjectService businessObjectService;
-//    private transient FollowupActionService followupActionService;
-//    private Map<String, ProtocolRequestBean>  actionTypeRequestBeanMap = new HashMap<String, ProtocolRequestBean>();
-    private Map<String,Boolean> followupActionMap = new HashMap<String,Boolean>();
+    protected transient CommitteeScheduleService committeeScheduleService;
+    protected transient KcPersonService kcPersonService;
+    protected transient KraAuthorizationService kraAuthorizationService;
+    protected transient BusinessObjectService businessObjectService;
+//    protected transient FollowupActionService followupActionService;
+//    protected Map<String, ProtocolRequestBean>  actionTypeRequestBeanMap = new HashMap<String, ProtocolRequestBean>();
+    protected Map<String,Boolean> followupActionMap = new HashMap<String,Boolean>();
     
     protected Map<String, ProtocolActionBean> actionBeanTaskMap = new HashMap<String, ProtocolActionBean>();    
     // protocol print
-//    private ProtocolSummaryPrintOptions protocolPrintOption = new ProtocolSummaryPrintOptions();
-//    private List<QuestionnairePrintOption> questionnairesToPrints;
+//    protected ProtocolSummaryPrintOptions protocolPrintOption = new ProtocolSummaryPrintOptions();
+//    protected List<QuestionnairePrintOption> questionnairesToPrints;
     // flag if versioned protocol questionnaire exist
-    private boolean summaryQuestionnaireExist;
-    private boolean hideReviewerName;
-    private boolean hideSubmissionReviewerName;
-    private boolean hideReviewerNameForAttachment;
-    private ProtocolCorrespondence protocolCorrespondence;
+    protected boolean summaryQuestionnaireExist;
+    protected boolean hideReviewerName;
+    protected boolean hideSubmissionReviewerName;
+    protected boolean hideReviewerNameForAttachment;
+    protected ProtocolCorrespondence protocolCorrespondence;
 
     /**
      * Constructs an ActionHelper.
@@ -354,7 +333,7 @@ public abstract class ActionHelper implements Serializable {
 //        protocolNotifyIrbBean = new ProtocolNotifyIrbBean(this);
 //        // setting the attachment here so new files can be attached to newActionAttachment
 //        protocolNotifyIrbBean.setNewActionAttachment(new ProtocolActionAttachment());
-//        protocolNotifyCommitteeBean = new ProtocolNotifyCommitteeBean(this);
+        protocolNotifyCommitteeBean = new ProtocolNotifyCommitteeBean(this);
 //
 //        protocolAmendmentBean = createAmendmentBean();
 //        protocolRenewAmendmentBean = createAmendmentBean();
@@ -950,56 +929,48 @@ public abstract class ActionHelper implements Serializable {
     protected String getParameterValue(String parameterName) {
         return this.getParameterService().getParameterValueAsString(ProtocolDocument.class, parameterName);      
     }
-    
-    protected boolean hasSubmitProtocolPermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL, getProtocol());
+  
+// Following methods are all demoted to IACUC    
+//    protected boolean hasSubmitProtocolPermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-    protected boolean hasSubmitProtocolUnavailablePermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL_UNAVAILABLE, getProtocol());
+//    }
+//    
+//    protected boolean hasSubmitProtocolUnavailablePermission() {
+//      ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL_UNAVAILABLE, getProtocol());
+//      return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+//    }
+//    
+//    protected boolean hasCreateAmendmentPermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-    protected boolean hasCreateAmendmentPermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, getProtocol());
+//    }
+//    
+//    protected boolean hasCreateAmendmentUnavailablePermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-    protected boolean hasCreateAmendmentUnavailablePermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-    protected boolean hasModifyAmendmentSectionsPermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, getProtocol());
+//    }
+//    
+//    protected boolean hasModifyAmendmentSectionsPermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, getProtocol());
 //        return ((!getProtocol().isRenewalWithoutAmendment())&&(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)));
-return true;        
-    }
-    
-    protected boolean hasModifyAmendmentSectionsUnavailablePermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS_UNAVAILABLE, getProtocol());
+//    }
+//    
+//    protected boolean hasModifyAmendmentSectionsUnavailablePermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-    protected boolean hasCreateRenewalPermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, getProtocol());
+//    }
+//    
+//    protected boolean hasCreateRenewalPermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-    protected boolean hasCreateRenewalUnavailablePermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL_UNAVAILABLE, getProtocol());
+//    }
+//    
+//    protected boolean hasCreateRenewalUnavailablePermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-//TODO: Demote this to IRB
+//    }
+//    
 //    protected boolean hasNotifyIrbPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_IRB, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -1009,55 +980,47 @@ return true;
 //        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_IRB_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
-    
-    protected boolean hasNotifyCommitteePermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_COMMITTEE, getProtocol());
+//    
+//    protected boolean hasNotifyCommitteePermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_COMMITTEE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-    protected boolean hasNotifyCommitteeUnavailablePermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_COMMITTEE_UNAVAILABLE, getProtocol());
+//    }
+//    
+//    protected boolean hasNotifyCommitteeUnavailablePermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_COMMITTEE_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-    protected boolean hasWithdrawPermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW, getProtocol());
+//    }
+//    
+//    protected boolean hasWithdrawPermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-    protected boolean hasWithdrawUnavailablePermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_UNAVAILABLE, getProtocol());
+//    }
+//    
+//    protected boolean hasWithdrawUnavailablePermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-    protected boolean hasRequestClosePermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE, getProtocol());
+//    }
+//    
+//    protected boolean hasRequestClosePermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-    protected boolean hasRequestCloseUnavailablePermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_UNAVAILABLE, getProtocol());
+//    }
+//    
+//    protected boolean hasRequestCloseUnavailablePermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-    protected boolean hasRequestSuspensionPermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION, getProtocol());
+//    }
+//    
+//    protected boolean hasRequestSuspensionPermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
-    protected boolean hasRequestSuspensionUnavailablePermission() {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION_UNAVAILABLE, getProtocol());
+//    }
+//    
+//    protected boolean hasRequestSuspensionUnavailablePermission() {
+//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_SUSPENSION_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
+//    }
+
 //    protected boolean hasRequestCloseEnrollmentPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -1160,12 +1123,11 @@ return true;
 //    protected boolean hasGrantExemptionUnavailablePermission() {
 //        return hasPermission(TaskName.GRANT_EXEMPTION_UNAVAILABLE);
 //    }
-    
-    protected boolean hasFullApprovePermission() {
-//TODO        return hasPermission(TaskName.APPROVE_PROTOCOL);
-return true;        
-    }
-    
+//    
+//    protected boolean hasFullApprovePermission() {
+//        return hasPermission(TaskName.APPROVE_PROTOCOL);
+//    }
+//    
 //    protected boolean hasFullApproveUnavailablePermission() {
 //        return hasPermission(TaskName.APPROVE_PROTOCOL_UNAVAILABLE);
 //    }
@@ -1317,13 +1279,12 @@ return true;
 //    protected boolean hasManageReviewCommentsUnavailablePermission() {
 //        return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE); 
 //    }
-    
-    protected boolean hasApproveOtherPermission() {
+//    
+//    protected boolean hasApproveOtherPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_APPROVE_OTHER, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;        
-    }
-    
+//    }
+//    
 //    protected boolean hasManageNotesPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_MANAGE_NOTES, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -1427,13 +1388,13 @@ return true;
 //    protected boolean hasTerminateRequestLastAction() {
 //        return ProtocolActionType.REQUEST_FOR_TERMINATION.equals(getLastPerformedAction().getProtocolActionTypeCode());
 //    }
-//
-//    protected TaskAuthorizationService getTaskAuthorizationService() {
-//        if (this.taskAuthorizationService == null) {
-//            this.taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);        
-//        }
-//        return this.taskAuthorizationService;
-//    }
+
+    protected TaskAuthorizationService getTaskAuthorizationService() {
+        if (this.taskAuthorizationService == null) {
+            this.taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);        
+        }
+        return this.taskAuthorizationService;
+    }
     
     public ProtocolSubmitAction getProtocolSubmitAction() {
         return protocolSubmitAction;
@@ -1470,13 +1431,13 @@ return true;
         return protocolWithdrawBean;
     }
     
-//    public ProtocolRequestBean getProtocolCloseRequestBean() {
-//        return protocolCloseRequestBean;
-//    }
-//
-//    public ProtocolRequestBean getProtocolSuspendRequestBean() {
-//        return protocolSuspendRequestBean;
-//    }
+    public ProtocolRequestBean getProtocolCloseRequestBean() {
+        return protocolCloseRequestBean;
+    }
+
+    public ProtocolRequestBean getProtocolSuspendRequestBean() {
+        return protocolSuspendRequestBean;
+    }
 //    
 //    public ProtocolRequestBean getProtocolCloseEnrollmentRequestBean() {
 //        return protocolCloseEnrollmentRequestBean;
@@ -1489,55 +1450,51 @@ return true;
 //    public ProtocolRequestBean getProtocolDataAnalysisRequestBean() {
 //        return protocolDataAnalysisRequestBean;
 //    }
-//    
-//    public ProtocolRequestBean getProtocolTerminateRequestBean(){
-//        return this.protocolTerminateRequestBean;
-//    }
-//    
-//    public ProtocolNotifyIrbBean getProtocolNotifyIrbBean() {
-//        return protocolNotifyIrbBean;
-//    }
-//    
-//    public ProtocolNotifyCommitteeBean getProtocolNotifyCommitteeBean() {
-//        return protocolNotifyCommitteeBean;
-//    }
-//    
-//    public ProtocolAmendmentBean getProtocolAmendmentBean() {
-//        return protocolAmendmentBean;
-//    }
-//    
-//    public void setProtocolAmendmentBean(ProtocolAmendmentBean protocolAmendmentBean) {
-//        this.protocolAmendmentBean = protocolAmendmentBean;
-//    }
-//    
-//    public ProtocolAmendmentBean getProtocolRenewAmendmentBean() {
-//        return protocolRenewAmendmentBean;
-//    }
-//    
-//    public ProtocolDeleteBean getProtocolDeleteBean() {
-//        return protocolDeleteBean;
-//    }
-//    
-//    public ProtocolAssignToAgendaBean getAssignToAgendaBean(){
-//        return this.assignToAgendaBean;
-//    }
-//    
-//    public ProtocolAssignCmtSchedBean getAssignCmtSchedBean() {
-//        return assignCmtSchedBean;
-//    }
-//    
-//    public ProtocolAssignReviewersBean getProtocolAssignReviewersBean() {
-//        return protocolAssignReviewersBean;
-//    }
-//                           
+    
+    public ProtocolRequestBean getProtocolTerminateRequestBean(){
+        return this.protocolTerminateRequestBean;
+    }
+    
+    public ProtocolNotifyCommitteeBean getProtocolNotifyCommitteeBean() {
+        return protocolNotifyCommitteeBean;
+    }
+    
+    public ProtocolAmendmentBean getProtocolAmendmentBean() {
+        return protocolAmendmentBean;
+    }
+    
+    public void setProtocolAmendmentBean(ProtocolAmendmentBean protocolAmendmentBean) {
+        this.protocolAmendmentBean = protocolAmendmentBean;
+    }
+    
+    public ProtocolAmendmentBean getProtocolRenewAmendmentBean() {
+        return protocolRenewAmendmentBean;
+    }
+    
+    public ProtocolDeleteBean getProtocolDeleteBean() {
+        return protocolDeleteBean;
+    }
+    
+    public ProtocolAssignToAgendaBean getAssignToAgendaBean(){
+        return this.assignToAgendaBean;
+    }
+    
+    public ProtocolAssignCmtSchedBean getAssignCmtSchedBean() {
+        return assignCmtSchedBean;
+    }
+    
+    public ProtocolAssignReviewersBean getProtocolAssignReviewersBean() {
+        return protocolAssignReviewersBean;
+    }
+                           
 //    public ProtocolGrantExemptionBean getProtocolGrantExemptionBean() {
 //        return protocolGrantExemptionBean;
 //    }
-//
-//    public ProtocolApproveBean getProtocolFullApprovalBean() {
-//        return protocolFullApprovalBean;
-//    }
-//
+
+    public ProtocolApproveBean getProtocolFullApprovalBean() {
+        return protocolFullApprovalBean;
+    }
+
 //    public ProtocolApproveBean getProtocolExpeditedApprovalBean() {
 //        return protocolExpeditedApprovalBean;
 //    }
@@ -1545,19 +1502,19 @@ return true;
 //    public ProtocolApproveBean getProtocolResponseApprovalBean() {
 //        return protocolResponseApprovalBean;
 //    }
-//    
-//    public ProtocolGenericActionBean getProtocolDisapproveBean() {
-//        return protocolDisapproveBean;
-//    }
-//    
-//    public ProtocolGenericActionBean getProtocolSMRBean() {
-//        return protocolSMRBean;
-//    }
-//    
-//    public ProtocolGenericActionBean getProtocolSRRBean() {
-//        return protocolSRRBean;
-//    }
-//    
+    
+    public ProtocolGenericActionBean getProtocolDisapproveBean() {
+        return protocolDisapproveBean;
+    }
+    
+    public ProtocolGenericActionBean getProtocolSMRBean() {
+        return protocolSMRBean;
+    }
+    
+    public ProtocolGenericActionBean getProtocolSRRBean() {
+        return protocolSRRBean;
+    }
+    
 //    public ProtocolGenericActionBean getProtocolReopenEnrollmentBean() {
 //        return protocolReopenEnrollmentBean;
 //    }
@@ -1565,57 +1522,57 @@ return true;
 //    public ProtocolGenericActionBean getProtocolCloseEnrollmentBean() {
 //        return protocolCloseEnrollmentBean;
 //    }
-//    
-//    public ProtocolGenericActionBean getProtocolSuspendBean() {
-//        return protocolSuspendBean;
-//    }
-//    
+    
+    public ProtocolGenericActionBean getProtocolSuspendBean() {
+        return protocolSuspendBean;
+    }
+    
 //    public ProtocolGenericActionBean getProtocolSuspendByDsmbBean() {
 //        return protocolSuspendByDsmbBean;
 //    }
-//    
-//    public ProtocolGenericActionBean getProtocolCloseBean() {
-//        return protocolCloseBean;
-//    }
-//    
-//    public ProtocolGenericActionBean getProtocolExpireBean() {
-//        return protocolExpireBean;
-//    }
-//    
-//    public ProtocolGenericActionBean getProtocolTerminateBean() {
-//        return protocolTerminateBean;
-//    }
-//    
+    
+    public ProtocolGenericActionBean getProtocolCloseBean() {
+        return protocolCloseBean;
+    }
+    
+    public ProtocolGenericActionBean getProtocolExpireBean() {
+        return protocolExpireBean;
+    }
+    
+    public ProtocolGenericActionBean getProtocolTerminateBean() {
+        return protocolTerminateBean;
+    }
+    
 //    public ProtocolGenericActionBean getProtocolPermitDataAnalysisBean() {
 //        return protocolPermitDataAnalysisBean;
 //    }
-//    
-//    public ProtocolGenericActionBean getProtocolIrbAcknowledgementBean() {
-//        return protocolIrbAcknowledgementBean;
-//    }
-//    
-//    public AdminCorrectionBean getProtocolAdminCorrectionBean() {
-//        return protocolAdminCorrectionBean;
-//    }
-//    
-//    public UndoLastActionBean getUndoLastActionBean() {
-//        if(null != undoLastActionBean) {
-//            undoLastActionBean.refreshActionsPerformed();
-//        }
-//        return undoLastActionBean;
-//    }
-//
+    
+    public ProtocolGenericActionBean getProtocolIacucAcknowledgementBean() {
+        return protocolIrbAcknowledgementBean;
+    }
+    
+    public AdminCorrectionBean getProtocolAdminCorrectionBean() {
+        return protocolAdminCorrectionBean;
+    }
+    
+    public UndoLastActionBean getUndoLastActionBean() {
+        if(null != undoLastActionBean) {
+            undoLastActionBean.refreshActionsPerformed();
+        }
+        return undoLastActionBean;
+    }
+
 //    public CommitteeDecision getCommitteeDecision() {
 //        return committeeDecision;
 //    }
-//    
-//    public ProtocolModifySubmissionBean getProtocolModifySubmissionBean() {
-//        return this.protocolModifySubmissionBean;
-//    }
-//    
-//    public ProtocolGenericActionBean getProtocolManageReviewCommentsBean() {
-//        return protocolManageReviewCommentsBean;
-//    }
+    
+    public ProtocolModifySubmissionBean getProtocolModifySubmissionBean() {
+        return this.protocolModifySubmissionBean;
+    }
+    
+    public ProtocolGenericActionBean getProtocolManageReviewCommentsBean() {
+        return protocolManageReviewCommentsBean;
+    }
 
     public boolean getCanCreateAmendment() {
         return canCreateAmendment;

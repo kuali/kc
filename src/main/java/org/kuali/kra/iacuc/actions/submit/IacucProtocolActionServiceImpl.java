@@ -31,7 +31,11 @@ import org.kuali.kra.iacuc.IacucProtocolDao;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.followup.IacucFollowupActionService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
+import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ActionRightMapping;
+import org.kuali.kra.protocol.actions.submit.ProtocolActionServiceImpl;
+import org.kuali.kra.protocol.actions.submit.ProtocolActionUpdateMapping;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -47,97 +51,37 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * pre-validation include canperform and authorization check.
  * post-update will update protocol status or submission status.
  */
-public class IacucProtocolActionServiceImpl implements IacucProtocolActionService {
+public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl {
 
     static private final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(IacucProtocolActionServiceImpl.class);
     
-    private static final String PERMISSIONS_LEADUNIT_FILE = "org/kuali/kra/iacuc/drools/rules/permissionForLeadUnitRules.drl";
-
-    private static final String PERMISSIONS_SUBMIT_FILE = "org/kuali/kra/iacuc/drools/rules/permissionToSubmitRules.drl";
-
-    private static final String PERMISSIONS_COMMITTEEMEMBERS_FILE = "org/kuali/kra/iacuc/drools/rules/permissionToCommitteeMemberRules.drl";
-
-    private static final String PERMISSIONS_SPECIAL_FILE = "org/kuali/kra/iacuc/drools/rules/permissionForSpecialRules.drl";
-
     private static final String PERFORMACTION_FILE = "org/kuali/kra/iacuc/drools/rules/canPerformProtocolActionRules.drl";
 
     private static final String UPDATE_FILE = "org/kuali/kra/iacuc/drools/rules/updateProtocolRules.drl";
     
-    private static final String UNDO_ACTION_FILE = "org/kuali/kra/iacuc/drools/rules/undoProtocolUpdateRules.drl";
-    
-    private static final String FOLLOWUP_FILE = "org/kuali/kra/iacuc/drools/rules/isProtocolActionOpenForFollowupRules.drl";
-
-    private static final int PERMISSIONS_LEADUNIT_RULE = 0;    
-    
-    private static final int PERMISSIONS_SUBMIT_RULE = 1;
-
-    private static final int PERMISSIONS_COMMITTEEMEMBERS_RULE = 2;
-
-    private static final int PERMISSIONS_SPECIAL_RULE = 3;
-
-    private static final int PERFORMACTION_RULE = 4;
-
-    private static final int UPDATE_RULE = 5;
-    
-    private static final int UNDO_UPDATE_RULE = 6;
-   
-    private static final String MODIFY_ANY_PROTOCOL = "Modify Any Protocol";
-
     private static final String PERFORM_IACUC_ACTIONS_ON_PROTO = "Perform IACUC Actions on a Protocol";
-
-    private static final String DEFAULT_ORGANIZATION_UNIT = "000001";
-
-    private static final String AMEND = "A";
-
-    private static final String RENEW = "R";
-
-    private static final String NONE = "NONE";
     
-    private static final String KC_PROTOCOL = "KC-PROTOCOL";
+    private static final String KC_IACUC = "KC-IACUC";
 
-    private BusinessObjectService businessObjectService;
-
-    private KraAuthorizationService kraAuthorizationService;
-
-    private UnitAuthorizationService unitAuthorizationService;
-    
-    private IacucFollowupActionService followupActionService;
-   
-    private IacucProtocolDao protocolDao;
-
-    private DroolsRuleHandler canPerformRuleHandler;
-
-    private String[] actn = { "101", "102", "103", "104", "105", "106", "108", "114", "115", "116", "200", "201", "202", "203",  
+    private String[] actn = { "101", "102", "103", "104", "105", "106", "107", "108", "114", "115", "116", "200", "201", "202", "203",  
                               "204", "205", "206", "207", "208", "209", "210", "211", "212", "300", "301", "302", "303", "304", 
                               "305", "306" };
-
-    private List<String> actions = new ArrayList<String>();
-    private List<DroolsRuleHandler> rulesList;
-
 
     {
         actions = Arrays.asList(actn);
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public String getPerformActionFileNameHook() {     
+        return PERFORMACTION_FILE;
     }
 
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
-        this.kraAuthorizationService = kraAuthorizationService;
+    public String getUpdateProtocolRulesFileNameHook() {
+        return UPDATE_FILE;
     }
 
-    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
-        this.unitAuthorizationService = unitAuthorizationService;
-    }
-
-    public void setProtocolDao(IacucProtocolDao protocolDao) {
-        this.protocolDao = protocolDao;
-    }
-
-    public void setFollowupActionService(IacucFollowupActionService followupActionService) {
-        this.followupActionService = followupActionService;
-    }
+//TODO:IACUC    public void setFollowupActionService(IacucFollowupActionService followupActionService) {
+//        this.followupActionService = followupActionService;
+//    }
 
     /**
      * @see org.kuali.kra.irb.actions.submit.IacucProtocolActionService#isActionAllowed(java.lang.String, org.kuali.kra.irb.IacucProtocol)
@@ -152,12 +96,12 @@ public class IacucProtocolActionServiceImpl implements IacucProtocolActionServic
     protected boolean isAuthorizedtoPerform(String actionTypeCode, IacucProtocol protocol) {
         boolean flag = false;
 //TODO: To be implemented for IACUC
-//      ActionRightMapping rightMapper = new ActionRightMapping();
+      ActionRightMapping rightMapper = new ActionRightMapping();
 //
 //        flag = hasPermissionLeadUnit(actionTypeCode, protocol, rightMapper);
 //
 //        if (!flag) {
-//            flag = hasPermissionToSubmit(actionTypeCode, protocol, rightMapper);
+            flag = hasPermissionToSubmit(actionTypeCode, protocol, rightMapper);
 //        }
 //
 //        if (!flag) {
@@ -236,7 +180,7 @@ return true;
         rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
         rulesList.get(PERMISSIONS_COMMITTEEMEMBERS_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
-                KC_PROTOCOL, PERFORM_IACUC_ACTIONS_ON_PROTO) : false;
+                KC_IACUC, PERFORM_IACUC_ACTIONS_ON_PROTO) : false;
     }
 
     /**
@@ -246,7 +190,7 @@ return true;
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_SPECIAL_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), unit,
-                KC_PROTOCOL, PERFORM_IACUC_ACTIONS_ON_PROTO) : false;
+                KC_IACUC, PERFORM_IACUC_ACTIONS_ON_PROTO) : false;
     }
 
     protected String getUserIdentifier() {
@@ -257,42 +201,39 @@ return true;
      * This method is to check whether 'actionTypeCode' can be performed based on protocol's status code or submission code or other
      * condition specified in rule.
      */
-    public boolean canPerformAction(String actionTypeCode, IacucProtocol protocol) {
-//TODO: to be implemented for IACUC
+    public boolean canPerformAction(String actionTypeCode, Protocol protocol) {
 //        LOG.info(actionTypeCode);
-//        String submissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
-//        String submissionTypeCode = protocol.getProtocolSubmission().getSubmissionTypeCode();
-//        String protocolReviewTypeCode = protocol.getProtocolSubmission().getProtocolReviewTypeCode();
-//        String protocolStatusCode = protocol.getProtocolStatusCode();
-//        String scheduleId = protocol.getProtocolSubmission().getScheduleId();
-//        Integer submissionNumber = protocol.getProtocolSubmission().getSubmissionNumber();
-//        ProtocolActionMapping protocolAction = new ProtocolActionMapping(actionTypeCode, submissionStatusCode, submissionTypeCode,
-//            protocolReviewTypeCode, protocolStatusCode, scheduleId, submissionNumber);
-//        protocolAction.setBusinessObjectService(businessObjectService);
-//        protocolAction.setDao(protocolDao);
-//        protocolAction.setProtocol(protocol);
-//        rulesList.get(PERFORMACTION_RULE).executeRules(protocolAction);
-//        return protocolAction.isAllowed();
-return true;
+        String submissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
+        String submissionTypeCode = protocol.getProtocolSubmission().getSubmissionTypeCode();
+        String protocolReviewTypeCode = protocol.getProtocolSubmission().getProtocolReviewTypeCode();
+        String protocolStatusCode = protocol.getProtocolStatusCode();
+        String scheduleId = protocol.getProtocolSubmission().getScheduleId();
+        Integer submissionNumber = protocol.getProtocolSubmission().getSubmissionNumber();
+        IacucProtocolActionMapping protocolAction = new IacucProtocolActionMapping(actionTypeCode, submissionStatusCode, submissionTypeCode,
+            protocolReviewTypeCode, protocolStatusCode, scheduleId, submissionNumber);
+        protocolAction.setBusinessObjectService(businessObjectService);
+//TODO:IACUC        protocolAction.setDao(protocolDao);
+        protocolAction.setProtocol(protocol);
+        rulesList.get(PERFORMACTION_RULE).executeRules(protocolAction);
+        return protocolAction.isAllowed();
     }
 
     /**
      * @see org.kuali.kra.irb.actions.submit.IacucProtocolActionService#updateProtocolStatus(org.kuali.kra.irb.actions.IacucProtocolAction,
      *      org.kuali.kra.irb.IacucProtocol)
      */
-    public void updateProtocolStatus(IacucProtocolAction protocolActionBo, IacucProtocol protocol) {
-//TODO: to be implemented for IACUC
-//        String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();
-//        String specialCondition = protocolNumberUpper.contains(AMEND) ? AMEND : (protocolNumberUpper.contains(RENEW) ? RENEW : NONE);
-//
-//        ProtocolActionUpdateMapping protocolAction = new ProtocolActionUpdateMapping(protocolActionBo.getProtocolActionTypeCode(),
-//            protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(),
-//            specialCondition);
-//        protocolAction.setProtocol(protocol);
-//        protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
-//        protocolAction.setProtocolAction(protocolActionBo);
-//        rulesList.get(UPDATE_RULE).executeRules(protocolAction);
-//        businessObjectService.save(protocol);
+    public void updateProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
+        String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();
+        String specialCondition = protocolNumberUpper.contains(AMEND) ? AMEND : (protocolNumberUpper.contains(RENEW) ? RENEW : NONE);
+
+        ProtocolActionUpdateMapping protocolAction = new ProtocolActionUpdateMapping(protocolActionBo.getProtocolActionTypeCode(),
+            protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(),
+            specialCondition);
+        protocolAction.setProtocol(protocol);
+        protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
+        protocolAction.setProtocolAction(protocolActionBo);
+        rulesList.get(UPDATE_RULE).executeRules(protocolAction);
+        businessObjectService.save(protocol);
     }
     
     /**
@@ -338,12 +279,9 @@ return true;
      * {@inheritDoc}
      * @see org.kuali.kra.irb.actions.IacucProtocolActionFollowupService#isActionOpenForFollowup(java.lang.String, org.kuali.kra.irb.IacucProtocol)
      */
-    public boolean isActionOpenForFollowup(String protocolActionTypeCode, IacucProtocol protocol) {
-        return followupActionService.isActionOpenForFollowup(protocolActionTypeCode, protocol);
-//        String motionTypeCode = protocol.getProtocolSubmission().getCommitteeDecisionMotionTypeCode();
-//        IacucProtocolActionFollowupMapping mapping = new IacucProtocolActionFollowupMapping(protocolActionTypeCode, motionTypeCode);
-//        rulesList.get(FOLLOWUP_RULE).executeRules(mapping);
-//        return mapping.getIsOpenForFollowup();
+    public boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol) {
+//TODO:IACUC        return followupActionService.isActionOpenForFollowup(protocolActionTypeCode, (IacucProtocol)protocol);
+return true;        
     }
     
     /**
