@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.meeting;
 
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,12 +24,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.validator.Resources;
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.service.ResearchDocumentService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -42,7 +47,7 @@ public class MeetingManagementAction extends MeetingAction {
     
     private static final String DELETE_COMMITTEE_SCHEDULE_MINUTE_QUESTION="deleteCommitteeScheduleMinute";
     private static final String DELETE_COMMITTEE_OTHER_ACTION_QUESTION="deleteCommitteeScheduleMinute";
-
+    private static final String LINE_NUMBER = "line";
 
     /**
      * 
@@ -316,4 +321,115 @@ public class MeetingManagementAction extends MeetingAction {
         return forward;
     }
 
+    /**
+     * 
+     * This method is to add committee schedule attachments.
+     * 
+     * @param mapping
+     * @param form
+     * @param requesta
+     * @param response
+     * @return
+     */
+    public ActionForward addCommitteeScheduleAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
+        
+        MeetingForm meetingForm = (MeetingForm) form;
+        MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
+        CommitteeDocument document = getCommitteeDocument(meetingHelper.getCommitteeSchedule().getCommittee().
+                                        getCommitteeDocument().getDocumentHeader().getDocumentNumber());
+        if (applyRules(new MeetingAddAttachmentsEvent(Constants.EMPTY_STRING, document, meetingHelper, ErrorType.HARDERROR))) {
+        CommitteeSchedule committeSchedule= meetingHelper.getCommitteeSchedule();
+        CommitteeScheduleAttachments  committeScheduleAttachment= meetingHelper.getNewCommitteeScheduleAttachments();
+        DateTimeService dateTimeService = ( KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME));
+        dateTimeService.getCurrentTimestamp();
+        committeScheduleAttachment.setUpdateTimestamp(dateTimeService.getCurrentTimestamp());
+        committeScheduleAttachment.setNewUpdateTimestamp(dateTimeService.getCurrentTimestamp());
+        committeScheduleAttachment.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
+        committeScheduleAttachment.setNewUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
+        addScheduleAttachmentsToCommitteSchedule( meetingForm.getMeetingHelper().getCommitteeSchedule(),committeScheduleAttachment);
+        meetingForm.getMeetingHelper().setCommitteeSchedule(committeSchedule);
+        meetingHelper.getNewCommitteeScheduleAttachments().getAttachmentsTypeCode();
+        meetingForm.getMeetingHelper().setNewCommitteeScheduleAttachments(new CommitteeScheduleAttachments());
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        
+    }
+    
+    public void addScheduleAttachmentsToCommitteSchedule(CommitteeSchedule committeSchedule,CommitteeScheduleAttachments  committeScheduleAttachment)
+    {
+        committeScheduleAttachment.setCommitteeschedule(committeSchedule) ;
+        committeScheduleAttachment.populateAttachment();
+        committeSchedule.getCommitteeScheduleAttachments().add(committeScheduleAttachment);
+    }
+    /**
+     * 
+     * This method is to download committee schedule attachments.
+     * 
+     * @param mapping
+     * @param form
+     * @param requesta
+     * @param response
+     * @return
+     */
+    public ActionForward downloadCommitteScheduleAttachmentsAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        MeetingForm meetingForm = (MeetingForm) form;
+        MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
+        CommitteeSchedule committeSchedule= meetingHelper.getCommitteeSchedule();
+        String line = request.getParameter(LINE_NUMBER);
+        int lineNumber = line == null ? 0 : Integer.parseInt(line);
+        CommitteeScheduleAttachments  committeScheduleAttachment= meetingHelper.getCommitteeSchedule().getCommitteeScheduleAttachments().get(lineNumber);
+        if(committeScheduleAttachment.getDocument()!=null){
+            KraServiceLocator.getService(CommitteeScheduleService.class).downloadAttachment(committeScheduleAttachment,response);
+        }
+        return null;
+    }
+    
+    /**
+     * 
+     * This method is to delete committee schedule attachments.
+     * 
+     * @param mapping
+     * @param form
+     * @param requesta
+     * @param response
+     * @return
+     */
+    public ActionForward deleteCommitteScheduleAttachmentsAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        MeetingForm meetingForm = (MeetingForm) form;
+        MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
+        CommitteeSchedule committeSchedule= meetingHelper.getCommitteeSchedule();
+        int selectedLineNumber = getSelectedLine(request);
+        CommitteeScheduleAttachments  committeScheduleAttachment = meetingHelper.getCommitteeSchedule().getCommitteeScheduleAttachments().get(selectedLineNumber);
+        if(committeScheduleAttachment.getFileName()!=null){
+            meetingHelper.getCommitteeSchedule().getCommitteeScheduleAttachments().remove(selectedLineNumber);
+            this.getBusinessObjectService().delete(committeScheduleAttachment);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method is to replace committee schedule attachments.
+     * 
+     * @param mapping
+     * @param form
+     * @param requesta
+     * @param response
+     * @return
+     */
+    public ActionForward replaceCommitteeScheduleAttachmentsAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        MeetingForm meetingForm = (MeetingForm) form;
+        MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
+        CommitteeSchedule committeSchedule= meetingHelper.getCommitteeSchedule();
+        CommitteeScheduleAttachments  committeScheduleAttachment = meetingHelper.getCommitteeSchedule().getCommitteeScheduleAttachments().get(getSelectedLine(request));
+        committeScheduleAttachment.populateAttachment();
+        if(committeScheduleAttachment.getAttachmentsTypeCode()!=null){
+            getBusinessObjectService().save(committeScheduleAttachment);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
 }
