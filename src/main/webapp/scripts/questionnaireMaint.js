@@ -1680,6 +1680,11 @@ function getAddRequirementRow(curidx) {
 			.html("Parent Response ");
 	// alert("response options "+responseOptions.html()+"-"+i);
 	var respclone = responseOptions.clone(true);
+	// if it is rootnode
+	if (jq("#qnaireid"+curidx).parents('ul:eq(0)').attr("id") == 'example') {
+	    respclone = rootNodeResponseOptions.clone(true);
+	}
+	
 	respclone.attr("id", "parentResponse" + curidx).appendTo(tdtmp);
 	tdtmp.appendTo(trtmp);
 	tdtmp = jq('<td class="content_info" style="text-align:center;"></td>')
@@ -1757,6 +1762,7 @@ function okToAddRequirement(response, value, idx) {
         alert("Please enter a value");
         return false;
 	}
+// root node may have rule evaluation as response
 	if (jq("#qnaireid"+idx).parents('ul:eq(0)').parents('li:eq(0)').length > 0) {
 	// this is a child node, then check
     	var stidx = jq("#qnaireid"+idx).parents('ul:eq(0)').parents('li:eq(0)').attr("id").substring(8);
@@ -1771,8 +1777,8 @@ function okToAddRequirement(response, value, idx) {
 	var valid = false;
 //	if (value == '') {
 //		alert("Please enter a value");
-//	} else 
-	if (response == 0) {
+//	} else  
+    if (response == 0) {
 		alert("Please select a response");
 	} else if (!isValidBranchingCondition(qtypeid, response)) {
 		alert("Invalid Branching condition");
@@ -1785,8 +1791,13 @@ function okToAddRequirement(response, value, idx) {
 	}
 	return valid;
 	} else {
-	   // this is root node, omly rule evaluation, so no check
+	   // this is root node, only rule evaluation
+	   if (response == 0) {
+        alert("Please select a response");
+        return false;
+       } else {
 	    return true;
+	    }
 	}
 }
 
@@ -2243,6 +2254,12 @@ jq('<option value="10">Greater than number</option>').appendTo(responseOptions);
 jq('<option value="11">Before date</option>').appendTo(responseOptions);
 jq('<option value="12">After date</option>').appendTo(responseOptions);
 jq('<option value="13">Rule Evaluation</option>').appendTo(responseOptions);
+
+// root node only has rule evaluation
+var rootNodeResponseOptions = jq('<select name="CustomData"></select>');
+jq('<option value="0" selected="selected">select</option>').appendTo(
+        rootNodeResponseOptions);
+jq('<option value="13">Rule Evaluation</option>').appendTo(rootNodeResponseOptions);
 
 // TODO : currently this one is not working copied to questionnairequestion.jsp
 jq("#addUsage")
