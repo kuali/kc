@@ -76,6 +76,7 @@
 				<ref bean="IacucProtocol-fundingSource" />
 				<ref bean="IacucProtocol-speciesCode" />
 				<ref bean="IacucProtocol-exceptionCategoryCode" />
+				<ref bean="IacucProtocol-lookupProtocolPersonId" />
             </list>
         </property>
     </bean>
@@ -737,6 +738,15 @@
     <bean id="IacucProtocol-exceptionCategoryCode" parent="IacucProtocolException-exceptionCategoryCode-parentBean">
 		<property name="required" value="false" />
     </bean>
+
+    <bean id="IacucProtocol-lookupProtocolPersonId" parent="IacucProtocol-lookupProtocolPersonId-parentBean" />
+    <bean id="IacucProtocol-lookupProtocolPersonId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+        <property name="name" value="lookupProtocolPersonId" />
+        <property name="label" value="All My Protocols" />
+        <property name="shortLabel" value="All My Protocols" />
+        <property name="summary" value="All My Protocols" />
+        <property name="description" value="All My Protocols" />
+    </bean>
     
 
     <!-- Business Object Inquiry Definition -->
@@ -867,19 +877,12 @@
 				<bean parent="FieldDefinition"
 				    p:attributeName="active"  p:defaultValue="Y" />
 
-				<!--  	
+                <bean parent="FieldDefinition"
+                    p:attributeName="lookupProtocolPersonId" p:noLookup="true" p:hidden="true" />
 										
-				<bean parent="FieldDefinition"
-					p:attributeName="fundingSource" />
-				<bean parent="FieldDefinition"
-					p:attributeName="performingOrganizationId" />
 
-				<bean parent="FieldDefinition"
-					p:attributeName="leadUnitNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="leadUnitName" />
-				<bean parent="FieldDefinition"
-				    p:attributeName="active"  p:defaultValue="Y" />
+				<!--  	
+
 				<bean parent="FieldDefinition" 
                     p:attributeName="lookupPendingProtocol" p:noLookup="true" p:hidden="true" />
                 <bean parent="FieldDefinition" 
@@ -890,8 +893,6 @@
                     p:attributeName="lookupActionNotifyIRBProtocol" p:noLookup="true" p:hidden="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="lookupActionRequestProtocol" p:noLookup="true" p:hidden="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="lookupProtocolPersonId" p:noLookup="true" p:hidden="true" />
 
                 <bean parent="FieldDefinition"
                     p:attributeName="speciesStudyGroupIndicator" />
