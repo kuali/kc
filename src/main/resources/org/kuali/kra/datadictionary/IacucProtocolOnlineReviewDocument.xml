@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="IacucProtocolOnlineReviewDocument" parent="IacucProtocolOnlineReviewDocument-parentBean"/>
+
+  <bean id="IacucProtocolOnlineReviewDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    
+    
+    
+    
+    <property name="usePessimisticLocking" value="true"/>
+    <property name="useWorkflowPessimisticLocking" value="true"/>
+    
+    <property name="documentTypeName" value="IacucProtocolOnlineReviewDocument"/>
+    <property name="documentClass" value="org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kra.iacuc.onlinereview.rules.IacucProtocolOnlineReviewDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.iacuc.onlinereview.authorization.IacucProtocolOnlineReviewDocumentAuthorizer"/>
+     
+    <property name="displayTopicFieldInNotes" value="true"/>
+    <property name="allowsCopy" value="true"/>
+    <property name="headerNavigationList">
+      <list>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentProposalHelp" p:parameterDetailType="Document"/>
+            <!-- <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolOnlineReviewHelp" p:parameterDetailType="Document"/> -->
+          </property>
+          <property name="headerTabDisplayName" value="Online Review"/>
+          <property name="headerTabNavigateTo" value="onlineReview"/>
+        </bean>
+      </list>
+    </property>
+    <property name="allowsNoteAttachments" value="false"/>
+    
+    <property name="attributes">
+      <list>
+        <ref bean="IacucProtocolOnlineReviewDocument-versionNumber"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="IacucProtocolOnlineReviewDocument-versionNumber" parent="IacucProtocolOnlineReviewDocument-versionNumber-parentBean"/>
+
+  <bean id="IacucProtocolOnlineReviewDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+  </bean>
+</beans>

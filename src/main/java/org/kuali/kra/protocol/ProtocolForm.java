@@ -27,10 +27,10 @@ import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-
 import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContext;
+import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
 import org.kuali.kra.protocol.permission.PermissionsHelper;
 import org.kuali.kra.protocol.personnel.PersonnelHelper;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
@@ -45,10 +45,10 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class...
@@ -78,7 +78,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 // TODO *********uncomment the code below in increments as needed during refactoring*********     
 
     private IacucActionHelper actionHelper;
-//    private OnlineReviewsActionHelper onlineReviewsActionHelper;
+    private OnlineReviewsActionHelper onlineReviewsActionHelper;
     private QuestionnaireHelper questionnaireHelper;
 //    //transient so that the helper and its members don't have to be serializable or transient
 //    //reinitialized in the getter
@@ -127,7 +127,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         setNewProtocolReferenceBean(createNewProtocolReferenceBeanInstance());
 
 // TODO *********commented the code below during IACUC refactoring*********         
-//        setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
+        setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
     }
 
     
@@ -448,13 +448,13 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     }
 
 // TODO *********commented the code below during IACUC refactoring*********     
-//    public void setOnlineReviewsActionHelper(OnlineReviewsActionHelper onlineReviewActionHelper) {
-//        this.onlineReviewsActionHelper = onlineReviewActionHelper;
-//    }
-//
-//    public OnlineReviewsActionHelper getOnlineReviewsActionHelper() {
-//        return onlineReviewsActionHelper;
-//    }
+    public void setOnlineReviewsActionHelper(OnlineReviewsActionHelper onlineReviewActionHelper) {
+        this.onlineReviewsActionHelper = onlineReviewActionHelper;
+    }
+
+    public OnlineReviewsActionHelper getOnlineReviewsActionHelper() {
+        return onlineReviewsActionHelper;
+    }
 
     public NotificationHelper<ProtocolNotificationContext> getNotificationHelper() {
         return protocolNotificationHelper;

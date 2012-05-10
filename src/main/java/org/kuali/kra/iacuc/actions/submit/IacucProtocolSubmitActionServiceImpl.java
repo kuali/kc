@@ -302,7 +302,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         submissionBuilder.setProtocolReviewTypeCode(submitAction.getProtocolReviewTypeCode());
         setSubmissionStatus(submissionBuilder, submitAction);
 //TODO: Must implement the following for IACUC work
-//        setCommittee(submissionBuilder, submitAction);
+        setCommittee(submissionBuilder, submitAction);
 //        setSchedule(submissionBuilder, submitAction);
 //        addCheckLists(submissionBuilder, submitAction);
         return submissionBuilder.create();
@@ -322,15 +322,15 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         }
     }
     
-//    /**
-//     * Set committee for the submission.
-//     * @param submissionBuilder the submission builder
-//     * @param submitAction the submission data
-//     */
-//    protected void setCommittee(IacucProtocolSubmissionBuilder submissionBuilder, IacucProtocolSubmitAction submitAction) {
-//        submissionBuilder.setCommittee(submitAction.getNewCommitteeId());
-//    }
-//    
+    /**
+     * Set committee for the submission.
+     * @param submissionBuilder the submission builder
+     * @param submitAction the submission data
+     */
+    protected void setCommittee(IacucProtocolSubmissionBuilder submissionBuilder, IacucProtocolSubmitAction submitAction) {
+        submissionBuilder.setCommittee(submitAction.getNewCommitteeId());
+    }
+    
 //    /**
 //     * Set schedule for the submission.
 //     * @param submissionBuilder the submission builder
