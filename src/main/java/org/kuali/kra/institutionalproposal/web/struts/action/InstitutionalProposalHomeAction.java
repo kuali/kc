@@ -558,6 +558,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             newFundingProposals.add(new AwardFundingProposal(afpp.getAward(), newIP));
             afpp.setActive(false);
         }
+        getBusinessObjectService().save(oldIP.getAwardFundingProposals());
         return newFundingProposals;
     }
 }
