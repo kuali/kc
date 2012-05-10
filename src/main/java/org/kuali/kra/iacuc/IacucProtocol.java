@@ -78,6 +78,10 @@ public class IacucProtocol extends Protocol {
     private List<IacucProtocolSpecies> iacucProtocolSpeciesList;
     private List<IacucProtocolException> iacucProtocolExceptions;
 
+    // lookup field
+    private Integer speciesCode; 
+    private Integer exceptionCategoryCode; 
+
     public IacucProtocol() {         
         setCreateTimestamp(new Timestamp(new java.util.Date().getTime()));
         setCreateUser(GlobalVariables.getUserSession().getPrincipalId());
@@ -344,6 +348,22 @@ public class IacucProtocol extends Protocol {
         newPrinciples.add(iPrinciples);
         setIacucPrinciples(newPrinciples);
 
+    }
+
+    public Integer getSpeciesCode() {
+        return speciesCode;
+    }
+
+    public void setSpeciesCode(Integer speciesCode) {
+        this.speciesCode = speciesCode;
+    }
+
+    public Integer getExceptionCategoryCode() {
+        return exceptionCategoryCode;
+    }
+
+    public void setExceptionCategoryCode(Integer exceptionCategoryCode) {
+        this.exceptionCategoryCode = exceptionCategoryCode;
     }
 
 }

@@ -64,7 +64,7 @@ public interface ProtocolDao<GenericProtocol extends Protocol> {
      *        optional. If no end date is specified, the end of time will be used.
      * @return List of the requested Protocols
      */
-    List<Protocol> getExpiringProtocols(String committeeId, Date startDate, Date endDate);
+    List<GenericProtocol> getExpiringProtocols(String committeeId, Date startDate, Date endDate);
     
     /**
      * This method returns all Protocols that were given a decision status of "Specify Minor Revision" (SMR)
@@ -76,7 +76,8 @@ public interface ProtocolDao<GenericProtocol extends Protocol> {
      * @return List of the requested Protocols
      */
     /*
-    // TODO *********commented the code below during IACUC refactoring*********     
+    // TODO *********commented the code below during IACUC refactoring*********
+     * If this is specific to IRB, it has to be moved to IRB protocol Dao     
     List<Protocol> getIrbNotifiedProtocols(String committeeId, Date startDate, Date endDate);
     */
 

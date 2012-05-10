@@ -74,6 +74,8 @@
 				<ref bean="IacucProtocol-investigator" />
 				<ref bean="IacucProtocol-keyPerson" />
 				<ref bean="IacucProtocol-fundingSource" />
+				<ref bean="IacucProtocol-speciesCode" />
+				<ref bean="IacucProtocol-exceptionCategoryCode" />
             </list>
         </property>
     </bean>
@@ -728,6 +730,13 @@
 		<property name="description" value="The protocol's fixed home unit that will be used for routing and business rule purposes." />
 	</bean>
 	
+    <bean id="IacucProtocol-speciesCode" parent="IacucProtocolSpecies-speciesCode-parentBean">
+		<property name="required" value="false" />
+    </bean>
+
+    <bean id="IacucProtocol-exceptionCategoryCode" parent="IacucProtocolException-exceptionCategoryCode-parentBean">
+		<property name="required" value="false" />
+    </bean>
     
 
     <!-- Business Object Inquiry Definition -->
@@ -851,6 +860,10 @@
 					p:attributeName="leadUnitNumber" />
 				<bean parent="FieldDefinition"
 					p:attributeName="leadUnitName" />
+				<bean parent="FieldDefinition"
+					p:attributeName="speciesCode" />
+				<bean parent="FieldDefinition"
+					p:attributeName="exceptionCategoryCode" />
 				<bean parent="FieldDefinition"
 				    p:attributeName="active"  p:defaultValue="Y" />
 
