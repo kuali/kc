@@ -47,6 +47,10 @@
 			</list>
 		</property>
 	</bean>
+	
+    <bean id="awardBudgetService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="awardBudgetService" />
+    </bean>
 
 	<bean id="budgetLockService" class="org.kuali.kra.budget.service.impl.BudgetLockServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -326,13 +330,13 @@
   	
     <bean id="budgetSubAwardService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetSubAwardServiceImpl" />
     
-    <bean id="budgetPeriodLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="budgetPeriodLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" lazy-init="true">
   		<property name="lookupableHelperService">
     		<ref bean="budgetPeriodLookupableHelperService" />
   		</property>  		
 	</bean>	
 	<bean id="budgetPeriodLookupableHelperService" class="org.kuali.kra.lookup.BudgetPeriodLookupableHelperServiceImpl" 
- 		scope="prototype" parent="parentLookupableHelperService"> 
+ 		scope="prototype" parent="parentLookupableHelperService" lazy-init="true"> 
  		<property name="awardBudgetService" ref="awardBudgetService"/>
   	</bean>		
   	
