@@ -44,6 +44,7 @@ public class MeetingHelper implements Serializable {
     private MeetingForm form;
     private Date agendaGenerationDate;
     private CommitteeSchedule committeeSchedule;
+    private List<CommitteeSchedule> committeeScheduleList;
     private List<ProtocolSubmittedBean> protocolSubmittedBeans;
     private CommScheduleActItem newOtherAction;
     private List<CommScheduleActItem> deletedOtherActions;
@@ -73,7 +74,8 @@ public class MeetingHelper implements Serializable {
     private static String agendaSentMessage;
     private ProtocolCorrespondence protocolCorrespondence;
     private List<ProtocolCorrespondence> regeneratedCorrespondences;
-
+    
+    private CommitteeScheduleAttachments newCommitteeScheduleAttachments;
     private static final String AGENDA_SENT_MESSAGE = "message.disclosure.submit.thankyou";
     private static final String MINUTES_SENT_MESSAGE = "message.disclosure.submit.thankyou";
 
@@ -90,6 +92,7 @@ public class MeetingHelper implements Serializable {
         otherPresentBeans = new ArrayList<OtherPresentBean>();
         newOtherAction = new CommScheduleActItem();
         newCommitteeScheduleMinute = new CommitteeScheduleMinute();
+        newCommitteeScheduleAttachments=new CommitteeScheduleAttachments();
         newOtherPresentBean = new OtherPresentBean();
         scheduleAgendas = new ArrayList<ScheduleAgenda>();
         minuteDocs = new ArrayList<CommScheduleMinuteDoc>();
@@ -243,11 +246,20 @@ public class MeetingHelper implements Serializable {
     public List<CommitteeScheduleMinute> getDeletedCommitteeScheduleMinutes() {
         return deletedCommitteeScheduleMinutes;
     }
+    
+    public CommitteeScheduleAttachments getNewCommitteeScheduleAttachments() {
+        return newCommitteeScheduleAttachments;
+    }
+
+
+    public void setNewCommitteeScheduleAttachments(CommitteeScheduleAttachments newCommitteeScheduleAttachments) {
+        this.newCommitteeScheduleAttachments = newCommitteeScheduleAttachments;
+    }
 
     public void setDeletedCommitteeScheduleMinutes(List<CommitteeScheduleMinute> deletedCommitteeScheduleMinutes) {
         this.deletedCommitteeScheduleMinutes = deletedCommitteeScheduleMinutes;
     }
-
+    
     /**
      * 
      * This method method is used to initialize the deleted bo list.
