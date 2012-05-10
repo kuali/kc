@@ -51,6 +51,7 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * <p>
@@ -85,7 +86,8 @@ public class RROtherProjectInfoV1_3Generator extends
                     CoeusSubModule.ZERO_SUBMODULE, true);
         QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
         answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
-		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO);
+		rrOtherProjectInfo.
+		setHumanSubjectsIndicator(YesNoDataType.N_NO);
 		rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.N_NO);
 		Organization organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
@@ -197,7 +199,8 @@ public class RROtherProjectInfoV1_3Generator extends
 	private void setHumanSubjAndVertebrateAnimals(
 			RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo,
 			Organization organization) {
-		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO); 
+		rrOtherProjectInfo.
+		setHumanSubjectsIndicator(YesNoDataType.N_NO); 
 		rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.N_NO); 
 		for (ProposalSpecialReview proposalSpecialReview : pdDoc
 				.getDevelopmentProposal().getPropSpecialReviews()) {
@@ -321,18 +324,46 @@ public class RROtherProjectInfoV1_3Generator extends
 			RROtherProjectInfo13Document.RROtherProjectInfo13 rrOtherProjectInfo,
 			Organization organization,
 			ProposalSpecialReview proposalSpecialReview) {
-		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.Y_YES);
+		rrOtherProjectInfo.
+		setHumanSubjectsIndicator(YesNoDataType.Y_YES);
 		HumanSubjectsSupplement humanSubjectsSupplement = HumanSubjectsSupplement.Factory
 				.newInstance();
 		HumanSubjectsSupplement.ExemptionNumbers exemptionNumbers = HumanSubjectsSupplement.ExemptionNumbers.Factory
 				.newInstance();
 
 		if (proposalSpecialReview.getApprovalTypeCode() != null) {
+			
+			
 			setExemptions(proposalSpecialReview, humanSubjectsSupplement,
 					exemptionNumbers);
 			setHumanSubjectIRBReviewIndicator(proposalSpecialReview,
 					humanSubjectsSupplement);
 		}
+		Boolean paramValue= KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
+		 if(paramValue){
+			if (proposalSpecialReview.getSpecialReviewExemptions() != null && !proposalSpecialReview.getSpecialReviewExemptions().isEmpty()) {
+				humanSubjectsSupplement.setExemptFedReg(YesNoDataType.Y_YES);				
+				List<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum> exemptionNumberList = new ArrayList<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum>();
+				HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum exemptionNumberEnum = null;
+				for (SpecialReviewExemption exemption : proposalSpecialReview.getSpecialReviewExemptions()) {
+					exemptionNumberEnum = HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum
+							.forInt(Integer.parseInt(exemption.getExemptionTypeCode()));
+					exemptionNumberList.add(exemptionNumberEnum);	
+			
+		}
+				exemptionNumbers
+				.setExemptionNumberArray(exemptionNumberList
+						.toArray(new HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum[1]));
+		humanSubjectsSupplement.setExemptionNumbers(exemptionNumbers);} else {
+			if (proposalSpecialReview.getApprovalDate() != null) {
+				humanSubjectsSupplement
+				.setHumanSubjectIRBReviewIndicator(YesNoDataType.Y_YES);
+			}else{
+				humanSubjectsSupplement
+				.setHumanSubjectIRBReviewIndicator(YesNoDataType.N_NO);
+			}
+		}
+			}
 		if (organization != null && organization.getHumanSubAssurance() != null) {
 			humanSubjectsSupplement.setHumanSubjectAssuranceNumber(organization
 					.getHumanSubAssurance().substring(3));
@@ -372,6 +403,7 @@ public class RROtherProjectInfoV1_3Generator extends
 	private void setExemptions(ProposalSpecialReview proposalSpecialReview,
 			HumanSubjectsSupplement humanSubjectsSupplement,
 			HumanSubjectsSupplement.ExemptionNumbers exemptionNumbers) {
+	
 		if (Integer.parseInt(proposalSpecialReview.getApprovalTypeCode()) == APPROVAL_TYPE_EXCEMPT) {
 			if (proposalSpecialReview.getSpecialReviewExemptions() != null) {
 				List<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum> exemptionNumberList = new ArrayList<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum>();
@@ -387,10 +419,11 @@ public class RROtherProjectInfoV1_3Generator extends
 				humanSubjectsSupplement.setExemptionNumbers(exemptionNumbers);
 			}
 			humanSubjectsSupplement.setExemptFedReg(YesNoDataType.Y_YES);
-		}
+		} 
 		else{
 		    humanSubjectsSupplement.setExemptFedReg(YesNoDataType.N_NO);
 		}
+		
 	}
 
 	/*

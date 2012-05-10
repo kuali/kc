@@ -37,6 +37,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * 
@@ -54,7 +55,8 @@ public class EDSF424SupplementV1_1Generator extends
 	 * Constructs a EDSF424SupplementV1_1Generator.java.
 	 */
 	public EDSF424SupplementV1_1Generator() {
-		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+		s2sUtilService = KraServiceLocator.
+		getService(S2SUtilService.class);
 	}
 
 	/**
@@ -143,11 +145,44 @@ public class EDSF424SupplementV1_1Generator extends
 						edsf424Supplement.setAssuranceNumber(assuranceNumber);
 					}
 				}
+				Boolean paramValue= KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
+			    if(paramValue){
+			    	ExemptionsNumber exemptionsNumber = ExemptionsNumber.Factory
+					.newInstance();
+			    	if (specialReview.getSpecialReviewExemptions() != null
+							&& specialReview.getSpecialReviewExemptions().size() > 0) {
+			    		edsf424Supplement
+						.setIsHumanResearchExempt(YesNoDataType.Y_YES);
+			    		exemptionsNumber
+						.setIsHumanResearchExempt(YesNoDataType.Y_YES);	
+			    		List<String> exemptionTypeCodes = new ArrayList<String>();
+					    for (SpecialReviewExemption exemption : specialReview.getSpecialReviewExemptions()) {
+					        exemptionTypeCodes.add(exemption.getExemptionTypeCode());
+					    }
+						exemptionsNumber.setStringValue(s2sUtilService
+								.convertStringListToString(exemptionTypeCodes));
+						edsf424Supplement.setExemptionsNumber(exemptionsNumber);
+						//edsf424Supplement.setAssuranceNumber(null);
+			    	} else {
+			    		edsf424Supplement.setIsHumanResearch(YesNoDataType.N_NO);
+			    		if (organization != null) {
+							AssuranceNumber assuranceNumber = AssuranceNumber.Factory
+									.newInstance();
+							assuranceNumber
+									.setIsHumanResearchExempt(YesNoDataType.N_NO);
+							if (organization.getHumanSubAssurance() != null) {
+								assuranceNumber.setStringValue(organization
+										.getHumanSubAssurance());
+							}
+							edsf424Supplement.setAssuranceNumber(assuranceNumber);
+						}
+			    		}}
 				break;
 			} else {
 				edsf424Supplement.setIsHumanResearch(YesNoDataType.N_NO);
 			}
-		}
+			
+		    	}
 		AttachedFileDataType attachedFileDataType = null;
 		for (Narrative narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
