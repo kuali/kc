@@ -34,15 +34,11 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.TypedAttachment;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.protocol.personnel.ProtocolUnit;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
-import org.kuali.kra.protocol.protocol.location.ProtocolLocation;
-import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -100,9 +96,9 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
     private List<String> investigatorRole = new ArrayList<String>();
     private List<String> personRole = new ArrayList<String>();
     private Map<String, String> baseLookupFieldValues;
-    private Map<String, CritField> collectionFieldValues;
+    private Map<String, CriteriaFieldHelper> collectionFieldValues;
     private List<String> excludedFields = new ArrayList<String>();
-    private List<String> collectionFieldNames = new ArrayList<String>();
+    protected List<String> collectionFieldNames = new ArrayList<String>();
     
     public ProtocolDaoOjb() {
         super();
@@ -117,7 +113,7 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
     public List<GenericProtocol> getProtocols(Map<String, String> fieldValues) {
         Criteria crit = new Criteria();
         baseLookupFieldValues = new HashMap<String, String>();
-        collectionFieldValues = new HashMap<String, CritField>();
+        collectionFieldValues = new HashMap<String, CriteriaFieldHelper>();
         setupCritMaps(fieldValues);
         
         if (!baseLookupFieldValues.isEmpty()) {
@@ -129,7 +125,7 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
         }
 
         if (!collectionFieldValues.isEmpty()) {
-            for (Entry<String, CritField> entry : collectionFieldValues.entrySet()) {
+            for (Entry<String, CriteriaFieldHelper> entry : collectionFieldValues.entrySet()) {
                 crit.addExists(getCollectionReportQuery(entry.getKey(), entry.getValue()));
             }
         }
@@ -177,7 +173,7 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
      *  
      */
     @SuppressWarnings("unchecked")
-    public List<Protocol> getExpiringProtocols(String committeeId, Date startDate, Date endDate) {
+    public List<GenericProtocol> getExpiringProtocols(String committeeId, Date startDate, Date endDate) {
         Criteria crit = new Criteria();
         crit.addEqualTo(PROTOCOL_SUBMISSIONS_COMMITTEE_ID, committeeId);
         if (startDate != null) {
@@ -192,7 +188,7 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
         crit.addEqualTo(PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER, getsubQueryMaxProtocolSubmission());
         Query q = QueryFactory.newQuery(getProtocolBOClassHook(), crit, true);
         logQuery(q);
-        return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+        return (List<GenericProtocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
     
@@ -201,7 +197,8 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
      */
 
     /* 
-    // TODO *********commented the code below during IACUC refactoring*********     
+    // TODO *********commented the code below during IACUC refactoring*********
+     * If this is specific to IRB, it has to be moved to IRB protocol Dao     
     
     @SuppressWarnings("unchecked")
     public List<Protocol> getIrbNotifiedProtocols(String committeeId, Date startDate, Date endDate) {
@@ -286,7 +283,6 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
     private void initialization() {
         initExcludedFields();
         initCollectionFields();
-        initEnumSearchMap();
         initRoleLists();
     }
 
@@ -302,40 +298,12 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
     /*
      * set up the list to include the property that will be used to map to collection classes
      */
-    private void initCollectionFields() {
-        collectionFieldNames.add(ProtocolLookupConstants.Property.KEY_PERSON);
-        collectionFieldNames.add(ProtocolLookupConstants.Property.INVESTIGATOR);
-        collectionFieldNames.add(ProtocolLookupConstants.Property.FUNDING_SOURCE);
-        collectionFieldNames.add(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE);
-        collectionFieldNames.add(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID);
+    protected void initCollectionFields() {
+        for(CriteriaFieldHelper criteriaHelper : getCriteriaFields()) {
+            collectionFieldNames.add(criteriaHelper.getSearchKey());
+        }
     }
     
-    
-    /**
-     * This method is to reset the bo class used in search with appropriate hooks
-     */
-    private void resetBOClassWithClassHooks() {
-        CritField.RESEARCHAREA.setClazz(getProtocolResearchAreaBOClassHook());
-        CritField.KEYPERSON.setClazz(getProtocolPersonBOClassHook());
-        CritField.INVESTIGATOR.setClazz(getProtocolPersonBOClassHook());
-        CritField.FUNDINGSOURCE.setClazz(getProtocolFundingSourceBOClassHook());
-        CritField.ORGANIZATION.setClazz(getProtocolLocationBOClassHook());
-    }
-    
-    /*
-     * set up key->enum lookup map
-     */
-    private void initEnumSearchMap() {
-        
-        resetBOClassWithClassHooks();
-        
-        // map to enum
-        searchMap.put(ProtocolLookupConstants.Property.KEY_PERSON, "KEYPERSON");
-        searchMap.put(ProtocolLookupConstants.Property.INVESTIGATOR, "INVESTIGATOR");
-        searchMap.put(ProtocolLookupConstants.Property.FUNDING_SOURCE, "FUNDINGSOURCE");
-        searchMap.put(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID, "ORGANIZATION");
-        searchMap.put(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE, "RESEARCHAREA");        
-    }
 
     /*
      * investigator include PI & COI roles, key person includes SP/CA/CRC
@@ -351,7 +319,7 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
     /*
      * this is to set up criteria that will check existence in collection tables.
      */
-    protected ReportQueryByCriteria getCollectionReportQuery(String key, CritField critField) {
+    protected ReportQueryByCriteria getCollectionReportQuery(String key, CriteriaFieldHelper critField) {
         Criteria crit = new Criteria();
         crit.addEqualToField(ProtocolLookupConstants.Property.PROTOCOL_ID, Criteria.PARENT_QUERY_PREFIX + ProtocolLookupConstants.Property.PROTOCOL_ID);
         String nameValue = critField.getFieldValue().replace('*', '%');
@@ -386,7 +354,7 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
         for (Entry<String, String> entry : fieldValues.entrySet()) {
             if (!excludedFields.contains(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
                 if (collectionFieldNames.contains(entry.getKey())) {
-                    collectionFieldValues.put(entry.getKey(), getCriteriaEnum(entry));
+                    collectionFieldValues.put(entry.getKey(), getCriteria(entry));
                 } else if (!entry.getKey().startsWith(LEAD_UNIT)) {                
                     baseLookupFieldValues.put(entry.getKey(), entry.getValue());
                 }
@@ -395,14 +363,19 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
     }
 
     /*
-     * This is to get the proper enum CritField based on parameters.
+     * This is to get the proper CritField based on parameters.
      */
-    private CritField getCriteriaEnum(Entry<String, String> entry) {
-        
+    private CriteriaFieldHelper getCriteria (Entry<String, String> entry) {
         String searchKeyName = entry.getKey();
-        CritField critField = Enum.valueOf(CritField.class, searchMap.get(searchKeyName));
-        critField.setFieldValue(entry.getValue());
-        return critField;
+        CriteriaFieldHelper critFieldHelper = new CriteriaFieldHelper();
+        for(CriteriaFieldHelper criteriaField : getCriteriaFields()) {
+            if(criteriaField.getSearchKey().equalsIgnoreCase(searchKeyName)) {
+                criteriaField.setFieldValue(entry.getValue());
+                critFieldHelper = criteriaField;
+                break;
+            }
+        }
+        return critFieldHelper;
     }
 
         
@@ -439,52 +412,6 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
 
     
     /**
-     * 
-     * This class set up the criteria field name and class for ojb criteria set up to use later.
-     */
-    public enum CritField {
-
-        KEYPERSON(ProtocolLookupConstants.Property.PERSON_NAME, ProtocolPerson.class), 
-        INVESTIGATOR(ProtocolLookupConstants.Property.PERSON_NAME, ProtocolPerson.class), 
-        FUNDINGSOURCE(ProtocolLookupConstants.Property.FUNDING_SOURCE,ProtocolFundingSource.class), 
-        ORGANIZATION(ProtocolLookupConstants.Property.ORGANIZATION_ID, ProtocolLocation.class), 
-        RESEARCHAREA(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE,ProtocolResearchArea.class);
-
-        private String critFieldName;
-        private String fieldValue;
-        private Class<? extends KraPersistableBusinessObjectBase> clazz;
-
-        private CritField(String critFieldName, Class<? extends KraPersistableBusinessObjectBase> clazz) {
-            this.critFieldName = critFieldName;
-            this.clazz = clazz;
-        }
-
-        public String getFieldValue() {
-            return fieldValue;
-        }
-
-        public void setFieldValue(String fieldValue) {
-            this.fieldValue = fieldValue;
-        }
-
-        public String getCritFieldName() {
-            return critFieldName;
-        }
-
-        public void setCritFieldName(String critFieldName) {
-            this.critFieldName = critFieldName;
-        }
-
-        public Class<? extends KraPersistableBusinessObjectBase> getClazz() {
-            return clazz;
-        }
-
-        public void setClazz(Class<? extends KraPersistableBusinessObjectBase> clazz) {
-            this.clazz = clazz;
-        }
-
-    }
-
     /*
      * 
      * Builds up criteria object based on the object and map.
@@ -580,11 +507,10 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
     }
     
     protected abstract Class<? extends Protocol> getProtocolBOClassHook();
-    protected abstract Class<? extends ProtocolResearchArea> getProtocolResearchAreaBOClassHook();
     protected abstract Class<? extends ProtocolPerson> getProtocolPersonBOClassHook();
-    protected abstract Class<? extends ProtocolFundingSource> getProtocolFundingSourceBOClassHook();
-    protected abstract Class<? extends ProtocolLocation> getProtocolLocationBOClassHook();
     protected abstract Class<? extends ProtocolUnit> getProtocolUnitBOClassHook();
     protected abstract Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook();
     
+    protected abstract List<CriteriaFieldHelper> getCriteriaFields();
+
 }

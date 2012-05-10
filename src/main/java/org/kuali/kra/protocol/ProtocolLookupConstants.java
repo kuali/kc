@@ -46,5 +46,12 @@ public interface ProtocolLookupConstants {
         public static final String ORGANIZATION_ID = "organizationId";
         public static final String LEAD_UNIT_NUMBER = "leadUnitNumber";
         public static final String PROTOCOL_PERSON_ID = "protocolPersonId";
+
+        // iacuc properties
+        public static final String SPECIES_CODE = "speciesCode";
+        public static final String EXCEPTION_CATEGORY_CODE = "exceptionCategoryCode";
+        
+    
     }
+
 }
