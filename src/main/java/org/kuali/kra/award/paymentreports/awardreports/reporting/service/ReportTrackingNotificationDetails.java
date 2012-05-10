@@ -22,6 +22,7 @@ package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 public class ReportTrackingNotificationDetails {
 
     private String errorMessage;
+    private String notificationName;
     private String actionCode;
     private boolean notificationActive;
     private int notificationRecipients;
@@ -70,5 +71,11 @@ public class ReportTrackingNotificationDetails {
     }
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+    public String getNotificationName() {
+        return notificationName;
+    }
+    public void setNotificationName(String notificationName) {
+        this.notificationName = notificationName;
     }
 }

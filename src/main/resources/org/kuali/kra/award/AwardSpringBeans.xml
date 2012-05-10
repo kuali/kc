@@ -846,7 +846,9 @@
     
     <bean id="abstractReportTrackingNotification" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotification"/>
     <bean id="abstractReportTrackingNotificationTask" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationTask"/>
-	<bean id="reportTrackingNotificationService" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceImpl">
+    <bean id="reportTrackingNotificationService" parent="abstractReportTrackingNotificationService" 
+    	class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceImpl"/>
+	<bean id="abstractReportTrackingNotificationService" abstract="true">
 		<property name="parameterService" ref="parameterService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
@@ -892,7 +894,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Fiscal Report Notification - Overdue" p:actionCode="404" p:days="0" p:overdue="true">
+				<bean parent="abstractReportTrackingNotification" p:name="Fiscal Report Notification - Overdue" p:actionCode="404" p:days="0" p:overdue="true" p:scope="120">
 					<property name="tasks">
 						<list>
 							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="1"/>
@@ -920,7 +922,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - Overdue" p:actionCode="408" p:days="0" p:overdue="true">
+				<bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - Overdue" p:actionCode="408" p:days="0" p:overdue="true" p:scope="120">
 					<property name="tasks">
 						<list>
 							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="2"/>
@@ -948,7 +950,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - Overdue" p:actionCode="412" p:days="0" p:overdue="true">
+				<bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - Overdue" p:actionCode="412" p:days="0" p:overdue="true" p:scope="120">
 					<property name="tasks">
 						<list>
 							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="3"/>
@@ -976,7 +978,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - Overdue" p:actionCode="416" p:days="0" p:overdue="true">
+				<bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - Overdue" p:actionCode="416" p:days="0" p:overdue="true" p:scope="120">
 					<property name="tasks">
 						<list>
 							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="4"/>
@@ -1004,7 +1006,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - Overdue" p:actionCode="420" p:days="0" p:overdue="true">
+				<bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - Overdue" p:actionCode="420" p:days="0" p:overdue="true" p:scope="120">
 					<property name="tasks">
 						<list>
 							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="5"/>

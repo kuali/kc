@@ -70,6 +70,7 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
         for (ReportTrackingNotification notification : notifications) {
             ReportTrackingNotificationDetails details = new ReportTrackingNotificationDetails();
             details.setActionCode(notification.getActionCode());
+            details.setNotificationName(notification.getName());
             resultDetails.add(details);
             try {
                 NotificationType notificationType = notificationService.getNotificationType("1", notification.getActionCode());
