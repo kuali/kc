@@ -20,7 +20,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * This class represents the Protocol Attachment Type Group.
  */
-public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2053606476193782286L;
 
@@ -51,7 +51,7 @@ public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBas
      * @param type the type.
      * @param group the group.
      */
-    public ProtocolAttachmentTypeGroup(ProtocolAttachmentType type, ProtocolAttachmentGroup group) {
+    protected ProtocolAttachmentTypeGroup(ProtocolAttachmentType type, ProtocolAttachmentGroup group) {
         this.type = type;
         this.group = group;
     }
