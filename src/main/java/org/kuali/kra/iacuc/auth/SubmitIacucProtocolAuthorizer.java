@@ -19,10 +19,9 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class SubmitIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
 
-
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
-//TODO: Temp for IACUC          return  hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_IACUC_PROTOCOL);
-return true;
+//TODO:IACUC        return  hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_IACUC_PROTOCOL);
+return true;        
     }
 
 }

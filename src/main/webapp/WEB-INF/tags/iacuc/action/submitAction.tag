@@ -31,9 +31,8 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 
-<%--<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
---%>
-<br/>action helper = ${actionHelper}<br/>
+<kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
+
 <kul:innerTab tabTitle="Submit for Review" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSubmitAction*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -274,6 +273,4 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
     </script>
 </kul:innerTab>
 
-<%--
 </kra:permission>
---%>
