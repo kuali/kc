@@ -223,17 +223,17 @@ return true;
      *      org.kuali.kra.irb.IacucProtocol)
      */
     public void updateProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
-        String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();
-        String specialCondition = protocolNumberUpper.contains(AMEND) ? AMEND : (protocolNumberUpper.contains(RENEW) ? RENEW : NONE);
-
-        ProtocolActionUpdateMapping protocolAction = new ProtocolActionUpdateMapping(protocolActionBo.getProtocolActionTypeCode(),
-            protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(),
-            specialCondition);
-        protocolAction.setProtocol(protocol);
-        protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
-        protocolAction.setProtocolAction(protocolActionBo);
-        rulesList.get(UPDATE_RULE).executeRules(protocolAction);
-        businessObjectService.save(protocol);
+//        String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();
+//        String specialCondition = protocolNumberUpper.contains(AMEND) ? AMEND : (protocolNumberUpper.contains(RENEW) ? RENEW : NONE);
+//
+//        ProtocolActionUpdateMapping protocolAction = new ProtocolActionUpdateMapping(protocolActionBo.getProtocolActionTypeCode(),
+//            protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(),
+//            specialCondition);
+//        protocolAction.setProtocol(protocol);
+//        protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
+//        protocolAction.setProtocolAction(protocolActionBo);
+//        rulesList.get(UPDATE_RULE).executeRules(protocolAction);
+//        businessObjectService.save(protocol);
     }
     
     /**
