@@ -814,6 +814,8 @@ public final class KeyConstants {
     public static final String ERROR_COMMITTEESCHEDULE_WEEKDAY = "error.committeeSchedule.weekday";
     public static final String ERROR_COMMITTEESCHEDULE_DELETE = "error.committeeSchedule.delete";
     public static final String ERROR_COMMITTEEMEMBER_DELETE = "error.committeeMember.delete";
+    public static final String ERROR_COMMITTEESCHEDULEATTACHMENTS_ATTACHMENTTYPE = "error.committeeScheduleAttachments.attachmentsTypeCode.blank";
+    public static final String ERROR_COMMITTEESCHEDULEATTACHMENTS_FILENAME = "error.committeeScheduleAttachments.meeting.file.blank";
     
     // Committee Actions Messages
     public static final String ERROR_COMMITTEE_ACTION_GENERATE_BATCH_CORRESPONDENCE_TYPE_CODE_NOT_SPECIFIED = "error.committee.action.generate.batch.correspondence.type.code.not.specified";
