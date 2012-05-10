@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.irb.ProtocolReviewerBase;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.ProtocolReviewerBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 
 @SuppressWarnings("serial")
 public class ProtocolReviewer extends ProtocolReviewerBase {
@@ -109,10 +109,12 @@ public class ProtocolReviewer extends ProtocolReviewerBase {
         this.protocolOnlineReviews = protocolOnlineReviews;
     }
 
-    @Override
-    public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(protocolOnlineReviews);
-        return managedLists;
-    }
+//    @Override
+//    public List buildListOfDeletionAwareLists() {
+//        List managedLists = super.buildListOfDeletionAwareLists();
+//        if (protocolOnlineReviews != null) {
+//            managedLists.add(protocolOnlineReviews);
+//        }
+//        return managedLists;
+//    }
 }

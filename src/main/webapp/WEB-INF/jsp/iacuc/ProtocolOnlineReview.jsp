@@ -37,6 +37,7 @@
    .compare { color: #666666 }
    .compare td, .compare th { color:#666666; }
 </style>
+<c:set var="protocolAttributes" value="${DataDictionary.IacucProtocolDocument.attributes}" />
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -48,6 +49,44 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="iacucProtocolOnlineReview">
 
-Iacuc online review to be implemented
+<%-- <c:choose>
+    <c:when test = "${KualiForm.editingMode['maintainProtocolOnlineReviews']}"> --%>
+    <!--  IRB ADMIN VIEW  -->
+        <kul:tabTop tabTitle="Create New Online Review" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS},onlineReviewsActionHelper.new*" >
+            <div class="tab-container" align=center>
+                <kra-iacuc-olr:newOnlineReview/>
+            </div>
+        </kul:tabTop>
+        <c:forEach items = "${KualiForm.onlineReviewsActionHelper.protocolOnlineReviewsForCurrentSubmission}" var = "review" varStatus = "status">
+            
+            <c:set var = "documentHelperMap" value = "${KualiForm.onlineReviewsActionHelper.documentHelperMap[review.documentNumber]}"/>
+    
+            <kul:tab tabTitle="Online Review: ${review.protocolOnlineReview.protocolReviewer.fullName}" defaultOpen="true" tabErrorKey="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${status.index}]*,onlineReviewsActionHelper.protocolOnlineReviewDocuments[${status.index}].protocolOnlineReview*" >
+                <kra-iacuc-olr:onlineReview renderIndex = "${status.index}" documentNumber="${review.documentNumber}"/>
+            </kul:tab>
+        </c:forEach>
+<%--    </c:when>
+
+    <c:otherwise>
+        <c:set var="protocolOnlineReviewDocument" value="${KualiForm.onlineReviewsActionHelper.documentForCurrentUser}"/> 
+        <c:set var="indexForReviewer" value = "${KualiForm.onlineReviewsActionHelper.documentIndexForCurrentUser}"/>    
+                        
+        <kul:tabTop tabTitle="Online Review: ${protocolOnlineReviewDocument.protocolOnlineReview.protocolReviewer.fullName}" defaultOpen="true" tabErrorKey="onlineReviewsActionHelper.protocolOnlineReviewsReviewCommentsList[${indexForReviewer}]*,onlineReviewsActionHelper.protocolOnlineReviewDocuments[${indexForReviewer}].protocolOnlineReview*" >
+            <kra-irb-olr:onlineReview renderIndex = "${KualiForm.onlineReviewsActionHelper.documentIndexForCurrentUser}" documentNumber="${protocolOnlineReviewDocument.documentNumber}" />
+        </kul:tabTop>
+
+    </c:otherwise> 
+</c:choose> --%>
+<kul:panelFooter />
+<%-- <kul:panelFooter /> --%>
+    <kul:documentControls 
+        transactionalDocument="true"
+        suppressRoutingControls="true"
+        suppressCancelButton="true"
+        extraButtonSource="${extraButtonSource}"
+        extraButtonProperty="${extraButtonProperty}"
+        extraButtonAlt="${extraButtonAlt}"
+        viewOnly="${KualiForm.editingMode['viewOnly']}"
+        />
 
 </kul:documentPage>

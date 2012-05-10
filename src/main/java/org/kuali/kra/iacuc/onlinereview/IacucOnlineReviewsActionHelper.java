@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.onlinereview;
+package org.kuali.kra.iacuc.onlinereview;
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,17 +29,19 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
+import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewForm;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
@@ -54,8 +55,7 @@ import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
-
-public class OnlineReviewsActionHelper implements Serializable {
+public class IacucOnlineReviewsActionHelper  extends  OnlineReviewsActionHelper {
 
     public static final String REVIEWER_COMMENTS_MAP_KEY = "reviewerComments";
     public static final String REVIEWER_ATTACHMENTS_MAP_KEY = "reviewerAttachments";
@@ -64,7 +64,7 @@ public class OnlineReviewsActionHelper implements Serializable {
     public static final String FORM_MAP_KEY = "kualiForm";
     
     private static final long serialVersionUID = 1L;
-    private ProtocolForm form;
+    private IacucProtocolForm form;
     
     //new reviewer data
     private Long newProtocolReviewCommitteeMembershipId;
@@ -85,7 +85,7 @@ public class OnlineReviewsActionHelper implements Serializable {
 
     private transient KcPersonService kcPersonService;
     
-    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(OnlineReviewsActionHelper.class);
+    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(IacucOnlineReviewsActionHelper.class);
     private static final String REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "Review Protocol:%s, PI:%s";
     private boolean hideReviewerName;
     private boolean hideReviewerNameForAttachment;
@@ -94,7 +94,8 @@ public class OnlineReviewsActionHelper implements Serializable {
      * Constructs a OnlineReviewActionHelper.java.
      * @param form
      */
-    public OnlineReviewsActionHelper(ProtocolForm form) {
+    public IacucOnlineReviewsActionHelper(IacucProtocolForm form) {
+        super(form);
         this.form = form;
         this.newReviewDateRequested = new Date((new java.util.Date()).getTime());
         
@@ -103,7 +104,7 @@ public class OnlineReviewsActionHelper implements Serializable {
     
     public void init(boolean force) {
         if (!initComplete || force) {
-            ProtocolSubmission currentSubmission = form.getProtocolDocument().getProtocol().getProtocolSubmission();
+            ProtocolSubmission currentSubmission = form.getIacucProtocolDocument().getProtocol().getProtocolSubmission();
             if (currentSubmission != null) {
                 ProtocolDocument protocolDocument = form.getProtocolDocument();
                 ProtocolPerson principalInvestigator = protocolDocument.getProtocol().getPrincipalInvestigator();
@@ -143,11 +144,8 @@ public class OnlineReviewsActionHelper implements Serializable {
                     reviewCommentsBeans.add(commentsBean);
                     
                     ReviewAttachmentsBean attachmentsBean = new ReviewAttachmentsBean("onlineReviewsActionHelper");
-                    
-                    // -- commented as part of GENERATED CODE need to verify
-                    //attachmentsBean.setReviewAttachments(pDoc.getProtocolOnlineReview().getReviewAttachments());
-                    
-                    
+// TODO : need to rework for IACUC
+                    //                    attachmentsBean.setReviewAttachments(pDoc.getProtocolOnlineReview().getReviewAttachments());
                   //  commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));
                     pDocMap.put(REVIEWER_ATTACHMENTS_MAP_KEY, attachmentsBean);
                     reviewAttachmentsBeans.add(attachmentsBean);
@@ -325,7 +323,7 @@ public class OnlineReviewsActionHelper implements Serializable {
         this.protocolOnlineReviewDocuments = protocolOnlineReviewDocuments;
     }
 
-    private static ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+    private static IacucProtocolOnlineReviewService getProtocolOnlineReviewService() {
         return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
     }
 
@@ -576,5 +574,6 @@ public class OnlineReviewsActionHelper implements Serializable {
         this.hideReviewerNameForAttachment = hideReviewerNameForAttachment;
     }
     
-}
 
+
+}

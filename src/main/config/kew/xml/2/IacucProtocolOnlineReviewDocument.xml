@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+    <documentTypes xmlns="ns:workflow/DocumentType"
+        xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>IacucProtocolOnlineReviewDocument</name>
+            <description>Create a KC IACUC Protocol Review Document</description>
+            <label>KC IACUC Protocol Review</label>
+            <parent>KC</parent>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserWorkgroupName>KC-WKFLW:IACUCAdmin</superUserWorkgroupName>
+            <blanketApproveWorkgroupName>KC-WKFLW:IACUCAdmin</blanketApproveWorkgroupName>
+            <defaultExceptionWorkgroupName>KC-WKFLW:IACUCAdmin</defaultExceptionWorkgroupName>
+            <docHandler>${kuali.docHandler.url.prefix}/iacucProtocolOnlineReviewRedirect.do?methodToCall=redirectToProtocolFromReview</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+            </routeNodes>
+        </documentType>
+    </documentTypes>
+
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute"
+        xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+
+        <ruleAttribute>
+            <name>ProtocolOnlineReviewReviewer-XPathQualifierResolver</name>
+            <className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+            <label>ProtocolOnlineReviewReviewer-XPathQualifierResolver</label>
+            <description>ProtocolOnlineReviewReviewer-XPathQualifierResolver</description>
+            <type>QualifierResolver</type>
+            <serviceNamespace>KC</serviceNamespace>
+            <resolverConfig>
+                <attributes name="protocolReviewerId">
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocolReviewerId</xPathExpression>
+                </attributes>
+                
+                <attributes name="protocolOnlineReviewId">
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocolOnlineReviewId</xPathExpression>
+                </attributes>
+                
+                <attributes name="submissionId">
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/submissionIdFk</xPathExpression>
+                </attributes>
+                
+                <attributes name="protocol">
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocol/protocolNumber</xPathExpression>
+                </attributes>
+
+                <attributes name="protocolLeadUnitNumber">
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocol/leadUnitNumber</xPathExpression>
+                </attributes>               
+            </resolverConfig>
+        </ruleAttribute>
+
+
+    </ruleAttributes>
+    
+    <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+                
+         
+    </ruleTemplates>
+    
+    <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+    </rules>
+</data>

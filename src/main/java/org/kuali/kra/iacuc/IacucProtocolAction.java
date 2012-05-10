@@ -21,11 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
-import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolAction;
 import org.kuali.kra.protocol.ProtocolForm;
@@ -152,5 +152,9 @@ public class IacucProtocolAction extends ProtocolAction {
     protected ProtocolPersonTrainingService getProtocolPersonTrainingService() {
         return (ProtocolPersonTrainingService)KraServiceLocator.getService("iacucProtocolPersonTrainingService");
     }     
+
+    protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+    }
 
 }
