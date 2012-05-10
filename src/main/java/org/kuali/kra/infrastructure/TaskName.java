@@ -282,8 +282,8 @@ public interface TaskName {
     public static final String IACUC_NOTIFY_COMMITTEE_UNAVAILABLE = "iacucProtocolNotifyCommitteeUnavailable"; 
     public static final String IACUC_ACKNOWLEDGEMENT = "iacucAcknowledgement"; 
     public static final String IACUC_ACKNOWLEDGEMENT_UNAVAILABLE = "iacucAcknowledgementUnavailable"; 
-    public static final String IACUC_PROTOCOL_WITHDRAW = "iacucProtocolWithdraw"; 
-    public static final String IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE = "iacucProtocolWithdrawUnavailable"; 
+    public static final String IACUC_PROTOCOL_WITHDRAW = "withdrawIacucProtocol"; 
+    public static final String IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE = "withdrawIacucProtocolUnavailable"; 
     public static final String IACUC_PROTOCOL_REQUEST_CLOSE = "iacucProtocolRequestClose"; //?
     public static final String IACUC_PROTOCOL_REQUEST_CLOSE_UNAVAILABLE = "iacucProtocolRequestCloseUnavailable"; //?
     public static final String IACUC_PROTOCOL_REQUEST_SUSPENSION = "iacucProtocolRequestSuspension"; //?

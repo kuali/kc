@@ -47,7 +47,7 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 /**
  * Protocol Version Service Implementation.
  */
-public class ProtocolVersionServiceImpl implements ProtocolVersionService {
+public abstract class ProtocolVersionServiceImpl implements ProtocolVersionService {
     
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
@@ -80,6 +80,8 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
     public void setVersioningService(VersioningService versioningService) {
         this.versioningService = versioningService;
     }
+
+    protected abstract String getProtocolDocumentTypeHook();
     
     protected ProtocolDocument getNewProtocolDocument() throws Exception {
         // create a new ProtocolDocument
@@ -88,7 +90,7 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         // manually assembling a new ProtocolDocument here because the DocumentService will deny initiator permission without context
         // we circumvent the initiator step altogether. 
         try {
-            WorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("ProtocolDocument", GlobalVariables.getUserSession().getPerson());
+            WorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(getProtocolDocumentTypeHook(), GlobalVariables.getUserSession().getPerson());
             sessionDocumentService.addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDocument);
             DocumentHeader documentHeader = new DocumentHeader();
             documentHeader.setWorkflowDocument(workflowDocument);
@@ -106,13 +108,15 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         return newDoc;
     }
     
+    protected abstract Protocol getNewProtocol(Protocol protocol) throws Exception;
+    
     /**
      * @see org.kuali.kra.protocol.ProtocolVersionService#versionProtocolDocument(org.kuali.kra.protocol.ProtocolDocument)
      */
     public ProtocolDocument versionProtocolDocument(ProtocolDocument protocolDocument) throws Exception {
      
         materializeCollections(protocolDocument.getProtocol());
-        Protocol newProtocol = versioningService.createNewVersion(protocolDocument.getProtocol());
+        Protocol newProtocol = getNewProtocol(protocolDocument.getProtocol());
         removeDeletedAttachment(newProtocol);
         ProtocolDocument newProtocolDocument = getNewProtocolDocument();
         newProtocolDocument.getDocumentHeader().setDocumentDescription(protocolDocument.getDocumentHeader().getDocumentDescription());
@@ -150,7 +154,6 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
             if (!newAmendAnswerHeaders.isEmpty()) {
                 newAnswerHeaders.addAll(newAmendAnswerHeaders);
             }
-            
         }
         if (!newAnswerHeaders.isEmpty()) {
             businessObjectService.save(newAnswerHeaders);
@@ -283,21 +286,22 @@ public class ProtocolVersionServiceImpl implements ProtocolVersionService {
         newDoc.setDocumentNextvalues(newNextValues);
     }
 
-    /**
-     * @see org.kuali.kra.protocol.ProtocolVersionService#getProtocolVersion(java.lang.String, java.lang.Integer)
-     */
-    @SuppressWarnings("unchecked")
-    public Protocol getProtocolVersion(String protocolNumber, Integer sequenceNumber) {
-        Protocol protocol = null;
-        Map<String, Object> fields = new HashMap<String, Object>();
-        fields.put("protocolNumber", protocolNumber);
-        fields.put("sequenceNumber", sequenceNumber);
-        Collection<Protocol> protocols = businessObjectService.findMatching(Protocol.class, fields);
-        if (protocols.size() == 1) {
-            protocol = protocols.iterator().next();
-        }
-        return protocol;
-    }
+// Following method demoted to IACUC    
+//    /**
+//     * @see org.kuali.kra.protocol.ProtocolVersionService#getProtocolVersion(java.lang.String, java.lang.Integer)
+//     */
+//    @SuppressWarnings("unchecked")
+//    public Protocol getProtocolVersion(String protocolNumber, Integer sequenceNumber) {
+//        Protocol protocol = null;
+//        Map<String, Object> fields = new HashMap<String, Object>();
+//        fields.put("protocolNumber", protocolNumber);
+//        fields.put("sequenceNumber", sequenceNumber);
+//        Collection<Protocol> protocols = businessObjectService.findMatching(Protocol.class, fields);
+//        if (protocols.size() == 1) {
+//            protocol = protocols.iterator().next();
+//        }
+//        return protocol;
+//    }
 
     public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
         this.questionnaireAnswerService = questionnaireAnswerService;

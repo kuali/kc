@@ -15,71 +15,40 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.service.CommitteeScheduleService;
-import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.ProtocolVersionService;
-import org.kuali.kra.iacuc.actions.amendrenew.ProtocolAmendRenewModule;
-import org.kuali.kra.iacuc.actions.amendrenew.ProtocolAmendRenewal;
-import org.kuali.kra.iacuc.actions.amendrenew.ProtocolModule;
+import org.kuali.kra.iacuc.actions.notifyiacuc.ProtocolNotifyIacucBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
-import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
-import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
-import org.kuali.kra.protocol.auth.GenericProtocolAuthorizer;
+import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
-import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
-import org.kuali.kra.protocol.summary.ProtocolSummary;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.meeting.ProtocolVoteAbstainee;
-import org.kuali.kra.meeting.ProtocolVoteRecused;
-import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.DateUtils;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The form helper class for the Protocol Actions tab.
@@ -121,6 +90,7 @@ public class IacucActionHelper extends ActionHelper {
     
     // action beans that are specific to IACUC
     protected IacucProtocolTableBean iacucProtocolTableBean;
+    protected ProtocolNotifyIacucBean protocolNotifyIacucBean;    
 
     /**
      * Constructs an ActionHelper.
@@ -158,95 +128,95 @@ public class IacucActionHelper extends ActionHelper {
      * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
      */
     private void initActionBeanTaskMap() {
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolAdminCorrectionBean);
-//        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolAmendmentBean);
-//name?        actionBeanTaskMap.put(TaskName.CREATE_IACUC_PROTOCOL, createIacucProtocolBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL, modifyIacucProtocolBean);
-//name?        actionBeanTaskMap.put(TaskName.VIEW_IACUC_PROTOCOL, viewIacucProtocolBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_ADMIN_CORRECTION, protocolAdminCorrectionBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT, protocolAmendmentBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.CREATE_IACUC_PROTOCOL, createIacucProtocolBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL, modifyIacucProtocolBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.VIEW_IACUC_PROTOCOL, viewIacucProtocolBean);
         actionBeanTaskMap.put(TaskName.SUBMIT_PROTOCOL, protocolSubmitAction);
 
-//name?        actionBeanTaskMap.put(TaskName.SUBMIT_IACUC_PROTOCOL, submitIacucProtocolBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.SUBMIT_IACUC_PROTOCOL, submitIacucProtocolBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_WITHDRAW, getProtocolWithdrawBean());
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_SPECIAL_REVIEW, modifyIacucProtocolSpecialReviewBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_OTHERS, modifyIacucProtocolOthersBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_GENERAL_INFO, modifyIacucProtocolGeneralInfoBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_ROLES, modifyIacucProtocolRolesBean);
-//name?        actionBeanTaskMap.put(TaskName.ADD_IACUC_PROTOCOL_NOTES, addIacucProtocolNotesBean);
-//name?        actionBeanTaskMap.put(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT, createIacucAmendmentBean);
-//name?        actionBeanTaskMap.put(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT_UNAVAILABLE, createIacucAmendmentUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS, modifyIacucAmendmentSectionsBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS_UNAVAILABLE, modifyIacucAmendmentSectionsUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL, createIacucRenewalBean);
-//name?        actionBeanTaskMap.put(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL_UNAVAILABLE, createIacucRenewalUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_BILLABLE, modifyIacucBillableBean);
-//name?        actionBeanTaskMap.put(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE, submitIacucProtocolUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_FUNDING_SOURCE, modifyIacucProtocolFundingSourceBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_REFERENCES, modifyIacucProtocolReferencesBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_ORGANIZATIONS, modifyIacucProtocolOrganizationsBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_SUBJECTS, modifyIacucProtocolSubjectsBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_AREAS_OF_RESEARCH, modifyIacucProtocolAreasOfResearchBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_ATTACHMENTS, modifyIacucProtocolAttachmentsBean);
-//name?        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_PERSONNEL, modifyIacucProtocolPersonnelBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_NOTIFY_COMMITTEE, iacucProtocolNotifyCommitteeBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_NOTIFY_COMMITTEE_UNAVAILABLE, iacucProtocolNotifyCommitteeUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_CLOSE, iacucProtocolRequestCloseBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_CLOSE_UNAVAILABLE, iacucProtocolRequestCloseUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION, iacucProtocolRequestSuspensionBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION_UNAVAILABLE, iacucProtocolRequestSuspensionUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_CLOSE_ENROLLMENT, iacucProtocolRequestCloseEnrollmentBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_CLOSE_ENROLLMENT_UNAVAILABLE, iacucProtocolRequestCloseEnrollmentUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_REOPEN_ENROLLMENT, iacucProtocolRequestReOpenEnrollmentBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_REOPEN_ENROLLMENT_UNAVAILABLE, iacucProtocolRequestReOpenEnrollmentUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_DATA_ANALYSIS, iacucProtocolRequestDataAnalysisBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_DATA_ANALYSIS_UNAVAILABLE, iacucProtocolRequestDataAnalysisUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_TERMINATE, iacucProtocolRequestTerminateBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_TERMINATE_UNAVAILABLE, iacucProtocolRequestTerminateUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_AMEND_RENEW_DELETE, iacucProtocolAmendRenewDeleteBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE, iacucProtocolAmendRenewDeleteUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_TO_AGENDA, iacucProtocolAssignToAgendaBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_TO_AGENDA_UNAVAILABLE, iacucProtocolAssignToAgendaUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_TO_COMMITTEE_SCHEDULE, iacucProtocolAssignToCmtSchedBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE, iacucProtocolAssignToCmtSchedUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_REVIEWERS, iacucProtocolAssignReviewersBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_REVIEWERS_UNAVAILABLE, iacucProtocolAssignReviewersUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_REVIEWERS_CMT_SEL, iacucProtocolAssignReviewersCmtSelBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_VIEW_RESTRICTED_NOTES, viewRestrictedNotesBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_SPECIAL_REVIEW, modifyIacucProtocolSpecialReviewBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_OTHERS, modifyIacucProtocolOthersBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_GENERAL_INFO, modifyIacucProtocolGeneralInfoBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_ROLES, modifyIacucProtocolRolesBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.ADD_IACUC_PROTOCOL_NOTES, addIacucProtocolNotesBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT, createIacucAmendmentBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT_UNAVAILABLE, createIacucAmendmentUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS, modifyIacucAmendmentSectionsBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS_UNAVAILABLE, modifyIacucAmendmentSectionsUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL, createIacucRenewalBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL_UNAVAILABLE, createIacucRenewalUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_BILLABLE, modifyIacucBillableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE, submitIacucProtocolUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_FUNDING_SOURCE, modifyIacucProtocolFundingSourceBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_REFERENCES, modifyIacucProtocolReferencesBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_ORGANIZATIONS, modifyIacucProtocolOrganizationsBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_SUBJECTS, modifyIacucProtocolSubjectsBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_AREAS_OF_RESEARCH, modifyIacucProtocolAreasOfResearchBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_ATTACHMENTS, modifyIacucProtocolAttachmentsBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.MODIFY_IACUC_PROTOCOL_PERSONNEL, modifyIacucProtocolPersonnelBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_NOTIFY_COMMITTEE, iacucProtocolNotifyCommitteeBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_NOTIFY_COMMITTEE_UNAVAILABLE, iacucProtocolNotifyCommitteeUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_CLOSE, iacucProtocolRequestCloseBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_CLOSE_UNAVAILABLE, iacucProtocolRequestCloseUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION, iacucProtocolRequestSuspensionBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION_UNAVAILABLE, iacucProtocolRequestSuspensionUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_CLOSE_ENROLLMENT, iacucProtocolRequestCloseEnrollmentBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_CLOSE_ENROLLMENT_UNAVAILABLE, iacucProtocolRequestCloseEnrollmentUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_REOPEN_ENROLLMENT, iacucProtocolRequestReOpenEnrollmentBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_REOPEN_ENROLLMENT_UNAVAILABLE, iacucProtocolRequestReOpenEnrollmentUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_DATA_ANALYSIS, iacucProtocolRequestDataAnalysisBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_DATA_ANALYSIS_UNAVAILABLE, iacucProtocolRequestDataAnalysisUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_TERMINATE, iacucProtocolRequestTerminateBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_TERMINATE_UNAVAILABLE, iacucProtocolRequestTerminateUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_AMEND_RENEW_DELETE, iacucProtocolAmendRenewDeleteBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE, iacucProtocolAmendRenewDeleteUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_TO_AGENDA, iacucProtocolAssignToAgendaBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_TO_AGENDA_UNAVAILABLE, iacucProtocolAssignToAgendaUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_TO_COMMITTEE_SCHEDULE, iacucProtocolAssignToCmtSchedBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE, iacucProtocolAssignToCmtSchedUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_REVIEWERS, iacucProtocolAssignReviewersBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_REVIEWERS_UNAVAILABLE, iacucProtocolAssignReviewersUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_REVIEWERS_CMT_SEL, iacucProtocolAssignReviewersCmtSelBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_VIEW_RESTRICTED_NOTES, viewRestrictedNotesBean);
     //?    actionBeanTaskMap.put(TaskName.RESPONSE_APPROVAL, iacucProtocolResponseApprovalBean);
     //?    actionBeanTaskMap.put(TaskName.RESPONSE_APPROVAL_UNAVAILABLE, iacucProtocolResponseApprovalUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_APPROVE_PROTOCOL, iacucProtocolApproveBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_APPROVE_PROTOCOL_UNAVAILABLE, iacucProtocolApproveUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_DISAPPROVE_PROTOCOL, iacucProtocolDisapproveBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_DISAPPROVE_PROTOCOL_UNAVAILABLE, iacucProtocolDisapproveUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_APPROVE_PROTOCOL, iacucProtocolApproveBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_APPROVE_PROTOCOL_UNAVAILABLE, iacucProtocolApproveUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_DISAPPROVE_PROTOCOL, iacucProtocolDisapproveBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_DISAPPROVE_PROTOCOL_UNAVAILABLE, iacucProtocolDisapproveUnavailableBean);
     //?    actionBeanTaskMap.put(TaskName.RETURN_FOR_SMR, iacucProtocolReturnForSMRBean);
     //?    actionBeanTaskMap.put(TaskName.RETURN_FOR_SMR_UNAVAILABLE, iacucProtocolReturnForSMRUnavailableBean);
     //?    actionBeanTaskMap.put(TaskName.RETURN_FOR_SRR, iacucProtocolReturnForSRRBean);
     //?    actionBeanTaskMap.put(TaskName.RETURN_FOR_SRR_UNAVAILABLE, iacucProtocolReturnForSRRUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_REOPEN_PROTOCOL, iacucProtocolReopenBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_REOPEN_PROTOCOL, iacucProtocolReopenBean);
     //?    actionBeanTaskMap.put(TaskName.CLOSE_ENROLLMENT_PROTOCOL, iacucProtocolCloseEnrollmentBean);
     //?    actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL, iacucProtocolSuspendBean);
     //?    actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL_BY_DSMB, iacucProtocolSuspendByDsmbBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_CLOSE_PROTOCOL, iacucProtocolCloseBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_EXPIRE_PROTOCOL, iacucProtocolExpireBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_TERMINATE_PROTOCOL, iacucProtocolTerminateBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_CLOSE_PROTOCOL, iacucProtocolCloseBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_EXPIRE_PROTOCOL, iacucProtocolExpireBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_TERMINATE_PROTOCOL, iacucProtocolTerminateBean);
     //?    actionBeanTaskMap.put(TaskName.PERMIT_DATA_ANALYSIS, iacucProtocolPermitDataAnalysisBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_ADMIN_CORRECTION, iacucProtocolAdminCorrectionBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_ADMIN_CORRECTION_UNAVAILABLE, iacucProtocolAdminCorrectionUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_UNDO_LAST_ACTION, iacucProtocolUndoLastActionBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_RECORD_COMMITTEE_DECISION, iacucProtocolRecordCommitteeDecisionBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_RECORD_COMMITTEE_DECISION_UNAVAILABLE, iacucProtocolRecordCommitteeDecisionUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_ADMIN_CORRECTION, iacucProtocolAdminCorrectionBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_ADMIN_CORRECTION_UNAVAILABLE, iacucProtocolAdminCorrectionUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_UNDO_LAST_ACTION, iacucProtocolUndoLastActionBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_RECORD_COMMITTEE_DECISION, iacucProtocolRecordCommitteeDecisionBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_RECORD_COMMITTEE_DECISION_UNAVAILABLE, iacucProtocolRecordCommitteeDecisionUnavailableBean);
     //?    actionBeanTaskMap.put(TaskName.ENTER_RISK_LEVEL, iacucProtocolEnterRiskLevelBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION, modifyIacucProtocolSubmisisonBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE, modifyIacucProtocolSubmisisonUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION, modifyIacucProtocolSubmisisonBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE, modifyIacucProtocolSubmisisonUnavailableBean);
     actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_TABLE, iacucProtocolTableBean);
     //?    actionBeanTaskMap.put(TaskName.DEFER_PROTOCOL_UNAVAILABLE, iacucProtocolDeferUnavailableBean);
     //?    actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REVIEW_NOT_REQUIRED, iacucProtocolReviewNotRequiredBean);
     //?    actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REVIEW_NOT_REQUIRED_UNAVAILABLE, iacucProtocolReviewNotRequiredUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS, iacucProtocolManageReviewCommentsBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE, iacucProtocolManageReviewCommentsUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_APPROVE_OTHER, iacucProtocolApproveOtherBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_MANAGE_NOTES, iacucProtocolManageNotesBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_MANAGE_NOTES_UNAVAILABLE, iacucProtocolManageNotesUnavailableBean);
-//name?        actionBeanTaskMap.put(TaskName.IACUC_ABANDON_PROTOCOL, iacucProtocolAbandonBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS, iacucProtocolManageReviewCommentsBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE, iacucProtocolManageReviewCommentsUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_APPROVE_OTHER, iacucProtocolApproveOtherBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_MANAGE_NOTES, iacucProtocolManageNotesBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_MANAGE_NOTES_UNAVAILABLE, iacucProtocolManageNotesUnavailableBean);
+//TODO:IACUC        actionBeanTaskMap.put(TaskName.IACUC_ABANDON_PROTOCOL, iacucProtocolAbandonBean);
     }
 
     /**
@@ -306,6 +276,7 @@ public class IacucActionHelper extends ActionHelper {
         return null;
     }
 
+//TODO: Need to put IACUC-specific code here        
 //    // always reinitialize amendment beans, otherwise a second pass thru prepareView() will show same
 //    // amendment creation options as previous passes
 //    public void initAmendmentBeans() throws Exception {
@@ -479,6 +450,7 @@ public class IacucActionHelper extends ActionHelper {
     public void prepareView() throws Exception {
         protocolSubmitAction.prepareView();
         super.prepareView();
+//TODO: Need to put IACUC-specific code here        
 //        assignToAgendaBean.prepareView();
 //        assignCmtSchedBean.prepareView();
 //        protocolAssignReviewersBean.prepareView();
@@ -507,19 +479,17 @@ public class IacucActionHelper extends ActionHelper {
         canIacucRequestDeactivate = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE);
         canIacucRequestDeactivateUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE_UNAVAILABLE);
         canSubmitProtocol = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL);
-//Temp        canSubmitProtocolUnavailable = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE);
-canSubmitProtocolUnavailable = !canSubmitProtocol;
+        canSubmitProtocolUnavailable = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE);
         canCreateAmendment = hasPermission(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT);
         canCreateAmendmentUnavailable = hasPermission(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT_UNAVAILABLE);
         canModifyAmendmentSections = hasPermission(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS);
         canModifyAmendmentSectionsUnavailable = hasPermission(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS_UNAVAILABLE);
         canCreateRenewal = hasPermission(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL);
         canCreateRenewalUnavailable = hasPermission(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL_UNAVAILABLE);
-        canNotifyCommittee = hasPermission(TaskName.NOTIFY_COMMITTEE);
-        canNotifyCommitteeUnavailable = hasPermission(TaskName.NOTIFY_COMMITTEE_UNAVAILABLE);
+        canNotifyCommittee = hasPermission(TaskName.IACUC_NOTIFY_COMMITTEE);
+        canNotifyCommitteeUnavailable = hasPermission(TaskName.IACUC_NOTIFY_COMMITTEE_UNAVAILABLE);
         canWithdraw = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW);
-//Temp        canWithdrawUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE);
-canWithdrawUnavailable = !canWithdraw;
+        canWithdrawUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE);
         canRequestClose = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_CLOSE);
         canRequestCloseUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_CLOSE_UNAVAILABLE);
         canRequestSuspension = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION);
@@ -528,13 +498,13 @@ canWithdrawUnavailable = !canWithdraw;
         canRequestTerminateUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_TERMINATE_UNAVAILABLE);
         canDeleteProtocolAmendRenew = hasPermission(TaskName.IACUC_PROTOCOL_AMEND_RENEW_DELETE);
         canDeleteProtocolAmendRenewUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE);
-        canAssignToAgenda = hasPermission(TaskName.ASSIGN_TO_AGENDA);
-        canAssignToAgendaUnavailable = hasPermission(TaskName.ASSIGN_TO_AGENDA_UNAVAILABLE);
-        canAssignCmtSched = hasPermission(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE);
-        canAssignCmtSchedUnavailable = hasPermission(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE);
-        canAssignReviewers = hasPermission(TaskName.ASSIGN_REVIEWERS);
-        canAssignReviewersUnavailable = hasPermission(TaskName.ASSIGN_REVIEWERS_UNAVAILABLE);
-        canAssignReviewersCmtSel = hasPermission(TaskName.ASSIGN_REVIEWERS_CMT_SEL);
+        canAssignToAgenda = hasPermission(TaskName.IACUC_ASSIGN_TO_AGENDA);
+        canAssignToAgendaUnavailable = hasPermission(TaskName.IACUC_ASSIGN_TO_AGENDA_UNAVAILABLE);
+        canAssignCmtSched = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE_SCHEDULE);
+        canAssignCmtSchedUnavailable = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE);
+        canAssignReviewers = hasPermission(TaskName.IACUC_ASSIGN_REVIEWERS);
+        canAssignReviewersUnavailable = hasPermission(TaskName.IACUC_ASSIGN_REVIEWERS_UNAVAILABLE);
+        canAssignReviewersCmtSel = hasPermission(TaskName.IACUC_ASSIGN_REVIEWERS_CMT_SEL);
         canReturnForSMR = hasPermission(TaskName.IACUC_RETURN_FOR_SMR);
         canReturnForSMRUnavailable = hasPermission(TaskName.IACUC_RETURN_FOR_SMR_UNAVAILABLE); 
         canReturnForSRR = hasPermission(TaskName.IACUC_RETURN_FOR_SRR);
@@ -553,9 +523,9 @@ canWithdrawUnavailable = !canWithdraw;
         canMakeAdminCorrectionUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_ADMIN_CORRECTION_UNAVAILABLE);
 //        canUndoLastAction = hasPermission(TaskName.IACUC_PROTOCOL_UNDO_LAST_ACTION) && undoLastActionBean.canUndoLastAction();
 //        canUndoLastActionUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_UNDO_LAST_ACTION) && !undoLastActionBean.canUndoLastAction();
-        canRecordCommitteeDecision = hasPermission(TaskName.RECORD_COMMITTEE_DECISION);
-        canRecordCommitteeDecisionUnavailable = hasPermission(TaskName.RECORD_COMMITTEE_DECISION_UNAVAILABLE);
-        canEnterRiskLevel = hasPermission(TaskName.ENTER_RISK_LEVEL);
+        canRecordCommitteeDecision = hasPermission(TaskName.IACUC_RECORD_COMMITTEE_DECISION);
+        canRecordCommitteeDecisionUnavailable = hasPermission(TaskName.IACUC_RECORD_COMMITTEE_DECISION_UNAVAILABLE);
+//        canEnterRiskLevel = hasPermission(TaskName.ENTER_RISK_LEVEL);
         canManageReviewComments = hasPermission(TaskName.IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS); 
         canManageReviewCommentsUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE); 
 //??        canApproveOther = hasPermission(TaskName.IACUC_PROTOCOL_APPROVE_OTHER);
@@ -594,6 +564,7 @@ canWithdrawUnavailable = !canWithdraw;
         canTable = hasPermission(TaskName.IACUC_PROTOCOL_TABLE);
         canTableUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_TABLE_UNAVAILABLE);
 
+//TODO: Need to put IACUC-specific code here        
 //        hideReviewerName = checkToHideReviewName();
 ////        undoLastActionBean = createUndoLastActionBean(getProtocol());
 //       
@@ -609,6 +580,7 @@ canWithdrawUnavailable = !canWithdraw;
      * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
      */
     public void prepareCommentsView() {
+//TODO: Need to put IACUC-specific code here        
 //        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolIrbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
@@ -637,6 +609,7 @@ canWithdrawUnavailable = !canWithdraw;
 //        }
     }
     
+//TODO: Need to put IACUC-specific code here        
 //    private List<CommitteeScheduleMinute> getCopiedReviewComments() {
 //        List<CommitteeScheduleMinute> clonedMinutes = new ArrayList<CommitteeScheduleMinute>();
 //        Long scheduleIdFk = getProtocol().getProtocolSubmission().getScheduleIdFk();
@@ -682,28 +655,25 @@ canWithdrawUnavailable = !canWithdraw;
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolNumber", protocolNumber);
         BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
-        Protocol protocol = ((List<Protocol>) bos.findMatching(Protocol.class, fieldValues)).get(0);
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROPOSAL, protocol);
+        IacucProtocol protocol = ((List<IacucProtocol>) bos.findMatching(IacucProtocol.class, fieldValues)).get(0);
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL, protocol);
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);        
         return tas.isAuthorized(userId, task);
     }
     
     protected boolean hasPermission(String taskName) {
-        ProtocolTask task = new ProtocolTask(taskName, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;
+        IacucProtocolTask task = new IacucProtocolTask(taskName, getIacucProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     protected boolean hasGenericPermission(String genericActionName) {
-        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_IACUC_PROTOCOL_ACTION, genericActionName, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.GENERIC_IACUC_PROTOCOL_ACTION, getIacucProtocol(), genericActionName);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     protected boolean hasGenericUnavailablePermission(String genericActionName) {
-        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_IACUC_PROTOCOL_ACTION_UNAVAILABLE, genericActionName, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-return true;
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.GENERIC_IACUC_PROTOCOL_ACTION_UNAVAILABLE, getIacucProtocol(), genericActionName);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
     protected boolean hasFollowupAction(String actionCode) {
@@ -715,6 +685,8 @@ return true;
         return false;
     }
     
+    
+//TODO: Need to put IACUC-specific code here        
 //  private boolean hasCanViewOnlineReviewersPermission() {
 //        return getReviewerCommentsService().canViewOnlineReviewers(getUserIdentifier(), getSelectedSubmission());
 //    }
@@ -758,6 +730,10 @@ return true;
         return (IacucProtocolSubmitAction)protocolSubmitAction;
     }
 
+    public ProtocolNotifyIacucBean getProtocolNotifyIacucBean() {
+        return protocolNotifyIacucBean;
+    }
+
     public ProtocolForm getProtocolForm() {
         return form;
     }
@@ -767,6 +743,7 @@ return true;
     }
 
     
+//TODO: Need to put IACUC-specific code here        
 //    public ProtocolAction getLastPerformedAction() {
 //        List<ProtocolAction> protocolActions = form.getProtocolDocument().getProtocol().getProtocolActions();
 //        Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
@@ -1187,6 +1164,7 @@ return true;
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
     }
 
+//TODO: Need to put IACUC-specific code here        
 //    /**
 //     * 
 //     * This method is to get previous submission number.  Current implementation is based on submission number in sequence.
@@ -1231,19 +1209,19 @@ return true;
 //    }
 //
 //    /*
-//     * this returns a list of submission numbers for a protocol.
-//     */
-//    private List<Integer> getAvailableSubmissionNumbers() {
-//        List<Integer> submissionNumbers = new ArrayList<Integer>();
-//        for (ProtocolSubmission submission : getProtocol().getProtocolSubmissions()) {
-//            submissionNumbers.add(submission.getSubmissionNumber());
-//        }
-//        return submissionNumbers;
-//    }
+//  * this returns a list of submission numbers for a protocol.
+//  */
+// private List<Integer> getAvailableSubmissionNumbers() {
+//     List<Integer> submissionNumbers = new ArrayList<Integer>();
+//     for (ProtocolSubmission submission : getProtocol().getProtocolSubmissions()) {
+//         submissionNumbers.add(submission.getSubmissionNumber());
+//     }
+//     return submissionNumbers;
+// }
 //
-//  
 //
-//    /*
+//
+// /*
 //     * utility method to set whether to display next or previous button on submission panel.
 //     */
 //    private void setPrevNextFlag() {
@@ -1268,41 +1246,8 @@ return true;
 //        }
 //    }
 //
-//    /**
-//     * This method returns true if a protocol has amendments
-//     * @return
-//     * @throws Exception
-//     */
-//    public boolean getHasAmendments() throws Exception {
-//        if (getProtocol().isAmendment()) {
-//            hasAmendments = true;
-//        } else {
-//            List<Protocol> protocols = (List<Protocol>) getProtocolAmendRenewService().getAmendments(getProtocol().getProtocolNumber());
-//            hasAmendments = protocols.isEmpty() ? false : true;
-//        } 
-//        return hasAmendments;
-//    }
-//    
-//    
-//    /**
-//     * This method returns true if a protocol has renewals.
-//     * @return
-//     * @throws Exception
-//     */
-//    public boolean getHasRenewals() throws Exception {
-//        if (getProtocol().isRenewal()) {
-//            hasRenewals = true;
-//        } else {
-//            List<Protocol> protocols = (List<Protocol>) getProtocolAmendRenewService().getRenewals(getProtocol().getProtocolNumber());
-//            hasRenewals = protocols.isEmpty() ? false : true;
-//        }
-//        return hasRenewals;
-//    }
-//    
-//    public void addNotifyIrbAttachment() {
-//        getProtocolNotifyIrbBean().getActionAttachments().add(
-//                getProtocolNotifyIrbBean().getNewActionAttachment());
-//        getProtocolNotifyIrbBean().setNewActionAttachment(new ProtocolActionAttachment());
+//    public void addNotifyIacucAttachment() {
+//        getProtocolNotifyIacucBean().getActionAttachments().add(
 //    }
 //
 //    public boolean validFile(final ProtocolActionAttachment attachment, String propertyName) {
@@ -1319,29 +1264,6 @@ return true;
 //        return valid;
 //    }
 //
-//    public List<ProtocolVoteRecused> getRecusers() {
-//        return recusers;
-//    }
-//
-//
-//    public void setRecusers(List<ProtocolVoteRecused> recusers) {
-//        this.recusers = recusers;
-//    }
-//    
-//    /**
-//     * 
-//     * This method determines whether the committee select list should be displayed or not.
-//     * @return
-//     */
-//    public boolean isShowCommittee() {
-//        return "O".equals(this.getSubmissionConstraint()) || "M".equals(this.getSubmissionConstraint());
-//    }
-//
-//    public ProtocolGenericActionBean getProtocolDeferBean() {
-//        return protocolDeferBean;
-//    }
-//
-//    
 //    public ProtocolReviewNotRequiredBean getProtocolReviewNotRequiredBean() {
 //        return this.protocolReviewNotRequiredBean;
 //    }
@@ -1407,11 +1329,12 @@ return true;
 //    public ProtocolSummaryPrintOptions getProtocolSummaryPrintOptions() {
 //        return protocolSummaryPrintOptions;
 //    }
-//    
-//    public ProtocolActionBean getActionBean(String taskName) {
-//        return actionBeanTaskMap.get(taskName);
-//    }
-//
+    
+    public ProtocolActionBean getActionBean(String taskName) {
+        return actionBeanTaskMap.get(taskName);
+    }
+
+//TODO: Need to put IACUC-specific code here        
 //    public ProtocolRequestBean getRequestBean(String actionTypeCode) {
 //        ProtocolRequestBean protocolRequestBean = null;
 //        
@@ -1749,14 +1672,14 @@ return true;
 //    public void setHideReviewerNameForAttachment(boolean hideReviewerNameForAttachment) {
 //        this.hideReviewerNameForAttachment = hideReviewerNameForAttachment;
 //    }
-//
-//    public ProtocolCorrespondence getProtocolCorrespondence() {
-//        return protocolCorrespondence;
-//    }
-//
-//    public void setProtocolCorrespondence(ProtocolCorrespondence protocolCorrespondence) {
-//        this.protocolCorrespondence = protocolCorrespondence;
-//    }
+
+    public ProtocolCorrespondence getProtocolCorrespondence() {
+        return protocolCorrespondence;
+    }
+
+    public void setProtocolCorrespondence(ProtocolCorrespondence protocolCorrespondence) {
+        this.protocolCorrespondence = protocolCorrespondence;
+    }
 
     public boolean getIsApproveOpenForFollowup() {
         return hasFollowupAction(IacucProtocolActionType.IACUC_APPROVED);
@@ -1903,5 +1826,8 @@ return true;
         return result;
     }
 
+    protected IacucProtocol getIacucProtocol() {
+        return (IacucProtocol)getProtocol();
+    }
 }
 

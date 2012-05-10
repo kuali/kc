@@ -22,8 +22,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
@@ -42,71 +42,67 @@ import org.kuali.rice.krad.util.KRADConstants;
  * This class is to create action links and inquiry url for protocolsubmission lookup. 
  */
 @SuppressWarnings("serial")
-public class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
-    private static final String COMMITTEE_ID = "committeeId";
-    private static final String COMMITTEE_SCHEDULE_SCHEDULE_DATE = "committeeSchedule.scheduledDate";
-    private static final String PROTOCOL_TITLE = "protocol.title";
-    private static final String PROTOCOL_NUMBER = "protocolNumber";
-    private static final String DOC_TYPE_NAME_PARAM = "&docTypeName=";
-    private KraAuthorizationService kraAuthorizationService;
-    private KcPersonService kcPersonService;
-    private ProtocolSubmitActionService protocolSubmitActionService;
-   
-        
-   
+public abstract class ProtocolSubmissionLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
+    protected static final String COMMITTEE_ID = "committeeId";
+    protected static final String COMMITTEE_SCHEDULE_SCHEDULE_DATE = "committeeSchedule.scheduledDate";
+    protected static final String PROTOCOL_TITLE = "protocol.title";
+    protected static final String PROTOCOL_NUMBER = "protocolNumber";
+    protected static final String DOC_TYPE_NAME_PARAM = "&docTypeName=";
+    protected KraAuthorizationService kraAuthorizationService;
+    protected KcPersonService kcPersonService;
 
-    public void setProtocolSubmitActionService(ProtocolSubmitActionService protocolSubmitActionService) {
-        this.protocolSubmitActionService = protocolSubmitActionService;
-    }
+// Moved to IACUC    
+//    protected ProtocolSubmitActionService protocolSubmitActionService;
+//   
+//    public void setProtocolSubmitActionService(ProtocolApproveService protocolSubmitActionService) {
+//        this.protocolSubmitActionService = protocolSubmitActionService;
+//    }
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
       
-    
-    /**
-     * This method is to add 'edit' and 'view' link for protocol submission lookup result.
-     * 
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
-     *      java.util.List)
-     */
-    
-       
-    @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if (kraAuthorizationService.hasPermission(getUserIdentifier(), ((ProtocolSubmission) businessObject).getProtocol(),
-                PermissionConstants.MODIFY_PROTOCOL)) {
-            AnchorHtmlData editHtmlData = getViewLink((ProtocolSubmission) businessObject);
-            String href = editHtmlData.getHref();
-            href = href.replace("viewDocument=true", "viewDocument=false");
-            editHtmlData.setHref(href);
-            editHtmlData.setDisplayText("edit");
-            htmlDataList.add(editHtmlData);
-        }
-        if (kraAuthorizationService.hasPermission(getUserIdentifier(), ((ProtocolSubmission) businessObject).getProtocol(),
-                PermissionConstants.VIEW_PROTOCOL)) {
-            htmlDataList.add(getViewLink((ProtocolSubmission) businessObject));
-        }
-        return htmlDataList;
-    }
-  
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        super.setBackLocationDocFormKey(fieldValues);
-        List<ProtocolSubmission> submissionLookupData=(List<ProtocolSubmission>)super.getSearchResults(fieldValues);
-        try{
-            if((submissionLookupData!=null)&& (submissionLookupData.size()>0)){                            
-                 submissionLookupData=protocolSubmitActionService.getProtocolSubmissionsLookupData(submissionLookupData);   
-            }             
-        }catch (Exception e) {
-           LOG.info("submissionLookupData Lookup : " + submissionLookupData.size() + " parsing error");
-        }            
-        return submissionLookupData;
-    }   
-    
-    
-    
 
+// Method demoted to IACUC derived class    
+//    /**
+//     * This method is to add 'edit' and 'view' link for protocol submission lookup result.
+//     * 
+//     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
+//     *      java.util.List)
+//     */
+//    
+//    @Override
+//    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+//        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+//        if (kraAuthorizationService.hasPermission(getUserIdentifier(), ((ProtocolSubmission) businessObject).getProtocol(),
+//                PermissionConstants.MODIFY_PROTOCOL)) {
+//            AnchorHtmlData editHtmlData = getViewLink((ProtocolSubmission) businessObject);
+//            String href = editHtmlData.getHref();
+//            href = href.replace("viewDocument=true", "viewDocument=false");
+//            editHtmlData.setHref(href);
+//            editHtmlData.setDisplayText("edit");
+//            htmlDataList.add(editHtmlData);
+//        }
+//        if (kraAuthorizationService.hasPermission(getUserIdentifier(), ((ProtocolSubmission) businessObject).getProtocol(),
+//                PermissionConstants.VIEW_PROTOCOL)) {
+//            htmlDataList.add(getViewLink((ProtocolSubmission) businessObject));
+//        }
+//        return htmlDataList;
+//    }
+//    
+//    @Override
+//    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+//        super.setBackLocationDocFormKey(fieldValues);
+//        List<ProtocolSubmission> submissionLookupData=(List<ProtocolSubmission>)super.getSearchResults(fieldValues);
+//        try{
+//            if((submissionLookupData!=null)&& (submissionLookupData.size()>0)){                            
+//                 submissionLookupData=protocolSubmitActionService.getProtocolSubmissionsLookupData(submissionLookupData);   
+//            }             
+//        }catch (Exception e) {
+//           LOG.info("submissionLookupData Lookup : " + submissionLookupData.size() + " parsing error");
+//        }            
+//        return submissionLookupData;
+//    }   
+    
     /*
      * create the view link url for protocolsubmission
      */
