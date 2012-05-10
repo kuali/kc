@@ -80,7 +80,7 @@
                 
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolPermissionsAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolPermissions" />
-                </bean>                
+                </bean> 
 
                 <bean class="org.kuali.kra.iacuc.auth.SubmitIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="submitIacucProtocol" />
@@ -92,7 +92,11 @@
                                 
                 <bean class="org.kuali.kra.iacuc.auth.WithdrawIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="withdrawIacucProtocol" />
-                </bean>
+                </bean>                          
+
+                <bean class="org.kuali.kra.iacuc.auth.ModifyProtocolPersonnelAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolPersonnel" />
+                </bean>                     
            </list>
         </property>
     </bean>
@@ -219,7 +223,7 @@
             </list>
         </property>
     </bean>
-   
+    
    <bean id="protocolSubmissionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="iacucProtocolSubmissionLookupableHelperService" />
@@ -276,14 +280,14 @@
         <property name = "kraWorkflowService" ref = "kraWorkflowService"/>
         <property name = "personService" ref = "personService"/>
         <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
-<!--        <property name = "protocolAssignReviewersService" ref = "protocolAssignReviewersService"/>
+<!--         <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
         <property name = "reviewerApproveNodeName" value = "OnlineReviewer"/>
         <property name = "irbAdminApproveNodeName" value = "IRBAdminReview"/>
         <property name = "kraDocumentRejectionService" ref = "kraDocumentRejectionService"/>
         <property name = "reviewCommentsService" ref = "reviewCommentsService"/>
- -->         
+-->
     </bean>
- 
+    
    <bean id="iacucVersionService" class="org.kuali.kra.iacuc.IacucProtocolVersionServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
@@ -295,7 +299,7 @@
         <property name="sessionDocumentService" ref="knsSessionDocumentService" />
         <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
     </bean>
-    
+        
 </beans>
 
 

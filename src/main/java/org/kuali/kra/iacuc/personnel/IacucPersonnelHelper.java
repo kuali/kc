@@ -24,6 +24,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.protocol.personnel.PersonnelHelper;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
@@ -47,21 +48,13 @@ public class IacucPersonnelHelper extends PersonnelHelper implements Serializabl
       
 
     protected void initializeModifyProtocolPermission(Protocol protocol) {
-        modifyPersonnel = true;
-     // TODO *********commented the code below during IACUC refactoring*********         
-
-        //TODO fix once authorizers are done
-        //ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_PERSONNEL, protocol);
-        //modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_PERSONNEL, protocol);
+        modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
     }
 
 
     protected void initializeTrainingSection() {
-        setPersonTrainingSectionRequired(true);
-     // TODO *********commented the code below during IACUC refactoring*********         
-
-        //TODO add new parameter
-        //setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_IACUC_PROTOCOL_PERSON_TRAINING_SECTION)));
+        setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_IACUC_PROTOCOL_PERSON_TRAINING_SECTION)));
     }
 
 

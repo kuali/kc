@@ -20,22 +20,25 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * This class represents the Protocol Attachment Status.
  */
-public class ProtocolAttachmentStatus extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolAttachmentStatus extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2053606476193782286L;
-
-    private String code;
-
-    private String description;
 
     public static final String DRAFT = "1";
     public static final String FINALIZED = "2";
     public static final String DELETED = "3";
+    public static final String SUPERCEDED = "4";
+    public static final String EXPIRED = "5";    
+    
+    private String code;
+
+    private String description;
+
 
     /**
      * empty ctor to satisfy JavaBean convention.
      */
-    public ProtocolAttachmentStatus() {
+    protected ProtocolAttachmentStatus() {
         super();
     }
 
