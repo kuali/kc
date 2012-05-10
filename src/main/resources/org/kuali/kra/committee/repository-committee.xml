@@ -69,6 +69,9 @@
 		<collection-descriptor name="scheduleAgendas" proxy="true" element-class-ref="org.kuali.kra.meeting.ScheduleAgenda" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="scheduleIdFk" />
     	</collection-descriptor>
+    	<collection-descriptor name="committeeScheduleAttachments" proxy="true" element-class-ref="org.kuali.kra.meeting.CommitteeScheduleAttachments" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<inverse-foreignkey field-ref="scheduleIdFk" />
+    	</collection-descriptor>
 		
 	</class-descriptor>
 
@@ -116,7 +119,7 @@
         <field-descriptor name="committeeTypeCode" column="COMMITTEE_TYPE_CODE" jdbc-type="VARCHAR" />
        <reference-descriptor name="committeeType" class-ref="org.kuali.kra.committee.bo.CommitteeType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="committeeTypeCode" />
-         </reference-descriptor>
+        </reference-descriptor>
     </class-descriptor>	
 	
 	<class-descriptor class="org.kuali.kra.committee.bo.Committee" table="COMMITTEE">
@@ -304,6 +307,16 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>	
 
+	<class-descriptor class="org.kuali.kra.meeting.AttachmentsEntryType" table="ATTACHMENTS_TYPE">
+		<field-descriptor name="attachmentsTypeCode" column="ATTACHMENTS_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>		
+	
 	<class-descriptor class="org.kuali.kra.meeting.MinuteEntryType" table="MINUTE_ENTRY_TYPE">
 		<field-descriptor name="minuteEntryTypeCode" column="MINUTE_ENTRY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
@@ -501,4 +514,26 @@
         </reference-descriptor>
     </class-descriptor>
             
+    <class-descriptor class="org.kuali.kra.meeting.CommitteeScheduleAttachments" table="COMM_SCHEDULE_ATTACHMENTS">
+    	<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="attachmentId" column="ATTACHMENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="COMM_SCHEDULE_ATTACHMENT_ID" autoincrement="true"/>
+		<field-descriptor name="attachmentsTypeCode" column="ATTACHMENT_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		 <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" /> 
+		<field-descriptor name="document" column="ATTACHMENT " jdbc-type="BINARY" />
+		<field-descriptor name="mimeType" column="MIME_TYPE" jdbc-type="VARCHAR" /> 
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" /> 
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="newUpdateTimestamp" column="NEW_UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" /> 
+		<field-descriptor name="newUpdateUser" column="NEW_UPDATE_USER" jdbc-type="VARCHAR" />
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="scheduleIdFk"/>
+		</reference-descriptor>
+		<reference-descriptor name="attachmentsEntryType" class-ref="org.kuali.kra.meeting.AttachmentsEntryType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="attachmentsTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>     
+	   
 </descriptor-repository>

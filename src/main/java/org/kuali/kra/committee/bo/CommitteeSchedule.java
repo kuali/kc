@@ -33,6 +33,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.meeting.CommScheduleActItem;
 import org.kuali.kra.meeting.CommScheduleMinuteDoc;
+import org.kuali.kra.meeting.CommitteeScheduleAttachments;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ScheduleAgenda;
@@ -81,7 +82,8 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
     // So, keep the "transient". Also, they are not versioned with version service.   
     // Merging these data from old version committee to the new version committee at the time of "approval" of new version committee.
     private transient List<CommitteeScheduleAttendance> committeeScheduleAttendances;        
-    private transient List<CommitteeScheduleMinute> committeeScheduleMinutes;        
+    private transient List<CommitteeScheduleMinute> committeeScheduleMinutes;  
+    private transient List<CommitteeScheduleAttachments> committeeScheduleAttachments;
     @SkipVersioning
     private transient List<ProtocolSubmission> protocolSubmissions;        
     private transient List<CommScheduleActItem>  commScheduleActItems;
@@ -96,6 +98,7 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
         setCommitteeScheduleMinutes(new ArrayList<CommitteeScheduleMinute>()); 
         setMinuteDocs(new ArrayList<CommScheduleMinuteDoc>()); 
         setScheduleAgendas(new ArrayList<ScheduleAgenda>()); 
+        setCommitteeScheduleAttachments(new ArrayList<CommitteeScheduleAttachments>());
 	} 
 	
     public Long getId() {
@@ -461,6 +464,14 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
 
     public void setCommitteeScheduleMinutes(List<CommitteeScheduleMinute> committeeScheduleMinutes) {
         this.committeeScheduleMinutes = committeeScheduleMinutes;
+    }
+
+    public List<CommitteeScheduleAttachments> getCommitteeScheduleAttachments() {
+        return committeeScheduleAttachments;
+    }
+
+    public void setCommitteeScheduleAttachments(List<CommitteeScheduleAttachments> committeeScheduleAttachments) {
+        this.committeeScheduleAttachments = committeeScheduleAttachments;
     }
 
     public List<CommScheduleMinuteDoc> getMinuteDocs() {

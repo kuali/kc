@@ -111,7 +111,7 @@ jQuery(function(){
         <kul:backdoor />
 
         <html:form styleId="kualiForm" action="/meetingManagement.do"
-		    method="post" onsubmit="return hasFormAlreadyBeenSubmitted();">
+		    method="post" onsubmit="return hasFormAlreadyBeenSubmitted();"  enctype="multipart/form-data">
             <c:set var="KualiForm" value="${KualiForm}" /> 
 			<jsp:useBean id="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" /> 
             <a name="topOfForm"></a>
@@ -121,7 +121,7 @@ jQuery(function(){
                     </a>
                 </h1>
             </div>
-
+	
         <!--TABBED TOP NAVIGATION-->
             <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/>
             <div class="horz-links-bkgrnd" id="horz-links">
@@ -193,7 +193,9 @@ jQuery(function(){
             
             <!-- Tabbed Panel Head: Minutes -->
                                 <kra-meeting:meetingMinutes />
-                  
+            
+            <!-- Tabbed Panel Head: Attachments -->
+                                <kra-meeting:meetingAttachments />  
                   
             <!-- Tabbed Panel Footer -->    
                                 <div class="tab-container" align="center" id="G125" style="display: none;"></div>

@@ -18,6 +18,8 @@ package org.kuali.kra.committee.service;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
@@ -80,4 +82,10 @@ public interface CommitteeScheduleService {
      */
     public CommitteeScheduleMinute getCommitteeScheduleMinute(Long committeeScheduleId);
     
+    /**
+     * This method will downloadAttachment  to CommitteeScheduleAttachments.
+     * @param committeScheduleAttachments
+     * @return
+     */
+     public void downloadAttachment(KraPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception;
 }

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.committee.service.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -25,8 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.bo.ScheduleStatus;
@@ -36,9 +40,9 @@ import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
 import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
+import org.kuali.kra.meeting.CommitteeScheduleAttachments;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
@@ -47,6 +51,7 @@ import org.kuali.kra.scheduling.sequence.TrimDatesScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.sequence.WeekScheduleSequenceDecorator;
 import org.kuali.kra.scheduling.service.ScheduleService;
 import org.kuali.kra.scheduling.util.Time24HrFmt;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -374,4 +379,37 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
         }
         return permittedMinutes;
     }
+    /**
+     * This method will downloadAttachment  to CommitteeScheduleAttachments.
+     * @param committeScheduleAttachments
+     * @return
+     */
+    @Override
+    public void downloadAttachment(KraPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception {
+    	CommitteeScheduleAttachments committeScheduleAttachments = new CommitteeScheduleAttachments();
+        byte[] data = null;
+        String contentType = null;
+        String fileName = null;
+        if(attachmentDataSource.getClass().isInstance(committeScheduleAttachments)){
+            committeScheduleAttachments =(CommitteeScheduleAttachments)attachmentDataSource;
+            data = committeScheduleAttachments.getData();
+            contentType = committeScheduleAttachments.getContentType();
+            fileName = committeScheduleAttachments.getFileName();
+        }
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream(data.length);
+            baos.write(data);
+            WebUtils.saveMimeOutputStreamAsFile(response, contentType, baos, fileName);
+        } finally {
+        	try {
+                if (baos != null) {
+                    baos.close();
+                    baos = null;
+                }
+            } catch (IOException ioEx) {
+               
+            }
+        }
+    }	
 }
