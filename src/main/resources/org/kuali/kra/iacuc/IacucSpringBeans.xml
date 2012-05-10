@@ -267,6 +267,23 @@
 		<property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
     
+        <bean id = "iacucProtocolOnlineReviewService" class = "org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewServiceImpl">
+        <property name = "kraAuthorizationService" ref = "kraAuthorizationService"/>
+        <property name = "businessObjectService" ref = "businessObjectService"/>
+        <property name = "documentService" ref = "documentService"/>
+        <property name = "identityManagementService" ref = "identityService"/>
+        <property name = "committeeService" ref = "committeeService"/>
+        <property name = "kraWorkflowService" ref = "kraWorkflowService"/>
+        <property name = "personService" ref = "personService"/>
+        <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
+<!--        <property name = "protocolAssignReviewersService" ref = "protocolAssignReviewersService"/>
+        <property name = "reviewerApproveNodeName" value = "OnlineReviewer"/>
+        <property name = "irbAdminApproveNodeName" value = "IRBAdminReview"/>
+        <property name = "kraDocumentRejectionService" ref = "kraDocumentRejectionService"/>
+        <property name = "reviewCommentsService" ref = "reviewCommentsService"/>
+ -->         
+    </bean>
+ 
    <bean id="iacucVersionService" class="org.kuali.kra.iacuc.IacucProtocolVersionServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
