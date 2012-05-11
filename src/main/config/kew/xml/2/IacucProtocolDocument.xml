@@ -15,7 +15,8 @@
             <routingVersion>2</routingVersion>
             <routePaths>
                 <routePath>
-                    <start name="Initiated" />
+                    <start name="Initiated" nextNode="IACUCReview" />
+					<requests name="IACUCReview" />
                 </routePath>
             </routePaths>
             <routeNodes>
@@ -24,6 +25,12 @@
                     <mandatoryRoute>false</mandatoryRoute>
                     <finalApproval>false</finalApproval>
                 </start>
+                 <role name="IACUCReview">
+					<qualifierResolver>IACUC ProtocolApprover-XPathQualifierResolver</qualifierResolver> 
+                    <activationType>P</activationType>
+                    <mandatoryRoute>true</mandatoryRoute>                    
+					<finalApproval>false</finalApproval>
+	            </role>   
             </routeNodes>
             <parent>KC</parent>
         </documentType>
@@ -32,33 +39,22 @@
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
 		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
-			<name>IACUCCustomDataAttribute</name>
-			<className>org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute</className>
-			<label>IACUCCustomDataAttribute</label>
-            <description>IACUCCustomDataAttribute</description>
-            <type>RuleXmlAttribute</type>
-			<routingConfig>
-                <fieldDef name="instructorName" title="Instructor Name" workflowType="RULE">
-                    <display>
-                        <type>text</type>
-                    </display>
-                    <validation required="false"/>
-                    <fieldEvaluation>
-                        <xpathexpression>string(//xmlRouting/field[@name='instructorName']/value) = wf:ruledata('instructorName')</xpathexpression>
-                    </fieldEvaluation>
-                </fieldDef>
-                <fieldDef name="courseName" title="Course Name" workflowType="RULE">
-                    <display>
-                        <type>text</type>
-                    </display>
-                    <validation required="false"/>
-                    <fieldEvaluation>
-                        <xpathexpression>string(//xmlRouting/field[@name='courseName']/value) = wf:ruledata('courseName')</xpathexpression>
-                    </fieldEvaluation>
-                </fieldDef>
-            </routingConfig>
-        </ruleAttribute>
-		        
+			<name>IACUC ProtocolApprover-XPathQualifierResolver</name>
+			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<label>IACUC ProtocolApprover-XPathQualifierResolver</label>
+			<description>To limit the Approval Request to be routed to IACUC ProtocolApprovers for this protocol only</description>
+			<type>QualifierResolver</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<resolverConfig>
+				<attributes name="protocol">
+					<xPathExpression>//document/protocolList[1]/org.kuali.kra.iacuc.IacucProtocol[1]/protocolNumber[1]</xPathExpression>
+				</attributes>
+				<attributes name="unitNumber">
+					<xPathExpression>//document/protocolList[1]/org.kuali.kra.iacuc.IacucProtocol[1]/leadUnitNumber[1]</xPathExpression>
+				</attributes>
+			</resolverConfig>
+		</ruleAttribute>
     </ruleAttributes>
 
+	
 </data>
