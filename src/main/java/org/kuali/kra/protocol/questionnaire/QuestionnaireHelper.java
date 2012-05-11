@@ -81,7 +81,7 @@ public abstract class QuestionnaireHelper extends QuestionnaireHelperBase {
 
     public ModuleQuestionnaireBean getModuleQnBean() {
         //return new ModuleQuestionnaireBean(getModuleCode(), getProtocol());
-        ProtocolModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(getProtocol());
+        ProtocolModuleQuestionnaireBean moduleQuestionnaireBean = getProtocolModuleQuestionnaireBean(getProtocol());
         if (StringUtils.isNotBlank(getSubmissionActionTypeCode())) {
             // TODO : need to figure out a way to set subitemkey which is submissionnumber.
             // however, submissionnumber will not be available until it is submitted

@@ -97,7 +97,11 @@
                 <bean class="org.kuali.kra.iacuc.auth.WithdrawIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="withdrawIacucProtocol" />
                 </bean>                          
-                   
+<!--  IACUC
+                <bean class="org.kuali.kra.iacuc.auth.ModifyProtocolPersonnelAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolPersonnel" />
+                </bean>
+-->
            </list>
         </property>
     </bean>
@@ -217,10 +221,8 @@
 -->
         <property name="ruleFiles">
             <list>
-                <value>org/kuali/kra/iacuc/drools/rules/canPerformProtocolActionRules.drl</value>
-<!-- IACUC
-                <value>org/kuali/kra/iacuc/drools/rules/updateProtocolRules.drl</value>
--->                
+                <value>org/kuali/kra/iacuc/drools/rules/canPerformIacucProtocolActionRules.drl</value>
+                <value>org/kuali/kra/iacuc/drools/rules/updateIacucProtocolRules.drl</value>
             </list>
         </property>
     </bean>
