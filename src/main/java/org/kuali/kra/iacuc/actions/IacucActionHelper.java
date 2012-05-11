@@ -479,7 +479,8 @@ public class IacucActionHelper extends ActionHelper {
         canIacucRequestDeactivate = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE);
         canIacucRequestDeactivateUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE_UNAVAILABLE);
         canSubmitProtocol = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL);
-        canSubmitProtocolUnavailable = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE);
+//TODO:IACUC        canSubmitProtocolUnavailable = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE);
+canSubmitProtocolUnavailable = !canSubmitProtocol;        
         canCreateAmendment = hasPermission(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT);
         canCreateAmendmentUnavailable = hasPermission(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT_UNAVAILABLE);
         canModifyAmendmentSections = hasPermission(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS);
