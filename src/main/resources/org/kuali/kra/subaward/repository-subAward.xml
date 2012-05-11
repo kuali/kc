@@ -122,27 +122,24 @@
     
     <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardAmountReleased" table="SUBAWARD_AMT_RELEASED">
         <field-descriptor name="subAwardAmtReleasedId" column="SUBAWARD_AMT_RELEASED_ID" jdbc-type="INTEGER" primarykey="true"  autoincrement="true"  sequence-name="SUBAWARD_AMT_REL_ID_S"/>
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
         <field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="amountReleased" column="AMOUNT_RELEASED" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
         <field-descriptor name="effectiveDate" column="EFFECTIVE_DATE" jdbc-type="DATE" />
         <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
-        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="invoiceNumber" column="INVOICE_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" />
         <field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE" />
-        <field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="approvalComments" column="APPROVAL_COMMENTS" jdbc-type="VARCHAR" />
-        <field-descriptor name="approvedByUser" column="APPROVED_BY_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="approvalDate" column="APPROVAL_DATE" jdbc-type="DATE" />
         <field-descriptor name="document" column="DOCUMENT" jdbc-type="BINARY" />
         <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="createdBy" column="CREATED_BY" jdbc-type="VARCHAR" />
         <field-descriptor name="createdDate" column="CREATED_DATE" jdbc-type="DATE" />
         <field-descriptor name="mimeType" column="MIME_TYPE" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />        
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
     

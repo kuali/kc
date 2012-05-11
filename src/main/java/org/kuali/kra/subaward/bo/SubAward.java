@@ -283,8 +283,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 */
 	public String getRequisitionerUserName() {
         if (requisitionerId != null) {
-            KcPerson requisitioner = KraServiceLocator.getService(
-            KcPersonService.class).getKcPersonByPersonId(requisitionerId);
+            KcPerson requisitioner = getRequisitioner();
             if (requisitioner != null) {
                 requisitionerName = requisitioner.getFullName();
                 requisitionerUserName = requisitioner.getUserName();
@@ -310,6 +309,15 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
             this.requisitionerName = null;
         }
         this.requisitionerUserName = requisitionerUserName;
+    }
+    
+    public KcPerson getRequisitioner() {
+        if (requisitionerId != null) {
+            return KraServiceLocator.getService(
+                    KcPersonService.class).getKcPersonByPersonId(requisitionerId);
+        } else {
+            return null;
+        }
     }
 
   

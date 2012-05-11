@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.subaward;
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -26,8 +28,12 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.medusa.MedusaBean;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
@@ -36,10 +42,15 @@ import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.customdata.CustomDataHelper;
 import org.kuali.kra.subaward.document.SubAwardDocument;
+import org.kuali.kra.subaward.document.authorization.SubAwardTask;
 import org.kuali.kra.subaward.service.SubAwardService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * This class represents the SubAward Form Struts class....
  */
@@ -360,6 +371,20 @@ implements PermissionsForm, CustomDataForm, Auditable {
         }
         return defaultFollowUpDayDifference;
     }
-  
+        
+    public List<ExtraButton> getExtraFinancialButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+        extraButtons = super.getExtraButtons();
+        SubAwardDocument doc = this.getSubAwardDocument();
+        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
+        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
+        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
+        if(tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new SubAwardTask("modifySubaward", doc))) {       
+            String submitToGrantsGovImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_addinvoice.gif";
+            addExtraButton("methodToCall.addAmountReleased", submitToGrantsGovImage, "Add Invoice");
+        }
+        return extraButtons;
+    }
 }

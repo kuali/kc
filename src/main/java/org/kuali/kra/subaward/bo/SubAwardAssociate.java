@@ -30,6 +30,7 @@ public abstract class SubAwardAssociate extends KraPersistableBusinessObjectBase
     
     private static final long serialVersionUID = 1L;
     
+    private Long subAwardId;
     private String subAwardCode;
     private Integer sequenceNumber;
     private SubAward subAward;
@@ -145,6 +146,14 @@ public abstract class SubAwardAssociate extends KraPersistableBusinessObjectBase
      */
     public void setSequenceOwner(SubAward newlyVersionedOwner) {
         setSubAward(newlyVersionedOwner);   
+    }
+
+    public Long getSubAwardId() {
+        return subAwardId;
+    }
+
+    public void setSubAwardId(Long subAwardId) {
+        this.subAwardId = subAwardId;
     }
 
    

@@ -23,24 +23,23 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="financial"> 	
-  	
+  	headerTabActive="financial"> 	  	
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 	<div align="right"><kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardFinancialHelpUrl" altText="help"/></div>
 
 <div id="workarea">
+<script language="javascript" src="scripts/kuali_application.js"></script>
+<script>
+jq(document).ready(function() {
+	jq('input[name*="addAmountReleased"]').click(function() { openNewWindow('subAwardFinancial','addAmountReleased','','${KualiForm.formKey}','${KualiForm.document.sessionDocument}'); return false; });
+});
+</script>
 	<kra-sub:subAwardHistoryOfChanges/>	
 	<kra-sub:subAwardInvoices/>
 	<kul:panelFooter />
 </div>
-<c:choose>
-	<c:when test="${not KualiForm.editingMode['viewOnly']}">
-		<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
-	</c:when>
-	<c:otherwise>
-		<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" viewOnly= "true" suppressCancelButton="true" />
-	</c:otherwise>
-</c:choose>
-<script language="javascript" src="scripts/kuali_application.js"></script>
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" 
+	suppressCancelButton="true" viewOnly="${KualiForm.editingMode['viewOnly']}"
+	extraButtons="${KualiForm.extraFinancialButtons}"/>
 
 </kul:documentPage>

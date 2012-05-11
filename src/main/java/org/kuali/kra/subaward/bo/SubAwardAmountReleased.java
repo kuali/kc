@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import java.util.LinkedHashMap;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Date;
@@ -25,39 +24,31 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAttachmentService;
-import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableAttachment;
 /**
  * This class represents a subAwardAmountReleased.  It mainly deals with the
  * Amount released for a subAward.
  */
-public class SubAwardAmountReleased  extends
-SubAwardAssociate implements KcAttachment {
+public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAttachment, PersistableAttachment {
 
     private static final long serialVersionUID = 1L;
     private Integer subAwardAmtReleasedId;
-    private Long subAwardId; 
-    private String subAwardCode;
-    private Integer lineNumber;
     private KualiDecimal amountReleased;
     private Date effectiveDate;
     private String comments;
     private String invoiceNumber;
     private Date startDate;
     private Date endDate;
-    private boolean statusCode;
-    private String approvalComments;
-    private String approvedByUser;
-    private Date approvalDate;
     private byte[] document;
     private String fileName;
-    private String createdBy;
-    private Date createdDate;
     private String mimeType;
-    private AttachmentFile file;
-    private SubAward SubAward;
-    private String contentType;
+    private Date createdDate;
+    private String createdBy;
+    private String documentNumber;
     transient private FormFile newFile;
+    private transient SubAwardService subAwardService;
 /**.
      * This is the SubAwardAmountReleased() constructor
      */
@@ -76,49 +67,6 @@ SubAwardAssociate implements KcAttachment {
 */
     public void setSubAwardAmtReleasedId(Integer subAwardAmtReleasedId) {
         this.subAwardAmtReleasedId = subAwardAmtReleasedId;
-    }
-    /**
-     * Get the subAwardId.
-     * @return the subAwardId.
-*/
-    public Long getSubAwardId() {
-        return subAwardId;
-    }
-    /**
-     * Set the subAwardId attribute value..
-     * @param subAwardId the subAwardId to be set
-     */
-    public void setSubAwardId(Long subAwardId) {
-        this.subAwardId = subAwardId;
-    }
-    /**
-     * Get the subAwardCode.
-     * @return the subAwardCode.
-     */
-    public String getSubAwardCode() {
-        return subAwardCode;
-    }
-    /**
-     * Set the subAwardCode attribute value..
-     * @param subAwardCode the subAwardCode to set
-     */
-    public void setSubAwardCode(String subAwardCode) {
-        this.subAwardCode = subAwardCode;
-    }
-
-    /**
-     * Get the lineNumber.
-     * @return the lineNumber.
-     */
-    public Integer getLineNumber() {
-        return lineNumber;
-    }
-    /**
-     * Set the lineNumber..
-     * @param lineNumber the lineNumber to be set
-     */
-    public void setLineNumber(Integer lineNumber) {
-        this.lineNumber = lineNumber;
     }
     /**
      * Get the effectiveDate.
@@ -191,62 +139,6 @@ SubAwardAssociate implements KcAttachment {
         this.endDate = endDate;
     }
     /**
-     * Get the statusCode.
-     * @return the statusCode.
-     */
-    public boolean getStatusCode() {
-        return statusCode;
-    }
-    /**
-     * Set the statusCode attribute value..
-     * @param statusCode the statusCode to be set
-     */
-    public void setStatusCode(boolean statusCode) {
-        this.statusCode = statusCode;
-    }
-    /**
-     * Get the approvalComments.
-     * @return the approvalComments.
-     */
-    public String getApprovalComments() {
-        return approvalComments;
-    }
-    /**
-     * Set the approvalComments..
-     * @param approvalComments the approvalComments to be set
-     */
-    public void setApprovalComments(String approvalComments) {
-        this.approvalComments = approvalComments;
-    }
-    /**
-     * Get the approvedByUser.
-     * @return the approvedByUser.
-     */
-    public String getApprovedByUser() {
-        return approvedByUser;
-    }
-    /**
-     * Set the approvedByUser attribute value..
-     * @param approvedByUser the approvedByUser to be set
-     */
-    public void setApprovedByUser(String approvedByUser) {
-        this.approvedByUser = approvedByUser;
-    }
-    /**
-     * Get the approvalDate.
-     * @return the approvalDate.
-     */
-    public Date getApprovalDate() {
-        return approvalDate;
-    }
-    /**
-     * Set the approvalDate..
-     * @param approvalDate the approvalDate to be set
-     */
-    public void setApprovalDate(Date approvalDate) {
-        this.approvalDate = approvalDate;
-    }
-    /**
      * Get the document.
      * @return the document.
      */
@@ -273,34 +165,6 @@ SubAwardAssociate implements KcAttachment {
      */
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-    /**
-     * Get the createdBy user.
-     * @return the createdBy.
-     */
-    public String getCreatedBy() {
-        return createdBy;
-    }
-    /**
-     * Set the createdBy attribute value..
-     * @param createdBy the createdBy to be set
-     */
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-    /**
-     * Get the createdDate.
-     * @return the createdDate.
-     */
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-    /**
-     * Set the createdDate..
-     * @param createdDate the createdDate to be set
-     */
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
     }
     /**
      * Get the mimeType.
@@ -333,17 +197,6 @@ SubAwardAssociate implements KcAttachment {
     /**
      * Gets the  Attachment File.
      */
-    public AttachmentFile getFile() {
-        return this.file;
-    }
-
-    /**
-     * Set the file..
-     * @param file the file to be set
-     */
-    public void setFile(AttachmentFile file) {
-        this.file = file;
-    }
 
     /**.
      *
@@ -358,7 +211,7 @@ SubAwardAssociate implements KcAttachment {
             newFileData = newFile.getFileData();
             setDocument(newFileData);
             if (newFileData.length > 0) {
-                setContentType(newFile.getContentType());
+                setMimeType(newFile.getContentType());
                 setFileName(newFile.getFileName());
             }
         } catch (FileNotFoundException e) {
@@ -406,18 +259,51 @@ SubAwardAssociate implements KcAttachment {
 return KraServiceLocator.getService(
 KcAttachmentService.class).getFileTypeIcon(this);
     }
-    /**
-     * Set the ContentType attribute value..
-     * @param contentType the contentType to be set
-     */
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    @Override
+    public byte[] getAttachmentContent() {
+        return getDocument();
     }
-    /**
-     * Get the subaward's ContentType.
-     * @return the ContentType.
-     */
+    @Override
+    public void setAttachmentContent(byte[] arg0) {
+        this.document = arg0;
+    }
+    
+    public SubAward getSubAward() {
+        return getSubAwardService().getActiveSubAward(getSubAwardId());
+    }
+    public SubAwardService getSubAwardService() {
+        if (subAwardService == null) {
+            subAwardService = KraServiceLocator.getService(SubAwardService.class);
+        }
+        return subAwardService;
+    }
+    public void setSubAwardService(SubAwardService subAwardService) {
+        this.subAwardService = subAwardService;
+    }
+    public String getCreatedBy() {
+        return createdBy;
+    }
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+    @Override
     public String getContentType() {
-        return contentType;
+        return getMimeType();
+    }
+    @Override
+    public void setContentType(String contentType) {
+        setMimeType(contentType);
+    }
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 }
