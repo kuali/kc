@@ -28,4 +28,5 @@
 <td class="content" valign="top">
       <channel:unitQuicklinks />
       <channel:unitWorkflow />
+      <channel:unitRules />
 </td>
