@@ -20,7 +20,7 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
-public class ProtocolModuleQuestionnaireBean extends ModuleQuestionnaireBean {
+public abstract class ProtocolModuleQuestionnaireBean extends ModuleQuestionnaireBean {
 
     public ProtocolModuleQuestionnaireBean(Protocol protocol) {
         super(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 

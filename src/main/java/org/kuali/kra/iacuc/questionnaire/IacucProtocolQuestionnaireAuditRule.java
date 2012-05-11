@@ -30,4 +30,8 @@ public class IacucProtocolQuestionnaireAuditRule extends ProtocolQuestionnaireAu
         return new IacucProtocolModuleQuestionnaireBean(protocol);
     }
 
+    protected ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
+        return new IacucProtocolModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
+    }
+
 }

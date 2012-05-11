@@ -22,7 +22,7 @@ import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
 public class IacucProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaireBean {
 
     public IacucProtocolModuleQuestionnaireBean(Protocol protocol) {
-        super(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 
+        super(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 
                                 protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved());
         setProtocolSubItemCode(protocol) ;
     }
