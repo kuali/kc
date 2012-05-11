@@ -19,10 +19,12 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.drools.core.util.StringUtils;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.timeandmoney.service.AwardFnaDistributionService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 
@@ -48,6 +50,7 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     AwardDirectFandADistribution awardDirectFandADistribution;
     List<AwardDirectFandADistribution> awardDirectFandADistributions;
     transient AwardAmountInfoService awardAmountInfoService;
+    private transient AwardFnaDistributionService awardFnaDistributionService;
     /**
      *  @see org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule#processAwardDirectFandADistributionRuleBusinessRules
      * (org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent)
@@ -58,7 +61,8 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
         boolean validStartDate = true;
         boolean validEndDate = true;
         boolean validAmounts = existingAmountsAreValid(awardDirectFandADistributions);
-        boolean validTotalAnticipated =  doTotalAnticipatedAmountValidOnExistingDistribution(awardDirectFandADistributions);
+        boolean hasTimeAndMoneyBeenSaved = !StringUtils.isEmpty(awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getObjectId());
+        boolean validTotalAnticipated =  doTotalAnticipatedAmountValidOnExistingDistribution(awardDirectFandADistributions, hasTimeAndMoneyBeenSaved);
         boolean validConsecutiveDateRange = existingDirectFandADistributionsDatesNoBreak(awardDirectFandADistributions);
         if(awardDirectFandADistributions.size() > 0) {
             this.awardDirectFandADistribution = awardDirectFandADistributions.get(0);
@@ -247,27 +251,49 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
         return valid;
     }
     
-    private boolean doTotalAnticipatedAmountValidOnExistingDistribution(List<AwardDirectFandADistribution> thisAwardDirectFandADistributions){            
+    private boolean doTotalAnticipatedAmountValidOnExistingDistribution(List<AwardDirectFandADistribution> thisAwardDirectFandADistributions, boolean hasTimeAndMoneyBeenSaved){
+        if (getAwardFnaDistributionService().disableFAndADistributionEqualityValidation()) {
+            return true;
+        }
         boolean valid = false;
         KualiDecimal awardAnticipatedTotal = KualiDecimal.ZERO;
         KualiDecimal calculatedFNAAmount = KualiDecimal.ZERO;
         KualiDecimal calculatedDirAmount = KualiDecimal.ZERO;
-        if(awardDirectFandADistributions.size() > 0){
+        if (awardDirectFandADistributions.size() > 0) {
             awardAnticipatedTotal = awardDirectFandADistributions.get(0).getAward().getAnticipatedTotal();
             for (AwardDirectFandADistribution awardDirectFandADistribution : thisAwardDirectFandADistributions) {
                 calculatedFNAAmount = calculatedFNAAmount.add(awardDirectFandADistribution.getDirectCost());
                 calculatedDirAmount = calculatedDirAmount.add(awardDirectFandADistribution.getIndirectCost());  
             }
-            if(awardAnticipatedTotal.equals(calculatedFNAAmount.add(calculatedDirAmount)))
+            if(awardAnticipatedTotal.equals(calculatedFNAAmount.add(calculatedDirAmount))) {
                 valid = true;
-            else{
-            reportWarning(WARNING_AWARD_DIRECT_FNA_DISTRIBUTION_ANTICIPATED_MISMATCH, 
-                    KeyConstants.WARNING_AWARD_FANDA_DISTRIB_LIMITNOTEQUAL_ANTICIPATED, 
-                    new String[]{awardDirectFandADistributions.get(0).getAward().getAwardNumber()});
-            KNSGlobalVariables.getMessageList().add(KeyConstants.WARNING_AWARD_FANDA_DISTRIB_EXISTS, "");
+            } else {
+                if (getAwardFnaDistributionService().displayAwardFAndADistributionEqualityValidationAsError()) {
+                    if (hasTimeAndMoneyBeenSaved) {
+                        reportError(WARNING_AWARD_DIRECT_FNA_DISTRIBUTION_ANTICIPATED_MISMATCH, 
+                                KeyConstants.WARNING_AWARD_FANDA_DISTRIB_LIMITNOTEQUAL_ANTICIPATED, 
+                                new String[]{awardDirectFandADistributions.get(0).getAward().getAwardNumber()});
+                        KNSGlobalVariables.getMessageList().add(KeyConstants.WARNING_AWARD_FANDA_DISTRIB_EXISTS, "");
+                    }
+                } else if (getAwardFnaDistributionService().displayAwardFAndADistributionEqualityValidationAsWarning()) {
+                    reportWarning(WARNING_AWARD_DIRECT_FNA_DISTRIBUTION_ANTICIPATED_MISMATCH, 
+                            KeyConstants.WARNING_AWARD_FANDA_DISTRIB_LIMITNOTEQUAL_ANTICIPATED, 
+                            new String[]{awardDirectFandADistributions.get(0).getAward().getAwardNumber()});
+                    KNSGlobalVariables.getMessageList().add(KeyConstants.WARNING_AWARD_FANDA_DISTRIB_EXISTS, "");
+                } else {
+                    //no validation warning
+                    valid = true;
+                }
             }
         }
         return valid;
+    }
+    
+    protected AwardFnaDistributionService getAwardFnaDistributionService() {
+        if (awardFnaDistributionService == null) {
+            awardFnaDistributionService = KraServiceLocator.getService(AwardFnaDistributionService.class);
+        }
+        return awardFnaDistributionService;
     }
     /**
      * This method checks whether the user provided a valid Indirect Cost amount

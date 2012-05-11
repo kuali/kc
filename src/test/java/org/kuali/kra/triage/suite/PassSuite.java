@@ -473,6 +473,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.budget.calculator.BreakupIntervalServiceTest.class,
     org.kuali.kra.service.impl.FiscalYearMonthServiceImplTest.class,
     org.kuali.kra.coi.disclosure.AddManualProjectRuleTest.class,
+    org.kuali.kra.timeandmoney.service.impl.AwardFnaDistributionServiceImplTest.class,
     org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */

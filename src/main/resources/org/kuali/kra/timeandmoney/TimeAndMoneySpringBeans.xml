@@ -79,6 +79,10 @@
 		<property name="documentService" ref="documentService" />
 		<property name="awardVersionService" ref="awardVersionService" />    
     </bean>
+    
+    <bean id="awardFnaDistributionService" class="org.kuali.kra.timeandmoney.service.impl.AwardFnaDistributionServiceImpl">
+        <property name="parameterService" ref="parameterService" />
+    </bean>
 	
 	<!-- Time and Money Task Authorizers -->
 	
