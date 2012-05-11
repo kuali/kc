@@ -149,7 +149,10 @@
           <property name="workflowProperties">
             <list>
               <bean parent="WorkflowProperty" p:path="documentHeader"/>
+              <bean parent="WorkflowProperty" p:path="protocolWorkflowType"/>
+              <bean parent="WorkflowProperty" p:path="reRouted"/>                            
               <bean parent="WorkflowProperty" p:path="protocolList.protocolId"/>
+              <bean parent="WorkflowProperty" p:path="protocolList.leadUnitNumber"/>              
               <bean parent="WorkflowProperty" p:path="protocolList.protocolNumber"/>
               <bean parent="WorkflowProperty" p:path="protocolList.sequenceNumber"/>
               <bean parent="WorkflowProperty" p:path="protocolList.protocolType.protocolTypeCode"/>
