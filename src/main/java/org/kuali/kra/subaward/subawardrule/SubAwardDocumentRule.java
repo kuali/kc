@@ -86,6 +86,7 @@ SubAwardFundingSourceRule {
     
     private static final String CLOSEOUT_TYPE_CODE="newSubAwardCloseout.closeoutTypeCode";
     private static final String DATE_REQUESTED = "newSubAwardCloseout.dateRequested";
+    private static final String DATE_FLLOWUP = "newSubAwardCloseout.dateFollowup";
     
     private static final String AWARD_NUMBER="newSubAwardFundingSource.award.awardNumber";
 
@@ -590,6 +591,12 @@ SubAwardFundingSourceRule {
             rulePassed = false;
             reportError(DATE_REQUESTED, KeyConstants.ERROR_REQUIRED_SUBAWARD_DATE_REQUESTED);
         }
+        
+        if (subAwardCloseout == null || subAwardCloseout.getDateFollowup()== null) {
+            rulePassed = false;
+            reportError(DATE_FLLOWUP, KeyConstants.ERROR_REQUIRED_SUBAWARD_DATE_FOLLOWUP);
+        }
+        
         return rulePassed;
     }
     

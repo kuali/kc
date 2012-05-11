@@ -1007,6 +1007,7 @@ public final class KeyConstants {
     public static final String ERROR_REQUIRED_SUBAWARD_CONTACT_TYPE_CODE = "error.required.subaward.contact.contact.type.code";
     public static final String ERROR_REQUIRED_SUBAWARD_CLOSEOUT_TYPE_CODE = "error.required.subaward.closeout.closeout.type.code";
     public static final String ERROR_REQUIRED_SUBAWARD_DATE_REQUESTED = "error.required.subaward.closeout.date.requested";
+    public static final String ERROR_REQUIRED_SUBAWARD_DATE_FOLLOWUP = "error.required.subaward.closeout.date.followup";
     public static final String ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER= "error.required.subaward.funding.source.award.number";
     public static final String ERROR_REQUIRED_SUBAWARD_CONTACT_PERSON_EXIST= "error.subAwardSponsorContact.person.exists";
     public static final String ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER_DUPLICATE= "error.required.subaward.funding.source.award.number.duplicate";
