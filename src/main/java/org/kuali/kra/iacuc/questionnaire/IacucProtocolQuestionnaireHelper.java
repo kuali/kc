@@ -63,7 +63,7 @@ setAnswerQuestionnaire(true);
     }
 
     public String getModuleCode() {
-        return CoeusModule.IRB_MODULE_CODE;
+        return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
     }
 
     protected ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(Protocol protocol) {
