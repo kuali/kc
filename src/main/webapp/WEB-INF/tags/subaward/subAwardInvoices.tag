@@ -22,6 +22,13 @@
 <c:set var="subAwardAttributes" value="${DataDictionary.SubAward.attributes}" />
 <kul:tab tabTitle="Invoices" defaultOpen="true" transparentBackground="false" tabErrorKey="newSubAwardAmountReleased.invoiceNumber*,newSubAwardAmountReleased.startDate*,newSubAwardAmountReleased.endDate*,newSubAwardAmountReleased.effectiveDate*,newSubAwardAmountReleased.amountReleased*,newSubAwardAmountReleased.comments*,document.subAwardList[0].subAwardAmountReleasedList*" auditCluster="" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
+	<script>
+		jq(document).ready(function() {
+			jq('input[name*="downloadInvoiceAttachment"]').hide();
+			jq('input[name*="downloadInvoiceAttachment"]').click(function() {excludeSubmitRestriction = true});
+			jq('a.attachmentLink').click(function() { jq(this).siblings('input').click(); });
+		});
+	</script>
 	<h3>
     		<span class="subhead-left"></span>
     		<span class="subhead-right"></span>
@@ -29,18 +36,18 @@
 	<table cellpadding=0 cellspacing=0 summary="">
    				<tr>
 				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalObligatedAmount}" /></th>
-                <td colspan="2">
+                <td>
                       <kul:htmlControlAttribute property="document.subAwardList[0].totalObligatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalObligatedAmount}" />           
                 </td>
 				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAvailableAmount}" /></th>
-                <td colspan="2">
+                <td>
                      <kul:htmlControlAttribute property="document.subAwardList[0].totalAvailableAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAvailableAmount}" />            
                 </td>
             </tr>    
             
             <tr>
 				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAmountReleased}" /></th>
-                <td colspan="2">
+                <td colspan="3">
                        <kul:htmlControlAttribute property="document.subAwardList[0].totalAmountReleased" disabled="true" attributeEntry="${subAwardAttributes.totalAmountReleased}" />           
                 </td>
 				
@@ -54,164 +61,71 @@
       <table cellpadding=0 cellspacing=0 summary="">
             <tr>
               <th><div align="left">&nbsp;</div></th> 
-               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.invoiceNumber}" /></div></th>
-               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.startDate}" /></div></th>
-               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.endDate}" /></div></th>
-               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.effectiveDate}" /></div></th>
-               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.amountReleased}" /></div></th>
-  
-               
-                <%-- <c:if test="${canModify}">  --%>
-              	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
-          	    <%-- </c:if> --%>
+              <th>&nbsp;</th>
+               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.invoiceNumber}" noColon="true" readOnly="true"/></div></th>
+               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.startDate}" noColon="true" readOnly="true"/></div></th>
+               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.endDate}" noColon="true" readOnly="true"/></div></th>
+               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.effectiveDate}" noColon="true" readOnly="true"/></div></th>
+               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.amountReleased}" noColon="true" readOnly="true"/></div></th>
+               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.newFile}" noColon="true" readOnly="true"/></div></th>
             </tr>
-             <c:if test="${readOnly!='true'}">
-            <tr>
-    
-    				<th class="infoline" rowspan="2">
-						Add:
-					</th>
-					
-     			 
-     			<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardAmountReleased.invoiceNumber" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.invoiceNumber}" />           
-   					</div> 
-   				</td>
-   				<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardAmountReleased.startDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.startDate}" datePicker="true"/>           
-   					</div> 
-   				</td>
-   				<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardAmountReleased.endDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.endDate}" datePicker="true"/>         
-   					</div> 
-   				</td>
-   				
-   				  
-                <td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardAmountReleased.effectiveDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.effectiveDate}" datePicker="true"/>         
-   					</div> 
-   				</td>
-   				<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardAmountReleased.amountReleased" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.amountReleased}" />         
-   					</div> 
-   				</td>
-   				 				
-   				<td class="infoline" rowspan="2"><div align="center">
-   					<c:if test="${readOnly!='true'}">
-						<html:image property="methodToCall.addAmountReleased.anchor${tabKey}" 
-						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-						            styleClass="tinybutton"/>
-				   </c:if>
-	                </div>
-	            </td>   				
-   			</tr> 
-   		
-        	<tr>				
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.comments}" /></div></th>
-                <td colspan="2">
-                      <kul:htmlControlAttribute property="newSubAwardAmountReleased.comments" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.comments}" />
-                </td>
-                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.fileName}" /></div></th>
-                 <td class="infoline">
-   				   <c:if test="${readOnly!='true'}">
-                	<html:file property="newSubAwardAmountReleased.newFile" />
-                	</c:if>
-                </td>
-            </tr>     
-   				</c:if>
    			
-   			<c:forEach var="newSubAwardAmountReleased" items="${KualiForm.document.subAwardList[0].subAwardAmountReleasedList}" varStatus="status">
+   			<c:forEach var="subAwardInvoice" items="${KualiForm.document.subAwardList[0].subAwardAmountReleasedList}" varStatus="status">
 		             <tr>
-						<th width="5%" class="infoline" rowspan="2">
+						<th class="infoline" rowspan="2">
 							<c:out value="${status.index+1}" />
-						</th>	                
-		                <td width="9%" valign="middle">
+						</th>
+						<td style="text-align: center;" rowspan="2">
+							<a href="#" onClick="openNewWindow('subAwardFinancial','openAmountReleased','${status.index}','${KualiForm.formKey}','${KualiForm.document.sessionDocument}');return false;">open</a> 
+						</td>	                
+		                <td>
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].invoiceNumber"  readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.invoiceNumber}" />
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].invoiceNumber"  readOnly="true" attributeEntry="${subAwardAmountReleasedAttributes.invoiceNumber}" />
 						</div>
 						</td>
-		                <td width="9%" valign="middle">
+		                <td>
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].startDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.startDate}" datePicker="true" />                		
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].startDate" readOnly="true" attributeEntry="${subAwardAmountReleasedAttributes.startDate}" datePicker="true" />                		
 						</div>
 						</td>
-		                <td width="9%" valign="middle">
+		                <td>
 						<div align="center">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].endDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.endDate}" datePicker="true" />
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].endDate" readOnly="true" attributeEntry="${subAwardAmountReleasedAttributes.endDate}" datePicker="true" />
 						</div>
 					
 							
-						<td width="9%" valign="middle">
+						<td>
 						<div align="center">
 						
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].effectiveDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.effectiveDate}" datePicker="true" />
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].effectiveDate" readOnly="true" attributeEntry="${subAwardAmountReleasedAttributes.effectiveDate}" datePicker="true" />
 						</div>
 						</td>	
 						
-						<td width="9%" valign="middle">
+						<td>
 						<div align="center">
 						
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].amountReleased" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.amountReleased}" />
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].amountReleased" readOnly="true" attributeEntry="${subAwardAmountReleasedAttributes.amountReleased}" />
 						</div>
 						</td>	
-						
-						
-						
-						               
-						<td width="10%" valign="middle" rowspan="2">    
-						<div align="center">Attachment Actions :
-					</div><br></br>
-						<div align="center">
-							<c:if test="${!readOnly}">
-								<c:if test="${newSubAwardAmountReleased.fileName!=null}">
-									<html:image
-										styleId="downloadInvoiceAttachment.line${status.index}"
-										property="methodToCall.downloadInvoiceAttachment.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif'
-										styleClass="tinybutton"
-										onclick="javascript: openNewWindow('${action}','downloadInvoiceAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" />
-								</c:if>
-								<html:image
-									styleId="replaceInvoiceAttachment.line${status.index}"
-									onclick="javascript: showHide('invoiceFileDiv${status.index}','invoiceReplaceDiv${status.index}') ; return false"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
-									styleClass="tinybutton"
-									property="methodToCall.replaceNarrativeAttachment.line${status.index}.anchor${currentTabIndex};return false" />
-								<c:if test="${newSubAwardAmountReleased.fileName!=null}">
-									<html:image
-										property="methodToCall.deleteAmountReleased.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif'
-										styleClass="tinybutton" />
-								</c:if>
-							</c:if>
-							<c:if test="${readOnly}">&nbsp;</c:if>
-						</div></td>	
-		            </tr>
-		            
-		            <tr>		            			
-						<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.comments}" /></div></th>
-                			<td colspan="3">
-                      			<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].comments" readOnly="${readOnly}" attributeEntry="${subAwardAmountReleasedAttributes.comments}" />
-                			</td>
-                			<td width="9%" valign="middle">
-						<div id="invoiceReplaceDiv${status.index}" style="display: block;">
-							<c:if test="${newSubAwardAmountReleased.fileName!=null}">
-								<kra:fileicon attachment="${newSubAwardAmountReleased}" />
-							</c:if>
-							<kul:htmlControlAttribute
-								property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].fileName"
-								readOnly="true"
-								attributeEntry="${subAwardAmountReleasedAttributes.fileName}" />
-						</div>
-						<div id="invoiceFileDiv${status.index}" valign="middle"
-							style="display: none;">
-							<html:file
-								property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].newFile" />
-							<html:image
-								property="methodToCall.replaceInvoiceAttachment.line${status.index}.anchor${currentTabIndex}"
-								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif'
-								styleClass="tinybutton" />
-						</div></td>	
+                		<td>
+							<c:if test="${subAwardInvoice.fileName!=null}">
+								<a href="#" class="attachmentLink">
+									<kra:fileicon attachment="${subAwardInvoice}" />
+									<kul:htmlControlAttribute
+										property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].fileName"
+										readOnly="true"
+										attributeEntry="${subAwardAmountReleasedAttributes.fileName}" />
+								</a>
+								<html:image property="methodToCall.downloadInvoiceAttachment.invoiceIndex${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton" />
+							</c:if>								
+						</td>
+           		   </tr>
+           		   <tr>
+           		     <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.comments}" noColon="true" readOnly="true"/></div></th>
+           		     <td colspan="6">
+                       <kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].comments" readOnly="true" attributeEntry="${subAwardAmountReleasedAttributes.comments}" />
+                	 </td>
            		   </tr>
 	        	</c:forEach>
         </table>

@@ -8,6 +8,7 @@
          <bean id="SubAwardAmountReleased" parent="SubAwardAmountReleased-parentBean" />
   <bean id="SubAwardAmountReleased-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAwardAmountReleased" />
+    <property name="boNotesEnabled" value="true"/>
 		<property name="objectLabel" value="SubAwardAmountReleased" />
 		    <property name="inquiryDefinition" >
 		      <ref bean="SubAwardAmountReleased-inquiryDefinition" />
@@ -18,23 +19,27 @@
        		<property name="attributes">
 		      <list>
 		      	<ref bean="SubAwardAmountReleased-subAwardAmtReleasedId" />
-		        <ref bean="SubAwardAmountReleased-subAwardId" />		        
-		        <ref bean="SubAwardAmountReleased-lineNumber" />
+		        <ref bean="SubAwardAmountReleased-subAwardCode" />
 		        <ref bean="SubAwardAmountReleased-amountReleased" />
 				<ref bean="SubAwardAmountReleased-effectiveDate" />
 		        <ref bean="SubAwardAmountReleased-comments" />
 		        <ref bean="SubAwardAmountReleased-invoiceNumber" />
 		        <ref bean="SubAwardAmountReleased-startDate" />
 		        <ref bean="SubAwardAmountReleased-endDate" />
-		        <ref bean="SubAwardAmountReleased-statusCode" />
-				<ref bean="SubAwardAmountReleased-approvalComments" />
-		        <ref bean="SubAwardAmountReleased-approvedByUser" />
-		        <ref bean="SubAwardAmountReleased-approvalDate" />     
 		        <ref bean="SubAwardAmountReleased-document" />  
 		        <ref bean="SubAwardAmountReleased-fileName" />  
-		        <ref bean="SubAwardAmountReleased-createdBy" />  
-		        <ref bean="SubAwardAmountReleased-createdDate" />  
-		        <ref bean="SubAwardAmountReleased-mimeType" />   
+		        <ref bean="SubAwardAmountReleased-mimeType" />
+		        <ref bean="SubAwardAmountReleased-newFile" />
+		        <ref bean="SubAwardAmountReleased-subAward.statusDescription" />
+		        <ref bean="SubAwardAmountReleased-subAward.organization.organizationName" />
+		        <ref bean="SubAwardAmountReleased-subAward.rolodex.fullName" />
+		        <ref bean="SubAwardAmountReleased-subAward.subAwardType.description" />
+		        <ref bean="SubAwardAmountReleased-subAward.requisitioner.fullName" />
+		        <ref bean="SubAwardAmountReleased-subAward.title" />
+		        <ref bean="SubAwardAmountReleased-subAward.requisitioner.unit.unitName" />
+		        <ref bean="SubAwardAmountReleased-subAward.totalObligatedAmount" />
+		        <ref bean="SubAwardAmountReleased-subAward.totalAmountReleased" />
+		        <ref bean="SubAwardAmountReleased-subAward.totalAvailableAmount" />
 		      </list>
 		    </property>
  		 </bean>
@@ -60,48 +65,13 @@
     <property name="description" value="SubAward Amt Released Id" />    
    </bean>
       
- 	<bean id="SubAwardAmountReleased-subAwardId" parent="SubAwardAmountReleased-subAwardId-parentBean" />
-  <bean id="SubAwardAmountReleased-subAwardId-parentBean" abstract="true" parent="AttributeDefinition">
-       <property name="name" value="subAwardId" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="SubAward Id" />
-    <property name="shortLabel" value="SubAward Id" />
-    <property name="maxLength" value="22" />
-    <property name="validationPattern" >
-    <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-    <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="SubAward Id" />
-    <property name="description" value="SubAward Id" />    
+   <bean id="SubAwardAmountReleased-subAwardCode" parent="SubAwardAmountReleased-subAwardCode-parentBean" />
+   <bean id="SubAwardAmountReleased-subAwardCode-parentBean" abstract="true" parent="SubAward-subAwardCode">
+       <property name="name" value="subAwardCode" />
    </bean> 
-   
-     	
-     	 
-     	<bean id="SubAwardAmountReleased-lineNumber" parent="SubAwardAmountReleased-lineNumber-parentBean" />
-  <bean id="SubAwardAmountReleased-lineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-       <property name="name" value="lineNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Line Number" />
-    <property name="shortLabel" value="Line Number" />
-    <property name="maxLength" value="22" />
-    <property name="validationPattern" >
-    <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-    <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="Line Number" />
-    <property name="description" value="Line Number" />    
-   </bean>
-   
-      	<bean id="SubAwardAmountReleased-amountReleased" parent="SubAwardAmountReleased-amountReleased-parentBean" />
-  <bean id="SubAwardAmountReleased-amountReleased-parentBean" abstract="true" parent="AttributeDefinition">
+      
+   <bean id="SubAwardAmountReleased-amountReleased" parent="SubAwardAmountReleased-amountReleased-parentBean" />
+   <bean id="SubAwardAmountReleased-amountReleased-parentBean" abstract="true" parent="AttributeDefinition">
        <property name="name" value="amountReleased" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Amount Released" />
@@ -122,20 +92,11 @@
    </bean>
    
  <bean id="SubAwardAmountReleased-effectiveDate" parent="SubAwardAmountReleased-effectiveDate-parentBean" />
-  <bean id="SubAwardAmountReleased-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAwardAmountReleased-effectiveDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="effectiveDate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Effective Date" />
     <property name="shortLabel" value="Effective Date" />
-    <property name="maxLength" value="22" />
-    <property name="validationPattern" >
-    <bean parent="NumericValidationPattern" />
-    </property>
     <property name="required" value="true" />
-    <property name="control" >
-    <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
     <property name="summary" value="Effective Date" />
     <property name="description" value="Effective Date" />    
    </bean>        
@@ -175,120 +136,26 @@
    </bean>  
    
     <bean id="SubAwardAmountReleased-startDate" parent="SubAwardAmountReleased-startDate-parentBean" />
-   <bean id="SubAwardAmountReleased-startDate-parentBean" abstract="true" parent="AttributeDefinition">
+   <bean id="SubAwardAmountReleased-startDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="startDate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Start Date" />
     <property name="shortLabel" value="Start Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-    <bean parent="NumericValidationPattern" />
-    </property>
     <property name="required" value="true" />
-    <property name="control" >
-    <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
     <property name="summary" value="Start Date" />
     <property name="description" value="Start Date" />    
    </bean> 
        
       <bean id="SubAwardAmountReleased-endDate" parent="SubAwardAmountReleased-endDate-parentBean" />
-   <bean id="SubAwardAmountReleased-endDate-parentBean" abstract="true" parent="AttributeDefinition">
+   <bean id="SubAwardAmountReleased-endDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="endDate" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="End Date" />
     <property name="shortLabel" value="End Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-    <bean parent="NumericValidationPattern" />
-    </property>
     <property name="required" value="true" />
-    <property name="control" >
-    <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
     <property name="summary" value="End Date" />
     <property name="description" value="End Date" />    
    </bean>    
-   
-    <bean id="SubAwardAmountReleased-statusCode" parent="SubAwardAmountReleased-statusCode-parentBean" />
-   <bean id="SubAwardAmountReleased-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="statusCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Status Code" />
-    <property name="shortLabel" value="Status Code" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-    <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-    <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
-    <property name="summary" value="Status Code" />
-    <property name="description" value="Status Code" />    
-   </bean>       
-            
-       <bean id="SubAwardAmountReleased-approvalComments" parent="SubAwardAmountReleased-approvalComments-parentBean" />
-   <bean id="SubAwardAmountReleased-approvalComments-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="approvalComments" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Approval Comments" />
-    <property name="shortLabel" value="Approval Comments" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-    <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-    <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
-    <property name="summary" value="Approval Comments" />
-    <property name="description" value="Approval Comments" />    
-   </bean>  
-   
-   <bean id="SubAwardAmountReleased-approvedByUser" parent="SubAwardAmountReleased-approvedByUser-parentBean" />
-   <bean id="SubAwardAmountReleased-approvedByUser-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="approvedByUser" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Approved By User" />
-    <property name="shortLabel" value="Approved By User" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-    <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-    <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
-    <property name="summary" value="Approved By User" />
-    <property name="description" value="Approved By User" />    
-   </bean>   
-   
-      <bean id="SubAwardAmountReleased-approvalDate" parent="SubAwardAmountReleased-approvalDate-parentBean" />
-   <bean id="SubAwardAmountReleased-approvalDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="approvalDate" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Approval Date" />
-    <property name="shortLabel" value="Approval Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-    <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-    <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
-    <property name="summary" value="Approval Date" />
-    <property name="description" value="Approval Date" />    
-   </bean>   
            
-     <bean id="SubAwardAmountReleased-document" parent="SubAwardAmountReleased-document-parentBean" />
+   <bean id="SubAwardAmountReleased-document" parent="SubAwardAmountReleased-document-parentBean" />
    <bean id="SubAwardAmountReleased-document-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="document" />
     <property name="forceUppercase" value="false" />
@@ -296,7 +163,7 @@
     <property name="shortLabel" value="Document" />
     <property name="maxLength" value="4000" />
     <property name="validationPattern" >
-    <bean parent="NumericValidationPattern" />
+    <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="required" value="false" />
     <property name="control" >
@@ -326,45 +193,7 @@
     <property name="summary" value="File Name" />
     <property name="description" value="File Name" />    
    </bean>     
-   
-   <bean id="SubAwardAmountReleased-createdBy" parent="SubAwardAmountReleased-createdBy-parentBean" />
-   <bean id="SubAwardAmountReleased-createdBy-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="createdBy" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Created By" />
-    <property name="shortLabel" value="Created By" />
-    <property name="maxLength" value="4000" />
-    <property name="validationPattern" >
-    <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-    <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
-    <property name="summary" value="Created By" />
-    <property name="description" value="Created By" />    
-   </bean>        
-           
-    <bean id="SubAwardAmountReleased-createdDate" parent="SubAwardAmountReleased-createdDate-parentBean" />
-   <bean id="SubAwardAmountReleased-createdDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="createdDate" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Created Date" />
-    <property name="shortLabel" value="Created Date" />
-    <property name="maxLength" value="4000" />
-    <property name="validationPattern" >
-    <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-    <bean parent="TextControlDefinition"
-            p:size="5" />
-    </property>
-    <property name="summary" value="Created Date" />
-    <property name="description" value="Created Date" />    
-   </bean>    
-           
+              
       <bean id="SubAwardAmountReleased-mimeType" parent="SubAwardAmountReleased-mimeType-parentBean" />
    <bean id="SubAwardAmountReleased-mimeType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="mimeType" />
@@ -382,7 +211,75 @@
     </property>
     <property name="summary" value="Mime Type" />
     <property name="description" value="Mime Type" />    
-   </bean>    
+   </bean>
+   
+  <bean id="SubAwardAmountReleased-newFile" parent="SubAwardAmountReleased-newFile-parentBean" />
+
+  <bean id="SubAwardAmountReleased-newFile-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="newFile" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Attachment" />
+    <property name="shortLabel" value="Attachment" />
+    <property name="maxLength" value="150" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="FileControlDefinition"
+            p:size="100" />
+    </property>
+    <property name="summary" value="Attachment" />
+    <property name="description" value="Sponsor Form Template" />
+  </bean>
+   
+
+   <bean id="SubAwardAmountReleased-subAward.statusDescription" parent="SubAwardAmountReleased-subAward.statusDescription-parentBean" />
+   <bean id="SubAwardAmountReleased-subAward.statusDescription-parentBean" abstract="true" parent="SubAward-subAwardStatus.description">
+   	 <property name="name" value="subAward.statusDescription" />
+   </bean>
+   
+   <bean id="SubAwardAmountReleased-subAward.organization.organizationName" parent="SubAwardAmountReleased-subAward.organization.organizationName-parentBean" />
+   <bean id="SubAwardAmountReleased-subAward.organization.organizationName-parentBean" abstract="true" parent="Organization-organizationName">
+   	 <property name="name" value="subAward.organization.organizationName" />
+   </bean>
+   
+   <bean id="SubAwardAmountReleased-subAward.rolodex.fullName" parent="SubAwardAmountReleased-subAward.rolodex.fullName-parentBean" />
+   <bean id="SubAwardAmountReleased-subAward.rolodex.fullName-parentBean" abstract="true" parent="Rolodex-fullName">
+   	 <property name="name" value="subAward.rolodex.fullName" />
+   </bean>
+   
+   <bean id="SubAwardAmountReleased-subAward.subAwardType.description" parent="SubAwardAmountReleased-subAward.subAwardType.description-parentBean" />
+   <bean id="SubAwardAmountReleased-subAward.subAwardType.description-parentBean" abstract="true" parent="AwardType-description">
+   	 <property name="name" value="subAward.subAwardType.description" />
+   </bean>   
+
+   <bean id="SubAwardAmountReleased-subAward.requisitioner.fullName" parent="SubAwardAmountReleased-subAward.requisitioner.fullName-parentBean" />
+   <bean id="SubAwardAmountReleased-subAward.requisitioner.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
+   	 <property name="name" value="subAward.requisitioner.fullName" />
+   </bean>
+
+   <bean id="SubAwardAmountReleased-subAward.requisitioner.unit.unitName" parent="SubAwardAmountReleased-subAward.requisitioner.unit.unitName-parentBean" />
+   <bean id="SubAwardAmountReleased-subAward.requisitioner.unit.unitName-parentBean" abstract="true" parent="Unit-unitName">
+   	 <property name="name" value="subAward.requisitioner.unit.unitName" />
+   </bean>
+   
+   <bean id="SubAwardAmountReleased-subAward.title" parent="SubAwardAmountReleased-subAward.title-parentBean" />
+   <bean id="SubAwardAmountReleased-subAward.title-parentBean" abstract="true" parent="SubAward-title">
+   	 <property name="name" value="subAward.title" />
+   </bean>
+   
+   <bean id="SubAwardAmountReleased-subAward.totalObligatedAmount" parent="SubAwardAmountReleased-subAward.totalObligatedAmount-parentBean" />
+   <bean id="SubAwardAmountReleased-subAward.totalObligatedAmount-parentBean" abstract="true" parent="SubAward-totalObligatedAmount">
+   	 <property name="name" value="subAward.totalObligatedAmount" />
+   </bean>
+   
+   <bean id="SubAwardAmountReleased-subAward.totalAmountReleased" parent="SubAwardAmountReleased-subAward.totalAmountReleased-parentBean" />
+   <bean id="SubAwardAmountReleased-subAward.totalAmountReleased-parentBean" abstract="true" parent="SubAward-totalAmountReleased">
+   	 <property name="name" value="subAward.totalAmountReleased" />
+   </bean>
+   
+   <bean id="SubAwardAmountReleased-subAward.totalAvailableAmount" parent="SubAwardAmountReleased-subAward.totalAvailableAmount-parentBean" />
+   <bean id="SubAwardAmountReleased-subAward.totalAvailableAmount-parentBean" abstract="true" parent="SubAward-totalAvailableAmount">
+   	 <property name="name" value="subAward.totalAvailableAmount" />
+   </bean>   
    
    <bean id="SubAwardAmountReleased-versionNumber" parent="SubAwardAmountReleased-versionNumber-parentBean" />
     <bean id="SubAwardAmountReleased-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -400,9 +297,15 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="subAwardAmtReleasedId"
-                    p:forceInquiry="true" />             
+		        <bean parent="FieldDefinition" p:attributeName="subAwardAmtReleasedId"/>
+		        <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
+		        <bean p:attributeName="invoiceNumber"   parent="FieldDefinition"/>
+		        <bean p:attributeName="amountReleased"   parent="FieldDefinition"/>
+		        <bean p:attributeName="effectiveDate"   parent="FieldDefinition"/>
+		        <bean p:attributeName="startDate"   parent="FieldDefinition"/>
+		        <bean p:attributeName="endDate"   parent="FieldDefinition"/>
+		        <bean p:attributeName="comments"   parent="FieldDefinition"/>
+		        <bean p:attributeName="newFile"   parent="FieldDefinition"/>
             </list>
           </property>
         </bean>
@@ -424,19 +327,24 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-                    p:attributeName="subAwardAmtReleasedId"
-                    p:forceInquiry="true" />
-                    <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
-                    <bean p:attributeName="subAwardId"   parent="FieldDefinition"/>
-               
+        <bean parent="FieldDefinition" p:attributeName="subAwardAmtReleasedId"/>
+        <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
+        <bean p:attributeName="invoiceNumber"   parent="FieldDefinition"/>
+        <bean p:attributeName="amountReleased"   parent="FieldDefinition"/>
+        <bean p:attributeName="effectiveDate"   parent="FieldDefinition"/>
+        <bean p:attributeName="startDate"   parent="FieldDefinition"/>
+        <bean p:attributeName="endDate"   parent="FieldDefinition"/>               
       </list>
     </property>
     <property name="resultFields" >
       <list>       
-                 <bean parent="FieldDefinition" p:attributeName="subAwardAmtReleasedId" p:forceInquiry="true" />   
-                <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
-                    <bean p:attributeName="subAwardId"   parent="FieldDefinition"/>
+        <bean parent="FieldDefinition" p:attributeName="subAwardAmtReleasedId"/>
+        <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
+        <bean p:attributeName="invoiceNumber"   parent="FieldDefinition"/>
+        <bean p:attributeName="amountReleased"   parent="FieldDefinition"/>
+        <bean p:attributeName="effectiveDate"   parent="FieldDefinition"/>
+        <bean p:attributeName="startDate"   parent="FieldDefinition"/>
+        <bean p:attributeName="endDate"   parent="FieldDefinition"/>               
       </list>
     </property>
   </bean>
