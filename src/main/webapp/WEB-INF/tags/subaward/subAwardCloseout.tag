@@ -20,6 +20,8 @@
 <c:set var="subAwardCloseouts" value="${KualiForm.document.subAwardList[0].subAwardCloseoutList}"/>
 <c:set var="newSubAwardCloseout" value="${KualiForm.newSubAwardCloseout}" />
 
+<script language="javascript" src="dwr/interface/SubAwardService.js"></script>
+
 <kul:tab tabTitle="Closeout"  transparentBackground="false" defaultOpen="${KualiForm.document.subAwardList[0].defaultOpen}" tabErrorKey="newSubAwardCloseout.closeoutTypeCode*,newSubAwardCloseout.dateRequested*,newSubAwardCloseout.dateFollowup*,newSubAwardCloseout.dateReceived*,newSubAwardCloseout.comments*,document.subAwardList[0].subAwardCloseoutList*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
@@ -63,9 +65,19 @@
    						var dateRequestedFieldValue = dateRequestedField.value.trim();
    						var dateFollowupFieldValue = dateFollowupField.value.trim();
    						if (dateRequestedFieldValue != '' && dateFollowupFieldValue == '') {
-   							var dateRequested = new Date(dateRequestedFieldValue);
-   							dateRequested.setDate(dateRequested.getDate() + ${KualiForm.defaultFollowUpDayDifference});
-   							dateFollowupField.value = (dateRequested.getMonth() + 1) + "/" + dateRequested.getDate() + "/" + dateRequested.getFullYear();
+   							var dwrReply = {
+   									callback:function(data) {
+   										if ( data != null ) {				
+   											dateFollowupField.value = data;
+   										}
+   									},
+   									errorHandler:function( errorMessage ) {	
+   										window.status = errorMessage;
+   										fullNameElement.innerHTML = wrapError( "not found" );
+   										rolodexIdElement.innerHTML = wrapError( "not found" );
+   									}
+   							};
+   							SubAwardService.getCalculatedFollowupDateForAjaxCall(dateRequestedFieldValue, dwrReply);
    						}
    					}
    				-->
