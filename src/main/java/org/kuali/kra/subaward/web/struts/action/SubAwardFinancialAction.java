@@ -22,6 +22,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -35,12 +36,15 @@ import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class SubAwardFinancialAction extends SubAwardAction{
     
     private static final String LINE_NUMBER = "line";
     private static final String CONFIRM_EFFECTIVE_DATE = "confirmEffectiveDate";
     private static final String NO_CONFIRM_EFFECTIVE_DATE = "noConfirmEffectiveDate";
+    private static final String DOC_HANDLER_URL_PATTERN = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
+    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
@@ -158,32 +162,41 @@ public class SubAwardFinancialAction extends SubAwardAction{
             HttpServletResponse response) throws Exception {
 
         SubAwardForm subAwardForm = (SubAwardForm) form;
-        SubAwardAmountReleased subAwardAmountReleased =
-        	subAwardForm.getNewSubAwardAmountReleased();
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
-        if (new SubAwardDocumentRule().
-        processAddSubAwardEffectiveDateRules(
-        subAwardAmountReleased, subAward)) {
-            return confirm(buildParameterizedConfirmationQuestion(
-            mapping, form, request, response,
-             CONFIRM_EFFECTIVE_DATE, KeyConstants.QUESTION_EFFECTIVE_DATE),
-             CONFIRM_EFFECTIVE_DATE, NO_CONFIRM_EFFECTIVE_DATE);
-        } else  {
-            if (new SubAwardDocumentRule().
-            	processAddSubAwardAmountReleasedBusinessRules(
-            	subAwardAmountReleased, subAward)) {
-                addAmountReleasedToSubAward(subAwardForm.
-                getSubAwardDocument().getSubAward(), subAwardAmountReleased);
-            subAwardForm.setNewSubAwardAmountReleased(
-            new SubAwardAmountReleased());
-            }
-        }
-        subAward = KraServiceLocator.getService(
-        SubAwardService.class).getAmountInfo(
-        subAwardForm.getSubAwardDocument().getSubAward());
-        subAwardForm.getSubAwardDocument().setSubAward(subAward);
-        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
+        response.sendRedirect("kr/maintenance.do?businessObjectClassName=org.kuali.kra.subaward.bo.SubAwardAmountReleased&methodToCall=start" +
+                "&subAwardId=" + subAward.getSubAwardId() + "&subAwardCode=" + subAward.getSubAwardCode() + 
+                "&sequenceNumber=" + subAward.getSequenceNumber());
+
+        return null;
     }
+    
+    /**.
+     * Open amount released, or invoice
+     * @param mapping the ActionMapping
+     * @param form the ActionForm
+     * @param request the Request
+     * @param response the Response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward openAmountReleased(ActionMapping mapping,
+            ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        SubAwardForm subAwardForm = (SubAwardForm) form;
+        SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
+        Integer invoiceIdx = null;
+        if (request.getParameter("line") != null) {
+            invoiceIdx = Integer.parseInt(request.getParameter("line"));
+        } else {
+            invoiceIdx = getInvoiceIndex(request);
+        }
+        SubAwardAmountReleased invoice = subAward.getSubAwardAmountReleasedList().get(invoiceIdx);
+        String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
+        response.sendRedirect(String.format(DOC_HANDLER_URL_PATTERN, workflowUrl, invoice.getDocumentNumber()));
+
+        return null;
+    }    
     /**.
      * This method is for confirmEffectiveDate
      * @param mapping the ActionMapping
@@ -230,7 +243,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
         SubAwardAmountReleased  subAwardAmountReleased =
         	subAwardDocument.getSubAward().getSubAwardAmountReleasedList().
         	get(selectedLineNumber);
-        if (subAwardAmountReleased.getSubAwardId() != null) {
+        if (subAwardAmountReleased.getSubAward() != null) {
             subAwardAmountReleased.setDocument(null);
             subAwardAmountReleased.setFileName(null);
             this.getBusinessObjectService().save(subAwardAmountReleased);
@@ -252,10 +265,9 @@ public class SubAwardFinancialAction extends SubAwardAction{
         SubAwardAmountInfo subAwardAmountInfo =
          subAwardDocument.getSubAward().
          getSubAwardAmountInfoList().get(lineNumber);
-        subAwardAmountInfo.getFile();
         if (subAwardAmountInfo.getDocument() != null) {
-            KraServiceLocator.getService(SubAwardService.class).
-            downloadAttachment(subAwardAmountInfo, response);
+            this.streamToResponse(subAwardAmountInfo.getDocument(), 
+                    getValidHeaderString(subAwardAmountInfo.getFileName()), getValidHeaderString(subAwardAmountInfo.getContentType()), response);
         }
         return null;
     }
@@ -298,21 +310,24 @@ public class SubAwardFinancialAction extends SubAwardAction{
      ActionForm form, HttpServletRequest request,
                HttpServletResponse response) throws Exception {
            SubAwardForm subAwardForm = (SubAwardForm) form;
-           SubAwardDocument subAwardDocument =
-           subAwardForm.getSubAwardDocument();
-           String line = request.getParameter(LINE_NUMBER);
-           int lineNumber = line == null ? 0
-           : Integer.parseInt(line);
-           SubAwardAmountReleased subAwardAmountReleased =
-           subAwardDocument.getSubAward().
-           getSubAwardAmountReleasedList().get(lineNumber);
-           subAwardAmountReleased.getFile();
+           SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
+           Integer invoiceIndex = getInvoiceIndex(request);
+           SubAwardAmountReleased subAwardAmountReleased = subAwardDocument.getSubAward().getSubAwardAmountReleasedList().get(invoiceIndex);
            if (subAwardAmountReleased.getDocument() != null) {
-               KraServiceLocator.getService(SubAwardService.class).
-               downloadAttachment(subAwardAmountReleased, response);
+               this.streamToResponse(subAwardAmountReleased.getData(), 
+                       getValidHeaderString(subAwardAmountReleased.getName()), getValidHeaderString(subAwardAmountReleased.getType()), response);               
            }
            return null;
        }
+    
+    protected Integer getInvoiceIndex(HttpServletRequest request) {
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            return Integer.parseInt(StringUtils.substringBetween(parameterName, ".invoiceIndex", "."));
+        }
+        return null;
+    }
+
        /**.
      * This method is for replaceInvoiceAttachment
      * @param mapping the ActionMapping
@@ -327,12 +342,10 @@ public class SubAwardFinancialAction extends SubAwardAction{
            SubAwardForm subAwardForm = (SubAwardForm) form;
            SubAwardDocument subAwardDocument =
            subAwardForm.getSubAwardDocument();
-           SubAwardAmountReleased subAwardAmountReleased =
-           subAwardDocument.getSubAward().
-           getSubAwardAmountReleasedList().
-           get(getSelectedLine(request));
+           SubAwardAmountReleased subAwardAmountReleased = subAwardDocument.getSubAward().
+               getSubAwardAmountReleasedList().get(getSelectedLine(request));
            subAwardAmountReleased.populateAttachment();
-           if (subAwardAmountReleased.getSubAwardId() != null) {
+           if (subAwardAmountReleased.getSubAward() != null) {
                getBusinessObjectService().save(subAwardAmountReleased);
            }
            return mapping.findForward(MAPPING_BASIC);
