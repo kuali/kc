@@ -18,7 +18,7 @@
 <channel:portalChannelTop channelTitle="Workflow" />
 <div class="body">
   <ul class="chan">
-    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.rice.kew.impl.peopleflow.PeopleFlowBo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true'>People Flow</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.krad.url}/lookup?methodToCall=start&dataObjectClassName=org.kuali.rice.kew.impl.peopleflow.PeopleFlowBo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true'>People Flow</portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.workflow.url}/Preferences.do'>Preferences</portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.workflow.url}/RoutingReport.do'>Routing Report</portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kew.rule.RuleBaseValues&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true'>Rules</portal:portalLink></li>
