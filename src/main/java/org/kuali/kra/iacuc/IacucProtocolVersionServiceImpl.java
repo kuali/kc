@@ -19,8 +19,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolVersionServiceImpl;
+import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kns.service.SessionDocumentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -57,6 +59,10 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImpl 
             protocol = protocols.iterator().next();
         }
         return protocol;
+    }
+
+    protected ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(Protocol protocol) {
+        return new IacucProtocolModuleQuestionnaireBean(protocol);
     }
 
 }

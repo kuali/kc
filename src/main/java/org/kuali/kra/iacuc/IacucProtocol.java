@@ -27,6 +27,7 @@ import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.iacuc.protocol.IacucProtocolProjectType;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
+import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
@@ -40,6 +41,9 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
+import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -365,5 +369,17 @@ public class IacucProtocol extends Protocol {
     public void setExceptionCategoryCode(Integer exceptionCategoryCode) {
         this.exceptionCategoryCode = exceptionCategoryCode;
     }
+
+    /*
+     * get submit for review questionnaire answerheaders
+     */
+    protected List <AnswerHeader> getAnswerHeaderForProtocol(Protocol protocol) {
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean(protocol);
+        moduleQuestionnaireBean.setModuleSubItemCode("0");
+        List <AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+        answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
+        return answerHeaders;
+    }
+    
 
 }
