@@ -1398,13 +1398,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     /*
      * get submit for review questionnaire answerheaders
      */
-    private List <AnswerHeader> getAnswerHeaderForProtocol(Protocol protocol) {
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(protocol);
-        moduleQuestionnaireBean.setModuleSubItemCode("0");
-        List <AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
-        return answerHeaders;
-    }
+    protected abstract List <AnswerHeader> getAnswerHeaderForProtocol(Protocol protocol);
     
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
