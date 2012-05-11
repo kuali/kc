@@ -88,6 +88,14 @@ public interface SubAwardService {
       * @return
       */
      public Date getCalculatedFollowupDate(Date baseDate);
+     
+     /**
+      * 
+      * This method returns a formatted Date string based on the base date.
+      * @param baseDate
+      * @return
+      */
+     public String getCalculatedFollowupDateForAjaxCall(String baseDate);
 
      /**
       *

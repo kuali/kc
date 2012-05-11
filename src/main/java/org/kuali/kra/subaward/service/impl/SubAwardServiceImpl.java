@@ -18,6 +18,7 @@ package org.kuali.kra.subaward.service.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Date;
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -328,9 +329,33 @@ public class SubAwardServiceImpl implements SubAwardService {
      */
     public Date getCalculatedFollowupDate(Date baseDate) {
         Date retDate =
-        new Date(DateUtils.addDays(
-        baseDate, getFollowupDateDefaultLengthInDays()).getTime());
+        new Date(DateUtils.addDays(baseDate, getFollowupDateDefaultLengthInDays()).getTime());
         return retDate;
+    }
+    
+    @Override
+    public String getCalculatedFollowupDateForAjaxCall(String baseDate) {
+        System.err.println("Got to getCalculatedFollowupDateForAjaxClass");
+        final String empty = "";
+        String[] elements = baseDate.split("/");
+        if (elements.length == 3) {
+            try {
+                int month = Integer.parseInt(elements[0]);
+                int day = Integer.parseInt(elements[1]);
+                int year = Integer.parseInt(elements[2]);
+                if (year < 100) {
+                    year = year + 2000;
+                }
+                Date requestedDate = new Date(year, month-1, day-1);
+                Date followUpDate = getCalculatedFollowupDate(requestedDate);
+                return (followUpDate.getMonth()+1) + "/" + (followUpDate.getDate()+1) + "/" + followUpDate.getYear();
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+                // something wasn't a number or a valid date element;
+            }
+        }
+        return empty;
     }
 
     /**.
