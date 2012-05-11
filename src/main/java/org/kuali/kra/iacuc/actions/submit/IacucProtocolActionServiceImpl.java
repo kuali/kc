@@ -54,6 +54,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl {
 
     static private final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(IacucProtocolActionServiceImpl.class);
+
+    // for now, only action rule and update rule files are being used. Thus, we override them here.
+    protected static final int PERFORMACTION_RULE = 0;
+
+    protected static final int UPDATE_RULE = 1;
     
     private static final String PERFORMACTION_FILE = "org/kuali/kra/iacuc/drools/rules/canPerformProtocolActionRules.drl";
 
@@ -96,7 +101,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl {
     protected boolean isAuthorizedtoPerform(String actionTypeCode, IacucProtocol protocol) {
         boolean flag = false;
 //TODO: To be implemented for IACUC
-      ActionRightMapping rightMapper = new ActionRightMapping();
+        ActionRightMapping rightMapper = new ActionRightMapping();
 //
 //        flag = hasPermissionLeadUnit(actionTypeCode, protocol, rightMapper);
 //
@@ -112,8 +117,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl {
 //            flag = hasPermissionSpecialCase(actionTypeCode, DEFAULT_ORGANIZATION_UNIT, rightMapper);
 //        }
 //
-//        return flag;
-return true;        
+        return flag;
     }
 
     /**
@@ -223,17 +227,17 @@ return true;
      *      org.kuali.kra.irb.IacucProtocol)
      */
     public void updateProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
-//        String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();
-//        String specialCondition = protocolNumberUpper.contains(AMEND) ? AMEND : (protocolNumberUpper.contains(RENEW) ? RENEW : NONE);
-//
-//        ProtocolActionUpdateMapping protocolAction = new ProtocolActionUpdateMapping(protocolActionBo.getProtocolActionTypeCode(),
-//            protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(),
-//            specialCondition);
-//        protocolAction.setProtocol(protocol);
-//        protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
-//        protocolAction.setProtocolAction(protocolActionBo);
-//        rulesList.get(UPDATE_RULE).executeRules(protocolAction);
-//        businessObjectService.save(protocol);
+        String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();
+        String specialCondition = protocolNumberUpper.contains(AMEND) ? AMEND : (protocolNumberUpper.contains(RENEW) ? RENEW : NONE);
+
+        IacucProtocolActionUpdateMapping protocolAction = new IacucProtocolActionUpdateMapping(protocolActionBo.getProtocolActionTypeCode(),
+            protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(),
+            specialCondition);
+        protocolAction.setProtocol(protocol);
+        protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
+        protocolAction.setProtocolAction(protocolActionBo);
+        rulesList.get(UPDATE_RULE).executeRules(protocolAction);
+        businessObjectService.save(protocol);
     }
     
     /**

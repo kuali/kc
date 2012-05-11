@@ -144,10 +144,10 @@ public abstract class ProtocolVersionServiceImpl implements ProtocolVersionServi
         finalizeAttachmentProtocol(newProtocol);
         businessObjectService.save(newProtocol);
         // versioning questionnaire answer
-        List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(new ProtocolModuleQuestionnaireBean(protocolDocument.getProtocol())
+        List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(getProtocolModuleQuestionnaireBean(protocolDocument.getProtocol())
             , newProtocol.getSequenceNumber());
         if (newProtocol.isAmendment() || (newProtocol.isRenewal() && !newProtocol.isRenewalWithoutAmendment())) {
-            ProtocolModuleQuestionnaireBean moduleBean = new ProtocolModuleQuestionnaireBean(protocolDocument.getProtocol());
+            ProtocolModuleQuestionnaireBean moduleBean = getProtocolModuleQuestionnaireBean(protocolDocument.getProtocol());
             moduleBean.setModuleSubItemCode(CoeusSubModule.ZERO_SUBMODULE);
             List<AnswerHeader> newAmendAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(moduleBean
             , newProtocol.getSequenceNumber());
@@ -314,5 +314,7 @@ public abstract class ProtocolVersionServiceImpl implements ProtocolVersionServi
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
+
+    protected abstract ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(Protocol protocol);
 
 }
