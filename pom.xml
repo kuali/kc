@@ -1540,7 +1540,6 @@
 			acknowledgments.jsp,
 			WEB-INF/tags/rice-portal/portalBody.tag,
 			WEB-INF/tags/rice-portal/portalTabs.tag,
-			WEB-INF/tags/rice-portal/channel/main/rules.tag
     	</rice.web.excludes>
     	
     	<!-- WSDL config -->
