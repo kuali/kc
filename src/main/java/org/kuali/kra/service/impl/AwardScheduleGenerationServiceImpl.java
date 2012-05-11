@@ -133,8 +133,13 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
         
         if (startDate != null && endDate != null) {
             calendar.setTime(startDate);
-            if (endDate != null && awardReportTerm.getFrequency().getRepeatFlag()
+            if (awardReportTerm.getFrequency().getRepeatFlag()
                     && awardReportTerm.getFrequency().getNumberOfMonths() != null) {
+                //if the end date is before the start date, set the end date to the start date
+                //so the schedule generation doesn't error and creates a single date.
+                if (endDate.before(startDate)) {
+                    endDate = startDate;
+                }
                 ScheduleSequence scheduleSequence = new XMonthlyScheduleSequenceDecorator(
                     new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence()), awardReportTerm.getFrequency()
                             .getNumberOfMonths());
