@@ -263,52 +263,6 @@ public class SubAwardServiceImpl implements SubAwardService {
 
         return subAward;
     }
-    /**
-     * This method will downloadAttachment  to subaward.
-     * @param attachmentDataSource the attachmentDataSource
-     * @param response the response
-     *
-     */
-    public void downloadAttachment(KraPersistableBusinessObjectBase
-    attachmentDataSource, HttpServletResponse response) throws Exception {
-
-        SubAwardAmountInfo subAwardAmountInfo = new SubAwardAmountInfo();
-        SubAwardAmountReleased subAwardAmountReleased =
-        new SubAwardAmountReleased();
-        byte[] data = null;
-        String contentType = null;
-        String fileName = null;
-        if (attachmentDataSource.getClass().isInstance(subAwardAmountInfo)) {
-            subAwardAmountInfo = (SubAwardAmountInfo) attachmentDataSource;
-            data = subAwardAmountInfo.getData();
-            contentType = subAwardAmountInfo.getContentType();
-            fileName = subAwardAmountInfo.getFileName();
-        } else if (attachmentDataSource.getClass().
-        isInstance(subAwardAmountReleased)) {
-            subAwardAmountReleased =
-            (SubAwardAmountReleased) attachmentDataSource;
-            data = subAwardAmountReleased.getData();
-            contentType = subAwardAmountReleased.getContentType();
-            fileName = subAwardAmountReleased.getFileName();
-            }
-
-        ByteArrayOutputStream baos = null;
-        try {
-            baos = new ByteArrayOutputStream(data.length);
-            baos.write(data);
-            WebUtils.saveMimeOutputStreamAsFile(
-            response, contentType, baos, fileName);
-        } finally {
-            try {
-                if (baos != null) {
-                    baos.close();
-                    baos = null;
-                }
-            } catch (IOException ioEx) {
-               // LOG.warn(ioEx.getMessage(), ioEx);
-            }
-        }
-    }
     /**.
      * this method is for getFollowupDateDefaultLength
      *
@@ -380,5 +334,14 @@ public class SubAwardServiceImpl implements SubAwardService {
             + "'Subaward Follow Up' parameter: " + rangeUnit);
         }
         return returnAmount;
+    }
+    
+    public SubAward getActiveSubAward(Long subAwardId) {
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("subAwardId", subAwardId);
+        List<SubAward> subAwards = (List<SubAward>) getBusinessObjectService().findMatching(SubAward.class, values);
+        SubAward subAward = subAwards.get(0);
+        getAmountInfo(subAward);
+        return subAward;
     }
 }

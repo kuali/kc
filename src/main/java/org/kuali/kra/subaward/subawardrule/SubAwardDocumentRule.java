@@ -161,7 +161,7 @@ SubAwardFundingSourceRule {
         if (subAward.getSiteInvestigator() == null && subAward.getSiteInvestigatorId() != null) {
             rulePassed = false;               
             reportError(propertyPrefix + SITEINVESTIGATOR, 
-                    KeyConstants.ERROR_INVALID_SITEINVESTIGATOR_ID, new String[] {subAward.getSiteInvestigatorId()});          
+                    KeyConstants.ERROR_INVALID_SITEINVESTIGATOR_ID, new String[] {subAward.getSiteInvestigatorId().toString()});          
         }
         if (subAward.getOrganizationId() != null) { 
             if (subAward.getOrganization() == null) {

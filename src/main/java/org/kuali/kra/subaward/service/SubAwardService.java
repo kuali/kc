@@ -65,14 +65,6 @@ public interface SubAwardService {
      */
     public SubAward getAmountInfo(SubAward subAward);
 
-    /**
-     * This method will downloadAttachment  to subaward.
-     * @param subAward
-     * @return
-     */
-     public void downloadAttachment(KraPersistableBusinessObjectBase
-   attachmentDataSource, HttpServletResponse response) throws Exception;
-
      /**.
       * 
       * This method returns the value of the parameter 'Subaward Follow Up'.
@@ -105,6 +97,8 @@ public interface SubAwardService {
       * @return
       */
      public int getFollowupDateDefaultLengthInDays();
+     
+     SubAward getActiveSubAward(Long subAwardCode);
 
 
 }
