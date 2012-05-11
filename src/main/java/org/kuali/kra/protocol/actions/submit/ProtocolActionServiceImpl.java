@@ -51,21 +51,21 @@ public abstract class ProtocolActionServiceImpl implements ProtocolActionService
 
     static private final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolActionServiceImpl.class);
     
-    private static final String PERMISSIONS_LEADUNIT_FILE = "org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl";
-
-    private static final String PERMISSIONS_SUBMIT_FILE = "org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl";
-
-    private static final String PERMISSIONS_COMMITTEEMEMBERS_FILE = "org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl";
-
-    private static final String PERMISSIONS_SPECIAL_FILE = "org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl";
-
-    private static final String PERFORMACTION_FILE = "org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl";
-
-    private static final String UPDATE_FILE = "org/kuali/kra/irb/drools/rules/updateProtocolRules.drl";
-    
-    private static final String UNDO_ACTION_FILE = "org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl";
-    
-    private static final String FOLLOWUP_FILE = "org/kuali/kra/irb/drools/rules/isProtocolActionOpenForFollowupRules.drl";
+//    private static final String PERMISSIONS_LEADUNIT_FILE = "org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl";
+//
+//    private static final String PERMISSIONS_SUBMIT_FILE = "org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl";
+//
+//    private static final String PERMISSIONS_COMMITTEEMEMBERS_FILE = "org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl";
+//
+//    private static final String PERMISSIONS_SPECIAL_FILE = "org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl";
+//
+//    private static final String PERFORMACTION_FILE = "org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl";
+//
+//    private static final String UPDATE_FILE = "org/kuali/kra/irb/drools/rules/updateProtocolRules.drl";
+//    
+//    private static final String UNDO_ACTION_FILE = "org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl";
+//    
+//    private static final String FOLLOWUP_FILE = "org/kuali/kra/irb/drools/rules/isProtocolActionOpenForFollowupRules.drl";
 
     protected static final int PERMISSIONS_LEADUNIT_RULE = 0;
 
@@ -341,17 +341,17 @@ public abstract class ProtocolActionServiceImpl implements ProtocolActionService
 //    public boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol) {
 //        return followupActionService.isActionOpenForFollowup(protocolActionTypeCode, protocol);
 //    }
-    
-    /**
-     * Compile rules if rulehandler is not set.
-     */
-    public DroolsRuleHandler getCanPerformRuleHandler() {
-        // compiling is slow for this rule, so try to just compile once
-        if (canPerformRuleHandler == null) {
-            canPerformRuleHandler = new DroolsRuleHandler(PERFORMACTION_FILE);
-        }
-        return canPerformRuleHandler;
-    }
+//    
+//    /**
+//     * Compile rules if rulehandler is not set.
+//     */
+//    public DroolsRuleHandler getCanPerformRuleHandler() {
+//        // compiling is slow for this rule, so try to just compile once
+//        if (canPerformRuleHandler == null) {
+//            canPerformRuleHandler = new DroolsRuleHandler(PERFORMACTION_FILE);
+//        }
+//        return canPerformRuleHandler;
+//    }
     
     /**
      * 
