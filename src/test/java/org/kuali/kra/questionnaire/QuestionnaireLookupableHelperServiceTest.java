@@ -81,7 +81,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcUnitTestBase {
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test2", "desc 2"));
         documentService.routeDocument(maintDocument, null, null);
         List<Questionnaire> searchResults = (List<Questionnaire>) questionnaireLookupableHelperServiceImpl.getSearchResults(new HashMap());
-        assertEquals(14, searchResults.size());
+        assertEquals(16, searchResults.size());
         
         Questionnaire test1 = null;
         Questionnaire test2 = null;
