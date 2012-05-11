@@ -93,10 +93,7 @@
                 <bean class="org.kuali.kra.iacuc.auth.WithdrawIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="withdrawIacucProtocol" />
                 </bean>                          
-
-                <bean class="org.kuali.kra.iacuc.auth.ModifyProtocolPersonnelAuthorizer" parent="parentIacucProtocolAuthorizer">
-                    <property name="taskName" value="modifyIacucProtocolPersonnel" />
-                </bean>                     
+                   
            </list>
         </property>
     </bean>
