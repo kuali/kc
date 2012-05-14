@@ -37,6 +37,8 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.kra.s2s.generator.util.S2STestUtils;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
@@ -51,6 +53,7 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
 
     @Override
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
 
         String INTERNATIONAL_PARTICIPATION = "108";
         String HISTORICAL_IMPACT = "106";

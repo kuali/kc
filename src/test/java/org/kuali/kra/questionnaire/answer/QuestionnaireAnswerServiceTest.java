@@ -37,7 +37,10 @@ import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 @RunWith(JMock.class)
@@ -335,7 +338,8 @@ public class QuestionnaireAnswerServiceTest {
      */
     @Test
     public void testGetQuestionnaireAnswer() {
-        // answerheader(0) is set up as existing one
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
+       // answerheader(0) is set up as existing one
         // answerheader(1) is a newly created one
         QuestionnaireAnswerServiceImpl questionnaireAnswerServiceImpl = new QuestionnaireAnswerServiceImpl();
         

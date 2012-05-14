@@ -60,6 +60,7 @@ public abstract class S2STestBase<T> extends KcUnitTestBase {
 
     @Test
     public void testValidateForm() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
         prepareData(document);
         saveBO(document);
         ArrayList<AuditError> errors = new ArrayList<AuditError>();
