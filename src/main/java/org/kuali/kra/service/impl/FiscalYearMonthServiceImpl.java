@@ -75,7 +75,6 @@ public class FiscalYearMonthServiceImpl implements FiscalYearMonthService {
             calendar = Calendar.getInstance();
         }
         Integer fiscalStartMonth = getFiscalYearMonth();
-        System.err.println("fiscalStartMonth: " + fiscalStartMonth);
         //assuming July is the fiscal start month         
         if (calendar.get(Calendar.MONTH) == fiscalStartMonth.intValue()) {
             //July 1st, 2012, is the 1st month of FY 2013 
