@@ -220,7 +220,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         String contextKey = null;
         if (CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE.equals(moduleQuestionnaireBean.getModuleItemCode())) {
             namespace = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
-            String itemKey = moduleQuestionnaireBean.getModuleItemKey().substring(0,moduleQuestionnaireBean.getModuleItemKey().indexOf("|"));
+            String itemKey = Constants.EMPTY_STRING;
+            if (moduleQuestionnaireBean.getModuleItemKey().indexOf("|") > 0) {
+                itemKey = moduleQuestionnaireBean.getModuleItemKey().substring(0,moduleQuestionnaireBean.getModuleItemKey().indexOf("|"));
+            }
             contextKey = itemKey+"-"+moduleQuestionnaireBean.getModuleSubItemKey();
         } else {
             namespace = Constants.MODULE_NAMESPACE_PROTOCOL;
