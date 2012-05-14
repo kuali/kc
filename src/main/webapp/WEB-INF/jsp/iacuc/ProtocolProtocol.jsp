@@ -94,7 +94,8 @@
     
 <kra-protocol:protocolFundingSources 
     protocolFundingSourceAttributes="${protocolFundingSourceAttributes}"
-    fundingSourceTypeAttributes="${fundingSourceTypeAttributes}"/>
+    fundingSourceTypeAttributes="${fundingSourceTypeAttributes}"
+    protocolModule = "iacuc" />
     
     
 <%-- <kra-protocol:protocolParticipants  --%>
@@ -118,6 +119,6 @@ var kualiElements = kualiForm.elements;
 
 </SCRIPT>
 
-<script language="javascript" src="dwr/interface/ProtocolFundingSourceService.js"></script>
+<script language="javascript" src="dwr/interface/IacucProtocolFundingSourceService.js"></script>
 <!-- <script language="javascript" src="dwr/interface/UnitService.js"></script> -->
 </kul:documentPage>

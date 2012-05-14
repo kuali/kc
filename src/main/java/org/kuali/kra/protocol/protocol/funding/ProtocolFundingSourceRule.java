@@ -30,7 +30,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * This class provides business logic for adding a protocol funding source to a protocol. 
  * Also it uses newer paradigm for KC Event/Rule creation for reduced Interface implementation in the ProtocolDocumentRule.
  */
-public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddProtocolFundingSourceEvent>{
+public abstract class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddProtocolFundingSourceEvent>{
     
     private ProtocolFundingSourceService protocolFundingSourceService;
         
@@ -107,10 +107,12 @@ public class ProtocolFundingSourceRule extends ResearchDocumentRuleBase implemen
 
     private ProtocolFundingSourceService getProtocolFundingSourceService() {
         if (protocolFundingSourceService == null) {
-            protocolFundingSourceService =  KraServiceLocator.getService(ProtocolFundingSourceService.class);
+            protocolFundingSourceService =  KraServiceLocator.getService(getProtocolFundingSourceServiceClassHook());
         }
         return protocolFundingSourceService;
     }
+
+    protected abstract Class<? extends ProtocolFundingSourceService> getProtocolFundingSourceServiceClassHook();
 
     /**
      * This method is for mocks in JUnit.

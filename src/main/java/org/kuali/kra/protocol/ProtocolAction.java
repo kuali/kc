@@ -639,5 +639,11 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     protected QuestionnairePrintingService getQuestionnairePrintingService() {
         return KraServiceLocator.getService(QuestionnairePrintingService.class);
     }
+    
+    // this method was added during IACUC refactoring solely to allow this method to be visible to a service to deal with
+    // a very special case where the service seems to call back into the action.
+    public String buildForwardUrl(String routeHeaderId) {
+        return super.buildForwardUrl(routeHeaderId);
+    }
 
 }

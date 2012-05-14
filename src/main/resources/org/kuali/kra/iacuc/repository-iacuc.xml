@@ -160,6 +160,10 @@
                 
          <collection-descriptor name="protocolLocations" element-class-ref="org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
+        </collection-descriptor>
+        
+        <collection-descriptor name="protocolFundingSources" element-class-ref="org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>   
                 
         <collection-descriptor name="iacucProtocolExceptions" element-class-ref="org.kuali.kra.iacuc.species.exception.IacucProtocolException" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -744,6 +748,29 @@
         
     </class-descriptor>
 	
+	
+	<class-descriptor class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource" table="IACUC_PROTOCOL_FUNDING_SOURCE">
+        <field-descriptor name="protocolFundingSourceId" column="IACUC_PROT_FUNDING_SOURCE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROTOCOL_FUND_SRC_ID" autoincrement="true"/>
+        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="fundingSourceTypeCode" column="FUNDING_SOURCE_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="fundingSourceNumber" column="FUNDING_SOURCE" jdbc-type="VARCHAR" />
+        <field-descriptor name="fundingSourceName" column="FUNDING_SOURCE_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
+        <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolId"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="fundingSourceType" class-ref="org.kuali.kra.bo.FundingSourceType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="fundingSourceTypeCode"/>
+        </reference-descriptor>
+         
+    </class-descriptor>
 	
 	
 	<class-descriptor class="org.kuali.kra.iacuc.species.exception.IacucProtocolException" table="IACUC_PROTOCOL_EXCEPTIONS">

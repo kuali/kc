@@ -101,7 +101,12 @@
                 <bean class="org.kuali.kra.iacuc.auth.ModifyProtocolPersonnelAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolPersonnel" />
                 </bean>
--->
+-->                
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolFundingSourceAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolFundingSource" />
+                </bean>
+
+
            </list>
         </property>
     </bean>
@@ -303,6 +308,23 @@
         <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
     </bean>
         
+    
+    <bean id="iacucProtocolFundingSourceService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceServiceImpl" lazy-init="true">
+        <property name="fundingSourceTypeService" ref="fundingSourceTypeService" />
+        <property name="sponsorService" ref="sponsorService" />
+        <property name="unitService" ref="unitService" />
+        <property name="institutionalProposalService" ref="institutionalProposalService" />
+        <property name="awardService" ref="awardService" />
+<!-- Uncomment after service is implemented for IACUC        <property name="protocolLookupableHelperService" ref="protocolLookupableHelperService" /> -->
+        <property name="documentService" ref="documentService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
+    <bean id="iacucProtocolNotificationRoleQualifierService" class="org.kuali.kra.iacuc.notification.IacucProtocolNotificationRoleQualifierServiceImpl"
+          scope="prototype">
+    </bean>
+    
 </beans>
 
 

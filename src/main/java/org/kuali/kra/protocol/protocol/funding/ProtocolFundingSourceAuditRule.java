@@ -28,7 +28,7 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
-public class ProtocolFundingSourceAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
+public abstract class ProtocolFundingSourceAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
     
     private static final String FUNDING_SOURCE_AUDIT_ERRORS = "requiredFieldsAuditErrors";
     private static final String FUNDING_SOURCE_AUDIT_LINK = Constants.PROTOCOL_PROTOCOL_PAGE + "." + Constants.PROTOCOL_PROTOCOL_FUNDING_SRC_PANEL_ANCHOR;
