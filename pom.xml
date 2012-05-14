@@ -271,6 +271,7 @@
 	                                    <!-- already including the jdk15 version -->
 										<exclude>org.bouncycastle:bcprov-jdk14</exclude>
 										<exclude>org.bouncycastle:bcprov-jdk15</exclude>
+										<exclude>taglibs:standard</exclude>
 	                                    <exclude>javax.servlet:jstl</exclude>
 	                                    <!-- allowing (including) a specific version below -->
 	
@@ -345,7 +346,6 @@
 				                    <includes>
 										<!-- only allow in this specific version -->
 										<include>org.slf4j:*:${slf4j.version}</include>
-										<include>javax.servlet:jstl:${jstl.version}</include>
 				                    </includes>
 								</bannedDependencies>
 							</rules>
@@ -687,12 +687,17 @@
 			<scope>provided</scope>
 		</dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
+		    <groupId>org.glassfish.web</groupId>
+		    <artifactId>jstl-impl</artifactId>
             <version>${jstl.version}</version>
+	        <scope>compile</scope>	
             <exclusions>
                 <exclusion>
                     <groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet.jsp</groupId>
                     <artifactId>jsp-api</artifactId>
                 </exclusion>
             </exclusions>
@@ -1143,11 +1148,6 @@
 	      <version>${struts.version}</version>
 	    </dependency>
 	    <dependency>
-            <groupId>taglibs</groupId>
-            <artifactId>standard</artifactId>
-            <version>1.1.2</version>
-        </dependency>
-		<dependency>
 		    <groupId>xalan</groupId>
 		    <artifactId>xalan</artifactId>
 		    <version>2.7.1</version>
@@ -1340,11 +1340,6 @@
 					</plugin>
 				</plugins>
 			</build>
-			
-            <properties>
-                <!-- overriding property to change versions of libraries-->
-                <jstl.version>1.2</jstl.version>
-            </properties>
 		</profile>
 
 	    <!-- 
@@ -1373,11 +1368,6 @@
 					</plugin>
 				</plugins>
 			</build>
-			
-            <properties>
-                <!-- overriding property to change versions of libraries-->
-                <jstl.version>1.2</jstl.version>
-            </properties>
 		</profile>
 			 
 		<profile>
@@ -1396,11 +1386,6 @@
 					</plugin>			
 				</plugins>
 			</build>
-			
-			<properties>
-                <!-- overriding property to change versions of libraries-->
-                <jstl.version>1.2</jstl.version>
-            </properties>
 		</profile>
         
 	    <profile>
@@ -1489,7 +1474,7 @@
 		<drools.version>5.1.1</drools.version>
 		<jetty.version>7.5.1.v20110908</jetty.version>
 		<jmock.version>2.5.1</jmock.version>
-		<jstl.version>1.1.2</jstl.version>
+		<jstl.version>1.2</jstl.version>
 		<mail.version>1.4.4</mail.version>
 		<mysql.version>5.1.16</mysql.version>
 		<oracle.version>10.2.0.3.0</oracle.version>
