@@ -700,7 +700,9 @@ public interface Constants {
     public static final String PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME = "IRBReview";
     public static final String PROTOCOL_APPROVAL_NODE_NAME = "DepartmentReview";
     public static final String PROTOCOL_UNDO_APPROVE_ANNOTATION = "Undoing Approve Action";
-    
+    // IACUC
+    public static final String IACUC_PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME = "IACUCReview";
+
     // Committee
     public static final String COMMITTEE_PROPERTY_KEY = "committee";
     public static final String COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE = "COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE";
