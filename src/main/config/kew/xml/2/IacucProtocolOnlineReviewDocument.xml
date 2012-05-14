@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+        <group>
+            <name>IACUCAdmin</name>
+            <namespace>KC-WKFLW</namespace>
+            <description>IACUC Administrator</description>
+        </group>
+    </groups>
 
     <documentTypes xmlns="ns:workflow/DocumentType"
         xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
@@ -9,9 +16,9 @@
             <label>KC IACUC Protocol Review</label>
             <parent>KC</parent>
             <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-            <superUserWorkgroupName>KC-WKFLW:IACUCAdmin</superUserWorkgroupName>
-            <blanketApproveWorkgroupName>KC-WKFLW:IACUCAdmin</blanketApproveWorkgroupName>
-            <defaultExceptionWorkgroupName>KC-WKFLW:IACUCAdmin</defaultExceptionWorkgroupName>
+            <superUserGroupName namespace="KC-WKFLW">IACUCAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KC-WKFLW">IACUCAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KC-WKFLW">IACUCAdmin</defaultExceptionGroupName>
             <docHandler>${kuali.docHandler.url.prefix}/iacucProtocolOnlineReviewRedirect.do?methodToCall=redirectToProtocolFromReview</docHandler>
             <active>true</active>
             <routingVersion>2</routingVersion>
@@ -73,4 +80,5 @@
     
     <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
     </rules>
+    
 </data>
