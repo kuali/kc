@@ -22,7 +22,7 @@ public abstract class ProtocolStatus extends KraPersistableBusinessObjectBase {
 // TODO *********commented the code below during IACUC refactoring*********     
 //    public static final String IN_PROGRESS = "100";
 //
-//    public static final String SUBMITTED_TO_IRB = "101";
+    public static final String SUBMITTED_TO_IACUC = "101";
 //
 //    public static final String SPECIFIC_MINOR_REVISIONS_REQUIRED = "102";
 //
