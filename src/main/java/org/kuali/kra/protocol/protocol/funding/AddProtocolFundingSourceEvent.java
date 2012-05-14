@@ -25,7 +25,7 @@ import org.kuali.rice.krad.document.Document;
  * 
  * This class implements the tightly coupled Event-Rule approach to Kuali Rule processing for Adding a Protocol Funding Source.
  */
-public class AddProtocolFundingSourceEvent extends ProtocolEventBase<ProtocolFundingSourceRule> {
+public abstract class AddProtocolFundingSourceEvent extends ProtocolEventBase<ProtocolFundingSourceRule> {
     
     private static final org.apache.commons.logging.Log LOG = 
         org.apache.commons.logging.LogFactory.getLog(AddProtocolFundingSourceEvent.class);
@@ -69,10 +69,12 @@ public class AddProtocolFundingSourceEvent extends ProtocolEventBase<ProtocolFun
         return fundingSource;
     }
 
-    @Override
-    public ProtocolFundingSourceRule getRule() {
-        return new ProtocolFundingSourceRule();
-    }
+// TODO *********commented the code below during IACUC refactoring*********     
+//    @Override
+//    public ProtocolFundingSourceRule getRule() {
+//        return new ProtocolFundingSourceRule();
+//    }  
+    public abstract ProtocolFundingSourceRule getRule();
 
     public List<ProtocolFundingSource> getProtocolFundingSources() {
         return protocolFundingSources;

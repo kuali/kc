@@ -35,7 +35,7 @@ import org.springframework.util.CollectionUtils;
  * This class extends the notification context base and provides some helpful functions for
  * any IRB specific events.
  */
-public class ProtocolNotificationContext extends NotificationContextBase {
+public abstract class ProtocolNotificationContext extends NotificationContextBase {
 
     private static final long serialVersionUID = 6642334312368480034L;
     
@@ -56,7 +56,7 @@ public class ProtocolNotificationContext extends NotificationContextBase {
      */
     public ProtocolNotificationContext(Protocol protocol, ProtocolOnlineReview protocolOnlineReview, String actionTypeCode, String contextName, NotificationRenderer renderer) {
         this(protocol, actionTypeCode, contextName, renderer);
-        
+//    TODO : services not being set in this constructor??  Need to check this further.      
         ((ProtocolNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocolOnlineReview(protocolOnlineReview);
     }
 
@@ -75,11 +75,13 @@ public class ProtocolNotificationContext extends NotificationContextBase {
         
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        setNotificationRoleQualifierService(KraServiceLocator.getService(ProtocolNotificationRoleQualifierService.class));
+        setNotificationRoleQualifierService(KraServiceLocator.getService(getProtocolNotificationRoleQualifierServiceClassHook()));
         
         ((ProtocolNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocol(protocol);
     }
     
+    protected abstract Class<? extends ProtocolNotificationRoleQualifierService> getProtocolNotificationRoleQualifierServiceClassHook();
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()

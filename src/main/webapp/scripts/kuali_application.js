@@ -23,7 +23,7 @@ function jq_escape(myid) {
 }
 
 
-function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName) {
+function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName, protocolModule) {
 	var fundingSourceTypeCode = dwr.util.getValue( fundingSourceTypeCodeFieldName );
 	var allowEdit;
 	
@@ -50,15 +50,21 @@ function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceN
 				changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
 			}
 		};
-		ProtocolFundingSourceService.isEditable(fundingSourceTypeCode, dwrReply);
-		loadFundingSourceNameTitle(fundingSourceTypeCodeFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName);
+		if(protocolModule == 'iacuc') {
+			//alert("calling iacuc service now");
+			IacucProtocolFundingSourceService.isEditable(fundingSourceTypeCode, dwrReply);
+		}
+		else {
+			ProtocolFundingSourceService.isEditable(fundingSourceTypeCode, dwrReply);
+		}
+		loadFundingSourceNameTitle(fundingSourceTypeCodeFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName, protocolModule);
 	}
 }
 
 /*
  * Load the Funding Source Name field based on the source and type passed in.
  */
-function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName ) {
+function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName, protocolModule) {
 	var fundingSourceTypeCode = dwr.util.getValue( fundingSourceTypeCodeField );
 	var fundingSource = "";
 	var fundingSourceNumber = dwr.util.getValue ( fundingSourceNumberFieldName );
@@ -84,7 +90,13 @@ function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceNum
 				changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
 			}
 		};
-		ProtocolFundingSourceService.isLookupable(fundingSourceTypeCode, dwrReply);
+		if(protocolModule == 'iacuc') {
+			//alert("calling iacuc service now");
+			IacucProtocolFundingSourceService.isLookupable(fundingSourceTypeCode, dwrReply);
+		}
+		else {
+			ProtocolFundingSourceService.isLookupable(fundingSourceTypeCode, dwrReply);
+		}
 	}
 	
 	clearRecipients( fundingSourceNameFieldName);
@@ -117,8 +129,13 @@ function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceNum
 				changeObjectVisibility( fundingSourceNameFieldName + ".error.div", "block" );
 			}
 		};
-		ProtocolFundingSourceService.updateProtocolFundingSource(fundingSourceTypeCode+":"+docFormKey, fundingSourceNumber, fundingSourceName, dwrReply);
-		
+		if(protocolModule == 'iacuc') {
+			//alert("calling iacuc service now");
+			IacucProtocolFundingSourceService.updateProtocolFundingSource(fundingSourceTypeCode+":"+docFormKey, fundingSourceNumber, fundingSourceName, dwrReply);
+		}
+		else {
+			ProtocolFundingSourceService.updateProtocolFundingSource(fundingSourceTypeCode+":"+docFormKey, fundingSourceNumber, fundingSourceName, dwrReply);
+		}
 	}
 }
  
@@ -2430,9 +2447,10 @@ function updateCheckList(protocolReviewTypeCodeElementId) {
  */
 var protocolFundingSourceWindow = null;
 
-function protocolFundingSourcePop(name, docFormKey, sessionDocument, line, currentTabIndex) {
+function protocolFundingSourcePop(name, docFormKey, sessionDocument, line, currentTabIndex, protocolModule) {
 
 	var documentWebScope = "";
+	var action = "/protocolProtocol.do"
 	if (sessionDocument == true) {
 		documentWebScope = "session";
 	}
@@ -2440,9 +2458,16 @@ function protocolFundingSourcePop(name, docFormKey, sessionDocument, line, curre
 	if (protocolFundingSourceWindow != null) {
 		protocolFundingSourceWindow.close();
 	} 
+	//alert(protocolModule);
+	
+	if(protocolModule == 'iacuc') {
+		action = "/iacucProtocolProtocol.do";
+	}
 
+	//alert(action);
+	
 	protocolFundingSourceWindow = window.open(extractUrlBase() +  
-			"/protocolProtocol.do?methodToCall=viewProtocolFundingSource&methodToCallAttribute=methodToCall.viewProtocolFundingSource.line="+line +".anchor"+currentTabIndex
+			action + "?methodToCall=viewProtocolFundingSource&methodToCallAttribute=methodToCall.viewProtocolFundingSource.line="+line +".anchor"+currentTabIndex
 			+".x&line="+line 
 			+ "&currentTabIndex="+currentTabIndex
 			+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope,

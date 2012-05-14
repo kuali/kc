@@ -17,6 +17,8 @@ package org.kuali.kra.protocol.protocol.funding;
 
 import java.util.Map.Entry;
 
+import org.kuali.kra.protocol.ProtocolAction;
+
 /**
  * Provides the required API for performing a multi-type lookup for funding sources, business rules used by the View, and business rule management for a 
  * protocol's funding source list.
@@ -60,16 +62,16 @@ public interface ProtocolFundingSourceService {
      */
     String updateLookupParameter(String parameter, String boClassName, String fieldConversions);
 
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
-//    /**
-//     * Creates a view URL for the Protocol funding source.
-//     * 
-//     * @param protocolFundingSource the funding source to view
-//     * @param action a back reference back to the action
-//     * @return a valid URL to view the funding source
-//     * @throws Exception
-//     */
-//    String getViewProtocolFundingSourceUrl(ProtocolFundingSource protocolFundingSource, ProtocolProtocolAction action) throws Exception;
+
+    /**
+     * Creates a view URL for the Protocol funding source.
+     * 
+     * @param protocolFundingSource the funding source to view
+     * @param action a back reference back to the action
+     * @return a valid URL to view the funding source
+     * @throws Exception
+     */
+    String getViewProtocolFundingSourceUrl(ProtocolFundingSource protocolFundingSource, ProtocolAction action) throws Exception;
     
     /**
      * Returns whether the name attribute is editable according to {@code fundingSourceTypeCode}.

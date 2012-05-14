@@ -24,6 +24,8 @@ import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolUnit;
+import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
+import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceService;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -34,6 +36,8 @@ import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocation;
 
 public class IacucProtocolHelper extends ProtocolHelper {
@@ -138,6 +142,24 @@ public class IacucProtocolHelper extends ProtocolHelper {
     @Override
     protected String getReferenceID2ParameterNameHook() {
         return Constants.PARAMETER_MODULE_IACUC_PROTOCOL_REFERENCEID2;
+    }
+
+
+    @Override
+    protected ProtocolTask getNewInstanceModifyProtocolFundingSourceTaskHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_FUNDING_SOURCE, (IacucProtocol) protocol);
+    }
+
+
+    @Override
+    protected ProtocolFundingSource getNewProtocolFundingSourceInstanceHook() {
+        return new IacucProtocolFundingSource();
+    }
+
+
+    @Override
+    protected Class<? extends ProtocolFundingSourceService> getProtocolFundingSourceServiceClassHook() {
+        return IacucProtocolFundingSourceService.class;
     }
 
     

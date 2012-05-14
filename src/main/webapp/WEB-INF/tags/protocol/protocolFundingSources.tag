@@ -2,6 +2,7 @@
 
 <%@ attribute name="protocolFundingSourceAttributes" required="true" type="java.util.Map" %>
 <%@ attribute name="fundingSourceTypeAttributes" required="true" type="java.util.Map" %>
+<%@ attribute name="protocolModule" required="false" %>
 
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyFundingSource}" />
 <c:set var="allowEditName" value="${KualiForm.protocolHelper.editProtocolFundingSourceName}" />
@@ -61,7 +62,8 @@
 	                                                            'protocolHelper.newFundingSource.fundingSourceTypeCode', 
                                                                 'protocolHelper.newFundingSource.fundingSourceNumber',
 	                                                            'protocolHelper.newFundingSource.fundingSourceName', 
-	                                                            'protocolHelper.newFundingSource.fundingSourceTitle');" />
+	                                                            'protocolHelper.newFundingSource.fundingSourceTitle',
+	                                                            '${protocolModule}');" />
 	                    </div>
 	                </td> 
 	
@@ -74,7 +76,8 @@
                                                                 'protocolHelper.newFundingSource.fundingSourceTypeCode', 
                                                                 'protocolHelper.newFundingSource.fundingSourceNumber',
                                                                 'protocolHelper.newFundingSource.fundingSourceName', 
-                                                                'protocolHelper.newFundingSource.fundingSourceTitle');" />
+                                                                'protocolHelper.newFundingSource.fundingSourceTitle', 
+                                                                '${protocolModule}');" />
 	
                            <div id="protocolHelper.newFundingSource.fundingSourceNumber.lookup.div" style="${lookupStyle}">
 		                       <kra-irb:fundingSourceLookup boClassName="${document.protocolList[0].newFundingSource.fundingSourceType.description}" 
@@ -155,7 +158,7 @@
                                 <html:image property="methodToCall.viewProtocolFundingSource.line${status.index}.anchor${currentTabIndex}"
                                     alt="view funding source"
                                     src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
-                                    onclick="javascript: protocolFundingSourcePop( '${name}', ${KualiForm.formKey}, ${KualiForm.document.sessionDocument}, ${status.index}, ${currentTabIndex});return false"/>         
+                                    onclick="javascript: protocolFundingSourcePop( '${name}', ${KualiForm.formKey}, ${KualiForm.document.sessionDocument}, ${status.index}, ${currentTabIndex}, '${protocolModule}');return false"/>         
                             </c:if> 
                         </div>
                     </td>

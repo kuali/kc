@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.iacuc.protocol;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,11 +32,21 @@ import org.kuali.kra.bo.CoeusSubModule;
 
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.notification.IacucProtocolFundingSourceNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
+import org.kuali.kra.iacuc.protocol.funding.AddIacucProtocolFundingSourceEvent;
+import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
+import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceService;
+import org.kuali.kra.iacuc.protocol.funding.LookupIacucProtocolFundingSourceEvent;
+import org.kuali.kra.iacuc.protocol.funding.SaveIacucProtocolFundingSourceLinkEvent;
 import org.kuali.kra.iacuc.protocol.location.AddIacucProtocolLocationEvent;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationService;
@@ -45,7 +57,9 @@ import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceService;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceType;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolEventBase;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -53,12 +67,13 @@ import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class IacucProtocolProtocolAction extends IacucProtocolAction {
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//   private static final String CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY = "confirmDeleteProtocolFundingSource";
+     
+   private static final String CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY = "confirmDeleteProtocolFundingSource";
  
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
@@ -269,114 +284,120 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         return KraServiceLocator.getService("iacucProtocolLocationService");
     }
 
-// TODO *********commented the code below during IACUC refactoring********* 
-//    /**
-//     * This method is linked to ProtocolFundingService to perform the action - Add Protocol Funding Source. Method is called in
-//     * protocolFundingSources.tag
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward addProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-//        ProtocolFundingSource fundingSource = protocolForm.getProtocolHelper().getNewFundingSource();
-//        List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
-//        AddProtocolFundingSourceEvent event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument,
-//            fundingSource, protocolFundingSources);
-//
-//        protocolForm.getProtocolHelper().syncFundingSources(protocolDocument.getProtocol());
-//
-//        if (applyRules(event)) {
-//            protocolDocument.getProtocol().getProtocolFundingSources().add(protocolForm.getProtocolHelper().getNewFundingSource());
-//            protocolForm.getProtocolHelper().setNewFundingSource(new ProtocolFundingSource());
-//        }
-//
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    /**
-//     * This method is linked to ProtocolFundingSourceService to Delete a ProtocolFundingSource. Method is called in
-//     * protocolFundingSources.tag
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward deleteProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//        throws Exception {
-//        
-//        return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY,
-//                KeyConstants.QUESTION_PROTOCOL_FUNDING_SOURCE_DELETE_CONFIRMATION), CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY, "");
-//    }
-//
-//    /**
-//     * This method is linked to ProtocolFundingSourceService to Delete a ProtocolFundingSource. Method is called in
-//     * protocolFundingSources.tag
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward confirmDeleteProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//        throws Exception {
-//        
-//        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-//        if (CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY.equals(question)) {
-//            ProtocolForm protocolForm = (ProtocolForm) form;
-//            ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-//            
-//            ProtocolFundingSource protocolFundingSource = protocolDocument.getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
-//            protocolForm.getProtocolHelper().getDeletedProtocolFundingSources().add(protocolFundingSource);
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * This method is linked to ProtocolFundingSourceService to View a ProtocolFundingSource. Method is called in
-//     * protocolFundingSources.tag
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//
-//        // Note that if the getSelectedLine doesn't find the line number in the new window's request attributes,
-//        // so we'll get it from the parameter list instead
-//        String line = request.getParameter("line");
-//        int lineNumber = Integer.parseInt(line);
-//
-//        ProtocolFundingSource protocolFundingSource = protocolForm.getProtocolDocument().getProtocol().getProtocolFundingSources().get(
-//                lineNumber);
-//
-//        String viewFundingSourceUrl = getProtocolFundingSourceService()
-//                .getViewProtocolFundingSourceUrl(protocolFundingSource, this);
-//
-//        if (StringUtils.isNotEmpty(viewFundingSourceUrl)) {
-//            return new ActionForward(viewFundingSourceUrl, true);
-//        }
-//        else {
-//            return mapping.findForward(Constants.MAPPING_BASIC);
-//        }
-//    }
+
+    /**
+     * This method is linked to ProtocolFundingService to perform the action - Add Protocol Funding Source. Method is called in
+     * protocolFundingSources.tag
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucProtocolDocument protocolDocument = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+        IacucProtocolFundingSource fundingSource = (IacucProtocolFundingSource) protocolForm.getProtocolHelper().getNewFundingSource();
+        List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+        AddIacucProtocolFundingSourceEvent event = new AddIacucProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument,
+            fundingSource, protocolFundingSources);
+
+        protocolForm.getProtocolHelper().syncFundingSources(protocolDocument.getProtocol());
+
+        if (applyRules(event)) {
+            protocolDocument.getProtocol().getProtocolFundingSources().add(protocolForm.getProtocolHelper().getNewFundingSource());
+            protocolForm.getProtocolHelper().setNewFundingSource(new IacucProtocolFundingSource());
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This method is linked to ProtocolFundingSourceService to Delete a ProtocolFundingSource. Method is called in
+     * protocolFundingSources.tag
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY,
+                KeyConstants.QUESTION_PROTOCOL_FUNDING_SOURCE_DELETE_CONFIRMATION), CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY, "");
+    }
+
+    /**
+     * This method is linked to ProtocolFundingSourceService to Delete a ProtocolFundingSource. Method is called in
+     * protocolFundingSources.tag
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmDeleteProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY.equals(question)) {
+            ProtocolForm protocolForm = (ProtocolForm) form;
+            ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+            
+            ProtocolFundingSource protocolFundingSource = protocolDocument.getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
+            protocolForm.getProtocolHelper().getDeletedProtocolFundingSources().add(protocolFundingSource);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * This method is linked to ProtocolFundingSourceService to View a ProtocolFundingSource. Method is called in
+     * protocolFundingSources.tag
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+
+        // Note that if the getSelectedLine doesn't find the line number in the new window's request attributes,
+        // so we'll get it from the parameter list instead
+        String line = request.getParameter("line");
+        int lineNumber;
+        try{
+            lineNumber = Integer.parseInt(line);
+        }
+        catch(Exception e) {
+            lineNumber = getLineToDelete(request);
+        }
+
+        ProtocolFundingSource protocolFundingSource = protocolForm.getProtocolDocument().getProtocol().getProtocolFundingSources().get(
+                lineNumber);
+
+        String viewFundingSourceUrl = getProtocolFundingSourceService()
+                .getViewProtocolFundingSourceUrl(protocolFundingSource, this);
+
+        if (StringUtils.isNotEmpty(viewFundingSourceUrl)) {
+            return new ActionForward(viewFundingSourceUrl, true);
+        }
+        else {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+    }
 
     
     
@@ -392,59 +413,58 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     }
 
 
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * 
-//     * Takes care of forwarding to the lookup action.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward performFundingSourceLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//        HttpServletResponse response) throws Exception {
-//        
-//        ActionForward returnAction = null;
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//
-//        String fundingSourceTypeCode = protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceTypeCode();
-//
-//        LookupProtocolFundingSourceEvent event = new LookupProtocolFundingSourceEvent(
-//            Constants.EMPTY_STRING, ((ProtocolForm) form).getDocument(), fundingSourceTypeCode, ProtocolEventBase.ErrorType.HARDERROR);
-//
-//        if (applyRules(event)) {
-//            Entry<String, String> entry = getProtocolFundingSourceService().getLookupParameters(fundingSourceTypeCode);
-//
-//            String boClassName = entry.getKey();
-//            String fieldConversions = entry.getValue();
-//            String fullParameter = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
-//            String updatedParameter = getProtocolFundingSourceService().updateLookupParameter(fullParameter, boClassName, fieldConversions);
-//
-//            request.setAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE, updatedParameter);
-//            returnAction = super.performLookup(mapping, form, request, response);
-//
-//            protocolForm.getProtocolHelper().setEditProtocolFundingSourceName(false);
-//        } else {
-//            returnAction = mapping.findForward(MAPPING_BASIC);
-//        }
-//
-//        return returnAction;
-//    }
-//
-//
-//    /**
-//     * This method is to get protocol location service
-//     * 
-//     * @return ProtocolFundingSourceService
-//     */
-//    private ProtocolFundingSourceService getProtocolFundingSourceService() {
-//        return (ProtocolFundingSourceService) KraServiceLocator.getService(ProtocolFundingSourceService.class);
-//    }
+ 
+    /**
+     * 
+     * Takes care of forwarding to the lookup action.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward performFundingSourceLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+        HttpServletResponse response) throws Exception {
+        
+        ActionForward returnAction = null;
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+
+        String fundingSourceTypeCode = protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceTypeCode();
+
+        LookupIacucProtocolFundingSourceEvent event = new LookupIacucProtocolFundingSourceEvent(
+            Constants.EMPTY_STRING, (IacucProtocolDocument) protocolForm.getDocument(), fundingSourceTypeCode, ProtocolEventBase.ErrorType.HARDERROR);
+
+        if (applyRules(event)) {
+            Entry<String, String> entry = getProtocolFundingSourceService().getLookupParameters(fundingSourceTypeCode);
+
+            String boClassName = entry.getKey();
+            String fieldConversions = entry.getValue();
+            String fullParameter = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+            String updatedParameter = getProtocolFundingSourceService().updateLookupParameter(fullParameter, boClassName, fieldConversions);
+
+            request.setAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE, updatedParameter);
+            returnAction = super.performLookup(mapping, form, request, response);
+
+            protocolForm.getProtocolHelper().setEditProtocolFundingSourceName(false);
+        } else {
+            returnAction = mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        return returnAction;
+    }
+
+
+    /**
+     * This method is to get protocol location service
+     * 
+     * @return ProtocolFundingSourceService
+     */
+    private IacucProtocolFundingSourceService getProtocolFundingSourceService() {
+        return KraServiceLocator.getService(IacucProtocolFundingSourceService.class);
+    }
 
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -456,13 +476,11 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     
     private void preSaveProtocol(ActionForm form)  throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
-//        List<ProtocolFundingSource> deletedProtocolFundingSources = protocolForm.getProtocolHelper().getDeletedProtocolFundingSources();
-//        protocolForm.getProtocolHelper().setNewProtocolFundingSources(protocolForm.getProtocolHelper().findNewFundingSources());
-//        setDeletedFundingSource(form);
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();     
+        List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+        List<ProtocolFundingSource> deletedProtocolFundingSources = protocolForm.getProtocolHelper().getDeletedProtocolFundingSources();
+        protocolForm.getProtocolHelper().setNewProtocolFundingSources(protocolForm.getProtocolHelper().findNewFundingSources());
+        setDeletedFundingSource(form);
         
         
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
@@ -470,28 +488,27 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
 // TODO *********commented the code below during IACUC refactoring*********         
 //        protocolForm.getProtocolHelper().createInitialProtocolAction();
 //        
-//        if (protocolDocument.getProtocol().isNew()) {
-//            if (applyRules(new SaveProtocolFundingSourceLinkEvent(protocolDocument, protocolFundingSources, deletedProtocolFundingSources))) {
-//                protocolForm.getProtocolHelper().syncSpecialReviewsWithFundingSources();
-//            }
-//        }
+        if (protocolDocument.getProtocol().isNew()) {
+            if (applyRules(new SaveIacucProtocolFundingSourceLinkEvent((IacucProtocolDocument) protocolDocument, protocolFundingSources, deletedProtocolFundingSources))) {
+                protocolForm.getProtocolHelper().syncSpecialReviewsWithFundingSources();
+            }
+        }
         
     }
     
     
     
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private void setDeletedFundingSource(ActionForm form) {
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//       protocolForm.setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSource> ());
-//        for (ProtocolFundingSource fundingSource : protocolForm.getProtocolHelper().getDeletedProtocolFundingSources()) {
-//            if (fundingSource.getProtocolFundingSourceId() != null) {
-//                protocolForm.getDeletedProtocolFundingSources().add(fundingSource);
-//            }
-//        }
-//   }
+         
+    private void setDeletedFundingSource(ActionForm form) {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+       protocolForm.setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSource> ());
+        for (ProtocolFundingSource fundingSource : protocolForm.getProtocolHelper().getDeletedProtocolFundingSources()) {
+            if (fundingSource.getProtocolFundingSourceId() != null) {
+                protocolForm.getDeletedProtocolFundingSources().add(fundingSource);
+            }
+        }
+   }
     
     
     
@@ -501,13 +518,10 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         preSaveProtocol(form);        
-        ActionForward forward = super.saveOnClose(mapping, form, request, response);
-        
-// TODO *********commented the code below during IACUC refactoring*********         
- //       if (GlobalVariables.getMessageMap().hasNoErrors()) {
- //           fundingSourceNotification(form);
- //       }
-        
+        ActionForward forward = super.saveOnClose(mapping, form, request, response);      
+        if (GlobalVariables.getMessageMap().hasNoErrors()) {             
+            fundingSourceNotification(form);
+        }    
         
         return forward;
     }
@@ -521,35 +535,36 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
 //        return super.protocolActions(mapping, form, request, response);
 //    }
 //
-//    @Override
-//    public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-//            throws Exception {
-//        // TODO Auto-generated method stub
-//        super.postSave(mapping, form, request, response);
-//        fundingSourceNotification(form);
-//
-//    }   
-//
-//    private void fundingSourceNotification(ActionForm form) {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-//        for (ProtocolFundingSource fundingSource : protocolForm.getProtocolHelper().getNewProtocolFundingSources()) {
-//            String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
-//            FundingSourceNotificationRenderer renderer = new FundingSourceNotificationRenderer(protocol, fundingType, "linked to");
-//            IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
-//            getKcNotificationService().sendNotification(context);
-//
-//        }
-//        for (ProtocolFundingSource fundingSource : protocolForm.getDeletedProtocolFundingSources()) {
-//            if (fundingSource.getProtocolFundingSourceId() != null) {
-//                String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
-//                FundingSourceNotificationRenderer renderer = new FundingSourceNotificationRenderer(protocol, fundingType, "removed from");
-//                IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
-//                getKcNotificationService().sendNotification(context);
-//            }
-//
-//        }
-//    }
+    
+    @Override
+    public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+        super.postSave(mapping, form, request, response);     
+        fundingSourceNotification(form);
+
+    }   
+
+    private void fundingSourceNotification(ActionForm form) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
+        for (ProtocolFundingSource fundingSource : protocolForm.getProtocolHelper().getNewProtocolFundingSources()) {
+            String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
+            IacucProtocolFundingSourceNotificationRenderer renderer = new IacucProtocolFundingSourceNotificationRenderer(protocol, fundingType, "linked to");
+            IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
+            getKcNotificationService().sendNotification(context);
+
+        }
+        for (ProtocolFundingSource fundingSource : protocolForm.getDeletedProtocolFundingSources()) {
+            if (fundingSource.getProtocolFundingSourceId() != null) {
+                String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
+                IacucProtocolFundingSourceNotificationRenderer renderer = new IacucProtocolFundingSourceNotificationRenderer(protocol, fundingType, "removed from");
+                IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
+                getKcNotificationService().sendNotification(context);
+            }
+
+        }
+    }
     
     public ActionForward iacucCustomData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return super.customData(mapping, form, request, response);
