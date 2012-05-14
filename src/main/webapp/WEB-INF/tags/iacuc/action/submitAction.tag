@@ -58,8 +58,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
                     <td>
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.iacucProtocolSubmitAction.protocolReviewTypeCode" 
-                                                  attributeEntry="${attributes.protocolReviewTypeCode}" 
-                                                  onchange="updateCheckList('actionHelper.iacucProtocolSubmitAction.protocolReviewTypeCode')" />
+                                                  attributeEntry="${attributes.protocolReviewTypeCode}" />
                         </nobr>
                     </td>
                 </tr>
@@ -268,9 +267,9 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
         </table>
     </div>
     
-    <script>
-        updateCheckList('actionHelper.iacucProtocolSubmitAction.protocolReviewTypeCode');
-    </script>
+<%--    <script>
+        updateIacucReviewTypes('actionHelper.iacucProtocolSubmitAction.protocolReviewTypeCode');
+    </script> --%>
 </kul:innerTab>
 
 </kra:permission>

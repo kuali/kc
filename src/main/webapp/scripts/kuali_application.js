@@ -2442,6 +2442,13 @@ function updateCheckList(protocolReviewTypeCodeElementId) {
 	}
 }
 
+/*
+ * Grab appropriate review types without Expedited and Exempt checklists 
+ */
+function updateIacucReviewTypes(protocolReviewTypeCodeElementId) {
+	var protocolReviewTypeCode = dwr.util.getValue(protocolReviewTypeCodeElementId);
+}
+
 /**
  * Display the ProtocolFundingSource document or BO.
  */
