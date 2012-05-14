@@ -15,12 +15,9 @@
  */
 package org.kuali.kra.iacuc.notification;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRenderer;
 
 /**
@@ -34,7 +31,7 @@ public class IacucProtocolNotificationRenderer extends ProtocolNotificationRende
      * Constructs a Protocol base notification renderer.
      * @param protocol
      */
-    public IacucProtocolNotificationRenderer(Protocol protocol) {
+    public IacucProtocolNotificationRenderer(IacucProtocol protocol) {
         super(protocol);
     }
 

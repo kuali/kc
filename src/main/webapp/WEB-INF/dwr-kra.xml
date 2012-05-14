@@ -105,7 +105,8 @@
 			<param name="beanName" value="organizationService" />
 			<include method="getOrganizationName" />
 		</create>
-         <create creator="spring" javascript="ProtocolFundingSourceService">
+        
+        <create creator="spring" javascript="ProtocolFundingSourceService">
             <param name="beanName" value="protocolFundingSourceService" />
             <include method="updateProtocolFundingSource" />
             <include method="isEditable" />
@@ -114,6 +115,18 @@
         <convert converter="bean" match="org.kuali.kra.irb.protocol.funding.ProtocolFundingSource">
             <param name="include" value="fundingSourceTitle,fundingSourceName,fundingSourceLookupable" />          
         </convert>
+        
+        <create creator="spring" javascript="IacucProtocolFundingSourceService">
+            <param name="beanName" value="iacucProtocolFundingSourceService" />
+            <include method="updateProtocolFundingSource" />
+            <include method="isEditable" />
+            <include method="isLookupable" />
+        </create>
+        
+        <convert converter="bean" match="org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource">
+            <param name="include" value="fundingSourceTitle,fundingSourceName,fundingSourceLookupable" />          
+        </convert>
+        
 		<create creator="spring" javascript="AwardReportsService">
 			<param name="beanName" value="awardReportsService" />			
 			<include method="getFrequencyCodes" />

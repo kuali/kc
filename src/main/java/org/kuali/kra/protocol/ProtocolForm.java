@@ -34,6 +34,7 @@ import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
 import org.kuali.kra.protocol.permission.PermissionsHelper;
 import org.kuali.kra.protocol.personnel.PersonnelHelper;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelper;
@@ -97,12 +98,12 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     //KNS Lookup hooks
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
-//    
-//    private boolean javaScriptEnabled = true;
-//    
-//    private String detailId;
-//    // temp field : set in presave and then referenced in postsave
-//    private transient List<ProtocolFundingSource> deletedProtocolFundingSources;
+    
+    private boolean javaScriptEnabled = true;
+    
+    private String detailId;
+    // temp field : set in presave and then referenced in postsave
+    private transient List<ProtocolFundingSource> deletedProtocolFundingSources;
  
     
     public ProtocolForm() throws Exception {
@@ -123,7 +124,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         setPermissionsHelper(createNewPermissionsHelperInstanceHook(this));
         setPersonnelHelper(createNewPersonnelHelperInstanceHook(this));
 
-// TODO *********uncomment the code below in increments as needed during refactoring*********         
+// TODO *********commented the code below during IACUC refactoring*********       
 //        setQuestionnaireHelper(new QuestionnaireHelper(this));
 //        setNotesAttachmentsHelper(new NotesAttachmentsHelper(this));
 //        this.notesAttachmentsHelper.prepareView();
@@ -145,9 +146,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     
     
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
-//    /**
-//     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
+// TODO *********commented the code below during IACUC refactoring********* 
 //     * 
 //     * We only enable the Online Review tab if the protocol is in a state to be reviewed and
 //     * the user has the IRB Admin role or the user has an Online Review. 
@@ -396,14 +395,14 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         this.actionHelper = actionHelper;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean isJavaScriptEnabled() {
-//        return javaScriptEnabled;
-//    }
-//
-//    public void setJavaScriptEnabled(boolean javaScriptEnabled) {
-//        this.javaScriptEnabled = javaScriptEnabled;
-//    }
+   
+    public boolean isJavaScriptEnabled() {
+        return javaScriptEnabled;
+    }
+
+    public void setJavaScriptEnabled(boolean javaScriptEnabled) {
+        this.javaScriptEnabled = javaScriptEnabled;
+    }
 
     
     public ProtocolDocument getProtocolDocument() {
@@ -492,22 +491,22 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 //    }
 
       
-// TODO *********commented the code below during IACUC refactoring*********       
-//    public String getDetailId() {
-//        return detailId;
-//    }
-//
-//    public void setDetailId(String detailId) {
-//        this.detailId = detailId;
-//    }
-//
-//    public List<ProtocolFundingSource> getDeletedProtocolFundingSources() {
-//        return deletedProtocolFundingSources;
-//    }
-//
-//    public void setDeletedProtocolFundingSources(List<ProtocolFundingSource> deletedProtocolFundingSources) {
-//        this.deletedProtocolFundingSources = deletedProtocolFundingSources;
-//    }
+      
+    public String getDetailId() {
+        return detailId;
+    }
+
+    public void setDetailId(String detailId) {
+        this.detailId = detailId;
+    }
+
+    public List<ProtocolFundingSource> getDeletedProtocolFundingSources() {
+        return deletedProtocolFundingSources;
+    }
+
+    public void setDeletedProtocolFundingSources(List<ProtocolFundingSource> deletedProtocolFundingSources) {
+        this.deletedProtocolFundingSources = deletedProtocolFundingSources;
+    }
     
     public String getQuestionnaireFieldStarter() {
         return "questionnaireHelper.answerHeaders[";
