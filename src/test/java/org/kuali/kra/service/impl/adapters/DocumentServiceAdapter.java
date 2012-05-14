@@ -21,111 +21,39 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.DocumentService;
 
 public class DocumentServiceAdapter implements DocumentService {
 
     @Override
-    public boolean saveDocumentNotes(Document document) {
-        return false;
-    }
-
-    @Override
-    public void sendNoteRouteNotification(Document document, Note note, Person sender) throws WorkflowException {
-    }
-
-    public Document acknowledgeDocument(Document document, String annotation, List adHocRecipients) throws WorkflowException {
-        return null;
-    }
-
-    public boolean addNoteToDocument(Document document, Note note) {
-        return false;
-    }
-
-    public Document approveDocument(Document document, String annotation, List adHocRoutingRecipients) throws WorkflowException {
-        return null;
-    }
-
-    public Document blanketApproveDocument(Document document, String annotation, List adHocRecipients) throws WorkflowException {
-        return null;
-    }
-
-    public Document cancelDocument(Document document, String annotation) throws WorkflowException {
-        return null;
-    }
-
-    public Document clearDocumentFyi(Document document, List adHocRecipients) throws WorkflowException {
-        return null;
-    }
-
-    @Override
-    public Note createNoteFromDocument(Document document, String text) {
-        return null;
-    }
-
-    public Document disapproveDocument(Document document, String annotation) throws Exception {
-        return null;
-    }
-
     public boolean documentExists(String documentHeaderId) {
         return false;
     }
 
-    public Document getByDocumentHeaderId(String documentHeaderId) throws WorkflowException {
-        return null;
-    }
-
-    public Document getByDocumentHeaderIdSessionless(String documentHeaderId) throws WorkflowException {
-        return null;
-    }
-
-    public List getDocumentsByListOfDocumentHeaderIds(Class clazz, List documentHeaderIds) throws WorkflowException {
-        return null;
-    }
-
+    @Override
     public Document getNewDocument(String documentTypeName) throws WorkflowException {
         return null;
     }
 
-    public Document getNewDocument(Class documentClass) throws WorkflowException {
+    @Override
+    public Document getNewDocument(Class<? extends Document> documentClass) throws WorkflowException {
         return null;
     }
 
-    public PersistableBusinessObject getNoteParent(Document document, Note newNote) {
+    @Override
+    public Document getByDocumentHeaderId(String documentHeaderId) throws WorkflowException {
         return null;
     }
 
-    public void prepareWorkflowDocument(Document document) throws WorkflowException {
-
-    }
-
-    public Document routeDocument(Document document, String annotation, List adHocRoutingRecipients) throws WorkflowException {
+    @Override
+    public Document getByDocumentHeaderIdSessionless(String documentHeaderId) throws WorkflowException {
         return null;
     }
 
-    public Document saveDocument(Document document) throws WorkflowException {
-        return null;
-    }
-
-    public Document saveDocument(Document document, Class kualiDocumentEventClass) throws WorkflowException {
-        return null;
-    }
-
-    public void sendAdHocRequests(Document document, String annotation, List<AdHocRouteRecipient> adHocRecipients) throws WorkflowException {
-
-    }
-
-    public Document superUserApproveDocument(Document document, String annotation) throws WorkflowException {
-        return null;
-    }
-
-    public Document superUserCancelDocument(Document document, String annotation) throws WorkflowException {
-        return null;
-    }
-
-    public Document superUserDisapproveDocument(Document document, String annotation) throws WorkflowException {
+    @Override
+    public List<Document> getDocumentsByListOfDocumentHeaderIds(Class<? extends Document> documentClass, List<String> documentHeaderIds) throws WorkflowException {
         return null;
     }
 
@@ -135,7 +63,95 @@ public class DocumentServiceAdapter implements DocumentService {
     }
 
     @Override
+    public Document saveDocument(Document document) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public Document saveDocument(Document document, Class<? extends KualiDocumentEvent> kualiDocumentEventClass) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public Document routeDocument(Document document, String annotation, List<AdHocRouteRecipient> adHocRoutingRecipients) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public Document approveDocument(Document document, String annotation, List<AdHocRouteRecipient> adHocRoutingRecipients) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public Document superUserApproveDocument(Document document, String annotation) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public Document superUserCancelDocument(Document document, String annotation) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public Document superUserDisapproveDocument(Document document, String annotation) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public Document disapproveDocument(Document document, String annotation) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Document cancelDocument(Document document, String annotation) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public Document acknowledgeDocument(Document document, String annotation, List<AdHocRouteRecipient> adHocRecipients) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public Document blanketApproveDocument(Document document, String annotation, List<AdHocRouteRecipient> adHocRecipients) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public Document clearDocumentFyi(Document document, List<AdHocRouteRecipient> adHocRecipients) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public void prepareWorkflowDocument(Document document) throws WorkflowException {
+    }
+
+    @Override
+    public Note createNoteFromDocument(Document document, String text) {
+        return null;
+    }
+
+    @Override
+    public boolean saveDocumentNotes(Document document) {
+        return false;
+    }
+
+    @Override
+    public void sendAdHocRequests(Document document, String annotation, List<AdHocRouteRecipient> adHocRecipients) throws WorkflowException {
+    }
+
+    @Override
+    public void sendNoteRouteNotification(Document document, Note note, Person sender) throws WorkflowException {
+    }
+
+    @Override
     public Document recallDocument(Document document, String annotation, boolean cancel) throws WorkflowException {
         return null;
     }
+
+    @Override
+    public Document completeDocument(Document document, String annotation, List adHocRecipients) throws WorkflowException {
+        return null;
+    }
+
 }
