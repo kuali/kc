@@ -342,6 +342,10 @@ public interface TaskName {
     public static final String IACUC_PROTOCOL_REQUEST_LIFT_HOLD_UNAVAILABLE = "iacucProtocolRequestLiftHoldUnavailable"; 
     public static final String IACUC_PROTOCOL_REQUEST_DEACTIVATE = "iacucProtocolRequestDeactivate"; 
     public static final String IACUC_PROTOCOL_REQUEST_DEACTIVATE_UNAVAILABLE = "iacucProtocolRequestDeactivateUnavailable"; 
+    public static final String MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS = "maintainIacucProtocolOnlineReviews";
+    public static final String CREATE_IACUC_PROTOCOL_ONLINEREVIEW = "createIacucProtocolOnlineReview";
+    public static final String MODIFY_IACUC_PROTOCOL_ONLINEREVIEW = "modifyIacucProtocolOnlineReview";
+    public static final String VIEW_IACUC_PROTOCOL_ONLINEREVIEW = "viewIacucProtocolOnlineReview";
     
     /**
      * Generic IACUC Action task
