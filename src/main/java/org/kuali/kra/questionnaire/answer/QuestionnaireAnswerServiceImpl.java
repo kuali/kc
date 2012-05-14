@@ -30,13 +30,18 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.EngineResults;
@@ -47,8 +52,6 @@ import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
 import org.kuali.rice.krms.framework.engine.BasicRule;
 import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
-import org.kuali.rice.krms.impl.repository.AgendaBo;
-import org.kuali.rice.krms.impl.repository.AgendaItemBo;
 
 /**
  * 
@@ -65,9 +68,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
     private static final String YES = "Y";
     private static final String NO = "N";
+    private static final String QUESTIONNAIRE_AGENDA_NAME = "QUESTIONNAIRE_AGENDA_NAME";
     private BusinessObjectService businessObjectService;
     private ProtocolFinderDao protocolFinderDao;
-
+    private ParameterService  parameterService;
     /*
      * Get the questionnaire that is 'final' for the specified module.
      */
@@ -211,6 +215,18 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public List<AnswerHeader> getQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         Map<String, AnswerHeader> answerHeaderMap = new HashMap<String, AnswerHeader>();
         List<AnswerHeader> answers = retrieveAnswerHeaders(moduleQuestionnaireBean);
+        // TODO : should clear qn branching rule result cache because PD context might be changed some how ?
+        String namespace = null;
+        String contextKey = null;
+        if (CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE.equals(moduleQuestionnaireBean.getModuleItemCode())) {
+            namespace = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
+            String itemKey = moduleQuestionnaireBean.getModuleItemKey().substring(0,moduleQuestionnaireBean.getModuleItemKey().indexOf("|"));
+            contextKey = itemKey+"-"+moduleQuestionnaireBean.getModuleSubItemKey();
+        } else {
+            namespace = Constants.MODULE_NAMESPACE_PROTOCOL;
+            contextKey = moduleQuestionnaireBean.getModuleItemKey()+"-"+moduleQuestionnaireBean.getModuleSubItemKey();
+        }
+        GlobalVariables.getUserSession().removeObject(namespace + "-" + contextKey + "-ruleresults");
         for (AnswerHeader answerHeader : answers) {
             if (!answerHeaderMap.containsKey(answerHeader.getQuestionnaire().getQuestionnaireId())
                     || Long.parseLong(answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk()) 
@@ -772,16 +788,48 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
    
     private boolean isRuleValid(String ruleId, KrmsRulesContext rulesContext) {
+        String namespace = null;
+        String contextKey = null;
+        if (rulesContext instanceof ProposalDevelopmentDocument) {
+            namespace = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
+            contextKey = ((ProposalDevelopmentDocument)rulesContext).getDevelopmentProposal().getProposalNumber()+"-0";
+        } else {
+            namespace = Constants.MODULE_NAMESPACE_PROTOCOL;
+            contextKey = ((ProtocolDocument)rulesContext).getProtocol().getProtocolNumber()+"-"+((ProtocolDocument)rulesContext).getProtocol().getSequenceNumber();
+        }
+        boolean isValid = false;
+        if (GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-ruleresults") == null) {
+            isValid = loadAndisRuleValid(ruleId, rulesContext);
+        } else {
+            Map <String, Boolean> results = (Map <String, Boolean>)GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-ruleresults");
+            String ruleName = KrmsApiServiceLocator.getRuleRepositoryService().getRule(ruleId).getName();  
+            isValid = results.get(ruleName);
+        }
+        return isValid;
+    }
+    
+    private boolean loadAndisRuleValid(String ruleId, KrmsRulesContext rulesContext) {
 
+        // TODO : this cached map should only be set up if it is empty
+        Map <String, Boolean> ruleResults = new HashMap<String, Boolean>();
+        
+        // TODO : may need a ruleid -> name map
         Map<String, String> contextQualifiers = new HashMap<String, String>();
         rulesContext.populateContextQualifiers(contextQualifiers);
 
         Map<String,String> agendaQualifiers = new HashMap<String,String>();
         // TODO : "name" qualifier should be working after 2.1.  currently, there is a bug.
-        // However, there was a bug at one point in AgendaTypeServiceBase where the agenda name attribute wasn't 
-        // making it into the agenda instance and thus matching on agenda name was broken. That was fixed in 2.1 on 4/4.
-        // if this agenda is not set, then it probably will check everything ?
-//        agendaQualifiers.put("name", getAgenda(ruleId).getName());  // specify a single agenda by name
+        // TODO : may create a kcrulecontext which will extend krmsrulecontext.   the kcrulecontexgt can have 'getnamespace'
+        String namespace = null;
+        String contextKey = null;
+        if (rulesContext instanceof ProposalDevelopmentDocument) {
+            namespace = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
+            contextKey = ((ProposalDevelopmentDocument)rulesContext).getDevelopmentProposal().getProposalNumber()+"-0";
+        } else {
+            namespace = Constants.MODULE_NAMESPACE_PROTOCOL;
+            contextKey = ((ProtocolDocument)rulesContext).getProtocol().getProtocolNumber()+"-"+((ProtocolDocument)rulesContext).getProtocol().getSequenceNumber();
+        }
+        agendaQualifiers.put("name", getAgendaName(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT));  // specify a single agenda by name
        
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers, agendaQualifiers);
 
@@ -789,14 +837,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         // not sure about this addfacts.  there are many  
         rulesContext.addFacts(factsBuilder);
 
-       // factsBuilder.addFact("unitNumber", "BL-BL");
-//        factsBuilder.addFact("unitNumber", "IN-IN");
-//        Map<String,String> paramsMap = new TreeMap<String,String>();
-//        paramsMap.put("Questionnaire Id", "1");
-//        paramsMap.put("Question Id", "2");
-//        factsBuilder.addFact("unitNumber", paramsMap, "BL-BL");
-//        factsBuilder.addFact("ruleContext", rulesContext);
-//        rulesContext.addFacts(factsBuilder);
         ExecutionOptions xOptions = new ExecutionOptions();
         xOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
 
@@ -805,10 +845,17 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         String errors = (String) results.getAttribute(ValidationActionTypeService.VALIDATIONS_ACTION_ATTRIBUTE);
         boolean isValid = false;
         if (results.getResultsOfType(ResultEvent.RULE_EVALUATED) != null && results.getResultsOfType(ResultEvent.RULE_EVALUATED).size() > 0) {
-            ResultEvent resultEvent = results.getResultsOfType(ResultEvent.RULE_EVALUATED).get(0);
-            // can't access 'proposition of basicrule
-            // ((BasicRule)resultEvent.getSource()).
-            isValid = results.getResultsOfType(ResultEvent.RULE_EVALUATED).get(0).getResult();
+            String ruleName = KrmsApiServiceLocator.getRuleRepositoryService().getRule(ruleId).getName();  
+            for (ResultEvent resultEvent : results.getResultsOfType(ResultEvent.RULE_EVALUATED)) {
+                ruleResults.put(((BasicRule)resultEvent.getSource()).getName(), resultEvent.getResult());
+                if (StringUtils.equals(ruleName, ((BasicRule)resultEvent.getSource()).getName())) {
+                    isValid = resultEvent.getResult();
+                }
+            }
+//            ResultEvent resultEvent = results.getResultsOfType(ResultEvent.RULE_EVALUATED).get(0);
+//            // can't access 'proposition of basicrule
+//            // ((BasicRule)resultEvent.getSource()).
+//            isValid = results.getResultsOfType(ResultEvent.RULE_EVALUATED).get(0).getResult();
         }
 //        if (StringUtils.isBlank(errors)) {
             
@@ -816,16 +863,33 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 //            return Arrays.asList(errorArray);
 //        }
 //        return StringUtils.isNotBlank(errors);
+        // use session to cache the evaluation results for now
+        GlobalVariables.getUserSession().addObject(namespace + "-" + contextKey + "-ruleresults", ruleResults);
         return isValid;
     }
 
-    private AgendaBo getAgenda(String ruleId) {
-        Map<String,String> fieldValues = new HashMap<String,String>();
-        fieldValues.put("ruleId", ruleId);
-        AgendaItemBo agendaItem = businessObjectService.findByPrimaryKey(AgendaItemBo.class, fieldValues);
-        fieldValues.clear();
-        fieldValues.put("id", agendaItem.getAgendaId());
-        return businessObjectService.findByPrimaryKey(AgendaBo.class, fieldValues);
+    private String getAgendaName(String namespace) {
+        // TODO : may need to expand this agenda name to a list or based namespace
+        // 'Development Proposal Branching Questionnaire'
+        String agendaName = parameterService.getParameterValueAsString(namespace, ParameterConstants.DOCUMENT_COMPONENT, "QUESTIONNAIRE_BRANCHING_AGENDA");
+        if (StringUtils.isNotBlank(agendaName)) {
+            return agendaName;
+            
+        } else {
+            return "Development Proposal Branching Questionnaire";
+        }
+//        Map<String,String> fieldValues = new HashMap<String,String>();
+//        fieldValues.put("ruleId", ruleId);
+//        AgendaItemBo agendaItem = businessObjectService.findByPrimaryKey(AgendaItemBo.class, fieldValues);
+//        fieldValues.clear();
+//        fieldValues.put("id", agendaItem.getAgendaId());
+//        return businessObjectService.findByPrimaryKey(AgendaBo.class, fieldValues);
         
     }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+    
 }
