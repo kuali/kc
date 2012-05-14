@@ -20,6 +20,8 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionRule;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelAuditRule;
 import org.kuali.kra.iacuc.personnel.IacucProtocolUnitRule;
 import org.kuali.kra.iacuc.personnel.SaveIacucProtocolPersonnelEvent;
+import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceAuditRule;
+import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceRule;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationRule;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceRule;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaAuditRule;
@@ -33,6 +35,8 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceAuditRule;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRule;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolDocument;
@@ -100,5 +104,15 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements A
     @Override
     protected ProtocolLocationRule getNewProtocolLocationRuleInstanceHook() {
         return new IacucProtocolLocationRule();
+    }
+
+    @Override
+    protected ProtocolFundingSourceAuditRule getNewProtocolFundingSourceAuditRuleInstanceHook() {
+        return new IacucProtocolFundingSourceAuditRule();
+    }
+
+    @Override
+    protected ProtocolFundingSourceRule getNewProtocolFundingSourceRuleInstanceHook() {
+        return new IacucProtocolFundingSourceRule();
     }    
 }

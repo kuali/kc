@@ -23,7 +23,7 @@ import org.kuali.kra.protocol.ProtocolAssociate;
 /**
  * This class provides fundamental elements of protocol funding source data for Protocols.
  */
-public class ProtocolFundingSource extends ProtocolAssociate {
+public abstract class ProtocolFundingSource extends ProtocolAssociate {
 
     private static final long serialVersionUID = 2732312377082408995L;
 
@@ -119,8 +119,10 @@ public class ProtocolFundingSource extends ProtocolAssociate {
     }
 
     protected ProtocolFundingSourceService getProtocolFundingSourceService() {
-        return KraServiceLocator.getService(ProtocolFundingSourceService.class);
+        return KraServiceLocator.getService(getProtocolFundingSourceServiceClassHook());
     }
+
+    protected abstract Class<? extends ProtocolFundingSourceService> getProtocolFundingSourceServiceClassHook();
 
     /** {@inheritDoc} */
     public void resetPersistenceState() {

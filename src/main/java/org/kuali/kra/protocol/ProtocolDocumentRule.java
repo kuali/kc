@@ -26,10 +26,12 @@ import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
 import org.kuali.kra.protocol.personnel.AddProtocolUnitRule;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRule;
 import org.kuali.kra.protocol.personnel.ProtocolUnitRule;
-import org.kuali.kra.protocol.personnel.SaveProtocolPersonnelEvent;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
+import org.kuali.kra.protocol.protocol.funding.AddProtocolFundingSourceEvent;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceAuditRule;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRule;
 import org.kuali.kra.protocol.protocol.location.AddProtocolLocationEvent;
 import org.kuali.kra.protocol.protocol.location.AddProtocolLocationRule;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationRule;
@@ -115,11 +117,10 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
         
        
         valid &= processLeadUnitBusinessRules((ProtocolDocument) document);
-        valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
-        
-// TODO *********commented the code below during IACUC refactoring*********          
-//        valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);
+        valid &= processProtocolLocationBusinessRules((ProtocolDocument) document);            
         valid &= processProtocolPersonnelBusinessRules((ProtocolDocument) document);
+        
+// TODO *********commented the code below during IACUC refactoring*********        
 //        valid &= processProtocolCustomDataBusinessRules((ProtocolDocument) document);
 //        valid &= processProtocolSpecialReviewBusinessRules((ProtocolDocument) document);
         
@@ -167,21 +168,21 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
     @Override
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;  
-        retval &= super.processRunAuditBusinessRules(document);
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        retval &= new ProtocolFundingSourceAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
-         
+        retval &= super.processRunAuditBusinessRules(document);      
+        retval &= getNewProtocolFundingSourceAuditRuleInstanceHook().processRunAuditBusinessRules((ProtocolDocument) document);         
         retval &= getNewProtocolResearchAreaAuditRuleInstanceHook().processRunAuditBusinessRules((ProtocolDocument) document);
-
-// TODO *********commented the code below during IACUC refactoring*********        
         retval &= getNewProtocolPersonnelAuditRuleInstanceHook().processRunAuditBusinessRules(document);
+
+// TODO *********commented the code below during IACUC refactoring*********         
 //        retval &= this.processNoteAndAttachmentAuditRules((ProtocolDocument) document);
 //        retval &= new ProtocolQuestionnaireAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
+        
         return retval;
     }
     
     
+    protected abstract ProtocolFundingSourceAuditRule getNewProtocolFundingSourceAuditRuleInstanceHook();
+
     protected abstract ProtocolPersonnelAuditRule getNewProtocolPersonnelAuditRuleInstanceHook();
     
     protected abstract ProtocolResearchAreaAuditRule getNewProtocolResearchAreaAuditRuleInstanceHook();
@@ -235,6 +236,7 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
     }
     
     protected abstract KraDocumentEventBaseExtension getSaveProtocolPersonnelEventHook(ProtocolDocument document);
+
 // TODO *********uncomment the code below in increments as needed during refactoring*********         
 //    
 //    private boolean processProtocolCustomDataBusinessRules(ProtocolDocument document) {
@@ -262,16 +264,21 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
     
     protected abstract ProtocolLocationRule getNewProtocolLocationRuleInstanceHook();
     
-// TODO *********commented the code below during IACUC refactoring*********         
-//    /**
-//     * @see org.kuali.kra.irb.protocol.AddProtocolFundingSourceRule#processAddProtocolFundingSourceBusinessRules(org.org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent)
-//     */
-//    public boolean processAddProtocolFundingSourceBusinessRules(AddProtocolFundingSourceEvent addProtocolFundingSourceEvent) {
-//
-//        return new ProtocolFundingSourceRule().processAddProtocolFundingSourceBusinessRules(addProtocolFundingSourceEvent);
-//        
-//    }
-//    
+         
+    /**
+     * @see org.kuali.kra.irb.protocol.AddProtocolFundingSourceRule#processAddProtocolFundingSourceBusinessRules(org.org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent)
+     */
+    public boolean processAddProtocolFundingSourceBusinessRules(AddProtocolFundingSourceEvent addProtocolFundingSourceEvent) {
+
+        return getNewProtocolFundingSourceRuleInstanceHook().processAddProtocolFundingSourceBusinessRules(addProtocolFundingSourceEvent);
+        
+    }
+
+    protected abstract ProtocolFundingSourceRule getNewProtocolFundingSourceRuleInstanceHook();
+
+    
+    
+// TODO *********commented the code below during IACUC refactoring*********    
 //    /**
 //     * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processAddPermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.kra.common.permissions.bo.PermissionsUser)
 //     */
@@ -297,6 +304,8 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
 //    public boolean processAddProtocolAttachmentPersonnelRules(AddProtocolAttachmentPersonnelEvent addProtocolAttachmentPersonnelEvent) {
 //        return new ProtocolAttachmentPersonnelRule().processAddProtocolAttachmentPersonnelRules(addProtocolAttachmentPersonnelEvent);
 //    }
+
+
     /**
      * @see org.kuali.kra.iacuc.personnel.AddProtocolUnitRule#processAddProtocolUnitBusinessRules(org.kuali.kra.irb.personnel.AddProtocolUnitEvent)
      */

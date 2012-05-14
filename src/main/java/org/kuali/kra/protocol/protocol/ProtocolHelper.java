@@ -136,10 +136,13 @@ public abstract class ProtocolHelper implements Serializable {
     
     protected ProtocolFundingSourceService getProtocolFundingSourceService() {
         if (this.protocolFundingSourceService == null) {
-            this.protocolFundingSourceService = KraServiceLocator.getService(ProtocolFundingSourceService.class); 
+            this.protocolFundingSourceService = KraServiceLocator.getService(getProtocolFundingSourceServiceClassHook()); 
         }
         return this.protocolFundingSourceService;
     }
+    
+    protected abstract Class<? extends ProtocolFundingSourceService> getProtocolFundingSourceServiceClassHook();
+
     
     private SpecialReviewService getSpecialReviewService() {
         if (this.specialReviewService == null) {
@@ -168,17 +171,19 @@ public abstract class ProtocolHelper implements Serializable {
     private boolean displayBillable = true;
 
     public ProtocolHelper(ProtocolForm form) {
-
         this.form = form;
         setNewProtocolLocation(getNewProtocolLocationInstanceHook());
-
-// TODO *********commented the code below during IACUC refactoring*********    
-//        setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSource>());
-//        setNewFundingSource(new ProtocolFundingSource());
-//        setNewProtocolParticipant(new ProtocolParticipant());
-//        setNewProtocolFundingSources(new ArrayList<ProtocolFundingSource>());
+        setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSource>());
+        setNewFundingSource(getNewProtocolFundingSourceInstanceHook());        
+        
+// TODO *********commented the code below during IACUC refactoring*********          
+//        setNewProtocolParticipant(new ProtocolParticipant());        
+        
+        setNewProtocolFundingSources(new ArrayList<ProtocolFundingSource>());
     }    
     
+    protected abstract ProtocolFundingSource getNewProtocolFundingSourceInstanceHook();
+
     protected abstract ProtocolLocation getNewProtocolLocationInstanceHook();
     
     
@@ -189,10 +194,7 @@ public abstract class ProtocolHelper implements Serializable {
      */
     public void prepareView() {
         prepareRequiredFields();
-
-// TODO *********commented the code below during IACUC refactoring*********         
-//        syncFundingSources(getProtocol());
-        
+        syncFundingSources(getProtocol());        
         initializeConfigurationParams();        
         initializePermissions(getProtocol());    
     }
@@ -234,9 +236,7 @@ public abstract class ProtocolHelper implements Serializable {
 //        }
         
         initializeModifyGeneralInfoPermission(protocol);
-
-// TODO *********commented the code below during IACUC refactoring*********         
-//        initializeModifyFundingSourcePermission(protocol);
+        initializeModifyFundingSourcePermission(protocol);
         
         initializeModifyReferencesPermission(protocol);
         initializeModifyOrganizationsPermission(protocol);
@@ -259,6 +259,8 @@ public abstract class ProtocolHelper implements Serializable {
         billableReadOnly = !getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    
+    
     private void initializeModifyGeneralInfoPermission(Protocol protocol) {
         ProtocolTask task = getNewInstanceModifyProtocolGeneralInfoTaskHook(protocol);
         modifyGeneralInfo = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -266,10 +268,16 @@ public abstract class ProtocolHelper implements Serializable {
     
     protected abstract ProtocolTask getNewInstanceModifyProtocolGeneralInfoTaskHook(Protocol protocol);
 
+    
+    
     private void initializeModifyFundingSourcePermission(Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_FUNDING_SOURCE, protocol);
+        ProtocolTask task = getNewInstanceModifyProtocolFundingSourceTaskHook(protocol);
         modifyFundingSource = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
+    
+    protected abstract ProtocolTask getNewInstanceModifyProtocolFundingSourceTaskHook(Protocol protocol);
+    
+    
     
     private void initializeModifyReferencesPermission(Protocol protocol) {
         ProtocolTask task = getNewInstanceModifyProtocolReferencesTaskHook(protocol);
@@ -278,12 +286,16 @@ public abstract class ProtocolHelper implements Serializable {
     
     protected abstract ProtocolTask getNewInstanceModifyProtocolReferencesTaskHook(Protocol protocol);
 
+    
+    
     private void initializeModifyOrganizationsPermission(Protocol protocol) {
         ProtocolTask task = getNewInstanceModifyProtocolOrganizationsTaskHook(protocol);
         modifyOrganizations = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     protected abstract ProtocolTask getNewInstanceModifyProtocolOrganizationsTaskHook(Protocol protocol);
+    
+    
     
     private void initializeModifySubjectsPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBJECTS, protocol);
@@ -508,11 +520,12 @@ public abstract class ProtocolHelper implements Serializable {
     
     protected abstract ProtocolAction createProtocolActionHook(Protocol protocol, ProtocolSubmission protocolSubmission);
        
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * Synchronizes the information between this Protocol's Funding Sources and any Institutional Proposal or Award Special Review entries.
-//     */
-//    public void syncSpecialReviewsWithFundingSources() throws WorkflowException {
+
+    /**
+     * Synchronizes the information between this Protocol's Funding Sources and any Institutional Proposal or Award Special Review entries.
+     */
+    public void syncSpecialReviewsWithFundingSources() throws WorkflowException {
+// TODO *********commented the code below during IACUC refactoring*********         
 //        for (ProtocolFundingSource protocolFundingSource : getProtocol().getProtocolFundingSources()) {
 //            String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
 //            String fundingSourceTypeCode = protocolFundingSource.getFundingSourceTypeCode();
@@ -538,9 +551,9 @@ public abstract class ProtocolHelper implements Serializable {
 //            
 //            getSpecialReviewService().deleteSpecialReviewForProtocolFundingSource(fundingSourceNumber, fundingSourceTypeCode, protocolNumber);
 //        }
-//        
-//        deletedProtocolFundingSources.clear();
-//    }
+        
+        deletedProtocolFundingSources.clear();
+    }
 
 
     // hook method

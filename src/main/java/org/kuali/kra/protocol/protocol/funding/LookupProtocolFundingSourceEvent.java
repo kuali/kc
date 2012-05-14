@@ -25,7 +25,7 @@ import org.kuali.rice.krad.document.Document;
  * rule class itself, and uses the generic type extension to avoid the monolithic document rule interface implementation.
  * 
  */
-public class LookupProtocolFundingSourceEvent extends ProtocolEventBase<LookupProtocolFundingSourceRule> {
+public abstract class LookupProtocolFundingSourceEvent extends ProtocolEventBase<LookupProtocolFundingSourceRule> {
     
     private String fundingSourceTypeCode;
 
@@ -38,9 +38,13 @@ public class LookupProtocolFundingSourceEvent extends ProtocolEventBase<LookupPr
         this(errorPathPrefix, (ProtocolDocument) document, fundingSourceTypeCode, type);
     }
     
-    public LookupProtocolFundingSourceRule getRule() {
-        return new LookupProtocolFundingSourceRule();
-    }
+//    public LookupProtocolFundingSourceRule getRule() {
+//        return new LookupProtocolFundingSourceRule();
+//    }
+    
+    public abstract LookupProtocolFundingSourceRule getRule();
+    
+    
     
     public String getFundingSourceTypeCode() {
         return fundingSourceTypeCode;

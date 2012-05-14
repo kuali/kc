@@ -71,6 +71,9 @@ public class IacucProtocolActionType extends ProtocolActionType {
     public static final String TERMINATED = "306"; 
     public static final String SUSPENDED = "307";     
 
+
+    // TODO Need to check about the right place for funding source
+    public static final String FUNDING_SOURCE =  "904";
     
     //We need a unique Action code to map if the option to be chosen is 'Approve' since we need to enable 'Approve' action subsequently 
     public static final String RECORD_COMMITTEE_DECISION = "308";
@@ -79,6 +82,8 @@ public class IacucProtocolActionType extends ProtocolActionType {
         return ACTION_TYPE_SUBMISSION_DOC;
     }
     protected static final List<String> ACTION_TYPE_SUBMISSION_DOC;
+
+    
     static {
       final List<String> codes = new ArrayList<String>();     
       codes.add(IACUC_PROTOCOL_CREATED);
