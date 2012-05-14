@@ -198,43 +198,33 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	 * setIsInventionsAndPatents,setIsPreviouslyReported based on condition
 	 */
 	private void setIsInventionsAndPatentsAndIsPreviouslyReported(
-			PHS398Checklist13 phsChecklist) {
+	        PHS398Checklist13 phsChecklist) {
 	    String answer = getAnswer(PROPOSAL_YNQ_QUESTION_118);
-	    boolean hasSubQuestionExplanation = false;
 	    if (answer != null && !answer.equals(NOT_ANSWERED)) {
-    	    if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
-                String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_119);
-                if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(explanation)) {
-                    phsChecklist.setIsInventionsAndPatents(YesNoDataType.Y_YES);
-                    String subQuestionExplanation = getAnswer(PROPOSAL_YNQ_QUESTION_120);
-                    if (subQuestionExplanation != null && !subQuestionExplanation.equals(NOT_ANSWERED)) {
-                        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subQuestionExplanation)) {
-                            phsChecklist.setIsPreviouslyReported(YesNoDataType.Y_YES);
-                        } else if (S2SConstants.PROPOSAL_YNQ_ANSWER_N.equals(subQuestionExplanation)){
-                            phsChecklist.setIsPreviouslyReported(YesNoDataType.N_NO);
-                        } 
-                        hasSubQuestionExplanation = true;
-                    }
-                    else {
-                        phsChecklist.setIsPreviouslyReported(null); 
-                    }   
-                } else if(S2SConstants.PROPOSAL_YNQ_ANSWER_N.equals(explanation)) {
-                    phsChecklist.setIsInventionsAndPatents(YesNoDataType.Y_YES);
-                    if (hasSubQuestionExplanation) {
-                        phsChecklist.setIsPreviouslyReported(YesNoDataType.N_NO); 
-                    } 
-                } else {
-                    phsChecklist.setIsInventionsAndPatents(YesNoDataType.Y_YES);
-                   }
-            } else {
-                phsChecklist.setIsInventionsAndPatents(YesNoDataType.N_NO);
-                if (hasSubQuestionExplanation) {
-                    phsChecklist.setIsPreviouslyReported(YesNoDataType.N_NO);
-                }
-            }
+	        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
+	            String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_119);
+	            if(explanation != null && !explanation.equals(NOT_ANSWERED)) {
+	                if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(explanation)) {
+	                    phsChecklist.setIsInventionsAndPatents(YesNoDataType.Y_YES);
+	                    String subQuestionExplanation = getAnswer(PROPOSAL_YNQ_QUESTION_120);
+	                    if (subQuestionExplanation != null && !subQuestionExplanation.equals(NOT_ANSWERED)) {
+	                        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subQuestionExplanation)) {
+	                            phsChecklist.setIsPreviouslyReported(YesNoDataType.Y_YES);  
+	                        }else if(S2SConstants.PROPOSAL_YNQ_ANSWER_N.equals(subQuestionExplanation)) {
+	                            phsChecklist.setIsPreviouslyReported(YesNoDataType.N_NO);
+	                        }
+	                    } else {
+	                        phsChecklist.setIsPreviouslyReported(null);
+	                    }
+
+	                } else if(S2SConstants.PROPOSAL_YNQ_ANSWER_N.equals(explanation)) {
+	                    phsChecklist.setIsInventionsAndPatents(YesNoDataType.N_NO);
+	                }
+	            } else {
+	                phsChecklist.setIsInventionsAndPatents(null);
+	            }
+	        }
 	    }
-	    else
-	        phsChecklist.setIsInventionsAndPatents(null);
 	}
 
 	/*
