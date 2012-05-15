@@ -56,6 +56,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.awardhierarchy.AwardHierarchyBeanTest.class,
     org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRuleImplTest.class,
     org.kuali.kra.irb.ProtocolSubmissionLookupHelperServiceTest.class,
+    org.kuali.kra.iacuc.IacucProtocolSubmissionLookupHelperServiceTest.class,
     org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.ApprovedEquipmentBeanTest.class,
     org.kuali.kra.scheduling.util.Time24HrFmtTest.class,
     org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeStatusValuesFinderTest.class,
