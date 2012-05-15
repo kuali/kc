@@ -49,6 +49,7 @@ import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
+import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
@@ -87,6 +88,10 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         final ActionForward forward = super.execute(mapping, form, request, response);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        if (protocolForm.isAuditActivated()) {
+            protocolForm.setUnitRulesMessages(getUnitRulesMessages(protocolForm.getProtocolDocument()));
+        }
         if(KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
             new AuditActionHelper().auditConditionally((ProtocolForm) form);
         }
@@ -571,6 +576,11 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
         IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.PROTOCOL_CREATED_NOTIFICATION, "Created", renderer);
         KraServiceLocator.getService(KcNotificationService.class).sendNotification(context);
+    }
+    
+    protected List<String> getUnitRulesMessages(ProtocolDocument protocolDoc) {
+        KrmsRulesExecutionService rulesService = KraServiceLocator.getService(KrmsRulesExecutionService.class);
+        return rulesService.processUnitValidations(protocolDoc.getProtocol().getLeadUnitNumber(), protocolDoc);
     }
     
 }

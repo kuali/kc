@@ -22,19 +22,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
-public abstract class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
+public abstract class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument, KrmsRulesContext {
 
 // TODO *********commented the code below during IACUC refactoring*********     
 //    private static final Log LOG = LogFactory.getLog(ProtocolDocument.class);
