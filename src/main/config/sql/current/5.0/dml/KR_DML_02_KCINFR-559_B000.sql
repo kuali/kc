@@ -70,3 +70,16 @@ insert into krms_term_spec_ctgry_t (TERM_SPEC_ID, CTGRY_ID) values ((select TERM
 insert into krms_term_spec_ctgry_t (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from krms_term_spec_t where NMSPC_CD='KC-PROTOCOL' and NM='fdaApplicationNumber'), 
 (select CTGRY_ID from krms_ctgry_t where NMSPC_CD='KC-PROTOCOL' and NM='Property'))
 /
+
+-- IACUC
+insert into krms_term_spec_ctgry_t (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from krms_term_spec_t where NMSPC_CD='KC-IACUC' and NM='iacucRefNum1'), 
+(select CTGRY_ID from krms_ctgry_t where NMSPC_CD='KC-IACUC' and NM='Property'))
+/
+
+insert into krms_term_spec_ctgry_t (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from krms_term_spec_t where NMSPC_CD='KC-IACUC' and NM='iacucRefNum2'), 
+(select CTGRY_ID from krms_ctgry_t where NMSPC_CD='KC-IACUC' and NM='Property'))
+/
+
+insert into krms_term_spec_ctgry_t (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from krms_term_spec_t where NMSPC_CD='KC-IACUC' and NM='fdaApplicationNumber'), 
+(select CTGRY_ID from krms_ctgry_t where NMSPC_CD='KC-IACUC' and NM='Property'))
+/
