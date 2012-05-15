@@ -167,8 +167,7 @@ public abstract class ProtocolSubmissionLookupableHelperServiceImpl extends KraL
             }
             else if ("piName".equals(propertyName)) {
                 //-- commented as part of GENERATED CODE need to verify
-                //Protocol protocol = ((ProtocolSubmission) bo).getProtocol();
-                Protocol protocol = null;
+                Protocol protocol = ((ProtocolSubmission) bo).getProtocol();
                 ProtocolPerson principalInvestigator = protocol.getPrincipalInvestigator();
                 if (principalInvestigator != null) {
                     if (StringUtils.isNotBlank(principalInvestigator.getPersonId())) {
