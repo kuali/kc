@@ -529,6 +529,7 @@
         <bean p:attributeName="organization" parent="FieldDefinition"/>
         <bean p:attributeName="lastName" parent="FieldDefinition"/>
         <bean p:attributeName="firstName" parent="FieldDefinition"/>
+        <bean p:attributeName="middleName" parent="FieldDefinition"/>
         <bean p:attributeName="addressLine1" parent="FieldDefinition"/>
         <bean p:attributeName="addressLine2" parent="FieldDefinition"/>
         <bean p:attributeName="addressLine3" parent="FieldDefinition"/>
@@ -548,6 +549,7 @@
         <bean p:attributeName="organization" parent="FieldDefinition"/>
         <bean p:attributeName="lastName" parent="FieldDefinition"/>
         <bean p:attributeName="firstName" parent="FieldDefinition"/>
+        <bean p:attributeName="middleName" parent="FieldDefinition"/>
         <bean p:attributeName="addressLine1" parent="FieldDefinition"/>
         <bean p:attributeName="addressLine2" parent="FieldDefinition"/>
         <bean p:attributeName="addressLine3" parent="FieldDefinition"/>
