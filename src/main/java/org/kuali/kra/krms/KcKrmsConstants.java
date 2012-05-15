@@ -73,11 +73,11 @@ public final class KcKrmsConstants {
         
         public static final String IACUC_PROTOCOL_CONTEXT = "KC IACUC Protocol Context";
         
-        public static final String IACUC_REFERENCE_NUMBER_1 = "iacucReferenceNumber1";
+        public static final String IACUC_REFERENCE_NUMBER_1 = "iacucRefNum1";
         
-        public static final String IACUC_REFERENCE_NUMBER_2 = "iacucReferenceNumber2";
+        public static final String IACUC_REFERENCE_NUMBER_2 = "iacucRefNum2";
         
-        public static final String IACUC_FDA_APPLICATION_NUMBER = "iacucFdaApplicationNumber";
+        public static final String IACUC_FDA_APPLICATION_NUMBER = "fdaApplicationNumber";
     }
 
 }
