@@ -101,7 +101,7 @@
         </h3>
 
 			<table cellpadding=0 cellspacing=0 summary="">
-
+<%-- moved to Required Fields subpanel
               <tr>
                 <th width="33%">
                 	<div align="right">
@@ -135,6 +135,7 @@
                 <th width="18%" align=left valign=middle>
                 </th>
               </tr>
+--%>
               <tr>
                 <th><div align="right">
                     ${KualiForm.protocolHelper.referenceId1Label}:
