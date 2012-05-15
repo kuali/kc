@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
@@ -52,9 +53,9 @@ public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocument
         Map<String,Object> keymap = new HashMap<String,Object>();
                 if (protocolOnlineReviewForm.getProtocolOnlineReviewDocument().getProtocolOnlineReview().isActive()) {
             keymap.put( "protocolId", protocolOnlineReviewForm.getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocolId() );
-            Protocol protocol = (Protocol)getBusinessObjectService().findByPrimaryKey(Protocol.class, keymap );
+            Protocol protocol = (Protocol)getBusinessObjectService().findByPrimaryKey(getProtocolClass(), keymap );
             if (isOnlineReviewEnabled(form, protocol)) {
-                response.sendRedirect(String.format("protocolOnlineReview.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_DOCUMENT_NUMBER,protocol.getProtocolDocument().getDocumentNumber()));
+                response.sendRedirect(String.format("iacucProtocolOnlineReview.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_DOCUMENT_NUMBER,protocol.getProtocolDocument().getDocumentNumber()));
             } else {
                 return mapping.findForward(Constants.MAPPING_PROPOSAL_DISPLAY_INACTIVE);                
             }
@@ -64,24 +65,34 @@ public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocument
         return null;
     }
     
+    protected Class getProtocolClass() {
+        return Protocol.class;    
+    }
     
     private boolean isOnlineReviewEnabled(ActionForm form, Protocol protocol) { 
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         ProtocolSubmission submission = protocol.getProtocolSubmission();
         boolean isUserOnlineReviewer = getProtocolOnlineReviewService().isProtocolReviewer(principalId, false, submission);
         boolean isProtocolInStateToBeReviewed = getProtocolOnlineReviewService().isProtocolInStateToBeReviewed(protocol);
-        boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IRB Administrator"); 
-        return isProtocolInStateToBeReviewed && (isUserOnlineReviewer || isUserIrbAdmin);
+        boolean isUserAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", getAdminRoleName()); 
+        return isProtocolInStateToBeReviewed && (isUserOnlineReviewer || isUserAdmin);
     }
     
+    protected String getAdminRoleName() {
+        return "IRB Administrator";
+    }
     private KraAuthorizationService getKraAuthorizationService() {
         return KraServiceLocator.getService(KraAuthorizationService.class);
     }
 
     private ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-        return KraServiceLocator.getService(ProtocolOnlineReviewService.class);
+        return KraServiceLocator.getService(getOlrClass());
     }
 
+    protected Class getOlrClass() {
+        return ProtocolOnlineReviewService.class;
+    }
+    
     public ActionForward startProtocolOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         String protocolOnlineReviewDocumentNumber = request.getParameter(PROTOCOL_ONLINE_REVIEW_DOCUMENT_NUMBER);
