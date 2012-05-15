@@ -688,9 +688,9 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
         if (siteInvestigator != null) {
             BusinessObjectService businessObjectService = KraServiceLocator.
             getService(BusinessObjectService.class);
-            this.rolodex = (NonOrganizationalRolodex) businessObjectService.
-            findByPrimaryKey(NonOrganizationalRolodex.class,
-           getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
+            this.rolodex = (Rolodex) businessObjectService.
+            findByPrimaryKey(Rolodex.class,
+            getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
             this.siteInvestigatorId = rolodex.getRolodexId().toString();
         } else {
             this.rolodex = null;

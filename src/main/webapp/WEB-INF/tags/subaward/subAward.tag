@@ -44,7 +44,7 @@
 	                               							'sub.siteInvestigatorId.div');"
            	        							  			readOnly="${readOnly}"/>           	         						  			  
                       <c:if test="${!readOnly}">
-                      	<kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
+                      	<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
 								fieldConversions="rolodexId:document.subAwardList[0].siteInvestigator" 			
           						anchor="${tabKey}"/> 
           			  </c:if>			
