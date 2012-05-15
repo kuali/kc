@@ -51,6 +51,7 @@
 		<form-bean name="PersonMassChangeForm" type="org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm" />
 		<form-bean name="ReportTrackingLookupForm" type="org.kuali.kra.award.web.struts.action.ReportTrackingLookupForm" />
         <form-bean name="IacucProtocolForm" type="org.kuali.kra.iacuc.IacucProtocolForm" />
+        <form-bean name="IacucProtocolOnlineReviewForm" type="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewForm"/> 
     </form-beans>
 
 <!-- Rice content Start -->
@@ -469,6 +470,12 @@
       
       <action path="/iacucProtocolPermissions" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolPermissions.jsp" type="org.kuali.kra.iacuc.permission.IacucProtocolPermissionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolPermissions.jsp" />
+        &iacuc_forwards;
+      </action>
+      <action path="/iacucProtocolOnlineReviewRedirect" name="IacucProtocolOnlineReviewForm" input="/WEB-INF/jsp/iacuc/ProtocolOnlineReview.jsp" type="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewRedirectAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolOnlineReview.jsp" />
+        <forward name="displayInactive" path = "/WEB-INF/jsp/iacuc/ProtocolOnlineReviewInactiveDisplay.jsp"/>
+        <forward name="displayNoOnlineReview" path = "/WEB-INF/jsp/iacuc/ProtocolNoOnlineReview.jsp"/>   
         &iacuc_forwards;
       </action>
       
