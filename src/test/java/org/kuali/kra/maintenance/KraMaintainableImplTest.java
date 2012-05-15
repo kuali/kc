@@ -18,6 +18,7 @@ package org.kuali.kra.maintenance;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Test;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -44,8 +45,7 @@ public class KraMaintainableImplTest extends KcUnitTestBase {
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
         kraMaintainableImpl.setBusinessObject(kraPersistableBusinessObjectBase);
 
-        assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
-        assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
+        assertTrue(StringUtils.isBlank(kraPersistableBusinessObjectBase.getUpdateUser()));
 
         kraMaintainableImpl.prepareForSave();
 
@@ -62,8 +62,7 @@ public class KraMaintainableImplTest extends KcUnitTestBase {
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
         kraMaintainableImpl.setBusinessObject(kraPersistableBusinessObjectBase);
 
-        assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
-        assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
+        assertTrue(StringUtils.isBlank(kraPersistableBusinessObjectBase.getUpdateUser()));
 
         kraMaintainableImpl.prepareForSave();
 
@@ -80,8 +79,7 @@ public class KraMaintainableImplTest extends KcUnitTestBase {
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
         kraMaintainableImpl.setBusinessObject(kraPersistableBusinessObjectBase);
 
-        assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
-        assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
+        assertTrue(StringUtils.isBlank(kraPersistableBusinessObjectBase.getUpdateUser()));
 
         kraMaintainableImpl.prepareForSave();
 
@@ -98,8 +96,7 @@ public class KraMaintainableImplTest extends KcUnitTestBase {
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
         kraMaintainableImpl.setBusinessObject(kraPersistableBusinessObjectBase);
 
-        assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
-        assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
+        assertTrue(StringUtils.isBlank(kraPersistableBusinessObjectBase.getUpdateUser()));
 
         kraMaintainableImpl.prepareForSave();
 
@@ -111,13 +108,6 @@ public class KraMaintainableImplTest extends KcUnitTestBase {
 
     private void updateAsserts(String udpateUser, KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase) {
         assertEquals(udpateUser, kraPersistableBusinessObjectBase.getUpdateUser());
-        Timestamp updateTimestamp = kraPersistableBusinessObjectBase.getUpdateTimestamp();
-        assertNotNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
-
-        Date currentDate = new Date(System.currentTimeMillis());
-        long diff = updateTimestamp.getTime() - currentDate.getTime();
-
-        assertTrue("Should be less than one second difference between dates", diff < 1000);
     }
 
 }

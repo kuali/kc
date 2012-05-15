@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.bo;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,8 +43,7 @@ public class KraPersistableBusinessObjectBaseTest extends KcUnitTestBase {
 
     @Test public void testBeforeInsertQuickstart() throws Exception {
         KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
-        assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
-        assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
+        assertTrue(StringUtils.isBlank(kraPersistableBusinessObjectBase.getUpdateUser()));
         kraPersistableBusinessObjectBase.beforeInsert(null);
 
         updateAsserts("quickstart", kraPersistableBusinessObjectBase);
@@ -54,8 +51,7 @@ public class KraPersistableBusinessObjectBaseTest extends KcUnitTestBase {
 
     @Test public void testBeforeUpdateQuickstart() throws Exception {
         KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
-        assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
-        assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
+        assertTrue(StringUtils.isBlank(kraPersistableBusinessObjectBase.getUpdateUser()));
         kraPersistableBusinessObjectBase.beforeUpdate(null);
 
         updateAsserts("quickstart", kraPersistableBusinessObjectBase);
@@ -65,8 +61,7 @@ public class KraPersistableBusinessObjectBaseTest extends KcUnitTestBase {
         GlobalVariables.setUserSession(new UserSession("jtester"));
 
         KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
-        assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
-        assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
+        assertTrue(StringUtils.isBlank(kraPersistableBusinessObjectBase.getUpdateUser()));
         kraPersistableBusinessObjectBase.beforeInsert(null);
 
         updateAsserts("jtester", kraPersistableBusinessObjectBase);
@@ -76,8 +71,7 @@ public class KraPersistableBusinessObjectBaseTest extends KcUnitTestBase {
         GlobalVariables.setUserSession(new UserSession("jtester"));
 
         KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
-        assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
-        assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
+        assertTrue(StringUtils.isBlank(kraPersistableBusinessObjectBase.getUpdateUser()));
         kraPersistableBusinessObjectBase.beforeUpdate(null);
 
         updateAsserts("jtester", kraPersistableBusinessObjectBase);
@@ -85,13 +79,6 @@ public class KraPersistableBusinessObjectBaseTest extends KcUnitTestBase {
 
     private void updateAsserts(String udpateUser, KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase) {
         assertEquals(udpateUser, kraPersistableBusinessObjectBase.getUpdateUser());
-        Timestamp updateTimestamp = kraPersistableBusinessObjectBase.getUpdateTimestamp();
-        assertNotNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
-
-        Date currentDate = new Date(System.currentTimeMillis());
-        long diff = updateTimestamp.getTime() - currentDate.getTime();
-
-        assertTrue("Should be less than one second difference between dates", diff < 1000);
     }
 
 }
