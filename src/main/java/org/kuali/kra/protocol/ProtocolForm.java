@@ -17,20 +17,25 @@ package org.kuali.kra.protocol;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContext;
 import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.permission.PermissionsHelper;
 import org.kuali.kra.protocol.personnel.PersonnelHelper;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
@@ -45,9 +50,11 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -66,9 +73,9 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 //    /**
 //     * When true, the online review header will not be displayed when it is disabled.
 //     */
-//    private static final boolean HIDE_ONLINE_REVIEW_WHEN_DISABLED = true;
-//    private static final String ONLINE_REVIEW_NAV_TO = "onlineReview";
-//    private static final String CUSTOM_DATA_NAV_TO = "customData";
+    protected static final boolean HIDE_ONLINE_REVIEW_WHEN_DISABLED = true;
+    protected static final String ONLINE_REVIEW_NAV_TO = "onlineReview";
+    protected static final String CUSTOM_DATA_NAV_TO = "customData";
     
     
     private ProtocolHelper protocolHelper;
@@ -181,12 +188,12 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 //                if (onlineReviewTabEnabled || ((!onlineReviewTabEnabled) && (!HIDE_ONLINE_REVIEW_WHEN_DISABLED))) {
 //                    resultList.add(nav);
 //                }
-//            } else if (StringUtils.equals(nav.getHeaderTabNavigateTo(),CUSTOM_DATA_NAV_TO)) {
-//                boolean displayTab = this.getCustomDataHelper().canDisplayCustomDataTab();
-//                nav.setDisabled(!displayTab);
-//                if (displayTab) {
-//                    resultList.add(nav);
-//                }
+////            } else if (StringUtils.equals(nav.getHeaderTabNavigateTo(),CUSTOM_DATA_NAV_TO)) {
+////                boolean displayTab = this.getCustomDataHelper().canDisplayCustomDataTab();
+////                nav.setDisabled(!displayTab);
+////                if (displayTab) {
+////                    resultList.add(nav);
+////                }
 //            } else {
 //                resultList.add(nav);
 //            }
@@ -519,5 +526,8 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     public String getQuestionnaireFieldEnd() {
         return DEFAULT_END;
     }
-    
+//    protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+//        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+//    }
+  
 }
