@@ -36,8 +36,16 @@
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
                            
-    <bean id="coiModuleConfiguration" parent="coiModuleConfiguration-parentBean" />
+    <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
+    <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
+    <import resource="classpath:org/kuali/kra/core/CommonSpringBeans.xml" />
     
+    <bean id="coiModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
+        <property name="moduleConfiguration" ref="coiModuleConfiguration"/>
+        <property name="kualiModuleService" ref="kualiModuleService"/>
+    </bean>
+    
+    <bean id="coiModuleConfiguration" parent="coiModuleConfiguration-parentBean" />
     <bean id="coiModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
     	<property name="namespaceCode" value="KC-COIDISCLOSURE" />
         <property name="databaseRepositoryFilePaths">
@@ -46,8 +54,116 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="businessObjectService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="businessObjectService" />
+    </bean>
+    
+    <bean id="businessObjectDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="businessObjectDictionaryService" />
+    </bean>
+    
+    <bean id="businessObjectMetaDataService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="businessObjectMetaDataService" />
+    </bean>
+    
+    <bean id="dataDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataDictionaryService" />
+    </bean>
+    
+    <bean id="dateTimeService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dateTimeService" />
+    </bean>
+    
+    <bean id="documentService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="documentService" />
+    </bean>
+    
+    <bean id="encryptionService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="encryptionService" />
+    </bean>
+    
+    <bean id="kraAuthorizationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kraAuthorizationService" />
+    </bean>
+    
+    <bean id="kcPersonService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcPersonService" />
+    </bean>
+    
+    <bean id="kcNotificationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcNotificationService" />
+    </bean>
+    
+    <bean id="kraWorkflowService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kraWorkflowService" />
+    </bean>
+    
+    <bean id="kualiModuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiModuleService" />
+    </bean>
+    
+    <bean id="lookupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="lookupService" />
+    </bean>
+    
+    <bean id="lookupResultsService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="lookupResultsService" />
+    </bean>
+    
+    <bean id="parameterService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="parameterService" />
+    </bean>
+    
+    <bean id="persistenceStructureService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="persistenceStructureService" />
+    </bean>
+    
+    <bean id="persistenceStructureServiceOjb" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="persistenceStructureServiceOjb" />
+    </bean>
+    
+    <bean id="persistenceStructureServiceJpa" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="persistenceStructureServiceJpa" />
+    </bean>
+    
+    <bean id="printingService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="printingService" />
+    </bean> 
+    
+    <bean id="protocolFinderDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="protocolFinderDao" />
+    </bean>
+    
+    <bean id="questionnaireAnswerService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="questionnaireAnswerService" />
+    </bean>
+    
+    <bean id="sequenceAccessorService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="sequenceAccessorService" />
+    </bean>
+    
+    <bean id="unitAuthorizationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="unitAuthorizationService" />
+    </bean>
+    
+    <bean id="versioningService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="versioningService" />
+    </bean>
+    
+    <bean id="parentLookupableHelperService" abstract="true">
+        <property name="persistenceStructureService" ref="persistenceStructureService" />
+        <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="encryptionService" ref="encryptionService" />
+        <property name="lookupService" ref="lookupService" />
+        <property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
+        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="lookupResultsService" ref="lookupResultsService" />
+    </bean>
 	
-     <bean id="financialEntityService" class="org.kuali.kra.coi.personfinancialentity.FinancialEntityServiceImpl">
+    <bean id="financialEntityService" class="org.kuali.kra.coi.personfinancialentity.FinancialEntityServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="versioningService" ref="versioningService" />

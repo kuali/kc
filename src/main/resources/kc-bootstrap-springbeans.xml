@@ -32,5 +32,7 @@
     <bean id="kcSubAwardConfigurer" class="org.kuali.kra.subaward.config.SubAwardConfigurer" />
     
     <bean id="kcNegotiationConfigurer" class="org.kuali.kra.negotiations.config.NegotiationConfigurer" />
+    
+    <bean id="kcCoiConfigurer" class="org.kuali.kra.coi.config.CoiConfigurer" />
 
 </beans>
