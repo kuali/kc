@@ -86,7 +86,8 @@ public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocument
     }
 
     private ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-        return KraServiceLocator.getService(getOlrClass());
+        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+      //  return KraServiceLocator.getService(getOlrClass());
     }
 
     protected Class getOlrClass() {
