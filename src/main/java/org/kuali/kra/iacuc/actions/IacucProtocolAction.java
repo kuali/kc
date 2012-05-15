@@ -30,6 +30,9 @@ public class IacucProtocolAction extends ProtocolAction {
 
     Long iacucProtocolActionId;
     
+    public IacucProtocolAction() {
+    }
+
     public IacucProtocolAction(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolActionTypeCode) {
         super(protocol, protocolSubmission, protocolActionTypeCode);
     }

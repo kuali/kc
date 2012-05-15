@@ -25,11 +25,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionEvent;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
@@ -40,22 +42,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.notification.NotifyCommitteeNotificationRenderer;
-import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
-import org.kuali.kra.irb.actions.notification.ProtocolClosedNotificationRenderer;
-import org.kuali.kra.irb.actions.notification.ProtocolDisapprovedNotificationRenderer;
-import org.kuali.kra.irb.actions.notification.ProtocolExpiredNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
-import org.kuali.kra.irb.actions.notification.ProtocolSuspendedByDSMBNotificationRenderer;
-import org.kuali.kra.irb.actions.notification.ProtocolSuspendedNotificationRenderer;
-import org.kuali.kra.irb.actions.notification.ProtocolTerminatedNotificationRenderer;
-import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
-import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.irb.notification.IRBNotificationContext;
-import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -299,6 +286,43 @@ return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), proto
     }
     
 
+    /**
+     * Invoked when the "copy protocol" button is clicked.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward copyProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+
+        ApplicationTask task = new ApplicationTask(TaskName.CREATE_IACUC_PROTOCOL);
+        if (isAuthorized(task)) {
+            String newDocId = getIacucProtocolCopyService().copyProtocol(protocolForm.getIacucProtocolDocument()).getDocumentNumber();
+
+            // Switch over to the new protocol document and
+            // go to the Protocol tab web page.
+
+            protocolForm.setDocId(newDocId);
+            protocolForm.setViewOnly(false);
+            loadDocument(protocolForm);
+            protocolForm.getIacucProtocolDocument().setViewOnly(protocolForm.isViewOnly());
+            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
+            protocolForm.getProtocolHelper().prepareView();
+            protocolForm.getActionHelper().prepareCommentsView();
+
+            return mapping.findForward(PROTOCOL_TAB);
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     private void recordProtocolActionSuccess(String protocolActionName) {
         KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED, protocolActionName);
     }
@@ -317,6 +341,10 @@ return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), proto
 
     private IacucProtocolSubmitActionService getProtocolSubmitActionService() {
         return KraServiceLocator.getService(IacucProtocolSubmitActionService.class);
+    }
+
+    public IacucProtocolCopyService getIacucProtocolCopyService() {
+        return KraServiceLocator.getService(IacucProtocolCopyService.class);
     }
 
 }
