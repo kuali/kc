@@ -21,9 +21,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class IacucProtocolCustomData extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 8074330420210212533L;
-    
+
     private Long iacucProtocolCustomDataId;
-    private String protocolId;
+    private Long protocolId;
     private Long customAttributeId;
     private String value;
 
@@ -37,11 +37,11 @@ public class IacucProtocolCustomData extends KraPersistableBusinessObjectBase {
         this.iacucProtocolCustomDataId = iacucProtocolCustomDataId;
     }
 
-    public String getprotocolId() {
+    public Long getprotocolId() {
         return protocolId;
     }
 
-    public void setProtocolId(String protocolId) {
+    public void setProtocolId(Long protocolId) {
         this.protocolId = protocolId;
     }
 
@@ -68,5 +68,5 @@ public class IacucProtocolCustomData extends KraPersistableBusinessObjectBase {
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }
-    
+
 }
