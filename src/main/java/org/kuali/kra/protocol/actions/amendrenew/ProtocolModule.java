@@ -18,38 +18,37 @@ package org.kuali.kra.protocol.actions.amendrenew;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @SuppressWarnings("serial")
-public class ProtocolModule extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolModule extends KraPersistableBusinessObjectBase {
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public static final String GENERAL_INFO = "001";
-//
-//    public static final String PROTOCOL_PERSONNEL = "002";
-//
-//    public static final String AREAS_OF_RESEARCH = "004";
-//
-//    public static final String SUBJECTS = "006";
+    public static final String GENERAL_INFO = "001";
+
+    public static final String PROTOCOL_PERSONNEL = "002";
+
+    public static final String AREAS_OF_RESEARCH = "004";
+
+    public static final String SUBJECTS = "006";
 
     public static final String SPECIAL_REVIEW = "007";
 
-//    public static final String ADD_MODIFY_ATTACHMENTS = "008";
-//
-//    public static final String PROTOCOL_REFERENCES = "016";
-//
-//    public static final String PROTOCOL_ORGANIZATIONS = "017";
-//
-//    public static final String OTHERS = "023";
-//
+    public static final String ADD_MODIFY_ATTACHMENTS = "008";
+
+    public static final String PROTOCOL_REFERENCES = "016";
+
+    public static final String PROTOCOL_ORGANIZATIONS = "017";
+
+    public static final String OTHERS = "023";
+
     public static final String FUNDING_SOURCE = "024";
-//
-//    public static final String PROTOCOL_PERMISSIONS = "025";
+
+    public static final String PROTOCOL_PERMISSIONS = "025";
 
     public static final String QUESTIONNAIRE = "026";
 
-    private String protocolModuleCode;
+    
+    protected String protocolModuleCode;
+    protected String description;
 
-    private String description;
-
-    public ProtocolModule() {
+    protected ProtocolModule() {
     }
 
     public String getProtocolModuleCode() {

@@ -13,14 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.auth;
+package org.kuali.kra.iacuc.actions.amendrenew;
 
-import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
 
-public class ModifyIacucProtocolGeneralInfoAuthorizer extends ModifyIacucAmendmentAuthorizer {
+@SuppressWarnings("serial")
+public class IacucProtocolModule extends ProtocolModule {
 
-    public ModifyIacucProtocolGeneralInfoAuthorizer() {
-        super(IacucProtocolModule.GENERAL_INFO);
-    }
+    public static final String THREE_RS = "036";
+    public static final String SPECIES_GROUPS = "032";
+    public static final String EXCEPTIONS = "033";
+    public static final String PROCEDURES = "031";
     
+
+    public IacucProtocolModule() {
+        super();
+    }
+
+
 }

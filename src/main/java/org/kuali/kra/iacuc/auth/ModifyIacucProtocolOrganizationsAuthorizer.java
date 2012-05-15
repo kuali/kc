@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.auth.ModifyIacucAmendmentAuthorizer;
 
@@ -26,11 +27,8 @@ import org.kuali.kra.iacuc.auth.ModifyIacucAmendmentAuthorizer;
 public class ModifyIacucProtocolOrganizationsAuthorizer extends ModifyIacucAmendmentAuthorizer {
     
 
-    @Override
-    public boolean isAuthorized(String userId, IacucProtocolTask task) {
-        // TODO Auto-generated method stub
-        return true;
+    public ModifyIacucProtocolOrganizationsAuthorizer() {
+        super(IacucProtocolModule.PROTOCOL_ORGANIZATIONS);
     }
-
-
+    
 }

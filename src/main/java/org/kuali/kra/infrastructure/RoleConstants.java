@@ -89,6 +89,7 @@ public interface RoleConstants {
 
     public static final String IACUC_PROTOCOL_REVIEWER = "IACUC Reviewer";
     public static final String IACUC_PROTOCOL_ONLINE_REVIEWER = "IACUC Online Reviewer";
+    public static final String IACUC_ADMINISTRATOR = "IACUC Administrator";
 
 }
 
