@@ -40,12 +40,12 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
         IacucProtocolOnlineReviewDocument protocolOnlineReviewDocument = (IacucProtocolOnlineReviewDocument) document;
         String userId = user.getPrincipalId();
         
-        if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS)) {  
+        if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS)) {  
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-        } else if (canExecuteProtocolOnlineReviewTask( userId, protocolOnlineReviewDocument, TaskName.MODIFY_PROTOCOL_ONLINEREVIEW)
+        } else if (canExecuteProtocolOnlineReviewTask( userId, protocolOnlineReviewDocument, TaskName.MODIFY_IACUC_PROTOCOL_ONLINEREVIEW)
                    && getKraWorkflowService().isUserApprovalRequested(protocolOnlineReviewDocument, GlobalVariables.getUserSession().getPrincipalId())) {
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-        } else if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.VIEW_PROTOCOL_ONLINEREVIEW)) {
+        } else if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.VIEW_IACUC_PROTOCOL_ONLINEREVIEW)) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
         } else {
             editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
@@ -76,7 +76,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
      * @return true if the user can create a protocol; otherwise false
      */
     private boolean canCreateProtocolOnlineReview(Person user) {
-        ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL_ONLINEREVIEW);       
+        ApplicationTask task = new ApplicationTask(TaskName.CREATE_IACUC_PROTOCOL_ONLINEREVIEW);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
     }
@@ -89,10 +89,10 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteProtocolOnlineReviewTask(String userId, IacucProtocolOnlineReviewDocument doc, String taskName) {
-//        ProtocolOnlineReviewTask task = new ProtocolOnlineReviewTask(taskName, doc.getProtocolOnlineReview());       
-//        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-//        return taskAuthenticationService.isAuthorized(userId, task);
-          return true;
+        IacucProtocolOnlineReviewTask task = new IacucProtocolOnlineReviewTask(taskName, doc.getProtocolOnlineReview());       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(userId, task);
+//          return true;
     }
     
     /**
@@ -100,9 +100,9 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
      */
     @Override
     public boolean canEdit(Document document, Person user) {
-//        return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MODIFY_PROTOCOL_ONLINEREVIEW) 
-//               || canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS); 
-        return true;
+        return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (IacucProtocolOnlineReviewDocument) document, TaskName.MODIFY_PROTOCOL_ONLINEREVIEW) 
+               || canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (IacucProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS); 
+//        return true;
     }
     
     /**
