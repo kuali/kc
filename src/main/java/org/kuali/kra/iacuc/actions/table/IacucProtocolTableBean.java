@@ -17,6 +17,8 @@ package org.kuali.kra.iacuc.actions.table;
 
 import java.io.Serializable;
 
+import org.kuali.kra.iacuc.actions.IacucActionHelper;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
@@ -25,7 +27,7 @@ import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
  * This class is really just a "form" containing the reason
  * for tabling an IACUC protocol.
  */
-public class IacucProtocolTableBean extends ProtocolActionBean implements Serializable {
+public class IacucProtocolTableBean extends IacucProtocolActionBean implements Serializable {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -37,7 +39,7 @@ public class IacucProtocolTableBean extends ProtocolActionBean implements Serial
      * @param actionHelper Reference back to the action helper for this bean
      */
     public IacucProtocolTableBean(ActionHelper actionHelper) {
-        super(actionHelper);
+        super((IacucActionHelper) actionHelper);
     }
 
 }

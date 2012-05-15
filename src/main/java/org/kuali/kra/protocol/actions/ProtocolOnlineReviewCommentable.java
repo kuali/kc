@@ -15,17 +15,25 @@
  */
 package org.kuali.kra.protocol.actions;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
 
 /**
- * Defines the superclass of all Protocol action beans.
+ * Marks a <code>ProtocolActionBean</code> as being able to contain review comments.
  */
-public interface ProtocolActionBean {    
- 
-    public void setActionHelper(ActionHelper actionHelper);
-
-    public ActionHelper getActionHelper();
+public interface ProtocolOnlineReviewCommentable {
     
-    public Protocol getProtocol();
+    /**
+     * Gets the <code>ReviewCommentsBean</code>.
+     * @return the <code>ReviewCommentsBean</code>
+     */
+    ReviewCommentsBean getReviewCommentsBean();
+    
+    /**
+     * 
+     * This method is to get the review attachment bean for OLR
+     * @return the <code>ReviewAttachmentsBean</code>
+     */
+    ReviewAttachmentsBean getReviewAttachmentsBean();
 
 }

@@ -57,7 +57,7 @@ public class IacucProtocolSubmitAction extends ProtocolSubmitAction {
             if ((!StringUtils.isBlank(this.committeeId)) && (!this.committeeIdChanged) && (!StringUtils.isBlank(this.scheduleId))) {
                 if (this.scheduleIdChanged) {
                     reviewers.clear();
-                    buildReviewers();
+                   // buildReviewers();
                 }
             }
             else {
@@ -75,7 +75,7 @@ public class IacucProtocolSubmitAction extends ProtocolSubmitAction {
     /**
      * Create the list of reviewers based upon the currently selected committee and schedule.
      */
-    private void buildReviewers() {
+   /* private void buildReviewers() {
         this.reviewerListAvailable = true;
         List<CommitteeMembership> members = getProtocol().filterOutProtocolPersonnel(
                 getCommitteeService().getAvailableMembers(this.committeeId, this.scheduleId));
@@ -83,7 +83,7 @@ public class IacucProtocolSubmitAction extends ProtocolSubmitAction {
             ProtocolReviewerBean reviewer = new ProtocolReviewerBean(member);
             reviewers.add(reviewer);
         }
-    }
+    }*/
     
 
 }

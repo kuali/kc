@@ -19,13 +19,15 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.iacuc.actions.IacucActionHelper;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 
 /**
  * This class is really just a "form" for notifying the Committee.
  */
-public class ProtocolNotifyCommitteeBean extends ProtocolActionBean implements Serializable {
+public class ProtocolNotifyCommitteeBean extends  IacucProtocolActionBean implements Serializable {
     
     private String comment = "";
     private Committee committee;

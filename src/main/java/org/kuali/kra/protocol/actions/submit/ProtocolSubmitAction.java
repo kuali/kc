@@ -30,7 +30,7 @@ import org.springframework.util.AutoPopulatingList;
  * This class is really just a "form" for submitting a protocol for review in the Submit for Review Action.
  */
 @SuppressWarnings("unchecked")
-public abstract class ProtocolSubmitAction extends ProtocolActionBean implements Serializable {
+public abstract class ProtocolSubmitAction implements Serializable {
 
     private static final long serialVersionUID = -4712974868607781787L;
 
@@ -68,7 +68,7 @@ public abstract class ProtocolSubmitAction extends ProtocolActionBean implements
      * @param actionHelper Reference back to the action helper for this bean
      */
     public ProtocolSubmitAction(ActionHelper actionHelper) {
-        super(actionHelper);
+       // super(actionHelper);
     }
 
 // TODO *********commented the code below during IACUC refactoring********* 

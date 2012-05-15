@@ -16,30 +16,32 @@
 package org.kuali.kra.iacuc.actions;
 
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.ActionHelper;
+import org.kuali.kra.protocol.actions.ProtocolActionBean;
 
 /**
  * Defines the superclass of all Protocol action beans.
  */
-public abstract class IacucProtocolActionBean {
+public abstract class IacucProtocolActionBean implements ProtocolActionBean {
     
-    private IacucActionHelper actionHelper;
+    private ActionHelper actionHelper;
     
     /**
      * Constructs a ProtocolActionBean.
      * @param actionHelper Reference back to the action helper for this bean
      */
-    public IacucProtocolActionBean(IacucActionHelper actionHelper) {
+    public IacucProtocolActionBean(ActionHelper actionHelper) {
         this.setActionHelper(actionHelper);
     }
     
     public IacucProtocolActionBean() {
     }
 
-    public void setActionHelper(IacucActionHelper actionHelper) {
+    public void setActionHelper(ActionHelper actionHelper) {
         this.actionHelper = actionHelper;
     }
 
-    public IacucActionHelper getActionHelper() {
+    public ActionHelper getActionHelper() {
         return actionHelper;
     }
     

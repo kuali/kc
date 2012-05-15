@@ -13,19 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.actions;
+package org.kuali.kra.protocol.actions.reviewcomments;
 
-import org.kuali.kra.protocol.Protocol;
-
-/**
- * Defines the superclass of all Protocol action beans.
- */
-public interface ProtocolActionBean {    
- 
-    public void setActionHelper(ActionHelper actionHelper);
-
-    public ActionHelper getActionHelper();
-    
-    public Protocol getProtocol();
+public class ReviewAttachmentsBean {
 
 }
