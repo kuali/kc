@@ -357,10 +357,10 @@ public class RROtherProjectInfoV1_3Generator extends
 		humanSubjectsSupplement.setExemptionNumbers(exemptionNumbers);} else {
 			if (proposalSpecialReview.getApprovalDate() != null) {
 				humanSubjectsSupplement
-				.setHumanSubjectIRBReviewIndicator(YesNoDataType.Y_YES);
+				.setHumanSubjectIRBReviewIndicator(YesNoDataType.N_NO);
 			}else{
 				humanSubjectsSupplement
-				.setHumanSubjectIRBReviewIndicator(YesNoDataType.N_NO);
+				.setHumanSubjectIRBReviewIndicator(YesNoDataType.Y_YES);
 			}
 		}
 			}
