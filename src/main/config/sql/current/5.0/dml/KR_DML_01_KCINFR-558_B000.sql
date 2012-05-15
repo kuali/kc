@@ -119,3 +119,43 @@ values ('KC1007', 'KC-IACUC-CONTEXT', (select TYP_ID from KRMS_TYP_T where NM='N
 insert into KRMS_CNTXT_VLD_ACTN_TYP_T (CNTXT_VLD_ACTN_ID, CNTXT_ID, ACTN_TYP_ID, VER_NBR) 
 values ('KC1008', 'KC-IACUC-CONTEXT', (select TYP_ID from KRMS_TYP_T where NM='Route to PeopleFlow' and NMSPC_CD='KR-RULE'), 1)
 /
+
+-- Terms
+-- IACUC Reference Number 1
+insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NM, TYP, ACTV, VER_NBR, DESC_TXT, NMSPC_CD) 
+values ('KC1013', 'iacucRefNum1', 'java.lang.String', 'Y', 1, 'IACUC Reference Number 1', 'KC-IACUC')
+/
+
+insert into KRMS_TERM_T (TERM_ID, TERM_SPEC_ID, VER_NBR, DESC_TXT) 
+values ('KC1013', (select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NM='iacucRefNum1'), 1, 'IACUC Reference Number 1')
+/
+
+insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
+values ('KC1013', 'KC-IACUC-CONTEXT', (select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NM='iacucRefNum1' and NMSPC_CD='KC-IACUC'), 'N')
+/
+
+-- IACUC Reference Number 2
+insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NM, TYP, ACTV, VER_NBR, DESC_TXT, NMSPC_CD) 
+values ('KC1014', 'iacucRefNum2', 'java.lang.String', 'Y', 1, 'IACUC Reference Number 2', 'KC-IACUC')
+/
+
+insert into KRMS_TERM_T (TERM_ID, TERM_SPEC_ID, VER_NBR, DESC_TXT) 
+values ('KC1014', (select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NM='iacucRefNum2'), 1, 'IACUC Reference Number 2')
+/
+
+insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
+values ('KC1014', 'KC-IACUC-CONTEXT', (select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NM='iacucRefNum2' and NMSPC_CD='KC-IACUC'), 'N')
+/
+
+-- FDA Application Number
+insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NM, TYP, ACTV, VER_NBR, DESC_TXT, NMSPC_CD) 
+values ('KC1015', 'fdaApplicationNumber', 'java.lang.String', 'Y', 1, 'FDA Application Number', 'KC-IACUC')
+/
+
+insert into KRMS_TERM_T (TERM_ID, TERM_SPEC_ID, VER_NBR, DESC_TXT) 
+values ('KC1015', (select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NM='fdaApplicationNumber' and NMSPC_CD='KC-IACUC'), 1, 'FDA Application Number')
+/
+
+insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
+values ('KC1015', 'KC-IACUC-CONTEXT', (select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NM='fdaApplicationNumber' and NMSPC_CD='KC-IACUC'), 'N')
+/
