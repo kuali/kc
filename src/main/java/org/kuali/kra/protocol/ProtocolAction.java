@@ -17,6 +17,7 @@ package org.kuali.kra.protocol;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +32,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krms.service.KrmsRulesExecutionService;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
@@ -70,6 +73,10 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         final ActionForward forward = super.execute(mapping, form, request, response);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        if (protocolForm.isAuditActivated()) {
+            protocolForm.setUnitRulesMessages(getUnitRulesMessages(protocolForm.getProtocolDocument()));
+        }
         if(KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
             new AuditActionHelper().auditConditionally((ProtocolForm) form);
         }
@@ -644,6 +651,11 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     // a very special case where the service seems to call back into the action.
     public String buildForwardUrl(String routeHeaderId) {
         return super.buildForwardUrl(routeHeaderId);
+    }
+    
+    protected List<String> getUnitRulesMessages(ProtocolDocument protocolDoc) {
+        KrmsRulesExecutionService rulesService = KraServiceLocator.getService(KrmsRulesExecutionService.class);
+        return rulesService.processUnitValidations(protocolDoc.getProtocol().getLeadUnitNumber(), protocolDoc);
     }
 
 }

@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.ResearchArea;
@@ -41,6 +41,8 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
+import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -62,6 +64,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.krms.api.engine.Facts.Builder;
 
 
 /**
@@ -75,7 +78,7 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
  */
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROTOCOL)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
+public class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument, KrmsRulesContext { 
     private static final Log LOG = LogFactory.getLog(ProtocolDocument.class);
     public static final String DOCUMENT_TYPE_CODE = "PROT";
     private static final String AMENDMENT_KEY = "A";
@@ -594,6 +597,17 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);        
         List<Protocol> protocols = (List<Protocol>) boService.findMatchingOrderBy(Protocol.class, keyMap, "sequenceNumber", false);
         return (protocols.size() == 0) ? null : protocols.get(0).getProtocolDocument().getDocumentNumber();    
+    }
+    
+    public void populateContextQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_PROTOCOL);
+        qualifiers.put("name", KcKrmsConstants.IrbProtocol.IRB_PROTOCOL_CONTEXT);
+    }
+
+    public void addFacts(Builder factsBuilder) {
+        factsBuilder.addFact(KcKrmsConstants.IrbProtocol.PROTOCOL_REFERENCE_NUMBER_1, this.getProtocol().getReferenceNumber1());
+        factsBuilder.addFact(KcKrmsConstants.IrbProtocol.PROTOCOL_REFERENCE_NUMBER_2, this.getProtocol().getReferenceNumber2());
+        factsBuilder.addFact(KcKrmsConstants.IrbProtocol.FDA_APPLICATION_NUMBER, this.getProtocol().getFdaApplicationNumber());
     }
 
 }
