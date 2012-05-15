@@ -324,6 +324,16 @@
     <bean id="iacucProtocolNotificationRoleQualifierService" class="org.kuali.kra.iacuc.notification.IacucProtocolNotificationRoleQualifierServiceImpl"
           scope="prototype">
     </bean>
+
+
+    <bean id="iacucProtocolCopyService" class="org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="systemAuthorizationService" ref="systemAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="sequenceAccessorService">
+            <ref bean="sequenceAccessorService" />
+        </property>
+    </bean>
     
 </beans>
 
