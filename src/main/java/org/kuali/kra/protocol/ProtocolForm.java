@@ -17,25 +17,20 @@ package org.kuali.kra.protocol;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
-import org.kuali.kra.iacuc.actions.IacucActionHelper;
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContext;
 import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.permission.PermissionsHelper;
 import org.kuali.kra.protocol.personnel.PersonnelHelper;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
@@ -50,11 +45,9 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -88,7 +81,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 
 // TODO *********uncomment the code below in increments as needed during refactoring*********     
 
-    private IacucActionHelper actionHelper;
+    private ActionHelper actionHelper;
     private OnlineReviewsActionHelper onlineReviewsActionHelper;
     private QuestionnaireHelper questionnaireHelper;
 //    //transient so that the helper and its members don't have to be serializable or transient
@@ -148,7 +141,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     protected abstract PermissionsHelper createNewPermissionsHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract PersonnelHelper createNewPersonnelHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract QuestionnaireHelper createNewQuestionnaireHelper(ProtocolForm protocolForm);
-    protected abstract IacucActionHelper createNewActionHelper(ProtocolForm protocolForm) throws Exception;
+    protected abstract ActionHelper createNewActionHelper(ProtocolForm protocolForm) throws Exception;
     
     
     
@@ -394,11 +387,11 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 //        this.notesAttachmentsHelper = notesAttachmentsHelper;
 //    }
     
-    public IacucActionHelper getActionHelper() {
+    public ActionHelper getActionHelper() {
         return actionHelper;
     }
     
-    protected void setActionHelper(IacucActionHelper actionHelper) {
+    protected void setActionHelper(ActionHelper actionHelper) {
         this.actionHelper = actionHelper;
     }
 

@@ -20,12 +20,14 @@ import java.sql.Date;
 
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
+import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
 
 /**
  * This class is really just a "form" for generic actions.
  */
-//TODO public class ProtocolGenericActionBean extends ProtocolActionBean implements ProtocolOnlineReviewCommentable, Serializable {
-public class IacucProtocolGenericActionBean extends IacucProtocolActionBean implements Serializable {
+public class IacucProtocolGenericActionBean extends IacucProtocolActionBean implements ProtocolGenericActionBean {
 
     private static final long serialVersionUID = 1098390205989217539L;
     
@@ -34,8 +36,8 @@ public class IacucProtocolGenericActionBean extends IacucProtocolActionBean impl
     
     private String errorPropertyKey;
     
-//TODO    private ReviewCommentsBean reviewCommentsBean;
-//TODO    private ReviewAttachmentsBean reviewAttachmentsBean;
+    private ReviewCommentsBean reviewCommentsBean;
+    private ReviewAttachmentsBean reviewAttachmentsBean;
     
     /**
      * Constructs a ProtocolGenericActionBean.
@@ -45,8 +47,9 @@ public class IacucProtocolGenericActionBean extends IacucProtocolActionBean impl
         super(actionHelper);
         
         this.errorPropertyKey = errorPropertyKey;
-//TODO        reviewCommentsBean = new ReviewCommentsBean(errorPropertyKey);
-//TODO        reviewAttachmentsBean = new ReviewAttachmentsBean(errorPropertyKey);
+// TODO *********commented the code below during IACUC refactoring*********          
+//        reviewCommentsBean = new ReviewCommentsBean(errorPropertyKey);       
+//        reviewAttachmentsBean = new ReviewAttachmentsBean(errorPropertyKey);
     }
 
     public String getComments() {
@@ -69,16 +72,16 @@ public class IacucProtocolGenericActionBean extends IacucProtocolActionBean impl
         return errorPropertyKey;
     }
 
-//TODO    public ReviewCommentsBean getReviewCommentsBean() {
-//        return reviewCommentsBean;
-//    }
-//
-//    public ReviewAttachmentsBean getReviewAttachmentsBean() {
-//        return reviewAttachmentsBean;
-//    }
-//
-//    public void setReviewAttachmentsBean(ReviewAttachmentsBean reviewAttachmentsBean) {
-//        this.reviewAttachmentsBean = reviewAttachmentsBean;
-//    }
+    public ReviewCommentsBean getReviewCommentsBean() {
+        return reviewCommentsBean;
+    }
+
+    public ReviewAttachmentsBean getReviewAttachmentsBean() {
+        return reviewAttachmentsBean;
+    }
+
+    public void setReviewAttachmentsBean(ReviewAttachmentsBean reviewAttachmentsBean) {
+        this.reviewAttachmentsBean = reviewAttachmentsBean;
+    }
     
 }

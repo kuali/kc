@@ -35,52 +35,19 @@ import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
  * protocol action type and submission type entry in the database.  Please
  * see the ActionHelper class for how this class is used.
  */
-public class ProtocolRequestBean extends ProtocolSubmissionBeanBase implements Serializable {
+public interface ProtocolRequestBean extends ProtocolSubmissionBeanBase, Serializable {
+   
+
+    public void setReason(String reason);
     
-    private static final long serialVersionUID = 8563507385262806669L;
+    public String getReason();
+
+    public String getProtocolActionTypeCode();
+
+    public String getSubmissionTypeCode();
     
-    private String protocolActionTypeCode;
-    private String submissionTypeCode;
-    private String reason = "";
-    private String beanName;
+    public String getBeanName();
 
-    /**
-     * Constructs a ProtocolRequestBean.
-     * @param actionHelper Reference back to the action helper for this bean
-     * @param protocolActionTypeCode
-     * @param submissionTypeCode
-     * @param beanName
-     */
-    public ProtocolRequestBean(ActionHelper actionHelper, String protocolActionTypeCode, String submissionTypeCode, String beanName) {
-        super(actionHelper);
-        
-        this.protocolActionTypeCode = protocolActionTypeCode;
-        this.submissionTypeCode = submissionTypeCode;
-        this.beanName = beanName;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public String getProtocolActionTypeCode() {
-        return protocolActionTypeCode;
-    }
-
-    public String getSubmissionTypeCode() {
-        return submissionTypeCode;
-    }
-    
-    public String getBeanName() {
-        return beanName;
-    }
-
-    public void setBeanName(String beanName) {
-        this.beanName = beanName;
-    }
+    public void setBeanName(String beanName);
     
 }

@@ -18,69 +18,30 @@ package org.kuali.kra.protocol.actions.genericactions;
 import java.io.Serializable;
 import java.sql.Date;
 
-import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.ProtocolActionBean;
-import org.kuali.kra.irb.actions.ProtocolOnlineReviewCommentable;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.protocol.actions.ProtocolActionBean;
+import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
 
 /**
- * This class is really just a "form" for generic actions.
+ * This interface is really just a "form" for generic actions.
  */
-public class ProtocolGenericActionBean extends ProtocolActionBean implements ProtocolOnlineReviewCommentable, Serializable {
+public interface ProtocolGenericActionBean extends ProtocolActionBean, ProtocolOnlineReviewCommentable, Serializable {
 
-    private static final long serialVersionUID = 1098390205989217539L;
+    public String getComments();
     
-    private String comments = "";
-    private Date actionDate = new Date(System.currentTimeMillis());
+    public void setComments(String comments);
     
-    private String errorPropertyKey;
+    public Date getActionDate();
     
-    private ReviewCommentsBean reviewCommentsBean;
-    private ReviewAttachmentsBean reviewAttachmentsBean;
+    public void setActionDate(Date actionDate);
     
-    /**
-     * Constructs a ProtocolGenericActionBean.
-     * @param actionHelper Reference back to the action helper for this bean
-     */
-    public ProtocolGenericActionBean(ActionHelper actionHelper, String errorPropertyKey) {
-        super(actionHelper);
-        
-        this.errorPropertyKey = errorPropertyKey;
-        reviewCommentsBean = new ReviewCommentsBean(errorPropertyKey);
-        reviewAttachmentsBean = new ReviewAttachmentsBean(errorPropertyKey);
-    }
+    public String getErrorPropertyKey();
 
-    public String getComments() {
-        return comments;
-    }
-    
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-    
-    public Date getActionDate() {
-        return actionDate;
-    }
-    
-    public void setActionDate(Date actionDate) {
-        this.actionDate = actionDate;
-    }
-    
-    public String getErrorPropertyKey() {
-        return errorPropertyKey;
-    }
+    public ReviewCommentsBean getReviewCommentsBean();
 
-    public ReviewCommentsBean getReviewCommentsBean() {
-        return reviewCommentsBean;
-    }
+    public ReviewAttachmentsBean getReviewAttachmentsBean();
 
-    public ReviewAttachmentsBean getReviewAttachmentsBean() {
-        return reviewAttachmentsBean;
-    }
-
-    public void setReviewAttachmentsBean(ReviewAttachmentsBean reviewAttachmentsBean) {
-        this.reviewAttachmentsBean = reviewAttachmentsBean;
-    }
+    public void setReviewAttachmentsBean(ReviewAttachmentsBean reviewAttachmentsBean);
     
 }

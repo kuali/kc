@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 
@@ -25,7 +26,8 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
  * 
  * This class for the base property of request/notify irb action
  */
-public abstract class IacucProtocolSubmissionBeanBase extends IacucProtocolActionBean {
+public abstract class IacucProtocolSubmissionBeanBase extends IacucProtocolActionBean implements ProtocolSubmissionBeanBase {
+    
     private String committeeId;
     private ProtocolActionAttachment newActionAttachment;
     private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
@@ -43,6 +45,7 @@ public abstract class IacucProtocolSubmissionBeanBase extends IacucProtocolActio
         this.committeeId = committeeId;
     }
 
+    
     public ProtocolActionAttachment getNewActionAttachment() {
         return newActionAttachment;
     }

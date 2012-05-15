@@ -15,26 +15,48 @@
  */
 package org.kuali.kra.iacuc.actions.withdraw;
 
-import org.kuali.kra.protocol.actions.ActionHelper;
+import org.kuali.kra.iacuc.actions.IacucActionHelper;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
+import org.kuali.kra.protocol.actions.withdraw.WithdrawCorrespondence;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 
 /**
  * This class is really just a "form" containing the reason
  * for withdrawing a protocol.
  */
-public class IacucProtocolWithdrawBean extends ProtocolWithdrawBean {
+public class IacucProtocolWithdrawBean extends IacucProtocolActionBean implements ProtocolWithdrawBean {
     
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = -5189869215708658021L;
-
+    private static final long serialVersionUID = 4142586313917806739L;
+    
+    private String reason = "";
+    
     /**
      * Constructs a ProtocolWithdrawBean.java.
      * @param actionHelper Reference back to the action helper for this bean
      */
-    public IacucProtocolWithdrawBean(ActionHelper actionHelper) {
+    public IacucProtocolWithdrawBean(IacucActionHelper actionHelper) {
         super(actionHelper);
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+    
+    /**
+     * 
+     * This method returns the correct correspondence for this object
+     * @return a WithdrawCorrespondence object
+     */
+    public WithdrawCorrespondence getCorrespondence() {
+        WithdrawCorrespondence correspondence = new WithdrawCorrespondence();
+        return correspondence;
     }
 
 }

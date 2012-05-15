@@ -15,53 +15,18 @@
  */
 package org.kuali.kra.protocol.actions.correction;
 
-import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.ProtocolEditableBean;
 
-public class AdminCorrectionBean extends ProtocolEditableBean {
-
-    private static final long serialVersionUID = 3247703113947298472L;
+public interface AdminCorrectionBean extends ProtocolEditableBean {
     
-    private String comments;
-    private boolean applyCorrection;
+    public String getComments();
     
-    /**
-     * Constructs a AdminCorrectionBean.
-     * @param actionHelper Reference back to the action helper for this bean
-     */
-    public AdminCorrectionBean(ActionHelper actionHelper) {
-        super(actionHelper);
-    }
+    public void setComments(String comments);
     
-    public String getComments() {
-        return comments;
-    }
+    public boolean isApplyCorrection();
     
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
+    public void setApplyCorrection(boolean applyCorrection);
     
-    public boolean isApplyCorrection() {
-        return applyCorrection;
-    }
+    public boolean isAmendmentRenewalOutstanding();
     
-    public void setApplyCorrection(boolean applyCorrection) {
-        this.applyCorrection = applyCorrection;
-    }
-    
-    public boolean isAmendmentRenewalOutstanding() {
-        return !(getGeneralInfoEnabled() &&  
-            getFundingSourceEnabled() && 
-            getProtocolReferencesEnabled() && 
-            getProtocolOrganizationsEnabled() && 
-            getSubjectsEnabled() && 
-            getAddModifyAttachmentsEnabled() && 
-            getAreasOfResearchEnabled() && 
-            getSpecialReviewEnabled() && 
-            getProtocolPersonnelEnabled() && 
-            getOthersEnabled() &&
-            getProtocolPermissionsEnabled() &&
-            getQuestionnaireEnabled());
-    }
-
 }
