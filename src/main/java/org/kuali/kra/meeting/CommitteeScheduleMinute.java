@@ -25,6 +25,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
@@ -80,6 +83,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     private CommitteeSchedule committeeSchedule;
 
     private ProtocolReviewer protocolReviewer;
+    private IacucProtocolReviewer iacucProtocolReviewer;
 
     private String createUser;
 
@@ -87,6 +91,8 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
 
     @SkipVersioning
     private transient ProtocolOnlineReview protocolOnlineReview;
+    @SkipVersioning
+    private transient IacucProtocolOnlineReview iacucProtocolOnlineReview;
 
     private String minuteEntry;
 
@@ -96,6 +102,8 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
 
     @SkipVersioning
     private Protocol protocol;
+    @SkipVersioning
+    private IacucProtocol iacucProtocol;
 
     private boolean generateAttendance = false;
 
@@ -572,5 +580,29 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     @Override
     public boolean isPrivate() {
         return getPrivateCommentFlag();
+    }
+
+    public IacucProtocolReviewer getIacucProtocolReviewer() {
+        return iacucProtocolReviewer;
+    }
+
+    public void setIacucProtocolReviewer(IacucProtocolReviewer iacucProtocolReviewer) {
+        this.iacucProtocolReviewer = iacucProtocolReviewer;
+    }
+
+    public IacucProtocolOnlineReview getIacucProtocolOnlineReview() {
+        return iacucProtocolOnlineReview;
+    }
+
+    public void setIacucProtocolOnlineReview(IacucProtocolOnlineReview iacucProtocolOnlineReview) {
+        this.iacucProtocolOnlineReview = iacucProtocolOnlineReview;
+    }
+
+    public IacucProtocol getIacucProtocol() {
+        return iacucProtocol;
+    }
+
+    public void setIacucProtocol(IacucProtocol iacucProtocol) {
+        this.iacucProtocol = iacucProtocol;
     }
 }
