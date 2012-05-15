@@ -15,31 +15,44 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.notification.AssignReviewerNotificationRenderer;
-import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
+import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
+    private static final String PROTOCOL_DOCUMENT_NUMBER="protocolDocumentNumber";
 
     
     
@@ -84,6 +97,78 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
     protected void recordOnlineReviewActionSuccess(String onlineReviewActionName, ProtocolOnlineReviewDocument document) {
         String documentInfo = String.format("document number:%s, reviewer:%s", document.getDocumentNumber(), document.getProtocolOnlineReview().getProtocolReviewer().getFullName());
         KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_ONLINE_REVIEW_ACTION_SUCCESSFULLY_COMPLETED,onlineReviewActionName, documentInfo);
+    }
+
+    public ActionForward startProtocolOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        String protocolDocumentNumber = request.getParameter(PROTOCOL_DOCUMENT_NUMBER);
+        ((ProtocolForm) form).setDocument(getDocumentService().getByDocumentHeaderId(
+                protocolDocumentNumber));
+        ((ProtocolForm) form).initialize();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+
+    public ActionForward addOnlineReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        OnlineReviewsActionHelper actionHelper = protocolForm.getOnlineReviewsActionHelper();
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String documentNumber = getOnlineReviewActionDocumentNumber(parameterName, "addOnlineReviewComment");
+        
+        ProtocolOnlineReviewDocument document = actionHelper.getDocumentFromHelperMap(documentNumber);
+        ReviewCommentsBean reviewCommentsBean = actionHelper.getReviewCommentsBeanFromHelperMap(documentNumber);
+        long documentIndex = actionHelper.getIndexByDocumentNumber(documentNumber);
+        
+        if (applyRules(new AddProtocolOnlineReviewCommentEvent(document, reviewCommentsBean.getNewReviewComment(), documentIndex))
+                && applyRules(new SaveProtocolOnlineReviewEvent(document, reviewCommentsBean.getReviewComments(), documentIndex))) {
+            CommitteeScheduleMinute newReviewComment = reviewCommentsBean.getNewReviewComment();
+            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
+            if (protocolForm.getEditingMode().get(TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS) == null) {
+                newReviewComment.setPrivateCommentFlag(true);
+                newReviewComment.setFinalFlag(false);
+            }
+            newReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL_REVIEWER_COMMENT);
+            getReviewCommentsService().addReviewComment(newReviewComment, reviewComments, document.getProtocolOnlineReview());
+            getReviewCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
+            getDocumentService().saveDocument(document);
+            
+            // TODO : is there an IACUC protocol review comment ?
+            reviewCommentsBean.setNewReviewComment(new CommitteeScheduleMinute(MinuteEntryType.PROTOCOL_REVIEWER_COMMENT));
+        }
+        
+        //protocolForm.getOnlineReviewsActionHelper().init(true);
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }    
+
+    protected String getOnlineReviewActionDocumentNumber(String parameterName, String actionMethodToCall) {
+        
+        String idxStr = null;
+        if (StringUtils.isBlank(parameterName)||parameterName.indexOf("."+actionMethodToCall+".") == -1) {
+            throw new IllegalArgumentException(
+                    String.format("getOnlineReviewActionIndex expects a non-empty value for parameterName parameter, "+
+                            "and it must contain as a substring the parameter actionMethodToCall. "+
+                            "The passed values were (%s,%s)."
+                            ,parameterName,actionMethodToCall)
+                    );
+        }
+        idxStr = StringUtils.substringBetween(parameterName, "."+actionMethodToCall+".", "." );
+        if( idxStr == null || StringUtils.isBlank(idxStr)) {
+            throw new IllegalArgumentException(String.format( 
+                    "parameterName must be of the form '.(actionMethodToCall).(index).anchor, "+
+                    "the passed values were (%s,%s)"
+                    ,parameterName,actionMethodToCall
+                    ));
+        }
+        
+        return idxStr;
+    }
+
+    private ReviewCommentsService getReviewCommentsService() {
+        return KraServiceLocator.getService(IacucReviewCommentsService.class);
     }
 
 }
