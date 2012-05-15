@@ -15,8 +15,13 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
+
 public class ModifyIacucProtocolPersonnelAuthorizer extends ModifyIacucAmendmentAuthorizer {
 
-    //TODO Need to add code for amendments (similar to irb) eventually....
+    public ModifyIacucProtocolPersonnelAuthorizer() {
+        super(IacucProtocolModule.PROTOCOL_PERSONNEL);
+    }
+
 
 }
