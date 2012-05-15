@@ -60,11 +60,11 @@ public final class KcKrmsConstants {
     
     public static final class IrbProtocol {
         
-        public static final String IRB_PROTOCOL_CONTEXT = "KC IRB Protocol Context";
+        public static final String IRB_PROTOCOL_CONTEXT = "KC Protocol Context";
         
-        public static final String PROTOCOL_REFERENCE_NUMBER_1 = "protocolReferenceNumber1";
+        public static final String PROTOCOL_REFERENCE_NUMBER_1 = "protocolRefNum1";
         
-        public static final String PROTOCOL_REFERENCE_NUMBER_2 = "protocolReferenceNumber2";
+        public static final String PROTOCOL_REFERENCE_NUMBER_2 = "protocolRefNum2";
         
         public static final String FDA_APPLICATION_NUMBER = "fdaApplicationNumber";
     }
