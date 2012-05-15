@@ -17,7 +17,6 @@ package org.kuali.kra.iacuc.customdata;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,25 +30,17 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.bo.KcPersonExtendedAttributes;
-import org.kuali.kra.bo.PersonCustomData;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * The CustomDataHelper is used to manage the Custom Data tab web page.
@@ -58,7 +49,9 @@ import org.kuali.rice.krad.util.KRADPropertyConstants;
 public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelper { 
 
     private static final String CUSTOM_ATTRIBUTE_NAME = "IacucProtocolCustomDataAttribute";
-
+    private static final String PROTOCOL_ID_ATTRIBUTE_NAME = "protocolId";
+    private static final String CUSTOM_ATTRIBUTE_DOCUMENT_TYPE_NAME = "documentTypeName";
+    
     /**
      * Constructs a CustomDataHelper.
      * @param form the form
@@ -100,14 +93,13 @@ public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelper {
         customAttributeGroups = new TreeMap<String, List<CustomAttributeDocument>>();
 
         Map<String, CustomAttributeDocument> customAttributeDocuments = getCustomAttributeDocuments("ICPR");
-        String documentNumber = protocol.getProtocolId().toString();
         for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            primaryKeys.put(PROTOCOL_ID_ATTRIBUTE_NAME, protocol.getProtocolId().toString());
             primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
 
-            CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) getBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
+            IacucProtocolCustomData customAttributeDocValue = (IacucProtocolCustomData) getBusinessObjectService().findByPrimaryKey(IacucProtocolCustomData.class, primaryKeys);
             if (customAttributeDocValue != null) {
                 customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
                 getCustomAttributeValues().put("id" + customAttributeDocument.getCustomAttributeId().toString(), new String[]{customAttributeDocValue.getValue()});
@@ -126,30 +118,11 @@ public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelper {
         setCustomAttributeGroups(customAttributeGroups);
     }
     
-//    public void populateCustomAttributeGroups(IacucProtocol iacucProtocol) {
-//        Map<String, CustomAttributeDocument> customAttributeDocuments = getCustomAttributeDocuments("ICPR");
-//        
-//        customAttributeGroups = new TreeMap<String, List<CustomAttributeDocument>>();
-//        for (CustomAttributeDocument customAttributeDocument : customAttributeDocuments.values()) {
-//            PersonCustomData personCustomData = getPersonCustomData(customAttributeDocument, kcPersonExtendedAttributes);
-//            personCustomData.refreshReferenceObject("customAttribute");
-//            String groupName = StringUtils.defaultIfBlank(personCustomData.getCustomAttribute().getGroupName(), "No Group");
-//            List<CustomAttributeDocument> groupCustomAttributeDocuments = customAttributeGroups.get(groupName);
-//            if (groupCustomAttributeDocuments == null) {
-//                groupCustomAttributeDocuments = new ArrayList<CustomAttributeDocument>();
-//                customAttributeGroups.put(groupName, groupCustomAttributeDocuments);
-//            }
-//            groupCustomAttributeDocuments.add(customAttributeDocument);
-//            Collections.sort(groupCustomAttributeDocuments, new LabelComparator());
-//        }
-//    }
-//    
-    
     private Map<String, CustomAttributeDocument> getCustomAttributeDocuments(String documentType) {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
         
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(PropertyConstants.DOCUMENT.TYPE_NAME.toString(), documentType);
+        fieldValues.put(CUSTOM_ATTRIBUTE_DOCUMENT_TYPE_NAME, documentType);
         Collection<CustomAttributeDocument> customAttributeDocumentList = getBusinessObjectService().findMatching(CustomAttributeDocument.class, fieldValues);
         for (CustomAttributeDocument customAttributeDocument : customAttributeDocumentList) {
             if (customAttributeDocument.isActive()) {
@@ -177,7 +150,7 @@ public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelper {
             iacucProtocolCustomData = new IacucProtocolCustomData();
             iacucProtocolCustomData.setCustomAttributeId((long) customAttributeId);
             iacucProtocolCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
-            iacucProtocolCustomData.setProtocolId(iacucProtocol.getProtocolId().toString());
+            iacucProtocolCustomData.setProtocolId(iacucProtocol.getProtocolId());
             iacucProtocolCustomData.setValue(StringUtils.defaultString(StringUtils.defaultString(customAttributeValue, customAttributeDefaultValue)));
         
             iacucProtocol.getIacucProtocolCustomDataList().add(iacucProtocolCustomData);
