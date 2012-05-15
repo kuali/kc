@@ -51,7 +51,7 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                  p:size="10" />
+                  p:size="22" />
         </property>
         <property name="summary" value="IACUC Protocol Custom Data Id" />
         <property name="description" value="IACUC Protocol Custom Data Id" />
@@ -62,7 +62,7 @@
         <property name="name" value="protocolId"/>
         <property name="label" value="IACUC Protocol Id"/>
         <property name="shortLabel" value="IACUC Protocol Id"/>
-        <property name="maxLength" value="40"/>
+        <property name="maxLength" value="22"/>
         <property name="summary" value="IACUC Protocol Id"/>
         <property name="description" value="IACUC Protocol Id"/>  
     </bean>

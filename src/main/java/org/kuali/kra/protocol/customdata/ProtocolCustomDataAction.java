@@ -54,33 +54,45 @@ public abstract class ProtocolCustomDataAction extends ProtocolAction {
 
     private static BusinessObjectService businessObjectService;
 
-    /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        /*
-         * Primarily, the customdata.tag is using 'customdatahelper.xxx' as field name, 
-         * but the field value is coming from document,  so this copy has to be done 
-         * every time custom data page is refreshed. 
-         */
-System.out.println("\nEEEEEEE execute called, copying data to document\n");
-        CustomDataAction.copyCustomDataToDocument(form);
-        ((ProtocolForm)form).getCustomDataHelper().initializePermissions();
-        return super.execute(mapping, form, request, response);
-    }
-    
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    public ActionForward reload(ActionMapping mapping, ActionForm form, 
-            HttpServletRequest request, HttpServletResponse response) throws Exception { 
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        protocolForm.getProtocolCustomDataHelper().prepareView(protocolForm.getProtocolDocument().getProtocol());
-        return mapping.findForward(IacucProtocolAction.IACUC_PROTOCOL_CUSTOM_DATA_HOOK);
-    }
+// Demoted to IACUC    
+//    /**
+//     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+//     */
+//    @Override
+//    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+//            throws Exception {
+//
+//        /*
+//         * Primarily, the customdata.tag is using 'customdatahelper.xxx' as field name, 
+//         * but the field value is coming from document,  so this copy has to be done 
+//         * every time custom data page is refreshed. 
+//         */
+//        CustomDataAction.copyCustomDataToDocument(form);
+//
+//        ((ProtocolForm)form).getCustomDataHelper().initializePermissions();
+//        
+//        return super.execute(mapping, form, request, response);
+//    }
+//    
+//    /**
+//     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+//     */
+//    public ActionForward reload(ActionMapping mapping, ActionForm form, 
+//            HttpServletRequest request, HttpServletResponse response) throws Exception { 
+//        ProtocolForm protocolForm = (ProtocolForm) form;
+//        super.reload(mapping, form, request, response);
+//        CustomDataAction.copyCustomDataToDocument(form);
+//        ((ProtocolForm)form).getCustomDataHelper().prepareView(((ProtocolForm)form).getProtocolDocument());
+//        
+//        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+//        
+//        for (Map.Entry<String, String[]> customAttributeValue : protocolForm.getCustomDataHelper().getCustomAttributeValues().entrySet()) {
+//            String customAttributeId = customAttributeValue.getKey().substring(2);
+//            String value = customAttributeValue.getValue()[0];
+//            protocolDocument.getCustomAttributeDocuments().get(customAttributeId).getCustomAttribute().setValue(value);
+//        }
+//        return mapping.findForward("customData");    
+//    }
 
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#postDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
@@ -167,25 +179,25 @@ System.out.println("\nEEEEEEE execute called, copying data to document\n");
 //        protocolForm.getProtocolCustomDataHelper().setCustomAttributeGroups(customAttributeGroups);
 //        return mapping.findForward(mappingDestination);
 //    }
-    
-    /**
-     * Get the Custom Attribute Doc value.
-     * @param documentNumber
-     * @param customAttributeId
-     * @return
-     */
-    private static CustomAttributeDocValue getCustomAttributeDocValue(String documentNumber, Integer customAttributeId) {
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-        primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
-        return (CustomAttributeDocValue) getStaticBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
-    }
+//    
+//    /**
+//     * Get the Custom Attribute Doc value.
+//     * @param documentNumber
+//     * @param customAttributeId
+//     * @return
+//     */
+//    private static CustomAttributeDocValue getCustomAttributeDocValue(String documentNumber, Integer customAttributeId) {
+//        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+//        primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+//        primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
+//        return (CustomAttributeDocValue) getStaticBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
+//    }
     
     /**
      * Get the Business Object Service.
      * @return
      */
-    private static BusinessObjectService getStaticBusinessObjectService() {
+    protected static BusinessObjectService getStaticBusinessObjectService() {
         if (businessObjectService == null) {
             businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         }
