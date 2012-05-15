@@ -92,6 +92,10 @@
     <bean id="businessObjectMetaDataService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="businessObjectMetaDataService" />
     </bean>
+
+    <bean id="coiDisclosureService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="coiDisclosureService" />
+    </bean>
     
     <bean id="configService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="configService" />
@@ -817,7 +821,7 @@
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
     
-    <bean id="applicationTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+    <bean id="applicationTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup" lazy-init="true">
         <property name="groupName" value="application" />
         <property name="taskAuthorizers">
             <list>

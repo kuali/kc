@@ -43,6 +43,7 @@
 	<param name="kc.award.mode">LOCAL</param>
 	<param name="kc.subaward.mode">LOCAL</param>
 	<param name="kc.negotiation.mode">LOCAL</param>
+	<param name="kc.coi.mode">LOCAL</param>
 	
 	<param name="rice.krad.componentPublishing.enabled">false</param>
 	<param name="service.namespace">KC</param>
