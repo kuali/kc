@@ -16,6 +16,8 @@
 
 package org.kuali.kra.iacuc;
 
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,14 +27,18 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationService;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krms.api.engine.Facts.Builder;
 
 
 /**
@@ -167,6 +173,19 @@ public class IacucProtocolDocument extends ProtocolDocument {
     @Override
     protected Class<? extends ProtocolResearchAreaService> getProtocolResearchAreaServiceClassHook() {
         return IacucProtocolResearchAreaService.class;
+    }
+
+    @Override
+    public void populateContextQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_IACUC);
+        qualifiers.put("name", KcKrmsConstants.IacucProtocol.IACUC_PROTOCOL_CONTEXT);
+    }
+
+    @Override
+    public void addFacts(Builder factsBuilder) {
+        factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_REFERENCE_NUMBER_1, this.getProtocol().getReferenceNumber1());
+        factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_REFERENCE_NUMBER_2, this.getProtocol().getReferenceNumber2());
+        factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_FDA_APPLICATION_NUMBER, this.getProtocol().getFdaApplicationNumber());
     }
 
 }
