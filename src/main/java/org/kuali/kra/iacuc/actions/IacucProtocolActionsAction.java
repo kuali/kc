@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions;
 
+import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -182,7 +184,20 @@ return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), proto
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-
+    public ActionForward assignCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
+        final String callerString = "assignCommitteeSchedule";
+        //ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, protocolForm.getProtocolDocument().getProtocol());
+        
+        /*if (!hasDocumentStateChanged(protocolForm)) {
+        
+        } else {
+            
+        }*/
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
 //TODO: The following should be promoted up to protocol package (add 3rd parm to pass document type)    
     private ActionForward routeProtocolToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm) {
@@ -315,7 +330,9 @@ return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), proto
             protocolForm.getIacucProtocolDocument().setViewOnly(protocolForm.isViewOnly());
             protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
             protocolForm.getProtocolHelper().prepareView();
-            protocolForm.getActionHelper().prepareCommentsView();
+            
+// TODO *********commented the code below during IACUC refactoring*********             
+//            protocolForm.getActionHelper().prepareCommentsView();
 
             return mapping.findForward(PROTOCOL_TAB);
         }

@@ -17,46 +17,23 @@ package org.kuali.kra.protocol.actions.withdraw;
 
 import java.io.Serializable;
 
-import org.kuali.kra.protocol.actions.ActionHelper;
+import org.kuali.kra.protocol.actions.withdraw.WithdrawCorrespondence;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 
 /**
  * This class is really just a "form" containing the reason
  * for withdrawing a protocol.
  */
-public class ProtocolWithdrawBean extends ProtocolActionBean implements Serializable {
-    
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 4571058326792409759L;
-    
-    private String reason = "";
-    
-    /**
-     * Constructs a ProtocolWithdrawBean.java.
-     * @param actionHelper Reference back to the action helper for this bean
-     */
-    public ProtocolWithdrawBean(ActionHelper actionHelper) {
-        super(actionHelper);
-    }
+public interface ProtocolWithdrawBean extends ProtocolActionBean, Serializable {
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+    public void setReason(String reason);
 
-    public String getReason() {
-        return reason;
-    }
+    public String getReason();
     
     /**
      * 
      * This method returns the correct correspondence for this object
      * @return a WithdrawCorrespondence object
      */
-//TODO: must be implemented for IACUC
-//    public WithdrawCorrespondence getCorrespondence() {
-//        WithdrawCorrespondence correspondence = new WithdrawCorrespondence();
-//        return correspondence;
-//    }
+    public WithdrawCorrespondence getCorrespondence();
 }

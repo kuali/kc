@@ -18,15 +18,33 @@ package org.kuali.kra.protocol.actions;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
+import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 
 /**
  * 
- * This class for the base property of request/notify irb action
+ * This class for the base property of request/notify action
  */
-public abstract class ProtocolSubmissionBeanBase extends ProtocolActionBean {
-    private String committeeId;
+public interface ProtocolSubmissionBeanBase extends ProtocolActionBean {
+   
+
+    public String getCommitteeId();
+    
+    public void setCommitteeId(String committeeId);
+
+    public ProtocolActionAttachment getNewActionAttachment();
+    
+    public void setNewActionAttachment(ProtocolActionAttachment newActionAttachment);
+
+    public List<ProtocolActionAttachment> getActionAttachments();
+
+    public void setActionAttachments(List<ProtocolActionAttachment> actionAttachments);
+
+    public List<AnswerHeader> getAnswerHeaders();
+
+    public void setAnswerHeaders(List<AnswerHeader> answerHeaders);
+    
+    /*private String committeeId;
     private ProtocolActionAttachment newActionAttachment;
     private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
     private List<AnswerHeader> answerHeaders;
@@ -65,6 +83,6 @@ public abstract class ProtocolSubmissionBeanBase extends ProtocolActionBean {
 
     public void setAnswerHeaders(List<AnswerHeader> answerHeaders) {
         this.answerHeaders = answerHeaders;
-    }
+    }*/
 
 }
