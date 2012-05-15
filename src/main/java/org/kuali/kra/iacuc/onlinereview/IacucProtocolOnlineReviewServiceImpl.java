@@ -222,11 +222,13 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
                 isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(),
                         ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) || StringUtils.equals(
                         submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA));
-                ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol
-                        .getProtocolDocument().getDocumentNumber());
-                isReviewable &= kraWorkflowService.isDocumentOnNode(protocolDocument, Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
+                // TODO : uncomment following when IACUC doc wkflw is ready
+//                ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol
+//                        .getProtocolDocument().getDocumentNumber());
+//                isReviewable &= kraWorkflowService.isDocumentOnNode(protocolDocument, Constants.IACUC_PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
             }
-            catch (WorkflowException e) {
+//            catch (WorkflowException e) {
+                catch (Exception e) {
                 String errorString = String.format(
                         "WorkflowException checking route node for creating new ProtocolOnlineReviewDocument " + "for protocol %s",
                         submission.getProtocolNumber());

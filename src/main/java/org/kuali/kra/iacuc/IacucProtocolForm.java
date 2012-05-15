@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.iacuc;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,6 +26,7 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataHelper;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.permission.IacucPermissionsHelper;
 import org.kuali.kra.iacuc.personnel.IacucPersonnelHelper;
 import org.kuali.kra.iacuc.protocol.IacucProtocolHelper;
@@ -31,15 +36,19 @@ import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewHelper;
 import org.kuali.kra.iacuc.species.IacucProtocolSpeciesHelper;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolExceptionHelper;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearchHelper;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class...
@@ -230,5 +239,64 @@ public class IacucProtocolForm extends ProtocolForm {
         HeaderField expirationDate = new HeaderField("DataDictionary.IacucProtocol.attributes.expirationDate", expirationDateStr);
         getDocInfo().add(expirationDate);
     }
+   
+    @Override
+    public HeaderNavigation[] getHeaderNavigationTabs() {
+        
+        HeaderNavigation[] navigation = super.getHeaderNavigationTabs();
+        
+        ProtocolOnlineReviewService onlineReviewService = getProtocolOnlineReviewService();
+        List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
+        boolean onlineReviewTabEnabled = false;
+
+        if (getProtocolDocument() != null && getProtocolDocument().getProtocol() != null) {
+            String principalId = GlobalVariables.getUserSession().getPrincipalId();
+            ProtocolSubmission submission = getProtocolDocument().getProtocol().getProtocolSubmission();
+            boolean isUserOnlineReviewer = onlineReviewService.isProtocolReviewer(principalId, false, submission);
+            boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IRB Administrator"); 
+            onlineReviewTabEnabled = (isUserOnlineReviewer || isUserIrbAdmin) 
+                    && onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
+        }
+        
+            //We have to copy the HeaderNavigation elements into a new collection as the 
+            //List returned by DD is it's cached copy of the header navigation list.
+        for (HeaderNavigation nav : navigation) {
+            if (StringUtils.equals(nav.getHeaderTabNavigateTo(),ONLINE_REVIEW_NAV_TO)) {
+                nav.setDisabled(!onlineReviewTabEnabled);
+                if (onlineReviewTabEnabled || ((!onlineReviewTabEnabled) && (!HIDE_ONLINE_REVIEW_WHEN_DISABLED))) {
+                    resultList.add(nav);
+                }
+//            } else if (StringUtils.equals(nav.getHeaderTabNavigateTo(),CUSTOM_DATA_NAV_TO)) {
+//                boolean displayTab = this.getCustomDataHelper().canDisplayCustomDataTab();
+//                nav.setDisabled(!displayTab);
+//                if (displayTab) {
+//                    resultList.add(nav);
+//                }
+            } else {
+                resultList.add(nav);
+            }
+        }
+        
+        HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
+        resultList.toArray(result);
+        return result;
+    }
+
     
+   protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+       return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+   }
+
+@Override
+public Map getEditingMode() {
+    // TODO Auto-generated method stub
+    return super.getEditingMode();
+}
+
+@Override
+public void setEditingMode(Map editingMode) {
+    // TODO Auto-generated method stub
+    super.setEditingMode(editingMode);
+}
+
 }
