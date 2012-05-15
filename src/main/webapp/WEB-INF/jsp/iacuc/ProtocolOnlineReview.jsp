@@ -49,8 +49,8 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="iacucProtocolOnlineReview">
 
-<%-- <c:choose>
-    <c:when test = "${KualiForm.editingMode['maintainProtocolOnlineReviews']}"> --%>
+<c:choose>
+    <c:when test = "${KualiForm.editingMode['maintainIacucProtocolOnlineReviews']}"> 
     <!--  IRB ADMIN VIEW  -->
         <kul:tabTop tabTitle="Create New Online Review" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS},onlineReviewsActionHelper.new*" >
             <div class="tab-container" align=center>
@@ -65,7 +65,7 @@
                 <kra-iacuc-olr:onlineReview renderIndex = "${status.index}" documentNumber="${review.documentNumber}"/>
             </kul:tab>
         </c:forEach>
-<%--    </c:when>
+    </c:when>
 
     <c:otherwise>
         <c:set var="protocolOnlineReviewDocument" value="${KualiForm.onlineReviewsActionHelper.documentForCurrentUser}"/> 
@@ -76,7 +76,7 @@
         </kul:tabTop>
 
     </c:otherwise> 
-</c:choose> --%>
+</c:choose> 
 <kul:panelFooter />
 <%-- <kul:panelFooter /> --%>
     <kul:documentControls 

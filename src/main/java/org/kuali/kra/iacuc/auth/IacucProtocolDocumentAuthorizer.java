@@ -16,13 +16,19 @@
 package org.kuali.kra.iacuc.auth;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.actions.ProtocolStatus;
+import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -63,12 +69,31 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
-            
+            if( canExecuteIacucProtocolTask(userId,iacucProtocolDocument,TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS)) {
+                editModes.add(TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS);
+            }
+            if (canViewReviewComments(iacucProtocolDocument, user)) {
+                editModes.add(Constants.CAN_VIEW_REVIEW_COMMENTS);
+            }
+           
         }
         
         return editModes;
     }
     
+    public boolean canViewReviewComments(Document document, Person user) {
+        ProtocolDocument protocolDoc = (ProtocolDocument)document;
+        List<ProtocolPerson> participants = protocolDoc.getProtocol().getProtocolPersons();
+        for (ProtocolPerson participant : participants) {
+            if (StringUtils.equalsIgnoreCase(participant.getPersonId() + "", user.getPrincipalId())) {
+                String statusCode = protocolDoc.getProtocol().getProtocolStatusCode();
+                if (statusCode.equalsIgnoreCase(ProtocolStatus.SUBMITTED_TO_IACUC)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
