@@ -17,13 +17,14 @@ package org.kuali.kra.iacuc.actions.notifyiacuc;
 
 import java.io.Serializable;
 
+import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
 
 /**
  * This class is really just a "form" for notifying the IRB.
  */
-public class ProtocolNotifyIacucBean extends ProtocolSubmissionBeanBase implements Serializable {
+public class ProtocolNotifyIacucBean extends  IacucProtocolActionBean implements Serializable {
     
     private static final long serialVersionUID = -1572148230502384077L;
     private String submissionQualifierTypeCode;
