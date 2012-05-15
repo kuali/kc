@@ -49,6 +49,7 @@
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="IACUC Protocol Actions" /></div>
 
 <kra-iacuc:protocolRequestAction />
+<kra-iacuc:iacucProtocolCopyProtocol />
 
 <c:if test="${showActions}" >
     <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false" helpParameterNamespace="KC-IACUC" helpParameterName="protocolDataValidationHelp" helpParameterDetailType="Document"/>
