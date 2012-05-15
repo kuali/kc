@@ -33,8 +33,6 @@ public class CoreConfigurer extends AbstractConfigurer {
     private static final String IACUC_SPRING_BEANS_PATH = "classpath:org/kuali/kra/iacuc/IacucSpringBeans.xml";
     private static final String COMMITTEE_SPRING_BEANS_PATH = "classpath:org/kuali/kra/committee/CommitteeSpringBeans.xml";
 
-    private static final String COI_SPRING_BEANS_PATH = "classpath:org/kuali/kra/coi/CoiSpringBeans.xml";
-
     public CoreConfigurer() {
         super("kc.core", "KC Core");
         setValidRunModes(Arrays.asList(RunMode.LOCAL));
@@ -51,8 +49,6 @@ public class CoreConfigurer extends AbstractConfigurer {
         springFileLocations.add(IRB_SPRING_BEANS_PATH);
         springFileLocations.add(IACUC_SPRING_BEANS_PATH);
         springFileLocations.add(COMMITTEE_SPRING_BEANS_PATH);
-        
-        springFileLocations.add(COI_SPRING_BEANS_PATH);
         
         return springFileLocations;
     }
