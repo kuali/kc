@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
+
 public class ModifyIacucProtocolReferencesAuthorizer extends ModifyIacucAmendmentAuthorizer {
 
 
-    @Override
-    public boolean isAuthorized(String userId, IacucProtocolTask task) {
-        // TODO Auto-generated method stub
-        return true;
+    public ModifyIacucProtocolReferencesAuthorizer() {
+        super(IacucProtocolModule.PROTOCOL_REFERENCES);
     }
 
 }

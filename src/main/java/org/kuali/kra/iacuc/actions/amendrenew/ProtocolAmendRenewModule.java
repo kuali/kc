@@ -34,7 +34,7 @@ public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase i
 
     private ProtocolAmendRenewal protocolAmendRenewal;
 
-    private ProtocolModule protocolModule;
+    private IacucProtocolModule protocolModule;
 
     public ProtocolAmendRenewModule() {
     }
@@ -87,11 +87,11 @@ public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase i
         this.protocolAmendRenewal = protocolAmendRenewal;
     }
 
-    public ProtocolModule getProtocolModule() {
+    public IacucProtocolModule getProtocolModule() {
         return protocolModule;
     }
 
-    public void setProtocolModule(ProtocolModule protocolModule) {
+    public void setProtocolModule(IacucProtocolModule protocolModule) {
         this.protocolModule = protocolModule;
     }
 
