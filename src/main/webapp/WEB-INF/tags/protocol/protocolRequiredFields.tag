@@ -196,8 +196,8 @@
                 <td>
                		<kul:htmlControlAttribute property="document.protocolList[0].protocolProjectTypeCode" attributeEntry="${protocolAttributes.protocolProjectTypeCode}" readOnly="${readOnlymodifyReferences}" />
                 </td>
-				<th width="20%" class="infoline"><div align="center">&nbsp;</td>
-				<th width="20%" class="infoline"><div align="center">&nbsp;</td>
+				<th width="20%" class="infoline"><div align="center">&nbsp;</th>
+				<th width="20%" class="infoline"><div align="center">&nbsp;</th>
             </tr>
          <c:if test="${displayLayStatementsRow}">
             <tr>
