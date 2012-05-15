@@ -97,6 +97,7 @@
                 <bean class="org.kuali.kra.iacuc.auth.WithdrawIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="withdrawIacucProtocol" />
                 </bean>                          
+
 <!--  IACUC
                 <bean class="org.kuali.kra.iacuc.auth.ModifyProtocolPersonnelAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolPersonnel" />
@@ -104,6 +105,9 @@
 -->                
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolFundingSourceAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolFundingSource" />
+                </bean>
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolMaintainOnlineReviewsAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="maintainIacucProtocolOnlineReviews"/>
                 </bean>
 
 
@@ -307,8 +311,7 @@
         <property name="sessionDocumentService" ref="knsSessionDocumentService" />
         <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
     </bean>
-        
-    
+
     <bean id="iacucProtocolFundingSourceService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceServiceImpl" lazy-init="true">
         <property name="fundingSourceTypeService" ref="fundingSourceTypeService" />
         <property name="sponsorService" ref="sponsorService" />
@@ -334,7 +337,44 @@
             <ref bean="sequenceAccessorService" />
         </property>
     </bean>
-    
+
+    <bean id="iacucReviewCommentsService" class="org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="committeeScheduleService" ref="committeeScheduleService" />
+        <property name="committeeService" ref="committeeService" />
+        <property name="roleService" ref="roleService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+    </bean>   
+
+
+    <bean id="parentIacucProtocolOnlineReviewAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="iacucProtocolOnlineReviewService" ref="iacucProtocolOnlineReviewService" />
+    </bean>
+  
+
+    <bean id="iacucProtocolOnlineReviewTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="iacucProtocolOnlineReview" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.iacuc.onlinereview.authorization.ModifyIacucProtocolOnlineReviewAuthorizer" parent="parentIacucProtocolOnlineReviewAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolOnlineReview" />
+                </bean>
+                <bean class="org.kuali.kra.iacuc.onlinereview.authorization.RejectIacucProtocolOnlineReviewAuthorizer" parent="parentIacucProtocolOnlineReviewAuthorizer">
+                    <property name="taskName" value="rejectIacucProtocolOnlineReview" />
+                </bean>
+                <bean class="org.kuali.kra.iacuc.onlinereview.authorization.MaintainIacucProtocolOnlineReviewsAuthorizer" parent = "parentIacucProtocolOnlineReviewAuthorizer">
+                    <property name="taskName" value = "maintainIacucProtocolOnlineReviews"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+        
 </beans>
 
 

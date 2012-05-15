@@ -281,17 +281,23 @@
 		<reference-descriptor name="minuteEntryType" class-ref="org.kuali.kra.meeting.MinuteEntryType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="minuteEntryTypeCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="protocolIdFk"/>
-		</reference-descriptor>
+        <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolIdFk"/>
+        </reference-descriptor>
+        <reference-descriptor name="iacucProtocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolIdFk"/>
+        </reference-descriptor>
 		<reference-descriptor name="commScheduleActItem" class-ref="org.kuali.kra.meeting.CommScheduleActItem" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="commScheduleActItemsIdFk"/>
         </reference-descriptor>
 		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="scheduleIdFk"/>
         </reference-descriptor>
-		<reference-descriptor name="protocolReviewer" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewer" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="protocolReviewerIdFk"/>
+        <reference-descriptor name="protocolReviewer" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewer" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolReviewerIdFk"/>
+        </reference-descriptor>
+        <reference-descriptor name="iacucProtocolReviewer" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolReviewerIdFk"/>
 		</reference-descriptor>
 	</class-descriptor>
 		
