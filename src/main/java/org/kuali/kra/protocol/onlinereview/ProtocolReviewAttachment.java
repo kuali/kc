@@ -23,13 +23,13 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
 /**
  * 
  * This class is the bo for reviewer attachment.
  */
-public class ProtocolReviewAttachment extends ProtocolReviewable {
+public abstract class ProtocolReviewAttachment extends ProtocolReviewable {
 
     private static final long serialVersionUID = 354343904514258435L;
     private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";

@@ -451,11 +451,30 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
             }
             if (protocol != null) {
                 protocolId = this.protocol.getProtocolId();
-            }
+            } 
         }
-        return protocolId;
+        if (protocolId == null) {
+            return getIacucProtocolId();
+        } else {
+            return protocolId;
+        }
     }
 
+    public Long getIacucProtocolId() {
+        Long protocolId = null;
+        if (this.iacucProtocol != null) {
+            protocolId = this.iacucProtocol.getProtocolId();
+        } else {
+            if (this.protocolIdFk != null) {
+                this.refreshReferenceObject("iacucProtocol");
+            }
+            if (iacucProtocol != null) {
+                protocolId = this.iacucProtocol.getProtocolId();
+            } 
+        }
+        return protocolId;
+        
+    }
     /**
      * Gets the createUserFullName attribute. 
      * @return Returns the createUserFullName.
