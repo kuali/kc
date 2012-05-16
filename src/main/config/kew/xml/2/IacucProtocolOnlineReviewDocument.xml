@@ -49,23 +49,23 @@
             <serviceNamespace>KC</serviceNamespace>
             <resolverConfig>
                 <attributes name="protocolReviewerId">
-                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocolReviewerId</xPathExpression>
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview[1]/protocolReviewerId</xPathExpression>
                 </attributes>
                 
                 <attributes name="protocolOnlineReviewId">
-                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocolOnlineReviewId</xPathExpression>
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview[1]/protocolOnlineReviewId</xPathExpression>
                 </attributes>
                 
                 <attributes name="submissionId">
-                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/submissionIdFk</xPathExpression>
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview[1]/submissionIdFk</xPathExpression>
                 </attributes>
                 
                 <attributes name="protocol">
-                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocol/protocolNumber</xPathExpression>
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview[1]/protocol/protocolNumber</xPathExpression>
                 </attributes>
 
                 <attributes name="protocolLeadUnitNumber">
-                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.irb.onlinereview.ProtocolOnlineReview[1]/protocol/leadUnitNumber</xPathExpression>
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview[1]/protocol/leadUnitNumber</xPathExpression>
                 </attributes>               
             </resolverConfig>
         </ruleAttribute>
