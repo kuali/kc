@@ -73,7 +73,6 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentKeyPersonnelSele
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentKeywordPanelSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentSpecialReviewSeleniumTest;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentSponsorProgramInformationPanelSeleniumTest;
-import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentYnqSeleniumTest;
 import org.kuali.kra.web.PortalSeleniumTest;
 import org.kuali.kra.web.SeleniumUnitTest;
 import org.kuali.kra.workflow.test.ProposalDevelopmentDocumentRoutingSeleniumTest;
@@ -122,7 +121,6 @@ import org.kuali.kra.workflow.test.ProposalDevelopmentDocumentRoutingSeleniumTes
     ProposalDevelopmentKeywordPanelSeleniumTest.class,
     ProposalDevelopmentSpecialReviewSeleniumTest.class,
     ProposalDevelopmentSponsorProgramInformationPanelSeleniumTest.class,
-    ProposalDevelopmentYnqSeleniumTest.class,
     ProtocolAdditionalInformationPanelSeleniumTest.class,
     ProtocolAuthorizationSeleniumTest.class,
     ProtocolBatchCorrespondenceSeleniumTest.class,
