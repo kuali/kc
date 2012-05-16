@@ -20,13 +20,11 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
-import java.util.LinkedHashMap;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Date;
 
 import org.kuali.kra.service.KcAttachmentService;
-import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 /**
  * This class represents a subAwardAmountInfo. It describes the amount
@@ -38,8 +36,11 @@ public class SubAwardAmountInfo extends
     private static final long serialVersionUID = 1L;
 
     private Integer subAwardAmountInfoId;
+    
     private Long subAwardId; 
+    
     private String subAwardCode;
+    
     private Integer lineNumber;
 
     private KualiDecimal obligatedAmount;
@@ -61,9 +62,11 @@ public class SubAwardAmountInfo extends
     private String mimeType;
 
     private AttachmentFile file;
+    
     transient private FormFile newFile;
-    private SubAward subAward;
+    
     private Long fileId;
+    
     private String contentType;
 
     /**

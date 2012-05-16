@@ -30,8 +30,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.subaward.SubAwardForm;
-import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
@@ -61,19 +59,6 @@ public class CustomDataHelper extends CustomDataHelperBase {
     public CustomDataHelper(SubAwardForm subAwardForm) {
         this.subAwardForm = subAwardForm;
         customDataValues = new ArrayList<SubAwardStringObjectBO>();
-    }
-
-    /**
-     * This method is for getting subAward...
-     * @return subAward
-     */
-    private SubAward getSubAward() {
-        SubAwardDocument document = subAwardForm.getSubAwardDocument();
-        if (document == null || document.getSubAward() == null) {
-     throw new IllegalArgumentException(
-    "invalid (null) subAwardDocument in subAwardForm");
-        }
-        return document.getSubAward();
     }
 
     /**
@@ -110,7 +95,7 @@ public class CustomDataHelper extends CustomDataHelperBase {
     public void populateCustomDataValuesFromParentMap() {
             customDataValues = new ArrayList
             <SubAwardStringObjectBO>(maxCustomAttributeIndex());
-            for (int i = 0; i <= maxCustomAttributeIndex(); i++) {
+            for (int customAttributeIndex = 0; customAttributeIndex <= maxCustomAttributeIndex(); customAttributeIndex++) {
                 SubAwardStringObjectBO tempSubAwardStringObjectBO =
                 new SubAwardStringObjectBO();
                 tempSubAwardStringObjectBO.setValue("");
@@ -148,14 +133,14 @@ public class CustomDataHelper extends CustomDataHelperBase {
     public void populateCustomAttributeValuesMap() {
         for (Map.Entry<String, String[]> customAttributeValue
         :getCustomAttributeValues().entrySet()) {
-            int id = 1;
+            int customAttributeId = 1;
             for (SubAwardStringObjectBO stringBO : customDataValues) {
-                  if (id == Integer.parseInt(
+                  if (customAttributeId == Integer.parseInt(
                  customAttributeValue.getKey().substring(2))) {
                       customAttributeValue.getValue()[0] = stringBO.getValue();
                       break;
                   } else {
-                      id++;
+                      customAttributeId++;
                   }
             }
         }
@@ -173,29 +158,30 @@ public class CustomDataHelper extends CustomDataHelperBase {
      * @param response The response to set
      * @return mapping
      */
-    @SuppressWarnings("unchecked")
     public ActionForward subAwardCustomData(ActionMapping mapping,
-    ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+            ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         if (form instanceof CustomDataForm) {
             SortedMap<String, List> customAttributeGroups =
-            new TreeMap<String, List>();
+                new TreeMap<String, List>();
             SubAwardForm subAwardForm = (SubAwardForm) form;
             List<SubAwardCustomData> subAwardCustomDataList =
-            subAwardForm.getSubAwardDocument().getSubAward().
-            getSubAwardCustomDataList();
-            Map<String, CustomAttributeDocument> customAttributeDocuments =
-            subAwardForm.getSubAwardDocument().getCustomAttributeDocuments();
-            if (subAwardCustomDataList.size() > 0) {
-                buildCustomDataCollectionsOnFormExistingsubAward(
-                customAttributeGroups, subAwardForm, customAttributeDocuments);
-            } else {
-                buildCustomDataCollectionsOnFormNewsubAward(
-                customAttributeGroups, subAwardForm, customAttributeDocuments);
+                subAwardForm.getSubAwardDocument().getSubAward().
+                getSubAwardCustomDataList();
+            if (subAwardCustomDataList != null) {
+                Map<String, CustomAttributeDocument> customAttributeDocuments =
+                    subAwardForm.getSubAwardDocument().getCustomAttributeDocuments();
+                if (subAwardCustomDataList.size() > 0) {
+                    buildCustomDataCollectionsOnFormExistingsubAward(
+                            customAttributeGroups, subAwardForm, customAttributeDocuments);
+                } else {
+                    buildCustomDataCollectionsOnFormNewsubAward(
+                            customAttributeGroups, subAwardForm, customAttributeDocuments);
+                }
+                subAwardForm.getCustomDataHelper().
+                setCustomAttributeGroups(customAttributeGroups);
             }
-            subAwardForm.getCustomDataHelper().
-            setCustomAttributeGroups(customAttributeGroups);
-           }
-            return mapping.findForward(MAPPING_CUSTOM_DATA);
+        }
+        return mapping.findForward(MAPPING_CUSTOM_DATA);
     }
 
     /**
@@ -208,36 +194,36 @@ public class CustomDataHelper extends CustomDataHelperBase {
      */
     @SuppressWarnings("unchecked")
     public void buildCustomDataCollectionsOnFormExistingsubAward(
-     SortedMap<String, List> customAttributeGroups,
+            SortedMap<String, List> customAttributeGroups,
             SubAwardForm subAwardForm,
             Map<String, CustomAttributeDocument> customAttributeDocuments) {
         List<SubAwardCustomData> subAwardCustomDataList = subAwardForm.
         getSubAwardDocument().getSubAward().getSubAwardCustomDataList();
-        for (Map.Entry<String, CustomAttributeDocument>
-        customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
-            SubAwardCustomData loopsubAwardCustomData = null;
-            for (SubAwardCustomData subAwardCustomData
-            :subAwardCustomDataList) {
-                if (subAwardCustomData.getCustomAttributeId()
-                == (long) customAttributeDocumentEntry.getValue().
-                getCustomAttribute().getId()) {
-                    loopsubAwardCustomData = subAwardCustomData;
-                    break;
+            for (Map.Entry<String, CustomAttributeDocument>
+            customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
+                SubAwardCustomData loopsubAwardCustomData = null;
+                for (SubAwardCustomData subAwardCustomData
+                        :subAwardCustomDataList) {
+                    if (subAwardCustomData.getCustomAttributeId()
+                            == (long) customAttributeDocumentEntry.getValue().
+                            getCustomAttribute().getId()) {
+                        loopsubAwardCustomData = subAwardCustomData;
+                        break;
+                    }
                 }
-            }
-            if (loopsubAwardCustomData != null) {
-                subAwardForm.getCustomDataHelper().getCustomAttributeValues()
+                if (loopsubAwardCustomData != null) {
+                    subAwardForm.getCustomDataHelper().getCustomAttributeValues()
                     .put("id" + customAttributeDocumentEntry.getValue().getCustomAttributeId().toString(), new String[] {loopsubAwardCustomData.getValue()});
-                String groupName = 
-                    customAttributeDocuments.get(loopsubAwardCustomData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName();
-                List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);   
-                if (customAttributeDocumentList == null) {
-                    customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
-                    customAttributeGroups.put(groupName, customAttributeDocumentList);
+                    String groupName = 
+                        customAttributeDocuments.get(loopsubAwardCustomData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName();
+                    List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);   
+                    if (customAttributeDocumentList == null) {
+                        customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
+                        customAttributeGroups.put(groupName, customAttributeDocumentList);
+                    }
+                    customAttributeDocumentList.add(customAttributeDocuments.get(loopsubAwardCustomData.getCustomAttributeId().toString()));
                 }
-                customAttributeDocumentList.add(customAttributeDocuments.get(loopsubAwardCustomData.getCustomAttributeId().toString()));
             }
-        }
         populateCustomDataValuesFromParentMap();
     }
 

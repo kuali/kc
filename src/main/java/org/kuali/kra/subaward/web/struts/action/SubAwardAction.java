@@ -63,7 +63,6 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
     ActionForm form, HttpServletRequest request,
     	HttpServletResponse response) throws Exception {
 
-        SubAwardForm subAwardForm = (SubAwardForm) form;
         ActionForward actionForward = super.
         execute(mapping, form, request, response);
         if (KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
@@ -177,7 +176,6 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         SubAwardForm subAwardForm = (SubAwardForm) form;
 
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
@@ -328,8 +326,7 @@ protected VersionHistoryService getVersionHistoryService() {
  * This method...
  * @return
  */
-@SuppressWarnings("unchecked")
-protected KeywordsService getKeywordService(){
+protected KeywordsService getKeywordService() {
     return KraServiceLocator.getService(KeywordsService.class);
 }
 

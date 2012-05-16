@@ -51,6 +51,10 @@ ResearchDocumentRuleBase implements SubAwardCustomDataRule {
     private String DATE = "Date";
     private String DOT_STAR = ".*";
     private static final String DATE_REGEX = "(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3[01])/(19|2[0-9])[0-9]{2}";
+    private static final String KC_PERSON = "org.kuali.kra.bo.KcPerson";
+    private static final String ARG_VALUE_LOOKUP = "org.kuali.kra.bo.ArgValueLookup";
+    private static final String VALUE_ONE = "1";
+    private static final String USER_NAME= "userName";
 
     /**.
      * Comment for <code>validationClasses</code>
@@ -77,10 +81,10 @@ ResearchDocumentRuleBase implements SubAwardCustomDataRule {
      */
     public boolean processSaveSubAwardCustomDataBusinessRules(
     SubAwardSaveCustomDataRuleEvent subAwardSaveCustomDataRuleEvent) {
-       SubAwardDocument awardDocument =
+       SubAwardDocument subAwardDocument =
      subAwardSaveCustomDataRuleEvent.getSubAwardDocument();
         Map<String, CustomAttributeDocument> customAttributeDocuments =
-        awardDocument.getCustomAttributeDocuments();
+            subAwardDocument.getCustomAttributeDocuments();
         boolean valid = true;
         for (Map.Entry<String, CustomAttributeDocument>
         customAttributeDocumentEntry: customAttributeDocuments.entrySet()) {
@@ -88,19 +92,21 @@ ResearchDocumentRuleBase implements SubAwardCustomDataRule {
             customAttributeDocumentEntry.getValue();
             CustomAttribute customAttribute =
            customAttributeDocument.getCustomAttribute();
-            if (awardDocument.getSubAward().
-            getSubAwardCustomDataList().size() > 0) {
-                int customAttributeId =
-                customAttributeDocument.getCustomAttributeId();
-                List<SubAwardCustomData> subAwardCustomDataList =
-                awardDocument.getSubAward().getSubAwardCustomDataList();
-                for (SubAwardCustomData awardCustomData
-               : subAwardCustomDataList) {
-                  if (awardCustomData.getCustomAttributeId()
-                 == customAttributeId) {
-                      customAttribute.setValue(awardCustomData.getValue());
-                      break;
-                  }
+            if(subAwardDocument.getSubAward().getSubAwardCustomDataList() != null) {
+                if (subAwardDocument.getSubAward().
+                        getSubAwardCustomDataList().size() > 0) {
+                    int customAttributeId =
+                        customAttributeDocument.getCustomAttributeId();
+                    List<SubAwardCustomData> subAwardCustomDataList =
+                        subAwardDocument.getSubAward().getSubAwardCustomDataList();
+                    for (SubAwardCustomData awardCustomData
+                            : subAwardCustomDataList) {
+                        if (awardCustomData.getCustomAttributeId()
+                                == customAttributeId) {
+                            customAttribute.setValue(awardCustomData.getValue());
+                            break;
+                        }
+                    }
                 }
             }
             String errorKey = CUSTOMATTRIBUTE_VALUES_ID
@@ -134,12 +140,14 @@ ResearchDocumentRuleBase implements SubAwardCustomDataRule {
         }
         if (customAttributeDataType != null) {
             Integer maxLength = customAttribute.getDataLength();
-            if ((maxLength != null) && (maxLength.intValue()
-            < attributeValue.length())) {
-                GlobalVariables.getMessageMap().putError(
-                errorKey, RiceKeyConstants.ERROR_MAX_LENGTH,
-                customAttribute.getLabel(), maxLength.toString());
-                return false;
+            if(attributeValue != null) {
+                if ((maxLength != null ) && (maxLength.intValue()
+                        < attributeValue.length())) {
+                    GlobalVariables.getMessageMap().putError(
+                            errorKey, RiceKeyConstants.ERROR_MAX_LENGTH,
+                            customAttribute.getLabel(), maxLength.toString());
+                    return false;
+                }
             }
 
             ValidationPattern validationPattern = null;
@@ -185,10 +193,9 @@ ResearchDocumentRuleBase implements SubAwardCustomDataRule {
             }
 
             String lookupClass = customAttribute.getLookupClass();
-       if (lookupClass != null && lookupClass.equals(
-      "org.kuali.kra.bo.KcPerson")) {
-        if (customAttribute.getDataTypeCode().equals("1")
-                && customAttribute.getLookupReturn().equals("userName")) {
+       if (lookupClass != null && lookupClass.equals(KC_PERSON)) {
+        if (customAttribute.getDataTypeCode().equals(VALUE_ONE)
+                && customAttribute.getLookupReturn().equals(USER_NAME)) {
                 validFormat = getValidFormat(
                 customAttributeDataType.getDescription());
                     KcPersonService kps = getKcPersonService();
@@ -208,7 +215,7 @@ ResearchDocumentRuleBase implements SubAwardCustomDataRule {
              return true;
                }
             } else if (lookupClass != null && lookupClass.
-            equals("org.kuali.kra.bo.ArgValueLookup")) {
+            equals(ARG_VALUE_LOOKUP)) {
                     ArgValueLookupValuesFinder finder =
                     new  ArgValueLookupValuesFinder();
                     finder.setArgName(customAttribute.getLookupReturn());
@@ -228,7 +235,7 @@ ResearchDocumentRuleBase implements SubAwardCustomDataRule {
                     customAttribute.getLabel(), attributeValue, validFormat);
                     return false;
             } else if (lookupClass != null && lookupClass.
-              equals("org.kuali.kra.bo.ArgValueLookup")) {
+              equals(ARG_VALUE_LOOKUP)) {
                     ArgValueLookupValuesFinder finder =
                    new  ArgValueLookupValuesFinder();
                     finder.setArgName(customAttribute.getLookupReturn());
