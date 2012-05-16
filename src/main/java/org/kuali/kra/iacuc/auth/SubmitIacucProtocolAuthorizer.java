@@ -15,13 +15,15 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 
 public class SubmitIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
 
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
-//TODO:IACUC        return  hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_IACUC_PROTOCOL);
-return true;        
+        return canExecuteAction(task.getProtocol(), IacucProtocolActionType.SUBMITTED_TO_IACUC) && 
+                hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_IACUC_PROTOCOL);
     }
 
 }
