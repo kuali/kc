@@ -21,17 +21,13 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-// TODO *********commented the code below during IACUC refactoring********* 
-//import org.kuali.kra.irb.ProtocolAssociate;
-//import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-//import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
+import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.meeting.ProtocolVoteAbstainee;
-import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.kra.protocol.ProtocolAssociate;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;

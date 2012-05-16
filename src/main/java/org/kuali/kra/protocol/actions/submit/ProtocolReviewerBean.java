@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.rice.krad.bo.BusinessObjectBase;
 

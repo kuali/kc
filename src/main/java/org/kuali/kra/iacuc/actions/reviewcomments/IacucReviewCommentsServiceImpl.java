@@ -24,14 +24,14 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.service.CommitteeScheduleService;
-import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.service.CommitteeScheduleService;
+import org.kuali.kra.common.committee.service.CommitteeService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
@@ -282,6 +282,7 @@ public class IacucReviewCommentsServiceImpl implements IacucReviewCommentsServic
         }
     }
 
+    @Override
     public void moveUpReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol, int fromIndex) {
         if (fromIndex > 0) {
             int toIndex = indexOfPreviousProtocolReviewComment(reviewComments, protocol, fromIndex);
@@ -342,6 +343,7 @@ public class IacucReviewCommentsServiceImpl implements IacucReviewCommentsServic
         
         return previousIndex;
     }
-    
+
+
 
 }

@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.actions.reviewcomments;
 
 import java.util.List;
 
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
