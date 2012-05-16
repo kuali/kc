@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,8 +32,6 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
@@ -61,38 +58,20 @@ import org.kuali.rice.krad.util.UrlFactory;
 /**
  * This class handles searching for protocols.
  */
-public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protocol> extends KraLookupableHelperServiceImpl {    
+public abstract class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protocol> extends KraLookupableHelperServiceImpl {    
 
-    private static final String AMEND_RENEW_PROTOCOL_LOOKUP_ACTION = "lookupActionAmendRenewProtocol";
-    private static final String NOTIFY_IRB_PROTOCOL_LOOKUP_ACTION = "lookupActionNotifyIRBProtocol";
-    private static final String REQUEST_PROTOCOL_ACTION = "lookupActionRequestProtocol";
-    private static final String PENDING_PROTOCOL_LOOKUP = "lookupPendingProtocol";
-    private static final String PENDING_PI_ACTION_PROTOCOL_LOOKUP = "lookupPendingPIActionProtocol";
-    private static final String PROTOCOL_PERSON_ID_LOOKUP = "lookupProtocolPersonId";
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 273532318463507554L;
+    protected static final String AMEND_RENEW_PROTOCOL_LOOKUP_ACTION = "lookupActionAmendRenewProtocol";
+    protected static final String REQUEST_PROTOCOL_ACTION = "lookupActionRequestProtocol";
+    protected static final String PENDING_PROTOCOL_LOOKUP = "lookupPendingProtocol";
+    protected static final String PENDING_PI_ACTION_PROTOCOL_LOOKUP = "lookupPendingPIActionProtocol";
+    protected static final String PROTOCOL_PERSON_ID_LOOKUP = "lookupProtocolPersonId";
     
-    private static final String[] AMEND_RENEW_PROTOCOL_TASK_CODES = { TaskName.CREATE_PROTOCOL_AMMENDMENT, 
-                                                                      TaskName.CREATE_PROTOCOL_RENEWAL };
+    private static final String PROTOCOL_LOOKUP_KEY_FIELD = "protocolNumber";
     
-    private static final String[] NOTIFY_IRB_PROTOCOL_TASK_CODES = { TaskName.NOTIFY_IRB };
-    
-    private static final String[] REQUEST_PROTOCOL_TASK_CODES = { TaskName.PROTOCOL_REQUEST_CLOSE, 
-                                                                  TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, 
-                                                                  TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS,
-                                                                  TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, 
-                                                                  TaskName.PROTOCOL_REQUEST_SUSPENSION, 
-                                                                  TaskName.PROTOCOL_REQUEST_TERMINATE };
-    
-    private static final String[] PENDING_PROTOCOL_STATUS_CODES = { ProtocolStatus.IN_PROGRESS, 
-                                                                    ProtocolStatus.SUBMITTED_TO_IRB, 
-                                                                    ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
-                                                                    ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED, 
-                                                                    ProtocolStatus.AMENDMENT_IN_PROGRESS, 
-                                                                    ProtocolStatus.RENEWAL_IN_PROGRESS, 
-                                                                    ProtocolStatus.WITHDRAWN };
-    
-    private static final String[] PENDING_PI_ACTION_PROTOCOL_STATUS_CODES = { ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
-                                                                              ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED,  
-                                                                              ProtocolStatus.EXPIRED };
     
     private static final String RESEARCH_AREA_CLASS_PATH = ResearchArea.class.getName();
     private static final String ORGANIZATION_CLASS_PATH = Organization.class.getName();
@@ -100,7 +79,7 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
     private static final Log LOG = LogFactory.getLog(ProtocolLookupableHelperServiceImpl.class);
 
     private DictionaryValidationService dictionaryValidationService;
-    private ProtocolDao<GenericProtocol> protocolDao;
+    
     private KcPersonService kcPersonService;
     private KraAuthorizationService kraAuthorizationService;
     private TaskAuthorizationService taskAuthorizationService;
@@ -111,27 +90,9 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
         validateSearchParameters(fieldValues);
         // need to set backlocation & docformkey here. Otherwise, they are empty
         super.setBackLocationDocFormKey(fieldValues);
-        
-        List<? extends BusinessObject> searchResults = null;
-        
-        if (BooleanUtils.toBoolean(fieldValues.get(AMEND_RENEW_PROTOCOL_LOOKUP_ACTION))) {
-            searchResults = filterProtocolsByTask(fieldValues, AMEND_RENEW_PROTOCOL_TASK_CODES);
-        } else if (BooleanUtils.toBoolean(fieldValues.get(NOTIFY_IRB_PROTOCOL_LOOKUP_ACTION))) {
-            searchResults = filterProtocolsByTask(fieldValues, NOTIFY_IRB_PROTOCOL_TASK_CODES);
-        } else if (BooleanUtils.toBoolean(fieldValues.get(REQUEST_PROTOCOL_ACTION))) {
-            searchResults = filterProtocolsByTask(fieldValues, REQUEST_PROTOCOL_TASK_CODES);
-        } else if (BooleanUtils.toBoolean(fieldValues.get(PENDING_PROTOCOL_LOOKUP))) {
-            searchResults = filterProtocolsByStatus(fieldValues, PENDING_PROTOCOL_STATUS_CODES);
-        } else if (BooleanUtils.toBoolean(fieldValues.get(PENDING_PI_ACTION_PROTOCOL_LOOKUP))) {
-            searchResults = filterProtocolsByStatus(fieldValues, PENDING_PI_ACTION_PROTOCOL_STATUS_CODES);
-        } else if (StringUtils.isNotBlank(fieldValues.get(PROTOCOL_PERSON_ID_LOOKUP))) {
-            searchResults = filterProtocolsByPrincipal(fieldValues, PROTOCOL_PERSON_ID_LOOKUP);
-        } else {
-            searchResults = filterProtocols(fieldValues);
-        }
-        
-        return searchResults;
+        return getSearchResultsFilteredByTask(fieldValues); //filterProtocols(fieldValues);
     }
+    
     
     /**
      * Filters the unbounded list of protocols by the given field values and protocol tasks.
@@ -139,10 +100,10 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
      * @param taskNames the list of protocol tasks that the user must be able to perform in a protocol in order for it to be in the search results
      * @return a list of all protocols filtered by the given field values and being able to perform tasks in the taskNames
      */
-    private List<? extends BusinessObject> filterProtocolsByTask(Map<String, String> fieldValues, String... taskNames) {
+    protected List<? extends BusinessObject> filterProtocolsByTask(Map<String, String> fieldValues, String... taskNames) {
         List<GenericProtocol> filteredProtocols = new ArrayList<GenericProtocol>();
         
-        for (GenericProtocol protocol : (List<GenericProtocol>)protocolDao.getProtocols(filterFieldValues(fieldValues))) {
+        for (GenericProtocol protocol : (List<GenericProtocol>)getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues))) {
             for (String taskName : taskNames) {
                 ProtocolTask task = new ProtocolTask(taskName, protocol);
                 if (taskAuthorizationService.isAuthorized(getUserIdentifier(), task)) {
@@ -161,11 +122,11 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
      * @param protocolStatusCodes the list of protocol status codes that should be included in the search result
      * @return a list of all protocols filtered by the given field values and having statuses in protocolStatusCodes
      */
-    private List<? extends BusinessObject> filterProtocolsByStatus(Map<String, String> fieldValues, String... protocolStatusCodes) {
+    protected List<? extends BusinessObject> filterProtocolsByStatus(Map<String, String> fieldValues, String... protocolStatusCodes) {
         List<GenericProtocol> filteredProtocols = new ArrayList<GenericProtocol>();
 
         List<String> protocolStatusCodeList = Arrays.asList(protocolStatusCodes);
-        for (GenericProtocol protocol : (List<GenericProtocol>)protocolDao.getProtocols(filterFieldValues(fieldValues))) {
+        for (GenericProtocol protocol : (List<GenericProtocol>)getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues))) {
             String statusCode = protocol.getProtocolStatusCode();
             if (protocolStatusCodeList.contains(statusCode)) {
                 filteredProtocols.add(protocol);
@@ -181,11 +142,11 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
      * @param personKey the key in the fieldValues that maps to the principalId
      * @return a list of all protocols filtered by the given field values and whether the given principalId represents a protocol initiator or PI
      */
-    private List<? extends BusinessObject> filterProtocolsByPrincipal(Map<String, String> fieldValues, String principalKey) {
+    protected List<? extends BusinessObject> filterProtocolsByPrincipal(Map<String, String> fieldValues, String principalKey) {
         List<GenericProtocol> filteredProtocols = new ArrayList<GenericProtocol>();
         
         String principalId = fieldValues.get(principalKey);
-        for (GenericProtocol protocol : (List<GenericProtocol>)protocolDao.getProtocols(filterFieldValues(fieldValues))) {
+        for (GenericProtocol protocol : (List<GenericProtocol>)getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues))) {
             try {
                 String principalInvestigatorId = protocol.getPrincipalInvestigator().getPersonId();
                 ProtocolDocument document = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
@@ -206,8 +167,8 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
      * @param fieldValues the field values that form a normal protocol search
      * @return a list of all protocols filtered by the given field values
      */
-    private List<? extends BusinessObject> filterProtocols(Map<String, String> fieldValues) {
-        List<GenericProtocol> protocols = (List<GenericProtocol>)protocolDao.getProtocols(filterFieldValues(fieldValues));
+    protected List<? extends BusinessObject> filterProtocols(Map<String, String> fieldValues) {
+        List<GenericProtocol> protocols = (List<GenericProtocol>)getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues));
         return getPagedResults(protocols);
     }
     
@@ -217,15 +178,9 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
      * @return the field values with extra lookup parameters removed
      */
     private Map<String, String> filterFieldValues(Map<String, String> fieldValues) {
-        fieldValues.remove(AMEND_RENEW_PROTOCOL_LOOKUP_ACTION);
-        fieldValues.remove(NOTIFY_IRB_PROTOCOL_LOOKUP_ACTION);
-        fieldValues.remove(REQUEST_PROTOCOL_ACTION);
-        fieldValues.remove(PENDING_PROTOCOL_LOOKUP);
-        fieldValues.remove(PENDING_PI_ACTION_PROTOCOL_LOOKUP);
-        fieldValues.remove(PROTOCOL_PERSON_ID_LOOKUP);
-        return fieldValues;
+        return removeExtraFilterParameters(fieldValues);
     }
-    
+
     /**
      * Separates the list of protocols into pageable results.
      * @param protocols the list of protocols
@@ -304,21 +259,10 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if (isParameterTrue(AMEND_RENEW_PROTOCOL_LOOKUP_ACTION)) {
-            htmlDataList.add(getPerformActionLink(businessObject, AMEND_RENEW_PROTOCOL_LOOKUP_ACTION));
-        } else if (isParameterTrue(NOTIFY_IRB_PROTOCOL_LOOKUP_ACTION)) {
-            htmlDataList.add(getPerformActionLink(businessObject, NOTIFY_IRB_PROTOCOL_LOOKUP_ACTION));
-        } else if (isParameterTrue(REQUEST_PROTOCOL_ACTION)) {
-            htmlDataList.add(getPerformActionLink(businessObject, REQUEST_PROTOCOL_ACTION));
-        } else {
-            htmlDataList.addAll(getEditCopyViewLinks(businessObject, pkNames));
-        }
-        
-        return htmlDataList;
+        return getCustomActions(businessObject, pkNames);
     }
     
-    private boolean isParameterTrue(String parameterKey) {
+    protected boolean isParameterTrue(String parameterKey) {
         boolean parameterTrue = false;
         
         if (getParameters() != null && getParameters().containsKey(parameterKey)) {
@@ -353,7 +297,7 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
      * @param actionKey
      * @return
      */
-    private AnchorHtmlData getPerformActionLink(BusinessObject businessObject, String actionKey) {
+    protected AnchorHtmlData getPerformActionLink(BusinessObject businessObject, String actionKey) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("perform action");
         Properties parameters = new Properties();
@@ -373,7 +317,7 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
      * @param businessObject
      * @param pkNames
      */
-    private List<HtmlData> getEditCopyViewLinks(BusinessObject businessObject, List pkNames) {
+    protected List<HtmlData> getEditCopyViewLinks(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         if (kraAuthorizationService.hasPermission(getUserIdentifier(), (Protocol) businessObject, PermissionConstants.MODIFY_PROTOCOL)) {
             //htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
@@ -401,6 +345,7 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
      * This override is reset field definition for research area lookup fields & investigator label.
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getRows()
      */
+    @SuppressWarnings("deprecation")
     @Override
     public List<Row> getRows() {
         List<Row> rows =  super.getRows();
@@ -426,15 +371,6 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
         return rows;
     }
              
-    /**
-     * 
-     * This is spring bean will be used to get search results.
-     * @param protocolDao
-     */
-    public void setProtocolDao(ProtocolDao<GenericProtocol> protocolDao) {
-        this.protocolDao = protocolDao;
-    }
-    
     /**
      * Sets the KC Person Service.
      * @param kcPersonService the kc person service
@@ -477,17 +413,17 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
 
     @Override
     protected String getHtmlAction() {
-        return "protocolProtocol.do";
+        return getHtmlActionHook();
     }
     
     @Override
     protected String getDocumentTypeName() {
-        return "ProtocolDocument";
+        return getDocumentTypeNameHook();
     }
     
     @Override
     protected String getKeyFieldName() {
-        return "protocolNumber"; 
+        return PROTOCOL_LOOKUP_KEY_FIELD; 
     }
 
     protected String getUserIdentifier() {
@@ -506,4 +442,11 @@ public class ProtocolLookupableHelperServiceImpl<GenericProtocol extends Protoco
         this.documentService = documentService;
     }
 
+
+    protected abstract List<? extends BusinessObject> getSearchResultsFilteredByTask(Map<String, String> fieldValues);
+    protected abstract Map<String, String> removeExtraFilterParameters(Map<String, String> fieldValues);
+    protected abstract List<HtmlData> getCustomActions(BusinessObject businessObject, List pkNames);
+    protected abstract ProtocolDao<GenericProtocol> getProtocolDaoHook();
+    protected abstract String getDocumentTypeNameHook();
+    protected abstract String getHtmlActionHook();
 }

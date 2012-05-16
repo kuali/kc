@@ -170,9 +170,6 @@
 
     <bean id="iacucProtocolLookupableHelperService" class="org.kuali.kra.iacuc.IacucProtocolLookupableHelperServiceImpl" 
         scope="prototype" parent="parentLookupableHelperService">
-        <property name="protocolDao">
-            <ref bean="iacucProtocolDao" />
-        </property>
         <property name="kcPersonService">
             <ref bean="kcPersonService" />
         </property>
