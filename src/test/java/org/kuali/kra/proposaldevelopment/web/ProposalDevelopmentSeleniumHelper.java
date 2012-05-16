@@ -39,8 +39,6 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
     
     private static final String PERSONNEL_ITEMS_FOR_REVIEW_TAB_ID = "Personnel Items for Review";
     private static final String ASDF_TAB_ID = "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf";
-    private static final String GRANTS_GOV_AGENCY_SPECIFIC_QUESTIONS_TAB_ID = "Grants gov Agency Specific Questions";
-    private static final String PROPOSAL_QUESTIONS_TAB_ID = "Proposal Questions";
     
     private static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.documentDescription";
     private static final String LIST_PREFIX = "document.developmentProposalList[0].";
@@ -59,7 +57,7 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
     private static final String UNIT_CREDIT_SPLITS_ID = LIST_PREFIX + "investigator[0].units[0].creditSplits[%d].credit";
     private static final String GRADUATE_STUDENT_COUNT_ID = "customAttributeValues(id4)";
     private static final String BILLING_ELEMENT_ID = "customAttributeValues(id1)";
-    private static final String YNQS_ID = LIST_PREFIX + "proposalYnq[%d].answer";
+    private static final String QUESTIONNAIRE_ID = "questionnaireHelper.answerHeaders[0].answers[%d].answer";
     private static final String NEW_BUDGET_VERSION_NAME_ID = "newBudgetVersionName";
     private static final String FINAL_VERSION_FLAG_ID = "document.budgetDocumentVersion[%d].budgetVersionOverview.finalVersionFlag";
     private static final String BUDGET_VERSION_ID = "document.budgetDocumentVersion[%d].budgetVersionOverview.budgetStatus";
@@ -87,6 +85,7 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
     private static final String YES_RADIO_FIELD_VALUE = "Y";
     private static final String NO_RADIO_FIELD_VALUE = "N";
     private static final String NA_RADIO_FIELD_VALUE = "X";
+    private static final String PROJECT_NOT_COVERED_BY_EO_12372_FIELD_VALUE = "Program not covered by EO 12372";
     
     private static final String INSERT_PROPOSAL_PERSON_BUTTON = "methodToCall.insertProposalPerson";
     private static final String ADD_PROPOSAL_USER_BUTTON = "methodToCall.addProposalUser";
@@ -258,38 +257,28 @@ public class ProposalDevelopmentSeleniumHelper extends KcSeleniumHelper {
     public void addQuestions() {
         clickProposalDevelopmentQuestionsPage();
 
-        openTab(PROPOSAL_QUESTIONS_TAB_ID);
-        set(String.format(YNQS_ID, 0), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 1), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 2), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 3), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 4), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 5), NA_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 6), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 7), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 8), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 9), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 10), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 11), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 12), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 13), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 14), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 15), NA_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 16), NA_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 17), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 18), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 19), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 20), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 21), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 22), YES_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 23), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 24), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 25), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 26), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 27), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 28), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 29), NO_RADIO_FIELD_VALUE);
-        set(String.format(YNQS_ID, 30), NO_RADIO_FIELD_VALUE);
+        openTab(0);
+        set(String.format(QUESTIONNAIRE_ID, 0), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 19), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 21), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 28), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 31), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 32), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 34), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 36), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 39), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 40), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 42), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 64), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 65), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 66), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 70), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 72), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 75), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 77), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 79), PROJECT_NOT_COVERED_BY_EO_12372_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 80), NO_RADIO_FIELD_VALUE);
+        set(String.format(QUESTIONNAIRE_ID, 81), NA_RADIO_FIELD_VALUE);
     }
     
     /**
