@@ -24,7 +24,7 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 public class SubAwardCustomDataTest extends KcUnitTestBase{
     
-    private static final int SUBAWARD_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT = 7;
+    private static final int SUBAWARD_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT = 6;
     
     private SubAwardCustomData subAwardCustomDataBo;
     private SubAward subAward = new SubAward();
