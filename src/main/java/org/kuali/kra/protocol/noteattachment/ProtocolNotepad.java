@@ -26,24 +26,24 @@ import org.kuali.kra.protocol.ProtocolAssociate;
 /**
  * The Protocol Notepad class.
  */
-public class ProtocolNotepad extends ProtocolAssociate implements Comparable<ProtocolNotepad> {
+public abstract class ProtocolNotepad extends ProtocolAssociate implements Comparable<ProtocolNotepad> {
 
     private static final long serialVersionUID = -294125058992878907L;
 
-    private Long id;
+    protected Long id;
 
-    private Integer entryNumber = Integer.valueOf(0);
+    protected Integer entryNumber = Integer.valueOf(0);
 
-    private String comments;
+    protected String comments;
 
-    private boolean restrictedView;
+    protected boolean restrictedView;
 
-    private String noteTopic;
+    protected String noteTopic;
 
-    private boolean editable;
+    protected boolean editable;
 
     @SkipVersioning
-    private transient String updateUserFullName;
+    protected transient String updateUserFullName;
 
     /**
      * empty ctor to satisfy JavaBean convention.

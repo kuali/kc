@@ -197,13 +197,13 @@
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
     </bean>
     
-<!-- IACUC
-    <bean id="iacucProtocolAttachmentService" class="org.kuali.kra.protocol.noteattachment.ProtocolAttachmentServiceImpl">
+
+    <bean id="iacucProtocolAttachmentService" class="org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentServiceImpl">
         <constructor-arg index="0" ref="businessObjectService"/>
         <constructor-arg index="1" ref="iacucProtocolDao"/>
         <property name = "personService" ref = "personService"/>
     </bean>
--->    
+   
     <bean id="iacucProtocolResearchAreaService" class="org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaServiceImpl">
     </bean> 
 
