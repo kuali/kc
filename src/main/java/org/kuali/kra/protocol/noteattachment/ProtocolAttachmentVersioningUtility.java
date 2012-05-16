@@ -49,7 +49,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * It was easier to create the version of the file before the version of the Protocol to allow for easy updating of file references.
  * Also, versioning of the Protocol naturally only needs to happen once, at the end of this process.
  */
-public class ProtocolAttachmentVersioningUtility {
+public abstract class ProtocolAttachmentVersioningUtility {
 
     private final ProtocolAttachmentService notesService;
     private final VersioningService versionService;
@@ -65,7 +65,7 @@ public class ProtocolAttachmentVersioningUtility {
      * @param form the form
      * @throws IllegalArgumentException if the form is null
      */
-    ProtocolAttachmentVersioningUtility(final ProtocolForm form) {
+    protected ProtocolAttachmentVersioningUtility(final ProtocolForm form) {
         this(form, KraServiceLocator.getService(ProtocolAttachmentService.class),
             KraServiceLocator.getService(VersioningService.class), KraServiceLocator.getService(DocumentService.class));
     }
@@ -78,7 +78,7 @@ public class ProtocolAttachmentVersioningUtility {
      * @param docService the docService
      * @throws IllegalArgumentException if the form, notesService, versionService, or docService is null
      */
-    ProtocolAttachmentVersioningUtility(final ProtocolForm form, final ProtocolAttachmentService notesService, final VersioningService versionService, final DocumentService docService) {
+    protected ProtocolAttachmentVersioningUtility(final ProtocolForm form, final ProtocolAttachmentService notesService, final VersioningService versionService, final DocumentService docService) {
         if (form == null) {
             throw new IllegalArgumentException("the form was null");
         }

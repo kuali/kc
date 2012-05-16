@@ -38,11 +38,11 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 
 /** Implementation of {@link ProtocolAttachmentService ProtocolNoteAndAttachmentService}. */
-class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
+public abstract class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
 
-    private final BusinessObjectService boService;
-    private final ProtocolDao protocolDao;
-    private PersonService personService;
+    protected final BusinessObjectService boService;
+    protected final ProtocolDao protocolDao;
+    protected PersonService personService;
     
     protected final Log LOG = LogFactory.getLog(getClass()); 
     private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
@@ -67,36 +67,46 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         this.protocolDao = protocolDao;
     }
     
+    public abstract Class<? extends Protocol> getProtocolClassHook();
+    public abstract Class<? extends ProtocolAttachmentStatus> getProtocolAttachmentStatusClassHook();
+    public abstract Class<? extends ProtocolPerson> getProtocolPersonClassHook();
+    public abstract Class<? extends ProtocolAttachmentType> getProtocolAttachmentTypeClassHook();
+    public abstract Class<? extends ProtocolAttachmentTypeGroup> getProtocolAttachmentTypeGroupClassHook();
+    public abstract Class<? extends ProtocolAttachmentProtocol> getProtocolAttachmentProtocolClassHook();
+    public abstract Class<? extends ProtocolAttachmentPersonnel> getProtocolAttachmentPersonnelClassHook();
+    
     /** {@inheritDoc} */
     public ProtocolAttachmentStatus getStatusFromCode(final String code) {
-        return this.getCodeType(ProtocolAttachmentStatus.class, code);
+        return this.getCodeType(getProtocolAttachmentStatusClassHook(), code);
     }
 
     /** {@inheritDoc} */
     public ProtocolAttachmentType getTypeFromCode(final String code) {
-        return this.getCodeType(ProtocolAttachmentType.class, code);
+        return this.getCodeType(getProtocolAttachmentTypeClassHook(), code);
     }
-    
-    /** {@inheritDoc} */
-    public Collection<ProtocolAttachmentType> getTypesForGroup(String code) {
-        if (code == null) {
-            throw new IllegalArgumentException("the code is null");
-        }
-        
-        @SuppressWarnings("unchecked")
-        final Collection<ProtocolAttachmentTypeGroup> typeGroups
-            = this.boService.findMatching(ProtocolAttachmentTypeGroup.class, Collections.singletonMap("groupCode", code));
-        if (typeGroups == null) {
-            return new ArrayList<ProtocolAttachmentType>();
-        }
-        
-        final Collection<ProtocolAttachmentType> types = new ArrayList<ProtocolAttachmentType>();
-        for (final ProtocolAttachmentTypeGroup typeGroup : typeGroups) {
-            types.add(typeGroup.getType());
-        }
-        
-        return types;
-    }
+
+// TODO *********commented the code below during IACUC refactoring*********         
+//    /** {@inheritDoc} */
+//    public Collection<ProtocolAttachmentType> getTypesForGroup(String code) {
+//        if (code == null) {
+//            throw new IllegalArgumentException("the code is null");
+//        }
+//        
+//        @SuppressWarnings("unchecked")
+//        final Collection<ProtocolAttachmentTypeGroup> typeGroups
+//            = this.boService.findMatching(ProtocolAttachmentTypeGroup.class, Collections.singletonMap("groupCode", code));
+//        if (typeGroups == null) {
+//            return new ArrayList<ProtocolAttachmentType>();
+//        }
+//        
+//        final Collection<ProtocolAttachmentType> types = new ArrayList<ProtocolAttachmentType>();
+//        for (final ProtocolAttachmentTypeGroup typeGroup : typeGroups) {
+//            types.add(typeGroup.getType());
+//        }
+//        
+//        return types;
+//    }
+    public abstract Collection<ProtocolAttachmentType> getTypesForGroup(String code);
     
     /** {@inheritDoc} */
     public void saveAttatchment(ProtocolAttachmentBase attachment) {
@@ -133,7 +143,7 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
             throw new IllegalArgumentException("the personId is null");
         }
         
-        return (ProtocolPerson) this.boService.findByPrimaryKey(ProtocolPerson.class, Collections.singletonMap("protocolPersonId", personId));
+        return (ProtocolPerson) this.boService.findByPrimaryKey(getProtocolPersonClassHook(), Collections.singletonMap("protocolPersonId", personId));
     }
     
     /** {@inheritDoc} */
@@ -171,7 +181,7 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
         keyMap.put("attachmentVersion", attachment.getAttachmentVersion());
         keyMap.put("documentId", attachment.getDocumentId());
    
-        return this.boService.findMatching(ProtocolAttachmentProtocol.class, keyMap).isEmpty();
+        return this.boService.findMatching(getProtocolAttachmentProtocolClassHook(), keyMap).isEmpty();
     }
 
     
@@ -203,7 +213,7 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
     protected Protocol getActiveProtocol(String protocolNumber) {
         Map keyMap = new HashMap();
         keyMap.put("protocolNumber", protocolNumber);
-        List<Protocol> protocols = (List <Protocol>)this.boService.findMatchingOrderBy(Protocol.class, keyMap, "sequenceNumber", false);
+        List<Protocol> protocols = (List <Protocol>)this.boService.findMatchingOrderBy(getProtocolClassHook(), keyMap, "sequenceNumber", false);
         return protocols.get(0);
     }
     
@@ -252,7 +262,7 @@ class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
     public boolean isSharedFile(ProtocolAttachmentPersonnel attachment) {
         Map keyMap = new HashMap();
         keyMap.put("fileId", attachment.getFileId());   
-        return this.boService.findMatching(ProtocolAttachmentPersonnel.class, keyMap).size() > 1;
+        return this.boService.findMatching(getProtocolAttachmentPersonnelClassHook(), keyMap).size() > 1;
     }
     
     /**

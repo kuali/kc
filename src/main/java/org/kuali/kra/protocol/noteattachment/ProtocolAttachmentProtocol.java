@@ -29,56 +29,57 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 /**
  * This class represents the Protocol Attachment Protocol.
  */
-public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
+public abstract class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
 
     private static final long serialVersionUID = -7115904344245464654L;
 
-    private static final String GROUP_CODE = "1";
+// TODO *********commented the code below during IACUC refactoring*********
+//    private static final String GROUP_CODE = "1";
 
     public static final String INCOMPLETE_STATUS_CODE = "1";
     public static final String COMPLETE_STATUS_CODE = "2";
     
     // 1-Complete, 2-Incomplete.  an attachment status must be 'complete' before this protocol can be submitted.  
-    private String statusCode;
+    protected String statusCode;
 
-    private ProtocolAttachmentStatus status;
+    protected ProtocolAttachmentStatus status;
 
-    private String contactName;
+    protected String contactName;
 
-    private String contactEmailAddress;
+    protected String contactEmailAddress;
 
-    private String contactPhoneNumber;
+    protected String contactPhoneNumber;
 
-    private String comments;
+    protected String comments;
 
-    private String typeCode;
+    protected String typeCode;
 
-    private ProtocolAttachmentType type;
+    protected ProtocolAttachmentType type;
 
-    private String description;
+    protected String description;
 
     // documentStatusCode : 1-Draft, 2-Finalized, 3-Deleted  
     // All new files are 'Draft'.  When protocol is versioned, all 'Draft' become 'Finalized'  
     // 'delete' will set this code to 'Deleted'.  
-    private String documentStatusCode;
+    protected String documentStatusCode;
     
-    private Integer attachmentVersion;
+    protected Integer attachmentVersion;
 
-    private Timestamp createTimestamp;
+    protected Timestamp createTimestamp;
 
-    private List<ProtocolAttachmentProtocol> versions;
+    protected List<ProtocolAttachmentProtocol> versions;
 
     // an indicator to decide whether to display this file in protocol attachment panel or not  
-    private boolean active = true;
+    protected boolean active = true;
 
     // an indicator of whether this file has been changed/replaced or not.  This is if documentstatus is 1 or 3.  
     // if it is changed, then the updateuser and updatetimestamp of this record will be updated.  
-    private boolean changed = false;
+    protected boolean changed = false;
 
     /**
      * empty ctor to satisfy JavaBean convention.
      */
-    public ProtocolAttachmentProtocol() {
+    protected ProtocolAttachmentProtocol() {
         super();
         attachmentVersion = 1;
     }
@@ -92,7 +93,7 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
      * 
      * @param protocol the protocol.
      */
-    public ProtocolAttachmentProtocol(final Protocol protocol) {
+    protected ProtocolAttachmentProtocol(final Protocol protocol) {
         super(protocol);
         attachmentVersion = 1;
     }
@@ -214,9 +215,12 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     }
 
     /** {@inheritDoc} */
-    public String getGroupCode() {
-        return GROUP_CODE;
-    }
+// TODO *********commented the code below during IACUC refactoring*********
+// Technically the group codes could differ, they are the same value in this case, but from different tables    
+//    public String getGroupCode() {
+//        return GROUP_CODE;
+//    }
+    public abstract String getGroupCode();
 
     /** {@inheritDoc} */
     public String getDescription() {
@@ -229,10 +233,12 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
     }
 
     /** {@inheritDoc} */
-    @Override
-    public String getAttachmentDescription() {
-        return "Protocol Attachment";
-    }
+// TODO *********commented the code below during IACUC refactoring*********    
+//    @Override
+//    public String getAttachmentDescription() {
+//        return "Protocol Attachment";
+//    }
+    public abstract String getAttachmentDescription();
 
     /**
      * Gets the versions attribute. 
@@ -280,29 +286,41 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentBase {
         return true;
     }
 
-    public boolean isDraft() {
-        return ProtocolAttachmentStatus.DRAFT.equals(documentStatusCode);
-    }
+// TODO *********commented the code below during IACUC refactoring*********    
+//    public boolean isDraft() {
+//        return ProtocolAttachmentStatus.DRAFT.equals(documentStatusCode);
+//    }
+    public abstract boolean isDraft();
     
-    public void setDraft() {
-        documentStatusCode = ProtocolAttachmentStatus.DRAFT;
-    }
+// TODO *********commented the code below during IACUC refactoring*********    
+//    public void setDraft() {
+//        documentStatusCode = ProtocolAttachmentStatus.DRAFT;
+//    }
+    public abstract void setDraft();
+
+// TODO *********commented the code below during IACUC refactoring*********    
+//    public boolean isFinal() {
+//        return ProtocolAttachmentStatus.FINALIZED.equals(documentStatusCode);
+//    }
+    public abstract boolean isFinal();
     
-    public boolean isFinal() {
-        return ProtocolAttachmentStatus.FINALIZED.equals(documentStatusCode);
-    }
-    
-    public void setFinal() {
-        documentStatusCode = ProtocolAttachmentStatus.FINALIZED;
-    }
-    
-    public boolean isDeleted() {
-        return ProtocolAttachmentStatus.DELETED.equals(documentStatusCode);
-    }
-    
-    public void setDeleted() {
-        documentStatusCode = ProtocolAttachmentStatus.DELETED;
-    }
+// TODO *********commented the code below during IACUC refactoring*********    
+//    public void setFinal() {
+//        documentStatusCode = ProtocolAttachmentStatus.FINALIZED;
+//    }
+    public abstract void setFinal();
+
+// TODO *********commented the code below during IACUC refactoring*********        
+//    public boolean isDeleted() {
+//        return ProtocolAttachmentStatus.DELETED.equals(documentStatusCode);
+//    }
+    public abstract boolean isDeleted();
+
+// TODO *********commented the code below during IACUC refactoring*********        
+//    public void setDeleted() {
+//        documentStatusCode = ProtocolAttachmentStatus.DELETED;
+//    }
+    public abstract void setDeleted();
     
     /** {@inheritDoc} */
     @Override

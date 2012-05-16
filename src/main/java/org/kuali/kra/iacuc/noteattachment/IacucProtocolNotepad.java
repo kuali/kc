@@ -15,19 +15,10 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentGroup;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentType;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeGroup;
+import org.kuali.kra.protocol.noteattachment.ProtocolNotepad;
 
-public class IacucProtocolAttachmentTypeGroup extends ProtocolAttachmentTypeGroup {
+public class IacucProtocolNotepad extends ProtocolNotepad {
 
-    private static final long serialVersionUID = 3812011266823556737L;
+    private static final long serialVersionUID = 305642175397072637L;
 
-    public IacucProtocolAttachmentTypeGroup() {
-        super();
-    }
-    
-    public IacucProtocolAttachmentTypeGroup(ProtocolAttachmentType type, ProtocolAttachmentGroup group) {
-        super(type, group);
-    }
 }

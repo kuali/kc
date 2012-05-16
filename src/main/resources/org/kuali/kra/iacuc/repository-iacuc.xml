@@ -975,7 +975,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
- 
+
     <class-descriptor class="org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule" table="IACUC_PROTOCOL_MODULES">
         <field-descriptor name="protocolModuleCode" column="PROTOCOL_MODULE_CODE" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -984,7 +984,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
-                
+
  	<class-descriptor class="org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment" table="IACUC_REVIEWER_ATTACHMENTS">
         <field-descriptor name="reviewerAttachmentId" column="REVIEWER_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID"/>
         <field-descriptor name="protocolOnlineReviewIdFk" column="PROTOCOL_ONLN_RVW_FK" jdbc-type = "BIGINT"/>
@@ -1014,6 +1014,46 @@
         <reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="submissionIdFk"/>
         </reference-descriptor>
-    </class-descriptor> 
-            
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol" table="IACUC_PROTOCOL_ATTACH_PROTOCOL">
+        <field-descriptor name="id" column="PA_PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PA_PROTOCOL_ID" autoincrement="true"/>
+        <field-descriptor name="protocolId" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="statusCode" column="STATUS_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="documentStatusCode" column="DOCUMENT_STATUS_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="contactName" column="CONTACT_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="contactEmailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR" />
+        <field-descriptor name="contactPhoneNumber" column="PHONE_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="attachmentVersion" column="ATTACHMENT_VERSION" jdbc-type="INTEGER" />
+        <field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        
+        <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolId"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="type" class-ref="org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="typeCode"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+            <foreignkey field-ref="fileId"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="status" class-ref="org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="statusCode"/>
+        </reference-descriptor>
+        
+    </class-descriptor>
+                    
 </descriptor-repository>
