@@ -113,7 +113,7 @@ public interface ProtocolOnlineReviewService {
      * @param protocolSubmission The protocol submission
      * @return
      */
-//    ProtocolReviewer getProtocolReviewer(String personId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission);
+    ProtocolReviewer getProtocolReviewer(String personId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission);
     
     /**
      * Returns true if the principal has an online review for the protocol submission.
@@ -131,7 +131,7 @@ public interface ProtocolOnlineReviewService {
      * @param protocolSubmission The protocolSubmission
      * @return
      */
-//    ProtocolOnlineReviewDocument getProtocolOnlineReviewDocument(String principalId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission);
+    ProtocolOnlineReviewDocument getProtocolOnlineReviewDocument(String principalId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission);
     
     /**
      * Determine if the protocol is in a state that can be reviewed.  Right now checks to see if there is an active submission.
@@ -158,7 +158,7 @@ public interface ProtocolOnlineReviewService {
      * @param submission
      * @param annotation
      */
-//    void removeOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmission submission, String annotation);
+    void removeOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmission submission, String annotation);
     
     /**
      * Cancels all online review documents associated with the submission.
