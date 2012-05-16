@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.subaward.customdata;
 
-import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAssociate;
 import org.kuali.kra.bo.CustomAttribute;
 
@@ -37,8 +36,6 @@ public class SubAwardCustomData extends SubAwardAssociate {
     private CustomAttribute customAttribute;
     private String subAwardCode; 
 
-
-    private SubAward subAward;
 
     /**
      * Gets the customAttributeId attribute.
