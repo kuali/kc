@@ -15,13 +15,17 @@
  */
 package org.kuali.kra.iacuc.notification;
 
-import java.io.Serializable;
+import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
 
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+public class IacucProtocolNotificationRequestBean implements ProtocolNotificationRequestBean {
 
-public class ProtocolNotificationRequestBean implements Serializable {
-
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -6607266167216521565L;
+    
     private Protocol protocol;
     private ProtocolOnlineReview protocolOnlineReview;
     private String actionType;
@@ -30,14 +34,14 @@ public class ProtocolNotificationRequestBean implements Serializable {
     private String olrEvent;
     private String committeeName;
 
-    public ProtocolNotificationRequestBean(Protocol protocol, String actionType, String description) {
+    public IacucProtocolNotificationRequestBean(Protocol protocol, String actionType, String description) {
         this.protocol = protocol;
         this.actionType = actionType;
         this.description = description;
         
     }
     
-    public ProtocolNotificationRequestBean(Protocol protocol, ProtocolOnlineReview protocolOnlineReview, String actionType, String description, String docNumber, String olrEvent) {
+    public IacucProtocolNotificationRequestBean(Protocol protocol, ProtocolOnlineReview protocolOnlineReview, String actionType, String description, String docNumber, String olrEvent) {
         this(protocol, actionType, description);
         this.protocolOnlineReview = protocolOnlineReview;
         this.olrEvent = olrEvent;
