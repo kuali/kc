@@ -18,17 +18,14 @@ package org.kuali.kra.subaward.lookup;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionHistoryService;
@@ -52,8 +49,8 @@ import org.kuali.kra.subaward.bo.SubAwardFundingSource;
  */
 public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
-
-    private static final String COPY_HREF_PATTERN = "../DocCopyHandler.do?docId=%s&command=displayDocSearchView&documentTypeName=%s";
+    private static final String AWARD_NUMBER = "awardNumber";
+    private static final String ORGANIZATION_NAME = "organizationName";
     static final String PERSON_ID = "personId";
     static final String ROLODEX_ID = "rolodexId";
     static final String UNIT_NUMBER = "unitNumber";
@@ -66,10 +63,10 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
     public List<? extends BusinessObject>
     getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocationDocFormKey(fieldValues);
-        String awardNumber = fieldValues.get("awardNumber");
-        String subrecipientName = fieldValues.get("organizationName");
-        fieldValues.remove("awardNumber");
-        fieldValues.remove("organizationName");
+        String awardNumber = fieldValues.get(AWARD_NUMBER);
+        String subrecipientName = fieldValues.get(ORGANIZATION_NAME);
+        fieldValues.remove(AWARD_NUMBER);
+        fieldValues.remove(ORGANIZATION_NAME);
         List<SubAward> unboundedResults =
         (List<SubAward>) super.getSearchResultsUnbounded(fieldValues);
         List<SubAward> returnResults = new ArrayList<SubAward>();
@@ -98,8 +95,6 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
     BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList =
         super.getCustomActionUrls(businessObject, pkNames);
-        SubAwardDocument document =
-        ((SubAward) businessObject).getSubAwardDocument();
         htmlDataList.add(getOpenLink((SubAward) businessObject, false));
         htmlDataList.add(getMedusaLink((SubAward) businessObject, false));
         return htmlDataList;
@@ -180,13 +175,10 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
       protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
           //no-op
       }
-      
-      @SuppressWarnings("unchecked")
+
       protected List<SubAward> filterForActiveSubAwards(
-     Collection<SubAward> collectionByQuery, String awardNumber,
-     String subrecipientName) throws WorkflowException {
-          BusinessObjectService businessObjectService =  KraServiceLocator.
-          getService(BusinessObjectService.class);
+              Collection<SubAward> collectionByQuery, String awardNumber,
+              String subrecipientName) throws WorkflowException {
           Set<String> subAwardCodes = new TreeSet<String>();
           List<Integer> subAwardCodeList = new ArrayList<Integer>();
           List<String> subAwardCodeSortedList = new ArrayList<String>();
@@ -206,7 +198,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
               findActiveVersion(SubAward.class, versionName);
               if (versionHistory != null) {
                   SubAward activeSubAward =
-                 (SubAward) versionHistory.getSequenceOwner();
+                      (SubAward) versionHistory.getSequenceOwner();
                   if (activeSubAward != null) {
                       activeSubAwards.add(activeSubAward);
                   }
@@ -214,48 +206,48 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
           }
           List<SubAward> filteredSubAwards = new ArrayList<SubAward>();
 
-              for (SubAward subAward : activeSubAwards) {
-                  if (subrecipientName != null
-                && !subrecipientName.equals("")
-                && subAward.getOrganizationName() != null) {
-                 if (subAward.getOrganizationName().equals(subrecipientName)) {
-                          filteredSubAwards.add(subAward);
-                      }
-                  } else {
+          for (SubAward subAward : activeSubAwards) {
+              if (subrecipientName != null
+                      && !subrecipientName.equals("")
+                      && subAward.getOrganizationName() != null) {
+                  if (subAward.getOrganizationName().equals(subrecipientName)) {
                       filteredSubAwards.add(subAward);
                   }
+              } else {
+                  filteredSubAwards.add(subAward);
               }
+          }
 
           List<SubAward> filteredSubAwardList = new ArrayList<SubAward>();
           if (awardNumber != null && !awardNumber.equals("")) {
               Collection <Award>awards =
-            getBusinessObjectService().findMatching(
-            Award.class, ServiceHelper.getInstance().
-             buildCriteriaMap(new String[] {
-           "awardNumber"}, new Object[] {awardNumber }));
+                  getBusinessObjectService().findMatching(
+                          Award.class, ServiceHelper.getInstance().
+                          buildCriteriaMap(new String[] {
+                                  AWARD_NUMBER}, new Object[] {awardNumber }));
               List<Award> linkedAwards = new ArrayList<Award>();
-              for (Award award : awards) {
-                  linkedAwards.add(award);
-              }
+                  for (Award award : awards) {
+                      linkedAwards.add(award);
+                  }
               List<SubAwardFundingSource> fundingSourceList =
-             new ArrayList<SubAwardFundingSource>();
+                  new ArrayList<SubAwardFundingSource>();
               for (Award linkedAward : linkedAwards) {
                   Collection <SubAwardFundingSource> subAwardFundingSource =
-                getBusinessObjectService().findMatching(
-                SubAwardFundingSource.class, ServiceHelper.getInstance().
-                buildCriteriaMap(new String[] {"awardId"}, new Object[]
-                {linkedAward.getAwardId() }));
-               for (SubAwardFundingSource subAwardFunding
-            : subAwardFundingSource) {
-                      fundingSourceList.add(subAwardFunding);
-                  }
+                      getBusinessObjectService().findMatching(
+                              SubAwardFundingSource.class, ServiceHelper.getInstance().
+                              buildCriteriaMap(new String[] {"awardId"}, new Object[]
+                                                                                    {linkedAward.getAwardId() }));
+                      for (SubAwardFundingSource subAwardFunding
+                              : subAwardFundingSource) {
+                          fundingSourceList.add(subAwardFunding);
+                      }
               }
 
               for (SubAward subAward : filteredSubAwards) {
                   for (SubAwardFundingSource subAwardFunding
-                : fundingSourceList) {
+                          : fundingSourceList) {
                       if (subAward.getSubAwardId().
-                     equals(subAwardFunding.getSubAwardId())) {
+                              equals(subAwardFunding.getSubAwardId())) {
                           filteredSubAwardList.add(subAward);
                       }
                   }
@@ -269,10 +261,10 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
           return filteredSubAwardList;
       }
 
-    @Override
-    protected String getHtmlAction() {
-        return "subAwardHome.do";
-    }
+      @Override
+      protected String getHtmlAction() {
+          return "subAwardHome.do";
+      }
 
     @Override
     protected String getDocumentTypeName() {

@@ -76,7 +76,6 @@ implements  Copyable, SessionDocument {
         super.doRouteStatusChange(statusChangeEvent);
 
         String newStatus = statusChangeEvent.getNewRouteStatus();
-        String oldStatus = statusChangeEvent.getOldRouteStatus();
 
         if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
             getVersionHistoryService().updateVersionHistoryOnRouteToFinal(
