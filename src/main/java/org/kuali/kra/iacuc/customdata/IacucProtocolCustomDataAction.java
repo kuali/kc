@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.customdata;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,7 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class...
@@ -49,8 +51,10 @@ public class IacucProtocolCustomDataAction extends IacucProtocolAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
-        copyCustomDataToDocument(form);
         IacucProtocolForm protocolForm = (IacucProtocolForm)form;
+        if (!"reload".equals(protocolForm.getMethodToCall()) && !"performLookup".equals(protocolForm.getMethodToCall())) {
+            copyCustomDataToDocument(form);
+        }
         protocolForm.getCustomDataHelper().initializePermissions();
         return forward;    
     }
@@ -79,7 +83,7 @@ public class IacucProtocolCustomDataAction extends IacucProtocolAction {
      * the ResearchDocumentBase class.
      * @param form
      */
-    public static void copyCustomDataToDocument(ActionForm form) {
+    private void copyCustomDataToDocument(ActionForm form) {
         IacucProtocolForm iacucProtocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument document = (IacucProtocolDocument) iacucProtocolForm.getDocument();
         IacucProtocol protocol = iacucProtocolForm.getIacucProtocolDocument().getIacucProtocol();
@@ -89,9 +93,12 @@ public class IacucProtocolCustomDataAction extends IacucProtocolAction {
             int customAttributeIdInt = Integer.valueOf(customAttributeId).intValue(); 
             String value = customAttributeValue.getValue()[0];
             boolean found = false;
-            for (IacucProtocolCustomData dataItem: protocol.getIacucProtocolCustomDataList()) {
+            Iterator<IacucProtocolCustomData> iter = protocol.getIacucProtocolCustomDataList().iterator();
+            for (;iter.hasNext() && !found;) {
+                IacucProtocolCustomData dataItem = iter.next();
                 if (customAttributeId.equals(dataItem.getCustomAttributeId().toString())) {
                     dataItem.setValue((value==null) ? "" : value);
+                    getBusinessObjectService().save(dataItem);
                     found = true;
                 }
             }
@@ -109,5 +116,4 @@ public class IacucProtocolCustomDataAction extends IacucProtocolAction {
             }
         }
     }
-
 }
