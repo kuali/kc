@@ -496,7 +496,7 @@ public abstract class NotesAttachmentsHelper {
      * initializes a new attachment personnel setting the protocol id.
      */
     private void initAttachmentPersonnel() {
-        this.setNewAttachmentPersonnel(new ProtocolAttachmentPersonnel(this.getProtocol()));
+        this.setNewAttachmentPersonnel(createNewProtocolAttachmentPersonnelInstanceHook(this.getProtocol()));
     }
     
     protected abstract ProtocolAttachmentPersonnel createNewProtocolAttachmentPersonnelInstanceHook(Protocol protocol);

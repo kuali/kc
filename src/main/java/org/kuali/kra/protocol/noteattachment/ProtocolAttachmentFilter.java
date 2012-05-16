@@ -24,12 +24,12 @@ import java.util.Comparator;
  * Protocol Attachment Filter.  This filter is used to limit
  * and sort protocol attachments.
  */
-public class ProtocolAttachmentFilter implements Serializable {
+public abstract class ProtocolAttachmentFilter implements Serializable {
 
     private static final long serialVersionUID = 53138457226971783L;
     
-    private String filterBy;
-    private String sortBy;
+    protected String filterBy;
+    protected String sortBy;
     
     public String getFilterBy() {
         return filterBy;
