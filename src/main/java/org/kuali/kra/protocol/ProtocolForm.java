@@ -29,6 +29,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
+import org.kuali.kra.protocol.noteattachment.NotesAttachmentsHelper;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContext;
 import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
 import org.kuali.kra.protocol.permission.PermissionsHelper;
@@ -84,9 +85,9 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     private ActionHelper actionHelper;
     private OnlineReviewsActionHelper onlineReviewsActionHelper;
     private QuestionnaireHelper questionnaireHelper;
-//    //transient so that the helper and its members don't have to be serializable or transient
-//    //reinitialized in the getter
-//    private transient NotesAttachmentsHelper notesAttachmentsHelper;
+    //transient so that the helper and its members don't have to be serializable or transient
+    //reinitialized in the getter
+    private transient NotesAttachmentsHelper notesAttachmentsHelper;
     
     
       private boolean auditActivated;
@@ -98,7 +99,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     //KNS Lookup hooks
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
-    
+ 
     private boolean javaScriptEnabled = true;
     
     private String detailId;
@@ -126,8 +127,8 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 
 // TODO *********commented the code below during IACUC refactoring*********       
 //        setQuestionnaireHelper(new QuestionnaireHelper(this));
-//        setNotesAttachmentsHelper(new NotesAttachmentsHelper(this));
-//        this.notesAttachmentsHelper.prepareView();
+        //setNotesAttachmentsHelper(createNewNotesAttachmentsHelperInstanceHook(this));
+        //this.notesAttachmentsHelper.prepareView();
         setNewProtocolReferenceBean(createNewProtocolReferenceBeanInstance());
 
 // TODO *********commented the code below during IACUC refactoring*********         
@@ -141,12 +142,15 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     protected abstract PermissionsHelper createNewPermissionsHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract PersonnelHelper createNewPersonnelHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract QuestionnaireHelper createNewQuestionnaireHelper(ProtocolForm protocolForm);
+    protected abstract NotesAttachmentsHelper createNewNotesAttachmentsHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract ActionHelper createNewActionHelper(ProtocolForm protocolForm) throws Exception;
     
     
     
     
-// TODO *********commented the code below during IACUC refactoring********* 
+// TODO *********uncomment the code below in increments as needed during refactoring*********     
+//    /**
+//     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
 //     * 
 //     * We only enable the Online Review tab if the protocol is in a state to be reviewed and
 //     * the user has the IRB Admin role or the user has an Online Review. 
@@ -366,26 +370,25 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         this.protocolSpecialReviewHelper = specialReviewHelper;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * Gets the Notes & Attachments Helper.
-//     * @return Notes & Attachments Helper
-//     */
-//    public NotesAttachmentsHelper getNotesAttachmentsHelper() {
-//        if (notesAttachmentsHelper == null) {
-//            notesAttachmentsHelper = new NotesAttachmentsHelper(this);
-//        }
-//        
-//        return notesAttachmentsHelper;
-//    }
-//
-//    /**
-//     * Sets the Notes & Attachments Helper.
-//     * @param notesAttachmentsHelper the Notes & Attachments Helper
-//     */
-//    public void setNotesAttachmentsHelper(NotesAttachmentsHelper notesAttachmentsHelper) {
-//        this.notesAttachmentsHelper = notesAttachmentsHelper;
-//    }
+    /**
+     * Gets the Notes & Attachments Helper.
+     * @return Notes & Attachments Helper
+     */
+    public NotesAttachmentsHelper getNotesAttachmentsHelper() {
+        if (notesAttachmentsHelper == null) {
+            notesAttachmentsHelper = createNewNotesAttachmentsHelperInstanceHook(this);
+        }
+        
+        return notesAttachmentsHelper;
+    }
+
+    /**
+     * Sets the Notes & Attachments Helper.
+     * @param notesAttachmentsHelper the Notes & Attachments Helper
+     */
+    public void setNotesAttachmentsHelper(NotesAttachmentsHelper notesAttachmentsHelper) {
+        this.notesAttachmentsHelper = notesAttachmentsHelper;
+    }
     
     public ActionHelper getActionHelper() {
         return actionHelper;
@@ -395,7 +398,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         this.actionHelper = actionHelper;
     }
 
-   
+
     public boolean isJavaScriptEnabled() {
         return javaScriptEnabled;
     }
@@ -491,7 +494,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 //    }
 
       
-      
+    
     public String getDetailId() {
         return detailId;
     }
@@ -522,5 +525,5 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 //    protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
 //        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
 //    }
-  
+    
 }

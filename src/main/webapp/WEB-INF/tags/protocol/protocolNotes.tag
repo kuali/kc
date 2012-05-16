@@ -18,7 +18,7 @@
 <c:set var="protocolNotesAttributes" value="${DataDictionary.ProtocolNotepad.attributes}" />
 <c:set var="modifyPermission" value="${KualiForm.notesAttachmentsHelper.modifyNotepads}" />
 <c:set var="viewRestrictedNotes" value="${KualiForm.notesAttachmentsHelper.viewRestricted}" />
-<c:set var="irbAdmin" value="${KualiForm.notesAttachmentsHelper.irbAdmin}" />
+<c:set var="protocolAdmin" value="${KualiForm.notesAttachmentsHelper.protocolAdmin}" />
 <c:set var="tabItemCount" value="0" />
 <c:forEach var="protocolNotepad" items="${KualiForm.document.protocol.notepads}" varStatus="status">
     <c:if test="${viewRestrictedNotes || !protocolNotepad.restrictedView}">               
@@ -106,7 +106,7 @@
 						</td>
 		                <td valign="middle">
 							<div align="center">
-				               <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${!modifyPermission || ((!viewRestrictedNotes || !protocolNotepad.editable) && !irbAdmin)}"/>
+				               <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${!modifyPermission || ((!viewRestrictedNotes || !protocolNotepad.editable) && !protocolAdmin)}"/>
 							</div>
 		                </td>
 			            <td>
