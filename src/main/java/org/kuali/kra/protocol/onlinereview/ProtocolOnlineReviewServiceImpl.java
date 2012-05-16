@@ -24,22 +24,22 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.service.CommitteeService;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.kew.KraDocumentRejectionService;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
+import org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersService;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
@@ -383,6 +383,9 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     public boolean isProtocolInStateToBeReviewed(Protocol protocol) {
         boolean isReviewable = false;
         ProtocolSubmission submission = protocol.getProtocolSubmission();
+
+        // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
+        /*
         if (submission != null) {
             try {
             isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()); 
@@ -397,6 +400,8 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
                 throw new RuntimeException(errorString, e);
             }
         }
+        */
+        
         return isReviewable;
     }
 

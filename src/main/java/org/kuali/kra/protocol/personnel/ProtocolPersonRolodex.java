@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-public class ProtocolPersonRolodex {
+import org.kuali.kra.bo.Rolodex;
+
+public class ProtocolPersonRolodex extends Rolodex {
 
 }
