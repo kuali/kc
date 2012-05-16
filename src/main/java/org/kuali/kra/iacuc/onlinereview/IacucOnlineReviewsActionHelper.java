@@ -32,9 +32,9 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
@@ -154,12 +154,13 @@ public class IacucOnlineReviewsActionHelper  extends  OnlineReviewsActionHelper 
             }
             
         }
-        for (ReviewCommentsBean commentsBean : reviewCommentsBeans) {
-            commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));            
-        }
-        for (ReviewAttachmentsBean attachmentsBean : reviewAttachmentsBeans) {
-            attachmentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(attachmentsBean.getReviewAttachments()));            
-        }
+        // TODO IACUC : needs to complete following
+//        for (ReviewCommentsBean commentsBean : reviewCommentsBeans) {
+//            commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));            
+//        }
+//        for (ReviewAttachmentsBean attachmentsBean : reviewAttachmentsBeans) {
+//            attachmentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(attachmentsBean.getReviewAttachments()));            
+//        }
  
     }
     

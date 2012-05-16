@@ -13,23 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.actions;
+package org.kuali.kra.iacuc.onlinereview;
 
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 
-public interface ProtocolOnlineReviewCommentable {
-    /**
-     * Gets the <code>ReviewCommentsBean</code>.
-     * @return the <code>ReviewCommentsBean</code>
-     */
-    ReviewCommentsBean getReviewCommentsBean();
-    
-    /**
-     * 
-     * This method is to get the review attachment bean for OLR
-     * @return the <code>ReviewAttachmentsBean</code>
-     */
-    ReviewAttachmentsBean getReviewAttachmentsBean();
+public class IacucProtocolReviewAttachment extends ProtocolReviewAttachment {
 
 }
