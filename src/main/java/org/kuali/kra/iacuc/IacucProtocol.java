@@ -19,11 +19,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
+import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentFilter;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.iacuc.protocol.IacucProtocolProjectType;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
@@ -40,6 +42,7 @@ import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilter;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -380,6 +383,22 @@ public class IacucProtocol extends Protocol {
         answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
         return answerHeaders;
     }
-    
+
+    @Override
+    public void initializeProtocolAttachmentFilter() {
+        ProtocolAttachmentFilter protocolAttachmentFilter = new IacucProtocolAttachmentFilter();
+  
+        //Lets see if there is a default set for the attachment sort
+        try {
+            String defaultSortBy = getParameterService().getParameterValueAsString(IacucProtocolDocument.class, Constants.PARAMETER_IACUC_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
+            if (StringUtils.isNotBlank(defaultSortBy)) {
+                protocolAttachmentFilter.setSortBy(defaultSortBy);
+            }
+        } catch (Exception e) {
+            //No default found, do nothing.
+        }
+        
+        setProtocolAttachmentFilter(protocolAttachmentFilter);
+    } 
 
 }

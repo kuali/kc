@@ -2176,20 +2176,22 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         
         return filteredAttachments;
     }
-    
-    public void initializeProtocolAttachmentFilter() {
-        protocolAttachmentFilter = new ProtocolAttachmentFilter();
-        
-        //Lets see if there is a default set for the attachment sort
-        try {
-            String defaultSortBy = getParameterService().getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
-            if (StringUtils.isNotBlank(defaultSortBy)) {
-                protocolAttachmentFilter.setSortBy(defaultSortBy);
-            }
-        } catch (Exception e) {
-            //No default found, do nothing.
-        }        
-    }
+
+// TODO *********commented the code below during IACUC refactoring*********         
+//    public void initializeProtocolAttachmentFilter() {
+//        protocolAttachmentFilter = new ProtocolAttachmentFilter();
+//        
+//        //Lets see if there is a default set for the attachment sort
+//        try {
+//            String defaultSortBy = getParameterService().getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
+//            if (StringUtils.isNotBlank(defaultSortBy)) {
+//                protocolAttachmentFilter.setSortBy(defaultSortBy);
+//            }
+//        } catch (Exception e) {
+//            //No default found, do nothing.
+//        }        
+//    }
+    public abstract void initializeProtocolAttachmentFilter();
     
     public ParameterService getParameterService() {
         return (ParameterService)KraServiceLocator.getService(ParameterService.class);
@@ -2314,6 +2316,5 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     public boolean isEmptyProtocolResearchAreas() {
         return CollectionUtils.isEmpty(getProtocolResearchAreas());
     }
- 
 
 }

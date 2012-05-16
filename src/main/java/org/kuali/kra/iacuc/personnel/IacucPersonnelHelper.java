@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentPersonnel;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -61,6 +62,12 @@ public class IacucPersonnelHelper extends PersonnelHelper implements Serializabl
     @Override
     public ProtocolUnit createNewProtocolUnitInstanceHook() {
         return new IacucProtocolUnit();
+    }
+
+
+    @Override
+    public ProtocolAttachmentPersonnel createNewProtocolAttachmentPersonnelInstanceHook() {
+        return new IacucProtocolAttachmentPersonnel();
     }
 
 
