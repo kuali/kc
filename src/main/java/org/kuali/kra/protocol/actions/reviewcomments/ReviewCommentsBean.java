@@ -15,6 +15,84 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
-public class ReviewCommentsBean {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.meeting.MinuteEntryType;
+
+public class ReviewCommentsBean  implements Serializable {
+
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 994429171132365761L;
+
+    private String errorPropertyKey;
+    
+    private CommitteeScheduleMinute newReviewComment;
+    private List<CommitteeScheduleMinute> reviewComments;
+    private List<CommitteeScheduleMinute> deletedReviewComments;
+    // flag to hide reviewer name for this bean.
+    private boolean hideReviewerName;
+    /**
+     * Constructs a ReviewerCommentsBean.
+     */
+    public ReviewCommentsBean(String errorPropertyKey) {
+        this.errorPropertyKey = errorPropertyKey + ".reviewCommentsBean";
+        
+        this.newReviewComment = new CommitteeScheduleMinute();
+        this.newReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+        this.reviewComments = new ArrayList<CommitteeScheduleMinute>();
+        this.deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+    }
+
+    public String getErrorPropertyName() {
+        return errorPropertyKey;
+    }
+    
+    public CommitteeScheduleMinute getNewReviewComment() {
+        return newReviewComment;
+    }
+    
+    public void setNewReviewComment(CommitteeScheduleMinute newReviewComment) {
+        this.newReviewComment = newReviewComment;
+    }
+    
+    public List<CommitteeScheduleMinute> getReviewComments() {
+        return reviewComments;
+    }
+    
+    public void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
+        this.reviewComments = reviewComments;
+        // TODO : IACUC needs this later
+//        this.setHideReviewerName(getReviewCommentsService().setHideReviewerName(this.reviewComments));            
+
+    }
+    
+    public List<CommitteeScheduleMinute> getDeletedReviewComments() {
+        return deletedReviewComments;
+    }
+    
+    public void setDeletedReviewComments(List<CommitteeScheduleMinute> deletedReviewComments) {
+        this.deletedReviewComments = deletedReviewComments;
+    }
+
+    public boolean isHideReviewerName() {
+        return hideReviewerName;
+    }
+
+    public void setHideReviewerName(boolean hideReviewerName) {
+        this.hideReviewerName = hideReviewerName;
+    }
+    
+    private ReviewCommentsService getReviewCommentsService() {
+        return KraServiceLocator.getService(ReviewCommentsService.class);
+    }
+
 
 }

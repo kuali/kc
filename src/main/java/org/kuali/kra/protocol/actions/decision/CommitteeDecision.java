@@ -25,22 +25,22 @@ import java.util.Map;
 import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.ProtocolActionBean;
-import org.kuali.kra.irb.actions.ProtocolOnlineReviewCommentable;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
+import org.kuali.kra.protocol.actions.ActionHelper;
+import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class is a bean for managing the input for a committee decision.
  */
-public class CommitteeDecision extends ProtocolActionBean implements ProtocolOnlineReviewCommentable, Serializable {
+public class CommitteeDecision extends IacucProtocolActionBean implements ProtocolOnlineReviewCommentable, Serializable {
 
     private static final long serialVersionUID = -8052093280852074307L;
     

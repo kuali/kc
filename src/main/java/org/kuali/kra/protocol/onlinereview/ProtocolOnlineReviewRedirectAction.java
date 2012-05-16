@@ -87,6 +87,7 @@ public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocument
 
     private ProtocolOnlineReviewService getProtocolOnlineReviewService() {
         return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+      // causing CI compilation error with following hook.
       //  return KraServiceLocator.getService(getOlrClass());
     }
 

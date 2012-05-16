@@ -198,20 +198,19 @@
          	</table>
 			</kul:innerTab>
 		
-		
-			<kra-irb-olr:onlineReviewComments bean="${KualiForm.onlineReviewsActionHelper.reviewCommentsBeans[renderIndex]}"
+			<kra-iacuc-olr:onlineReviewComments bean="${KualiForm.onlineReviewsActionHelper.reviewCommentsBeans[renderIndex]}"
        										  documentNumber = "${documentNumber}" 
        										  allowReadOnly="${readOnly}" 
        										  action="Online" 
        										  property="onlineReviewsActionHelper.reviewCommentsBeans[${renderIndex}]"
-       										  reviewIndex = "${renderIndex}" readOnly="${readOnly}"></kra-irb-olr:onlineReviewComments>
+       										  reviewIndex = "${renderIndex}" readOnly="${readOnly}"></kra-iacuc-olr:onlineReviewComments>
 		
-			<kra-irb-olr:onlineReviewAttachments bean="${KualiForm.onlineReviewsActionHelper.reviewAttachmentsBeans[renderIndex]}"
+			<kra-iacuc-olr:onlineReviewAttachments bean="${KualiForm.onlineReviewsActionHelper.reviewAttachmentsBeans[renderIndex]}"
        										  documentNumber = "${documentNumber}" 
        										  allowReadOnly="${readOnly}" 
        										  action="Online" 
        										  property="onlineReviewsActionHelper.reviewAttachmentsBeans[${renderIndex}]"
-       										  reviewIndex = "${renderIndex}" readOnly="${readOnly}"></kra-irb-olr:onlineReviewAttachments>
+       										  reviewIndex = "${renderIndex}" readOnly="${readOnly}"></kra-iacuc-olr:onlineReviewAttachments>
 		
 
 			<kul:innerTab tabTitle="Protocol Review Actions" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
