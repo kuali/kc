@@ -338,8 +338,8 @@
   	
 <div align="right"><kul:help documentTypeName="IacucProtocolDocument" pageName="Notes%20%26%20Attachments" /></div>
 <div id="workarea">
-<kra-irb:protocolAttachmentProtocol /> 
-<kra-irb:protocolNotes />
+<kra-protocol:protocolAttachmentProtocol /> 
+<kra-protocol:protocolNotes />
 <kul:panelFooter />
 </div>
     <kul:documentControls 

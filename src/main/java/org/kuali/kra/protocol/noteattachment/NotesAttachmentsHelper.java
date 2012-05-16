@@ -30,11 +30,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.CollectionUtil;
@@ -45,39 +43,39 @@ import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * This is the "Helper" class for Protocol Notes And Attachments.
  */
-public class NotesAttachmentsHelper {
+public abstract class NotesAttachmentsHelper {
     
-    private static final String NAMESPACE = "KC-UNT";
+    protected static final String NAMESPACE = "KC-UNT";
 
-    private static final String UNSUPPORTED_ATTACHMENT_TYPE = "unsupported attachment type ";
-    private static final String CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL = "confirmDeleteAttachmentPersonnel";
-    private static final String CONFIRM_YES_DELETE_ATTACHMENT_PROTOCOL = "confirmDeleteAttachmentProtocol";
-    private static final String CONFIRM_YES_DELETE_NOTE = "confirmDeleteNote";
+    protected static final String UNSUPPORTED_ATTACHMENT_TYPE = "unsupported attachment type ";
+    protected static final String CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL = "confirmDeleteAttachmentPersonnel";
+    protected static final String CONFIRM_YES_DELETE_ATTACHMENT_PROTOCOL = "confirmDeleteAttachmentProtocol";
+    protected static final String CONFIRM_YES_DELETE_NOTE = "confirmDeleteNote";
     
-    private final ProtocolAttachmentService notesService;
-    private final TaskAuthorizationService authService;
-    private final KraAuthorizationService kraAuthorizationService;
-    private final DateTimeService dateTimeService;
-    private final ProtocolNotepadService protocolNotepadService;
-    private final ParameterService parameterService;
+    protected final ProtocolAttachmentService notesService;
+    protected final TaskAuthorizationService authService;
+    protected final KraAuthorizationService kraAuthorizationService;
+    protected final DateTimeService dateTimeService;
+    protected final ProtocolNotepadService protocolNotepadService;
+    protected final ParameterService parameterService;
     
-    private final ProtocolAttachmentVersioningUtility versioningUtil;
+    protected final ProtocolAttachmentVersioningUtility versioningUtil;
     
-    private final ProtocolForm form;
+    protected final ProtocolForm form;
     
-    private ProtocolAttachmentProtocol newAttachmentProtocol;
-    private ProtocolAttachmentPersonnel newAttachmentPersonnel;
-    private ProtocolAttachmentFilter newAttachmentFilter;
-    private List<AttachmentFile> FilesToDelete;
+    protected ProtocolAttachmentProtocol newAttachmentProtocol;
+    protected ProtocolAttachmentPersonnel newAttachmentPersonnel;
+    protected ProtocolAttachmentFilter newAttachmentFilter;
+    protected List<AttachmentFile> FilesToDelete;
     
-    private ProtocolNotepad protocolNotepad;
+    protected ProtocolNotepad protocolNotepad;
 
     
-    private boolean modifyAttachments;
-    private boolean modifyNotepads;
-    private boolean viewRestricted;
+    protected boolean modifyAttachments;
+    protected boolean modifyNotepads;
+    protected boolean viewRestricted;
     
-    private boolean manageNotesOpen;
+    protected boolean manageNotesOpen;
     
 
 
@@ -86,15 +84,16 @@ public class NotesAttachmentsHelper {
      * @param form the form
      * @throws IllegalArgumentException if the form is null
      */
-    public NotesAttachmentsHelper(final ProtocolForm form) {
-        this(form, KraServiceLocator.getService(ProtocolAttachmentService.class), 
-                   KraServiceLocator.getService(TaskAuthorizationService.class),
-                   KraServiceLocator.getService(KraAuthorizationService.class),
-                   KraServiceLocator.getService(DateTimeService.class),
-                   KraServiceLocator.getService(ProtocolNotepadService.class),
-                   KraServiceLocator.getService(ParameterService.class),
-                   new ProtocolAttachmentVersioningUtility(form));
-    }
+// TODO *********commented the code below during IACUC refactoring*********    
+//    protected NotesAttachmentsHelper(final ProtocolForm form) {
+//        this(form, KraServiceLocator.getService(ProtocolAttachmentService.class), 
+//                   KraServiceLocator.getService(TaskAuthorizationService.class),
+//                   KraServiceLocator.getService(KraAuthorizationService.class),
+//                   KraServiceLocator.getService(DateTimeService.class),
+//                   KraServiceLocator.getService(ProtocolNotepadService.class),
+//                   KraServiceLocator.getService(ParameterService.class),
+//                   new ProtocolAttachmentVersioningUtility(form));
+//    }
     
     /**
      * Constructs a helper.
@@ -104,7 +103,7 @@ public class NotesAttachmentsHelper {
      * @param versioningUtil the versioning util
      * @throws IllegalArgumentException if the form, notesService, authService, or versioningUtil is null
      */
-    NotesAttachmentsHelper(final ProtocolForm form,
+    protected NotesAttachmentsHelper(final ProtocolForm form,
                            final ProtocolAttachmentService notesService,
                            final TaskAuthorizationService authService,
                            final KraAuthorizationService kraAuthorizationService,
@@ -179,16 +178,18 @@ public class NotesAttachmentsHelper {
      * Checks if Protocol Attachments can be modified.
      * @return true if can be modified false if cannot
      */
-    private boolean canEditProtocolAttachments() {
-        final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ATTACHMENTS, this.getProtocol());
-        return this.authService.isAuthorized(this.getUserIdentifier(), task);
-    }
+// TODO *********commented the code below during IACUC refactoring*********    
+//    private boolean canEditProtocolAttachments() {
+//        final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ATTACHMENTS, this.getProtocol());
+//        return this.authService.isAuthorized(this.getUserIdentifier(), task);
+//    }
+    public abstract boolean canEditProtocolAttachments();
     
     /**
      * Get the userName of the user for the current session.
      * @return the current session's userName
      */
-    private String getUserIdentifier() {
+    protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
     }
     
@@ -324,7 +325,7 @@ public class NotesAttachmentsHelper {
      * Adds the "new" ProtocolAttachmentProtocol to the Protocol Document.  Before
      * adding this method executes validation.  If the validation fails the attachment is not added.
      */
-    void addNewProtocolAttachmentProtocol() {
+    protected void addNewProtocolAttachmentProtocol() {
         this.refreshAttachmentReferences(Collections.singletonList(this.getNewAttachmentProtocol()));
         this.syncNewFiles(Collections.singletonList(this.getNewAttachmentProtocol()));
         
@@ -336,15 +337,17 @@ public class NotesAttachmentsHelper {
          * is it necessary to even create a event?  Does the rule have to implement BusinessRule?  There
          * doesn't seem to be many advantages to doing these things...
          */
-        final AddProtocolAttachmentProtocolRule rule = new AddProtocolAttachmentProtocolRuleImpl();
-        final AddProtocolAttachmentProtocolEvent event = new AddProtocolAttachmentProtocolEvent(this.form.getProtocolDocument(), this.newAttachmentProtocol);
-        
-        if (rule.processAddProtocolAttachmentProtocolRules(event)) {
+//        TODO: fix the rule stuff
+//        final AddProtocolAttachmentProtocolRule rule = new AddProtocolAttachmentProtocolRuleImpl();
+//        final AddProtocolAttachmentProtocolEvent event = new AddProtocolAttachmentProtocolEvent(this.form.getProtocolDocument(), this.newAttachmentProtocol);
+//        
+//        if (rule.processAddProtocolAttachmentProtocolRules(event)) {
             this.addNewAttachment(this.newAttachmentProtocol);
             this.initAttachmentProtocol();
-        } else {
-            this.newAttachmentProtocol.setFile(null);
-        }
+//        } else {
+//            this.newAttachmentProtocol.setFile(null);
+//        }
+
     }
     
     /**
@@ -403,11 +406,11 @@ public class NotesAttachmentsHelper {
     <T extends ProtocolAttachmentBase> String retrieveConfirmMethodByType(final Class<T> type) {
         final String confirmMethod;
          
-        if (ProtocolAttachmentProtocol.class.equals(type)) {
+        if (getProtocolAttachmentProtocolClassHook().equals(type)) {
             confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT_PROTOCOL;
-        } else if (ProtocolAttachmentPersonnel.class.equals(type)) {
+        } else if (getProtocolAttachmentPersonnelClassHook().equals(type)) {
             confirmMethod = CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL;
-        } else if (ProtocolNotepad.class.equals(type)) {
+        } else if (getProtocolNotepadClassHook().equals(type)) {
             confirmMethod = CONFIRM_YES_DELETE_NOTE;
         } else {
             throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + type);
@@ -484,8 +487,10 @@ public class NotesAttachmentsHelper {
      * initializes a new attachment protocol setting the protocol id.
      */
     private void initAttachmentProtocol() {
-        this.setNewAttachmentProtocol(new ProtocolAttachmentProtocol(this.getProtocol()));
+        this.setNewAttachmentProtocol(createNewProtocolAttachmentProtocolInstanceHook(this.getProtocol()));
     }
+    
+    protected abstract ProtocolAttachmentProtocol createNewProtocolAttachmentProtocolInstanceHook(Protocol protocol);
     
     /**
      * initializes a new attachment personnel setting the protocol id.
@@ -494,15 +499,17 @@ public class NotesAttachmentsHelper {
         this.setNewAttachmentPersonnel(new ProtocolAttachmentPersonnel(this.getProtocol()));
     }
     
+    protected abstract ProtocolAttachmentPersonnel createNewProtocolAttachmentPersonnelInstanceHook(Protocol protocol);
+    
     /**
      * initializes a new attachment filter
      */
     private void initAttachmentFilter() {
-        ProtocolAttachmentFilter paFilter = new ProtocolAttachmentFilter();
+        ProtocolAttachmentFilter paFilter = createNewProtocolAttachmentFilterInstanceHook();
         
         //Lets see if there is a default set for the attachment sort
         try {
-            String defaultSortBy = parameterService.getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
+            String defaultSortBy = parameterService.getParameterValueAsString(getProtocolDocumentClassHook(),getAttachmentDefaultSortKeyHook());
             if (StringUtils.isNotBlank(defaultSortBy)) {
                 paFilter.setSortBy(defaultSortBy);
             }
@@ -512,6 +519,9 @@ public class NotesAttachmentsHelper {
 
         this.setNewAttachmentFilter(paFilter);
     }
+    
+    protected abstract ProtocolAttachmentFilter createNewProtocolAttachmentFilterInstanceHook();
+    protected abstract String getAttachmentDefaultSortKeyHook();
     
     /** 
      * refreshes a given Collection of attachment's references that can change.
@@ -629,19 +639,23 @@ public class NotesAttachmentsHelper {
      * Checks if Protocol Notepads can be modified.
      * @return true if can be modified false if cannot
      */
-    private boolean canAddProtocolNotepads() {
-        final ProtocolTask task = new ProtocolTask(TaskName.ADD_PROTOCOL_NOTES, this.getProtocol());
-        return this.authService.isAuthorized(this.getUserIdentifier(), task);
-    }
+// TODO *********commented the code below during IACUC refactoring*********    
+//    private boolean canAddProtocolNotepads() {
+//        final ProtocolTask task = new ProtocolTask(TaskName.ADD_PROTOCOL_NOTES, this.getProtocol());
+//        return this.authService.isAuthorized(this.getUserIdentifier(), task);
+//    }
+    public abstract boolean canAddProtocolNotepads();
     
     /**
      * Checks if restricted Protocol Notepads can be viewed.
      * @return true if can be modified false if cannot
      */
-    private boolean canViewRestrictedProtocolNotepads() {
-        final ProtocolTask task = new ProtocolTask(TaskName.VIEW_RESTRICTED_NOTES, this.getProtocol());
-        return this.authService.isAuthorized(this.getUserIdentifier(), task);
-    }
+// TODO *********commented the code below during IACUC refactoring*********    
+//    private boolean canViewRestrictedProtocolNotepads() {
+//        final ProtocolTask task = new ProtocolTask(TaskName.VIEW_RESTRICTED_NOTES, this.getProtocol());
+//        return this.authService.isAuthorized(this.getUserIdentifier(), task);
+//    }
+    public abstract boolean canViewRestrictedProtocolNotepads();
 
     /**
      * Gets the new protocol notepad.  This method will not return null.
@@ -697,15 +711,21 @@ public class NotesAttachmentsHelper {
         this.viewRestricted = viewRestricted;
     }
     
-    public boolean isIrbAdmin() {
-        return this.kraAuthorizationService.hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
-    }
+// TODO *********commented the code below during IACUC refactoring*********    
+//    public boolean isIrbAdmin() {
+//        return this.kraAuthorizationService.hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
+//    }
+// Note: Changing the name to make this more generic to work with both irb and iacuc.
+//       Pushing this method down to return true for its respective admin.  This flag
+//       is specifically used in the protocolNotes.tag file to determine if something 
+//       is read only.
+    public abstract boolean isProtocolAdmin();
     
     /**
      * initializes a new attachment protocol setting the protocol id.
      */
     private void initProtocolNotepad() {
-        final ProtocolNotepad notepad = new ProtocolNotepad(this.getProtocol());
+        final ProtocolNotepad notepad = createNewProtocolNotepadInstanceHook(this.getProtocol());
         notepad.setEntryNumber(this.getNextEntryNumber());
         this.setNewProtocolNotepad(notepad);
     }
@@ -714,13 +734,13 @@ public class NotesAttachmentsHelper {
      * adds a new note to the protocol.  Also performs validation.
      */
     public void addNewNote() {
-    
-        final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
-        final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getProtocolDocument(), this.protocolNotepad);
-        
-        if (!rule.processAddProtocolNotepadRules(event)) {
-            return;
-        }
+// TODO: fix the rules stuff here    
+//        final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
+//        final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getProtocolDocument(), this.protocolNotepad);
+//        
+//        if (!rule.processAddProtocolNotepadRules(event)) {
+//            return;
+//        }
 
         this.addNewNotepad(this.protocolNotepad);
         
@@ -733,12 +753,13 @@ public class NotesAttachmentsHelper {
     public void modifyNote(int noteToModify) {
     
         ProtocolNotepad notepadObject = this.getProtocol().getNotepads().get(noteToModify);
-        final ModifyProtocolNotepadRule rule = new ModifyProtocolNotepadRuleImpl();
-        final ModifyProtocolNotepadEvent event = new ModifyProtocolNotepadEvent(this.form.getProtocolDocument(), notepadObject);
-
-        if (!rule.processModifyProtocolNotepadRules(event)) {
-            return;
-        }
+//TODO: fix rules stuff here        
+//        final ModifyProtocolNotepadRule rule = new ModifyProtocolNotepadRuleImpl();
+//        final ModifyProtocolNotepadEvent event = new ModifyProtocolNotepadEvent(this.form.getProtocolDocument(), notepadObject);
+//
+//        if (!rule.processModifyProtocolNotepadRules(event)) {
+//            return;
+//        }
         modifyNotepad(notepadObject);
     }
     
@@ -746,13 +767,13 @@ public class NotesAttachmentsHelper {
      * deletes a note from the protocol.
      */
     public boolean deleteNote(int noteToDelete) {
-    
-        final DeleteProtocolNotepadRule rule = new DeleteProtocolNotepadRuleImpl();
-        final DeleteProtocolNotepadEvent event = new DeleteProtocolNotepadEvent(this.form.getProtocolDocument(), this.protocolNotepad);
-        
-        if (!rule.processDeleteProtocolNotepadRules(event)) {
-            return false;
-        }
+//TODO: fix rules stuff here    
+//        final DeleteProtocolNotepadRule rule = new DeleteProtocolNotepadRuleImpl();
+//        final DeleteProtocolNotepadEvent event = new DeleteProtocolNotepadEvent(this.form.getProtocolDocument(), this.protocolNotepad);
+//        
+//        if (!rule.processDeleteProtocolNotepadRules(event)) {
+//            return false;
+//        }
 
         this.deleteNotepad(noteToDelete);
         return true;
@@ -831,5 +852,12 @@ public class NotesAttachmentsHelper {
     public void addNewProtocolAttachmentFilter() {
         this.getProtocol().setProtocolAttachmentFilter(getNewAttachmentFilter());
     }
+    
+    public abstract Class<? extends ProtocolAttachmentProtocol> getProtocolAttachmentProtocolClassHook();
+    public abstract Class<? extends ProtocolAttachmentPersonnel> getProtocolAttachmentPersonnelClassHook();
+    public abstract Class<? extends ProtocolNotepad> getProtocolNotepadClassHook();
+    public abstract Class<? extends ProtocolDocument> getProtocolDocumentClassHook();
+    
+    protected abstract ProtocolNotepad createNewProtocolNotepadInstanceHook(Protocol protocol);
 
 }

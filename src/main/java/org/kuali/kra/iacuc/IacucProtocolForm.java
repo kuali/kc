@@ -27,6 +27,7 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataHelper;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
+import org.kuali.kra.iacuc.noteattachment.IacucNotesAttachmentsHelper;
 import org.kuali.kra.iacuc.permission.IacucPermissionsHelper;
 import org.kuali.kra.iacuc.personnel.IacucPersonnelHelper;
 import org.kuali.kra.iacuc.protocol.IacucProtocolHelper;
@@ -143,6 +144,15 @@ public class IacucProtocolForm extends ProtocolForm {
         return new IacucPersonnelHelper((IacucProtocolForm)protocolForm);
     }
     
+    public IacucNotesAttachmentsHelper getNotesAttachmentHelper(ProtocolForm form) {
+        return (IacucNotesAttachmentsHelper)super.getNotesAttachmentsHelper();
+    }
+    
+    @Override
+    protected IacucNotesAttachmentsHelper createNewNotesAttachmentsHelperInstanceHook(ProtocolForm protocolForm) {
+        return new IacucNotesAttachmentsHelper((IacucProtocolForm)protocolForm);
+    }
+    
     protected QuestionnaireHelper createNewQuestionnaireHelper(ProtocolForm form) {
         return new IacucProtocolQuestionnaireHelper(form);
     }
@@ -239,7 +249,7 @@ public class IacucProtocolForm extends ProtocolForm {
         HeaderField expirationDate = new HeaderField("DataDictionary.IacucProtocol.attributes.expirationDate", expirationDateStr);
         getDocInfo().add(expirationDate);
     }
-   
+    
     @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
         
