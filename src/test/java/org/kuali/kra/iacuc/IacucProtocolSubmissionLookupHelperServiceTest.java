@@ -117,8 +117,8 @@ public class IacucProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBa
         
         HtmlData inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "protocolNumber");
         assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), PROTOCOL_INQ_URL);
-        inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "committeeId");
-        assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), COMMITTEE_INQ_URL);
+        //inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "committeeId");
+        //assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), COMMITTEE_INQ_URL);
         inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "piName");
         assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), PERSON_INQ_URL);
         IacucProtocolPerson protocolPerson = (IacucProtocolPerson)protocolSubmission.getProtocol().getProtocolPersons().get(0);

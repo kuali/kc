@@ -1,0 +1,175 @@
+<!--
+ Copyright 2005-2010 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="IacucProtocolAttachmentBase" abstract="true" parent="IacucProtocolAttachmentBase-parentBean" />
+	<bean id="IacucProtocolAttachmentBase-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.protocol.noteattachment.IacucProtocolAttachmentBase" />
+		<property name="objectLabel" value="Protocol Attachment Base" />
+		<property name="inquiryDefinition" >
+			<ref bean="IacucProtocolAttachmentBase-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" >
+			<ref bean="IacucProtocolAttachmentBase-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="id" />
+		<property name="attributes" >
+			<list>
+				<ref bean="IacucProtocolAttachmentBase-id" />
+				<ref bean="IacucProtocolAttachmentBase-sequenceNumber" />
+				<ref bean="IacucProtocolAttachmentBase-documentId" />
+				<ref bean="IacucProtocolAttachmentBase-fileId" />
+				<ref bean="IacucProtocolAttachmentBase-versionNumber" />
+				<ref bean="IacucProtocolAttachmentBase-updateUser" />
+				<ref bean="IacucProtocolAttachmentBase-updateTimestamp" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="IacucProtocolAttachmentBase-id" parent="IacucProtocolAttachmentBase-id-parentBean" />
+	<bean id="IacucProtocolAttachmentBase-id-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="id" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Attachment Id" />
+		<property name="shortLabel" value="Attachment Id" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="15" />
+		</property>
+		<property name="summary" value="Attachment Id" />
+		<property name="description" value="Attachment Id" />
+	</bean>
+	
+	<bean id="IacucProtocolAttachmentBase-sequenceNumber" parent="IacucProtocolAttachmentBase-sequenceNumber-parentBean" />
+	<bean id="IacucProtocolAttachmentBase-sequenceNumber-parentBean" abstract="true" parent="ProtocolAssociate-sequenceNumber"/>
+	
+	<bean id="IacucProtocolAttachmentBase-documentId" parent="IacucProtocolAttachmentBase-documentId-parentBean" />
+	<bean id="IacucProtocolAttachmentBase-documentId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="documentId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Document Id" />
+		<property name="shortLabel" value="Document Id" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="5" />
+		</property>
+		<property name="summary" value="Document Id" />
+		<property name="description" value="Document Id" />
+	</bean>
+	
+	<bean id="IacucProtocolAttachmentBase-fileId" parent="IacucProtocolAttachmentBase-fileId-parentBean" />
+	<bean id="IacucProtocolAttachmentBase-fileId-parentBean" abstract="true" parent="AttachmentFile-id">
+		<property name="name" value="fileId" />
+		<property name="label" value="File Name" />
+		<property name="shortLabel" value="File Name" />
+		<property name="summary" value="File Name" />
+		<property name="description" value="File Name" />
+		<!-- <property name="required" value="true" />-->
+	</bean>
+	
+
+	
+	<bean id="IacucProtocolAttachmentBase-versionNumber" parent="IacucProtocolAttachmentBase-versionNumber-parentBean" />
+	<bean id="IacucProtocolAttachmentBase-versionNumber-parentBean" abstract="true" parent="ProtocolAssociate-versionNumber" />
+	
+	<bean id="IacucProtocolAttachmentBase-updateUser" parent="IacucProtocolAttachmentBase-updateUser-parentBean" />
+	<bean id="IacucProtocolAttachmentBase-updateUser-parentBean" abstract="true" parent="ProtocolAssociate-updateUser">
+	  <property name="label" value="Uploaded By" />
+	  <property name="shortLabel" value="Uploaded By" />
+	  <property name="summary" value="Uploaded By" />
+	  <property name="description" value="Uploaded By" />
+	</bean>
+	
+	<bean id="IacucProtocolAttachmentBase-updateTimestamp" parent="IacucProtocolAttachmentBase-updateTimestamp-parentBean" />
+	<bean id="IacucProtocolAttachmentBase-updateTimestamp-parentBean" abstract="true" parent="ProtocolAssociate-updateTimestamp">
+      <property name="label" value="Posted Timestamp" />
+	  <property name="shortLabel" value="Posted Timestamp" />
+	  <property name="summary" value="Posted Timestamp" />
+	  <property name="description" value="Posted Timestamp" />
+	</bean>
+  
+	<!-- Business Object Inquiry Definition -->
+	<bean id="IacucProtocolAttachmentBase-inquiryDefinition" parent="IacucProtocolAttachmentBase-inquiryDefinition-parentBean" />
+	<bean id="IacucProtocolAttachmentBase-inquiryDefinition-parentBean" abstract="true" parent="ProtocolAssociate-inquiryDefinition">
+		<property name="title" value="Id" />
+		<property name="inquirySections" >
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Id" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields" >
+						<list merge="true">
+							<bean parent="FieldDefinition"
+								p:attributeName="id" 
+								p:forceInquiry="true" />
+							<bean parent="FieldDefinition"
+								p:attributeName="documentId" />
+							<bean parent="FieldDefinition"
+								p:attributeName="fileId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+		<!-- Business Object Lookup Definition -->
+	<bean id="IacucProtocolAttachmentBase-lookupDefinition" parent="IacucProtocolAttachmentBase-lookupDefinition-parentBean" />
+	<bean id="IacucProtocolAttachmentBase-lookupDefinition-parentBean" abstract="true" parent="ProtocolAssociate-lookupDefinition">
+		<property name="title" value="Protocol AttachmentLookup" />
+        <property name="lookupableID" value="IacucProtocolAttachmentBaseLookupable" />
+		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+
+		<property name="defaultSort" >
+			<bean parent="SortDefinition" >
+		</bean>
+		</property>
+		<property name="lookupFields" >
+			<list merge="true">
+				<bean parent="FieldDefinition"
+					p:attributeName="id" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="documentId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="fileId" />
+			</list>
+		</property>
+		<property name="resultFields" >
+			<list merge="true">
+				<bean parent="FieldDefinition"
+					p:attributeName="id" 
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition"
+					p:attributeName="documentId" />
+				<bean parent="FieldDefinition"
+					p:attributeName="fileId" />
+			</list>
+		</property>
+	</bean>
+</beans>

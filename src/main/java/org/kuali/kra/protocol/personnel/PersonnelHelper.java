@@ -122,7 +122,7 @@ public abstract class PersonnelHelper implements Serializable {
     
     public List<ProtocolAttachmentPersonnel> getNewProtocolAttachmentPersonnels() {
         if (getForm().getProtocolDocument().getProtocol().getProtocolPersons().size() > this.newProtocolAttachmentPersonnels.size()) {
-            this.newProtocolAttachmentPersonnels.add(this.newProtocolAttachmentPersonnels.size(), new ProtocolAttachmentPersonnel());
+            this.newProtocolAttachmentPersonnels.add(this.newProtocolAttachmentPersonnels.size(), createNewProtocolAttachmentPersonnelInstanceHook());
         }
         return newProtocolAttachmentPersonnels;
     }
@@ -181,4 +181,5 @@ public abstract class PersonnelHelper implements Serializable {
      * @return
      */
     public abstract ProtocolUnit createNewProtocolUnitInstanceHook();
+    public abstract ProtocolAttachmentPersonnel createNewProtocolAttachmentPersonnelInstanceHook();
 }

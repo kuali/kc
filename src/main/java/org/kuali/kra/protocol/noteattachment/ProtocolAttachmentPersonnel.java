@@ -24,22 +24,23 @@ import org.kuali.kra.protocol.personnel.ProtocolPerson;
 /**
  * This class represents the Protocol Attachment Personnel.
  */
-public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
+public abstract class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
 
     private static final long serialVersionUID = -7115904344245464654L;
 
-    private static final String GROUP_CODE = "2";
+// TODO *********commented the code below during IACUC refactoring*********    
+//    private static final String GROUP_CODE = "2";
 
-    private Integer personId;
+    protected Integer personId;
 
     @SkipVersioning
-    private ProtocolPerson person;
+    protected ProtocolPerson person;
 
-    private String typeCode;
+    protected String typeCode;
 
-    private ProtocolAttachmentType type;
+    protected ProtocolAttachmentType type;
 
-    private String description;
+    protected String description;
 
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -117,9 +118,11 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
     }
 
     /** {@inheritDoc} */
-    public String getGroupCode() {
-        return GROUP_CODE;
-    }
+// TODO *********commented the code below during IACUC refactoring*********        
+//    public String getGroupCode() {
+//        return GROUP_CODE;
+//    }
+    public abstract String getGroupCode();
 
     /** {@inheritDoc} */
     public String getDescription() {
@@ -132,10 +135,12 @@ public class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase {
     }
 
     /** {@inheritDoc} */
-    @Override
-    public String getAttachmentDescription() {
-        return "Personnel Attachment";
-    }
+// TODO *********commented the code below during IACUC refactoring*********            
+//    @Override
+//    public String getAttachmentDescription() {
+//        return "Personnel Attachment";
+//    }
+    public abstract String getAttachmentDescription();
 
     /** {@inheritDoc} */
     @Override

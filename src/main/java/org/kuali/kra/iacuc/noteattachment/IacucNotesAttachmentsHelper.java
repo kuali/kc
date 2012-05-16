@@ -68,8 +68,7 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
 
     @Override
     protected ProtocolAttachmentPersonnel createNewProtocolAttachmentPersonnelInstanceHook(Protocol protocol) {
-        // TODO Auto-generated method stub
-        return null;
+        return new IacucProtocolAttachmentPersonnel();
     }
 
     @Override
@@ -105,20 +104,17 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
 
     @Override
     public Class<? extends ProtocolAttachmentProtocol> getProtocolAttachmentProtocolClassHook() {
-        // TODO Auto-generated method stub
         return IacucProtocolAttachmentProtocol.class;
     }
 
     @Override
     public Class<? extends ProtocolAttachmentPersonnel> getProtocolAttachmentPersonnelClassHook() {
-        // TODO Auto-generated method stub
-        return null;
+        return IacucProtocolAttachmentPersonnel.class;
     }
 
     @Override
     public Class<? extends ProtocolNotepad> getProtocolNotepadClassHook() {
-        // TODO Auto-generated method stub
-        return null;
+        return IacucProtocolNotepad.class;
     }
 
     @Override
@@ -128,8 +124,7 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
 
     @Override
     protected ProtocolNotepad createNewProtocolNotepadInstanceHook(Protocol protocol) {
-        // TODO Auto-generated method stub
-        return null;
+        return new IacucProtocolNotepad();
     }
 
 }
