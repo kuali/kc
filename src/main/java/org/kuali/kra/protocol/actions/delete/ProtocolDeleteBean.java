@@ -16,33 +16,15 @@
 package org.kuali.kra.protocol.actions.delete;
 
 import java.io.Serializable;
-
-import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.ProtocolActionBean;
+import org.kuali.kra.protocol.actions.ProtocolActionBean;
 
 /**
  * This class is really just a "form" containing the reason
  * for deleting a protocol/amendment/renewal.
  */
-public class ProtocolDeleteBean extends ProtocolActionBean implements Serializable{
+public interface ProtocolDeleteBean extends ProtocolActionBean, Serializable {
 
-    private static final long serialVersionUID = 7654109710201779704L;
-    
-    private String reason = "";
-    
-    /**
-     * Constructs a ProtocolDeleteBean.
-     * @param actionHelper Reference back to the action helper for this bean
-     */
-    public ProtocolDeleteBean(ActionHelper actionHelper) {
-        super(actionHelper);
-    }
+    public void setReason(String reason);
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public String getReason() {
-        return reason;
-    }
+    public String getReason();
 }
