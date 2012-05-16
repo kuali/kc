@@ -1919,19 +1919,19 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     @Override
     public String[] getQuestionnaireFieldStarters() {
-        String[] starters = {"proposalPersonQuestionnaireHelpers[", "s2sQuestionnaireHelper"};
+        String[] starters = {"proposalPersonQuestionnaireHelpers[", "s2sQuestionnaireHelper", "questionnaireHelper"};
         return starters;
     }
 
     @Override
     public String[] getQuestionnaireFieldMiddles() {
-        String[] middles = {DEFAULT_MIDDLE, DEFAULT_MIDDLE};
+        String[] middles = {DEFAULT_MIDDLE, DEFAULT_MIDDLE, DEFAULT_MIDDLE};
         return middles;
     }
 
     @Override
     public String[] getQuestionnaireFieldEnds() {
-        String[] ends = {DEFAULT_END, DEFAULT_END};
+        String[] ends = {DEFAULT_END, DEFAULT_END, DEFAULT_END};
         return ends;
     }
 
