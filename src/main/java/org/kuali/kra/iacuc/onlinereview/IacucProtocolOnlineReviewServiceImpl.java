@@ -83,7 +83,8 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
         List<CommitteeMembership> committeeMembers = committeeService.getAvailableMembers(submission.getCommitteeId(),
                 submission.getScheduleId());
         // TODO: Make this better.
-        if (CollectionUtils.isNotEmpty(currentReviews)) {
+        // should run this for loop to exclude protocol personnel
+//        if (CollectionUtils.isNotEmpty(currentReviews)) {
             for (CommitteeMembership member : committeeMembers) {
                 boolean found = false;
                 for (ProtocolOnlineReview review : currentReviews) {
@@ -96,10 +97,10 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
                     results.add(member);
                 }
             }
-        }
-        else {
-            results.addAll(committeeMembers);
-        }
+//        }
+//        else {
+//            results.addAll(committeeMembers);
+//        }
         return results;
     }
 

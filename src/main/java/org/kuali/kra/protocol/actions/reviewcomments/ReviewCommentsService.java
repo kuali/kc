@@ -17,9 +17,10 @@ package org.kuali.kra.protocol.actions.reviewcomments;
 
 import java.util.List;
 
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 
 public interface ReviewCommentsService {
 //    /**
@@ -96,7 +97,7 @@ public interface ReviewCommentsService {
 //     * @param protocol the current protocol
 //     * @param fromIndex the current position of the review comment
 //     */
-//    void moveUpReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol, int fromIndex);
+    void moveUpReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol, int fromIndex);
 //    
 //    /**
 //     * Moves one review comment down the list by one value.
@@ -104,7 +105,7 @@ public interface ReviewCommentsService {
 //     * @param protocol the current protocol
 //     * @param fromIndex the current position of the review comment
 //     */
-//    void moveDownReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol, int fromIndex);
+    void moveDownReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol, int fromIndex);
 //    
 //    /**
 //     * Delete the review comment at index from the list of reviewComments and add it to the list of deletedReviewComments.
@@ -173,7 +174,7 @@ public interface ReviewCommentsService {
 //     * @param index
 //     * @param deletedReviewAttachments
 //     */
-//    void deleteReviewAttachment(List<ProtocolReviewAttachment> reviewAttachments, int index, List<ProtocolReviewAttachment> deletedReviewAttachments);
+    void deleteReviewAttachment(List<ProtocolReviewAttachment> reviewAttachments, int index, List<ProtocolReviewAttachment> deletedReviewAttachments);
 //
 //    /**
 //     * 
@@ -181,7 +182,7 @@ public interface ReviewCommentsService {
 //     * @param reviewAttachments
 //     * @param deletedReviewAttachments
 //     */
-//    void saveReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments, List<ProtocolReviewAttachment> deletedReviewAttachments);
+    void saveReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments, List<ProtocolReviewAttachment> deletedReviewAttachments);
 //
 //    /**
 //     * 
@@ -189,8 +190,8 @@ public interface ReviewCommentsService {
 //     * @param reviewAttachments
 //     * @param deletedReviewAttachments
 //     */
-//    void deleteAllReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments,
-//            List<ProtocolReviewAttachment> deletedReviewAttachments);
+    void deleteAllReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments,
+            List<ProtocolReviewAttachment> deletedReviewAttachments);
 //    /**
 //     * 
 //     * This method is to add review attachment in OLR or manage review attachment
@@ -198,7 +199,7 @@ public interface ReviewCommentsService {
 //     * @param reviewAttachments
 //     * @param protocol
 //     */
-//    void addReviewAttachment(ProtocolReviewAttachment newReviewAttachment, List<ProtocolReviewAttachment> reviewAttachments, Protocol protocol);
+    void addReviewAttachment(ProtocolReviewAttachment newReviewAttachment, List<ProtocolReviewAttachment> reviewAttachments, Protocol protocol);
 //
 //    /**
 //     * 

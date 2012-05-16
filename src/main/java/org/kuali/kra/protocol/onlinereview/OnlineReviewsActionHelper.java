@@ -33,12 +33,12 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
@@ -145,7 +145,7 @@ public class OnlineReviewsActionHelper implements Serializable {
                     ReviewAttachmentsBean attachmentsBean = new ReviewAttachmentsBean("onlineReviewsActionHelper");
                     
                     // -- commented as part of GENERATED CODE need to verify
-                    //attachmentsBean.setReviewAttachments(pDoc.getProtocolOnlineReview().getReviewAttachments());
+                    attachmentsBean.setReviewAttachments(pDoc.getProtocolOnlineReview().getReviewAttachments());
                     
                     
                   //  commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));
@@ -156,12 +156,13 @@ public class OnlineReviewsActionHelper implements Serializable {
             }
             
         }
-        for (ReviewCommentsBean commentsBean : reviewCommentsBeans) {
-            commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));            
-        }
-        for (ReviewAttachmentsBean attachmentsBean : reviewAttachmentsBeans) {
-            attachmentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(attachmentsBean.getReviewAttachments()));            
-        }
+        // TODO : IACUC needs following later
+//        for (ReviewCommentsBean commentsBean : reviewCommentsBeans) {
+//            commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));            
+//        }
+//        for (ReviewAttachmentsBean attachmentsBean : reviewAttachmentsBeans) {
+//            attachmentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(attachmentsBean.getReviewAttachments()));            
+//        }
  
     }
     
