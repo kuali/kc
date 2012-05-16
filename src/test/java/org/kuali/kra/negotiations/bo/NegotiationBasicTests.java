@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,11 +93,11 @@ public class NegotiationBasicTests extends KcUnitTestBase {
         negotiation.setNegotiatorPersonId("jdh34");
         negotiation.setNegotiatorName("quickstart");
         
-        assertTrue(StringUtils.isBlank(negotiation.getUpdateUser()));
+        assertNull(negotiation.getUpdateUser());
         
         businessObjectService.save(negotiation);
         
-        assertTrue(StringUtils.isNotBlank(negotiation.getUpdateUser()));
+        assertNotNull(negotiation.getUpdateUser());
         
         return negotiation;
     }
