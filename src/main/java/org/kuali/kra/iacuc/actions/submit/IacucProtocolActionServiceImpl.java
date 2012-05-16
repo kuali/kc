@@ -29,8 +29,10 @@ import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDao;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.followup.IacucFollowupActionService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ActionRightMapping;
@@ -60,18 +62,51 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl {
 
     protected static final int UPDATE_RULE = 1;
     
-    private static final String PERFORMACTION_FILE = "org/kuali/kra/iacuc/drools/rules/canPerformProtocolActionRules.drl";
-
-    private static final String UPDATE_FILE = "org/kuali/kra/iacuc/drools/rules/updateProtocolRules.drl";
-    
-    private static final String PERFORM_IACUC_ACTIONS_ON_PROTO = "Perform IACUC Actions on a Protocol";
+    private static final String PERFORMACTION_FILE = "org/kuali/kra/iacuc/drools/rules/canPerformIacucProtocolActionRules.drl";
+    private static final String UPDATE_FILE = "org/kuali/kra/iacuc/drools/rules/updateIacucProtocolRules.drl";
     
     private static final String KC_IACUC = "KC-IACUC";
 
-    private String[] actn = { "101", "102", "103", "104", "105", "106", "107", "108", "114", "115", "116", "200", "201", "202", "203",  
-                              "204", "205", "206", "207", "208", "209", "210", "211", "212", "300", "301", "302", "303", "304", 
-                              "305", "306" };
-
+    private String[] actn = { 
+            IacucProtocolActionType.SUBMITTED_TO_IACUC,
+            IacucProtocolActionType.AMENDMENT_CREATED,
+            IacucProtocolActionType.CONTINUATION,
+            IacucProtocolActionType.RENEWAL_CREATED,
+            IacucProtocolActionType.CONTINUATION_AMENDMENT,
+            IacucProtocolActionType.RENEWAL_AMENDMENT,
+            IacucProtocolActionType.REQUEST_DEACTIVATE,
+            IacucProtocolActionType.REQUEST_LIFT_HOLD,
+            IacucProtocolActionType.NOTIFIED_COMMITTEE,
+            IacucProtocolActionType.ADMINISTRATIVE_CORRECTION,
+            IacucProtocolActionType.NOTIFY_IACUC,
+            IacucProtocolActionType.IACUC_WITHDRAWN,
+            IacucProtocolActionType.IACUC_ABANDON,
+            IacucProtocolActionType.ASSIGNED_TO_AGENDA,
+            IacucProtocolActionType.REMOVED_FROM_AGENDA,
+            IacucProtocolActionType.RESCHEDULED,
+            IacucProtocolActionType.TABLED,
+            IacucProtocolActionType.IACUC_APPROVED,
+            IacucProtocolActionType.RESPONSE_APPROVAL,
+            IacucProtocolActionType.IACUC_ACKNOWLEDGEMENT,
+            IacucProtocolActionType.IACUC_REVIEW_NOT_REQUIRED,
+            IacucProtocolActionType.LIFT_HOLD,
+            IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED,
+            IacucProtocolActionType.RETURNED_TO_PI,
+            IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED,
+            IacucProtocolActionType.DESIGNATED_REVIEW_APPROVAL,
+            IacucProtocolActionType.IACUC_REVISIONS_REQUIRED,
+            IacucProtocolActionType.FULL_COMMITEE_REQUIRED,
+            IacucProtocolActionType.ADMINISTRATIVE_APPROVAL,
+            IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE,
+            IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN,
+            IacucProtocolActionType.IACUC_DISAPPROVED,
+            IacucProtocolActionType.EXPIRED,
+            IacucProtocolActionType.DEACTIVATED,
+            IacucProtocolActionType.ADMINISTRATIVELY_DEACTIVATED ,
+            IacucProtocolActionType.HOLD ,
+            IacucProtocolActionType.TERMINATED,
+            IacucProtocolActionType.SUSPENDED  };     
+    
     {
         actions = Arrays.asList(actn);
     }
@@ -100,23 +135,22 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl {
      */
     protected boolean isAuthorizedtoPerform(String actionTypeCode, IacucProtocol protocol) {
         boolean flag = false;
-//TODO: To be implemented for IACUC
         ActionRightMapping rightMapper = new ActionRightMapping();
-//
-//        flag = hasPermissionLeadUnit(actionTypeCode, protocol, rightMapper);
-//
-//        if (!flag) {
+
+        flag = hasPermissionLeadUnit(actionTypeCode, protocol, rightMapper);
+
+        if (!flag) {
             flag = hasPermissionToSubmit(actionTypeCode, protocol, rightMapper);
-//        }
-//
-//        if (!flag) {
-//            flag = hasPermissionAsCommitteeMember(actionTypeCode, protocol, rightMapper);
-//        }
-//
-//        if (!flag) {
-//            flag = hasPermissionSpecialCase(actionTypeCode, DEFAULT_ORGANIZATION_UNIT, rightMapper);
-//        }
-//
+        }
+
+        if (!flag) {
+            flag = hasPermissionAsCommitteeMember(actionTypeCode, protocol, rightMapper);
+        }
+
+        if (!flag) {
+            flag = hasPermissionSpecialCase(actionTypeCode, DEFAULT_ORGANIZATION_UNIT, rightMapper);
+        }
+
         return flag;
     }
 
@@ -134,26 +168,25 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl {
         return actionList;
     }
 
-//TODO: To be implemented for IACUC
-//    /*
-//     * This method is to check if user has permission in lead unit
-//     */
-//    protected boolean hasPermissionLeadUnit(String actionTypeCode, IacucProtocol protocol, ActionRightMapping rightMapper) {
-//        rightMapper.setActionTypeCode(actionTypeCode);
-//        rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
-//        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
-//                KC_PROTOCOL, MODIFY_ANY_PROTOCOL) : false;
-//    }
-//
-//    /**
-//     * This method is to check if user has permission to submit
-//     */
-//    protected boolean hasPermissionToSubmit(String actionTypeCode, IacucProtocol protocol, ActionRightMapping rightMapper) {
-//        rightMapper.setActionTypeCode(actionTypeCode);
-//        rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
-//        return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
-//                .getRightId()) : false;
-//    } 
+    /*
+     * This method is to check if user has permission in lead unit
+     */
+    protected boolean hasPermissionLeadUnit(String actionTypeCode, IacucProtocol protocol, ActionRightMapping rightMapper) {
+        rightMapper.setActionTypeCode(actionTypeCode);
+        rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
+        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
+                KC_IACUC, PermissionConstants.MODIFY_ANY_IACUC_PROTOCOL) : false;
+    }
+
+    /**
+     * This method is to check if user has permission to submit
+     */
+    protected boolean hasPermissionToSubmit(String actionTypeCode, IacucProtocol protocol, ActionRightMapping rightMapper) {
+        rightMapper.setActionTypeCode(actionTypeCode);
+        rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
+        return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
+                .getRightId()) : false;
+    } 
 
     private List<String> getPersonnelIds(IacucProtocol protocol) {
         List<String> PersonnelIds = new ArrayList<String>();
@@ -184,7 +217,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl {
         rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
         rulesList.get(PERMISSIONS_COMMITTEEMEMBERS_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
-                KC_IACUC, PERFORM_IACUC_ACTIONS_ON_PROTO) : false;
+                KC_IACUC, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO) : false;
     }
 
     /**
@@ -194,7 +227,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_SPECIAL_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), unit,
-                KC_IACUC, PERFORM_IACUC_ACTIONS_ON_PROTO) : false;
+                KC_IACUC, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO) : false;
     }
 
     protected String getUserIdentifier() {
@@ -218,6 +251,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl {
         protocolAction.setBusinessObjectService(businessObjectService);
 //TODO:IACUC        protocolAction.setDao(protocolDao);
         protocolAction.setProtocol(protocol);
+System.out.println("\n\nDDDDDDDD protocol status = " + protocolStatusCode + ", submission status = " + submissionStatusCode + ", action type = " + actionTypeCode + "\n\n");        
         rulesList.get(PERFORMACTION_RULE).executeRules(protocolAction);
         return protocolAction.isAllowed();
     }
