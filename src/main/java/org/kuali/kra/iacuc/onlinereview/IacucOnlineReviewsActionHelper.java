@@ -28,15 +28,15 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
@@ -191,7 +191,7 @@ public class IacucOnlineReviewsActionHelper  extends  OnlineReviewsActionHelper 
      */
     public List<CommitteeMembership> getAvailableCommitteeMembersForCurrentSubmission() {
         List<CommitteeMembership> members = getProtocolOnlineReviewService()
-                                            .getAvailableCommitteeMembersForCurrentSubmission(form.getProtocolDocument().getProtocol());
+        .getAvailableCommitteeMembersForCurrentSubmission(form.getProtocolDocument().getProtocol());
         return members;
     }
     

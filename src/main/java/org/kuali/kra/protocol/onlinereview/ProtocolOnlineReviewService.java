@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.onlinereview;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;

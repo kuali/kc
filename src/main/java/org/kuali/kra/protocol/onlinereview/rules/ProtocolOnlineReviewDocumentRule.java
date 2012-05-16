@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol.onlinereview.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
@@ -26,7 +27,6 @@ import org.kuali.kra.protocol.onlinereview.event.DisapproveProtocolOnlineReviewC
 import org.kuali.kra.protocol.onlinereview.event.RejectProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;

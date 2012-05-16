@@ -16,9 +16,9 @@
 package org.kuali.kra.iacuc.onlinereview.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KraAuthorizationService;
