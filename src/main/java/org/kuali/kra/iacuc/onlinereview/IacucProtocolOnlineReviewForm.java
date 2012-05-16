@@ -34,11 +34,15 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewForm;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatus;
+import org.kuali.kra.protocol.onlinereview.authorization.ProtocolOnlineReviewTask;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewForm  {
@@ -170,14 +174,14 @@ public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewForm  {
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
         
-//        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
-//               
-//        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProtocolOnlineReviewTask("rejectProtocolOnlineReview",doc))
-//                && doc.getDocumentHeader().getWorkflowDocument().isEnroute()
-//                && ProtocolOnlineReviewStatus.FINAL_STATUS_CD.equals(doc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode())) {
-//            String resubmissionImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_return_to_reviewer.gif";
-//            addExtraButton("methodToCall.rejectOnlineReview", resubmissionImage, "Return to reviewer");
-//        }
+        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
+               
+        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProtocolOnlineReviewTask("rejectProtocolOnlineReview",doc))
+                && doc.getDocumentHeader().getWorkflowDocument().isEnroute()
+                && ProtocolOnlineReviewStatus.FINAL_STATUS_CD.equals(doc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode())) {
+            String resubmissionImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_return_to_reviewer.gif";
+            addExtraButton("methodToCall.rejectOnlineReview", resubmissionImage, "Return to reviewer");
+        }
         
         return extraButtons;
     }

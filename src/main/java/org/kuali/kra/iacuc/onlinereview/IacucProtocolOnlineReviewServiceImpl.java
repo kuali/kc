@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,10 +28,10 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
@@ -42,6 +41,7 @@ import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -50,6 +50,8 @@ import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnlineReviewService {
@@ -61,6 +63,7 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
     private CommitteeService committeeService;
     private KraWorkflowService kraWorkflowService;
     private WorkflowDocumentService workflowDocumentService;
+    private ReviewCommentsService reviewCommentsService;
 
     private String reviewerApproveNodeName;
     private String irbAdminApproveNodeName;
@@ -221,8 +224,8 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
             try {
                 isReviewable = StringUtils.isNotEmpty(submission.getScheduleId());
                 isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(),
-                        ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) || StringUtils.equals(
-                        submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA));
+                        IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) || StringUtils.equals(
+                        submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.IN_AGENDA));
                 // TODO : uncomment following when IACUC doc wkflw is ready
 //                ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol
 //                        .getProtocolDocument().getDocumentNumber());
@@ -360,4 +363,121 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
         this.personService = personService;
     }
 
+    public ProtocolReviewer getProtocolReviewer(String personId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission) {
+        ProtocolReviewer protocolReviewer = null;
+
+        if (protocolSubmission != null) {
+            for (ProtocolOnlineReview protocolOnlineReview : protocolSubmission.getProtocolOnlineReviews()) {
+                if (protocolOnlineReview.getProtocolReviewer().isPersonIdProtocolReviewer(personId,nonEmployeeFlag) 
+                        && protocolOnlineReview.isActive()) {
+                    protocolReviewer = protocolOnlineReview.getProtocolReviewer();
+                    break;
+                }
+            }
+        }
+       
+        return protocolReviewer;
+    }
+
+    public ProtocolOnlineReviewDocument getProtocolOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmission protocolSubmission) {
+        ProtocolOnlineReviewDocument protocolOnlineReviewDocument = null;
+        
+        if (protocolSubmission != null) {
+            for (ProtocolOnlineReview protocolOnlineReview : protocolSubmission.getProtocolOnlineReviews()) {
+                if (protocolOnlineReview.getProtocolReviewer().isPersonIdProtocolReviewer(personId,nonEmployeeFlag) 
+                        && protocolOnlineReview.isActive()) {
+                    try {
+                        protocolOnlineReviewDocument =  (ProtocolOnlineReviewDocument)documentService.getByDocumentHeaderId(protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber());
+                    }
+                    catch (WorkflowException e) {
+                       if (LOG.isDebugEnabled()) {
+                           String errorMessage = String.format("WorkflowException encountered while looking up document number %s for ProtocolOnlineReviewDocument associated with (submissionId=%s,personId=%s,nonEmployeeFlag=%s",
+                                   protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber(),
+                                   protocolSubmission.getSubmissionId(),
+                                   personId,nonEmployeeFlag);
+                           
+                           LOG.error(errorMessage,e);
+                           throw new RuntimeException(errorMessage,e);
+                       }
+                    }
+                }
+            }
+        }
+ 
+        return protocolOnlineReviewDocument;
+    }
+    
+    public void removeOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmission submission, String annotation) {
+        ProtocolOnlineReviewDocument protocolOnlineReviewDocument = this.getProtocolOnlineReviewDocument(personId, nonEmployeeFlag, submission);
+        
+        ProtocolOnlineReview submissionsProtocolOnlineReview = null;
+ 
+        for (ProtocolOnlineReview rev : submission.getProtocolOnlineReviews()) {
+            if (rev.getProtocolOnlineReviewId().equals(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolOnlineReviewId())) {
+                submissionsProtocolOnlineReview = rev;
+                break;
+            }
+        }
+        
+        
+        if (submissionsProtocolOnlineReview == null) {
+            throw new IllegalStateException("Could not match OnlineReview document being removed to a protocolOnlineReview in the submission.");
+        }
+        
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(String.format("Processing request to remove online review for (personId=%s,nonEmployeeFlag=%s) from (protocol=%s,submission=%s)",personId,nonEmployeeFlag,submission.getProtocol().getProtocolNumber(),submission.getSubmissionNumber()));
+        }
+        
+        if (protocolOnlineReviewDocument != null) {
+            if(LOG.isDebugEnabled()) {
+                LOG.debug(String.format("Found protocolOnlineReviewDocument %s, removing it.",protocolOnlineReviewDocument.getDocumentNumber()));
+            }
+            cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
+            submissionsProtocolOnlineReview.setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+            
+            List<CommitteeScheduleMinute> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
+            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+            reviewCommentsService.deleteAllReviewComments(reviewComments, deletedReviewComments);
+            reviewCommentsService.saveReviewComments(reviewComments, deletedReviewComments);
+            
+//            for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
+//                if (protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().getProtocolReviewerId().equals(reviewer.getProtocolReviewerId())) {
+//                    submissionsProtocolOnlineReview.getProtocolReviewer().setSubmissionIdFk(null);
+//                    boolean success = submission.getProtocolReviewers().remove(reviewer);
+//                    LOG.info(success);
+//                }
+//            }
+//            
+            businessObjectService.save(submissionsProtocolOnlineReview);
+        
+        } else {
+            LOG.warn(String.format("Protocol Online Review document could not be found for (personId=%s,nonEmployeeFlag=%s) from (protocol=%s,submission=%s)",personId,nonEmployeeFlag,submission.getProtocol().getProtocolNumber(),submission.getSubmissionNumber()));
+        }
+    }
+
+    public void setReviewCommentsService(ReviewCommentsService reviewCommentsService) {
+        this.reviewCommentsService = reviewCommentsService;
+    }
+
+    protected void cancelOnlineReviewDocument(ProtocolOnlineReviewDocument protocolOnlineReviewDocument, ProtocolSubmission submission, String annotation) {
+        try {
+           
+            final String principalId = identityManagementService.getPrincipalByPrincipalName(KRADConstants.SYSTEM_USER).getPrincipalId();
+            WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, protocolOnlineReviewDocument.getDocumentNumber());
+            
+            if (workflowDocument.isEnroute() 
+                ||
+                workflowDocument.isInitiated()
+                ||
+                workflowDocument.isSaved()
+                ) {
+                workflowDocument.superUserCancel(String.format("Review Cancelled from assign reviewers action by %s", GlobalVariables.getUserSession().getPrincipalId()));
+            }
+        } catch(Exception e) {
+            String errorMessage = String.format("Exception generated while executing superUserCancel on document %s in removeOnlineReviewDocument. Message: %s",protocolOnlineReviewDocument.getDocumentNumber(), e.getMessage());
+            LOG.error(errorMessage);
+            throw new RuntimeException(errorMessage,e);
+        }
+    }
+    
 }

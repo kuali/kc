@@ -259,9 +259,9 @@
         <property name="protocolActionService" ref="iacucActionService" /> 
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolFinderDao" ref="iacucProtocolFinderDao" />
-<!-- IACUC
-        <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
--->
+      <!--  
+        <property name="protocolAssignReviewersService" ref="iacucProtocolAssignReviewersService" />
+         --> 
     </bean>
     
     <bean id="iacucWithdrawService" class="org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawServiceImpl">
@@ -289,11 +289,11 @@
         <property name = "kraWorkflowService" ref = "kraWorkflowService"/>
         <property name = "personService" ref = "personService"/>
         <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
+        <property name = "reviewCommentsService" ref = "iacucReviewCommentsService"/>
 <!--         <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
         <property name = "reviewerApproveNodeName" value = "OnlineReviewer"/>
         <property name = "irbAdminApproveNodeName" value = "IRBAdminReview"/>
         <property name = "kraDocumentRejectionService" ref = "kraDocumentRejectionService"/>
-        <property name = "reviewCommentsService" ref = "reviewCommentsService"/>
 -->
     </bean>
     
@@ -370,6 +370,12 @@
                 </bean>
             </list>
         </property>
+    </bean>
+    
+     <bean id="iacucProtocolAssignReviewersService" class="org.kuali.kra.iacuc.actions.assignreviewers.IacucProtocolAssignReviewersServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
+        <property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
         
 </beans>
