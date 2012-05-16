@@ -39,9 +39,8 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
 
     private transient KcPersonService kcPersonService;
     
-    // TODO: Temporarily adding initializers to test if initialization will solve problems in KCINFR-531
-    private String updateUser = Constants.EMPTY_STRING;
-    private Timestamp updateTimestamp = new Timestamp(System.currentTimeMillis());
+    private String updateUser;
+    private Timestamp updateTimestamp;
     private boolean updateUserSet;
     
     private transient PersistableBusinessObjectExtension temporaryExtension;
