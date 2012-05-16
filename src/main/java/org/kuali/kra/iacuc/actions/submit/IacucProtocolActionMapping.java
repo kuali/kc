@@ -26,6 +26,7 @@ import org.kuali.kra.drools.brms.FactBean;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionMapping;
 import org.kuali.rice.kim.api.identity.Person;
@@ -157,5 +158,16 @@ public class IacucProtocolActionMapping extends ProtocolActionMapping {
         return !submissions.isEmpty() && statusCodes.contains(submissions.get(0).getSubmissionStatusCode());
         
     }
-    
+
+    public String toString() {
+        return "IacucProtocolActionMapping = (submissionStatusCode = " + submissionStatusCode +
+                                              ", submissionTypeCode = " + submissionTypeCode +
+                                              ", protocolReviewTypeCode = " + protocolReviewTypeCode + 
+                                              ", actionTypeCode = " + actionTypeCode +
+                                              ", protocolStatusCode = " + protocolStatusCode +
+                                              ", scheduleId = " + scheduleId +
+                                              ", protocol id = " + protocol.getProtocolId() +
+                                              ", submissionNumber = " + submissionNumber +
+                                              ", allowed = " + allowed + ")";
+    }
 }

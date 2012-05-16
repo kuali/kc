@@ -175,40 +175,48 @@ public interface PermissionConstants {
       */
      
      public static final String ADD_ANY_IACUC_PROTOCOL_NOTES = "Add Any IACUC Protocol Notes";                                                   
-     public static final String ADD_IACUC_PROTOCOL_NOTES = "Add IACUC  Protocol Notes";                                                      
-     public static final String COPY_IACUC_PROTOCOL = "Copy IACUC  Protocol";                                                           
-     public static final String CREATE_ANY_IACUC_AMENDMENT = "Create Any IACUC Protocol Amendment";                                        
+     public static final String ADD_IACUC_PROTOCOL_NOTES = "Add IACUC Protocol Notes";                                                      
+     public static final String COPY_IACUC_PROTOCOL = "Copy IACUC Protocol";                                                           
+     public static final String CREATE_ANY_IACUC_AMENDMENT = "Create Any IACUC Amendment";                                        
      public static final String CREATE_ANY_IACUC_CONT_REVIEW = "Create Any IACUC Protocol Continuation Review";             
      public static final String CREATE_ANY_IACUC_CONT_REV_AM = "Create Any IACUC Protocol Continuation Review with Amendment";
-     public static final String CREATE_ANY_IACUC_RENEWAL = "Create Any IACUC Protocol Renewals";                                         
-     public static final String CREATE_ANY_IACUC_REN_AMEN = "Create Any IACUC Protocol Renewal with Amendment";                           
+     public static final String CREATE_ANY_IACUC_RENEWAL = "Create Any IACUC Renewal";                                         
+     public static final String CREATE_ANY_IACUC_REN_AMEN = "Create Any IACUC Renewal with Amendment";                           
      public static final String CREATE_IACUC_AMENDMENT = "Create IACUC Amendment";                                    
      public static final String CREATE_IACUC_CONT_REVIEW = "Create IACUC Protocol Continuation Review";              
      public static final String CREATE_IACUC_CONT_REV_AM = "Create IACUC Protocol Continuation Review with Amendment"; 
      public static final String CREATE_IACUC_PROTOCOL = "Create IACUC Protocol";                                                          
-     public static final String CREATE_IACUC_RENEWAL = "Create IACUC protocol Renewal";                                      
+     public static final String CREATE_IACUC_RENEWAL = "Create IACUC Renewal";                                      
      public static final String CREATE_IACUC_RENEWAL_AMENDMENT = "Create Renewal with Amendment for an IACUC Protocol";                        
      public static final String DELETE_ANY_IACUC_PROTOCOL = "Delete Any IACUC Protocol";                                                      
-     public static final String DELETE_IACUC_PROTOCOL = "Delete IACUC  Protocol";                                                         
-     public static final String IACUC_ADMINISTRATIVE_CORRECT = "IACUC Protocol Administrative Corrections";                          
+     public static final String DELETE_IACUC_PROTOCOL = "Delete IACUC Protocol";                                                         
+     public static final String IACUC_ADMINISTRATIVE_CORRECT = "IACUC Administrative Corrections";                          
      public static final String MAINTAIN_ANY_IACUC_PROT_ACCESS = "Maintain Any IACUC Protocol Access";                                             
      public static final String MAINTAIN_IACUC_CORR_TEMPLATES = "Maintain IACUC Correspondence Templates";               
      public static final String MAINTAIN_IACUC_PROTOCOL_ACCESS = "Modify IACUC ProtocolPermissions";                                                
      public static final String MAINTAIN_IACUC_PROTO_SUBMISION = "Modify IACUC Protocol Submission";                                       
-     public static final String MAINTAIN_IACUC_RESEARCH_AREAS = "Maintain IACUC Areas of Research";                                               
+     public static final String MAINTAIN_IACUC_RESEARCH_AREAS = "Maintain IACUC Research Areas";                                               
      public static final String MAINTAIN_IACUC_REVIEW_COMMENTS = "Maintain IACUC Protocol Review Comments";                                        
-     public static final String MODIFY_ANY_IACUC_PROTOCOL = "Maintain Any IACUC Protocol";                                                    
+     public static final String MODIFY_ANY_IACUC_PROTOCOL = "Modify Any IACUC Protocol";                                                    
      public static final String MODIFY_IACUC_PROTOCOL = "Modify IACUC Protocol";                                                          
-     public static final String PERFORM_IACUC_ACTIONS_ON_PROTO = "Perform IACUC Actions on IACUC Protocol";                                              
+     public static final String MODIFY_IACUC_PERMISSIONS = "Modify IACUC ProtocolPermissions";
+     public static final String PERFORM_IACUC_ACTIONS_ON_PROTO = "Perform IACUC Actions on Protocol";                                              
      public static final String REVIEW_IACUC_PROTOCOL = "Review IACUC Protocol";                                                          
      public static final String SUBMIT_ANY_IACUC_PROTOCOL = "Submit Any IACUC Protocol";                                                      
-     public static final String SUBMIT_IACUC_PROTOCOL = "Submit IACUC  protocol for Review";                                            
+     public static final String SUBMIT_IACUC_PROTOCOL = "Submit IACUC Protocol";
      public static final String VIEW_ANY_IACUC_PROTOCOL = "View Any IACUC Protocol";                                    
      public static final String VIEW_IACUC_PROTOCOL = "View IACUC Protocol";
      public static final String VIEW_IACUC_RESTRICTED_NOTES = "View IACUC Protocol Restricted Notes";
-     public static final String MAINTAIN_IACUC_PROTOCOL_ONLINE_REVIEW_COMMENTS = "Maintain IACUC Protocol Online Review Comments";
      public static final String MAINTAIN_IACUC_ONLINE_REVIEWS = "Maintain IACUC Protocol Online Reviews";
 
+     /* IACUC - Online Review Permissions */
+     
+     public static final String MODIFY_IACUC_PROTOCOL_ONLINE_REVIEW = "Modify Protocol Online Review";
+     public static final String VIEW_IACUC_PROTOCOL_ONLINE_REVIEW = "View Protocol Online Review";
+     public static final String MAINTAIN_IACUC_PROTOCOL_ONLINE_REVIEW = "Maintain Protocol Online Review";
+     public static final String MAINTAIN_IACUC_PROTOCOL_ONLINE_REVIEW_COMMENTS = "Maintain IACUC Protocol Review Comments";
+     public static final String ADD_IACUC_PROTOCOL_ONLINE_REVIEW_COMMENT = "Add Protocol Online Review Comment";
+     
      /*
       * Unit Permissions 
       */

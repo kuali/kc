@@ -108,10 +108,9 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
      * @return true if the action can be executed; otherwise false
      */
     protected final boolean canExecuteAction(Protocol protocol, String protocolActionTypeCode) {
-//TODO:IACUC        return protocol.isActive() &&
-//               !protocol.getProtocolDocument().isViewOnly() &&
-//               protocolActionService.isActionAllowed(protocolActionTypeCode, protocol);
-return true;        
+        return protocol.isActive() &&
+               !protocol.getProtocolDocument().isViewOnly() &&
+               protocolActionService.isActionAllowed(protocolActionTypeCode, protocol);
     }
     
     protected boolean isPessimisticLocked(Document document) {
