@@ -66,7 +66,8 @@
     protocolAttributes="${protocolAttributes}"
     action="${iacucProtocolProtocol}"
     className="${className}"
-    displayLayStatementsRow = "true"/>
+    displayLayStatementsRow = "true"
+    showProjectTypeInsteadOfFDAAppNumber = "true"/>
     
     
 <kra-protocol:protocolStatusDate 
@@ -80,9 +81,8 @@
      protocolReferenceBeanAttributes="${protocolReferenceBeanAttributes}"
      researchAreasAttributes="${researchAreasAttributes}"
      action="${iacucProtocolProtocol}"
-     className="${className}"
-     showProjectTypeInsteadOfFDAAppNumber = "true"/>
-    
+     className="${className}"/>
+
      
 <kra-protocol:protocolLocations 
     protocolLocationAttributes="${protocolLocationAttributes}"
