@@ -43,7 +43,7 @@ public class IacucProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBa
     private static final String EDIT_URL ="../iacucProtocolProtocol.do?viewDocument=false&docId=101&submissionId=102&docTypeName=IacucProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String VIEW_URL ="../iacucProtocolProtocol.do?viewDocument=true&docId=101&submissionId=102&docTypeName=IacucProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String PROTOCOL_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.iacuc.IacucProtocol&methodToCall=start&protocolId=104";
-    private static final String COMMITTEE_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.committee.bo.Committee&methodToCall=start&id=103";
+    private static final String COMMITTEE_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.common.committee.bo.Committee&methodToCall=start&id=103";
     private static final String PERSON_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.KcPerson&personId=10000000001&methodToCall=start";
     private static final String ROLODEX_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.bo.Rolodex&rolodexId=1727&methodToCall=start";
     
@@ -117,8 +117,8 @@ public class IacucProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBa
         
         HtmlData inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "protocolNumber");
         assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), PROTOCOL_INQ_URL);
-        //inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "committeeId");
-        //assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), COMMITTEE_INQ_URL);
+        inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "committeeId");
+        assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), COMMITTEE_INQ_URL);
         inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "piName");
         assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), PERSON_INQ_URL);
         IacucProtocolPerson protocolPerson = (IacucProtocolPerson)protocolSubmission.getProtocol().getProtocolPersons().get(0);
