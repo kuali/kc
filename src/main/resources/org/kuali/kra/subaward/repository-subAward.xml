@@ -81,9 +81,6 @@
 		<collection-descriptor name="subAwardAmountInfoList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardAmountInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="subAwardId"/>
 		</collection-descriptor> 
-		<collection-descriptor name="subAwardAmountReleasedList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardAmountReleased" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="subAwardId"/>
-		</collection-descriptor>
 		<collection-descriptor name="subAwardContactsList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="subAwardId"/>
 		</collection-descriptor>
@@ -137,6 +134,7 @@
         <field-descriptor name="createdBy" column="CREATED_BY" jdbc-type="VARCHAR" />
         <field-descriptor name="createdDate" column="CREATED_DATE" jdbc-type="DATE" />
         <field-descriptor name="mimeType" column="MIME_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="invoiceStatus" column="INVOICE_STATUS" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />        
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />

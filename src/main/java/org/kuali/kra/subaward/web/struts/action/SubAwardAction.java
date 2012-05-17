@@ -63,6 +63,12 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
     ActionForm form, HttpServletRequest request,
     	HttpServletResponse response) throws Exception {
 
+        SubAwardForm subAwardForm = (SubAwardForm) form;
+        if (subAwardForm.getSubAward() != null) {
+            SubAward subAward = 
+                KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAward());
+        }
+        
         ActionForward actionForward = super.
         execute(mapping, form, request, response);
         if (KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
@@ -183,8 +189,6 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
         String userId = GlobalVariables.getUserSession().getPrincipalName();
         getVersionHistoryService().
         createVersionHistory(subAward, VersionStatus.PENDING, userId);
-        subAward = KraServiceLocator.
-        getService(SubAwardService.class).getAmountInfo(subAward);
         if (new SubAwardDocumentRule().
         processAddSubAwardBusinessRules(subAward)) {
             return super.save(mapping, form, request, response);

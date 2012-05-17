@@ -9,7 +9,7 @@
   <bean id="SubAwardAmountReleased-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAwardAmountReleased" />
     <property name="boNotesEnabled" value="true"/>
-		<property name="objectLabel" value="SubAwardAmountReleased" />
+		<property name="objectLabel" value="Subaward Invoice" />
 		    <property name="inquiryDefinition" >
 		      <ref bean="SubAwardAmountReleased-inquiryDefinition" />
 		    </property>
@@ -30,6 +30,7 @@
 		        <ref bean="SubAwardAmountReleased-fileName" />  
 		        <ref bean="SubAwardAmountReleased-mimeType" />
 		        <ref bean="SubAwardAmountReleased-newFile" />
+		        <ref bean="SubAwardAmountReleased-invoiceStatus" />
 		        <ref bean="SubAwardAmountReleased-subAward.statusDescription" />
 		        <ref bean="SubAwardAmountReleased-subAward.organization.organizationName" />
 		        <ref bean="SubAwardAmountReleased-subAward.rolodex.fullName" />
@@ -228,7 +229,26 @@
     </property>
     <property name="summary" value="Attachment" />
     <property name="description" value="Sponsor Form Template" />
-  </bean>
+   </bean>
+  
+   <bean id="SubAwardAmountReleased-invoiceStatus" parent="SubAwardAmountReleased-invoiceStatus-parentBean" />
+   <bean id="SubAwardAmountReleased-invoiceStatus-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="invoiceStatus" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Invoice Status" />
+		<property name="shortLabel" value="Invoice Status" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern" >
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+		</property>
+		<property name="required" value="false" />
+		<property name="control" >
+		<bean parent="TextControlDefinition"
+		        p:size="20" />
+		</property>
+		<property name="summary" value="Invoice Status" />
+		<property name="description" value="Invoice Status" />    
+   </bean>  
    
 
    <bean id="SubAwardAmountReleased-subAward.statusDescription" parent="SubAwardAmountReleased-subAward.statusDescription-parentBean" />

@@ -6,6 +6,44 @@
 			<description>Create a SubAward Invoice</description>
 			<label>SubAward Invoice</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" nextNode="SubAwardRequisitionerReview" />
+					<requests name="SubAwardRequisitionerReview" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                 <role name="SubAwardRequisitionerReview">
+					<qualifierResolver>SubawardInvoiceRequeisitionerApprover-XPathQualifierResolver</qualifierResolver> 
+                    <activationType>P</activationType>
+                    <mandatoryRoute>true</mandatoryRoute>                    
+					<finalApproval>false</finalApproval>
+	            </role>   
+            </routeNodes>
+			
 		</documentType>
-	</documentTypes>	
+	</documentTypes>
+	
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>SubawardInvoiceRequeisitionerApprover-XPathQualifierResolver</name>
+			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<label>SubawardInvoiceRequeisitionerApprover-XPathQualifierResolver</label>
+			<description>Subaward Invoice Requisitioner Resolver</description>
+			<type>QualifierResolver</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<resolverConfig>
+				<attributes name="subAward">
+					<xPathExpression>//document/newMaintainableObject/businessObject/subAwardId</xPathExpression>
+				</attributes>
+			</resolverConfig>
+		</ruleAttribute>
+    </ruleAttributes>
+	
 </data>
