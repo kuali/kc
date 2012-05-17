@@ -232,31 +232,33 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
     private void performPersonPersonMassChange(PersonMassChange personMassChange, Protocol protocol, String... personRoles) {
         for (ProtocolPerson person : protocol.getProtocolPersons()) {
             if (isPersonInRole(person, personRoles)) {
-                if (personMassChange.getReplacerPersonId() != null) {
-                    KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-                    person.setPersonId(personMassChange.getReplacerPersonId());
-                    person.setRolodexId(null);
-                    person.setPersonName(kcPerson.getFullName());
-                    getPersonEditableService().populateContactFieldsFromPersonId(person);
-                    getProtocolPersonTrainingService().setTrainedFlag(person);
-                    
-                    for (ProtocolUnit unit : person.getProtocolUnits()) {
-                        unit.setPersonId(personMassChange.getReplacerPersonId());
+                if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
+                    if (personMassChange.getReplacerPersonId() != null) {
+                        KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                        person.setPersonId(personMassChange.getReplacerPersonId());
+                        person.setRolodexId(null);
+                        person.setPersonName(kcPerson.getFullName());
+                        getPersonEditableService().populateContactFieldsFromPersonId(person);
+                        getProtocolPersonTrainingService().setTrainedFlag(person);
+                        
+                        for (ProtocolUnit unit : person.getProtocolUnits()) {
+                            unit.setPersonId(personMassChange.getReplacerPersonId());
+                        }
+                    } else if (personMassChange.getReplacerRolodexId() != null) {
+                        Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
+                        person.setPersonId(null);
+                        person.setRolodexId(rolodex.getRolodexId());
+                        person.setPersonName(rolodex.getFullName());
+                        getPersonEditableService().populateContactFieldsFromRolodexId(person);
+                        getProtocolPersonTrainingService().setTrainedFlag(person);
+                        
+                        for (ProtocolUnit unit : person.getProtocolUnits()) {
+                            unit.setPersonId(null);
+                        }
                     }
-                } else if (personMassChange.getReplacerRolodexId() != null) {
-                    Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
-                    person.setPersonId(null);
-                    person.setRolodexId(rolodex.getRolodexId());
-                    person.setPersonName(rolodex.getFullName());
-                    getPersonEditableService().populateContactFieldsFromRolodexId(person);
-                    getProtocolPersonTrainingService().setTrainedFlag(person);
-                    
-                    for (ProtocolUnit unit : person.getProtocolUnits()) {
-                        unit.setPersonId(null);
-                    }
+    
+                    getBusinessObjectService().save(person);
                 }
-
-                getBusinessObjectService().save(person);
             }
         }
     }
@@ -265,19 +267,21 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
         if (personMassChange.getProtocolPersonMassChange().isReviewer()) {
             for (ProtocolOnlineReview onlineReview : protocol.getProtocolOnlineReviews()) {
                 ProtocolReviewer reviewer = onlineReview.getProtocolReviewer();
-                if (personMassChange.getReplacerPersonId() != null) {
-                    KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-                    reviewer.setPersonId(kcPerson.getPersonId());
-                    reviewer.setRolodexId(null);
-                    reviewer.setNonEmployeeFlag(false);
-                } else if (personMassChange.getReplacerRolodexId() != null) {
-                    Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
-                    reviewer.setRolodexId(rolodex.getRolodexId());
-                    reviewer.setPersonId(null);
-                    reviewer.setNonEmployeeFlag(true);
+                if (isPersonIdMassChange(personMassChange, reviewer.getPersonId()) || isRolodexIdMassChange(personMassChange, reviewer.getRolodexId())) {
+                    if (personMassChange.getReplacerPersonId() != null) {
+                        KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                        reviewer.setPersonId(kcPerson.getPersonId());
+                        reviewer.setRolodexId(null);
+                        reviewer.setNonEmployeeFlag(false);
+                    } else if (personMassChange.getReplacerRolodexId() != null) {
+                        Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
+                        reviewer.setRolodexId(rolodex.getRolodexId());
+                        reviewer.setPersonId(null);
+                        reviewer.setNonEmployeeFlag(true);
+                    }
+                
+                    getBusinessObjectService().save(reviewer);
                 }
-            
-                getBusinessObjectService().save(reviewer);
             }
         }
     }

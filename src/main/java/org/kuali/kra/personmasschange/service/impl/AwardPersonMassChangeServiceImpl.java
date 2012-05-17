@@ -252,19 +252,21 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     private void performPersonPersonMassChange(PersonMassChange personMassChange, Award award, String... personRoles) {
         for (AwardPerson person : award.getProjectPersons()) {
             if (isPersonInRole(person, personRoles)) {
-                if (personMassChange.getReplacerPersonId() != null) {
-                    KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-                    person.setPersonId(kcPerson.getPersonId());
-                    person.setRolodexId(null);
-                    person.setFullName(kcPerson.getFullName());
-                } else if (personMassChange.getReplacerRolodexId() != null) {
-                    Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
-                    person.setPersonId(null);
-                    person.setRolodexId(rolodex.getRolodexId());
-                    person.setFullName(rolodex.getFullName());
+                if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
+                    if (personMassChange.getReplacerPersonId() != null) {
+                        KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                        person.setPersonId(kcPerson.getPersonId());
+                        person.setRolodexId(null);
+                        person.setFullName(kcPerson.getFullName());
+                    } else if (personMassChange.getReplacerRolodexId() != null) {
+                        Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
+                        person.setPersonId(null);
+                        person.setRolodexId(rolodex.getRolodexId());
+                        person.setFullName(rolodex.getFullName());
+                    }
+    
+                    getBusinessObjectService().save(person);
                 }
-
-                getBusinessObjectService().save(person);
             }
         }
     }
@@ -272,11 +274,13 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     private void performUnitContactPersonMassChange(PersonMassChange personMassChange, Award award) {
         if (personMassChange.getAwardPersonMassChange().isUnitContact()) {
             for (AwardUnitContact unitContact : award.getAwardUnitContacts()) {
-                KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-                unitContact.setPersonId(kcPerson.getPersonId());
-                unitContact.setFullName(kcPerson.getFullName());
-
-                getBusinessObjectService().save(unitContact);
+                if (isPersonIdMassChange(personMassChange, unitContact.getPersonId())) {
+                    KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                    unitContact.setPersonId(kcPerson.getPersonId());
+                    unitContact.setFullName(kcPerson.getFullName());
+    
+                    getBusinessObjectService().save(unitContact);
+                }
             }
         }
     }
@@ -284,9 +288,11 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     private void performSponsorContactPersonMassChange(PersonMassChange personMassChange, Award award) {
         if (personMassChange.getAwardPersonMassChange().isSponsorContact()) {
             for (AwardSponsorContact sponsorContact : award.getSponsorContacts()) {
-                sponsorContact.setRolodexId(personMassChange.getReplacerRolodexId());
-
-                getBusinessObjectService().save(sponsorContact);
+                if (isRolodexIdMassChange(personMassChange, sponsorContact.getRolodexId())) {
+                    sponsorContact.setRolodexId(personMassChange.getReplacerRolodexId());
+    
+                    getBusinessObjectService().save(sponsorContact);
+                }
             }
         }
     }
@@ -294,19 +300,22 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     private void performApprovedForeignTravelPersonMassChange(PersonMassChange personMassChange, Award award) {
         if (personMassChange.getAwardPersonMassChange().isApprovedForeignTravel()) {
             for (AwardApprovedForeignTravel approvedForeignTravel : award.getApprovedForeignTravelTrips()) {
-                if (personMassChange.getReplacerPersonId() != null) {
-                    KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-                    approvedForeignTravel.setPersonId(kcPerson.getPersonId());
-                    approvedForeignTravel.setTravelerName(kcPerson.getFullName());
-                    approvedForeignTravel.setRolodexId(null);
-                } else if (personMassChange.getReplacerRolodexId() != null) {
-                    Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
-                    approvedForeignTravel.setPersonId(null);
-                    approvedForeignTravel.setRolodexId(rolodex.getRolodexId());
-                    approvedForeignTravel.setTravelerName(rolodex.getFullName());
+                if (isPersonIdMassChange(personMassChange, approvedForeignTravel.getPersonId()) 
+                        || isRolodexIdMassChange(personMassChange, approvedForeignTravel.getRolodexId())) {
+                    if (personMassChange.getReplacerPersonId() != null) {
+                        KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                        approvedForeignTravel.setPersonId(kcPerson.getPersonId());
+                        approvedForeignTravel.setTravelerName(kcPerson.getFullName());
+                        approvedForeignTravel.setRolodexId(null);
+                    } else if (personMassChange.getReplacerRolodexId() != null) {
+                        Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
+                        approvedForeignTravel.setPersonId(null);
+                        approvedForeignTravel.setRolodexId(rolodex.getRolodexId());
+                        approvedForeignTravel.setTravelerName(rolodex.getFullName());
+                    }
+    
+                    getBusinessObjectService().save(approvedForeignTravel);
                 }
-
-                getBusinessObjectService().save(approvedForeignTravel);
             }
         }
     }

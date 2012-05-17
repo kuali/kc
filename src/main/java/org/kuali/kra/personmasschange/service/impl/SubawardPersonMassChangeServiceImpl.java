@@ -167,9 +167,11 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
     private void performContactMassChange(PersonMassChange personMassChange, SubAward subaward) {
         if (personMassChange.getSubawardPersonMassChange().isContact()) {
             for (SubAwardContact subawardContact : subaward.getSubAwardContactsList()) {
-                subawardContact.setRolodexId(personMassChange.getReplacerRolodexId());
-                
-                getBusinessObjectService().save(subawardContact);
+                if (isRolodexIdMassChange(personMassChange, subawardContact.getRolodexId())) {
+                    subawardContact.setRolodexId(personMassChange.getReplacerRolodexId());
+                    
+                    getBusinessObjectService().save(subawardContact);
+                }
             }
         }
     }
