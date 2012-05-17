@@ -29,14 +29,13 @@ public class ViewProposalBudgetPersonSalaryAuthorizer extends BudgetAuthorizer{
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
     public boolean isAuthorized(String userId, BudgetTask task) {
-        KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
+
         BudgetDocument budgetDocument = task.getBudgetDocument();
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
-        boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
-             
-        return (!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) &&
-                (hasParentPermission(userId, doc, PermissionConstants.VIEW_PROP_PERSON_INST_SALARIES) ||
-                hasParentPermission(userId, doc, PermissionConstants.VIEW_INSTITUTIONAL_SALARIES)) &&!doc.getDevelopmentProposal().getSubmitFlag(); 
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) budgetDocument.getParentDocument();
+        
+        return hasParentPermission(userId, doc, PermissionConstants.VIEW_PROP_PERSON_INST_SALARIES) 
+        || hasParentPermission(userId, doc, PermissionConstants.VIEW_INSTITUTIONAL_SALARIES) 
+        || kraWorkflowService.hasWorkflowPermission(userId, doc);
     }
 }
 

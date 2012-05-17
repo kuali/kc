@@ -43,6 +43,8 @@ import org.kuali.kra.costshare.CostShareFunctions;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularSummary;
@@ -945,6 +947,12 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     public boolean getCanModifyBudgetRates() {
         boolean retVal = this.getEditingMode().containsKey("modifyProposalBudgetRates");
         return retVal;
+    }
+    
+    public boolean getCanViewBudgetPersonSalaries() {    
+        boolean retVal1 = Boolean.valueOf((String)this.getEditingMode().get(PermissionConstants.VIEW_PROP_PERSON_INST_SALARIES));
+        boolean retVal2 = Boolean.valueOf((String)this.getEditingMode().get(PermissionConstants.VIEW_INSTITUTIONAL_SALARIES));
+        return retVal1 || retVal2;
     }
     
     public java.util.Date getBudgetStartDate() {

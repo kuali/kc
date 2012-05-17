@@ -87,12 +87,21 @@
 			</td>
 			
 			<td>
-			    <div align="center">
-			        <kul:htmlControlAttribute property="${budgetPersonProperty}[${status.index}].calculationBase" 
+			<c:set var="canViewSalary" value="${KualiForm.canViewBudgetPersonSalaries}" />
+			 <c:choose>
+				<c:when test="${canViewSalary}">
+				   	<div align="center">
+			        	<kul:htmlControlAttribute property="${budgetPersonProperty}[${status.index}].calculationBase" 
 			                                  attributeEntry="${attributes.calculationBase}" 
 			                                  styleClass="amount" />
-			    </div>
+			    	</div>
+				</c:when>
+				<c:otherwise>
+					<div align="center">0.0 </div>
+				</c:otherwise>
+			</c:choose>
 			</td>
+			
 			<td>
 			    <div align="center">
 			        <kul:htmlControlAttribute property="${budgetPersonProperty}[${status.index}].effectiveDate" 
