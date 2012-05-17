@@ -26,10 +26,6 @@ public class IacucProtocolStatus extends ProtocolStatus {
 
     public static final String IN_PROGRESS = "100";
     
-    public static final String AMENDMENT_IN_PROGRESS = "105";
-
-    public static final String RENEWAL_IN_PROGRESS = "106";
-    
     public static final String SUBMITTED_TO_IACUC = "101";
     
     public static final String RETURN_TO_PI = "102";
@@ -53,6 +49,8 @@ public class IacucProtocolStatus extends ProtocolStatus {
     public static final String ADMINISTRATIVELY_INCOMPLETE = "203";
     
     public static final String IACUC_REVIEW_NOT_REQUIRED = "300";
+    
+    public static final String DELETED = "301";
     
     public static final String ADMINISTRATIVELY_WITHDRAWN = "302";
     
