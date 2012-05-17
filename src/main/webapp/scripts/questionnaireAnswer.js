@@ -1,4 +1,5 @@
-		$j(document).ready(function(){
+    var ruleReferenced;
+    $j(document).ready(function(){
 			
 			// More/Less Information...
 				$j(".Qmoreinfocontrol").parent().next().hide();
@@ -25,6 +26,8 @@
 						}
 					}
 				  });
+				
+				ruleReferenced = $j("#ruleReferenced");	
 		});
 
     /*
@@ -156,7 +159,21 @@
                         var qidx = $j(this).attr("id").substring(prefix.length+1);
                    		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
                   		showChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);
-                    } 
+                    } else {
+                    	// check if rule evaluation
+//                    	if (condVal == 13) {
+                    	if (isRuleValid(condVal, conditionDiv.children('input:eq(2)').attr("value"))) {
+//                    		  var ruleId = conditionDiv.children('input:eq(2)').attr("value");
+//                    		  if (ruleReferenced.length > 0 && (ruleReferenced.indexOf(ruleId+":Y") == 0 
+//                    		    		|| ruleReferenced.val().indexOf(","+ruleId+":Y") > 0) ) {
+                           		$j(this).show();                   		
+                           		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
+                                var qidx = $j(this).attr("id").substring(prefix.length+1);
+                           		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
+                          		showChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);
+//                    	     }
+                    	}
+                    }
     			});
 
     }   
@@ -208,7 +225,7 @@
      */
 	function isConditionMatchAnswers(parentAnswerField, responseDiv, condition, conditionValue, parentAnswer) {
 		// if condition is not set (ie, condition is empty and isNaN) , then it is a required question if its parents is displayed
-		var isMatched = (condition == "") || isNaN(condition) || isConditionMatched(parentAnswerField, condition, conditionValue, parentAnswer);
+		var isMatched = (condition == "") || isNaN(condition) || isRuleValid(condition, conditionValue) || isConditionMatched(parentAnswerField, condition, conditionValue, parentAnswer);
 		if (!isMatched && responseDiv.siblings('div[class^=Qresponsediv]').size() > 0) {
 			responseDiv.siblings('div[class^=Qresponsediv]').each (
 				function() {
@@ -225,6 +242,15 @@
 		
 	}
 	
+	/*
+	 * if the branching condition is "rule evaluation" and the rule is evaluated to "true" or "false"
+	 */
+	function isRuleValid(condition, conditionValue) {
+	
+	  return condition == 13 && ruleReferenced.length > 0 && (ruleReferenced.val().indexOf(conditionValue+":Y") == 0 
+	    		|| ruleReferenced.val().indexOf(","+conditionValue+":Y") > 0);
+		  
+	  }
     /*
      * condition check for all the conditions implemented in this release 2.1.
      * Coeus seems only to allow positive integer if condition is related to number
