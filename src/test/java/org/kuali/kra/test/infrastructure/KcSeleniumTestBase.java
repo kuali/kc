@@ -75,10 +75,12 @@ public class KcSeleniumTestBase extends KcUnitTestBase {
     
     @After
     public void tearDown() throws Exception {
+        driver.switchTo().window(defaultHandle);
         for (String handle : driver.getWindowHandles()) {
             if (!StringUtils.equals(handle, defaultHandle)) {
                 driver.switchTo().window(handle);
                 driver.close();
+                driver.switchTo().window(defaultHandle);
             }
         }
         driver.get(BROWSER_PROTOCOL + "://" + BROWSER_ADDRESS + ":" + KcUnitTestBaseLifecycle.getPort() + "/" + PORTAL_ADDRESS);

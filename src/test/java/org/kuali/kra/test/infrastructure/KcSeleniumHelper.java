@@ -362,18 +362,14 @@ public abstract class KcSeleniumHelper {
      * @param value the new value of the element
      */
     private void setSelect(final WebElement element, final String value) {
-        WebElement optionElement = null;
-        
         Select select = new Select(element);
         for (WebElement option : select.getOptions()) {
             String optionText = option.getText();
             if (StringUtils.contains(optionText, value)) {
-                optionElement = option;
+                option.click();
                 break;
             }
         }
-
-        optionElement.click();
     }
 
     /**
