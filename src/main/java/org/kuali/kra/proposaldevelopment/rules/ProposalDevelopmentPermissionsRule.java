@@ -57,11 +57,19 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
         boolean isValid = true;
         
         KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
+        
+        //KRACOEUS-5530 Check if user name is Null or Empty
+        
+        if(StringUtils.isEmpty(proposalUser.getUsername())){
+            isValid = false;
+            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username", 
+                             KeyConstants.ERROR_EMPTY_USERNAME);
+        }
        
         // The given username must be valid, i.e. it must correspond
         // to a person in the database.
             
-        if (!isValidUser(proposalUser.getUsername())) {
+        else if (!isValidUser(proposalUser.getUsername())) {
             isValid = false;
             this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username", 
                              KeyConstants.ERROR_UNKNOWN_USERNAME);
