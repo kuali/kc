@@ -57,13 +57,16 @@
    					</div> 
    				</td>
 					<td><div align="center">
-							<c:if
-								test="${newSubAwardFundingSource.sponsorName != 'null null'}">
-								<kul:htmlControlAttribute
-									property="newSubAwardFundingSource.sponsorName" readOnly="true"
+							<kul:htmlControlAttribute
+									property="newSubAwardFundingSource.award.sponsorCode" readOnly="true"
+									attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"
+									datePicker="false" /><c:if
+								test="${!empty newSubAwardFundingSource.award.sponsorName}">
+								: <kul:htmlControlAttribute
+									property="newSubAwardFundingSource.award.sponsorName" readOnly="true"
 									attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"
 									datePicker="false" />
-							</c:if>
+							</c:if> 
 						</div></td>
 					<td><div align="center">
      					<kul:htmlControlAttribute property="newSubAwardFundingSource.award.awardAmountInfos[0].amountObligatedToDate" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.amountObligatedToDate}" datePicker="false" />         
@@ -122,7 +125,7 @@
 						</td>
 						<td width="9%" valign="middle">
 						<div align="center">
-							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].sponsorName" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/>         
+							<kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.sponsorCode" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/> : <kul:htmlControlAttribute property="document.subAwardList[0].subAwardFundingSourceList[${status.index}].award.sponsorName" readOnly="true" attributeEntry="${subAwardFundingSourceAttributes.sponsorCode}"/>         
 						</div>
 						</td>
 						<td width="9%" valign="middle">
