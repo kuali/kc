@@ -54,6 +54,10 @@ public class SubAwardDocumentRuleTest extends KcUnitTestBase {
         subAward.setSubAwardTypeCode(1);
         subAward.setRequisitionerId("1");
         subAward.setPurchaseOrderNum("1"); 
+        subAward.setTotalAmountReleased(KualiDecimal.ZERO);
+        subAward.setTotalAnticipatedAmount(KualiDecimal.ZERO);
+        subAward.setTotalAvailableAmount(KualiDecimal.ZERO);
+        subAward.setTotalObligatedAmount(KualiDecimal.ZERO);
         
         subAwardAmountInfo = new SubAwardAmountInfo(); 
         subAwardAmountInfo.setEffectiveDate(new Date(System.currentTimeMillis()));  
