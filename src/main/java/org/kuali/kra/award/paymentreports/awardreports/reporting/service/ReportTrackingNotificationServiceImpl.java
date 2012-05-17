@@ -93,8 +93,6 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
                     }
                     until = (Calendar) checkFor.clone();
                     until.add(Calendar.DAY_OF_MONTH, notification.getScope());
-                    Date checkForDebug = checkFor.getTime();
-                    Date untilDebug = until.getTime();
                     Map<Award, List<ReportTracking>> matchedReports = new HashMap<Award, List<ReportTracking>>();
                     Map<NotificationRecipient.Builder, List<ReportTracking>> recipients = 
                         new TreeMap<NotificationRecipient.Builder, List<ReportTracking>>(new Comparator<NotificationRecipient.Builder>() {
