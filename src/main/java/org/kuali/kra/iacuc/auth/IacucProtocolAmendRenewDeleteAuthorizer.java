@@ -13,30 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.auth;
+package org.kuali.kra.iacuc.auth;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 
 /**
- * Is the user allowed to delete a protocol, amendment or renewal and the action is currently not available?
+ * Is the user allowed to delete a protocol, amendment or renewal?
  */
-public class ProtocolAmendRenewDeleteUnavailableAuthorizer extends ProtocolAuthorizer {
+public class IacucProtocolAmendRenewDeleteAuthorizer extends IacucProtocolAuthorizer {
 
     /**
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
-        return hasPermission(userId, task.getProtocol(), PermissionConstants.DELETE_PROTOCOL) &&
-               (task.getProtocol().getProtocolDocument().isViewOnly() ||
-                !inProgress(task.getProtocol()));
+    public boolean isAuthorized(String userId, IacucProtocolTask task) {
+        return !task.getProtocol().getProtocolDocument().isViewOnly() &&
+               inProgress(task.getProtocol()) &&
+               hasPermission(userId, task.getProtocol(), PermissionConstants.DELETE_IACUC_PROTOCOL);
     }
     
     private boolean inProgress(Protocol protocol) {
-        return StringUtils.equals(protocol.getProtocolStatusCode(), ProtocolStatus.IN_PROGRESS) ||
-               StringUtils.equals(protocol.getProtocolStatusCode(), ProtocolStatus.AMENDMENT_IN_PROGRESS) ||
-               StringUtils.equals(protocol.getProtocolStatusCode(), ProtocolStatus.RENEWAL_IN_PROGRESS);
+        return StringUtils.equals(protocol.getProtocolStatusCode(), IacucProtocolStatus.IN_PROGRESS) ||
+               StringUtils.equals(protocol.getProtocolStatusCode(), IacucProtocolStatus.AMENDMENT_IN_PROGRESS) ||
+               StringUtils.equals(protocol.getProtocolStatusCode(), IacucProtocolStatus.RENEWAL_IN_PROGRESS);
     }
 }

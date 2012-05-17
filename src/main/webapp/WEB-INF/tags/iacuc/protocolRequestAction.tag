@@ -138,7 +138,11 @@
                                           taskName="protocolRequestTerminate"
                                           actionTypeCode="104"
                                           tabTitle="Request for Termination"/>
-            <kra-iacuc-action:deleteAction />
+--%>                                          
+                                            
+            <kra-protocol-action:deleteAction attributes="${DataDictionary.IacucProtocolDeleteBean.attributes}"
+            							  action="iacucProtocolProtocolActions"/>
+<%--            
             <kra-iacuc-action:makeAdminCorrectionAction />
             <kra-iacuc-action:genericAction tabTitle="Close Enrollment"
                                           bean="${KualiForm.actionHelper.protocolCloseEnrollmentBean}"
@@ -202,7 +206,7 @@
                                           methodToCall="abandon"
                                           canPerformAction="${KualiForm.actionHelper.canAbandon}" 
                                           canAddReviewComments="false"/>
-<%--                                          
+                                        
             <kra-iacuc-action:reviewNotRequiredAction />
             <kra-iacuc-action:undoLastAction />
             <kra-iacuc-action:manageReviewComments />

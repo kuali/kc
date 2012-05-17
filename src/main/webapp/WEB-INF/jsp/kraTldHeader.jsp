@@ -49,3 +49,4 @@ This is where application specific (kra) tag includes would go.
 <%@ taglib tagdir="/WEB-INF/tags/iacuc/onlinereview" prefix="kra-iacuc-olr"%>
 <%@ taglib tagdir="/WEB-INF/tags/person" prefix="kra-person"%>
 <%@ taglib tagdir="/WEB-INF/tags/protocol" prefix="kra-protocol"%>
+<%@ taglib tagdir="/WEB-INF/tags/protocol/action" prefix="kra-protocol-action"%>
