@@ -24,6 +24,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -51,6 +52,15 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
         BudgetParentDocument parentDocument = budgetDoc.getParentDocument();
         String userId = user.getPrincipalId(); 
         
+        if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_INSTITUTIONAL_SALARIES )) {
+            editModes.add(PermissionConstants.VIEW_INSTITUTIONAL_SALARIES); 
+            setPermissions(userId, parentDocument, editModes);
+        }
+        if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_PROP_PERSON_INST_SALARIES )) {
+            editModes.add(PermissionConstants.VIEW_PROP_PERSON_INST_SALARIES);          
+            setPermissions(userId, parentDocument, editModes);
+        }
+      
         if (canExecuteBudgetTask(userId, budgetDoc, TaskName.MODIFY_BUDGET)) {
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             editModes.add("modifyBudgets");
@@ -64,12 +74,6 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             editModes.add("viewBudgets");
             
-            if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_INSTITUTIONAL_SALARIES )) {
-                editModes.add("viewInstitutionalSalaries");
-            }
-            if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_PROP_PERSON_INST_SALARIES )) {
-                editModes.add("viewPropPersonInstSalaries");
-            }
             setPermissions(userId, parentDocument, editModes);
         }
         else {
