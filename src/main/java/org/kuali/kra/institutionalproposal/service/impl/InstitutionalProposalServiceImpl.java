@@ -28,9 +28,11 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
@@ -531,10 +533,40 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      // Base fields from Budget
         institutionalProposal.setRequestedStartDateInitial(budget.getBudgetPeriods().get(0).getStartDate());
         institutionalProposal.setRequestedEndDateInitial(budget.getBudgetPeriods().get(0).getEndDate());
-        institutionalProposal.setTotalDirectCostInitial(new KualiDecimal(budget.getBudgetPeriod(0).getTotalDirectCost().bigDecimalValue()));
-        institutionalProposal.setTotalIndirectCostInitial(new KualiDecimal(budget.getBudgetPeriod(0).getTotalIndirectCost().bigDecimalValue()));
-        institutionalProposal.setTotalDirectCostTotal(new KualiDecimal(budget.getTotalDirectCost().bigDecimalValue()));
-        institutionalProposal.setTotalIndirectCostTotal(new KualiDecimal(budget.getTotalIndirectCost().bigDecimalValue()));
+        
+        if (budget.getModularBudgetFlag()) {
+            if (budget.getBudgetPeriod(0).getBudgetModular().getTotalDirectCost() != null) {
+                institutionalProposal.setTotalDirectCostInitial(
+                    new KualiDecimal(budget.getBudgetPeriod(0).getBudgetModular().getTotalDirectCost().bigDecimalValue()));
+            }
+            budget.getBudgetPeriod(0).getBudgetModular().calculateTotalFnaRequested();
+            if (budget.getBudgetPeriod(0).getBudgetModular().getTotalFnaRequested() != null) {
+                institutionalProposal.setTotalIndirectCostInitial(
+                    new KualiDecimal(budget.getBudgetPeriod(0).getBudgetModular().getTotalFnaRequested().bigDecimalValue()));
+            }
+            
+            BudgetDecimal totalDirect = new BudgetDecimal(0);
+            BudgetDecimal totalIndirect = new BudgetDecimal(0);
+            for (BudgetPeriod bp : budget.getBudgetPeriods()) {
+                if (bp.getBudgetModular() != null) {
+                    if (bp.getBudgetModular().getTotalDirectCost() != null) {
+                        totalDirect = totalDirect.add(bp.getBudgetModular().getTotalDirectCost());
+                    }
+                    bp.getBudgetModular().calculateTotalFnaRequested();
+                    if (bp.getBudgetModular().getTotalFnaRequested() != null) {
+                        totalIndirect = totalIndirect.add(bp.getBudgetModular().getTotalFnaRequested());
+                    }
+                }
+            }
+            institutionalProposal.setTotalDirectCostTotal(new KualiDecimal(totalDirect.bigDecimalValue()));
+            institutionalProposal.setTotalIndirectCostTotal(new KualiDecimal(totalIndirect.bigDecimalValue()));
+            
+        } else { 
+            institutionalProposal.setTotalDirectCostInitial(new KualiDecimal(budget.getBudgetPeriod(0).getTotalDirectCost().bigDecimalValue()));
+            institutionalProposal.setTotalIndirectCostInitial(new KualiDecimal(budget.getBudgetPeriod(0).getTotalIndirectCost().bigDecimalValue()));
+            institutionalProposal.setTotalDirectCostTotal(new KualiDecimal(budget.getTotalDirectCost().bigDecimalValue()));
+            institutionalProposal.setTotalIndirectCostTotal(new KualiDecimal(budget.getTotalIndirectCost().bigDecimalValue()));
+        }
         
         // Cost Shares (from Budget)
         institutionalProposal.getInstitutionalProposalCostShares().clear();
