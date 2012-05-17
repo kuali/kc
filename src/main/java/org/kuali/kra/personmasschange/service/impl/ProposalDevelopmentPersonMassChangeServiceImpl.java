@@ -150,7 +150,7 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
     private void performProposalMailingInfoPersonMassChange(PersonMassChange personMassChange, DevelopmentProposal developmentProposal) {
         if (personMassChange.getProposalDevelopmentPersonMassChange().isMailingInformation()) {
             developmentProposal.setMailingAddressId(personMassChange.getReplacerRolodexId());
-        
+            
             getBusinessObjectService().save(developmentProposal);
         }
     }
@@ -165,35 +165,37 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
     private void performPersonPersonMassChange(PersonMassChange personMassChange, DevelopmentProposal developmentProposal, String... personRoles) {
         for (ProposalPerson person : developmentProposal.getProposalPersons()) {
             if (isPersonInRole(person, personRoles)) {
-                if (personMassChange.getReplacerPersonId() != null) {
-                    person.setPersonId(personMassChange.getReplacerPersonId());
-                    person.setRolodexId(null);
-                    getPersonEditableService().populateContactFieldsFromPersonId(person);
-                    
-                    for (ProposalPersonBiography biography : developmentProposal.getPropPersonBios()) {
-                        if (ObjectUtils.equals(biography.getProposalPersonNumber(), person.getProposalPersonNumber())) {
-                            biography.setPersonId(personMassChange.getReplacerPersonId());
-                            biography.setRolodexId(null);
-                            
-                            getBusinessObjectService().save(biography);
-                        }
-                    }
-                } else if (personMassChange.getReplacerRolodexId() != null) {
-                    person.setPersonId(null);
-                    person.setRolodexId(personMassChange.getReplacerRolodexId());
-                    getPersonEditableService().populateContactFieldsFromRolodexId(person);
-                    
-                    for (ProposalPersonBiography biography : developmentProposal.getPropPersonBios()) {
-                        if (ObjectUtils.equals(biography.getProposalPersonNumber(), person.getProposalPersonNumber())) {
-                            biography.setPersonId(null);
-                            biography.setRolodexId(personMassChange.getReplacerRolodexId());
+                if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
+                    if (personMassChange.getReplacerPersonId() != null) {
+                        person.setPersonId(personMassChange.getReplacerPersonId());
+                        person.setRolodexId(null);
+                        getPersonEditableService().populateContactFieldsFromPersonId(person);
                         
-                            getBusinessObjectService().save(biography);
+                        for (ProposalPersonBiography biography : developmentProposal.getPropPersonBios()) {
+                            if (ObjectUtils.equals(biography.getProposalPersonNumber(), person.getProposalPersonNumber())) {
+                                biography.setPersonId(personMassChange.getReplacerPersonId());
+                                biography.setRolodexId(null);
+                                
+                                getBusinessObjectService().save(biography);
+                            }
+                        }
+                    } else if (personMassChange.getReplacerRolodexId() != null) {
+                        person.setPersonId(null);
+                        person.setRolodexId(personMassChange.getReplacerRolodexId());
+                        getPersonEditableService().populateContactFieldsFromRolodexId(person);
+                        
+                        for (ProposalPersonBiography biography : developmentProposal.getPropPersonBios()) {
+                            if (ObjectUtils.equals(biography.getProposalPersonNumber(), person.getProposalPersonNumber())) {
+                                biography.setPersonId(null);
+                                biography.setRolodexId(personMassChange.getReplacerRolodexId());
+                            
+                                getBusinessObjectService().save(biography);
+                            }
                         }
                     }
+    
+                    getBusinessObjectService().save(person);
                 }
-
-                getBusinessObjectService().save(person);
             }
         }
     }
