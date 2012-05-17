@@ -247,9 +247,14 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     @Override
     public boolean canEdit(Document document, Person user) {
         ProposalDevelopmentDocument proposalDocument = (ProposalDevelopmentDocument) document;
-        if (proposalDocument.getDevelopmentProposal().getProposalState().getStateTypeCode().equals(ProposalState.CANCELED)) {
-            return false;
+        //KRACOEUS-5529 Added check if document is in Disapproved status.
+        String proposalStateTypeCode = "";
+        if (proposalDocument.getDevelopmentProposal().getProposalState() != null){
+            proposalStateTypeCode = proposalDocument.getDevelopmentProposal().getProposalState().getStateTypeCode();
         }
+        if(proposalStateTypeCode.equalsIgnoreCase(ProposalState.CANCELED) || proposalStateTypeCode.equalsIgnoreCase(ProposalState.DISAPPROVED)){
+            return false;
+        } 
         return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.MODIFY_PROPOSAL);
     }
     
