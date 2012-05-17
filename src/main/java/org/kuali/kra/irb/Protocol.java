@@ -82,14 +82,16 @@ import org.kuali.kra.irb.summary.PersonnelSummary;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.irb.summary.ResearchAreaSummary;
 import org.kuali.kra.irb.summary.SpecialReviewSummary;
+import org.kuali.kra.krms.KcKrmsContextBo;
+import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -101,7 +103,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class Protocol extends KraPersistableBusinessObjectBase implements SequenceOwner<Protocol>, 
                                                                           Permissionable,
                                                                           UnitAclLoadable,
-                                                                          Disclosurable {
+                                                                          Disclosurable,
+                                                                          KcKrmsContextBo {
 
     private static final long serialVersionUID = 4396393806439396971L;
     
@@ -2260,4 +2263,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         return sortedActions;
     }
 
+    public KrmsRulesContext getKrmsRulesContext() {
+        return (KrmsRulesContext) getProtocolDocument();
+    }
 }

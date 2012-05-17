@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -40,7 +41,6 @@ public abstract class QuestionnaireHelperBase implements Serializable {
     private List<AnswerHeader> answerHeaders;
     private List<String> headerLabels;
     transient private QuestionnaireAnswerService questionnaireAnswerService;
-
 
 
     public abstract String getModuleCode();
@@ -190,6 +190,11 @@ public abstract class QuestionnaireHelperBase implements Serializable {
     protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
     }
+
+    public String getRuleReferenced() {
+        return getModuleQnBean().getRuleResults();
+    }
+
 
 
 }

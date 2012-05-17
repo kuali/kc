@@ -26,8 +26,8 @@ import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.AwardType;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.NoticeOfOpportunity;
@@ -42,6 +42,8 @@ import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krms.KcKrmsContextBo;
+import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyStatusConstants;
@@ -67,7 +69,7 @@ import org.springframework.util.AutoPopulatingList;
 /**
  * This class...
  */
-public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetParent, Sponsorable, Disclosurable {
+public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetParent, Sponsorable, Disclosurable, KcKrmsContextBo {
 
     private static final long serialVersionUID = -9211313487776934111L;
 
@@ -2220,6 +2222,10 @@ public void setBudgetChangedDataList(List<BudgetChangedData> budgetChangedDataLi
 
 public List<BudgetChangedData> getBudgetChangedDataList() {
     return budgetChangedDataList;
+}
+
+public KrmsRulesContext getKrmsRulesContext() {
+    return (KrmsRulesContext) getProposalDocument();
 }
 
 

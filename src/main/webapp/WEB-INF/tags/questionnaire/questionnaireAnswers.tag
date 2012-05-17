@@ -85,6 +85,10 @@
             </span>
         </h3>
         <div id="questionpanelcontent:${property}:${answerHeaderIndex}">
+        <%-- hidden rule results --%>
+            <input type="hidden" name="ruleReferenced" id ="ruleReferenced" 
+       value = "${bean.ruleReferenced}" />
+        
             <c:set var="questionid" value="" />
             <c:forEach items="${bean.answerHeaders[answerHeaderIndex].answers}" var="answer" varStatus="status">   
 

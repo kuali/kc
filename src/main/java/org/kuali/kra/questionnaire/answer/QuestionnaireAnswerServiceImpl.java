@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
@@ -32,6 +33,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
+import org.kuali.kra.krms.KcKrmsContextBo;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -230,6 +232,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             contextKey = moduleQuestionnaireBean.getModuleItemKey()+"-"+moduleQuestionnaireBean.getModuleSubItemKey();
         }
         GlobalVariables.getUserSession().removeObject(namespace + "-" + contextKey + "-ruleresults");
+        GlobalVariables.getUserSession().removeObject(namespace + "-" + contextKey + "-rulereferenced");
         for (AnswerHeader answerHeader : answers) {
             if (!answerHeaderMap.containsKey(answerHeader.getQuestionnaire().getQuestionnaireId())
                     || Long.parseLong(answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk()) 
@@ -245,6 +248,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             Collections.sort(answerHeader.getAnswers(), new AnswerComparator());
             answerHeader.setCompleted(isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
         }
+//        moduleQuestionnaireBean.setRuleResults((Map<String, Boolean>)GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-rulereferenced"));
         return answerHeaders;
     }
 
@@ -572,6 +576,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
                 else if (isParentNotDisplayed(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()))) {
                     answer.setMatchedChild(NO);
+                    if (ConditionType.RULE_EVALUATION.getCondition().equals(answer.getQuestionnaireQuestion().getCondition())) {
+                        // evaluate this rule, so the ruleReferenced map can be populated
+                         isRuleValid(answer.getQuestionnaireQuestion().getConditionValue(), getKrmsRulesContext(answer.getAnswerHeader()));
+                    }
                 }
                 else if ((ConditionType.RULE_EVALUATION.getCondition().equals(answer.getQuestionnaireQuestion().getCondition()) && isRuleValid(answer.getQuestionnaireQuestion().getConditionValue(), getKrmsRulesContext(answer.getAnswerHeader()))) || isAnyAnswerMatched(answer.getQuestionnaireQuestion().getCondition(), parentAnswers.get(answer
                         .getQuestionnaireQuestion().getParentQuestionNumber()), answer.getQuestionnaireQuestion()
@@ -775,6 +783,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         if (CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE.equals(answerHeader.getModuleItemCode())) {
             // TODO : currently only PDDocument implement KrmsRulesContext
             ruleContext = getRuleContextClass(answerHeader, "proposalNumber", DevelopmentProposal.class);
+        } else if (CoeusModule.IRB_MODULE_CODE.equals(answerHeader.getModuleItemCode())) {
+            // TODO : currently only PDDocument implement KrmsRulesContext
+            ruleContext = getRuleContextClass(answerHeader, "protocolNumber", Protocol.class);
+            
         }
         return ruleContext;
     }
@@ -787,7 +799,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         } else {
             fieldValues.put(propertyName, answerHeader.getModuleItemKey().substring(0, answerHeader.getModuleItemKey().indexOf("|")));
         }
-        return (KrmsRulesContext) ((List<DevelopmentProposal>)businessObjectService.findMatching(clazz, fieldValues)).get(0).getProposalDocument();
+        return ((List<KcKrmsContextBo>)businessObjectService.findMatching(clazz, fieldValues)).get(0).getKrmsRulesContext();
     }
    
     private boolean isRuleValid(String ruleId, KrmsRulesContext rulesContext) {
@@ -805,9 +817,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             isValid = loadAndisRuleValid(ruleId, rulesContext);
         } else {
             Map <String, Boolean> results = (Map <String, Boolean>)GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-ruleresults");
-            String ruleName = KrmsApiServiceLocator.getRuleRepositoryService().getRule(ruleId).getName();  
-            isValid = results.get(ruleName);
+            String ruleName = KrmsApiServiceLocator.getRuleRepositoryService().getRule(ruleId).getName(); 
+            if (MapUtils.isNotEmpty(results)) {
+                isValid = results.get(ruleName);
+            }
         }
+        ((Map <String, Boolean>)GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-rulereferenced")).put(ruleId, Boolean.valueOf(isValid));
         return isValid;
     }
     
@@ -868,6 +883,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 //        return StringUtils.isNotBlank(errors);
         // use session to cache the evaluation results for now
         GlobalVariables.getUserSession().addObject(namespace + "-" + contextKey + "-ruleresults", ruleResults);
+        GlobalVariables.getUserSession().addObject(namespace + "-" + contextKey + "-rulereferenced", new HashMap<String, Boolean>());
         return isValid;
     }
 
