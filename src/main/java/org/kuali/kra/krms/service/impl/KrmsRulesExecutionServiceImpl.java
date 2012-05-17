@@ -54,10 +54,14 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
             EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);
         
             // comma-delimited list of error & warning messages
-            String errors = (String) results.getAttribute(ValidationActionTypeService.VALIDATIONS_ACTION_ATTRIBUTE);
-            if (errors != null) {
-                String[] errorArray = StringUtils.split(errors, ",");
-                return Arrays.asList(errorArray);
+            if (results != null) {
+                String errors = (String) results.getAttribute(ValidationActionTypeService.VALIDATIONS_ACTION_ATTRIBUTE);
+                if (errors != null) {
+                    String[] errorArray = StringUtils.split(errors, ",");
+                    return Arrays.asList(errorArray);
+                }
+            } else {
+                LOG.warn("Results returned from KRMS Rules Engine was null.");
             }
         }
         return Collections.emptyList();
