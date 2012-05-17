@@ -15,34 +15,26 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import java.sql.Date;
-import java.util.ArrayList;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.ApplicationTask;
-import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService;
+import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionEvent;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
@@ -54,44 +46,46 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.meeting.MinuteEntryType;
-import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.service.WatermarkService;
-import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.util.CollectionUtils;
 
 public class IacucProtocolActionsAction extends IacucProtocolAction {
-
+    
+    private static final Log LOG = LogFactory.getLog(IacucProtocolActionsAction.class);
+    private static final String CONFIRM_NO_ACTION = "";
+    private static final String CONFIRM_DELETE_ACTION_ATT = "confirmDeleteActionAttachment";
+    private static final String CONFIRM_FOLLOWUP_ACTION = "confirmAddFollowupAction";
+    
     private static final String PROTOCOL_TAB = "iacucProtocol";
     private static final String PROTOCOL_ACTIONS_TAB = "iacucProtocolActions";
-    private static final String CORRESPONDENCE = "correspondence";
+    
+    private static final String CONFIRM_SUBMIT_FOR_REVIEW_KEY = "confirmSubmitForReview";
+    private static final String CONFIRM_ASSIGN_TO_AGENDA_KEY = "confirmAssignToAgenda";
+    private static final String CONFIRM_ASSIGN_CMT_SCHED_KEY = "confirmAssignCmtSched";
+    private static final String CONIFRM_REMOVE_REVIEWER_KEY="confirmRemoveReviewer";
+    
+    
+    private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
 
+    private static final String CONFIRM_DELETE_PROTOCOL_KEY = "confirmDeleteProtocol";
+    private static final String INVALID_ATTACHMENT = "this attachment version is invalid ";
+
+    /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
+    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
+    private static final String SUBMISSION_ID = "submissionId";
+    private static final String CORRESPONDENCE = "correspondence";
+    
+  
     
     
 
@@ -111,6 +105,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
 
+    
   
     
 // TODO *********commented the code below during IACUC refactoring*********     
@@ -752,71 +747,71 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
 //    
-//    /**
-//     * Delete a Protocol/Amendment/Renewal. Remember that amendments and renewals are simply protocol documents that were copied
-//     * from a protocol.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward deleteProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, protocolForm.getProtocolDocument().getProtocol());
-//        if (isAuthorized(task)) {
-//            return confirm(buildDeleteProtocolConfirmationQuestion(mapping, form, request, response), 
-//                           CONFIRM_DELETE_PROTOCOL_KEY,
-//                           "");
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * If the user confirms the deletion, then delete the protocol.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward confirmDeleteProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-//        if (CONFIRM_DELETE_PROTOCOL_KEY.equals(question)) {
-//            ProtocolForm protocolForm = (ProtocolForm) form;
-//            getProtocolDeleteService().delete(protocolForm.getProtocolDocument().getProtocol(),
-//                    protocolForm.getActionHelper().getProtocolDeleteBean());
-//            
-//            recordProtocolActionSuccess("Delete Protocol, Amendment, or Renewal");
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * Build the question to ask the user. Ask if they really want to delete the protocol.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    private StrutsConfirmation buildDeleteProtocolConfirmationQuestion(ActionMapping mapping, ActionForm form,
-//            HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolDocument doc = ((ProtocolForm) form).getProtocolDocument();
-//        String protocolNumber = doc.getProtocol().getProtocolNumber();
-//        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROTOCOL_KEY,
-//                KeyConstants.QUESTION_DELETE_PROTOCOL_CONFIRMATION, protocolNumber);
-//    }
-//
+    /**
+     * Delete a Protocol/Amendment/Renewal. Remember that amendments and renewals are simply protocol documents that were copied
+     * from a protocol.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.IACUC_PROTOCOL_AMEND_RENEW_DELETE, (IacucProtocol) protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            return confirm(buildDeleteProtocolConfirmationQuestion(mapping, form, request, response), 
+                           CONFIRM_DELETE_PROTOCOL_KEY,
+                           "");
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * If the user confirms the deletion, then delete the protocol.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmDeleteProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_DELETE_PROTOCOL_KEY.equals(question)) {
+            ProtocolForm protocolForm = (ProtocolForm) form;
+            getProtocolDeleteService().delete(protocolForm.getProtocolDocument().getProtocol(),
+                    protocolForm.getActionHelper().getProtocolDeleteBean());
+            
+            recordProtocolActionSuccess("Delete Protocol, Amendment, or Renewal");
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * Build the question to ask the user. Ask if they really want to delete the protocol.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    private StrutsConfirmation buildDeleteProtocolConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolDocument doc = ((ProtocolForm) form).getProtocolDocument();
+        String protocolNumber = doc.getProtocol().getProtocolNumber();
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROTOCOL_KEY,
+                KeyConstants.QUESTION_DELETE_PROTOCOL_CONFIRMATION, protocolNumber);
+    }
+
 //
 //    /**
 //     * 
@@ -2856,9 +2851,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return KraServiceLocator.getService(ProtocolAmendRenewService.class);
 //    }
 //    
-//    private ProtocolDeleteService getProtocolDeleteService() {
-//        return KraServiceLocator.getService(ProtocolDeleteService.class);
-//    }
+    private IacucProtocolDeleteService getProtocolDeleteService() {
+        return KraServiceLocator.getService(IacucProtocolDeleteService.class);
+    }
 //    
 //    private ProtocolAssignCmtSchedService getProtocolAssignCmtSchedService() {
 //        return KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
