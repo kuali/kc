@@ -36,48 +36,13 @@ import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class SubAwardFinancialAction extends SubAwardAction{
     
     private static final String LINE_NUMBER = "line";
-    private static final String CONFIRM_EFFECTIVE_DATE = "confirmEffectiveDate";
-    private static final String NO_CONFIRM_EFFECTIVE_DATE = "noConfirmEffectiveDate";
     private static final String DOC_HANDLER_URL_PATTERN = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
-    
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
-        ActionForward actionForward = super.execute(mapping, form, request, response);
-        return actionForward;
-    }
-    
-    @Override
-    public ActionForward save(ActionMapping mapping,
-    ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
-        SubAwardForm subAwardForm = (SubAwardForm) form;
-        SubAwardAmountInfo amountInfo = subAwardForm.getNewSubAwardAmountInfo();
-        SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
-        if (new SubAwardDocumentRule().
-        processSaveSubAwardAmountInfoBusinessRule(
-       subAward, amountInfo)) {
-
-            ActionForward  forward = super.save(
-            mapping, form, request, response);
-            return forward;
-        } else {
-            return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
-
-        }
-    }
-
-       public ActionForward reload(ActionMapping mapping,
-      ActionForm form, HttpServletRequest request,
-      HttpServletResponse response) throws Exception {
-        SubAwardForm subAwardForm = (SubAwardForm) form;
-        ActionForward forward = super.reload(mapping, form, request, response);
-        return forward;
-    }
 
     /**.
      * This method is for addAmountInfo
@@ -101,10 +66,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
             getSubAward(), amountInfo);
             subAwardForm.setNewSubAwardAmountInfo(new SubAwardAmountInfo());
         }
-        subAward = KraServiceLocator.getService(
-        SubAwardService.class).getAmountInfo(subAwardForm.
-        getSubAwardDocument().getSubAward());
-        subAwardForm.getSubAwardDocument().setSubAward(subAward);
+        KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
         return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
      }
     /**.
@@ -163,10 +125,12 @@ public class SubAwardFinancialAction extends SubAwardAction{
 
         SubAwardForm subAwardForm = (SubAwardForm) form;
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
-        response.sendRedirect("kr/maintenance.do?businessObjectClassName=org.kuali.kra.subaward.bo.SubAwardAmountReleased&methodToCall=start" +
-                "&subAwardId=" + subAward.getSubAwardId() + "&subAwardCode=" + subAward.getSubAwardCode() + 
-                "&sequenceNumber=" + subAward.getSequenceNumber());
-
+        if (getKualiRuleService().applyRules(new SaveDocumentEvent("document", subAward.getSubAwardDocument()))) {
+            this.save(mapping, subAwardForm, request, response);
+            response.sendRedirect("kr/maintenance.do?businessObjectClassName=org.kuali.kra.subaward.bo.SubAwardAmountReleased&methodToCall=start" +
+                    "&subAwardId=" + subAward.getSubAwardId() + "&subAwardCode=" + subAward.getSubAwardCode() + 
+                    "&sequenceNumber=" + subAward.getSequenceNumber());
+        }
         return null;
     }
     
@@ -197,62 +161,6 @@ public class SubAwardFinancialAction extends SubAwardAction{
 
         return null;
     }    
-    /**.
-     * This method is for confirmEffectiveDate
-     * @param mapping the ActionMapping
-     * @param form the ActionForm
-     * @param request the Request
-     * @param response the Response
-     * @return ActionForward
-     * @throws Exception
-     */
-    public ActionForward confirmEffectiveDate(
-    ActionMapping mapping, ActionForm form,
-    HttpServletRequest request, HttpServletResponse response) throws Exception {
-        SubAwardForm subAwardForm = (SubAwardForm) form;
-        SubAwardAmountReleased subAwardAmountReleased =
-        	subAwardForm.getNewSubAwardAmountReleased();
-        SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
-        if (new SubAwardDocumentRule().
-        processAddSubAwardAmountReleasedBusinessRules(
-        subAwardAmountReleased, subAward)) { 
-            addAmountReleasedToSubAward(subAwardForm.
-            getSubAwardDocument().getSubAward(), subAwardAmountReleased);
-            subAwardForm.setNewSubAwardAmountReleased(new SubAwardAmountReleased());
-        }
-        subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
-        subAwardForm.getSubAwardDocument().setSubAward(subAward);
-        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE); 
-    }
-    public ActionForward noConfirmEffectiveDate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        SubAwardForm subAwardForm=(SubAwardForm) form;
-        SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
-        subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAwardForm.getSubAwardDocument().getSubAward());
-        subAwardForm.getSubAwardDocument().setSubAward(subAward);
-        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
-    }
-    boolean addAmountReleasedToSubAward(SubAward subAward,SubAwardAmountReleased subAwardAmountReleased){
-        subAwardAmountReleased.setSubAward(subAward);  
-        subAwardAmountReleased.populateAttachment();
-        return subAward.getSubAwardAmountReleasedList().add(subAwardAmountReleased);
-    }
-    public ActionForward deleteAmountReleased(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        SubAwardForm subAwardForm = (SubAwardForm)form;
-        SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
-        int selectedLineNumber = getSelectedLine(request);
-        SubAwardAmountReleased  subAwardAmountReleased =
-        	subAwardDocument.getSubAward().getSubAwardAmountReleasedList().
-        	get(selectedLineNumber);
-        if (subAwardAmountReleased.getSubAward() != null) {
-            subAwardAmountReleased.setDocument(null);
-            subAwardAmountReleased.setFileName(null);
-            this.getBusinessObjectService().save(subAwardAmountReleased);
-        } else {
-            subAwardAmountReleased.setDocument(null);
-            subAwardAmountReleased.setFileName(null);
-        }
-        return mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
-    }
 
     public ActionForward downloadHistoryOfChangesAttachment(
     	ActionMapping mapping, ActionForm form, HttpServletRequest request,

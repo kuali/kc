@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.subaward.subawardrule;
 
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -23,12 +26,14 @@ import org.kuali.rice.kns.rules.MaintenanceDocumentRule;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class SubAwardInvoiceMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
+public class SubAwardInvoiceMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
     
     private DictionaryValidationService dictionaryValidationService;
+    private ErrorReporter errorReporter;
     
     public SubAwardInvoiceMaintenanceDocumentRule() {
         dictionaryValidationService = KraServiceLocator.getService(DictionaryValidationService.class);
+        errorReporter = new ErrorReporter();
     }
     
     @Override
@@ -38,8 +43,33 @@ public class SubAwardInvoiceMaintenanceDocumentRule extends MaintenanceDocumentR
         SubAwardAmountReleased invoice = (SubAwardAmountReleased) document.getNoteTarget();
         GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject");
         valid &= dictionaryValidationService.isBusinessObjectValid(invoice);
+        if (invoice.getStartDate() != null && invoice.getEndDate() != null 
+                && invoice.getEndDate().before(invoice.getStartDate())) {
+            valid = false;
+            errorReporter.reportError("startDate", KeyConstants.SUBAWARD_ERROR_END_DATE_GREATER_THAN_START);
+        }
+        if (invoice.getAmountReleased() != null) {
+            if (invoice.getAmountReleased().isNegative()) {
+                valid = false;
+                errorReporter.reportError("amountReleased", KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_NEGATIVE);
+            }
+            if (invoice.getAmountReleased().isGreaterThan(invoice.getSubAward().getTotalAvailableAmount())) {
+                valid = false;
+                errorReporter.reportError("amountReleased", KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_GREATER_OBLIGATED_AMOUNT);
+            }
+        }
+                
         GlobalVariables.getMessageMap().clearErrorPath();
         return valid;
     }
-
+    
+    /**
+     * The Subaward Invoice maint doc saves the BO on every save so the primary key check will always fail so we disable it here by
+     * always returning success.
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#primaryKeyCheck(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @Override
+    protected boolean primaryKeyCheck(MaintenanceDocument document) {
+        return true;
+    }
 }
