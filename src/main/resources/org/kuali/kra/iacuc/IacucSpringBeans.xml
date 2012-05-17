@@ -402,6 +402,13 @@
         <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
         <property name="kcNotificationService" ref="kcNotificationService" />
     </bean>
+    
+    
+    <bean id="iacucProtocolDeleteService" class="org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
+    </bean>
         
 </beans>
 
