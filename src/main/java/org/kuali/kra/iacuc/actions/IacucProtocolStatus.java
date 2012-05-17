@@ -19,7 +19,16 @@ import org.kuali.kra.protocol.actions.ProtocolStatus;
 
 public class IacucProtocolStatus extends ProtocolStatus { 
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 3741210958637661468L;
+
     public static final String IN_PROGRESS = "100";
+    
+    public static final String AMENDMENT_IN_PROGRESS = "105";
+
+    public static final String RENEWAL_IN_PROGRESS = "106";
     
     public static final String SUBMITTED_TO_IACUC = "101";
     

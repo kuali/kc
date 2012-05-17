@@ -38,6 +38,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
@@ -90,6 +91,19 @@ public abstract class ActionHelper implements Serializable {
 
     protected static final long ONE_DAY = 1000L * 60L * 60L * 24L;
     protected static final String NAMESPACE = "KC-UNT";
+    
+//    private static final List<String> ACTION_TYPE_SUBMISSION_DOC;  
+//    static {
+//        final List<String> codes = new ArrayList<String>();     
+//        codes.add(ProtocolActionType.NOTIFY_IRB);
+//        codes.add(ProtocolActionType.REQUEST_TO_CLOSE);
+//        codes.add(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
+//        codes.add(ProtocolActionType.REQUEST_FOR_SUSPENSION);
+//        codes.add(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT);
+//        codes.add(ProtocolActionType.REQUEST_FOR_TERMINATION);
+//        codes.add(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT);
+//        ACTION_TYPE_SUBMISSION_DOC = codes;
+//    }
 
     /**
      * Each Helper must contain a reference to its document form
@@ -337,7 +351,7 @@ public abstract class ActionHelper implements Serializable {
 //
 //        protocolAmendmentBean = createAmendmentBean();
 //        protocolRenewAmendmentBean = createAmendmentBean();
-//        protocolDeleteBean = new ProtocolDeleteBean(this);
+        protocolDeleteBean = getNewProtocolDeleteBeanInstanceHook(this);
 //        assignToAgendaBean = new ProtocolAssignToAgendaBean(this);
 //        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
@@ -415,6 +429,8 @@ public abstract class ActionHelper implements Serializable {
 //        initPrintQuestionnaire();
     }
     
+    protected abstract ProtocolDeleteBean getNewProtocolDeleteBeanInstanceHook(ActionHelper actionHelper);
+
 //    /**
 //     * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
 //     * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
@@ -769,7 +785,7 @@ public abstract class ActionHelper implements Serializable {
 //        canRequestDataAnalysisUnavailable = hasRequestDataAnalysisUnavailablePermission();
 //        canRequestTerminate = hasRequestTerminatePermission();
 //        canRequestTerminateUnavailable = hasRequestTerminateUnavailablePermission();
-//        canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
+        canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
 //        canDeleteProtocolAmendRenewUnavailable = hasDeleteProtocolAmendRenewUnavailablePermission();
 //        canAssignToAgenda = hasAssignToAgendaPermission();
 //        canAssignToAgendaUnavailable = hasAssignToAgendaUnavailablePermission();
@@ -1061,15 +1077,22 @@ public abstract class ActionHelper implements Serializable {
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    protected boolean hasDeleteProtocolAmendRenewPermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasDeleteProtocolAmendRenewUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
+    protected boolean hasDeleteProtocolAmendRenewPermission() {
+        ProtocolTask task = new ProtocolTask(getAmendRenewDeleteTaskNameHook(), getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected abstract String getAmendRenewDeleteTaskNameHook(); 
+
+    
+    protected boolean hasDeleteProtocolAmendRenewUnavailablePermission() {
+        ProtocolTask task = new ProtocolTask(getAmendRenewDeleteTaskNameUnavailableHook(), getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected abstract String getAmendRenewDeleteTaskNameUnavailableHook();
+
+    
 //    
 //    protected boolean hasAssignToAgendaPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA, getProtocol());

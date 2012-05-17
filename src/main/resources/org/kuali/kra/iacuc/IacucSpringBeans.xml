@@ -97,6 +97,14 @@
                                 
                 <bean class="org.kuali.kra.iacuc.auth.WithdrawIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="withdrawIacucProtocol" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolAmendRenewDeleteAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucProtocolAmendRenewDelete" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolAmendRenewDeleteUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucProtocolAmendRenewDeleteUnavailable" />
                 </bean>                          
 
 <!--  IACUC

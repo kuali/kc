@@ -26,6 +26,7 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteBean;
 import org.kuali.kra.iacuc.actions.notifyiacuc.ProtocolNotifyIacucBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
@@ -40,6 +41,7 @@ import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
+import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -53,6 +55,12 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class IacucActionHelper extends ActionHelper {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 777750088765246427L;
+    
+    
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
@@ -537,6 +545,25 @@ public class IacucActionHelper extends ActionHelper {
 
     protected IacucProtocol getIacucProtocol() {
         return (IacucProtocol)getProtocol();
+    }
+
+    
+    
+    
+    @Override
+    protected String getAmendRenewDeleteTaskNameHook() {
+        return TaskName.IACUC_PROTOCOL_AMEND_RENEW_DELETE;
+    }
+    
+
+    @Override
+    protected String getAmendRenewDeleteTaskNameUnavailableHook() {
+        return TaskName.IACUC_PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE;
+    }
+
+    @Override
+    protected ProtocolDeleteBean getNewProtocolDeleteBeanInstanceHook(ActionHelper actionHelper) {
+        return new IacucProtocolDeleteBean((IacucActionHelper)actionHelper);
     }
 }
 
