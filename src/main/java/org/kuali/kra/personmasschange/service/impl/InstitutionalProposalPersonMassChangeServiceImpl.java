@@ -101,7 +101,6 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
     private List<InstitutionalProposal> getLatestInstitutionalProposals(Collection<InstitutionalProposal> institutionalProposals) {
         List<InstitutionalProposal> latestInstitutionalProposals = new ArrayList<InstitutionalProposal>();
         
-        
         for (String uniqueInstitutionalProposalNumber : getUniqueInstitutionalProposalNumbers(institutionalProposals)) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(PROPOSAL_NUMBER, uniqueInstitutionalProposalNumber);
@@ -191,7 +190,7 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
         boolean isUnitContactChangeCandidate = false;
         
         for (InstitutionalProposalUnitContact unitContact : unitContacts) {
-            if (isPersonIdMassChange(personMassChange, unitContact.getPersonId()) || isRolodexIdMassChange(personMassChange, unitContact.getRolodexId())) {
+            if (isPersonIdMassChange(personMassChange, unitContact.getPersonId())) {
                 isUnitContactChangeCandidate = true;
                 break;
             }
@@ -240,13 +239,15 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
     private void performPersonPersonMassChange(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal, String... personRoles) {
         for (InstitutionalProposalPerson person : institutionalProposal.getProjectPersons()) {
             if (isPersonInRole(person, personRoles)) {
-                if (personMassChange.getReplacerPersonId() != null) {
-                    person.setPersonId(personMassChange.getReplacerPersonId());
-                } else if (personMassChange.getReplacerRolodexId() != null) {
-                    person.setRolodexId(personMassChange.getReplacerRolodexId());
+                if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
+                    if (personMassChange.getReplacerPersonId() != null) {
+                        person.setPersonId(personMassChange.getReplacerPersonId());
+                    } else if (personMassChange.getReplacerRolodexId() != null) {
+                        person.setRolodexId(personMassChange.getReplacerRolodexId());
+                    }
+    
+                    getBusinessObjectService().save(person);
                 }
-
-                getBusinessObjectService().save(person);
             }
         }
     }
@@ -262,11 +263,13 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
     private void performUnitContactPersonMassChange(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal) {
         if (personMassChange.getInstitutionalProposalPersonMassChange().isUnitContact()) {
             for (InstitutionalProposalUnitContact unitContact : institutionalProposal.getInstitutionalProposalUnitContacts()) {
-                KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
-                unitContact.setPersonId(kcPerson.getPersonId());
-                unitContact.setFullName(kcPerson.getFullName());
-
-                getBusinessObjectService().save(unitContact);
+                if (isPersonIdMassChange(personMassChange, unitContact.getPersonId())) {
+                    KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());
+                    unitContact.setPersonId(kcPerson.getPersonId());
+                    unitContact.setFullName(kcPerson.getFullName());
+    
+                    getBusinessObjectService().save(unitContact);
+                }
             }
         }
     }
