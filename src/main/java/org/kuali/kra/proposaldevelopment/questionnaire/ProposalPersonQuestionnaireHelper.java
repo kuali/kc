@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -123,5 +124,9 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
      */
     public void setProposalDevelopmentForm(ProposalDevelopmentForm proposalDevelopmentForm) {
         this.proposalDevelopmentForm = proposalDevelopmentForm;
+    }
+    
+    public String getNamespaceCd() {
+        return Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
     }
 }

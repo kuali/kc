@@ -687,6 +687,9 @@
 			<c:set var="property" value="proposalPersonQuestionnaireHelpers[${personIndex}]" />
 			<c:set var="bean" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex]}" />
 			<c:set var ="completed" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex].answerHeaders[0].allQuestionsAnswered}"/>
+        <%-- hidden rule results --%>
+            <input type="hidden" name="ruleReferenced" id ="ruleReferenced" 
+       value = "${bean.ruleReferenced}" />
 			
 			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" 
 				answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}" completed="${completed }"
