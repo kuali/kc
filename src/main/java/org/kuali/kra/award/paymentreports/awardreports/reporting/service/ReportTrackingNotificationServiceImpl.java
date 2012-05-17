@@ -85,10 +85,16 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
     
                     // either add or subtract, based on the overdue flag the number of days specified in the notification from today
                     Calendar checkFor = Calendar.getInstance();
-                    checkFor.add(Calendar.DAY_OF_MONTH, notification.getDays()*(notification.isOverdue() ? -1 : 1));
-                    // compute the scoped date by adding or subtracting the value of scope from the notification
-                    Calendar until = (Calendar) checkFor.clone();
-                    until.add(Calendar.DAY_OF_MONTH, notification.getScope()*(notification.isOverdue() ? -1 : 1));
+                    Calendar until = null;
+                    if (notification.isOverdue()) {
+                        checkFor.add(Calendar.DAY_OF_MONTH, (notification.getDays()+notification.getScope())*-1);                        
+                    } else {
+                        checkFor.add(Calendar.DAY_OF_MONTH, notification.getDays()-notification.getScope());                                                
+                    }
+                    until = (Calendar) checkFor.clone();
+                    until.add(Calendar.DAY_OF_MONTH, notification.getScope());
+                    Date checkForDebug = checkFor.getTime();
+                    Date untilDebug = until.getTime();
                     Map<Award, List<ReportTracking>> matchedReports = new HashMap<Award, List<ReportTracking>>();
                     Map<NotificationRecipient.Builder, List<ReportTracking>> recipients = 
                         new TreeMap<NotificationRecipient.Builder, List<ReportTracking>>(new Comparator<NotificationRecipient.Builder>() {
