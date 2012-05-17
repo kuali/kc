@@ -22,6 +22,7 @@ import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -58,6 +59,14 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
         } else {
             GlobalVariables.getMessageMap().clearErrorMessages();
         }
+    }
+    
+    @Override
+    public void doRouteStatusChange(DocumentHeader documentHeader) {
+        SubAwardAmountReleased invoice = (SubAwardAmountReleased) this.getBusinessObject();
+        invoice.setInvoiceStatus(documentHeader.getWorkflowDocument().getStatus().getCode());
+        invoice.populateAttachment();
+        getBusinessObjectService().save(invoice);
     }
 
     protected DateTimeService getDateTimeService() {

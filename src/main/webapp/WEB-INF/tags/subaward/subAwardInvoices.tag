@@ -67,6 +67,7 @@
                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.endDate}" noColon="true" readOnly="true"/></div></th>
                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.effectiveDate}" noColon="true" readOnly="true"/></div></th>
                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.amountReleased}" noColon="true" readOnly="true"/></div></th>
+			   <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.invoiceStatus}" noColon="true" readOnly="true"/></div></th>               
                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.newFile}" noColon="true" readOnly="true"/></div></th>
             </tr>
    			
@@ -106,7 +107,10 @@
 						
 	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].amountReleased" readOnly="true" attributeEntry="${subAwardAmountReleasedAttributes.amountReleased}" />
 						</div>
-						</td>	
+						</td>
+						<td>
+							<c:out value="${subAwardInvoice.invoiceStatusLabel}"/>
+						</td>							
                 		<td>
 							<c:if test="${subAwardInvoice.fileName!=null}">
 								<a href="#" class="attachmentLink">
@@ -123,7 +127,7 @@
            		   </tr>
            		   <tr>
            		     <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountReleasedAttributes.comments}" noColon="true" readOnly="true"/></div></th>
-           		     <td colspan="6">
+           		     <td colspan="7">
                        <kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].comments" readOnly="true" attributeEntry="${subAwardAmountReleasedAttributes.comments}" />
                 	 </td>
            		   </tr>

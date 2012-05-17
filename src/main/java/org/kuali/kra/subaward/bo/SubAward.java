@@ -102,8 +102,6 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 
     private SubAwardCloseout subAwardCloseout;
 
-    private SubAwardAmountReleased subAwardAmountReleased;
-
     private SubAwardAmountInfo subAwardAmountInfo;
 
     private String organizationName;
@@ -343,8 +341,6 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	private List<SubAwardFundingSource> subAwardFundingSourceList;
 
     private List<SubAwardAmountInfo> subAwardAmountInfoList;
-
-    private List<SubAwardAmountReleased> subAwardAmountReleasedList;
 
     private List<SubAwardContact> subAwardContactsList;
 
@@ -762,23 +758,6 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	}
 
 	/**.
-	 * This is the Getter Method for subAwardAmountReleased
-	 * @return Returns the subAwardAmountReleased.
-	 */
-	public SubAwardAmountReleased getSubAwardAmountReleased() {
-		return subAwardAmountReleased;
-	}
-
-	/**.
-	 * This is the Setter Method for subAwardAmountReleased
-	 * @param subAwardAmountReleased The subAwardAmountReleased to set.
-	 */
-	public void setSubAwardAmountReleased(
-			SubAwardAmountReleased subAwardAmountReleased) {
-		this.subAwardAmountReleased = subAwardAmountReleased;
-	}
-
-	/**.
 	 * This is the Getter Method for subAwardAmountInfo
 	 * @return Returns the subAwardAmountInfo.
 	 */
@@ -836,16 +815,10 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 * @return Returns the subAwardAmountReleasedList.
 	 */
 	public List<SubAwardAmountReleased> getSubAwardAmountReleasedList() {
-		return subAwardAmountReleasedList;
-	}
-
-	/**.
-	 * This is the Setter Method for subAwardAmountReleasedList
-	 * @param subAwardAmountReleasedList The subAwardAmountReleasedList to set.
-	 */
-	public void setSubAwardAmountReleasedList(
-			List<SubAwardAmountReleased> subAwardAmountReleasedList) {
-		this.subAwardAmountReleasedList = subAwardAmountReleasedList;
+	    Map<String, Object> values = new HashMap<String, Object>();
+	    values.put("subAwardCode", this.getSubAwardCode());
+		return (List<SubAwardAmountReleased>) 
+		    KraServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", true);
 	}
 
 	/**.
@@ -913,8 +886,6 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
         SubAwardFundingSource>(SubAwardFundingSource.class);
         subAwardAmountInfoList = new AutoPopulatingList<
         SubAwardAmountInfo>(SubAwardAmountInfo.class);
-        subAwardAmountReleasedList = new AutoPopulatingList<
-        SubAwardAmountReleased>(SubAwardAmountReleased.class);
         subAwardContactsList = new AutoPopulatingList<
         SubAwardContact>(SubAwardContact.class);
         subAwardCloseoutList = new AutoPopulatingList<
