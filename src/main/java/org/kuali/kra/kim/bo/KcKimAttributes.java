@@ -30,6 +30,7 @@ public class KcKimAttributes extends KimAttributes {
     public static final String ORGANIZATION_ID = "organizationId";
     public static final String SUBUNITS = "subunits";
     public static final String NEGOTIATION = "negotiation";
+    public static final String SUBAWARD = "subAward";
     public static final String SUB_QUALIFIER = "subQualifier";
     
     protected String proposal;
@@ -40,6 +41,7 @@ public class KcKimAttributes extends KimAttributes {
     protected String unitNumber;
     protected Boolean subunits;
     protected String negotiation;
+    protected String subAward;
     protected String sectionName;
     protected String documentAction;
     
@@ -132,5 +134,13 @@ public class KcKimAttributes extends KimAttributes {
     public void setNegotiation(String negotiation) {
         this.negotiation = negotiation;
     }
-    
+
+    public String getSubAward() {
+        return subAward;
+    }
+
+    public void setSubAward(String subAward) {
+        this.subAward = subAward;
+    }
+   
 }

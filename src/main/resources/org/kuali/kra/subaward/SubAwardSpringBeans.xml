@@ -194,5 +194,14 @@
             </list>
          </property>
      </bean>
+     
+    <bean id="subAwardRequisitionerDerivedRoleTypeService" class="org.kuali.kra.subaward.service.impl.SubAwardRequisitionerDerivedRoleTypeServiceImpl">
+
+    </bean>
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean parent="kcService" p:service-ref="subAwardRequisitionerDerivedRoleTypeService" p:localServiceName="subAwardRequisitionerDerivedRoleTypeService" />                
+        </property>
+    </bean>     
 
 </beans>	

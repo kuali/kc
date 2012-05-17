@@ -26,6 +26,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.bo.PersistableAttachment;
 /**
  * This class represents a subAwardAmountReleased.  It mainly deals with the
@@ -47,6 +48,7 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAtta
     private Date createdDate;
     private String createdBy;
     private String documentNumber;
+    private String invoiceStatus;
     transient private FormFile newFile;
     private transient SubAwardService subAwardService;
 /**.
@@ -139,6 +141,44 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAtta
         this.endDate = endDate;
     }
     /**
+     * Get the amountReleased.
+     * @return the amountReleased.
+     */
+    public KualiDecimal getAmountReleased() {
+        return amountReleased;
+    }
+    /**
+     * Set the amountReleased..
+     * @param amountReleased the amountReleased to be set
+     */
+    public void setAmountReleased(KualiDecimal amountReleased) {
+        this.amountReleased = amountReleased;
+    }
+    /**
+     * Gets the  Attachment File.
+     */
+
+    /**.
+     *
+     * This method used to populate the attachment
+     *  to subAwardReleased object by reading FormFile
+     */
+    public void populateAttachment() {
+        FormFile newFile = getNewFile();
+        if (newFile == null) { return; }
+        byte[] newFileData;
+        try {
+            newFileData = newFile.getFileData();
+            setDocument(newFileData);
+            if (newFileData.length > 0) {
+                mimeType = newFile.getContentType();
+                fileName = newFile.getFileName();
+            }
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        }
+    }
+    /**
      * Get the document.
      * @return the document.
      */
@@ -180,44 +220,7 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAtta
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
-    /**
-     * Get the amountReleased.
-     * @return the amountReleased.
-     */
-    public KualiDecimal getAmountReleased() {
-        return amountReleased;
-    }
-    /**
-     * Set the amountReleased..
-     * @param amountReleased the amountReleased to be set
-     */
-    public void setAmountReleased(KualiDecimal amountReleased) {
-        this.amountReleased = amountReleased;
-    }
-    /**
-     * Gets the  Attachment File.
-     */
-
-    /**.
-     *
-     * This method used to populate the attachment
-     *  to subAwardReleased object by reading FormFile
-     */
-    public void populateAttachment() {
-        FormFile newFile = getNewFile();
-        if (newFile == null) { return; }
-        byte[] newFileData;
-        try {
-            newFileData = newFile.getFileData();
-            setDocument(newFileData);
-            if (newFileData.length > 0) {
-                setMimeType(newFile.getContentType());
-                setFileName(newFile.getFileName());
-            }
-        } catch (FileNotFoundException e) {
-        } catch (IOException e) {
-        }
-    }
+    
     /**
      * Get the new File.
      * @return the newFile.
@@ -247,7 +250,7 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAtta
 
     @Override
     public String getType() {
-        return getContentType();
+        return getMimeType();
 }
     @Override
     public byte[] getData() {
@@ -259,14 +262,21 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAtta
 return KraServiceLocator.getService(
 KcAttachmentService.class).getFileTypeIcon(this);
     }
-    @Override
     public byte[] getAttachmentContent() {
         return getDocument();
     }
-    @Override
     public void setAttachmentContent(byte[] arg0) {
-        this.document = arg0;
+        //do nothing as this will be called by the maint framework
+        //in many cases with null when it is inappropriate to do so.
+        //this.document = arg0;
     }
+    public String getContentType() {
+        return getMimeType();
+    }
+    public void setContentType(String contentType) {
+        setMimeType(contentType);
+    }
+    
     
     public SubAward getSubAward() {
         return getSubAwardService().getActiveSubAward(getSubAwardId());
@@ -292,18 +302,26 @@ KcAttachmentService.class).getFileTypeIcon(this);
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
-    @Override
-    public String getContentType() {
-        return getMimeType();
-    }
-    @Override
-    public void setContentType(String contentType) {
-        setMimeType(contentType);
-    }
     public String getDocumentNumber() {
         return documentNumber;
     }
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
+    }
+    public String getInvoiceStatus() {
+        return invoiceStatus;
+    }
+    public void setInvoiceStatus(String invoiceStatus) {
+        this.invoiceStatus = invoiceStatus;
+    }
+    public String getInvoiceStatusLabel() {
+        if (invoiceStatus != null) {
+            return DocumentStatus.fromCode(invoiceStatus).getLabel();
+        } else {
+            return null;
+        }
+    }
+    public void setInvoiceStatusLabel(String invoiceStatusLabel) {
+        //do nothing
     }
 }

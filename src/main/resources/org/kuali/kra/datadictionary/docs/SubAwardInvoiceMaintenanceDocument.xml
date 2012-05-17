@@ -7,9 +7,9 @@
     <property name="maintainableClass" value="org.kuali.kra.subaward.document.SubAwardInvoiceMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
+      	<ref bean="SubAwardInvoiceMaintenanceDocument-SubAwardInvoice"/>
         <ref bean="SubAwardInvoiceMaintenanceDocument-SubAwardSummary"/>
         <ref bean="SubAwardInvoiceMaintenanceDocument-SubAwardAmounts"/>
-        <ref bean="SubAwardInvoiceMaintenanceDocument-SubAwardInvoice"/>
       </list>
     </property>
     <property name="lockingKeys">
@@ -19,9 +19,9 @@
     </property>	<property name="allowsRecordDeletion" value="false" />
     
     <property name="documentTypeName" value="SubAwardInvoiceMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kra.subaward.document.authorizer.SubAwardInvoiceMaintenanceDocumentAuthorizer"/>
     <property name="businessRulesClass" value="org.kuali.kra.subaward.subawardrule.SubAwardInvoiceMaintenanceDocumentRule" />
-    
+    <property name="promptBeforeValidationClass" value="org.kuali.kra.subaward.subawardrule.SubAwardInvoicePromptBeforeValidation" />
     
   </bean>
 
