@@ -222,6 +222,15 @@
 		<property name="scheduleService" ref="scheduleService" />
 		<property name="reviewCommentsService" ref="reviewCommentsService" />
 	</bean>
+	
+	<!--  renamed service interface after bulk cloning of committee -->
+	<bean id="commonCommitteeScheduleService"
+		class="org.kuali.kra.common.committee.service.impl.CommitteeScheduleServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="scheduleService" ref="scheduleService" />
+		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
+	</bean>
+	
 
 	<bean id="committeeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
 		scope="prototype">

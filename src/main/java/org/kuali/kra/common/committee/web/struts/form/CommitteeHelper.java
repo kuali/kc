@@ -30,7 +30,7 @@ import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.common.committee.service.CommitteeScheduleService;
+import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
 import org.kuali.kra.common.committee.service.CommitteeService;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -122,7 +122,7 @@ public class CommitteeHelper implements Serializable {
      */
     private void prepareCommitteeScheduleDeleteView() {
         boolean flag = false;
-        CommitteeScheduleService service = getCommitteeScheduleService();
+        CommonCommitteeScheduleService service = getCommitteeScheduleService();
         for (CommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {            
             flag = service.isCommitteeScheduleDeletable(committeeSchedule);
             committeeSchedule.setDelete(flag);
@@ -133,8 +133,8 @@ public class CommitteeHelper implements Serializable {
      * This method returns CommitteeScheduleService.
      * @return
      */
-    private CommitteeScheduleService getCommitteeScheduleService() {
-        return KraServiceLocator.getService(CommitteeScheduleService.class);
+    private CommonCommitteeScheduleService getCommitteeScheduleService() {
+        return KraServiceLocator.getService(CommonCommitteeScheduleService.class);
     }
 
     public boolean canModifyCommittee() {
