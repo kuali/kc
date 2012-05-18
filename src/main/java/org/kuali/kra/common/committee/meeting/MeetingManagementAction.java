@@ -26,7 +26,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.validator.Resources;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.document.CommitteeDocument;
-import org.kuali.kra.common.committee.service.CommitteeScheduleService;
+import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -381,7 +381,7 @@ public class MeetingManagementAction extends MeetingAction {
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
         CommitteeScheduleAttachments  committeScheduleAttachment= meetingHelper.getCommitteeSchedule().getCommitteeScheduleAttachments().get(lineNumber);
         if(committeScheduleAttachment.getDocument()!=null){
-            KraServiceLocator.getService(CommitteeScheduleService.class).downloadAttachment(committeScheduleAttachment,response);
+            KraServiceLocator.getService(CommonCommitteeScheduleService.class).downloadAttachment(committeScheduleAttachment,response);
         }
         return null;
     }

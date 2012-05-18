@@ -25,9 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.Protocol;
@@ -83,7 +80,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     private CommitteeSchedule committeeSchedule;
 
     private ProtocolReviewer protocolReviewer;
-    private IacucProtocolReviewer iacucProtocolReviewer;
+//    private IacucProtocolReviewer iacucProtocolReviewer;
 
     private String createUser;
 
@@ -91,8 +88,8 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
 
     @SkipVersioning
     private transient ProtocolOnlineReview protocolOnlineReview;
-    @SkipVersioning
-    private transient IacucProtocolOnlineReview iacucProtocolOnlineReview;
+//    @SkipVersioning
+//    private transient IacucProtocolOnlineReview iacucProtocolOnlineReview;
 
     private String minuteEntry;
 
@@ -102,8 +99,9 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
 
     @SkipVersioning
     private Protocol protocol;
-    @SkipVersioning
-    private IacucProtocol iacucProtocol;
+    
+//    @SkipVersioning
+//    private IacucProtocol iacucProtocol;
 
     private boolean generateAttendance = false;
 
@@ -453,28 +451,30 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
                 protocolId = this.protocol.getProtocolId();
             } 
         }
-        if (protocolId == null) {
-            return getIacucProtocolId();
-        } else {
-            return protocolId;
-        }
-    }
-
-    public Long getIacucProtocolId() {
-        Long protocolId = null;
-        if (this.iacucProtocol != null) {
-            protocolId = this.iacucProtocol.getProtocolId();
-        } else {
-            if (this.protocolIdFk != null) {
-                this.refreshReferenceObject("iacucProtocol");
-            }
-            if (iacucProtocol != null) {
-                protocolId = this.iacucProtocol.getProtocolId();
-            } 
-        }
         return protocolId;
         
+//        if (protocolId == null) {
+//            return getIacucProtocolId();
+//        } else {
+//            return protocolId;
+//        }
     }
+
+//    public Long getIacucProtocolId() {
+//        Long protocolId = null;
+//        if (this.iacucProtocol != null) {
+//            protocolId = this.iacucProtocol.getProtocolId();
+//        } else {
+//            if (this.protocolIdFk != null) {
+//                this.refreshReferenceObject("iacucProtocol");
+//            }
+//            if (iacucProtocol != null) {
+//                protocolId = this.iacucProtocol.getProtocolId();
+//            } 
+//        }
+//        return protocolId;
+//        
+//    }
     /**
      * Gets the createUserFullName attribute. 
      * @return Returns the createUserFullName.
@@ -601,27 +601,28 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
         return getPrivateCommentFlag();
     }
 
-    public IacucProtocolReviewer getIacucProtocolReviewer() {
-        return iacucProtocolReviewer;
-    }
-
-    public void setIacucProtocolReviewer(IacucProtocolReviewer iacucProtocolReviewer) {
-        this.iacucProtocolReviewer = iacucProtocolReviewer;
-    }
-
-    public IacucProtocolOnlineReview getIacucProtocolOnlineReview() {
-        return iacucProtocolOnlineReview;
-    }
-
-    public void setIacucProtocolOnlineReview(IacucProtocolOnlineReview iacucProtocolOnlineReview) {
-        this.iacucProtocolOnlineReview = iacucProtocolOnlineReview;
-    }
-
-    public IacucProtocol getIacucProtocol() {
-        return iacucProtocol;
-    }
-
-    public void setIacucProtocol(IacucProtocol iacucProtocol) {
-        this.iacucProtocol = iacucProtocol;
-    }
+//    public IacucProtocolReviewer getIacucProtocolReviewer() {
+//        return iacucProtocolReviewer;
+//    }
+//
+//    public void setIacucProtocolReviewer(IacucProtocolReviewer iacucProtocolReviewer) {
+//        this.iacucProtocolReviewer = iacucProtocolReviewer;
+//    }
+//
+//    public IacucProtocolOnlineReview getIacucProtocolOnlineReview() {
+//        return iacucProtocolOnlineReview;
+//    }
+//
+//    public void setIacucProtocolOnlineReview(IacucProtocolOnlineReview iacucProtocolOnlineReview) {
+//        this.iacucProtocolOnlineReview = iacucProtocolOnlineReview;
+//    }
+//
+//    public IacucProtocol getIacucProtocol() {
+//        return iacucProtocol;
+//    }
+//
+//    public void setIacucProtocol(IacucProtocol iacucProtocol) {
+//        this.iacucProtocol = iacucProtocol;
+//    }
+    
 }

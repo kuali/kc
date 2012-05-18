@@ -37,7 +37,7 @@ import org.kuali.kra.common.committee.rule.event.CommitteeScheduleWeekDayEvent;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.common.committee.rules.CommitteeScheduleDataDictionaryValidationRule;
-import org.kuali.kra.common.committee.service.CommitteeScheduleService;
+import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
@@ -111,7 +111,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
         flag &= applyRules(new CommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR));
         
         if(flag) {
-            CommitteeScheduleService service  = getCommitteeScheduleService();
+            CommonCommitteeScheduleService service  = getCommitteeScheduleService();
             service.addSchedule(scheduleData, committeeForm.getCommitteeDocument().getCommittee());            
             applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.SOFTERROR));
             committeeForm.getCommitteeHelper().prepareView();
@@ -218,8 +218,8 @@ public class CommitteeScheduleAction extends CommitteeAction {
      * This method retrieve CommitteeScheduleService.
      * @return
      */
-    private CommitteeScheduleService getCommitteeScheduleService(){
-        return KraServiceLocator.getService(CommitteeScheduleService.class);
+    private CommonCommitteeScheduleService getCommitteeScheduleService(){
+        return KraServiceLocator.getService(CommonCommitteeScheduleService.class);
     }
         
     public ActionForward maintainSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
