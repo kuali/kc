@@ -280,15 +280,6 @@
 	</bean>
     
     
-	<bean id="baseCommitteeScheduleService"
-		class="org.kuali.kra.common.committee.service.impl.CommitteeScheduleServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="scheduleService" ref="scheduleService" />
-		<!--  
-		<property name="reviewCommentsService" ref="reviewCommentsService" />
-		-->
-	</bean>
-    
     <bean id="iacucWithdrawService" class="org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
@@ -362,7 +353,7 @@
 
     <bean id="iacucReviewCommentsService" class="org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="committeeScheduleService" ref="baseCommitteeScheduleService" />
+        <property name="committeeScheduleService" ref="commonCommitteeScheduleService" />
         <property name="committeeService" ref="baseCommitteeService" />
         <property name="roleService" ref="roleService" />
         <property name="dateTimeService" ref="dateTimeService" />

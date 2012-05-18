@@ -37,7 +37,7 @@ import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.bo.ScheduleStatus;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachments;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.common.committee.service.CommitteeScheduleService;
+import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
 import org.kuali.kra.common.committee.web.struts.form.schedule.DailyScheduleDetails;
 import org.kuali.kra.common.committee.web.struts.form.schedule.MonthlyScheduleDetails;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
@@ -61,7 +61,7 @@ import org.springframework.transaction.annotation.Transactional;
  * The Committee Service implementation.
  */
 @Transactional
-public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
+public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleService {
     
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeScheduleServiceImpl.class);
@@ -82,8 +82,8 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
 
     private ScheduleService scheduleService;   
 
-    // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-    //private ReviewCommentsService reviewCommentsService;
+
+    private ReviewCommentsService reviewCommentsService;
 
     
     /**
@@ -107,15 +107,13 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
      * Set the ReviewComments Service.
      * @param reviewCommentsService
      */
-    // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-    /*
+   
     public void setReviewCommentsService(ReviewCommentsService reviewCommentsService) {
         this.reviewCommentsService = reviewCommentsService;
     }
-    */
     
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeScheduleService#isCommitteeScheduleDeletable(org.kuali.kra.common.committee.bo.CommitteeSchedule)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#isCommitteeScheduleDeletable(org.kuali.kra.common.committee.bo.CommitteeSchedule)
      */
     public Boolean isCommitteeScheduleDeletable(CommitteeSchedule committeeSchedule){
         
@@ -140,7 +138,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeScheduleService#addSchedule(org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData, org.kuali.kra.common.committee.bo.Committee)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#addSchedule(org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData, org.kuali.kra.common.committee.bo.Committee)
      */
     public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException {
         
@@ -326,7 +324,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     
     /**
      * 
-     * @see org.kuali.kra.common.committee.service.CommitteeScheduleService#getMinutesByProtocol(java.lang.Long)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#getMinutesByProtocol(java.lang.Long)
      */
     public List<CommitteeScheduleMinute> getMinutesByProtocol(Long protocolId){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -337,7 +335,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     
     /**
      * 
-     * @see org.kuali.kra.common.committee.service.CommitteeScheduleService#getMinutesBySchedule(java.lang.Long)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#getMinutesBySchedule(java.lang.Long)
      */
     @SuppressWarnings("unchecked")
     public List<CommitteeScheduleMinute> getMinutesBySchedule(Long scheduleId){
@@ -362,7 +360,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
       
     /**
      * 
-     * @see org.kuali.kra.common.committee.service.CommitteeScheduleService#getCommitteeScheduleMinute(java.lang.Long)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#getCommitteeScheduleMinute(java.lang.Long)
      */
     public CommitteeScheduleMinute getCommitteeScheduleMinute(Long committeeScheduleId){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -377,7 +375,7 @@ public class CommitteeScheduleServiceImpl implements CommitteeScheduleService {
     
     /**
      * 
-     * @see org.kuali.kra.common.committee.service.CommitteeScheduleService#getMinutesByProtocolSubmission(java.lang.Long)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#getMinutesByProtocolSubmission(java.lang.Long)
      */
     public List<CommitteeScheduleMinute> getMinutesByProtocolSubmission(Long submissionID){
         Map<String, Object> fieldValues = new HashMap<String, Object>();

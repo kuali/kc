@@ -27,7 +27,7 @@ import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 
 
-public interface CommitteeScheduleService {
+public interface CommonCommitteeScheduleService {
     
     /**
      * This method implementer must check if passed CommitteeSchedule is deleteable.
