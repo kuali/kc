@@ -5,7 +5,7 @@
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="className" required="true" %>
 <%@ attribute name="displayLayStatementsRow" required="false" type="java.lang.Boolean" %>
-<%@ attribute name="showProjectTypeInsteadOfFDAAppNumber" required="false" type="java.lang.Boolean" %>
+<%@ attribute name="showProjectType" required="false" type="java.lang.Boolean" %>
 
 <c:set var="textAreaFieldName" value="document.protocolList[0].title" />
 <c:set var="nonEmpFlag" value="false" />
@@ -188,35 +188,24 @@
                     
 				</td>				
             </tr>
-            <tr>
-                <th>
-                	<div align="right">
-                
-                		<c:choose>
-							<c:when test="${showProjectTypeInsteadOfFDAAppNumber}">
-	                    		<kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolProjectTypeCode}" />	
-	               			</c:when>
-	                  		<c:otherwise>
-								<kul:htmlAttributeLabel attributeEntry="${protocolAttributes.fdaApplicationNumber}" />	
-							</c:otherwise>  
-						</c:choose>    
-                    
-                  	</div>
-                </th>
-                
-                <td width="26%">
-                	<c:choose>
-							<c:when test="${showProjectTypeInsteadOfFDAAppNumber}">
-	                    		<kul:htmlControlAttribute property="document.protocolList[0].protocolProjectTypeCode" attributeEntry="${protocolAttributes.protocolProjectTypeCode}" readOnly="${readOnlymodifyReferences}" />
-	               			</c:when>
-	                  		<c:otherwise>
-								<kul:htmlControlAttribute property="document.protocolList[0].fdaApplicationNumber" attributeEntry="${protocolAttributes.fdaApplicationNumber}" readOnly="${readOnlymodifyReferences}" />	
-							</c:otherwise>  
-					</c:choose>
-                </td>
-				<th width="20%" class="infoline"><div align="center">&nbsp;</th>
-				<th width="20%" class="infoline"><div align="center">&nbsp;</th>
-            </tr>
+            
+            <c:if test="${showProjectType}">
+	            <tr>
+	                <th>
+	                	<div align="right">
+		                    <kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolProjectTypeCode}" />									
+	                  	</div>
+	                </th>
+	                
+	                <td width="26%">
+	           				<kul:htmlControlAttribute property="document.protocolList[0].protocolProjectTypeCode" attributeEntry="${protocolAttributes.protocolProjectTypeCode}" readOnly="${readOnlymodifyReferences}" />
+	                </td>
+	                
+					<th width="20%" class="infoline"><div align="center">&nbsp;</th>
+					<th width="20%" class="infoline"><div align="center">&nbsp;</th>
+	            </tr>
+         	</c:if>   
+            
          <c:if test="${displayLayStatementsRow}">
             <tr>
             	<th>
