@@ -9,7 +9,7 @@
 <%@ attribute name="researchAreasAttributes" required="true" type="java.util.Map" %>
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="className" required="true" %>
-<%@ attribute name="showProjectTypeInsteadOfFDAAppNumber" required="false" type="java.lang.Boolean" %>
+<%@ attribute name="suppressFDAAppNumber" required="false" type="java.lang.Boolean" %>
  
  
 <c:set var="textAreaFieldName" value="document.protocolList[0].description" />
@@ -101,41 +101,26 @@
         </h3>
 
 			<table cellpadding=0 cellspacing=0 summary="">
-<%-- moved to Required Fields subpanel
-              <tr>
-                <th width="33%">
-                	<div align="right">
-                
-                		<c:choose>
-							<c:when test="${showProjectTypeInsteadOfFDAAppNumber}">
-	                    		<kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolProjectTypeCode}" />	
-	               			</c:when>
-	                  		<c:otherwise>
-								<kul:htmlAttributeLabel attributeEntry="${protocolAttributes.fdaApplicationNumber}" />	
-							</c:otherwise>  
-						</c:choose>    
-                    
-                  	</div>
-                </th>
-                
-                
-                <td width="26%">
-                	<c:choose>
-							<c:when test="${showProjectTypeInsteadOfFDAAppNumber}">
-	                    		<kul:htmlControlAttribute property="document.protocolList[0].protocolProjectTypeCode" attributeEntry="${protocolAttributes.protocolProjectTypeCode}" readOnly="${readOnlymodifyReferences}" />
-	               			</c:when>
-	                  		<c:otherwise>
-								<kul:htmlControlAttribute property="document.protocolList[0].fdaApplicationNumber" attributeEntry="${protocolAttributes.fdaApplicationNumber}" readOnly="${readOnlymodifyReferences}" />	
-							</c:otherwise>  
-					</c:choose>
-                </td>
-                
-                <th width="23%">
- 				</th>
-                <th width="18%" align=left valign=middle>
-                </th>
-              </tr>
---%>
+			
+			<c:if test="${!suppressFDAAppNumber}">
+	              <tr>
+	                <th width="33%">
+	                	<div align="right">
+							<kul:htmlAttributeLabel attributeEntry="${protocolAttributes.fdaApplicationNumber}" />	
+	                  	</div>
+	                </th>
+	                
+	                <td width="26%">
+	                	<kul:htmlControlAttribute property="document.protocolList[0].fdaApplicationNumber" attributeEntry="${protocolAttributes.fdaApplicationNumber}" readOnly="${readOnlymodifyReferences}" />
+	                </td>
+	                
+	                <th width="23%">
+	 				</th>
+	                <th width="18%" align=left valign=middle>
+	                </th>
+	              </tr>
+             </c:if>  
+
               <tr>
                 <th><div align="right">
                     ${KualiForm.protocolHelper.referenceId1Label}:
