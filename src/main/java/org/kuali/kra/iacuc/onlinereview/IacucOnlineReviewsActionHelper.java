@@ -173,51 +173,7 @@ public class IacucOnlineReviewsActionHelper  extends  OnlineReviewsActionHelper 
 
     }
     
-    /**
-     * This method...
-     * @return
-     */
-    public List<ProtocolOnlineReview> getCurrentProtocolOnlineReviews() {
-        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
-        for (Iterator<Map<String,Object>> it = documentHelperMap.values().iterator(); it.hasNext();) {
-            reviews.add(((ProtocolOnlineReviewDocument)((it.next()).get("document"))).getProtocolOnlineReview());
-        }
-        return reviews;
-    }
-    
-    /**
-     * This method...
-     * @return
-     */
-    public List<CommitteeMembership> getAvailableCommitteeMembersForCurrentSubmission() {
-        List<CommitteeMembership> members = getProtocolOnlineReviewService()
-        .getAvailableCommitteeMembersForCurrentSubmission(form.getProtocolDocument().getProtocol());
-        return members;
-    }
-    
-    /**
-     * This method...
-     * @return
-     */
-    public List<ProtocolOnlineReviewDocument> getProtocolOnlineReviewsForCurrentSubmission() {
-        return protocolOnlineReviewDocuments;
-    }
-    
-    /**
-     * This method...
-     * @return
-     */
-//    public List<ProtocolOnlineReviewForm> getProtocolOnlineReviewFormsForCurrentSubmission() throws Exception {
-//        return protocolOnlineReviewForms;
-//    }
 
-    /**
-     * Gets the newReviewOrganizationDocumentNumber attribute. 
-     * @return Returns the newReviewOrganizationDocumentNumber.
-     */
-    public String getNewReviewOrganizationDocumentNumber() {
-        return newReviewOrganizationDocumentNumber;
-    }
 
     /**
      * Sets the newReviewOrganizationDocumentNumber attribute value.
