@@ -32,7 +32,7 @@
 <c:set var="protocolOrganizationTypeAttributes" value="${DataDictionary.IacucProtocolOrganizationType.attributes}" />
 <c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
 
-<c:set var="protocolFundingSourceAttributes" value="${DataDictionary.ProtocolFundingSource.attributes}" />
+<c:set var="protocolFundingSourceAttributes" value="${DataDictionary.IacucProtocolFundingSource.attributes}" />
 <c:set var="fundingSourceTypeAttributes" value="${DataDictionary.FundingSourceType.attributes}" />
 <%-- <c:set var="protocolParticipantAttributes" value="${DataDictionary.ProtocolParticipant.attributes}" /> --%>
 
@@ -67,7 +67,7 @@
     action="${iacucProtocolProtocol}"
     className="${className}"
     displayLayStatementsRow = "true"
-    showProjectTypeInsteadOfFDAAppNumber = "true"/>
+    showProjectType = "true"/>
     
     
 <kra-protocol:protocolStatusDate 
@@ -81,7 +81,8 @@
      protocolReferenceBeanAttributes="${protocolReferenceBeanAttributes}"
      researchAreasAttributes="${researchAreasAttributes}"
      action="${iacucProtocolProtocol}"
-     className="${className}"/>
+     className="${className}"
+     suppressFDAAppNumber = "true"/>
 
      
 <kra-protocol:protocolLocations 
