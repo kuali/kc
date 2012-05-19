@@ -18,7 +18,7 @@ package org.kuali.kra.common.committee.document.authorizer;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.common.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
@@ -27,7 +27,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  */
 public class CommitteeActionAuthorizer extends CommitteeAuthorizer {
     
-    private CommitteeService committeeService;
+    private CommonCommitteeService committeeService;
 
     /**
      * @see org.kuali.kra.protocol.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.document.authorization.CommitteeTask)
@@ -44,7 +44,7 @@ public class CommitteeActionAuthorizer extends CommitteeAuthorizer {
      * Set the Committee Service.  Usually injected by the Spring Framework.
      * @param committeeService
      */
-    public void setCommitteeService(CommitteeService committeeService) {
+    public void setCommitteeService(CommonCommitteeService committeeService) {
         this.committeeService = committeeService;
     }
 

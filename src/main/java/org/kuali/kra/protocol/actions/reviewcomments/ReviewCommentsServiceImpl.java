@@ -33,7 +33,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
-import org.kuali.kra.common.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.infrastructure.Constants;
@@ -72,7 +72,7 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
 //    private static final String DISPLAY = "1";
     protected BusinessObjectService businessObjectService;
     private CommonCommitteeScheduleService committeeScheduleService;
-    private CommitteeService committeeService;
+    private CommonCommitteeService committeeService;
 //    private ProtocolFinderDao protocolFinderDao;
     private RoleService roleService;
     private DateTimeService dateTimeService;
@@ -492,7 +492,7 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
     }
     
 
-    public void setCommitteeService(CommitteeService committeeService) {
+    public void setCommitteeService(CommonCommitteeService committeeService) {
         this.committeeService = committeeService;
     }
 

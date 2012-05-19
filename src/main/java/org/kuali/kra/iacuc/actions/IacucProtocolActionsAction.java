@@ -28,11 +28,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
+import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtEvent;
+import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtService;
 import org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
@@ -48,11 +52,13 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
@@ -65,7 +71,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private static final String CONFIRM_NO_ACTION = "";
     private static final String CONFIRM_DELETE_ACTION_ATT = "confirmDeleteActionAttachment";
     private static final String CONFIRM_FOLLOWUP_ACTION = "confirmAddFollowupAction";
-    
+
     private static final String PROTOCOL_TAB = "iacucProtocol";
     private static final String PROTOCOL_ACTIONS_TAB = "iacucProtocolActions";
     
@@ -298,23 +304,40 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return forward;
     }
     
+    public ActionForward assignCommittee(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
+        ProtocolTask task = new ProtocolTask(TaskName.IACUC_ASSIGN_TO_COMMITTEE, protocolForm.getProtocolDocument().getProtocol());
+        
+        if (!hasDocumentStateChanged((IacucProtocolForm) protocolForm)) {
+            if (isAuthorized(task)) {
+                IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
+                IacucProtocolAssignCmtBean actionBean = actionHelper.getProtocolAssignCmtBean();
+                if (applyRules(new IacucProtocolAssignCmtEvent(protocolForm.getProtocolDocument(), actionBean))) {
+                    if( protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission() != null) {
+                        
+                            getAssignToCmtService().assignToCommittee(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                            recordProtocolActionSuccess("Assign to Committee");
+         
+                    }
+                }
+            }
+        } else {
+            
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     
-// TODO *********commented the code below during IACUC refactoring*********   
-//    private boolean isCommitteeMeetingAssignedMaxProtocols(String committeeId, String scheduleId) {
-//        boolean isMax = false;
-//        
-//        Committee committee = getCommitteeService().getCommitteeById(committeeId);
-//        if (committee != null) {
-//            CommitteeSchedule schedule = getCommitteeService().getCommitteeSchedule(committee, scheduleId);
-//            if (schedule != null) {
-//                int currentSubmissionCount = (schedule.getProtocolSubmissions() == null) ? 0 : activeSubmissonCount(schedule.getProtocolSubmissions());
-//                int maxSubmissionCount = schedule.getMaxProtocols();
-//                isMax = currentSubmissionCount >= maxSubmissionCount;
-//            }
-//        }
-//        
-//        return isMax;
-//    }
+    protected IacucProtocolAssignCmtService getAssignToCmtService() {
+        return KraServiceLocator.getService(IacucProtocolAssignCmtService.class);
+    }
+   
+    private CommonCommitteeService getCommonCommitteeService() {
+        return KraServiceLocator.getService(CommonCommitteeService.class);
+    }
+    
+
 //
 //    private int activeSubmissonCount(List<ProtocolSubmission> submissions) {
 //        int count = 0;
