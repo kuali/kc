@@ -16,6 +16,9 @@
 package org.kuali.kra.iacuc;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRule;
+import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRuleImpl;
+import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionRule;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelAuditRule;
 import org.kuali.kra.iacuc.personnel.IacucProtocolUnitRule;
@@ -53,7 +56,9 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements AddProtocolSpeciesRule, AddProtocolExceptionRule {
+public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements AddProtocolSpeciesRule, 
+                                                                               AddProtocolExceptionRule, 
+                                                                               IacucProtocolAssignCmtRule {
 
     @Override
     protected String getInProgressProtocolStatusCodeHook() {
@@ -114,5 +119,11 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements A
     @Override
     protected ProtocolFundingSourceRule getNewProtocolFundingSourceRuleInstanceHook() {
         return new IacucProtocolFundingSourceRule();
-    }    
+    }  
+    
+
+    @Override
+    public boolean processAssignToCommittee(ProtocolDocument document, IacucProtocolAssignCmtBean actionBean) {
+        return new IacucProtocolAssignCmtRuleImpl().processAssignToCommittee(document, actionBean);
+    }
 }

@@ -294,7 +294,8 @@ public interface TaskName {
     public static final String IACUC_PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE = "iacucProtocolAmendRenewDeleteUnavailable"; //?
     public static final String IACUC_ASSIGN_TO_AGENDA = "iacucProtocolAssignToAgenda"; 
     public static final String IACUC_ASSIGN_TO_AGENDA_UNAVAILABLE = "iacucProtocolAssignToAgendaUnavailable"; 
-    public static final String IACUC_ASSIGN_TO_COMMITTEE_SCHEDULE = "iacucProtocolAssignToCmtSched"; 
+    public static final String IACUC_ASSIGN_TO_COMMITTEE = "iacucProtocolAssignToCmt"; 
+    public static final String IACUC_ASSIGN_TO_COMMITTEE_UNAVAILABLE = "iacucProtocolAssignToCmtUnavailable";
     public static final String IACUC_ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE = "iacucProtocolAssignToCmtSchedUnavailable"; 
     public static final String IACUC_ASSIGN_REVIEWERS = "iacucProtocolAssignReviewers"; 
     public static final String IACUC_ASSIGN_REVIEWERS_UNAVAILABLE = "iacucProtocolAssignReviewersUnavailable"; 

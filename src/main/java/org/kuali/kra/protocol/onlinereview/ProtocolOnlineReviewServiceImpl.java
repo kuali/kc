@@ -26,7 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.common.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -66,7 +66,7 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
     private KraAuthorizationService kraAuthorizationService;
     private ProtocolAssignReviewersService protocolAssignReviewersService;
     private IdentityService identityManagementService;
-    private CommitteeService committeeService;
+    private CommonCommitteeService committeeService;
     private KraDocumentRejectionService kraDocumentRejectionService;
     private ProtocolFinderDao protocolFinderDao;
     private ReviewCommentsService reviewCommentsService;
@@ -693,14 +693,14 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
      * Gets the committeeService attribute. 
      * @return Returns the committeeService.
      */
-    public CommitteeService getCommitteeService() {
+    public CommonCommitteeService getCommitteeService() {
         return committeeService;
     }
     /**
      * Sets the committeeService attribute value.
      * @param committeeService The committeeService to set.
      */
-    public void setCommitteeService(CommitteeService committeeService) {
+    public void setCommitteeService(CommonCommitteeService committeeService) {
         this.committeeService = committeeService;
     }
 

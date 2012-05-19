@@ -28,7 +28,7 @@ import org.kuali.rice.core.api.util.KeyValue;
  * The Committee Service provides a set of methods for
  * working with committees.
  */
-public interface CommitteeService {
+public interface CommonCommitteeService {
 
     /**
      * Retrieve a committee from the database based upon its Committee ID.

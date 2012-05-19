@@ -120,14 +120,14 @@ public class IacucProtocolDocument extends ProtocolDocument {
             //so need to check if protocolSubmissionStatus is "InAgenda" to avoid the processing page from not going away at all when 
             // an amendment is submitted for review
             // Added for KCIRB-1515 & KCIRB-1528
-            getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus"); 
-            String status = getProtocol().getProtocolSubmission().getSubmissionStatusCode();
-            if (isAmendment() || isRenewal()) {
-                if (status.equals(IacucProtocolSubmissionStatus.APPROVED) 
-                        && getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {
-                    isComplete = false;
-                }
-            }
+//            getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus"); 
+//            String status = getProtocol().getProtocolSubmission().getSubmissionStatusCode();
+//            if (isAmendment() || isRenewal()) {
+//                if (status.equals(IacucProtocolSubmissionStatus.APPROVED) 
+//                        && getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {
+//                    isComplete = false;
+//                }
+//            }
 
         } else {
 //TODO: Must implement the following for IACUC

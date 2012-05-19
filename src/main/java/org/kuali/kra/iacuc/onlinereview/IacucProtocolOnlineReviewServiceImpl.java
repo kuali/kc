@@ -26,7 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.common.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
@@ -60,7 +60,7 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
     private DocumentService documentService;
     private KraAuthorizationService kraAuthorizationService;
     private IdentityService identityManagementService;
-    private CommitteeService committeeService;
+    private CommonCommitteeService committeeService;
     private KraWorkflowService kraWorkflowService;
     private WorkflowDocumentService workflowDocumentService;
     private ReviewCommentsService reviewCommentsService;
@@ -166,7 +166,7 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
         this.identityManagementService = identityManagementService;
     }
 
-    public void setCommitteeService(CommitteeService committeeService) {
+    public void setCommitteeService(CommonCommitteeService committeeService) {
         this.committeeService = committeeService;
     }
 
