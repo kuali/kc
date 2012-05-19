@@ -39,6 +39,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -69,7 +70,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * unit is at or below their qualified node in the Org tree.
  * 
  */
-public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
+public abstract class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
 
     private String protocolLeadUnit;
     private String docRouteStatus;
@@ -114,6 +115,8 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
         return keyValues;
     }
     
+    protected abstract String getCommitteeTypeCodeHook();
+    
     /**
      * 
      * This method determines whether the document has been submitted for review.  Currently
@@ -128,6 +131,8 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
         }
     }
     
+    protected abstract String getRoleNameHook();
+    
     /**
      * This method returns a set of unit ids that represent all the units
      * at or below the irb admin's lead unit.  The lead unit is determined
@@ -136,34 +141,35 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
      */
     private void getIRBAdminUnitIds() {        
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        Role roleInfo = getRoleService().getRoleByNamespaceCodeAndName(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
+        Role roleInfo = getRoleService().getRoleByNamespaceCodeAndName(RoleConstants.DEPARTMENT_ROLE_TYPE, getRoleNameHook());
         List<String> roleIds = new ArrayList<String>();
         roleIds.add(roleInfo.getId());
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
-        Map<String,String> qualifications =new HashMap<String,String>(qualifiedRoleAttributes);
+        Map<String,String> qualifications = new HashMap<String,String>(qualifiedRoleAttributes);
         boolean valid = getRoleService().principalHasRole(principalId, roleIds, qualifications);
         
-        //User has the irb admin role, now check to see if he has the necessary role qualifier.
+        // User has the irb admin role, now check to see if he has the necessary role qualifier.
         if (valid) {
-            List<Map<String,String>> principalQualifications = getRoleService().getNestedRoleQualifiersForPrincipalByRoleIds(principalId, roleIds, qualifications);
-            for (Map<String,String> attrSet : principalQualifications) {            
+            List<Map<String, String>> principalQualifications = getRoleService().getNestedRoleQualifiersForPrincipalByRoleIds(
+                    principalId, roleIds, qualifications);
+            for (Map<String, String> attrSet : principalQualifications) {
                 Unit unit = getUnitService().getUnit(attrSet.get(KcKimAttributes.UNIT_NUMBER));
-                if(unit != null) {
+                if (unit != null) {
                     unitIds.add(unit.getUnitNumber());
-                    //If descends heirarchy is yes, add all the sub units as well
-                    if(attrSet.containsKey(KcKimAttributes.SUBUNITS) && 
-                       StringUtils.equalsIgnoreCase("Y", attrSet.get(KcKimAttributes.SUBUNITS))) {
-                       List<Unit> subUnits = getUnitService().getAllSubUnits(attrSet.get(KcKimAttributes.UNIT_NUMBER));
-                       for (Unit u : subUnits) {
-                           unitIds.add(u.getUnitNumber());
-                       }
+                    // If descends heirarchy is yes, add all the sub units as well
+                    if (attrSet.containsKey(KcKimAttributes.SUBUNITS)
+                            && StringUtils.equalsIgnoreCase("Y", attrSet.get(KcKimAttributes.SUBUNITS))) {
+                        List<Unit> subUnits = getUnitService().getAllSubUnits(attrSet.get(KcKimAttributes.UNIT_NUMBER));
+                        for (Unit u : subUnits) {
+                            unitIds.add(u.getUnitNumber());
+                        }
                     }
                 }
             }
         }
     }
-    
+
     /**
      * This method returns the set of unique committees, by filtering
      * out the committees with the same committee id.  It takes the
@@ -172,7 +178,9 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
      */
     @SuppressWarnings("unchecked")
     private Collection<Committee> getValidCommittees() {
-        Collection<Committee> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findAll(Committee.class);
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("committeeTypeCode", getCommitteeTypeCodeHook());
+        Collection<Committee> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(Committee.class, criteria);
         HashMap<String, Committee> committeeMap = new HashMap<String, Committee>();
         
         Committee tmpComm = null;

@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.iacuc.actions.IacucProtocolSubmissionDoc;
@@ -331,8 +331,8 @@ public class IacucProtocolSubmissionBuilder {
         return submissionDoc;
     }
     
-    private CommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommitteeService.class);
+    private CommonCommitteeService getCommitteeService() {
+        return KraServiceLocator.getService(CommonCommitteeService.class);
     }
     
     private BusinessObjectService getBusinessObjectService() {

@@ -26,6 +26,7 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteBean;
 import org.kuali.kra.iacuc.actions.notifyiacuc.ProtocolNotifyIacucBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
@@ -93,12 +94,21 @@ public class IacucActionHelper extends ActionHelper {
     private boolean canIacucAcknowledgeUnavailable = false;
     private boolean canIacucRequestDeactivate = false;
     private boolean canIacucRequestDeactivateUnavailable = false;
+    private boolean canAssignCmt = false;
+    private boolean canAssignCmtUnavailable = false;
     
     // action beans that are specific to IACUC
     protected IacucProtocolTableBean iacucProtocolTableBean;
     protected ProtocolNotifyIacucBean protocolNotifyIacucBean;      
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected IacucProtocolAssignCommitteeBean protocolAssignCmtBean;
+    protected IacucProtocolAssignCmtBean protocolAssignCmtBean;
+
+    public IacucProtocolAssignCmtBean getProtocolAssignCmtBean() {
+        return protocolAssignCmtBean;
+    }
+
+    public void setProtocolAssignCmtBean(IacucProtocolAssignCmtBean protocolAssignCmtBean) {
+        this.protocolAssignCmtBean = protocolAssignCmtBean;
+    }
 
     /**
      * Constructs an ActionHelper.
@@ -110,8 +120,7 @@ public class IacucActionHelper extends ActionHelper {
         
         protocolSubmitAction = new IacucProtocolSubmitAction(this);
         protocolWithdrawBean = new IacucProtocolWithdrawBean(this);   
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolAssignCmtBean = new IacucProtocolAssignCommitteeBean(this);
+        protocolAssignCmtBean = new IacucProtocolAssignCmtBean(this);
         iacucProtocolTableBean = new IacucProtocolTableBean(this);
 
         initActionBeanTaskMap();
@@ -248,7 +257,7 @@ public class IacucActionHelper extends ActionHelper {
         canDeleteProtocolAmendRenewUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE);
         canAssignToAgenda = hasPermission(TaskName.IACUC_ASSIGN_TO_AGENDA);
         canAssignToAgendaUnavailable = hasPermission(TaskName.IACUC_ASSIGN_TO_AGENDA_UNAVAILABLE);
-        canAssignCmtSched = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE_SCHEDULE);
+        canAssignCmt = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE);
         canAssignCmtSchedUnavailable = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE);
         canAssignReviewers = hasPermission(TaskName.IACUC_ASSIGN_REVIEWERS);
         canAssignReviewersUnavailable = hasPermission(TaskName.IACUC_ASSIGN_REVIEWERS_UNAVAILABLE);
@@ -294,6 +303,8 @@ public class IacucActionHelper extends ActionHelper {
         canReviewNotRequiredUnavailable = hasPermission(TaskName.REVIEW_NOT_REQUIRED_IACUC_PROTOCOL_UNAVAILABLE);
         canTable = hasPermission(TaskName.IACUC_PROTOCOL_TABLE);
         canTableUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_TABLE_UNAVAILABLE);
+        canAssignCmt = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE);
+        canAssignCmtUnavailable = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE_UNAVAILABLE);
 
     }
     
@@ -546,10 +557,23 @@ public class IacucActionHelper extends ActionHelper {
     protected IacucProtocol getIacucProtocol() {
         return (IacucProtocol)getProtocol();
     }
+    
+    public boolean getCanAssignCmt() {
+        return canAssignCmt;
+    }
 
-    
-    
-    
+    public void setCanAssignCmt(boolean canAssignCmt) {
+        this.canAssignCmt = canAssignCmt;
+    }
+
+    public boolean getCanAssignCmtUnavailable() {
+        return canAssignCmtUnavailable;
+    }
+
+    public void setCanAssignCmtUnavailable(boolean canAssignCmtUnavailable) {
+        this.canAssignCmtUnavailable = canAssignCmtUnavailable;
+    }
+
     @Override
     protected String getAmendRenewDeleteTaskNameHook() {
         return TaskName.IACUC_PROTOCOL_AMEND_RENEW_DELETE;

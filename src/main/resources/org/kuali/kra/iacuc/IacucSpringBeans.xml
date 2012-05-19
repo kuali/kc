@@ -63,6 +63,14 @@
                     <property name="taskName" value="modifyIacucProtocol" />
                 </bean>
                 
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolAssignToCmtAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucProtocolAssignToCmt" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolAssignToCmtUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucProtocolAssignToCmtUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolGeneralInfoAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolGeneralInfo" />
                 </bean>
@@ -121,6 +129,15 @@
 
 
            </list>
+        </property>
+    </bean>
+    
+    <bean id="iacucProtocolAssignCmtService" class="org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtServiceImpl">
+    	<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="committeeService">
+        	<ref bean="commonCommitteeService" />
         </property>
     </bean>
     
@@ -273,13 +290,6 @@
          --> 
     </bean>
     
-	<bean id="baseCommitteeService"
-		class="org.kuali.kra.common.committee.service.impl.CommitteeServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
-	</bean>
-    
-    
     <bean id="iacucWithdrawService" class="org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
@@ -301,7 +311,7 @@
         <property name = "businessObjectService" ref = "businessObjectService"/>
         <property name = "documentService" ref = "documentService"/>
         <property name = "identityManagementService" ref = "identityService"/>
-        <property name = "committeeService" ref = "baseCommitteeService"/>
+        <property name = "committeeService" ref = "commonCommitteeService"/>
         <property name = "kraWorkflowService" ref = "kraWorkflowService"/>
         <property name = "personService" ref = "personService"/>
         <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
@@ -354,14 +364,13 @@
     <bean id="iacucReviewCommentsService" class="org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="committeeScheduleService" ref="commonCommitteeScheduleService" />
-        <property name="committeeService" ref="baseCommitteeService" />
+        <property name="committeeService" ref="commonCommitteeService" />
         <property name="roleService" ref="roleService" />
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="parameterService" ref="parameterService" />
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>   
-
-
+	
     <bean id="parentIacucProtocolOnlineReviewAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />

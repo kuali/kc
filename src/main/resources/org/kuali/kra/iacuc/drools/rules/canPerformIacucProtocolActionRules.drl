@@ -17,6 +17,13 @@ then
     setAction(protocolAction, true);
 end
 
+rule "Assign to Committee" 
+salience 100
+when
+    	protocolAction : IacucProtocolActionMapping(actionTypeCode == "109", submissionStatusCode in ("101","102"))
+then	
+	setAction(protocolAction, true);
+end
 
 rule "Assign to Agenda"
 salience 100

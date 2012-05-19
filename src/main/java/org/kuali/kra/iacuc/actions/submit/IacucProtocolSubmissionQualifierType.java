@@ -38,26 +38,7 @@ public class IacucProtocolSubmissionQualifierType extends ProtocolSubmissionQual
      */
     private static final long serialVersionUID = -418480649135759029L;
 
-    private String submissionQualifierTypeCode;
-
-    private String description;
-
     public IacucProtocolSubmissionQualifierType() {
     }
 
-    public String getSubmissionQualifierTypeCode() {
-        return submissionQualifierTypeCode;
-    }
-
-    public void setSubmissionQualifierTypeCode(String submissionQualifierTypeCode) {
-        this.submissionQualifierTypeCode = submissionQualifierTypeCode;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

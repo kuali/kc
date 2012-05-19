@@ -182,8 +182,47 @@
         <collection-descriptor name="notepads" proxy="false" element-class-ref="org.kuali.kra.iacuc.noteattachment.IacucProtocolNotepad" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
+        <collection-descriptor name="protocolActions" element-class-ref="org.kuali.kra.iacuc.actions.IacucProtocolAction" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="protocolId" />
+            <orderby name="updateTimestamp" sort="ASC" />
+        </collection-descriptor>
      </class-descriptor>
     
+    <class-descriptor class="org.kuali.kra.iacuc.actions.IacucProtocolAction" table="IACUC_PROTOCOL_ACTIONS">
+        <field-descriptor name="iacucProtocolActionId" column="IACUC_PROTOCOL_ACTION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROTOCOL_ACTIONS_ID" autoincrement="true"/>
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="actionId" column="ACTION_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="protocolActionTypeCode" column="PROTOCOL_ACTION_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="submissionNumber" column="SUBMISSION_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="actionDate" column="ACTION_DATE" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
+        <field-descriptor name="actualActionDate" column="ACTUAL_ACTION_DATE" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="prevSubmissionStatusCode" column="PREV_SUBMISSION_STATUS_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="prevProtocolStatusCode" column="PREV_PROTOCOL_STATUS_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="followupActionCode" column="FOLLOWUP_ACTION_CODE" jdbc-type="VARCHAR" />
+        
+        <reference-descriptor name="iacucProtocolActionType" class-ref="org.kuali.kra.iacuc.actions.IacucProtocolActionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolActionTypeCode"/>
+        </reference-descriptor>
+          <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolId"/>
+        </reference-descriptor>
+        <reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="submissionIdFk"/>
+        </reference-descriptor>
+     <!--   <collection-descriptor name="protocolCorrespondences" element-class-ref="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence" 
+        	auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="actionIdFk" />
+        </collection-descriptor>-->
+    </class-descriptor>
      
      <class-descriptor class="org.kuali.kra.iacuc.actions.IacucProtocolStatus" table="IACUC_PROTOCOL_STATUS">
         <field-descriptor name="protocolStatusCode" column="PROTOCOL_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
@@ -314,24 +353,6 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    </class-descriptor>
-    
-        <class-descriptor class="org.kuali.kra.iacuc.actions.IacucProtocolAction" table="IACUC_PROTOCOL_ACTIONS">
-        <field-descriptor name="iacucProtocolActionId" column="IACUC_PROTOCOL_ACTION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROTOCOL_ACTIONS_ID" autoincrement="true"/>
-        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
-        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-        <field-descriptor name="actionId" column="ACTION_ID" jdbc-type="INTEGER" />
-        <field-descriptor name="protocolActionTypeCode" column="PROTOCOL_ACTION_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="submissionNumber" column="SUBMISSION_NUMBER" jdbc-type="INTEGER" />
-        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
-        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="actionDate" column="ACTION_DATE" jdbc-type="DATE" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <reference-descriptor name="iacucProtocolActionType" class-ref="org.kuali.kra.iacuc.actions.IacucProtocolActionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="protocolActionTypeCode"/>
-        </reference-descriptor>
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission" table="IACUC_PROTOCOL_SUBMISSION">
