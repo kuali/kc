@@ -86,7 +86,6 @@ public interface RoleConstants {
     public static final String ACTIVE_IACUC_COMMITTEE_MEMBER = "Active IACUC Committee Member";
     public static final String ACTIVE_IACUC_COMMITTEE_MEMBER_ON_PROTOCOL = "Active IACUC Committee Member on Protocol";
     public static final String ACTIVE_IACUC_COMMITTEE_MEMBER_ON_SCHEDULED_DATE = "Active IACUC Committee Member on Scheduled Date";
-
     public static final String IACUC_PROTOCOL_REVIEWER = "IACUC Reviewer";
     public static final String IACUC_PROTOCOL_ONLINE_REVIEWER = "IACUC Online Reviewer";
     public static final String IACUC_ADMINISTRATOR = "IACUC Administrator";

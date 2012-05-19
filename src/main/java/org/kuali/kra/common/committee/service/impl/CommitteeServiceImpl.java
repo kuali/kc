@@ -38,7 +38,7 @@ import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDoc;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.ScheduleAgenda;
-import org.kuali.kra.common.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -48,7 +48,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * The Committee Service implementation.
  */
-public class CommitteeServiceImpl implements CommitteeService {
+public class CommitteeServiceImpl implements CommonCommitteeService {
 
     private static final String COMMITTEE_ID = "committeeId";
     private static final String NO_PLACE = "[no location]";
@@ -66,7 +66,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeService#getCommitteeById(java.lang.String)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeService#getCommitteeById(java.lang.String)
      */
     @SuppressWarnings("unchecked")
     public Committee getCommitteeById(String committeeId) {
@@ -87,7 +87,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeService#addResearchAreas(org.kuali.kra.common.committee.bo.Committee,
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeService#addResearchAreas(org.kuali.kra.common.committee.bo.Committee,
      *      java.util.Collection)
      */
     public void addResearchAreas(Committee committee, Collection<ResearchArea> researchAreas) {
@@ -130,7 +130,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeService#getAvailableCommitteeDates(java.lang.String)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeService#getAvailableCommitteeDates(java.lang.String)
      */
     public List<KeyValue> getAvailableCommitteeDates(String committeeId) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
@@ -198,7 +198,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeService#getAvailableMembers(java.lang.String, java.lang.String)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeService#getAvailableMembers(java.lang.String, java.lang.String)
      */
     public List<CommitteeMembership> getAvailableMembers(String committeeId, String scheduleId) {
         if (StringUtils.isBlank(scheduleId)) {
@@ -221,7 +221,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     }
     
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeService#getAvailableMembers(java.lang.String, java.lang.String)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeService#getAvailableMembers(java.lang.String, java.lang.String)
      */
     public List<CommitteeMembership> getAvailableMembersNow(String committeeId) {
         List<CommitteeMembership> availableMembers = new ArrayList<CommitteeMembership>();
@@ -267,7 +267,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeService#getCommitteeSchedule(org.kuali.kra.common.committee.bo.Committee, java.lang.String)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeService#getCommitteeSchedule(org.kuali.kra.common.committee.bo.Committee, java.lang.String)
      */
     public CommitteeSchedule getCommitteeSchedule(Committee committee, String scheduleId) {
         //TODO the code belongs in and should be moved to Committee BO?
@@ -282,7 +282,7 @@ public class CommitteeServiceImpl implements CommitteeService {
     
     /**
      * 
-     * @see org.kuali.kra.common.committee.service.CommitteeService#mergeCommitteeSchedule(java.lang.String)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeService#mergeCommitteeSchedule(java.lang.String)
      */
     public List<CommitteeSchedule> mergeCommitteeSchedule(String committeeId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();

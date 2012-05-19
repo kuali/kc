@@ -30,7 +30,7 @@ import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.common.committee.service.CommitteeMembershipService;
-import org.kuali.kra.common.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -47,7 +47,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     private static final String REFERENCE_MEMBERSHIP_ROLE = "membershipRole";
     private static final String REFERENCE_RESEARCH_AREA = "researchArea";
     private BusinessObjectService businessObjectService;
-    private CommitteeService committeeService;
+    private CommonCommitteeService committeeService;
 
     /**
      * @see org.kuali.kra.common.committee.service.CommitteeMembershipService#addCommitteeMembership(org.kuali.kra.common.committee.bo.Committee, org.kuali.kra.common.committee.bo.CommitteeMembership)
@@ -201,7 +201,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
         this.businessObjectService = businessObjectService;
     }
 
-    public void setCommitteeService(CommitteeService committeeService) {
+    public void setCommitteeService(CommonCommitteeService committeeService) {
         this.committeeService = committeeService;
     }
 

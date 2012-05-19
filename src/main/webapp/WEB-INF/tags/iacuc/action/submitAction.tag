@@ -93,7 +93,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 	                        <c:when test="${KualiForm.actionHelper.showCommittee}">
 	                            <td>
 				                    <html:select property="actionHelper.iacucProtocolSubmitAction.committeeId" onchange="loadScheduleDates('actionHelper.iacucProtocolSubmitAction.committeeId', '${docNumber}', 'actionHelper.iacucProtocolSubmitAction.scheduleId');" >                               
-				                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder', paramMap)}" var="option">   
+				                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinder', paramMap)}" var="option">   
 				                            <c:choose>                      
 				                                <c:when test="${KualiForm.actionHelper.iacucProtocolSubmitAction.committeeId == option.key}">
 				                                    <option value="${option.key}" selected="selected">${option.value}</option>
@@ -110,7 +110,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 	                    	<c:otherwise>
 	                    		 <td colspan="3">
                                     <html:select property="actionHelper.iacucProtocolSubmitAction.committeeId" >                               
-                                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder', paramMap)}" var="option">
+                                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinder', paramMap)}" var="option">
                                             <c:choose>                      
                                                 <c:when test="${KualiForm.actionHelper.iacucProtocolSubmitAction.committeeId == option.key}">
                                                     <option value="${option.key}" selected="selected">${option.value}</option>
@@ -271,5 +271,4 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
         updateIacucReviewTypes('actionHelper.iacucProtocolSubmitAction.protocolReviewTypeCode');
     </script> --%>
 </kul:innerTab>
-
 </kra:permission>

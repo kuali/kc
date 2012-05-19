@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -31,7 +31,7 @@ import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -45,7 +45,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     private static final String SUBMISSION_NUMBER = "submissionNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
 
-    private static final String SUBMITTED_TO_IACUC = "Submitted to IACUC";
+    private static final String SUBMITTED_TO_IACUC = "SubmittedToIACUC";
     
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
@@ -234,7 +234,6 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         protocolAction.setSubmissionTypeCode(submissionTypeCode);
         protocol.getProtocolActions().add(protocolAction);
         
-        //TODO this is for workflow testing, but we do need to plumb the status change in here somewhere.
         IacucProtocolStatus protocolStatus = new IacucProtocolStatus();
         protocolStatus.setProtocolStatusCode(IacucProtocolActionType.SUBMITTED_TO_IACUC);
         protocolStatus.setDescription(SUBMITTED_TO_IACUC);
@@ -249,7 +248,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         businessObjectService.delete(protocol.getProtocolDocument().getPessimisticLocks());
         protocol.getProtocolDocument().getPessimisticLocks().clear();
         documentService.saveDocument(protocol.getProtocolDocument());
-        
+
         protocol.refresh();
     }
     

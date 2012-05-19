@@ -120,7 +120,7 @@
             <foreignkey field-ref="committeeTypeCode" />
          </reference-descriptor>
     </class-descriptor>	
-	
+    
 	<class-descriptor class="org.kuali.kra.common.committee.bo.Committee" table="COMMITTEE">
 		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true"/>
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous"/>
@@ -153,7 +153,7 @@
             <foreignkey field-ref="committeeTypeCode" />
          </reference-descriptor>
          
-         <reference-descriptor name="reviewType" class-ref="org.kuali.kra.irb.actions.submit.ProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
+         <reference-descriptor name="reviewType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="reviewTypeCode" />
          </reference-descriptor>
          

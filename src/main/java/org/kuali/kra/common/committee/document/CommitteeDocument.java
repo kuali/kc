@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -171,8 +171,8 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
         }
     }
     
-    private CommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommitteeService.class);
+    private CommonCommitteeService getCommitteeService() {
+        return KraServiceLocator.getService(CommonCommitteeService.class);
     }
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);

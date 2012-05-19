@@ -269,9 +269,6 @@
 	<bean id="committeeBatchCorrespondenceDao" parent="platformAwareDao"
 		class="org.kuali.kra.committee.dao.ojb.CommitteeBatchCorrespondenceDaoOjb" />
 	
-		
-		
-		
 	<bean id="committeeCollaboratorBusinessLogicFactoryGroup" 
 		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeCollaboratorBusinessLogicFactoryGroupImpl"
 		scope="prototype">
@@ -291,5 +288,14 @@
 		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeResearchAreaBusinessLogicFactoryImpl"
 		scope="prototype" />
 		
-
+<!-- republishing the services that were copied over for iacuc -->
+	
+	<bean id="commonCommitteeService"
+		class="org.kuali.kra.common.committee.service.impl.CommitteeServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
+	</bean>
+    
 </beans>
+
+

@@ -26,7 +26,7 @@ import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
-import org.kuali.kra.common.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -120,7 +120,7 @@ public class CommitteeDecision extends IacucProtocolActionBean implements Protoc
     private List<CommitteeMembership> getCommitteeMemberships() {
         String committeeId = getProtocol().getProtocolSubmission().getCommittee().getCommitteeId();
         String scheduleId = getProtocol().getProtocolSubmission().getScheduleId();
-        List<CommitteeMembership> committeeMemberships = KraServiceLocator.getService(CommitteeService.class).getAvailableMembers(committeeId, scheduleId);
+        List<CommitteeMembership> committeeMemberships = KraServiceLocator.getService(CommonCommitteeService.class).getAvailableMembers(committeeId, scheduleId);
         return committeeMemberships;
     }
     
