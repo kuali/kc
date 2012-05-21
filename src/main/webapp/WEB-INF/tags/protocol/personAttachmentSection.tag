@@ -14,7 +14,12 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%@ include file="/WEB-INF/jsp/irb/ProtocolPerson.jsp"%>
+
+<%@ attribute name="personIndex" description="Index of a ProposalPerson" required="true" %>
+<%@ attribute name="protocolPerson" description="Index of a Protocol person" required="true" %>
+<%@ attribute name="protocolAttachmentTypeByGroupValuesFinder" required="true" %>
+<%@ attribute name="protocolAttachmentPersonnelAttributes" required="true" type="java.util.Map" %>
+
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
 
 <c:choose>
@@ -76,7 +81,7 @@
 				                		<%-- attachment type finder logic start--%>
 											<jsp:useBean id="typeParamsType" class="java.util.HashMap"/>
 											<c:set target="${typeParamsType}" property="groupCode" value="${KualiForm.personnelHelper.newProtocolAttachmentPersonnels[personIndex].groupCode}" />
-											<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder', typeParamsType)}" />
+											<c:set var="options" value="${krafn:getOptionList(protocolAttachmentTypeByGroupValuesFinder, typeParamsType)}" />
 										<%-- attachment type finder logic end --%>
 				               			
 				               			<%-- attachment type error handling logic start--%>

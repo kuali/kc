@@ -464,7 +464,7 @@
         &iacuc_forwards;
       </action>
       <action path="/iacucProtocolNoteAndAttachment" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolNoteAndAttachment.jsp" type="org.kuali.kra.iacuc.noteattachment.IacucProtocolNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-        <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNoteAndAttachment.jsp" />
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolNoteAndAttachment.jsp" />
         &iacuc_forwards;
       </action>
       
