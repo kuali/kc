@@ -18,6 +18,7 @@ package org.kuali.kra.subaward.bo;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.AttachmentFile;
@@ -45,7 +46,7 @@ public class SubAwardAmountReleased  extends SubAwardAssociate implements KcAtta
     private byte[] document;
     private String fileName;
     private String mimeType;
-    private Date createdDate;
+    private Timestamp createdDate;
     private String createdBy;
     private String documentNumber;
     private String invoiceStatus;
@@ -296,12 +297,6 @@ KcAttachmentService.class).getFileTypeIcon(this);
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -323,5 +318,116 @@ KcAttachmentService.class).getFileTypeIcon(this);
     }
     public void setInvoiceStatusLabel(String invoiceStatusLabel) {
         //do nothing
+    }
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((createdBy == null) ? 0 : createdBy.hashCode());
+        result = prime * result + ((createdDate == null) ? 0 : createdDate.hashCode());
+        result = prime * result + ((documentNumber == null) ? 0 : documentNumber.hashCode());
+        result = prime * result + ((effectiveDate == null) ? 0 : effectiveDate.hashCode());
+        result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+        result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
+        result = prime * result + ((invoiceNumber == null) ? 0 : invoiceNumber.hashCode());
+        result = prime * result + ((invoiceStatus == null) ? 0 : invoiceStatus.hashCode());
+        result = prime * result + ((mimeType == null) ? 0 : mimeType.hashCode());
+        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+        result = prime * result + ((subAwardAmtReleasedId == null) ? 0 : subAwardAmtReleasedId.hashCode());
+        return result;
+    }
+    
+    /**
+     * Typical equals method, but if primary key is not null and is equal then assume equals.
+     * @see org.kuali.kra.subaward.bo.SubAwardAssociate#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;        
+        SubAwardAmountReleased other = (SubAwardAmountReleased) obj;
+        if (subAwardAmtReleasedId == null) {
+            if (other.subAwardAmtReleasedId != null)
+                return false;
+        }
+        else { 
+            if (!subAwardAmtReleasedId.equals(other.subAwardAmtReleasedId))
+                return false;
+            else {
+                return true;
+            }
+        }
+        if (createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        }
+        else if (!createdBy.equals(other.createdBy))
+            return false;
+        if (createdDate == null) {
+            if (other.createdDate != null)
+                return false;
+        }
+        else if (!createdDate.equals(other.createdDate))
+            return false;
+        if (documentNumber == null) {
+            if (other.documentNumber != null)
+                return false;
+        }
+        else if (!documentNumber.equals(other.documentNumber))
+            return false;
+        if (effectiveDate == null) {
+            if (other.effectiveDate != null)
+                return false;
+        }
+        else if (!effectiveDate.equals(other.effectiveDate))
+            return false;
+        if (endDate == null) {
+            if (other.endDate != null)
+                return false;
+        }
+        else if (!endDate.equals(other.endDate))
+            return false;
+        if (fileName == null) {
+            if (other.fileName != null)
+                return false;
+        }
+        else if (!fileName.equals(other.fileName))
+            return false;
+        if (invoiceNumber == null) {
+            if (other.invoiceNumber != null)
+                return false;
+        }
+        else if (!invoiceNumber.equals(other.invoiceNumber))
+            return false;
+        if (invoiceStatus == null) {
+            if (other.invoiceStatus != null)
+                return false;
+        }
+        else if (!invoiceStatus.equals(other.invoiceStatus))
+            return false;
+        if (mimeType == null) {
+            if (other.mimeType != null)
+                return false;
+        }
+        else if (!mimeType.equals(other.mimeType))
+            return false;
+        if (startDate == null) {
+            if (other.startDate != null)
+                return false;
+        }
+        else if (!startDate.equals(other.startDate))
+            return false;
+
+        return true;
+    }
+    public Timestamp getCreatedDate() {
+        return createdDate;
+    }
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
     }
 }

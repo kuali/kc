@@ -19,9 +19,10 @@
     </property>	<property name="allowsRecordDeletion" value="false" />
     
     <property name="documentTypeName" value="SubAwardInvoiceMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.subaward.document.authorizer.SubAwardInvoiceMaintenanceDocumentAuthorizer"/>
     <property name="businessRulesClass" value="org.kuali.kra.subaward.subawardrule.SubAwardInvoiceMaintenanceDocumentRule" />
     <property name="promptBeforeValidationClass" value="org.kuali.kra.subaward.subawardrule.SubAwardInvoicePromptBeforeValidation" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kra.subaward.document.authorization.SubAwardInvoiceDocumentPresentationController" />
+    <property name="documentAuthorizerClass" value="org.kuali.kra.subaward.document.authorizer.SubAwardInvoiceMaintenanceDocumentAuthorizer"/>
     
   </bean>
 

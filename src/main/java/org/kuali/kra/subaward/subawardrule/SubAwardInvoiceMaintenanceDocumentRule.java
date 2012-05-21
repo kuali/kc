@@ -19,7 +19,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
+import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
+import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.rules.MaintenanceDocumentRule;
@@ -30,10 +32,12 @@ public class SubAwardInvoiceMaintenanceDocumentRule extends KraMaintenanceDocume
     
     private DictionaryValidationService dictionaryValidationService;
     private ErrorReporter errorReporter;
+    private SubAwardService subAwardService;
     
     public SubAwardInvoiceMaintenanceDocumentRule() {
         dictionaryValidationService = KraServiceLocator.getService(DictionaryValidationService.class);
         errorReporter = new ErrorReporter();
+        subAwardService = KraServiceLocator.getService(SubAwardService.class);
     }
     
     @Override
@@ -52,8 +56,14 @@ public class SubAwardInvoiceMaintenanceDocumentRule extends KraMaintenanceDocume
             if (invoice.getAmountReleased().isNegative()) {
                 valid = false;
                 errorReporter.reportError("amountReleased", KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_NEGATIVE);
-            }
-            if (invoice.getAmountReleased().isGreaterThan(invoice.getSubAward().getTotalAvailableAmount())) {
+            }              
+            SubAward subAward = invoice.getSubAward();
+            if (subAward.getSubAwardAmountReleasedList().contains(invoice)) {
+                subAward.getSubAwardAmountReleasedList().remove(invoice);
+            } 
+            subAward.getSubAwardAmountReleasedList().add(invoice);
+            subAwardService.getAmountInfo(subAward);          
+            if (invoice.getSubAward().getTotalAvailableAmount().isNegative()) {
                 valid = false;
                 errorReporter.reportError("amountReleased", KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_GREATER_OBLIGATED_AMOUNT);
             }
