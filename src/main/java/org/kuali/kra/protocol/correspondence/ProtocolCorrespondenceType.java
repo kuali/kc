@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 
-public class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolCorrespondenceType extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -4725522827463252054L;
     public static final String APPROVAL_LETTER = "1";

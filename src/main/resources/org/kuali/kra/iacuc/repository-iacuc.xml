@@ -1131,5 +1131,31 @@
         </reference-descriptor>
         
     </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType" table="IACUC_PROTOCOL_CORRESP_TYPE">
+        <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="moduleId" column="MODULE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        
+        <collection-descriptor name="protocolCorrespondenceTemplates" element-class-ref="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="protoCorrespTypeCode" />
+        </collection-descriptor>
+    </class-descriptor>
+                
+    <class-descriptor class="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplate" table="IACUC_PROTO_CORRESP_TEMPL">
+        <field-descriptor name="protoCorrespTemplId" column="PROTO_CORRESP_TEMPL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true" />
+        <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="correspondenceTemplate" column="CORRESPONDENCE_TEMPLATE" jdbc-type="CLOB" conversion="org.kuali.kra.infrastructure.OjbBlobClobFieldConersion"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
                     
 </descriptor-repository>
