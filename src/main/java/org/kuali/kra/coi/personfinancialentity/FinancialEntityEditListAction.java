@@ -208,9 +208,18 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
             else {
                 currentPersonFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
                         .getActiveFinancialEntities().get(entityIndex);
+                List<PersonFinIntDisclosure> versionList = currentPersonFinIntDisclosure.getVersions();
+                List<PersonFinIntDisclosure> activeFinancialIntDisclosure = new ArrayList<PersonFinIntDisclosure>();
+                
+                for (PersonFinIntDisclosure personFinIntDisclosure : versionList) {
+                    if (personFinIntDisclosure.getProcessStatus().equals(PROCESS_STATUS_FINAL)) {
+                        activeFinancialIntDisclosure.add(personFinIntDisclosure);
+                    }
+                }
+                currentPersonFinIntDisclosure.setVersions(activeFinancialIntDisclosure);
             }
-        }
-        financialEntityHelper.setVersions(currentPersonFinIntDisclosure);
+          financialEntityHelper.setVersions(currentPersonFinIntDisclosure);
+          }
         return mapping.findForward("history");
     }
     
