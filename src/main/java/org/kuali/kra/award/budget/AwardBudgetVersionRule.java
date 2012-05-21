@@ -90,10 +90,14 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
                 break;
             }
         }
+        
         Map<String, Object> fieldValues1 = new HashMap<String, Object>();
-        fieldValues1.put("documentNumber", timeAndMoneyDocumentNumber);
-        List<TimeAndMoneyDocument> timeAndMoneyDocuments =
-            (List<TimeAndMoneyDocument>)getBusinessObjectService().findMatching(TimeAndMoneyDocument.class, fieldValues1);
+        String rootAwardNumber = award.getAwardNumber();
+        fieldValues1.put("rootAwardNumber", rootAwardNumber);
+
+        List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
+            (List<TimeAndMoneyDocument>)getBusinessObjectService().findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
+        
         if(!timeAndMoneyDocuments.isEmpty()) {
             TimeAndMoneyDocument timeAndMoneyDocument = 
                 (TimeAndMoneyDocument)getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(0).getDocumentHeader().getDocumentNumber());
@@ -103,6 +107,7 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
                 }
             }
         }
+        System.err.println("Got here! XXXXXXXXXXXXXX");
         if(!anyAwardVersionFinal && !anyTimeAndMoneyDocumentsFinal) {
             GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), KeyConstants.ERROR_AWARD_OR_MONEY_DOC_NOT_FINAL);
             success &= false;
