@@ -285,9 +285,9 @@
         <property name="protocolActionService" ref="iacucActionService" /> 
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolFinderDao" ref="iacucProtocolFinderDao" />
-      <!--  
+              <!--  assign reviewer is just for testing.  don't commit 
         <property name="protocolAssignReviewersService" ref="iacucProtocolAssignReviewersService" />
-         --> 
+        --> 
     </bean>
     
     <bean id="iacucWithdrawService" class="org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawServiceImpl">
@@ -410,10 +410,20 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
     </bean>
-    
+ 
     <bean id="iacucProtocolNotepadService" class="org.kuali.kra.iacuc.noteattachment.IacucProtocolNotepadServiceImpl">
         <property name = "personService" ref = "personService"/>
     </bean>        
+
+     <bean id="iacucProtocolCorrespondenceTemplateAuthorizationService" class="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateAuthorizationServiceImpl">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+
+     <bean id="iacucProtocolCorrespondenceTemplateService" class="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
 </beans>
 
 

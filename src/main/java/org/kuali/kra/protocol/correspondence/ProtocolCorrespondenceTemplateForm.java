@@ -21,6 +21,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplate;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -107,7 +109,7 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
     @SuppressWarnings("unchecked")
     private List<ProtocolCorrespondenceType> initCorrespondenceTypes() {
         LookupService lookupService = KRADServiceLocatorWeb.getLookupService();
-        return (List<ProtocolCorrespondenceType>) lookupService.findCollectionBySearchUnbounded(ProtocolCorrespondenceType.class, new HashMap());
+        return (List<ProtocolCorrespondenceType>) lookupService.findCollectionBySearchUnbounded(IacucProtocolCorrespondenceType.class, new HashMap());
     }
 
     /**
@@ -120,12 +122,12 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
         this.newCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
         this.replaceCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplateList>();
         for (ProtocolCorrespondenceType correspondenceType : this.getCorrespondenceTypes()) {
-            this.newDefaultCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
-            this.newCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplate());
+            this.newDefaultCorrespondenceTemplates.add(new IacucProtocolCorrespondenceTemplate());
+            this.newCorrespondenceTemplates.add(new IacucProtocolCorrespondenceTemplate());
             this.replaceCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplateList());
             int typeIndex = correspondenceTypes.indexOf(correspondenceType);
             for (ProtocolCorrespondenceTemplate correspondenceTemplate : correspondenceType.getProtocolCorrespondenceTemplates()) {
-            	this.replaceCorrespondenceTemplates.get(typeIndex).getList().add(new ProtocolCorrespondenceTemplate());
+            	this.replaceCorrespondenceTemplates.get(typeIndex).getList().add(new IacucProtocolCorrespondenceTemplate());
             }
         }
     }
