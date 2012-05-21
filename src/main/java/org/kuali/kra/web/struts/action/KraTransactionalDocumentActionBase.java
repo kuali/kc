@@ -44,6 +44,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -103,6 +104,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.MessageMap;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -632,19 +634,36 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
 
         // only want to prompt them to save if they already can save
         if (canSave(docForm)) {
-            Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
-
+            
+            Object question = getQuestion(request);
             // logic for close question
             if (question == null) {
+                // KULRICE-7306: Unconverted Values not carried through during a saveOnClose action.
+                // Stash the unconverted values to populate errors if the user elects to save
+                saveUnconvertedValuesToSession(request, docForm);
+                
                 // ask question if not already asked
                 forward = performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, 
-                        kualiConfiguration.getPropertyValueAsString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KRADConstants.CONFIRMATION_QUESTION, 
-                        KRADConstants.MAPPING_CLOSE, "");
+                        getKualiConfigurationService().getPropertyValueAsString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), 
+                        KRADConstants.CONFIRMATION_QUESTION, KRADConstants.MAPPING_CLOSE, "");
             } else {
                 // otherwise attempt to save and close
                 Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+                
+                // KULRICE-7306: Unconverted Values not carried through during a saveOnClose action.
+                // Side effecting in that it clears the session attribute that holds the unconverted values.
+                Map<String, Object> unconvertedValues = restoreUnconvertedValuesFromSession(request, docForm);
+                
                 if ((KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                    // if yes button clicked - save the doc
+
+                    // KULRICE-7306: Unconverted Values not carried through during a saveOnClose action.
+                    // If there were values that couldn't be converted, we attempt to populate them so that the
+                    // the appropriate errors get set on those fields
+                    if (MapUtils.isNotEmpty(unconvertedValues)) for (Map.Entry<String, Object> entry : unconvertedValues.entrySet()) {
+                        docForm.populateForProperty(entry.getKey(), entry.getValue(), unconvertedValues);
+                    }
+                    
                     forward = saveOnClose(mapping, form, request, response);
                 } else {
                     forward = super.close(mapping, docForm, request, response);
@@ -655,6 +674,30 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
 
         return forward;
+    }
+    
+    // stash unconvertedValues in the session
+    private void saveUnconvertedValuesToSession(HttpServletRequest request, KualiDocumentFormBase docForm) {
+        if (MapUtils.isNotEmpty(docForm.getUnconvertedValues())) {
+            request.getSession().setAttribute(getUnconvertedValuesSessionAttributeKey(docForm), new HashMap(docForm.getUnconvertedValues()));
+        }
+    }
+
+    // SIDE EFFECTING: clears out unconverted values from the Session and restores them to the form
+    private Map<String, Object> restoreUnconvertedValuesFromSession(HttpServletRequest request,
+            KualiDocumentFormBase docForm) {// first restore unconvertedValues and clear out of session
+        Map<String, Object> unconvertedValues =
+            (Map<String, Object>)request.getSession().getAttribute(getUnconvertedValuesSessionAttributeKey(docForm));
+        if (MapUtils.isNotEmpty(unconvertedValues)) {
+            request.getSession().removeAttribute(getUnconvertedValuesSessionAttributeKey(docForm));
+            docForm.setUnconvertedValues(unconvertedValues); // setting them here just for good measure
+        }
+        return unconvertedValues;
+    }
+
+    // create the key based on docId for stashing/retrieving unconvertedValues in the session
+    private String getUnconvertedValuesSessionAttributeKey(KualiDocumentFormBase docForm) {
+        return "preCloseUnconvertedValues." + docForm.getDocId();
     }
 
     /**
