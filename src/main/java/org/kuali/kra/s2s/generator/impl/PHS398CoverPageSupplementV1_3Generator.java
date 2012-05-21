@@ -130,6 +130,8 @@ public class PHS398CoverPageSupplementV1_3Generator extends
                                 clinicalTrial.setIsPhaseIIIClinicalTrial(YesNoDataType.N_NO);   
                             }
 
+                        } else {
+                            clinicalTrial.setIsPhaseIIIClinicalTrial(null);
                         }
                     }
                 } else {
