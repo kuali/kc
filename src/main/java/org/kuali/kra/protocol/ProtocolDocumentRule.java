@@ -22,8 +22,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.personnel.AddProtocolAttachmentPersonnelEvent;
+import org.kuali.kra.protocol.personnel.AddProtocolAttachmentPersonnelRule;
 import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
 import org.kuali.kra.protocol.personnel.AddProtocolUnitRule;
+import org.kuali.kra.protocol.personnel.ProtocolAttachmentPersonnelRule;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRule;
 import org.kuali.kra.protocol.personnel.ProtocolUnitRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
@@ -57,11 +60,8 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
                                                                     implements                                                                  
                                                                                 AddProtocolReferenceRule, 
                                                                                 AddProtocolLocationRule,
-// TODO *********commented the code below during IACUC refactoring*********                                                                          
-//                                                                                AddProtocolAttachmentPersonnelRule, 
+                                                                                AddProtocolAttachmentPersonnelRule, 
                                                                                 AddProtocolUnitRule,
-                                                                    
-                                                                    
                                                                                 BusinessRuleInterface,                                                                                 
                                                                                 ExecuteProtocolSubmitActionRule
 // TODO *********commented the code below during IACUC refactoring*********                                                                                 
@@ -300,10 +300,12 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
 //            PermissionsUserEditRoles editRoles) {
 //        return new ProtocolPermissionsRule().processEditPermissionsUserRolesBusinessRules(document, users, editRoles);
 //    }
-//
-//    public boolean processAddProtocolAttachmentPersonnelRules(AddProtocolAttachmentPersonnelEvent addProtocolAttachmentPersonnelEvent) {
-//        return new ProtocolAttachmentPersonnelRule().processAddProtocolAttachmentPersonnelRules(addProtocolAttachmentPersonnelEvent);
-//    }
+
+    public boolean processAddProtocolAttachmentPersonnelRules(AddProtocolAttachmentPersonnelEvent addProtocolAttachmentPersonnelEvent) {
+        return getProtocolAttachmentPersonnelRuleInstanceHook().processAddProtocolAttachmentPersonnelRules(addProtocolAttachmentPersonnelEvent);
+    }
+    
+    public abstract ProtocolAttachmentPersonnelRule getProtocolAttachmentPersonnelRuleInstanceHook();
 
 
     /**

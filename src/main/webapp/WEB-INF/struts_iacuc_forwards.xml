@@ -15,7 +15,7 @@
 <forward name="iacucSubmissionQuestionnaire" path="/WEB-INF/jsp/iacuc/SubmissionQuestionnaire.jsp" />
 <forward name="permissionsEditRoles" path="/WEB-INF/jsp/iacuc/ProtocolPermissionsEditRoles.jsp" />
 <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/iacuc/ProtocolPermissionsCloseEditRoles.jsp" />
-<forward name="iacucNoteAndAttachment" path="/WEB-INF/jsp/iacuc/ProtocolNoteAndAttachment.jsp" />
+<forward name="iacucProtocolNoteAndAttachment" path="/WEB-INF/jsp/iacuc/ProtocolNoteAndAttachment.jsp" />
 <forward name="iacucProtocolOnlineReview" path = "/WEB-INF/jsp/iacuc/ProtocolOnlineReview.jsp"/>
 <forward name="iacucProtocolActions" path="/WEB-INF/jsp/iacuc/ProtocolProtocolActions.jsp" />
 <forward name="iacucCustomData" path="/WEB-INF/jsp/iacuc/ProtocolCustomData.jsp" />

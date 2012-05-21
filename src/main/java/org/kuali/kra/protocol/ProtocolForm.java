@@ -127,11 +127,10 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 
 // TODO *********commented the code below during IACUC refactoring*********       
 //        setQuestionnaireHelper(new QuestionnaireHelper(this));
-        //setNotesAttachmentsHelper(createNewNotesAttachmentsHelperInstanceHook(this));
-        //this.notesAttachmentsHelper.prepareView();
+        setNotesAttachmentsHelper(createNewNotesAttachmentsHelperInstanceHook(this));
+        this.notesAttachmentsHelper.prepareView();
         setNewProtocolReferenceBean(createNewProtocolReferenceBeanInstance());
 
-// TODO *********commented the code below during IACUC refactoring*********         
         setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
     }
 
@@ -420,7 +419,6 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         this.questionnaireHelper = questionnaireHelper;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
     public void setOnlineReviewsActionHelper(OnlineReviewsActionHelper onlineReviewActionHelper) {
         this.onlineReviewsActionHelper = onlineReviewActionHelper;
     }

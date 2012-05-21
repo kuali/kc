@@ -73,8 +73,7 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
 
     @Override
     protected ProtocolAttachmentFilter createNewProtocolAttachmentFilterInstanceHook() {
-        // TODO Auto-generated method stub
-        return null;
+        return new IacucProtocolAttachmentFilter();
     }
 
     @Override

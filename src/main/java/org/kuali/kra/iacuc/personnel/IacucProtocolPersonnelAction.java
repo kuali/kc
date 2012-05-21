@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.personnel;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,19 +28,25 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentPersonnel;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.protocol.personnel.AddProtocolPersonnelEvent;
 import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.protocol.personnel.ProtocolUnit;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.krad.util.KRADConstants;
 
 
@@ -47,12 +54,12 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(IacucProtocolPersonnelAction.class);
     
-//    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
-//    private static final String CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL = "confirmDeleteAttachmentPersonnel";
-//    private static final String CONFIRM_NO_DELETE = "";
-//    private static final String INVALID_ATTACHMENT = "this attachment version is invalid ";
-//
-//
+    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
+    private static final String CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL = "confirmDeleteAttachmentPersonnel";
+    private static final String CONFIRM_NO_DELETE = "";
+    private static final String INVALID_ATTACHMENT = "this attachment version is invalid ";
+
+
     private ProtocolAttachmentService protocolAttachmentService;
     
     @Override
@@ -125,81 +132,81 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-//    
-//    /**
-//     * Method called when adding an attachment to a person.
-//     * 
-//     * @param mapping the action mapping
-//     * @param form the form.
-//     * @param request the request.
-//     * @param response the response.
-//     * @return an action forward.
-//     * @throws Exception if there is a problem executing the request.
-//     */
-//    public ActionForward addPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-//        int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
-//        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
-//        ProtocolAttachmentPersonnel newAttachmentPersonnel = protocolForm.getPersonnelHelper().getNewProtocolAttachmentPersonnels().get(selectedPersonIndex);
-//        newAttachmentPersonnel.setPersonId(protocolPerson.getProtocolPersonId());
-//        newAttachmentPersonnel.setProtocolNumber(protocolPerson.getProtocolNumber());
-//        
-//        boolean rulePassed =  applyRules(new AddProtocolAttachmentPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), 
-//                newAttachmentPersonnel, selectedPersonIndex));
-//
-//        if (rulePassed) {
-//            getProtocolPersonnelService().addProtocolPersonAttachment(protocolDocument.getProtocol(), newAttachmentPersonnel, selectedPersonIndex);
-//            protocolForm.getPersonnelHelper().getNewProtocolAttachmentPersonnels().set(selectedPersonIndex, new ProtocolAttachmentPersonnel());
-//        }
-//
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * Method called when viewing an attachment personnel.
-//     * 
-//     * @param mapping the action mapping
-//     * @param form the form.
-//     * @param request the request.
-//     * @param response the response.
-//     * @return an action forward.
-//     * @throws Exception if there is a problem executing the request.
-//     */
-//    public ActionForward viewPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-//        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
-//        ProtocolAttachmentBase attachment = protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
-//        return printAttachmentProtocol(mapping, protocolForm, response, attachment);
-//    }
-//
-//    /*
-//     * This is to view attachment if attachment is selected in print panel.
-//     */
-//    private ActionForward printAttachmentProtocol(ActionMapping mapping, ProtocolForm form, HttpServletResponse response, ProtocolAttachmentBase attachment) throws Exception {
-//
-//        if (attachment == null) {
-//            return mapping.findForward(Constants.MAPPING_BASIC);
-//        }
-//        final AttachmentFile file = attachment.getFile();
-//       
-//       /* byte[] attachmentFile =null;
-//        String attachmentFileType=file.getType().replace("\"", "");
-//        if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
-//            attachmentFile=getProtocolAttachmentFile(form,attachment);
-//            if(attachmentFile!=null){          
-//                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
-//            else{
-//                this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
-//            return RESPONSE_ALREADY_HANDLED;
-//        }*/
-//        
-//        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
-//        return RESPONSE_ALREADY_HANDLED;
-//    }
+    
+    /**
+     * Method called when adding an attachment to a person.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward addPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
+        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
+        ProtocolAttachmentPersonnel newAttachmentPersonnel = protocolForm.getPersonnelHelper().getNewProtocolAttachmentPersonnels().get(selectedPersonIndex);
+        newAttachmentPersonnel.setPersonId(protocolPerson.getProtocolPersonId());
+        newAttachmentPersonnel.setProtocolNumber(protocolPerson.getProtocolNumber());
+        
+        boolean rulePassed =  applyRules(new AddIacucProtocolAttachmentPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), 
+                newAttachmentPersonnel, selectedPersonIndex));
+
+        if (rulePassed) {
+            getProtocolPersonnelService().addProtocolPersonAttachment(protocolDocument.getProtocol(), newAttachmentPersonnel, selectedPersonIndex);
+            protocolForm.getPersonnelHelper().getNewProtocolAttachmentPersonnels().set(selectedPersonIndex, new IacucProtocolAttachmentPersonnel());
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * Method called when viewing an attachment personnel.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward viewPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
+        ProtocolAttachmentBase attachment = protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
+        return printAttachmentProtocol(mapping, protocolForm, response, attachment);
+    }
+
+    /*
+     * This is to view attachment if attachment is selected in print panel.
+     */
+    private ActionForward printAttachmentProtocol(ActionMapping mapping, ProtocolForm form, HttpServletResponse response, ProtocolAttachmentBase attachment) throws Exception {
+
+        if (attachment == null) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        final AttachmentFile file = attachment.getFile();
+       
+       /* byte[] attachmentFile =null;
+        String attachmentFileType=file.getType().replace("\"", "");
+        if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
+            attachmentFile=getProtocolAttachmentFile(form,attachment);
+            if(attachmentFile!=null){          
+                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
+            else{
+                this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
+            return RESPONSE_ALREADY_HANDLED;
+        }*/
+        
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
+        return RESPONSE_ALREADY_HANDLED;
+    }
 //    /**
 //     * 
 //     * This method for set the attachment with the watermark which selected  by the client .
@@ -239,53 +246,53 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
 //        }        
 //        return attachmentFile;
 //    }
-//    /**
-//     * Method called when deleting an attachment from a person.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward deletePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-//            HttpServletResponse response) throws Exception {
-//        ProtocolDocument protocolDocument = ((ProtocolForm) form).getProtocolDocument();
-//        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
-//        ProtocolAttachmentPersonnel attachment = protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
-//
-//        final StrutsConfirmation confirm 
-//        = buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL, 
-//                KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, attachment.getAttachmentDescription(), attachment.getFile().getName());
-//        
-//        return confirm(confirm, CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL, CONFIRM_NO_DELETE);
-//    }
-//    
-//    /**
-//     * Method called when confirming the deletion an attachment personnel.
-//     * 
-//     * @param mapping the action mapping
-//     * @param form the form.
-//     * @param request the request.
-//     * @param response the response.
-//     * @return an action forward.
-//     * @throws Exception if there is a problem executing the request.
-//     */
-//    public ActionForward confirmDeleteAttachmentPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolDocument protocolDocument = ((ProtocolForm) form).getProtocolDocument();
-//        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
-//        ProtocolAttachmentPersonnel attachment = protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
-//
-//        if (attachment.getFileId() != null && !getProtocolAttachmentService().isSharedFile(attachment)) {
-//            ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().add(attachment.getFile());
-//        }
-//        protocolPerson.getAttachmentPersonnels().remove(getSelectedLine(request));
-//
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//
+    /**
+     * Method called when deleting an attachment from a person.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deletePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        ProtocolDocument protocolDocument = ((ProtocolForm) form).getProtocolDocument();
+        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
+        ProtocolAttachmentPersonnel attachment = protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
+
+        final StrutsConfirmation confirm 
+        = buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL, 
+                KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, attachment.getAttachmentDescription(), attachment.getFile().getName());
+        
+        return confirm(confirm, CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL, CONFIRM_NO_DELETE);
+    }
+    
+    /**
+     * Method called when confirming the deletion an attachment personnel.
+     * 
+     * @param mapping the action mapping
+     * @param form the form.
+     * @param request the request.
+     * @param response the response.
+     * @return an action forward.
+     * @throws Exception if there is a problem executing the request.
+     */
+    public ActionForward confirmDeleteAttachmentPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolDocument protocolDocument = ((ProtocolForm) form).getProtocolDocument();
+        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
+        ProtocolAttachmentPersonnel attachment = protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
+
+        if (attachment.getFileId() != null && !getProtocolAttachmentService().isSharedFile(attachment)) {
+            ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().add(attachment.getFile());
+        }
+        protocolPerson.getAttachmentPersonnels().remove(getSelectedLine(request));
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+
 
     /**
      * This method is linked to ProtocolPersonnelService to perform the action
@@ -432,24 +439,24 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
             }
         }
 
-//        Map keyMap = new HashMap();
-//        keyMap.put("protocolNumber", protocol.getProtocolNumber());
-//        keyMap.put("sequenceNumber", protocol.getSequenceNumber());
-// 
-//        List<ProtocolAttachmentPersonnel> attachments = (List<ProtocolAttachmentPersonnel>)getBusinessObjectService().findMatching(ProtocolAttachmentPersonnel.class, keyMap);
-//        List<AttachmentFile> filesToDelete = new ArrayList<AttachmentFile>();
-//        List<Long> attachmentIds = new ArrayList<Long>();
-//        for (ProtocolAttachmentPersonnel attachment : protocol.getAttachmentPersonnels()) {
-//            if (attachment.getId() != null) {
-//                attachmentIds.add(attachment.getId());
-//            }
-//        }
-//        for (ProtocolAttachmentPersonnel attachment : attachments) {
-//            if (!attachmentIds.contains(attachment.getId()) && !getProtocolAttachmentService().isSharedFile(attachment)) {
-//                filesToDelete.add(attachment.getFile());
-//            }
-//        }
-//        protocolForm.getNotesAttachmentsHelper().setFilesToDelete(filesToDelete);
+        Map keyMap = new HashMap();
+        keyMap.put("protocolNumber", protocol.getProtocolNumber());
+        keyMap.put("sequenceNumber", protocol.getSequenceNumber());
+ 
+        List<ProtocolAttachmentPersonnel> attachments = (List<ProtocolAttachmentPersonnel>)getBusinessObjectService().findMatching(IacucProtocolAttachmentPersonnel.class, keyMap);
+        List<AttachmentFile> filesToDelete = new ArrayList<AttachmentFile>();
+        List<Long> attachmentIds = new ArrayList<Long>();
+        for (ProtocolAttachmentPersonnel attachment : protocol.getAttachmentPersonnels()) {
+            if (attachment.getId() != null) {
+                attachmentIds.add(attachment.getId());
+            }
+        }
+        for (ProtocolAttachmentPersonnel attachment : attachments) {
+            if (!attachmentIds.contains(attachment.getId()) && !getProtocolAttachmentService().isSharedFile(attachment)) {
+                filesToDelete.add(attachment.getFile());
+            }
+        }
+        protocolForm.getNotesAttachmentsHelper().setFilesToDelete(filesToDelete);
     }
 
     
@@ -464,9 +471,9 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
     public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         super.postSave(mapping, form, request, response);
-//        if (!((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().isEmpty()) {
-//            getBusinessObjectService().delete(((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete());
-//            ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().clear();
-//        }
+        if (!((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().isEmpty()) {
+            getBusinessObjectService().delete(((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete());
+            ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().clear();
+        }
     }
 }

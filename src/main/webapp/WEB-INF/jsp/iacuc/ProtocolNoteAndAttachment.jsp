@@ -17,6 +17,11 @@
 
 <c:set var="readOnly" value="${!KualiForm.notesAttachmentsHelper.modifyAttachments}" scope="request" />
 
+<c:set var="protocolAttachmentProtocolAttributes" value="${DataDictionary.IacucProtocolAttachmentProtocol.attributes}" />
+<c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
+<c:set var="protocolAttachmentFilterAttributes" value="${DataDictionary.IacucProtocolAttachmentFilter.attributes}" />
+<c:set var="protocolNotesAttributes" value="${DataDictionary.IacucProtocolNotepad.attributes}" />
+
 <script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
 
 <!--
@@ -334,12 +339,17 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="iacucNoteAndAttachment">
+  	headerTabActive="noteAndAttachment">
   	
 <div align="right"><kul:help documentTypeName="IacucProtocolDocument" pageName="Notes%20%26%20Attachments" /></div>
 <div id="workarea">
-<kra-protocol:protocolAttachmentProtocol /> 
-<kra-protocol:protocolNotes />
+<kra-protocol:protocolAttachmentProtocol 
+    protocolAttachmentProtocolAttributes="${protocolAttachmentProtocolAttributes}"
+    attachmentFileAttributes="${attachmentFileAttributes}"
+    protocolAttachmentFilterAttributes="${protocolAttachmentFilterAttributes}"
+    action="iacucProtocolNoteAndAttachment"
+    protocolAttachmentTypeByGroupValuesFinder="org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentTypeByGroupValuesFinder"/>
+<kra-protocol:protocolNotes protocolNotesAttributes="${protocolNotesAttributes}"/>
 <kul:panelFooter />
 </div>
     <kul:documentControls 

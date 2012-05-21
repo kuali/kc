@@ -15,7 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="protocolNotesAttributes" value="${DataDictionary.ProtocolNotepad.attributes}" />
+<%@ attribute name="protocolNotesAttributes" required="true" type="java.util.Map" %>
+
 <c:set var="modifyPermission" value="${KualiForm.notesAttachmentsHelper.modifyNotepads}" />
 <c:set var="viewRestrictedNotes" value="${KualiForm.notesAttachmentsHelper.viewRestricted}" />
 <c:set var="protocolAdmin" value="${KualiForm.notesAttachmentsHelper.protocolAdmin}" />
@@ -30,7 +31,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Notes</span>
-			<span class="subhead-right"><kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolNotesHelpUrl" altText="help"/></span>
+			<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="protocolNotesHelpUrl" altText="help"/></span>
         </h3>
         <table id="protocol-notepad-table" cellpadding="0" cellspacing="0" summary="Protocol Notepad">
 			<tr>
