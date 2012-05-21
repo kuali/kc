@@ -29,12 +29,12 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 
-public class ProtocolAttachmentPersonnelRule extends ResearchDocumentRuleBase implements AddProtocolAttachmentPersonnelRule {
-    private static final String OTHER_TYPE_CODE = "9";
+public abstract class ProtocolAttachmentPersonnelRule extends ResearchDocumentRuleBase implements AddProtocolAttachmentPersonnelRule {
+    protected static final String OTHER_TYPE_CODE = "9";
 
-    private static final String PROPERTY_NAME_NEW_ATTACHMENT_TYPE = "personnelHelper.newProtocolAttachmentPersonnels[%1$s].typeCode";
-    private static final String PROPERTY_NAME_NEW_ATTACHMENT_DESCRIPTION = "personnelHelper.newProtocolAttachmentPersonnels[%1$s].description";
-    private static final String PROPERTY_NAME_NEW_ATTACHMENT_FILE = "personnelHelper.newProtocolAttachmentPersonnels[%1$s].newFile";
+    protected static final String PROPERTY_NAME_NEW_ATTACHMENT_TYPE = "personnelHelper.newProtocolAttachmentPersonnels[%1$s].typeCode";
+    protected static final String PROPERTY_NAME_NEW_ATTACHMENT_DESCRIPTION = "personnelHelper.newProtocolAttachmentPersonnels[%1$s].description";
+    protected static final String PROPERTY_NAME_NEW_ATTACHMENT_FILE = "personnelHelper.newProtocolAttachmentPersonnels[%1$s].newFile";
 
     
     /**
@@ -58,7 +58,7 @@ public class ProtocolAttachmentPersonnelRule extends ResearchDocumentRuleBase im
         return isValid;
     }
 
-    private boolean validType(String typeCode, String groupCode, String propertyName) {
+    protected boolean validType(String typeCode, String groupCode, String propertyName) {
         assert !StringUtils.isEmpty(groupCode);
         
         for (ProtocolAttachmentType type : getProtocolAttachmentService().getTypesForGroup(groupCode)) {
@@ -72,7 +72,7 @@ public class ProtocolAttachmentPersonnelRule extends ResearchDocumentRuleBase im
         return false;
     }
     
-    private boolean duplicateType(String typeCode, ProtocolPerson person,  String propertyName) {
+    protected boolean duplicateType(String typeCode, ProtocolPerson person,  String propertyName) {
         for (ProtocolAttachmentPersonnel attachment : person.getAttachmentPersonnels()) {
             if (StringUtils.equals(attachment.getTypeCode(), typeCode)) {
                 GlobalVariables.getMessageMap().putError(propertyName, 
@@ -84,7 +84,7 @@ public class ProtocolAttachmentPersonnelRule extends ResearchDocumentRuleBase im
         return true;
     }
 
-    private boolean validDescription(String description, String typeCode, String propertyName) {
+    protected boolean validDescription(String description, String typeCode, String propertyName) {
         if (StringUtils.isEmpty(description)) {
             GlobalVariables.getMessageMap().putError(propertyName, 
                     KeyConstants.ERROR_PROTOCOL_ATTACHMENT_PERSONNEL_INVALID_DESCRIPTION);
@@ -94,7 +94,7 @@ public class ProtocolAttachmentPersonnelRule extends ResearchDocumentRuleBase im
         return true;
     }
 
-    private boolean validFile(FormFile file, String propertyName) {
+    protected boolean validFile(FormFile file, String propertyName) {
         byte[] fileData;
         try {
             fileData = file.getFileData();
@@ -121,7 +121,9 @@ public class ProtocolAttachmentPersonnelRule extends ResearchDocumentRuleBase im
      * This method is to get protocol attachment service
      * @return ProtocolAttachmentService
      */
-    private ProtocolAttachmentService getProtocolAttachmentService() {
-        return KraServiceLocator.getService(ProtocolAttachmentService.class);
-    }
+// TODO *********commented the code below during IACUC refactoring*********    
+//    private ProtocolAttachmentService getProtocolAttachmentService() {
+//        return KraServiceLocator.getService(ProtocolAttachmentService.class);
+//    }
+    protected abstract ProtocolAttachmentService getProtocolAttachmentService();
 }

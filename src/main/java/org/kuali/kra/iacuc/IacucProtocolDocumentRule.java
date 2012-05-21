@@ -20,6 +20,7 @@ import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRule;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRuleImpl;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionRule;
+import org.kuali.kra.iacuc.personnel.IacucProtocolAttachmentPersonnelRule;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelAuditRule;
 import org.kuali.kra.iacuc.personnel.IacucProtocolUnitRule;
 import org.kuali.kra.iacuc.personnel.SaveIacucProtocolPersonnelEvent;
@@ -45,6 +46,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolDocumentRule;
 import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
+import org.kuali.kra.protocol.personnel.ProtocolAttachmentPersonnelRule;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRule;
 import org.kuali.kra.protocol.personnel.ProtocolUnitRule;
 import org.kuali.kra.protocol.personnel.SaveProtocolPersonnelEvent;
@@ -119,11 +121,16 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements A
     @Override
     protected ProtocolFundingSourceRule getNewProtocolFundingSourceRuleInstanceHook() {
         return new IacucProtocolFundingSourceRule();
-    }  
+    }
     
 
     @Override
     public boolean processAssignToCommittee(ProtocolDocument document, IacucProtocolAssignCmtBean actionBean) {
         return new IacucProtocolAssignCmtRuleImpl().processAssignToCommittee(document, actionBean);
-    }
+    }    
+
+    @Override
+    public ProtocolAttachmentPersonnelRule getProtocolAttachmentPersonnelRuleInstanceHook() {
+        return new IacucProtocolAttachmentPersonnelRule();
+    }    
 }

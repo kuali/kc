@@ -22,6 +22,7 @@
 <%@ attribute name="protocolAttachmentPersonnelAttributes" required="true" type="java.util.Map" %>
 <%@ attribute name="attachmentFileAttributes" required="true" type="java.util.Map" %>
 <%@ attribute name="optionListClass" required="true" %>
+<%@ attribute name="protocolAttachmentTypeByGroupValuesFinder" required="true" %>
 
 <div id="workarea">
 <c:forEach items="${KualiForm.document.protocolList[0].protocolPersons}" var="person" varStatus="status">
@@ -57,7 +58,7 @@
 				</h3>
 				<kra-protocol:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}" protocolPersonAttributes="${protocolPersonAttributes}" optionListClass="${optionListClass}"/>
 				<kra-protocol:personContactInformationSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}" personAttributes="${personAttributes}"/>
-  				<kra-protocol:personAttachmentSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
+  				<kra-protocol:personAttachmentSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}" protocolAttachmentTypeByGroupValuesFinder="${protocolAttachmentTypeByGroupValuesFinder}" protocolAttachmentPersonnelAttributes="${protocolAttachmentPersonnelAttributes}"/>
   				<c:if test="${personUnitRequired}">
 					<kra-protocol:personUnitsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}" protocolUnitsAttributes="${protocolUnitsAttributes}" unitAttributes="${unitAttributes}"/>
   				</c:if>

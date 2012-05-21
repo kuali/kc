@@ -44,7 +44,7 @@ public class IacucProtocolAction extends ProtocolAction {
     public static final String IACUC_PROTOCOL_PERSONNEL_HOOK = "iacucPersonnel";
     public static final String IACUC_PROTOCOL_CUSTOM_DATA_HOOK = "iacucCustomData";
     public static final String IACUC_PROTOCOL_SPECIAL_REVIEW_HOOK = "iacucSpecialReview";
-    public static final String IACUC_PROTOCOL_NOTE_ATTACHMENT_HOOK = "iacucNoteAndAttachment";
+    public static final String IACUC_PROTOCOL_NOTE_ATTACHMENT_HOOK = "iacucProtocolNoteAndAttachment";
     public static final String IACUC_PROTOCOL_ACTIONS_HOOK = "iacucProtocolActions";
     public static final String IACUC_PROTOCOL_ONLINE_REVIEW_HOOK = "iacucProtocolOnlineReview";
     public static final String IACUC_PROTOCOL_PERMISSIONS_HOOK = "iacucProtocolPermissions";
