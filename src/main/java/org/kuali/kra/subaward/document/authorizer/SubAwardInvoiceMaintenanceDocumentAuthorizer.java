@@ -36,8 +36,14 @@ public class SubAwardInvoiceMaintenanceDocumentAuthorizer extends MaintenanceDoc
     
     @Override
     public boolean canDisapprove(Document document, Person user) {
-        boolean result = super.canDisapprove(document, user);
-        if (!result) {
+        return super.canApprove(document, user);
+    }
+    
+    @Override
+    public boolean canApprove(Document document, Person user) {
+        boolean result = super.canApprove(document, user);
+        //if we can approve, check to see if we have modify subaward privs and if so, disallow approving(should only be able to disapprove).
+        if (result) {
             MaintenanceDocument maintDoc = (MaintenanceDocument) document;
             try {
                 SubAward subAward = getBusinessObjectService().findBySinglePrimaryKey(SubAward.class, 
@@ -45,13 +51,14 @@ public class SubAwardInvoiceMaintenanceDocumentAuthorizer extends MaintenanceDoc
                 SubAwardDocument subAwardDoc;
                     subAwardDoc = (SubAwardDocument) getDocumentService().getByDocumentHeaderId(subAward.getSubAwardDocument().getDocumentNumber());
     
-                result = getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), new SubAwardTask(TaskName.MODIFY_SUBAWARD, subAwardDoc));
+                result &= !getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), new SubAwardTask(TaskName.MODIFY_SUBAWARD, subAwardDoc));
             } catch (WorkflowException e) {
                 
             }
         }
         return result;
     }
+
     
     /**
      * Get the TaskAuthorizationService.
