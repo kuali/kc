@@ -26,15 +26,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateAuthorizationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 import org.kuali.rice.krad.exception.AuthorizationException;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -307,7 +308,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
      * @return ProtocolCorrespondenceTemplateService
      */
     private ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService() {
-        return (ProtocolCorrespondenceTemplateService) KraServiceLocator.getService("protocolCorrespondenceTemplateService");
+        return (ProtocolCorrespondenceTemplateService) KraServiceLocator.getService("iacucProtocolCorrespondenceTemplateService");
     }
     
     /**
@@ -462,7 +463,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
     }
     
     private ProtocolCorrespondenceTemplateAuthorizationService getProtocolCorrespondenceTemplateAuthorizationService() {
-        return KraServiceLocator.getService(ProtocolCorrespondenceTemplateAuthorizationService.class);
+        return KraServiceLocator.getService(IacucProtocolCorrespondenceTemplateAuthorizationService.class);
     }
 
 }

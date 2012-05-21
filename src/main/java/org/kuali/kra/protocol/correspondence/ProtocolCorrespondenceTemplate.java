@@ -21,7 +21,7 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
-public class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObjectBase implements Comparable<ProtocolCorrespondenceTemplate> {
+public abstract class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObjectBase implements Comparable<ProtocolCorrespondenceTemplate> {
 
     private static final long serialVersionUID = 1L;
 
