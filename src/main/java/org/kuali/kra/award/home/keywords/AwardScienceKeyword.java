@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.home.keywords;
 
+import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.AbstractScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
@@ -23,7 +24,7 @@ import org.kuali.kra.bo.ScienceKeyword;
  * 
  * This class is BO to represent Award Science Keyword object
  */
-public class AwardScienceKeyword extends AbstractScienceKeyword {
+public class AwardScienceKeyword extends AbstractScienceKeyword implements SequenceAssociate<Award> {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -84,4 +85,25 @@ public class AwardScienceKeyword extends AbstractScienceKeyword {
     public void setAward(Award award) {
         this.award = award;
     }
+    
+    public Award getSequenceOwner() {
+        return award;
+    }
+
+    public void setSequenceOwner(Award sequenceOwner) {
+        award = sequenceOwner;
+    }
+
+    public Integer getSequenceNumber() {
+        return getSequenceOwner() != null ? getSequenceOwner().getSequenceNumber() : null;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.Sequenceable#resetPersistenceState()
+     */
+    public void resetPersistenceState() {
+        awardScienceKeywordId = null;
+     }
+
 }
