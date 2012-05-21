@@ -70,7 +70,7 @@
         <property name="shortLabel" value="Form Name" />
         <property name="maxLength" value="100" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="CharsetValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
