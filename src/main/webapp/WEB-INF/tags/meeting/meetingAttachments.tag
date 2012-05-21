@@ -100,28 +100,28 @@
 				</div>					
 				<c:out value="${KualiForm.formKey}" />
 				<div align="center">
-					<c:if test="${!readOnly}">
-							<c:if test="${newCommitteeScheduleAttachments.fileName!=null}">
-							<html:image
-							styleId="downloadCommitteScheduleAttachmentsAttachment.line${status.index}"
-							property="methodToCall.downloadCommitteScheduleAttachmentsAttachment.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif'
-							styleClass="tinybutton"
-							onclick="javascript: openNewWindow('meetingManagement','downloadCommitteScheduleAttachmentsAttachment','${status.index}',0,'true'); return false" />
-							</c:if>
+					<c:if test="${newCommitteeScheduleAttachments.fileName!=null}">
+					<html:image
+					styleId="downloadCommitteScheduleAttachmentsAttachment.line${status.index}"
+					property="methodToCall.downloadCommitteScheduleAttachmentsAttachment.line${status.index}.anchor${currentTabIndex}"
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif'
+					styleClass="tinybutton"
+					onclick="javascript: openNewWindow('meetingManagement','downloadCommitteScheduleAttachmentsAttachment','${status.index}',0,'true'); return false" />
+					</c:if>
+						<c:if test="${!readOnly}">	
 						<html:image
 						styleId="replaceCommitteScheduleAttachmentsAttachment.line${status.index}"
 						onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}') ; return false"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
 						styleClass="tinybutton"
 						property="methodToCall.replaceCommitteScheduleAttachmentsAttachment.line${status.index}.anchor${currentTabIndex};return false" />
-						<c:if test="${newCommitteeScheduleAttachments.fileName!=null}">
-							<html:image
-							property="methodToCall.deleteCommitteScheduleAttachmentsAttachment.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif'
-								styleClass="tinybutton" />
+							<c:if test="${newCommitteeScheduleAttachments.fileName!=null}">
+								<html:image
+								property="methodToCall.deleteCommitteScheduleAttachmentsAttachment.line${status.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif'
+									styleClass="tinybutton" />
+							</c:if>
 						</c:if>
-					</c:if>
 					<c:if test="${readOnly}">&nbsp;</c:if>
 				</div>
 				</td>
