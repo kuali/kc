@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -1243,10 +1244,14 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
     public String removeTimezoneFactor(String applicationXmlText) {
-        SimpleDateFormat timeFormat = new SimpleDateFormat("Z");
-        String offset = timeFormat.format(dateTimeService.getCurrentDate());
-        String offsetString = offset.substring(0, 3) + ":" + offset.substring(3);
-        String filteredApplicationStr = StringUtils.remove(applicationXmlText, offsetString);
+        Calendar cal = dateTimeService.getCurrentCalendar();
+        int dstOffsetMilli = cal.get(Calendar.DST_OFFSET);
+        int zoneOffsetMilli = cal.get(Calendar.ZONE_OFFSET);
+        zoneOffsetMilli = cal.getTimeZone().useDaylightTime()?zoneOffsetMilli+dstOffsetMilli:zoneOffsetMilli;
+        int zoneOffset = zoneOffsetMilli/(1000*60*60);
+        String timezoneId = TimeZone.getTimeZone("GMT"+zoneOffset).getID();
+        String offset = timezoneId.substring(timezoneId.length()-6);
+        String filteredApplicationStr = StringUtils.remove(applicationXmlText, offset);
         return filteredApplicationStr;
     }
 }
