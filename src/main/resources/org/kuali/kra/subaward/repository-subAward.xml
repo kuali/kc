@@ -132,7 +132,7 @@
         <field-descriptor name="document" column="DOCUMENT" jdbc-type="BINARY" />
         <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="createdBy" column="CREATED_BY" jdbc-type="VARCHAR" />
-        <field-descriptor name="createdDate" column="CREATED_DATE" jdbc-type="DATE" />
+        <field-descriptor name="createdDate" column="CREATED_DATE" jdbc-type="TIMESTAMP" />
         <field-descriptor name="mimeType" column="MIME_TYPE" jdbc-type="VARCHAR" />
         <field-descriptor name="invoiceStatus" column="INVOICE_STATUS" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
