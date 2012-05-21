@@ -52,6 +52,7 @@
 		<form-bean name="ReportTrackingLookupForm" type="org.kuali.kra.award.web.struts.action.ReportTrackingLookupForm" />
         <form-bean name="IacucProtocolForm" type="org.kuali.kra.iacuc.IacucProtocolForm" />
         <form-bean name="IacucProtocolOnlineReviewForm" type="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewForm"/> 
+        <form-bean name="IacucProtocolCorrespondenceTemplateForm" type="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -479,6 +480,9 @@
         &iacuc_forwards;
       </action>
       
+      <action path="/iacucProtocolCorrespondenceTemplate" name="IacucProtocolCorrespondenceTemplateForm" input="/WEB-INF/jsp/iacuc/ProtocolCorrespondenceTemplate.jsp" type="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateAction" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolCorrespondenceTemplate.jsp" />
+      </action>
       
       <!--  KRA Committee Mapping -->
       <action path="/committee*" name="CommitteeForm" input="/WEB-INF/jsp/committee/Committee{1}.jsp" type="org.kuali.kra.committee.web.struts.action.Committee{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
