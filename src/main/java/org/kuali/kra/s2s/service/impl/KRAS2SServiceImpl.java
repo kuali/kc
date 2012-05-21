@@ -28,8 +28,10 @@ import gov.grants.apply.webservices.applicantintegrationservices_v1.OpportunityI
 import gov.grants.apply.webservices.applicantintegrationservices_v1.SubmitApplicationResponse;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ import java.util.Map;
 
 import javax.activation.DataHandler;
 import javax.mail.util.ByteArrayDataSource;
+import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -406,8 +409,6 @@ public class KRAS2SServiceImpl implements S2SService {
 		Forms forms = Forms.Factory.newInstance();
 		List<AttachmentData> attList = new ArrayList<AttachmentData>();
 		if (generateAndValidateForms(forms, attList, pdDoc)) {
-			GrantApplicationDocument grantApplicationDocument = getGrantApplicationDocument(
-					pdDoc, forms);
 
 			Map<String, DataHandler> attachments = new HashMap<String, DataHandler>();
 			List<S2sAppAttachments> s2sAppAttachmentList = new ArrayList<S2sAppAttachments>();
@@ -429,14 +430,12 @@ public class KRAS2SServiceImpl implements S2SService {
 			appSubmission.setComments(S2SConstants.GRANTS_GOV_COMMENTS_MESSAGE);
 			SubmitApplicationResponse response = null;
 
-			String applicationXmlText = grantApplicationDocument
-					.xmlText(s2SFormGeneratorService.getXmlOptionsPrefixes());
-	        String applicationXml = s2SUtilService.removeTimezoneFactor(applicationXmlText);
+            String applicationXml = getGrantApplicationDocument(pdDoc, forms);
+
 			response = grantsGovConnectorService.submitApplication(
 					applicationXml, attachments, pdDoc
 							.getDevelopmentProposal().getProposalNumber());
-            appSubmission
-            .setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
+            appSubmission.setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
 			saveSubmissionDetails(pdDoc, appSubmission, response,
 					applicationXml, s2sAppAttachmentList);
 			submissionStatus = true;
@@ -456,36 +455,26 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @return {@link GrantApplicationDocument} populated with forms
 	 * @throws S2SException
 	 */
-	protected GrantApplicationDocument getGrantApplicationDocument(
+	protected String getGrantApplicationDocument(
 			ProposalDevelopmentDocument pdDoc, Forms forms) throws S2SException {
-		GrantApplicationDocument grantApplicationDocument = GrantApplicationDocument.Factory
-				.newInstance();
-		GrantApplication grantApplication = GrantApplication.Factory
-				.newInstance();
+		GrantApplicationDocument grantApplicationDocument = GrantApplicationDocument.Factory.newInstance();
+		GrantApplication grantApplication = GrantApplication.Factory.newInstance();
 		grantApplication.setForms(forms);
-		GrantSubmissionHeader grantSubmissionHeader = GrantSubmissionHeader.Factory
-				.newInstance();
-		grantSubmissionHeader.setActivityTitle(pdDoc.getDevelopmentProposal()
-				.getProgramAnnouncementTitle());
-		grantSubmissionHeader.setOpportunityTitle(pdDoc
-				.getDevelopmentProposal().getProgramAnnouncementTitle());
-		grantSubmissionHeader.setAgencyName(pdDoc.getDevelopmentProposal()
-				.getSponsor().getSponsorName());
+		GrantSubmissionHeader grantSubmissionHeader = GrantSubmissionHeader.Factory.newInstance();
+		grantSubmissionHeader.setActivityTitle(pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle());
+		grantSubmissionHeader.setOpportunityTitle(pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle());
+		grantSubmissionHeader.setAgencyName(pdDoc.getDevelopmentProposal().getSponsor().getSponsorName());
 		if(pdDoc.getDevelopmentProposal().getCfdaNumber()!=null){
 		    grantSubmissionHeader.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
 		}
-		S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal()
-				.getS2sOpportunity();
+		S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
 		s2sOpportunity.refreshNonUpdateableReferences();
 		if (s2sOpportunity.getCompetetionId() != null) {
-			grantSubmissionHeader.setCompetitionID(s2sOpportunity
-					.getCompetetionId());
+			grantSubmissionHeader.setCompetitionID(s2sOpportunity.getCompetetionId());
 		}
-		grantSubmissionHeader.setOpportunityID(s2sOpportunity
-				.getOpportunityId());
+		grantSubmissionHeader.setOpportunityID(s2sOpportunity.getOpportunityId());
 		grantSubmissionHeader.setSchemaVersion(S2SConstants.FORMVERSION_1_0);
-		grantSubmissionHeader.setSubmissionTitle(s2sOpportunity
-				.getProposalNumber());
+		grantSubmissionHeader.setSubmissionTitle(s2sOpportunity.getProposalNumber());
 		
         // set closing date unless null
         Date closingDate = s2sOpportunity.getClosingDate();
@@ -502,17 +491,29 @@ public class KRAS2SServiceImpl implements S2SService {
 		    calOpeningDate.setTime(openingDate);
 	        grantSubmissionHeader.setOpeningDate(calOpeningDate);
 		}
+        XmlCursor cursor = grantApplicationDocument.newCursor();
+        if (cursor.toFirstChild()){
+          cursor.setAttributeText(new QName("http://www.w3.org/2001/XMLSchema-instance","schemaLocation"), s2sOpportunity.getSchemaUrl());
+        }
+        String applicationXml = getXmlFromDocument(grantApplication);
+        String hashVal = GrantApplicationHash.computeGrantFormsHash(applicationXml);
 		
-		String hashVal = GrantApplicationHash
-				.computeGrantFormsHash(grantApplication.xmlText());
 		HashValue hashValue = HashValue.Factory.newInstance();
 		hashValue.setHashAlgorithm(S2SConstants.HASH_ALGORITHM);
 		hashValue.setStringValue(hashVal);
 		grantSubmissionHeader.setHashValue(hashValue);
 		grantApplication.setGrantSubmissionHeader(grantSubmissionHeader);
 		grantApplicationDocument.setGrantApplication(grantApplication);
-		return grantApplicationDocument;
+		
+		return getXmlFromDocument(grantApplicationDocument);
 	}
+
+    private String getXmlFromDocument(XmlObject grantApplicationDocument) {
+        String applicationXmlText = grantApplicationDocument
+                .xmlText(s2SFormGeneratorService.getXmlOptionsPrefixes());
+        String applicationXml = s2SUtilService.removeTimezoneFactor(applicationXmlText);
+        return applicationXml;
+    }
 
 	/**
 	 * 
@@ -547,9 +548,9 @@ public class KRAS2SServiceImpl implements S2SService {
 
 			appSubmission
 					.setGgTrackingId(response.getGrantsGovTrackingNumber());
-			appSubmission.setReceivedDate(new Timestamp(response
-					.getReceivedDateTime().toGregorianCalendar()
-					.getTimeInMillis()));
+//			appSubmission.setReceivedDate(new Timestamp(response
+//					.getReceivedDateTime().toGregorianCalendar()
+//					.getTimeInMillis()));
 			appSubmission.setS2sApplication(s2sApplicationList);
 			appSubmission.setProposalNumber(proposalNumber);
 
