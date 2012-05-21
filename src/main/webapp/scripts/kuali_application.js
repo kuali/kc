@@ -1413,6 +1413,8 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 //		} else {
 		// argvaluelookup is handled in customattributeservice
 		    CustomAttributeService.getLookupReturnsForAjaxCall( lookupClass, dwrReply );
+		    document.getElementById("document.newMaintainableObject.defaultValue").disabled = true;
+			document.getElementById("document.newMaintainableObject.defaultValue").value = "";
 //		}
 	} else {
 	    kualiElements[lookupReturnName].options.length=1;
