@@ -818,7 +818,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	    Map<String, Object> values = new HashMap<String, Object>();
 	    values.put("subAwardCode", this.getSubAwardCode());
 		return (List<SubAwardAmountReleased>) 
-		    KraServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", true);
+		    KraServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", false);
 	}
 
 	/**.

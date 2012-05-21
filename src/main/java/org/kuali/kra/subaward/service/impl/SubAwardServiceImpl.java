@@ -40,6 +40,7 @@ import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.service.SubAwardService;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -248,7 +249,10 @@ public class SubAwardServiceImpl implements SubAwardService {
             for (SubAwardAmountReleased subAwardAmountReleased
             :subAwardAmountReleasedList) {
 
-                if (subAwardAmountReleased.getAmountReleased() != null) {
+                if (subAwardAmountReleased.getAmountReleased() != null
+                        && !(StringUtils.equals(subAwardAmountReleased.getInvoiceStatus(), DocumentStatus.DISAPPROVED.getCode())
+                        || StringUtils.equals(subAwardAmountReleased.getInvoiceStatus(), DocumentStatus.CANCELED.getCode())
+                        || StringUtils.equals(subAwardAmountReleased.getInvoiceStatus(), DocumentStatus.RECALLED.getCode()))) {
                     subAward.setTotalAmountReleased(totalAmountReleased.add(
                     subAwardAmountReleased.getAmountReleased()));
                     totalAmountReleased = subAward.getTotalAmountReleased();

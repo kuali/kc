@@ -29,6 +29,17 @@
 			jq('a.attachmentLink').click(function() { jq(this).siblings('input').click(); });
 		});
 	</script>
+	<style>
+	  tbody.docStatusD {
+	  	text-decoration: line-through;
+	  }
+	  tbody.docStatusX {
+	    display:none;
+	  }
+	  tbody.docStatusL {
+	    display:none;
+	  }
+	</style>
 	<h3>
     		<span class="subhead-left"></span>
     		<span class="subhead-right"></span>
@@ -72,6 +83,7 @@
             </tr>
    			
    			<c:forEach var="subAwardInvoice" items="${KualiForm.document.subAwardList[0].subAwardAmountReleasedList}" varStatus="status">
+   					<tbody class="docStatus${subAwardInvoice.invoiceStatus}">
 		             <tr>
 						<th class="infoline" rowspan="2">
 							<c:out value="${status.index+1}" />
@@ -131,6 +143,7 @@
                        <kul:htmlControlAttribute property="document.subAwardList[0].subAwardAmountReleasedList[${status.index}].comments" readOnly="true" attributeEntry="${subAwardAmountReleasedAttributes.comments}" />
                 	 </td>
            		   </tr>
+				  </tbody>           		   
 	        	</c:forEach>
         </table>
     </div>

@@ -44,7 +44,7 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
         invoice.setSubAwardId(Long.parseLong(requestParameters.get("subAwardId")[0]));
         invoice.setSubAwardCode(requestParameters.get("subAwardCode")[0]);
         invoice.setSequenceNumber(Integer.parseInt(requestParameters.get("sequenceNumber")[0]));
-        invoice.setCreatedDate(getDateTimeService().getCurrentSqlDate());
+        invoice.setCreatedDate(getDateTimeService().getCurrentTimestamp());
         invoice.setCreatedBy(GlobalVariables.getUserSession().getPrincipalId());
     }
     
