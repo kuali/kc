@@ -56,16 +56,15 @@
 	                	<kul:htmlControlAttribute property="newProposalUser.username" 
 	                	                          attributeEntry="${proposalUserAttributes.username}" 
 	                	                          onblur="loadPersonName('newProposalUser.username', 
-	                	                          						'fullname', 'unitNumber', 'unitName');"/>
+	                	                          						'fullnameCell', 'unitNumberCell', 'unitNameCell');"/>
 	                	<kul:lookup boClassName="org.kuali.kra.bo.KcPerson" 
-	                	            fieldConversions="userName:newProposalUser.username" 
-	                	            lookupParameters="lookup.ownedByUnitNumber:organizationIdentifier"
+	                	            fieldConversions="userName:newProposalUser.username,fullName:newProposalUser.fullname,unit.unitName:newProposalUser.unitName,unit.unitNumber:newProposalUser.unitNumber"
 	                	            anchor="${tabKey}" />                        
 					</td>
 					
-					<td id="fullname" align="left" valign="middle">&nbsp;</td>
-					<td id="unitNumber">&nbsp;</td>
-					<td id="unitName">&nbsp;</td>
+					<td id="fullnameCell" align="left" valign="middle">&nbsp; ${KualiForm.newProposalUser.fullname}</td>
+					<td id="unitNumberCell">&nbsp; ${KualiForm.newProposalUser.unitNumber}</td>
+					<td id="unitNameCell">&nbsp; ${KualiForm.newProposalUser.unitName}</td>
 					
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="newProposalUser.roleName" 
