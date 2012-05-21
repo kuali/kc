@@ -325,7 +325,7 @@ public abstract class NotesAttachmentsHelper {
      * Adds the "new" ProtocolAttachmentProtocol to the Protocol Document.  Before
      * adding this method executes validation.  If the validation fails the attachment is not added.
      */
-    protected void addNewProtocolAttachmentProtocol() {
+    public void addNewProtocolAttachmentProtocol() {
         this.refreshAttachmentReferences(Collections.singletonList(this.getNewAttachmentProtocol()));
         this.syncNewFiles(Collections.singletonList(this.getNewAttachmentProtocol()));
         

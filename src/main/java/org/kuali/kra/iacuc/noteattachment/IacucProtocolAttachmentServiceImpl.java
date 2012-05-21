@@ -66,14 +66,12 @@ public class IacucProtocolAttachmentServiceImpl extends ProtocolAttachmentServic
 
     @Override
     public Class<? extends ProtocolAttachmentProtocol> getProtocolAttachmentProtocolClassHook() {
-        // TODO Auto-generated method stub
-        return null;
+        return IacucProtocolAttachmentProtocol.class;
     }
 
     @Override
     public Class<? extends ProtocolAttachmentPersonnel> getProtocolAttachmentPersonnelClassHook() {
-        // TODO Auto-generated method stub
-        return null;
+        return IacucProtocolAttachmentPersonnel.class;
     }
 
     @Override

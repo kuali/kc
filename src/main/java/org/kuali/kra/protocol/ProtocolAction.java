@@ -170,20 +170,19 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return actionTypeCode;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * This method gets called upon navigation to Notes and attachments tab.
-//     * @param mapping the Action Mapping
-//     * @param form the Action Form
-//     * @param request the Http Request
-//     * @param response Http Response
-//     * @return the Action Forward
-//     */
-//    public ActionForward noteAndAttachment(ActionMapping mapping, ActionForm form
-//            , HttpServletRequest request, HttpServletResponse response) {        
-//        ((ProtocolForm) form).getNotesAttachmentsHelper().prepareView();
-//        return mapping.findForward("noteAndAttachment");
-//    }
+    /**
+     * This method gets called upon navigation to Notes and attachments tab.
+     * @param mapping the Action Mapping
+     * @param form the Action Form
+     * @param request the Http Request
+     * @param response Http Response
+     * @return the Action Forward
+     */
+    public ActionForward noteAndAttachment(ActionMapping mapping, ActionForm form
+            , HttpServletRequest request, HttpServletResponse response) {        
+        ((ProtocolForm) form).getNotesAttachmentsHelper().prepareView();
+        return mapping.findForward(getNoteAndAttachmentForwardNameHook());
+    }
     
     /**
      * This method gets called upon navigation to Special Review tab.

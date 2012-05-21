@@ -44,7 +44,9 @@
         unitAttributes="${unitAttributes}"
         protocolAttachmentPersonnelAttributes="${protocolAttachmentPersonnelAttributes}"
         attachmentFileAttributes="${attachmentFileAttributes}"
-        optionListClass="org.kuali.kra.iacuc.personnel.ProtocolPersonRoleValuesFinder"/>
+        optionListClass="org.kuali.kra.iacuc.personnel.ProtocolPersonRoleValuesFinder"
+        protocolAttachmentTypeByGroupValuesFinder="org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentTypeByGroupValuesFinder"
+        />
     
     <kul:documentControls 
         transactionalDocument="false"

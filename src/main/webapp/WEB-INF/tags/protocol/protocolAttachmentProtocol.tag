@@ -15,12 +15,16 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="protocolAttachmentProtocolAttributes" value="${DataDictionary.ProtocolAttachmentProtocol.attributes}" />
-<c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
-<c:set var="protocolAttachmentFilterAttributes" value="${DataDictionary.ProtocolAttachmentFilter.attributes}" />
+<%@ attribute name="protocolAttachmentProtocolAttributes" required="true" type="java.util.Map" %>
+<%@ attribute name="attachmentFileAttributes" required="true" type="java.util.Map" %>
+<%@ attribute name="protocolAttachmentFilterAttributes" required="true" type="java.util.Map" %>
+<%@ attribute name="action" required="true" %>
+<%@ attribute name="protocolAttachmentTypeByGroupValuesFinder" required="true" %>
+
+
+
 <c:set var="notesAttachmentsHelper" value="${KualiForm.notesAttachmentsHelper}" />
 <c:set var="modify" value="${KualiForm.notesAttachmentsHelper.modifyAttachments}" />
-<c:set var="action" value="protocolNoteAndAttachment" />
 <c:set var="attachmentProtocols" value="${KualiForm.document.protocolList[0].attachmentProtocols}"/>
 <c:set var="filteredAttachmentProtocols" value="${KualiForm.document.protocolList[0].filteredAttachmentProtocols}"/>
 
@@ -29,7 +33,7 @@
    		<kra:permission value="${modify}">
 	   		<h3>
 	   			<span class="subhead-left">Add Protocol Attachment</span>
-	   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" altText="help"/></span>
+	   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol" altText="help"/></span>
 	       </h3>
 	       <table cellpadding="4" cellspacing="0" summary="">
 	         	<tr>
@@ -45,7 +49,7 @@
 	               			<%-- attachment type finder logic start--%>
 								<jsp:useBean id="typeParamsType" class="java.util.HashMap"/>
 								<c:set target="${typeParamsType}" property="groupCode" value="${notesAttachmentsHelper.newAttachmentProtocol.groupCode}" />
-								<c:set var="options" value="${krafn:getOptionList('org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinder', typeParamsType)}" />
+								<c:set var="options" value="${krafn:getOptionList(protocolAttachmentTypeByGroupValuesFinder, typeParamsType)}" />
 							<%-- attachment type finder logic end --%>
 							
 	               			<%-- attachment type error handling logic start--%>
@@ -196,7 +200,7 @@
 		<br/>
         <h3>
 	        <span class="subhead-left">Attached Items</span>
-	        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" altText="help"/></span>        
+	        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol" altText="help"/></span>        
         </h3>
         
             <table cellpadding="4" cellspacing="0" summary="">
