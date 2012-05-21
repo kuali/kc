@@ -29,7 +29,7 @@ public class PersonBiosketch extends KraPersistableBusinessObjectBase implements
     private String fileName;
     private String contentType;
     private byte[] attachmentContent;
-    private transient FormFile attachmentFile;
+    private FormFile attachmentFile;
     
     public Long getPersonBiosketchId() {
         return personBiosketchId;
