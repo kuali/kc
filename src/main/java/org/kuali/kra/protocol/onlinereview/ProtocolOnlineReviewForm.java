@@ -216,8 +216,8 @@ public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase i
         return getExtraActionsButtons();
     }
     
-    public boolean getIrbAdminFieldsEditable() {
-        return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(), getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_ONLINE_REVIEWS);
+    public boolean getAdminFieldsEditable() {
+        return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(), getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_IACUC_ONLINE_REVIEWS);
     }
     
     public Set<String> getCurrentRouteNodes() {

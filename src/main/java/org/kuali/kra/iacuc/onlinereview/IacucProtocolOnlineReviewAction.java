@@ -54,6 +54,7 @@ import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewAttachme
 import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -393,5 +394,31 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         
         return RESPONSE_ALREADY_HANDLED;
     }
+
+    public ActionForward saveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
+                (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE),
+                "saveOnlineReview");
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
+        ReviewCommentsBean reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
+        ReviewAttachmentsBean reviewAttachmentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewAttachmentsBeanFromHelperMap(onlineReviewDocumentNumber);
+        if ( !this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc, reviewCommentsBean.getReviewComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+            //nothing to do, we failed validation return them to the screen.
+        } else {
+            ProtocolReviewer reviewer = prDoc.getProtocolOnlineReview().getProtocolReviewer();
+            getBusinessObjectService().save(reviewer);
+            getReviewCommentsService().saveReviewComments(reviewCommentsBean.getReviewComments(), reviewCommentsBean.getDeletedReviewComments());
+            getReviewCommentsService().saveReviewAttachments(reviewAttachmentsBean.getReviewAttachments(), reviewAttachmentsBean.getDeletedReviewAttachments());           
+            documentService.saveDocument(prDoc);
+            recordOnlineReviewActionSuccess("saved", prDoc);
+            protocolForm.getOnlineReviewsActionHelper().init(true);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        
+    }
+
 
 }
