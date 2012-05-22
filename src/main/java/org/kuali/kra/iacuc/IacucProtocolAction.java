@@ -21,6 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -133,6 +137,14 @@ public class IacucProtocolAction extends ProtocolAction {
         kraAuthService.addRole(userId, RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
         kraAuthService.addRole(userId, RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);         
     }
+
+    @Override
+    protected void sendNotification(ProtocolForm protocolForm) {
+      IacucProtocol protocol = (IacucProtocol)protocolForm.getProtocolDocument().getProtocol();
+      IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer(protocol);
+      IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.IACUC_PROTOCOL_CREATED, "Created", renderer);
+      KraServiceLocator.getService(KcNotificationService.class).sendNotification(context);
+  }
 
     @Override
     protected String getModifyProtocolTaskNameHook() {
