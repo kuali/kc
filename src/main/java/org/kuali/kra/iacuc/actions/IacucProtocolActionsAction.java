@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,7 @@ import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtEvent;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtService;
 import org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteService;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionEvent;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
@@ -48,6 +50,8 @@ import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawService;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -58,7 +62,9 @@ import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -97,9 +103,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private static final String SUBMISSION_ID = "submissionId";
     private static final String CORRESPONDENCE = "correspondence";
     
-  
-    
-    
 
     public ActionForward assignCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -117,9 +120,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
 
-    
-  
-    
 // TODO *********commented the code below during IACUC refactoring*********     
 //    private static final Map<String, String> PRINTTAG_MAP = new HashMap<String, String>() {
 //        {
@@ -128,47 +128,48 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //            put("history", "PROTOCOL_PROTOCOL_HISTORY_REPORT");
 //            put("comments", "PROTOCOL_REVIEW_COMMENTS_REPORT");
 //    }};
-//
-//    // map to decide the followup action page to open.  "value" part is the action tab "title"
-//    private static Map<String, String> motionTypeMap = new HashMap<String, String>() {
-//        {
-//            put("1", "Approve Action");
-//            put("2", "Disapprove");
-//            put("3", "Return for Specific Minor Revisions");
-//            put("4", "Return for Substantive Revisions Required");
-//        }
-//    };
-//
-//    private static final List GENERIC_TYPE_PONDENCE;
-//    static {
-//        final List correspondenceTypes = new ArrayList();
-//        correspondenceTypes.add(ProtocolCorrespondenceType.ABANDON_NOTICE);
-//        correspondenceTypes.add(ProtocolCorrespondenceType.APPROVAL_LETTER);
-//        correspondenceTypes.add(ProtocolCorrespondenceType.CLOSURE_NOTICE);
-//        correspondenceTypes.add(ProtocolCorrespondenceType.EXPEDITED_APPROVAL_LETTER);
-//        correspondenceTypes.add(ProtocolCorrespondenceType.NOTICE_OF_DEFERRAL);
-//        correspondenceTypes.add(ProtocolCorrespondenceType.SMR_LETTER);
-//        correspondenceTypes.add(ProtocolCorrespondenceType.SRR_LETTER);
-//        correspondenceTypes.add(ProtocolCorrespondenceType.SUSPENSION_NOTICE);
-//        correspondenceTypes.add(ProtocolCorrespondenceType.TERMINATION_NOTICE);
-//        GENERIC_TYPE_PONDENCE = correspondenceTypes;
-//    }
-//
-//    private static final Map<String, String> CORR_TYPE_TO_ACTION_TYPE_MAP;
-//
-//    static {
-//        CORR_TYPE_TO_ACTION_TYPE_MAP = new HashMap<String, String>();
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.ABANDON_NOTICE, ProtocolActionType.ABANDON_PROTOCOL);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.APPROVAL_LETTER,ProtocolActionType.APPROVED);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.CLOSURE_NOTICE,ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.EXPEDITED_APPROVAL_LETTER,ProtocolActionType.EXPEDITE_APPROVAL);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.NOTICE_OF_DEFERRAL,ProtocolActionType.DEFERRED);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SMR_LETTER,ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SRR_LETTER,ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SUSPENSION_NOTICE,ProtocolActionType.SUSPENDED);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.TERMINATION_NOTICE,ProtocolActionType.TERMINATED);
-//    }
-//
+
+    // map to decide the followup action page to open.  "value" part is the action tab "title"
+    private static Map<String, String> motionTypeMap = new HashMap<String, String>() {
+        {
+            put("1", "Approve Action");
+            put("2", "Disapprove");
+            put("3", "Return for Specific Minor Revisions");
+            put("4", "Return for Substantive Revisions Required");
+        }
+    };
+
+    private static final List GENERIC_TYPE_PONDENCE;
+    static {
+        final List correspondenceTypes = new ArrayList();
+        correspondenceTypes.add(ProtocolCorrespondenceType.ABANDON_NOTICE);
+        correspondenceTypes.add(ProtocolCorrespondenceType.APPROVAL_LETTER);
+        correspondenceTypes.add(ProtocolCorrespondenceType.CLOSURE_NOTICE);
+        correspondenceTypes.add(ProtocolCorrespondenceType.EXPEDITED_APPROVAL_LETTER);
+        correspondenceTypes.add(ProtocolCorrespondenceType.NOTICE_OF_DEFERRAL);
+        correspondenceTypes.add(ProtocolCorrespondenceType.SMR_LETTER);
+        correspondenceTypes.add(ProtocolCorrespondenceType.SRR_LETTER);
+        correspondenceTypes.add(ProtocolCorrespondenceType.SUSPENSION_NOTICE);
+        correspondenceTypes.add(ProtocolCorrespondenceType.TERMINATION_NOTICE);
+        GENERIC_TYPE_PONDENCE = correspondenceTypes;
+    }
+
+    private static final Map<String, String> CORR_TYPE_TO_ACTION_TYPE_MAP;
+
+    static {
+        CORR_TYPE_TO_ACTION_TYPE_MAP = new HashMap<String, String>();
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.ABANDON_NOTICE, IacucProtocolActionType.IACUC_ABANDON);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.APPROVAL_LETTER, IacucProtocolActionType.IACUC_APPROVED);
+//??        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.CLOSURE_NOTICE,ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED);
+//??        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.EXPEDITED_APPROVAL_LETTER,ProtocolActionType.EXPEDITE_APPROVAL);
+//??        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.NOTICE_OF_DEFERRAL,ProtocolActionType.DEFERRED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SMR_LETTER, IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SRR_LETTER, IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SUSPENSION_NOTICE, IacucProtocolActionType.SUSPENDED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.TERMINATION_NOTICE, IacucProtocolActionType.TERMINATED);
+    }
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /** {@inheritDoc} */
 //    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 //            throws Exception {
@@ -247,25 +248,25 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //            HttpServletResponse response) throws Exception {
 //        return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, false);
 //    }
-//
-//    /**
-//     * Refreshes the page. We only need to redraw the page. This method is used when JavaScript is disabled. During a review
-//     * submission action, the user will have to refresh the page. For example, after a committee is selected, the page needs to be
-//     * refreshed so that the available scheduled dates for that committee can be displayed in the drop-down menu for the scheduled
-//     * dates. Please see ProtocolSubmitAction.prepareView() for how the Submit for Review works on a refresh.
-//     * 
-//     * @param mapping the mapping associated with this action.
-//     * @param form the Protocol form.
-//     * @param request the HTTP request
-//     * @param response the HTTP response
-//     * @return the name of the HTML page to display
-//     * @throws Exception doesn't ever really happen
-//     */
-//    public ActionForward refreshPage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
+
+    /**
+     * Refreshes the page. We only need to redraw the page. This method is used when JavaScript is disabled. During a review
+     * submission action, the user will have to refresh the page. For example, after a committee is selected, the page needs to be
+     * refreshed so that the available scheduled dates for that committee can be displayed in the drop-down menu for the scheduled
+     * dates. Please see ProtocolSubmitAction.prepareView() for how the Submit for Review works on a refresh.
+     * 
+     * @param mapping the mapping associated with this action.
+     * @param form the Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the name of the HTML page to display
+     * @throws Exception doesn't ever really happen
+     */
+    public ActionForward refreshPage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
     
     /**
@@ -291,15 +292,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 AuditActionHelper auditActionHelper = new AuditActionHelper();
                 if (auditActionHelper.auditUnconditionally(protocolDocument)) {
                     
-// TODO *********commented the code below during IACUC refactoring********* 
-//                    if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getNewCommitteeId(), submitAction.getNewScheduleId())) {
-//                        forward = confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response), CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
-//                    } else {
+                    if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getNewCommitteeId(), submitAction.getNewScheduleId())) {
+                        forward = confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response), CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
+                    } else {
                         forward = submitForReviewAndRedirect(mapping, form, request, response);
-                        
-// TODO *********commented the code below during IACUC refactoring*********                         
-//                    }
-                        
+                    }
                 } else {
                     GlobalVariables.getMessageMap().clearErrorMessages();
                     GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
@@ -344,51 +341,67 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
 
-//
-//    private int activeSubmissonCount(List<ProtocolSubmission> submissions) {
-//        int count = 0;
-//        for (ProtocolSubmission submission : submissions) {
-//            if (submission.getProtocol().isActive()) {
-//                count++;
+ // TODO *********commented the code below during IACUC refactoring*********   
+    private boolean isCommitteeMeetingAssignedMaxProtocols(String committeeId, String scheduleId) {
+        boolean isMax = false;
+        
+//        Committee committee = getCommitteeService().getCommitteeById(committeeId);
+//        if (committee != null) {
+//            CommitteeSchedule schedule = getCommitteeService().getCommitteeSchedule(committee, scheduleId);
+//            if (schedule != null) {
+//                int currentSubmissionCount = (schedule.getProtocolSubmissions() == null) ? 0 : activeSubmissionCount(schedule.getProtocolSubmissions());
+//                int maxSubmissionCount = schedule.getMaxProtocols();
+//                isMax = currentSubmissionCount >= maxSubmissionCount;
 //            }
 //        }
-//        return count;
-//    }
-//    /*
-//     * Builds the confirmation question to verify if the user wants to submit the protocol for review.
-//     */
-//    private StrutsConfirmation buildSubmitForReviewConfirmationQuestion(ActionMapping mapping, ActionForm form,
-//            HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SUBMIT_FOR_REVIEW_KEY,
-//                KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW);
-//    }
-//
-//    /**
-//     * Method dispatched from <code>{@link KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code> for
-//     * when a "yes" condition is met.
-//     * 
-//     * @param mapping The mapping associated with this action.
-//     * @param form The Protocol form.
-//     * @param request the HTTP request
-//     * @param response the HTTP response
-//     * @return the destination
-//     * @throws Exception
-//     * @see KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
-//     */
-//    public ActionForward confirmSubmitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//        throws Exception {
-//        
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        
-//        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-//        if (CONFIRM_SUBMIT_FOR_REVIEW_KEY.equals(question)) {
-//            forward = submitForReviewAndRedirect(mapping, form, request, response);
-//        }
-//
-//        return forward;
-//    }
-//    
-    
+        
+        return isMax;
+    }
+
+    private int activeSubmissonCount(List<IacucProtocolSubmission> submissions) {
+        int count = 0;
+        for (IacucProtocolSubmission submission : submissions) {
+            if (submission.getProtocol().isActive()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /*
+     * Builds the confirmation question to verify if the user wants to submit the protocol for review.
+     */
+    private StrutsConfirmation buildSubmitForReviewConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SUBMIT_FOR_REVIEW_KEY,
+                KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW);
+    }
+
+    /**
+     * Method dispatched from <code>{@link KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code> for
+     * when a "yes" condition is met.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the destination
+     * @throws Exception
+     * @see KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
+     */
+    public ActionForward confirmSubmitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_SUBMIT_FOR_REVIEW_KEY.equals(question)) {
+            forward = submitForReviewAndRedirect(mapping, form, request, response);
+        }
+
+        return forward;
+    }
+
     
     /**
      * Submits the Protocol for review and calculates the redirect back to the portal page, adding in the proper parameters for displaying a message to the
@@ -416,11 +429,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     super.route(mapping, protocolForm, request, response);
     
+    IacucProtocolNotificationRenderer submitRenderer = new IacucProtocolNotificationRenderer(protocol);
+    IacucProtocolNotificationContext submitContext = new IacucProtocolNotificationContext(protocol, null, 
+                                                IacucProtocolActionType.SUBMITTED_TO_IACUC, "Submit", submitRenderer);
+    getNotificationService().sendNotification(submitContext);
 // TODO *********commented the code below during IACUC refactoring********* 
-//    IACUCNotificationRenderer submitRenderer = new IACUCNotificationRenderer(protocol);
-//    IACUCNotificationContext submitContext = new IACUCNotificationContext(protocol, null, 
-//                                                ProtocolActionType.SUBMIT_TO_IRB_NOTIFICATION, "Submit", submitRenderer);
-//    getNotificationService().sendNotification(submitContext);
 //    AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocolForm.getProtocolDocument().getProtocol(), "added");
 //    List<ProtocolNotificationRequestBean> addReviewerNotificationBeans = getNotificationRequestBeans(submitAction.getReviewers(),ProtocolReviewerBean.CREATE);
 //    if (!CollectionUtils.isEmpty(addReviewerNotificationBeans)) {
@@ -436,8 +449,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     return routeProtocolToHoldingPage(mapping, protocolForm);
 }
     
-    
-    
         
     private ActionForward routeProtocolToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm) {
         String routeHeaderId = protocolForm.getProtocolDocument().getDocumentNumber();
@@ -447,8 +458,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
     }
-
-  
     
     
     /**
@@ -521,7 +530,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 //
 //    /**
-//     * Notify the IRB office.
+//     * Notify the IACUC office.
 //     * 
 //     * @param mapping
 //     * @param form
@@ -530,25 +539,25 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //     * @return
 //     * @throws Exception
 //     */
-//    public ActionForward notifyIrbProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+//    public ActionForward notifyIacucProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 //            HttpServletResponse response) throws Exception {
 //
 //        ProtocolForm protocolForm = (ProtocolForm) form;
-//        protocolForm.getActionHelper().getProtocolNotifyIrbBean().setAnswerHeaders(getAnswerHeaders(form, ProtocolActionType.NOTIFY_IRB));
-//        if (isMandatoryQuestionnaireComplete(protocolForm.getActionHelper().getProtocolNotifyIrbBean(), "actionHelper.protocolNotifyIrbBean.datavalidation")) {
-//            getProtocolNotifyIrbService().submitIrbNotification(protocolForm.getProtocolDocument().getProtocol(),
-//                    protocolForm.getActionHelper().getProtocolNotifyIrbBean());
+//        protocolForm.getActionHelper().getProtocolNotifyIacucBean().setAnswerHeaders(getAnswerHeaders(form, ProtocolActionType.NOTIFY_IACUC));
+//        if (isMandatoryQuestionnaireComplete(protocolForm.getActionHelper().getProtocolNotifyIacucBean(), "actionHelper.protocolNotifyIacucBean.datavalidation")) {
+//            getProtocolNotifyIacucService().submitIacucNotification(protocolForm.getProtocolDocument().getProtocol(),
+//                    protocolForm.getActionHelper().getProtocolNotifyIacucBean());
 //            protocolForm.getQuestionnaireHelper().setAnswerHeaders(new ArrayList<AnswerHeader>());
-//            LOG.info("notifyIrbProtocol " + protocolForm.getProtocolDocument().getDocumentNumber());
+//            LOG.info("notifyIacucProtocol " + protocolForm.getProtocolDocument().getDocumentNumber());
 //
-//            recordProtocolActionSuccess("Notify IRB");
-//            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.NOTIFY_IRB, "Notify IRB"));
+//            recordProtocolActionSuccess("Notify IACUC");
+//            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.NOTIFY_IACUC, "Notify IACUC"));
 //        }
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
 //
 //    /**
-//     * Notify the IRB committee.
+//     * Notify the IACUC committee.
 //     * 
 //     * @param mapping
 //     * @param form
@@ -582,13 +591,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //     */
 //    private List<AnswerHeader> getAnswerHeaders(ActionForm form, String actionTypeCode) {
 //        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
+//        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IACUC_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
 //        return getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
 //
 //    }
 //    
 //    /*
-//     * check if the mandatory submission questionnaire is complete before submit a request/notify irb action
+//     * check if the mandatory submission questionnaire is complete before submit a request/notify IACUC action
 //     */
 //    private boolean isMandatoryQuestionnaireComplete(ProtocolSubmissionBeanBase submissionBean, String errorKey) {
 //        boolean valid = true;
@@ -1376,8 +1385,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //                    org.kuali.kra.irb.actions.ProtocolAction lastAction = protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction();
 //                    ProtocolActionType lastActionType = lastAction.getProtocolActionType();
 //                    String description = lastActionType.getDescription();
-//                    IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-//                    IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.ASSIGN_TO_AGENDA, description, renderer);
+//                    IACUCNotificationRenderer renderer = new IACUCNotificationRenderer(protocol);
+//                    IACUCNotificationContext context = new IACUCNotificationContext(protocol, ProtocolActionType.ASSIGN_TO_AGENDA, description, renderer);
 //                    
 //                    if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
 //                        protocolForm.getNotificationHelper().initializeDefaultValues(context);
@@ -1407,7 +1416,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //                KraServiceLocator.getService(ProtocolReviewNotRequiredService.class).reviewNotRequired(document, actionBean);
 //            
 //                recordProtocolActionSuccess("Review Not Required");
-//                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(document.getProtocol(), ProtocolActionType.IRB_REVIEW_NOT_REQUIRED, "Review Not Required");
+//                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(document.getProtocol(), ProtocolActionType.IACUC_REVIEW_NOT_REQUIRED, "Review Not Required");
 //                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
 //                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
 //                    return mapping.findForward(CORRESPONDENCE);
@@ -1569,7 +1578,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //                                ProtocolReviewerBean.REMOVE);
 //                        if (!CollectionUtils.isEmpty(addReviewerNotificationBeans)) {
 //                            ProtocolNotificationRequestBean notificationBean = addReviewerNotificationBeans.get(0);
-//                            IRBNotificationContext context = new IRBNotificationContext(notificationBean.getProtocol(),
+//                            IACUCNotificationContext context = new IACUCNotificationContext(notificationBean.getProtocol(),
 //                                notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),
 //                                notificationBean.getDescription(), renderer);
 //                            if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
@@ -1585,7 +1594,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //                                renderer = new AssignReviewerNotificationRenderer(protocolForm.getProtocolDocument().getProtocol(),
 //                                    "removed");
 //                                ProtocolNotificationRequestBean notificationBean = removeReviewerNotificationBeans.get(0);
-//                                IRBNotificationContext context = new IRBNotificationContext(notificationBean.getProtocol(),
+//                                IACUCNotificationContext context = new IACUCNotificationContext(notificationBean.getProtocol(),
 //                                    notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),
 //                                    notificationBean.getDescription(), renderer);
 //                                if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
@@ -1655,7 +1664,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //    }
 //    
 //    /**
-//     * Perform Full Approve Action - maps to IRBReview RouteNode.
+//     * Perform Full Approve Action - maps to IACUCReview RouteNode.
 //     * @param mapping
 //     * @param form
 //     * @param request
@@ -1699,8 +1708,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 ////                    request.removeAttribute(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY);
 //                    return mapping.findForward(CORRESPONDENCE);
 //                } else {
-//                    IRBNotificationRenderer renderer = new IRBNotificationRenderer(document.getProtocol());
-//                    IRBNotificationContext context = new IRBNotificationContext(document.getProtocol(), ProtocolActionType.APPROVED, "Approved", renderer);
+//                    IACUCNotificationRenderer renderer = new IACUCNotificationRenderer(document.getProtocol());
+//                    IACUCNotificationContext context = new IACUCNotificationContext(document.getProtocol(), ProtocolActionType.APPROVED, "Approved", renderer);
 //                    getNotificationService().sendNotification(context);
 //                    forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
 //                }
@@ -2835,11 +2844,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //    private ProtocolAttachmentService getProtocolAttachmentService() {
 //        return KraServiceLocator.getService(ProtocolAttachmentService.class);
 //    }
-//    
-//    private TaskAuthorizationService getTaskAuthorizationService() {
-//        return KraServiceLocator.getService(TaskAuthorizationService.class);
-//    }
-//    
+    
+    private TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+    
 //    private ProtocolGenericActionService getProtocolGenericActionService() {
 //        return KraServiceLocator.getService(ProtocolGenericActionService.class);
 //    }
@@ -2904,11 +2913,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //    private ProtocolApproveService getProtocolApproveService() {
 //        return KraServiceLocator.getService(ProtocolApproveService.class);
 //    }
-//    
-//    private CommitteeService getCommitteeService() {
-//        return KraServiceLocator.getService(CommitteeService.class);
-//    }
-//    
+    
+    private CommonCommitteeService getCommitteeService() {
+        return KraServiceLocator.getService(CommonCommitteeService.class);
+    }
+    
 //    private CommitteeDecisionService getCommitteeDecisionService() {
 //        return KraServiceLocator.getService("protocolCommitteeDecisionService");
 //    }

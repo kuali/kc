@@ -15,9 +15,63 @@
  */
 package org.kuali.kra.iacuc.notification;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
+import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRoleQualifierServiceImpl;
 
 public class IacucProtocolNotificationRoleQualifierServiceImpl extends ProtocolNotificationRoleQualifierServiceImpl implements
         IacucProtocolNotificationRoleQualifierService {
 
+    private Protocol protocol;
+    private ProtocolOnlineReview protocolOnlineReview;
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService#getRoleQualifierValue(
+     *      org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier)
+     */
+    @Override
+    public String getRoleQualifierValue(NotificationModuleRoleQualifier qualifier) {
+        String roleQualifierValue = null;
+        
+        String qName = qualifier.getQualifier();
+        
+        if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.UNIT_NUMBER) 
+                || StringUtils.equalsIgnoreCase(qName, "protocolLeadUnitNumber")) {
+            roleQualifierValue = getProtocol().getLeadUnitNumber();
+        } else if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.PROTOCOL)) {
+            roleQualifierValue = getProtocol().getProtocolNumber();
+        } else if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.SUBUNITS)) {
+            roleQualifierValue = "Y";
+        } else if (StringUtils.equalsIgnoreCase(qName, "submissionId")) {
+            if (getProtocol().getProtocolSubmission() != null) {
+                roleQualifierValue = getProtocol().getProtocolSubmission().getSubmissionId().toString();
+            }
+        } else if (StringUtils.equals(qName, "protocolOnlineReviewId")) {
+            if (protocolOnlineReview != null) {
+                roleQualifierValue = protocolOnlineReview.getProtocolOnlineReviewId().toString();
+            }
+        }
+        
+        return roleQualifierValue;
+    }
+
+    public Protocol getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
+    }
+
+    public ProtocolOnlineReview getProtocolOnlineReview() {
+        return protocolOnlineReview;
+    }
+
+    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
+        this.protocolOnlineReview = protocolOnlineReview;
+    }
 }

@@ -16,13 +16,11 @@
 package org.kuali.kra.iacuc.notification;
 
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContext;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRoleQualifierService;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 
 
 /**
@@ -34,11 +32,14 @@ public class IacucProtocolNotificationContext extends ProtocolNotificationContex
     private static final long serialVersionUID = 7517888688386565168L;
 
     public IacucProtocolNotificationContext(IacucProtocol protocol, IacucProtocolOnlineReview protocolOnlineReview, String actionTypeCode, String contextName, IacucProtocolNotificationRenderer renderer) {
-        super(protocol, protocolOnlineReview, actionTypeCode, contextName, renderer);
+        this(protocol, actionTypeCode, contextName, renderer);
+        ((ProtocolNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocolOnlineReview(protocolOnlineReview);
     }
     
     public IacucProtocolNotificationContext(IacucProtocol protocol, String actionTypeCode, String contextName, IacucProtocolNotificationRenderer renderer) {
         super(protocol, actionTypeCode, contextName, renderer);
+        setNotificationRoleQualifierService(KraServiceLocator.getService(IacucProtocolNotificationRoleQualifierService.class));
+        ((IacucProtocolNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocol(protocol);
     }
 
     /**
@@ -47,11 +48,6 @@ public class IacucProtocolNotificationContext extends ProtocolNotificationContex
      */
     public String getModuleCode() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
-    }
-
-    @Override
-    protected Class<? extends ProtocolNotificationRoleQualifierService> getProtocolNotificationRoleQualifierServiceClassHook() {
-        return IacucProtocolNotificationRoleQualifierService.class;
     }
 
 }

@@ -237,7 +237,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         submitAction.getReviewers().add(reviewer);
         // end testing data
 //TODO   
-        protocolAssignReviewersService.assignReviewers(submission, submitAction.getReviewers());
+//TODO        protocolAssignReviewersService.assignReviewers(submission, submitAction.getReviewers());
         
         IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, submission, IacucProtocolActionType.SUBMITTED_TO_IACUC);
         protocolAction.setComments(SUBMITTED_TO_IACUC);
