@@ -13,16 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.actions.abandon;
+package org.kuali.kra.irb.actions.abandon;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
-import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
+import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
@@ -31,12 +35,12 @@ import org.kuali.rice.krad.service.DocumentService;
  * 
  * This class to implement the detail of abandon protocol
  */
-public abstract class ProtocolAbandonServiceImpl implements ProtocolAbandonService {
+public class ProtocolAbandonServiceImpl implements ProtocolAbandonService {
 
     private static final Log LOG = LogFactory.getLog(ProtocolAbandonServiceImpl.class);
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
-    //private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
+    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     private KcNotificationService kcNotificationService;
 
     /**
@@ -45,35 +49,31 @@ public abstract class ProtocolAbandonServiceImpl implements ProtocolAbandonServi
      */
     public void abandonProtocol(Protocol protocol, ProtocolGenericActionBean protocolAbandonBean) throws WorkflowException {
 
-        ProtocolAction protocolAction = getNewActionHook(protocol); 
+        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.ABANDON_PROTOCOL);
         protocolAction.setComments(protocolAbandonBean.getComments());
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         protocol.setActive(false);
         documentService.cancelDocument(protocol.getProtocolDocument(), null);
         try {
-            // cannot do now because of missing notifications
 //            IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
 //            IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.ABANDON_PROTOCOL, "Abandon", renderer);
 //            if (!isPromptUserForNotification) {
 //                kcNotificationService.sendNotification(context);
 //            }
-           // createCorrespondenceAndAttach(protocol, ProtocolActionType.ABANDON_PROTOCOL);
+            createCorrespondenceAndAttach(protocol, ProtocolActionType.ABANDON_PROTOCOL);
         } catch (Exception e) {
             LOG.info("Abandon Protocol Notification exception " + e.getStackTrace());
         }
         
     }
 
-    public abstract ProtocolAction getNewActionHook(Protocol protocol);
-    
-    // cannot do now because of missing correspondences
-//    private void createCorrespondenceAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
-//        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
-//        correspondence.setPrintableBusinessObject(protocol);
-//        correspondence.setProtocol(protocol);
-//        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
-//    }
+    private void createCorrespondenceAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
+        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
+        correspondence.setPrintableBusinessObject(protocol);
+        correspondence.setProtocol(protocol);
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
+    }
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
@@ -83,10 +83,10 @@ public abstract class ProtocolAbandonServiceImpl implements ProtocolAbandonServi
         this.protocolActionService = protocolActionService;
     }
 
-//    public void setProtocolActionCorrespondenceGenerationService(
-//            ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
-//        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
-//    }
+    public void setProtocolActionCorrespondenceGenerationService(
+            ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
+        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
+    }
     
     public void setKcNotificationService(KcNotificationService kcNotificationService) {
         this.kcNotificationService = kcNotificationService;
