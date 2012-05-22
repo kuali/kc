@@ -66,7 +66,7 @@ public class IacucProtocolCustomDataAction extends IacucProtocolAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception { 
         ProtocolForm protocolForm = (ProtocolForm) form;
         super.reload(mapping, form, request, response);
-        protocolForm.getProtocolCustomDataHelper().prepareView(protocolForm.getProtocolDocument().getProtocol());
+        protocolForm.getCustomDataHelper().prepareView(protocolForm.getProtocolDocument().getProtocol());
         
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
         

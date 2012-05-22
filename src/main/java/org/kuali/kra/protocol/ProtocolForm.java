@@ -27,6 +27,9 @@ import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.customdata.CustomDataHelper;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
 import org.kuali.kra.protocol.noteattachment.NotesAttachmentsHelper;
@@ -63,7 +66,6 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     private static final String DATE_TIME_FORMAT = "hh:mm a MM/dd/yyyy";
     
     
-// TODO *********commented the code below during IACUC refactoring*********   
 //    /**
 //     * When true, the online review header will not be displayed when it is disabled.
 //     */
@@ -75,25 +77,19 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     private ProtocolHelper protocolHelper;
     private PermissionsHelper permissionsHelper;
     private PersonnelHelper personnelHelper;
-    private ProtocolCustomDataHelper protocolCustomDataHelper;
-    private ProtocolSpecialReviewHelper protocolSpecialReviewHelper;
-
-    private NotificationHelper<ProtocolNotificationContext> protocolNotificationHelper;
-
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
+    private ProtocolCustomDataHelper customDataHelper;
+    private ProtocolSpecialReviewHelper specialReviewHelper;
 
     private ActionHelper actionHelper;
+    
     private OnlineReviewsActionHelper onlineReviewsActionHelper;
-    private QuestionnaireHelper questionnaireHelper;
+    private QuestionnaireHelper questionnaireHelper;    
+    private NotificationHelper<ProtocolNotificationContext> protocolNotificationHelper;  
     //transient so that the helper and its members don't have to be serializable or transient
     //reinitialized in the getter
     private transient NotesAttachmentsHelper notesAttachmentsHelper;
+    private boolean auditActivated;
     
-    
-      private boolean auditActivated;
-
-      
-      
     private ProtocolReferenceBean newProtocolReferenceBean;
     
     //KNS Lookup hooks
@@ -120,29 +116,37 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
      * @throws Exception 
      */
     public void initialize() throws Exception {
-        // hook invocation 
         setProtocolHelper(createNewProtocolHelperInstanceHook(this));
-        setPermissionsHelper(createNewPermissionsHelperInstanceHook(this));
         setPersonnelHelper(createNewPersonnelHelperInstanceHook(this));
-
-// TODO *********commented the code below during IACUC refactoring*********       
-//        setQuestionnaireHelper(new QuestionnaireHelper(this));
+        setPermissionsHelper(createNewPermissionsHelperInstanceHook(this));
+        
+        setCustomDataHelper(createNewCustomDataHelperInstanceHook(this)); 
+        setSpecialReviewHelper(createNewSpecialReviewHelperInstanceHook(this));
+        setActionHelper(createNewActionHelperInstanceHook(this));
+        setQuestionnaireHelper(createNewQuestionnaireHelperInstanceHook(this));
+        
         setNotesAttachmentsHelper(createNewNotesAttachmentsHelperInstanceHook(this));
         this.notesAttachmentsHelper.prepareView();
         setNewProtocolReferenceBean(createNewProtocolReferenceBeanInstance());
-
-        setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
+        setOnlineReviewsActionHelper(createNewOnlineReviewsActionHelperInstanceHook(this));
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        setNotificationHelper(new NotificationHelper<IRBNotificationContext>());
+        
     }
-
-    
+       
     protected abstract ProtocolReferenceBean createNewProtocolReferenceBeanInstance();
 
+    protected abstract QuestionnaireHelper createNewQuestionnaireHelperInstanceHook(ProtocolForm protocolForm);
+    protected abstract ActionHelper createNewActionHelperInstanceHook(ProtocolForm protocolForm) throws Exception;
+    protected abstract ProtocolSpecialReviewHelper createNewSpecialReviewHelperInstanceHook(ProtocolForm protocolForm);
+    protected abstract ProtocolCustomDataHelper createNewCustomDataHelperInstanceHook(ProtocolForm protocolForm);
+    protected abstract OnlineReviewsActionHelper createNewOnlineReviewsActionHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract ProtocolHelper createNewProtocolHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract PermissionsHelper createNewPermissionsHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract PersonnelHelper createNewPersonnelHelperInstanceHook(ProtocolForm protocolForm);
     protected abstract QuestionnaireHelper createNewQuestionnaireHelper(ProtocolForm protocolForm);
     protected abstract NotesAttachmentsHelper createNewNotesAttachmentsHelperInstanceHook(ProtocolForm protocolForm);
-    protected abstract ActionHelper createNewActionHelper(ProtocolForm protocolForm) throws Exception;
     
     
     
@@ -332,17 +336,12 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
       
     }
    
-
     public ProtocolCustomDataHelper getCustomDataHelper() {
-        return protocolCustomDataHelper;
-    }
-    
-    public ProtocolCustomDataHelper getProtocolCustomDataHelper() {
-        return protocolCustomDataHelper;
+        return customDataHelper;
     }
 
-    public void setProtocolCustomDataHelper(ProtocolCustomDataHelper customDataHelper) {
-        this.protocolCustomDataHelper = customDataHelper;
+    public void setCustomDataHelper(ProtocolCustomDataHelper customDataHelper) {
+        this.customDataHelper = customDataHelper;
     }
     
     
@@ -356,17 +355,13 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         this.auditActivated = auditActivated;
     }
 
-    public ProtocolSpecialReviewHelper getProtocolSpecialReviewHelper() {
-        return protocolSpecialReviewHelper;
-    }
-
-    // following method is provided to allow compatibility with common Special Review tag files
     public ProtocolSpecialReviewHelper getSpecialReviewHelper() {
-        return protocolSpecialReviewHelper;
+        return specialReviewHelper;
     }
+    
 
-    public void setProtocolSpecialReviewHelper(ProtocolSpecialReviewHelper specialReviewHelper) {
-        this.protocolSpecialReviewHelper = specialReviewHelper;
+    public void setSpecialReviewHelper(ProtocolSpecialReviewHelper specialReviewHelper) {
+        this.specialReviewHelper = specialReviewHelper;
     }
 
     /**

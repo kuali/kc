@@ -22,7 +22,7 @@ import java.util.List;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 
-public class ReviewAttachmentsBean implements Serializable {
+public abstract class ReviewAttachmentsBean implements Serializable {
 
     private static final long serialVersionUID = -5330578993055642005L;
 
