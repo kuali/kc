@@ -232,6 +232,15 @@ public class PrintingUtils {
 		return sourceList;
 	}
 
+    public static ArrayList<Source> getXSLTforReportTemplate(String reportTemplate) {
+        Source src = new StreamSource(new PrintingUtils().getClass()
+                .getResourceAsStream(XSL_CONTEXT_DIR + "/" + reportTemplate));
+
+        ArrayList<Source> sourceList = new ArrayList<Source>();
+        sourceList.add(src);
+        return sourceList;
+    }
+	
 	/**
 	 * This method is to get a Country object from the country code
 	 * 

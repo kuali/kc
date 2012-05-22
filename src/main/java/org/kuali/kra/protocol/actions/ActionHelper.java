@@ -17,34 +17,20 @@ package org.kuali.kra.protocol.actions;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
-import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.meeting.ProtocolVoteAbstainee;
+import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.ProtocolVersionService;
-import org.kuali.kra.protocol.actions.undo.UndoLastActionBean;
-import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
@@ -55,34 +41,23 @@ import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
+import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
 import org.kuali.kra.protocol.actions.request.ProtocolRequestBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
-import org.kuali.kra.protocol.auth.GenericProtocolAuthorizer;
+import org.kuali.kra.protocol.actions.undo.UndoLastActionBean;
+import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
-import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
-import org.kuali.kra.protocol.summary.ProtocolSummary;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.meeting.ProtocolVoteAbstainee;
-import org.kuali.kra.meeting.ProtocolVoteRecused;
-import org.kuali.kra.questionnaire.QuestionnaireUsage;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The form helper class for the Protocol Actions tab.
@@ -284,7 +259,6 @@ public abstract class ActionHelper implements Serializable {
 //     */
 //    protected String printTag;
 //    
-//    protected ProtocolSummaryPrintOptions protocolSummaryPrintOptions;
 //
     protected Boolean summaryReport;
     protected Boolean fullReport;
@@ -325,7 +299,8 @@ public abstract class ActionHelper implements Serializable {
     
     protected Map<String, ProtocolActionBean> actionBeanTaskMap = new HashMap<String, ProtocolActionBean>();    
     // protocol print
-//    protected ProtocolSummaryPrintOptions protocolPrintOption = new ProtocolSummaryPrintOptions();
+    protected ProtocolSummaryPrintOptions protocolSummaryPrintOptions;
+    protected ProtocolSummaryPrintOptions protocolPrintOption = new ProtocolSummaryPrintOptions();
 //    protected List<QuestionnairePrintOption> questionnairesToPrints;
     // flag if versioned protocol questionnaire exist
     protected boolean summaryQuestionnaireExist;
@@ -2731,23 +2706,23 @@ public abstract class ActionHelper implements Serializable {
 //    }
 //
 //
-//    /**
-//     * Sets the protocolSummaryPrintOptions attribute value.
-//     * @param protocolSummaryPrintOptions The protocolSummaryPrintOptions to set.
-//     */
-//    public void setProtocolSummaryPrintOptions(ProtocolSummaryPrintOptions protocolSumamryPrintOptions) {
-//        this.protocolSummaryPrintOptions = protocolSumamryPrintOptions;
-//    }
-//
-//
-//    /**
-//     * Gets the protocolSummaryPrintOptions attribute. 
-//     * @return Returns the protocolSummaryPrintOptions.
-//     */
-//    public ProtocolSummaryPrintOptions getProtocolSummaryPrintOptions() {
-//        return protocolSummaryPrintOptions;
-//    }
-//    
+    /**
+     * Sets the protocolSummaryPrintOptions attribute value.
+     * @param protocolSummaryPrintOptions The protocolSummaryPrintOptions to set.
+     */
+    public void setProtocolSummaryPrintOptions(ProtocolSummaryPrintOptions protocolSumamryPrintOptions) {
+        this.protocolSummaryPrintOptions = protocolSumamryPrintOptions;
+    }
+
+
+    /**
+     * Gets the protocolSummaryPrintOptions attribute. 
+     * @return Returns the protocolSummaryPrintOptions.
+     */
+    public ProtocolSummaryPrintOptions getProtocolSummaryPrintOptions() {
+        return protocolSummaryPrintOptions;
+    }
+    
 //    public ProtocolActionBean getActionBean(String taskName) {
 //        return actionBeanTaskMap.get(taskName);
 //    }
@@ -2766,38 +2741,38 @@ public abstract class ActionHelper implements Serializable {
 //        return protocolRequestBean;
 //    }
 //
-//    public Boolean getSummaryReport() {
-//        return summaryReport;
-//    }
-//
-//    public void setSummaryReport(Boolean summaryReport) {
-//        this.summaryReport = summaryReport;
-//    }
-//
-//    public Boolean getFullReport() {
-//        return fullReport;
-//    }
-//
-//    public void setFullReport(Boolean fullReport) {
-//        this.fullReport = fullReport;
-//    }
-//
-//    public Boolean getHistoryReport() {
-//        return historyReport;
-//    }
-//
-//    public void setHistoryReport(Boolean historyReport) {
-//        this.historyReport = historyReport;
-//    }
-//
-//    public Boolean getReviewCommentsReport() {
-//        return reviewCommentsReport;
-//    }
-//
-//    public void setReviewCommentsReport(Boolean reviewCommentsReport) {
-//        this.reviewCommentsReport = reviewCommentsReport;
-//    }
-//
+    public Boolean getSummaryReport() {
+        return summaryReport;
+    }
+
+    public void setSummaryReport(Boolean summaryReport) {
+        this.summaryReport = summaryReport;
+    }
+
+    public Boolean getFullReport() {
+        return fullReport;
+    }
+
+    public void setFullReport(Boolean fullReport) {
+        this.fullReport = fullReport;
+    }
+
+    public Boolean getHistoryReport() {
+        return historyReport;
+    }
+
+    public void setHistoryReport(Boolean historyReport) {
+        this.historyReport = historyReport;
+    }
+
+    public Boolean getReviewCommentsReport() {
+        return reviewCommentsReport;
+    }
+
+    public void setReviewCommentsReport(Boolean reviewCommentsReport) {
+        this.reviewCommentsReport = reviewCommentsReport;
+    }
+
 //    public boolean isSubmissionQuestionnaireExist() {
 //        return submissionQuestionnaireExist;
 //    }
@@ -2814,14 +2789,14 @@ public abstract class ActionHelper implements Serializable {
 //        this.toAnswerSubmissionQuestionnaire = toAnswerSubmissionQuestionnaire;
 //    }
 //
-//    public ProtocolSummaryPrintOptions getProtocolPrintOption() {
-//        return protocolPrintOption;
-//    }
-//
-//    public void setProtocolPrintOption(ProtocolSummaryPrintOptions protocolPrintOption) {
-//        this.protocolPrintOption = protocolPrintOption;
-//    }
-//
+    public ProtocolSummaryPrintOptions getProtocolPrintOption() {
+        return protocolPrintOption;
+    }
+
+    public void setProtocolPrintOption(ProtocolSummaryPrintOptions protocolPrintOption) {
+        this.protocolPrintOption = protocolPrintOption;
+    }
+
 //    public List<QuestionnairePrintOption> getQuestionnairesToPrints() {
 //        return questionnairesToPrints;
 //    }
