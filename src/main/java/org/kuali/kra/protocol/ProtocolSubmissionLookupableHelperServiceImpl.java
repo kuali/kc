@@ -164,6 +164,8 @@ public abstract class ProtocolSubmissionLookupableHelperServiceImpl extends KraL
             }
             else if (propertyName.equals(COMMITTEE_ID)) {
                 inqBo = ((ProtocolSubmission) bo).getCommittee();
+                
+                System.out.println("inqBo ===============> " + inqBo);
             }
             else if ("piName".equals(propertyName)) {
                 //-- commented as part of GENERATED CODE need to verify
@@ -186,6 +188,7 @@ public abstract class ProtocolSubmissionLookupableHelperServiceImpl extends KraL
             if (inqBo != null) {
                 // withdraw committeeidfk = null will cause inqbo=null
                 inqUrl = super.getInquiryUrl(inqBo, inqPropertyName);
+                System.out.println("inqUrl ===============> " + inqUrl);
             }
         }
         return inqUrl;
