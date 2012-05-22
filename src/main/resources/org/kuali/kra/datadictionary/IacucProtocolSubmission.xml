@@ -567,7 +567,7 @@
     <bean id="IacucProtocolSubmission-lookupDefinition" parent="IacucProtocolSubmission-lookupDefinition-parentBean" />
     <bean id="IacucProtocolSubmission-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="IACUC Protocol Submission Lookup" />
-        <property name="lookupableID" value="protocolSubmissionLookupable" />
+        <property name="lookupableID" value="iacucProtocolSubmissionLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
         <property name="defaultSort" >
