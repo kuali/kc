@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.actions;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,7 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.actions.abandon.IacucProtocolAbandonService;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtEvent;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtService;
@@ -45,6 +47,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawService;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -52,7 +55,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -494,25 +500,25 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     
 // TODO *********commented the code below during IACUC refactoring********* 
-//    private ProtocolCorrespondence getProtocolCorrespondence (ProtocolForm protocolForm, String forwardName, ProtocolNotificationRequestBean notificationRequestBean, boolean holdingPage) {
-//        boolean result = false;
-//        
-//        Map<String,Object> keyValues = new HashMap<String, Object>();
-////        keyValues.put("protocolId", protocolForm.getProtocolDocument().getProtocol().getProtocolId());
-//        // actionid <-> action.actionid  actionidfk<->action.protocolactionid
-//        keyValues.put("actionIdFk", protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction().getProtocolActionId());
-//        List<ProtocolCorrespondence> correspondences = (List<ProtocolCorrespondence>)getBusinessObjectService().findMatching(ProtocolCorrespondence.class, keyValues);
-//        if (correspondences.isEmpty()) {
-//            return null;
-//        } else {
-//            ProtocolCorrespondence correspondence = correspondences.get(0);
-//            correspondence.setForwardName(forwardName);
-//            correspondence.setNotificationRequestBean(notificationRequestBean);
-//            correspondence.setHoldingPage(holdingPage);
-//            return correspondence;
-//            
-//        }
-//    }
+    private IacucProtocolCorrespondence getProtocolCorrespondence (ProtocolForm protocolForm, String forwardName, ProtocolNotificationRequestBean notificationRequestBean, boolean holdingPage) {
+        boolean result = false;
+        
+        Map<String,Object> keyValues = new HashMap<String, Object>();
+//        keyValues.put("protocolId", protocolForm.getProtocolDocument().getProtocol().getProtocolId());
+        // actionid <-> action.actionid  actionidfk<->action.protocolactionid
+        keyValues.put("actionIdFk", protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction().getProtocolActionId());
+        List<IacucProtocolCorrespondence> correspondences = (List<IacucProtocolCorrespondence>)getBusinessObjectService().findMatching(IacucProtocolCorrespondence.class, keyValues);
+        if (correspondences.isEmpty()) {
+            return null;
+        } else {
+            IacucProtocolCorrespondence correspondence = correspondences.get(0);
+            correspondence.setForwardName(forwardName);
+            correspondence.setNotificationRequestBean(notificationRequestBean);
+            correspondence.setHoldingPage(holdingPage);
+            return correspondence;
+            
+        }
+    }
 //
 //    /**
 //     * Notify the IRB office.
@@ -2737,36 +2743,37 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
 //    
-//    public ActionForward abandon(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolTask task = new ProtocolTask(TaskName.ABANDON_PROTOCOL, protocolForm.getProtocolDocument().getProtocol());
-//        if (isAuthorized(task)) {
-//            getProtocolAbandonService().abandonProtocol(protocolForm.getProtocolDocument().getProtocol(),
-//                    protocolForm.getActionHelper().getProtocolAbandonBean());
-//            protocolForm.getProtocolHelper().prepareView();
-//            
-//            recordProtocolActionSuccess("Abandon");
-//            org.kuali.kra.irb.actions.ProtocolAction lastAction = protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction();
-//
-//            protocolForm.getProtocolHelper().prepareView();
-//            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.ABANDON_PROTOCOL, "Abandon"), false));
-//
-//            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                return mapping.findForward(CORRESPONDENCE);
-//            } else {
-//                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
-//            }
-////            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
-//
-//        }
-//
-//        // should it return to portal page ?
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//
+    public ActionForward abandon(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument protocolDocument = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+        IacucProtocol protocol = protocolDocument.getIacucProtocol();
+        ProtocolTask task = new ProtocolTask(TaskName.IACUC_ABANDON_PROTOCOL, protocolForm.getProtocolDocument().getProtocol());
+        if (isAuthorized(task)) {
+            getProtocolAbandonService().abandonProtocol(protocolForm.getProtocolDocument().getProtocol(),
+                    protocolForm.getActionHelper().getProtocolAbandonBean());
+            protocolForm.getProtocolHelper().prepareView();
+            
+            recordProtocolActionSuccess("Abandon");
+            ProtocolAction lastAction = protocol.getLastProtocolAction();
+
+            protocolForm.getProtocolHelper().prepareView();
+            // cannot do this until corresspondences is done.
+          //  protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, new IacucProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),IacucProtocolActionType.IACUC_ABANDON, "Abandon"), false));
+
+            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                return mapping.findForward(CORRESPONDENCE);
+            } else {
+                // cannot do this until notification is done.
+                //return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
+            }
+
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+
 //    
 //    /**
 //     * Saves the review comments to the database and performs refresh and cleanup.
@@ -2836,11 +2843,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //    private ProtocolGenericActionService getProtocolGenericActionService() {
 //        return KraServiceLocator.getService(ProtocolGenericActionService.class);
 //    }
-//     
-//    private ProtocolAbandonService getProtocolAbandonService() {
-//        return KraServiceLocator.getService(ProtocolAbandonService.class);
-//    }
-//     
+     
+    private IacucProtocolAbandonService getProtocolAbandonService() {
+        return KraServiceLocator.getService(IacucProtocolAbandonService.class);
+    }
+     
     
     public IacucProtocolCopyService getIacucProtocolCopyService() {
         return KraServiceLocator.getService(IacucProtocolCopyService.class);

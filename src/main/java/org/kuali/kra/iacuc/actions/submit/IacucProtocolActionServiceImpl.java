@@ -251,7 +251,6 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl {
         protocolAction.setBusinessObjectService(businessObjectService);
 //TODO:IACUC        protocolAction.setDao(protocolDao);
         protocolAction.setProtocol(protocol);
-System.out.println("\n\nDDDDDDDD protocol status = " + protocolStatusCode + ", submission status = " + submissionStatusCode + ", action type = " + actionTypeCode + "\n\n");        
         rulesList.get(PERFORMACTION_RULE).executeRules(protocolAction);
         return protocolAction.isAllowed();
     }

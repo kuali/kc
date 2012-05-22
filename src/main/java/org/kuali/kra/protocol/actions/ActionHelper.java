@@ -30,15 +30,15 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.service.CommitteeScheduleService;
-import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
@@ -48,7 +48,6 @@ import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
-import org.kuali.kra.protocol.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersBean;
 import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
@@ -57,7 +56,9 @@ import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 import org.kuali.kra.protocol.actions.request.ProtocolRequestBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.ProtocolActionType;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
 import org.kuali.kra.protocol.auth.GenericProtocolAuthorizer;
@@ -66,7 +67,7 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.summary.ProtocolSummary;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
@@ -240,7 +241,6 @@ public abstract class ActionHelper implements Serializable {
     protected ProtocolAmendmentBean protocolRenewAmendmentBean;
     protected ProtocolDeleteBean protocolDeleteBean;
     protected ProtocolAssignToAgendaBean assignToAgendaBean;
-    protected ProtocolAssignCmtSchedBean assignCmtSchedBean;
     protected ProtocolAssignReviewersBean protocolAssignReviewersBean;
 //    protected ProtocolGrantExemptionBean protocolGrantExemptionBean;
     protected ProtocolApproveBean protocolFullApprovalBean;
@@ -315,7 +315,7 @@ public abstract class ActionHelper implements Serializable {
     // check if there is submission questionnaire to answer
     protected boolean toAnswerSubmissionQuestionnaire;
 
-    protected transient CommitteeScheduleService committeeScheduleService;
+    protected transient CommonCommitteeScheduleService committeeScheduleService;
     protected transient KcPersonService kcPersonService;
     protected transient KraAuthorizationService kraAuthorizationService;
     protected transient BusinessObjectService businessObjectService;
@@ -389,8 +389,8 @@ public abstract class ActionHelper implements Serializable {
 //                Constants.PROTOCOL_PERMIT_DATA_ANALYSIS_ACTION_PROPERTY_KEY);
 //        protocolIrbAcknowledgementBean = buildProtocolGenericActionBean(ProtocolActionType.IRB_ACKNOWLEDGEMENT, 
 //                Constants.PROTOCOL_IRB_ACKNOWLEDGEMENT_ACTION_PROPERTY_KEY);
-//        protocolAbandonBean = buildProtocolGenericActionBean(ProtocolActionType.ABANDON_PROTOCOL, 
-//                Constants.PROTOCOL_ABANDON_ACTION_PROPERTY_KEY);
+        protocolAbandonBean = buildProtocolGenericActionBeanHook(getAbandonActionTypeHook(), getAbandonPropertyKeyHook());//buildProtocolAbandonBeanHook();
+          
 //        protocolAdminCorrectionBean = createAdminCorrectionBean();
 //        undoLastActionBean = createUndoLastActionBean(getProtocol());
 //        committeeDecision = new CommitteeDecision(this);
@@ -428,8 +428,11 @@ public abstract class ActionHelper implements Serializable {
 //        protocolPrintOption = new ProtocolSummaryPrintOptions();
 //        initPrintQuestionnaire();
     }
-    
+    /*
+     * TODO: Added during IACUC refactor    
+     */
     protected abstract ProtocolDeleteBean getNewProtocolDeleteBeanInstanceHook(ActionHelper actionHelper);
+    
 
 //    /**
 //     * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
@@ -483,6 +486,14 @@ public abstract class ActionHelper implements Serializable {
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW, protocolWithdrawBean);
 //    }
 //    
+        protected abstract String getAbandonActionTypeHook();
+        
+        protected abstract String getAbandonPropertyKeyHook();
+        
+        
+        protected abstract ProtocolGenericActionBean buildProtocolGenericActionBeanHook(String actionTypeCode, String errorPropertyKey);
+
+        
 //    /**
 //     *     
 //     * This method builds a ProtocolGenericActionBean.  A number of different beans
@@ -490,11 +501,11 @@ public abstract class ActionHelper implements Serializable {
 //     * reviewer comments.  This encapsulates that.
 //     * @return a ProtocolGenericActionBean, and pre-populated with reviewer comments if any exist
 //     */
-//    private ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey) {
+//    protected ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey) {
 //        ProtocolGenericActionBean bean = new ProtocolGenericActionBean(this, errorPropertyKey);
 //        
 //        bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-////        bean.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(bean.getReviewCommentsBean().getReviewComments()));            
+//        bean.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(bean.getReviewCommentsBean().getReviewComments()));            
 //        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
 //        if (protocolAction != null) {
 //            bean.setComments(protocolAction.getComments());
@@ -504,9 +515,9 @@ public abstract class ActionHelper implements Serializable {
 //        return bean;
 //    }
 //    
-//    private ReviewCommentsService getReviewCommentsService() {
-//        return KraServiceLocator.getService(ReviewCommentsService.class);
-//    }
+    protected abstract ReviewCommentsService getReviewCommentsServiceHook();
+    
+   
 //
 //    private ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, String errorPropertyKey) throws Exception {
 //        
@@ -571,16 +582,16 @@ public abstract class ActionHelper implements Serializable {
 //        return expirationDate;
 //    }
 //
-//    private ProtocolAction findProtocolAction(String actionTypeCode, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) {
-//
-//        for (ProtocolAction pa : protocolActions) {
-//            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(actionTypeCode)
-//                    && (pa.getProtocolSubmission() == null || pa.getProtocolSubmission().equals(currentSubmission))) {
-//                return pa;
-//            }
-//        }
-//        return null;
-//    }
+    protected ProtocolAction findProtocolAction(String actionTypeCode, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) {
+
+        for (ProtocolAction pa : protocolActions) {
+            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(actionTypeCode)
+                    && (pa.getProtocolSubmission() == null || pa.getProtocolSubmission().equals(currentSubmission))) {
+                return pa;
+            }
+        }
+        return null;
+    }
 //
 //    // always reinitialize amendment beans, otherwise a second pass thru prepareView() will show same
 //    // amendment creation options as previous passes
@@ -844,7 +855,7 @@ public abstract class ActionHelper implements Serializable {
 //        canApproveOther = hasApproveOtherPermission();
 //        canManageNotes = hasManageNotesPermission();
 //        canManageNotesUnavailable = hasManageNotesUnavailablePermission();
-//        canAbandon = hasAbandonProtocolPermission();
+        canAbandon = hasAbandonProtocolPermission();
 //        
 //        followupActionActions = getFollowupActionService().getFollowupsForProtocol(form.getProtocolDocument().getProtocol());
 //        
@@ -901,25 +912,25 @@ public abstract class ActionHelper implements Serializable {
 //        }
 //    }
 //    
-//    private List<CommitteeScheduleMinute> getCopiedReviewComments() {
-//        List<CommitteeScheduleMinute> clonedMinutes = new ArrayList<CommitteeScheduleMinute>();
-//        Long scheduleIdFk = getProtocol().getProtocolSubmission().getScheduleIdFk();
-//        List<CommitteeScheduleMinute> minutes = getCommitteeScheduleService().getMinutesBySchedule(scheduleIdFk);
-//        if (CollectionUtils.isNotEmpty(minutes)) {
-//            for (CommitteeScheduleMinute minute : minutes) {
-//                clonedMinutes.add(minute.getCopy());
-//            }
-//        }
+    protected List<CommitteeScheduleMinute> getCopiedReviewComments() {
+        List<CommitteeScheduleMinute> clonedMinutes = new ArrayList<CommitteeScheduleMinute>();
+        Long scheduleIdFk = getProtocol().getProtocolSubmission().getScheduleIdFk();
+        List<CommitteeScheduleMinute> minutes = getCommitteeScheduleService().getMinutesBySchedule(scheduleIdFk);
+        if (CollectionUtils.isNotEmpty(minutes)) {
+            for (CommitteeScheduleMinute minute : minutes) {
+                clonedMinutes.add(minute.getCopy());
+            }
+        }
+        
+        return clonedMinutes;
+    }
 //        
-//        return clonedMinutes;
-//    }
-//        
-//    private CommitteeScheduleService getCommitteeScheduleService() {
-//        if (committeeScheduleService == null) {
-//            committeeScheduleService = KraServiceLocator.getService(CommitteeScheduleService.class);        
-//        }
-//        return committeeScheduleService;
-//    }
+    private CommonCommitteeScheduleService getCommitteeScheduleService() {
+        if (committeeScheduleService == null) {
+            committeeScheduleService = KraServiceLocator.getService(CommonCommitteeScheduleService.class);        
+        }
+        return committeeScheduleService;
+    }
 //    
 //    private ProtocolVersionService getProtocolVersionService() {
 //        if (this.protocolVersionService == null) {
@@ -1318,12 +1329,16 @@ public abstract class ActionHelper implements Serializable {
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
 //    
-//    protected boolean hasAbandonProtocolPermission() {
-////        return hasGenericPermission(GenericProtocolAuthorizer.ABANDON_PROTOCOL);
-//        ProtocolTask task = new ProtocolTask(TaskName.ABANDON_PROTOCOL, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
+    /*
+     * check this 
+     */
+    protected boolean hasAbandonProtocolPermission() {
+        ProtocolTask task = new ProtocolTask(getAbandonProtocolTaskNameHook(), getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected abstract String getAbandonProtocolTaskNameHook();
+    
 //    protected boolean hasPermission(String taskName) {
 //        ProtocolTask task = new ProtocolTask(taskName, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -1500,10 +1515,6 @@ public abstract class ActionHelper implements Serializable {
     
     public ProtocolAssignToAgendaBean getAssignToAgendaBean(){
         return this.assignToAgendaBean;
-    }
-    
-    public ProtocolAssignCmtSchedBean getAssignCmtSchedBean() {
-        return assignCmtSchedBean;
     }
     
     public ProtocolAssignReviewersBean getProtocolAssignReviewersBean() {
@@ -3010,21 +3021,21 @@ public abstract class ActionHelper implements Serializable {
 //        this.summaryQuestionnaireExist = summaryQuestionnaireExist;
 //    }
 //
-//    public boolean isCanAbandon() {
-//        return canAbandon;
-//    }
-//
-//    public void setCanAbandon(boolean canAbandon) {
-//        this.canAbandon = canAbandon;
-//    }
-//
-//    public ProtocolGenericActionBean getProtocolAbandonBean() {
-//        return protocolAbandonBean;
-//    }
-//
-//    public void setProtocolAbandonBean(ProtocolGenericActionBean protocolAbandonBean) {
-//        this.protocolAbandonBean = protocolAbandonBean;
-//    }
+    public boolean isCanAbandon() {
+        return canAbandon;
+    }
+
+    public void setCanAbandon(boolean canAbandon) {
+        this.canAbandon = canAbandon;
+    }
+
+    public ProtocolGenericActionBean getProtocolAbandonBean() {
+        return protocolAbandonBean;
+    }
+
+    public void setProtocolAbandonBean(ProtocolGenericActionBean protocolAbandonBean) {
+        this.protocolAbandonBean = protocolAbandonBean;
+    }
 //
 //    public boolean isHideReviewerName() {
 //        return hideReviewerName;
@@ -3082,15 +3093,15 @@ public abstract class ActionHelper implements Serializable {
 //    public void setHideReviewerNameForAttachment(boolean hideReviewerNameForAttachment) {
 //        this.hideReviewerNameForAttachment = hideReviewerNameForAttachment;
 //    }
-//
-//    public ProtocolCorrespondence getProtocolCorrespondence() {
-//        return protocolCorrespondence;
-//    }
-//
-//    public void setProtocolCorrespondence(ProtocolCorrespondence protocolCorrespondence) {
-//        this.protocolCorrespondence = protocolCorrespondence;
-//    }
-//
+
+    public ProtocolCorrespondence getProtocolCorrespondence() {
+        return protocolCorrespondence;
+    }
+
+    public void setProtocolCorrespondence(ProtocolCorrespondence protocolCorrespondence) {
+        this.protocolCorrespondence = protocolCorrespondence;
+    }
+
 //    public boolean isIrbAdmin() {
 //        return getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
 //    }
@@ -3102,6 +3113,8 @@ public abstract class ActionHelper implements Serializable {
         
         return this.kraAuthorizationService;
     }
+
+    
     
 
 }

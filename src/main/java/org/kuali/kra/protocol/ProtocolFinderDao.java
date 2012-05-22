@@ -17,7 +17,8 @@ package org.kuali.kra.protocol;
 
 import java.util.List;
 
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+
 
 /**
  * The ProtocolFinderDao is used to find protocols.
