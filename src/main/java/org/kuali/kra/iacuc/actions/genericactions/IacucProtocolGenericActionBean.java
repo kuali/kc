@@ -15,11 +15,12 @@
  */
 package org.kuali.kra.iacuc.actions.genericactions;
 
-import java.io.Serializable;
 import java.sql.Date;
 
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewAttachmentsBean;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
@@ -47,9 +48,8 @@ public class IacucProtocolGenericActionBean extends IacucProtocolActionBean impl
         super(actionHelper);
         
         this.errorPropertyKey = errorPropertyKey;
-// TODO *********commented the code below during IACUC refactoring*********          
-        reviewCommentsBean = new ReviewCommentsBean(errorPropertyKey);       
-//        reviewAttachmentsBean = new ReviewAttachmentsBean(errorPropertyKey);
+        reviewCommentsBean = new IacucReviewCommentsBean(errorPropertyKey);       
+        reviewAttachmentsBean = new IacucReviewAttachmentsBean(errorPropertyKey);
     }
 
     public String getComments() {

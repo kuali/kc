@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions.submit;
+package org.kuali.kra.iacuc.actions.reviewcomments;
 
-import org.kuali.kra.protocol.actions.submit.ProtocolActionUpdateMapping;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
 
-/*
- * This is the post condition attributes for a protocol action
- */
-public class IacucProtocolActionUpdateMapping extends ProtocolActionUpdateMapping {
-    
-    public IacucProtocolActionUpdateMapping(String actionTypeCode, String submissionTypeCode, String protocolStatusCode, String specialCondition) {
-        super(actionTypeCode, submissionTypeCode, protocolStatusCode, specialCondition);
+public class IacucReviewAttachmentsBean extends ReviewAttachmentsBean {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -8599936995989105543L;
+
+    public IacucReviewAttachmentsBean(String errorPropertyKey) {
+        super(errorPropertyKey);
     }
-    
-    
+
 }

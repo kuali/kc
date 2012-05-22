@@ -349,19 +349,19 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
         this.protocolReviewType = protocolReviewType;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public List<ProtocolReviewer> getProtocolReviewers() {
-//        List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
-//        List<ProtocolOnlineReview> reviews = getProtocolOnlineReviews();
-//        if (reviews != null) {
-//            for (ProtocolOnlineReview review : reviews) {
-//                if (review.isActive()) {
-//                    reviewers.add(review.getProtocolReviewer());
-//                }
-//            }
-//        }
-//        return reviewers;
-//    }
+  
+    public List<ProtocolReviewer> getProtocolReviewers() {
+        List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
+        List<ProtocolOnlineReview> reviews = getProtocolOnlineReviews();
+        if (reviews != null) {
+            for (ProtocolOnlineReview review : reviews) {
+                if (review.isActive()) {
+                    reviewers.add(review.getProtocolReviewer());
+                }
+            }
+        }
+        return reviewers;
+    }
 
     /**
      * 
@@ -453,7 +453,7 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-//TODO: add this back in for IACUC development        managedLists.add(protocolOnlineReviews);
+        managedLists.add(protocolOnlineReviews);
         return managedLists;
     }
 
