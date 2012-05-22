@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.actions.abandon;
+package org.kuali.kra.irb.actions.abandon;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
