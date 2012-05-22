@@ -199,16 +199,16 @@
                                           taskName="protocolTerminate"
                                           methodToCall="terminate"
                                           canPerformAction="${KualiForm.actionHelper.canTerminate}"
-                                          canAddReviewComments="${KualiForm.actionHelper.canAddTerminateReviewerComments}" />
+                                          canAddReviewComments="${KualiForm.actionHelper.canAddTerminateReviewerComments}" />--%>
             <kra-iacuc-action:genericAction tabTitle="Abandon"
                                           bean="${KualiForm.actionHelper.protocolAbandonBean}"
                                           property="actionHelper.protocolAbandonBean"
-                                          taskName="protocolAbandon"
+                                          taskName="iacucProtocolAbandon"
                                           methodToCall="abandon"
                                           canPerformAction="${KualiForm.actionHelper.canAbandon}" 
                                           canAddReviewComments="false"/>
                                         
-            <kra-iacuc-action:reviewNotRequiredAction />
+           <%-- <kra-iacuc-action:reviewNotRequiredAction />
             <kra-iacuc-action:undoLastAction />
             <kra-iacuc-action:manageReviewComments />
             <kra-iacuc-action:manageNotes />

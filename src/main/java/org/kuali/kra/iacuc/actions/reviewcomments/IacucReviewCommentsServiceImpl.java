@@ -16,14 +16,23 @@
 package org.kuali.kra.iacuc.actions.reviewcomments;
 
 import java.util.List;
+
+import org.kuali.kra.iacuc.IacucProtocolFinderDao;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsServiceImpl;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 
 public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl implements IacucReviewCommentsService {
     
+
+    private IacucProtocolFinderDao protocolFinderDao;
 
     public void saveReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments, List<ProtocolReviewAttachment> deletedReviewAttachments) {
         for (ProtocolReviewAttachment reviewAttachment : reviewAttachments) {
@@ -67,6 +76,53 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl im
         return IacucProtocolReviewAttachment.class;
     }
 
+    @Override
+    protected String getAdministratorRoleHook() {
+        return RoleConstants.IACUC_ADMINISTRATOR;
+    }
 
+    @Override
+    protected Class<? extends ProtocolReviewer> getProtocolReviewClassHook() {
+        return IacucProtocolReviewer.class;
+
+    }
+
+    @Override
+    protected String getAggregatorRoleNameHook() {
+        return RoleConstants.IACUC_PROTOCOL_AGGREGATOR;
+    }
+
+    @Override
+    protected String getNamespaceHook() {
+        return Constants.MODULE_NAMESPACE_IACUC;
+    }
+
+    @Override
+    protected String getProtocolViewerRoleNameHook() {
+       return RoleConstants.IACUC_PROTOCOL_VIEWER;
+    }
+
+  public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
+      this.protocolFinderDao = (IacucProtocolFinderDao) protocolFinderDao;
+  }
+
+  public ProtocolFinderDao getProtocolFinderDao() {
+      return protocolFinderDao;
+  }
+
+@Override
+protected String getDisplayRevNameToActiveCmtMembersHook() {
+   return Constants.PARAMETER_IACUC_DISPLAY_REVIEWER_NAME_TO_ACTIVE_COMMITTEE_MEMBERS;
+}
+
+@Override
+protected String getDisplayRevNameToProtocolPersonnelHook() {
+    return Constants.PARAMETER_IACUC_DISPLAY_REVIEWER_NAME_TO_PROTOCOL_PERSONNEL;
+}
+
+@Override
+protected String getDisplayRevNameToReviewersHook() {
+    return Constants.PARAMETER_IACUC_DISPLAY_REVIEWER_NAME_TO_REVIEWERS;
+}
 
 }

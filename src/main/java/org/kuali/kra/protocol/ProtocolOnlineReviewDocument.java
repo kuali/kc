@@ -24,7 +24,7 @@ import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;

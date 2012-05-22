@@ -21,6 +21,7 @@ import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewable;
 
 public interface ReviewCommentsService {
 //    /**
@@ -139,7 +140,7 @@ public interface ReviewCommentsService {
 //     * @param submissionNumber
 //     * @return
 //     */
-//    boolean setHideReviewerName(Protocol protocol, int submissionNumber);
+    boolean setHideReviewerName(Protocol protocol, int submissionNumber);
 //    
 //
 //    /**
@@ -149,7 +150,7 @@ public interface ReviewCommentsService {
 //     * @param reviewComments
 //     * @return
 //     */
-//    boolean setHideReviewerName(List<? extends ProtocolReviewable> reviewComments);
+    boolean setHideReviewerName(List<? extends ProtocolReviewable> reviewComments);
 //    /**
 //     * 
 //     * This method is to check whether the current user can view this minute comment.

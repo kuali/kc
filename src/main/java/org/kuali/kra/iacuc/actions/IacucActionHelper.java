@@ -28,7 +28,9 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteBean;
+import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.iacuc.actions.notifyiacuc.ProtocolNotifyIacucBean;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
@@ -43,6 +45,8 @@ import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
+import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -588,6 +592,40 @@ public class IacucActionHelper extends ActionHelper {
     @Override
     protected ProtocolDeleteBean getNewProtocolDeleteBeanInstanceHook(ActionHelper actionHelper) {
         return new IacucProtocolDeleteBean((IacucActionHelper)actionHelper);
+    }
+
+    
+    protected ReviewCommentsService getReviewCommentsServiceHook() {
+        return KraServiceLocator.getService(IacucReviewCommentsService.class);
+    }
+    
+    protected ProtocolGenericActionBean buildProtocolGenericActionBeanHook(String actionTypeCode, String errorPropertyKey) {
+        ProtocolGenericActionBean bean = new IacucProtocolGenericActionBean(this, errorPropertyKey);
+        
+        bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        bean.getReviewCommentsBean().setHideReviewerName(getReviewCommentsServiceHook().setHideReviewerName(bean.getReviewCommentsBean().getReviewComments()));            
+        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
+        if (protocolAction != null) {
+            bean.setComments(protocolAction.getComments());
+            bean.setActionDate(new Date(protocolAction.getActionDate().getTime()));
+        }
+        
+        return bean;
+    }
+
+    @Override
+    protected String getAbandonProtocolTaskNameHook() {
+        return TaskName.IACUC_ABANDON_PROTOCOL;
+    }
+
+    @Override
+    protected String getAbandonActionTypeHook() {    
+        return IacucProtocolActionType.IACUC_ABANDON;
+    }
+
+    @Override
+    protected String getAbandonPropertyKeyHook() {
+        return Constants.PROTOCOL_ABANDON_ACTION_PROPERTY_KEY;
     }
 }
 

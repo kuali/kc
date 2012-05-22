@@ -48,7 +48,7 @@ public class IacucProtocolGenericActionBean extends IacucProtocolActionBean impl
         
         this.errorPropertyKey = errorPropertyKey;
 // TODO *********commented the code below during IACUC refactoring*********          
-//        reviewCommentsBean = new ReviewCommentsBean(errorPropertyKey);       
+        reviewCommentsBean = new ReviewCommentsBean(errorPropertyKey);       
 //        reviewAttachmentsBean = new ReviewAttachmentsBean(errorPropertyKey);
     }
 
