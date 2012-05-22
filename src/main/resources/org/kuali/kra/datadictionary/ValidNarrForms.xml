@@ -70,11 +70,13 @@
         <property name="shortLabel" value="Form Name" />
         <property name="maxLength" value="100" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true"
+            	p:maxLength="100" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="25" />
         </property>
         <property name="summary" value="Form Name" />
         <property name="description" value="Form Name" />
