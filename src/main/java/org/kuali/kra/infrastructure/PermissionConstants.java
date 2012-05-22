@@ -216,7 +216,9 @@ public interface PermissionConstants {
      public static final String MAINTAIN_IACUC_PROTOCOL_ONLINE_REVIEW = "Maintain Protocol Online Review";
      public static final String MAINTAIN_IACUC_PROTOCOL_ONLINE_REVIEW_COMMENTS = "Maintain IACUC Protocol Review Comments";
      public static final String ADD_IACUC_PROTOCOL_ONLINE_REVIEW_COMMENT = "Add Protocol Online Review Comment";
-     
+     public static final String VIEW_IACUC_CORRESPONDENCE_TEMPLATE = "View IACUC Correspondence Template";
+     public static final String MODIFY_IACUC_CORRESPONDENCE_TEMPLATE = "Modify IACUC Correspondence Template";
+
      /*
       * Unit Permissions 
       */
