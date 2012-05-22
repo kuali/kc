@@ -154,7 +154,7 @@
                 	</div>
                 </th>
                 <td width = "25%" class="grid">
-					<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.dateRequested" attributeEntry="${onlineReviewAttributes.dateRequested}" datePicker="true" readOnly = "${readOnly || !kualiForm.irbAdminFieldsEditable}" />
+					<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.dateRequested" attributeEntry="${onlineReviewAttributes.dateRequested}" datePicker="true" readOnly = "${readOnly || !kualiForm.adminFieldsEditable}" />
                 </td>
               </tr>
               <tr>
@@ -172,7 +172,7 @@
                 	</div>
                 </th>
                 <td width = "25%" class="grid" >
-                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.dateDue" attributeEntry="${onlineReviewAttributes.dateDue}" datePicker="true" readOnly = "${readOnly || !kualiForm.irbAdminFieldsEditable}" />
+                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.dateDue" attributeEntry="${onlineReviewAttributes.dateDue}" datePicker="true" readOnly = "${readOnly || !kualiForm.adminFieldsEditable}" />
                 </td>
               </tr>
 			  <tr>
@@ -192,7 +192,7 @@
                 </th>
                 <td width = "25%" class="grid" >
                 	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.protocolReviewer.reviewerTypeCode"
-		                                                                                  attributeEntry="${onlineReviewAttributes.reviewerTypeCode}" readOnly = "${readOnly || !kualiForm.irbAdminFieldsEditable}"/>
+		                                                                                  attributeEntry="${onlineReviewAttributes.reviewerTypeCode}" readOnly = "${readOnly || !kualiForm.adminFieldsEditable}"/>
 				</td>
               </tr>
          	</table>
