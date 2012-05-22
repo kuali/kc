@@ -15,13 +15,18 @@
  */
 package org.kuali.kra.personmasschange.document.authorization;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class PersonMassChangeDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
 
@@ -34,12 +39,17 @@ public class PersonMassChangeDocumentAuthorizer extends KcTransactionalDocumentA
 
     @Override
     public boolean canInitiate(String documentTypeName, Person user) {
-        return true;
+        String nameSpaceCode = KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE;
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeName);
+        return getPermissionService().isAuthorizedByTemplate(user.getPrincipalId(), nameSpaceCode,
+                KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails,
+                Collections.<String, String>emptyMap());
     }
 
     @Override
     public boolean canOpen(Document document, Person user) {
-        return true;
+        return canInitiate(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), user);
     }
 
     @Override
