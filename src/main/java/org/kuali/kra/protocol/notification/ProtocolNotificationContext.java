@@ -48,7 +48,7 @@ public abstract class ProtocolNotificationContext extends NotificationContextBas
     private boolean populateRole;
     
     /**
-     * Constructs an IRB notification context and sets the necessary services.
+     * Constructs a protocol notification context and sets the necessary services.
      * @param protocol
      * @param protocolOnlineReview
      * @param actionTypeCode
@@ -56,7 +56,6 @@ public abstract class ProtocolNotificationContext extends NotificationContextBas
      */
     public ProtocolNotificationContext(Protocol protocol, ProtocolOnlineReview protocolOnlineReview, String actionTypeCode, String contextName, NotificationRenderer renderer) {
         this(protocol, actionTypeCode, contextName, renderer);
-//    TODO : services not being set in this constructor??  Need to check this further.      
         ((ProtocolNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocolOnlineReview(protocolOnlineReview);
     }
 
@@ -75,20 +74,17 @@ public abstract class ProtocolNotificationContext extends NotificationContextBas
         
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        setNotificationRoleQualifierService(KraServiceLocator.getService(getProtocolNotificationRoleQualifierServiceClassHook()));
-        
-        ((ProtocolNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocol(protocol);
+// following demoted to IACUC constructor
+//        setNotificationRoleQualifierService(KraServiceLocator.getService(getProtocolNotificationRoleQualifierServiceClassHook()));
+//        ((ProtocolNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocol(protocol);
     }
-    
-    protected abstract Class<? extends ProtocolNotificationRoleQualifierService> getProtocolNotificationRoleQualifierServiceClassHook();
-
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
-     */
-    public String getModuleCode() {
-        return CoeusModule.IRB_MODULE_CODE;
-    }
+//    /**
+//     * {@inheritDoc}
+//     * @see org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
+//     */
+//    public String getModuleCode() {
+//        return CoeusModule.IRB_MODULE_CODE;
+//    }
     
     /**
      * {@inheritDoc}

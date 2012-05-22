@@ -294,6 +294,19 @@
         --> 
     </bean>
     
+    <bean id="commonCommitteeService" class="org.kuali.kra.common.committee.service.impl.CommitteeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+	<property name="sequenceAccessorService" ref="sequenceAccessorService" />
+    </bean>   
+    
+    <bean id="baseCommitteeScheduleService" class="org.kuali.kra.common.committee.service.impl.CommitteeScheduleServiceImpl">
+	<property name="businessObjectService" ref="businessObjectService" />
+	<property name="scheduleService" ref="scheduleService" />
+	<!--  
+	<property name="reviewCommentsService" ref="reviewCommentsService" />
+    	-->
+    </bean>
+
     <bean id="iacucWithdrawService" class="org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
@@ -362,6 +375,29 @@
     <bean id="iacucProtocolNotificationRoleQualifierService" class="org.kuali.kra.iacuc.notification.IacucProtocolNotificationRoleQualifierServiceImpl"
           scope="prototype">
     </bean>
+    
+    <bean id="iacucProtocolPersonnelDerivedRoleTypeService" 
+          class="org.kuali.kra.kim.service.impl.IacucProtocolPersonnelDerivedRoleTypeServiceImpl">
+    </bean>
+    
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+        <bean parent="kcService" p:service-ref="iacucProtocolPersonnelDerivedRoleTypeService"
+            p:localServiceName="iacucProtocolPersonnelDerivedRoleTypeService" />
+      </property>
+    </bean>
+    
+    <bean id="iacucProtocolAffiliateTypeDerivedRoleTypeService"
+          class="org.kuali.kra.kim.service.impl.IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl">
+    </bean>
+    
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+      <property name="serviceDefinition">
+            <bean parent="kcService" p:service-ref="iacucProtocolAffiliateTypeDerivedRoleTypeService"
+                  p:localServiceName="iacucProtocolAffiliateTypeDerivedRoleTypeService" />
+      </property>
+    </bean>    
+
 
 
     <bean id="iacucProtocolCopyService" class="org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyServiceImpl">
@@ -393,6 +429,10 @@
         <property name="iacucProtocolOnlineReviewService" ref="iacucProtocolOnlineReviewService" />
     </bean>
   
+
+    <bean id="iacucNotificationRoleQualifierService" class="org.kuali.kra.iacuc.notification.IacucNotificationRoleQualifierServiceImpl"
+          scope="prototype">
+    </bean>
 
     <bean id="iacucProtocolOnlineReviewTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
         <property name="groupName" value="iacucProtocolOnlineReview" />

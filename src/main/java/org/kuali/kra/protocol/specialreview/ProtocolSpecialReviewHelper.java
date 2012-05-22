@@ -33,7 +33,7 @@ public abstract class ProtocolSpecialReviewHelper extends SpecialReviewHelperBas
 
     private static final long serialVersionUID = -6004130465079070854L;
 
-    private ProtocolForm form;
+    protected ProtocolForm form;
     
     private transient TaskAuthorizationService taskAuthorizationService;
     
@@ -46,18 +46,17 @@ public abstract class ProtocolSpecialReviewHelper extends SpecialReviewHelperBas
         setLinkedProtocolNumbers(new ArrayList<String>());    
     }
 
-    @Override
-    protected boolean hasModifySpecialReviewPermission(String principalId) {
-        ProtocolTask task = new ProtocolTask(getModifySpecialReviewTaskNameHook(), form.getProtocolDocument().getProtocol());
-        return getTaskAuthorizationService().isAuthorized(principalId, task);
-    }
+// Demoted to IACUC classes    
+//    @Override
+//    protected boolean hasModifySpecialReviewPermission(String principalId) {
+//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, form.getProtocolDocument().getProtocol());
+//        return getTaskAuthorizationService().isAuthorized(principalId, task);
+//    }
     
     @Override
     protected boolean isIrbProtocolLinkingEnabledForModule() {
         return false;
     }
-
-    abstract protected String getModifySpecialReviewTaskNameHook();
 
     @Override
     protected List<ProtocolSpecialReview> getSpecialReviews() {
