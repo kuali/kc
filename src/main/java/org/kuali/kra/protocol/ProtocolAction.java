@@ -315,8 +315,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
       UnitAclLoadService unitAclLoadService = getUnitAclLoadService();
       unitAclLoadService.loadUnitAcl(permissionable);
 
-      // TODO *********commented the code below during IACUC refactoring*********               
-      //sendNotification(protocolForm);
+      sendNotification(protocolForm);
    }
     
     /**
@@ -328,6 +327,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
      */
     protected abstract void initialDocumentSaveAddRolesHook(String userId, Protocol protocol);
   
+    protected abstract void sendNotification(ProtocolForm protocolForm);
+    
 // TODO *********commented the code below during IACUC refactoring********* 
 //    
 //    @Override
