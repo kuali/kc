@@ -67,11 +67,8 @@ public abstract class ReviewCommentsBean  implements Serializable {
     }
     
     public void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
-        this.reviewComments = reviewComments;
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        this.setHideReviewerName(getReviewCommentsService().setHideReviewerName(this.reviewComments));            
-
+        this.reviewComments = reviewComments;         
+        this.setHideReviewerName(getReviewCommentsService().setHideReviewerName(this.reviewComments));
     }
     
     public List<CommitteeScheduleMinute> getDeletedReviewComments() {

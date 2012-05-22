@@ -19,15 +19,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 
 public abstract class ReviewAttachmentsBean implements Serializable {
 
-    private static final long serialVersionUID = -5330578993055642005L;
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -376105485699731967L;
+    
     private String errorPropertyKey;
-    // TODO : IACUC need to crate iacuc protocolattachment
     private ProtocolReviewAttachment newReviewAttachment;
     private List<ProtocolReviewAttachment> reviewAttachments;
     private List<ProtocolReviewAttachment> deletedReviewAttachments;
@@ -37,13 +39,14 @@ public abstract class ReviewAttachmentsBean implements Serializable {
      * Constructs a ReviewerAttachmentsBean.
      */
     public ReviewAttachmentsBean(String errorPropertyKey) {
-        this.errorPropertyKey = errorPropertyKey + ".reviewAttachmentsBean";
-        
-        this.newReviewAttachment = new IacucProtocolReviewAttachment();
+        this.errorPropertyKey = errorPropertyKey + ".reviewAttachmentsBean";        
+        this.newReviewAttachment = getNewProtocolReviewAttachmentInstanceHook();
         this.reviewAttachments = new ArrayList<ProtocolReviewAttachment>();
         this.deletedReviewAttachments = new ArrayList<ProtocolReviewAttachment>();
     }
 
+    protected abstract ProtocolReviewAttachment getNewProtocolReviewAttachmentInstanceHook();
+    
     public String getErrorPropertyName() {
         return errorPropertyKey;
     }
