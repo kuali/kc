@@ -34,6 +34,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.award.budget.AwardBudgetForm;
+import org.kuali.kra.award.budget.AwardBudgetLimit;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
@@ -407,15 +408,15 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm) form).getAwardBudgetDocument();
         Award currentAward = getAwardBudgetService().getActiveOrNewestAward(((AwardDocument) awardBudgetDocument.getParentDocument()).getAward().getAwardNumber());
         BudgetDecimal newCostLimit = getAwardBudgetService().getTotalCostLimit(currentAward.getAwardDocument());
-        if (!newCostLimit.equals(awardBudgetDocument.getBudget().getTotalCostLimit())) {
+        if (!newCostLimit.equals(awardBudgetDocument.getBudget().getTotalCostLimit())
+                || !limitsMatch(currentAward.getAwardBudgetLimits(), awardBudgetDocument.getAwardBudget().getAwardBudgetLimits())) {
             Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
             Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             String methodToCall = ((KualiForm) form).getMethodToCall();
             if(question == null){
                 ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
                 return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, UPDATE_COST_LIMITS_QUESTION,
-                        KeyConstants.QUESTION_TOTALCOSTLIMIT_CHANGED, 
-                        new String[]{awardBudgetDocument.getBudget().getTotalCostLimit().toString(), newCostLimit.toString()}), 
+                        KeyConstants.QUESTION_TOTALCOSTLIMIT_CHANGED), 
                         methodToCall, methodToCall);
             } else if(UPDATE_COST_LIMITS_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 getAwardBudgetService().setBudgetLimits(awardBudgetDocument, currentAward.getAwardDocument());
@@ -437,6 +438,44 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
     }
+    
+    /**
+     * 
+     * Compares the budget limit lists to make sure they match.
+     * @param awardLimits
+     * @param budgetLimits
+     * @return
+     */
+    protected boolean limitsMatch(List<AwardBudgetLimit> awardLimits, List<AwardBudgetLimit> budgetLimits) {
+        if (awardLimits.size() < budgetLimits.size()) {
+            return false;
+        }
+        
+        for (AwardBudgetLimit limit : awardLimits) {
+            AwardBudgetLimit budgetLimit = getBudgetLimit(limit.getLimitType(), budgetLimits);
+            if (!org.apache.commons.lang.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
+                return false;
+            }
+        }
+        return true;
+    }    
+    
+    /**
+     * 
+     * Get the specific budget limit from the budget list
+     * @param type
+     * @param budgetLimits
+     * @return
+     */
+    protected AwardBudgetLimit getBudgetLimit(AwardBudgetLimit.LIMIT_TYPE type, List<AwardBudgetLimit> budgetLimits) {
+        for (AwardBudgetLimit limit : budgetLimits) {
+            if (limit.getLimitType() == type) {
+                return limit;
+            }
+        }
+        //return empty budget limit to simplify logic above
+        return new AwardBudgetLimit(type);
+    }    
 
     private AwardBudgetService getAwardBudgetService() {
         return KraServiceLocator.getService(AwardBudgetService.class);
