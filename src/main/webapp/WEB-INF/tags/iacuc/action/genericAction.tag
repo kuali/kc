@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <%@ attribute name="tabTitle" required="true" %>
-<%@ attribute name="bean" required="true" type="org.kuali.kra.iacuc.actions.genericactions.ProtocolGenericActionBean" %>
+<%@ attribute name="bean" required="true" type="org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean" %>
 <%@ attribute name="property" required="true" %>
 <%@ attribute name="taskName" required="true" %>
 <%@ attribute name="methodToCall" required="true" %>

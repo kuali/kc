@@ -22,7 +22,8 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**
@@ -59,14 +60,14 @@ public class IacucProtocolFinderDaoOjb extends PlatformAwareDaoBaseOjb implement
      * @see org.kuali.kra.protocol.IacucProtocolFinderDao#findProtocolSubmissions(java.lang.String, int)
      */
     @SuppressWarnings("unchecked")
-    public List<IacucProtocolSubmission> findProtocolSubmissions(String protocolNumber, int submissionNumber) {
+    public List<ProtocolSubmission> findProtocolSubmissions(String protocolNumber, int submissionNumber) {
         
         Criteria crit = new Criteria();
         crit.addLike(PROTOCOL_NUMBER, protocolNumber + "%");
         crit.addEqualTo(SUBMISSION_NUMBER, submissionNumber);
         Query q = QueryFactory.newQuery(IacucProtocolSubmission.class, crit);
 
-        return (List<IacucProtocolSubmission>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+        return (List<ProtocolSubmission>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
     /**
@@ -74,13 +75,13 @@ public class IacucProtocolFinderDaoOjb extends PlatformAwareDaoBaseOjb implement
      * @see org.kuali.kra.protocol.ProtocolFinderDao#findProtocols(java.lang.String)
      */
     @SuppressWarnings("unchecked")
-    public List<IacucProtocol> findProtocols(String protocolNumber) {
+    public List<Protocol> findProtocols(String protocolNumber) {
         
         Criteria crit = new Criteria();
         crit.addLike(PROTOCOL_NUMBER, protocolNumber + "%");
         Query q = QueryFactory.newQuery(IacucProtocol.class, crit);
 
-        return (List<IacucProtocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+        return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
 }

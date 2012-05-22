@@ -17,13 +17,14 @@ package org.kuali.kra.iacuc;
 
 import java.util.List;
 
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolFinderDao;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
 /**
  * The ProtocolFinderDao is used to find protocols.
  */
-public interface IacucProtocolFinderDao {
+public interface IacucProtocolFinderDao extends ProtocolFinderDao {
 
     /**
      * Find the current protocol given a protocolNumber.  The
@@ -40,7 +41,7 @@ public interface IacucProtocolFinderDao {
      * @param submissionNumber
      * @return
      */
-    List<IacucProtocolSubmission> findProtocolSubmissions(String protocolNumber, int submissionNumber);
+    List<ProtocolSubmission> findProtocolSubmissions(String protocolNumber, int submissionNumber);
 
     /**
      * 
@@ -48,5 +49,5 @@ public interface IacucProtocolFinderDao {
      * @param protocolNumber
      * @return
      */
-    List<IacucProtocol> findProtocols(String protocolNumber);
+    List<Protocol> findProtocols(String protocolNumber);
 }
