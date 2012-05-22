@@ -29,17 +29,16 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
-
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
 import org.kuali.kra.iacuc.notification.IacucProtocolFundingSourceNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.protocol.funding.AddIacucProtocolFundingSourceEvent;
@@ -56,11 +55,18 @@ import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceBean;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceService;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceType;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.printing.util.PrintingUtils;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolEventBase;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
+import org.kuali.kra.protocol.actions.print.ProtocolPrintType;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -606,4 +612,76 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     }
     
 
+    /**
+     * 
+     * This method is to print the sections selected.  This is more like coeus implementation.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printProtocolSelectedItems(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        //String fileName = "Protocol_Summary_Report.pdf";
+        //ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
+        //String reportName = protocol.getProtocolNumber() + "-" + printType.getReportName();
+        //AttachmentDataSource dataStream = getIacucProtocolPrintingService().print(reportName, getPrintArtifacts(protocolForm));
+        AttachmentDataSource dataStream = getIacucProtocolPrintingService().printProtocolSelectedItems(protocolForm);
+        if (dataStream.getContent() != null) {
+            //dataStream.setFileName(fileName.toString());
+            PrintingUtils.streamToResponse(dataStream, response);
+            forward = null;
+        }
+
+
+        return forward;
+    }
+    
+    /**
+     * 
+     * This method is to print protocol reports
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printProtocolDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        //IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
+        
+        
+        
+        //StringBuffer fileName = new StringBuffer().append("Protocol-");
+
+        if (applyRules(new ProtocolActionPrintEvent(protocolForm.getProtocolDocument(), actionHelper.getSummaryReport(),
+            actionHelper.getFullReport(), actionHelper.getHistoryReport(), actionHelper.getReviewCommentsReport()))) {
+            //ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
+            //String reportName = protocol.getProtocolNumber()+"-"+printType.getReportName();
+            //AttachmentDataSource dataStream = getIacucProtocolPrintingService().print(reportName,getPrintReportArtifacts(protocolForm, fileName));
+            AttachmentDataSource dataStream = getIacucProtocolPrintingService().printProtocolDocument(protocolForm);
+            //(reportName,getPrintReportArtifacts(protocolForm, fileName));
+            if (dataStream.getContent() != null) {
+                //dataStream.setFileName(fileName.toString());
+                PrintingUtils.streamToResponse(dataStream, response);
+                forward = null;
+            }
+        }
+        return forward;
+    }
+
+    private IacucProtocolPrintingService getIacucProtocolPrintingService() {
+        return KraServiceLocator.getService(IacucProtocolPrintingService.class);
+    }
+    
 }
