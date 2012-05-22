@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions.reviewcomments;
 
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 
 public class IacucReviewAttachmentsBean extends ReviewAttachmentsBean {
 
@@ -26,6 +28,11 @@ public class IacucReviewAttachmentsBean extends ReviewAttachmentsBean {
 
     public IacucReviewAttachmentsBean(String errorPropertyKey) {
         super(errorPropertyKey);
+    }
+
+    @Override
+    protected ProtocolReviewAttachment getNewProtocolReviewAttachmentInstanceHook() {
+        return new IacucProtocolReviewAttachment();
     }
 
 }

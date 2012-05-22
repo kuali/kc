@@ -19,4 +19,9 @@ import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 
 public class IacucProtocolReviewAttachment extends ProtocolReviewAttachment {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -770060655670345723L;
+
 }
