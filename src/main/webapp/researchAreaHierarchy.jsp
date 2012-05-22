@@ -52,8 +52,9 @@
 
     <script type="text/javascript" src="scripts/researchArea.js"></script> 
     <script type="text/javascript">
-        $(document).ready(function(){
-            $("#listcontent00").show();
+    var $j = jQuery.noConflict();          
+        $j(document).ready(function(){
+            $j("#listcontent00").show();
         })
     </script>
 </kul:page>
