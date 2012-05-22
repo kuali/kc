@@ -119,6 +119,8 @@ public class ProtocolNotificationRenderer extends NotificationRendererBase {
                 }
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.SUBMISSION_STATUS_NAME)) {
                 params.put(key, protocol.getProtocolSubmissionStatus());
+            } else if (StringUtils.equals(key, ProtocolReplacementParameters.USER_FULLNAME)) {
+                params.put(key, GlobalVariables.getUserSession().getPerson().getName());
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.DOCUMENT_NUMBER)) {
                 params.put(key, protocol.getProtocolDocument().getDocumentNumber());
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC)) {

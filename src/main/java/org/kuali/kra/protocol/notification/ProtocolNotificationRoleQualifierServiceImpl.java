@@ -22,7 +22,7 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 
 /**
- * Implements the IRBNotificationRoleQualifierService.
+ * Implements the common protocol NotificationRoleQualifierService.
  */
 public class ProtocolNotificationRoleQualifierServiceImpl implements ProtocolNotificationRoleQualifierService {
 

@@ -40,9 +40,9 @@ public class ProtocolReplacementParameters {
     public static final String PROTOCOL_STATUS_DESCRIPTION = "{PROTOCOL_STATUS_DESCRIPTION}";
     public static final String SUBMISSION_STATUS_CODE = "{SUBMISSION_STATUS_CODE}";
     public static final String SUBMISSION_STATUS_NAME = "{SUBMISSION_STATUS_NAME}";
+    public static final String USER_FULLNAME = "{USER_FULLNAME}";
     public static final String PROTOCOL_REVIEW_TYPE_DESC = "{PROTOCOL_REVIEW_TYPE_DESC}";
     public static final String COMMITTEE_NAME = "{COMMITTEE_NAME}";
-    // parameters below were added for watermark subtext replacement
     public static final String PROTOCOL_INITIAL_APPROVAL_DATE = "{PROTOCOL_INITIAL_APPROVAL_DATE}";
     public static final String PROTOCOL_LAST_APPROVAL_DATE = "{PROTOCOL_LAST_APPROVAL_DATE}";
     public static final String PROTOCOL_EXPIRATION_DATE = "{PROTOCOL_EXPIRATION_DATE}";
@@ -66,9 +66,9 @@ public class ProtocolReplacementParameters {
                                                                          PROTOCOL_STATUS_DESCRIPTION,
                                                                          SUBMISSION_STATUS_CODE,
                                                                          SUBMISSION_STATUS_NAME,
+                                                                         USER_FULLNAME,
                                                                          PROTOCOL_REVIEW_TYPE_DESC,
                                                                          COMMITTEE_NAME, 
-                                                                         // parameters below were added for watermark text
                                                                          PROTOCOL_INITIAL_APPROVAL_DATE,
                                                                          PROTOCOL_LAST_APPROVAL_DATE,
                                                                          PROTOCOL_EXPIRATION_DATE
