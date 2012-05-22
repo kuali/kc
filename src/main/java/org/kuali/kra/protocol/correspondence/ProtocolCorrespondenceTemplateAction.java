@@ -53,9 +53,9 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
             HttpServletResponse response) throws Exception {
 
         // Check and initialize permissions
-        if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.MODIFY_CORRESPONDENCE_TEMPLATE)) {
+        if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.MODIFY_IACUC_CORRESPONDENCE_TEMPLATE)) {
             ((ProtocolCorrespondenceTemplateForm) form).setReadOnly(false);
-        } else if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.VIEW_CORRESPONDENCE_TEMPLATE)) {
+        } else if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.VIEW_IACUC_CORRESPONDENCE_TEMPLATE)) {
             ((ProtocolCorrespondenceTemplateForm) form).setReadOnly(true);
         } else {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), 
@@ -353,7 +353,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
             HttpServletResponse response) throws Exception {
 
         // Check modify permission
-        if (!getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.MODIFY_CORRESPONDENCE_TEMPLATE)) {
+        if (!getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.MODIFY_IACUC_CORRESPONDENCE_TEMPLATE)) {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), 
                     findMethodToCall(form, request), this.getClass().getSimpleName());
         }
@@ -402,7 +402,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         
-        if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.MODIFY_CORRESPONDENCE_TEMPLATE)) {
+        if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.MODIFY_IACUC_CORRESPONDENCE_TEMPLATE)) {
             if (!StringUtils.equals(request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME), KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION)) {
                 // Ask question whether to save before close
                 actionForward = this.performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, 
