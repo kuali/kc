@@ -31,7 +31,7 @@ public class IacucProtocolCorrespondenceTemplateAuthorizationServiceImpl  implem
      */
     public boolean hasPermission(String permissionName){
         KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
-        return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-PROTOCOL", permissionName);
+        return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-IACUC", permissionName);
 
     }
     protected String getUserName() {
