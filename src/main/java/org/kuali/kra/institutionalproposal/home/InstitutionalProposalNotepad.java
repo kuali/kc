@@ -26,6 +26,7 @@ import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.NoteService;
 
 public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate implements SequenceAssociate {
@@ -45,6 +46,8 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
     private boolean restrictedView;
 
     private Date createTimestamp;
+    
+    private Long noteId;
     
     private List<Note> attachments;
 
@@ -155,16 +158,41 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
             note.setRemoteObjectIdentifier(this.getObjectId());
             noteService.save(note);
         }
+        //if we haven't saved the note id or the note id is different, save the note id.
+        //This is done to allow for versioning of InstProp while still
+        //maintaining the link to this object.
+        if (getNoteId() == null || getNoteId() != getAttachments().get(0).getNoteIdentifier()) {
+            setNoteId(getAttachments().get(0).getNoteIdentifier());
+            KraServiceLocator.getService(BusinessObjectService.class).save(this);
+        }
     }
 
     public List<Note> getAttachments() {
+        if (attachments.isEmpty() && getNoteId() != null) {
+            Note note = KraServiceLocator.getService(NoteService.class).getNoteByNoteId(getNoteId());
+            if (note != null) {
+                attachments.add(note);
+            }
+        }
         if (attachments.isEmpty() && StringUtils.isNotEmpty(getObjectId())) {
             attachments = KraServiceLocator.getService(NoteService.class).getByRemoteObjectId(getObjectId());
+            //if we didn't have a valid note id, but we have an attachment, set the note id here.
+            if (!attachments.isEmpty()) {
+                setNoteId(attachments.get(0).getNoteIdentifier());
+            }
         }
         return attachments;
     }
 
     public void setAttachments(List<Note> attachments) {
         this.attachments = attachments;
+    }
+
+    public Long getNoteId() {
+        return noteId;
+    }
+
+    public void setNoteId(Long noteId) {
+        this.noteId = noteId;
     }
 }
