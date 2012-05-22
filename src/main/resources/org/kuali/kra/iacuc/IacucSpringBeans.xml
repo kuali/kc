@@ -71,6 +71,10 @@
                     <property name="taskName" value="iacucProtocolAssignToCmtUnavailable" />
                 </bean>
                 
+                <bean class="org.kuali.kra.iacuc.auth.AbandonIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucProtocolAbandon" />
+                </bean>
+                
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolGeneralInfoAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolGeneralInfo" />
                 </bean>
@@ -323,6 +327,14 @@
 -->
     </bean>
     
+     <bean id="iacucProtocolAbandonService" class="org.kuali.kra.iacuc.actions.abandon.IacucProtocolAbandonServiceImpl">
+        <property name="protocolActionService" ref="iacucActionService" />
+        <!-- Need to add this in when protocol corresspondences is done. -->
+       <!-- <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />-->
+        <property name="kcNotificationService" ref="kcNotificationService" />
+       <property name="documentService" ref="documentService" />
+    </bean>
+    
    <bean id="iacucVersionService" class="org.kuali.kra.iacuc.IacucProtocolVersionServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
@@ -369,6 +381,7 @@
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="parameterService" ref="parameterService" />
         <property name="kcPersonService" ref="kcPersonService" />
+        <property name="protocolFinderDao" ref="iacucProtocolFinderDao" />
     </bean>   
 
 

@@ -329,12 +329,12 @@ end
 //	setProtocolStatusCode(protocolAction, "103");
 //end
 
-//rule "Abandoned:  Protocol Status = 313 " 
-//salience 100
-//when
-//	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "1117")
-//then	
-//	createAuditTrail(protocolAction);
-//	setProtocolStatusCode(protocolAction, "313");
-//end
+rule "Abandoned:  Protocol Status = 309 " 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "117")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolStatusCode(protocolAction, "309");
+end
 
