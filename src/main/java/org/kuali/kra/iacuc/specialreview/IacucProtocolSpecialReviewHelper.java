@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.iacuc.IacucProtocolForm;
-import org.kuali.kra.protocol.specialreview.ProtocolSpecialReview;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelper;
 
 /**
@@ -40,10 +40,11 @@ public class IacucProtocolSpecialReviewHelper extends ProtocolSpecialReviewHelpe
     }
 
     @Override
-    protected String getModifySpecialReviewTaskNameHook() {
-        return TaskName.MODIFY_IACUC_PROTOCOL_SPECIAL_REVIEW;
+    protected boolean hasModifySpecialReviewPermission(String principalId) {
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_SPECIAL_REVIEW, form.getProtocolDocument().getProtocol());
+        return getTaskAuthorizationService().isAuthorized(principalId, task);
     }
-
+    
     protected void setNewSpecialReview() {
         setNewSpecialReview(new IacucProtocolSpecialReview());
     }
