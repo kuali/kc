@@ -661,7 +661,10 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
              * per KRACOEUS-5394 changing from getDocumentHeader().getWorkflowDocument().isFinal().  This way
              * we route back to the award document more appropriately from holding page.
              */
-            if (!getDocumentHeader().getWorkflowDocument().isSaved() && !getDocumentHeader().getWorkflowDocument().isInitiated()) {
+            if (getDocumentHeader().getWorkflowDocument().isFinal() 
+                    || getDocumentHeader().getWorkflowDocument().isProcessed()
+                    || getDocumentHeader().getWorkflowDocument().isCompletionRequested()
+                    || getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
                 isComplete = true;
             } else if (!getAward().getSyncChanges().isEmpty() && getAward().getSyncStatuses().size() > 1) {
                 //if we are doing a sync(sync changes is not empty) and we have a sync status for an award
