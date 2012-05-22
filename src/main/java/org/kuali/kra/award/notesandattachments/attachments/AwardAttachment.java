@@ -16,6 +16,9 @@
 package org.kuali.kra.award.notesandattachments.attachments;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.award.AwardAssociate;
@@ -24,6 +27,7 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...
@@ -335,5 +339,21 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
      */
     public int compareTo(AwardAttachment o) {
         return this.getAwardAttachmentId().compareTo(o.getAwardAttachmentId());
+    }
+    
+    @Override
+    protected void preRemove() {
+        super.preRemove();
+        //if we have a file and its linked to other versions make sure its not deleted with this version.
+        if (getFileId() != null) {
+            Map<String, Object> values = new HashMap<String, Object>();
+            values.put("fileId", getFileId());
+            List<AwardAttachment> otherAttachmentVersions = 
+                (List<AwardAttachment>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(AwardAttachment.class, values);
+            if (otherAttachmentVersions.size() > 1) {
+                setFile(null);
+                setFileId(null);
+            }
+        }
     }
 }
