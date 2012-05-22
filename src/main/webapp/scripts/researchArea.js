@@ -7,6 +7,7 @@ var deletedNodes = "";
 var newNodes = ";";
 var icur = 1;
 var activeOnly = true;
+var $j = jQuery.noConflict();          
 
 /**
  * This class keeps track of all research area changes.
@@ -262,17 +263,17 @@ function RaChanges() {
 
 
 
-$(document).ready(function() {
-	$.ajaxSettings.cache = false;
-	$("#researcharea").treeview( {
+$j(document).ready(function() {
+	$j.ajaxSettings.cache = false;
+	$j("#researcharea").treeview( {
 		toggle : function() {
-			var idstr = $(this).attr("id").substring(4);
+			var idstr = $j(this).attr("id").substring(4);
 			var tagId = "listcontrol" + idstr;
 			var divId = "listcontent" + idstr;
 
-			$(".hierarchydetail:not(#" + divId + ")").slideUp(300);
-			$("#" + divId).slideToggle(300);
-			loadChildrenRA($("#itemText" + idstr).text(), tagId);
+			$j(".hierarchydetail:not(#" + divId + ")").slideUp(300);
+			$j("#" + divId).slideToggle(300);
+			loadChildrenRA($j("#itemText" + idstr).text(), tagId);
 		},
 		animated : "fast",
 		collapsed : true,
@@ -284,27 +285,27 @@ $(document).ready(function() {
 	 * TODO : may remove following ajax start/complete 
 	 */
 
-	$(document).ajaxStart(function() {
-			$("#loading").show();
+	$j(document).ajaxStart(function() {
+			$j("#loading").show();
 		});
 
-	$(document).ajaxComplete(function() {
-			$("#loading").hide();
+	$j(document).ajaxComplete(function() {
+			$j("#loading").hide();
 		});
 	
 	loadFirstLevel();
 
-}); // $(document).ready
+}); // $j(document).ready
 
 /*
  * show/hide inactive research area toggle button
  */
-$("#showhidebutton").click(function() {
+$j("#showhidebutton").click(function() {
 	if (raChanges.moreChangeData() && confirm('Do you want to save changes to Research Area Hierarchy?')) {
 		save();
 	}
 
-	$("#researcharea").empty();
+	$j("#researcharea").empty();
 	raChanges = new RaChanges();
 	nextRaChangeProcessIdx = 0;
 	cutNode = null;
@@ -313,25 +314,25 @@ $("#showhidebutton").click(function() {
 	icur = 1;
 
 	if (activeOnly) {
-		$("#showhidebutton").attr("src", "kr/images/tinybutton-hideinact.gif");
+		$j("#showhidebutton").attr("src", "kr/images/tinybutton-hideinact.gif");
 		activeOnly = false;
 	} else {
-		$("#showhidebutton").attr("src", "kr/images/tinybutton-showinact.gif");
+		$j("#showhidebutton").attr("src", "kr/images/tinybutton-showinact.gif");
 		activeOnly = true;
 	}
 	
 	loadFirstLevel();
-	$("#listcontent00").show();
+	$j("#listcontent00").show();
 	return false;
 });
 
 /*
  * top level to add research area
  */
-$("#add0")
+$j("#add0")
 		.click(function() {
 			// click 'add' for 000001
-				var trNode = $(this).parents('tr:eq(0)');
+				var trNode = $j(this).parents('tr:eq(0)');
 				if (trNode.children('td:eq(1)').children('input:eq(0)').attr(
 						"value") == "") {
 					alert("must enter research area code");
@@ -350,7 +351,7 @@ $("#add0")
 					}
 
 					if (raExist == 'false') {
-						var ulTag = $("#researcharea");
+						var ulTag = $j("#researcharea");
 
 						var item_text = trNode.children('td:eq(1)').children(
 								'input:eq(0)').attr("value")
@@ -364,19 +365,19 @@ $("#add0")
 								trNode.children('td:eq(3)').children('input:eq(0)')
 								.attr("checked"));
 						// need this ultag to force to display folder.
-						var childUlTag = $('<ul></ul>').attr("id", "ul" + icur);
+						var childUlTag = $j('<ul></ul>').attr("id", "ul" + icur);
 						childUlTag.appendTo(listitem);
 
 						// this is new nodes, so it is same as already loaded
 						// from DB
 						var loadedId = "loaded" + icur;
-						var inputtag = $('<input type="hidden"></input>').attr(
+						var inputtag = $j('<input type="hidden"></input>').attr(
 								"id", loadedId);
 						inputtag.appendTo(childUlTag);
 
 						listitem.appendTo(ulTag);
 						// force to display folder icon
-						$("#researcharea").treeview( {
+						$j("#researcharea").treeview( {
 							add : listitem
 						// toggle: function() {
 								// var subul=this.getElementsByTagName("ul")[0]
@@ -396,7 +397,7 @@ $("#add0")
 								         trNode.children('td:eq(3)').children('input:eq(0)').attr("checked"));
 						
 				        // display add message
-						$("#headermsg").html("Research Area Code " + trNode.children('td:eq(1)').children('input:eq(0)').attr('value') + " added");
+						$j("#headermsg").html("Research Area Code " + trNode.children('td:eq(1)').children('input:eq(0)').attr('value') + " added");
 
 						// reset add line
 						trNode.children('td:eq(1)').children('input:eq(0)').attr("value", "");
@@ -420,7 +421,7 @@ function loadFirstLevel() {
 	if (activeOnly) {
 		addRA = "A";
 	}
-	$.ajax( {
+	$j.ajax( {
 				url : 'researchAreaAjax.do',
 				type : 'GET',
 				dataType : 'html',
@@ -432,11 +433,11 @@ function loadFirstLevel() {
 					alert('Error loading XML document');
 				},
 				success : function(xml) {
-					$(xml)
+					$j(xml)
 							.find('h3')
 							.each(
 									function() {
-										var item_text = $(this).text();
+										var item_text = $j(this).text();
 										icur++;
 										var racode = item_text.substring(0,
 												item_text.indexOf("%3A"))
@@ -459,27 +460,27 @@ function loadFirstLevel() {
 										// But 'IE7 has problem with 'span'
 										var idDiv;
 										if (jQuery.browser.msie) {
-											idDiv = $('<div></div>').attr("id",
+											idDiv = $j('<div></div>').attr("id",
 													"itemText" + icur).html(
 													item_text);
 										} else {
-											idDiv = $('<span>').attr("id",
+											idDiv = $j('<span>').attr("id",
 													"itemText" + icur).html(
 													item_text);
 										}
-										var tag = $(
+										var tag = $j(
 												'<a style = "margin-left:2px;" ></a>')
 												.attr("id", tagId).html(idDiv);
-										var div = $(
+										var div = $j(
 												'<div  class="hierarchydetail" style="margin-top:2px; "></div>')
 												.attr("id", divId);
-										var hidracode = $(
+										var hidracode = $j(
 												'<input type="hidden" id = "racode" name = "racode" />')
 												.attr("id", "racode" + icur).attr(
 														"name", "racode" + icur)
 												.attr("value", racode);
 										hidracode.appendTo(div);
-										var hidactiveflag = $(
+										var hidactiveflag = $j(
 											    '<input type="hidden" id = "activeflag" name = "activeflag" />')
 											    .attr("id", "activeflag" + icur).attr(
 											    		"name", "activeflag" + icur)
@@ -487,15 +488,15 @@ function loadFirstLevel() {
 										hidactiveflag.appendTo(div);	    			
 										tag
 												.click(function() {
-													$(
+													$j(
 															".hierarchydetail:not(#"
 																	+ divId
 																	+ ")")
 															.slideUp(300);
-													var idx = $(this)
+													var idx = $j(this)
 															.attr("id")
 															.substring(11);
-													if ($(this)
+													if ($j(this)
 															.siblings(
 																	'div:eq(1)')
 															.children(
@@ -504,18 +505,18 @@ function loadFirstLevel() {
 														tableTag(item_text,
 																"item" + idx)
 																.appendTo(
-																		$("#listcontent"
+																		$j("#listcontent"
 																				+ idx));
-														if ($("#" + divId).is(
+														if ($j("#" + divId).is(
 																":hidden")) {
-															$(
+															$j(
 																	"#listcontent"
 																			+ idx)
 																	.show();
-															// $("#listcontent"+idx).slideToggle(300);
+															// $j("#listcontent"+idx).slideToggle(300);
 														}
 													} else {
-														$("#listcontent" + idx)
+														$j("#listcontent" + idx)
 																.slideToggle(
 																		300);
 													}
@@ -523,19 +524,19 @@ function loadFirstLevel() {
 													loadChildrenRA(item_text,
 															tagId);
 												});
-										var listitem = $(
+										var listitem = $j(
 												'<li class="closed"></li>')
 												.attr("id", id).html(tag);
 										ulTagId = "researcharea";
 										div.appendTo(listitem);
 										// need this ultag to force to display
 										// folder.
-										var childUlTag = $('<ul></ul>').attr(
+										var childUlTag = $j('<ul></ul>').attr(
 												"id", "ul" + icur);
 										childUlTag.appendTo(listitem);
 										listitem.appendTo('ul#researcharea');
 										// also need this to show 'folder' icon
-										$('#researcharea').treeview( {
+										$j('#researcharea').treeview( {
 											add : listitem
 
 										});
@@ -550,14 +551,14 @@ function loadFirstLevel() {
  */
 function tableTag(name, id) {
 
-//	var link = $('<a href="#" class="hidedetail"><img src="kr/static/images/tinybutton-hide.gif" align="absmiddle" border="0" width="45" height="15"></a>');
-	var tag = $(
+//	var link = $j('<a href="#" class="hidedetail"><img src="kr/static/images/tinybutton-hide.gif" align="absmiddle" border="0" width="45" height="15"></a>');
+	var tag = $j(
 			'<th  style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" align="left"></th>')
 			.attr("id", "raHeader" + id.substring(4)).html(name);
 //	link.prependTo(tag);
-	tag = $('<tr></tr>').html(tag);
-	tag = $('<thead></thead>').html(tag);
-	tag = $(
+	tag = $j('<tr></tr>').html(tag);
+	tag = $j('<thead></thead>').html(tag);
+	tag = $j(
 			'<table width="100%" cellpadding="0" cellspacing="0" class="subelement"> </table>')
 			.html(tag);
 	tbodyTag(name, id).appendTo(tag);
@@ -567,9 +568,9 @@ function tableTag(name, id) {
 function tbodyTag(name, id) {
 
 	var idx = id.substring(4);
-	var tblTag = $('<table cellpadding="0" cellspacing="0" class="elementtable" width="100%"></table>')
-	var tag = $('<th colspan="4"></th>');
-	var image = $(
+	var tblTag = $j('<table cellpadding="0" cellspacing="0" class="elementtable" width="100%"></table>')
+	var tag = $j('<th colspan="4"></th>');
+	var image = $j(
 			'<a href="#"><img src="static/images/tinybutton-removenode.gif" width="79" height="15" border="0" alt="Remove Node" title="Remove this node and its child research areas"></a>&nbsp')
 			.attr("id", "remove" + idx).click(
 					function() {
@@ -578,53 +579,53 @@ function tbodyTag(name, id) {
 						/*
 						 * TODO remove this
 						var parentRACode;
-						if ($(liId).parents('li:eq(0)').size() == 0) {
+						if ($j(liId).parents('li:eq(0)').size() == 0) {
 							parentRACode = '000001';
 						} else {
-							parentRACode = getResearchAreaCode($(liId).parents(
+							parentRACode = getResearchAreaCode($j(liId).parents(
 									'li:eq(0)'));
 						}
 						
-						raChanges.markDeleted(idx, getResearchAreaCode($(liId)));
+						raChanges.markDeleted(idx, getResearchAreaCode($j(liId)));
 						if (deletedNodes == '') {
-							deletedNodes = getResearchAreaCode($(liId));
+							deletedNodes = getResearchAreaCode($j(liId));
 						} else {
 							deletedNodes = deletedNodes + ";"
-									+ getResearchAreaCode($(liId));
+									+ getResearchAreaCode($j(liId));
 						}
 						deleteChild(id);
 						
-						$(liId).remove();
+						$j(liId).remove();
 						cutNode = null;
 						*/
 						return false; // eliminate page jumping
 					});
 	tag.html(image);
-	image = $(
+	image = $j(
 			'<a href="#"><img src="static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child research areas.  (Node will not be removed until you paste it.)"></a>&nbsp')
 			.attr("id", "cut" + idx).click(function() {
 				var liId = "li#" + id;
-				cutNode = $(liId).clone(true);
+				cutNode = $j(liId).clone(true);
 				return false; // eliminate page jumping
 				});
 	image.appendTo(tag);
-	image = $(
+	image = $j(
 			'<a href="#"><img src="static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node"></a>')
 			.attr("id", "paste" + idx).click(function() {
 
 				if (cutNode) {
-					var parentNode = $("#" + id);
+					var parentNode = $j("#" + id);
 					var ulTag = parentNode.children('ul');
 					if (ulTag.size() > 0) {
 						// alert(ulTag.attr("id"));
 				} else {
 					alert("not found")
 					icur++;
-					ulTag = $('<ul class="filetree"></ul>')
+					ulTag = $j('<ul class="filetree"></ul>')
 							.attr("id", "ul" + icur);
 				}
 					var liId = cutNode.attr("id");
-					if (id == $("li#" + liId).parents('li:eq(0)').attr("id")) {
+					if (id == $j("li#" + liId).parents('li:eq(0)').attr("id")) {
 						alert("Paste failed:  Already at this node.");
 					} else if (id == liId) {
 						alert("Paste failed:  Can not paste to itself.");
@@ -633,31 +634,31 @@ function tbodyTag(name, id) {
 					} else {
 						var parentRACode;
 						// NOTE : cutNode.parents('li:eq(0)') is not working
-						// $("li#"+liId).parents('li:eq(0)')is ok
-						if ($("li#" + liId).parents('li:eq(0)').size() == 0) {
+						// $j("li#"+liId).parents('li:eq(0)')is ok
+						if ($j("li#" + liId).parents('li:eq(0)').size() == 0) {
 							parentRACode = '000001';
 						} else {
-							parentRACode = getResearchAreaCode($("li#" + liId)
+							parentRACode = getResearchAreaCode($j("li#" + liId)
 									.parents('li:eq(0)'));
 						}
 
-						raChanges.updateParent(liId.substring(4), getResearchAreaCode(cutNode), parentRACode, getResearchAreaCode($("#" + id)));
+						raChanges.updateParent(liId.substring(4), getResearchAreaCode(cutNode), parentRACode, getResearchAreaCode($j("#" + id)));
 
-						$("li#" + liId).remove();
+						$j("li#" + liId).remove();
 						cutNode.appendTo(ulTag);
-						$("#pcode" + $("li#" + liId).attr("id").substring(4))
-								.html(getResearchAreaCode($("#" + id)));
+						$j("#pcode" + $j("li#" + liId).attr("id").substring(4))
+								.html(getResearchAreaCode($j("#" + id)));
 						cutNode = null;
 						ulTag.appendTo(parentNode);
-						if ($("#" + id).children('div:eq(0)').attr("class")
+						if ($j("#" + id).children('div:eq(0)').attr("class")
 								.indexOf("expandable") > 0) {
 							/*
 							 * to force it to show the child node just added.
 							 * the div 'class' is changing based on whether the
 							 * node is expand or collapsed
 							 */
-							$("#" + id).children('div:eq(0)').click();
-							$("#listcontrol" + liId.substring(4)).click();
+							$j("#" + id).children('div:eq(0)').click();
+							$j("#listcontrol" + liId.substring(4)).click();
 						}
 
 					} // if then else if not paste back to parent node
@@ -667,8 +668,8 @@ function tbodyTag(name, id) {
 		}	);
 
 	image.appendTo(tag);
-	var notetag = $('<th style="text-align:right;"></th>').html("Node:");
-	tag = $('<tr></tr>').html(tag);
+	var notetag = $j('<th style="text-align:right;"></th>').html("Node:");
+	tag = $j('<tr></tr>').html(tag);
 	notetag.prependTo(tag);
 	tblTag.html(tag);
 
@@ -677,9 +678,9 @@ function tbodyTag(name, id) {
 	getTableHeader().appendTo(tblTag);
 	getEditRow(name, id).appendTo(tblTag);
 	getAddRow(id).appendTo(tblTag);
-	tag = $('<td class="subelementcontent"></td>').html(tblTag);
-	tag = $('<tr></tr>').html(tag);
-	tag = $('<tbody></tbody>').html(tag);
+	tag = $j('<td class="subelementcontent"></td>').html(tblTag);
+	tag = $j('<tr></tr>').html(tag);
+	tag = $j('<tbody></tbody>').html(tag);
 	return tag;
 }
 
@@ -688,21 +689,21 @@ function tbodyTag(name, id) {
  */
 function getTableHeader() {
 	// 2nd tr
-	var trTag = $('<tr></tr>');
-	var tdTag = $('<td class="infoline" style="width:60px;"></td>').html(
+	var trTag = $j('<tr></tr>');
+	var tdTag = $j('<td class="infoline" style="width:60px;"></td>').html(
 			'&nbsp;');
 	trTag.html(tdTag);
-	var tdTag = $('<td class="infoline" style="width:100px;"></td>').html(
+	var tdTag = $j('<td class="infoline" style="width:100px;"></td>').html(
 			'<b>Parent Code</b>');
 	tdTag.appendTo(trTag);
-	var tdTag = $('<td class="infoline" style="width:100px;"></td>').html(
+	var tdTag = $j('<td class="infoline" style="width:100px;"></td>').html(
 			'<b>Research Code</b>');
 	tdTag.appendTo(trTag);
-	var tdTag = $('<td class="infoline"></td>').html('<b>Research Area</b>');
+	var tdTag = $j('<td class="infoline"></td>').html('<b>Research Area</b>');
 	tdTag.appendTo(trTag);
-	var tdTag = $('<td class="infoline"></td>').html('<b>Active</b>');
+	var tdTag = $j('<td class="infoline"></td>').html('<b>Active</b>');
 	tdTag.appendTo(trTag);
-	var tdTag = $('<td class="infoline" style="width:65px;"></td>').html(
+	var tdTag = $j('<td class="infoline" style="width:65px;"></td>').html(
 			'<b>Action</b>');
 	tdTag.appendTo(trTag);
 	return trTag;
@@ -714,44 +715,44 @@ function getTableHeader() {
 function getEditRow(name, id) {
 	// 3rd tr
 	var idx = id.substring(4);
-	var raCode = getResearchAreaCode($("#" + id));
-	var trTag1 = $('<tr></tr>');
-	var tag1 = $('<th style="text-align:right;"></th>').html('Edit:');
+	var raCode = getResearchAreaCode($j("#" + id));
+	var trTag1 = $j('<tr></tr>');
+	var tag1 = $j('<th style="text-align:right;"></th>').html('Edit:');
 	var tdTag1;
-	var ulTagId = $("li#" + id).parents('ul:eq(0)').attr("id");
+	var ulTagId = $j("li#" + id).parents('ul:eq(0)').attr("id");
 	// if (i < 5) {
-	// alert(id+"-"+ulTagId+"-"+$("ul#" + ulTagId).parents('li:eq(0)').size())
+	// alert(id+"-"+ulTagId+"-"+$j("ul#" + ulTagId).parents('li:eq(0)').size())
 	// }
-	if ($("ul#" + ulTagId).parents('li:eq(0)').size() == 0) {
+	if ($j("ul#" + ulTagId).parents('li:eq(0)').size() == 0) {
 		// TODO : this is the second level, the children of '000001'
-		tdTag1 = $('<td></td>').attr("id", "pcode" + idx).html("000001");
+		tdTag1 = $j('<td></td>').attr("id", "pcode" + idx).html("000001");
 	} else {
-		tdTag1 = $('<td></td>').attr("id", "pcode" + idx).html(
-				getResearchAreaCode($("ul#" + ulTagId).parents('li:eq(0)')));
+		tdTag1 = $j('<td></td>').attr("id", "pcode" + idx).html(
+				getResearchAreaCode($j("ul#" + ulTagId).parents('li:eq(0)')));
 	}
 	trTag1.html(tag1);
 	tdTag1.appendTo(trTag1);
-	tdTag1 = $('<td></td>').html(raCode);
+	tdTag1 = $j('<td></td>').html(raCode);
 	tdTag1.appendTo(trTag1);
-	tdTag1 = $('<td></td>')
+	tdTag1 = $j('<td></td>')
 			.html(
-					$(
+					$j(
 							'<input type="text" name="m3" style="width:100%;" readonly="true"/>')
 							.attr("id", "cdesc" + idx).attr(
 									"value",
 									getResearchAreaDescription(raCode, name)));
 	tdTag1.appendTo(trTag1);
-	if (isActive($("#" + id))) {
-	    tdTag1 = $('<td></td>').html( $('<input type="checkbox" name="m4" checked/>').attr("id", "checkActive" + idx));
+	if (isActive($j("#" + id))) {
+	    tdTag1 = $j('<td></td>').html( $j('<input type="checkbox" name="m4" checked/>').attr("id", "checkActive" + idx));
 	} else {
-	    tdTag1 = $('<td></td>').html( $('<input type="checkbox" name="m4"/>').attr("id", "checkActive" + idx));
+	    tdTag1 = $j('<td></td>').html( $j('<input type="checkbox" name="m4"/>').attr("id", "checkActive" + idx));
 	}
 	tdTag1.click(function() {
-		if ($('#checkActive' + idx).attr('checked')) {
-			if ((ulTagId == 'researcharea') || ($('#checkActive' + ulTagId.substring(2)).attr('checked'))) {
+		if ($j('#checkActive' + idx).attr('checked')) {
+			if ((ulTagId == 'researcharea') || ($j('#checkActive' + ulTagId.substring(2)).attr('checked'))) {
 			    raChanges.updateActiveIndicator(idx, raCode, 'true');
 			} else {
-				$('#checkActive' + idx).attr('checked', false);
+				$j('#checkActive' + idx).attr('checked', false);
 				alert('Parent node must be active');
 			}
 		} else {
@@ -759,30 +760,30 @@ function getEditRow(name, id) {
 		}
     });
 	tdTag1.appendTo(trTag1);
-	tag1 = $('<th class="infoline" style="text-align:center;"></th>');
-	var editlink = $(
+	tag1 = $j('<th class="infoline" style="text-align:center;"></th>');
+	var editlink = $j(
 			'<a href="#"><img src="static/images/tinybutton-edit1.gif" width="40" height="15" border="0" title="update"></a>')
 			.attr("id", "editRA" + idx)
 			.click(function() {
-				var header = $("#raHeader" + $(this).attr("id").substring(6));
-				// $("#raHeader"+i) will not work because "i" is evaluated when
+				var header = $j("#raHeader" + $j(this).attr("id").substring(6));
+				// $j("#raHeader"+i) will not work because "i" is evaluated when
 					// this function is called; not when this function is
 					// created
-					var desc = editResearchArea($(this).attr("id").substring(6));
+					var desc = editResearchArea($j(this).attr("id").substring(6));
 
 					if (desc.length == 0) {
 						alert("Research area can not be empty ");
-					} else if ($("#cdesc" + $(this).attr("id").substring(6))
+					} else if ($j("#cdesc" + $j(this).attr("id").substring(6))
 							.attr("value") != desc) {
-						$("#cdesc" + $(this).attr("id").substring(6)).attr(
+						$j("#cdesc" + $j(this).attr("id").substring(6)).attr(
 								"value", desc);
-						var newdesc = getResearchAreaCode($("#item"
-								+ $(this).attr("id").substring(6)))
+						var newdesc = getResearchAreaCode($j("#item"
+								+ $j(this).attr("id").substring(6)))
 								+ " : " + desc;
 						header.html(newdesc);
-						$("#itemText" + $(this).attr("id").substring(6)).html(
+						$j("#itemText" + $j(this).attr("id").substring(6)).html(
 								newdesc);
-						raChanges.updateDescription($(this).attr("id").substring(6), raCode, desc);
+						raChanges.updateDescription($j(this).attr("id").substring(6), raCode, desc);
 						// lots of trouble to update the description on item, so
 						// add
 						// additional 'div' tag for this purposes.
@@ -805,32 +806,32 @@ function getEditRow(name, id) {
 function getAddRow(id) {
 	// 4th tr
 	var idx = id.substring(4);
-	var trTag2 = $('<tr></tr>');
-	var tag2 = $('<th style="text-align:right;"></th>').html('Add:');
-	var tdTag2 = $('<td></td>').html(getResearchAreaCode($("#" + id)));
+	var trTag2 = $j('<tr></tr>');
+	var tag2 = $j('<th style="text-align:right;"></th>').html('Add:');
+	var tdTag2 = $j('<td></td>').html(getResearchAreaCode($j("#" + id)));
 	trTag2.html(tag2);
 	tdTag2.appendTo(trTag2);
-	tdTag2 = $('<td></td>')
+	tdTag2 = $j('<td></td>')
 			.html(
-					$(
+					$j(
 							'<input type="text" name="m2" value="" style="width:100%;" maxlength="8" size="8"/>')
 							.attr("id", "researchCode" + idx));
 	tdTag2.appendTo(trTag2);
-	tdTag2 = $('<td></td>').html(
-			$('<input type="text" name="m3" value="" style="width:100%;" maxlength="200" size="80"/>')
+	tdTag2 = $j('<td></td>').html(
+			$j('<input type="text" name="m3" value="" style="width:100%;" maxlength="200" size="80"/>')
 					.attr("id", "desc" + idx));
 	tdTag2.appendTo(trTag2);
-	tdTag2 = $('<td></td>').html(
-			$('<input type="checkbox" name="m4" value="true" checked/>')
+	tdTag2 = $j('<td></td>').html(
+			$j('<input type="checkbox" name="m4" value="true" checked/>')
 					.attr("id", "active" + idx));
 	tdTag2.appendTo(trTag2);
-	tag2 = $('<th class="infoline" style="text-align:center;"></th>');
-	var addlink = $(
+	tag2 = $j('<th class="infoline" style="text-align:center;"></th>');
+	var addlink = $j(
 			'<a href="#"><img src="static/images/tinybutton-add1.gif" width="40" height="15" border="0" title="Add this Sub-group"></a>')
 			.attr("id", "addRA" + idx)
 			.click(
 					function() {
-						var trNode = $(this).parents('tr:eq(0)');
+						var trNode = $j(this).parents('tr:eq(0)');
 						if (trNode.children('td:eq(1)').children('input:eq(0)')
 								.attr("value") == "") {
 							alert("must enter research area code");
@@ -849,11 +850,11 @@ function getAddRow(id) {
 								raExist = 'true';
 							}
 							if (raExist == 'false') {
-								var parentNode = $("#" + id);
+								var parentNode = $j("#" + id);
 								var ulTag = parentNode.children('ul');
 								if (parentNode.children('ul').size() == 0) {
 									icur++;
-									ulTag = $('<ul class="filetree"></ul>')
+									ulTag = $j('<ul class="filetree"></ul>')
 											.attr("id", "ul" + id.substring(4));
 								}
 
@@ -864,31 +865,31 @@ function getAddRow(id) {
 								var listitem = setupListItem(trNode.children('td:eq(1)').children('input:eq(0)').attr("value"), 
 										                     trNode.children('td:eq(2)').children('input:eq(0)').attr("value"), 
 										                     trNode.children('td:eq(3)').children('input:eq(0)').attr("checked"));
-								var childUlTag = $('<ul></ul>').attr("id","ul" + $(this).attr("id").substring(5));
+								var childUlTag = $j('<ul></ul>').attr("id","ul" + $j(this).attr("id").substring(5));
 								childUlTag.appendTo(listitem);
 								// this is new nodes, so it is same as already
 								// loaded from DB
 								var loadedId = "loaded" + idx;
-								var inputtag = $(
+								var inputtag = $j(
 										'<input type="hidden"></input>').attr(
 										"id", loadedId);
 								inputtag.appendTo(childUlTag);
 
 								listitem.appendTo(ulTag);
 								// force to display folder icon
-								$("#researcharea").treeview( {
+								$j("#researcharea").treeview( {
 									add : listitem
 								});
 								newNodes = newNodes + trNode.children('td:eq(1)').children('input:eq(0)').attr("value") + ";";
 
 								raChanges.create(icur,
 										         trNode.children('td:eq(1)').children('input:eq(0)').attr("value"),
-										         getResearchAreaCode($("#" + id)),
+										         getResearchAreaCode($j("#" + id)),
 										         trNode.children('td:eq(2)').children('input:eq(0)').attr("value"),
 										         trNode.children('td:eq(3)').children('input:eq(0)').attr("checked"));
 								
 						        // display add message
-								$("#headermsg").html("Research Area Code " + trNode.children('td:eq(1)').children('input:eq(0)').attr('value') + " added");
+								$j("#headermsg").html("Research Area Code " + trNode.children('td:eq(1)').children('input:eq(0)').attr('value') + " added");
 
 								// reset add line
 								trNode.children('td:eq(1)').children('input:eq(0)').attr("value", "");
@@ -904,14 +905,14 @@ function getAddRow(id) {
 									 * collapsed
 									 */
 									parentNode.children('div:eq(0)').click();
-									$(
+									$j(
 											"#listcontrol"
 													+ listitem.attr("id")
 															.substring(4))
 											.click();
 								}
-								// $("#listcontrol"+listitem.attr("id").substring(4)).show();
-								// $("#listcontent"+listitem.attr("id").substring(4)).slideToggle(300);
+								// $j("#listcontrol"+listitem.attr("id").substring(4)).show();
+								// $j("#listcontent"+listitem.attr("id").substring(4)).slideToggle(300);
 							} else {
 								alert("Research Area Code " + trNode.children('td:eq(1)').children('input:eq(0)').attr("value") + " already exist");
 							}
@@ -929,7 +930,7 @@ function getAddRow(id) {
  * ask for modification.
  */
 function editResearchArea(idx) {
-	var desc = $("#cdesc" + idx).attr("value");
+	var desc = $j("#cdesc" + idx).attr("value");
 	var newDesc = window.prompt("Modify Research Area ", desc);
 	newDesc = newDesc.trim();
 	if (newDesc.length > 200) {
@@ -950,45 +951,45 @@ function setupListItem(code, name, activeflag) {
 	var idDiv;
 	// for later change RA description
 	if (jQuery.browser.msie) {
-		idDiv = $('<div></div>').attr("id", "itemText" + icur).html(
+		idDiv = $j('<div></div>').attr("id", "itemText" + icur).html(
 				code + " : " + name);
 	} else {
-		idDiv = $('<span>').attr("id", "itemText" + icur)
+		idDiv = $j('<span>').attr("id", "itemText" + icur)
 				.html(code + " : " + name);
 	}
-	var tag = $('<a style = "margin-left:2px;" ></a>').attr("id", tagId).html(
+	var tag = $j('<a style = "margin-left:2px;" ></a>').attr("id", tagId).html(
 			idDiv);
-	var detDiv = $(
+	var detDiv = $j(
 			'<div  class="hierarchydetail" style="margin-top:2px; "></div>')
 			.attr("id", divId);
-	var hidracode = $('<input type="hidden" id = "racode" name = "racode" />')
+	var hidracode = $j('<input type="hidden" id = "racode" name = "racode" />')
 			.attr("id", "racode" + icur).attr("name", "racode" + icur).attr("value",
 					code);
 	hidracode.appendTo(detDiv)
-	var hidactiveflag = $('<input type="hidden" id = "activeflag" name = "activeflag" />')
+	var hidactiveflag = $j('<input type="hidden" id = "activeflag" name = "activeflag" />')
             .attr("id", "activeflag" + icur).attr("name", "activeflag" + icur).attr("value", activeflag);
 	hidactiveflag.appendTo(detDiv);
 	
-	$(tag).click(
+	$j(tag).click(
 			function() {
-				$(".hierarchydetail:not(#" + divId + ")").slideUp(300);
-				if ($(this).siblings('div:eq(1)').children('table:eq(0)')
+				$j(".hierarchydetail:not(#" + divId + ")").slideUp(300);
+				if ($j(this).siblings('div:eq(1)').children('table:eq(0)')
 						.size() == 0) {
-					var idx = $(this).attr("id").substring(11);
+					var idx = $j(this).attr("id").substring(11);
 					tableTag(code + " : " + name, "item" + idx).appendTo(
-							$("#listcontent" + idx));
-					if ($("#" + divId).is(":hidden")) {
-						$("#listcontent" + idx).show();
+							$j("#listcontent" + idx));
+					if ($j("#" + divId).is(":hidden")) {
+						$j("#listcontent" + idx).show();
 					}
 				} else {
 
-					// $(".hierarchydetail:not(#"+divId+")").slideUp(300);
-					$("#" + divId).slideToggle(300);
-					// $("#"+divId).show();;
+					// $j(".hierarchydetail:not(#"+divId+")").slideUp(300);
+					$j("#" + divId).slideToggle(300);
+					// $j("#"+divId).show();;
 				}
 				// this is a new item, so should not need to loadchildren
 			});
-	var listitem = $('<li class="closed"></li>').attr("id", id1).html(tag);
+	var listitem = $j('<li class="closed"></li>').attr("id", id1).html(tag);
 	detDiv.appendTo(listitem);
 	return listitem;
 }
@@ -997,8 +998,8 @@ function setupListItem(code, name, activeflag) {
  * load children area of research when parents RA is expanding.
  */
 function loadChildrenRA(nodeName, tagId) {
-	var parentNode = $("#" + tagId);
-	var parentActiveFlag = $('#activeflag' + tagId.substring(11)).val();
+	var parentNode = $j("#" + tagId);
+	var parentActiveFlag = $j('#activeflag' + tagId.substring(11)).val();
 	var liNode = parentNode.parents('li:eq(0)');
 	var ulNode = liNode.children('ul:eq(0)');
 	var inputNodev;
@@ -1023,7 +1024,7 @@ function loadChildrenRA(nodeName, tagId) {
 					success : function(xml) {
 						var ulTag;
 						if (liNode.children('ul').size() == 0) {
-							ulTag = $('<ul class="filetree"></ul>').attr("id",
+							ulTag = $j('<ul class="filetree"></ul>').attr("id",
 									"ul" + icur);
 						} else {
 							ulTag = ulNode;
@@ -1031,14 +1032,14 @@ function loadChildrenRA(nodeName, tagId) {
 
 						ulTag.appendTo(liNode);
 						var loadedId = "loaded" + icur;
-						var inputtag = $('<input type="hidden"></input>').attr(
+						var inputtag = $j('<input type="hidden"></input>').attr(
 								"id", loadedId);
 						inputtag.appendTo(ulTag);
-						$(xml)
+						$j(xml)
 								.find('h3')
 								.each(
 										function() {
-											var item_text = $(this).text();
+											var item_text = $j(this).text();
 											icur++;
 											var racode = item_text.substring(0, item_text.indexOf("%3A")).trim();
 											var activeflag = item_text.substring(item_text.indexOf("%4A") + 3).trim();
@@ -1050,13 +1051,13 @@ function loadChildrenRA(nodeName, tagId) {
 
 											var idDiv;
 											if (jQuery.browser.msie) {
-												idDiv = $('<div></div>').attr("id", "itemText" + icur).html(item_text);
+												idDiv = $j('<div></div>').attr("id", "itemText" + icur).html(item_text);
 											} else {
-												idDiv = $('<span>').attr("id", "itemText" + icur).html(item_text);
+												idDiv = $j('<span>').attr("id", "itemText" + icur).html(item_text);
 											}
-											var tag = $('<a style = "margin-left:2px;" ></a>').attr("id", tagId).html(idDiv);
-											var detDiv = $('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id", divId);
-											var hidracode = $(
+											var tag = $j('<a style = "margin-left:2px;" ></a>').attr("id", tagId).html(idDiv);
+											var detDiv = $j('<div  class="hierarchydetail" style="margin-top:2px; "></div>').attr("id", divId);
+											var hidracode = $j(
 													'<input type="hidden" id = "racode" name = "racode" />')
 													.attr("id", "racode" + icur)
 													.attr("name", "racode" + icur)
@@ -1064,13 +1065,13 @@ function loadChildrenRA(nodeName, tagId) {
 											hidracode.appendTo(detDiv);
 											// check if parent active flag was unselected by user
 											if ((activeflag == 'true') && (parentActiveFlag == 'false')) {
-												var hidactiveflag = $(
+												var hidactiveflag = $j(
 									            '<input type="hidden" id = "activeflag" name = "activeflag" />')
 									            .attr("id", "activeflag" + icur).attr(
 									                    "name", "activeflag" + icur)
 									            .attr("value", "false");
 											} else {
-												var hidactiveflag = $(
+												var hidactiveflag = $j(
 									            '<input type="hidden" id = "activeflag" name = "activeflag" />')
 									            .attr("id", "activeflag" + icur).attr(
 									                    "name", "activeflag" + icur)
@@ -1079,9 +1080,9 @@ function loadChildrenRA(nodeName, tagId) {
 									        hidactiveflag.appendTo(detDiv);	    			
 											tag
 													.click(function() {
-														$(".hierarchydetail:not(#" + divId + ")").slideUp(300);
-														var idx = $(this).attr("id").substring(11);
-														if ($(this)
+														$j(".hierarchydetail:not(#" + divId + ")").slideUp(300);
+														var idx = $j(this).attr("id").substring(11);
+														if ($j(this)
 																.siblings('div:eq(1)')
 																.children('table:eq(0)')
 																.size() == 0) {
@@ -1090,20 +1091,20 @@ function loadChildrenRA(nodeName, tagId) {
 																	"item"
 																			+ idx)
 																	.appendTo(
-																			$("#listcontent"
+																			$j("#listcontent"
 																					+ idx));
-															if ($(
+															if ($j(
 																	"#listcontent"
 																			+ idx)
 																	.is(
 																			":hidden")) {
-																$(
+																$j(
 																		"#listcontent"
 																				+ idx)
 																		.show();
 															}
 														} else {
-															$(
+															$j(
 																	"#listcontent"
 																			+ idx)
 																	.slideToggle(
@@ -1114,17 +1115,17 @@ function loadChildrenRA(nodeName, tagId) {
 																item_text,
 																tagId);
 													});
-											var listitem = $(
+											var listitem = $j(
 													'<li class="closed"></li>')
 													.attr("id", id).html(tag);
 											ulTagId = ulTag.attr("id");
 											detDiv.appendTo(listitem);
-											var childUlTag = $('<ul></ul>')
+											var childUlTag = $j('<ul></ul>')
 													.attr("id", "ul" + icur);
 											childUlTag.appendTo(listitem);
 											listitem.appendTo(ulTag);
 											// force to display folder icon
-											$("#researcharea").treeview( {
+											$j("#researcharea").treeview( {
 												add : listitem
 											});
 
@@ -1143,7 +1144,7 @@ function loadChildrenRA(nodeName, tagId) {
  * refined because if code contains ':', then this is not working correctly.
  */
 function getResearchAreaCode(node) {
-	return $("#racode" + node.attr("id").substring(4)).attr("value");
+	return $j("#racode" + node.attr("id").substring(4)).attr("value");
 }
 
 /*
@@ -1161,7 +1162,7 @@ function getResearchAreaDescription(code, nodeName) {
  * similar to getResearchAreaCode, except this is for 'active'
  */
 function isActive(node) {
-	if ($("#activeflag" + node.attr("id").substring(4)).attr("value").trim() == 'true') {
+	if ($j("#activeflag" + node.attr("id").substring(4)).attr("value").trim() == 'true') {
 		return true;
 	} else {
 		return false;
@@ -1170,21 +1171,21 @@ function isActive(node) {
 
 
 //// <!-- initial state -->
-//$(".hierarchydetail").hide();
+//$j(".hierarchydetail").hide();
 //// <!-- hidedetail -->
-//$(".hidedetail").toggle(function() {
-//	//$(".hierarchydetail").slideUp(300);
-//		$(this).parents('thead:eq(1)').next().slideDown(400);
-//        $(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+//$j(".hidedetail").toggle(function() {
+//	//$j(".hierarchydetail").slideUp(300);
+//		$j(this).parents('thead:eq(1)').next().slideDown(400);
+//        $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
 //	}, function() {
-//		$(this).parents('thead:eq(1)').next().slideUp(400);
-//        $(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+//		$j(this).parents('thead:eq(1)').next().slideUp(400);
+//        $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
 //	});
 
 // <!-- listcontent00 -->
-$("#listcontrol00").click(function() {
-	$(".hierarchydetail:not(#listcontent00)").slideUp(300);
-	$("#listcontent00").slideToggle(300);
+$j("#listcontrol00").click(function() {
+	$j(".hierarchydetail:not(#listcontent00)").slideUp(300);
+	$j("#listcontent00").slideToggle(300);
 });
 
 /**
@@ -1192,7 +1193,7 @@ $("#listcontrol00").click(function() {
  */
 function researchAreaExistsOnServer(researchAreaCode, ignoreNodes){
 	var exists = "false";
-	$.ajax( {
+	$j.ajax( {
 		url : 'researchAreaAjax.do',
 		type : 'GET',
 		dataType : 'html',
@@ -1207,8 +1208,8 @@ function researchAreaExistsOnServer(researchAreaCode, ignoreNodes){
 			alert('Error loading XML document');
 		},
 		success : function(xml) {
-			$(xml).find('h3').each(function() {
-				exists = $(this).text();
+			$j(xml).find('h3').each(function() {
+				exists = $j(this).text();
 			});
 		}
 	}); // end ajax
@@ -1227,7 +1228,7 @@ function deactivateResearchArea(id) {
 			save();
 		}
 		
-		$("#researcharea").empty();
+		$j("#researcharea").empty();
 		raChanges = new RaChanges();
 		nextRaChangeProcessIdx = 0;
 		cutNode = null;
@@ -1236,16 +1237,16 @@ function deactivateResearchArea(id) {
 		icur = 1;
 		
 		loadFirstLevel();
-		$("#listcontent00").show();
+		$j("#listcontent00").show();
 		return false;
 	}
 	else {
-		var researchAreaCode = getResearchAreaCode($("#" + id));
+		var researchAreaCode = getResearchAreaCode($j("#" + id));
 		// alert("RAcode is " + researchAreaCode);
 		var retValue = false;
 		// alert("retvalue before ajax" + retValue);
-		$("#headermsg").html(""); 
-		$.ajax( {
+		$j("#headermsg").html(""); 
+		$j.ajax( {
 			url : 'researchAreaAjax.do',
 			type : 'POST',
 			dataType : 'html',
@@ -1260,23 +1261,23 @@ function deactivateResearchArea(id) {
 				retValue = false;
 			},
 			success : function(xml) {
-				$(xml).find('h3').each(function() {
-					retmsg = $(this).text();
+				$j(xml).find('h3').each(function() {
+					retmsg = $j(this).text();
 					});
 				if (retmsg == 'Success') {										
-					$('<span id="msg"/>').css("color", "black").html("Research area deactivated successfully").appendTo($("#headermsg"));
-					$('<br/>').appendTo($("#headermsg"));
+					$j('<span id="msg"/>').css("color", "black").html("Research area deactivated successfully").appendTo($j("#headermsg"));
+					$j('<br/>').appendTo($j("#headermsg"));
 					
-					$('input[id^=checkActive]', 'li#' + id).each(function() {
-						$(this).attr('checked', false);
+					$j('input[id^=checkActive]', 'li#' + id).each(function() {
+						$j(this).attr('checked', false);
 					});					
-				    $('input[id^=activeflag]', 'li#' + id).val('false');
+				    $j('input[id^=activeflag]', 'li#' + id).val('false');
 				    
 					retValue = true;
 				} else {
 					alert('This research area cannot be deactivated because it (or one of its descendants) is being currently referenced.');
-					$('<span id="msg"/>').css("color", "red").html("Research area could not be deactivated.<br/>" + retmsg).appendTo($("#headermsg"))
-					$('<br/>').appendTo($("#headermsg"));					
+					$j('<span id="msg"/>').css("color", "red").html("Research area could not be deactivated.<br/>" + retmsg).appendTo($j("#headermsg"))
+					$j('<br/>').appendTo($j("#headermsg"));					
 					retValue = false;
 				}
 			}
@@ -1297,7 +1298,7 @@ function deleteResearchArea(liId) {
 			save();
 		}
 		
-		$("#researcharea").empty();
+		$j("#researcharea").empty();
 		raChanges = new RaChanges();
 		nextRaChangeProcessIdx = 0;
 		cutNode = null;
@@ -1306,14 +1307,14 @@ function deleteResearchArea(liId) {
 		icur = 1;
 		
 		loadFirstLevel();
-		$("#listcontent00").show();
+		$j("#listcontent00").show();
 		return false;
 	}
 	else {
-		var researchAreaCode = getResearchAreaCode($(liId));
+		var researchAreaCode = getResearchAreaCode($j(liId));
 		// alert("RAcode is " + researchAreaCode);
-		$("#headermsg").html(""); 
-		$.ajax( {
+		$j("#headermsg").html(""); 
+		$j.ajax( {
 			url : 'researchAreaAjax.do',
 			type : 'POST',
 			dataType : 'html',
@@ -1327,18 +1328,18 @@ function deleteResearchArea(liId) {
 				alert('This research area cannot be deleted (perhaps due to archival reasons), but you could try deactivating it.');
 			},
 			success : function(xml) {
-				$(xml).find('h3').each(function() {
-					retmsg = $(this).text();
+				$j(xml).find('h3').each(function() {
+					retmsg = $j(this).text();
 					});
 				if (retmsg == 'Success') {
 					// alert("removing node now");
-					$(liId).remove();
+					$j(liId).remove();
 					cutNode = null;
-					$('<span id="msg"/>').css("color", "black").html("Research area deleted successfully").appendTo($("#headermsg"));
-					$('<br/>').appendTo($("#headermsg"));
+					$j('<span id="msg"/>').css("color", "black").html("Research area deleted successfully").appendTo($j("#headermsg"));
+					$j('<br/>').appendTo($j("#headermsg"));
 				} else {
-					$('<span id="msg"/>').css("color", "red").html("Research area could not be deleted.<br/>" + retmsg).appendTo($("#headermsg"))
-					$('<br/>').appendTo($("#headermsg"));
+					$j('<span id="msg"/>').css("color", "red").html("Research area could not be deleted.<br/>" + retmsg).appendTo($j("#headermsg"))
+					$j('<br/>').appendTo($j("#headermsg"));
 					alert('This research area cannot be deleted (perhaps due to archival reasons), but you could try deactivating it.');
 				}
 			}
@@ -1353,9 +1354,9 @@ function deleteResearchArea(liId) {
 function save() {
 	var error = false;
 	while(raChanges.moreChangeData() && !error) {
-		$("#headermsg").html(""); // clear error message
+		$j("#headermsg").html(""); // clear error message
 		var retmsg;
-		$.ajax( {
+		$j.ajax( {
 			url : 'researchAreaAjax.do',
 			type : 'GET',
 			dataType : 'html',
@@ -1365,21 +1366,21 @@ function save() {
 			timeout : 1000,
 			error : function() {
 			    error = true;
-				$('<span id="msg"/>').css("color", "red").html("Error when save Areas of Research").appendTo($("#headermsg"))
-				$('<br/>').appendTo($("#headermsg"));
+				$j('<span id="msg"/>').css("color", "red").html("Error when save Areas of Research").appendTo($j("#headermsg"))
+				$j('<br/>').appendTo($j("#headermsg"));
 			},
 			success : function(xml) {
-				$(xml).find('h3').each(function() {
-					retmsg = $(this).text();
+				$j(xml).find('h3').each(function() {
+					retmsg = $j(this).text();
 					});
 				if (retmsg == 'Success') {
 					raChanges.confirmSucess();
-					$('<span id="msg"/>').css("color", "black").html("Areas of Research saved successfully").appendTo($("#headermsg"));
-					$('<br/>').appendTo($("#headermsg"));
+					$j('<span id="msg"/>').css("color", "black").html("Areas of Research saved successfully").appendTo($j("#headermsg"));
+					$j('<br/>').appendTo($j("#headermsg"));
 				} else {
 					error = true;
-					$('<span id="msg"/>').css("color", "red").html("Error when save Areas of Research <br/>" + retmsg).appendTo($("#headermsg"))
-					$('<br/>').appendTo($("#headermsg"));
+					$j('<span id="msg"/>').css("color", "red").html("Error when save Areas of Research <br/>" + retmsg).appendTo($j("#headermsg"))
+					$j('<br/>').appendTo($j("#headermsg"));
 				}
 			}
 		});
@@ -1389,7 +1390,7 @@ function save() {
 /*
  * This Method processes the click on the save button.
  */
-$("#save").click(function() {
+$j("#save").click(function() {
 	save();
 	return false;
 });
@@ -1397,7 +1398,7 @@ $("#save").click(function() {
 /*
  * This Method processes the click on the close button.
  */
-$("#close").click(function() {
+$j("#close").click(function() {
 	if (raChanges.moreChangeData() && confirm('Do you want to save changes to Research Area Hierarchy?')) {
 		save();
 	}
@@ -1406,24 +1407,24 @@ $("#close").click(function() {
 /*
  * paste to root node
  */
-$("#paste0").click(
+$j("#paste0").click(
 		function() {
 			if (cutNode) {
-			var ulTag = $("#researcharea");
+			var ulTag = $j("#researcharea");
 				var liId = cutNode.attr("id");
-				if ("researcharea" == $("li#" + liId).parents('ul:eq(0)')
+				if ("researcharea" == $j("li#" + liId).parents('ul:eq(0)')
 						.attr("id")) {
 					alert("Paste failed:  Already at the root node.");
 				} else {
-					var parentRACode = getResearchAreaCode($("li#" + liId)
+					var parentRACode = getResearchAreaCode($j("li#" + liId)
 							.parents('li:eq(0)'));
 					
 					raChanges.updateParent(liId.substring(4), getResearchAreaCode(cutNode), parentRACode, "000001");
 
-					$("li#" + liId).remove();
+					$j("li#" + liId).remove();
 					cutNode.appendTo(ulTag);
 					cutNode = null;
-					$("#pcode" + $("li#" + liId).attr("id").substring(4))
+					$j("#pcode" + $j("li#" + liId).attr("id").substring(4))
 							.html("000001");
 					// ulTag.appendTo(parentNode);
 				} // if then else if not paste back to parent node
