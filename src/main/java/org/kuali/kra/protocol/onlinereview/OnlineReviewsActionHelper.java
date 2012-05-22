@@ -55,7 +55,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 
-public class OnlineReviewsActionHelper implements Serializable {
+public abstract class OnlineReviewsActionHelper implements Serializable {
 
     public static final String REVIEWER_COMMENTS_MAP_KEY = "reviewerComments";
     public static final String REVIEWER_ATTACHMENTS_MAP_KEY = "reviewerAttachments";
@@ -136,18 +136,14 @@ public class OnlineReviewsActionHelper implements Serializable {
                         throw new RuntimeException(String.format("Exception generated creating new instance of ProtocolOnlineReviewForm with document %s",pDoc.getDocumentNumber()),e);
                     }
                    
-                    ReviewCommentsBean commentsBean = new ReviewCommentsBean(Constants.EMPTY_STRING);
+                    ReviewCommentsBean commentsBean = getNewReviewCommentsBeanInstanceHook(Constants.EMPTY_STRING);
                     commentsBean.setReviewComments(pDoc.getProtocolOnlineReview().getCommitteeScheduleMinutes());
                   //  commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));
                     pDocMap.put(REVIEWER_COMMENTS_MAP_KEY, commentsBean);
                     reviewCommentsBeans.add(commentsBean);
                     
-                    ReviewAttachmentsBean attachmentsBean = new ReviewAttachmentsBean("onlineReviewsActionHelper");
-                    
-                    // -- commented as part of GENERATED CODE need to verify
-                    attachmentsBean.setReviewAttachments(pDoc.getProtocolOnlineReview().getReviewAttachments());
-                    
-                    
+                    ReviewAttachmentsBean attachmentsBean = getNewReviewAttachmentsBeanHook("onlineReviewsActionHelper");                    
+                    attachmentsBean.setReviewAttachments(pDoc.getProtocolOnlineReview().getReviewAttachments());                   
                   //  commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));
                     pDocMap.put(REVIEWER_ATTACHMENTS_MAP_KEY, attachmentsBean);
                     reviewAttachmentsBeans.add(attachmentsBean);
@@ -156,16 +152,20 @@ public class OnlineReviewsActionHelper implements Serializable {
             }
             
         }
-        // TODO : IACUC needs following later
-//        for (ReviewCommentsBean commentsBean : reviewCommentsBeans) {
-//            commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));            
-//        }
-//        for (ReviewAttachmentsBean attachmentsBean : reviewAttachmentsBeans) {
-//            attachmentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(attachmentsBean.getReviewAttachments()));            
-//        }
+
+        for (ReviewCommentsBean commentsBean : reviewCommentsBeans) {
+            commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));            
+        }
+        for (ReviewAttachmentsBean attachmentsBean : reviewAttachmentsBeans) {
+            attachmentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(attachmentsBean.getReviewAttachments()));            
+        }
  
     }
     
+    protected abstract ReviewAttachmentsBean getNewReviewAttachmentsBeanHook(String errorPropertyKey);
+
+    protected abstract ReviewCommentsBean getNewReviewCommentsBeanInstanceHook(String errorPropertyKey);
+
     private List<String> getReviewerIds() {
         List<String> reviewerIds = new ArrayList<String>();
         for (ProtocolOnlineReviewDocument pDoc : protocolOnlineReviewDocuments) {

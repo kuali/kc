@@ -23,7 +23,7 @@ import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
-public class ReviewCommentsBean  implements Serializable {
+public abstract class ReviewCommentsBean  implements Serializable {
 
 
     /**
@@ -68,7 +68,8 @@ public class ReviewCommentsBean  implements Serializable {
     
     public void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
         this.reviewComments = reviewComments;
-        // TODO : IACUC needs this later
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        this.setHideReviewerName(getReviewCommentsService().setHideReviewerName(this.reviewComments));            
 
     }

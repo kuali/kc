@@ -26,6 +26,7 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataHelper;
+import org.kuali.kra.iacuc.onlinereview.IacucOnlineReviewsActionHelper;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.noteattachment.IacucNotesAttachmentsHelper;
 import org.kuali.kra.iacuc.permission.IacucPermissionsHelper;
@@ -39,12 +40,16 @@ import org.kuali.kra.iacuc.species.exception.IacucProtocolExceptionHelper;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearchHelper;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
+import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
+import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelper;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
@@ -71,10 +76,6 @@ public class IacucProtocolForm extends ProtocolForm {
     }
 
     public void initializeIacucProtocolHelpers() throws Exception {
-        setActionHelper(new IacucActionHelper(this));
-        setProtocolCustomDataHelper(new IacucProtocolCustomDataHelper(this));
-        setProtocolSpecialReviewHelper(new IacucProtocolSpecialReviewHelper(this));
-        setQuestionnaireHelper(new IacucProtocolQuestionnaireHelper(this));
     }
     
     public void initializeIacucProtocolSpecies() throws Exception {
@@ -297,16 +298,30 @@ public class IacucProtocolForm extends ProtocolForm {
        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
    }
 
-@Override
-public Map getEditingMode() {
-    // TODO Auto-generated method stub
-    return super.getEditingMode();
-}
-
-@Override
-public void setEditingMode(Map editingMode) {
-    // TODO Auto-generated method stub
-    super.setEditingMode(editingMode);
-}
+  
+    @Override
+    protected QuestionnaireHelper createNewQuestionnaireHelperInstanceHook(ProtocolForm protocolForm) {
+        return new IacucProtocolQuestionnaireHelper((IacucProtocolForm) protocolForm);
+    }
+    
+    @Override
+    protected ActionHelper createNewActionHelperInstanceHook(ProtocolForm protocolForm) throws Exception{
+        return new IacucActionHelper((IacucProtocolForm) protocolForm);
+    }
+    
+    @Override
+    protected ProtocolSpecialReviewHelper createNewSpecialReviewHelperInstanceHook(ProtocolForm protocolForm) {
+        return new IacucProtocolSpecialReviewHelper((IacucProtocolForm) protocolForm);
+    }
+    
+    @Override
+    protected ProtocolCustomDataHelper createNewCustomDataHelperInstanceHook(ProtocolForm protocolForm) {
+        return new IacucProtocolCustomDataHelper((IacucProtocolForm) protocolForm);
+    }
+    
+    @Override
+    protected OnlineReviewsActionHelper createNewOnlineReviewsActionHelperInstanceHook(ProtocolForm protocolForm) {
+        return new IacucOnlineReviewsActionHelper((IacucProtocolForm) protocolForm);
+    }
 
 }
