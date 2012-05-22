@@ -222,8 +222,8 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProtocolForm protocolForm = (ProtocolForm)form;
-        protocolForm.getProtocolCustomDataHelper().prepareView(protocolForm.getProtocolDocument().getProtocol());
-        return protocolForm.getProtocolCustomDataHelper().getCustomDataAction(mapping, form, request, response);
+        protocolForm.getCustomDataHelper().prepareView(protocolForm.getProtocolDocument().getProtocol());
+        return protocolForm.getCustomDataHelper().getCustomDataAction(mapping, form, request, response);
     }
     
     /**

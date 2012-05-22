@@ -253,8 +253,8 @@
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
 <!-- IACUC
         <property name="followupActionService" ref = "followupActionService"/>
+-->        
         <property name="protocolDao" ref="iacucProtocolDao" />
--->
         <property name="ruleFiles">
             <list>
                 <value>org/kuali/kra/iacuc/drools/rules/canPerformIacucProtocolActionRules.drl</value>

@@ -121,7 +121,7 @@ public abstract class ProtocolCustomDataAction extends ProtocolAction {
      */
     public ActionForward clearLookupValue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolCustomDataHelper protocolCustomDataHelper = protocolForm.getProtocolCustomDataHelper();
+        ProtocolCustomDataHelper protocolCustomDataHelper = protocolForm.getCustomDataHelper();
         Map<String, CustomAttributeDocument> customAttributeDocuments = protocolForm.getProtocolDocument().getCustomAttributeDocuments();
         String customAttributeId = request.getParameter("methodToCall.clearLookupValue");
         
@@ -213,7 +213,7 @@ public abstract class ProtocolCustomDataAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ResearchDocumentBase document = (ResearchDocumentBase) protocolForm.getDocument();
 
-        for (Map.Entry<String, String[]>customAttributeValue: protocolForm.getProtocolCustomDataHelper().getCustomAttributeValues().entrySet()) {
+        for (Map.Entry<String, String[]>customAttributeValue: protocolForm.getCustomDataHelper().getCustomAttributeValues().entrySet()) {
             String customAttributeId = customAttributeValue.getKey().substring(2);
             String value = customAttributeValue.getValue()[0];
             document.getCustomAttributeDocuments().get(customAttributeId).getCustomAttribute().setValue(value);
