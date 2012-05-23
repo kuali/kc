@@ -278,6 +278,7 @@ public interface TaskName {
     public static final String MODIFY_IACUC_PROTOCOL_AREAS_OF_RESEARCH = "modifyIacucProtocolAreasOfResearch";
     public static final String MODIFY_IACUC_PROTOCOL_ATTACHMENTS = "modifyIacucProtocolAttachments";
     public static final String MODIFY_IACUC_PROTOCOL_PERSONNEL = "modifyIacucProtocolPersonnel";
+    public static final String MODIFY_IACUC_PROTOCOL_THREE_RS = "modifyIacucProtocolThreeRs";    
     public static final String IACUC_NOTIFY_COMMITTEE = "iacucProtocolNotifyCommittee"; 
     public static final String IACUC_NOTIFY_COMMITTEE_UNAVAILABLE = "iacucProtocolNotifyCommitteeUnavailable"; 
     public static final String IACUC_ACKNOWLEDGEMENT = "iacucAcknowledgement"; 
@@ -300,7 +301,7 @@ public interface TaskName {
     public static final String IACUC_ASSIGN_REVIEWERS = "iacucProtocolAssignReviewers"; 
     public static final String IACUC_ASSIGN_REVIEWERS_UNAVAILABLE = "iacucProtocolAssignReviewersUnavailable"; 
     public static final String IACUC_ASSIGN_REVIEWERS_CMT_SEL = "iacucProtocolAssignReviewersCmtSel"; 
-    public static final String IACUC_VIEW_RESTRICTED_NOTES = "viewRestrictedNotes";
+    public static final String IACUC_VIEW_RESTRICTED_NOTES = "iacucViewRestrictedNotes";
     public static final String IACUC_RESPONSE_APPROVAL = "iacucProtocolResponseApproval"; 
     public static final String IACUC_RESPONSE_APPROVAL_UNAVAILABLE = "iacucProtocolResponseApprovalUnavailable"; 
     public static final String IACUC_APPROVE_PROTOCOL = "iacucProtocolApprove"; 
