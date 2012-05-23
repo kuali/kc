@@ -1030,6 +1030,7 @@ public final class KeyConstants {
     public static final String ERROR_INVALID_SUBRECIPIENT_ID = "error.invalid.subrecipient.id";
     public static final String ERROR_INVALID_SITEINVESTIGATOR_ID = "error.invalid.siteinvestigator.id";
     public static final String ERROR_INVALID_REQUISITIONER = "error.invalid.requisitioner";
+    public static final String ERROR_SUBAWARD_INVOICE_AMOUNT_RELEASED_ZERO = "subaward.error.amount.released.zero";
     //negotiations
     public static final String NEGOTIATION_STATUS_USED = "error.negotiations.codeAlreadyUsed";
     public static final String NEGOTIATION_CHANGE_ASSOCIATION_TYPE_MESSAGE="negotiation.message.changeAssociationType";
