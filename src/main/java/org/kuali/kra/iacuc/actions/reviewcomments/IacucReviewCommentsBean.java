@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.actions.reviewcomments;
 
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 
 public class IacucReviewCommentsBean extends ReviewCommentsBean {
 
@@ -27,6 +28,12 @@ public class IacucReviewCommentsBean extends ReviewCommentsBean {
 
     public IacucReviewCommentsBean(String errorPropertyKey) {
         super(errorPropertyKey);
+    }
+
+
+    @Override
+    protected Class<? extends ReviewCommentsService> getReviewCommentsServiceClassHook() {
+        return IacucReviewCommentsService.class;
     }
 
 }
