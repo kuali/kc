@@ -22,6 +22,8 @@ public class SubmitIacucProtocolAttachmentProtocolRuleImpl extends SubmitProtoco
     public SubmitIacucProtocolAttachmentProtocolRuleImpl() {
         super();
         
-        protocolHelper = new IacucProtocolAttachmentProtocolRuleHelper(null);
+        // TODO : temporarily plugin this propertyprefix to fix runtime exception.  need to rework to have correct prefix
+        protocolHelper = new IacucProtocolAttachmentProtocolRuleHelper("notesAttachmentsHelper.newAttachmentProtocol");
+       // protocolHelper = new IacucProtocolAttachmentProtocolRuleHelper(null);
     }
 }
