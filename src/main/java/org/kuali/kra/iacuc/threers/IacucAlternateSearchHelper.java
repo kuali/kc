@@ -20,6 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class IacucAlternateSearchHelper implements Serializable {
 
@@ -66,11 +71,12 @@ public class IacucAlternateSearchHelper implements Serializable {
     }
 
     public boolean isModifyPermissions() {
-        return modifyPermissions;
+        final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_THREE_RS, form.getProtocolDocument().getProtocol());
+        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
 
-    public void setModifyPermissions(boolean modifyPermissions) {
-        this.modifyPermissions = modifyPermissions;
+    private TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
-    
+
 }
