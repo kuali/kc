@@ -53,7 +53,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     private ProtocolActionService protocolActionService;
     private IacucProtocolFinderDao protocolFinderDao;
     private BusinessObjectService businessObjectService;
-    private ProtocolAssignReviewersService protocolAssignReviewersService;
+//    private ProtocolAssignReviewersService protocolAssignReviewersService;
     
     /**
      * Set the Document Service.
@@ -91,10 +91,10 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
      * Set the Protocol Assign Reviewers Service.
      * @param protocolAssignReviewersService
      */
-    public void setProtocolAssignReviewersService(ProtocolAssignReviewersService protocolAssignReviewersService) {
-        this.protocolAssignReviewersService = protocolAssignReviewersService;
-    }
-    
+//    public void setProtocolAssignReviewersService(ProtocolAssignReviewersService protocolAssignReviewersService) {
+//        this.protocolAssignReviewersService = protocolAssignReviewersService;
+//    }
+//    
 //    /**
 //     * {@inheritDoc}
 //     * @see org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionService#getTotalSubmissions(java.lang.String)
@@ -226,17 +226,6 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
             protocol.setInitialSubmissionDate(new Date(submission.getSubmissionDate().getTime()));
         }
         
-        // TODO : this is to verify creating OLR working.
-        submission.setCommitteeId("KC001");
-        submission.setScheduleId("33");
-        ProtocolReviewerBean reviewer = new ProtocolReviewerBean();
-        reviewer.setPersonId("10000000004");
-        reviewer.setNonEmployeeFlag(false);
-        reviewer.setReviewerTypeCode("1");
-        submitAction.setReviewers(new ArrayList<ProtocolReviewerBean>());
-        submitAction.getReviewers().add(reviewer);
-        // end testing data
-//TODO   
 //TODO        protocolAssignReviewersService.assignReviewers(submission, submitAction.getReviewers());
         
         IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, submission, IacucProtocolActionType.SUBMITTED_TO_IACUC);
