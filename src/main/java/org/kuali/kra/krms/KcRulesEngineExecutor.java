@@ -24,6 +24,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentFactBuilderService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.engine.RouteContext;
@@ -44,33 +46,14 @@ public class KcRulesEngineExecutor implements RulesEngineExecutor {
 
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
-        
-        // TODO Need logic in here to only add these from the final, complete budget version (if it exists)
         String unitNumber = getElementValue(docContent, "//ownedByUnitNumber");
-        String totalCost = getElementValue(docContent, "//totalCost");
-        String totalDirectCost = getElementValue(docContent, "//totalDirectCost");
-        String totalIndirectCost = getElementValue(docContent, "//totalIndirectCost");
-        String costShareAmount = getElementValue(docContent, "//costShareAmount");
-        String underrecoveryAmount = getElementValue(docContent, "//underrecoveryAmount");
-        String totalCostInitial = getElementValue(docContent, "//totalCostInitial");
-        String totalDirectCostLimit = getElementValue(docContent, "//totalDirectCostLimit");
-        String cfdaNumber = getElementValue(docContent, "//cfdaNumber");
-        String opportunityId = getElementValue(docContent, "//opportunityId");
         
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
                 Collections.singletonMap("Unit Number", unitNumber));
 
+        ProposalDevelopmentFactBuilderService fbService = KraServiceLocator.getService(ProposalDevelopmentFactBuilderService.class);
         Facts.Builder factsBuilder = Facts.Builder.create();
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_COST, totalCost);
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST, totalDirectCost);
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_INDIRECT_COST, totalIndirectCost);
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.COST_SHARE_AMOUNT, costShareAmount);
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.UNDERRECOVERY_AMOUNT, underrecoveryAmount);
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_COST_INITIAL, totalCostInitial);
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST_LIMIT, totalDirectCostLimit);
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.CFDA_NUMBER, cfdaNumber);
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.OPPORTUNITY_ID, opportunityId);
-
+        fbService.addFacts(factsBuilder, docContent);
         EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);
         return results;
     }
@@ -80,7 +63,7 @@ public class KcRulesEngineExecutor implements RulesEngineExecutor {
             Document document = XmlHelper.trimXml(new ByteArrayInputStream(docContent.getBytes()));
 
             XPath xpath = XPathHelper.newXPath();
-            String value = (String)xpath.evaluate(xpathExpression, document, XPathConstants.STRING);
+            String value = (String) xpath.evaluate(xpathExpression, document, XPathConstants.STRING);
 
             return value;
 
