@@ -58,9 +58,8 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
 
     @Override
     public boolean canEditProtocolAttachments() {
-//      final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ATTACHMENTS, this.getProtocol());
-//      return this.authService.isAuthorized(this.getUserIdentifier(), task);
-        return true;
+        final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ATTACHMENTS, this.getProtocol());
+        return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
 
     @Override
@@ -85,16 +84,14 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
 
     @Override
     public boolean canAddProtocolNotepads() {
-//        final ProtocolTask task = new ProtocolTask(TaskName.ADD_IACUC_PROTOCOL_NOTES, this.getProtocol());
-//        return this.authService.isAuthorized(this.getUserIdentifier(), task);
-        return true;
+        final ProtocolTask task = new ProtocolTask(TaskName.ADD_IACUC_PROTOCOL_NOTES, this.getProtocol());
+        return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
 
     @Override
     public boolean canViewRestrictedProtocolNotepads() {
-//      final ProtocolTask task = new ProtocolTask(TaskName.VIEW_RESTRICTED_NOTES, this.getProtocol());
-//      return this.authService.isAuthorized(this.getUserIdentifier(), task);
-        return true;
+        final ProtocolTask task = new ProtocolTask(TaskName.IACUC_VIEW_RESTRICTED_NOTES, this.getProtocol());
+        return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
 
     @Override

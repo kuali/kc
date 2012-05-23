@@ -118,12 +118,7 @@
                 <bean class="org.kuali.kra.iacuc.auth.IacucProtocolAmendRenewDeleteUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="iacucProtocolAmendRenewDeleteUnavailable" />
                 </bean>                          
-
-<!--  IACUC
-                <bean class="org.kuali.kra.iacuc.auth.ModifyProtocolPersonnelAuthorizer" parent="parentIacucProtocolAuthorizer">
-                    <property name="taskName" value="modifyIacucProtocolPersonnel" />
-                </bean>
--->                
+          
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolFundingSourceAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolFundingSource" />
                 </bean>
@@ -131,7 +126,22 @@
                     <property name="taskName" value="maintainIacucProtocolOnlineReviews"/>
                 </bean>
 
+                <bean class="org.kuali.kra.iacuc.auth.AddIacucProtocolNotesAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="addIacucProtocolNotes"/>
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucViewRestrictedNotesProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucViewRestrictedNotes"/>
+                </bean>
 
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolAttachmentsAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolAttachments"/>
+                </bean>
+                  
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolThreeRsAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolThreeRs"/>
+                </bean>                
+                                              
            </list>
         </property>
     </bean>
@@ -478,7 +488,7 @@
      <bean id="iacucProtocolCorrespondenceTemplateService" class="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
- 
+    
  	<bean id="iacucProtocolOnlineReviewRoleTypeService"
 			  class="org.kuali.kra.workflow.IacucProtocolOnlineReviewDerivedRoleTypeServiceImpl">
 		<property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService" />		
