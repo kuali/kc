@@ -337,18 +337,19 @@ public abstract class NotesAttachmentsHelper {
          * is it necessary to even create a event?  Does the rule have to implement BusinessRule?  There
          * doesn't seem to be many advantages to doing these things...
          */
-//        TODO: fix the rule stuff
-//        final AddProtocolAttachmentProtocolRule rule = new AddProtocolAttachmentProtocolRuleImpl();
-//        final AddProtocolAttachmentProtocolEvent event = new AddProtocolAttachmentProtocolEvent(this.form.getProtocolDocument(), this.newAttachmentProtocol);
-//        
-//        if (rule.processAddProtocolAttachmentProtocolRules(event)) {
+          final AddProtocolAttachmentProtocolRule rule = getAddProtocolAttachmentProtocolRuleInstanceHook();
+          final AddProtocolAttachmentProtocolEvent event = new AddProtocolAttachmentProtocolEvent(this.form.getProtocolDocument(), this.newAttachmentProtocol);
+       
+        if (rule.processAddProtocolAttachmentProtocolRules(event)) {
             this.addNewAttachment(this.newAttachmentProtocol);
             this.initAttachmentProtocol();
-//        } else {
-//            this.newAttachmentProtocol.setFile(null);
-//        }
+        } else {
+              this.newAttachmentProtocol.setFile(null);
+        }
 
     }
+    
+    public abstract AddProtocolAttachmentProtocolRule getAddProtocolAttachmentProtocolRuleInstanceHook();
     
     /**
      * 
@@ -360,7 +361,7 @@ public abstract class NotesAttachmentsHelper {
      * @return true if successfully deleted.
      * @throws IllegalArgumentException if the type is null or not recognized
      */
-    <T extends ProtocolAttachmentBase> boolean deleteExistingAttachmentByType(final int attachmentNumber, final Class<T> type) {
+    public <T extends ProtocolAttachmentBase> boolean deleteExistingAttachmentByType(final int attachmentNumber, final Class<T> type) {
         
         final boolean deleted;
         
@@ -382,11 +383,11 @@ public abstract class NotesAttachmentsHelper {
      * @throws IllegalArgumentException if the type is null or not recognized
      */
     @SuppressWarnings("unchecked")
-    <T extends ProtocolAttachmentBase> T retrieveExistingAttachmentByType(final int attachmentNumber, final Class<T> type) {
+    public <T extends ProtocolAttachmentBase> T retrieveExistingAttachmentByType(final int attachmentNumber, final Class<T> type) {
 
         final T attachment;
         
-        if (ProtocolAttachmentProtocol.class.equals(type)) {
+        if (getProtocolAttachmentProtocolClassHook().equals(type)) {
             attachment = (T) retrieveExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentProtocols());
         } else {
             throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + type);
@@ -403,7 +404,7 @@ public abstract class NotesAttachmentsHelper {
      * @return the confirmation method
      * @throws IllegalArgumentException if the type is null or not recognized
      */
-    <T extends ProtocolAttachmentBase> String retrieveConfirmMethodByType(final Class<T> type) {
+    public <T extends ProtocolAttachmentBase> String retrieveConfirmMethodByType(final Class<T> type) {
         final String confirmMethod;
          
         if (getProtocolAttachmentProtocolClassHook().equals(type)) {
@@ -734,13 +735,12 @@ public abstract class NotesAttachmentsHelper {
      * adds a new note to the protocol.  Also performs validation.
      */
     public void addNewNote() {
-// TODO: fix the rules stuff here    
-//        final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
-//        final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getProtocolDocument(), this.protocolNotepad);
-//        
-//        if (!rule.processAddProtocolNotepadRules(event)) {
-//            return;
-//        }
+        final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
+        final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getProtocolDocument(), this.protocolNotepad);
+        
+        if (!rule.processAddProtocolNotepadRules(event)) {
+            return;
+        }
 
         this.addNewNotepad(this.protocolNotepad);
         
@@ -753,13 +753,12 @@ public abstract class NotesAttachmentsHelper {
     public void modifyNote(int noteToModify) {
     
         ProtocolNotepad notepadObject = this.getProtocol().getNotepads().get(noteToModify);
-//TODO: fix rules stuff here        
-//        final ModifyProtocolNotepadRule rule = new ModifyProtocolNotepadRuleImpl();
-//        final ModifyProtocolNotepadEvent event = new ModifyProtocolNotepadEvent(this.form.getProtocolDocument(), notepadObject);
-//
-//        if (!rule.processModifyProtocolNotepadRules(event)) {
-//            return;
-//        }
+        final ModifyProtocolNotepadRule rule = new ModifyProtocolNotepadRuleImpl();
+        final ModifyProtocolNotepadEvent event = new ModifyProtocolNotepadEvent(this.form.getProtocolDocument(), notepadObject);
+
+        if (!rule.processModifyProtocolNotepadRules(event)) {
+            return;
+        }
         modifyNotepad(notepadObject);
     }
     
@@ -767,13 +766,12 @@ public abstract class NotesAttachmentsHelper {
      * deletes a note from the protocol.
      */
     public boolean deleteNote(int noteToDelete) {
-//TODO: fix rules stuff here    
-//        final DeleteProtocolNotepadRule rule = new DeleteProtocolNotepadRuleImpl();
-//        final DeleteProtocolNotepadEvent event = new DeleteProtocolNotepadEvent(this.form.getProtocolDocument(), this.protocolNotepad);
-//        
-//        if (!rule.processDeleteProtocolNotepadRules(event)) {
-//            return false;
-//        }
+        final DeleteProtocolNotepadRule rule = new DeleteProtocolNotepadRuleImpl();
+        final DeleteProtocolNotepadEvent event = new DeleteProtocolNotepadEvent(this.form.getProtocolDocument(), this.protocolNotepad);
+        
+        if (!rule.processDeleteProtocolNotepadRules(event)) {
+            return false;
+        }
 
         this.deleteNotepad(noteToDelete);
         return true;

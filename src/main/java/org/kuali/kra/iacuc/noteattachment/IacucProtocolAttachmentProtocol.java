@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
+import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
 
 public class IacucProtocolAttachmentProtocol extends ProtocolAttachmentProtocol {
@@ -22,7 +23,14 @@ public class IacucProtocolAttachmentProtocol extends ProtocolAttachmentProtocol 
     private static final long serialVersionUID = 4879429021874546070L;
     private static final String GROUP_CODE = "1";
     
+    public IacucProtocolAttachmentProtocol(Protocol protocol) {
+        super(protocol);
+    }
 
+    public IacucProtocolAttachmentProtocol() {
+        super();
+    }
+    
     @Override
     public String getGroupCode() {
         return GROUP_CODE;

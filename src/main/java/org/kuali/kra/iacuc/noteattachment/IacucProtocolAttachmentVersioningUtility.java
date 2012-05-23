@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
+import java.util.List;
+
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentVersioningUtility;
 import org.kuali.kra.service.VersioningService;
@@ -31,5 +34,11 @@ public class IacucProtocolAttachmentVersioningUtility extends ProtocolAttachment
     private static ProtocolAttachmentService getProtocolAttachmentService() {
         return KraServiceLocator.getService("iacucProtocolAttachmentService");
     }
+
+    @Override
+    protected Class<? extends ProtocolAttachmentProtocol> getProtocolAttachmentProtocolClassHook() {
+        return IacucProtocolAttachmentProtocol.class;
+    }
+
 
 }

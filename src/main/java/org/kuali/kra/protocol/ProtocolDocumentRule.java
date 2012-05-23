@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImpl;
 import org.kuali.kra.protocol.personnel.AddProtocolAttachmentPersonnelEvent;
 import org.kuali.kra.protocol.personnel.AddProtocolAttachmentPersonnelRule;
 import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
@@ -172,9 +173,9 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
         retval &= getNewProtocolFundingSourceAuditRuleInstanceHook().processRunAuditBusinessRules((ProtocolDocument) document);         
         retval &= getNewProtocolResearchAreaAuditRuleInstanceHook().processRunAuditBusinessRules((ProtocolDocument) document);
         retval &= getNewProtocolPersonnelAuditRuleInstanceHook().processRunAuditBusinessRules(document);
+        retval &= this.processNoteAndAttachmentAuditRules((ProtocolDocument) document);
 
 // TODO *********commented the code below during IACUC refactoring*********         
-//        retval &= this.processNoteAndAttachmentAuditRules((ProtocolDocument) document);
 //        retval &= new ProtocolQuestionnaireAuditRule().processRunAuditBusinessRules((ProtocolDocument) document);
         
         return retval;
@@ -330,20 +331,21 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
     }
 
     
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
-//    /**
-//     * Executes the notes and attachment related audit rules.
-//     * @param document the document.
-//     * @return true if valid.
-//     */
-//    private boolean processNoteAndAttachmentAuditRules(ProtocolDocument document) {
-//        assert document != null : "the document was null";
-//        
-//        boolean valid = true;
-//        valid &= new SubmitProtocolAttachmentProtocolRuleImpl().processSubmitProtocolAttachmentProtocolRules(document);
-//     
-//        return valid;
-//    } 
+    /**
+     * Executes the notes and attachment related audit rules.
+     * @param document the document.
+     * @return true if valid.
+     */
+    private boolean processNoteAndAttachmentAuditRules(ProtocolDocument document) {
+        assert document != null : "the document was null";
+        
+        boolean valid = true;
+        valid &= newSubmitProtocolAttachmentProtocolRuleImplInstanceHook().processSubmitProtocolAttachmentProtocolRules(document);
+     
+        return valid;
+    }
+    
+    protected abstract SubmitProtocolAttachmentProtocolRuleImpl newSubmitProtocolAttachmentProtocolRuleImplInstanceHook();
 
     /**
      * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.submit.ProtocolSubmitActionBean)
