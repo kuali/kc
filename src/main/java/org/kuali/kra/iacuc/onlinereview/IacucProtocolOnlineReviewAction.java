@@ -49,14 +49,23 @@ import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewAttachmentEvent;
 import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
+import org.kuali.kra.protocol.onlinereview.event.DeleteProtocolOnlineReviewEvent;
+import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
+import org.kuali.kra.service.KraWorkflowService;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADUtils;
 
 public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
     private static final String PROTOCOL_DOCUMENT_NUMBER="protocolDocumentNumber";
@@ -64,7 +73,13 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
 
     private static final String NOT_FOUND_SELECTION = "the attachment was not found for selection ";
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
-    
+    private static final String PROTOCOL_OLR_TAB = "onlineReview";
+    private static final String DOCUMENT_REJECT_QUESTION="DocReject";
+    private static final String DOCUMENT_DELETE_QUESTION="ProtocolDocDelete";
+    private static final String UPDATE_REVIEW_STATUS_TO_FINAL="statusToFinal";
+    private static final String DOCUMENT_REJECT_REASON_MAXLENGTH = "2000";
+    private static final String ERROR_DOCUMENT_DELETE_REASON_REQUIRED = "You must enter a reason for this deletion.  The reason must be no more than {0} characters long.";
+   
     
     public ActionForward createOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -420,5 +435,170 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         
     }
 
+    public ActionForward approveOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
+                (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE),
+                "approveOnlineReview");
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
+        ReviewCommentsBean reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
+        ReviewAttachmentsBean reviewAttachmentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewAttachmentsBeanFromHelperMap(onlineReviewDocumentNumber);
+        boolean isApproveReview = StringUtils.equals(ProtocolOnlineReviewStatus.SAVED_STATUS_CD, prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode());
+        //check to see if we are the reviewer and this is an approval to the irb admin.
+        
+        boolean validComments = applyRules(new RouteProtocolOnlineReviewEvent(prDoc, reviewCommentsBean.getReviewComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)));
+        boolean statusIsOk = false;
+        
+        if( validComments && getKraWorkflowService().isUserApprovalRequested(prDoc, GlobalVariables.getUserSession().getPrincipalId())) {
+            //then the status must be final.
+                prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
+                prDoc.getProtocolOnlineReview().setReviewerApproved(true);
+                if (getKraWorkflowService().isDocumentOnNode(prDoc, Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW)) {
+                    prDoc.getProtocolOnlineReview().setAdminAccepted(true);
+                    setOnlineReviewCommentFinalFlags(prDoc.getProtocolOnlineReview(), true);
+                }
+                getBusinessObjectService().save(prDoc.getProtocolOnlineReview());
+                getDocumentService().saveDocument(prDoc);
+                statusIsOk = true;
+        }
+        
+        if (!validComments || !statusIsOk) {
+            //nothing to do here.
+        } else {
+            getReviewCommentsService().saveReviewComments(reviewCommentsBean.getReviewComments(), reviewCommentsBean.getDeletedReviewComments());
+            getReviewCommentsService().saveReviewAttachments(reviewAttachmentsBean.getReviewAttachments(), reviewAttachmentsBean.getDeletedReviewAttachments());           
 
+            prDoc.getProtocolOnlineReview().addActionPerformed("Approve");
+            getDocumentService().saveDocument(prDoc);
+            getDocumentService().approveDocument(prDoc, "", null);
+            protocolForm.getOnlineReviewsActionHelper().init(true);
+            recordOnlineReviewActionSuccess("approved", prDoc);
+            
+            Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+            // TODO : IACUC notification need it here
+//            ProtocolOnlineReview protocolOnlineReview = prDoc.getProtocolOnlineReview();
+//            IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
+////            IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_COMPLETE, "Review Complete", renderer);
+////            getKcNotificationService().sendNotification(context);
+//            ActionForward forward = null;
+//            if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
+//                forward = mapping.findForward(PROTOCOL_OLR_TAB);
+//            }
+//            return checkToSendNotificationWithHoldingPage(mapping, forward, protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_COMPLETE, "Review Complete", prDoc.getDocumentNumber(), "Approve"));
+//            if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
+//                // reviewer approve will return here
+//                return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+//            } else if (isApproveReview) {
+//                // admin approve review will return here
+//                return routeProtocolOLRToHoldingPage(mapping, protocolForm, prDoc.getDocumentNumber(), "Approve");
+//            }
+        }                
+       
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        
+    }
+
+    private KraWorkflowService getKraWorkflowService() {
+        return KraServiceLocator.getService(KraWorkflowService.class);
+    }
+
+    private void setOnlineReviewCommentFinalFlags(ProtocolOnlineReview onlineReview, boolean flagValue) {
+        List<CommitteeScheduleMinute> minutes = onlineReview.getCommitteeScheduleMinutes();
+        for (CommitteeScheduleMinute minute : minutes) {
+            minute.setFinalFlag(flagValue);
+        }
+    }
+    
+    public ActionForward deleteOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+         
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
+                (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE),
+                "deleteOnlineReview");
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
+            .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
+        ReviewCommentsBean reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        String deleteNoteText = "";
+        String callerString = String.format("disapproveOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
+       
+        //the data gets saved here, need to validate the save ok.
+        if (!this.applyRules(new SaveProtocolOnlineReviewEvent(prDoc, reviewCommentsBean.getReviewComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)))) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
+        
+        // start in logic for confirming the disapproval
+        if (question == null) {
+            // ask question if not already asked
+            return performQuestionWithInput(mapping, form, request, response, DOCUMENT_DELETE_QUESTION, "Are you sure you want to delete this document?", KRADConstants.CONFIRMATION_QUESTION, callerString, "");
+        } else {
+            Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+            if ((DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                // if no button clicked just reload the doc
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            } else {
+                // have to check length on value entered
+                String introNoteMessage = "Deletion reason -" + KRADConstants.BLANK_SPACE;
+
+                // build out full message
+                deleteNoteText = introNoteMessage + reason;
+
+                // get note text max length from DD
+                int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KRADConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
+
+                if (!this.applyRules(new DeleteProtocolOnlineReviewEvent(prDoc, reason, deleteNoteText, noteTextMaxLength))) {
+                    // figure out exact number of characters that the user can enter
+                    int reasonLimit = noteTextMaxLength - introNoteMessage.length();
+
+                    if (reason == null) {
+                        // prevent a NPE by setting the reason to a blank string
+                        reason = "";
+                    }
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_DELETE_QUESTION, "Are you sure you want to delete this document?", KRADConstants.CONFIRMATION_QUESTION, callerString, "", reason, ERROR_DOCUMENT_DELETE_REASON_REQUIRED, KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+                } 
+                
+                if (KRADUtils.containsSensitiveDataPatternMatch(deleteNoteText)) {
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, 
+                            DOCUMENT_DELETE_QUESTION, "Are you sure you want to delete this document?", 
+                            KRADConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
+                            KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
+                } 
+                
+                ProtocolOnlineReview protocolOnlineReview = prDoc.getProtocolOnlineReview();
+                Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+                // TODO : IACUC notification
+//                DeleteReviewNotificationRenderer renderer = new DeleteReviewNotificationRenderer(protocol, reason);
+//                IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_DELETED, "Review Deleted", renderer);
+//                getKcNotificationService().sendNotification(context);
+
+                prDoc.getProtocolOnlineReview().addActionPerformed("Delete");
+                KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)protocolForm.getOnlineReviewsActionHelper().getDocumentHelperMap().get(onlineReviewDocumentNumber).get(OnlineReviewsActionHelper.FORM_MAP_KEY);
+                doProcessingAfterPost( kualiDocumentFormBase, request );
+                ProtocolOnlineReviewDocument document = (ProtocolOnlineReviewDocument) kualiDocumentFormBase.getDocument();
+                document.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+                document.getProtocolOnlineReview().setReviewerApproved(false);
+                document.getProtocolOnlineReview().setAdminAccepted(false);
+                getBusinessObjectService().save(document.getProtocolOnlineReview());
+                getDocumentService().disapproveDocument(document, deleteNoteText);
+                KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_DISAPPROVED);
+                kualiDocumentFormBase.setAnnotation("");
+                protocolForm.getOnlineReviewsActionHelper().init(true);
+                recordOnlineReviewActionSuccess("deleted", prDoc);
+                // TODO IACUC Notification
+//                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_OLR_TAB), protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_DELETED, "Review Deleted", null, null));
+                
+//                if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
+//                    return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+//                }
+             }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
 }
