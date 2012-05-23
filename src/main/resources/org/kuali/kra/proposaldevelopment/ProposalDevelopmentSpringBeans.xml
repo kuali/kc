@@ -818,5 +818,8 @@
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="proposalDevelopmentFactBuilderService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentFactBuilderServiceImpl">
+	</bean>
 		
 </beans>
