@@ -20,12 +20,12 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 /**
  * Contains rules for adding {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
  */
-interface AddProtocolAttachmentProtocolRule extends BusinessRule {
+public interface AddProtocolAttachmentProtocolRule extends BusinessRule {
 
     /**
      * Executes the rules for adding a new {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
      * @param event the add event.
      * @return if validation passes.
      */
-    boolean processAddProtocolAttachmentProtocolRules(AddProtocolAttachmentProtocolEvent event);
+    public boolean processAddProtocolAttachmentProtocolRules(AddProtocolAttachmentProtocolEvent event);
 }

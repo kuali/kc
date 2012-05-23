@@ -15,31 +15,13 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
+import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImpl;
 
-public class IacucProtocolAttachmentPersonnel extends ProtocolAttachmentPersonnel {
+public class SubmitIacucProtocolAttachmentProtocolRuleImpl extends SubmitProtocolAttachmentProtocolRuleImpl {
 
-    private static final long serialVersionUID = 5529222336473432436L;
-    
-    private static final String GROUP_CODE = "2";
-
-    public IacucProtocolAttachmentPersonnel(Protocol protocol) {
-        super(protocol);
-    }
-    
-    public IacucProtocolAttachmentPersonnel() {
+    public SubmitIacucProtocolAttachmentProtocolRuleImpl() {
         super();
+        
+        protocolHelper = new IacucProtocolAttachmentProtocolRuleHelper(null);
     }
-    
-    @Override
-    public String getGroupCode() {
-        return GROUP_CODE;
-    }
-
-    @Override
-    public String getAttachmentDescription() {
-        return "Personnel Attachment";
-    }
-
 }

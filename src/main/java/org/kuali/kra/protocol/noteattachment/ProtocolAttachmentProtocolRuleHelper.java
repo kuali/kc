@@ -26,46 +26,59 @@ import org.kuali.rice.kns.util.AuditError;
 /**
  * This class contains methods to "help" in validating {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
  */
-class ProtocolAttachmentProtocolRuleHelper {
+public abstract class ProtocolAttachmentProtocolRuleHelper {
     
     //FIXME: probably should find a better place for these constants
-    private static final String NOTES_ATTACHMENTS_CLUSTER_LABEL = "Notes & Attachments";
-    private static final String NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY = "NoteAndAttachmentAuditErrors";
-    private static final String NOTE_AND_ATTACHMENT_LINK = "noteAndAttachment";
+    protected static final String NOTES_ATTACHMENTS_CLUSTER_LABEL = "Notes & Attachments";
+    protected static final String NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY = "NoteAndAttachmentAuditErrors";
+    protected static final String NOTE_AND_ATTACHMENT_LINK = "noteAndAttachment";
     
-    private final ProtocolAttachmentService attachmentService;
-    private final ErrorReporter errorReporter = new ErrorReporter();
-    private String propertyPrefix;
+    protected final ProtocolAttachmentService attachmentService;
+    protected final ErrorReporter errorReporter = new ErrorReporter();
+    protected String propertyPrefix;
+    
+// TODO *********commented the code below during IACUC refactoring*********   
+//    /**
+//     * Creates helper deferring the setting of the prefix to later.
+//     */
+//    protected ProtocolAttachmentProtocolRuleHelper() {
+//        this(KraServiceLocator.getService(ProtocolAttachmentService.class));
+//    }
+//    
+//    /**
+//     * Creates helper using prefix provided.
+//     *  
+//     * @param aPropertyPrefix the prefix (ex: notesAttachmentsHelper.newAttachmentProtocol)
+//     * @throws IllegalArgumentException if the propertyPrefix is null
+//     */
+//    protected ProtocolAttachmentProtocolRuleHelper(final String aPropertyPrefix) {
+//        this();
+//        this.resetPropertyPrefix(aPropertyPrefix);
+//    }
+//    
+//    /**
+//     * Creates helper deferring the setting of the prefix to later and setting used services.
+//     * @param attachmentService the Attachment Service
+//     * @throws IllegalArgumentException if the attachmentService is null
+//     */
+//    protected ProtocolAttachmentProtocolRuleHelper(final ProtocolAttachmentService attachmentService) {
+//        if (attachmentService == null) {
+//            throw new IllegalArgumentException("the attachmentService is null");
+//        }
+//        
+//        this.attachmentService = attachmentService;
+//    }
     
     /**
-     * Creates helper deferring the setting of the prefix to later.
+     * New constructor added in uplift
      */
-    ProtocolAttachmentProtocolRuleHelper() {
-        this(KraServiceLocator.getService(ProtocolAttachmentService.class));
-    }
-    
-    /**
-     * Creates helper using prefix provided.
-     *  
-     * @param aPropertyPrefix the prefix (ex: notesAttachmentsHelper.newAttachmentProtocol)
-     * @throws IllegalArgumentException if the propertyPrefix is null
-     */
-    ProtocolAttachmentProtocolRuleHelper(final String aPropertyPrefix) {
-        this();
-        this.resetPropertyPrefix(aPropertyPrefix);
-    }
-    
-    /**
-     * Creates helper deferring the setting of the prefix to later and setting used services.
-     * @param attachmentService the Attachment Service
-     * @throws IllegalArgumentException if the attachmentService is null
-     */
-    ProtocolAttachmentProtocolRuleHelper(final ProtocolAttachmentService attachmentService) {
+    protected ProtocolAttachmentProtocolRuleHelper (String aPropertyPrefix, ProtocolAttachmentService attachmentService) {
         if (attachmentService == null) {
             throw new IllegalArgumentException("the attachmentService is null");
         }
-        
-        this.attachmentService = attachmentService;
+  
+        this.attachmentService = attachmentService;  
+        this.resetPropertyPrefix(aPropertyPrefix);        
     }
     
     /**
@@ -73,7 +86,7 @@ class ProtocolAttachmentProtocolRuleHelper {
      * @param aPropertyPrefix the prefix (ex: notesAttachmentsHelper.newAttachmentProtocol)
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
-    void resetPropertyPrefix(final String aPropertyPrefix) {
+    protected void resetPropertyPrefix(final String aPropertyPrefix) {
         if (aPropertyPrefix == null) {
             throw new IllegalArgumentException("propertyPrefix is null");
         }
@@ -86,7 +99,7 @@ class ProtocolAttachmentProtocolRuleHelper {
      * @param attachmentProtocol the attachment.
      * @return true is valid.
      */
-    boolean validStatusForSubmission(final ProtocolAttachmentProtocol attachmentProtocol) {
+    protected boolean validStatusForSubmission(final ProtocolAttachmentProtocol attachmentProtocol) {
         if (!StringUtils.equals(attachmentProtocol.getDocumentStatusCode(), "3")) {
             if (!ProtocolAttachmentProtocol.COMPLETE_STATUS_CODE.equals(attachmentProtocol.getStatusCode())) {
                 final AuditError error = new AuditError(this.propertyPrefix + "." + ProtocolAttachmentProtocol.PropertyName.STATUS_CODE,
@@ -104,7 +117,7 @@ class ProtocolAttachmentProtocolRuleHelper {
      * @param attachment the attachment.
      * @return true if valid.
      */
-    boolean validStatus(final ProtocolAttachmentProtocol attachment) {
+    protected boolean validStatus(final ProtocolAttachmentProtocol attachment) {
         
         //This assumes that the status object has been refreshed from the DB
         //and if not found the refresh action set the person to null.
@@ -118,4 +131,5 @@ class ProtocolAttachmentProtocolRuleHelper {
         }
         return true;
     }
+    
 }
