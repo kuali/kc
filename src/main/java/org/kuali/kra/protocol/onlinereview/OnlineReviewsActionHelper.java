@@ -30,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -550,7 +551,7 @@ public abstract class OnlineReviewsActionHelper implements Serializable {
     }
 
     private ReviewCommentsService getReviewerCommentsService() {
-        return KraServiceLocator.getService(ReviewCommentsService.class);
+        return KraServiceLocator.getService(IacucReviewCommentsService.class);
     }
 
     public boolean isHideReviewerName() {
