@@ -25,7 +25,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 /**
  * This class contains methods to "help" in validating {@link ProtocolAttachmentBase ProtocolAttachmentBase}.
  */
-class ProtocolAttachmentBaseRuleHelper {
+public abstract class ProtocolAttachmentBaseRuleHelper {
 
     private static final String OTHER_TYPE_CODE = "9";
 
@@ -34,43 +34,62 @@ class ProtocolAttachmentBaseRuleHelper {
     private final ErrorReporter errorReporter = new ErrorReporter();
     
     private String propertyPrefix;
+ 
+// TODO *********commented the code below during IACUC refactoring*********   
+//    
+//    /**
+//     * Creates helper deferring the setting of the prefix to later.
+//     */
+//    ProtocolAttachmentBaseRuleHelper() {
+//        this(KraServiceLocator.getService(ProtocolAttachmentService.class),
+//            KNSServiceLocator.getKNSDictionaryValidationService());
+//    }
+//    
+//    /**
+//     * Creates helper using prefix provided.
+//     *  
+//     * @param aPropertyPrefix the prefix (ex: notesAttachmentsHelper.newAttachmentProtocol)
+//     * @throws IllegalArgumentException if the propertyPrefix is null
+//     */
+//    ProtocolAttachmentBaseRuleHelper(final String aPropertyPrefix) {
+//        this();
+//        this.resetPropertyPrefix(aPropertyPrefix);
+//    }
+//    
+//    /**
+//     * Creates helper deferring the setting of the prefix to later and setting used services.
+//     * @param attachmentService the Attachment Service
+//     * @throws IllegalArgumentException if the attachmentService is null
+//     */
+//    ProtocolAttachmentBaseRuleHelper(final ProtocolAttachmentService attachmentService,
+//        final DictionaryValidationService validationService) {
+//        if (attachmentService == null) {
+//            throw new IllegalArgumentException("the attachmentService is null");
+//        }
+//        
+//        if (validationService == null) {
+//            throw new IllegalArgumentException("the validationService is null");
+//        }
+//        
+//        this.attachmentService = attachmentService;
+//        this.validationService = validationService;
+//    }
     
-    /**
-     * Creates helper deferring the setting of the prefix to later.
-     */
-    ProtocolAttachmentBaseRuleHelper() {
-        this(KraServiceLocator.getService(ProtocolAttachmentService.class),
-            KNSServiceLocator.getKNSDictionaryValidationService());
-    }
-    
-    /**
-     * Creates helper using prefix provided.
-     *  
-     * @param aPropertyPrefix the prefix (ex: notesAttachmentsHelper.newAttachmentProtocol)
-     * @throws IllegalArgumentException if the propertyPrefix is null
-     */
-    ProtocolAttachmentBaseRuleHelper(final String aPropertyPrefix) {
-        this();
-        this.resetPropertyPrefix(aPropertyPrefix);
-    }
-    
-    /**
-     * Creates helper deferring the setting of the prefix to later and setting used services.
-     * @param attachmentService the Attachment Service
-     * @throws IllegalArgumentException if the attachmentService is null
-     */
-    ProtocolAttachmentBaseRuleHelper(final ProtocolAttachmentService attachmentService,
-        final DictionaryValidationService validationService) {
+    protected ProtocolAttachmentBaseRuleHelper(final String aPropertyPrefix,
+            final ProtocolAttachmentService attachmentService,
+            final DictionaryValidationService validationService) {
         if (attachmentService == null) {
             throw new IllegalArgumentException("the attachmentService is null");
         }
-        
+  
         if (validationService == null) {
             throw new IllegalArgumentException("the validationService is null");
         }
-        
+  
         this.attachmentService = attachmentService;
-        this.validationService = validationService;
+        this.validationService = validationService; 
+        this.resetPropertyPrefix(aPropertyPrefix);
+        
     }
     
     /**

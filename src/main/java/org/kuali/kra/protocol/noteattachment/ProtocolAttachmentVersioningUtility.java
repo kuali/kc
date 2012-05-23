@@ -51,24 +51,25 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public abstract class ProtocolAttachmentVersioningUtility {
 
-    private final ProtocolAttachmentService notesService;
-    private final VersioningService versionService;
-    private final DocumentService docService;
+    protected final ProtocolAttachmentService notesService;
+    protected final VersioningService versionService;
+    protected final DocumentService docService;
     
-    private final ProtocolForm form;
-    private static final String ATTACHMENT_DELETED = "3";
-    private static final String ATTACHMENT_DRAFTED = "1";
-    private ProtocolDocument newDocumentVersion;
+    protected final ProtocolForm form;
+    protected static final String ATTACHMENT_DELETED = "3";
+    protected static final String ATTACHMENT_DRAFTED = "1";
+    protected ProtocolDocument newDocumentVersion;
     
     /**
      * Constructs a versioning util setting the dependencies to default values.
      * @param form the form
      * @throws IllegalArgumentException if the form is null
      */
-    protected ProtocolAttachmentVersioningUtility(final ProtocolForm form) {
-        this(form, KraServiceLocator.getService(ProtocolAttachmentService.class),
-            KraServiceLocator.getService(VersioningService.class), KraServiceLocator.getService(DocumentService.class));
-    }
+// TODO *********commented the code below during IACUC refactoring*********      
+//    protected ProtocolAttachmentVersioningUtility(final ProtocolForm form) {
+//        this(form, KraServiceLocator.getService(ProtocolAttachmentService.class),
+//            KraServiceLocator.getService(VersioningService.class), KraServiceLocator.getService(DocumentService.class));
+//    }
     
     /**
      * Constructs a versioning util.
@@ -166,7 +167,7 @@ public abstract class ProtocolAttachmentVersioningUtility {
      */
     void versionExstingAttachments() {
         //only need to version attachment protocols at the moment
-        boolean createVersion = this.versionExstingAttachments(this.form.getProtocolDocument().getProtocol().getAttachmentProtocols(), ProtocolAttachmentProtocol.class);
+        boolean createVersion = this.versionExstingAttachments(this.form.getProtocolDocument().getProtocol().getAttachmentProtocols(), getProtocolAttachmentProtocolClassHook());
     }
 
     /** 
@@ -175,16 +176,16 @@ public abstract class ProtocolAttachmentVersioningUtility {
      * in a new attachment & protocol version.  The passed in Collection or objects in Collection may be modified.
      * <T> the type of attachments
      * @param attachments the attachments.
-     * @param type the class token for type of attachments (required for adding to generic Collection)
+     * @param class1 the class token for type of attachments (required for adding to generic Collection)
      */
-    private <T extends ProtocolAttachmentBase> boolean versionExstingAttachments(final Collection<T> attachments,
-            final Class<T> type) {
+    protected <T extends ProtocolAttachmentBase> boolean versionExstingAttachments(final Collection<ProtocolAttachmentProtocol> attachments,
+            final Class<? extends ProtocolAttachmentProtocol> class1) {
         assert attachments != null : "the attachments was null";
-        assert type != null : "the type was null";
-        List<T> attachmentProtocols = new ArrayList<T>();
+        assert class1 != null : "the type was null";
+        List<ProtocolAttachmentProtocol> attachmentProtocols = new ArrayList<ProtocolAttachmentProtocol>();
         boolean createVersion = false;
-        for (final T attachment : ProtocolAttachmentBase.filterExistingAttachments(attachments)) {
-            final T persistedAttachment = this.notesService.getAttachment(type, attachment.getId());
+        for (final ProtocolAttachmentProtocol attachment : ProtocolAttachmentBase.filterExistingAttachments(attachments)) {
+            final ProtocolAttachmentProtocol persistedAttachment = this.notesService.getAttachment(class1, attachment.getId());
 
             boolean isReplaceFile = hasChanged(attachment.getFile(), persistedAttachment.getFile());
             if (attachment instanceof ProtocolAttachmentProtocol
@@ -396,4 +397,6 @@ public abstract class ProtocolAttachmentVersioningUtility {
             super(t);
         }
     }
+    
+    protected abstract Class<? extends ProtocolAttachmentProtocol> getProtocolAttachmentProtocolClassHook();
 }

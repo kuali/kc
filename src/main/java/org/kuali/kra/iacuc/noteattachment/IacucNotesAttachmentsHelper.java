@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.noteattachment;
 
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -23,6 +24,7 @@ import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.noteattachment.AddProtocolAttachmentProtocolRule;
 import org.kuali.kra.protocol.noteattachment.NotesAttachmentsHelper;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilter;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
@@ -63,12 +65,12 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
 
     @Override
     protected ProtocolAttachmentProtocol createNewProtocolAttachmentProtocolInstanceHook(Protocol protocol) {
-        return new IacucProtocolAttachmentProtocol();
+        return new IacucProtocolAttachmentProtocol(protocol);
     }
 
     @Override
     protected ProtocolAttachmentPersonnel createNewProtocolAttachmentPersonnelInstanceHook(Protocol protocol) {
-        return new IacucProtocolAttachmentPersonnel();
+        return new IacucProtocolAttachmentPersonnel(protocol);
     }
 
     @Override
@@ -78,14 +80,13 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
 
     @Override
     protected String getAttachmentDefaultSortKeyHook() {
-        // TODO Auto-generated method stub
-        return null;
+        return Constants.PARAMETER_IACUC_PROTOCOL_ATTACHMENT_DEFAULT_SORT;
     }
 
     @Override
     public boolean canAddProtocolNotepads() {
-//      final ProtocolTask task = new ProtocolTask(TaskName.IACUC_ADD_PROTOCOL_NOTES, this.getProtocol());
-//      return this.authService.isAuthorized(this.getUserIdentifier(), task);
+//        final ProtocolTask task = new ProtocolTask(TaskName.ADD_IACUC_PROTOCOL_NOTES, this.getProtocol());
+//        return this.authService.isAuthorized(this.getUserIdentifier(), task);
         return true;
     }
 
@@ -123,7 +124,12 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
 
     @Override
     protected ProtocolNotepad createNewProtocolNotepadInstanceHook(Protocol protocol) {
-        return new IacucProtocolNotepad();
+        return new IacucProtocolNotepad(protocol);
+    }
+
+    @Override
+    public AddProtocolAttachmentProtocolRule getAddProtocolAttachmentProtocolRuleInstanceHook() {
+        return new AddIacucProtocolAttachmentProtocolRuleImpl();
     }
 
 }

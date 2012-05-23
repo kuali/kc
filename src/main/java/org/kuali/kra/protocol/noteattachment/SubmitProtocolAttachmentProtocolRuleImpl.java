@@ -24,9 +24,11 @@ import org.kuali.kra.protocol.ProtocolDocument;
  * This class does not have a corresponding event or Rule interface because it is just used-by the mega
  * {@link org.kuali.kra.protocol.ProtocolDocumentRule ProtocolDocumentRule} for submit events.
  */
-public class SubmitProtocolAttachmentProtocolRuleImpl {
+public abstract class SubmitProtocolAttachmentProtocolRuleImpl {
 
-    private final ProtocolAttachmentProtocolRuleHelper protocolHelper = new ProtocolAttachmentProtocolRuleHelper();
+    protected ProtocolAttachmentProtocolRuleHelper protocolHelper;
+// TODO *********commented the code below during IACUC refactoring********* 
+//    private final ProtocolAttachmentProtocolRuleHelper protocolHelper = new ProtocolAttachmentProtocolRuleHelper();
     
     /**
      * Executes the rules related to {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol} when saving a ProtocolDocument.
