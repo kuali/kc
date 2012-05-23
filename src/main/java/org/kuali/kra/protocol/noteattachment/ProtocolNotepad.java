@@ -48,7 +48,7 @@ public abstract class ProtocolNotepad extends ProtocolAssociate implements Compa
     /**
      * empty ctor to satisfy JavaBean convention.
      */
-    public ProtocolNotepad() {
+    protected ProtocolNotepad() {
         super();
         this.editable = false;
     }

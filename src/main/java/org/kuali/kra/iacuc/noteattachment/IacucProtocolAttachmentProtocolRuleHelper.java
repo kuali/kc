@@ -15,18 +15,14 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.noteattachment.ProtocolNotepad;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolRuleHelper;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
 
-public class IacucProtocolNotepad extends ProtocolNotepad {
+public class IacucProtocolAttachmentProtocolRuleHelper extends ProtocolAttachmentProtocolRuleHelper {
 
-    private static final long serialVersionUID = 305642175397072637L;
-
-    public IacucProtocolNotepad(Protocol protocol) {
-        super(protocol);
+    protected IacucProtocolAttachmentProtocolRuleHelper(String aPropertyPrefix) {
+        super(aPropertyPrefix, (ProtocolAttachmentService)KraServiceLocator.getService("iacucProtocolAttachmentService"));
     }
-    
-    public IacucProtocolNotepad() {
-        super();
-    }
+
 }

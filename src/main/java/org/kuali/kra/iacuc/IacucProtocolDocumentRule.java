@@ -20,6 +20,7 @@ import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRule;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRuleImpl;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionRule;
+import org.kuali.kra.iacuc.noteattachment.SubmitIacucProtocolAttachmentProtocolRuleImpl;
 import org.kuali.kra.iacuc.personnel.IacucProtocolAttachmentPersonnelRule;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelAuditRule;
 import org.kuali.kra.iacuc.personnel.IacucProtocolUnitRule;
@@ -39,6 +40,7 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
+import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImpl;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceAuditRule;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRule;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationRule;
@@ -132,5 +134,10 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements A
     @Override
     public ProtocolAttachmentPersonnelRule getProtocolAttachmentPersonnelRuleInstanceHook() {
         return new IacucProtocolAttachmentPersonnelRule();
+    }
+
+    @Override
+    protected SubmitProtocolAttachmentProtocolRuleImpl newSubmitProtocolAttachmentProtocolRuleImplInstanceHook() {
+        return new SubmitIacucProtocolAttachmentProtocolRuleImpl();
     }    
 }

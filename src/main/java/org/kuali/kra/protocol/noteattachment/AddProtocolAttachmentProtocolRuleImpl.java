@@ -19,13 +19,16 @@ package org.kuali.kra.protocol.noteattachment;
  * Implementation of {@link AddProtocolAttachmentProtocolRule AddProtocolAttachmentProtocolRule}.
  * @see AddProtocolAttachmentProtocolRule for details
  */
-class AddProtocolAttachmentProtocolRuleImpl implements AddProtocolAttachmentProtocolRule {
-    
-    private final ProtocolAttachmentBaseRuleHelper baseHelper
-        = new ProtocolAttachmentBaseRuleHelper(NoteAndAttachmentPrefix.NEW_ATTACHMENT_PROTOCOL.getPrefixName());
-    
-    private final ProtocolAttachmentProtocolRuleHelper protocolHelper
-    = new ProtocolAttachmentProtocolRuleHelper(NoteAndAttachmentPrefix.NEW_ATTACHMENT_PROTOCOL.getPrefixName());
+public abstract class AddProtocolAttachmentProtocolRuleImpl implements AddProtocolAttachmentProtocolRule {
+
+    protected ProtocolAttachmentBaseRuleHelper baseHelper;
+    protected ProtocolAttachmentProtocolRuleHelper protocolHelper;
+// TODO *********commented the code below during IACUC refactoring*********     
+//    private final ProtocolAttachmentBaseRuleHelper baseHelper
+//        = new ProtocolAttachmentBaseRuleHelper(NoteAndAttachmentPrefix.NEW_ATTACHMENT_PROTOCOL.getPrefixName());
+//    
+//    private final ProtocolAttachmentProtocolRuleHelper protocolHelper
+//    = new ProtocolAttachmentProtocolRuleHelper(NoteAndAttachmentPrefix.NEW_ATTACHMENT_PROTOCOL.getPrefixName());
     
     /** {@inheritDoc} */
     public boolean processAddProtocolAttachmentProtocolRules(AddProtocolAttachmentProtocolEvent event) {      
