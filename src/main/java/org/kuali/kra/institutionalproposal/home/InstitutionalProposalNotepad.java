@@ -155,8 +155,10 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
     protected void postPersist() {
         NoteService noteService = KraServiceLocator.getService(NoteService.class);
         for (Note note : getAttachments()) {
-            note.setRemoteObjectIdentifier(this.getObjectId());
-            noteService.save(note);
+            if (StringUtils.isBlank(note.getRemoteObjectIdentifier())) {
+                note.setRemoteObjectIdentifier(this.getObjectId());
+                noteService.save(note);
+            }
         }
         //if we haven't saved the note id or the note id is different, save the note id.
         //This is done to allow for versioning of InstProp while still
