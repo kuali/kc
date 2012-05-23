@@ -936,5 +936,16 @@
       p:localServiceName="kcPeopleFlowTypeService"
       p:serviceNameSpaceURI="" 
       p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService"/>
+      
+    <bean id="questionResolverTypeService" class="org.kuali.kra.krms.service.impl.QuestionResolverTypeServiceImpl">
+    </bean>
+    
+    <bean 
+      class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+      p:serviceBus-ref="kc.import.serviceBus"
+      p:callbackService-ref="questionResolverTypeService"
+      p:localServiceName="questionResolverTypeService"
+      p:serviceNameSpaceURI="" 
+      p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
      
 </beans>
