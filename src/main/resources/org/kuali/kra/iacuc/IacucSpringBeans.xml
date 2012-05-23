@@ -333,6 +333,8 @@
         <property name = "personService" ref = "personService"/>
         <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
         <property name = "reviewCommentsService" ref = "iacucReviewCommentsService"/>
+        <property name = "protocolFinderDao" ref = "iacucProtocolFinderDao"/>
+        
 <!--         <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
         <property name = "reviewerApproveNodeName" value = "OnlineReviewer"/>
         <property name = "irbAdminApproveNodeName" value = "IRBAdminReview"/>
@@ -476,6 +478,13 @@
      <bean id="iacucProtocolCorrespondenceTemplateService" class="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
+ 
+ 	<bean id="iacucProtocolOnlineReviewRoleTypeService"
+			  class="org.kuali.kra.workflow.IacucProtocolOnlineReviewDerivedRoleTypeServiceImpl">
+		<property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService" />		
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="roleManagementService" ref="roleService" />
+	</bean>
     
 </beans>
 
