@@ -29,8 +29,10 @@ import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
@@ -64,7 +66,7 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
     private KraWorkflowService kraWorkflowService;
     private WorkflowDocumentService workflowDocumentService;
     private ReviewCommentsService reviewCommentsService;
-
+    private ProtocolFinderDao protocolFinderDao;
     private String reviewerApproveNodeName;
     private String irbAdminApproveNodeName;
 
@@ -479,5 +481,36 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
             throw new RuntimeException(errorMessage,e);
         }
     }
-    
+    public List<ProtocolOnlineReview> getProtocolReviews(Long submissionId) {
+        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
+        
+        ProtocolSubmission submission = businessObjectService.findBySinglePrimaryKey(IacucProtocolSubmission.class, submissionId);
+        if (submission != null) {
+            for(ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
+                if(review.isActive()) {
+                    reviews.add(review);
+                }
+            }
+        }
+        
+        return reviews;
+    }
+    public List<ProtocolOnlineReview> getProtocolReviews(String protocolNumber) {
+        Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber);
+        List<ProtocolOnlineReview> reviews = null;
+        
+     
+        if (protocol != null && protocol.getProtocolSubmission() != null) {
+            reviews = protocol.getProtocolSubmission().getProtocolOnlineReviews();
+        } else {
+            reviews = new ArrayList<ProtocolOnlineReview>();
+        }
+        
+        return reviews;
+    }
+
+    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
+        this.protocolFinderDao = protocolFinderDao;
+    }
+ 
 }

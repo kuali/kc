@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
-import java.util.List;
-
-import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 
 public interface IacucProtocolOnlineReviewService extends ProtocolOnlineReviewService{

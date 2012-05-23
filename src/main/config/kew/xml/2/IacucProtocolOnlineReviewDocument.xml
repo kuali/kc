@@ -21,19 +21,51 @@
             <defaultExceptionGroupName namespace="KC-WKFLW">IACUCAdmin</defaultExceptionGroupName>
             <docHandler>${kuali.docHandler.url.prefix}/iacucProtocolOnlineReviewRedirect.do?methodToCall=redirectToProtocolFromReview</docHandler>
             <active>true</active>
-            <routingVersion>2</routingVersion>
-            <routePaths>
-                <routePath>
-                    <start name="Initiated" />
-                </routePath>
-            </routePaths>
-            <routeNodes>
-                <start name="Initiated">
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+					<!--
+						this should be false in a production scenario
+					-->
+				</policy>
+				<policy>
+                    <name>LOOK_FUTURE</name>
+                    <value>true</value>
+                </policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" nextNode="IACUCAdminInitialReview" />
+					<requests name="IACUCAdminInitialReview" nextNode = "IACUCOnlineReviewer"/>
+                    <requests name="IACUCOnlineReviewer" nextNode="IACUCAdminReview" />
+					<requests name="IACUCAdminReview" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>S</activationType>
+				</start>
+				 <!--  This role is for a requested review.  When a PI requests a review via submit protocol action,  it will wait here
+				       for IACUC Admin approval before being routed to the reviewer. -->
+				 <role name="IACUCAdminInitialReview">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <activationType>S</activationType>
+                    <finalApproval>false</finalApproval>
+                    <mandatoryRoute>false</mandatoryRoute>
+	            </role>                
+	            <role name="IACUCOnlineReviewer">
+					<qualifierResolver>ProtocolOnlineReviewReviewer-XPathQualifierResolver</qualifierResolver>
+                    <activationType>S</activationType>
+                    <finalApproval>false</finalApproval>
+                    <mandatoryRoute>false</mandatoryRoute>
+	            </role>                
+                <role name="IACUCAdminReview">
+					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>
                     <mandatoryRoute>false</mandatoryRoute>
-                    <finalApproval>false</finalApproval>
-                </start>
-            </routeNodes>
+	            </role>                     
+			</routeNodes>
         </documentType>
     </documentTypes>
 
@@ -49,23 +81,23 @@
             <serviceNamespace>KC</serviceNamespace>
             <resolverConfig>
                 <attributes name="protocolReviewerId">
-                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview[1]/protocolReviewerId</xPathExpression>
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview[1]/protocolReviewerId</xPathExpression>
                 </attributes>
                 
                 <attributes name="protocolOnlineReviewId">
-                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview[1]/protocolOnlineReviewId</xPathExpression>
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview[1]/protocolOnlineReviewId</xPathExpression>
                 </attributes>
                 
                 <attributes name="submissionId">
-                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview[1]/submissionIdFk</xPathExpression>
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview[1]/submissionIdFk</xPathExpression>
                 </attributes>
                 
                 <attributes name="protocol">
-                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview[1]/protocol/protocolNumber</xPathExpression>
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview[1]/protocol/protocolNumber</xPathExpression>
                 </attributes>
 
                 <attributes name="protocolLeadUnitNumber">
-                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview[1]/protocol/leadUnitNumber</xPathExpression>
+                    <xPathExpression>//document/protocolOnlineReviewList[1]/org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview[1]/protocol/leadUnitNumber</xPathExpression>
                 </attributes>               
             </resolverConfig>
         </ruleAttribute>

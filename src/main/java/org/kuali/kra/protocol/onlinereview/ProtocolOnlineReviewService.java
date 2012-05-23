@@ -97,14 +97,14 @@ public interface ProtocolOnlineReviewService {
      * @param protocolNumber 
      * @return
      */
-//    List<ProtocolOnlineReview> getProtocolReviews(String protocolNumber);
+    List<ProtocolOnlineReview> getProtocolReviews(String protocolNumber);
     
     /**
      * This method returns a list of ProtocolOnlineReview BOs that are associated with submission.
      * @param submissionId the submissionId for which you want the ProtocolOnlineReviews.
      * @return
      */
-//    List<ProtocolOnlineReview> getProtocolReviews(Long submissionId);
+    List<ProtocolOnlineReview> getProtocolReviews(Long submissionId);
     
     /**
      * Returns the online reviewer for the protocol submission corresponding to the principal id, if one exists.
