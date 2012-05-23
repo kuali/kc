@@ -52,6 +52,11 @@
     </bean>
     
     <bean id="iacucProtocolPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.IacucProtocolPersonMassChangeServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="personEditableService" ref="personEditableService" />
+        <property name="protocolPersonTrainingService" ref="iacucProtocolPersonTrainingService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="rolodexService" ref="rolodexService" />    
     </bean>
     
     <bean id="institutionalProposalPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.InstitutionalProposalPersonMassChangeServiceImpl">
