@@ -29,6 +29,6 @@ values ('KC1001', (select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='questio
 /
 
 -- Associate the term with the Questionnaire category
-insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from krms_term_spec_t where NMSPC_CD='KC-PD' and NM='Question'), 
+insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PD' and NM='Question'), 
 (select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PD' and NM='Questionnaire'))
 /
