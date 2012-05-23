@@ -88,8 +88,10 @@ public abstract class ReviewCommentsBean  implements Serializable {
     }
     
     private ReviewCommentsService getReviewCommentsService() {
-        return KraServiceLocator.getService(ReviewCommentsService.class);
+        return KraServiceLocator.getService(getReviewCommentsServiceClassHook());
     }
+
+    protected abstract Class<? extends ReviewCommentsService> getReviewCommentsServiceClassHook();
 
 
 }
