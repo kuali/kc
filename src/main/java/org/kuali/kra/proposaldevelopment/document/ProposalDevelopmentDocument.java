@@ -40,6 +40,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentFactBuilderService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -590,68 +591,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
     
     public void addFacts(Facts.Builder factsBuilder) {
-        
-        if (ObjectUtils.isNotNull(this.getFinalBudgetVersion()) && ObjectUtils.isNotNull(this.getFinalBudgetVersion().getBudgetVersionOverview())
-                && ObjectUtils.isNotNull(this.getFinalBudgetVersion().getBudgetVersionOverview().getTotalCost())) {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_COST, 
-                    this.getFinalBudgetVersion().getBudgetVersionOverview().getTotalCost().bigDecimalValue());
-        } else {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_COST, null);
-        }
-        
-        if (ObjectUtils.isNotNull(this.getFinalBudgetVersion()) && ObjectUtils.isNotNull(this.getFinalBudgetVersion().getBudgetVersionOverview())
-                && ObjectUtils.isNotNull(this.getFinalBudgetVersion().getBudgetVersionOverview().getTotalDirectCost())) {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST, 
-                    this.getFinalBudgetVersion().getBudgetVersionOverview().getTotalDirectCost().bigDecimalValue());
-        } else {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST, null);
-        }
-        
-        if (ObjectUtils.isNotNull(this.getFinalBudgetVersion()) && ObjectUtils.isNotNull(this.getFinalBudgetVersion().getBudgetVersionOverview())
-                && ObjectUtils.isNotNull(this.getFinalBudgetVersion().getBudgetVersionOverview().getTotalIndirectCost())) {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_INDIRECT_COST, 
-                    this.getFinalBudgetVersion().getBudgetVersionOverview().getTotalCost().bigDecimalValue());
-        } else {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_INDIRECT_COST, null);
-        }
-        
-        if (ObjectUtils.isNotNull(this.getFinalBudgetVersion()) && ObjectUtils.isNotNull(this.getFinalBudgetVersion().getBudgetVersionOverview())
-                && ObjectUtils.isNotNull(this.getFinalBudgetVersion().getBudgetVersionOverview().getCostSharingAmount())) {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.COST_SHARE_AMOUNT, 
-                    this.getFinalBudgetVersion().getBudgetVersionOverview().getCostSharingAmount().bigDecimalValue());
-        } else {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.COST_SHARE_AMOUNT, null);
-        }
-        
-        if (ObjectUtils.isNotNull(this.getFinalBudgetVersion()) && ObjectUtils.isNotNull(this.getFinalBudgetVersion().getBudgetVersionOverview())
-                && ObjectUtils.isNotNull(this.getFinalBudgetVersion().getBudgetVersionOverview().getUnderrecoveryAmount())) {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.UNDERRECOVERY_AMOUNT, 
-                    this.getFinalBudgetVersion().getBudgetVersionOverview().getUnderrecoveryAmount().bigDecimalValue());
-        } else {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.UNDERRECOVERY_AMOUNT, null);
-        }
-        
-        // TODO Total cost initial - how to resolve this?
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_COST_INITIAL, null);
-        
-        if (ObjectUtils.isNotNull(this.getFinalBudgetVersion()) && ObjectUtils.isNotNull(this.getFinalBudgetVersion().getBudgetVersionOverview())
-                && ObjectUtils.isNotNull(this.getFinalBudgetVersion().getBudgetVersionOverview().getTotalDirectCostLimit())) {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST_LIMIT, 
-                    this.getFinalBudgetVersion().getBudgetVersionOverview().getTotalDirectCostLimit().bigDecimalValue());
-        } else {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST_LIMIT, null);
-        }
-        
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.CFDA_NUMBER, this.getDevelopmentProposal().getCfdaNumber());
-        
-        if (ObjectUtils.isNotNull(this.getDevelopmentProposal().getS2sOpportunity())) {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.OPPORTUNITY_ID, this.getDevelopmentProposal().getS2sOpportunity().getOpportunityId());
-        } else {
-            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.OPPORTUNITY_ID, null);
-        }
-        
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.SPONSOR_CODE,getDevelopmentProposal().getSponsorCode());
-        
+        String docContent = this.getDocumentHeader().getWorkflowDocument().getDocumentContent().getFullContent();
+        ProposalDevelopmentFactBuilderService fbService = KraServiceLocator.getService(ProposalDevelopmentFactBuilderService.class);
+        fbService.addFacts(factsBuilder, docContent);
     }
     
 }
