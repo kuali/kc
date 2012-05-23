@@ -87,12 +87,16 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
                     Calendar checkFor = Calendar.getInstance();
                     Calendar until = null;
                     if (notification.isOverdue()) {
-                        checkFor.add(Calendar.DAY_OF_MONTH, (notification.getDays()+notification.getScope())*-1);                        
+                        checkFor.add(Calendar.DAY_OF_MONTH, (notification.getDays()+notification.getScope())*-1);                       
                     } else {
                         checkFor.add(Calendar.DAY_OF_MONTH, notification.getDays()-notification.getScope());                                                
                     }
                     until = (Calendar) checkFor.clone();
                     until.add(Calendar.DAY_OF_MONTH, notification.getScope());
+                    clearTimeFields(checkFor);
+                    clearTimeFields(until);
+                    Date checkForDebug = checkFor.getTime();
+                    Date untilDebug = until.getTime();
                     Map<Award, List<ReportTracking>> matchedReports = new HashMap<Award, List<ReportTracking>>();
                     Map<NotificationRecipient.Builder, List<ReportTracking>> recipients = 
                         new TreeMap<NotificationRecipient.Builder, List<ReportTracking>>(new Comparator<NotificationRecipient.Builder>() {
@@ -173,11 +177,8 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
     protected boolean doDatesMatch(Date date1, Calendar from, Calendar until) {
         Calendar cal1 = Calendar.getInstance();
         cal1.setTime(date1);
-        if (from.before(until)) {
-            return cal1.after(from) && cal1.before(until);
-        } else {
-            return cal1.after(until) && cal1.before(from);
-        }
+        clearTimeFields(cal1);
+        return cal1.after(from) && (cal1.equals(until) || cal1.before(until));
     }
     
     /**
@@ -197,6 +198,13 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
         values.put("actionCode", notification.getActionCode());
         List<SentReportNotification> notifications = (List<SentReportNotification>) getBusinessObjectService().findMatching(SentReportNotification.class, values);
         return notifications != null && !notifications.isEmpty();
+    }
+    
+    protected void clearTimeFields(Calendar date) {
+        date.set(Calendar.HOUR_OF_DAY, 0);
+        date.set(Calendar.MINUTE, 0);
+        date.set(Calendar.SECOND, 0);
+        date.set(Calendar.MILLISECOND, 0);
     }
 
     protected ParameterService getParameterService() {

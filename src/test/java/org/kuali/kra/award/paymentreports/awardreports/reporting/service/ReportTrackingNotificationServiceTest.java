@@ -41,6 +41,9 @@ public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
     private ReportTrackingNotificationServiceImpl service;
     private BusinessObjectService boService;
     private DocumentService documentService;
+    private Long currentTermId = 1L;
+    
+    private Award award;
     
     public void setUp() throws Exception {
         super.setUp();
@@ -48,7 +51,7 @@ public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
         boService = KraServiceLocator.getService(BusinessObjectService.class);
         documentService = KraServiceLocator.getService(DocumentService.class);
         AwardDocument awardDoc = (AwardDocument) documentService.getNewDocument(AwardDocument.class);
-        final Award award = AwardFixtureFactory.createAwardFixture();
+        award = AwardFixtureFactory.createAwardFixture();
         awardDoc.setAward(award);
         awardDoc.getDocumentHeader().setDocumentDescription("Testing");
         documentService.saveDocument(awardDoc);
@@ -60,13 +63,7 @@ public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
             }
         };
         service.setAwardService(mockAwardService);
-        boService.save(getNewReportTracking(award, "4", "4", Calendar.getInstance().getTime()));
-        Calendar newDate = Calendar.getInstance();
-        newDate.add(Calendar.DAY_OF_MONTH, -40);
-        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
-        
-        service.getNotifications().clear();
-        service.getNotifications().add(new ReportTrackingNotification("Test", "401", true, 30, 30, "4"));
+
     }
     
     public void tearDown() throws Exception {
@@ -75,6 +72,13 @@ public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
     
     @Test
     public void testRunReportTrackingNotifications() {
+        boService.save(getNewReportTracking(award, "4", "4", Calendar.getInstance().getTime()));
+        Calendar newDate = Calendar.getInstance();
+        newDate.add(Calendar.DAY_OF_MONTH, -40);
+        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        
+        service.getNotifications().clear();
+        service.getNotifications().add(new ReportTrackingNotification("Test", "401", true, 30, 30, "4"));
         List<ReportTrackingNotificationDetails> details = service.runReportTrackingNotifications();
         assertEquals(1, details.size());
         assertTrue(details.get(0).isNotificationActive());
@@ -88,6 +92,14 @@ public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
     
     @Test
     public void testRunReportTrackingNotificationsPreviouslySent() {
+        boService.save(getNewReportTracking(award, "4", "4", Calendar.getInstance().getTime()));
+        Calendar newDate = Calendar.getInstance();
+        newDate.add(Calendar.DAY_OF_MONTH, -40);
+        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime())); 
+        
+        service.getNotifications().clear();
+        service.getNotifications().add(new ReportTrackingNotification("Test", "401", true, 30, 30, "4"));        
+        
         List<ReportTrackingNotificationDetails> details = service.runReportTrackingNotifications();
         List<SentReportNotification> notificationsSent = (List<SentReportNotification>) boService.findAll(SentReportNotification.class);
         assertEquals(1, notificationsSent.size());
@@ -101,8 +113,72 @@ public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
         assertEquals(0, details.get(0).getNotificationsSent());
     }
     
+    @Test
+    public void testDateBarriers() {
+        boService.save(getNewReportTracking(award, "4", "4", Calendar.getInstance().getTime()));
+        Calendar newDate = Calendar.getInstance();
+        newDate.add(Calendar.DAY_OF_YEAR, -29);
+        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));        
+        newDate = Calendar.getInstance();
+        newDate.add(Calendar.DAY_OF_YEAR, -30);
+        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        newDate = Calendar.getInstance();
+        newDate.add(Calendar.DAY_OF_YEAR, -59);
+        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));        
+        newDate = Calendar.getInstance();
+        newDate.add(Calendar.DAY_OF_YEAR, -60);
+        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        newDate = Calendar.getInstance();
+        newDate.add(Calendar.DAY_OF_YEAR, 10);
+        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        newDate = Calendar.getInstance();
+        newDate.add(Calendar.DAY_OF_YEAR, 30);
+        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));        
+        newDate = Calendar.getInstance();
+        newDate.add(Calendar.DAY_OF_YEAR, 60);
+        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        newDate = Calendar.getInstance();
+        newDate.add(Calendar.DAY_OF_YEAR, 61);
+        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));        
+        
+        service.getNotifications().clear();
+        service.getNotifications().add(new ReportTrackingNotification("Test", "401", true, 30, 30, "4"));
+        service.getNotifications().add(new ReportTrackingNotification("Test", "402", true, 60, 30, "4"));
+        service.getNotifications().add(new ReportTrackingNotification("Test", "403", false, 30, 30, "4"));
+        service.getNotifications().add(new ReportTrackingNotification("Test", "404", false, 60, 30, "4"));
+        
+        List<ReportTrackingNotificationDetails> details = service.runReportTrackingNotifications();
+        List<SentReportNotification> notificationsSent = (List<SentReportNotification>) boService.findAll(SentReportNotification.class);
+        assertEquals(6, notificationsSent.size());
+        assertEquals(4, details.size());
+        assertEquals("401", details.get(0).getActionCode());
+        assertEquals(9, details.get(0).getTrackingRecordsFound());
+        assertEquals(2, details.get(0).getTrackingRecordsMatched());
+        //the below is based on current demo data and the number of OSP Admins for 000001
+        assertEquals(2, details.get(0).getNotificationsSent());
+        
+        assertEquals("402", details.get(1).getActionCode());
+        assertEquals(9, details.get(1).getTrackingRecordsFound());
+        assertEquals(1, details.get(1).getTrackingRecordsMatched());
+        //the below is based on current demo data and the number of OSP Admins for 000001        
+        assertEquals(2, details.get(1).getNotificationsSent());  
+        
+        assertEquals("403", details.get(2).getActionCode());
+        assertEquals(9, details.get(2).getTrackingRecordsFound());
+        assertEquals(2, details.get(2).getTrackingRecordsMatched());
+        //the below is based on current demo data and the number of OSP Admins for 000001        
+        assertEquals(2, details.get(2).getNotificationsSent());
+        
+        assertEquals("404", details.get(3).getActionCode());
+        assertEquals(9, details.get(3).getTrackingRecordsFound());
+        assertEquals(1, details.get(3).getTrackingRecordsMatched());
+        //the below is based on current demo data and the number of OSP Admins for 000001        
+        assertEquals(2, details.get(3).getNotificationsSent());            
+    }   
+    
     public ReportTracking getNewReportTracking(Award award, String reportClassCode, String frequencyBaseCode, Date dueDate) {
         ReportTracking result = new ReportTracking();
+        result.setAwardReportTermId(currentTermId++);
         result.setAwardNumber(award.getAwardNumber());
         result.setPiName("Quickstart Quickstart");
         result.setLeadUnitNumber("000001");
