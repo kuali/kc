@@ -53,10 +53,10 @@ public class SubAwardInvoiceMaintenanceDocumentRule extends KraMaintenanceDocume
             errorReporter.reportError("startDate", KeyConstants.SUBAWARD_ERROR_END_DATE_GREATER_THAN_START);
         }
         if (invoice.getAmountReleased() != null) {
-            if (invoice.getAmountReleased().isNegative()) {
+            if (invoice.getAmountReleased().isZero()) {
                 valid = false;
-                errorReporter.reportError("amountReleased", KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_NEGATIVE);
-            }              
+                errorReporter.reportError("amountReleased", KeyConstants.ERROR_SUBAWARD_INVOICE_AMOUNT_RELEASED_ZERO);
+            }
             SubAward subAward = invoice.getSubAward();
             if (subAward.getSubAwardAmountReleasedList().contains(invoice)) {
                 subAward.getSubAwardAmountReleasedList().remove(invoice);
@@ -67,6 +67,7 @@ public class SubAwardInvoiceMaintenanceDocumentRule extends KraMaintenanceDocume
                 valid = false;
                 errorReporter.reportError("amountReleased", KeyConstants.ERROR_SUBAWARD_AMOUNT_RELEASED_GREATER_OBLIGATED_AMOUNT);
             }
+                        
         }
                 
         GlobalVariables.getMessageMap().clearErrorPath();
