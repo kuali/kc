@@ -1009,8 +1009,7 @@ function loadChildrenRA(nodeName, tagId) {
 	}
 	if (liNode.children('ul').size() == 0
 			|| ulNode.children('input').size() == 0) {
-		$
-				.ajax( {
+		$j.ajax( {
 					url : 'researchAreaAjax.do',
 					type : 'GET',
 					dataType : 'html',
