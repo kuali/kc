@@ -134,7 +134,7 @@ public class FiscalYearMonthServiceImpl implements FiscalYearMonthService {
      */
     protected Integer getFiscalYearMonth() {
         Parameter parm = this.getParameterService().getParameter(KC_GENERAL_NAMESPACE, DOCUMENT_COMPONENT_NAME, FISCAL_YEAR_MONTH_PARAMETER_NAME);
-        return Integer.parseInt(parm.getValue());
+        return Integer.parseInt("7");
     }
 
     public ParameterService getParameterService() {
