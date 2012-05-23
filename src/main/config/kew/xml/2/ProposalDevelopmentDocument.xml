@@ -415,7 +415,8 @@
 							<branch name = "False">
 								<!-- The document is a hierarchy parent, or a document that is not part of a hierarchy so it is routed normally. -->
 								<requests name="OSPInitial" nextNode="ProposalPersons" />
-								<requests name="ProposalPersons" nextNode="UnitRouting" />
+								<requests name="ProposalPersons" nextNode="PeopleFlows" />
+								<requests name="PeopleFlows" nextNode="UnitRouting" />
 								<requests name="UnitRouting" nextNode="DepartmentalRouting" />
 								<requests name="DepartmentalRouting" nextNode="OSPOfficeRouting" />
 								<requests name="OSPOfficeRouting" nextNode = "Join" />
@@ -448,6 +449,10 @@
                     <activationType>P</activationType>
 					<finalApproval>false</finalApproval>
 	            </role>
+	            <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kra.krms.KcRulesEngineExecutor"/>
+                </requests>
 				<requests name="UnitRouting">
 					<qualifierResolver>DepartmentRouting-XPathQualifierResolver</qualifierResolver>
 					<!--  <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass> -->
