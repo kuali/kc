@@ -113,14 +113,9 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
                protocolActionService.isActionAllowed(protocolActionTypeCode, protocol);
     }
     
-    protected final boolean hasScheduleId(Protocol protocol, String taskName) {
-        boolean value = true;
-        if(protocol.getProtocolSubmission().getScheduleId() != null && taskName.equals(TaskName.NOTIFY_COMMITTEE)) {
-            value = false;
-        }
-        return value;
+    protected final boolean hasCommitteeId(Protocol protocol) {
+        return protocol.getProtocolSubmission().getCommitteeId() != null;
     }
-
     
     protected boolean isPessimisticLocked(Document document) {
         boolean isLocked = false;
