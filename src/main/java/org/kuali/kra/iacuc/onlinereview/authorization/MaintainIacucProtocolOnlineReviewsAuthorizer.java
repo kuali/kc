@@ -20,7 +20,7 @@ import org.kuali.kra.protocol.onlinereview.authorization.ProtocolOnlineReviewTas
 
 public class MaintainIacucProtocolOnlineReviewsAuthorizer extends IacucProtocolOnlineReviewAuthorizer {
 
-    public boolean isAuthorized(String userId, ProtocolOnlineReviewTask task) {
+    public boolean isAuthorized(String userId, IacucProtocolOnlineReviewTask task) {
         return getKraAuthorizationService().hasPermission(userId, task.getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_IACUC_ONLINE_REVIEWS);
     }
 

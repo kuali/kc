@@ -31,6 +31,7 @@ import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
@@ -67,8 +68,9 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
     private WorkflowDocumentService workflowDocumentService;
     private ReviewCommentsService reviewCommentsService;
     private ProtocolFinderDao protocolFinderDao;
+    private KraDocumentRejectionService kraDocumentRejectionService;
     private String reviewerApproveNodeName;
-    private String irbAdminApproveNodeName;
+    private String iacucAdminApproveNodeName;
 
     @SuppressWarnings("unchecked")
     private PersonService personService;
@@ -513,4 +515,28 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
         this.protocolFinderDao = protocolFinderDao;
     }
  
+    public void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocument reviewDocument, String reason, String principalId) {
+        kraDocumentRejectionService.reject(reviewDocument, reason, principalId, (String)null, reviewerApproveNodeName);     
+    }
+
+    public void setKraDocumentRejectionService(KraDocumentRejectionService kraDocumentRejectionService) {
+        this.kraDocumentRejectionService = kraDocumentRejectionService;
+    }
+
+    public String getReviewerApproveNodeName() {
+        return reviewerApproveNodeName;
+    }
+
+    public void setReviewerApproveNodeName(String reviewerApproveNodeName) {
+        this.reviewerApproveNodeName = reviewerApproveNodeName;
+    }
+
+    public String getIacucAdminApproveNodeName() {
+        return iacucAdminApproveNodeName;
+    }
+
+    public void setIacucAdminApproveNodeName(String iacucAdminApproveNodeName) {
+        this.iacucAdminApproveNodeName = iacucAdminApproveNodeName;
+    }
+    
 }

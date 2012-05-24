@@ -893,6 +893,10 @@ public interface Constants {
 
     // IACUC workflow
     public static final String PROTOCOL_IACUCREVIEW_ROUTE_NODE_NAME = "IACUCReview";
+    //IACUC Online Review
+    public static final String IACUC_ONLINE_REVIEW_ROUTE_NODE_ADMIN_INITIAL_REVIEW="IACUCAdminInitialReview";
+    public static final String IACUC_ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER="IACUCOnlineReviewer";
+    public static final String IACUC_ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW="IACUCAdminReview";
 
     //Award report tracking notifications
     public static final String REPORT_TRACKING_NOTIFICATIONS_BATCH_RECIPIENT = "REPORT_TRACKING_NOTIFICATIONS_BATCH_RECIPIENT";

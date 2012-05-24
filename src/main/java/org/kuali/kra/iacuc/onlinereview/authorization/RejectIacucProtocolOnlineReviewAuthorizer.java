@@ -24,7 +24,7 @@ public class RejectIacucProtocolOnlineReviewAuthorizer extends IacucProtocolOnli
     /**
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
-    public boolean isAuthorized(String userId, ProtocolOnlineReviewTask task) {
+    public boolean isAuthorized(String userId, IacucProtocolOnlineReviewTask task) {
         boolean hasPermission = false;
         ProtocolOnlineReview protocolOnlineReview = task.getProtocolOnlineReview();
         

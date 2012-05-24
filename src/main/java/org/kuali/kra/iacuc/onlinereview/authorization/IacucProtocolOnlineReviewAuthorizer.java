@@ -18,10 +18,11 @@ package org.kuali.kra.iacuc.onlinereview.authorization;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
+import org.kuali.kra.protocol.onlinereview.authorization.ProtocolOnlineReviewTask;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.service.KraAuthorizationService;
 
-public class IacucProtocolOnlineReviewAuthorizer extends TaskAuthorizerImpl {
+public abstract class IacucProtocolOnlineReviewAuthorizer extends TaskAuthorizerImpl {
     private KraAuthorizationService kraAuthorizationService;
     private IacucProtocolOnlineReviewService iacucProtocolOnlineReviewService;
    
@@ -36,6 +37,7 @@ public class IacucProtocolOnlineReviewAuthorizer extends TaskAuthorizerImpl {
 //    public final boolean isAuthorized(String userId, IacucProtocolOnlineReviewTask task) {
 //        return isAuthorized(userId, task);
 //    }
+    public abstract boolean isAuthorized(String userId, IacucProtocolOnlineReviewTask task);
 
         /**
      * Set the Kra Authorization Service.  Usually injected by the Spring Framework.

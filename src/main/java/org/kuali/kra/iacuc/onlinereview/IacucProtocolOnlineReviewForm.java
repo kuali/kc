@@ -29,13 +29,13 @@ import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
+import org.kuali.kra.iacuc.onlinereview.authorization.IacucProtocolOnlineReviewTask;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewForm;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatus;
-import org.kuali.kra.protocol.onlinereview.authorization.ProtocolOnlineReviewTask;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -59,9 +59,9 @@ public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewForm  {
     
     static {
         ONLINE_REVIEW_APPROVE_BUTTON_MAP = new HashMap<String,String>();
-        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_INITIAL_REVIEW, "buttonsmall_send_review_request.gif");
-        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW,"buttonsmall_accept_review_comments.gif");
-        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER, "buttonsmall_approve_this_review.gif");
+        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.IACUC_ONLINE_REVIEW_ROUTE_NODE_ADMIN_INITIAL_REVIEW, "buttonsmall_send_review_request.gif");
+        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.IACUC_ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW,"buttonsmall_accept_review_comments.gif");
+        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.IACUC_ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER, "buttonsmall_approve_this_review.gif");
     }
     
     private static final String DEFAULT_APPROVE_BUTTON = "buttonsmall_approve_this_review.gif";
@@ -176,7 +176,7 @@ public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewForm  {
         
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
                
-        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProtocolOnlineReviewTask("rejectProtocolOnlineReview",doc))
+        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new IacucProtocolOnlineReviewTask("rejectIacucProtocolOnlineReview",doc))
                 && doc.getDocumentHeader().getWorkflowDocument().isEnroute()
                 && ProtocolOnlineReviewStatus.FINAL_STATUS_CD.equals(doc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode())) {
             String resubmissionImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_return_to_reviewer.gif";
@@ -226,6 +226,7 @@ public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewForm  {
         return nodes;
     }
 
+    @Override
     public String getApproveImageName() {
         //we take the first route node the document is on.
         Set<String> routeNodes = getCurrentRouteNodes();
