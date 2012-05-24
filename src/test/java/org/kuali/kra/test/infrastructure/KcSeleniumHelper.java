@@ -1337,7 +1337,7 @@ public abstract class KcSeleniumHelper {
         set(textAreaId, expandedAreaText);
         
         final String continueButtonLocator = "methodToCall.postTextAreaToParent";
-        WebElement continueButton = new ElementExistsWaiter("Expand button for " + textAreaId + " not found").until(
+        WebElement continueButton = new ElementExistsWaiter("Continue button for " + textAreaId + " not found").until(
             new Function<WebDriver, WebElement>() {
                 public WebElement apply(WebDriver driver) {
                     WebElement element = null;
