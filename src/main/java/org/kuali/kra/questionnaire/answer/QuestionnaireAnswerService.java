@@ -113,6 +113,15 @@ public interface QuestionnaireAnswerService {
      */
     List<AnswerHeader> getAnswerHeadersForProtocol(String protocolNumber);
     
+    /**
+     * 
+     * This method is to get all the questionnaire answer for the protocol.
+     * Questionnaire answer may contain submit questionnaire, request submission questionnaire, amendment/renewal questionnaire.
+     * @param moduleQuestionnaireBean
+     * @param protocolNumber
+     * @return
+     */
+    public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber);    
     
     /**
      * Get the questionnaire usages for a module and submodule.

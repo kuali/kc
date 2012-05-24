@@ -496,6 +496,59 @@
 		<property name="roleManagementService" ref="roleService" />
 	</bean>
     
+    <!-- Protocol Print -->
+    <bean id="iacucProtocolXmlStream"
+        class="org.kuali.kra.iacuc.actions.print.IacucProtocolXmlStream" parent="printBaseXmlStream">
+        <property name="irbPrintXmlUtilService">
+            <ref bean="irbPrintXmlUtilService" />
+        </property>
+        <property name="kcPersonService">
+            <ref bean="kcPersonService" />
+        </property>
+        <property name="scheduleXmlStream">
+            <ref bean="scheduleXmlStream" />
+        </property>
+        <property name="committeeXmlStream">
+            <ref bean="committeeXmlStream" />
+        </property>
+    </bean>
+    
+    <bean id="iacucProtocolSummaryXmlStream"
+        class="org.kuali.kra.iacuc.actions.print.IacucProtocolSummaryXmlStream" parent="printBaseXmlStream">
+    </bean>
+
+    <bean id="iacucProtocolFullProtocolPrint"
+        class="org.kuali.kra.iacuc.actions.print.IacucProtocolFullProtocolPrint" scope="prototype">
+        <property name="xmlStream" ref="iacucProtocolSummaryXmlStream" />
+    </bean>
+    <bean id="iacucProtocolHistoryPrint"
+        class="org.kuali.kra.iacuc.actions.print.IacucProtocolHistoryPrint" scope="prototype">
+        <property name="xmlStream" ref="iacucProtocolXmlStream" />
+    </bean>
+    <bean id="iacucProtocolReviewCommentsPrint"
+        class="org.kuali.kra.iacuc.actions.print.IacucProtocolReviewCommentsPrint" scope="prototype">
+        <property name="xmlStream" ref="iacucProtocolXmlStream" />
+    </bean>
+    <bean id="iacucProtocolSummaryViewPrint"
+        class="org.kuali.kra.iacuc.actions.print.IacucProtocolSummaryViewPrint" scope="prototype">
+        <property name="xmlStream" ref="iacucProtocolSummaryXmlStream" />
+    </bean>
+
+    <bean id="iacucProtocolPrintingService"
+        class="org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingServiceImpl" parent="printingService">
+        <property name="protocolFullProtocolPrint" ref="iacucProtocolFullProtocolPrint" />
+        <property name="protocolHistoryPrint" ref="iacucProtocolHistoryPrint" />
+        <property name="protocolReviewCommentsPrint" ref="iacucProtocolReviewCommentsPrint" />
+        <property name="protocolSummaryViewPrint" ref="iacucProtocolSummaryViewPrint" />
+    </bean>
+
+    <bean id="protocolQuestionnairePrintingService"
+        class="org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingServiceImpl" scope="prototype">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
+    </bean>
+
+
 </beans>
 
 

@@ -731,6 +731,35 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         this.protocolFinderDao = protocolFinderDao;
     }
 
+
+    public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber) {
+        boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
+        String originalProtocolNumber = protocolNumber;
+        if (isAmendmentOrRenewal) {
+            originalProtocolNumber = protocolNumber.substring(0, 10);
+        }
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(MODULE_ITEM_CODE, moduleQuestionnaireBean.getModuleItemCode());
+        //fieldValues.put(MODULE_ITEM_KEY, getProtocolNumbers(originalProtocolNumber));
+        fieldValues.put(MODULE_ITEM_KEY, protocolNumber);
+        List<AnswerHeader> answerHeaders = (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
+        if (isAmendmentOrRenewal) {
+            List<AnswerHeader> headers = new ArrayList<AnswerHeader>();
+            for (AnswerHeader answerHeader : answerHeaders) {
+                if (!(CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && answerHeader
+                        .getModuleItemKey().equals(originalProtocolNumber))
+                        && answerHeader.getModuleItemKey().equals(protocolNumber)) {
+                    headers.add(answerHeader);
+                }
+            }
+            return headers;
+        }
+        else {
+            return answerHeaders;
+        }
+    }
+    
+    
     /**
      * 
      * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getAnswerHeadersForProtocol(java.lang.String)

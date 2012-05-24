@@ -18,7 +18,7 @@
 <c:set var="h3BkColor" value="background-color: #C3C3C3;border-bottom: 1px solid #CCCCCC;"/>
 <c:set var="protocolStatus" value="${KualiForm.iacucProtocolDocument.iacucProtocol.protocolStatusCode}" />
 <c:set var="canViewReviewComments" value="<%=org.kuali.kra.infrastructure.Constants.CAN_VIEW_REVIEW_COMMENTS%>" /> 
-<kul:tab tabTitle="Print" defaultOpen="false" tabErrorKey="iacucActionHelper.reportType">
+<kul:tab tabTitle="Print" defaultOpen="false" tabErrorKey="actionHelper.reportType">
     <div class="tab-container" align="left" >
 	<h3>
    			<span class="subhead-left">Print</span>
@@ -39,21 +39,21 @@
                     <tr>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.protocolDetails" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.protocolDetails" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Protocol Details
                             </div>
                         </td>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.fundingSource" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.fundingSource" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Funding Source
                             </div>
                         </td>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.ammendmentRenewalSummary" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.ammendmentRenewalSummary" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Amendment & Renewal
                             </div>
@@ -63,21 +63,21 @@
                     <tr>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.organizaition" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.organizaition" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Organization
                             </div>
                         </td>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.actions" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.actions" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Action History
                             </div>
                         </td>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.otherData" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.otherData" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Other Data
                             </div>
@@ -86,21 +86,21 @@
                     <tr>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.investigator" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.investigator" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Investigator
                             </div>
                         </td>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.subjects" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.subjects" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Subjects
                             </div>
                         </td>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.roles" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.roles" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Protocol Roles
                             </div>
@@ -109,21 +109,21 @@
                     <tr>
                         <td>
                           <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.studyPersonnels" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.studyPersonnels" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Study Personnel
                             </div>
                         </td>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.specialReview" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.specialReview" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Special Review
                             </div>
                         </td>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.references" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.references" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>References
                             </div>
@@ -132,14 +132,14 @@
                     <tr>
                         <td>
                           <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.correspondents" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.correspondents" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Correspondents
                             </div>
                         </td>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.riskLevel" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.riskLevel" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Risk Levels
                             </div>
@@ -147,7 +147,7 @@
                            <kra:section permission="${canViewReviewComments}">
                             <td>
                            		<div align="left">
-                                	<kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.reviewComments" 
+                                	<kul:htmlControlAttribute property="actionHelper.protocolPrintOption.reviewComments" 
                                     	                      attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                         	                  readOnly="false" styleClass="printOptions"/>Review Comments
                             	</div>
@@ -162,14 +162,14 @@
                     <tr>
                         <td>
                           <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.areaOfResearch" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.areaOfResearch" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Area of Research
                             </div>
                         </td>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.notes" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.notes" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>Notes
                             </div>
@@ -189,7 +189,7 @@
                         </th>
                         <td colspan="2" >
                            <div align="center">
-                                <kul:htmlControlAttribute property="iacucActionHelper.protocolPrintOption.protocolHistory" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.protocolHistory" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printOptions"/>
                             </div>
@@ -328,25 +328,25 @@
             </kul:innerTab>
         </c:if>
           
-        <c:if test="${fn:length(KualiForm.iacucActionHelper.questionnairesToPrints) > 0}">
+        <c:if test="${fn:length(KualiForm.actionHelper.questionnairesToPrints) > 0}">
             <kul:innerTab tabTitle="Questionnaires" parentTab="" defaultOpen="false">
                 <div class="innerTab-container">
                     <c:set var="qid" value="0"/>
                     <table cellpadding="0" cellspacing="0"  border="0" summary="print forms">
-                        <c:set var = "qnLength" value = "${fn:length(KualiForm.iacucActionHelper.questionnairesToPrints)}" />
-                        <c:forEach var="qnPrintOption" items="${KualiForm.iacucActionHelper.questionnairesToPrints}" varStatus="status">
+                        <c:set var = "qnLength" value = "${fn:length(KualiForm.actionHelper.questionnairesToPrints)}" />
+                        <c:forEach var="qnPrintOption" items="${KualiForm.actionHelper.questionnairesToPrints}" varStatus="status">
                             <tr>
                                 <td>
                                     <div align="left">
-                                        ${KualiForm.iacucActionHelper.questionnairesToPrints[status.index].label}
-                                        <c:if test="${not KualiForm.iacucActionHelper.questionnairesToPrints[status.index].questionnaireActive}">
+                                        ${KualiForm.actionHelper.questionnairesToPrints[status.index].label}
+                                        <c:if test="${not KualiForm.actionHelper.questionnairesToPrints[status.index].questionnaireActive}">
                                             -- This Questionnaire has been deactivated.
                                         </c:if>
                                     </div>
                                 </td>
                                 <td>
                                     <div align="center">
-                                        <kul:htmlControlAttribute property="iacucActionHelper.questionnairesToPrints[${status.index}].selected" 
+                                        <kul:htmlControlAttribute property="actionHelper.questionnairesToPrints[${status.index}].selected" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
                                                           readOnly="false" styleClass="printQnOptions"/>
                                     </div>

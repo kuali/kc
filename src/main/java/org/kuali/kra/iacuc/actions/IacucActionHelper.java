@@ -36,6 +36,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
+import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -48,6 +49,7 @@ import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -626,6 +628,17 @@ public class IacucActionHelper extends ActionHelper {
     @Override
     protected String getAbandonPropertyKeyHook() {
         return Constants.PROTOCOL_ABANDON_ACTION_PROPERTY_KEY;
+    }
+
+    @Override
+    protected ProtocolModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(Protocol protocol) {
+        System.out.println("protocol ======> "  + protocol);
+        System.out.println("protocol ======> "  + protocol.getProtocolNumber());
+        System.out.println("protocol doc ======> "  + ((IacucProtocol)protocol).getIacucProtocolDocument());
+        System.out.println("protocol doc ======> "  + ((IacucProtocol)protocol).getIacucProtocolDocument().getDocumentNumber());
+        System.out.println("protocol doc hdr ======> "  + ((IacucProtocol)protocol).getIacucProtocolDocument().getDocumentHeader());
+        System.out.println("protocol doc wfl ======> "  + ((IacucProtocol)protocol).getIacucProtocolDocument().getDocumentHeader().getWorkflowDocument());
+        return new IacucProtocolModuleQuestionnaireBean((IacucProtocol)protocol);
     }
 }
 
