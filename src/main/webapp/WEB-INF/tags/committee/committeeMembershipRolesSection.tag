@@ -86,10 +86,12 @@
                                 </th>
                                 <td align="left" valign="middle">
                                     <div align="left" style="${roleStyle}">
-                                        <!--<kul:htmlControlAttribute property="${committeeMembership}.membershipRoles[${status.index}].membershipRoleCode" 
+                                        <%--
+                                        <kul:htmlControlAttribute property="${committeeMembership}.membershipRoles[${status.index}].membershipRoleCode" 
                                                                   attributeEntry="${membershipRoleAttributes.membershipRoleCode}" 
                                                                   readOnlyAlternateDisplay="${membershipRole.membershipRole.description}" 
-                                                                  readOnly="true" />-->
+                                                                  readOnly="true" />
+                                        --%>
                                         <c:out value="${membershipRole.membershipRole.description}" />
                                     </div>
                                 </td>
