@@ -25,6 +25,7 @@ import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
@@ -37,8 +38,14 @@ import org.kuali.rice.krad.document.Document;
  * This class is the Proposal Document Authorizer.  It determines the edit modes and
  * document actions for all proposal development documents.
  */
-public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
+public abstract class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -7155315639701623791L;
+    
+
     /**
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
@@ -134,10 +141,12 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteProtocolTask(String userId, ProtocolDocument doc, String taskName) {
-        ProtocolTask task = new ProtocolTask(taskName, doc.getProtocol());       
+        ProtocolTask task = createNewProtocolTaskInstanceHook(taskName, doc.getProtocol());       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
+    
+    protected abstract ProtocolTask createNewProtocolTaskInstanceHook(String taskName, Protocol protocol);
     
     /**
      * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
