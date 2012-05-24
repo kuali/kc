@@ -19,6 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Is the user allowed to delete a protocol, amendment or renewal?
@@ -31,10 +33,24 @@ public class IacucProtocolAmendRenewDeleteAuthorizer extends IacucProtocolAuthor
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return !task.getProtocol().getProtocolDocument().isViewOnly() &&
                inProgress(task.getProtocol()) &&
-               hasPermission(userId, task.getProtocol(), PermissionConstants.DELETE_IACUC_PROTOCOL);
+               (   (hasPermission(userId, task.getProtocol(), PermissionConstants.DELETE_IACUC_PROTOCOL)) 
+                || (isPrincipalInvestigator(task.getProtocol()))
+               );
     }
     
     private boolean inProgress(Protocol protocol) {
         return StringUtils.equals(protocol.getProtocolStatusCode(), IacucProtocolStatus.IN_PROGRESS);
+    }
+    
+    /*
+     * check if user is PI
+     */
+    private boolean isPrincipalInvestigator(Protocol protocol) {
+        Person user = GlobalVariables.getUserSession().getPerson();
+        boolean isPi = false;
+        if (user.getPrincipalId().equals(protocol.getPrincipalInvestigator().getPersonId())) {
+            isPi = true;
+        }
+        return isPi;
     }
 }
