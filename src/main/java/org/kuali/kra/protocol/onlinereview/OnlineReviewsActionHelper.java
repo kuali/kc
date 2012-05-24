@@ -31,6 +31,7 @@ import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewForm;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -127,7 +128,7 @@ public abstract class OnlineReviewsActionHelper implements Serializable {
                     pDocMap.put(DOCUMENT_MAP_KEY, pDoc);
                     ProtocolOnlineReviewForm poForm;
                     try {
-                        poForm = new ProtocolOnlineReviewForm();
+                        poForm = new IacucProtocolOnlineReviewForm();
                         poForm.setDocument(pDoc);
                         populateAuthorizationFields(poForm,pDoc);
                         pDocMap.put(FORM_MAP_KEY, poForm);

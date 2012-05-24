@@ -877,6 +877,7 @@
                 <value>protocolTaskAuthorizers</value>
                 <value>protocolOnlineReviewTaskAuthorizers</value>
                 <value>iacucProtocolTaskAuthorizers</value>
+                <value>iacucProtocolOnlineReviewTaskAuthorizers</value>
                 <value>coiDisclosureTaskAuthorizers</value>
                 <value>committeeTaskAuthorizers</value>
             </set>

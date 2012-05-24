@@ -54,6 +54,7 @@ import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewAttachmentEvent;
 import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.protocol.onlinereview.event.DeleteProtocolOnlineReviewEvent;
+import org.kuali.kra.protocol.onlinereview.event.RejectProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
 import org.kuali.kra.service.KraWorkflowService;
@@ -601,4 +602,62 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward rejectOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
+                (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE),
+                "rejectOnlineReview");
+        ProtocolForm protocolForm = (ProtocolForm) form;        
+        ProtocolOnlineReviewDocument prDoc = (ProtocolOnlineReviewDocument) protocolForm.getOnlineReviewsActionHelper()
+            .getDocumentHelperMap().get(onlineReviewDocumentNumber).get("document");
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+        String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        String callerString = String.format("rejectOnlineReview.%s.anchor%s",prDoc.getDocumentNumber(),0);
+        if(question == null){
+            return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to return this document to reviewer ?" , KRADConstants.CONFIRMATION_QUESTION, callerString, "");
+         } 
+        else if((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
+            //nothing to do.
+        }
+        else
+        {
+            if (!this.applyRules(new RejectProtocolOnlineReviewCommentEvent(prDoc, reason, new Integer(DOCUMENT_REJECT_REASON_MAXLENGTH).intValue()))) {
+                if (reason == null) {
+                    reason = ""; //Prevents null pointer exception in performQuestion
+                }
+                return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, DOCUMENT_REJECT_QUESTION, "Are you sure you want to return this document to reviewer ?", KRADConstants.CONFIRMATION_QUESTION, callerString, "", reason, KeyConstants.ERROR_ONLINE_REVIEW_REJECTED_REASON_REQUIRED, KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, DOCUMENT_REJECT_REASON_MAXLENGTH);              
+            } else if (KRADUtils.containsSensitiveDataPatternMatch(reason)) {
+                return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, 
+                        DOCUMENT_REJECT_QUESTION, "Are you sure you want to return this document to reviewer ?", 
+                        KRADConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
+                        KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
+            } else {
+                prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.SAVED_STATUS_CD);
+                prDoc.getProtocolOnlineReview().addActionPerformed("Reject");
+                prDoc.getProtocolOnlineReview().setReviewerApproved(false);
+                prDoc.getProtocolOnlineReview().setAdminAccepted(false);
+                setOnlineReviewCommentFinalFlags(prDoc.getProtocolOnlineReview(), false);
+                getDocumentService().saveDocument(prDoc);
+                getProtocolOnlineReviewService().returnProtocolOnlineReviewDocumentToReviewer(prDoc,reason,GlobalVariables.getUserSession().getPrincipalId());
+                
+                Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+                ProtocolOnlineReview protocolOnlineReview = prDoc.getProtocolOnlineReview();
+                // TODO : IACUC notification here
+//                RejectReviewNotificationRenderer renderer = new RejectReviewNotificationRenderer(protocol, reason);
+////                IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_REJECTED, "Return to Reviewer", renderer);
+////                getKcNotificationService().sendNotification(context);
+//                
+//                protocolForm.getOnlineReviewsActionHelper().init(true);
+//                recordOnlineReviewActionSuccess("returned to reviewer", prDoc);   
+//                return checkToSendNotificationWithHoldingPage(mapping, null, protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_REJECTED, "Return to Reviewer", prDoc.getDocumentNumber(), "Reject"));
+////                return routeProtocolOLRToHoldingPage(mapping, protocolForm, prDoc.getDocumentNumber(), "Reject");
+
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }  
+        
+        
 }
