@@ -33,7 +33,6 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.permissions.web.bean.AssignedRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
@@ -65,7 +64,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.w3.x2001.protocolSummarySchema.ProtoAmendRenewalType;
 import org.w3.x2001.protocolSummarySchema.ProtocolActionsType;
-import org.w3.x2001.protocolSummarySchema.ProtocolCorrespondentType;
 import org.w3.x2001.protocolSummarySchema.ProtocolDetailsType;
 import org.w3.x2001.protocolSummarySchema.ProtocolDocumentType;
 import org.w3.x2001.protocolSummarySchema.ProtocolDocumentsType;
@@ -79,7 +77,6 @@ import org.w3.x2001.protocolSummarySchema.ProtocolOtherDataType;
 import org.w3.x2001.protocolSummarySchema.ProtocolOtherDocumentsType;
 import org.w3.x2001.protocolSummarySchema.ProtocolReferencesType;
 import org.w3.x2001.protocolSummarySchema.ProtocolResearchAreasType;
-import org.w3.x2001.protocolSummarySchema.ProtocolRiskLevelsType;
 import org.w3.x2001.protocolSummarySchema.ProtocolRolesType;
 import org.w3.x2001.protocolSummarySchema.ProtocolSpecialReviewType;
 import org.w3.x2001.protocolSummarySchema.ProtocolSubjectsType;
@@ -93,7 +90,7 @@ import org.w3.x2001.protocolSummarySchema.SchoolInfoType;
 /**
  * This class is to generate Protocol Summary Xml file
  */
-public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
+public abstract class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
     private static final String OTHER = "9";
     private static final String SCHOOL_NAME = "SCHOOL_NAME";
     private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
@@ -351,7 +348,8 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
     }
     private void setProtocolNotes(ProtocolSummary protocolSummary, Protocol protocol) {
         List<ProtocolNotepad> protocolNotes = protocol.getNotepads();
-        boolean isProtocolPerson = KraServiceLocator.getService(ProtocolActionService.class).isProtocolPersonnel(protocol);
+        //boolean isProtocolPerson = KraServiceLocator.getService(ProtocolActionService.class).isProtocolPersonnel(protocol);
+        boolean isProtocolPerson = getProtocolActionServiceHook().isProtocolPersonnel(protocol);
 
 // TODO - IRB specific code to be removed        
 //        boolean hasPermission = KraServiceLocator.getService(ProtocolNotificationTemplateAuthorizationService.class).hasPermission(
@@ -782,4 +780,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         this.awardService = awardService;
     }
 
+
+    public abstract ProtocolActionService getProtocolActionServiceHook();
+    
 }

@@ -53,7 +53,7 @@ import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.NextSchedule;
 public class CommitteeXmlStream extends PrintBaseXmlStream {
 
     private ScheduleXmlStream scheduleXmlStream;
-    private IrbPrintXmlUtilService irbPrintXmlUtilService;
+    private PrintXmlUtilService printXmlUtilService;
     /**
      * This method generates XML committee report. It uses data passed in
      * {@link ResearchDocumentBase} for populating the XML nodes. The XMl once
@@ -190,10 +190,10 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
         person.setEmployeeFlag(!employeeFlag) ;
          if (employeeFlag ){
              KcPerson personBean = membershipBean.getPerson();
-             getIrbPrintXmlUtilService().setPersonXml(personBean, person);
+             getPrintXmlUtilService().setPersonXml(personBean, person);
          }else{ 
             ProtocolPersonRolodex rolodexBean =  membershipBean.getRolodex();
-            getIrbPrintXmlUtilService().setPersonXml(rolodexBean, person);
+            getPrintXmlUtilService().setPersonXml(rolodexBean, person);
          }    
     }
 
@@ -232,15 +232,15 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
      * Sets the irbPrintXmlUtilService attribute value.
      * @param irbPrintXmlUtilService The irbPrintXmlUtilService to set.
      */
-    public void setIrbPrintXmlUtilService(IrbPrintXmlUtilService irbPrintXmlUtilService) {
-        this.irbPrintXmlUtilService = irbPrintXmlUtilService;
+    public void setPrintXmlUtilService(PrintXmlUtilService printXmlUtilService) {
+        this.printXmlUtilService = printXmlUtilService;
     }
     /**
      * Gets the irbPrintXmlUtilService attribute. 
      * @return Returns the irbPrintXmlUtilService.
      */
-    public IrbPrintXmlUtilService getIrbPrintXmlUtilService() {
-        return irbPrintXmlUtilService;
+    public PrintXmlUtilService getPrintXmlUtilService() {
+        return printXmlUtilService;
     } 
 
 
