@@ -5,7 +5,7 @@ BEGIN
     SELECT COUNT(*) INTO roleCount FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'KC Superuser';
     IF roleCount = 0 THEN
       INSERT INTO KRIM_ROLE_T (ROLE_ID,KIM_TYP_ID,NMSPC_CD,ROLE_NM,DESC_TXT,ACTV_IND,LAST_UPDT_DT,OBJ_ID,VER_NBR) 
-          VALUES (KRIM_ROLE_ID_BS_S.NEXTVAL,(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Default'),'KC-SYS','KC Superuser','KC Superuser role for administration access','Y',SYSDATE,SYS_GUID(),1);
+          VALUES (KRIM_ROLE_ID_BS_S.NEXTVAL,(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'UnitHierarchy'),'KC-SYS','KC Superuser','KC Superuser role for administration access','Y',SYSDATE,SYS_GUID(),1);
     END IF;
     
     FOR rec IN cur 
