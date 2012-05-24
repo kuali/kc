@@ -35,6 +35,7 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -68,7 +69,7 @@ public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelper {
 //  */
 // @Override
     public boolean canModifyCustomData() {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_OTHERS, getProtocol());
+        ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_OTHERS, (IacucProtocol) getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 

@@ -23,12 +23,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolAction;
@@ -144,12 +146,8 @@ public class IacucProtocolAction extends ProtocolAction {
       IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer(protocol);
       IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.IACUC_PROTOCOL_CREATED, "Created", renderer);
       KraServiceLocator.getService(KcNotificationService.class).sendNotification(context);
-  }
-
-    @Override
-    protected String getModifyProtocolTaskNameHook() {
-        return TaskName.MODIFY_IACUC_PROTOCOL;
     }
+    
     
     /**
      * This method is to get protocol personnel service
@@ -171,6 +169,12 @@ public class IacucProtocolAction extends ProtocolAction {
 
     protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
         return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+    }
+
+
+    @Override
+    protected ProtocolTask createNewModifyProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL, (IacucProtocol) protocol);
     }
 
 }

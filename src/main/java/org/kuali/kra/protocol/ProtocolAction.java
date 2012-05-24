@@ -238,7 +238,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         ProtocolForm protocolForm = (ProtocolForm) form;
 
-        ProtocolTask task = new ProtocolTask(getModifyProtocolTaskNameHook(), protocolForm.getProtocolDocument().getProtocol());
+        ProtocolTask task = createNewModifyProtocolTaskInstanceHook(protocolForm.getProtocolDocument().getProtocol());
         AuditActionHelper auditActionHelper = new AuditActionHelper();
         
         if (isAuthorized(task)) {
@@ -258,9 +258,9 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
 
         return actionForward;
     }
-    
-    protected abstract String getModifyProtocolTaskNameHook();
 
+
+    protected abstract ProtocolTask createNewModifyProtocolTaskInstanceHook(Protocol protocol);
 
 
     /**

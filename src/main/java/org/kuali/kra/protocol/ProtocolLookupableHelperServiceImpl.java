@@ -105,7 +105,7 @@ public abstract class ProtocolLookupableHelperServiceImpl<GenericProtocol extend
         
         for (GenericProtocol protocol : (List<GenericProtocol>)getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues))) {
             for (String taskName : taskNames) {
-                ProtocolTask task = new ProtocolTask(taskName, protocol);
+                ProtocolTask task = createNewProtocolTaskInstanceHook(taskName, protocol);
                 if (taskAuthorizationService.isAuthorized(getUserIdentifier(), task)) {
                     filteredProtocols.add(protocol);
                     break;
@@ -115,6 +115,9 @@ public abstract class ProtocolLookupableHelperServiceImpl<GenericProtocol extend
         
         return getPagedResults(filteredProtocols);
     }
+
+    protected abstract ProtocolTask createNewProtocolTaskInstanceHook(String taskName, Protocol protocol);
+
 
     /**
      * Filters the unbounded list of protocols by the given field values and protocol status codes.
