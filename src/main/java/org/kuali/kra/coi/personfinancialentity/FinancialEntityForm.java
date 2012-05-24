@@ -110,8 +110,8 @@ public class FinancialEntityForm  extends KualiForm {
      */
     @Override
     public void populate(HttpServletRequest request) {
-        super.populate(request);
         financialEntityHelper.refreshData();
+        super.populate(request);
         populateFalseCheckboxes(request);
     }
 
