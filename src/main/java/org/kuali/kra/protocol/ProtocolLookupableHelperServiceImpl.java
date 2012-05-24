@@ -80,10 +80,10 @@ public abstract class ProtocolLookupableHelperServiceImpl<GenericProtocol extend
 
     private DictionaryValidationService dictionaryValidationService;
     
-    private KcPersonService kcPersonService;
-    private KraAuthorizationService kraAuthorizationService;
-    private TaskAuthorizationService taskAuthorizationService;
-    private DocumentService documentService;
+    protected KcPersonService kcPersonService;
+    protected KraAuthorizationService kraAuthorizationService;
+    protected TaskAuthorizationService taskAuthorizationService;
+    protected DocumentService documentService;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
