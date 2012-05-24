@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.questionnaire;
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
 
@@ -24,6 +25,12 @@ public class IacucProtocolModuleQuestionnaireBean extends ProtocolModuleQuestion
     public IacucProtocolModuleQuestionnaireBean(Protocol protocol) {
         super(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 
                                 protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved());
+        setProtocolSubItemCode(protocol) ;
+    }
+
+    public IacucProtocolModuleQuestionnaireBean(IacucProtocol protocol) {
+        super(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 
+                protocol.getIacucProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved());
         setProtocolSubItemCode(protocol) ;
     }
     

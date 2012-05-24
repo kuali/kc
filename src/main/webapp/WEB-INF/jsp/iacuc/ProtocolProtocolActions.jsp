@@ -49,6 +49,7 @@
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="IACUC Protocol Actions" /></div>
 
 <kra-iacuc:protocolRequestAction />
+<kra-iacuc:iacucProtocolSummaryPrint/>
 <kra-iacuc:iacucProtocolCopyProtocol />
 
 <c:if test="${showActions}" >
