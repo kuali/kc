@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -58,7 +60,7 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
 
     @Override
     public boolean canEditProtocolAttachments() {
-        final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ATTACHMENTS, this.getProtocol());
+        final ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ATTACHMENTS, (IacucProtocol) this.getProtocol());
         return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
 
@@ -84,13 +86,13 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
 
     @Override
     public boolean canAddProtocolNotepads() {
-        final ProtocolTask task = new ProtocolTask(TaskName.ADD_IACUC_PROTOCOL_NOTES, this.getProtocol());
+        final ProtocolTask task = new IacucProtocolTask(TaskName.ADD_IACUC_PROTOCOL_NOTES, (IacucProtocol) this.getProtocol());
         return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
 
     @Override
     public boolean canViewRestrictedProtocolNotepads() {
-        final ProtocolTask task = new ProtocolTask(TaskName.IACUC_VIEW_RESTRICTED_NOTES, this.getProtocol());
+        final ProtocolTask task = new IacucProtocolTask(TaskName.IACUC_VIEW_RESTRICTED_NOTES, (IacucProtocol) this.getProtocol());
         return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
 

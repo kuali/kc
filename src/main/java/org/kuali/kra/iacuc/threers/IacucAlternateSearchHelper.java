@@ -19,7 +19,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.auth.ProtocolTask;
@@ -71,7 +73,7 @@ public class IacucAlternateSearchHelper implements Serializable {
     }
 
     public boolean isModifyPermissions() {
-        final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_THREE_RS, form.getProtocolDocument().getProtocol());
+        final ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_THREE_RS, (IacucProtocol) form.getProtocolDocument().getProtocol());
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
 

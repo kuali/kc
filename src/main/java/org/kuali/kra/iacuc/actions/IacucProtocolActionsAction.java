@@ -315,7 +315,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
-        ProtocolTask task = new ProtocolTask(TaskName.IACUC_ASSIGN_TO_COMMITTEE, protocolForm.getProtocolDocument().getProtocol());
+        ProtocolTask task = new IacucProtocolTask(TaskName.IACUC_ASSIGN_TO_COMMITTEE, protocol);
         
         if (!hasDocumentStateChanged((IacucProtocolForm) protocolForm)) {
             if (isAuthorized(task)) {
@@ -483,7 +483,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         if (!hasDocumentStateChanged(protocolForm)) {
             if (isAuthorized(task)) {
-                IacucProtocolDocument pd = getProtocolWithdrawService().withdraw(protocol, (IacucProtocolWithdrawBean)protocolForm.getActionHelper().getProtocolWithdrawBean());
+                ProtocolDocument pd = getProtocolWithdrawService().withdraw(protocol, (IacucProtocolWithdrawBean)protocolForm.getActionHelper().getProtocolWithdrawBean());
     
                 protocolForm.setDocId(pd.getDocumentNumber());
                 loadDocument(protocolForm);
@@ -2762,7 +2762,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument protocolDocument = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocol protocol = protocolDocument.getIacucProtocol();
-        ProtocolTask task = new ProtocolTask(TaskName.IACUC_ABANDON_PROTOCOL, protocolForm.getProtocolDocument().getProtocol());
+        ProtocolTask task = new IacucProtocolTask(TaskName.IACUC_ABANDON_PROTOCOL, protocol);
         if (isAuthorized(task)) {
             getProtocolAbandonService().abandonProtocol(protocolForm.getProtocolDocument().getProtocol(),
                     protocolForm.getActionHelper().getProtocolAbandonBean());
@@ -3606,7 +3606,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         Map<String,Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("protocolId", protocolForm.getProtocolDocument().getProtocol().getProtocolId());
-        IacucProtocol dbProtocol = (IacucProtocol)getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, primaryKeys);
+        IacucProtocol dbProtocol = getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, primaryKeys);
         
         //First lets check the protocol status & submission status
         if (dbProtocol != null) {
