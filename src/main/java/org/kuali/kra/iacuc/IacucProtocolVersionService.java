@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.actions.notifycommittee;
+package org.kuali.kra.iacuc;
 
-import java.io.Serializable;
+import org.kuali.kra.protocol.ProtocolVersionService;
 
-import org.kuali.kra.protocol.actions.ProtocolActionBean;
-
-public interface ProtocolNotifyCommitteeBean extends ProtocolActionBean, Serializable {
+public interface IacucProtocolVersionService extends ProtocolVersionService {
 
 }

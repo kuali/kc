@@ -50,8 +50,8 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 public abstract class ProtocolVersionServiceImpl implements ProtocolVersionService {
     
     private DocumentService documentService;
-    private BusinessObjectService businessObjectService;
-    private VersioningService versioningService;
+    protected BusinessObjectService businessObjectService;
+    protected VersioningService versioningService;
     private QuestionnaireAnswerService questionnaireAnswerService;
     private SequenceAccessorService sequenceAccessorService;
     private SessionDocumentService sessionDocumentService;
@@ -96,7 +96,7 @@ public abstract class ProtocolVersionServiceImpl implements ProtocolVersionServi
             documentHeader.setWorkflowDocument(workflowDocument);
             documentHeader.setDocumentNumber(workflowDocument.getDocumentId().toString());
             
-            //newDoc = new ProtocolDocument(); -- commented as part of GENERATED CODE need to verify
+            newDoc = createNewProtocolDocumentInstanceHook();
             
             newDoc.setDocumentHeader(documentHeader);
             newDoc.setDocumentNumber(documentHeader.getDocumentNumber());
@@ -108,7 +108,9 @@ public abstract class ProtocolVersionServiceImpl implements ProtocolVersionServi
         return newDoc;
     }
     
-    protected abstract Protocol getNewProtocol(Protocol protocol) throws Exception;
+    protected abstract ProtocolDocument createNewProtocolDocumentInstanceHook();
+
+    protected abstract Protocol createProtocolNewVersionHook(Protocol protocol) throws Exception;
     
     /**
      * @see org.kuali.kra.protocol.ProtocolVersionService#versionProtocolDocument(org.kuali.kra.protocol.ProtocolDocument)
@@ -116,7 +118,7 @@ public abstract class ProtocolVersionServiceImpl implements ProtocolVersionServi
     public ProtocolDocument versionProtocolDocument(ProtocolDocument protocolDocument) throws Exception {
      
         materializeCollections(protocolDocument.getProtocol());
-        Protocol newProtocol = getNewProtocol(protocolDocument.getProtocol());
+        Protocol newProtocol = createProtocolNewVersionHook(protocolDocument.getProtocol());
         removeDeletedAttachment(newProtocol);
         ProtocolDocument newProtocolDocument = getNewProtocolDocument();
         newProtocolDocument.getDocumentHeader().setDocumentDescription(protocolDocument.getDocumentHeader().getDocumentDescription());
@@ -144,10 +146,10 @@ public abstract class ProtocolVersionServiceImpl implements ProtocolVersionServi
         finalizeAttachmentProtocol(newProtocol);
         businessObjectService.save(newProtocol);
         // versioning questionnaire answer
-        List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(getProtocolModuleQuestionnaireBean(protocolDocument.getProtocol())
+        List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(getNewInstanceProtocolModuleQuestionnaireBeanHook(protocolDocument.getProtocol())
             , newProtocol.getSequenceNumber());
         if (newProtocol.isAmendment() || (newProtocol.isRenewal() && !newProtocol.isRenewalWithoutAmendment())) {
-            ProtocolModuleQuestionnaireBean moduleBean = getProtocolModuleQuestionnaireBean(protocolDocument.getProtocol());
+            ProtocolModuleQuestionnaireBean moduleBean = getNewInstanceProtocolModuleQuestionnaireBeanHook(protocolDocument.getProtocol());
             moduleBean.setModuleSubItemCode(CoeusSubModule.ZERO_SUBMODULE);
             List<AnswerHeader> newAmendAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(moduleBean
             , newProtocol.getSequenceNumber());
@@ -258,12 +260,9 @@ public abstract class ProtocolVersionServiceImpl implements ProtocolVersionServi
      * @param newProtocol
      */
     protected void fixActionSequenceNumbers(Protocol protocol, Protocol newProtocol) {
-        
-        /* -- commented as part of GENERATED CODE need to verify
         for (int i = 0; i < protocol.getProtocolActions().size(); i++) {
             newProtocol.getProtocolActions().get(i).setSequenceNumber(protocol.getProtocolActions().get(i).getSequenceNumber());
         }
-        */
     }
 
     /**
@@ -286,22 +285,24 @@ public abstract class ProtocolVersionServiceImpl implements ProtocolVersionServi
         newDoc.setDocumentNextvalues(newNextValues);
     }
 
-// Following method demoted to IACUC    
-//    /**
-//     * @see org.kuali.kra.protocol.ProtocolVersionService#getProtocolVersion(java.lang.String, java.lang.Integer)
-//     */
-//    @SuppressWarnings("unchecked")
-//    public Protocol getProtocolVersion(String protocolNumber, Integer sequenceNumber) {
-//        Protocol protocol = null;
-//        Map<String, Object> fields = new HashMap<String, Object>();
-//        fields.put("protocolNumber", protocolNumber);
-//        fields.put("sequenceNumber", sequenceNumber);
-//        Collection<Protocol> protocols = businessObjectService.findMatching(Protocol.class, fields);
-//        if (protocols.size() == 1) {
-//            protocol = protocols.iterator().next();
-//        }
-//        return protocol;
-//    }
+   
+    /**
+     * @see org.kuali.kra.protocol.ProtocolVersionService#getProtocolVersion(java.lang.String, java.lang.Integer)
+     */
+    @SuppressWarnings("unchecked")
+    public Protocol getProtocolVersion(String protocolNumber, Integer sequenceNumber) {
+        Protocol protocol = null;
+        Map<String, Object> fields = new HashMap<String, Object>();
+        fields.put("protocolNumber", protocolNumber);
+        fields.put("sequenceNumber", sequenceNumber);
+        Collection<Protocol> protocols = (Collection<Protocol>)businessObjectService.findMatching(getProtocolBOClassHook(), fields);
+        if (protocols.size() == 1) {
+            protocol = protocols.iterator().next();
+        }
+        return protocol;
+    }
+
+    protected abstract Class<? extends Protocol> getProtocolBOClassHook();
 
     public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
         this.questionnaireAnswerService = questionnaireAnswerService;
@@ -315,6 +316,6 @@ public abstract class ProtocolVersionServiceImpl implements ProtocolVersionServi
         this.workflowDocumentService = workflowDocumentService;
     }
 
-    protected abstract ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(Protocol protocol);
+    protected abstract ProtocolModuleQuestionnaireBean getNewInstanceProtocolModuleQuestionnaireBeanHook(Protocol protocol);
 
 }
