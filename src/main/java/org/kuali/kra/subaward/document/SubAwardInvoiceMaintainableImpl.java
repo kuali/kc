@@ -23,6 +23,7 @@ import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -53,11 +54,12 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
         super.prepareForSave();
         SubAwardAmountReleased invoice = (SubAwardAmountReleased) this.getBusinessObject();
         invoice.setDocumentNumber(this.getDocumentNumber());
-        if (getDictionaryValidationService().isBusinessObjectValid(invoice)) {
+        GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject");
+        DictionaryValidationResult validationResult = getDictionaryValidationService().validate(invoice, true);
+        GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
+        if (validationResult.getNumberOfErrors() == 0) {
             invoice.populateAttachment();
             getBusinessObjectService().save(invoice);
-        } else {
-            GlobalVariables.getMessageMap().clearErrorMessages();
         }
     }
     
