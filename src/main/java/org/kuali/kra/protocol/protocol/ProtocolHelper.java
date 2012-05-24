@@ -254,10 +254,11 @@ public abstract class ProtocolHelper implements Serializable {
 
     protected abstract ProtocolTask getNewInstanceModifyProtocolTaskHook(Protocol protocol);
 
-    private void initializeBillablePermission(Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_BILLABLE, protocol);
-        billableReadOnly = !getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
+// TODO *********commented the code below during IACUC refactoring*********     
+//    private void initializeBillablePermission(Protocol protocol) {
+//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_BILLABLE, protocol);
+//        billableReadOnly = !getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+//    }
     
     
     
@@ -296,11 +297,11 @@ public abstract class ProtocolHelper implements Serializable {
     protected abstract ProtocolTask getNewInstanceModifyProtocolOrganizationsTaskHook(Protocol protocol);
     
     
-    
-    private void initializeModifySubjectsPermission(Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBJECTS, protocol);
-        modifySubjects = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
+// TODO *********commented the code below during IACUC refactoring*********     
+//    private void initializeModifySubjectsPermission(Protocol protocol) {
+//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBJECTS, protocol);
+//        modifySubjects = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+//    }
     
     private void initializeModifyAreasOfResearchPermission(Protocol protocol) {
         ProtocolTask task = getNewInstanceModifyProtocolResearchAreasTaskHook(protocol);

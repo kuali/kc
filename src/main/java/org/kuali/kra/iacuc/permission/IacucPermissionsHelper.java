@@ -21,7 +21,9 @@ import java.util.HashSet;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.auth.ProtocolTask;
@@ -83,7 +85,7 @@ public class IacucPermissionsHelper extends PermissionsHelper {
      */
     @Override
     public boolean canModifyPermissions() {              
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ROLES, getProtocol());
+        ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ROLES, (IacucProtocol) getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
     }
 

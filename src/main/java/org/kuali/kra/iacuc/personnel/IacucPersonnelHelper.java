@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentPersonnel;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -49,7 +51,7 @@ public class IacucPersonnelHelper extends PersonnelHelper implements Serializabl
       
 
     protected void initializeModifyProtocolPermission(Protocol protocol) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_PERSONNEL, protocol);
+        ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_PERSONNEL, (IacucProtocol) protocol);
         modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
     }
 

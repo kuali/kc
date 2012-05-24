@@ -22,9 +22,12 @@ import java.util.Map;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolLookupableHelperServiceImpl;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 
@@ -117,6 +120,12 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
     @Override
     protected String getHtmlActionHook() {
         return "iacucProtocolProtocol.do";
+    }
+
+
+    @Override
+    protected ProtocolTask createNewProtocolTaskInstanceHook(String taskName, Protocol protocol) {
+        return new IacucProtocolTask(taskName, (IacucProtocol) protocol);
     }
 
 }
