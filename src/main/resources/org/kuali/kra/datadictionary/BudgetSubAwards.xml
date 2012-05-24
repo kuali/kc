@@ -8,7 +8,7 @@
 
   <bean id="BudgetSubAwards-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards" />
-		<property name="objectLabel" value="Budget Sub Awards" />
+		<property name="objectLabel" value="Budget Subawards" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetSubAwards-inquiryDefinition" />
     </property>
@@ -137,8 +137,8 @@
   <bean id="BudgetSubAwards-subAwardStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAwardStatusCode" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Sub Award Status Code" />
-    <property name="shortLabel" value="Sub Award Status Code" />
+    <property name="label" value="Subaward Status Code" />
+    <property name="shortLabel" value="Subaward Status Code" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -147,16 +147,16 @@
       <bean parent="TextControlDefinition"
             p:size="3" />
     </property>
-    <property name="summary" value="Sub Award Status Code" />
-    <property name="description" value="Sub Award Status Code" />
+    <property name="summary" value="Subaward Status Code" />
+    <property name="description" value="Subaward Status Code" />
   </bean>
   <bean id="BudgetSubAwards-subAwardXfdFileName" parent="BudgetSubAwards-subAwardXfdFileName-parentBean" />
 
   <bean id="BudgetSubAwards-subAwardXfdFileName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAwardXfdFileName" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Sub Award Pdf File Name" />
-    <property name="shortLabel" value="Sub Award Pdf File Name" />
+    <property name="label" value="Subaward PDF File Name" />
+    <property name="shortLabel" value="Subaward PDF File Name" />
     <property name="maxLength" value="256" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -166,8 +166,8 @@
       <bean parent="TextControlDefinition"
             p:size="256" />
     </property>
-    <property name="summary" value="Sub Award Pdf File Name" />
-    <property name="description" value="Sub Award Pdf File Name" />
+    <property name="summary" value="Subaward PDF File Name" />
+    <property name="description" value="Subaward PDF File Name" />
   </bean>
   <bean id="BudgetSubAwards-translationComments" parent="BudgetSubAwards-translationComments-parentBean" />
 
@@ -288,7 +288,7 @@
   <bean id="BudgetSubAwards-inquiryDefinition" parent="BudgetSubAwards-inquiryDefinition-parentBean" />
 
   <bean id="BudgetSubAwards-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Sub Awards" />
+    <property name="title" value="Budget Subawards" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -337,7 +337,7 @@
   <bean id="BudgetSubAwards-lookupDefinition" parent="BudgetSubAwards-lookupDefinition-parentBean" />
 
   <bean id="BudgetSubAwards-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Sub Awards" />
+    <property name="title" value="Budget Subawards" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
     <property name="defaultSort" >
