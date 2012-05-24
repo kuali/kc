@@ -18,9 +18,9 @@
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 <c:set var="budgetSubAwardsAttributes" value="${DataDictionary.BudgetSubAwards.attributes}" />
 
-<kul:tab tabTitle="Sub Award Budget" defaultOpen="false" tabErrorKey="budgetSubAwards.*,newSubAward.*">
+<kul:tab tabTitle="Subaward Budget" defaultOpen="false" tabErrorKey="budgetSubAwards.*,newSubAward.*">
  <div class="tab-container" align="center">
-     <h3>Sub Award Budget
+     <h3>Subaward Budget
          <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetActionSubAwardHelpUrl" altText="help"/></span>
      </h3>
      <div align="center">
@@ -71,16 +71,18 @@
 			</c:if>
 			
 			<c:forEach var="budgetSubAwards" items="${KualiForm.document.budget.budgetSubAwards}" varStatus="status">
+				<c:set var="readOnlyRecord" value="${!KualiForm.document.budget.budgetSubAwards[status.index].edit}"/>
 		    	<tr>
     				<th width="5%" rowspan=2 class="infoline">
 						<c:out value="${status.index + 1}" />
 					</th>
 					<td valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].organizationName" attributeEntry="${budgetSubAwardsAttributes.organizationName}" readOnly="true"/>
-	                	<%-- <kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationName:document.budgetSubAwards[${status.index}].organizationName" anchor="${tabKey}" lookupParameters="newSubAward.organizationName:organizationName"/>	                	                	
+	                	<kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].organizationName" attributeEntry="${budgetSubAwardsAttributes.organizationName}" readOnly="${readOnlyRecord }"/>
+	                	<c:if test="${!readOnlyRecord }">
+	                		<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationName:document.budget.budgetSubAwards[${status.index}].organizationName" anchor="${tabKey}" lookupParameters="document.budget.budgetSubAwards[${status.index}].organizationName:organizationName"/>
+	                	</c:if>	                	                	
 	                	<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.budget.budgetSubAwards[${status.index}].organizationName:organizationName" anchor="${tabKey}"/>
-	                	--%>
 	                	</div>
 					</td>
 					<td valign="middle" class="infoline">
@@ -90,13 +92,16 @@
 					</td>
 					<td valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].comments" attributeEntry="${budgetSubAwardsAttributes.comments}" readOnly="true"/>
+	                	<kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].comments" attributeEntry="${budgetSubAwardsAttributes.comments}" readOnly="${readOnlyRecord }"/>
 	                	</div>
 					</td>
 	                <td valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].subAwardXfdFileName" attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" readOnly="true"/>	                		                	
-	                	<%--<html:file property="document.budget.budgetSubAwards[${status.index}].subAwardXfdFile" />--%>						
+		                	<kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].subAwardXfdFileName" attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" readOnly="true"/>	                		                	
+		                	<%--<html:file property="document.budget.budgetSubAwards[${status.index}].subAwardXfdFile" />--%>
+		                	<c:if test="${!readOnlyRecord }">
+		                		<html:file property="document.budget.budgetSubAwards[${status.index}].newSubAwardFile" />
+		                	</c:if>						
 	                	</div>
 					</td>
 					<td valign="middle" class="infoline">
@@ -113,6 +118,44 @@
                                     src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
                                 </c:otherwise>
                             </c:choose>
+                            
+                            <c:choose>
+                            	<c:when test="${KualiForm.document.budget.budgetSubAwards[status.index].edit}" >
+                            		<html:image property="methodToCall.cancelEditSubawardBudgetLine.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-cancel.gif' styleClass="tinybutton"/>
+									
+									<html:image property="methodToCall.applyEditSubawardBudgetLine.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-apply.gif' styleClass="tinybutton"
+									onclick='return confirmApply${status.index}()'/>
+									
+									<script language="javascript">
+										<!--
+											function confirmApply${status.index}() {
+												var fileField = document.getElementsByName('document.budget.budgetSubAwards[${status.index}].newSubAwardFile')[0];
+												if (fileField.value == '') {
+													return true;
+												} else {
+													return confirm('It looks like you have selected a file to replace the already uploaded attachment.  To upload this file click cancel to this window, and then click "add" or "extract XML".');
+												}
+											}
+										-->
+									</script>
+																		
+									<html:image property="methodToCall.addNonXFDBudgetLine.line${status.index}.anchor${currentTabIndex}"
+		                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"
+		                            onclick="window.alert('not ready yet.');return false;"/>
+									
+									<html:image property="methodToCall.translateXFDBudgetLine.line${status.index}.anchor${tabKey}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-extractxml.gif' styleClass="tinybutton"
+									onclick="window.alert('not ready yet.');return false;"/>
+									
+                            	</c:when>
+                            	<c:otherwise>
+                            		<html:image property="methodToCall.editSubawardBudgetLine.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/>
+                            	</c:otherwise>
+                            </c:choose>
+                            <Br/>
 							<html:image property="methodToCall.delete.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 						</div>
