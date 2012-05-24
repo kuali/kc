@@ -28,7 +28,7 @@ VALUES
 ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1)
   as KIM_TYP_ATTR_ID from krim_typ_attr_t
   where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable),
-  '69FA55ACC2EE2598E0404F8189D86880',
+  uuid(),
   1,
   'e',
   7,
