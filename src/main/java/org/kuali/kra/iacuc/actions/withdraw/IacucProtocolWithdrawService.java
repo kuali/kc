@@ -17,19 +17,11 @@ package org.kuali.kra.iacuc.actions.withdraw;
 
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawService;
 
 /**
  * Protocol Withdraw Service.
  */
-public interface IacucProtocolWithdrawService {
-
-    /**
-     * Perform the task of withdrawing a protocol.  A new protocol document will be created
-     * so that it can be re-submitted into workflow at a later time.
-     * @param protocol the protocol
-     * @param withdrawBean the required data for performing a withdrawal
-     * @return new protocol document 
-     * @throws Exception 
-     */
-    public IacucProtocolDocument withdraw(IacucProtocol protocol, IacucProtocolWithdrawBean withdrawBean) throws Exception;
+public interface IacucProtocolWithdrawService extends ProtocolWithdrawService {
+    
 }

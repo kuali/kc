@@ -16,23 +16,12 @@
 package org.kuali.kra.protocol.auth;
 
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.protocol.Protocol;
 
-public class ProtocolTask extends Task {
+public abstract class ProtocolTask extends Task {
     
     private Protocol protocol;
     
-
-    /**
-     * Constructs a ProtocolTask.
-     * @param taskName the name of the task
-     * @param protocol the Protocol
-     */
-    public ProtocolTask(String taskName, Protocol protocol) {
-        super(TaskGroupName.PROTOCOL, taskName);
-        this.protocol = protocol;
-    }
     
     /**
      * Constructs a ProtocolTask.
