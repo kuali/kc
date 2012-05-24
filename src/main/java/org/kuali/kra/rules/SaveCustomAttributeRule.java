@@ -188,7 +188,7 @@ public class SaveCustomAttributeRule extends ResearchDocumentRuleBase implements
                 while (i.hasNext())
                 {
                     KeyValue element = (KeyValue) i.next();
-                    String label = element.getValue().toLowerCase();
+                    String label = element.getKey().toLowerCase();
                     if (label.equals(attributeValue.toLowerCase()))
                     {
                         return true;
