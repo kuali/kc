@@ -181,7 +181,7 @@ public class PersonSaveCustomDataRule extends PersonCustomDataRuleBase implement
         finder.setArgName(customAttribute.getLookupReturn());
         boolean keyValueFound = false;
         for (KeyValue element : finder.getKeyValues()) {
-            String label = element.getValue().toLowerCase();
+            String label = element.getKey().toLowerCase();
             if (label.equals(value.toLowerCase())) {
                 keyValueFound = true;
                 break;

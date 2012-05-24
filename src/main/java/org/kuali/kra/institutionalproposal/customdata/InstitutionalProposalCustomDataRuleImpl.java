@@ -187,7 +187,7 @@ public class InstitutionalProposalCustomDataRuleImpl extends ResearchDocumentRul
                     while (i.hasNext())
                     {
                         KeyValue element = (KeyValue) i.next();
-                        String label = element.getValue().toLowerCase();
+                        String label = element.getKey().toLowerCase();
                         if (label.equals(attributeValue.toLowerCase()))
                         {
                             return true;
