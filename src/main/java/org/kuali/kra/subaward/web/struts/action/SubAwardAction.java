@@ -378,7 +378,7 @@ public ActionForward route(ActionMapping mapping,
     ValidationState status = new AuditActionHelper()
     .isValidSubmission(subAwardForm, true);
 
-    if (status == ValidationState.OK) {
+    if ((status == ValidationState.OK) || (status == ValidationState.WARNING)) {
 
         return forward = super.route(mapping, form, request, response);
     } else {
@@ -402,7 +402,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
     subAwardForm.setAuditActivated(true);
     ValidationState status = new AuditActionHelper().
     isValidSubmission(subAwardForm, true);
-    if (status == ValidationState.OK) {
+    if ((status == ValidationState.OK) || (status == ValidationState.WARNING)) {
 
         return forward = super.blanketApprove(mapping,
         		form, request, response);
@@ -425,7 +425,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
       ValidationState status = new AuditActionHelper().
       isValidSubmission(subAwardForm, true);
 
-      if (status == ValidationState.OK) {
+      if ((status == ValidationState.OK) || (status == ValidationState.WARNING)) {
           return forward = super.approve(mapping, form, request, response);
       } else {
           GlobalVariables.getMessageMap().clearErrorMessages();
