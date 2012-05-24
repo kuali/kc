@@ -223,28 +223,8 @@ ResearchDocumentRuleBase implements SubAwardCustomDataRule {
                     Iterator<KeyValue> i = kv.iterator();
                     while (i.hasNext()) {
                         KeyValue element = (KeyValue) i.next();
-                        String label = element.getValue().toLowerCase();
+                        String label = element.getKey().toLowerCase();
                         if (label.equals(attributeValue.toLowerCase())){
-                            return true;
-                        }
-                    }
-                    validFormat = getValidFormat(
-                    customAttributeDataType.getDescription());
-                    GlobalVariables.getMessageMap().
-                    putError(errorKey, RiceKeyConstants.ERROR_EXISTENCE,
-                    customAttribute.getLabel(), attributeValue, validFormat);
-                    return false;
-            } else if (lookupClass != null && lookupClass.
-              equals(ARG_VALUE_LOOKUP)) {
-                    ArgValueLookupValuesFinder finder =
-                   new  ArgValueLookupValuesFinder();
-                    finder.setArgName(customAttribute.getLookupReturn());
-                    List<KeyValue> kv = finder.getKeyValues();
-                    Iterator<KeyValue> i = kv.iterator();
-                    while (i.hasNext()) {
-                        KeyValue element = (KeyValue) i.next();
-                        String label = element.getValue().toLowerCase();
-                        if (label.equals(attributeValue.toLowerCase())) {
                             return true;
                         }
                     }
