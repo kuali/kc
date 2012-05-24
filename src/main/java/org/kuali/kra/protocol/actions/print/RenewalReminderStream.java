@@ -27,14 +27,14 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.print.CommitteeXmlStream;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
+import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.ProtocolActionType;
 
-import edu.mit.irb.irbnamespace.RenewalReminderDocument;
 import edu.mit.irb.irbnamespace.CommitteeMasterDataDocument.CommitteeMasterData;
 import edu.mit.irb.irbnamespace.NextScheduleDateDocument.NextScheduleDate;
+import edu.mit.irb.irbnamespace.RenewalReminderDocument;
 import edu.mit.irb.irbnamespace.RenewalReminderDocument.RenewalReminder;
 
 /**
@@ -98,13 +98,14 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
     }
 
     private void setActionDate(Protocol protocol) {
-       for (ProtocolAction action : protocol.getProtocolActions()) {
-           if (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(action.getProtocolActionTypeCode()) ||
-                   ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(action.getProtocolActionTypeCode())) {
-               protocol.setExpirationDate(new Date(action.getActionDate().getTime()));
-           }
-           
-       }
+// TODO : verify as part of code refactor        
+//       for (ProtocolAction action : protocol.getProtocolActions()) {
+//           if (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(action.getProtocolActionTypeCode()) ||
+//                   ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(action.getProtocolActionTypeCode())) {
+//               protocol.setExpirationDate(new Date(action.getActionDate().getTime()));
+//           }
+//           
+//       }
     }
     
     public void setProtocolXmlStream(ProtocolXmlStream protocolXmlStream) {

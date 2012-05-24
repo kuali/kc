@@ -68,7 +68,7 @@ import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.Subm
 public class ScheduleXmlStream extends PrintBaseXmlStream {
     private CommitteeMembershipService committeeMembershipService;
     private KcPersonService kcPersonService;
-    private IrbPrintXmlUtilService irbPrintXmlUtilService;
+    private PrintXmlUtilService printXmlUtilService;
     private String EXPEDIT_ACTION_TYPE_CODE = "205";
     private String EXEMPT_ACTION_TYPE_CODE = "206";
     private String FOLLOW_UP_ACTION_CODE = "109";
@@ -107,7 +107,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         NextSchedule nextScheduleType = schedule.addNewNextSchedule();
         setNextSchedule(committeeSchedule,nextScheduleType.addNewScheduleMasterData());
          
-        getIrbPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
+        getPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
         setAttendance(committeeSchedule, schedule);
         committeeSchedule.refreshReferenceObject("protocolSubmissions");
         List<org.kuali.kra.protocol.actions.submit.ProtocolSubmission> submissions
@@ -252,7 +252,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
                 if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)
                         || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CO_INVESTIGATOR)) {
                     Investigator investigator = protocolSummary.addNewInvestigator();
-                    getIrbPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
+                    getPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
                     if(protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)){
                         investigator.setPIFlag(true);
                     }
@@ -287,7 +287,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
                 }
             }
 
-            getIrbPrintXmlUtilService().setProcotolMinutes(committeeSchedule,protocolSubmission,protocolSubmissionType);
+            getPrintXmlUtilService().setProcotolMinutes(committeeSchedule,protocolSubmission,protocolSubmissionType);
         
         setOtherActionItems(committeeSchedule,schedule);}
         return schedule;
@@ -377,13 +377,13 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         if (!nonEmployeeFlag) {
             String personId = protocolReviewer.getPersonId();
             KcPerson person = getKcPersonService().getKcPersonByPersonId(personId);
-            getIrbPrintXmlUtilService().setPersonXml(person, personType);
+            getPrintXmlUtilService().setPersonXml(person, personType);
 
         }else {
             Rolodex rolodex = protocolReviewer.getRolodex();
             ProtocolPersonRolodex protocolRolodex = getBusinessObjectService()
                     .findBySinglePrimaryKey(ProtocolPersonRolodex.class, rolodex.getRolodexId());
-            getIrbPrintXmlUtilService().setPersonXml(protocolRolodex, personType);
+            getPrintXmlUtilService().setPersonXml(protocolRolodex, personType);
         }
     }
 
@@ -616,8 +616,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
      * 
      * @return Returns the irbPrintXmlUtilService.
      */
-    public IrbPrintXmlUtilService getIrbPrintXmlUtilService() {
-        return irbPrintXmlUtilService;
+    public PrintXmlUtilService getPrintXmlUtilService() {
+        return printXmlUtilService;
     }
 
 
@@ -626,8 +626,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
      * 
      * @param irbPrintXmlUtilService The irbPrintXmlUtilService to set.
      */
-    public void setIrbPrintXmlUtilService(IrbPrintXmlUtilService irbPrintXmlUtilService) {
-        this.irbPrintXmlUtilService = irbPrintXmlUtilService;
+    public void setPrintXmlUtilService(PrintXmlUtilService PrintXmlUtilService) {
+        this.printXmlUtilService = printXmlUtilService;
     }
 
 }
