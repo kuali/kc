@@ -25,22 +25,21 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.print.CommitteeXmlStream;
-import org.kuali.kra.committee.print.IrbPrintXmlUtilService;
-import org.kuali.kra.committee.print.ScheduleXmlStream;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.irb.personnel.ProtocolPersonRole;
-import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
-import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
-import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
-import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
+import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.print.CommitteeXmlStream;
+import org.kuali.kra.common.committee.print.PrintXmlUtilService;
+import org.kuali.kra.common.committee.print.ScheduleXmlStream;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRole;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
+import org.kuali.kra.protocol.protocol.participant.ProtocolParticipant;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
+import org.kuali.kra.protocol.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.service.KcPersonService;
 
 import edu.mit.irb.irbnamespace.CorrespondentDocument.Correspondent;
@@ -49,7 +48,6 @@ import edu.mit.irb.irbnamespace.KeyStudyPersonDocument.KeyStudyPerson;
 import edu.mit.irb.irbnamespace.PersonDocument.Person;
 import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol;
 import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.FundingSource;
-import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.RiskLevels;
 import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.Submissions;
 import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.Submissions.NextSchedule;
 import edu.mit.irb.irbnamespace.ProtocolMasterDataDocument.ProtocolMasterData;
@@ -62,7 +60,7 @@ import edu.mit.irb.irbnamespace.VulnerableSubjectDocument.VulnerableSubject;
  */
 public class ProtocolXmlStream extends PrintBaseXmlStream {
 
-    private IrbPrintXmlUtilService irbPrintXmlUtilService;
+    private PrintXmlUtilService printXmlUtilService;
     private KcPersonService kcPersonService;
     private ScheduleXmlStream scheduleXmlStream;
     private CommitteeXmlStream committeeXmlStream;
@@ -71,7 +69,7 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
      * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
      */
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
-        org.kuali.kra.irb.Protocol protocol = (org.kuali.kra.irb.Protocol)printableBusinessObject;
+        org.kuali.kra.protocol.Protocol protocol = (org.kuali.kra.protocol.Protocol)printableBusinessObject;
         edu.mit.irb.irbnamespace.ProtocolDocument protocolDocumentType = edu.mit.irb.irbnamespace.ProtocolDocument.Factory.newInstance();
         protocolDocumentType.setProtocol(getProtocol(protocol));
         Map<String,XmlObject> xmlObjectMap = new HashMap<String, XmlObject>();
@@ -85,13 +83,13 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
      * @param protocol
      * @return
      */
-    public String generateXmlStreamForNotification(org.kuali.kra.irb.Protocol protocol) {
+    public String generateXmlStreamForNotification(org.kuali.kra.protocol.Protocol protocol) {
         edu.mit.irb.irbnamespace.ProtocolDocument protocolDocumentType = edu.mit.irb.irbnamespace.ProtocolDocument.Factory.newInstance();
         protocolDocumentType.setProtocol(getProtocol(protocol));
         return protocolDocumentType.toString();
     }
 
-    public Protocol getProtocol(org.kuali.kra.irb.Protocol protocolInfoBean, Integer submissionNumber) {
+    public Protocol getProtocol(org.kuali.kra.protocol.Protocol protocolInfoBean, Integer submissionNumber) {
         Protocol protocolType = Protocol.Factory.newInstance();
         setProtocolMasterData(protocolInfoBean,protocolType);
         addProtocolPersons(protocolInfoBean, protocolType) ;
@@ -105,11 +103,11 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         addRiskLevels(protocolInfoBean, protocolType);
         return protocolType ;
     }
-    private Integer getParentSubmissionNumber(org.kuali.kra.irb.Protocol protocolInfoBean, Integer submissionNumber) {
+    private Integer getParentSubmissionNumber(org.kuali.kra.protocol.Protocol protocolInfoBean, Integer submissionNumber) {
         return 0;
     }
 
-    public Protocol getProtocol(org.kuali.kra.irb.Protocol protocol) {
+    public Protocol getProtocol(org.kuali.kra.protocol.Protocol protocol) {
         Protocol protocolType = Protocol.Factory.newInstance();
 
         setProtocolMasterData(protocol, protocolType);
@@ -124,48 +122,50 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         return protocolType;
     }
 
-    private void addRiskLevels(org.kuali.kra.irb.Protocol protocol, Protocol protocolType) {
-        List<ProtocolRiskLevel> cvRiskLevels = protocol.getProtocolRiskLevels();
-        for (ProtocolRiskLevel protocolRiskLevelBean : cvRiskLevels) {
-            protocolRiskLevelBean.refreshNonUpdateableReferences();
-            RiskLevels riskLevelsType = protocolType.addNewRiskLevels();
-            if (protocolRiskLevelBean.getRiskLevelCode() != null) {
-                riskLevelsType.setRiskLevelCode(new BigInteger(protocolRiskLevelBean.getRiskLevelCode()));
-                riskLevelsType.setRiskLevelDescription(protocolRiskLevelBean.getRiskLevel().getDescription());
-            }
-            if (protocolRiskLevelBean.getComments() != null) {
-                riskLevelsType.setComments(protocolRiskLevelBean.getComments());
-            }
-            if (protocolRiskLevelBean.getDateAssigned() != null) {
-                riskLevelsType.setDateAssigned(getDateTimeService().getCalendar(protocolRiskLevelBean.getDateAssigned()));
-            }
-            if (protocolRiskLevelBean.getUpdateTimestamp() != null) {
-                riskLevelsType.setDateUpdated(getDateTimeService().getCalendar(protocolRiskLevelBean.getUpdateTimestamp()));
-            }
-            if (protocolRiskLevelBean.getStatus() != null) {
-                if (protocolRiskLevelBean.getStatus().equalsIgnoreCase("A")) {
-                    riskLevelsType.setStatus("Active");
-                }
-                else if (protocolRiskLevelBean.getStatus().equalsIgnoreCase("I")) {
-                    riskLevelsType.setStatus("Inactive");
-                }
-            }
-            if (protocolRiskLevelBean.getUpdateUser() != null) {
-                riskLevelsType.setUpdateUser(protocolRiskLevelBean.getUpdateUser());
-            }
-            if (protocolRiskLevelBean.getUpdateTimestamp() != null) {
-                riskLevelsType.setUpdateTimestamp(getDateTimeService().getCalendar(protocolRiskLevelBean.getUpdateTimestamp()));
-            }
-        }
+    private void addRiskLevels(org.kuali.kra.protocol.Protocol protocol, Protocol protocolType) {
+
+// TODO IRB specific code should go in subclassed IRB        
+//        List<ProtocolRiskLevel> cvRiskLevels = protocol.getProtocolRiskLevels();
+//        for (ProtocolRiskLevel protocolRiskLevelBean : cvRiskLevels) {
+//            protocolRiskLevelBean.refreshNonUpdateableReferences();
+//            RiskLevels riskLevelsType = protocolType.addNewRiskLevels();
+//            if (protocolRiskLevelBean.getRiskLevelCode() != null) {
+//                riskLevelsType.setRiskLevelCode(new BigInteger(protocolRiskLevelBean.getRiskLevelCode()));
+//                riskLevelsType.setRiskLevelDescription(protocolRiskLevelBean.getRiskLevel().getDescription());
+//            }
+//            if (protocolRiskLevelBean.getComments() != null) {
+//                riskLevelsType.setComments(protocolRiskLevelBean.getComments());
+//            }
+//            if (protocolRiskLevelBean.getDateAssigned() != null) {
+//                riskLevelsType.setDateAssigned(getDateTimeService().getCalendar(protocolRiskLevelBean.getDateAssigned()));
+//            }
+//            if (protocolRiskLevelBean.getUpdateTimestamp() != null) {
+//                riskLevelsType.setDateUpdated(getDateTimeService().getCalendar(protocolRiskLevelBean.getUpdateTimestamp()));
+//            }
+//            if (protocolRiskLevelBean.getStatus() != null) {
+//                if (protocolRiskLevelBean.getStatus().equalsIgnoreCase("A")) {
+//                    riskLevelsType.setStatus("Active");
+//                }
+//                else if (protocolRiskLevelBean.getStatus().equalsIgnoreCase("I")) {
+//                    riskLevelsType.setStatus("Inactive");
+//                }
+//            }
+//            if (protocolRiskLevelBean.getUpdateUser() != null) {
+//                riskLevelsType.setUpdateUser(protocolRiskLevelBean.getUpdateUser());
+//            }
+//            if (protocolRiskLevelBean.getUpdateTimestamp() != null) {
+//                riskLevelsType.setUpdateTimestamp(getDateTimeService().getCalendar(protocolRiskLevelBean.getUpdateTimestamp()));
+//            }
+//        }
     }
 
-    private void addSubmissionDetails(org.kuali.kra.irb.Protocol protocol, Protocol protocolType) {
+    private void addSubmissionDetails(org.kuali.kra.protocol.Protocol protocol, Protocol protocolType) {
         addSubmissionDetails(protocol, protocolType, null,"No");
         
     }
-    private void addSubmissionDetails(org.kuali.kra.irb.Protocol protocol, Protocol protocolType, Integer submissionNumber, String currentFlag) {
-        org.kuali.kra.irb.actions.submit.ProtocolSubmission submissionInfoBean = null;
-        submissionInfoBean = submissionNumber==null?protocol.getProtocolSubmission():findProtocolSubmission(protocol,submissionNumber);
+    private void addSubmissionDetails(org.kuali.kra.protocol.Protocol protocol, Protocol protocolType, Integer submissionNumber, String currentFlag) {
+        org.kuali.kra.protocol.actions.submit.ProtocolSubmission submissionInfoBean = null;
+        submissionInfoBean = submissionNumber==null ? protocol.getProtocolSubmission():findProtocolSubmission(protocol,submissionNumber);
         if(submissionInfoBean==null || submissionInfoBean.getSubmissionNumber()==null) return;
         submissionInfoBean.refreshNonUpdateableReferences();
         Submissions submission = protocolType.addNewSubmissions();
@@ -193,12 +193,12 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
             if (isNonEmployee) {
                 ProtocolPersonRolodex rolodex = getBusinessObjectService().findBySinglePrimaryKey(ProtocolPersonRolodex.class,
                         protocolReviewer.getRolodexId());
-                getIrbPrintXmlUtilService().setPersonXml(rolodex, personType);
+                getPrintXmlUtilService().setPersonXml(rolodex, personType);
 
             }
             else {
                 KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(protocolReviewer.getPersonId());
-                getIrbPrintXmlUtilService().setPersonXml(kcPerson, personType);
+                getPrintXmlUtilService().setPersonXml(kcPerson, personType);
             }
         }
         submissionDetail.setSubmissionComments(submissionInfoBean.getComments());
@@ -227,8 +227,8 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         if(submissionInfoBean.getYesVoteCount()!=null){
             submissionDetail.setYesVote(BigInteger.valueOf(submissionInfoBean.getYesVoteCount()));
         }
-        getIrbPrintXmlUtilService().setProtocolSubmissionAction(submissionInfoBean, submissionDetail);
-        getIrbPrintXmlUtilService().setSubmissionCheckListinfo(submissionInfoBean, submissionDetail);
+        getPrintXmlUtilService().setProtocolSubmissionAction(submissionInfoBean, submissionDetail);
+        getPrintXmlUtilService().setSubmissionCheckListinfo(submissionInfoBean, submissionDetail);
         submission.setCurrentSubmissionFlag(currentFlag);
         setMinutes(submissionInfoBean, submission);
         if (submissionInfoBean.getCommitteeId() != null) {
@@ -251,15 +251,15 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
      * @param submission
      * @return
      */
-    protected void setMinutes(org.kuali.kra.irb.actions.submit.ProtocolSubmission submissionInfoBean,
+    protected void setMinutes(org.kuali.kra.protocol.actions.submit.ProtocolSubmission submissionInfoBean,
             Submissions submission) {
         CommitteeSchedule committeeSchedule = submissionInfoBean.getCommitteeSchedule();
         if (committeeSchedule != null) {
-            getIrbPrintXmlUtilService().setProtocolReviewMinutes(committeeSchedule, submissionInfoBean, submission);
+            getPrintXmlUtilService().setProtocolReviewMinutes(committeeSchedule, submissionInfoBean, submission);
         }
     }
 
-    private ProtocolSubmission findProtocolSubmission(org.kuali.kra.irb.Protocol protocol, Integer submissionNumber) {
+    private ProtocolSubmission findProtocolSubmission(org.kuali.kra.protocol.Protocol protocol, Integer submissionNumber) {
         List<ProtocolSubmission> protocolSubmissions = protocol.getProtocolSubmissions();
         for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
             if(protocolSubmission.getSubmissionNumber().equals(submissionNumber)){
@@ -269,7 +269,7 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         return null;
     }
 
-    private void addSpecialReview(org.kuali.kra.irb.Protocol protocol, Protocol protocolType) {
+    private void addSpecialReview(org.kuali.kra.protocol.Protocol protocol, Protocol protocolType) {
         List<ProtocolSpecialReview> vecSpecialReview = protocol.getSpecialReviews();
         for (ProtocolSpecialReview specialReviewBean : vecSpecialReview) {
             specialReviewBean.refreshNonUpdateableReferences();
@@ -303,7 +303,7 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         }
     }
 
-    private void addVulnerableSubject(org.kuali.kra.irb.Protocol protocol, Protocol protocolType) {
+    private void addVulnerableSubject(org.kuali.kra.protocol.Protocol protocol, Protocol protocolType) {
         List<ProtocolParticipant> protocolParticipants = protocol.getProtocolParticipants();
         for (ProtocolParticipant protocolParticipant : protocolParticipants) {
             protocolParticipant.refreshNonUpdateableReferences();
@@ -322,7 +322,7 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
 
     }
 
-    private void addFundingSource(org.kuali.kra.irb.Protocol protocol, Protocol protocolType) {
+    private void addFundingSource(org.kuali.kra.protocol.Protocol protocol, Protocol protocolType) {
         int fundingSourceTypeCode;
         String fundingSourceName, fundingSourceCode;
         List<ProtocolFundingSource> vecFundingSource = protocol.getProtocolFundingSources();
@@ -355,7 +355,7 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         return name;
     }
 
-    private void addResearchArea(org.kuali.kra.irb.Protocol protocol, Protocol protocolType) {
+    private void addResearchArea(org.kuali.kra.protocol.Protocol protocol, Protocol protocolType) {
         List<ProtocolResearchArea> researchAreas = protocol.getProtocolResearchAreas();
         for (ProtocolResearchArea protocolReasearchAreasBean : researchAreas) {
             protocolReasearchAreasBean.refreshNonUpdateableReferences();
@@ -365,7 +365,7 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         }    
     }
 
-    private void addProtocolPersons(org.kuali.kra.irb.Protocol protocol, Protocol protocolType) {
+    private void addProtocolPersons(org.kuali.kra.protocol.Protocol protocol, Protocol protocolType) {
         List<ProtocolPerson> vecInvestigator = protocol.getProtocolPersons();
         for (ProtocolPerson protocolPerson : vecInvestigator) {
             protocolPerson.refreshNonUpdateableReferences();
@@ -375,7 +375,7 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
                 if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)) {
                     investigator.setPIFlag(true);
                 }
-                getIrbPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
+                getPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
             }
             else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_STUDY_PERSONNEL)) {
                 KeyStudyPerson keyStudyPerson = protocolType.addNewKeyStudyPerson();
@@ -383,25 +383,29 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
                     keyStudyPerson.setAffiliation(protocolPerson.getAffiliationType().getDescription());
                 }
                 if(protocolPerson.getRolodex()!=null){
-                    keyStudyPerson.setRole(protocolPerson.getRolodex().getPrimaryTitle());
+                    //TODO - verify as part of refactor PrimaryTitle is changed to Title
+                    keyStudyPerson.setRole(protocolPerson.getRolodex().getTitle());
                 }else if(protocolPerson.getPerson()!=null){
                     keyStudyPerson.setRole(protocolPerson.getPerson().getDirectoryTitle());
                 }
-                getIrbPrintXmlUtilService().setPersonRolodexType(protocolPerson, keyStudyPerson.addNewPerson());
+                getPrintXmlUtilService().setPersonRolodexType(protocolPerson, keyStudyPerson.addNewPerson());
             }
-            else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_CRC)
-                    || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
-                Correspondent correspondent = protocolType.addNewCorrespondent();
-                // not sure where the comments should come from
-                // correspondent.setCorrespondentComments(protocolPerson.getComments()) ;
-                correspondent.setTypeOfCorrespondent(protocolPerson.getProtocolPersonRole().getDescription());
-                getIrbPrintXmlUtilService().setPersonRolodexType(protocolPerson, correspondent.addNewPerson());
-            }
+
+// TODO : verify code - Code refactor
+//            
+//            else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_CRC)
+//                    || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
+//                Correspondent correspondent = protocolType.addNewCorrespondent();
+//                // not sure where the comments should come from
+//                // correspondent.setCorrespondentComments(protocolPerson.getComments()) ;
+//                correspondent.setTypeOfCorrespondent(protocolPerson.getProtocolPersonRole().getDescription());
+//                getPrintXmlUtilService().setPersonRolodexType(protocolPerson, correspondent.addNewPerson());
+//            }
         }
 
     }
 
-    private void setProtocolMasterData(org.kuali.kra.irb.Protocol protocol, Protocol protocolType) {
+    private void setProtocolMasterData(org.kuali.kra.protocol.Protocol protocol, Protocol protocolType) {
         ProtocolMasterData protocolMaster = protocolType.addNewProtocolMasterData();
         if (protocol == null)
             return;
@@ -454,8 +458,8 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
      * 
      * @param irbPrintXmlUtilService The irbPrintXmlUtilService to set.
      */
-    public void setIrbPrintXmlUtilService(IrbPrintXmlUtilService irbPrintXmlUtilService) {
-        this.irbPrintXmlUtilService = irbPrintXmlUtilService;
+    public void setPrintXmlUtilService(PrintXmlUtilService printXmlUtilService) {
+        this.printXmlUtilService = printXmlUtilService;
     }
 
     /**
@@ -463,8 +467,8 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
      * 
      * @return Returns the irbPrintXmlUtilService.
      */
-    public IrbPrintXmlUtilService getIrbPrintXmlUtilService() {
-        return irbPrintXmlUtilService;
+    public PrintXmlUtilService getPrintXmlUtilService() {
+        return printXmlUtilService;
     }
 
     /**

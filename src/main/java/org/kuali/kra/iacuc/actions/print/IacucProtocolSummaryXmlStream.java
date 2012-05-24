@@ -15,8 +15,25 @@
  */
 package org.kuali.kra.iacuc.actions.print;
 
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionService;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryXmlStream;
+import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 
 public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStream {
+
+    private IacucProtocolActionService iacucProtocolActionService;
+    
+    @Override
+    public ProtocolActionService getProtocolActionServiceHook() {
+        return getIacucProtocolActionService();
+    }
+
+    public IacucProtocolActionService getIacucProtocolActionService() {
+        return iacucProtocolActionService;
+    }
+
+    public void setIacucProtocolActionService(IacucProtocolActionService iacucProtocolActionService) {
+        this.iacucProtocolActionService = iacucProtocolActionService;
+    }
 
 }

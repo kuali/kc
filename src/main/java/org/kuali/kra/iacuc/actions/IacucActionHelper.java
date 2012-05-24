@@ -632,12 +632,6 @@ public class IacucActionHelper extends ActionHelper {
 
     @Override
     protected ProtocolModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(Protocol protocol) {
-        System.out.println("protocol ======> "  + protocol);
-        System.out.println("protocol ======> "  + protocol.getProtocolNumber());
-        System.out.println("protocol doc ======> "  + ((IacucProtocol)protocol).getIacucProtocolDocument());
-        System.out.println("protocol doc ======> "  + ((IacucProtocol)protocol).getIacucProtocolDocument().getDocumentNumber());
-        System.out.println("protocol doc hdr ======> "  + ((IacucProtocol)protocol).getIacucProtocolDocument().getDocumentHeader());
-        System.out.println("protocol doc wfl ======> "  + ((IacucProtocol)protocol).getIacucProtocolDocument().getDocumentHeader().getWorkflowDocument());
         return new IacucProtocolModuleQuestionnaireBean((IacucProtocol)protocol);
     }
 }
