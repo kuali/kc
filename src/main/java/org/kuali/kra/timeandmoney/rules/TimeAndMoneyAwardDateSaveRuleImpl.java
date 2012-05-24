@@ -18,6 +18,7 @@ package org.kuali.kra.timeandmoney.rules;
 import java.sql.Date;
 import java.util.Map.Entry;
 
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
@@ -33,6 +34,7 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
     private static final String OBLIGATED_END_DATE_PROPERTY = "obligatedEndDate";
     private static final String OBLIGATED_START_DATE_PROPERTY = "obligatedStartDate";
     private static final String FINAL_EXPIRATION_DATE_PROPERTY = "finalExpirationDate";
+    private static final String AWARD_EFFECTIVE_DATE_PROPERTY = "document.awardList[0].awardEffectiveDate";
 
 
     
@@ -113,6 +115,16 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
             }   
           return valid;  
         }
+    
+    
+    public boolean enforceAwardStartDatePopulated(Award award) {
+        boolean valid = true;
+        if(award.getAwardEffectiveDate() == null) {
+            reportError(AWARD_EFFECTIVE_DATE_PROPERTY, KeyConstants.ERROR_AWARD_EFFECTIVE_DATE_TIME_AND_MONEY);
+            valid = false;
+        }
+        return valid;
+    }
     }
     
        
