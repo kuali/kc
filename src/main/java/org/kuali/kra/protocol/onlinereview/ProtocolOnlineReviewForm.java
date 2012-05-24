@@ -53,7 +53,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable  {
+public abstract class ProtocolOnlineReviewForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable  {
     
     private static final long serialVersionUID = -7633960906991275328L;
     

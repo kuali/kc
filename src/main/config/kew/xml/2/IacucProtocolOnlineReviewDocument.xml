@@ -55,7 +55,7 @@
                     <mandatoryRoute>false</mandatoryRoute>
 	            </role>                
 	            <role name="IACUCOnlineReviewer">
-					<qualifierResolver>ProtocolOnlineReviewReviewer-XPathQualifierResolver</qualifierResolver>
+					<qualifierResolver>IacucProtocolOnlineReviewReviewer-XPathQualifierResolver</qualifierResolver>
                     <activationType>S</activationType>
                     <finalApproval>false</finalApproval>
                     <mandatoryRoute>false</mandatoryRoute>
@@ -73,10 +73,10 @@
         xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 
         <ruleAttribute>
-            <name>ProtocolOnlineReviewReviewer-XPathQualifierResolver</name>
+            <name>IacucProtocolOnlineReviewReviewer-XPathQualifierResolver</name>
             <className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
-            <label>ProtocolOnlineReviewReviewer-XPathQualifierResolver</label>
-            <description>ProtocolOnlineReviewReviewer-XPathQualifierResolver</description>
+            <label>IacucProtocolOnlineReviewReviewer-XPathQualifierResolver</label>
+            <description>IacucProtocolOnlineReviewReviewer-XPathQualifierResolver</description>
             <type>QualifierResolver</type>
             <serviceNamespace>KC</serviceNamespace>
             <resolverConfig>

@@ -146,7 +146,7 @@ public interface ProtocolOnlineReviewService {
      * 
      * @param review
      */
-//    void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocument reviewDocument,String reason,String principalId);
+    void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocument reviewDocument,String reason,String principalId);
     
     /**
      * Sets the status to Cancelled/Removed.  If the review document is enroute, then we do a superuser disapprove on it.  If it is in saved or initiated
