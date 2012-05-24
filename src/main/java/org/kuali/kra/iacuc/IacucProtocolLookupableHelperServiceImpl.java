@@ -24,12 +24,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolLookupableHelperServiceImpl;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupableHelperServiceImpl<IacucProtocol> {
 
@@ -99,6 +102,29 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
         }
         return htmlDataList;
     }
+
+    protected List<HtmlData> getEditCopyViewLinks(BusinessObject businessObject, List pkNames) {
+        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        if (kraAuthorizationService.hasPermission(getUserIdentifier(), (Protocol) businessObject, PermissionConstants.MODIFY_IACUC_PROTOCOL)) {
+            // Change "edit" to edit same document, NOT initializing a new Doc
+            AnchorHtmlData editHtmlData = getViewLink(((Protocol) businessObject).getProtocolDocument());
+            String href = editHtmlData.getHref();
+            href = href.replace("viewDocument=true", "viewDocument=false");
+            editHtmlData.setHref(href);
+            editHtmlData.setDisplayText("edit");
+            htmlDataList.add(editHtmlData);
+            AnchorHtmlData htmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
+            IacucProtocolDocument document = ((IacucProtocol) businessObject).getIacucProtocolDocument();
+            htmlData.setHref("../DocCopyHandler.do?docId=" + document.getDocumentNumber()
+                    + "&command=displayDocSearchView&documentTypeName=" + getDocumentTypeName());
+            htmlDataList.add(htmlData);
+        }
+        if (kraAuthorizationService.hasPermission(getUserIdentifier(), (IacucProtocol) businessObject, PermissionConstants.VIEW_IACUC_PROTOCOL)) {
+            htmlDataList.add(getViewLink(((Protocol) businessObject).getProtocolDocument()));
+        }
+        return htmlDataList;
+    }
+
 
 
     @Override
