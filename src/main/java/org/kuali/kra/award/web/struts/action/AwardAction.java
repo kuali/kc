@@ -16,13 +16,11 @@
 package org.kuali.kra.award.web.struts.action;
 
 import static org.apache.commons.lang.StringUtils.replace;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -51,11 +49,9 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
-import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncCreationService;
-import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
 import org.kuali.kra.award.budget.AwardBudgetService;
-import org.kuali.kra.award.budget.BudgetLimitSummaryHelper;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
 import org.kuali.kra.award.customdata.AwardCustomData;
@@ -71,10 +67,7 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
 import org.kuali.kra.award.version.service.AwardVersionService;
-import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
@@ -83,7 +76,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
 import org.kuali.kra.service.AwardSponsorTermService;
@@ -100,10 +92,12 @@ import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.history.TransactionDetailType;
+import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
+import org.kuali.kra.timeandmoney.transactions.TransactionRuleImpl;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
-import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -113,11 +107,11 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -145,6 +139,7 @@ public class AwardAction extends BudgetParentActionBase {
     private transient AwardService awardService;
     private transient ReportTrackingService reportTrackingService;
     private transient KcNotificationService notificationService;
+    TimeAndMoneyAwardDateSaveRuleImpl timeAndMoneyAwardDateSaveRuleImpl;
     
     private static final Log LOG = LogFactory.getLog( AwardAction.class );
     
@@ -788,6 +783,10 @@ public class AwardAction extends BudgetParentActionBase {
         if(!awardForm.getEditingMode().containsKey("viewOnly") || awardForm.getEditingMode().containsKey("fullEntry")){
             this.save(mapping, form, request, response);
         }
+        //if T&M document is created, there must be a project start date on the award.
+        timeAndMoneyAwardDateSaveRuleImpl = new TimeAndMoneyAwardDateSaveRuleImpl();
+        timeAndMoneyAwardDateSaveRuleImpl.enforceAwardStartDatePopulated(awardForm.getAwardDocument().getAward());
+        
         
         if(GlobalVariables.getMessageMap().hasNoErrors()){
             //AwardForm awardForm = (AwardForm) form;
@@ -848,7 +847,7 @@ public class AwardAction extends BudgetParentActionBase {
             actionForward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         //add this to session and leverage in T&M for return to award action.
-        GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.AWARD_DOCUMENT_STRING_FOR_SESSION, awardForm.getAwardDocument());
+        GlobalVariables.getUserSession  ().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.AWARD_DOCUMENT_STRING_FOR_SESSION, awardForm.getAwardDocument());
         return actionForward;
 
     }
