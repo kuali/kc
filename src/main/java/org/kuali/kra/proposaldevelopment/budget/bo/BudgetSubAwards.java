@@ -19,10 +19,15 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.struts.upload.FormFile;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
-public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintainable {
+/**
+ * 
+ * This class maintains the attributes needed for a subaward budget line.
+ */
+public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintainable, Comparable<BudgetSubAwards> {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -68,6 +73,9 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
     private String hierarchyProposalNumber;
 
     private boolean hiddenInHierarchy;
+    
+    private transient boolean edit = false;
+    private transient FormFile newSubAwardFile;
 
     public BudgetSubAwards() {
         budgetSubAwardAttachments = new ArrayList<BudgetSubAwardAttachment>();
@@ -326,9 +334,43 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
 
     /**
      * Sets the formName attribute value.
-     * @param formName The formName to set.
+     * @param formaName The formName to set.
      */
     public void setFormName(String formaName) {
         this.formName = formaName;
+    }
+
+    public boolean getEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
+    }
+
+    public FormFile getNewSubAwardFile() {
+        return newSubAwardFile;
+    }
+
+    public void setNewSubAwardFile(FormFile newSubAwardFile) {
+        this.newSubAwardFile = newSubAwardFile;
+    }
+
+    @Override
+    public int compareTo(BudgetSubAwards o) {
+        int retVal = -1;
+        if (o != null) {
+            retVal = this.getOrganizationName().compareTo(o.getOrganizationName());
+            if (retVal == 0) {
+                retVal = this.getComments().compareTo(o.getComments());
+                if (retVal == 0) {
+                    retVal = this.getSubAwardXfdFileName().compareTo(o.getSubAwardXfdFileName());
+                    if (retVal == 0) {
+                        retVal = this.getSubAwardNumber().compareTo(o.getSubAwardNumber());
+                    }
+                }
+            }
+        }
+        return retVal;
     }
 }

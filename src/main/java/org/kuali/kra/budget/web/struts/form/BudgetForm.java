@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.web.struts.form;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -240,6 +241,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         this.getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
 
         setHierarchyProposalSummaries(new ArrayList<HierarchyProposalSummary>());
+        Collections.sort(this.getBudgetDocument().getBudget().getBudgetSubAwards());
     }
     
     public BudgetDocument getBudgetDocument() {

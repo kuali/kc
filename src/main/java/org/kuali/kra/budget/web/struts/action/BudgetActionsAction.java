@@ -20,7 +20,10 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -230,6 +233,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         for (BudgetSubAwardAttachment budgetSubAwardAttachment : attList) {
             budgetSubAwardAttachment.setAttachment(null);
         }
+        Collections.sort(budgetDocument.getBudget().getBudgetSubAwards());
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
     
@@ -284,6 +288,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         for (BudgetSubAwardAttachment budgetSubAwardAttachment : attList) {
             budgetSubAwardAttachment.setAttachment(null);
         }
+        Collections.sort(budgetDocument.getBudget().getBudgetSubAwards());
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
     
@@ -316,8 +321,40 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         int selectedLineNumber = getSelectedLine(request);
         budgetDocument.getBudget().getBudgetSubAwards().remove(selectedLineNumber);
+        Collections.sort(budgetDocument.getBudget().getBudgetSubAwards());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    public ActionForward editSubawardBudgetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetSubAwards subAward = getSelectedBudgetSubAward(form, request);
+        subAward.setEdit(true);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward applyEditSubawardBudgetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetSubAwards subAward = getSelectedBudgetSubAward(form, request);
+        subAward.setEdit(false);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward cancelEditSubawardBudgetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        BudgetForm budgetForm = (BudgetForm)form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        
+        BudgetSubAwards subAward = getSelectedBudgetSubAward(form, request);
+        Map primaryKeys = new HashMap();
+        primaryKeys.put("SUB_AWARD_NUMBER", subAward.getSubAwardNumber());
+        BudgetSubAwards dbSubAwardBudget = this.getBusinessObjectService().findByPrimaryKey(BudgetSubAwards.class, primaryKeys);
+        
+        budgetDocument.getBudget().getBudgetSubAwards().remove(subAward);
+        budgetDocument.getBudget().getBudgetSubAwards().add(dbSubAwardBudget);
+        Collections.sort(budgetDocument.getBudget().getBudgetSubAwards());
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    
 
     public ActionForward printBudgetForm(ActionMapping mapping,
             ActionForm form, HttpServletRequest request,
