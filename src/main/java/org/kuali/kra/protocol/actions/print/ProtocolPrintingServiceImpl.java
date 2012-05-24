@@ -53,7 +53,7 @@ public abstract class ProtocolPrintingServiceImpl extends PrintingServiceImpl im
     private String reportName;
     /**
      * 
-     * @see org.kuali.kra.irb.actions.print.ProtocolPrintingService#getProtocolPrintable(org.kuali.kra.irb.actions.print.ProtocolPrintType)
+     * @see org.kuali.kra.protocol.actions.print.ProtocolPrintingService#getProtocolPrintable(org.kuali.kra.protocol.actions.print.ProtocolPrintType)
      */
     public Printable getProtocolPrintable(ProtocolPrintType reportType) {
         Printable printable = null;
@@ -83,7 +83,7 @@ public abstract class ProtocolPrintingServiceImpl extends PrintingServiceImpl im
     
     /**
      * 
-     * @see org.kuali.kra.irb.actions.print.ProtocolPrintingService#getProtocolPrintArtifacts(org.kuali.kra.irb.Protocol)
+     * @see org.kuali.kra.protocol.actions.print.ProtocolPrintingService#getProtocolPrintArtifacts(org.kuali.kra.protocol.Protocol)
      */
      public Printable getProtocolPrintArtifacts(Protocol protocol) { 
          ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;

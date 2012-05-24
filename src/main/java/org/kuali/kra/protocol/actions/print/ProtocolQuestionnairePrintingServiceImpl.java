@@ -1,0 +1,250 @@
+/*
+ * Copyright 2005-2010 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.protocol.actions.print;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.questionnaire.QuestionnaireUsage;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+
+public class ProtocolQuestionnairePrintingServiceImpl implements ProtocolQuestionnairePrintingService {
+
+    private Protocol protocol;
+    private BusinessObjectService businessObjectService;
+    private QuestionnaireAnswerService questionnaireAnswerService;
+    
+    public void setupQnPrintOption(List<AnswerHeader> answerHeaders, Protocol protocol, List<QuestionnairePrintOption> questionnairesToPrints) {
+        setProtocol(protocol);
+        int maxSubmissionNumber = getMaxSubmissionNumber();
+        for (AnswerHeader answerHeader : answerHeaders) {
+            // only submission questionnaire and current protocol questionnaire will be printed
+            if ( (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && Integer.parseInt(answerHeader.getModuleSubItemKey()) <= maxSubmissionNumber)
+                    || (isCurrentAmendRenewalQn(answerHeader)) ) {
+                QuestionnairePrintOption printOption = new QuestionnairePrintOption();
+                printOption.setQuestionnaireRefId(answerHeader.getQuestionnaire().getQuestionnaireRefIdAsLong());
+                printOption.setQuestionnaireId(answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger());
+                printOption.setSelected(true);
+                printOption.setQuestionnaireName(answerHeader.getQuestionnaire().getName());
+                printOption.setLabel(getQuestionnaireLabel(answerHeader));
+                printOption.setItemKey(answerHeader.getModuleItemKey());
+                printOption.setSubItemKey(answerHeader.getModuleSubItemKey());
+                printOption.setSubItemCode(answerHeader.getModuleSubItemCode());
+                // finally check if the answerheader's questionnaire is active, and set it accordingly in the Qnnr print option bean
+                printOption.setQuestionnaireActive(isQuestionnaireActive(answerHeader));
+                questionnairesToPrints.add(printOption);
+            }
+        }
+        Collections.sort(questionnairesToPrints, new QuestionnairePrintOptionComparator());
+    }
+
+    private boolean isQuestionnaireActive(AnswerHeader answerHeader) {        
+        Integer questionnaireId = answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger();
+        String coeusModuleCode = answerHeader.getModuleItemCode();
+        String coeusSubModuleCode = answerHeader.getModuleSubItemCode(); 
+        return getQuestionnaireAnswerService().checkIfQuestionnaireIsActiveForModule(questionnaireId, coeusModuleCode, coeusSubModuleCode);
+    }
+    
+    private int getMaxSubmissionNumber() {
+        int maxSubmissionNumber = 0;
+
+        for (Integer submissionNumber : getAvailableSubmissionNumbers()) {
+            if (submissionNumber > maxSubmissionNumber) {
+                maxSubmissionNumber = submissionNumber;
+            }
+        }
+        return maxSubmissionNumber;
+    }
+
+    /*
+     * this returns a list of submission numbers for a protocol.
+     */
+    private List<Integer> getAvailableSubmissionNumbers() {
+        List<Integer> submissionNumbers = new ArrayList<Integer>();
+        for (ProtocolSubmission submission : getProtocol().getProtocolSubmissions()) {
+            submissionNumbers.add(submission.getSubmissionNumber());
+        }
+        return submissionNumbers;
+    }
+
+    /*
+     * check if this is the current version of the amend/renewal Qn
+     */
+    private boolean isCurrentAmendRenewalQn(AnswerHeader answerHeader) {
+        boolean isCurrentQn = CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode())
+                || CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode());
+        if (isCurrentQn) {
+            if (CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode())) {
+                isCurrentQn = isCurrentRegularQn(answerHeader);
+            } else if (CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode())) {
+                isCurrentQn = isCurrentAorRQn(answerHeader);
+            }
+        }
+        return isCurrentQn;
+    }
+
+    private String getQuestionnaireLabel(AnswerHeader answerHeader) {
+        String label = null;
+        List<QuestionnaireUsage> usages = answerHeader.getQuestionnaire().getQuestionnaireUsages();
+        if (CollectionUtils.isNotEmpty(usages) && usages.size() > 1) {
+            Collections.sort((List<QuestionnaireUsage>) usages);
+           // Collections.reverse((List<QuestionnaireUsage>) usages);
+        }
+        for (QuestionnaireUsage usage : usages) {
+            if (CoeusModule.IRB_MODULE_CODE.equals(usage.getModuleItemCode()) && answerHeader.getModuleSubItemCode().equals(usage.getModuleSubItemCode())) {
+                if ("0".equals(answerHeader.getModuleSubItemCode())) {
+                    label = usage.getQuestionnaireLabel();
+                } else if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())) {
+                    Map keyValues = new HashMap();
+                    keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
+                    keyValues.put("submissionNumber", answerHeader.getModuleSubItemKey());
+                    List<ProtocolSubmission> submissions = ((List<ProtocolSubmission>) getBusinessObjectService().findMatchingOrderBy(ProtocolSubmission.class, keyValues,
+                            "submissionId", false));
+                    if (submissions.isEmpty()) {
+                        // this may happen if it is undo last action
+                        label = usage.getQuestionnaireLabel();
+                    } else {
+                        keyValues.clear();
+                        keyValues.put("protocolId", submissions.get(0).getProtocolId());
+                        keyValues.put("submissionNumber", answerHeader.getModuleSubItemKey());
+                        // keyValues.put("submissionIdFk", submission.getSubmissionId());
+                        ProtocolAction protocolAction = ((List<ProtocolAction>) getBusinessObjectService().findMatching(
+                                ProtocolAction.class, keyValues)).get(0);
+                        label = usage.getQuestionnaireLabel() + " - " + protocolAction.getProtocolActionType().getDescription()
+                                + " - " + protocolAction.getActionDateString();
+                    }
+                } else if (CoeusSubModule.AMENDMENT_RENEWAL.equals(answerHeader.getModuleSubItemCode())) {
+                    if (answerHeader.getModuleItemKey().contains("A")) {
+                        label = usage.getQuestionnaireLabel() + " - Amendment " + answerHeader.getModuleItemKey().substring(10);
+                    } else {
+                        label = usage.getQuestionnaireLabel() + " - Renewal " + answerHeader.getModuleItemKey().substring(10);
+                    }
+                }
+            }
+        }
+        return label;
+    }
+
+    /*
+     * This is Questionnaire answer is with submodulecode of "0".
+     * Then if this protocol is A/R, then it has to check whether this is the first version
+     * A/R merged into. 
+     */
+    private boolean isCurrentRegularQn(AnswerHeader answerHeader) {
+        boolean isCurrentQn = false;
+        if ((getProtocol().isAmendment() || getProtocol().isRenewal()) && !answerHeader.getModuleItemKey().equals(getProtocol().getProtocolNumber())) {
+            Map keyValues = new HashMap();
+            keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
+          //  keyValues.put("protocolNumber", getProtocol().getProtocolNumber());
+            Protocol prevProtocol = null;
+            // if this is an A/R protocol, then need to find the original protocol that the A/R first merged into.
+            for (Protocol protocol : ((List<Protocol>) getBusinessObjectService().findMatchingOrderBy(Protocol.class, keyValues,
+                    "sequenceNumber", true))) {
+                isCurrentQn = answerHeader.getModuleSubItemKey().equals(protocol.getSequenceNumber().toString())
+                        && !CollectionUtils.isEmpty(getProtocol().getProtocolSubmissions())
+                        && isMergedToProtocol(protocol, getProtocol());
+                if (isCurrentQn) {
+                    if (prevProtocol == null
+                            || !isMergedToProtocol(prevProtocol, getProtocol())) {
+                        // this is the protocol this A/R merged into. so, use this questionnaire.
+                        break;
+                    } else {
+                        // prevProtocol is the initial Protocol that this A/R merged into.
+                        isCurrentQn = false;
+                    }
+
+                }
+                prevProtocol = protocol;
+            }
+        } else {
+            // if this is a regular protocol, then check if sequencenumber & modulesubitemkey match
+            isCurrentQn = answerHeader.getModuleSubItemKey().equals(getProtocol().getSequenceNumber().toString());
+        }
+        return isCurrentQn;
+    }
+    
+    private boolean isMergedToProtocol(Protocol protocol, Protocol amendment) {
+        boolean merged = false;
+        int submissionNumber = amendment.getProtocolSubmissions().get(amendment.getProtocolSubmissions().size() - 1).getSubmissionNumber();
+        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+            if (submissionNumber == submission.getSubmissionNumber().intValue()) {
+                merged = true;
+                break;
+            }
+        }
+        return merged;
+    }
+    
+    /*
+     * if questionnaire is associated with Amendment/renewal submodulecode.
+     * if this protocol is normal protocol, then it has to check whether the A/R of this
+     * questionnaire has merged to this protocol yet.
+     */
+    private boolean isCurrentAorRQn(AnswerHeader answerHeader) {
+        boolean isCurrentQn = false;
+        if (getProtocol().isAmendment() || getProtocol().isRenewal()) {
+            // if this is A/R, then just match sequencenumber and modulesubitemkey
+            isCurrentQn = answerHeader.getModuleSubItemKey().equals(getProtocol().getSequenceNumber().toString());
+        } else {
+            // if this is a regular protocol, then get this A/R associated this this Qn and see if
+            // A/R has been merged to this version of protocol
+            Map keyValues = new HashMap();
+            keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
+            Protocol protocol = ((List<Protocol>) getBusinessObjectService().findMatchingOrderBy(Protocol.class, keyValues,
+                    "sequenceNumber", false)).get(0);
+            isCurrentQn = answerHeader.getModuleSubItemKey().equals(protocol.getSequenceNumber().toString())
+                    && !CollectionUtils.isEmpty(protocol.getProtocolSubmissions())
+                    && isMergedToProtocol(getProtocol(), protocol);
+        }
+        return isCurrentQn;
+    }       
+    
+    public Protocol getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return questionnaireAnswerService;
+    }
+
+    public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
+        this.questionnaireAnswerService = questionnaireAnswerService;
+    }
+
+}
