@@ -18,13 +18,12 @@ package org.kuali.kra.protocol.actions;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -46,7 +45,6 @@ import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBea
 import org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingService;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
-import org.kuali.kra.protocol.actions.print.QuestionnairePrintOptionComparator;
 import org.kuali.kra.protocol.actions.request.ProtocolRequestBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
@@ -64,6 +62,7 @@ import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -326,16 +325,23 @@ public abstract class ActionHelper implements Serializable {
     public ActionHelper(ProtocolForm form) throws Exception {
         this.form = form;
 
-//TODO: Following lines commented out for IRB refactor
+        protocolSubmitAction = getNewProtocolSubmitActionInstanceHook(this);        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        protocolWithdrawBean = new ProtocolWithdrawBean(this);
 //        protocolNotifyIrbBean = new ProtocolNotifyIrbBean(this);
 //        // setting the attachment here so new files can be attached to newActionAttachment
 //        protocolNotifyIrbBean.setNewActionAttachment(new ProtocolActionAttachment());
-        protocolNotifyCommitteeBean = new ProtocolNotifyCommitteeBean(this);
-//
+        
+        protocolNotifyCommitteeBean = getNewProtocolNotifyCommitteeBeanInstanceHook(this);
+
+// TODO *********commented the code below during IACUC refactoring*********         
 //        protocolAmendmentBean = createAmendmentBean();
 //        protocolRenewAmendmentBean = createAmendmentBean();
+        
+        
         protocolDeleteBean = getNewProtocolDeleteBeanInstanceHook(this);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        assignToAgendaBean = new ProtocolAssignToAgendaBean(this);
 //        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
@@ -373,8 +379,11 @@ public abstract class ActionHelper implements Serializable {
 //                Constants.PROTOCOL_PERMIT_DATA_ANALYSIS_ACTION_PROPERTY_KEY);
 //        protocolIrbAcknowledgementBean = buildProtocolGenericActionBean(ProtocolActionType.IRB_ACKNOWLEDGEMENT, 
 //                Constants.PROTOCOL_IRB_ACKNOWLEDGEMENT_ACTION_PROPERTY_KEY);
-        protocolAbandonBean = buildProtocolGenericActionBeanHook(getAbandonActionTypeHook(), getAbandonPropertyKeyHook());//buildProtocolAbandonBeanHook();
-          
+        
+        
+        protocolAbandonBean = buildProtocolGenericActionBean(getAbandonActionTypeHook(), getAbandonPropertyKeyHook());//buildProtocolAbandonBeanHook();
+ 
+// TODO *********commented the code below during IACUC refactoring*********         
 //        protocolAdminCorrectionBean = createAdminCorrectionBean();
 //        undoLastActionBean = createUndoLastActionBean(getProtocol());
 //        committeeDecision = new CommitteeDecision(this);
@@ -412,9 +421,11 @@ public abstract class ActionHelper implements Serializable {
 //        protocolPrintOption = new ProtocolSummaryPrintOptions();
 //        initPrintQuestionnaire();
     }
-    /*
-     * TODO: Added during IACUC refactor    
-     */
+    
+    protected abstract ProtocolNotifyCommitteeBean getNewProtocolNotifyCommitteeBeanInstanceHook(ActionHelper actionHelper);
+
+    protected abstract ProtocolSubmitAction getNewProtocolSubmitActionInstanceHook(ActionHelper actionHelper);
+    
     protected abstract ProtocolDeleteBean getNewProtocolDeleteBeanInstanceHook(ActionHelper actionHelper);
     
 
@@ -473,11 +484,12 @@ public abstract class ActionHelper implements Serializable {
         protected abstract String getAbandonActionTypeHook();
         
         protected abstract String getAbandonPropertyKeyHook();
+               
+        protected abstract ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey);
         
         
-        protected abstract ProtocolGenericActionBean buildProtocolGenericActionBeanHook(String actionTypeCode, String errorPropertyKey);
-
-        
+// TODO *********commented the code below during IACUC refactoring********* 
+// This method demoted to subclasses
 //    /**
 //     *     
 //     * This method builds a ProtocolGenericActionBean.  A number of different beans
@@ -499,8 +511,11 @@ public abstract class ActionHelper implements Serializable {
 //        return bean;
 //    }
 //    
-    protected abstract ReviewCommentsService getReviewCommentsServiceHook();
-    
+        protected ReviewCommentsService getReviewCommentsService() {
+            return KraServiceLocator.getService(getReviewCommentsServiceClassHook());
+        }   
+        
+        protected abstract Class<? extends ReviewCommentsService> getReviewCommentsServiceClassHook();  
    
 //
 //    private ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, String errorPropertyKey) throws Exception {
@@ -520,52 +535,52 @@ public abstract class ActionHelper implements Serializable {
 //        return bean;
 //    }
 //    
-//    /**
-//     * Builds an approval date, defaulting to the approval date from the protocol.
-//     * 
-//     * If the approval date from the protocol is null, or if the protocol is new or a renewal, then if the committee has scheduled a meeting to approve the 
-//     * protocol, sets to the scheduled approval date; otherwise, sets to the current date.
-//     * 
-//     * @param protocol
-//     * @return a non-null approval date
-//     */
-//    private Date buildApprovalDate(Protocol protocol) {
-//        Date approvalDate = protocol.getApprovalDate();
-//        
-//        if (approvalDate == null || protocol.isNew() || protocol.isRenewal()) {
-//            CommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
-//            if (committeeSchedule != null) {
-//                approvalDate = committeeSchedule.getScheduledDate();
-//            } else {
-//                approvalDate = new Date(System.currentTimeMillis());
-//            }
-//        }
-//        
-//        return approvalDate;
-//    }
-//    
-//    /**
-//     * Builds an expiration date, defaulting to the expiration date from the protocol.  
-//     * 
-//     * If the expiration date from the protocol is null, or if the protocol is new or a renewal, creates an expiration date exactly one year ahead and one day 
-//     * less than the approval date.
-//     * 
-//     * @param protocol
-//     * @param approvalDate
-//     * @return a non-null expiration date
-//     */
-//    private Date buildExpirationDate(Protocol protocol, Date approvalDate) {
-//        Date expirationDate = protocol.getExpirationDate();
-//        
-//        if (expirationDate == null || protocol.isNew() || protocol.isRenewal()) {
-//            java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, 1);
-//            newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
-//            expirationDate = DateUtils.convertToSqlDate(newExpirationDate);
-//        }
-//        
-//        return expirationDate;
-//    }
-//
+    /**
+     * Builds an approval date, defaulting to the approval date from the protocol.
+     * 
+     * If the approval date from the protocol is null, or if the protocol is new or a renewal, then if the committee has scheduled a meeting to approve the 
+     * protocol, sets to the scheduled approval date; otherwise, sets to the current date.
+     * 
+     * @param protocol
+     * @return a non-null approval date
+     */
+    private Date buildApprovalDate(Protocol protocol) {
+        Date approvalDate = protocol.getApprovalDate();
+        
+        if (approvalDate == null || protocol.isNew() || protocol.isRenewal()) {
+            CommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
+            if (committeeSchedule != null) {
+                approvalDate = committeeSchedule.getScheduledDate();
+            } else {
+                approvalDate = new Date(System.currentTimeMillis());
+            }
+        }
+        
+        return approvalDate;
+    }
+    
+    /**
+     * Builds an expiration date, defaulting to the expiration date from the protocol.  
+     * 
+     * If the expiration date from the protocol is null, or if the protocol is new or a renewal, creates an expiration date exactly one year ahead and one day 
+     * less than the approval date.
+     * 
+     * @param protocol
+     * @param approvalDate
+     * @return a non-null expiration date
+     */
+    private Date buildExpirationDate(Protocol protocol, Date approvalDate) {
+        Date expirationDate = protocol.getExpirationDate();
+        
+        if (expirationDate == null || protocol.isNew() || protocol.isRenewal()) {
+            java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, 1);
+            newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
+            expirationDate = DateUtils.convertToSqlDate(newExpirationDate);
+        }
+        
+        return expirationDate;
+    }
+
     protected ProtocolAction findProtocolAction(String actionTypeCode, List<ProtocolAction> protocolActions, ProtocolSubmission currentSubmission) {
 
         for (ProtocolAction pa : protocolActions) {
@@ -1073,20 +1088,21 @@ public abstract class ActionHelper implements Serializable {
 //    }
 //    
     protected boolean hasDeleteProtocolAmendRenewPermission() {
-        ProtocolTask task = new ProtocolTask(getAmendRenewDeleteTaskNameHook(), getProtocol());
+        ProtocolTask task = createNewAmendRenewDeleteTaskInstanceHook(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
-    
-    protected abstract String getAmendRenewDeleteTaskNameHook(); 
 
+    
+    protected abstract ProtocolTask createNewAmendRenewDeleteTaskInstanceHook(Protocol protocol);
+    
     
     protected boolean hasDeleteProtocolAmendRenewUnavailablePermission() {
-        ProtocolTask task = new ProtocolTask(getAmendRenewDeleteTaskNameUnavailableHook(), getProtocol());
+        ProtocolTask task = createNewAmendRenewDeleteUnavailableTaskInstanceHook(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
-    protected abstract String getAmendRenewDeleteTaskNameUnavailableHook();
-
+    protected abstract ProtocolTask createNewAmendRenewDeleteUnavailableTaskInstanceHook(Protocol protocol);
+    
     
 //    
 //    protected boolean hasAssignToAgendaPermission() {
@@ -1317,11 +1333,12 @@ public abstract class ActionHelper implements Serializable {
      * check this 
      */
     protected boolean hasAbandonProtocolPermission() {
-        ProtocolTask task = new ProtocolTask(getAbandonProtocolTaskNameHook(), getProtocol());
+        ProtocolTask task = createNewAbandonTaskInstanceHook(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
-    protected abstract String getAbandonProtocolTaskNameHook();
+    protected abstract ProtocolTask createNewAbandonTaskInstanceHook(Protocol protocol);
+    
     
 //    protected boolean hasPermission(String taskName) {
 //        ProtocolTask task = new ProtocolTask(taskName, getProtocol());
@@ -1370,6 +1387,8 @@ public abstract class ActionHelper implements Serializable {
 //        return retVal;
 //    }
     
+   
+
     protected boolean hasFollowupAction(String actionCode) {
 //        for (ValidProtocolActionAction action : followupActionActions) {
 //            if (StringUtils.equals(action.getFollowupActionCode(),actionCode)) {

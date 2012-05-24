@@ -324,13 +324,12 @@
         <property name="protocolVersionService" ref="iacucVersionService" />
 <!-- IACUC
         <property name="protocolAssignToAgendaService" ref="iacucAssignToAgendaService" />
-        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" /> 
+        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
+        <property name="identityManagementService" ref="identityService"/> 
+        <property name="kcNotificationService" ref="kcNotificationService" />
 -->
-		<property name="identityManagementService" ref="identityService"/>
-<!-- IACUC
-		<property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/> 
--->
-		<property name="kcNotificationService" ref="kcNotificationService" />
+		<property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/> 
+		
     </bean>
     
         <bean id = "iacucProtocolOnlineReviewService" class = "org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewServiceImpl">
@@ -378,7 +377,7 @@
         <property name="unitService" ref="unitService" />
         <property name="institutionalProposalService" ref="institutionalProposalService" />
         <property name="awardService" ref="awardService" />
-<!-- Uncomment after service is implemented for IACUC        <property name="protocolLookupableHelperService" ref="protocolLookupableHelperService" /> -->
+		<property name="protocolLookupableHelperService" ref="iacucProtocolLookupableHelperService" />
         <property name="documentService" ref="documentService" />
         <property name="parameterService" ref="parameterService" />
         <property name="businessObjectService" ref="businessObjectService" />

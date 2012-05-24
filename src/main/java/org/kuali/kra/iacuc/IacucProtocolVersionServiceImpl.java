@@ -21,48 +21,37 @@ import java.util.Map;
 
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolVersionServiceImpl;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
-import org.kuali.kra.service.VersioningService;
-import org.kuali.rice.kns.service.SessionDocumentService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 
 /**
  * Protocol Version Service Implementation.
  */
-public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImpl {
-    
-    private BusinessObjectService businessObjectService;
-    private VersioningService versioningService;
+public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImpl implements IacucProtocolVersionService{
     
     protected String getProtocolDocumentTypeHook() {
         return "IacucProtocolDocument";
     }
     
-    protected Protocol getNewProtocol(Protocol protocol) throws Exception {
+    protected Protocol createProtocolNewVersionHook(Protocol protocol) throws Exception {
         IacucProtocol iacucProtocol = (IacucProtocol)protocol;
         return versioningService.createNewVersion(iacucProtocol);
     }
 
-    /**
-     * @see org.kuali.kra.protocol.ProtocolVersionService#getProtocolVersion(java.lang.String, java.lang.Integer)
-     */
-    @SuppressWarnings("unchecked")
-    public IacucProtocol getProtocolVersion(String protocolNumber, Integer sequenceNumber) {
-        IacucProtocol protocol = null;
-        Map<String, Object> fields = new HashMap<String, Object>();
-        fields.put("protocolNumber", protocolNumber);
-        fields.put("sequenceNumber", sequenceNumber);
-        Collection<IacucProtocol> protocols = businessObjectService.findMatching(IacucProtocol.class, fields);
-        if (protocols.size() == 1) {
-            protocol = protocols.iterator().next();
-        }
-        return protocol;
+    protected ProtocolModuleQuestionnaireBean getNewInstanceProtocolModuleQuestionnaireBeanHook(Protocol protocol) {
+        return new IacucProtocolModuleQuestionnaireBean(protocol);
     }
 
-    protected ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(Protocol protocol) {
-        return new IacucProtocolModuleQuestionnaireBean(protocol);
+    @Override
+    protected Class<? extends Protocol> getProtocolBOClassHook() {
+        return IacucProtocol.class;
+    }
+
+    @Override
+    protected ProtocolDocument createNewProtocolDocumentInstanceHook() {
+        return new IacucProtocolDocument();
     }
 
 }
