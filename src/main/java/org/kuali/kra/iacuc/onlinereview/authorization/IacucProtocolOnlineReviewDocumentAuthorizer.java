@@ -23,6 +23,7 @@ import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -145,12 +146,12 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
        return super.canApprove(document, user);
     } 
     
-    //we only let the IRB Admin disapprove these documents.
+    //we only let the Iacuc Admin disapprove these documents.
     public boolean canDisapprove(Document document, Person user) {
-//        boolean result = super.canDisapprove(document, user);
-//        result &= canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS); 
-//        return result;
-         return true;
+        boolean result = super.canDisapprove(document, user);
+        result &= canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (IacucProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS); 
+        return result;
+//         return true;
     }
     
     private KraWorkflowService getKraWorkflowService() {

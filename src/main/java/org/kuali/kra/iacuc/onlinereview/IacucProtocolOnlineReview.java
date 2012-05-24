@@ -639,4 +639,10 @@ public class IacucProtocolOnlineReview extends ProtocolOnlineReview {
 ////    public void setReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments) {
 ////        this.reviewAttachments = reviewAttachments;
 ////    }
+    
+    public String getNamespace() {
+        return "KC-IACUC";
+    }
+
+
 }
