@@ -180,7 +180,8 @@ public class CoiDisclosureAction extends CoiAction {
                 && ((!coiDisclosure.isManualEvent()) || (!CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())))) {
             boolean forceQnnrReload = false;
             if ((StringUtils.equals("reload", coiDisclosureForm.getMethodToCall()))
-                    || (StringUtils.equals("addManualProject", coiDisclosureForm.getMethodToCall()))) {
+                    || (StringUtils.equals("addManualProject", coiDisclosureForm.getMethodToCall()))
+                    || coiDisclosure.isCurrentDisclosure()) {
                 forceQnnrReload = true;
             }            
             coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView(forceQnnrReload);
