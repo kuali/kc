@@ -3,13 +3,14 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html:html>
-
-<head>
+   <head>
 <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css"
 	type="text/css" />
 <script>var jsContextPath = "${pageContext.request.contextPath}";</script>
 <title>Kuali :: Financial Entities</title>
+<!-- TODO: We need this jquery implicit include because we do not use the documentPage or page tag. Ideally that is what should be used. -->
+<script type="text/javascript" src="krad/plugins/jquery/jquery-1.6.3.js"></script>
 <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script>
 <link type="text/css" rel="stylesheet" href="krad/plugins/fancybox/jquery.fancybox-1.3.4.css"></link>
 <script type="text/javascript" src="krad/plugins/fancybox/jquery.fancybox-1.3.4.pack.js"></script>     
