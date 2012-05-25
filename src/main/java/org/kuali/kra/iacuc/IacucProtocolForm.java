@@ -17,7 +17,6 @@ package org.kuali.kra.iacuc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,11 +25,12 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataHelper;
+import org.kuali.kra.iacuc.noteattachment.IacucNotesAttachmentsHelper;
 import org.kuali.kra.iacuc.onlinereview.IacucOnlineReviewsActionHelper;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
-import org.kuali.kra.iacuc.noteattachment.IacucNotesAttachmentsHelper;
 import org.kuali.kra.iacuc.permission.IacucPermissionsHelper;
 import org.kuali.kra.iacuc.personnel.IacucPersonnelHelper;
+import org.kuali.kra.iacuc.procedures.IacucProtocolProceduresHelper;
 import org.kuali.kra.iacuc.protocol.IacucProtocolHelper;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceBean;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireHelper;
@@ -65,6 +65,7 @@ public class IacucProtocolForm extends ProtocolForm {
     private IacucProtocolSpeciesHelper iacucProtocolSpeciesHelper;
     private IacucAlternateSearchHelper iacucAlternateSearchHelper;
     private IacucProtocolExceptionHelper iacucProtocolExceptionHelper;
+    private IacucProtocolProceduresHelper iacucProtocolProceduresHelper;
     
 
     public IacucProtocolForm() throws Exception {
@@ -73,6 +74,7 @@ public class IacucProtocolForm extends ProtocolForm {
         initializeIacucProtocolSpecies();
         initializeIacucAlternateSearchHelper();
         initializeIacucProtocolException();
+        initializeIacucProtocolProcedures();
     }
 
     public void initializeIacucProtocolHelpers() throws Exception {
@@ -82,6 +84,10 @@ public class IacucProtocolForm extends ProtocolForm {
         setIacucProtocolSpeciesHelper(new IacucProtocolSpeciesHelper(this));
     }
     
+    public void initializeIacucProtocolProcedures() throws Exception {
+        setIacucProtocolProceduresHelper(new IacucProtocolProceduresHelper(this));
+    }
+
     public void initializeIacucProtocolException() throws Exception {
         setIacucProtocolExceptionHelper(new IacucProtocolExceptionHelper(this));
     }
@@ -322,6 +328,14 @@ public class IacucProtocolForm extends ProtocolForm {
     @Override
     protected OnlineReviewsActionHelper createNewOnlineReviewsActionHelperInstanceHook(ProtocolForm protocolForm) {
         return new IacucOnlineReviewsActionHelper((IacucProtocolForm) protocolForm);
+    }
+
+    public IacucProtocolProceduresHelper getIacucProtocolProceduresHelper() {
+        return iacucProtocolProceduresHelper;
+    }
+
+    public void setIacucProtocolProceduresHelper(IacucProtocolProceduresHelper iacucProtocolProceduresHelper) {
+        this.iacucProtocolProceduresHelper = iacucProtocolProceduresHelper;
     }
 
 }

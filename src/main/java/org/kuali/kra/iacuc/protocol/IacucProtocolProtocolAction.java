@@ -585,6 +585,10 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         return mapping.findForward("iacucSpeciesAndGroups");
     }
     
+    public ActionForward procedures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+        ((IacucProtocolForm) form).getIacucProtocolProceduresHelper().prepareView();
+        return mapping.findForward("iacucProtocolProcedures");
+    }
 
     private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
