@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 package org.kuali.kra.coi.disclosure;
-import java.util.ArrayList;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +31,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.coi.CoiAction;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
@@ -54,9 +55,10 @@ import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
-import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -184,9 +186,9 @@ public class CoiDisclosureAction extends CoiAction {
         if ((coiDisclosureDocument.getDocumentHeader().hasWorkflowDocument())
                 && ((!coiDisclosure.isManualEvent()) || (!CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())))) {
             boolean forceQnnrReload = false;
-            if ((StringUtils.equals("reload", coiDisclosureForm.getMethodToCall()))
-                    || (StringUtils.equals("addManualProject", coiDisclosureForm.getMethodToCall()))
-                    || coiDisclosure.isCurrentDisclosure()) {
+            // TODO : this is pretty hacky to refresh qn
+            if ((StringUtils.equals("reload", coiDisclosureForm.getMethodToCall()) && !coiDisclosure.isApprovedDisclosure() && !coiDisclosure.isAnnualUpdate() && !coiDisclosure.isUpdateEvent())
+                    || (StringUtils.equals("addManualProject", coiDisclosureForm.getMethodToCall()))) {
                 forceQnnrReload = true;
             }            
             coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView(forceQnnrReload);
@@ -280,7 +282,8 @@ public class CoiDisclosureAction extends CoiAction {
                     coiDisclosure.setEventTypeCode(eventTypeCode);
                     ((CoiDisclosureForm) form).getDisclosureHelper().setMasterDisclosureBean(
                             getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosure));
-                    setQuestionnaireStatuses(coiDisclosureForm);
+                    // this coiDisclosure is not in coidisclosureform yet
+                    setQuestionnaireStatuses(coiDisclosureForm, coiDisclosure);
 
                     forward = mapping.findForward(UPDATE_DISCLOSURE);
                 }
@@ -322,6 +325,46 @@ public class CoiDisclosureAction extends CoiAction {
         coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
         coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
         coiDisclosureForm.getDisclosureQuestionnaireHelper().setQuestionnaireActiveStatuses();        
+        for (AnswerHeader answerHeader : coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders()) {
+            getQuestionnaireAnswerService().setupChildAnswerIndicator(answerHeader.getAnswers());
+        }
+    }
+
+    private void setQuestionnaireStatuses(CoiDisclosureForm coiDisclosureForm, CoiDisclosure coiDisclosure) {
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(
+                coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
+        List<String> questionnaireIds = getExistingQnaire(coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders());
+        if (coiDisclosure.isAnnualUpdate()) {
+            List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(
+                    new ModuleQuestionnaireBean (CoeusModule.COI_DISCLOSURE_MODULE_CODE, coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getEventTypeCode(), coiDisclosure.getSequenceNumber().toString(), 
+                            false));
+            if (CollectionUtils.isEmpty(questionnaireIds)) {
+                coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders().addAll(answerHeaders);
+            } else {
+                for (AnswerHeader answerHeader : answerHeaders) {
+                    if (!questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
+                        coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders().add(answerHeader);         }
+                }
+            }
+        }
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().setQuestionnaireActiveStatuses();
+    }
+    
+    private List<String> getExistingQnaire(List<AnswerHeader> answerHeaders) {
+        List<String> questionnaireIds  = new ArrayList<String>();
+        for (AnswerHeader answerHeader : answerHeaders) {
+            if (answerHeader.getModuleSubItemCode().equals("14")) {
+                // only the annual one
+                questionnaireIds.add(answerHeader.getQuestionnaire().getQuestionnaireId());
+            }
+        }
+        return questionnaireIds;
+    }
+    
+    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return KraServiceLocator.getService(QuestionnaireAnswerService.class);    
     }
     
     private void checkToLoadDisclosureDetails(CoiDisclosure coiDisclosure, String methodToCall, String projectId,
