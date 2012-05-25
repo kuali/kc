@@ -16,10 +16,14 @@
 package org.kuali.kra.service.impl;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.kuali.kra.bo.ArgValueLookup;
+import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.service.ArgValueLookupService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -55,6 +59,13 @@ public class ArgValueLookupServiceImpl implements ArgValueLookupService {
             formattedArgumentNames += "," + argumentName + ";" + argumentName;
         }
         return formattedArgumentNames;
+    }
+
+    @Override
+    public List<ArgValueLookup> getArgumentValues(String argumentName) {
+        Map<String,String> param = new HashMap<String,String>();
+        param.put("argumentName", argumentName);
+        return (List<ArgValueLookup>)businessObjectService.findMatching(ArgValueLookup.class, param);
     }
     
 }
