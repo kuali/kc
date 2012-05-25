@@ -119,7 +119,6 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     private String syncBudgetRate;
     private BudgetSubAwards newSubAward;
     private Integer personnelDetailLine;
-    private FormFile subAwardFile;
     
     private String newGroupName;
     
@@ -812,22 +811,6 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     public void setPersonnelDetailLine(Integer personnelDetailLine) {
         this.personnelDetailLine = personnelDetailLine;
-    }
-
-    /**
-     * Gets the subAwardFile attribute. 
-     * @return Returns the subAwardFile.
-     */
-    public FormFile getSubAwardFile() {
-        return subAwardFile;
-    }
-
-    /**
-     * Sets the subAwardFile attribute value.
-     * @param subAwardFile The subAwardFile to set.
-     */
-    public void setSubAwardFile(FormFile subAwardFile) {
-        this.subAwardFile = subAwardFile;
     }
     
     @Override
