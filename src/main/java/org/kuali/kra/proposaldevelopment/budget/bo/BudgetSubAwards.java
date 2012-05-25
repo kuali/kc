@@ -76,6 +76,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
     
     private transient boolean edit = false;
     private transient FormFile newSubAwardFile;
+    private transient boolean newSubAwardFileError = false;
 
     public BudgetSubAwards() {
         budgetSubAwardAttachments = new ArrayList<BudgetSubAwardAttachment>();
@@ -354,6 +355,16 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
 
     public void setNewSubAwardFile(FormFile newSubAwardFile) {
         this.newSubAwardFile = newSubAwardFile;
+    }
+
+    public boolean getNewSubAwardFileError() {
+        System.err.println("getNewSubAwardFileError: " + (newSubAwardFileError));
+        return newSubAwardFileError;
+    }
+
+    public void setNewSubAwardFileError(boolean pNewSubAwardFileError) {
+        System.err.println("setNewSubAwardFileError: " + (pNewSubAwardFileError));
+        this.newSubAwardFileError = pNewSubAwardFileError;
     }
 
     @Override
