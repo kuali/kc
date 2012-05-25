@@ -56,7 +56,11 @@
 					</td>
 	                <td valign="middle" class="infoline">
 	                	<div align="center">	                		                	
-	                	<html:file property="subAwardFile" />						
+	                		<html:file property="newSubAward.newSubAwardFile" />
+	                		<br/>
+	                		<c:if test="${newSubAward.newSubAwardFileError}">
+                                <kul:fieldShowErrorIcon />
+                            </c:if>						
 	                	</div>
 					</td>
 					<td class="infoline">
@@ -98,9 +102,11 @@
 	                <td valign="middle" class="infoline">
 	                	<div align="center">
 		                	<kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].subAwardXfdFileName" attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" readOnly="true"/>	                		                	
-		                	<%--<html:file property="document.budget.budgetSubAwards[${status.index}].subAwardXfdFile" />--%>
 		                	<c:if test="${!readOnlyRecord }">
-		                		<html:file property="document.budget.budgetSubAwards[${status.index}].newSubAwardFile" />
+		                		<html:file property="document.budget.budgetSubAwards[${status.index}].newSubAwardFile" /> 
+		                		<c:if test="${KualiForm.document.budget.budgetSubAwards[status.index].newSubAwardFileError}">
+	                                <kul:fieldShowErrorIcon />
+	                            </c:if>
 		                	</c:if>						
 	                	</div>
 					</td>
