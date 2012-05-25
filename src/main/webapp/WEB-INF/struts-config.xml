@@ -440,6 +440,11 @@
         &iacuc_forwards;
       </action>
 
+      <action path="/iacucProtocolProcedures" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolProcedures.jsp" type="org.kuali.kra.iacuc.procedures.IacucProtocolProceduresAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolProcedures.jsp" />
+        &iacuc_forwards;
+      </action>
+
       <action path="/iacucProtocolException" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolException.jsp" type="org.kuali.kra.iacuc.species.exception.IacucProtocolExceptionAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolException.jsp" />
         &iacuc_forwards;
