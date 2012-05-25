@@ -358,12 +358,10 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
     }
 
     public boolean getNewSubAwardFileError() {
-        System.err.println("getNewSubAwardFileError: " + (newSubAwardFileError));
         return newSubAwardFileError;
     }
 
     public void setNewSubAwardFileError(boolean pNewSubAwardFileError) {
-        System.err.println("setNewSubAwardFileError: " + (pNewSubAwardFileError));
         this.newSubAwardFileError = pNewSubAwardFileError;
     }
 
