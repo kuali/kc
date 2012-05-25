@@ -1,11 +1,3 @@
--- Fix the Rice data.  This shouldn't be necessary once they fix their bootstrap.
-update KRMS_ATTR_DEFN_T set NM='actionTypeCode' where ATTR_DEFN_ID='1004'
-/
-update KRMS_ATTR_DEFN_T set NM='actionMessage' where ATTR_DEFN_ID='1005'
-/
-update KRMS_ATTR_DEFN_T set NM='ruleTypeCode' where ATTR_DEFN_ID='1001'
-/
-
 -- Core Infrastructure Components
 -- Add a new Namespace KC-KRMS
 INSERT INTO KRCR_NMSPC_T (ACTV_IND, NM, NMSPC_CD, APPL_ID, OBJ_ID, VER_NBR) 
