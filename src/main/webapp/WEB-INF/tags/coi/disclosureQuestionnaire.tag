@@ -24,13 +24,28 @@
 			
 			
 	<c:forEach items="${bean.answerHeaders}" var="answerHeader" varStatus="status">
-		<div class="tab-container" align="center">
-			<c:set var="prop" value="${property}.answerHeaders[${status.index}].showQuestions"/>
-			${kfunc:registerEditableProperty(KualiForm, prop)}
-			<input type="hidden" name="${prop}" id ="${prop}" 
-		           value = "${bean.answerHeaders[status.index].showQuestions}" />
-		    <kra-questionnaire:questionnaireAnswersInnerTabSinglePanel bean = "${bean}" property = "${property}" answerHeaderIndex = "${status.index}" parentTab="Questionnaire"/>
-		</div>					 
+       <c:choose>
+           <c:when test="${KualiForm.document.coiDisclosureList[0].updateEvent or (KualiForm.document.coiDisclosureList[0].annualEvent and KualiForm.document.coiDisclosureList[0].annualUpdate)}">
+              <c:if  test="${answerHeader.moduleSubItemCode == '14'}">
+		         <div class="tab-container" align="center">
+			         <c:set var="prop" value="${property}.answerHeaders[${status.index}].showQuestions"/>
+			         ${kfunc:registerEditableProperty(KualiForm, prop)}
+			         <input type="hidden" name="${prop}" id ="${prop}" 
+		                 value = "${bean.answerHeaders[status.index].showQuestions}" />
+		             <kra-questionnaire:questionnaireAnswersInnerTabSinglePanel bean = "${bean}" property = "${property}" answerHeaderIndex = "${status.index}" parentTab="Questionnaire"/>
+		         </div>					 
+              </c:if>
+           </c:when>
+           <c:otherwise>
+		         <div class="tab-container" align="center">
+			         <c:set var="prop" value="${property}.answerHeaders[${status.index}].showQuestions"/>
+			         ${kfunc:registerEditableProperty(KualiForm, prop)}
+			         <input type="hidden" name="${prop}" id ="${prop}" 
+		                 value = "${bean.answerHeaders[status.index].showQuestions}" />
+		             <kra-questionnaire:questionnaireAnswersInnerTabSinglePanel bean = "${bean}" property = "${property}" answerHeaderIndex = "${status.index}" parentTab="Questionnaire"/>
+		         </div>					 
+           </c:otherwise>
+       </c:choose>
 	</c:forEach>
 				
 </kul:tab>
