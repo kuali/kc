@@ -69,8 +69,17 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
     
     
     private void populateQuestionnaires(boolean reload) {
+        boolean refreshed = false;
         if(CollectionUtils.isEmpty(this.getAnswerHeaders()) || reload) {
             super.populateAnswers();
+            refreshed = true;
+        } 
+        // have to update the child indicator, otherwise, the questionnaire may be hidden
+        if (!refreshed && !CollectionUtils.isEmpty(this.getAnswerHeaders())) {
+            for (AnswerHeader answerHeader : this.getAnswerHeaders()) {
+                    getQuestionnaireAnswerService().setupChildAnswerIndicator(answerHeader.getAnswers());
+                }
+
         }
     }
     
