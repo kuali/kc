@@ -19,11 +19,19 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AddCoiReviewerRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddCoiReviewerEvent>{
+    
+    private transient KcPersonService kcPersonService;
+    
+    public AddCoiReviewerRule() {
+        kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+    }
 
     @Override
     public boolean processRules(AddCoiReviewerEvent event) {
@@ -32,7 +40,8 @@ public class AddCoiReviewerRule extends ResearchDocumentRuleBase implements Busi
     
     private boolean validateRequired(AddCoiReviewerEvent event) {
         boolean valid = false;
-        if (StringUtils.isNotBlank(event.getCoiUserRole().getUserId())) {
+        if (StringUtils.isNotBlank(event.getCoiUserRole().getUserId())
+                && getKcPersonService().getKcPersonByUserName(event.getCoiUserRole().getUserId()) != null) {
             valid = true;
         } else {
             GlobalVariables.getMessageMap().putError("disclosureActionHelper.newCoiUserRole.userId", 
@@ -55,5 +64,16 @@ public class AddCoiReviewerRule extends ResearchDocumentRuleBase implements Busi
             }
         }
         return valid;
+    }
+
+    protected KcPersonService getKcPersonService() {
+        if (kcPersonService == null) {
+            kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 }
