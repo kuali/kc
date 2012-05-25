@@ -87,5 +87,5 @@
        </div> 
     </div>
     <kra-coi:financialEntityRelationshipDetails prop="financialEntityHelper.newRelationDetails" detailList="${KualiForm.financialEntityHelper.newRelationDetails}"/>
-	<kra-coi:financialEntityAttachments/>
 </kul:tab>
+<kra-coi:financialEntityAttachments/>
