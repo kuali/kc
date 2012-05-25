@@ -148,7 +148,8 @@ public class IacucActionHelper extends ActionHelper {
 
         submissionConstraint = getParameterValue(Constants.PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION);
 
-       
+        canSubmitProtocol = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL);
+        canSubmitProtocolUnavailable = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE);
 //        canWithdraw = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW);
 //        canWithdrawUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE);
 
