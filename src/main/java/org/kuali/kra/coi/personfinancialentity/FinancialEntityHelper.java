@@ -357,14 +357,18 @@ public class FinancialEntityHelper implements Serializable {
      * Adds the "new" financialEntityAttachment to the FinancialEntity Document.  Before
      * adding this method executes validation.  If the validation fails the attachment is not added.    
      */
+    @SuppressWarnings("unchecked")
     public void addNewFinancialEntityAttachment() {
         syncNewFile(getNewFinEntityAttachment());
-
-        newFinEntityAttachment.setFinancialEntityId(getNewPersonFinancialEntity().getPersonFinIntDisclosureId()); 
-        newFinEntityAttachment.setSequenceNumber(getNewPersonFinancialEntity().getSequenceNumber());
-        newFinEntityAttachment.updateParms();
-        getFinEntityAttachmentList().add(newFinEntityAttachment);
-        newFinEntityAttachment = new FinancialEntityAttachment();
+        AddFinancialEntityAttachmentEvent event = new AddFinancialEntityAttachmentEvent("financialEntityHelper.newFinEntityAttachment", newFinEntityAttachment); 
+        boolean success = event.getRule().processRules(event);
+        if (success) {
+            newFinEntityAttachment.setFinancialEntityId(getNewPersonFinancialEntity().getPersonFinIntDisclosureId()); 
+            newFinEntityAttachment.setSequenceNumber(getNewPersonFinancialEntity().getSequenceNumber());
+            newFinEntityAttachment.updateParms();
+            getFinEntityAttachmentList().add(newFinEntityAttachment);
+            newFinEntityAttachment = new FinancialEntityAttachment();
+        }
     }
 
     /**
@@ -420,6 +424,4 @@ public class FinancialEntityHelper implements Serializable {
         }
 
     }
-
-
 }

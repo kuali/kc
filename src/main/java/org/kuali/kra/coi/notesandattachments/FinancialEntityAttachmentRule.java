@@ -16,34 +16,23 @@
 package org.kuali.kra.coi.notesandattachments;
 
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
+import org.kuali.kra.coi.personfinancialentity.AddFinancialEntityAttachmentEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
-public class FinancialEntityAttachmentRuleHelper {
-    private final DictionaryValidationService validationService;
-    private final ErrorReporter errorReporter = new ErrorReporter();
-    private String propertyPrefix;
-
-
-    FinancialEntityAttachmentRuleHelper() {
-        this(KNSServiceLocator.getKNSDictionaryValidationService());
-    }
-    
-    public FinancialEntityAttachmentRuleHelper(final DictionaryValidationService validationService) {
-            if (validationService == null) {
-                throw new IllegalArgumentException("the validationService is null");
-            }            
-            this.validationService = validationService;
-    }
+public class FinancialEntityAttachmentRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddFinancialEntityAttachmentEvent> {
 
     public boolean validPrimitiveFields(FinancialEntityAttachment newFinancialEntityAttachment) {
         Long oldFileId = newFinancialEntityAttachment.getFileId();
         try {
             //adding a bogus file id to pass the validation service since the fileId is DB generated
             newFinancialEntityAttachment.setFileId(Long.valueOf(0));
-            return this.validationService.isBusinessObjectValid(newFinancialEntityAttachment);
+            return getDictionaryValidationService().isBusinessObjectValid(newFinancialEntityAttachment);
         } finally {
             newFinancialEntityAttachment.setFileId(oldFileId);
         }    
@@ -54,13 +43,21 @@ public class FinancialEntityAttachmentRuleHelper {
         
         if (newFinancialEntityAttachment.getAttachmentFile() == null) {
             valid = false;
-            this.errorReporter.reportError(this.propertyPrefix + ".newFile",
+            reportError("newFile",
                 KeyConstants.ERROR_COI_ATTACHMENT_MISSING_FILE);
         } else {
-            valid = this.validationService.isBusinessObjectValid(newFinancialEntityAttachment.getAttachmentFile());
+            valid = getDictionaryValidationService().isBusinessObjectValid(newFinancialEntityAttachment.getAttachmentFile());
         }
         
         return valid;
+    }
+
+    public boolean processRules(AddFinancialEntityAttachmentEvent event) {
+        GlobalVariables.getMessageMap().addToErrorPath(event.getErrorPathPrefix());
+        boolean result = validPrimitiveFields(event.getAttachment());
+        result &= validFile(event.getAttachment());
+        GlobalVariables.getMessageMap().removeFromErrorPath(event.getErrorPathPrefix());
+        return result;
     }
 
 

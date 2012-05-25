@@ -18,14 +18,13 @@
 <c:set var="finEntAttachAttributes" value="${DataDictionary.FinancialEntityAttachment.attributes}" />
 <c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
 
+<kul:tab tabTitle="Attachments" defaultOpen="false" tabErrorKey="financialEntityHelper.newFinEntityAttachment.*">
 	<div class="tab-container" align="center">
     	<h3>
-        	<span class="subhead-left"> 
-	        <a href="#" id ="finEntityAttachmentsControl" class="finEntityAttachmentsSubpanel"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> Attachments </span>
+        	<span class="subhead-left">Attachments</span>
             <span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiNotesAndAttachmentsHelp" altText="help"/></span>
-	    </h3>
-    	<div id="finEntityAttachmentsContent" class="finEntityAttachmentsSubpanelContent">                    
-			<table id="attachments-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
+	    </h3>                    
+			<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
        			<tbody id="G3">
 		          	<tr>
         		  	    <th><div align="left">&nbsp;</div></th> 
@@ -137,4 +136,5 @@
 			        <%-- End Existing data --%>
     			</tbody>
 	        </table>
-		</div>
+	</div>	        
+</kul:tab>
