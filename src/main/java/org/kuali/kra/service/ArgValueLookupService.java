@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.service;
 
+import java.util.List;
+
+import org.kuali.kra.bo.ArgValueLookup;
+
 
 public interface ArgValueLookupService {
 
@@ -26,4 +30,8 @@ public interface ArgValueLookupService {
      */
     String getArgumentNames();
 
+    /**
+     * this method returns all the values mentioned in the arg_lookup_value table for the given argument name
+     */
+    public List<ArgValueLookup> getArgumentValues(String argumentName);
  }
