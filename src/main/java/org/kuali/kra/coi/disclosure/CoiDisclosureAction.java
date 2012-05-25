@@ -166,6 +166,11 @@ public class CoiDisclosureAction extends CoiAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        String command = request.getParameter("command");
+        if (StringUtils.isNotBlank(command) && MASTER_DISCLOSURE.equals(command)) {
+            // 'view' in master disclosure's 'Disclosures' list
+            super.loadDocument((KualiDocumentFormBase) form);
+        }
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
         // we will populate questionnaire data after the execution of any dispatched ("methodTocall") methods. This point, right
@@ -202,10 +207,10 @@ public class CoiDisclosureAction extends CoiAction {
             actionForward = mapping.findForward(MASTER_DISCLOSURE);
         }
         else {
-            String command = request.getParameter("command");
+//            String command = request.getParameter("command");
             if (StringUtils.isNotBlank(command) && MASTER_DISCLOSURE.equals(command)) {
                 // 'view' in master disclosure's 'Disclosures' list
-                super.loadDocument((KualiDocumentFormBase) form);
+//                super.loadDocument((KualiDocumentFormBase) form);
                 coiDisclosureDocument = (CoiDisclosureDocument) coiDisclosureForm.getDocument();
                 coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
                 coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
