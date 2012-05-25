@@ -18,7 +18,7 @@
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 <c:set var="budgetSubAwardsAttributes" value="${DataDictionary.BudgetSubAwards.attributes}" />
 
-<kul:tab tabTitle="Subaward Budget" defaultOpen="false" tabErrorKey="budgetSubAwards.*,newSubAward.*">
+<kul:tab tabTitle="Subaward Budget" defaultOpen="false" tabErrorKey="document.budget.budgetSubAwards*,newSubAward.*">
  <div class="tab-container" align="center">
      <h3>Subaward Budget
          <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetActionSubAwardHelpUrl" altText="help"/></span>
@@ -148,12 +148,10 @@
 									</script>
 																		
 									<html:image property="methodToCall.addNonXFDBudgetLine.line${status.index}.anchor${currentTabIndex}"
-		                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"
-		                            onclick="window.alert('not ready yet.');return false;"/>
+		                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
 									
 									<html:image property="methodToCall.translateXFDBudgetLine.line${status.index}.anchor${tabKey}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-extractxml.gif' styleClass="tinybutton"
-									onclick="window.alert('not ready yet.');return false;"/>
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-extractxml.gif' styleClass="tinybutton"/>
 									
                             	</c:when>
                             	<c:otherwise>
