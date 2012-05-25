@@ -98,8 +98,8 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         if(requiredFieldsComplete){
             validSourceAwardDestinationAward = processCommonValidations(event);
             if(validSourceAwardDestinationAward){
-                validFunds = validateAnticipatedGreaterThanObligated (event);
-                validDates = validateObligatedDateIsSet(event);
+                validFunds = validateAnticipatedGreaterThanObligated (event, awards);
+                validDates = validateObligatedDateIsSet(event, awards);
             }
         }
         
@@ -149,16 +149,12 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     }
     
     
-    private boolean validateAnticipatedGreaterThanObligated (AddTransactionRuleEvent event) {
+    private boolean validateAnticipatedGreaterThanObligated (AddTransactionRuleEvent event, List<Award> awards) {
         boolean valid = true;
         //add the transaction to the document so we can simulate processing the transaction.
         event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
-        List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
         for (Award award : awards) {
             Award activeAward = getAwardVersionService().getWorkingAwardVersion(award.getAwardNumber());
-//            if(award == null){
-//                activeAward = getActiveAwardVersion(award.getAwardNumber());
-//            }
             AwardAmountInfo awardAmountInfo = activeAward.getAwardAmountInfos().get(activeAward.getAwardAmountInfos().size() -1);
             if (awardAmountInfo.getAnticipatedTotalAmount().subtract(awardAmountInfo.getAmountObligatedToDate()).isNegative()) {
                 reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_TOTAL_AMOUNT_INVALID, activeAward.getAwardNumber());
@@ -172,16 +168,12 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     }
     
     
-    private boolean validateObligatedDateIsSet (AddTransactionRuleEvent event) {
+    private boolean validateObligatedDateIsSet (AddTransactionRuleEvent event, List<Award> awards) {
         boolean valid = true;
         //add the transaction to the document so we can simulate processing the transaction.
         event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
-        List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
         for (Award award : awards) {
             Award activeAward = getAwardVersionService().getWorkingAwardVersion(award.getAwardNumber());
-//            if(award == null){
-//                activeAward = getActiveAwardVersion(award.getAwardNumber());
-//            }
             AwardAmountInfo awardAmountInfo = activeAward.getAwardAmountInfos().get(activeAward.getAwardAmountInfos().size() -1);
             if (awardAmountInfo.getAmountObligatedToDate().isPositive() && 
                     (awardAmountInfo.getCurrentFundEffectiveDate() == null || awardAmountInfo.getObligationExpirationDate() == null)) {
@@ -493,45 +485,6 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         return true;
     }
     
-  
-    
-    /*
-     * This method retrieves the pending award version.
-     * 
-     * @param doc
-     * @param goToAwardNumber
-     */
-//    @SuppressWarnings("unchecked")
-//    public Award getPendingAwardVersion(String goToAwardNumber) {
-//        
-//        Award award = null;
-//        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-//        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);
-//        if(!(awards.size() == 0)) {
-//            award = awards.get(awards.size() - 1);
-//        }
-//        return award;
-//    }
-//    
-//    /**
-//     * 
-//     * @see org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService#getActiveAwardVersion(java.lang.String)
-//     */
-//    @SuppressWarnings("unchecked")
-//    public Award getActiveAwardVersion(String awardNumber) {
-//        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
-//        VersionHistory vh = vhs.findActiveVersion(Award.class, awardNumber);
-//        Award award = null;
-//        
-//        if(vh!=null){
-//            award = (Award) vh.getSequenceOwner();
-//        }else{
-//            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-//            List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, getHashMap(awardNumber));     
-//            award = (CollectionUtils.isEmpty(awards) ? null : awards.get(0));
-//        }
-//        return award;
-//    }
     
     private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
         Map<String, String> map = new HashMap<String,String>();
