@@ -36,7 +36,7 @@ public class CoiNotificationRoleQualifierServiceImpl implements CoiNotificationR
 
         if (StringUtils.equalsIgnoreCase(qName, KimConstants.AttributeConstants.DOCUMENT_NUMBER)) {
             return coiDisclosure.getCoiDisclosureDocument().getDocumentNumber();
-        } else if (StringUtils.equalsIgnoreCase(qName, "disclosure")) {
+        } else if (StringUtils.equalsIgnoreCase(qName, "coiDisclosureId")) {
             return coiDisclosure.getCoiDisclosureId().toString();
         } else if (StringUtils.equals(qName, KcKimAttributes.UNIT_NUMBER)) {
             return coiDisclosure.getLeadUnitNumber();
