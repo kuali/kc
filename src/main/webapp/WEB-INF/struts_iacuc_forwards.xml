@@ -25,3 +25,4 @@
 <forward name="iacucProtocolThreeRs" path="/WEB-INF/jsp/iacuc/ProtocolThreeRs.jsp" />
 <forward name="iacucSpeciesAndGroups" path="/WEB-INF/jsp/iacuc/ProtocolSpeciesAndGroups.jsp" />
 <forward name="iacucProtocolException" path="/WEB-INF/jsp/iacuc/ProtocolException.jsp" />
+<forward name="iacucProtocolProcedures" path="/WEB-INF/jsp/iacuc/ProtocolProcedures.jsp" />
