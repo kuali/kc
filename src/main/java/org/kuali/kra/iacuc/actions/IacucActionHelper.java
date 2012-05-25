@@ -33,7 +33,6 @@ import org.kuali.kra.iacuc.actions.notifyiacuc.ProtocolNotifyIacucBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
-import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
@@ -126,16 +125,14 @@ public class IacucActionHelper extends ActionHelper {
         protocolAssignCmtBean = new IacucProtocolAssignCmtBean(this);
         iacucProtocolTableBean = new IacucProtocolTableBean(this);
 
-        initActionBeanTaskMap();
+        initIacucSpecificActionBeanTaskMap();
    }
     
     /**
      * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
      * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
      */
-    private void initActionBeanTaskMap() {
-        // commented out while refactoring beans and actionHelper
-       // actionBeanTaskMap.put(TaskName.SUBMIT_PROTOCOL, protocolSubmitAction);
+    private void initIacucSpecificActionBeanTaskMap() {
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_WITHDRAW, getProtocolWithdrawBean());
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_TABLE, iacucProtocolTableBean);
    
@@ -519,6 +516,16 @@ public class IacucActionHelper extends ActionHelper {
     @Override
     protected ProtocolModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(Protocol protocol) {
         return new IacucProtocolModuleQuestionnaireBean((IacucProtocol)protocol);
+    }
+
+    @Override
+    protected ProtocolTask getNewSubmitProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.SUBMIT_IACUC_PROTOCOL, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolTask getNewSubmitProtocolUnavailableTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
 }

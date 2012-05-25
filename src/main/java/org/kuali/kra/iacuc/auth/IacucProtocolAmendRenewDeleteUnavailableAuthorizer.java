@@ -31,7 +31,7 @@ public class IacucProtocolAmendRenewDeleteUnavailableAuthorizer extends IacucPro
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
-        return hasPermission(userId, task.getProtocol(), PermissionConstants.DELETE_PROTOCOL) &&
+        return hasPermission(userId, task.getProtocol(), PermissionConstants.DELETE_IACUC_PROTOCOL) &&
                (task.getProtocol().getProtocolDocument().isViewOnly() ||
                 !inProgress(task.getProtocol()));
     }

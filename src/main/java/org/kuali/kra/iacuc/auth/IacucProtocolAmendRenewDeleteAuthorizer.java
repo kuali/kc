@@ -32,10 +32,12 @@ public class IacucProtocolAmendRenewDeleteAuthorizer extends IacucProtocolAuthor
      */
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return !task.getProtocol().getProtocolDocument().isViewOnly() &&
-               inProgress(task.getProtocol()) &&
-               (   (hasPermission(userId, task.getProtocol(), PermissionConstants.DELETE_IACUC_PROTOCOL)) 
-                || (isPrincipalInvestigator(task.getProtocol()))
-               );
+               inProgress(task.getProtocol()) 
+               && (hasPermission(userId, task.getProtocol(), PermissionConstants.DELETE_IACUC_PROTOCOL));
+//               (   (hasPermission(userId, task.getProtocol(), PermissionConstants.DELETE_IACUC_PROTOCOL)) 
+//                || (isPrincipalInvestigator(task.getProtocol()))
+//               )
+               
     }
     
     private boolean inProgress(Protocol protocol) {
