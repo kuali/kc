@@ -208,6 +208,10 @@
         <property name="serviceName" value="versionHistoryService" />
     </bean>
     
+    <bean id="argValueLookupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="argValueLookupService" />
+    </bean>
+
     <bean id="ynqService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="ynqService" />
     </bean>
@@ -820,6 +824,9 @@
 	</bean>
 	
 	<bean id="proposalDevelopmentFactBuilderService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentFactBuilderServiceImpl">
+		 <property name="businessObjectService" ref="businessObjectService" />
+		  <property name="argValueLookupService" ref="argValueLookupService" />
+		  <property name="documentService" ref="documentService" />
 	</bean>
 		
 </beans>
