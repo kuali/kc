@@ -27,6 +27,7 @@ import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.kra.protocol.Protocol;
@@ -325,7 +326,8 @@ public abstract class ActionHelper implements Serializable {
     public ActionHelper(ProtocolForm form) throws Exception {
         this.form = form;
 
-        protocolSubmitAction = getNewProtocolSubmitActionInstanceHook(this);        
+        protocolSubmitAction = getNewProtocolSubmitActionInstanceHook(this);
+        
 // TODO *********commented the code below during IACUC refactoring*********         
 //        protocolWithdrawBean = new ProtocolWithdrawBean(this);
 //        protocolNotifyIrbBean = new ProtocolNotifyIrbBean(this);
@@ -414,7 +416,10 @@ public abstract class ActionHelper implements Serializable {
 //        protocolTerminateRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_FOR_TERMINATION,
 //                ProtocolSubmissionType.REQUEST_FOR_TERMINATION, "protocolTerminateRequestBean");
 //        
-//        initActionBeanTaskMap();
+        
+        initActionBeanTaskMap();
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        
 //        protocolSummaryPrintOptions = new ProtocolSummaryPrintOptions();
 //        toAnswerSubmissionQuestionnaire = hasSubmissionQuestionnaire();
@@ -429,11 +434,13 @@ public abstract class ActionHelper implements Serializable {
     protected abstract ProtocolDeleteBean getNewProtocolDeleteBeanInstanceHook(ActionHelper actionHelper);
     
 
-//    /**
-//     * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
-//     * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
-//     */
-//    private void initActionBeanTaskMap() {
+    /**
+     * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
+     * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
+     */
+    private void initActionBeanTaskMap() {
+        
+// TODO *********commented the code below during IACUC refactoring********* 
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolAdminCorrectionBean);
 //        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolAmendmentBean);
 //        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_RENEWAL, protocolRenewAmendmentBean);
@@ -448,7 +455,7 @@ public abstract class ActionHelper implements Serializable {
 //        actionBeanTaskMap.put(TaskName.RECORD_COMMITTEE_DECISION, committeeDecision);
 //        actionBeanTaskMap.put(TaskName.PERMIT_DATA_ANALYSIS, protocolPermitDataAnalysisBean);
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, protocolDataAnalysisRequestBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_AMEND_RENEW_DELETE, protocolDeleteBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_AMEND_RENEW_DELETE, protocolDeleteBean);
 //        actionBeanTaskMap.put(TaskName.DEFER_PROTOCOL, protocolDeferBean);
 //        actionBeanTaskMap.put(TaskName.DISAPPROVE_PROTOCOL, protocolDisapproveBean);
 //        actionBeanTaskMap.put(TaskName.EXPEDITE_APPROVAL, protocolExpeditedApprovalBean);
@@ -471,7 +478,10 @@ public abstract class ActionHelper implements Serializable {
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, protocolReviewNotRequiredBean);
 //        actionBeanTaskMap.put(TaskName.RETURN_FOR_SMR, protocolSMRBean);
 //        actionBeanTaskMap.put(TaskName.RETURN_FOR_SRR, protocolSRRBean);
-//        actionBeanTaskMap.put(TaskName.SUBMIT_PROTOCOL, protocolSubmitAction);
+         
+        actionBeanTaskMap.put(TaskName.SUBMIT_PROTOCOL, protocolSubmitAction);
+   
+// TODO *********commented the code below during IACUC refactoring*********         
 //        actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL, protocolSuspendBean);
 //        actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL_BY_DSMB, protocolSuspendByDsmbBean);
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolSuspendRequestBean);
@@ -479,8 +489,8 @@ public abstract class ActionHelper implements Serializable {
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_TERMINATE, protocolTerminateRequestBean);
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_UNDO_LAST_ACTION, undoLastActionBean);
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW, protocolWithdrawBean);
-//    }
-//    
+    }
+    
         protected abstract String getAbandonActionTypeHook();
         
         protected abstract String getAbandonPropertyKeyHook();
@@ -764,8 +774,8 @@ public abstract class ActionHelper implements Serializable {
 
     public void prepareView() throws Exception {
         protocolSubmitAction.prepareView();
-//        canSubmitProtocol = hasSubmitProtocolPermission();
-//        canSubmitProtocolUnavailable = hasSubmitProtocolUnavailablePermission();
+        canSubmitProtocol = hasSubmitProtocolPermission();
+        canSubmitProtocolUnavailable = hasSubmitProtocolUnavailablePermission();
 //        assignToAgendaBean.prepareView();
 //        assignCmtSchedBean.prepareView();
 //        protocolAssignReviewersBean.prepareView();
@@ -796,7 +806,7 @@ public abstract class ActionHelper implements Serializable {
 //        canRequestTerminate = hasRequestTerminatePermission();
 //        canRequestTerminateUnavailable = hasRequestTerminateUnavailablePermission();
         canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
-//        canDeleteProtocolAmendRenewUnavailable = hasDeleteProtocolAmendRenewUnavailablePermission();
+        canDeleteProtocolAmendRenewUnavailable = hasDeleteProtocolAmendRenewUnavailablePermission();
 //        canAssignToAgenda = hasAssignToAgendaPermission();
 //        canAssignToAgendaUnavailable = hasAssignToAgendaUnavailablePermission();
 //        canAssignCmtSched = hasAssignCmtSchedPermission();
@@ -876,7 +886,7 @@ public abstract class ActionHelper implements Serializable {
 //        setAmendmentDetails();
 //        initFilterDatesView();
 //        initAmendmentBeans();
-        initPrintQuestionnaire();
+//        initPrintQuestionnaire();
     }
 //    
 //    /**
@@ -956,16 +966,22 @@ public abstract class ActionHelper implements Serializable {
         return this.getParameterService().getParameterValueAsString(ProtocolDocument.class, parameterName);      
     }
   
-// Following methods are all demoted to IACUC    
-//    protected boolean hasSubmitProtocolPermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasSubmitProtocolUnavailablePermission() {
-//      ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL_UNAVAILABLE, getProtocol());
-//      return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
+  
+    protected boolean hasSubmitProtocolPermission() {
+        ProtocolTask task = getNewSubmitProtocolTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected abstract ProtocolTask getNewSubmitProtocolTaskInstanceHook(Protocol protocol);
+    
+    protected boolean hasSubmitProtocolUnavailablePermission() {
+      ProtocolTask task = getNewSubmitProtocolUnavailableTaskInstanceHook(getProtocol());
+      return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected abstract ProtocolTask getNewSubmitProtocolUnavailableTaskInstanceHook(Protocol protocol);
+
+    
 //    
 //    protected boolean hasCreateAmendmentPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, getProtocol());
