@@ -539,18 +539,19 @@
     <bean id="IacucProtocol-overviewTimeline-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="overviewTimeline" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Overview Timeline" />
-        <property name="shortLabel" value="Overview Timeline" />
+        <property name="label" value="Overview and Timeline" />
+        <property name="shortLabel" value="Overview and Timeline" />
         <property name="maxLength" value="2000" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Overview Timeline" />
-        <property name="description" value="Overview Timeline" />
+		<property name="control" >
+      		<bean parent="TextareaControlDefinition"
+            	p:rows="2"
+            	p:cols="290" />
+		</property>
+        <property name="summary" value="Overview and Timeline" />
+        <property name="description" value="Overview and Timeline" />
     </bean>
 
     <bean id="IacucProtocol-speciesStudyGroupIndicator" parent="IacucProtocol-speciesStudyGroupIndicator-parentBean" />
