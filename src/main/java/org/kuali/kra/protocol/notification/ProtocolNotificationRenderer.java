@@ -26,17 +26,17 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.protocol.actions.ProtocolActionType;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewType;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierType;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * Renders fields for the IRB notifications.
+ * Renders fields for the commin protocol notifications.
  */
 public class ProtocolNotificationRenderer extends NotificationRendererBase {
 
@@ -48,7 +48,7 @@ public class ProtocolNotificationRenderer extends NotificationRendererBase {
     private transient KcPersonService kcPersonService;
     
     /**
-     * Constructs an IRB notification renderer.
+     * Constructs a shared protocol notification renderer.
      * @param protocol
      */
     public ProtocolNotificationRenderer(Protocol protocol) {
@@ -87,10 +87,6 @@ public class ProtocolNotificationRenderer extends NotificationRendererBase {
 //                if (protocol.getLastProtocolAction() != null) {
 //                    params.put(key, protocol.getLastProtocolAction().getProtocolActionTypeCode());
 //                }
-            } else if (StringUtils.equals(key, ProtocolReplacementParameters.LAST_SUBMISSION_NAME)) {
-                if (protocol.getProtocolSubmission() != null) {
-                    params.put(key, getProtocolSubmissionName(protocol.getProtocolSubmission().getSubmissionTypeCode()));
-                }
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.LAST_SUBMISSION_TYPE_CODE)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, protocol.getProtocolSubmission().getSubmissionTypeCode());
@@ -98,10 +94,6 @@ public class ProtocolNotificationRenderer extends NotificationRendererBase {
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_CODE)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, protocol.getProtocolSubmission().getSubmissionTypeQualifierCode());
-                }
-            } else if (StringUtils.equals(key, ProtocolReplacementParameters.LAST_SUBMISSION_TYPE_QUAL_NAME)) {
-                if (protocol.getProtocolSubmission() != null) {
-                    params.put(key, getLastSubmissionTypeQualifierName(protocol.getProtocolSubmission().getSubmissionTypeQualifierCode()));
                 }
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.PROTOCOL_TITLE)) {
                 params.put(key, protocol.getTitle());
@@ -123,10 +115,6 @@ public class ProtocolNotificationRenderer extends NotificationRendererBase {
                 params.put(key, GlobalVariables.getUserSession().getPerson().getName());
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.DOCUMENT_NUMBER)) {
                 params.put(key, protocol.getProtocolDocument().getDocumentNumber());
-            } else if (StringUtils.equals(key, ProtocolReplacementParameters.PROTOCOL_REVIEW_TYPE_DESC)) {
-                if (protocol.getProtocolSubmission() != null) {
-                    params.put(key, getSafeMessage(key, getProtocolReviewTypeDescription(protocol.getProtocolSubmission().getProtocolReviewTypeCode())));
-                }
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.COMMITTEE_NAME)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, getSafeMessage(key, getCommitteeName(protocol.getProtocolSubmission().getCommitteeId())));
@@ -181,56 +169,6 @@ public class ProtocolNotificationRenderer extends NotificationRendererBase {
         this.kcPersonService = kcPersonService;
     }
 
-    private String getProtocolLastActionName(String lastActionTypeCode) {
-        String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("protocolActionTypeCode", lastActionTypeCode);
-        List<ProtocolActionType> actionTypes = (List<ProtocolActionType>) getBusinessObjectService().findMatching(ProtocolActionType.class, fieldValues);
-        if (CollectionUtils.isNotEmpty(actionTypes)) {
-            result = actionTypes.get(0).getDescription();
-        }
-        
-        return result;
-    }
-
-    private String getProtocolSubmissionName(String submissionTypeCode) {
-        String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("submissionTypeCode", submissionTypeCode);
-        List<ProtocolSubmissionType> submissionTypes = 
-            (List<ProtocolSubmissionType>) getBusinessObjectService().findMatching(ProtocolSubmissionType.class, fieldValues);
-        if (CollectionUtils.isNotEmpty(submissionTypes)) {
-            result = submissionTypes.get(0).getDescription();
-        }
-        
-        return result;
-    }
-    
-    private String getLastSubmissionTypeQualifierName(String submissionQualifierTypeCode) {
-        String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("submissionQualifierTypeCode", submissionQualifierTypeCode);
-        List<ProtocolSubmissionQualifierType> submissionQualifierTypes = 
-            (List<ProtocolSubmissionQualifierType>) getBusinessObjectService().findMatching(ProtocolSubmissionQualifierType.class, fieldValues);
-        if (CollectionUtils.isNotEmpty(submissionQualifierTypes)) {
-            result = submissionQualifierTypes.get(0).getDescription();
-        }
-        
-        return result;
-    }
-
-    private String getProtocolReviewTypeDescription(String reviewTypeCode) {
-        String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("reviewTypeCode", reviewTypeCode);
-        List<ProtocolReviewType> protocolReviewTypes = 
-            (List<ProtocolReviewType>) getBusinessObjectService().findMatching(ProtocolReviewType.class, fieldValues);
-        if (CollectionUtils.isNotEmpty(protocolReviewTypes)) {
-            result = protocolReviewTypes.get(0).getDescription();
-        }        
-        return result;
-    }
-    
     private String getCommitteeName(String committeeId) {
         String result = null;
         Map<String, String> fieldValues = new HashMap<String, String>();
