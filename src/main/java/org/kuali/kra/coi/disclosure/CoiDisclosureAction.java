@@ -868,6 +868,11 @@ public class CoiDisclosureAction extends CoiAction {
             return action;
         }
         getDisclosureActionService().submitToWorkflow(coiDisclosureDocument, coiDisclosureForm, submitAction);
+        
+        //Since we are exiting the disclosure through a non-standard method, lets release
+        //any pessimistic locks
+        this.attemptLockRelease(coiDisclosureDocument, KRADConstants.CLOSE_METHOD);
+        
         return routeDisclosureToHoldingPage(mapping, coiDisclosureForm);
     }
     
