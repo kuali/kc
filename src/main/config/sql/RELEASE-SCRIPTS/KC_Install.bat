@@ -21,13 +21,14 @@ echo Invalid Database Type <%dbtype%>
 goto dbtype
 
 :Version
-set /p Version="Enter Currently Installed Version (NEW, 3.0, 3.0.1, 3.1, 3.1.1, 3.2) <%Version%>: "
+set /p Version="Enter Currently Installed Version (NEW, 3.0, 3.0.1, 3.1, 3.1.1, 3.2, 4.0) <%Version%>: "
 if /i "%Version%" == "NEW" goto User
 if /i "%Version%" == "3.0" goto User
 if /i "%Version%" == "3.0.1" goto User
 if /i "%Version%" == "3.1" goto User
 if /i "%Version%" == "3.1.1" goto User
 if /i "%Version%" == "3.2" goto User
+if /i "%Version%" == "4.0" goto User
 echo Invalid Version <%Version%>
 goto Version
 
@@ -202,6 +203,19 @@ sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-4_0-Upgrade-ORACLE.sq
 move *.log ../LOGS/
 cd .. 
 
+:4.0ORACLE
+cd KC-RELEASE-5_0-SCRIPT
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-5_0-Upgrade-ORACLE.sql
+
+if /i "%mode%%InstRice%" == "EMBEDN" goto 4.0ORACLENORICE
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_RICE-RELEASE-5_0-Upgrade-ORACLE.sql
+
+:4.0ORACLENORICE
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-5_0-Upgrade-ORACLE.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_0-Upgrade-ORACLE.sql
+move *.log ../LOGS/
+cd .. 
+
 cd KC-RELEASE-3_0-CLEAN/oracle
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql
 move *.log ../../LOGS/
@@ -316,6 +330,19 @@ mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-4_0-Upgrade-MYSQL.sq
 move *.log ../LOGS/
 cd ..
 
+:4.0MYSQL
+cd KC-RELEASE-5_0-SCRIPT
+mysql -u %un% -p%pw% -D %un% -s -f < KRC_RICE-RELEASE-5_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
+
+if /i "%mode%%InstRice%" == "EMBEDN" goto 4.0MYSQLNORICE
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR_RICE-RELEASE-5_0-Upgrade-MYSQL.sql > KR_RICE-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
+
+:4.0MYSQLNORICE
+mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-5_0-Upgrade-MYSQL.sql > KC-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-5_0-Upgrade-MYSQL.sql > KR-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
+move *.log ../LOGS/
+cd ..
+
 cd KC-RELEASE-3_0-CLEAN/mysql
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1
 move *.log ../../LOGS/
@@ -345,6 +372,7 @@ Echo       - 3.0.1 = upgrading from 3.0.1 KC version
 Echo       - 3.1 = upgrading from 3.1 KC version
 Echo       - 3.1.1 = upgrading from 3.1.1 KC version
 Echo       - 3.2 = upgrading from 3.2 KC version
+Echo       - 4.0 = upgrading from 4.0 KC version
 Echo    - un = The kc Database schema name to install database scripts to (bundled rice goes here too).
 Echo    - pw = the password for username
 Echo    - DB_svr_name = the TNS name used to locate the database server where kc schema is located (Oracle Only)
