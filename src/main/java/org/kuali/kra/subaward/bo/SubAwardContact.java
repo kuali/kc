@@ -18,6 +18,7 @@ package org.kuali.kra.subaward.bo;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
@@ -193,9 +194,13 @@ public class SubAwardContact extends SubAwardAssociate {
 	 * This is the Getter Method for rolodex
 	 * @return Returns the rolodex.
 	 */
-	public Rolodex getRolodex() {
-		return rolodex;
-	}
+    public Rolodex getRolodex() {
+        if (rolodex == null || !ObjectUtils.equals(rolodex.getRolodexId(), rolodexId)
+                && rolodexId != null) {
+            refreshRolodex();
+        }
+        return rolodex;
+    }
 
 	/**.
 	 * This is the Setter Method for rolodex
@@ -452,16 +457,11 @@ public class SubAwardContact extends SubAwardAssociate {
     }
     
     /*
-     * Refreshes the rolodex from the rolodexId
+     * Refreshes the rolodex by referencing its name in case id is null
      */
     protected void refreshRolodex() {
-        NonOrganizationalRolodex rolodex;
-        if (rolodexId != null) {
-            rolodex = (NonOrganizationalRolodex) getBusinessObjectService().findByPrimaryKey(NonOrganizationalRolodex.class, getIdentifierMap(ROLODEX_ID_FIELD_NAME, rolodexId));
-        } else {
-            rolodex = null;
-        }
-        setRolodex(rolodex);
+        this.refreshReferenceObject("rolodex");
+    
     }
 
     /**
