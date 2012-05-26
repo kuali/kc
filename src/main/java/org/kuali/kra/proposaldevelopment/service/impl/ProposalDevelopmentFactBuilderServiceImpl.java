@@ -16,22 +16,23 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import java.io.ByteArrayInputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.impl.cookie.DateParseException;
+import org.apache.http.impl.cookie.DateUtils;
 import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentFactBuilderService;
 import org.kuali.kra.s2s.bo.S2sOppForms;
@@ -77,41 +78,17 @@ public class ProposalDevelopmentFactBuilderServiceImpl implements ProposalDevelo
             throw new RuntimeException(e);
         }
     }
+    
     public void addFacts(Facts.Builder factsBuilder, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         addBudgetFacts(factsBuilder,proposalDevelopmentDocument);
+        addProposalFacts(factsBuilder,developmentProposal);
         addS2SFacts(factsBuilder,developmentProposal);
-
-        //Activity Type - needs activity type code input
-        //allProposals
-        //agencyDivisionCodeIsNull
-        //nullAgencyProgramCode
-        //completeProposalNarratives
+        // parameterized functions with user-input params
         //costElement - cost element code input
         //costElementLimit - cost element code, limit amount *
         //costElementPeriodLimit - cost element code, limit amount *
-        //deadlineDate - date
-        //grants.gov submission
-        //humanExemption e4
-        //initialProposalRouting
-        //leadUnit - unit number
-        //mtdcDeviation
-        //multiPi
-        //nonFacultyPi
-        //ospAdministrator - person ID
-        //otherAgencyDeviation
-        //piCitizenshipType - type code
-        //piHasPiStatus
-        //piIsSpecifiedPerson - person ID
-        //proposalAwardType - type code
-        //proposalCampus - campus code
-        //proposalPersonsCertified
-        //proposalRoutedToOSP
-        //proposalSubmittedByPI
-        //proposalType - proposalTypeCode
-        //proposalUnit - unitNumber (any proposal unit equals unit number)
-        //proposalUnitBelow - unitNumber
-        //rolodex person is in proposal - rolodex ID
+        
         //s2sAttachmentNarrative
         //s2sBudgetExists
         //s2sCompetitionId - id (free string input)
@@ -135,7 +112,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl implements ProposalDevelo
         // Questionnaire Prerequisites
         factsBuilder.addFact("moduleCode", CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE);
         factsBuilder.addFact("moduleItemKey", developmentProposal.getProposalNumber());
-        addMethodFact(factsBuilder, developmentProposal, "hasGGFormIncluded",KcKrmsConstants.ProposalDevelopment.SPECIFIED_GG_FORM);
+        // addMethodFact(factsBuilder, developmentProposal, "hasGGFormIncluded",KcKrmsConstants.ProposalDevelopment.SPECIFIED_GG_FORM);
         
     }
     
@@ -147,13 +124,69 @@ public class ProposalDevelopmentFactBuilderServiceImpl implements ProposalDevelo
 
     private void addBudgetFacts(Builder factsBuilder, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         Budget budget =  proposalDevelopmentDocument.getFinalBudgetForThisProposal();
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_COST, budget.getTotalCost().bigDecimalValue());
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST, budget.getTotalDirectCost().bigDecimalValue());
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_INDIRECT_COST, budget.getTotalIndirectCost().bigDecimalValue());
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.COST_SHARE_AMOUNT, budget.getCostSharingAmount().bigDecimalValue());
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.UNDERRECOVERY_AMOUNT, budget.getUnderrecoveryAmount().bigDecimalValue());
-        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST_LIMIT,budget.getTotalDirectCostLimit().bigDecimalValue());
-
+        if (budget != null) {
+            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_COST, budget.getTotalCost().bigDecimalValue());
+            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST, budget.getTotalDirectCost().bigDecimalValue());
+            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_INDIRECT_COST, budget.getTotalIndirectCost().bigDecimalValue());
+            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.COST_SHARE_AMOUNT, budget.getCostSharingAmount().bigDecimalValue());
+            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.UNDERRECOVERY_AMOUNT, budget.getUnderrecoveryAmount().bigDecimalValue());
+            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST_LIMIT,budget.getTotalDirectCostLimit().bigDecimalValue());
+        } else {
+            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_COST, null);
+            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST, null);
+            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_INDIRECT_COST, null);
+            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.COST_SHARE_AMOUNT, null);
+            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.UNDERRECOVERY_AMOUNT, null);
+            factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.TOTAL_DIRECT_COST_LIMIT, null);
+        }
+    }
+    
+    private void addProposalFacts(Builder factsBuilder, DevelopmentProposal developmentProposal) {
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.ACTIVITY_TYPE, developmentProposal.getActivityTypeCode());
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.DEADLINE_DATE, developmentProposal.getDeadlineDate());
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.LEAD_UNIT, developmentProposal.getOwnedByUnitNumber());
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.PROPOSAL_TYPE, developmentProposal.getProposalTypeCode());
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.ANTICIPATED_AWARD_TYPE, developmentProposal.getAnticipatedAwardTypeCode());
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.ALL_PROPOSALS, getAllProposals());
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.AGENCY_DIVISION_CODE, developmentProposal.getAgencyDivisionCode());
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.AGENCY_PROGRAM_CODE, developmentProposal.getAgencyProgramCode());
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.PROPOSAL_NARRATIVES_COMPLETE, isProposalNarrativesComplete(developmentProposal));
+        // remaining functions - evaluate and pass in as boolean facts
+        //grants.gov submission
+        //humanExemption e4
+        //initialProposalRouting
+        //mtdcDeviation
+        //multiPi
+        //nonFacultyPi
+        //ospAdministrator - person ID
+        //otherAgencyDeviation
+        //piCitizenshipType - type code
+        //piHasPiStatus
+        //piIsSpecifiedPerson - person ID
+        //proposalCampus - campus code
+        //proposalPersonsCertified
+        //proposalRoutedToOSP
+        //proposalSubmittedByPI
+        //proposalUnit - unitNumber (any proposal unit equals unit number)
+        //proposalUnitBelow - unitNumber
+        //rolodex person is in proposal - rolodex ID
+    }
+    
+    /**
+     * This is a dummy test method that always returns 1
+     * @return
+     */
+    protected int getAllProposals() {
+        return 1;
+    }
+    
+    protected boolean isProposalNarrativesComplete(DevelopmentProposal developmentProposal) {
+        for (Narrative narrative : developmentProposal.getNarratives()) {
+            if (!"C".equals(narrative.getNarrativeStatus())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void addMethodFact(Builder factsBuilder, DevelopmentProposal developmentProposal, String methodName, String termKey) {
@@ -201,6 +234,24 @@ public class ProposalDevelopmentFactBuilderServiceImpl implements ProposalDevelo
         String fact = getElementValue(docContent, xpathExpression);
         if (!StringUtils.isBlank(fact)) {
             factsBuilder.addFact(term, fact);
+        } else {
+            factsBuilder.addFact(term, null);
+        }
+    }
+    
+    protected void addDateFact(Facts.Builder factsBuilder, String docContent, String xpathExpression, String term) {
+        String fact = getElementValue(docContent, xpathExpression);
+        Date date;
+        if (!StringUtils.isBlank(fact)) {
+            try {
+                date = DateUtils.parseDate(fact);
+            }
+            catch (DateParseException e) {
+                // Log error
+                factsBuilder.addFact(term, null);
+                return;
+            }
+            factsBuilder.addFact(term, date);
         } else {
             factsBuilder.addFact(term, null);
         }
