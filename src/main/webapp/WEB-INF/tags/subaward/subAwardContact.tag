@@ -55,11 +55,11 @@
            	        							  			'rolodexId');"
            	        							  			readOnly="${readOnly}"/>  
            	        							  			
-  					<c:if test="${!readOnly}">
-  					
+  					<c:if test="${!readOnly}">					
   						<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:newSubAwardContact.rolodexId" 
   									anchor="${tabKey}" lookupParameters="newSubAwardContact.rolodexId:rolodexId"/>
   					</c:if>
+  					
   		            <c:if test="${readOnly}">
 					     <html:hidden styleId ="org.fullName" property="newSubAwardContact.rolodex.fullName" />
 				    </c:if>
