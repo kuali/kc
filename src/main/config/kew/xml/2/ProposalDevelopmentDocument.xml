@@ -451,7 +451,7 @@
 	            </role>
 	            <requests name="PeopleFlows">
                     <activationType>R</activationType>
-                    <rulesEngine executorClass="org.kuali.kra.krms.KcRulesEngineExecutor"/>
+                    <rulesEngine executorClass="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentRulesEngineExecutorImpl"/>
                 </requests>
 				<requests name="UnitRouting">
 					<qualifierResolver>DepartmentRouting-XPathQualifierResolver</qualifierResolver>

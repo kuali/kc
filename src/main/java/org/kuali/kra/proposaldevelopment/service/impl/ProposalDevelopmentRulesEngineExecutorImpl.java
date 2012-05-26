@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.krms;
+package org.kuali.kra.proposaldevelopment.service.impl;
 
 import java.io.ByteArrayInputStream;
 import java.util.Collections;
@@ -25,6 +25,7 @@ import javax.xml.xpath.XPathConstants;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentFactBuilderService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
@@ -37,7 +38,7 @@ import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
 import org.w3c.dom.Document;
 
-public class KcRulesEngineExecutor implements RulesEngineExecutor {
+public class ProposalDevelopmentRulesEngineExecutorImpl implements RulesEngineExecutor {
 
     public EngineResults execute(RouteContext routeContext, Engine engine) {
         Map<String, String> contextQualifiers = new HashMap<String, String>();
