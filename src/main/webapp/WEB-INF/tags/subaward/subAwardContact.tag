@@ -46,9 +46,9 @@
 				<th class="infoline" scope="row">Add</th>
 				<td nowrap class="grid" class="infoline">
                     Non-employee ID:                      
-					<kul:htmlControlAttribute property="newSubAwardContact.rolodex.fullName" 
+					<kul:htmlControlAttribute property="newSubAwardContact.rolodex.rolodexId" 
       								attributeEntry="${subAwardContactAttributes.rolodexName}" 
-      							    onblur="loadRolodexInfo('newSubAwardContact.rolodex.fullName',
+      							    onblur="loadRolodexInfo('newSubAwardContact.rolodex.rolodexId',
 	                               							'org.fullName.div',
 	                	        				  			'org.phoneNumber',
            	        							  			'org.emailAddress',
@@ -75,8 +75,18 @@
 							<span style='color: red;'>not found</span>
 						</c:when>
 						<c:otherwise>
-							<c:out
-								value="${KualiForm.newSubAwardContact.rolodex.organization}" />
+							 <c:choose>
+	                		    <c:when test="${empty KualiForm.newSubAwardContact.rolodex.fullName}">
+	                		       ${KualiForm.newSubAwardContact.rolodex.organization}&nbsp;
+	                		    </c:when>
+	                		    <c:otherwise>
+	                	           ${KualiForm.newSubAwardContact.rolodex.fullName}&nbsp;
+	                		    </c:otherwise>
+	                		</c:choose>
+						
+							<%--
+							 <c:out value="${KualiForm.newSubAwardContact.rolodex.organization}" />
+							 --%>
 						</c:otherwise>
 					</c:choose>
 				</c:if></div>
