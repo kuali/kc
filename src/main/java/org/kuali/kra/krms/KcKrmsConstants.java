@@ -58,6 +58,23 @@ public final class KcKrmsConstants {
 
         public static final String SPECIFIED_GG_FORM = "specifiedGGForm";
         
+        public static final String ACTIVITY_TYPE = "activityType";
+        
+        public static final String DEADLINE_DATE = "deadlineDate";
+        
+        public static final String LEAD_UNIT = "leadUnit";
+        
+        public static final String PROPOSAL_TYPE = "proposalType";
+        
+        public static final String ANTICIPATED_AWARD_TYPE = "anticipatedAwardType";
+        
+        public static final String ALL_PROPOSALS = "allProposals";
+        
+        public static final String AGENCY_DIVISION_CODE = "agencyDivisionCode";
+        
+        public static final String AGENCY_PROGRAM_CODE = "agencyProgramCode";
+        
+        public static final String PROPOSAL_NARRATIVES_COMPLETE = "proposalNarrativesComplete";
     }
     
     public static final class IrbProtocol {
