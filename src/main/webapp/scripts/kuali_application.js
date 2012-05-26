@@ -1155,7 +1155,10 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 			var dwrReply = {
 				callback:function(data) {
 					if ( data != null ) {
-						fullNameElement.innerHTML = data.organization;
+						if(data.fullName == null)
+							fullNameElement.innerHTML = data.organization;
+						else
+							fullNameElement.innerHTML = data.fullName;
 						phoneNumberElement.innerHTML= data.phoneNumber;
 						emailElement.innerHTML= data.emailAddress;
 						rolodexElement.value= data.rolodexId;
