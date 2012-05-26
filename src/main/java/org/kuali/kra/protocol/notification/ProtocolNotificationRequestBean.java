@@ -20,34 +20,91 @@ import java.io.Serializable;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 
-public interface ProtocolNotificationRequestBean extends Serializable {
+public abstract class ProtocolNotificationRequestBean implements Serializable {
     
-    public Protocol getProtocol();
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -1481201763594063662L;
+    
+    private Protocol protocol;
+    private ProtocolOnlineReview protocolOnlineReview;
+    private String actionType;
+    private String description;
+    private String docNumber;
+    private String olrEvent;
+    private String committeeName;
 
-    public void setProtocol(Protocol protocol);
+    public ProtocolNotificationRequestBean(Protocol protocol, String actionType, String description) {
+        this.protocol = protocol;
+        this.actionType = actionType;
+        this.description = description;
+        
+    }
+    
+    public ProtocolNotificationRequestBean(Protocol protocol, ProtocolOnlineReview protocolOnlineReview, String actionType, String description, String docNumber, String olrEvent) {
+        this(protocol, actionType, description);
+        this.protocolOnlineReview = protocolOnlineReview;
+        this.olrEvent = olrEvent;
+        this.docNumber = docNumber;
+        
+    }
+    
+    public Protocol getProtocol() {
+        return protocol;
+    }
 
-    public ProtocolOnlineReview getProtocolOnlineReview();
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
+    }
 
-    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview);
+    public ProtocolOnlineReview getProtocolOnlineReview() {
+        return protocolOnlineReview;
+    }
 
-    public String getActionType();
+    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
+        this.protocolOnlineReview = protocolOnlineReview;
+    }
 
-    public void setActionType(String actionType);
+    public String getActionType() {
+        return actionType;
+    }
 
-    public String getDescription();
+    public void setActionType(String actionType) {
+        this.actionType = actionType;
+    }
 
-    public void setDescription(String description);
+    public String getDescription() {
+        return description;
+    }
 
-    public String getDocNumber();
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public void setDocNumber(String docNumber);
+    public String getDocNumber() {
+        return docNumber;
+    }
 
-    public String getOlrEvent();
+    public void setDocNumber(String docNumber) {
+        this.docNumber = docNumber;
+    }
 
-    public void setOlrEvent(String olrEvent);
+    public String getOlrEvent() {
+        return olrEvent;
+    }
 
-    public String getCommitteeName();
+    public void setOlrEvent(String olrEvent) {
+        this.olrEvent = olrEvent;
+    }
 
-    public void setCommitteeName(String committeeName);
+    public String getCommitteeName() {
+        return committeeName;
+    }
+
+    public void setCommitteeName(String committeeName) {
+        this.committeeName = committeeName;
+    }
+
         
 }

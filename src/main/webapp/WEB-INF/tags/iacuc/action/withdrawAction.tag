@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="attributes" value="${DataDictionary.ProtocolWithdrawBean.attributes}" />
+<c:set var="attributes" value="${DataDictionary.IacucProtocolWithdrawBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 
 <kra:permission value="${KualiForm.actionHelper.canWithdraw}">

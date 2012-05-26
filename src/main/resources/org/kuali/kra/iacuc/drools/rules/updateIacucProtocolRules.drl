@@ -173,22 +173,22 @@ then
 	setProtocolStatusCode(protocolAction, "1308");
 end
 
-rule "fn_withdraw: Submission Status =  1204 (Withdrawn )" 
+rule "fn_withdraw: Submission Status =  204 (Withdrawn )" 
 salience 100
 when
-	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "3115")
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "115")
 then	
 	createAuditTrail(protocolAction);
-	setProtocolSubmissionStatusCode(protocolAction, "1204");
+	setProtocolSubmissionStatusCode(protocolAction, "204");
 end
 
-rule "fn_withdraw: Protocol Status =  1105 (Withdrawn) " 
+rule "fn_withdraw: Protocol Status =  105 (Withdrawn) " 
 salience 100
 when
-	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "3115", protocolStatusCode == "101")
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "115", protocolStatusCode == "101")
 then	
 	createAuditTrail(protocolAction);
-	setProtocolStatusCode(protocolAction, "1105");
+	setProtocolStatusCode(protocolAction, "105");
 end
 
 rule "fn_disapprove: Submission Status = 1201(Disapproved); Protocol Status =  306(Disapprove)  " 

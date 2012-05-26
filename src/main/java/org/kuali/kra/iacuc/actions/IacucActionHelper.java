@@ -33,6 +33,7 @@ import org.kuali.kra.iacuc.actions.notifyiacuc.ProtocolNotifyIacucBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
+import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
@@ -48,6 +49,7 @@ import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
+import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
@@ -133,7 +135,6 @@ public class IacucActionHelper extends ActionHelper {
      * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
      */
     private void initIacucSpecificActionBeanTaskMap() {
-        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_WITHDRAW, getProtocolWithdrawBean());
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_TABLE, iacucProtocolTableBean);
    
     }
@@ -147,8 +148,7 @@ public class IacucActionHelper extends ActionHelper {
 
         canSubmitProtocol = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL);
         canSubmitProtocolUnavailable = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE);
-//        canWithdraw = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW);
-//        canWithdrawUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE);
+
 
         // IACUC-specific actions
         canAssignCmt = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE);
@@ -526,6 +526,21 @@ public class IacucActionHelper extends ActionHelper {
     @Override
     protected ProtocolTask getNewSubmitProtocolUnavailableTaskInstanceHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolWithdrawBean getNewProtocolWithdrawBeanInstanceHook(ActionHelper actionHelper) {
+        return new IacucProtocolWithdrawBean((IacucActionHelper) actionHelper);
+    }
+
+    @Override
+    protected ProtocolTask getNewWithdrawProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_WITHDRAW, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolTask getNewWithdrawProtocolTaskInstanceUnavailableHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
 }
