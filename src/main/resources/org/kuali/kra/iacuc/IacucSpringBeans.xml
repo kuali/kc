@@ -321,7 +321,7 @@
     	-->
     </bean>
 
-    <bean id="iacucWithdrawService" class="org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawServiceImpl">
+    <bean id="iacucProtocolWithdrawService" class="org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="iacucActionService" />

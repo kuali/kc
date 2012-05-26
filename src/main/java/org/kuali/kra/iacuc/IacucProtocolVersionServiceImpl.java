@@ -54,4 +54,9 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImpl 
         return new IacucProtocolDocument();
     }
 
+    @Override
+    protected String getProtocolSequenceIdHook() {
+        return "SEQ_IACUC_PROTOCOL_ID";
+    }
+
 }

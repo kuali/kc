@@ -37,6 +37,7 @@
 	
 		<c:if test="${KualiForm.document.protocol.active and showActions}">
             <kra-iacuc-action:submitAction />
+            <kra-iacuc-action:withdrawAction />
             <kra-iacuc-action:assignCmtAction />
             
 <%--
