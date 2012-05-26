@@ -112,7 +112,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl implements ProposalDevelo
         // Questionnaire Prerequisites
         factsBuilder.addFact("moduleCode", CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE);
         factsBuilder.addFact("moduleItemKey", developmentProposal.getProposalNumber());
-        // addMethodFact(factsBuilder, developmentProposal, "hasGGFormIncluded",KcKrmsConstants.ProposalDevelopment.SPECIFIED_GG_FORM);
+        addMethodFact(factsBuilder, developmentProposal, "hasGGFormIncluded",KcKrmsConstants.ProposalDevelopment.SPECIFIED_GG_FORM);
         
     }
     
