@@ -127,7 +127,7 @@ public abstract class ProtocolVersionServiceImpl implements ProtocolVersionServi
         fixNextValues(protocolDocument, newProtocolDocument);
         fixActionSequenceNumbers(protocolDocument.getProtocol(), newProtocol);
         
-        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID");
+        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getProtocolSequenceIdHook());
         newProtocol.setProtocolId(nextProtocolId);
 
         for (ProtocolPerson person : newProtocol.getProtocolPersons()) {
@@ -164,6 +164,8 @@ public abstract class ProtocolVersionServiceImpl implements ProtocolVersionServi
         return newProtocolDocument;
     }
     
+    protected abstract String getProtocolSequenceIdHook();
+
     /*
      * If the deleted att exist in previous version, then it will be removed from the new version.
      * It has to be done here before the attachment is saved.  if it is done after attachment is saved, 

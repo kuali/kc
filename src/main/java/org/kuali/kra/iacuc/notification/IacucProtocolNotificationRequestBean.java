@@ -19,90 +19,23 @@ import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
 
-public class IacucProtocolNotificationRequestBean implements ProtocolNotificationRequestBean {
+public class IacucProtocolNotificationRequestBean extends ProtocolNotificationRequestBean {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = -6607266167216521565L;
-    
-    private Protocol protocol;
-    private ProtocolOnlineReview protocolOnlineReview;
-    private String actionType;
-    private String description;
-    private String docNumber;
-    private String olrEvent;
-    private String committeeName;
+    private static final long serialVersionUID = 539022630037045456L;
+
 
     public IacucProtocolNotificationRequestBean(Protocol protocol, String actionType, String description) {
-        this.protocol = protocol;
-        this.actionType = actionType;
-        this.description = description;
-        
+        super(protocol, actionType, description);
     }
+
     
-    public IacucProtocolNotificationRequestBean(Protocol protocol, ProtocolOnlineReview protocolOnlineReview, String actionType, String description, String docNumber, String olrEvent) {
-        this(protocol, actionType, description);
-        this.protocolOnlineReview = protocolOnlineReview;
-        this.olrEvent = olrEvent;
-        this.docNumber = docNumber;
-        
+    public IacucProtocolNotificationRequestBean(Protocol protocol, ProtocolOnlineReview protocolOnlineReview, String actionType,
+            String description, String docNumber, String olrEvent) {
+        super(protocol, protocolOnlineReview, actionType, description, docNumber, olrEvent);
     }
-    
-    public Protocol getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
-    }
-
-    public ProtocolOnlineReview getProtocolOnlineReview() {
-        return protocolOnlineReview;
-    }
-
-    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
-        this.protocolOnlineReview = protocolOnlineReview;
-    }
-
-    public String getActionType() {
-        return actionType;
-    }
-
-    public void setActionType(String actionType) {
-        this.actionType = actionType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDocNumber() {
-        return docNumber;
-    }
-
-    public void setDocNumber(String docNumber) {
-        this.docNumber = docNumber;
-    }
-
-    public String getOlrEvent() {
-        return olrEvent;
-    }
-
-    public void setOlrEvent(String olrEvent) {
-        this.olrEvent = olrEvent;
-    }
-
-    public String getCommitteeName() {
-        return committeeName;
-    }
-
-    public void setCommitteeName(String committeeName) {
-        this.committeeName = committeeName;
-    }
+ 
         
 }
