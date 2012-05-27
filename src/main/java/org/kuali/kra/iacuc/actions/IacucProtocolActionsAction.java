@@ -173,11 +173,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.TERMINATION_NOTICE, IacucProtocolActionType.TERMINATED);
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /** {@inheritDoc} */
-//    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-//            throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
+ 
+    /** {@inheritDoc} */
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
 //        if (StringUtils.isNotBlank(((ProtocolForm) form).getQuestionnaireHelper().getSubmissionActionTypeCode())) {
 //            //    && StringUtils.isBlank(getSubmitActionType(request))) {
 //            // questionnaire is already loaded for this action.
@@ -188,13 +188,15 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //                submissionBean.setAnswerHeaders(protocolForm.getQuestionnaireHelper().getAnswerHeaders());
 //            } 
 //        }
-//        ActionForward actionForward = super.execute(mapping, form, request, response);
-//        protocolForm.getActionHelper().prepareView();
-//        // submit action may change "submission details", so re-initializa it
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        protocolForm.getActionHelper().prepareView();
+        
+        // submit action may change "submission details", so re-initializa it        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        protocolForm.getActionHelper().initSubmissionDetails();
-//        
-//        return actionForward;
-//    }
+        
+        return actionForward;
+    }
 
     
     

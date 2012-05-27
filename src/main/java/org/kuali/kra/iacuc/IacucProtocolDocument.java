@@ -18,26 +18,27 @@ package org.kuali.kra.iacuc;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionService;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationService;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
 
 
@@ -80,22 +81,8 @@ public class IacucProtocolDocument extends ProtocolDocument {
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
-    /** {@inheritDoc} */
-    @Override
-    public boolean useCustomLockDescriptors() {
-        return true;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getCustomLockDescriptor(Person user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getDocumentNumber() + "-" + activeLockRegion; 
-        }
-
-        return null;
-    }
+ 
+ 
     
     /**
      * 
@@ -120,7 +107,9 @@ public class IacucProtocolDocument extends ProtocolDocument {
             //so need to check if protocolSubmissionStatus is "InAgenda" to avoid the processing page from not going away at all when 
             // an amendment is submitted for review
             // Added for KCIRB-1515 & KCIRB-1528
-//            getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus"); 
+            getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus"); 
+            
+            
 //            String status = getProtocol().getProtocolSubmission().getSubmissionStatusCode();
 //            if (isAmendment() || isRenewal()) {
 //                if (status.equals(IacucProtocolSubmissionStatus.APPROVED) 
@@ -186,6 +175,21 @@ public class IacucProtocolDocument extends ProtocolDocument {
         factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_REFERENCE_NUMBER_1, this.getProtocol().getReferenceNumber1());
         factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_REFERENCE_NUMBER_2, this.getProtocol().getReferenceNumber2());
         factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_FDA_APPLICATION_NUMBER, this.getProtocol().getFdaApplicationNumber());
+    }
+
+    @Override
+    protected ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolActionTypeCode) {
+        return new IacucProtocolAction((IacucProtocol) protocol, (IacucProtocolSubmission) protocolSubmission, protocolActionTypeCode);
+    }
+
+    @Override
+    protected Class<? extends ProtocolActionService> getProtocolActionServiceClassHook() {
+        return IacucProtocolActionService.class;
+    }
+
+    @Override
+    protected Class<? extends Protocol> getProtocolBOClassHook() {
+        return IacucProtocol.class;
     }
 
 }

@@ -20,6 +20,7 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
@@ -123,7 +124,7 @@ public class IacucProtocolHelper extends ProtocolHelper {
     
     
     protected ProtocolAction createProtocolActionHook(Protocol protocol, ProtocolSubmission protocolSubmission) {
-        return new IacucProtocolAction(protocol, protocolSubmission, getProtocolCreatedProtocolActionTypeCodeHook());
+        return new IacucProtocolAction((IacucProtocol) protocol, (IacucProtocolSubmission) protocolSubmission, getProtocolCreatedProtocolActionTypeCodeHook());
     }
 
 

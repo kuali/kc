@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
@@ -48,7 +49,10 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -197,26 +201,31 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         return mapping.findForward(getSpecialReviewForwardNameHook());
     }
 
-//TODO: The following method is demoted to IACUC/IRB    
-//    public ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
-//        // for protocol lookup copy link - rice 1.1 need this
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        String command = request.getParameter("command");
-//        if (KewApiConstants.DOCSEARCH_COMMAND.equals(command)) {
-//            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
-//            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-//            protocolForm.setDocument(retrievedDocument);
-//            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
-//       }
-//        // make sure current submission is displayed when navigate to action page.
-//        protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
-//       ((ProtocolForm)form).getActionHelper().prepareView();
-//
-//       return mapping.findForward("protocolActions");
-//    }
     
-    public abstract ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception;
-    
+    /**
+     * This method gets called upon navigation to Protocol Actions tab.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
+        // for protocol lookup copy link - rice 1.1 need this
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        String command = request.getParameter("command");
+        if (KewApiConstants.DOCSEARCH_COMMAND.equals(command)) {
+            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            protocolForm.setDocument(retrievedDocument);
+            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
+       }
+        // make sure current submission is displayed when navigate to action page.
+        protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
+       ((ProtocolForm)form).getActionHelper().prepareView();
+
+       return mapping.findForward(getProtocolActionsForwardNameHook());
+    }
     
     
     
@@ -329,18 +338,18 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
   
     protected abstract void sendNotification(ProtocolForm protocolForm);
     
-// TODO *********commented the code below during IACUC refactoring********* 
-//    
-//    @Override
-//    protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ActionForward forward = super.saveOnClose(mapping, form, request, response);
-//        
-//        if (GlobalVariables.getMessageMap().hasErrors()) {
-//            forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        }
-//        
-//        return forward;
-//    }
+
+    
+    @Override
+    protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.saveOnClose(mapping, form, request, response);
+        
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            forward = mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
+        return forward;
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -425,12 +434,11 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
 //            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
 //            forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
 //            forward = new ActionForward(forward.getPath()+ "?" + KRADConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
-        } else if (Constants.MAPPING_PROTOCOL_ACTIONS.equals(command) || Constants.MAPPING_PROTOCOL_ONLINE_REVIEW.equals(command)) {
-// TODO *********commented the code below during IACUC refactoring*********             
-//            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
-//            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-//            protocolForm.setDocument(retrievedDocument);
-//            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+        } else if (Constants.MAPPING_PROTOCOL_ACTIONS.equals(command) || Constants.MAPPING_PROTOCOL_ONLINE_REVIEW.equals(command)) {       
+            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
+            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
+            protocolForm.setDocument(retrievedDocument);
+            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
             loadDocument(protocolForm);
         } else {
             forward = super.docHandler(mapping, form, request, response);
@@ -453,16 +461,16 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
     
     
-// TODO *********commented the code below during IACUC refactoring********* 
-//    /**
-//     * Get the Kuali Rule Service.
-//     * @return the Kuali Rule Service
-//     */
-//    @Override
-//    protected KualiRuleService getKualiRuleService() {
-//        return KraServiceLocator.getService(KualiRuleService.class);
-//    }
-//    
+
+    /**
+     * Get the Kuali Rule Service.
+     * @return the Kuali Rule Service
+     */
+    @Override
+    protected KualiRuleService getKualiRuleService() {
+        return KraServiceLocator.getService(KualiRuleService.class);
+    }
+    
     /**
      * Use the Kuali Rule Service to apply the rules for the given event.
      * @param event the event to process
