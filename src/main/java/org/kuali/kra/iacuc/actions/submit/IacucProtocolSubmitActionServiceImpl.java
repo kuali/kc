@@ -281,7 +281,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         String protocolNumber = origProtocolNumber.substring(0, 10);
         String index = origProtocolNumber.substring(11);
         Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber);
-        IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, null, IacucProtocolActionType.SUBMITTED_TO_IACUC);
+        IacucProtocolAction protocolAction = new IacucProtocolAction((IacucProtocol) protocol, null, IacucProtocolActionType.SUBMITTED_TO_IACUC);
         protocolAction.setComments(type + "-" + index + ": " + SUBMITTED_TO_IACUC);
         protocolAction.setSubmissionNumber(submissionNumber);
         protocol.getProtocolActions().add(protocolAction);

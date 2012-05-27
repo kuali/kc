@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
@@ -44,7 +45,6 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilter;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
-import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -400,5 +400,11 @@ public class IacucProtocol extends Protocol {
         
         setProtocolAttachmentFilter(protocolAttachmentFilter);
     } 
+    
+    
+    public String getDocumentKey() {
+        // TODO need to change this to IACUC PROTOCOL KEY!!!!
+        return Permissionable.PROTOCOL_KEY;
+    }
 
 }

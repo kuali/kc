@@ -55,30 +55,6 @@ public class IacucProtocolAction extends ProtocolAction {
     public static final String IACUC_PROTOCOL_ONLINE_REVIEW_HOOK = "iacucProtocolOnlineReview";
     public static final String IACUC_PROTOCOL_PERMISSIONS_HOOK = "iacucProtocolPermissions";
     
-    /**
-     * This method gets called upon navigation to Protocol Actions tab.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     */
-    public ActionForward protocolActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
-        // for protocol lookup copy link - rice 1.1 need this
-        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        String command = request.getParameter("command");
-        if (KewApiConstants.DOCSEARCH_COMMAND.equals(command)) {
-            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
-            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-            protocolForm.setDocument(retrievedDocument);
-            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
-       }
-        // make sure current submission is displayed when navigate to action page.
-        protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
-       ((ProtocolForm)form).getActionHelper().prepareView();
-
-       return mapping.findForward("iacucProtocolActions");
-    }
     
 
     public ActionForward threeRs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

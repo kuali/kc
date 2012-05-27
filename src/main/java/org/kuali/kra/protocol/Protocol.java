@@ -32,7 +32,6 @@ import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.PersonCustomData;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.permissions.Permissionable;
@@ -64,7 +63,6 @@ import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
 import org.kuali.kra.protocol.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReference;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
-import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewExemption;
 import org.kuali.kra.protocol.summary.AdditionalInfoSummary;
@@ -78,7 +76,6 @@ import org.kuali.kra.protocol.summary.ResearchAreaSummary;
 import org.kuali.kra.protocol.summary.SpecialReviewSummary;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -86,7 +83,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.util.AutoPopulatingList;
 
 
 public abstract class Protocol extends KraPersistableBusinessObjectBase implements SequenceOwner<Protocol>, Permissionable, UnitAclLoadable, Disclosurable {
@@ -1866,10 +1862,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
      * 
      * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
      */
-    // TODO Check if this should be a hook method instead
-    public String getDocumentKey() {
-        return Permissionable.PROTOCOL_KEY;
-    }
+    public abstract String getDocumentKey();
 
     /**
      * 
@@ -2194,7 +2187,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     public abstract void initializeProtocolAttachmentFilter();
     
     public ParameterService getParameterService() {
-        return (ParameterService)KraServiceLocator.getService(ParameterService.class);
+        return KraServiceLocator.getService(ParameterService.class);
 
     }
 

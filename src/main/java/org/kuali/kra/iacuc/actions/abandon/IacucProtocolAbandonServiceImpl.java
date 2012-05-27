@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.abandon;
 
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.protocol.Protocol;
@@ -29,7 +30,7 @@ public class IacucProtocolAbandonServiceImpl extends ProtocolAbandonServiceImpl 
   
     @Override
     public ProtocolAction getNewActionHook(Protocol protocol) {
-        return new IacucProtocolAction(protocol, null, getActionType());
+        return new IacucProtocolAction((IacucProtocol)protocol, null, getActionType());
 
     }
 

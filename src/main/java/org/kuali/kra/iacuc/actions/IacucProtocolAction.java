@@ -16,9 +16,9 @@
 package org.kuali.kra.iacuc.actions;
 
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
 /**
  * 
@@ -28,25 +28,16 @@ public class IacucProtocolAction extends ProtocolAction {
     
     private static final long serialVersionUID = -4895673225969021493L;
 
-    Long iacucProtocolActionId;
     
     public IacucProtocolAction() {
     }
 
-    public IacucProtocolAction(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolActionTypeCode) {
+    public IacucProtocolAction(IacucProtocol protocol, IacucProtocolSubmission protocolSubmission, String protocolActionTypeCode) {
         super(protocol, protocolSubmission, protocolActionTypeCode);
     }
         
     protected String getCoeusModule() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
-    }
-
-    public Long getIacucProtocolActionId() {
-        return iacucProtocolActionId;
-    }
-
-    public void setIacucProtocolActionId(Long iacucProtocolActionId) {
-        this.iacucProtocolActionId = iacucProtocolActionId;
     }
     
     
