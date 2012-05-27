@@ -199,7 +199,7 @@
      </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.iacuc.actions.IacucProtocolAction" table="IACUC_PROTOCOL_ACTIONS">
-        <field-descriptor name="iacucProtocolActionId" column="IACUC_PROTOCOL_ACTION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROTOCOL_ACTIONS_ID" autoincrement="true"/>
+        <field-descriptor name="protocolActionId" column="IACUC_PROTOCOL_ACTION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROTOCOL_ACTIONS_ID" autoincrement="true"/>
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="actionId" column="ACTION_ID" jdbc-type="INTEGER" />

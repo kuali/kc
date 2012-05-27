@@ -140,7 +140,7 @@ public abstract class ProtocolVersionServiceImpl implements ProtocolVersionServi
         newProtocol.setProtocolDocument(newProtocolDocument);
         protocolDocument.getProtocol().setActive(false);
         finalizeAttachmentProtocol(protocolDocument.getProtocol());
-        businessObjectService.save(protocolDocument.getProtocol());
+        businessObjectService.save(protocolDocument.getProtocol());        
         documentService.saveDocument(newProtocolDocument);
         newProtocol.resetForeignKeys();
         finalizeAttachmentProtocol(newProtocol);

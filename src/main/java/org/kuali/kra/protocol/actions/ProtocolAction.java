@@ -24,14 +24,12 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolAssociate;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -91,7 +89,7 @@ public abstract class ProtocolAction extends ProtocolAssociate {
 // TODO *********commented the code below during IACUC refactoring*********     
 //    private transient QuestionnairePrintOption questionnairePrintOption;
     
-    private transient CommitteeService committeeService;
+    private transient CommonCommitteeService committeeService;
 
     public ProtocolAction() {
     }
@@ -543,14 +541,14 @@ public abstract class ProtocolAction extends ProtocolAssociate {
         
     }
     
-    public CommitteeService getCommitteeService() {
+    public CommonCommitteeService getCommitteeService() {
         if (committeeService == null) {
-            committeeService = KraServiceLocator.getService(CommitteeService.class);
+            committeeService = KraServiceLocator.getService(CommonCommitteeService.class);
         }
         return committeeService;
     }
 
-    public void setCommitteeService(CommitteeService committeeService) {
+    public void setCommitteeService(CommonCommitteeService committeeService) {
         this.committeeService = committeeService;
     }   
     
