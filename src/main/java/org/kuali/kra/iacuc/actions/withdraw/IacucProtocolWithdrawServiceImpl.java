@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc.actions.withdraw;
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -41,7 +42,7 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
     @Override
     public ProtocolDocument withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception {
         ProtocolSubmission submission = getSubmission(protocol);
-        ProtocolAction protocolAction = new IacucProtocolAction(protocol, null, IacucProtocolActionType.IACUC_WITHDRAWN);
+        ProtocolAction protocolAction = new IacucProtocolAction((IacucProtocol) protocol, null, IacucProtocolActionType.IACUC_WITHDRAWN);
         protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
 

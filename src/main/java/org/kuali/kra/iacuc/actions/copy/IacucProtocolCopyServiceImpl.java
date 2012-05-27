@@ -17,9 +17,11 @@ package org.kuali.kra.iacuc.actions.copy;
 
 import java.util.List;
 
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
 import org.kuali.kra.iacuc.protocol.IacucProtocolNumberService;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
@@ -86,7 +88,7 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucP
     @Override
     protected IacucProtocolAction getProtocolActionNewInstanceHook(Protocol protocol, ProtocolSubmission protocolSubmission,
             String protocolActionTypeCode) {
-        return new IacucProtocolAction(protocol, protocolSubmission, protocolActionTypeCode);
+        return new IacucProtocolAction((IacucProtocol) protocol, (IacucProtocolSubmission) protocolSubmission, protocolActionTypeCode);
     }
 
     @Override
