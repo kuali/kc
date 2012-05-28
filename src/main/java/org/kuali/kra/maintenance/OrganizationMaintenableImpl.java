@@ -22,15 +22,28 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.OrganizationYnq;
 import org.kuali.kra.bo.Ynq;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.service.YnqService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 
 public class OrganizationMaintenableImpl extends KraMaintainableImpl {
     private static final long serialVersionUID = 7123853550462673935L;
+    
+    public static final String ORGANIZATION_ID_SEQUENCE_NAME = "SEQ_ORGANIZATION_ID";
+    public static final String AUTO_GEN_ORGANIZATION_ID_PARM = "AUTO_GENERATE_ORGANIZATION_ID";
+    public static final String SECTION_ID = "Edit Organization";
+    public static final String ORGANIZATION_ID_NAME = "organizationId";
+    
+    private transient ParameterService parameterService;
+    private transient SequenceAccessorService sequenceAccessorService;
 
     /**
      * This is a hook for initializing the BO from the maintenance framework.
@@ -39,8 +52,12 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
      */
     @Override
     public void setGenerateDefaultValues(String docTypeName) {
-        initOrganizationYnq();
         super.setGenerateDefaultValues(docTypeName);
+        initOrganizationYnq();
+        if (isAutoGenerateCode()) {
+            Organization organization = getBusinessObject();
+            organization.setOrganizationId(getSequenceAccessorService().getNextAvailableSequenceNumber(ORGANIZATION_ID_SEQUENCE_NAME, Organization.class).toString());
+        }
     }
 
     
@@ -122,5 +139,65 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
     @Override
     public Organization getBusinessObject() {
         return (Organization) super.getBusinessObject();
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.maintenance.KraMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.maintenance.Maintainable)
+     */
+    @SuppressWarnings("unchecked")
+    public List<Section> getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+        List<Section> sections = super.getSections(document, oldMaintainable);
+        if (isAutoGenerateCode()) {
+            disableOrganizationId(sections);
+        }
+        return sections;
+    }
+    
+    protected void disableOrganizationId(List<Section> sections) {
+        for (Section section : sections) {
+            if (StringUtils.equals(section.getSectionId(), SECTION_ID)) {
+                for (Row row : section.getRows()) {
+                    for (Field field : row.getFields()) {
+                        if (StringUtils.equals(field.getPropertyName(), ORGANIZATION_ID_NAME)) {
+                            field.setReadOnly(true);
+                        }
+                    }
+                }
+            }
+        }        
+    }
+
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterCopy(document, parameters);
+        setGenerateDefaultValues(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());       
+    }
+
+    protected boolean isAutoGenerateCode() {
+        return getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, 
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, AUTO_GEN_ORGANIZATION_ID_PARM);
+    }
+
+    protected ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = KraServiceLocator.getService(ParameterService.class);
+        }
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    protected SequenceAccessorService getSequenceAccessorService() {
+        if(sequenceAccessorService == null) {
+            sequenceAccessorService = KraServiceLocator.getService(SequenceAccessorService.class);
+        }
+        return sequenceAccessorService;
+    }
+
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        this.sequenceAccessorService = sequenceAccessorService;
     }
 }
