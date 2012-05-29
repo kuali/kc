@@ -52,7 +52,12 @@ public class SubAwardInvoicePromptBeforeValidation extends PromptBeforeValidatio
             effectiveDate.setTime(invoice.getEffectiveDate());
             
             if (effectiveDate.before(beforeEffective) || effectiveDate.after(afterEffective)) {
-                return askOrAnalyzeYesNoQuestion(EFFECTIVE_DATE_PROMPT_ID, EFFECTIVE_DATE_PROMPT);
+                if (!askOrAnalyzeYesNoQuestion(EFFECTIVE_DATE_PROMPT_ID, EFFECTIVE_DATE_PROMPT)) {
+                    abortRulesCheck();
+                    return false;
+                } else {
+                    return true;
+                }
             } 
         }
         return true;
