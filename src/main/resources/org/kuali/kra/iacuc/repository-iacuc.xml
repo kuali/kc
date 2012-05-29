@@ -1036,7 +1036,7 @@
     </class-descriptor>
 
  	<class-descriptor class="org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment" table="IACUC_REVIEWER_ATTACHMENTS">
-        <field-descriptor name="reviewerAttachmentId" column="REVIEWER_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_REVIEWER_ATTACHMENT_ID"/>
+        <field-descriptor name="reviewerAttachmentId" column="REVIEWER_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_REVIEWER_ATTACH_ID"/>
         <field-descriptor name="protocolOnlineReviewIdFk" column="PROTOCOL_ONLN_RVW_FK" jdbc-type = "BIGINT"/>
 		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type = "BIGINT"/>
