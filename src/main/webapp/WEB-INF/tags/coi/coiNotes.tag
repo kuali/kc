@@ -154,15 +154,12 @@
 						</td>
 						<td valign="middle">	
 							<div align="left">
-								<c:out value="${KualiForm.document.coiDisclosure.coiDisclosureNotepads[statusIndex].financialEntityName}" />
+								<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${statusIndex}].financialEntityId" attributeEntry="${notesAttributes.financialEntityId}" readOnly="${noteReadOnly}" />
 							</div>
 						</td>
 						<td valign="middle">
 							<div align="center">
-								<kul:htmlControlAttribute
-									property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].restrictedView"
-									attributeEntry="${notesAttributes.restrictedView}"
-									readOnly="${noteReadOnly}" />
+								<c:out value="${KualiForm.document.coiDisclosure.coiDisclosureNotepads[statusIndex].restrictedView}" />
 							</div>
 						</td>
 						<td>
