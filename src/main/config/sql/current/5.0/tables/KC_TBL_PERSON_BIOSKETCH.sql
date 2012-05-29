@@ -18,8 +18,8 @@ ALTER TABLE PERSON_BIOSKETCH ADD CONSTRAINT PK_PERSON_BIOSKETCH
 DECLARE personId VARCHAR2(40);
         attachmentDescription VARCHAR2(4000);
         attachmentFileName VARCHAR2(300);
-        attachmentFile BLOB;
         attachmentContentType VARCHAR2(255);
+        attachmentFile BLOB;
         updateUser VARCHAR2(60);
         updateTimestamp DATE;
         descriptionCount NUMBER;
