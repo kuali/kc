@@ -18,8 +18,6 @@ package org.kuali.kra.iacuc.notification;
 import java.util.Map;
 
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.notification.FundingSourceNotificationRenderer;
 
 public class IacucProtocolFundingSourceNotificationRenderer extends IacucProtocolNotificationRenderer {
 
