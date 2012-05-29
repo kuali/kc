@@ -947,6 +947,8 @@
         <field-descriptor name="actionsPerformed" column="ACTIONS_PERFORMED" jdbc-type="VARCHAR" />
         <field-descriptor name="reviewerApproved" column="REVIEWER_APPROVED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="adminAccepted" column="ADMIN_ACCEPTED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="determinationReviewTypeCode" column = "DETERMINE_REVIEW_TYPE_CD" jdbc-type = "VARCHAR"/>
+        <field-descriptor name="determinationReviewDateDue" column = "DETERMINE_REVIEW_DATE_DUE" jdbc-type = "DATE"/>
 
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolId"/>
