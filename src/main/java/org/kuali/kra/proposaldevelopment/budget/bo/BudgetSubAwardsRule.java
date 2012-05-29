@@ -87,9 +87,11 @@ public class BudgetSubAwardsRule {
                 success = false;
             }
         } catch(FileNotFoundException fnfe) {
+            fnfe.printStackTrace();
             GlobalVariables.getMessageMap().putError(fieldStarter + SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
             success = false;
         } catch(IOException ioe) {
+            ioe.printStackTrace();
             GlobalVariables.getMessageMap().putError(fieldStarter + SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
             success = false;
         }
