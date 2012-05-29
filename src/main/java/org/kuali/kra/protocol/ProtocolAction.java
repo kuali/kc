@@ -434,7 +434,7 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
 //            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
 //            forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
 //            forward = new ActionForward(forward.getPath()+ "?" + KRADConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
-        } else if (Constants.MAPPING_PROTOCOL_ACTIONS.equals(command) || Constants.MAPPING_PROTOCOL_ONLINE_REVIEW.equals(command)) {       
+        } else if (getProtocolActionsMappingNameHoook().equals(command) || getProtocolOnlineReviewMappingNameHoook().equals(command)) {       
             String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
             Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
             protocolForm.setDocument(retrievedDocument);
@@ -450,10 +450,10 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
             protocolForm.initialize();
         }
         
-        if (Constants.MAPPING_PROTOCOL_ACTIONS.equals(command)) {
+        if (getProtocolActionsMappingNameHoook().equals(command)) {
             forward = protocolActions(mapping, protocolForm, request, response);
         }
-        if (Constants.MAPPING_PROTOCOL_ONLINE_REVIEW.equals(command)) {
+        if (getProtocolOnlineReviewMappingNameHoook().equals(command)) {
             forward = onlineReview(mapping, protocolForm, request, response);
         }
         
@@ -461,6 +461,12 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
     
     
+
+    protected abstract String getProtocolOnlineReviewMappingNameHoook();
+
+    protected abstract String getProtocolActionsMappingNameHoook();
+
+
 
     /**
      * Get the Kuali Rule Service.
