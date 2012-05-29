@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.notification;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
 
 public class IacucProtocolNotificationRequestBean extends ProtocolNotificationRequestBean {
@@ -27,12 +27,12 @@ public class IacucProtocolNotificationRequestBean extends ProtocolNotificationRe
     private static final long serialVersionUID = 539022630037045456L;
 
 
-    public IacucProtocolNotificationRequestBean(Protocol protocol, String actionType, String description) {
+    public IacucProtocolNotificationRequestBean(IacucProtocol protocol, String actionType, String description) {
         super(protocol, actionType, description);
     }
 
     
-    public IacucProtocolNotificationRequestBean(Protocol protocol, ProtocolOnlineReview protocolOnlineReview, String actionType,
+    public IacucProtocolNotificationRequestBean(IacucProtocol protocol, IacucProtocolOnlineReview protocolOnlineReview, String actionType,
             String description, String docNumber, String olrEvent) {
         super(protocol, protocolOnlineReview, actionType, description, docNumber, olrEvent);
     }
