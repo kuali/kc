@@ -112,7 +112,6 @@ public class ProposalDevelopmentFactBuilderServiceImpl implements ProposalDevelo
         // Questionnaire Prerequisites
         factsBuilder.addFact("moduleCode", CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE);
         factsBuilder.addFact("moduleItemKey", developmentProposal.getProposalNumber());
-        addMethodFact(factsBuilder, developmentProposal, "hasGGFormIncluded",KcKrmsConstants.ProposalDevelopment.SPECIFIED_GG_FORM);
         
     }
     
@@ -189,37 +188,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl implements ProposalDevelo
         return true;
     }
 
-    private void addMethodFact(Builder factsBuilder, DevelopmentProposal developmentProposal, String methodName, String termKey) {
-        try {
-            Method method = getClass().getMethod(methodName, String.class);
-            Object result = method.invoke(this,developmentProposal);
-            factsBuilder.addFact(termKey, result);
-        }catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
     
-    /**
-     * 
-     * This method returns if the s2s forms from arg_value-look_up are included in the given proposal
-     * @param proposalNumber
-     * @return
-     */
-    protected String hasGGFormIncluded(DevelopmentProposal developmentProposal){
-        List<S2sOppForms> s2sOppForms = developmentProposal.getS2sOppForms();
-        List<ArgValueLookup> argLookupValues = getArgValueLookupService().getArgumentValues("GG Form");
-        for (S2sOppForms s2sOppForm : s2sOppForms) {
-            if(s2sOppForm.getInclude()){
-                for (ArgValueLookup argValueLookup : argLookupValues) {
-                    if(s2sOppForm.equals(argValueLookup.getValue())){
-                        return "true";
-                    }
-                }
-            }
-        }
-        return "false";
-    }
-
     protected void addBigDecimalFact(Facts.Builder factsBuilder, String docContent, String xpathExpression, String term) {
         String fact = getElementValue(docContent, xpathExpression);
         if (!StringUtils.isBlank(fact)) {
