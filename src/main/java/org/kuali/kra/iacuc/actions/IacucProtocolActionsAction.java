@@ -499,8 +499,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
 //                    return mapping.findForward(CORRESPONDENCE);
 //                } else {
-//                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
-                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, null);
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_WITHDRAWN, "Withdrawn"));
                 
 // TODO *********commented the code below during IACUC refactoring*********                 
 //                }
@@ -3658,8 +3657,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolForm protocolForm, IacucProtocolNotificationRequestBean notificationRequestBean) {
         
-// TODO *********commented the code below during IACUC refactoring********* 
-//              IACUCNotificationRenderer renderer = null;
+              IacucProtocolNotificationRenderer renderer = null;
+              
+// TODO *********commented the code below during IACUC refactoring*********               
 //              if (StringUtils.equals(IacucProtocolActionType.NOTIFY_IACUC, notificationRequestBean.getActionType())) {
 //                  renderer = new NotifyIacucNotificationRenderer(notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolNotifyIrbBean().getComment());
 //              } else if (StringUtils.equals(IacucProtocolActionType.NOTIFIED_COMMITTEE, notificationRequestBean.getActionType())) {
@@ -3678,9 +3678,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //              } else if (StringUtils.equals(IacucProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, notificationRequestBean.getActionType())) {
 //                  renderer = new ProtocolClosedNotificationRenderer(notificationRequestBean.getProtocol(), notificationRequestBean);
 //              } else {
-//                  renderer = new IACUCNotificationRenderer(notificationRequestBean.getProtocol());
+              
+                  renderer = new IacucProtocolNotificationRenderer((IacucProtocol)notificationRequestBean.getProtocol());
+                  
+// TODO *********commented the code below during IACUC refactoring*********                   
 //              }
-//              IACUCNotificationContext context = new IACUCNotificationContext(notificationRequestBean.getProtocol(), notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
+//                  
+//              IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol)notificationRequestBean.getProtocol(), notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
 //              
 //              if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
 //                  context.setForwardName(forward.getName());
@@ -3690,7 +3694,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //                  getNotificationService().sendNotification(context);
                   return forward;
                   
-// TODO *********commented the code below during IACUC refactoring*********                   
+// TODO *********commented the code below during IACUC refactoring*********                                      
 //              }
                   
           }
