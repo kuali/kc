@@ -132,7 +132,7 @@ public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewForm  {
     
     @Override
     protected String getLockRegion() {
-        return KraAuthorizationConstants.LOCK_DESCRIPTOR_PROTOCOL;
+        return KraAuthorizationConstants.LOCK_DESCRIPTOR_IACUC_PROTOCOL;
     }
     
     @Override
