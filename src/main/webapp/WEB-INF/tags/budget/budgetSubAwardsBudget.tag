@@ -120,7 +120,7 @@
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewxml.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
 							    </c:when>
 							    <c:otherwise>
-							        <html:image property="methodToCall.viewXFD.line${status.index}.anchor${currentTabIndex}"
+							        <html:image property="methodToCall.view.line${status.index}.anchor${currentTabIndex}"
                                     src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
                                 </c:otherwise>
                             </c:choose>
@@ -149,9 +149,11 @@
 																		
 									<html:image property="methodToCall.addNonXFDBudgetLine.line${status.index}.anchor${currentTabIndex}"
 		                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-									
+									<%--
+									This isn't working yet!
 									<html:image property="methodToCall.translateXFDBudgetLine.line${status.index}.anchor${tabKey}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-extractxml.gif' styleClass="tinybutton"/>
+									 --%>
 									
                             	</c:when>
                             	<c:otherwise>
