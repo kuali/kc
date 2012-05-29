@@ -153,4 +153,14 @@ public class IacucProtocolAction extends ProtocolAction {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL, (IacucProtocol) protocol);
     }
 
+    @Override
+    protected String getProtocolOnlineReviewMappingNameHoook() {
+        return IACUC_PROTOCOL_ONLINE_REVIEW_HOOK;
+    }
+
+    @Override
+    protected String getProtocolActionsMappingNameHoook() {
+        return IACUC_PROTOCOL_ACTIONS_HOOK;
+    }
+
 }
