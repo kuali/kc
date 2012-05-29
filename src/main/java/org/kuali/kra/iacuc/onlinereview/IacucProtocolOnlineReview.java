@@ -49,9 +49,9 @@ public class IacucProtocolOnlineReview extends ProtocolOnlineReview {
 //
 //    private String protocolOnlineReviewStatusCode;
 //
-//    private Long protocolOnlineReviewDeterminationRecommendationCode;
-//
-//    private Date dateDue;
+    private String determinationReviewTypeCode;
+
+    private Date determinationReviewDateDue;
 //
 //    private Date dateRequested;
 //
@@ -642,6 +642,22 @@ public class IacucProtocolOnlineReview extends ProtocolOnlineReview {
     
     public String getNamespace() {
         return "KC-IACUC";
+    }
+
+    public String getDeterminationReviewTypeCode() {
+        return determinationReviewTypeCode;
+    }
+
+    public void setDeterminationReviewTypeCode(String determinationReviewTypeCode) {
+        this.determinationReviewTypeCode = determinationReviewTypeCode;
+    }
+
+    public Date getDeterminationReviewDateDue() {
+        return determinationReviewDateDue;
+    }
+
+    public void setDeterminationReviewDateDue(Date determinationReviewDateDue) {
+        this.determinationReviewDateDue = determinationReviewDateDue;
     }
 
 
