@@ -382,7 +382,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission" table="IACUC_PROTOCOL_SUBMISSION">
-        <field-descriptor name="submissionId" column="IACUC_PROTOCOL_SUBMISSION_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID" />
+        <field-descriptor name="submissionId" column="IACUC_PROTOCOL_SUBMISSION_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_PROTO_SUBMISSION_ID" />
         <field-descriptor name="submissionNumber" column="SUBMISSION_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
@@ -931,7 +931,7 @@
 
   
       <class-descriptor class="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview" table="IACUC_PROTOCOL_ONLN_RVWS">
-        <field-descriptor name="protocolOnlineReviewId" column="PROTOCOL_ONLN_RVW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID"/>
+        <field-descriptor name="protocolOnlineReviewId" column="PROTOCOL_ONLN_RVW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_PROTOCOL_OLR_ID"/>
         <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous"/> 
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
         <field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
@@ -986,7 +986,7 @@
     </class-descriptor> 
 
     <class-descriptor class="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer" table="IACUC_PROTOCOL_REVIEWERS">
-        <field-descriptor name="protocolReviewerId" column="PROTOCOL_REVIEWER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID"/>
+        <field-descriptor name="protocolReviewerId" column="PROTOCOL_REVIEWER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_PROTOCOL_REVIEWER_ID"/>
         <field-descriptor name="protocolIdFk" column="PROTOCOL_ID" jdbc-type="BIGINT" />
         <field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
@@ -1036,7 +1036,7 @@
     </class-descriptor>
 
  	<class-descriptor class="org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment" table="IACUC_REVIEWER_ATTACHMENTS">
-        <field-descriptor name="reviewerAttachmentId" column="REVIEWER_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID"/>
+        <field-descriptor name="reviewerAttachmentId" column="REVIEWER_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_REVIEWER_ATTACHMENT_ID"/>
         <field-descriptor name="protocolOnlineReviewIdFk" column="PROTOCOL_ONLN_RVW_FK" jdbc-type = "BIGINT"/>
 		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type = "BIGINT"/>
@@ -1173,7 +1173,7 @@
     </class-descriptor>
                 
     <class-descriptor class="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplate" table="IACUC_PROTO_CORRESP_TEMPL">
-        <field-descriptor name="protoCorrespTemplId" column="PROTO_CORRESP_TEMPL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true" />
+        <field-descriptor name="protoCorrespTemplId" column="PROTO_CORRESP_TEMPL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PROTO_CORR_TEMP_ID" autoincrement="true" />
         <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
