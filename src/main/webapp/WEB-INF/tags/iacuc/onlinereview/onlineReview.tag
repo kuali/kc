@@ -198,6 +198,34 @@
          	</table>
 			</kul:innerTab>
 		
+		<!-- determine review type -->
+		<!-- TODO : permission -->
+		 <kul:innerTab tabTitle="Determine Review Type" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
+		    <table cellpadding="0" cellspacing="0" class="datatable" title="view/edit determine review type" summary="view/edit determine review type">
+			  <tr>
+              
+              	<th width = "25%" class="grid">
+                	<div align="right">
+                		<kul:htmlAttributeLabel attributeEntry="${onlineReviewAttributes.determinationReviewTypeCode}" noColon="false" />
+                	</div>
+                </th>
+                <td width = "25%" class="grid" >
+                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.determinationReviewTypeCode" attributeEntry="${onlineReviewAttributes.determinationReviewTypeCode}" datePicker="false" readOnly="${readOnly}" />
+                </td>
+                <th width = "25%" class="grid">
+                	<div align="right">
+                		<kul:htmlAttributeLabel attributeEntry="${onlineReviewAttributes.determinationReviewDateDue}" noColon="false"  />
+                	</div>
+                </th>
+                <td width = "25%" class="grid" >
+                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.determinationReviewDateDue" attributeEntry="${onlineReviewAttributes.determinationReviewDateDue}" datePicker="true" readOnly = "${readOnly}" />
+                </td>
+              </tr>
+         	</table>
+			</kul:innerTab>
+		
+		<!--  end determine review type -->
+		
 			<kra-iacuc-olr:onlineReviewComments bean="${KualiForm.onlineReviewsActionHelper.reviewCommentsBeans[renderIndex]}"
        										  documentNumber = "${documentNumber}" 
        										  allowReadOnly="${readOnly}" 

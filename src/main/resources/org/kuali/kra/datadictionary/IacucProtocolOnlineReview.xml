@@ -55,6 +55,8 @@
                 <!-- ref bean="IacucProtocolOnlineReview-protocol.protocolStatus.description"/-->
                 <!--  Result fields -->
                 <ref bean="IacucProtocolOnlineReview-resultDueDate"/>
+                <ref bean="IacucProtocolOnlineReview-determinationReviewTypeCode"/>
+                <ref bean="IacucProtocolOnlineReview-determinationReviewDateDue"/>
                 
             </list>
         </property>
@@ -212,6 +214,38 @@
         <property name="summary" value="Protocol Review Status Code" />
         <property name="description" value="The status of the protocol review." />
     </bean>
+    
+    <bean id="IacucProtocolOnlineReview-determinationReviewTypeCode" parent="IacucProtocolOnlineReview-determinationReviewTypeCode-parentBean" />
+    <bean id="IacucProtocolOnlineReview-determinationReviewTypeCode-parentBean"
+        abstract="true" parent="AttributeDefinition">
+        <property name="name" value="determinationReviewTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Review Type Determination" />
+        <property name="shortLabel" value="Review Type Determination" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control">
+             <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:businessObjectClass="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType"
+                p:includeKeyInLabel="false" p:keyAttribute="reviewTypeCode"
+                p:labelAttribute="description" />
+        </property>
+        <property name="summary" value="Review Type Determination" />
+        <property name="description" value="Review Type Determination" />
+    </bean>
+     <bean id="IacucProtocolOnlineReview-determinationReviewDateDue" parent="IacucProtocolOnlineReview-determinationReviewDateDue-parentBean" />
+    <bean id="IacucProtocolOnlineReview-determinationReviewDateDue-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+        <property name="name" value="determinationReviewDateDue" />
+        <property name="label" value="Determination Due Date" />
+        <property name="shortLabel" value="Determination Due Date" />
+        <property name="required" value="false" />
+        <property name="summary" value="Determination Due Date" />
+        <property name="description" value="Determination Due Date" />
+    </bean>
+    
  <!--   
     <bean id="IacucProtocolOnlineReview-protocolOnlineReviewStatus.description" parent="IacucProtocolOnlineReview-protocolOnlineReviewStatus.description-parentBean" />
     <bean id="IacucProtocolOnlineReview-protocolOnlineReviewStatus.description-parentBean"
