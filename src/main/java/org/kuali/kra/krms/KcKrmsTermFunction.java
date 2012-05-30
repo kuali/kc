@@ -29,22 +29,22 @@ public class KcKrmsTermFunction extends KraPersistableBusinessObjectBase {
      */
     private static final long serialVersionUID = 229744717657419313L;
     private Long kcKrmsTermFunctionId;
-    private String krmsTermId;
+    private String krmsTermName;
     private String description;
     private String returnType;
     private String functionType;
-    private List<KcKrmsTermFunctionParamSpec> termFunctionParams;
+    private List<KcKrmsTermFunctionParam> termFunctionParams;
     public Long getKcKrmsTermFunctionId() {
         return kcKrmsTermFunctionId;
     }
     public void setKcKrmsTermFunctionId(Long kcKrmsTermFunctionId) {
         this.kcKrmsTermFunctionId = kcKrmsTermFunctionId;
     }
-    public String getKrmsTermId() {
-        return krmsTermId;
+    public String getKrmsTermName() {
+        return krmsTermName;
     }
-    public void setKrmsTermId(String krmsTermId) {
-        this.krmsTermId = krmsTermId;
+    public void setKrmsTermSpecId(String krmsTermName) {
+        this.krmsTermName = krmsTermName;
     }
     public String getDescription() {
         return description;
@@ -64,10 +64,10 @@ public class KcKrmsTermFunction extends KraPersistableBusinessObjectBase {
     public void setFunctionType(String functionType) {
         this.functionType = functionType;
     }
-    public List<KcKrmsTermFunctionParamSpec> getTermFunctionParams() {
+    public List<KcKrmsTermFunctionParam> getTermFunctionParams() {
         return termFunctionParams;
     }
-    public void setTermFunctionParams(List<KcKrmsTermFunctionParamSpec> termFunctionParams) {
+    public void setTermFunctionParams(List<KcKrmsTermFunctionParam> termFunctionParams) {
         this.termFunctionParams = termFunctionParams;
     }
     

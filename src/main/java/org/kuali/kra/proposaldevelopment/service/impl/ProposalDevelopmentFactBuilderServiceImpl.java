@@ -16,10 +16,8 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import java.io.ByteArrayInputStream;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -27,7 +25,6 @@ import javax.xml.xpath.XPathConstants;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.impl.cookie.DateParseException;
 import org.apache.http.impl.cookie.DateUtils;
-import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.krms.KcKrmsConstants;
@@ -35,7 +32,6 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentFactBuilderService;
-import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.service.ArgValueLookupService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
@@ -141,6 +137,8 @@ public class ProposalDevelopmentFactBuilderServiceImpl implements ProposalDevelo
     }
     
     private void addProposalFacts(Builder factsBuilder, DevelopmentProposal developmentProposal) {
+        
+        factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.DEVELOPMENT_PROPOSAL, developmentProposal);
         factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.ACTIVITY_TYPE, developmentProposal.getActivityTypeCode());
         factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.DEADLINE_DATE, developmentProposal.getDeadlineDate());
         factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.LEAD_UNIT, developmentProposal.getOwnedByUnitNumber());

@@ -17,23 +17,23 @@ package org.kuali.kra.krms;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class KcKrmsTermFunctionParamSpec extends KraPersistableBusinessObjectBase {
+public class KcKrmsTermFunctionParam extends KraPersistableBusinessObjectBase implements Comparable<KcKrmsTermFunctionParam>{
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 5500796091484340802L;
-    private Long kcKrmsTermFunctionParamSpecId;
+    private Long kcKrmsTermFunctionParamId;
     private Long kcKrmsTermFunctionId;
     private String paramName;
     private String paramType;
     private Integer paramOrder;
 
-    public Long getKcKrmsTermFunctionParamSpecId() {
-        return kcKrmsTermFunctionParamSpecId;
+    public Long getKcKrmsTermFunctionParamId() {
+        return kcKrmsTermFunctionParamId;
     }
-    public void setKcKrmsTermFunctionParamSpecId(Long kcKrmsTermFunctionParamSpecId) {
-        this.kcKrmsTermFunctionParamSpecId = kcKrmsTermFunctionParamSpecId;
+    public void setKcKrmsTermFunctionParamId(Long kcKrmsTermFunctionParamId) {
+        this.kcKrmsTermFunctionParamId = kcKrmsTermFunctionParamId;
     }
     public Long getKcKrmsTermFunctionId() {
         return kcKrmsTermFunctionId;
@@ -58,5 +58,9 @@ public class KcKrmsTermFunctionParamSpec extends KraPersistableBusinessObjectBas
     }
     public void setParamOrder(Integer paramOrder) {
         this.paramOrder = paramOrder;
+    }
+    @Override
+    public int compareTo(KcKrmsTermFunctionParam termToCompare) {
+        return getParamOrder()<termToCompare.getParamOrder()?0:1;
     }
 }

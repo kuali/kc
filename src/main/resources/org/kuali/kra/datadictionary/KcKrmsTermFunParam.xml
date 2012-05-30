@@ -21,7 +21,7 @@
 
     <bean id="KcKrmsTermFunParamSpec" parent="KcKrmsTermFunParamSpec-parentBean" />
     <bean id="KcKrmsTermFunParamSpec-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.krms.KcKrmsTermFunctionParamSpec" />
+        <property name="businessObjectClass" value="org.kuali.kra.krms.KcKrmsTermFunctionParam" />
         <property name="objectLabel" value="KC Stored Function Term Parameters" />
         <property name="inquiryDefinition" >
             <ref bean="KcKrmsTermFunParamSpec-inquiryDefinition" />
@@ -29,10 +29,10 @@
         <property name="lookupDefinition" >
             <ref bean="KcKrmsTermFunParamSpec-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="kcKrmsTermFunctionParamSpecId" />
+        <property name="titleAttribute" value="kcKrmsTermFunctionParamId" />
         <property name="attributes" >
             <list>
-                <ref bean="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamSpecId" />
+                <ref bean="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamId" />
                 <ref bean="KcKrmsTermFunParamSpec-kcKrmsTermFunctionId" />
                 <ref bean="KcKrmsTermFunParamSpec-paramName" />
                 <ref bean="KcKrmsTermFunParamSpec-paramType" />
@@ -44,9 +44,9 @@
 
     <!-- Attribute Definitions -->
     
-    <bean id="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamSpecId" parent="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamSpecId-parentBean" />
-    <bean id="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamSpecId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="kcKrmsTermFunctionParamSpecId" />
+    <bean id="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamId" parent="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamId-parentBean" />
+    <bean id="KcKrmsTermFunParamSpec-kcKrmsTermFunctionParamId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="kcKrmsTermFunctionParamId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Kc Krms Term Fun Param Spec Id" />
         <property name="shortLabel" value="Kc Krms Term Fun Param Spec Id" />
@@ -150,7 +150,7 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="kcKrmsTermFunctionParamSpecId" 
+                                p:attributeName="kcKrmsTermFunctionParamId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="kcKrmsTermFunctionId" />
@@ -179,7 +179,7 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="kcKrmsTermFunctionParamSpecId" 
+                    p:attributeName="kcKrmsTermFunctionParamId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="kcKrmsTermFunctionId" />
@@ -194,7 +194,7 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="kcKrmsTermFunctionParamSpecId" 
+                    p:attributeName="kcKrmsTermFunctionParamId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="kcKrmsTermFunctionId" />

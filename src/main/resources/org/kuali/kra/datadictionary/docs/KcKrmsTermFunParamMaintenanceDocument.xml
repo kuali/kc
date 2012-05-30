@@ -21,7 +21,7 @@
 
     <bean id="KcKrmsTermFunParamSpecMaintenanceDocument" parent="KcKrmsTermFunParamSpecMaintenanceDocument-parentBean" />
     <bean id="KcKrmsTermFunParamSpecMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.krms.KcKrmsTermFunctionParamSpec" />
+        <property name="businessObjectClass" value="org.kuali.kra.krms.KcKrmsTermFunctionParam" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>
@@ -30,7 +30,7 @@
         </property>
         <property name="lockingKeys" >
             <list>
-                <value>kcKrmsTermFunctionParamSpecId</value>
+                <value>kcKrmsTermFunctionParamId</value>
             </list>
         </property>
         <property name="documentTypeName" value="Kc Krms Term Fun Param Spec Maintenance Document" />
@@ -46,7 +46,7 @@
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="kcKrmsTermFunctionParamSpecId"
+                    p:name="kcKrmsTermFunctionParamId"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="kcKrmsTermFunctionId" />
