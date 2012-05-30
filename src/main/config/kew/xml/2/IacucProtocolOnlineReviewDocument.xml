@@ -5,6 +5,9 @@
             <name>IACUCAdmin</name>
             <namespace>KC-WKFLW</namespace>
             <description>IACUC Administrator</description>
+			<members>
+				<principalName>kr</principalName>
+			</members>
         </group>
     </groups>
 
