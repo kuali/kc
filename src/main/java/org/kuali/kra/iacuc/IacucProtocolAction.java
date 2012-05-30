@@ -72,7 +72,11 @@ public class IacucProtocolAction extends ProtocolAction {
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("iacucCustomData");
     }
-        
+
+    public ActionForward procedures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward("iacucProtocolProcedures");
+    }
+    
     protected String getProtocolForwardNameHook() {
         return  IACUC_PROTOCOL_NAME_HOOK;
     }
