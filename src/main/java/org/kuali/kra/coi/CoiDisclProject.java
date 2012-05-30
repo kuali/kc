@@ -75,7 +75,8 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private InstitutionalProposal institutionalProposal;
     private Award award;
     private CoiDisclosureEventType coiDisclosureEventType;
-         
+    private Long originalCoiDisclosureId; 
+
     private CoiDisclosure coiDisclosure; 
     @SkipVersioning
     private List<CoiDiscDetail> coiDiscDetails; 
@@ -519,5 +520,11 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         }
         return description;
       
+    }
+    public Long getOriginalCoiDisclosureId() {
+        return originalCoiDisclosureId;
+    }
+    public void setOriginalCoiDisclosureId(Long originalCoiDisclosureId) {
+        this.originalCoiDisclosureId = originalCoiDisclosureId;
     }
 }
