@@ -77,17 +77,16 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         auditErrors.add(new AuditError(String.format(errorKey, index), error, stringBuilder.toString()));   
     }
     
-    
     protected void addErrorToAuditErrors(int index, int index1, String errorKey) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PAGE);
         stringBuilder.append(".");
         stringBuilder.append(Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR);
-System.out.println("AAAAAAAAAAAAAAA errorKey = " + String.format(errorKey, index, index1) + ", anchor = " + stringBuilder.toString());
         auditErrors.add(new AuditError(String.format(errorKey, index, index1),
                                         KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED,
                                         stringBuilder.toString()));   
     }
+
     protected void addErrorToAuditErrors(String property, int index, int index1, String errorKey) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PAGE);
@@ -149,12 +148,7 @@ System.out.println("AAAAAAAAAAAAAAA errorKey = " + String.format(errorKey, index
             if (!coiDisclosure.getCoiDisclosureEventType().isExcludeFinancialEntities()) {
                 for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails()) {
                     if (coiDiscDetail.getEntityStatusCode() == null) {
-                            addErrorToAuditErrors(i, 
-//                                    Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY, 
-"document.coiDisclosureList[0].coiDisclProjects[0].coiDiscDetails[%s].entityStatusCode",
-//                                                    Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
-NEW_TAG,                                    
-                                                    KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED);
+                        addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY, NEW_TAG, KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED);
                         isSelected = false;
                     }
                     i++;
