@@ -4153,10 +4153,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             String personId = request.getParameter("actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + i + "].personId");
             String fullName = request.getParameter("actionHelper.iacucProtocolModifySubmissionBean.reviewer["+i+"].fullName");
             String nonEmployeeFlag = request.getParameter("actionHelper.iacucProtocolModifySubmissionBean.reviewer["+i+"].nonEmployeeFlag");
-            IacucProtocolReviewerBean bean = new IacucProtocolReviewerBean();
-            bean.setFullName(fullName); //bean.setNonEmployeeFlag(nonEmployeeFlag); 
-            bean.setPersonId(personId); bean.setReviewerTypeCode(reviewerTypeCode);
-            beans.add(bean);
+            if (ObjectUtils.isNotNull(personId)) {
+                IacucProtocolReviewerBean bean = new IacucProtocolReviewerBean();
+                bean.setFullName(fullName); //bean.setNonEmployeeFlag(nonEmployeeFlag); 
+                bean.setPersonId(personId); bean.setReviewerTypeCode(reviewerTypeCode);
+                beans.add(bean);
+            }
         }
         actionHelper.getIacucProtocolModifySubmissionBean().setReviewers(beans);
 
