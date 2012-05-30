@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -4065,16 +4066,16 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
         IacucProtocolModifySubmissionBean bean = actionHelper.getIacucProtocolModifySubmissionBean();
-
+        Date dueDate = bean.getDueDate();
         setReviewers(form, request);
         List<ProtocolReviewerBean> recipientBeans = bean.getReviewers();
         List<String> recipients = new ArrayList<String>();
         for (ProtocolReviewerBean reviewerBean : recipientBeans) {
             Principal principal = getIdentityService().getPrincipal(reviewerBean.getPersonId());
-            //getEntityByPrincipalId(reviewerBean.getPersonId());
             recipients.add(principal.getPrincipalName());
         }
-        String message = "Review type recommendation required for protocol" + protocol.getProtocolNumber() + ".";
+        String message = (ObjectUtils.isNotNull(dueDate)) ? "Review type recommendation required for protocol " + protocol.getProtocolNumber() + " before " + dueDate + "." :
+                                                            "Review type recommendation required for protocol ";
         String CONTEXT_NAME= "Recommend Review Type";
         String SUBJECT = "Recommend review type for IACUC protocol";
         if (!recipients.isEmpty()) {
