@@ -174,10 +174,6 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
                                                     <td style="border: 0 none">
                                                         <kul:htmlControlAttribute property="actionHelper.iacucProtocolModifySubmissionBean.reviewer[${status.index + numLeftReviewers}].reviewerTypeCode"
                                                                                   attributeEntry="${reviewerAttributes.reviewerTypeCode}" />
-                                                        <input type="hidden" name="actionHelper.iacucProtocolModifySubmissionBean.reviewer[${status.index}].personId" value="${reviewer.personId}" >
-                                                        <input type="hidden" name="actionHelper.iacucProtocolModifySubmissionBean.reviewer[${status.index}].fullName" value="${reviewer.fullName}" >
-                                                        <input type="hidden" name="actionHelper.iacucProtocolModifySubmissionBean.reviewer[${status.index}].nonEmployeeFlag" value="${reviewer.nonEmployeeFlag}" >
-                                                        
                                                     </td>
                                                 </tr>
                                             </c:forEach>
