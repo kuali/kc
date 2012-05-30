@@ -75,6 +75,8 @@ import org.kuali.kra.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krms.service.KrmsRulesExecutionService;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.AwardReportsService;
@@ -233,11 +235,19 @@ public class AwardAction extends BudgetParentActionBase {
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
+        if (awardForm.isAuditActivated()){
+            awardForm.setUnitRulesMessages(getUnitRulesMessages(awardForm.getAwardDocument()));
+        }
         if (KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
             new AuditActionHelper().auditConditionally((AwardForm) form);
         }
         
         return actionForward;
+    }
+    
+    protected List<String> getUnitRulesMessages(AwardDocument awardDoc) {
+        KrmsRulesExecutionService rulesService = KraServiceLocator.getService(KrmsRulesExecutionService.class);
+        return rulesService.processUnitValidations(awardDoc.getLeadUnitNumber(), awardDoc);
     }
 
     /**
