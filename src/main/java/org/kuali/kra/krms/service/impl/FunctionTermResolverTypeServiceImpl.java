@@ -16,14 +16,15 @@
 package org.kuali.kra.krms.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.kra.krms.JavaFunctionResolver;
 import org.kuali.kra.krms.KcKrmsTermFunction;
-import org.kuali.kra.krms.KcKrmsTermFunctionParamSpec;
+import org.kuali.kra.krms.KcKrmsTermFunctionParam;
 import org.kuali.kra.krms.StoredFunctionResolver;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krms.api.engine.TermResolver;
@@ -35,7 +36,9 @@ import org.kuali.rice.krms.framework.type.TermResolverTypeService;
  * This class implements <code>TermResolverTypeService</code> for resolving StoreFunctions as Terms.
  * It takes parameters defined in kc_krms_term_function table and load the StoredFunctionResolver to resolve the term.
  */
-public class StoredFunctionResolverTypeServiceImpl implements TermResolverTypeService {
+public class FunctionTermResolverTypeServiceImpl implements TermResolverTypeService {
+    private static final String JAVA_FUNCTION = "2";
+    private static final String STORED_FUNCTION = "1";
     private BusinessObjectService businessObjectService;
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
@@ -45,30 +48,29 @@ public class StoredFunctionResolverTypeServiceImpl implements TermResolverTypeSe
     }
     @Override
     public TermResolver<?> loadTermResolver(TermResolverDefinition termResolverDefinition) {
-        String termId = termResolverDefinition.getOutput().getId();
-        List<String> params = getStoredFunctionParameters(termId);
-        Set<String> paramsSet = new HashSet<String>(params);
-        return new StoredFunctionResolver(paramsSet,termResolverDefinition.getOutput().getName());
+        String termName = termResolverDefinition.getOutput().getName();
+        Map<String,String> queryMaps = new HashMap<String,String>();
+        queryMaps.put("krmsTermName", termName);
+        List<KcKrmsTermFunction> terms = (List<KcKrmsTermFunction>) getBusinessObjectService().findMatching(KcKrmsTermFunction.class, queryMaps);
+        KcKrmsTermFunction functionTerm = terms.isEmpty() ? null : terms.get(0);
+        if(functionTerm==null) return null;
+        List<String> params = getFunctionParameters(functionTerm);
+        Set<String> paramNames = termResolverDefinition.getParameterNames();
+        String outputName = termResolverDefinition.getOutput().getName();
+        if(functionTerm.getFunctionType()==null || functionTerm.getFunctionType().equals(STORED_FUNCTION)) {
+            return new StoredFunctionResolver(params,paramNames,outputName);
+        }else if(functionTerm.getFunctionType().equals(JAVA_FUNCTION)) {
+            return new JavaFunctionResolver(params,paramNames,outputName);
+        }
+        return null;
     }
-    /**
-     * 
-     * This method uses term id and populate the parameters from KcKrmsTermFunction objects.
-     * @param termFunctionId
-     * @return
-     */
-    private List<String> getStoredFunctionParameters(String termFunctionId) {
-        Map<String,String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("krmsTermId", termFunctionId);
-        List<KcKrmsTermFunction> termFunctions = (List<KcKrmsTermFunction>)
-                            getBusinessObjectService().findMatching(KcKrmsTermFunction.class, fieldValues);
-        if(termFunctions.isEmpty()) return new ArrayList<String>();
-        KcKrmsTermFunction termFunction = termFunctions.get(0);
-        List<KcKrmsTermFunctionParamSpec> functionParams = termFunction.getTermFunctionParams();
+    private List<String> getFunctionParameters(KcKrmsTermFunction functionTerm) {
+        List<KcKrmsTermFunctionParam> functionParams = functionTerm.getTermFunctionParams();
+        Collections.sort(functionParams);
         List<String> params = new ArrayList<String>();
-        for (KcKrmsTermFunctionParamSpec termResolverFunctionParamDefinition : functionParams) {
+        for (KcKrmsTermFunctionParam termResolverFunctionParamDefinition : functionParams) {
             params.add(termResolverFunctionParamDefinition.getParamName());
         }
         return params;
     }
-
 }

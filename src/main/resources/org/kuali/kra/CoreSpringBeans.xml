@@ -911,12 +911,14 @@
     <bean id="unitAgendaTypeService" class="org.kuali.kra.krms.UnitAgendaTypeService">
     </bean>
 
-    <bean id="storedFunctionResolverTypeService" class="org.kuali.kra.krms.service.impl.StoredFunctionResolverTypeServiceImpl">
+    <bean id="functionTermResolverTypeService" class="org.kuali.kra.krms.service.impl.FunctionTermResolverTypeServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
 
     <bean id="storedFunctionDao" class="org.kuali.kra.dao.ojb.StoredFunctionDao">
         <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="kcKrmsJavaFunctionTermService" class="org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceImpl">
     </bean>
     
     <bean 

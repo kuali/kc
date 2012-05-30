@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service;
+package org.kuali.kra.krms.service;
 
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.krms.api.engine.Facts;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 
-public interface ProposalDevelopmentFactBuilderService {
-    
-    public void addFacts(Facts.Builder factsBuilder, String docContent);
-    
-    public void addFacts(Facts.Builder factsBuilder, ProposalDevelopmentDocument proposalDevelopmentDocument);
-
+/**
+ * This interface is to declare all methods which are used as KRMS Terms in KC
+ */
+public interface KcKrmsJavaFunctionTermService {
+    public String specifiedGGForm(DevelopmentProposal developmentProposal,String formName);
 }
