@@ -263,6 +263,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             copiedDiscDetails.add(copiedDiscDetail);
         }
         copiedDisclProject.setCoiDiscDetails(copiedDiscDetails);
+        if (copiedDisclProject.getOriginalCoiDisclosureId() == null) {
+        copiedDisclProject.setOriginalCoiDisclosureId(copiedDisclProject.getCoiDisclosureId());
+        }
     }
     
     //TODO: finish project copy and work in subsequent details gettting copied

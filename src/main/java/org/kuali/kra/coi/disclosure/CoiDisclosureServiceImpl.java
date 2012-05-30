@@ -1221,6 +1221,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         masterDisclosureBean.setAnswerHeaders(answerHeaders);
         for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
             CoiDisclProject coiDisclProject1 = (CoiDisclProject)ObjectUtils.deepCopy(coiDisclProject);
+            if (CollectionUtils.isNotEmpty(coiDisclProject1.getCoiDiscDetails())) {
             for (CoiDiscDetail coiDiscDetail : coiDisclProject1.getCoiDiscDetails()) {
                 if (!StringUtils.equals(projectType, coiDiscDetail.getProjectType()) || !StringUtils.equals(moduleItemKey, coiDiscDetail.getModuleItemKey())) {
                     disclosureProjectBean = getCoiDisclosureProjectBean(coiDiscDetail);
@@ -1234,6 +1235,16 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                     addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, coiDiscDetail.getOriginalCoiDisclosureId());
                 }
       //          disclosureProjectBean.getCoiDisclProject().getCoiDiscDetails().add(coiDiscDetail);            
+            }
+            } else {
+                disclosureProjectBean = getCoiDisclosureProjectBean(coiDisclProject1);
+                masterDisclosureBean.addProject(disclosureProjectBean, coiDisclProject1.getDisclosureEventType());
+                    projectType = coiDisclProject1.getDisclosureEventType();
+                moduleItemKey = coiDisclProject1.getModuleItemKey();
+//                addProjectDisclAttachments(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
+//                addProjectDisclNotepads(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
+                addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, coiDisclProject1.getOriginalCoiDisclosureId());
+               
             }
         }
         
@@ -1380,6 +1391,16 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return disclosureProjectBean;
     }
     
+    // a quick hacky for release 5.0 should refactor
+    protected CoiDisclosureProjectBean getCoiDisclosureProjectBean(CoiDisclProject coiDisclProject) {
+        CoiDisclosureProjectBean disclosureProjectBean = new CoiDisclosureProjectBean();
+            disclosureProjectBean.setCoiDisclProject(coiDisclProject);
+            if (disclosureProjectBean.getCoiDisclProject().isManualEvent()) {
+                disclosureProjectBean.getCoiDisclProject().initHeaderItems();
+            }
+        return disclosureProjectBean;
+    }
+
     /*
      * retrieve manual project
      */
@@ -1508,7 +1529,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             copiedDiscDetails.add(copiedDiscDetail);
         }
         copiedDisclProject.setCoiDiscDetails(copiedDiscDetails);
-    }
+        if (copiedDisclProject.getOriginalCoiDisclosureId() == null) {
+        copiedDisclProject.setOriginalCoiDisclosureId(copiedDisclProject.getCoiDisclosureId());
+        }
+   }
     
     //TODO: finish project copy and work in subsequent details gettting copied
     private void copyDisclosureProjects(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
