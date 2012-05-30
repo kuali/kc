@@ -15,7 +15,8 @@
             <routingVersion>2</routingVersion>
             <routePaths>
                 <routePath>
-                    <start name="Initiated" nextNode="IACUCReview" />
+                    <start name="Initiated" nextNode="PeopleFlows" />
+                    <requests name="PeopleFlows" nextNode="IACUCReview" />
 					<requests name="IACUCReview" />
                 </routePath>
             </routePaths>
@@ -25,6 +26,10 @@
                     <mandatoryRoute>false</mandatoryRoute>
                     <finalApproval>false</finalApproval>
                 </start>
+                <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kra.iacuc.rules.IacucProtocolRulesEngineExecutorImpl"/>
+                </requests>
                  <role name="IACUCReview">
 					<qualifierResolver>IACUC ProtocolApprover-XPathQualifierResolver</qualifierResolver> 
                     <activationType>P</activationType>
