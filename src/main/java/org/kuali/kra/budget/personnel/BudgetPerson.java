@@ -16,6 +16,10 @@
 package org.kuali.kra.budget.personnel;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -24,16 +28,18 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.DateSortable;
 import org.kuali.kra.budget.core.BudgetAssociate;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * BudgetPerson business object
  */
-public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainable,DateSortable {
+public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainable,DateSortable{
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;    
 
     private Date effectiveDate;
 
@@ -71,6 +77,28 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     private String hierarchyProposalNumber;
 
     private boolean hiddenInHierarchy;
+    
+    private BudgetPersonSalaryDetails personSalaryDetails;
+    
+    private List<BudgetPersonSalaryDetails>budgetPersonSalaryDetails;
+   
+
+    public List<BudgetPersonSalaryDetails> getBudgetPersonSalaryDetails() {
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        if(this.budgetPersonSalaryDetails.isEmpty()){
+            HashMap budgetMap = new HashMap();
+            budgetMap.put("budgetId", getBudgetId());
+            Collection<BudgetPeriod> periods = boService.findMatching(BudgetPeriod.class, budgetMap);
+            for(BudgetPeriod budgetPeriod : periods){
+                this.budgetPersonSalaryDetails.add(new BudgetPersonSalaryDetails());
+            }
+        }
+        return budgetPersonSalaryDetails;
+    }
+
+    public void setBudgetPersonSalaryDetails(List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails) {
+        this.budgetPersonSalaryDetails = budgetPersonSalaryDetails;
+    }
 
     public Date getEffectiveDate() {
         return effectiveDate;
@@ -82,6 +110,9 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     public BudgetPerson() {
         super();
+        budgetPersonSalaryDetails= new ArrayList<BudgetPersonSalaryDetails>();
+        personSalaryDetails = new BudgetPersonSalaryDetails();
+      
     }
 
     public BudgetPerson(KcPerson person) {
@@ -463,6 +494,16 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     public Date getSortableDate() {
         return getEffectiveDate();
     }
+
+    public void setPersonSalaryDetails(BudgetPersonSalaryDetails personSalaryDetails) {
+        this.personSalaryDetails = personSalaryDetails;
+    }
+
+    public BudgetPersonSalaryDetails getPersonSalaryDetails() {
+        return personSalaryDetails;
+    }
+   
+  
     
     
     

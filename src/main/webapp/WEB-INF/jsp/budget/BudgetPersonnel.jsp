@@ -13,10 +13,15 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+
+
+
+	
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="hierarchyStatus" value="${KualiForm.document.parentDocument.budgetParent.hierarchyStatus}" />
-<c:set var="hierarchyParentStatus" value="${KualiForm.hierarchyParentStatus}"/>
 
+<c:set var="hierarchyParentStatus" value="${KualiForm.hierarchyParentStatus}"/>
+<div id="disablingDiv" style="z-index: 998;width: 100%;height: 100%;background: transparent;position:absolute;display: none"></div>
 <kra-b:swapProposalDevelopmentEditModes/>
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 
@@ -65,13 +70,14 @@
 		viewOnly="${KualiForm.editingMode['viewOnly']}" 
 		suppressCancelButton="true"
 		/>	
-	
-	<SCRIPT type="text/javascript">
-	var kualiForm = document.forms['KualiForm'];
-	var kualiElements = kualiForm.elements;
-	</SCRIPT>
-	
 <script language="javascript" src="scripts/kuali_application.js"></script>	
 <script language="javascript" src="dwr/interface/JobCodeService.js"></script>
-	
+	<script type="text/javascript">
+	var kualiForm = document.forms['KualiForm'];
+	var kualiElements = kualiForm.elements;	
+	</script>
+	<script language="javascript">
+	window.onload = showBudgetPersonSalaryDetails(${KualiForm.viewDivFlag}, ${KualiForm.personIndex}, ${KualiForm.document.budget.budgetId},0, 0, showBudgetPersonSalaryDetails_Callback);
+	</script>
+
 </kul:documentPage>

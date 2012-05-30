@@ -75,6 +75,8 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.web.struts.action.BudgetActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -396,6 +398,9 @@ public class BudgetAction extends BudgetActionBase {
                 }
             }
         }
+        ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
+        String enableBudgetSalaryByPeriod = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ENABLE_BUDGET_CALCULATED_SALARY);
+        budgetForm.setEnableBudgetSalaryByPeriod(enableBudgetSalaryByPeriod);
         return mapping.findForward(Constants.BUDGET_PERSONNEL_PAGE);
     }
     
@@ -472,7 +477,7 @@ public class BudgetAction extends BudgetActionBase {
     public ActionForward rates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward(Constants.BUDGET_RATES_PAGE);
     }
-
+   
     public ActionForward distributionAndIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetDistributionAndIncomeService budgetDistributionAndIncomeService = KraServiceLocator.getService(BudgetDistributionAndIncomeService.class);
         budgetDistributionAndIncomeService.initializeCollectionDefaults(((BudgetForm) form).getBudgetDocument().getBudget());
@@ -538,7 +543,6 @@ public class BudgetAction extends BudgetActionBase {
     public ActionForward proposalHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward(Constants.PROPOSAL_HIERARCHY_PAGE);
     }
-
     public ActionForward hierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm)form;
         ProposalDevelopmentDocument aDoc = (ProposalDevelopmentDocument) budgetForm.getBudgetDocument().getParentDocument();
