@@ -87,12 +87,6 @@ public class IacucProtocolHelper extends ProtocolHelper {
 
 
     @Override
-    protected String getProtocolCreatedProtocolActionTypeCodeHook() {
-        return IacucProtocolActionType.IACUC_PROTOCOL_CREATED;
-    }
-
-
-    @Override
     protected ProtocolTask getNewInstanceModifyProtocolGeneralInfoTaskHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_GENERAL_INFO, (IacucProtocol)protocol);
     }
@@ -123,8 +117,8 @@ public class IacucProtocolHelper extends ProtocolHelper {
 
     
     
-    protected ProtocolAction createProtocolActionHook(Protocol protocol, ProtocolSubmission protocolSubmission) {
-        return new IacucProtocolAction((IacucProtocol) protocol, (IacucProtocolSubmission) protocolSubmission, getProtocolCreatedProtocolActionTypeCodeHook());
+    protected ProtocolAction createProtocolCreatedTypeProtocolActionInstanceHook(Protocol protocol) {
+        return new IacucProtocolAction((IacucProtocol) protocol, null, IacucProtocolActionType.IACUC_PROTOCOL_CREATED);
     }
 
 
