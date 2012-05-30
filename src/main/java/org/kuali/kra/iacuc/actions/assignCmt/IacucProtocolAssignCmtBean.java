@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc.actions.assignCmt;
 import java.io.Serializable;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.ActionHelper;
 
 public class IacucProtocolAssignCmtBean extends  IacucProtocolActionBean implements Serializable {
@@ -30,11 +31,11 @@ public class IacucProtocolAssignCmtBean extends  IacucProtocolActionBean impleme
     private String newCommitteeId = "";
 
     public void init() {
-        //String committeeId = getProtocolAssignCmtSchedService().getAssignedCommitteeId(getProtocol());
-       // if (committeeId != null) {
+        String committeeId = getAssignCmtService().getAssignedCommitteeId(getProtocol());
+        if (committeeId != null) {
             this.newCommitteeId = committeeId;
-            //this.committeeId = committeeId;
-        //}
+            this.committeeId = committeeId;
+        }
     }
     
     public IacucProtocolAssignCmtBean(ActionHelper actionHelper) {
@@ -57,4 +58,7 @@ public class IacucProtocolAssignCmtBean extends  IacucProtocolActionBean impleme
         this.newCommitteeId = newCommitteeId;
     }
    
+    protected IacucProtocolAssignCmtService getAssignCmtService() {
+        return KraServiceLocator.getService(IacucProtocolAssignCmtService.class);
+    }
 }

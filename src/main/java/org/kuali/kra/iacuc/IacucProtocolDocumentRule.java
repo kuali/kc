@@ -19,6 +19,9 @@ import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRule;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRuleImpl;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
+import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
+import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionRule;
+import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionRuleImpl;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionRule;
 import org.kuali.kra.iacuc.noteattachment.SubmitIacucProtocolAttachmentProtocolRuleImpl;
 import org.kuali.kra.iacuc.personnel.IacucProtocolAttachmentPersonnelRule;
@@ -62,7 +65,8 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
  */
 public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements AddProtocolSpeciesRule, 
                                                                                AddProtocolExceptionRule, 
-                                                                               IacucProtocolAssignCmtRule {
+                                                                               IacucProtocolAssignCmtRule,
+                                                                               IacucProtocolModifySubmissionRule {
 
     @Override
     protected String getInProgressProtocolStatusCodeHook() {
@@ -140,4 +144,9 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements A
     protected SubmitProtocolAttachmentProtocolRuleImpl newSubmitProtocolAttachmentProtocolRuleImplInstanceHook() {
         return new SubmitIacucProtocolAttachmentProtocolRuleImpl();
     }    
+
+    @Override
+    public boolean processModifySubmissionRule(ProtocolDocument document, IacucProtocolModifySubmissionBean actionBean) {
+        return new IacucProtocolModifySubmissionRuleImpl().processModifySubmissionRule(document, actionBean);
+    }
 }

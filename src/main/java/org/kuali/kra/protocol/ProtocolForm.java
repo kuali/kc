@@ -27,9 +27,6 @@ import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.customdata.CustomDataHelper;
-import org.kuali.kra.irb.notification.IRBNotificationContext;
-import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
 import org.kuali.kra.protocol.noteattachment.NotesAttachmentsHelper;
@@ -132,9 +129,13 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         
 // TODO *********commented the code below during IACUC refactoring*********         
 //        setNotificationHelper(new NotificationHelper<IRBNotificationContext>());
-        
+            setNotificationHelper(getNotificationHelperHook());
     }
        
+  
+
+    protected abstract NotificationHelper getNotificationHelperHook();
+    
     protected abstract ProtocolReferenceBean createNewProtocolReferenceBeanInstance();
 
     protected abstract QuestionnaireHelper createNewQuestionnaireHelperInstanceHook(ProtocolForm protocolForm);
@@ -426,9 +427,11 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         return protocolNotificationHelper;
     }
 
-    public void setNotificationHelper(NotificationHelper<ProtocolNotificationContext> notificationHelper) {
+    public void setNotificationHelper(NotificationHelper notificationHelper) {
         this.protocolNotificationHelper = notificationHelper;
     }
+
+   
 
 // TODO *********commented the code below during IACUC refactoring*********     
 //    @Override

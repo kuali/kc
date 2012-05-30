@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions.assignCmt;
+package org.kuali.kra.iacuc.actions.modifysubmission;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-
-public interface IacucProtocolAssignCmtService {
+public interface IacucProtocolModifySubmissionRule extends BusinessRule {
     
-    public void assignToCommittee(Protocol protocol, IacucProtocolAssignCmtBean actionBean) throws Exception;
-
-    public String getAssignedCommitteeId(Protocol protocol);
+    public boolean processModifySubmissionRule(ProtocolDocument document, IacucProtocolModifySubmissionBean actionBean);
 
 }

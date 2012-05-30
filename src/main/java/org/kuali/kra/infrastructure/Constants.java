@@ -105,6 +105,7 @@ public interface Constants {
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID1 = "irb.protocol.referenceID1";
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID2 = "irb.protocol.referenceID2";
     public static final String PARAMETER_MODULE_PROTOCOL_BILLABLE = "irb.protocol.billable";
+    public static final String PARAMETER_MODULE_IACUC_PROTOCOL_BILLABLE = "iacuc.protocol.billable";
     public static final String MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT = "KC-PD";
     public static final String MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL = "KC-IP";
     public static final String MODULE_NAMESPACE_AWARD = "KC-AWARD"; 
@@ -893,6 +894,7 @@ public interface Constants {
     public static final String PARAMETER_IACUC_PROTOCOL_PERSON_TRAINING_SECTION = "IACUC_PROTOCOL_PERSON_TRAINING_SECTION";
     public static final String PARAMETER_IACUC_PROTOCOL_ATTACHMENT_DEFAULT_SORT = "IACUC_PROTOCOL_ATTACHMENT_DEFAULT_SORT";
 
+    public static final String IACUC_PROTOCOL_MODIFY_SUBMISSION_KEY = "actionHelper.iacucProtocolModifySubmissionBean";
 
 
     // IACUC workflow

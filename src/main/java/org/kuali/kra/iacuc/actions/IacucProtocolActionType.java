@@ -70,6 +70,8 @@ public class IacucProtocolActionType extends ProtocolActionType {
     public static final String HOLD = "305"; 
     public static final String TERMINATED = "306"; 
     public static final String SUSPENDED = "307";     
+    public static final String MODIFY_PROTOCOL_SUBMISSION = "309";
+    public static final String ASSIGN_REVIEWER = "901";
 
 
     // TODO Need to check about the right place for funding source

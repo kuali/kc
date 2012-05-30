@@ -323,8 +323,8 @@ public interface TaskName {
     public static final String IACUC_PROTOCOL_UNDO_LAST_ACTION = "iacucProtocolUndoLastAction"; 
     public static final String IACUC_RECORD_COMMITTEE_DECISION = "iacucProtocolRecordCommitteeDecision";
     public static final String IACUC_RECORD_COMMITTEE_DECISION_UNAVAILABLE = "iacucProtocolRecordCommitteeDecisionUnavailable";
-    public static final String IACUC_MODIFY_PROTOCOL_SUBMISSION = "modifyIacucProtocolSubmisison";
-    public static final String IACUC_MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE = "modifyIacucProtocolSubmisisonUnavailable";
+    public static final String IACUC_MODIFY_PROTOCOL_SUBMISSION = "modifyIacucProtocolSubmission";
+    public static final String IACUC_MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE = "modifyIacucProtocolSubmissionUnavailable";
     public static final String IACUC_PROTOCOL_TABLE = "iacucProtocolTable"; 
     public static final String IACUC_PROTOCOL_TABLE_UNAVAILABLE = "iacucProtocolTableUnavailable"; 
     public static final String IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS = "iacucProtocolManageReviewComments";
