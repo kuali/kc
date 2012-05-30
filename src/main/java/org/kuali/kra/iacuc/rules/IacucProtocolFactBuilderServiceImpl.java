@@ -51,6 +51,30 @@ public class IacucProtocolFactBuilderServiceImpl implements IacucProtocolFactBui
         factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_REFERENCE_NUMBER_1, protocolDocument.getProtocol().getReferenceNumber1());
         factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_REFERENCE_NUMBER_2, protocolDocument.getProtocol().getReferenceNumber2());
         factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_FDA_APPLICATION_NUMBER, protocolDocument.getProtocol().getFdaApplicationNumber());
+        
+        // Functions
+        // All protocols
+        // Application date
+        // Areas of research - do areas of research contain specified?  user input 1 area of research
+        // Document type
+        // Exception category
+        // Expiration date
+        // Funding source sponsor
+        // Funding source unit
+        // Procedure category
+        // Project type
+        // Protocol campus
+        // Protocol lead unit
+        // Protocol lead unit below
+        // Protocol non-faculty PI
+        // Protocol organization
+        // Protocol organization changed
+        // Protocol PI changed
+        // Protocol PI is specified
+        // Protocol special review type
+        // Protocol submission type
+        // Protocol type
+        // Species type
     
         // Questionnaire Prereqs
         factsBuilder.addFact("moduleCode", CoeusModule.IACUC_PROTOCOL_MODULE_CODE);

@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
+import org.kuali.kra.award.AwardFactBuilderService;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
@@ -49,7 +50,6 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -58,6 +58,8 @@ import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
+import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
@@ -81,6 +83,7 @@ import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krms.api.engine.Facts;
 
 /**
  * 
@@ -93,7 +96,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 @NAMESPACE(namespace=Constants.PARAMETER_MODULE_AWARD)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class AwardDocument extends BudgetParentDocument<Award> implements  Copyable, SessionDocument{
+public class AwardDocument extends BudgetParentDocument<Award> implements  Copyable, SessionDocument, KrmsRulesContext {
     private static final Log LOG = LogFactory.getLog(AwardDocument.class);
     
     public static final String PLACEHOLDER_DOC_DESCRIPTION = "*****PLACEHOLDER*****";
@@ -699,6 +702,16 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
 
     public void setAwardService(AwardService awardService) {
         this.awardService = awardService;
+    }
+    
+    public void populateContextQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_AWARD);
+        qualifiers.put("name", KcKrmsConstants.Award.AWARD_CONTEXT);
+    }
+    
+    public void addFacts(Facts.Builder factsBuilder) {
+        AwardFactBuilderService fbService = KraServiceLocator.getService(AwardFactBuilderService.class);
+        fbService.addFacts(factsBuilder, this);
     }
 
 }

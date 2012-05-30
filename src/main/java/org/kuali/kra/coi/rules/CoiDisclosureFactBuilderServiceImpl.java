@@ -47,6 +47,10 @@ public class CoiDisclosureFactBuilderServiceImpl implements CoiDisclosureFactBui
     }
     
     public void addFacts(Facts.Builder factsBuilder, CoiDisclosureDocument disclosureDocument) {
+        
+        // Functions
+        // Is person under campus code
+        // Person campus code
     
         // Questionnaire Prereqs
         factsBuilder.addFact("moduleCode", CoeusModule.COI_DISCLOSURE_MODULE_CODE);

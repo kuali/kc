@@ -1031,4 +1031,10 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>  
+	
+	<bean id="awardFactBuilderService" class="org.kuali.kra.award.AwardFactBuilderServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
 </beans>
