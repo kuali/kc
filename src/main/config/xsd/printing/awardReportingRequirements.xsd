@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by jenlu (Massachusetts Institute of Technology) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="awardReportingRequirement">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="reportingReqs" type="reportingRequirement" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="currentDate" type="xs:date" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="reportingRequirement">
+		<xs:sequence>
+			<xs:element name="principleInvestigatorName" type="xs:string" minOccurs="0"/>
+			<xs:element name="reportClass" type="xs:string" minOccurs="0"/>
+			<xs:element name="reportType" type="xs:string" minOccurs="0"/>
+			<xs:element name="frequency" type="xs:string" minOccurs="0"/>
+			<xs:element name="frequencyBase" type="xs:string" minOccurs="0"/>
+			<xs:element name="baseDate" type="xs:string" minOccurs="0"/>
+			<xs:element name="copyOSP" type="xs:string" minOccurs="0"/>
+			<xs:element name="reportingReqDetails" type="reportingRequirementDetail" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="reportingRequirementDetail">
+		<xs:sequence>
+			<xs:element name="awardNo" type="xs:string" minOccurs="0"/>
+			<xs:element name="unitNo" type="xs:string" minOccurs="0"/>
+			<xs:element name="unitName" type="xs:string" minOccurs="0"/>
+			<xs:element name="status" type="xs:string" minOccurs="0"/>
+			<xs:element name="dueDate" type="xs:string" minOccurs="0"/>
+			<xs:element name="contact" type="xs:string" minOccurs="0"/>
+			<xs:element name="address" type="xs:string" minOccurs="0"/>
+			<xs:element name="copies" type="xs:int" minOccurs="0"/>
+			<xs:element name="overdueNo" type="xs:int" minOccurs="0"/>
+			<xs:element name="activityDate" type="xs:string" minOccurs="0"/>
+			<xs:element name="comments" type="xs:string" minOccurs="0"/>
+			<xs:element name="personName" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
