@@ -676,24 +676,14 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
 
         VersionHistory pendingVersionHistory = versionHistoryService.findPendingVersion(Award.class, awardNumber);
         VersionHistory activeVersionHistory = versionHistoryService.findActiveVersion(Award.class, awardNumber);
-//        Award award = null;
-//        if (pendingVersionHistory != null) {
-//            award = (Award) pendingVersionHistory.getSequenceOwner();
-//        } else if (activeVersionHistory != null) {
-//            award = (Award) activeVersionHistory.getSequenceOwner();
-//        }
+
+
         Award award = awardVersionService.getWorkingAwardVersion(awardNumber);
-        //KRACOEUS-4879 - The above is the same as the commented out section below as long as we prefer the pending version in 
-        //the getWorkingAwardVersion call.
-        //Award award = activePendingTransactionsService.getWorkingAwardVersion(awardNumber); 
-        //if a current award was passed in, make sure to use the current pending version if it exists
-        //so any changes are reflected in the hierarchy.
-        /*if(StringUtils.isNotEmpty(currentAwardNumber) && StringUtils.isNotEmpty(currentSequenceNumber) && StringUtils.equals(awardNumber, currentAwardNumber)) {
-            pendingVersionHistory = versionHistoryService.findPendingVersion(Award.class, currentAwardNumber, currentSequenceNumber);
-            if (pendingVersionHistory != null) {
-                award = (Award) pendingVersionHistory.getSequenceOwner();
-            }
-        }*/
+        //KRACOEUS-5543: If an award is copied to another hierarchy, it does not retain it's own Award Document.  In this case there will not be a version history, so
+        //we need to grab the last version from the database.  
+       if(award == null) {
+           award = getAwardFromDatabase(awardNumber);
+       }
 
         AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());            
         
@@ -737,6 +727,14 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         awardHierarchyNode.setAwardDocumentFinalStatus(pendingVersionHistory == null && activeVersionHistory != null);
         return awardHierarchyNode;
 
+    }
+    
+    private Award getAwardFromDatabase(String awardNumber) {
+        Map<String, String> map = new HashMap<String,String>();
+        map.put("awardNumber", awardNumber);
+        List<Award> awardList = ((List<Award>)businessObjectService.findMatchingOrderBy(Award.class, map, "sequenceNumber", true));
+        Award returnVal = awardList.get(awardList.size()-1);
+        return returnVal;
     }
     
     /**
