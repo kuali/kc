@@ -10,5 +10,5 @@ insert into KRMS_TERM_RSLVR_PARM_SPEC_T (TERM_RSLVR_PARM_SPEC_ID, TERM_RSLVR_ID,
 values ('KC1002', (select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='javaFunctionResolver' and NMSPC_CD='KC-PD'), 'GrantsGov Form Name', 1)
 /
 insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PD' and NM='specifiedGGForm'), 
-(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PD' and NM='Questionnaire'))
+	(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PD' and NM='Function'))
 /
