@@ -36,9 +36,7 @@ import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
 import org.kuali.kra.iacuc.IacucProtocolForm;
-import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
-import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
 import org.kuali.kra.iacuc.notification.IacucProtocolFundingSourceNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.protocol.funding.AddIacucProtocolFundingSourceEvent;
@@ -58,12 +56,9 @@ import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolEventBase;
 import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -486,9 +481,9 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolForm.getProtocolHelper().createInitialProtocolAction();
-//        
+      
+        protocolForm.getProtocolHelper().createInitialProtocolAction();
+        
         if (protocolDocument.getProtocol().isNew()) {
             if (applyRules(new SaveIacucProtocolFundingSourceLinkEvent((IacucProtocolDocument) protocolDocument, protocolFundingSources, deletedProtocolFundingSources))) {
                 protocolForm.getProtocolHelper().syncSpecialReviewsWithFundingSources();
