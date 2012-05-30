@@ -107,7 +107,7 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
     @SkipVersioning
     private transient List<ProtocolReviewAttachment> reviewAttachments;
 
-    private IacucProtocolReviewType protocolReviewType;
+    private ProtocolReviewType protocolReviewType;
 
     @SkipVersioning
     private transient Committee committee;
@@ -341,11 +341,11 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
         this.protocolOnlineReviews = protocolOnlineReviews;
     }
 
-    public IacucProtocolReviewType getProtocolReviewType() {
+    public ProtocolReviewType getProtocolReviewType() {
         return protocolReviewType;
     }
 
-    public void setProtocolReviewType(IacucProtocolReviewType protocolReviewType) {
+    public void setProtocolReviewType(ProtocolReviewType protocolReviewType) {
         this.protocolReviewType = protocolReviewType;
     }
 

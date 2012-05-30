@@ -16,18 +16,8 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="attributes" value="${DataDictionary.IacucProtocolSubmitAction.attributes}" />
-<c:set var="expeditedAttributes" value="${DataDictionary.ExpeditedReviewCheckListItem.attributes}" />
-<c:set var="exemptAttributes" value="${DataDictionary.ExemptStudiesCheckListItem.attributes}" />
-<c:set var="reviewerAttributes" value="${DataDictionary.ProtocolReviewerBean.attributes}" />
+<c:set var="reviewerAttributes" value="${DataDictionary.IacucProtocolReviewerBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
-
-<noscript>
-${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.javascriptEnabled")}
-<html:hidden styleId="javaScriptIndicator" property="actionHelper.protocolSubmitAction.javascriptEnabled" value="DISABLED"></html:hidden>
-</noscript>
-
-${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.numberOfReviewers")}
-<html:hidden styleId="numberOfReviewers" property="actionHelper.protocolSubmitAction.numberOfReviewers" value="${fn:length(KualiForm.actionHelper.protocolSubmitAction.reviewers)}"></html:hidden>
 
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 

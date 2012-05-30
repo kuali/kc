@@ -459,6 +459,19 @@ function populateSelect(methodToCall, firstSelectId, secondSelectId) {
 	);
 }
 
+function callAjaxWithQueryString(url, methodToCall, queryString, successCallback, errorCallback) {
+	$j.ajax( {
+		url : url,
+		type : 'POST',
+		dataType : 'html',
+		data : 'methodToCall='+methodToCall+queryString,
+		cache : false,
+		async : false,
+		timeout : 5000,
+		error : errorCallback,
+		success : successCallback
+	});
+}
 function checkGrantsGovStatusOnSponsorChange(proposalNumber, sponsorCodeFieldName) {
 	var sponsorCode = dwr.util.getValue( sponsorCodeFieldName );
 	var dwrReply = {
@@ -2515,6 +2528,41 @@ function displayReviewers(protocolId) {
 	}
 }
 
+
+function protocolDisplayReviewers(methodToCall, committeeId, scheduleId, protocolId) {
+	var cmtId = $j(jq_escape(committeeId)).attr("value");
+	var schedId = $j(jq_escape(scheduleId)).attr("value");
+    if (scheduleId == "select") {
+    	document.getElementById("reviewers").style.display = 'none';
+    }
+    else {
+    	var queryString = "&committeeId="+cmtId+"&scheduleId=" + schedId+"&protocolId="+protocolId;
+    	callAjaxByPath('jqueryAjax.do', methodToCall, queryString,
+    			function(data) {
+    				reviewersReturned = $j(data).find('#ret_value').html();
+					getProtocolReviewerTypes(reviewersReturned);
+    				
+    			},
+    			function(error) {
+    				alert("error is" + error);
+    			}
+    	);
+	}
+}
+
+function getProtocolReviewerTypes(reviewerData) {
+		var methodToCall= 'getProtocolReviewerTypes';
+		var queryString = '';
+		callAjaxByPath('jqueryAjax.do', methodToCall, queryString,
+			function(data) { 
+				types = $j(data).find('#ret_value').html();
+				updateProtocolReviewerHtml(reviewerData, types);
+			},
+			function( error ) {
+				window.status = errorMessage;	
+			}
+		);
+}
 /*
  * Get the set of reviewer types to display in the drop-down menu.
  */
@@ -2551,6 +2599,73 @@ function updateReviewerHtml(reviewerData, reviewerTypesData) {
 	document.getElementById("numberOfReviewers").value = numReviewers;
 }
 
+function updateProtocolReviewerHtml(reviewerData, reviewerTypesData) {
+	reviewerTypes = reviewerTypesData.split(";");
+	document.getElementById("reviewers").style.display = '';
+	var reviewersArr = reviewerData.split(";");
+	var arrLength = reviewersArr.length;
+	var numReviewers = Math.floor(reviewersArr.length / 3);
+	var numRows = Math.floor((numReviewers+1) / 2);
+	var reviewersTableLeft = document.getElementById("reviewersTableLeft");
+	var reviewersTableRight = document.getElementById("reviewersTableRight");
+	setProtocolReviewers(reviewersArr, 0, 3*numRows, reviewerTypes, reviewersTableLeft);
+	setProtocolReviewers(reviewersArr, 3*numRows, 3*numReviewers, reviewerTypes, reviewersTableRight);
+	//finally set the number of reviewers for proper trucation
+	document.getElementById("numberOfReviewers").value = numReviewers;
+}
+
+function setProtocolReviewers(reviewers, beginIndex, endIndex, reviewerTypes, htmlElement) {
+	
+	removeAllChildren(htmlElement);
+				
+    var tbody = document.createElement('tbody');
+	for (var i = beginIndex; i < endIndex; i += 3) {
+		reviewerIndex = i/3;
+		
+		var row = document.createElement('tr');
+		var data = document.createElement('td');
+		
+		data.style.border = "0 none";
+		var text = document.createTextNode(reviewers[i+1]);
+		data.appendChild(text);
+		row.appendChild(data);
+		
+		data = document.createElement('td');
+		data.style.border = "0 none";
+		data.appendChild(makeProtocolReviewerTypesDropDown(reviewerTypes, reviewerIndex));
+		
+		hidden = document.createElement('input');
+		hidden.setAttribute("id", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].personId");
+		hidden.setAttribute("type", "hidden");
+		hidden.setAttribute("name", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].personId");
+	    var reviewer = reviewers[i].replace(/^\t*/, '');
+		hidden.setAttribute("value", reviewer);
+		data.appendChild(hidden);
+		
+		hidden = document.createElement('input');
+		hidden.setAttribute("id", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].fullName");
+		hidden.setAttribute("type", "hidden");
+		hidden.setAttribute("name", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].fullName");
+		hidden.setAttribute("value", reviewers[i+1]);
+		data.appendChild(hidden);
+		
+		hidden = document.createElement('input');
+		hidden.setAttribute("id", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].nonEmployeeFlag");
+		hidden.setAttribute("type", "hidden");
+		hidden.setAttribute("name", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].nonEmployeeFlag");
+		if (reviewers[i+2] == "Y") {
+			hidden.setAttribute("checked", "checked");
+		}
+		hidden.setAttribute("value", reviewers[i+2]);
+		data.appendChild(hidden);
+		
+		row.appendChild(data);
+		
+		tbody.appendChild(row);
+	}
+	
+	htmlElement.appendChild(tbody);
+}
 /*
  * Populates the inner HTML of a table, putting a table cell for each name stored in reviewersArr.
  * Only every other index of reviewersArr is used, starting at beginIndex+1.
@@ -2604,6 +2719,26 @@ function setReviewers(reviewers, beginIndex, endIndex, reviewerTypes, htmlElemen
 	htmlElement.appendChild(tbody);
 }
 
+function makeProtocolReviewerTypesDropDown(reviewerTypes, reviewerIndex) {
+    var selectElement = document.createElement('select');
+    selectElement.setAttribute("name", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].reviewerTypeCode");
+    selectElement.setAttribute("id", "actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + reviewerIndex + "].reviewerTypeCode");
+    var option = document.createElement('option');
+	option.setAttribute("value", "");
+	option.setAttribute("selected", "selected");
+	option.text = "select";
+	addSelectOption(selectElement, option);
+	
+    for (var i = 0; i < reviewerTypes.length; i += 2) {
+	    var reviewerType = reviewerTypes[i].replace(/^\t*/, '');
+        option = document.createElement('option');
+		option.setAttribute("value", reviewerType);
+		option.text = reviewerTypes[i+1];
+		addSelectOption(selectElement, option);
+    }
+    
+    return selectElement;
+}
 /*
  * Create the select (drop-down menu) of reviewer types.
  */

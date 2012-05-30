@@ -336,3 +336,11 @@ when
 then    
     setAction(protocolAction, true);
 end
+
+rule "Rule 1 -  Modify Protocol Submission"
+salience 100
+when
+	protocolAction : IacucProtocolActionMapping(actionTypeCode == '309',  protocolStatusCode == '101')
+then	
+    setAction(protocolAction, true);
+end

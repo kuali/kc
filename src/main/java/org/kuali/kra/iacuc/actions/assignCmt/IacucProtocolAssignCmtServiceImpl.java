@@ -84,6 +84,14 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
 
     }
     
+    public String getAssignedCommitteeId(Protocol protocol) {
+        ProtocolSubmission submission = findSubmission(protocol);
+        if (submission != null && StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+            return submission.getCommitteeId();
+        }
+        return null;
+    }
+    
     public void setCommitteeService(CommonCommitteeService committeeService) {
         this.committeeService = committeeService;
     }

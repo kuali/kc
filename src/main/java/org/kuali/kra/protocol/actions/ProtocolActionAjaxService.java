@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions.assignCmt;
-
-import org.kuali.kra.protocol.Protocol;
+package org.kuali.kra.protocol.actions;
 
 
-public interface IacucProtocolAssignCmtService {
+
+public interface ProtocolActionAjaxService {
     
-    public void assignToCommittee(Protocol protocol, IacucProtocolAssignCmtBean actionBean) throws Exception;
+    public String getReviewers(String protocolId, String committeeId, String scheduleId);
+    
+    public String getReviewerTypes();
 
-    public String getAssignedCommitteeId(Protocol protocol);
 
 }

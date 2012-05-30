@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.actions;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,24 +24,31 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
+import org.kuali.kra.iacuc.actions.assignagenda.IacucAssignToAgendaCorrespondence;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteBean;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
+import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
 import org.kuali.kra.iacuc.actions.notifycommittee.IacucProtocolNotifyCommitteeBean;
 import org.kuali.kra.iacuc.actions.notifyiacuc.ProtocolNotifyIacucBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
@@ -52,12 +60,16 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewDeterminationRecommendation;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The form helper class for the Protocol Actions tab.
@@ -107,6 +119,8 @@ public class IacucActionHelper extends ActionHelper {
     protected IacucProtocolTableBean iacucProtocolTableBean;
     protected ProtocolNotifyIacucBean protocolNotifyIacucBean;      
     protected IacucProtocolAssignCmtBean protocolAssignCmtBean;
+    protected IacucProtocolModifySubmissionBean iacucProtocolModifySubmissionBean;
+
 
     public IacucProtocolAssignCmtBean getProtocolAssignCmtBean() {
         return protocolAssignCmtBean;
@@ -126,6 +140,8 @@ public class IacucActionHelper extends ActionHelper {
         
         protocolAssignCmtBean = new IacucProtocolAssignCmtBean(this);
         iacucProtocolTableBean = new IacucProtocolTableBean(this);
+        iacucProtocolModifySubmissionBean = new IacucProtocolModifySubmissionBean(this);
+
 
         initIacucSpecificActionBeanTaskMap();
    }
@@ -135,20 +151,101 @@ public class IacucActionHelper extends ActionHelper {
      * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
      */
     private void initIacucSpecificActionBeanTaskMap() {
+        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_WITHDRAW, getProtocolWithdrawBean());
+        actionBeanTaskMap.put(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION, iacucProtocolModifySubmissionBean);
+        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_TABLE, iacucProtocolTableBean);
+        actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_TO_COMMITTEE, protocolAssignCmtBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_TABLE, iacucProtocolTableBean);
    
+    }
+
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    public IacucProtocolAssignCommitteeBean getProtocolAssignCmtBean() {
+//        return protocolAssignCmtBean;
+//    }
+//
+//    public void setProtocolAssignCmtBean(IacucProtocolAssignCommitteeBean protocolAssignCmtBean) {
+//        this.protocolAssignCmtBean = protocolAssignCmtBean;
+//    }
+
+    public IacucProtocolModifySubmissionBean getIacucProtocolModifySubmissionBean() {
+        return iacucProtocolModifySubmissionBean;
+    }
+
+    public void setIacucProtocolModifySubmissionBean(IacucProtocolModifySubmissionBean iacucProtocolModifySubmissionBean) {
+        this.iacucProtocolModifySubmissionBean = iacucProtocolModifySubmissionBean;
+    }
+
+    /**
+     * Builds an approval date, defaulting to the approval date from the protocol.
+     * 
+     * If the approval date from the protocol is null, or if the protocol is new or a renewal, then if the committee has scheduled a meeting to approve the 
+     * protocol, sets to the scheduled approval date; otherwise, sets to the current date.
+     * 
+     * @param protocol
+     * @return a non-null approval date
+     */
+    private Date buildApprovalDate(Protocol protocol) {
+        Date approvalDate = protocol.getApprovalDate();
+        
+        if (approvalDate == null || protocol.isNew() || protocol.isRenewal()) {
+            CommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
+            if (committeeSchedule != null) {
+                approvalDate = committeeSchedule.getScheduledDate();
+            } else {
+                approvalDate = new Date(System.currentTimeMillis());
+            }
+        }
+        
+        return approvalDate;
+    }
+    
+    /**
+     * Builds an expiration date, defaulting to the expiration date from the protocol.  
+     * 
+     * If the expiration date from the protocol is null, or if the protocol is new or a renewal, creates an expiration date exactly one year ahead and one day 
+     * less than the approval date.
+     * 
+     * @param protocol
+     * @param approvalDate
+     * @return a non-null expiration date
+     */
+    private Date buildExpirationDate(Protocol protocol, Date approvalDate) {
+        Date expirationDate = protocol.getExpirationDate();
+        
+        if (expirationDate == null || protocol.isNew() || protocol.isRenewal()) {
+            java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, 1);
+            newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
+            expirationDate = DateUtils.convertToSqlDate(newExpirationDate);
+        }
+        
+        return expirationDate;
+    }
+
+    private ProtocolAction findProtocolAction(String actionTypeCode, List<ProtocolAction> protocolActions, IacucProtocolSubmission currentSubmission) {
+
+        for (ProtocolAction pa : protocolActions) {
+            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(actionTypeCode)
+                    && (pa.getProtocolSubmission() == null || pa.getProtocolSubmission().equals(currentSubmission))) {
+                return pa;
+            }
+        }
+        return null;
     }
 
   
     public void prepareView() throws Exception {
         protocolSubmitAction.prepareView();
         super.prepareView();
+        iacucProtocolModifySubmissionBean.prepareView();
 
         submissionConstraint = getParameterValue(Constants.PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION);
 
         canSubmitProtocol = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL);
         canSubmitProtocolUnavailable = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE);
-
+//        canWithdraw = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW);
+//        canWithdrawUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE);
 
         // IACUC-specific actions
         canAssignCmt = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE);
@@ -184,6 +281,8 @@ public class IacucActionHelper extends ActionHelper {
         canNotifyIacucUnavailable = hasPermission(TaskName.IACUC_NOTIFY_COMMITTEE_UNAVAILABLE);
         canRequestToLiftHold = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD);
         canRequestToLiftHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD_UNAVAILABLE);
+        canReturnToPI = hasPermission(TaskName.RETURN_TO_PI_IACUC_PROTOCOL);
+        canReturnToPIUnavailable = hasPermission(TaskName.RETURN_TO_PI_IACUC_PROTOCOL_UNAVAILABLE);
         canReviewNotRequired = hasPermission(TaskName.REVIEW_NOT_REQUIRED_IACUC_PROTOCOL);
         canReviewNotRequiredUnavailable = hasPermission(TaskName.REVIEW_NOT_REQUIRED_IACUC_PROTOCOL_UNAVAILABLE);
         canTable = hasPermission(TaskName.IACUC_PROTOCOL_TABLE);
@@ -486,6 +585,21 @@ public class IacucActionHelper extends ActionHelper {
         return bean;
     }
     
+    public ProtocolOnlineReviewService getOnlineReviewService() {
+        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+    }
+    
+    public List<String> getReviewRecommendations() {
+        List<String> recommendations = new ArrayList<String>();
+        List<ProtocolOnlineReviewDocument> reviewDocs = getOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(getProtocol());
+        for (ProtocolOnlineReviewDocument doc : reviewDocs) {
+            ProtocolOnlineReviewDeterminationRecommendation rec = doc.getProtocolOnlineReview().getProtocolOnlineReviewDeterminationRecommendation();
+            if (ObjectUtils.isNotNull(rec)) {
+                recommendations.add(doc.getProtocolOnlineReview().getReviewerUserName() + "--" + rec.getDescription());
+            }
+        }
+        return recommendations;        
+    }
     
     @Override
     protected ProtocolTask createNewAbandonTaskInstanceHook(Protocol protocol) {
@@ -519,6 +633,17 @@ public class IacucActionHelper extends ActionHelper {
     }
 
     @Override
+    protected ProtocolTask getModifySubmissionAvailableTaskHook() {
+        return new IacucProtocolTask(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION, (IacucProtocol) getProtocol());
+
+    }
+
+    @Override
+    protected ProtocolTask getModifySubmissionUnavailableTaskHook() {
+        return new IacucProtocolTask(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE, (IacucProtocol) getProtocol());
+    }
+    
+    @Override
     protected ProtocolTask getNewSubmitProtocolTaskInstanceHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.SUBMIT_IACUC_PROTOCOL, (IacucProtocol) protocol);
     }
@@ -527,6 +652,7 @@ public class IacucActionHelper extends ActionHelper {
     protected ProtocolTask getNewSubmitProtocolUnavailableTaskInstanceHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
     }
+
 
     @Override
     protected ProtocolWithdrawBean getNewProtocolWithdrawBeanInstanceHook(ActionHelper actionHelper) {

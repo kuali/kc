@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions.assignCmt;
+package org.kuali.kra.iacuc.actions.modifysubmission;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.submit.ValidProtoSubTypeQual;
 
+public class IacucValidProtoSubTypeQual extends ValidProtoSubTypeQual{
 
-public interface IacucProtocolAssignCmtService {
-    
-    public void assignToCommittee(Protocol protocol, IacucProtocolAssignCmtBean actionBean) throws Exception;
-
-    public String getAssignedCommitteeId(Protocol protocol);
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 4783740749459291400L;
 
 }
