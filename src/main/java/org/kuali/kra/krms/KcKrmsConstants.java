@@ -94,6 +94,8 @@ public final class KcKrmsConstants {
         public static final String PROTOCOL_REFERENCE_NUMBER_2 = "protocolRefNum2";
         
         public static final String FDA_APPLICATION_NUMBER = "fdaApplicationNumber";
+        
+        public static final String ALL_PROTOCOLS = "allProtocols";
     }
     
     public static final class IacucProtocol {
