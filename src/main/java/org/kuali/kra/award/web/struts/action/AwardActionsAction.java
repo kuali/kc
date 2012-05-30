@@ -56,6 +56,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -172,12 +173,15 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     /** {@inheritDoc} */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        awardForm.setUnitRulesMessages(getUnitRulesMessages(awardForm.getAwardDocument()));
         return new AuditActionHelper().setAuditMode(mapping, (AwardForm) form, true);
     }
 
     /** {@inheritDoc} */
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        ((AwardForm) form).clearUnitRulesMessages();
         return new AuditActionHelper().setAuditMode(mapping, (AwardForm) form, false);
     }
     
