@@ -17,15 +17,21 @@ package org.kuali.kra.coi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.coi.rules.CoiDisclosureFactBuilderService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.krms.api.engine.Facts;
 
 /**
  * 
@@ -33,7 +39,7 @@ import org.kuali.rice.krad.document.SessionDocument;
  */
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_COIDISCLOSURE)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class CoiDisclosureDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
+public class CoiDisclosureDocument extends ResearchDocumentBase implements Copyable, SessionDocument, KrmsRulesContext { 
     
     public static final String DOCUMENT_TYPE_CODE = "COI";
     private List<CoiDisclosure> coiDisclosureList;
@@ -116,6 +122,16 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
         }
         return isComplete;
 
+    }
+    
+    public void populateContextQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_COIDISCLOSURE);
+        qualifiers.put("name", KcKrmsConstants.CoiDisclosure.COI_DISCLOSURE_CONTEXT);
+    }
+    
+    public void addFacts(Facts.Builder factsBuilder) {
+        CoiDisclosureFactBuilderService fbService = KraServiceLocator.getService(CoiDisclosureFactBuilderService.class);
+        fbService.addFacts(factsBuilder, this);
     }
 
 }

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.coi;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +28,7 @@ import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -39,8 +42,12 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         final ActionForward forward = super.execute(mapping, form, request, response);
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        if (coiDisclosureForm.isAuditActivated()){
+            coiDisclosureForm.setUnitRulesMessages(getUnitRulesMessages(coiDisclosureForm.getCoiDisclosureDocument()));
+        }
         if(KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
-            new AuditActionHelper().auditConditionally((CoiDisclosureForm) form);
+            new AuditActionHelper().auditConditionally(coiDisclosureForm);
         }
         
         return forward;
@@ -132,6 +139,11 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     @SuppressWarnings("deprecation")
     protected final boolean applyRules(KualiDocumentEvent event) {
         return getKualiRuleService().applyRules(event);
+    }
+    
+    protected List<String> getUnitRulesMessages(CoiDisclosureDocument coiDisclosureDoc) {
+        KrmsRulesExecutionService rulesService = KraServiceLocator.getService(KrmsRulesExecutionService.class);
+        return rulesService.processUnitValidations(coiDisclosureDoc.getCoiDisclosure().getLeadUnitNumber(), coiDisclosureDoc);
     }
     
 //    @Override
