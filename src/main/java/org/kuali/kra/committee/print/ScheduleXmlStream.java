@@ -59,7 +59,6 @@ import edu.mit.irb.irbnamespace.ScheduleDocument;
 import edu.mit.irb.irbnamespace.InvestigatorDocument.Investigator;
 import edu.mit.irb.irbnamespace.PersonDocument.Person;
 import edu.mit.irb.irbnamespace.ProtocolMasterDataDocument.ProtocolMasterData;
-import edu.mit.irb.irbnamespace.RiskLevelsDocument.RiskLevels;
 import edu.mit.irb.irbnamespace.ProtocolSubmissionDocument.ProtocolSubmission;
 import edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary;
 import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;

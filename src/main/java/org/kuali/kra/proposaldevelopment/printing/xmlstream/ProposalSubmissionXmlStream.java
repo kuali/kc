@@ -35,7 +35,7 @@ import edu.mit.coeus.utils.xml.v2.lookuptypes.PROPOSALTYPEDocument.PROPOSALTYPE;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.SPECIALREVIEWDocument.SPECIALREVIEW;
 import edu.mit.coeus.utils.xml.v2.organization.ORGANIZATIONDocument.ORGANIZATION;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALDocument;
-import edu.mit.coeus.utils.xml.v2.propdev.PROPINVESTIGATORSDocument.PROPINVESTIGATORS;
+//import edu.mit.coeus.utils.xml.v2.propdev.PROPINVESTIGATORSDocument.PROPINVESTIGATORS;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALDocument.PROPOSAL;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALMASTERDocument.PROPOSALMASTER;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPPERCREDITSPLITDocument.PROPPERCREDITSPLIT;
@@ -140,9 +140,9 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 		proposal.setLOGOPATH(IMAGES_PATH);
 		proposal.setPROPUNITSArray(getPropUnits(developmentProposal
 				.getProposalPersons()));
-		proposal
-				.setPROPINVESTIGATORSArray(getProposalInvestigators(developmentProposal
-						.getProposalPersons()));
+//		proposal
+//				.setPROPINVESTIGATORSArray(getProposalInvestigators(developmentProposal
+//						.getProposalPersons()));
 		proposal
 				.setPROPSPECIALREVIEWArray(getPropSpecialReviews(developmentProposal
 						.getPropSpecialReviews()));
@@ -307,7 +307,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 * This method gets arrays of PROPINVESTIGATORS XMLObject and set data to it
 	 * from list of proposalPerson
 	 */
-	private PROPINVESTIGATORS[] getProposalInvestigators(
+	/*private PROPINVESTIGATORS[] getProposalInvestigators(
 			List<ProposalPerson> proposalPersons) {
 		List<PROPINVESTIGATORS> propInvestigatorList = new ArrayList<PROPINVESTIGATORS>();
 		for (ProposalPerson propPerson : proposalPersons) {
@@ -327,7 +327,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 			propInvestigatorList.add(propInvestigator);
 		}
 		return propInvestigatorList.toArray(new PROPINVESTIGATORS[0]);
-	}
+	}*/
 
 	/*
 	 * This method gets credit from List of ProposalPersonCreditSplit by
@@ -463,9 +463,9 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 		proposalMaster
 				.setPRIMESPONSOR(getPrimeSponsorXMLObject(developmentProposal
 						.getPrimeSponsorCode()));
-		proposalMaster
-				.setPROPINVESTIGATORS(getProposalInvestigatorXMLObject(developmentProposal
-						.getProposalPersons()));
+//		proposalMaster
+//				.setPROPINVESTIGATORS(getProposalInvestigatorXMLObject(developmentProposal
+//						.getProposalPersons()));
 		proposalMaster
 				.setPROPOSALTYPE(getProposalTypeXMLObject(developmentProposal
 						.getProposalType().getDescription()));
@@ -639,7 +639,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 * and info from principalInvestigator Person
 	 * 
 	 */
-	private PROPINVESTIGATORS getProposalInvestigatorXMLObject(
+	/*private PROPINVESTIGATORS getProposalInvestigatorXMLObject(
 			List<ProposalPerson> proposalPersonList) {
 		PROPINVESTIGATORS propInvestigator = PROPINVESTIGATORS.Factory
 				.newInstance();
@@ -651,7 +651,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 			propInvestigator.setPERSONID(person.getFullName());
 		}
 		return propInvestigator;
-	}
+	}*/
 
 	/*
 	 * This method gets Principal Investigator Person from list of Proposal
