@@ -18,7 +18,9 @@ package org.kuali.kra.budget.personnel;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -33,6 +35,10 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -58,7 +64,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
             copyLineItemToPersonnelDetails(budgetLineItem, newBudgetPersonnelDetails);
         }
         /*
-         * Need to solve the documentnext value refresh issue
+         * Need to solve the document next value refresh issue
          */
         
         newBudgetPersonnelDetails.setPersonNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
@@ -106,7 +112,62 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
         this.budgetCalculationService = budgetCalculationService;
     }
+    private ParameterService parameterService;
+ 
+    
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+        }
+        return this.parameterService;
+    }
+   
+    public List<BudgetPersonSalaryDetails> calculatePersonSalary(Budget budget, int personIndex){
+       
+        List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>(); 
+        String rate = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                Constants.DEFAULT_INFLATION_RATE_FOR_SALARY);
+        List<BudgetPeriod> budgetPeriodList = null;
+        BudgetDecimal actualPersonSalary = BudgetDecimal.ZERO;
+        BudgetDecimal personSalary = BudgetDecimal.ZERO;
+        BudgetDecimal newRate = new BudgetDecimal(rate);
+        budgetPeriodList = budget.getBudgetPeriods();
+        
+        BudgetPerson budgetPerson = budget.getBudgetPerson(personIndex);
+            for (BudgetPeriod budgetPeriodData : budgetPeriodList) {
+                BudgetPersonSalaryDetails personSalaryDetails = new BudgetPersonSalaryDetails();
+              
+                personSalaryDetails.setBudgetId(budget.getBudgetId());
+                personSalaryDetails.setPersonSequenceNumber(budgetPerson.getPersonSequenceNumber());
+                personSalaryDetails.setBudgetPeriod(budgetPeriodData.getBudgetPeriod());
+                personSalaryDetails.setPersonId(budgetPerson.getPersonId());
+                if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
+                    if (budgetPerson.getEffectiveDate().equals(budgetPerson.getStartDate())) {
 
+                        personSalaryDetails.setBaseSalary(budgetPerson.getCalculationBase());
+                        actualPersonSalary = budgetPerson.getCalculationBase();
+
+                    } else {
+
+                        actualPersonSalary = budgetPerson.getCalculationBase().add(
+                                budgetPerson.getCalculationBase().multiply(newRate.divide(new BudgetDecimal(100)))).setScale(2);
+                        
+                      
+                    }
+
+
+                } else {
+
+                    personSalary = actualPersonSalary.add(actualPersonSalary.multiply(newRate.divide(new BudgetDecimal(100)))).setScale(2);
+                    personSalaryDetails.setBaseSalary(personSalary);
+                    actualPersonSalary = personSalary;
+                }
+                budgetPersonSalaryDetails.add(personSalaryDetails);
+            }  
+            return budgetPersonSalaryDetails;
+    }
+    
+    
     public void calculateBudgetPersonnelBudget(Budget budget, BudgetLineItem selectedBudgetLineItem,
             BudgetPersonnelDetails budgetPersonnelDetails, int lineNumber) {
         copyLineItemToPersonnelDetails(selectedBudgetLineItem,budgetPersonnelDetails);

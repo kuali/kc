@@ -232,6 +232,7 @@ public interface Constants {
     public static final String JOB_CODE = "jobCode";
     public static final String BUDGET_CATEGORY_PERSONNEL = "P";
     public static final String BUDGET_PERSON_DEFAULT_JOB_CODE_PARAMETER = "budgetPersonDefaultJobCode";
+    public static final String DEFAULT_INFLATION_RATE_FOR_SALARY = "DEFAULT_INFLATION_RATE_FOR_SALARY";
         
     // KIM Authorization Namespace for KRA
     public static final String KRA_NAMESPACE = "KRA";
@@ -411,6 +412,8 @@ public interface Constants {
     public static final String BUDGETDATA_DISPLAY_VAL_KEY = "newBudgetChangedData.displayValue";
     public static final String BUDGETDATA_CURRENT_DISPLAY_KEY = "newBudgetChangedData.oldDisplayValue";
     public static final String BUDGETDATA_COMMENTS_KEY = "newBudgetChangedData.comments";
+    public static final String ENABLE_BUDGET_CALCULATED_SALARY = "enableBudgetCalculatedSalary";
+    
     
 
     public static final String BUDGET_SALARY_REPORT = "ProposalBudget/Salaries";

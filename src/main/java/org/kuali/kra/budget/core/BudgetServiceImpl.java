@@ -34,6 +34,7 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.commitments.AwardFandaRate;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.query.Equals;
@@ -45,6 +46,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
+import org.kuali.kra.budget.personnel.BudgetPersonSalaryDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonService;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.ValidCeJobCode;
@@ -63,6 +65,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -825,6 +828,38 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
     public void setFiscalYearMonthService(FiscalYearMonthService fiscalYearMonthService) {
         this.fiscalYearMonthService = fiscalYearMonthService;
+    }
+    
+    public BudgetDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo keyPerson ) {
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        final Integer listIndex = 0;
+        BudgetDecimal baseSalaryByPeriod = null;
+        HashMap budgetPersonInPeriodsSalaryMap = new HashMap();
+        budgetPersonInPeriodsSalaryMap.put("budgetId", budgetId);
+        budgetPersonInPeriodsSalaryMap.put("personId", keyPerson.getPersonId());
+        budgetPersonInPeriodsSalaryMap.put("budgetPeriod", budgetPeriod);
+        Collection<BudgetPersonSalaryDetails> personSalaryDetails = boService.findMatchingOrderBy(BudgetPersonSalaryDetails.class, budgetPersonInPeriodsSalaryMap,"personSequenceNumber",true);
+        List<BudgetPersonSalaryDetails>budgetPersonSalaryDetails = (List<BudgetPersonSalaryDetails>) personSalaryDetails;
+        if(budgetPersonSalaryDetails!=null && budgetPersonSalaryDetails.size() > 0) {
+            baseSalaryByPeriod = budgetPersonSalaryDetails.get(listIndex).getBaseSalary();
+        }
+        return baseSalaryByPeriod;
+    }
+    
+    public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId ){
+        String baseSalary = "";
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class); 
+        HashMap budgetPersonInPeriodsSalaryMap = new HashMap();
+        budgetPersonInPeriodsSalaryMap.put("personSequenceNumber", personSequenceNumber);
+        budgetPersonInPeriodsSalaryMap.put("budgetId", budgetId);
+        budgetPersonInPeriodsSalaryMap.put("personId", personId);
+        Collection<BudgetPersonSalaryDetails>budgetPersonSalaryDetails = boService.findMatching(BudgetPersonSalaryDetails.class, budgetPersonInPeriodsSalaryMap);
+        for(BudgetPersonSalaryDetails salaryDetails : budgetPersonSalaryDetails){
+            baseSalary = baseSalary + salaryDetails.getBaseSalary() + ","; 
+        }
+        
+        baseSalary = baseSalary.substring(0, baseSalary.lastIndexOf(","));
+        return baseSalary;
     }
 
 }

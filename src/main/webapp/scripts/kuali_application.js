@@ -3505,3 +3505,48 @@ function proposalDevelopmentCommentPop(personIndex,docFormKey,sessionDocument,co
 		propDevCommentWindow = window.open(extractUrlBase()+ "/proposalDevelopment.do?methodToCall=getProposalComment&personIndex="+personIndex+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&comments="+comments, "mywindow", "width=800, height=300, scrollbars=yes");
 	}
 }
+
+
+var personSelectedIndex;
+function showBudgetPersonSalaryDetails(flag, personIndex, budgetId, personSequenceNumber, personId, callbackFunction) {
+	
+	if(flag) {
+     document.getElementById("paramDiv+"+personIndex).style.display = 'block';
+     document.getElementById("disablingDiv").style.display='block';
+	}
+	else {
+		document.getElementById("paramDiv+"+personIndex).style.display = 'none';
+		document.getElementById("disablingDiv").style.display='none';
+		
+	}
+	personSelectedIndex = personIndex;
+	var dwrReply = {
+			callback:callbackFunction,
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+			}
+		};
+	BudgetService.populateBudgetPersonSalaryDetailsInPeriods(budgetId, personSequenceNumber, personId, dwrReply);
+		
+}
+
+function showBudgetPersonSalaryDetails_Callback( data ) {
+	var value_array = data.split(",");
+	var counter=0;
+	
+	while (counter < value_array.length)
+	{
+		var cell = document.getElementById("BudgetPersonSalaryInPeriodsCol+"+personSelectedIndex+counter);		
+		for(var prop in cell.childNodes){
+			 if(cell.childNodes[prop].nodeName == 'INPUT'){
+				 cell.childNodes[prop].value = value_array[counter];				
+			 }
+		}
+		
+		counter+=1;
+
+	}
+		
+	
+	
+}

@@ -60,6 +60,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
@@ -579,7 +581,7 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 						keyPersonDataType.setProjectRole(keyPerson.getRole());
 					}
 					keyPersonDataType
-							.setCompensation(getCompensation(keyPerson));
+							.setCompensation(getCompensation(keyPerson, periodInfo.getBudgetPeriod()));
 					keyPersonDataTypeArray[keyPersonCount] = keyPersonDataType;
 					keyPersonCount++;
 					LOG.info("keyPersonCount:" + keyPersonCount);
@@ -659,10 +661,13 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 	 *         KeyPersonInfo object.
 	 */
 	private KeyPersonCompensationDataType getCompensation(
-			KeyPersonInfo keyPerson) {
+			KeyPersonInfo keyPerson, int budgetPeriod) {
 
 		KeyPersonCompensationDataType keyPersonCompensation = KeyPersonCompensationDataType.Factory
 				.newInstance();
+		BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BudgetDecimal baseSalaryByPeriod; 
+		
 		if (keyPerson != null) {
 			if (keyPerson.getAcademicMonths() != null) {
 				keyPersonCompensation.setAcademicMonths(keyPerson
@@ -688,10 +693,23 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 				keyPersonCompensation.setFundsRequested(keyPerson
 						.getFundsRequested().bigDecimalValue());
 			}
-			if (keyPerson.getBaseSalary() != null) {
-				keyPersonCompensation.setBaseSalary(keyPerson.getBaseSalary()
-						.bigDecimalValue());
-			}
+            if (pdDoc.getBudgetDocumentVersions() != null) {
+                baseSalaryByPeriod = budgetService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersion(0)
+                        .getBudgetVersionOverview().getBudgetId(), budgetPeriod, keyPerson);
+                if (baseSalaryByPeriod != null) {
+                    keyPersonCompensation.setBaseSalary(baseSalaryByPeriod.bigDecimalValue());
+                }
+                else {
+                    if (keyPerson.getBaseSalary() != null) {
+                        keyPersonCompensation.setBaseSalary(keyPerson.getBaseSalary().bigDecimalValue());
+                    }
+                }
+            }
+            else {
+                if (keyPerson.getBaseSalary() != null) {
+                    keyPersonCompensation.setBaseSalary(keyPerson.getBaseSalary().bigDecimalValue());
+                }
+            }
 		}
 		return keyPersonCompensation;
 	}

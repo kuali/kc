@@ -57,7 +57,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     private String personId;
 
     private BudgetDecimal salaryRequested = BudgetDecimal.ZERO;
-
+    
     private Integer sequenceNumber;
 
     private Integer personSequenceNumber;
@@ -67,12 +67,15 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
 
     private List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList;
+    
+    private List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails;
 
     private String effdtAfterStartdtMsg;
 
     public BudgetPersonnelDetails() {
         budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
         budgetPersonnelRateAndBaseList = new ArrayList<BudgetPersonnelRateAndBase>();
+        budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
     }
 
     public Integer getPersonNumber() {
@@ -138,6 +141,16 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     public void setSalaryRequested(BudgetDecimal salaryRequested) {
         this.salaryRequested = salaryRequested;
     }
+    
+    public BudgetDecimal getCalculatedBaseSalary() {
+        return calculatedBaseSalary;
+    }
+
+    public void setCalculatedBaseSalary(BudgetDecimal calculatedBaseSalary) {
+        this.calculatedBaseSalary = calculatedBaseSalary;
+    }
+
+    private BudgetDecimal calculatedBaseSalary = BudgetDecimal.ZERO;
 
     public Integer getSequenceNumber() {
         return sequenceNumber;
@@ -231,7 +244,13 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     public void setBudgetPersonnelRateAndBaseList(List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList) {
         this.budgetPersonnelRateAndBaseList = budgetPersonnelRateAndBaseList;
     }
+    public List<BudgetPersonSalaryDetails> getBudgetPersonSalaryDetails() {
+        return budgetPersonSalaryDetails;
+    }
 
+    public void setBudgetPersonSalaryDetails(List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails) {
+        this.budgetPersonSalaryDetails = budgetPersonSalaryDetails;
+    }
     public String getEffdtAfterStartdtMsg() {
         this.refreshReferenceObject("budgetPerson");
         if (getStartDate() != null && budgetPerson.getEffectiveDate().after(getStartDate())) {
