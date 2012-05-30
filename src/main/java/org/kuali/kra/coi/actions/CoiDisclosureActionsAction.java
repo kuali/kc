@@ -53,7 +53,9 @@ public class CoiDisclosureActionsAction extends CoiAction {
      */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        return new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, true);
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        coiDisclosureForm.setUnitRulesMessages(getUnitRulesMessages(coiDisclosureForm.getCoiDisclosureDocument()));
+        return new AuditActionHelper().setAuditMode(mapping, coiDisclosureForm, true);
     }
 
     /**
@@ -68,6 +70,7 @@ public class CoiDisclosureActionsAction extends CoiAction {
      */
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
+        ((CoiDisclosureForm) form).clearUnitRulesMessages();
         return new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, false);
     }
 

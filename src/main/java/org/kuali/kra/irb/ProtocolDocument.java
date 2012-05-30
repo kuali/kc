@@ -41,6 +41,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
+import org.kuali.kra.irb.rules.IrbProtocolFactBuilderService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.service.KcPersonService;
@@ -605,9 +606,8 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     }
 
     public void addFacts(Builder factsBuilder) {
-        factsBuilder.addFact(KcKrmsConstants.IrbProtocol.PROTOCOL_REFERENCE_NUMBER_1, this.getProtocol().getReferenceNumber1());
-        factsBuilder.addFact(KcKrmsConstants.IrbProtocol.PROTOCOL_REFERENCE_NUMBER_2, this.getProtocol().getReferenceNumber2());
-        factsBuilder.addFact(KcKrmsConstants.IrbProtocol.FDA_APPLICATION_NUMBER, this.getProtocol().getFdaApplicationNumber());
+        IrbProtocolFactBuilderService fbService = KraServiceLocator.getService(IrbProtocolFactBuilderService.class);
+        fbService.addFacts(factsBuilder, this);
     }
 
 }

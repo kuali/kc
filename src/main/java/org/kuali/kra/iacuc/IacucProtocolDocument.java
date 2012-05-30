@@ -26,7 +26,9 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationService;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
+import org.kuali.kra.iacuc.rules.IacucProtocolFactBuilderService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
@@ -172,9 +174,8 @@ public class IacucProtocolDocument extends ProtocolDocument {
 
     @Override
     public void addFacts(Builder factsBuilder) {
-        factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_REFERENCE_NUMBER_1, this.getProtocol().getReferenceNumber1());
-        factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_REFERENCE_NUMBER_2, this.getProtocol().getReferenceNumber2());
-        factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_FDA_APPLICATION_NUMBER, this.getProtocol().getFdaApplicationNumber());
+        IacucProtocolFactBuilderService fbService = KraServiceLocator.getService(IacucProtocolFactBuilderService.class);
+        fbService.addFacts(factsBuilder, this);
     }
 
     @Override
