@@ -52,6 +52,9 @@ public class IrbProtocolFactBuilderServiceImpl implements IrbProtocolFactBuilder
         factsBuilder.addFact(KcKrmsConstants.IrbProtocol.PROTOCOL_REFERENCE_NUMBER_2, protocolDocument.getProtocol().getReferenceNumber2());
         factsBuilder.addFact(KcKrmsConstants.IrbProtocol.FDA_APPLICATION_NUMBER, protocolDocument.getProtocol().getFdaApplicationNumber());
         
+        // This special function hardcoded as 1 to enable routing/notification in any case.
+        factsBuilder.addFact(KcKrmsConstants.IrbProtocol.ALL_PROTOCOLS, "1");
+        
         // Functions
         // All persons training completed
         // All Protocols
