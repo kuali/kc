@@ -42,6 +42,9 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
@@ -61,6 +64,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalDevelopmentApproverViewDO;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
@@ -71,9 +75,11 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
@@ -104,11 +110,26 @@ import org.springframework.util.CollectionUtils;
 public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private static final String PROPOSAL_NARRATIVE_TYPE_GROUP = "proposalNarrativeTypeGroup";
     private static final String DELIVERY_INFO_DISPLAY_INDICATOR = "deliveryInfoDisplayIndicator";
+    private static final String PROPOSAL_SUMMARY_INDICATOR = "enableProposalSummaryPanel";
+    private static final String BUDGET_SUMMARY_INDICATOR = "enableBudgetSummaryPanel";
+    private static final String KEY_PERSONNEL_INDICATOR = "enableKeyPersonnelPanel";
+    private static final String SPECIAL_REVIEW_INDICATOR = "enableSpecialReviewPanel";
+    private static final String SUMMARY_PRINT_FORMS_INDICATOR = "enableSummaryPrintPanel";
+    private static final String CUSTOM_DATA_INFO_INDICATOR = "enableCustomDataInfoPanel";
+    private static final String SUMMARY_QUESTIONS_INDICATOR = "enableSummaryQuestionsPanel";
+    private static final String SUMMARY_ATTACHMENTS_INDICATOR = "enableSummaryAttachmentsPanel";
+    private static final String SUMMARY_KEYWORDS_INDICATOR = "enableSummaryKeywordsPanel";
+    private static final String PROPOSAL_SUMMARY_DISCLAIMER_INDICATOR = "propSummaryDisclaimerText";
     private static final String ERROR_NO_GRANTS_GOV_FORM_SELECTED = "error.proposalDevelopment.no.grants.gov.form.selected";
+    private static final String PERSON_INDEX= "personIndex";
+    private static final String COMMENTS= "comments";
+    private static final String PROPOSAL_APPROVAL_STATE = "Approval Pending - Submitted";
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
     private ProposalHierarcyActionHelper hierarchyHelper;
     private KcNotificationService notificationService;
-    
+    private BudgetService budgetService;
+    private S2SBudgetCalculatorService s2SBudgetCalculatorService;
+    List<AnswerHeader> answerHeaders;
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -128,6 +149,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         //KRACOEUS-5064
         if (proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentHeader().getDocumentNumber() == null && request.getParameter(KRADConstants.PARAMETER_DOC_ID) != null) {
             loadDocumentInForm(request, proposalDevelopmentForm);
+        }
+        if(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalState().getDescription().equals(PROPOSAL_APPROVAL_STATE)){
+            return proposalSummary(mapping, form, request, response);
         }
         if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             //forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
@@ -240,7 +264,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    
         ActionForward actionForward = super.execute(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
@@ -648,6 +672,95 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward(Constants.PERMISSIONS_PAGE);
     }
+
+    public ActionForward proposalSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+
+        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();       
+        BudgetDocument budgetDocument = getS2SBudgetCalculatorService() .getFinalBudgetVersion(document);
+        if(budgetDocument != null) {
+            Budget budget = budgetDocument.getBudget();
+            if(budgetDocument != null) {
+                Budget finalBudget = budgetDocument.getBudget();
+                if(finalBudget.getFinalVersionFlag()){
+                    final Map<String, Object> fieldValues = new HashMap<String, Object>();
+                    fieldValues.put("budgetId", finalBudget.getBudgetId());
+                    pdform.setBudgetToSummarize(finalBudget);  
+
+
+                } else {
+                    Budget budgetVersion = budgetDocument.getBudget();
+                    pdform.setBudgetVersionNumbers(budgetVersion);
+                }
+            }
+
+            if(budget.getBudgetPrintForms().isEmpty()){
+                BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
+                budgetPrintService.populateBudgetPrintForms(budget);
+            }
+        }
+        ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
+        printService.populateSponsorForms(pdform.getSponsorFormTemplates(), document.getDevelopmentProposal().getSponsorCode());
+
+        pdform.getQuestionnaireHelper().prepareView();
+        pdform.getS2sQuestionnaireHelper().prepareView();
+      
+        if (CollectionUtils.isEmpty(pdform.getQuestionnaireHelper().getAnswerHeaders())) {
+            pdform.getQuestionnaireHelper().populateAnswers();
+        } 
+
+        pdform.getS2sQuestionnaireHelper().populateAnswers();
+        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(PROPOSAL_SUMMARY_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_SUMMARY_INDICATOR));
+        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(BUDGET_SUMMARY_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, BUDGET_SUMMARY_INDICATOR));
+        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(KEY_PERSONNEL_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, KEY_PERSONNEL_INDICATOR));
+        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(SPECIAL_REVIEW_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SPECIAL_REVIEW_INDICATOR));
+        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(SUMMARY_PRINT_FORMS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_PRINT_FORMS_INDICATOR));
+        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(CUSTOM_DATA_INFO_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, CUSTOM_DATA_INFO_INDICATOR));
+        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(SUMMARY_QUESTIONS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_QUESTIONS_INDICATOR));
+        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(SUMMARY_ATTACHMENTS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_ATTACHMENTS_INDICATOR));
+        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(SUMMARY_KEYWORDS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_KEYWORDS_INDICATOR));
+        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(PROPOSAL_SUMMARY_DISCLAIMER_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_SUMMARY_DISCLAIMER_INDICATOR));
+        return mapping.findForward(Constants.SUMMARY_PAGE);
+    }
+
+    
+    /**
+     * method for setting the proposal Summary person certification Details.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward getProposalPersonCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+       ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+       ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+       String personIndex = request.getParameter(PERSON_INDEX);
+       request.setAttribute(PERSON_INDEX, personIndex);
+       return mapping.findForward(Constants.PERSON_CERTIFICATE); 
+    }
+    
+    
+    /**
+     * method for setting the proposal Summary key person comment Details.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward getProposalComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        String personIndex = request.getParameter(PERSON_INDEX);
+        String comments = request.getParameter(COMMENTS);
+        request.setAttribute(COMMENTS, comments);
+        request.setAttribute(PERSON_INDEX, personIndex);
+        return mapping.findForward(Constants.PERSON_COMMENT); 
+    }
+    
     
     public ActionForward hierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm)form;
@@ -1053,8 +1166,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     public ActionForward approverView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward(Constants.MAPPING_PROPOSAL_APPROVER_PAGE);
     }
-    
-    
+   
     /**
      * This method allows logic to be executed before a save, after authorization is confirmed.
      * 
@@ -1098,9 +1210,37 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         this.notificationService = notificationService;
     }
     
-    
-    
-    
+    /**
+     * 
+     * @return
+     */
+   private BudgetService getBudgetService() {
+       return KraServiceLocator.getService(BudgetService.class);
+   }
+   /**
+    * 
+    * @param budgetService
+    */
+   private void setBudgetService(BudgetService budgetService) {
+       this.budgetService = budgetService;
+   }
+   
+   /**
+    * 
+    * @return
+    */
+   public S2SBudgetCalculatorService getS2SBudgetCalculatorService() {
+       return KraServiceLocator.getService(S2SBudgetCalculatorService.class);
+   }
+   /**
+    * 
+    * @param s2sBudgetCalculatorService
+    */
+   public void setS2SBudgetCalculatorService(
+           S2SBudgetCalculatorService s2sBudgetCalculatorService) {
+       s2SBudgetCalculatorService = s2sBudgetCalculatorService;
+   }
+ 
 }
 
 class S2sOppFormsComparator1 implements Comparator<S2sOppForms> {
@@ -1113,6 +1253,7 @@ class S2sOppFormsComparator2 implements Comparator<S2sOppForms> {
     public int compare(S2sOppForms s2sOppForms1, S2sOppForms s2sOppForms2) {
         return  s2sOppForms2.getMandatory().compareTo(s2sOppForms1.getMandatory());
     }
+   
   }
 
 

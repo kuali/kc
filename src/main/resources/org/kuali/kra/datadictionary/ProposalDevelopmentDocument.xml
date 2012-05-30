@@ -89,6 +89,13 @@
           <property name="headerTabDisplayName" value="Proposal Hierarchy"/>
           <property name="headerTabNavigateTo" value="hierarchy"/>
         </bean>
+          <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentHierarchyHelp" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Proposal Summary"/>
+          <property name="headerTabNavigateTo" value="proposalSummary"/>
+        </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentActionsHelp" p:parameterDetailType="Document"/>
