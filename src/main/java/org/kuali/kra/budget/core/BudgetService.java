@@ -18,6 +18,7 @@ package org.kuali.kra.budget.core;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
@@ -27,6 +28,7 @@ import org.kuali.kra.budget.personnel.ValidCeJobCode;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
@@ -171,5 +173,10 @@ public interface BudgetService<T extends BudgetParent>  {
      * @throws WorkflowException
      */
     public BudgetDocument<T> copyBudgetVersion(BudgetDocument<T> budgetDocument) throws WorkflowException;
+    
+    
+    public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId);
+    
+    public BudgetDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo keyPerson );
 
 }

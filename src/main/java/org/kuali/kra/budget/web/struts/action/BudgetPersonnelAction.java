@@ -48,6 +48,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
+import org.kuali.kra.budget.personnel.BudgetPersonSalaryDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonService;
 import org.kuali.kra.budget.personnel.BudgetPersonnelBudgetService;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
@@ -83,6 +84,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
     private static final String EMPTY_GROUP_NAME = "";
     private static final String DEFAULT_GROUP_NAME = "(new group)";
     
+    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -97,9 +99,17 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                  
         return forward;
     }
-    
+   
+    public ActionForward closePopUp(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        BudgetForm budgetForm = (BudgetForm)form;
+        budgetForm.setViewDivFlag(false);
+        return mapping.findForward(Constants.BUDGET_PERSONNEL_PAGE);
+       
         
-    private BudgetPeriod getSelectedBudgetPeriod(BudgetForm budgetForm) {
+    }
+    
+   private BudgetPeriod getSelectedBudgetPeriod(BudgetForm budgetForm) {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
@@ -623,6 +633,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                 .deleteBudgetPersonnelDetailsForPerson(budget,             
                                                        budget.getBudgetPerson(getLineToDelete(request)));            
 
+         
             budget.getBudgetPersons().remove(getLineToDelete(request));            
         }
         
@@ -902,5 +913,66 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    public ActionForward calculatePersonSalaryDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm)form;       
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        Budget budget = budgetForm.getBudgetDocument().getBudget();
+        List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
+        BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);        
+        budgetPersonSalaryDetails =  budgetPersonnelBudgetService.calculatePersonSalary(budget, getSelectedLine(request));        
+        budgetForm.getBudgetDocument().getBudget().getBudgetPerson(getSelectedLine(request)).setBudgetPersonSalaryDetails(budgetPersonSalaryDetails);
+        budgetForm.setViewDivFlag(true);
+        budgetForm.setPersonIndex(getSelectedLine(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward saveBudgetPersonSalaryInDiffPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        final int  zero = 0;
+        int listIndex = zero;   
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class); 
+        BudgetForm budgetForm = (BudgetForm)form;                  
+        Budget budget = budgetForm.getBudgetDocument().getBudget();
+        List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = budget.getBudgetPerson(getSelectedLine(request)).getBudgetPersonSalaryDetails();
+        
+        HashMap budgetPersonInPeriodsSalaryMap = new HashMap();
+        budgetPersonInPeriodsSalaryMap.put("personSequenceNumber", budget.getBudgetPerson(getSelectedLine(request)).getPersonSequenceNumber());
+        budgetPersonInPeriodsSalaryMap.put("budgetId", budget.getBudgetId());
+        budgetPersonInPeriodsSalaryMap.put("personId", budget.getBudgetPerson(getSelectedLine(request)).getPersonId());
+        Collection<BudgetPersonSalaryDetails> salaryDetails = boService.findMatching(BudgetPersonSalaryDetails.class, budgetPersonInPeriodsSalaryMap);
+        List<BudgetPersonSalaryDetails>personSalaryDetails = (List<BudgetPersonSalaryDetails>) salaryDetails;             
+        
+            for(BudgetPersonSalaryDetails budgetPerSalaryDetails : budgetPersonSalaryDetails){
+                budgetPerSalaryDetails.setBudgetId(budget.getBudgetId());
+                budgetPerSalaryDetails.setPersonSequenceNumber(budget.getBudgetPerson(getSelectedLine(request)).getPersonSequenceNumber());
+                budgetPerSalaryDetails.setPersonId(budget.getBudgetPerson(getSelectedLine(request)).getPersonId());
+                
+                if(personSalaryDetails != null && personSalaryDetails.size() > 0) {
+                    budgetPerSalaryDetails.setBudgetPeriod(personSalaryDetails.get(listIndex).getBudgetPeriod());
+                    budgetPerSalaryDetails.setBudgetPersonSalaryDetailId(personSalaryDetails.get(listIndex).getBudgetPersonSalaryDetailId());
+                    
+                } else {
+                    budgetPerSalaryDetails.setBudgetPeriod(listIndex + 1);
+                }
+                
+                listIndex = listIndex + 1;           
+                }
+       
+        
+        
+       
+       
+        if(budgetPersonSalaryDetails !=null && budgetPersonSalaryDetails.size() > 0){
+            boService.save(budgetPersonSalaryDetails);
+        }
+        
+        budgetForm.setViewDivFlag(true);
+        budgetForm.setPersonIndex(getSelectedLine(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        
+        
+    }
+   
    
 }

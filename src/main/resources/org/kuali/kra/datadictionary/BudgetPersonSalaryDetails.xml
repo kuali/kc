@@ -1,0 +1,144 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+   <bean id="BudgetPersonSalaryDetails" parent="BudgetPersonSalaryDetails-parentBean" />
+   
+   <bean id="BudgetPersonSalaryDetails-parentBean" abstract="true" parent="BusinessObjectEntry">
+   <property name="businessObjectClass" value="org.kuali.kra.budget.personnel.BudgetPersonSalaryDetails" />
+   <property name="objectLabel" value="Budget Person Salary Details" />
+   <property name="titleAttribute" value="budgetPersonSalaryDetailId" />
+   <property name="attributes" >
+    <list>
+        <ref bean="BudgetPersonSalaryDetails-budgetPersonSalaryDetailId" />
+        <ref bean="BudgetPersonSalaryDetails-personSequenceNumber" />
+        <ref bean="BudgetPersonSalaryDetails-budgetId" />
+        <ref bean="BudgetPersonSalaryDetails-budgetPeriod" />
+        <ref bean="BudgetPersonSalaryDetails-baseSalary" />
+      </list>
+    </property>
+    </bean>
+    
+    <!-- Attribute Definitions -->
+  
+   <bean id="BudgetPersonSalaryDetails-budgetPersonSalaryDetailId" parent="BudgetPersonSalaryDetails-budgetPersonSalaryDetailId-parentBean" />
+   
+    <bean id="BudgetPersonSalaryDetails-budgetPersonSalaryDetailId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="budgetPersonSalaryDetailId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Budget Person Salary Detail Id" />
+        <property name="shortLabel" value="Budget Person Salary Detail Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Budget Person Salary Detail Id" />
+        <property name="description" value="Budget Person Salary Detail Id" />
+    </bean>
+  
+   <bean id="BudgetPersonSalaryDetails-personSequenceNumber" parent="BudgetPersonSalaryDetails-personSequenceNumber-parentBean" />
+
+  <bean id="BudgetPersonSalaryDetails-personSequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="personSequenceNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Person" />
+    <property name="shortLabel" value="Person" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetPersonValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Person" />
+    <property name="description" value="Person" />
+  </bean>
+  
+  <bean id="BudgetPersonSalaryDetails-budgetId" parent="BudgetPersonSalaryDetails-budgetId-parentBean" />
+   
+    <bean id="BudgetPersonSalaryDetails-budgetId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="budgetId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Budget Id" />
+        <property name="shortLabel" value="Budget Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Budget Id" />
+        <property name="description" value="Budget Id" />
+    </bean>
+  
+  <bean id="BudgetPersonSalaryDetails-budgetPeriod" parent="BudgetPersonSalaryDetails-budgetPeriod-parentBean" />
+
+  <bean id="BudgetPersonSalaryDetails-budgetPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetPeriod" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Period" />
+    <property name="shortLabel" value="Budget Period" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Budget Period" />
+    <property name="description" value="Budget Period" />
+  </bean>
+  
+   <bean id="BudgetPersonSalaryDetails-versionNumber" parent="BudgetPersonSalaryDetails-versionNumber-parentBean" />
+
+  <bean id="BudgetPersonSalaryDetails-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="versionNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Version Number" />
+    <property name="shortLabel" value="Version Number" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
+    <property name="summary" value="Version Number" />
+    <property name="description" value="Version Number" />
+  </bean>  
+  
+  <bean id="BudgetPersonSalaryDetails-baseSalary" parent="BudgetPersonSalaryDetails-baseSalary-parentBean" />
+
+  <bean id="BudgetPersonSalaryDetails-baseSalary-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="baseSalary" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Base Salary" />
+    <property name="shortLabel" value="Salary" />
+    <property name="maxLength" value="10" />
+    <property name="validationPattern" >
+      <bean parent="FixedPointValidationPattern"
+	            p:precision="2"
+	            p:scale="2"
+	            p:allowNegative="false" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="Salary" />
+    <property name="description" value="Salary" />
+  </bean>
+  
+</beans>

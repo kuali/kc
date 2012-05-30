@@ -928,6 +928,19 @@
 
 	--></class-descriptor> 
 	
+	<class-descriptor class="org.kuali.kra.budget.personnel.BudgetPersonSalaryDetails" table="BUDGET_PERSON_SALARY_DETAILS">
+	    <field-descriptor name="budgetPersonSalaryDetailId" column="BUDGET_PERSON_SALARY_DETAIL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_PER_SAL_DET_ID"/>	    
+		<field-descriptor name="personSequenceNumber" column="PERSON_SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" /> 	
+		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
+		<field-descriptor name="baseSalary" column="BASE_SALARY" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+    	<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR"/>
+	</class-descriptor>
+	
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular" table="BUDGET_MODULAR">
 		<field-descriptor name="budgetPeriodId" column="BUDGET_PERIOD_NUMBER" jdbc-type="BIGINT" primarykey="true"/>
 
