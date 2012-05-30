@@ -17,8 +17,13 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="budgetPersonList" required="true" type="java.util.List" %>
 <%@ attribute name="budgetPersonProperty" required="true" %>
+<c:set var="proposalBudgetFlag" value="${KualiForm.document.parentDocument.proposalBudgetFlag}"  scope="session"/>
+<%-- <c:set target="${KualiForm.document}" property="proposalBudgetFlag" value="${proposalBudgetFlag}"/> --%>
+<bean:define id="proposalBudgetFlag" value="${proposalBudgetFlag}"/>
+<c:set var="budgetPersonSalaryDetailsAttributes" value="${DataDictionary.BudgetPersonSalaryDetails.attributes}" />
 
-<c:set var="attributes" value="${DataDictionary.BudgetPerson.attributes}" />
+<c:set var="attributes" value="${DataDictionary.BudgetPerson.attributes}" />	
+
 
 <table id="budget-personnel-table" cellpadding=0 cellspacing="0" summary="">
 	<tr>
@@ -121,14 +126,87 @@
 				    <div align=center>&nbsp;
 				        <html:image property="methodToCall.deleteBudgetPerson.line${status.index}" 
 				                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' 
-				                    styleClass="tinybutton" />
+				                    styleClass="tinybutton" />				                   
+				                    
 				    </div>
+				   
+				    <c:if test="${KualiForm.enableBudgetSalaryByPeriod=='Y'}">
+				     <div align=center>&nbsp;>				   
+				    <a id="budgetPersonSalaryDetail" title="Person Salary Details" href="#" onclick="showBudgetPersonSalaryDetails(${KualiForm.viewDivBooleanFlag}, ${status.index}, ${KualiForm.document.budget.budgetId}, ${person.personSequenceNumber}, ${person.personId}, showBudgetPersonSalaryDetails_Callback);" noresize >
+						 	Base Salary by Period																					
+                    </a>						
+					</div>
+					</c:if>
+					<div id="paramDiv+${status.index}" class="dialog"
+							style="z-index: 999; width: 450px; height: auto; min-height: 170px; border: 2; border-style: solid; top: 200px; left: 500px; position: absolute; border-color: #6B6B6B; background-color: #FFFFFF; display: none;"center" >
+							<kra:section permission="modifyBudgets">
+								<table cellpadding=0 cellspacing="0" summary="" id="BudgetPersonSalaryInPeriods${status.index}">
+								<tr><h3>Base Salary By Period</h3></tr>
+									<tr>
+										<th class="content_grey" style="horizondal-align: top;"
+											width="10%" height="20"><div align="left">
+												<kul:htmlAttributeLabel
+													attributeEntry="${budgetPersonSalaryDetailsAttributes.budgetPeriod}"
+													noColon="true" />
+											</div></th>
+										
+										<th class="content_grey" style="horizondal-align: top;"
+											width="10%" height="20"><div align="left">
+												<kul:htmlAttributeLabel
+													attributeEntry="${budgetPersonSalaryDetailsAttributes.baseSalary}"
+													noColon="true" />
+											</div></th>
+									</tr>
+
+									<c:forEach var="newbudgetSalaryDetails"
+										items="${KualiForm.document.budget.budgetPeriods}"
+										varStatus="periodStatus">
+										
+										<tr>
+											<td width="5%" class="infoline"><c:out
+													value="${periodStatus.index+1}" /> &nbsp;</td>
+											<td id="BudgetPersonSalaryInPeriodsCol+${status.index}${periodStatus.index}">
+														<kul:htmlControlAttribute
+															property="${budgetPersonProperty}[${status.index}].budgetPersonSalaryDetails[${periodStatus.index}].baseSalary"
+															attributeEntry="${budgetPersonSalaryDetailsAttributes.baseSalary}"
+															readOnly="${readOnly}" />
+													</td>
+
+										</tr>
+										
+									</c:forEach>
+								
+								</table>
+
+								<div align="center">
+									<br>
+									<html:image
+										src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif"
+										styleClass="globalbuttons" property="methodToCall.closePopUp"
+										title="close" alt="close"										
+										tabindex="${tabindex}" />
+
+									<html:image
+										src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif"
+										styleClass="globalbuttons"
+										property="methodToCall.saveBudgetPersonSalaryInDiffPeriods.line${status.index}" title="save"
+										alt="save" onclick="resetScrollPosition();"
+										tabindex="${tabindex}" />
+
+									<html:image
+										src="${ConfigProperties.kra.externalizable.images.url}buttonsmall_calculate.gif"
+										styleClass="globalbuttons"
+										property="methodToCall.calculatePersonSalaryDetails.line${status.index}" />
+										
+
+								</div>
+							</kra:section>
+						</div>		                     
 				</td>
 			</kra:section>
-		</tr>
+		</tr>		
 	</c:forEach>
 </table>
-
 <br/>
 
 <kra:section permission="modifyBudgets">
@@ -138,3 +216,8 @@
 	                styleClass="tinybutton"/>
 	</div>
 </kra:section>
+
+
+
+
+

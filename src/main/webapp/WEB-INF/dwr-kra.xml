@@ -150,7 +150,9 @@
 		
 		<create creator="spring" javascript="BudgetService">
 			<param name="beanName" value="budgetService" />
-			<include method="getApplicableCostElementsForAjaxCall" />					
+			<include method="getApplicableCostElementsForAjaxCall" />
+			<include method="populateBudgetPersonSalaryDetailsInPeriods" />		
+						
 		</create>
 		
 		<create creator="spring" javascript="ArgValueLookupService">

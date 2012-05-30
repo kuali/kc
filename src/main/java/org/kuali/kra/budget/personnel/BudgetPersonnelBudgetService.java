@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.budget.personnel;
 
+import java.util.List;
+
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
+
 
 /**
  * This class...
@@ -29,7 +32,7 @@ public interface BudgetPersonnelBudgetService {
             BudgetPersonnelDetails budgetPersonnelDetails,  int lineNumber);
     public void deleteBudgetPersonnelDetails(Budget budget, int selectedBudgetPeriodIndex,
             int selectedBudgetLineItemIndex, int lineToDelete);
-
+    public List<BudgetPersonSalaryDetails> calculatePersonSalary(Budget budget, int personIndex);
     /**
      * Removes all {@link BudgetPersonnelDetails} instances for a given {@link BudgetPerson}. Has to iterate through {@link BudgetPeriod} instances,
      * {@link BudgetLineItem} instances, and finally {@link BudgetPersonnelDetails} instances. Then the {@link BudgetPerson} instances are compared.

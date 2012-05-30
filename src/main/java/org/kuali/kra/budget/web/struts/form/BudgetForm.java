@@ -74,7 +74,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     public static final String VERSION_NUMBER_KEY = "DataDictionary.Budget.attributes.budgetVersionNumber";
     public static final String BUDGET_NAME_KEY = "DataDictionary.KraAttributeReferenceDummy.attributes.budgetName";
     
-    
+
     private String newBudgetPersons;
     private String newBudgetRolodexes;
     private String newTbnPersons;
@@ -124,6 +124,14 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     
     
     private String[] selectedToPrintComment;
+    
+    private transient boolean viewDivFlag = false;
+    
+    private transient boolean viewDivBooleanFlag = true;
+    
+    private transient Integer personIndex = 0;
+    
+    private transient String enableBudgetSalaryByPeriod;
     
     /**
      * Gets the selectedToPrintComment attribute. 
@@ -205,7 +213,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     public BudgetForm() {
         super();
         //Its actually calling from Action's docHandler. So, no need to call in here
-//        initialize();        
+//        initialize();    
     }
     
     /** {@inheritDoc} */
@@ -238,6 +246,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         newBudgetModularIdc = new BudgetModularIdc();
         this.getDocInfo().add(new HeaderField(BUDGET_NAME_KEY, Constants.EMPTY_STRING));
         this.getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
+
 
         setHierarchyProposalSummaries(new ArrayList<HierarchyProposalSummary>());
         Collections.sort(this.getBudgetDocument().getBudget().getBudgetSubAwards());
@@ -933,7 +942,39 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         boolean retVal = this.getEditingMode().containsKey("modifyProposalBudgetRates");
         return retVal;
     }
-    
+
+    public void setViewDivBooleanFlag(boolean viewDivBooleanFlag) {
+        this.viewDivBooleanFlag = viewDivBooleanFlag;
+    }
+
+    public boolean isViewDivBooleanFlag() {
+        return viewDivBooleanFlag;
+    }
+
+    public void setViewDivFlag(boolean viewDivFlag) {
+        this.viewDivFlag = viewDivFlag;
+    }
+
+    public boolean isViewDivFlag() {
+        return viewDivFlag;
+    }
+
+    public void setPersonIndex(Integer personIndex) {
+        this.personIndex = personIndex;
+    }
+
+    public Integer getPersonIndex() {
+        return personIndex;
+    }
+
+    public void setEnableBudgetSalaryByPeriod(String enableBudgetSalaryByPeriod) {
+        this.enableBudgetSalaryByPeriod = enableBudgetSalaryByPeriod;
+    }
+
+    public String getEnableBudgetSalaryByPeriod() {
+        return enableBudgetSalaryByPeriod;
+    }
+
     public boolean getCanViewBudgetPersonSalaries() {    
         boolean retVal1 = Boolean.valueOf((String)this.getEditingMode().get(PermissionConstants.VIEW_PROP_PERSON_INST_SALARIES));
         boolean retVal2 = Boolean.valueOf((String)this.getEditingMode().get(PermissionConstants.VIEW_INSTITUTIONAL_SALARIES));
