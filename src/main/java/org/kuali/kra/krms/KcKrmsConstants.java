@@ -98,7 +98,7 @@ public final class KcKrmsConstants {
     
     public static final class IacucProtocol {
         
-        public static final String IACUC_PROTOCOL_CONTEXT = "KC IACUC Protocol Context";
+        public static final String IACUC_PROTOCOL_CONTEXT = "KC IACUC Context";
         
         public static final String IACUC_REFERENCE_NUMBER_1 = "iacucRefNum1";
         
