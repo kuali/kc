@@ -1017,8 +1017,12 @@
 	      p:localServiceName="irbCorrespondentDerivedRoleTypeService" />
 	  </property>
 	</bean>
+	
+	<bean id="irbProtocolFactBuilderService" class="org.kuali.kra.irb.rules.IrbProtocolFactBuilderServiceImpl">
+         <property name="businessObjectService" ref="businessObjectService" />
+          <property name="documentService" ref="documentService" />
+    </bean>
 
-    
 </beans>
 
 

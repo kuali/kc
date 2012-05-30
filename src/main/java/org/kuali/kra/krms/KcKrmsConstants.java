@@ -77,6 +77,12 @@ public final class KcKrmsConstants {
         public static final String PROPOSAL_NARRATIVES_COMPLETE = "proposalNarrativesComplete";
     }
     
+    public static final class Award {
+        
+        public static final String AWARD_CONTEXT = "KC Award Context";
+        
+    }
+    
     public static final class IrbProtocol {
         
         public static final String IRB_PROTOCOL_CONTEXT = "KC Protocol Context";
@@ -97,6 +103,12 @@ public final class KcKrmsConstants {
         public static final String IACUC_REFERENCE_NUMBER_2 = "iacucRefNum2";
         
         public static final String IACUC_FDA_APPLICATION_NUMBER = "fdaApplicationNumber";
+    }
+    
+    public static final class CoiDisclosure {
+        
+        public static final String COI_DISCLOSURE_CONTEXT = "KC Annual COI Disclosure Context";
+        
     }
 
 }

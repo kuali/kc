@@ -374,5 +374,10 @@
 	<bean id="coiDisclosureLookupableHelperService" class="org.kuali.kra.coi.lookup.CoiDisclosureLookupableHelperServiceImpl" 
         scope="prototype" parent="parentLookupableHelperService">
     </bean>
+    
+    <bean id="coiDisclosureFactBuilderService" class="org.kuali.kra.coi.rules.CoiDisclosureFactBuilderServiceImpl">
+         <property name="businessObjectService" ref="businessObjectService" />
+          <property name="documentService" ref="documentService" />
+    </bean>
 
 </beans>
