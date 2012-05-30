@@ -1,4 +1,4 @@
-insert into KRMS_TYP_T values ('KC1001','Function Term Resolver Type Service','KC-PD','storedFunctionResolverTypeService','Y',1)
+insert into KRMS_TYP_T values ('KC1001','Function Term Resolver Type Service','KC-PD','functionTermResolverTypeService','Y',1)
 /
 insert into KRMS_TERM_SPEC_T values('KC1009','IS_SPONSOR_FEDERAL','java.lang.String','Y',1,'Is Sponsor Federal','KC-PD')
 /
