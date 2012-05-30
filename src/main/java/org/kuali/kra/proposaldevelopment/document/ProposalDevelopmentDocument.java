@@ -591,9 +591,10 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
     
     public void addFacts(Facts.Builder factsBuilder) {
-        String docContent = this.getDocumentHeader().getWorkflowDocument().getDocumentContent().getFullContent();
+        
+//        String docContent = this.getDocumentHeader().getWorkflowDocument().getDocumentContent().getFullContent();
         ProposalDevelopmentFactBuilderService fbService = KraServiceLocator.getService(ProposalDevelopmentFactBuilderService.class);
-        fbService.addFacts(factsBuilder, docContent);
+        fbService.addFacts(factsBuilder, this);
     }
     
 }

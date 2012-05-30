@@ -33,7 +33,7 @@
         <property name="attributes" >
             <list>
                 <ref bean="KcKrmsTermFunction-kcKrmsTermFunctionId" />
-                <ref bean="KcKrmsTermFunction-krmsTermId" />
+                <ref bean="KcKrmsTermFunction-krmsTermName" />
                 <ref bean="KcKrmsTermFunction-description" />
                 <ref bean="KcKrmsTermFunction-returnType" />
                 <ref bean="KcKrmsTermFunction-functionType" />
@@ -62,9 +62,9 @@
         <property name="description" value="Kc Krms Term Function Id" />
     </bean>
 
-    <bean id="KcKrmsTermFunction-krmsTermId" parent="KcKrmsTermFunction-krmsTermId-parentBean" />
-    <bean id="KcKrmsTermFunction-krmsTermId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="krmsTermId" />
+    <bean id="KcKrmsTermFunction-krmsTermName" parent="KcKrmsTermFunction-krmsTermName-parentBean" />
+    <bean id="KcKrmsTermFunction-krmsTermName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="krmsTermName" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Krms Term Id" />
         <property name="shortLabel" value="Krms Term Id" />
@@ -153,7 +153,7 @@
                                 p:attributeName="kcKrmsTermFunctionId" 
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="krmsTermId" />
+                                p:attributeName="krmsTermName" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="description" />
                             <bean parent="FieldDefinition"
@@ -182,7 +182,7 @@
                     p:attributeName="kcKrmsTermFunctionId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="krmsTermId" />
+                    p:attributeName="krmsTermName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
                 <bean parent="FieldDefinition"
@@ -197,7 +197,7 @@
                     p:attributeName="kcKrmsTermFunctionId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="krmsTermId" />
+                    p:attributeName="krmsTermName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
                 <bean parent="FieldDefinition"

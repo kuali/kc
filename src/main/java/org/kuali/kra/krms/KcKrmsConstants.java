@@ -75,6 +75,8 @@ public final class KcKrmsConstants {
         public static final String AGENCY_PROGRAM_CODE = "agencyProgramCode";
         
         public static final String PROPOSAL_NARRATIVES_COMPLETE = "proposalNarrativesComplete";
+
+        public static final String DEVELOPMENT_PROPOSAL = "DevelopmentProposal";
     }
     
     public static final class Award {
