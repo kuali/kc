@@ -9,7 +9,7 @@
 <c:set var="annotationLabel"><bean:message key="superuser.annotation.column.label" /></c:set>
 
 <kul:tab tabTitle="${tabTitle}"
-         defaultOpen="true"
+         defaultOpen="false"
          tabErrorKey="superuser.errors"
          transparentBackground="${transparentBackground}">
     <div class="tab-container" align=center id="G4">
