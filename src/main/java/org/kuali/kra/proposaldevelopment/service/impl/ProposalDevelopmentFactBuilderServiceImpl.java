@@ -66,7 +66,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl implements ProposalDevelo
     }
 
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
-        String documentNumber = getElementValue(docContent,"//documentNumber");
+        String documentNumber = getElementValue(docContent, "//document/documentNumber");
         try {
             ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)getDocumentService().getByDocumentHeaderId(documentNumber);
             addFacts(factsBuilder, proposalDevelopmentDocument);
@@ -170,7 +170,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl implements ProposalDevelo
     }
     
     /**
-     * This is a dummy test method that always returns 1
+     * Always returns 1 - to enable routing/notification in any case
      * @return
      */
     protected int getAllProposals() {
