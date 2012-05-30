@@ -426,19 +426,13 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
     protected DevelopmentProposal getNewestDevPropFromInstProp(InstitutionalProposal instProp) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("proposalNumber", instProp.getProposalNumber());
-        List<InstitutionalProposal> instProps = (List<InstitutionalProposal>) businessObjectService.findMatchingOrderBy(
-                InstitutionalProposal.class, fieldValues, "sequenceNumber", false);
-        for (InstitutionalProposal curProp : instProps) {
             Map<String, Object> detailFieldValues = new HashMap<String, Object>();
             detailFieldValues.put("instProposalId", instProp.getProposalId());
-            List<ProposalAdminDetails> details = (List<ProposalAdminDetails>) businessObjectService.findMatching(
-                    ProposalAdminDetails.class, detailFieldValues);
+            List<ProposalAdminDetails> details = (List<ProposalAdminDetails>) businessObjectService.findMatchingOrderBy(
+                    ProposalAdminDetails.class, detailFieldValues,"devProposalNumber",false);
             for (ProposalAdminDetails curDetail : details) {
                 return curDetail.getDevelopmentProposal();
             }
-        }
         return null;
     }
 
