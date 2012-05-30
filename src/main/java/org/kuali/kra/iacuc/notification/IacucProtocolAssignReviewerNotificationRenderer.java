@@ -13,16 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.notification;
+package org.kuali.kra.iacuc.notification;
 
 import java.util.Map;
 
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.protocol.Protocol;
 
 /**
  * Renders additional fields for the Assign Reviewer notification.
  */
-public class AssignReviewerNotificationRenderer extends ProtocolNotificationRenderer {
+public class IacucProtocolAssignReviewerNotificationRenderer extends IacucProtocolNotificationRenderer {
 
     private static final long serialVersionUID = 9066343992573219667L;
 
@@ -34,7 +36,7 @@ public class AssignReviewerNotificationRenderer extends ProtocolNotificationRend
      * @param protocol
      * @param actionTaken
      */
-    public AssignReviewerNotificationRenderer(Protocol protocol, String actionTaken) {
+    public IacucProtocolAssignReviewerNotificationRenderer(IacucProtocol protocol, String actionTaken) {
         super(protocol);
         
         this.actionTaken = actionTaken;
@@ -52,7 +54,6 @@ public class AssignReviewerNotificationRenderer extends ProtocolNotificationRend
      * {@inheritDoc}
      * @see org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
      */
-    @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
         params.put("{ACTION_TAKEN}", actionTaken);

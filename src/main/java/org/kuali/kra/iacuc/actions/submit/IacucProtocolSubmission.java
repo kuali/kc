@@ -22,5 +22,11 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
  * This class tracks the data associated with the submission of a protocol for review.
  */
 public class IacucProtocolSubmission extends ProtocolSubmission {
+    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 4270551170133689515L;
+    
 
 }

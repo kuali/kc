@@ -212,10 +212,12 @@ public abstract class ProtocolHelper implements Serializable {
         setReferenceId2Label(getParameterValue(getReferenceID2ParameterNameHook()));
         
 // TODO *********commented the code below during IACUC refactoring*********         
-//        boolean flag = (getParameterValue(Constants.PARAMETER_MODULE_PROTOCOL_BILLABLE).equalsIgnoreCase("Y") ? true : false);
-//        setDisplayBillable(flag);
+        boolean flag = (getParameterValue(getBillableParameterHook()).equalsIgnoreCase("Y") ? true : false);
+        setDisplayBillable(flag);
     }
 
+    protected abstract String getBillableParameterHook();
+    
     protected abstract String getReferenceID1ParameterNameHook();
 
     protected abstract String getReferenceID2ParameterNameHook();
@@ -231,9 +233,9 @@ public abstract class ProtocolHelper implements Serializable {
         initializeModifyProtocolPermission(protocol);
 
 // TODO *********commented the code below during IACUC refactoring*********        
-//        if(displayBillable) {
-//            initializeBillablePermission(protocol);   
-//        }
+        if(displayBillable) {
+            initializeBillablePermission(protocol);   
+        }
         
         initializeModifyGeneralInfoPermission(protocol);
         initializeModifyFundingSourcePermission(protocol);
@@ -254,13 +256,14 @@ public abstract class ProtocolHelper implements Serializable {
 
     protected abstract ProtocolTask getNewInstanceModifyProtocolTaskHook(Protocol protocol);
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private void initializeBillablePermission(Protocol protocol) {
-//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_BILLABLE, protocol);
-//        billableReadOnly = !getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
+    private void initializeBillablePermission(Protocol protocol) {
+        ProtocolTask task = getNewInstanceModifyProtocolBillableTaskNewHook(protocol);
+        billableReadOnly = !getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
     
-    
+
+    public abstract ProtocolTask getNewInstanceModifyProtocolBillableTaskNewHook(Protocol protocol);
+
     
     private void initializeModifyGeneralInfoPermission(Protocol protocol) {
         ProtocolTask task = getNewInstanceModifyProtocolGeneralInfoTaskHook(protocol);

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -53,7 +53,7 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
      * We use a AutoPopulatingList because we need it to grow. When JavaScript is enabled, it will display the list of reviewers. When
      * the form is submitted, this list will automatically grow to accommodate all of the reviewers.
      */
-    protected List<ProtocolReviewerBean> reviewers = new AutoPopulatingList<ProtocolReviewerBean>(ProtocolReviewerBean.class);
+    protected List<ProtocolReviewerBean> reviewers = new AutoPopulatingList<ProtocolReviewerBean>(IacucProtocolReviewerBean.class);
     
 // TODO *********commented the code below during IACUC refactoring*********     
 //    private List<ExpeditedReviewCheckListItem> expeditedReviewCheckList = null;
@@ -74,6 +74,9 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
         super(actionHelper);
     }
 
+    protected Class<? extends ProtocolReviewerBean> getProtocolReviewerBeanClassHook() {
+        return IacucProtocolReviewerBean.class;        
+    }
 
     /**
      * Prepare the Submit for Review for rendering with JSP.
@@ -108,8 +111,8 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
     }
 
 
-    public CommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommitteeService.class);
+    public CommonCommitteeService getCommitteeService() {
+        return KraServiceLocator.getService(CommonCommitteeService.class);
     }
 
     public String getSubmissionTypeCode() {

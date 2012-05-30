@@ -1076,6 +1076,7 @@ public final class KeyConstants {
     // IACUC error messages
     public static final String ERROR_IACUC_VALIDATION_ALTERNATE_SEARCH = "error.iacuc.validation.alternate.search";
     public static final String ERROR_IACUC_VALIDATION_SEARCHDATE_AFTER_CURRENTDATE = "error.iacuc.validation.searchdate.after.currentdate";
+    public static final String ERROR_IACUC_PROTOCOL_DOCUMENT_STATE_CHANGED = "error.iacuc.protocol.document.state.changed";
 
     
     // Disclosure and Financial Entity errors

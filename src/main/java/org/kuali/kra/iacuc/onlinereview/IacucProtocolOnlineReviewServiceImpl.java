@@ -316,7 +316,7 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
         return reviewer;
     }
 
-    protected ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(ProtocolSubmission protocolSubmission,
+    public ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(ProtocolSubmission protocolSubmission,
             ProtocolReviewer protocolReviewer, String documentDescription, String documentExplanation,
             String documentOrganizationDocumentNumber, Date dateRequested, Date dateDue, String principalId)
             throws WorkflowException {

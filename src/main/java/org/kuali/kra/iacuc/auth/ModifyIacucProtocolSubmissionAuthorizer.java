@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions.assignCmt;
+package org.kuali.kra.iacuc.auth;
 
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.Protocol;
 
+public class ModifyIacucProtocolSubmissionAuthorizer extends IacucProtocolAuthorizer {
 
-public interface IacucProtocolAssignCmtService {
-    
-    public void assignToCommittee(Protocol protocol, IacucProtocolAssignCmtBean actionBean) throws Exception;
-
-    public String getAssignedCommitteeId(Protocol protocol);
+    @Override
+    public boolean isAuthorized(String userId, IacucProtocolTask task) {
+        Protocol protocol = task.getProtocol();
+        return hasPermission(userId, protocol, PermissionConstants.MODIFY_IACUC_PROTO_SUBMISSION) 
+            && canExecuteAction(task.getProtocol(), IacucProtocolActionType.MODIFY_PROTOCOL_SUBMISSION);
+    }
 
 }

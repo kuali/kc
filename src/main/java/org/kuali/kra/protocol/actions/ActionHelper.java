@@ -41,7 +41,6 @@ import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
 import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
-import org.kuali.kra.protocol.actions.modifysubmission.ProtocolModifySubmissionBean;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 import org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingService;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
@@ -245,7 +244,6 @@ public abstract class ActionHelper implements Serializable {
     protected AdminCorrectionBean protocolAdminCorrectionBean;
     protected UndoLastActionBean undoLastActionBean;
     protected CommitteeDecision committeeDecision;
-    protected ProtocolModifySubmissionBean protocolModifySubmissionBean;
     protected ProtocolGenericActionBean protocolDeferBean;
 //    protected ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
     protected ProtocolGenericActionBean protocolManageReviewCommentsBean;
@@ -870,8 +868,8 @@ public abstract class ActionHelper implements Serializable {
 //        canIrbAcknowledgementUnavailable = hasIrbAcknowledgementUnavailablePermission();
 //        canDefer = hasDeferPermission();
 //        canDeferUnavailable = hasDeferUnavailablePermission();
-//        canModifyProtocolSubmission = hasCanModifySubmissionPermission();
-//        canModifyProtocolSubmissionUnavailable = hasCanModifySubmissionUnavailablePermission();
+        canModifyProtocolSubmission = hasCanModifySubmissionPermission();
+        canModifyProtocolSubmissionUnavailable = hasCanModifySubmissionUnavailablePermission();
 //        canReviewNotRequired = hasReviewNotRequiredPermission();
 //        canReviewNotRequiredUnavailable = hasReviewNotRequiredUnavailablePermission();
 //        canManageReviewComments = hasManageReviewCommentsPermission();
@@ -1409,17 +1407,8 @@ public abstract class ActionHelper implements Serializable {
 //        ProtocolTask task = new ProtocolTask(TaskName.IRB_ACKNOWLEDGEMENT_UNAVAILABLE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 //    }
-//    
-//    protected boolean hasCanModifySubmissionPermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBMISSION, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasCanModifySubmissionUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
+    
+    
 //    protected boolean hasReviewNotRequiredPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, getProtocol());
 //        boolean retVal = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -1648,11 +1637,20 @@ public abstract class ActionHelper implements Serializable {
 //    public CommitteeDecision getCommitteeDecision() {
 //        return committeeDecision;
 //    }
+ protected abstract ProtocolTask getModifySubmissionAvailableTaskHook();
     
-    public ProtocolModifySubmissionBean getProtocolModifySubmissionBean() {
-        return this.protocolModifySubmissionBean;
+    protected abstract ProtocolTask getModifySubmissionUnavailableTaskHook();
+    
+    protected boolean hasCanModifySubmissionPermission() {
+        ProtocolTask task = getModifySubmissionAvailableTaskHook();
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    protected boolean hasCanModifySubmissionUnavailablePermission() {
+        ProtocolTask task = getModifySubmissionUnavailableTaskHook();
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+  
     public ProtocolGenericActionBean getProtocolManageReviewCommentsBean() {
         return protocolManageReviewCommentsBean;
     }
