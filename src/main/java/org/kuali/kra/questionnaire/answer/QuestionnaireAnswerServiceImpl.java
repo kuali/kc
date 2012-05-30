@@ -826,7 +826,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             fieldValues.put(propertyName, answerHeader.getModuleItemKey());
             fieldValues.put("sequenceNumber", answerHeader.getModuleSubItemKey());           
         } else {
-            fieldValues.put(propertyName, answerHeader.getModuleItemKey().substring(0, answerHeader.getModuleItemKey().indexOf("|")));
+            String moduleItemKey = answerHeader.getModuleItemKey().indexOf("|")==-1?
+                                        answerHeader.getModuleItemKey():
+                                            answerHeader.getModuleItemKey().substring(0, answerHeader.getModuleItemKey().indexOf("|"));
+            fieldValues.put(propertyName, moduleItemKey);
         }
         return ((List<KcKrmsContextBo>)businessObjectService.findMatching(clazz, fieldValues)).get(0).getKrmsRulesContext();
     }

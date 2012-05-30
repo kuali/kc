@@ -49,7 +49,7 @@
                     p:name="kcKrmsTermFunctionId"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="krmsTermId" />
+                    p:name="krmsTermName" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="description"
                     p:required="true" />
