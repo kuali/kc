@@ -514,15 +514,13 @@ public abstract class ProtocolHelper implements Serializable {
     public void createInitialProtocolAction() {
         if (getProtocol().getProtocolDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
             getProtocol().getProtocolActions().clear();
-            ProtocolAction protocolAction = createProtocolActionHook(getProtocol(), null);
+            ProtocolAction protocolAction = createProtocolCreatedTypeProtocolActionInstanceHook(getProtocol());
             protocolAction.setComments(PROTOCOL_CREATED);
             getProtocol().getProtocolActions().add(protocolAction);
         }
     }
-      
-    protected abstract String getProtocolCreatedProtocolActionTypeCodeHook();
     
-    protected abstract ProtocolAction createProtocolActionHook(Protocol protocol, ProtocolSubmission protocolSubmission);
+    protected abstract ProtocolAction createProtocolCreatedTypeProtocolActionInstanceHook(Protocol protocol);
        
 
     /**
