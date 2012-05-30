@@ -227,7 +227,6 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         }
         
         protocolAssignReviewersService.assignReviewers(submission, submitAction.getReviewers());
-        
         ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.SUBMIT_TO_IRB);
         protocolAction.setComments(SUBMIT_TO_IRB);
         //For the purpose of audit trail
