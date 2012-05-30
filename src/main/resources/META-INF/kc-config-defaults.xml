@@ -60,6 +60,7 @@
 	<param name="externalizable.help.url">/${app.context.name}/static/help/</param>
 	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="kew.externalizable.images.url">/${app.context.name}/kew/images/</param>
 	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
 
     <param name="kns.javascript.files">scripts/kuali_application.js,krad/plugins/jquery/jquery-1.6.3.js,krad/plugins/postmsg/jquery.ba-postmessage.js,krad/plugins/cookie/jquery.cookie.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js,dwr/interface/CustomAttributeService.js,dwr/interface/ProposalDevelopmentService.js,dwr/interface/BudgetService.js,dwr/interface/ArgValueLookupService.js,dwr/interface/AwardTemplateReportTermService.js,dwr/interface/S2SService.js</param>
