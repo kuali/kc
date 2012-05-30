@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
@@ -92,7 +93,11 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
     }
     
     protected BudgetDecimal findApplicableRatesForFiscalYearUFAndA(Budget budget, FiscalYearSummary fiscalYearSummary, boolean onCampus) {
-        String unrecoveredFandARateClassCode = budget.getUrRateClassCode();
+        /**
+         * Per KRACOEUS-5515 switching rate class code.
+         */
+        //String unrecoveredFandARateClassCode = budget.getUrRateClassCode();
+        String unrecoveredFandARateClassCode = budget.getOhRateClassCode();
         if(unrecoveredFandARateClassCode == null || unrecoveredFandARateClassCode.trim().length() == 0) {
             return BudgetDecimal.ZERO;
         } else {
@@ -110,7 +115,7 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
         BudgetDecimal applicableRate = BudgetDecimal.ZERO;
         BudgetRate appliedRate = null;
         for (BudgetRate budgetRate : budget.getBudgetRates()) {
-            if (budgetRate.getRateClassCode().equalsIgnoreCase(unrecoveredFandARateClassCode)
+            if (StringUtils.equalsIgnoreCase(budgetRate.getRateClassCode(), unrecoveredFandARateClassCode)
                     && findOnCampusRate == budgetRate.getOnOffCampusFlag()) {
                 if (appliedRate == null || Integer.valueOf(appliedRate.getFiscalYear()) < Integer.valueOf(budgetRate.getFiscalYear()) 
                         && Integer.valueOf(budgetRate.getFiscalYear()) <= Integer.valueOf(fiscalYear)) {
