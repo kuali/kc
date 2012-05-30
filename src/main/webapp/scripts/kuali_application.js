@@ -3475,3 +3475,33 @@ function unselectAllPersonMassChangeCategory(prefix) {
 		$j('input[id=' + item + ']').attr('checked', false);
 	}
 }
+
+var propDevPersonCertificationWindow;
+function proposalDevelopmentPersonCertificationPop(personIndex,docFormKey,sessionDocument) {
+	var documentWebScope
+	
+	if(sessionDocument == "true") {
+		documentWebScope = "session"
+	}
+	if(propDevPersonCertificationWindow && propDevPersonCertificationWindow.open && !propDevPersonCertificationWindow.closed){
+		
+		propDevPersonCertificationWindow.focus();
+	}else {
+		propDevPersonCertificationWindow = window.open(extractUrlBase()+ "/proposalDevelopment.do?methodToCall=getProposalPersonCertification&personIndex="+personIndex+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "mywindow", "width=800, height=300, scrollbars=yes");
+	}
+}
+
+var propDevCommentWindow;
+function proposalDevelopmentCommentPop(personIndex,docFormKey,sessionDocument,comments) {
+	var documentWebScope
+	
+	if(sessionDocument == "true") {
+		documentWebScope = "session"
+	}
+	if(propDevCommentWindow && propDevCommentWindow.open && !propDevCommentWindow.closed){
+		
+		propDevCommentWindow.focus();
+	}else {
+		propDevCommentWindow = window.open(extractUrlBase()+ "/proposalDevelopment.do?methodToCall=getProposalComment&personIndex="+personIndex+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&comments="+comments, "mywindow", "width=800, height=300, scrollbars=yes");
+	}
+}

@@ -139,6 +139,7 @@ public interface Constants {
     public static final String CUSTOM_ATTRIBUTES_PAGE = "customData";
     public static final String QUESTIONS_PAGE = "questions";
     public static final String PERMISSIONS_PAGE = "permissions";
+    public static final String SUMMARY_PAGE = "proposalSummary";
     public static final String PROPOSAL_ACTIONS_PAGE = "actions";
     public static final String HIERARCHY_PAGE = "hierarchy";
     public static final String ATTACHMENTS_PAGE = "abstractsAttachments";
@@ -173,7 +174,8 @@ public interface Constants {
     public static final String EMPTY_STRING = "";
     public static final String PRINCIPAL_INVESTIGATOR_KEY = "newProposalPerson";
     public static final String CREDIT_SPLIT_KEY = "document.developmentProposalList[0].creditSplit";
-
+    public static final String PERSON_CERTIFICATE = "proposalPersonCertificate";
+    public static final String PERSON_COMMENT = "personComment";
    
     /* set values for ynq */
     public static final Integer ANSWER_YES_NO = 2;
