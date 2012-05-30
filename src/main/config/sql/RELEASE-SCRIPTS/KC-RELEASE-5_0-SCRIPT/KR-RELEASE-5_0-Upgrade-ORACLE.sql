@@ -1,7 +1,6 @@
 set define off
 set sqlblanklines on
 spool KR-RELEASE-5_0-Upgrade-ORACLE-Install.log
-@../../current/5.0/dml/KR_DML_00_KRACOEUS-5488_B000.sql
 @../../current/5.0/dml/KR_DML_01_KCCOI-250_B000.sql
 @../../current/5.0/dml/KR_DML_01_KCIAC-10_B000.sql
 @../../current/5.0/dml/KR_DML_01_KCIAC-13_B000.sql
@@ -31,10 +30,12 @@ spool KR-RELEASE-5_0-Upgrade-ORACLE-Install.log
 @../../current/5.0/dml/KR_DML_01_KRACOEUS-5256_B000.sql
 @../../current/5.0/dml/KR_DML_01_KRACOEUS-5257_B000.sql
 @../../current/5.0/dml/KR_DML_01_KRACOEUS-5326_B000.sql
+@../../current/5.0/dml/KR_DML_01_KRACOEUS-5488_B000.sql
 @../../current/5.0/dml/KR_DML_01_KRACOEUS-5527_B000.sql
 @../../current/5.0/dml/KR_DML_02_KCCOI-268_B000.sql
 @../../current/5.0/dml/KR_DML_02_KCIAC-110_B000.sql
 @../../current/5.0/dml/KR_DML_02_KCIAC-134_B000.sql
+@../../current/5.0/dml/KR_DML_02_KCIAC-139_B000.sql
 @../../current/5.0/dml/KR_DML_02_KCIAC-16_B000.sql
 @../../current/5.0/dml/KR_DML_02_KCIAC-181_B000.sql
 @../../current/5.0/dml/KR_DML_02_KCIAC-19_B000.sql
@@ -43,7 +44,10 @@ spool KR-RELEASE-5_0-Upgrade-ORACLE-Install.log
 @../../current/5.0/dml/KR_DML_02_KCINFR-559_B000.sql
 @../../current/5.0/dml/KR_DML_02_KCINFR-568_B000.sql
 @../../current/5.0/dml/KR_DML_02_KCINFR-596_B000.sql
+@../../current/5.0/dml/KR_DML_02_KCINFR-617_B000.sql
 @../../current/5.0/dml/KR_DML_03_KCIAC-59_B000.sql
+@../../current/5.0/dml/KR_DML_03_KCINFR-616_B000.sql
+@../../current/5.0/dml/KR_DML_03_KRACOEUS-5493_B000.sql
 @../../current/5.0/dml/KR_DML_99_KC-SUPERUSER_B000.sql
 commit;
 exit
