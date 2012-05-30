@@ -315,12 +315,8 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
      * @param submitAction the submission data
      */
     protected void setSubmissionStatus(IacucProtocolSubmissionBuilder submissionBuilder, IacucProtocolSubmitAction submitAction) {
-        if (StringUtils.isBlank(submitAction.getNewCommitteeId())) {
-            submissionBuilder.setSubmissionStatus(IacucProtocolSubmissionStatus.PENDING);
-        }
-        else {
+        // not setting committee during submit in iacuc so need not check that like in irb.
             submissionBuilder.setSubmissionStatus(IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
-        }
     }
     
     /**

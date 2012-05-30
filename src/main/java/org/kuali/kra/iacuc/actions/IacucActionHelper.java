@@ -36,11 +36,13 @@ import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissio
 import org.kuali.kra.iacuc.actions.notifycommittee.IacucProtocolNotifyCommitteeBean;
 import org.kuali.kra.iacuc.actions.notifyiacuc.ProtocolNotifyIacucBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
@@ -593,12 +595,19 @@ public class IacucActionHelper extends ActionHelper {
         List<String> recommendations = new ArrayList<String>();
         List<ProtocolOnlineReviewDocument> reviewDocs = getOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(getProtocol());
         for (ProtocolOnlineReviewDocument doc : reviewDocs) {
-            ProtocolOnlineReviewDeterminationRecommendation rec = doc.getProtocolOnlineReview().getProtocolOnlineReviewDeterminationRecommendation();
-            if (ObjectUtils.isNotNull(rec)) {
-                recommendations.add(doc.getProtocolOnlineReview().getReviewerUserName() + "--" + rec.getDescription());
+            IacucProtocolOnlineReview review = (IacucProtocolOnlineReview) doc.getProtocolOnlineReview();
+            if (ObjectUtils.isNotNull(review) && ObjectUtils.isNotNull(review.getDeterminationReviewTypeCode())) {
+                recommendations.add(review.getProtocolReviewer().getFullName() + "--" + getReviewType(review.getDeterminationReviewTypeCode()));
             }
         }
         return recommendations;        
+    }
+    
+    protected String getReviewType(String code) {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("reviewTypeCode", code);
+        List<IacucProtocolReviewType> types = (List<IacucProtocolReviewType>) getBusinessObjectService().findMatching(IacucProtocolReviewType.class, criteria);
+        return !types.isEmpty() ? types.get(0).getDescription() : "";        
     }
     
     @Override

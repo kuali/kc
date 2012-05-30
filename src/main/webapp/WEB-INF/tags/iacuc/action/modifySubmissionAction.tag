@@ -199,8 +199,8 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
 		              No recommendations so far.
 		              </c:when>
 		              <c:otherwise>
-                	  <c:forEach var="rec" items="${KualiForm.actionHelper.reviewRecoMmendations}" varStatus="status">
-                	  	<c:out value="rec" /><br>
+                	  <c:forEach var="recommendation" items="${KualiForm.actionHelper.reviewRecommendations}" varStatus="status">
+                	  	<c:out value="${recommendation}" /><br>
                 	  </c:forEach>
 					</c:otherwise>   
 				</c:choose>    	
