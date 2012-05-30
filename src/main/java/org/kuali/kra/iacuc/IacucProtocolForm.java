@@ -23,9 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataHelper;
 import org.kuali.kra.iacuc.noteattachment.IacucNotesAttachmentsHelper;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.onlinereview.IacucOnlineReviewsActionHelper;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.permission.IacucPermissionsHelper;
@@ -45,6 +47,7 @@ import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
 import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBean;
@@ -338,4 +341,10 @@ public class IacucProtocolForm extends ProtocolForm {
         this.iacucProtocolProceduresHelper = iacucProtocolProceduresHelper;
     }
 
+    @Override
+    protected NotificationHelper getNotificationHelperHook() {
+        return new NotificationHelper<IacucProtocolNotificationContext>();
+    }
+
+   
 }

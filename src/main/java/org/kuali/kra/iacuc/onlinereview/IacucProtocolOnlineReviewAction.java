@@ -34,6 +34,7 @@ import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -90,7 +91,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         if (validateCreateNewProtocolOnlineReview(protocolForm)) {
             CommitteeMembership membership
                 = getBusinessObjectService().findBySinglePrimaryKey(CommitteeMembership.class, onlineReviewHelper.getNewProtocolReviewCommitteeMembershipId());
-            ProtocolReviewerBean bean = new ProtocolReviewerBean(membership);
+            ProtocolReviewerBean bean = new IacucProtocolReviewerBean(membership);
             
             String principalId = bean.getPersonId();
             boolean nonEmployeeFlag = bean.getNonEmployeeFlag();

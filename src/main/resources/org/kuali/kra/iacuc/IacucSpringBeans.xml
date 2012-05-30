@@ -129,6 +129,15 @@
                 <bean class="org.kuali.kra.iacuc.auth.IacucProtocolMaintainOnlineReviewsAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="maintainIacucProtocolOnlineReviews"/>
                 </bean>
+ 				
+ 				<bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolSubmissionAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolSubmission"/>
+                </bean>
+	
+				<bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolSubmissionUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolSubmissionUnavailable"/>
+                </bean>
+
 
                 <bean class="org.kuali.kra.iacuc.auth.AddIacucProtocolNotesAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="addIacucProtocolNotes"/>
@@ -295,6 +304,10 @@
         </property>
     </bean>
 
+ 	<bean id="iacucProtocolActionAjaxService" class="org.kuali.kra.iacuc.actions.IacucProtocolActionAjaxServiceImpl">
+        <property name="committeeService" ref="commonCommitteeService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
     
     <bean id="iacucProtocolFinderDao" class="org.kuali.kra.iacuc.IacucProtocolFinderDaoOjb" parent="platformAwareDao" />
     
@@ -509,6 +522,15 @@
           class="org.kuali.kra.kim.service.impl.ActiveCommitteeMemberOnIacucProtocolDerivedRoleTypeServiceImpl">
     </bean>
     
+    <bean id="iacucProtocolModifySubmissionService" class="org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
+		<property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService" />		
+		<property name="businessObjectService" ref="businessObjectService"/>		
+        <property name="kcNotificationService" ref="kcNotificationService" />
+        <property name="committeeService" ref="commonCommitteeService" />
+        
+    </bean>
     <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
       <property name="serviceDefinition">
             <bean parent="kcService" p:service-ref="activeCommitteeMemberOnIacucProtocolDerivedRoleTypeService"

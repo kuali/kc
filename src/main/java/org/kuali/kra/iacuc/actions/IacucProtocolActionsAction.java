@@ -16,6 +16,8 @@
 package org.kuali.kra.iacuc.actions;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
@@ -42,7 +45,11 @@ import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtEvent;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtService;
 import org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteService;
+import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
+import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionEvent;
+import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionService;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionEvent;
@@ -51,9 +58,11 @@ import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawService;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
+import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -64,22 +73,28 @@ import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.auth.ProtocolTask;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.util.CollectionUtils;
 
 public class IacucProtocolActionsAction extends IacucProtocolAction {
     
@@ -2507,24 +2522,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
-//    
-//    public ActionForward modifySubmsionAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        
-//        if (!hasDocumentStateChanged(protocolForm)) {
-//            ProtocolModifySubmissionBean bean = protocolForm.getActionHelper().getProtocolModifySubmissionBean();
-//            if (applyRules(new ProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), bean))) {
-//                KraServiceLocator.getService(ProtocolModifySubmissionService.class).modifySubmisison(protocolForm.getProtocolDocument(), bean);
-//            
-//                recordProtocolActionSuccess("Modify Submission Request");
-//            }
-//        } else {
-//            GlobalVariables.getMessageMap().clearErrorMessages();
-//            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);        
-//    }
+
 //    
 //    public ActionForward deleteRecused(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 //            HttpServletResponse response) throws Exception {
@@ -4060,5 +4058,230 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return KraServiceLocator.getService(IacucProtocolPrintingService.class);
     }
     
+    public ActionForward sendReviewDeterminationNotificationAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+        IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
+        IacucProtocolModifySubmissionBean bean = actionHelper.getIacucProtocolModifySubmissionBean();
+
+        setReviewers(form, request);
+        List<ProtocolReviewerBean> recipientBeans = bean.getReviewers();
+        List<String> recipients = new ArrayList<String>();
+        for (ProtocolReviewerBean reviewerBean : recipientBeans) {
+            Principal principal = getIdentityService().getPrincipal(reviewerBean.getPersonId());
+            //getEntityByPrincipalId(reviewerBean.getPersonId());
+            recipients.add(principal.getPrincipalName());
+        }
+        String message = "Review type recommendation required for protocol" + protocol.getProtocolNumber() + ".";
+        String CONTEXT_NAME= "Recommend Review Type";
+        String SUBJECT = "Recommend review type for IACUC protocol";
+        if (!recipients.isEmpty()) {
+            getKcNotificationService().sendNotification(CONTEXT_NAME, SUBJECT, message, recipients);
+        }
+        /*
+        IacucProtocolNotificationRenderer assignRenderer = new IacucProtocolNotificationRenderer(protocol);
+        IacucProtocolNotificationContext assignContext = new IacucProtocolNotificationContext(protocol, null, 
+                                                    IacucProtocolActionType.MODIFY_PROTOCOL_SUBMISSION, "Assigned", assignRenderer);
+        getNotificationService().sendNotification(assignContext);
+        */
+        return forward;
+    }
     
+    protected IdentityService getIdentityService() {
+        return KraServiceLocator.getService(IdentityService.class);
+    }
+    
+    private KcNotificationService getKcNotificationService() {
+        return KraServiceLocator.getService(KcNotificationService.class);
+    }
+    
+    public ActionForward modifySubmissionAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        String callerString = String.format("assignReviewers");
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+        if (!hasDocumentStateChanged(protocolForm)) {
+            IacucProtocolModifySubmissionBean bean = actionHelper.getIacucProtocolModifySubmissionBean();
+            /*
+             * TODO: Fix rules for assign reviewers and add committee + schedule and take the valid protocol sub tables into account
+             */
+            if (applyRules(new IacucProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), bean))) {
+         
+                    ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
+                    // hack. you should not have to do this, the bean should automatically set.
+                    setReviewers(form, request);
+                    List<ProtocolReviewerBean> beans = bean.getReviewers();
+
+                    //clear the warnings before rendering the page.
+                    getModifySubmissionService().modifySubmission(protocolForm.getProtocolDocument(), bean, beans);
+
+                    GlobalVariables.getMessageMap().getWarningMessages().clear();
+                    
+                    //recordProtocolActionSuccess("Assign Reviewers");
+                    /*
+                     * remove this when autopop list works,the method needs to be refactores so wait till this functionality works
+                     */
+                    forward = performNotificationRendering(mapping, protocolForm, beans);
+               
+                recordProtocolActionSuccess("Modify Submission Request");
+                }
+            
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_IACUC_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);        
+    }
+   /**
+    * Gross hack to get reviewers
+    * This method...
+    * @param request
+    */
+    protected void setReviewers(ActionForm form, HttpServletRequest request) {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+
+        int number = Integer.parseInt(request.getParameter("actionHelper.iacucProtocolModifySubmissionBean.numberOfReviewers"));
+        List<ProtocolReviewerBean> beans = new ArrayList<ProtocolReviewerBean>();
+        for (int i= 0; i < number; i++) {
+            String reviewerTypeCode = request.getParameter("actionHelper.iacucProtocolModifySubmissionBean.reviewer["+i+"].reviewerTypeCode");
+            String personId = request.getParameter("actionHelper.iacucProtocolModifySubmissionBean.reviewer[" + i + "].personId");
+            String fullName = request.getParameter("actionHelper.iacucProtocolModifySubmissionBean.reviewer["+i+"].fullName");
+            String nonEmployeeFlag = request.getParameter("actionHelper.iacucProtocolModifySubmissionBean.reviewer["+i+"].nonEmployeeFlag");
+            IacucProtocolReviewerBean bean = new IacucProtocolReviewerBean();
+            bean.setFullName(fullName); //bean.setNonEmployeeFlag(nonEmployeeFlag); 
+            bean.setPersonId(personId); bean.setReviewerTypeCode(reviewerTypeCode);
+            beans.add(bean);
+        }
+        actionHelper.getIacucProtocolModifySubmissionBean().setReviewers(beans);
+
+    }
+    
+    protected IacucProtocolModifySubmissionService getModifySubmissionService() {
+        return KraServiceLocator.getService(IacucProtocolModifySubmissionService.class);
+    }
+    
+    protected ActionForward performNotificationRendering(ActionMapping mapping, IacucProtocolForm protocolForm, List<ProtocolReviewerBean> beans) {
+        IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        IacucProtocolAssignReviewerNotificationRenderer renderer = new IacucProtocolAssignReviewerNotificationRenderer(protocol, "added");
+        List<ProtocolNotificationRequestBean> addReviewerNotificationBeans = getNotificationRequestBeans(beans,
+                IacucProtocolReviewerBean.CREATE);
+        List<ProtocolNotificationRequestBean> removeReviewerNotificationBeans = getNotificationRequestBeans(beans,
+                IacucProtocolReviewerBean.REMOVE);
+        if (!CollectionUtils.isEmpty(addReviewerNotificationBeans)) {
+            ProtocolNotificationRequestBean notificationBean = addReviewerNotificationBeans.get(0);
+            IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol)notificationBean.getProtocol(),
+                (IacucProtocolOnlineReview)notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),
+                notificationBean.getDescription(), renderer);
+            if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm,
+                        renderer, addReviewerNotificationBeans);
+                if (!CollectionUtils.isEmpty(removeReviewerNotificationBeans)) {
+                    GlobalVariables.getUserSession().addObject("removeReviewer", removeReviewerNotificationBeans);
+                }
+            }
+        }
+        else {
+            if (!CollectionUtils.isEmpty(removeReviewerNotificationBeans)) {
+                renderer = new IacucProtocolAssignReviewerNotificationRenderer(protocol,
+                    "removed");
+                ProtocolNotificationRequestBean notificationBean = removeReviewerNotificationBeans.get(0);
+                IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol,
+                    (IacucProtocolOnlineReview)notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),
+                    notificationBean.getDescription(), renderer);
+                if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB),
+                            protocolForm, renderer, removeReviewerNotificationBeans);
+                }
+            }
+        }
+        return forward;
+    }
+    
+//  /*
+//  * This is for assign reviewer and submit for review.  The notificationRequestBeans contains all 'added' or 'removed'
+//  * reviewers.  All the roles recipient will be merged, then forward to protocolnotificationeditor for ad hoc notification 
+//  * process.
+//  */
+ private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolForm protocolForm,
+         IacucProtocolNotificationRenderer renderer, List<ProtocolNotificationRequestBean> notificationRequestBeans) {
+
+     // AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
+     IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol) notificationRequestBeans.get(0).getProtocol(),
+         (IacucProtocolOnlineReview)notificationRequestBeans.get(0).getProtocolOnlineReview(), notificationRequestBeans.get(0).getActionType(),
+         notificationRequestBeans.get(0).getDescription(), renderer);
+     context.setPopulateRole(true);
+     if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+         protocolForm.getNotificationHelper().initializeDefaultValues(context);
+         List<NotificationTypeRecipient> notificationRecipients = protocolForm.getNotificationHelper()
+                 .getNotificationRecipients();
+         List<NotificationTypeRecipient> allRecipients = new ArrayList<NotificationTypeRecipient>();
+         for (NotificationTypeRecipient recipient : notificationRecipients) {
+             try {
+                 NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
+                 // populate role qualifier with proper context
+                 context.populateRoleQualifiers(copiedRecipient);
+                 allRecipients.add(copiedRecipient);
+             }
+             catch (Exception e) {
+                 // TODO
+             }
+         }
+         int i = 1;
+         // add all new reviewer to recipients
+         while (notificationRequestBeans.size() > i) {
+             context = new IacucProtocolNotificationContext((IacucProtocol) notificationRequestBeans.get(i).getProtocol(), 
+                                                  (IacucProtocolOnlineReview) notificationRequestBeans.get(i).getProtocolOnlineReview(), 
+                                                  notificationRequestBeans.get(i).getActionType(), 
+                                                  notificationRequestBeans.get(i).getDescription(), renderer);
+             context.setPopulateRole(true);
+             // protocolForm.getNotificationHelper().setNotificationRecipients(new ArrayList<NotificationTypeRecipient>());
+             protocolForm.getNotificationHelper().initializeDefaultValues(context);
+             List<NotificationTypeRecipient> recipients = protocolForm.getNotificationHelper().getNotificationRecipients();
+
+             for (NotificationTypeRecipient recipient : recipients) {
+                 try {
+                     // note : need to deepcopy here. If I don't do that, then all reviewer role will have same
+                     // notificationrecipient object returned from service call
+                     // probably the object service/ojb has a cache ?
+                     NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
+                     context.populateRoleQualifiers(copiedRecipient);
+                     allRecipients.add(copiedRecipient);
+                 }
+                 catch (Exception e) {
+                     // TODO
+                 }
+             }
+             // allRecipients.addAll(recipients);
+             i++;
+         }
+         protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
+         if (forward == null) {
+             context.setForwardName("holdingPage");
+         } else {
+             context.setForwardName(forward.getName());
+         }
+     return mapping.findForward("protocolNotificationEditor");
+     }
+     else {
+
+         return forward;
+     }
+ }
+ 
+ private List<ProtocolNotificationRequestBean> getNotificationRequestBeans(List<ProtocolReviewerBean> beans, String actionFlag) {
+     List<ProtocolNotificationRequestBean> notificationRequestBeans = new ArrayList<ProtocolNotificationRequestBean>();
+     for (ProtocolReviewerBean bean : beans) {
+         if (StringUtils.equals(actionFlag, bean.getActionFlag())) {
+             notificationRequestBeans.add(bean.getNotificationRequestBean());
+         }
+     }
+     return notificationRequestBeans;
+ }
 }

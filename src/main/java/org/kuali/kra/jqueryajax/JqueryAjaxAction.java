@@ -34,11 +34,13 @@ import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.committee.bo.CommitteeType;
 import org.kuali.kra.common.notification.service.NotificationRoleSubQualifierFinders;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionAjaxService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 
+import org.kuali.kra.protocol.actions.ProtocolActionAjaxService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
@@ -140,6 +142,45 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
         return KraServiceLocator.getService(UnitService.class);
     }
     
+    public ActionForward getProtocolReviewers(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
+        String committeeId = request.getParameter("committeeId");
+        String scheduleId = request.getParameter("scheduleId");
+        String protocolId = request.getParameter("protocolId");
+        JqueryAjaxForm ajaxForm = (JqueryAjaxForm) form;
+
+        String reviewers = getProtocolAjaxService().getReviewers(protocolId, committeeId, scheduleId);
+        ajaxForm.setReturnVal(reviewers.toString());
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
+    public ActionForward getProtocolReviewerTypes(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
+            JqueryAjaxForm ajaxForm = (JqueryAjaxForm) form;
+            String types = getProtocolAjaxService().getReviewerTypes();
+            ajaxForm.setReturnVal(types);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
+    /**
+     * Clip the last character from the string buffer. The last character, if there is one, is always a separator that must be
+     * removed.
+     * 
+     * @param ajaxList
+     * @return
+     */
+    protected String clipLastChar(StringBuffer ajaxList) {
+        if (ajaxList.length() == 0) {
+            return ajaxList.toString();
+        }
+        return ajaxList.substring(0, ajaxList.length() - 1);
+    }
+    public ProtocolActionAjaxService getProtocolAjaxService() {
+        return KraServiceLocator.getService(IacucProtocolActionAjaxService.class);
+    }
     /**
      * Get and return the template description for ajax queries.
      * @param mapping

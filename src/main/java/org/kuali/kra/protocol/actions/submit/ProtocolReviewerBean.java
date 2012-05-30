@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2010 The Kuali Foundation
+  * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,14 @@ package org.kuali.kra.protocol.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
+import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
 import org.kuali.rice.krad.bo.BusinessObjectBase;
 
+/**
+ * 
+ * 
+ * 
+ */
 /**
  * This class is really just a "form" for the reviewers that
  * are displayed to the user in the Submit for Review Action.
@@ -27,7 +32,7 @@ import org.kuali.rice.krad.bo.BusinessObjectBase;
  * the Data Dictionary for displaying controls on the web page.
  */
 @SuppressWarnings("serial")
-public class ProtocolReviewerBean extends BusinessObjectBase {
+public abstract class ProtocolReviewerBean extends BusinessObjectBase {
 
     public static final String CREATE = "create";
     public static final String UPDATE = "update";
@@ -113,6 +118,7 @@ public class ProtocolReviewerBean extends BusinessObjectBase {
     public void setActionFlag(String actionFlag) {
         this.actionFlag = actionFlag;
     }
+    
 
     public ProtocolNotificationRequestBean getNotificationRequestBean() {
         return notificationRequestBean;

@@ -108,6 +108,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
 //            }
 //        }
 
+       
         protocolForm.getProtocolHelper().prepareView();
 
         return actionForward;

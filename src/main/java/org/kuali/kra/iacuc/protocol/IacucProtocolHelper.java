@@ -163,6 +163,22 @@ public class IacucProtocolHelper extends ProtocolHelper {
         return IacucProtocolFundingSourceService.class;
     }
 
+
+    @Override
+    public ProtocolTask getNewInstanceModifyProtocolBillableTaskNewHook(Protocol protocol) {
+        return new IacucProtocolTask(getModifyProtocolBillableTask(), (IacucProtocol) protocol);
+    }
+
+    public String getModifyProtocolBillableTask() {
+        return TaskName.MODIFY_IACUC_PROTOCOL_BILLABLE;
+    }
+
+
+    @Override
+    protected String getBillableParameterHook() {
+        return Constants.PARAMETER_MODULE_IACUC_PROTOCOL_BILLABLE;
+    }
+
     
 
 }

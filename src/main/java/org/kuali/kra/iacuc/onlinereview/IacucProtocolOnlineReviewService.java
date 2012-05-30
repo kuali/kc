@@ -15,7 +15,13 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
+import java.sql.Date;
+
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface IacucProtocolOnlineReviewService extends ProtocolOnlineReviewService{
     String IACUC_PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE = "IacucProtocolOnlineReviewDocument";
@@ -35,4 +41,8 @@ public interface IacucProtocolOnlineReviewService extends ProtocolOnlineReviewSe
 //    List<ProtocolOnlineReviewDocument> getProtocolReviewDocumentsForCurrentSubmission(Protocol protocol);
 //    String getProtocolOnlineReviewDocumentDescription( String protocolNumber, String piName );
 
+    public ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(ProtocolSubmission protocolSubmission,
+            ProtocolReviewer protocolReviewer, String documentDescription, String documentExplanation,
+            String documentOrganizationDocumentNumber, Date dateRequested, Date dateDue, String principalId)
+            throws WorkflowException;
 }
