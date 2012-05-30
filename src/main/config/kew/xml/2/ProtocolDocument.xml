@@ -38,7 +38,8 @@
 			</policies>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" nextNode="DepartmentReview" />
+					<start name="Initiated" nextNode="PeopleFlows" />
+					<requests name="PeopleFlows" nextNode="DepartmentReview" />
 					<requests name="DepartmentReview" nextNode="IRBReview" />
 					<requests name="IRBReview" />
 				</routePath>
@@ -51,13 +52,17 @@
 				<start name="Initiated">
 					<activationType>S</activationType>
 				</start>
+				<requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kra.irb.rules.IrbProtocolRulesEngineExecutorImpl"/>
+                </requests>
 				<requests name="DepartmentReview">
 					<!-- <qualifierResolver>UnitRouting-XPathQualifierResolver</qualifierResolver> -->
 					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
 					<ruleTemplate>UnitApproval</ruleTemplate>
                     <activationType>P</activationType>
 					<finalApproval>false</finalApproval>
-	            </requests>				
+	            </requests>
                 <role name="IRBReview">
 					<qualifierResolver>ProtocolApprover-XPathQualifierResolver</qualifierResolver> 
                     <activationType>S</activationType>
