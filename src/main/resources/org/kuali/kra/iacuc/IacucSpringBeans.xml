@@ -631,7 +631,11 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
     </bean>
-
+    
+    <bean id="iacucProtocolFactBuilderService" class="org.kuali.kra.iacuc.rules.IacucProtocolFactBuilderServiceImpl">
+         <property name="businessObjectService" ref="businessObjectService" />
+          <property name="documentService" ref="documentService" />
+    </bean>
 
 </beans>
 
