@@ -47,6 +47,7 @@ import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
@@ -185,6 +186,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private List<HierarchyProposalSummary> hierarchyProposalSummaries;
     private DevelopmentProposal proposalToSummarize;
     private Budget budgetToSummarize;
+    private Budget budgetVersionNumbers;
     private String proposalNumberToSummarize;
     private String budgetNumberToSummarize;
     private transient boolean showSubmissionDetails;
@@ -226,6 +228,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private transient S2sOpportunity s2sOpportunity;
     private BudgetChangedData newBudgetChangedData;
    
+    private String[] selectedBudgetPrint;
    
 
     public ProposalDevelopmentForm() {
@@ -1723,6 +1726,22 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
 
     /**
+     * Sets the budgetVersionNumber attribute value.
+     * @param budgetDocument The budgetVersionNumber to set.
+     */
+    public void setBudgetVersionNumbers(Budget budgetVersionNumbers) {
+        this.budgetVersionNumbers = budgetVersionNumbers;
+    }
+    
+    /**
+     * Gets the budgetVersionNumber attribute. 
+     * @return Returns the budgetToSummarize.
+     */
+    public Budget getBudgetVersionNumbers() {
+        return budgetVersionNumbers;
+    }
+
+    /**
      * Sets the proposalNumberToSummarize attribute value.
      * @param proposalNumberToSummarize The proposalNumberToSummarize to set.
      */
@@ -1942,6 +1961,22 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public BudgetChangedData getNewBudgetChangedData() {
         return newBudgetChangedData;
     }
+    
+    /**
+     * Gets the selectedBudgetPrint attribute. 
+     * @return Returns the selectedBudgetPrint.
+     */
+    public String[] getSelectedBudgetPrint() {
+        return selectedBudgetPrint;
+    }
+
+    /**
+     * Sets the selectedBudgetPrint attribute value.
+     * @param selectedBudgetPrint The selectedBudgetPrint to set.
+     */
+    public void setSelectedBudgetPrint(String[] selectedBudgetPrint) {
+        this.selectedBudgetPrint = selectedBudgetPrint;
+    }
 
     public void setBudgetDataOverrideMethodToCalls(List<String> budgetDataOverrideMethodToCalls) {
         BudgetDataOverrideMethodToCalls = budgetDataOverrideMethodToCalls;
@@ -1950,6 +1985,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public List<String> getBudgetDataOverrideMethodToCalls() {
         return BudgetDataOverrideMethodToCalls;
     }
+
+    
 
    
 }
