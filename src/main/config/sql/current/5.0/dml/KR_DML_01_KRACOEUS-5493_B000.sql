@@ -2,8 +2,6 @@ insert into KRMS_TERM_SPEC_T values('KC1020','specifiedGGForm','java.lang.String
 /
 insert into KRMS_TERM_T values ('KC1020','KC1020',1,'Specified GG Form')
 /
-insert into KRMS_TERM_PARM_T values ('KC1020','KC1020',1,'Specified GG Form')
-/
 insert into KRMS_CNTXT_VLD_TERM_SPEC_T values ('KC1020','KC-PD-CONTEXT','KC1020','Y')
 /
 insert into KRMS_TERM_RSLVR_T values ('KC1002','KC-PD','javaFunctionResolver','KC1001','KC1020','Y',1)
