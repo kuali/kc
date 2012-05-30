@@ -51,7 +51,7 @@ import edu.mit.coeus.utils.xml.v2.propdev.PROPABSTRACTDocument.PROPABSTRACT;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPAPPROVALMAPSDocument.PROPAPPROVALMAPS;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPCHANGEDDATA31Document.PROPCHANGEDDATA31;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPCUSTOMDATADocument.PROPCUSTOMDATA;
-import edu.mit.coeus.utils.xml.v2.propdev.PROPINVESTIGATORSDocument.PROPINVESTIGATORS;
+//import edu.mit.coeus.utils.xml.v2.propdev.PROPINVESTIGATORSDocument.PROPINVESTIGATORS;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPKEYPERSONSDocument.PROPKEYPERSONS;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPLOCATIONDocument.PROPLOCATION;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPNOTEPADDocument.PROPNOTEPAD;
@@ -113,7 +113,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 		proposal.setPROPAPPROVALMAPSArray(getPROPAPPROVALMAPSArray());
 		proposal.setPROPCHANGEDDATA31Array(getPROPCHANGEDDATA31Array());
 		proposal.setPROPCUSTOMDATAArray(getPROPCUSTOMDATAArray());
-		proposal.setPROPINVESTIGATORSArray(getPROPINVESTIGATORSArray());
+//		proposal.setPROPINVESTIGATORSArray(getPROPINVESTIGATORSArray());
 		proposal.setPROPKEYPERSONSArray(getPROPKEYPERSONSArray());
 		proposal.setPROPLOCATIONArray(getPROPLOCATIONArray());
 		proposal.setPROPNOTEPADArray(getPROPNOTEPADArray());
@@ -365,7 +365,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 		return null;
 	}
 
-	private PROPINVESTIGATORS[] getPROPINVESTIGATORSArray() {
+/*	private PROPINVESTIGATORS[] getPROPINVESTIGATORSArray() {
 		List<PROPINVESTIGATORS> propInvestigatorList = new ArrayList<PROPINVESTIGATORS>();
 
 		List<ProposalPerson> investigatorList = developmentProposal.getInvestigators();
@@ -393,7 +393,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 			propInvestigatorList.add(propInvestigator);
 		}
 		return propInvestigatorList.toArray(new PROPINVESTIGATORS[0]);
-	}
+	}*/
 
 	private PROPKEYPERSONS[] getPROPKEYPERSONSArray() {
 		// ProposalPerson of type Key Person.
