@@ -85,13 +85,15 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     public List<BudgetPersonSalaryDetails> getBudgetPersonSalaryDetails() {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        if(this.budgetPersonSalaryDetails.isEmpty()){
+        List<BudgetPersonSalaryDetails> salaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
+        if(this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) {            
             HashMap budgetMap = new HashMap();
             budgetMap.put("budgetId", getBudgetId());
             Collection<BudgetPeriod> periods = boService.findMatching(BudgetPeriod.class, budgetMap);
             for(BudgetPeriod budgetPeriod : periods){
-                this.budgetPersonSalaryDetails.add(new BudgetPersonSalaryDetails());
+                salaryDetails.add(new BudgetPersonSalaryDetails());
             }
+            this.budgetPersonSalaryDetails = salaryDetails; 
         }
         return budgetPersonSalaryDetails;
     }
