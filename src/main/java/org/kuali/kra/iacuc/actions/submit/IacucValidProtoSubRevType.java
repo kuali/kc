@@ -15,88 +15,70 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.kra.protocol.actions.submit.ValidProtoSubRevType;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class IacucValidProtoSubRevType extends ValidProtoSubRevType {
+
+public class IacucValidProtoSubRevType extends KraPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 8097814334863817285L;
+    private static final long serialVersionUID = 1L;
 
-    private Long iacucProtocolReviewTypeCode; 
-    
-    private Long validProtoSubRevTypeId;
-    
-    private IacucProtocolReviewType iacucProtocolReviewType;
-    
-    private IacucProtocolSubmissionType iacucProtocolSubmissionType;
-    
+    private Long validProtocolSubRevTypeId;
+
     private String submissionTypeCode;
 
-    private String protocolReviewTypeCode;
-    
+    private String iacucProtocolReviewTypeCode;
+
+    private IacucProtocolReviewType iacucProtocolReviewType;
+
+    private IacucProtocolSubmissionType iacucProtocolSubmissionType;
+
     public IacucValidProtoSubRevType() {
-        super();
     }
 
-    
-    public Long getIacucProtocolReviewTypeCode() {
+    public Long getValidProtocolSubRevTypeId() {
+        return validProtocolSubRevTypeId;
+    }
+
+    public void setValidProtocolSubRevTypeId(Long validProtocolSubRevTypeId) {
+        this.validProtocolSubRevTypeId = validProtocolSubRevTypeId;
+    }
+
+    public String getSubmissionTypeCode() {
+        return submissionTypeCode;
+    }
+
+    public void setSubmissionTypeCode(String submissionTypeCode) {
+        this.submissionTypeCode = submissionTypeCode;
+    }
+
+    public String getIacucProtocolReviewTypeCode() {
         return iacucProtocolReviewTypeCode;
     }
 
-    public void setIacucProtocolReviewTypeCode(Long iacucProtocolReviewTypeCode) {
+    public void setIacucProtocolReviewTypeCode(String iacucProtocolReviewTypeCode) {
         this.iacucProtocolReviewTypeCode = iacucProtocolReviewTypeCode;
     }
-
 
     public IacucProtocolReviewType getIacucProtocolReviewType() {
         return iacucProtocolReviewType;
     }
 
-
     public void setIacucProtocolReviewType(IacucProtocolReviewType iacucProtocolReviewType) {
         this.iacucProtocolReviewType = iacucProtocolReviewType;
     }
 
-
     public IacucProtocolSubmissionType getIacucProtocolSubmissionType() {
         return iacucProtocolSubmissionType;
     }
-
 
     public void setIacucProtocolSubmissionType(IacucProtocolSubmissionType iacucProtocolSubmissionType) {
         this.iacucProtocolSubmissionType = iacucProtocolSubmissionType;
     }
 
 
-    public Long getValidProtoSubRevTypeId() {
-        return validProtoSubRevTypeId;
-    }
 
-
-    public void setValidProtoSubRevTypeId(Long validProtoSubRevTypeId) {
-        this.validProtoSubRevTypeId = validProtoSubRevTypeId;
-    }
-
-
-    public String getSubmissionTypeCode() {
-        return submissionTypeCode;
-    }
-
-
-    public void setSubmissionTypeCode(String submissionTypeCode) {
-        this.submissionTypeCode = submissionTypeCode;
-    }
-
-
-    public String getProtocolReviewTypeCode() {
-        return protocolReviewTypeCode;
-    }
-
-
-    public void setProtocolReviewTypeCode(String protocolReviewTypeCode) {
-        this.protocolReviewTypeCode = protocolReviewTypeCode;
-    }
-
+   
 }
