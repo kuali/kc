@@ -256,7 +256,8 @@
             	hiddenEl.value = selectBox.value;
             }
         </script>
-  	
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+
 <%-- --%>
 <div align="right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiDisclosure1Help" altText="help"/></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
