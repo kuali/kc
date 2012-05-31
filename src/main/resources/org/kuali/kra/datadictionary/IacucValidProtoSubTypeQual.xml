@@ -34,7 +34,7 @@
 			<list>
 				<ref bean="IacucValidProtoSubTypeQual-validProtoSubTypeQualId" />
 				<ref bean="IacucValidProtoSubTypeQual-submissionTypeCode" />
-				<ref bean="IacucValidProtoSubTypeQual-submissionTypeQualCode" />
+				<ref bean="IacucValidProtoSubTypeQual-iacucSubmissionTypeQualCode" />
 				<ref bean="IacucValidProtoSubTypeQual-versionNumber" />
 			</list>
 		</property>
@@ -82,9 +82,9 @@
 			<property name="description" value="Protocol Submission Type Code" />
 		</bean>
 		
-		<bean id="IacucValidProtoSubTypeQual-submissionTypeQualCode" parent="IacucValidProtoSubTypeQual-submissionTypeQualCode-parentBean" />
-		<bean id="IacucValidProtoSubTypeQual-submissionTypeQualCode-parentBean" abstract="true" parent="AttributeDefinition" >
-			<property name="name" value="submissionTypeQualCode" />
+		<bean id="IacucValidProtoSubTypeQual-iacucSubmissionTypeQualCode" parent="IacucValidProtoSubTypeQual-iacucSubmissionTypeQualCode-parentBean" />
+		<bean id="IacucValidProtoSubTypeQual-iacucSubmissionTypeQualCode-parentBean" abstract="true" parent="AttributeDefinition" >
+			<property name="name" value="iacucSubmissionTypeQualCode" />
 			<property name="forceUppercase" value="false" />
 			<property name="label" value="IACUC Submission Type Qual Code" />
 			<property name="shortLabel" value="IACUC Submission Type Qual Code" />
@@ -126,7 +126,7 @@
 								<bean parent="FieldDefinition"
 									p:attributeName="submissionTypeCode" />
 								<bean parent="FieldDefinition"
-									p:attributeName="submissionTypeQualCode" />
+									p:attributeName="iacucSubmissionTypeQualCode" />
 							</list>
 						</property>
 					</bean>
@@ -149,7 +149,7 @@
 			<property name="lookupFields">
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="submissionTypeCode" />
-					<bean parent="FieldDefinition" p:attributeName="submissionTypeQualCode" />
+					<bean parent="FieldDefinition" p:attributeName="iacucSubmissionTypeQualCode" />
 				</list>
 			</property>
 			<property name="resultFields">
@@ -157,7 +157,7 @@
 					<bean parent="FieldDefinition" p:attributeName="validProtoSubTypeQualId" 
 						p:forceInquiry="true" />
 					<bean parent="FieldDefinition" p:attributeName="submissionTypeCode" />
-					<bean parent="FieldDefinition" p:attributeName="submissionTypeQualCode" />
+					<bean parent="FieldDefinition" p:attributeName="iacucSubmissionTypeQualCode" />
 				</list>
 			</property>
 		</bean>
