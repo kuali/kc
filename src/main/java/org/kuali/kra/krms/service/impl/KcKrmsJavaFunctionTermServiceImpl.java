@@ -31,10 +31,11 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
      */
     @Override
     public String specifiedGGForm(DevelopmentProposal developmentProposal, String formNames) {
-        String[] formNamesArray = formNames.split(formNames);
+        String[] formNamesArray = formNames.split(",");
         if(formNames!=null && formNamesArray.length==0){
             formNamesArray = new String[]{formNames.trim()};
         }
+        developmentProposal.refreshReferenceObject("s2sOppForms");
         List<S2sOppForms> s2sOppForms = developmentProposal.getS2sOppForms();
         for (int i = 0; i < formNamesArray.length; i++) {
             String formName = formNamesArray[i].trim();
