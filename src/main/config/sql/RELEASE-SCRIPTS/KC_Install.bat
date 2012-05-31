@@ -191,7 +191,11 @@ cd ..
 
 :3.2ORACLE
 cd KC-RELEASE-4_0-SCRIPT
+
+if /i "%mode% == "BUNDLE" goto 3.2ORACLEBUNDLE
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
+
+:3.2ORACLEBUNDLE
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
 
 if /i "%mode%%InstRice%" == "EMBEDN" goto 3.2ORACLENORICE
@@ -205,8 +209,11 @@ cd ..
 
 :4.0ORACLE
 cd KC-RELEASE-5_0-SCRIPT
+
+if /i "%mode% == "BUNDLE" goto 4.0ORACLEBUNDLE
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-5_0-Upgrade-ORACLE.sql
 
+:4.0ORACLEBUNDLE
 if /i "%mode%%InstRice%" == "EMBEDN" goto 4.0ORACLENORICE
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_RICE-RELEASE-5_0-Upgrade-ORACLE.sql
 
@@ -318,7 +325,11 @@ cd ..
 
 :3.2MYSQL
 cd KC-RELEASE-4_0-SCRIPT
+
+if /i "%mode% == "BUNDLE" goto 3.2MYSQLBUNDLE
 mysql -u %un% -p%pw% -D %un% -s -f < KRC_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
+
+:3.2MYSQLBUNDLE
 mysql -u %un% -p%pw% -D %un% -s -f < KC_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KC_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
 
 if /i "%mode%%InstRice%" == "EMBEDN" goto 3.2MYSQLNORICE
@@ -332,8 +343,11 @@ cd ..
 
 :4.0MYSQL
 cd KC-RELEASE-5_0-SCRIPT
+
+if /i "%mode% == "BUNDLE" goto 4.0MYSQLBUNDLE
 mysql -u %un% -p%pw% -D %un% -s -f < KRC_RICE-RELEASE-5_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
 
+:4.0MYSQLBUNDLE
 if /i "%mode%%InstRice%" == "EMBEDN" goto 4.0MYSQLNORICE
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR_RICE-RELEASE-5_0-Upgrade-MYSQL.sql > KR_RICE-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
 
