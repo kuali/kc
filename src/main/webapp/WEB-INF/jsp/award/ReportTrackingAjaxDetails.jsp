@@ -33,16 +33,21 @@
   		<tbody>
   			<c:forEach items="${KualiForm.detailResults}" var="detailLine" varStatus="ctr">
   				<tr class="Detail">
-  				<c:forEach items="${KualiForm.detailFields}" var="col">
+  				<c:forEach items="${KualiForm.detailFields}" var="col" varStatus="line">
   					<td>
-  						<bean:write name="KualiForm" property="detailResults[${ctr.index}].${col}"/>
-  					</td>
+  						<bean:write name="KualiForm" property="detailResults[0].${col}"/>
+  				</td>
   				</c:forEach>
+  				
+  				
   				<td style="text-align: center;">
   				  <html:image property="methodToCall.openAwardReports.awardNumber${KualiForm.detailResults[ctr.index].awardNumber}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-openaward.gif' styleClass="tinybutton"/>
-				</td>
+				  <html:image property="methodToCall.printReportTracking.awardNumber${ctr.index}.line${ctr.index}.anchor${currentTabIndex}"
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' styleClass="tinybutton"/>
+				</td>				
   				</tr>	
+  			
   			</c:forEach>
   		</tbody>
   	</table>

@@ -122,7 +122,7 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
     private transient KcPersonService kcPersonService;
     //used to make notifications easier 
     private transient Award award;
-
+    private transient int currRowCount;
     private transient BusinessObjectService businessObjectService;
     private boolean multiEditSelected;
 
@@ -536,4 +536,12 @@ public class ReportTracking extends KraPersistableBusinessObjectBase implements 
     public void setAward(Award award) {
         this.award = award;
     }
+
+	public int getCurrRowCount() {
+		return currRowCount;
+	}
+
+	public void setCurrRowCount(int currRowCount) {
+		this.currRowCount = currRowCount;
+	}
 }
