@@ -673,27 +673,28 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         return mapping.findForward(Constants.PERMISSIONS_PAGE);
     }
 
+    /**
+     * Action called to forward to a new ProposalSummary tab.
+     * 
+     * @param mapping 
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward instance for forwarding to the tab.
+     */
     public ActionForward proposalSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();       
         BudgetDocument budgetDocument = getS2SBudgetCalculatorService() .getFinalBudgetVersion(document);
         if(budgetDocument != null) {
             Budget budget = budgetDocument.getBudget();
-            if(budgetDocument != null) {
-                Budget finalBudget = budgetDocument.getBudget();
-                if(finalBudget.getFinalVersionFlag()){
+                if(budget.getFinalVersionFlag()){
                     final Map<String, Object> fieldValues = new HashMap<String, Object>();
-                    fieldValues.put("budgetId", finalBudget.getBudgetId());
-                    pdform.setBudgetToSummarize(finalBudget);  
-
-
+                    fieldValues.put("budgetId", budget.getBudgetId());
+                    pdform.setBudgetToSummarize(budget);  
                 } else {
-                    Budget budgetVersion = budgetDocument.getBudget();
-                    pdform.setBudgetVersionNumbers(budgetVersion);
+                    pdform.setBudgetVersionNumbers(budget);
                 }
-            }
-
             if(budget.getBudgetPrintForms().isEmpty()){
                 BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
                 budgetPrintService.populateBudgetPrintForms(budget);
@@ -701,14 +702,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
         ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
         printService.populateSponsorForms(pdform.getSponsorFormTemplates(), document.getDevelopmentProposal().getSponsorCode());
-
         pdform.getQuestionnaireHelper().prepareView();
         pdform.getS2sQuestionnaireHelper().prepareView();
-      
         if (CollectionUtils.isEmpty(pdform.getQuestionnaireHelper().getAnswerHeaders())) {
             pdform.getQuestionnaireHelper().populateAnswers();
         } 
-
         pdform.getS2sQuestionnaireHelper().populateAnswers();
         ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(PROPOSAL_SUMMARY_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_SUMMARY_INDICATOR));
         ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(BUDGET_SUMMARY_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, BUDGET_SUMMARY_INDICATOR));

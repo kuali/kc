@@ -35,6 +35,8 @@
 <kul:tab
 	tabTitle="Key Personnel (${fn:length(KualiForm.document.developmentProposalList[0].proposalPersons)})"
 	defaultOpen="false" tabErrorKey="">
+	<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].proposalPersons) > 0}">
+	
 	<div class="tab-container" align="center">
 		<h3>
 			<span class="subhead-left">Key Personnel Information</span> <span
@@ -100,7 +102,6 @@
 											onclick="javascript: proposalDevelopmentPersonCertificationPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false" /> ${questionStatus}
 										
 							</c:when>
-
 									<c:when
 										test="${KualiForm.document.developmentProposalList[0].proposalPersons[status.index].proposalPersonRoleId ne 'KP'}">
 										<c:choose>
@@ -121,14 +122,13 @@
 								</c:choose>
 							</div>
 					</tr>
-
 					<c:set var="personIndex" value="${personIndex+1}" />
 					<c:set var="rowIndex" value="${rowIndex+1}" />
 				</c:forEach>
 			</c:if>
-
 		</table>
 	</div>
+	</c:if>
 	<c:if
 		test="${not empty KualiForm.creditSplitEnabled and KualiForm.creditSplitEnabled}">
 		<kra-summary:proposalDevelopmentCreditSplit />

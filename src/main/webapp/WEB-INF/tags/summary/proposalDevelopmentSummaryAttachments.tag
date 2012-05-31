@@ -38,6 +38,9 @@
 	<kul:innerTab
 		tabTitle="Proposal Attachments(${proposalAttachementCount})"
 		parentTab="" defaultOpen="false">
+		
+		<c:if test="${proposalAttachementCount > 0 }" >
+		
 		<div class="tab-container" align="center">
 			<table cellpadding="0" cellspacing="0" summary="">
 				<tr>
@@ -59,7 +62,6 @@
 					<th><div align="center">&nbsp;</div>
 					</th>
 				</tr>
-
 				<c:if
 					test="${fn:length(KualiForm.document.developmentProposalList[0].narratives) > 0}">
 					<c:forEach var="narrative"
@@ -68,7 +70,7 @@
 						<c:if
 							test="${narrative.narrativeType.narrativeTypeGroup eq KualiForm.proposalDevelopmentParameters['proposalNarrativeTypeGroup'].value}">
 							<tr>
-								<c:out value="${currentTabIndex}" />
+							
 								<td>
 									<div align=center>${KualiForm.document.developmentProposalList[0].narratives[status.index].narrativeType.description}&nbsp;</div>
 								</td>
@@ -97,11 +99,13 @@
 				</c:if>
 			</table>
 		</div>
+		</c:if>	
 	</kul:innerTab>
 
 	<kul:innerTab
 		tabTitle="Personnel Attachments (${fn:length(KualiForm.document.developmentProposalList[0].propPersonBios)})"
 		parentTab="" defaultOpen="false">
+			<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].propPersonBios) > 0 }" >
 
 		<div class="tab-container" align="center">
 			<table cellpadding="0" cellspacing="0" summary="">
@@ -148,11 +152,13 @@
 				</c:if>
 			</table>
 		</div>
+		</c:if>
 	</kul:innerTab>
 
 	<kul:innerTab
 		tabTitle="Institutional Attachments (${fn:length(KualiForm.document.developmentProposalList[0].instituteAttachments)})"
 		parentTab="" defaultOpen="false">
+		<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].instituteAttachments) > 0 }" >
 		<div class="tab-container" align="center">
 			<table cellpadding="0" cellspacing="0" summary="">
 				<tr>
@@ -192,9 +198,9 @@
 						</tr>
 					</c:forEach>
 				</c:if>
-
 			</table>
 		</div>
+		</c:if>
 	</kul:innerTab>
 
 </kul:tab>

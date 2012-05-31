@@ -40,10 +40,7 @@
 	<kul:innerTab tabTitle="Budget Periods" parentTab=""
 		defaultOpen="false">
 		<div class="tab-container" align="center">
-
-
 			<table cellpadding="0" cellspacing="0" summary="">
-
 				<tr>
 					<th width="5%"><div align="center">Period</div></th>
 					<th width="10%"><div align="center">Start Date</div></th>
@@ -63,7 +60,9 @@
 					<th width="10%"><div align="center">Total Cost</div></th>
 				</tr>
 				<c:set var="rowIndex" value="1" />
-				<c:if
+				<c:choose>
+				
+				<c:when
 					test="${KualiForm.budgetToSummarize.budgetPeriods[0] != null }">
 					<bean:define id="budgetPeriods" name="KualiForm"
 						property="budgetToSummarize.budgetPeriods" />
@@ -124,52 +123,110 @@
 							</td>
 						</tr>
 					</c:forEach>
+				</c:when>
+				<c:otherwise>
+				<c:if
+					test="${KualiForm.budgetVersionNumbers.budgetPeriods[0] != null }">
+				
+					<bean:define id="budgetPeriods" name="KualiForm"
+						property="budgetVersionNumbers.budgetPeriods" />
+						<c:forEach items="${budgetPeriods}" var="proposalRates"
+						varStatus="status">
+						<c:set var="budgetPeriod"
+							value="budgetVersionNumbers.budgetPeriods[${status.index}]" />
+						<tr>
+							<td width="10%" class="${tdClass}">
+								<div align=center>
+									<span class="copy"> <c:out value="${status.index+1}" />
+									</span>
+								</div>
+							</td>
+
+							<td width="10%" class="${tdClass}">
+								<div align=center>
+									<span class="copy"> <bean:write name="KualiForm"
+											property="${budgetPeriod}.startDate" /> </span>
+								</div>
+							</td>
+							<td width="10%" class="${tdClass}">
+								<div align=center>
+									<span class="copy"> <bean:write name="KualiForm"
+											property="${budgetPeriod}.endDate" /> </span>
+								</div>
+							</td>
+							<td width="10%" class="${tdClass}">
+								<div align=center>
+									<span class="copy"> $<bean:write name="KualiForm"
+											property="${budgetPeriod}.totalDirectCost" /> </span>
+								</div>
+							</td>
+							<td width="10%" class="${tdClass}">
+								<div align=center>
+									<span class="copy"> $<bean:write name="KualiForm"
+											property="${budgetPeriod}.totalIndirectCost" /> </span>
+								</div>
+							</td>
+							<td width="10%" class="${tdClass}">
+								<div align=center>
+									<span class="copy"> $<bean:write name="KualiForm"
+											property="${budgetPeriod}.underrecoveryAmount" /> </span>
+								</div>
+							</td>
+							<td width="10%" class="${tdClass}">
+								<div align=center>
+									<span class="copy"> $<bean:write name="KualiForm"
+											property="${budgetPeriod}.costSharingAmount" /> </span>
+								</div>
+							</td>
+							<td width="10%" class="${tdClass}">
+								<div align=center>
+									<span class="copy"> $<bean:write name="KualiForm"
+											property="${budgetPeriod}.totalCost" /> </span>
+								</div>
+							</td>
+						</tr>
+					</c:forEach>
+				
 				</c:if>
-
+				</c:otherwise>
+				</c:choose>
 			</table>
-
-
 		</div>
 	</kul:innerTab>
 
-
-	<c:forEach items="${KualiForm.budgetToSummarize.rateClassTypes}"
+	<c:forEach items="${KualiForm.budgetVersionNumbers.rateClassTypes}"
 		var="rates" varStatus="gps">
 		<bean:define id="rateClass" name="KualiForm"
-			property="budgetToSummarize.rateClassTypes[${gps.index}].description" />
+			property="budgetVersionNumbers.rateClassTypes[${gps.index}].description" />
 
 		<c:if
-			test="${KualiForm.budgetToSummarize.rateClassTypes[gps.index].rateClassType == 'O'}">
+			test="${KualiForm.budgetVersionNumbers.rateClassTypes[gps.index].rateClassType == 'O'}">
 
 			<kul:innerTab tabTitle="${rateClass}" parentTab=""
 				defaultOpen="false" auditCluster="" tabAuditKey="">
-
-
 				<table cellpadding=0 cellspacing="0" class="result-table" summary="">
 					<c:if test="${KualiForm.document.budgetDocumentVersions[0]!=null}">
 						<c:if
 							test="${KualiForm.document.budgetDocumentVersions[0].budgetVersionOverviews[0].rateClass.rateClassTypeT!=null}">
-
 							<bean:define id="rateClass" name="KualiForm"
-								property="budgetToSummarize.rateClassTypes[0].description" />
+								property="budgetVersionNumbers.rateClassTypes[0].description" />
 							<bean:define id="rateClassType" name="KualiForm"
-								property="budgetToSummarize.rateClassTypes[0].rateClassType" />
-							<c:set var="tabKey" value="budgetToSummarize.budgetRate[0]" />
+								property="budgetVersionNumbers.rateClassTypes[0].rateClassType" />
+							<c:set var="tabKey" value="budgetVersionNumbers.budgetRate[0]" />
 							<bean:define id="budgetRates" name="KualiForm"
-								property="budgetToSummarize.budgetRates" />
+								property="budgetVersionNumbers.budgetRates" />
 							<c:forEach items="${budgetRates}" var="proposalRates"
 								varStatus="status">
 								<bean:define id="irateClassType" name="KualiForm"
-									property="budgetToSummarize.budgetRates[${status.index}].rateClass.rateClassType" />
+									property="budgetVersionNumbers.budgetRates[${status.index}].rateClass.rateClassType" />
 								<bean:define id="displayRow" name="KualiForm"
-									property="budgetToSummarize.budgetRates[${status.index}].displayLocation" />
+									property="budgetVersionNumbers.budgetRates[${status.index}].displayLocation" />
 								<c:if
 									test="${irateClassType == rateClassType && displayRow == 'Yes'}">
 									<c:set var="tabKey"
 										value="${tabKey},budgetRates[${status.index}]*" />
 								</c:if>
 							</c:forEach>
-
 
 							<th>
 								<div align="center">Rate Type</div></th>
@@ -186,15 +243,14 @@
 							</th>
 							<c:set var="rowIndex" value="1" />
 							<bean:define id="budgetRates" name="KualiForm"
-								property="budgetToSummarize.budgetRates" />
+								property="budgetVersionNumbers.budgetRates" />
 							<c:forEach items="${budgetRates}" var="proposalRates"
 								varStatus="status">
-
 								<c:set var="budgetRate"
-									value="budgetToSummarize.budgetRates[${status.index}]" />
+									value="budgetVersionNumbers.budgetRates[${status.index}]" />
 								<c:set var="styleClass" value="" />
 								<kul:checkErrors
-									keyMatch="budgetToSummarize.budgetRate[${rateClass}][${status.index}].applicableRate" />
+									keyMatch="budgetVersionNumbers.budgetRate[${rateClass}][${status.index}].applicableRate" />
 								<c:if test="${hasErrors}">
 									<c:set var="styleClass" value="errorField" />
 								</c:if>
@@ -202,32 +258,25 @@
 									budgetRate="${budgetRate}" rateClassType="${rateClassType}"
 									styleClass="${styleClass}" />
 							</c:forEach>
-
-
-
 						</c:if>
 					</c:if>
 				</table>
-
 
 			</kul:innerTab>
 		</c:if>
 
 	</c:forEach>
-	<c:if test="${KualiForm.budgetToSummarize.rateClassTypes eq null}">
-hiiiiiiii
+	<c:if test="${KualiForm.budgetVersionNumbers.rateClassTypes[0].rateClassType == null}">
 		<kul:innerTab tabTitle="Budget F&A Rates" parentTab=""
 			defaultOpen="false" auditCluster="" tabAuditKey="">
-		No budget versions available
+		No F&A Rates available
 		</kul:innerTab>
 	</c:if>
-
-
 	<kul:innerTab tabTitle="Budget Reports" parentTab=""
 		defaultOpen="false">
 		<c:set var="disableBox" value="true" />
 		<c:forEach var="budgetPeriod"
-			items="${KualiForm.budgetToSummarize.budgetPeriods}" varStatus="idx">
+			items="${KualiForm.budgetVersionNumbers.budgetPeriods}" varStatus="idx">
 			<c:if test="${fn:length(budgetPeriod.budgetLineItems) > 0}">
 				<c:set var="disableBox" value="false" />
 			</c:if>
@@ -267,14 +316,13 @@ hiiiiiiii
 						</td>
 					</tr>
 					<c:if
-						test="${KualiForm.budgetToSummarize.budgetPrintForms[0] != null }">
+						test="${KualiForm.budgetVersionNumbers.budgetPrintForms[0] != null }">
 						<bean:define id="budgetPrintForms" name="KualiForm"
-							property="budgetToSummarize.budgetPrintForms" />
+							property="budgetVersionNumbers.budgetPrintForms" />
 						<c:forEach var="form" items="${budgetPrintForms}"
 							varStatus="status">
 							<c:set var="budgetPrintForm"
-								value="budgetToSummarize.budgetPrintForms[${status.index}]" />
-
+								value="budgetVersionNumbers.budgetPrintForms[${status.index}]" />
 							<tr>
 								<td width="3%"><c:out value="${status.index + 1 }" />
 								</td>
@@ -286,7 +334,7 @@ hiiiiiiii
 									<div align="center">
 
 										<html:multibox property="selectedBudgetPrint"
-											value="${KualiForm.budgetToSummarize.budgetPrintForms[status.index].budgetReportId}" />
+											value="${KualiForm.budgetVersionNumbers.budgetPrintForms[status.index].budgetReportId}" />
 									</div>
 								</td>
 								<td align="center" valign="middle"">
@@ -305,5 +353,4 @@ hiiiiiiii
 			</table>
 		</div>
 	</kul:innerTab>
-
 </kul:tab>
