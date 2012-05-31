@@ -100,7 +100,6 @@ http://www.osedu.org/licenses/ECL-2.0
 		</kra:section>
 		<c:if test="${hierarchyStatus != hierarchyChildStatus}">
 			<kul:routeLog />
-			<kra:kcSuperUserActions />
 			<kul:adHocRecipients />
 		</c:if>
 	
