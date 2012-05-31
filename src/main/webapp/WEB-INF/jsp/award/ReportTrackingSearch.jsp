@@ -200,7 +200,8 @@
 							<html:image property="methodToCall.viewAggregateResults" src="${ConfigProperties.kra.externalizable.images.url}buttonsmall-aggregateview.gif" styleClass="tinybutton"/>
 						</c:when><c:otherwise>
 							<html:image property="methodToCall.viewRawResults" src="${ConfigProperties.kra.externalizable.images.url}buttonsmall-reportview.gif" styleClass="tinybutton"/>
-						</c:otherwise></c:choose>						
+						</c:otherwise></c:choose>	
+					    <html:image property="methodToCall.printAllReportTracking" src="${ConfigProperties.kra.externalizable.images.url}buttonsmall-print.gif" styleClass="tinybutton"/>				
 						<!--  hidden image used by fancybox.close to call updateView on close -->
 						${kfunc:registerEditableProperty(KualiForm, "methodToCall.resetCustomView")}			  
 				  		<html:image styleId="onChangeViewClose" property="methodToCall.updateView" style="display:none;"
