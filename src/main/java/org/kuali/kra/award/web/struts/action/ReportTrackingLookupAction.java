@@ -16,8 +16,11 @@
 package org.kuali.kra.award.web.struts.action;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,18 +30,29 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.cxf.attachment.AttachmentDataSource;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.AwardReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingDao;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingPrintingService;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
+import org.kuali.kra.award.printing.service.AwardPrintingService;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
+import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
@@ -47,24 +61,32 @@ import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiLookupAction;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.omg.ETF.Factories;
+
+import com.thoughtworks.xstream.core.util.Pool.Factory;
 
 public class ReportTrackingLookupAction extends KualiLookupAction {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportTrackingLookupForm.class);
-    
+    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private ReportTrackingDao reportTrackingDao;
     private DateTimeService dateTimeService;
     private DocumentService documentService;
     private VersionHistoryService versionHistoryService;
     private UnitAuthorizationService unitAuthorizationService;
+    private ReportTrackingPrintingService reportTrackingPrintingService;
     
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+   
+
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         isAuthorized();
         return super.execute(mapping, form, request, response);
     }
@@ -165,9 +187,81 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    public ActionForward printAllReportTracking(ActionMapping mapping,
+    ActionForm form, HttpServletRequest request,
+    HttpServletResponse response) throws Exception {
+    	ActionForward actionForward = mapping.
+        findForward(Constants.MAPPING_BASIC);
+    	 ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
+    	
+        List<Printable> printableArtifactLists = new ArrayList<Printable>();
+        HashMap hmPrint = new HashMap();
+    	 Map<String, String> allFields = new HashMap<String,
+    	 String>(lookupForm.getFields());
+    	 List<ReportTracking>discReports=new ArrayList<ReportTracking>();
+      	List<ReportTracking> detailResults = getReportTrackingDao().
+      	getDetailResults(allFields, lookupForm.getDetailFields());
+      	int i=0;
+      	
+      	//lookupForm.setCurrIndex(detailResults.size());     
+      	  for (i=0;i<detailResults.size();i++) {
+    	  /* detailResults.get(i).setCurrRowCount(detailResults.size());*/
+      		 AwardReportTracking  printables = new AwardReportTracking();  
+      		  
+      		 printables = getReportTrackingPrintingService().getReportPrintable(ReportTrackingType.AWARD_REPORT_TRACKING,detailResults.get(i));
+      		KraPersistableBusinessObjectBase printableBusinessObject = detailResults.get(i);
+      		printables = setPrintable(printableBusinessObject);
+    	
+    	  hmPrint.put(i, printables);
+    	  printableArtifactLists.add(i,printables);
+      }
+  	org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource attachmentDataSource =
+      	getReportTrackingPrintingService()
+      	.printAwardReportTracking(printableArtifactLists);
+    	streamToResponse(attachmentDataSource, response);
+     actionForward = RESPONSE_ALREADY_HANDLED;
+    return actionForward;
+    }
     
-    
-    public ActionForward openAwardReports(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public AwardReportTracking setPrintable(KraPersistableBusinessObjectBase printableBusinessObject){
+    	
+    	AwardReportTracking awardReportTracking = new AwardReportTracking();
+    	
+    	
+    	awardReportTracking.setPrintableBusinessObject(printableBusinessObject);
+    	
+    	/*awardReportTracking.setAttachments(attachments)PrintingUtils
+		.getXSLTforReport(ReportTrackingType.AWARD_REPORT_TRACKING
+				.getReportTrackingType();*/
+    	
+    	return awardReportTracking;
+    	
+    }
+    public ActionForward printReportTracking(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	 	ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+    	 	 String awardNumber = getSelectedAwardNumber(request);
+    	ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
+       	Map<String, String> allFields = new HashMap<String, String>(lookupForm.getFields());
+     /*	List<ReportTracking> detailResults = getReportTrackingDao().
+     	getDetailResults(allFields, lookupForm.getDetailFields());*/
+       	List<ReportTracking> detailResults = lookupForm.getGroupedByResults();
+     	int rowIndex=lookupForm.getGroupByResultIndex();
+     	ReportTracking reportTracking = detailResults.get(rowIndex);
+     	Map<String,Object> reportParameters = new HashMap<String,Object>();
+        List<Printable> printableArtifactList = new ArrayList<Printable>();
+        AwardReportTracking printable;
+        printable = getReportTrackingPrintingService().getReportPrintable(
+                ReportTrackingType.AWARD_REPORT_TRACKING,reportTracking);
+           printableArtifactList.add(printable);
+    	org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource attachmentDataSource =
+    	getReportTrackingPrintingService()
+    	.printAwardReportTracking(printableArtifactList);
+    	streamToResponse(attachmentDataSource, response);
+    	 actionForward = RESPONSE_ALREADY_HANDLED;
+         return actionForward;
+       }
+
+	public ActionForward openAwardReports(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String awardNumber = getSelectedAwardNumber(request);
         List<VersionHistory> versions = KraServiceLocator.getService(VersionHistoryService.class).loadVersionHistory(Award.class, awardNumber);
         Award newest = null;
@@ -190,9 +284,8 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         } else {
             return null;
         }
-
     }
-    
+   
     /**
      * Takes a routeHeaderId for a particular document and constructs the URL to forward to that document
      * Copied from KraTransactionalDocument as this does not extend from that.
@@ -274,6 +367,14 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         }
         return dateTimeService;
     }
+    
+    private ReportTrackingPrintingService getReportTrackingPrintingService() {
+        return KraServiceLocator.getService(ReportTrackingPrintingService.class);
+    }
+    public void setReportTrackingPrintingService(
+			ReportTrackingPrintingService reportTrackingPrintingService) {
+		this.reportTrackingPrintingService = reportTrackingPrintingService;
+	}
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
@@ -292,7 +393,30 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         }
         return versionHistoryService;
     }
+    protected void streamToResponse(org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource attachmentDataSource,
+            HttpServletResponse response) throws Exception {
+        byte[] xbts = attachmentDataSource.getContent();
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream(xbts.length);
+            baos.write(xbts);
 
+            WebUtils
+                    .saveMimeOutputStreamAsFile(response, attachmentDataSource
+                            .getContentType(), baos, attachmentDataSource
+                            .getFileName());
+
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.close();
+                    baos = null;
+                }
+            } catch (IOException ioEx) {
+                // LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }
+    }
     public UnitAuthorizationService getUnitAuthorizationService() {
         if (unitAuthorizationService == null) {
             unitAuthorizationService = KraServiceLocator.getService(UnitAuthorizationService.class);
