@@ -1,9 +1,9 @@
 DELIMITER /
-UPDATE KRIM_PERM_T set NM = 'Submit IACUC Protocol' WHERE NM = 'Submit IACUC protocol for Review'
+UPDATE KRIM_PERM_T set NM = 'Submit IACUC Protocol' WHERE NM = 'Submit IACUC  protocol for Review'
 /
 UPDATE KRIM_PERM_T SET DESC_TXT='Submit an IACUC Protocol to committee for review' WHERE NM = 'Submit IACUC Protocol'
 /
-UPDATE KRIM_PERM_T set NM = 'Add IACUC Protocol Notes' WHERE NM = 'Add IACUC Protocol Notes'
+UPDATE KRIM_PERM_T set NM = 'Add IACUC Protocol Notes' WHERE NM = 'Add IACUC  Protocol Notes'
 /
 INSERT INTO KRIM_ROLE_ID_BS_S VALUES(NULL)
 /
