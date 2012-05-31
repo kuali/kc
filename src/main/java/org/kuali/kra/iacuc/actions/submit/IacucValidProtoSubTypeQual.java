@@ -15,32 +15,26 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.kra.protocol.actions.submit.ValidProtoSubTypeQual;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class IacucValidProtoSubTypeQual extends ValidProtoSubTypeQual {
-    
+public class IacucValidProtoSubTypeQual  extends KraPersistableBusinessObjectBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = -7743514576606770438L;
-    
+    private static final long serialVersionUID = 6546751709369749190L;
+
     private Long validProtoSubTypeQualId;
-    
-    private String submissionTypeQualCode;
-    
-    
+
+    private String submissionTypeCode;
+
+    private String iacucSubmissionTypeQualCode;
+
     private IacucProtocolSubmissionType iacucProtocolSubmissionType;
+
     private IacucProtocolSubmissionQualifierType iacucSubmissionTypeQualifier;
-    
+
     public IacucValidProtoSubTypeQual() {
-    }
-
-    public String getSubmissionTypeQualCode() {
-        return submissionTypeQualCode;
-    }
-
-    public void setSubmissionTypeQualCode(String submissionTypeQualCode) {
-        this.submissionTypeQualCode = submissionTypeQualCode;
     }
 
     public Long getValidProtoSubTypeQualId() {
@@ -51,12 +45,21 @@ public class IacucValidProtoSubTypeQual extends ValidProtoSubTypeQual {
         this.validProtoSubTypeQualId = validProtoSubTypeQualId;
     }
 
-    public IacucProtocolSubmissionType getIacucProtocolSubmissionType() {
-        return iacucProtocolSubmissionType;
+    public String getSubmissionTypeCode() {
+        return submissionTypeCode;
     }
+
+    public void setSubmissionTypeCode(String submissionTypeCode) {
+        this.submissionTypeCode = submissionTypeCode;
+    }
+
 
     public void setIacucProtocolSubmissionType(IacucProtocolSubmissionType iacucProtocolSubmissionType) {
         this.iacucProtocolSubmissionType = iacucProtocolSubmissionType;
+    }
+
+    public IacucProtocolSubmissionType getIacucProtocolSubmissionType() {
+        return iacucProtocolSubmissionType;
     }
 
     public IacucProtocolSubmissionQualifierType getIacucSubmissionTypeQualifier() {
@@ -66,5 +69,14 @@ public class IacucValidProtoSubTypeQual extends ValidProtoSubTypeQual {
     public void setIacucSubmissionTypeQualifier(IacucProtocolSubmissionQualifierType iacucSubmissionTypeQualifier) {
         this.iacucSubmissionTypeQualifier = iacucSubmissionTypeQualifier;
     }
+
+    public String getIacucSubmissionTypeQualCode() {
+        return iacucSubmissionTypeQualCode;
+    }
+
+    public void setIacucSubmissionTypeQualCode(String iacucSubmissionTypeQualCode) {
+        this.iacucSubmissionTypeQualCode = iacucSubmissionTypeQualCode;
+    }
+
 
 }
