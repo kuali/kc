@@ -18,7 +18,7 @@
 <jsp:useBean id="paramMap1" class="java.util.HashMap"/>
 
 <c:set var="numberOfAttachments" value="0" />
-<c:set var="modify" value="${KualiForm.coiNotesAndAttachmentsHelper.modifyAttachments and not readOnly}" />
+<c:set var="modify" value="${KualiForm.coiNotesAndAttachmentsHelper.modifyAttachments}" />
 <c:set var="attributes" value="${DataDictionary.CoiDisclosureAttachment.attributes}" />
 <c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
 <c:set var="attachmentFilterAttributes" value="${DataDictionary.CoiDisclosureAttachmentFilter.attributes}" />
@@ -75,7 +75,7 @@
 					test="${attachmentHelper.newCoiDisclosureAttachment.projectId == null}">
 					<html:select
 						property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.projectId"
-						tabindex="0" style="width:180px" disabled="${readOnly}">
+						tabindex="0" style="width:180px" disabled="${!modify}">
 						<c:forEach
 							items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}"
 							var="option">
@@ -423,7 +423,7 @@
 									<html:image property="methodToCall.viewAttachmentCoi.line${itrStatus.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 										alt="View Coi Disclosure Attachment" onclick="excludeSubmitRestriction = true;"/>
-										<c:if test="${not readOnly}">
+										<c:if test="${modify}">
 										<input class="tinybutton" type="image"
 											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
 											id="replaceButton${itrStatus.index}"
