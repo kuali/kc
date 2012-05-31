@@ -18,6 +18,8 @@ package org.kuali.kra.award.web.struts.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.kuali.kra.award.paymentreports.ReportTrackingView;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingSearchViews;
@@ -45,6 +47,7 @@ public class ReportTrackingLookupForm extends LookupForm {
     private boolean viewRawResults;
     private String moveField;
     private Integer newColumnIndex;
+    private transient int currIndex;
     
     public ReportTrackingLookupForm() {
         init();
@@ -72,7 +75,7 @@ public class ReportTrackingLookupForm extends LookupForm {
      */
     @Override
     public boolean isPropertyEditable(String propertyName) {
-        if (propertyName.startsWith("methodToCall.openAwardReports.awardNumber")) {
+        if (propertyName.startsWith("methodToCall.openAwardReports.awardNumber")|| propertyName.startsWith("methodToCall.printReportTracking.awardNumber")) {
             return true;
         } else {
             return super.isPropertyEditable(propertyName);
@@ -200,12 +203,22 @@ public class ReportTrackingLookupForm extends LookupForm {
         this.newColumnIndex = newColumnIndex;
     }
 
-    public String getMoveField() {
+   
+
+	public String getMoveField() {
         return moveField;
     }
 
     public void setMoveField(String moveField) {
         this.moveField = moveField;
     }
+
+	public int getCurrIndex() {
+		return currIndex;
+	}
+
+	public void setCurrIndex(int currIndex) {
+		this.currIndex = currIndex;
+	}
 
 }
