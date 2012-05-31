@@ -24,7 +24,7 @@ KIM_TYP_ID,
 KIM_ATTR_DEFN_ID,
 ACTV_IND)
 VALUES
-  ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from  krim_typ_attr_t where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000),
+  ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from  krim_typ_attr_t where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000),
   sys_guid(),
   1,
   'e',
