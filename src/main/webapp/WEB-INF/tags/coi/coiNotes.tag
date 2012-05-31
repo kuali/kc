@@ -45,7 +45,7 @@
 				<th align="left"><div align="center">Actions</div></th>
 				
 			</tr>
-			<kra:permission value="${modifyPermission and not readOnly}">
+			<kra:permission value="${modifyPermission}">
 			
 				<tr>
 	            	<th width="40" align="center" scope="row"><div align="center">Add:</div></th>
@@ -71,7 +71,7 @@
 					test="${attachmentHelper.newCoiDisclosureNotepad.projectId == null}">
 					<html:select
 						property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.projectId"
-						style="width:180px" tabindex="0" disabled="${readOnly}">
+						style="width:180px" tabindex="0" disabled="${!modifyPermission}">
 						<c:forEach
 							items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}"
 							var="option">
@@ -164,12 +164,12 @@
 						</td>
 						<td>
 			            	<div align=center><nobr> 
-								<c:if test="${modifyPermission and not disclosureEditable and not readOnly}">
+								<c:if test="${modifyPermission and not disclosureEditable}">
 									<html:image property="methodToCall.editNote.line${status.index}.anchor${tabKey}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/>
 								</c:if>
 								&nbsp;
-								<c:if test="${modifyPermission and not readOnly}">
+								<c:if test="${modifyPermission}">
 									<html:image property="methodToCall.deleteNote.line${status.index}.anchor${tabKey}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 								</c:if>

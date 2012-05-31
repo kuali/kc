@@ -5,7 +5,6 @@
 <%@ tag body-content="scriptless" description="The instructions for using the validation. If not set a default will be used." example="You can activate a Validation check...</p><ul><li>errors</li><li>warnings</li></ul>" %>
 
 <c:set var="title" value="Certification" />
-<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="certStatement" value="${KualiForm.document.coiDisclosureList[0].certificationStatement}" />
 <c:set var="ackStatement" value="${KualiForm.document.coiDisclosureList[0].acknowledgementStatement}" />
 <c:set var="reporterName" value="${KualiForm.document.coiDisclosureList[0].disclosurePersons[0].reporter.fullName}" />
