@@ -35,16 +35,17 @@ public class CoiDisclosureFinancialEntitiesValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List<KeyValue> keyLabels = new ArrayList<KeyValue>();
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) KNSGlobalVariables.getKualiForm();
+        String personId = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getDisclosureReporter().getPersonId();
         keyLabels.add(new ConcreteKeyValue("", "select"));
-        List<PersonFinIntDisclosure> financialEntities = getAllFinancialEntities();
+        List<PersonFinIntDisclosure> financialEntities = getAllFinancialEntities(personId);
         for (PersonFinIntDisclosure fe : financialEntities) {
             keyLabels.add(new ConcreteKeyValue(fe.getPersonFinIntDisclosureId().toString(), fe.getEntityName()));
         }
         return keyLabels;
     }
 
-    public List<PersonFinIntDisclosure> getAllFinancialEntities() {
-        String userId = GlobalVariables.getUserSession().getPrincipalId();
+    public List<PersonFinIntDisclosure> getAllFinancialEntities(String userId) {
+       // String userId = GlobalVariables.getUserSession().getPrincipalId();
         List<PersonFinIntDisclosure> finEntities = getFinancialEntityService().getFinancialEntities(userId, true);
         return finEntities;
     }
