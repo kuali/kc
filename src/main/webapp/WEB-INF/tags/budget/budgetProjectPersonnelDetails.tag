@@ -131,11 +131,14 @@
 				    </div>
 				   
 				    <c:if test="${KualiForm.enableBudgetSalaryByPeriod=='Y'}">
-				     <div  align=center>&nbsp;				   
-				    <a id="budgetPersonSalaryDetail" title="Person Salary Details" href="#" onclick="showBudgetPersonSalaryDetails(${KualiForm.viewDivBooleanFlag}, ${status.index}, ${KualiForm.document.budget.budgetId}, ${person.personSequenceNumber}, ${person.personId}, showBudgetPersonSalaryDetails_Callback);" noresize >
-						 	Base Salary by Period																					
-                    </a>						
-					</div>
+						<c:if test="${proposalBudgetFlag}">
+							<div align=center>
+								&nbsp; <a id="budgetPersonSalaryDetail"
+									title="Person Salary Details" href="#"
+									onclick="showBudgetPersonSalaryDetails(${KualiForm.viewDivBooleanFlag}, ${status.index}, ${KualiForm.document.budget.budgetId}, ${person.personSequenceNumber}, ${person.personId}, showBudgetPersonSalaryDetails_Callback);"
+									noresize> Base Salary by Period </a>
+							</div>
+						</c:if>
 					</c:if>
 					<div id="paramDiv+${status.index}" class="dialog"
 							style="z-index: 999; width: 450px; height: auto; min-height: 170px; border: 2; border-style: solid; top: 200px; left: 500px; position: absolute; border-color: #6B6B6B; background-color: #FFFFFF; display: none;"center" >
