@@ -30,13 +30,17 @@ spool KC-RELEASE-5_0-Upgrade-ORACLE-Install.log
 @../../current/5.0/sequences/KC_SEQ_PERSON_BIOSKETCH_ID.sql
 @../../current/5.0/sequences/KC_SEQ_PROTO_ATTCHTYPEGRP_ID.sql
 @../../current/5.0/sequences/KC_SEQ_ROLODEX_ID.sql
+@../../current/5.0/sequences/KC_SEQ_VALID_PRO_SUB_REV_TYPE_ID.sql
+@../../current/5.0/sequences/KC_SEQ_VALID_PRO_SUB_TYPE_QUAL_ID.sql
 @../../current/5.0/tables/KC_TBL_ATTACHMENTS_TYPE.sql
 @../../current/5.0/tables/KC_TBL_AWARD_REPORT_NOTIFICATION_SENT.sql
 @../../current/5.0/tables/KC_TBL_BUDGET_CHANGED_DATA.sql
 @../../current/5.0/tables/KC_TBL_BUDGET_COLUMNS_TO_ALTER.sql
+@../../current/5.0/tables/KC_TBL_BUDGET_PERSON_SALARY_DETAILS.sql
 @../../current/5.0/tables/KC_TBL_COI_ATTACHMENT_TYPE.sql
 @../../current/5.0/tables/KC_TBL_COI_DISCLOSURE_ATTACHMENT.sql
 @../../current/5.0/tables/KC_TBL_COI_DISCLOSURE_NOTEPAD.sql
+@../../current/5.0/tables/KC_TBL_COI_DISCL_PROJECTS.sql
 @../../current/5.0/tables/KC_TBL_COI_DISC_DETAILS.sql
 @../../current/5.0/tables/KC_TBL_COMM_SCHEDULE_ATTACHMENTS.sql
 @../../current/5.0/tables/KC_TBL_EPS_PROPOSAL.sql
