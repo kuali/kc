@@ -131,7 +131,7 @@
 				    </div>
 				   
 				    <c:if test="${KualiForm.enableBudgetSalaryByPeriod=='Y'}">
-				     <div align=center>&nbsp;>				   
+				     <div  align=center>&nbsp;				   
 				    <a id="budgetPersonSalaryDetail" title="Person Salary Details" href="#" onclick="showBudgetPersonSalaryDetails(${KualiForm.viewDivBooleanFlag}, ${status.index}, ${KualiForm.document.budget.budgetId}, ${person.personSequenceNumber}, ${person.personId}, showBudgetPersonSalaryDetails_Callback);" noresize >
 						 	Base Salary by Period																					
                     </a>						
