@@ -33,7 +33,7 @@ public class KcUnitTestSeleniumLifecycle extends KcUnitTestBaseLifecycle {
     @Override
     protected void doPerSuiteStart() throws Throwable {
         driver = new FirefoxDriver();
-        ((FirefoxDriver) driver).executeScript("window.resizeTo(1024,768)");
+        driver.manage().window().maximize();
     }
     
     @Override

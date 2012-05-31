@@ -43,7 +43,6 @@ public class CommitteeSeleniumHelper extends KcSeleniumHelper {
     private static final String DESCRIPTION_ID = LIST_PREFIX + "committeeDescription";
     private static final String SCHEDULE_DESCRIPTION_ID = LIST_PREFIX + "scheduleDescription";
     private static final String MINIMUM_MEMBERS_REQUIRED_ID = LIST_PREFIX + "minimumMembersRequired";
-    private static final String REVIEW_TYPE_CODE_ID = LIST_PREFIX + "reviewTypeCode";
     private static final String MAX_PROTOCOLS_ID = LIST_PREFIX + "maxProtocols";
     private static final String ADVANCED_SUBMISSION_DAYS_REQUIRED_ID = LIST_PREFIX + "advancedSubmissionDaysRequired";
     private static final String RESEARCH_AREA_CODE_ID = "researchAreaCode";
@@ -55,7 +54,6 @@ public class CommitteeSeleniumHelper extends KcSeleniumHelper {
     private static final String DEFAULT_DESCRIPTION = "xxx";
     private static final String DEFAULT_SCHEDULE_DESCRIPTION = "foo";
     private static final String DEFAULT_MINIMUM_MEMBERS_REQUIRED = "3";
-    private static final String DEFAULT_REVIEW_TYPE = "Full";
     private static final String DEFAULT_MAX_PROTOCOLS = "10";
     private static final String DEFAULT_ADVANCED_SUBMISSION_DAYS_REQUIRED = "1";
     private static final String DEFAULT_RESEARCH_AREA_CODE = "000001";
@@ -134,6 +132,11 @@ public class CommitteeSeleniumHelper extends KcSeleniumHelper {
         
         saveDocument();
         assertSave();
+        
+        multiLookup(RESEARCH_AREAS_TAG, RESEARCH_AREA_CODE_ID, DEFAULT_RESEARCH_AREA_CODE);
+        
+        saveDocument();
+        assertSave();
     }
     
     /**
@@ -150,10 +153,8 @@ public class CommitteeSeleniumHelper extends KcSeleniumHelper {
         set(DESCRIPTION_ID, DEFAULT_DESCRIPTION);
         set(SCHEDULE_DESCRIPTION_ID, DEFAULT_SCHEDULE_DESCRIPTION);
         set(MINIMUM_MEMBERS_REQUIRED_ID, DEFAULT_MINIMUM_MEMBERS_REQUIRED);
-        set(REVIEW_TYPE_CODE_ID, DEFAULT_REVIEW_TYPE);
         set(MAX_PROTOCOLS_ID, DEFAULT_MAX_PROTOCOLS);
         set(ADVANCED_SUBMISSION_DAYS_REQUIRED_ID, DEFAULT_ADVANCED_SUBMISSION_DAYS_REQUIRED);
-        multiLookup(RESEARCH_AREAS_TAG, RESEARCH_AREA_CODE_ID, DEFAULT_RESEARCH_AREA_CODE);
     }
 
 }
