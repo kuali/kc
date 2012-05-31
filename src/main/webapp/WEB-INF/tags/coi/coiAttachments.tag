@@ -48,7 +48,7 @@
 	         		<td align="left" valign="middle" colspan="0">
 	                	<div align="left">
 	                        <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.typeCode" 
-    	                                              attributeEntry="${attributes.typeCode}" />
+    	                                              attributeEntry="${attributes.typeCode}"  readOnly="${!modify}" />
 		            	</div>
 					</td>
 	         	</tr>
