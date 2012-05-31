@@ -20,13 +20,16 @@
 \. ./../../current_mysql/5.0/dml/KR_DML_01_KCIRB-1795_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-4374_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-4757_B000.sql
+\. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-4760_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-5223_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-5224_B000.sql
+\. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-5240_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-5253_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-5254_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-5256_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-5257_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-5326_B000.sql
+\. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-5476_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-5488_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_01_KRACOEUS-5527_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_02_KCCOI-268_B000.sql
@@ -42,9 +45,11 @@
 \. ./../../current_mysql/5.0/dml/KR_DML_02_KCINFR-568_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_02_KCINFR-596_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_02_KCINFR-617_B000.sql
+\. ./../../current_mysql/5.0/dml/KR_DML_02_KCINFR-622_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_03_KCIAC-59_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_03_KCINFR-616_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_03_KRACOEUS-5493_B000.sql
+\. ./../../current_mysql/5.0/dml/KR_DML_04_KRACOEUS-5493_B000.sql
 \. ./../../current_mysql/5.0/dml/KR_DML_99_KC-SUPERUSER_B000.sql
 commit;
 exit
