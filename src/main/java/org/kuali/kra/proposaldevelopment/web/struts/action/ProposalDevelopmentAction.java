@@ -158,7 +158,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             //KRACOEUS-5064
             KraWorkflowService workflowService = KraServiceLocator.getService(KraWorkflowService.class);
             ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
-            proposalDevelopmentForm.setApproverViewDO(approverViewDO);
+            proposalDevelopmentForm.setApproverViewDO(approverViewDO);           
             forward = mapping.findForward(Constants.MAPPING_PROPOSAL_SUMMARY_PAGE);
             forward = new ActionForward(forward.getPath()+ "?" + KRADConstants.PARAMETER_DOC_ID + "=" + request.getParameter(KRADConstants.PARAMETER_DOC_ID));  
         } //else if (Constants.MAPPING_PROPOSAL_ACTIONS.equals(command)) {
@@ -999,6 +999,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
         ProposalDevelopmentDocument retrievedDocument = (ProposalDevelopmentDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
         proposalDevelopmentForm.setDocument(retrievedDocument);
+        proposalDevelopmentForm.setDocTypeName(retrievedDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
         request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
         
         // Set lead unit on form when copying a document. This is needed so the lead unit shows up on the "Copy to New Document" panel under Proposal Actions.
