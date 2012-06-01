@@ -24,6 +24,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.document.authorization.BudgetDocumentAuthorizer;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
@@ -41,16 +42,22 @@ public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
         AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) document;
         BudgetParentDocument<Award> parentDocument = awardBudgetDocument.getParentDocument();
         String userId = user.getPrincipalId(); 
-        
+                
         if (canExecuteAwardBudgetTask(user, awardBudgetDocument, TaskName.MODIFY_BUDGET)) {
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             editModes.add("modifyBudgets");
             editModes.add("viewBudgets");
+            //KRACOEUS-5556 - temp workaround hard coded access to salary information in awards
+            editModes.add(PermissionConstants.VIEW_INSTITUTIONAL_SALARIES); 
+            editModes.add(PermissionConstants.VIEW_PROP_PERSON_INST_SALARIES);                              
             setPermissions(userId, parentDocument, editModes);
         }
         else if (canExecuteAwardBudgetTask(user, awardBudgetDocument, TaskName.VIEW_BUDGET)) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             editModes.add("viewBudgets");
+            //KRACOEUS-5556 - temp workaround hard coded access to salary information in awards
+            editModes.add(PermissionConstants.VIEW_INSTITUTIONAL_SALARIES); 
+            editModes.add(PermissionConstants.VIEW_PROP_PERSON_INST_SALARIES);                  
             setPermissions(userId, parentDocument, editModes);
         }
         else {
