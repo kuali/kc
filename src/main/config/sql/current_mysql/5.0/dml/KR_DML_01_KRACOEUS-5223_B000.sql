@@ -29,7 +29,7 @@ VALUES ('KC-AWARD', 'Document', 'REPORT_TRACKING_NOTIFICATIONS_BATCH_RECIPIENT',
 /
 
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID)
-VALUES ('KC-AWARD', 'Document', 'REPORT_TRACKING_NOTIFICATIONS_BATCH_CRON_TRIGGER', UUID(), 1, 'CONFG', '0 */10 cmd.sql constraints dml rice sequences tables views cmd.sql constraints dml rice sequences tables views cmd.sql constraints dml rice sequences tables views ?', 'The cron expression to determine when the report tracking notification batch process will run.', 'A', 'KC')
+VALUES ('KC-AWARD', 'Document', 'REPORT_TRACKING_NOTIFICATIONS_BATCH_CRON_TRIGGER', UUID(), 1, 'CONFG', '0 */10 * * * ?', 'The cron expression to determine when the report tracking notification batch process will run.', 'A', 'KC')
 /
 
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID)
