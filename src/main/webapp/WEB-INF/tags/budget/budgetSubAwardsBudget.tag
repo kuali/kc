@@ -149,11 +149,8 @@
 																		
 									<html:image property="methodToCall.addNonXFDBudgetLine.line${status.index}.anchor${currentTabIndex}"
 		                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-									<%--
-									This isn't working yet!
 									<html:image property="methodToCall.translateXFDBudgetLine.line${status.index}.anchor${tabKey}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-extractxml.gif' styleClass="tinybutton"/>
-									 --%>
 									
                             	</c:when>
                             	<c:otherwise>
