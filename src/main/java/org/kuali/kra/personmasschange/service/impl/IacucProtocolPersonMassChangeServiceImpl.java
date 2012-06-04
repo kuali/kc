@@ -68,7 +68,7 @@ public class IacucProtocolPersonMassChangeServiceImpl implements IacucProtocolPe
         List<IacucProtocol> protocolChangeCandidates = new ArrayList<IacucProtocol>();
         
         List<IacucProtocol> protocols = new ArrayList<IacucProtocol>();
-        if (personMassChange.getProtocolPersonMassChange().requiresChange()) {
+        if (personMassChange.getIacucProtocolPersonMassChange().requiresChange()) {
             protocols.addAll(getProtocols(personMassChange));
         }
 
@@ -136,16 +136,16 @@ public class IacucProtocolPersonMassChangeServiceImpl implements IacucProtocolPe
         String[] keyStudyPersonRoles = { IacucProtocolPersonRole.ROLE_STUDY_PERSONNEL };
         String[] correspondentsRoles = { IacucProtocolPersonRole.ROLE_CORRESPONDENTS };
         
-        if (personMassChange.getProtocolPersonMassChange().isInvestigator()) {
+        if (personMassChange.getIacucProtocolPersonMassChange().isInvestigator()) {
             isProtocolChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, investigatorRoles);
         }
-        if (personMassChange.getProtocolPersonMassChange().isKeyStudyPerson()) {
+        if (personMassChange.getIacucProtocolPersonMassChange().isKeyStudyPerson()) {
             isProtocolChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, keyStudyPersonRoles);
         }
-        if (personMassChange.getProtocolPersonMassChange().isCorrespondents()) {
+        if (personMassChange.getIacucProtocolPersonMassChange().isCorrespondents()) {
             isProtocolChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, correspondentsRoles);
         }
-        if (personMassChange.getProtocolPersonMassChange().isReviewer()) {
+        if (personMassChange.getIacucProtocolPersonMassChange().isReviewer()) {
             isProtocolChangeCandidate |= isReviewerChangeCandidate(personMassChange, onlineReviews);
         }
         
@@ -207,21 +207,21 @@ public class IacucProtocolPersonMassChangeServiceImpl implements IacucProtocolPe
     }
     
     private void performInvestigatorPersonMassChange(PersonMassChange personMassChange, IacucProtocol protocol) {
-        if (personMassChange.getProtocolPersonMassChange().isInvestigator()) {
+        if (personMassChange.getIacucProtocolPersonMassChange().isInvestigator()) {
             String[] personRoles = { IacucProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR, IacucProtocolPersonRole.ROLE_CO_INVESTIGATOR };
             performPersonPersonMassChange(personMassChange, protocol, personRoles);
         }
     }
     
     private void performKeyStudyPersonPersonMassChange(PersonMassChange personMassChange, IacucProtocol protocol) {
-        if (personMassChange.getProtocolPersonMassChange().isKeyStudyPerson()) {
+        if (personMassChange.getIacucProtocolPersonMassChange().isKeyStudyPerson()) {
             String[] personRoles = { IacucProtocolPersonRole.ROLE_STUDY_PERSONNEL };
             performPersonPersonMassChange(personMassChange, protocol, personRoles);
         }
     }
     
     private void performCorrespondentsPersonMassChange(PersonMassChange personMassChange, IacucProtocol protocol) {
-        if (personMassChange.getProtocolPersonMassChange().isCorrespondents()) {
+        if (personMassChange.getIacucProtocolPersonMassChange().isCorrespondents()) {
             String[] personRoles = { IacucProtocolPersonRole.ROLE_CORRESPONDENTS };
             performPersonPersonMassChange(personMassChange, protocol, personRoles);
         }
@@ -262,7 +262,7 @@ public class IacucProtocolPersonMassChangeServiceImpl implements IacucProtocolPe
     }
 
     private void performReviewerPersonMassChange(PersonMassChange personMassChange, IacucProtocol protocol) {
-        if (personMassChange.getProtocolPersonMassChange().isReviewer()) {
+        if (personMassChange.getIacucProtocolPersonMassChange().isReviewer()) {
             for (ProtocolOnlineReview onlineReview : protocol.getProtocolOnlineReviews()) {
                 ProtocolReviewer reviewer = onlineReview.getProtocolReviewer();
                 if (isPersonIdMassChange(personMassChange, reviewer.getPersonId()) || isRolodexIdMassChange(personMassChange, reviewer.getRolodexId())) {
