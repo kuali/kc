@@ -305,6 +305,12 @@
                  <bean class="org.kuali.kra.coi.auth.PerformCoiDisclosureActionsAuthorizer" parent="parentCoiDisclosureAuthorizer">
                 	<property name="taskName" value="performCoiDisclosureAction" />
                 </bean> 
+                <bean class="org.kuali.kra.coi.auth.CoiDeleteUpdateNoteAuthorizer" parent="parentCoiDisclosureAuthorizer">
+                	<property name="taskName" value="deleteUpdateNote" />
+                </bean> 
+                <bean class="org.kuali.kra.coi.auth.CoiDeleteUpdateAttachmentAuthorizer" parent="parentCoiDisclosureAuthorizer">
+                	<property name="taskName" value="deleteUpdateAttachment" />
+                </bean> 
             </list>
         </property>
     </bean>

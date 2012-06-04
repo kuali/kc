@@ -20,6 +20,8 @@
 <c:set var="viewRestrictedNotes" value="${KualiForm.coiNotesAndAttachmentsHelper.viewRestricted}" />
 <c:set var="tabItemCount" value="0" />
 <c:set var="attachmentHelper" value="${KualiForm.coiNotesAndAttachmentsHelper}" />
+<c:set var="canDeleteUpdateNotes" value="${attachmentHelper.canDeleteUpdateNote}" />
+								
 <c:set var="disclosureType" value="${KualiForm.document.coiDisclosure}" />
 <c:forEach var="coiDisclosureNotepad" items="${KualiForm.document.coiDisclosure.coiDisclosureNotepads}" varStatus="status">
     <c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">               
@@ -115,6 +117,8 @@
 	        </kra:permission>
        		<c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">
 	         	<c:forEach var="coiDisclosureNotepad" items="${KualiForm.document.coiDisclosure.coiDisclosureNotepads}" varStatus="status">
+	         	<c:set var="noteId" value="${coiDisclosureNotepad.id}" />
+	         	<c:set var="permission" value="${canDeleteUpdateNotes[noteId]}" />
 					<c:set var="noteReadOnly" value="${!modifyPermission || !coiDisclosureNotepad.editable}" />
 					<c:set var="disclosureEditable" value="${coiDisclosureNotepad.editable}" />
 					<c:set var="statusIndex" >
@@ -164,12 +168,12 @@
 						</td>
 						<td>
 			            	<div align=center><nobr> 
-								<c:if test="${modifyPermission and not disclosureEditable}">
+								<c:if test="${modifyPermission and not disclosureEditable and permission}">
 									<html:image property="methodToCall.editNote.line${status.index}.anchor${tabKey}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/>
 								</c:if>
 								&nbsp;
-								<c:if test="${modifyPermission}">
+								<c:if test="${modifyPermission and permission}">
 									<html:image property="methodToCall.deleteNote.line${status.index}.anchor${tabKey}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 								</c:if>
