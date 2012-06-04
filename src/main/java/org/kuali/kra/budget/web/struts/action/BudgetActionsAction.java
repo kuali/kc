@@ -385,23 +385,19 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         
         BudgetForm budgetForm = (BudgetForm)form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        //BudgetSubAwards newBudgetSubAward = budgetForm.getNewSubAward();
         BudgetSubAwards subAward = getSelectedBudgetSubAward(form, request);
-        
         FormFile subAwardFile = subAward.getNewSubAwardFile();
         byte[] subAwardData = subAwardFile.getFileData();
         String subAwardFileName = subAwardFile.getFileName();
         subAward.setBudgetVersionNumber(budgetDocument.getBudget().getBudgetVersionNumber());
         subAward.setSubAwardStatusCode(1);
-        
         BudgetSubAwardFiles newBudgetsubAwardFiles = new BudgetSubAwardFiles();
         newBudgetsubAwardFiles.setSubAwardXfdFileData(subAwardData);
-        
         if (subAward.getBudgetSubAwardAttachments() != null && !subAward.getBudgetSubAwardAttachments().isEmpty()) {
             getBusinessObjectService().delete(subAward.getBudgetSubAwardAttachments());
             subAward.getBudgetSubAwardAttachments().clear();
         }
-        
+        subAward.getBudgetSubAwardFiles().clear();
         subAward.getBudgetSubAwardFiles().add(newBudgetsubAwardFiles);
         KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardFiles(subAward);
         BudgetSubAwardsRule rule = new BudgetSubAwardsRule(subAward, SUBAWARD_BUDGET_EDIT_LINE_STARTER + getSelectedLine(request) + SUBAWARD_BUDGET_EDIT_LINE_ENDER);
@@ -409,7 +405,6 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         if(success){
             newBudgetsubAwardFiles.setSubAwardXfdFileName(subAwardFileName);
             subAward.setSubAwardXfdFileName(subAwardFileName);
-    //        new BudgetSubAwardReader().populateSubAward(budgetSubAwardBean)
             budgetForm.setNewSubAward(new BudgetSubAwards());   
             List listToBeSaved = new ArrayList();
             listToBeSaved.add(subAward);
@@ -417,7 +412,6 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             listToBeSaved.addAll(subAward.getBudgetSubAwardAttachments());
             
             KraServiceLocator.getService(BusinessObjectService.class).save(listToBeSaved);
-            //budgetDocument.getBudget().getBudgetSubAwards().add(newBudgetSubAward);
             subAward.setEdit(false);
         }
         Collections.sort(budgetDocument.getBudget().getBudgetSubAwards());
