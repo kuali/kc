@@ -15,6 +15,8 @@
 --%>
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ page import="java.util.HashMap" %>
+
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="coiDisclosure"

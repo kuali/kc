@@ -25,7 +25,8 @@ public class MaintainCoiDisclosureNotesAuthorizer extends CoiDisclosureAuthorize
     @Override
     public boolean isAuthorized(String userId, CoiDisclosureTask task) {
         boolean hasPermission = true;
-        // check if the user has the explicit permissions for maintaining notes
+        // check if the user has the explicit permissions for maintaining notes like administrators and
+        // reviewers
         if(hasPermission(userId, task.getCoiDisclosure(), PermissionConstants.MAINTAIN_COI_DISCLOSURE_NOTES)) {
             hasPermission = true;
         }

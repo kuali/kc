@@ -618,6 +618,7 @@ public class CoiDisclosureAction extends CoiAction {
         int selection = this.getSelectedLine(request);
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();
         final CoiDisclosureAttachment attachment = helper.retrieveExistingAttachmentByType(selection);
+
         if (isValidContactData(attachment, ATTACHMENT_PATH + selection + "]")) {
             return confirmDeleteAttachment(mapping, (CoiDisclosureForm) form, request, response);
         }
@@ -660,6 +661,7 @@ public class CoiDisclosureAction extends CoiAction {
     public ActionForward confirmDeleteCoiDisclosureAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         return this.deleteAttachment(mapping, (CoiDisclosureForm) form, request, response, CoiDisclosureAttachment.class);
+
     }
     
     private ActionForward deleteAttachment(ActionMapping mapping, CoiDisclosureForm form, HttpServletRequest request,
@@ -670,7 +672,8 @@ public class CoiDisclosureAction extends CoiAction {
         if (!helper.deleteExistingAttachmentByType(selection)) {
             //may want to tell the user the selection was invalid.
         }
-        
+        save(mapping, form, request, response);
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
    
