@@ -17,57 +17,25 @@ package org.kuali.kra.protocol.actions.approve;
 
 import java.sql.Date;
 
-import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.ProtocolRiskLevelCommentable;
-import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevelBean;
+import org.kuali.kra.protocol.actions.ProtocolRiskLevelCommentable;
+import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.protocol.actions.risklevel.ProtocolRiskLevelBean;
 
 /**
  * This class is really just a "form" for approving a protocol.
  */
-public class ProtocolApproveBean extends ProtocolGenericActionBean implements ProtocolRiskLevelCommentable {
-
-    private static final long serialVersionUID = 8022339401747868812L;
+public interface ProtocolApproveBean extends ProtocolGenericActionBean, ProtocolRiskLevelCommentable {
+   
+    public Date getApprovalDate();
     
-    private Date approvalDate;
-    private Date expirationDate;
+    public void setApprovalDate(Date approvalDate);
     
-    private String errorPropertyKey;
-    private ProtocolRiskLevelBean protocolRiskLevelBean;
+    public Date getExpirationDate();
     
-    /**
-     * Constructs a ProtocolApproveBean.
-     * @param actionHelper a reference back to the parent helper
-     */
-    public ProtocolApproveBean(ActionHelper actionHelper, String errorPropertyKey) {
-        super(actionHelper, errorPropertyKey);
-        
-        this.errorPropertyKey = errorPropertyKey;
-        protocolRiskLevelBean = new ProtocolRiskLevelBean(errorPropertyKey);
-    }
+    public void setExpirationDate(Date expirationDate);
     
-    public Date getApprovalDate() {
-        return approvalDate;
-    }
-    
-    public void setApprovalDate(Date approvalDate) {
-        this.approvalDate = approvalDate;
-    }
-    
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
-    
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-    
-    public String getErrorPropertyKey() {
-        return errorPropertyKey;
-    }
+    public String getErrorPropertyKey();
        
-    public ProtocolRiskLevelBean getProtocolRiskLevelBean() {
-        return protocolRiskLevelBean;
-    }
+    public ProtocolRiskLevelBean getProtocolRiskLevelBean();
     
 }
