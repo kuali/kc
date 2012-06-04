@@ -218,7 +218,7 @@
                 	</div>
                 </th>
                 <td width = "25%" class="grid" >
-                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.determinationReviewDateDue" attributeEntry="${onlineReviewAttributes.determinationReviewDateDue}" datePicker="true" readOnly = "${readOnly}" />
+                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.determinationReviewDateDue" attributeEntry="${onlineReviewAttributes.determinationReviewDateDue}" datePicker="true" readOnly = "${readOnly || !kualiForm.adminFieldsEditable}" />
                 </td>
               </tr>
          	</table>
