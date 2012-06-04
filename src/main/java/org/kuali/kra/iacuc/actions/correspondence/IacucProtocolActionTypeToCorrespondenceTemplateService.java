@@ -13,21 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions.withdraw;
+package org.kuali.kra.iacuc.actions.correspondence;
 
-import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
-import org.kuali.kra.protocol.actions.correspondence.AbstractProtocolActionsCorrespondence;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateService;
 
-/**
- * 
- * This class deals with the template and the printing for the withdrawl protocol action.
- */
-public class IacucWithdrawCorrespondence extends AbstractProtocolActionsCorrespondence {
-    
-    public static final long serialVersionUID = 1234567890;
-    @Override
-    public String getProtocolActionType() {
-        return IacucProtocolActionType.IACUC_WITHDRAWN;
-    }
+public interface IacucProtocolActionTypeToCorrespondenceTemplateService extends ProtocolActionTypeToCorrespondenceTemplateService{
 
 }
