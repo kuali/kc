@@ -13,21 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions.withdraw;
+package org.kuali.kra.protocol.actions.correspondence;
 
-import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
-import org.kuali.kra.protocol.actions.correspondence.AbstractProtocolActionsCorrespondence;
+import java.util.List;
 
-/**
- * 
- * This class deals with the template and the printing for the withdrawl protocol action.
- */
-public class IacucWithdrawCorrespondence extends AbstractProtocolActionsCorrespondence {
-    
-    public static final long serialVersionUID = 1234567890;
-    @Override
-    public String getProtocolActionType() {
-        return IacucProtocolActionType.IACUC_WITHDRAWN;
-    }
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplate;
+
+public interface ProtocolActionTypeToCorrespondenceTemplateService {
+    /**
+     * 
+     * This method maps a protocol action type to a protocol correspondence template, and returns a list of ProtocolCorrespondenceTemplate objects.
+     * @param protocolActionType a ProtocolActionType String
+     * @return a list of ProtocolCorrespondenceTemplate objects.
+     */
+    List<ProtocolCorrespondenceTemplate> getTemplatesByProtocolAction(String protocolActionType); 
 
 }
