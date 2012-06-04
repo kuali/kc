@@ -80,6 +80,11 @@
                                                                         attributeEntry="${iacucProtocolPersonMassChangeAttributes.correspondents}" readOnly="false" /></td>
                     </tr>
                     <tr>
+                        <th style="width:50%"><div align="left"><kul:htmlAttributeLabel attributeEntry="${iacucProtocolPersonMassChangeAttributes.reviewer}" /></div></th>
+                        <td style="width:50%"><kul:htmlControlAttribute property="document.personMassChange.iacucProtocolPersonMassChange.reviewer" 
+                                                      attributeEntry="${iacucProtocolPersonMassChangeAttributes.reviewer}" readOnly="false" /></td>
+                    </tr>                    
+                    <tr>
                         <td colspan="2"><div align="center">
                             <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif' alt="Select All" styleClass="tinybutton" 
                                         onclick="selectAllPersonMassChangeCategory('document.personMassChange.iacucProtocolPersonMassChange', 'investigator', 'keyStudyPerson', 'correspondents')" />

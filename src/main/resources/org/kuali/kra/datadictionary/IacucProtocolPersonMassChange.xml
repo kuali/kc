@@ -29,6 +29,7 @@
                 <ref bean="IacucProtocolPersonMassChange-investigator" />
                 <ref bean="IacucProtocolPersonMassChange-keyStudyPerson" />
                 <ref bean="IacucProtocolPersonMassChange-correspondents" />
+                <ref bean="IacucProtocolPersonMassChange-reviewer" />
                 <ref bean="IacucProtocolPersonMassChange-versionNumber" />
             </list>
         </property>
@@ -97,6 +98,20 @@
         </property>
         <property name="summary" value="Correspondents" />
         <property name="description" value="Correspondents" />
+    </bean>
+
+    <bean id="IacucProtocolPersonMassChange-reviewer" parent="IacucProtocolPersonMassChange-reviewer-parentBean" />
+    <bean id="IacucProtocolPersonMassChange-reviewer-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="reviewer" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Reviewer" />
+        <property name="shortLabel" value="Reviewer" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Reviewer" />
+        <property name="description" value="Reviewer" />
     </bean>
     
     <bean id="IacucProtocolPersonMassChange-versionNumber" parent="IacucProtocolPersonMassChange-versionNumber-parentBean" />

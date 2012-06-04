@@ -29,6 +29,7 @@ public class IacucProtocolPersonMassChange extends KraPersistableBusinessObjectB
     private boolean investigator;
     private boolean keyStudyPerson;
     private boolean correspondents;
+    private boolean reviewer;
     
     private PersonMassChange personMassChange;
 
@@ -79,6 +80,14 @@ public class IacucProtocolPersonMassChange extends KraPersistableBusinessObjectB
     public void setPersonMassChange(PersonMassChange personMassChange) {
         this.personMassChange = personMassChange;
     }
+
+    public boolean isReviewer() {
+        return reviewer;
+    }
+    
+    public void setReviewer(boolean reviewer) {
+        this.reviewer = reviewer;
+    }
     
     /**
      * Determines whether this Person Mass Change is required.
@@ -86,7 +95,7 @@ public class IacucProtocolPersonMassChange extends KraPersistableBusinessObjectB
      * @return true if any of the fields are true, false otherwise
      */
     public boolean requiresChange() {
-        return investigator || keyStudyPerson || correspondents;
+        return investigator || keyStudyPerson || correspondents || reviewer;
     }
 
 }
