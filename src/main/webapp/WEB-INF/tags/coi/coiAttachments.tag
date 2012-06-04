@@ -27,6 +27,7 @@
 <c:set var="filteredAttachments" value="${KualiForm.document.coiDisclosureList[0].filteredAttachments}"/>
 <c:set target="${paramMap1}" property = "projectId" value = "${coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.projectId}"/>
 <c:set var="tabItemCount" value="0" />
+<c:set var="canDeleteUpdateAttachments" value="${attachmentHelper.canDeleteUpdateAttachment}" />
 
 <c:forEach var="coiDisclosureAttachment" items="${KualiForm.document.coiDisclosure.coiDisclosureAttachments}" varStatus="status">
         <c:set var="tabItemCount" value="${tabItemCount+1}" />
@@ -48,7 +49,7 @@
 	         		<td align="left" valign="middle" colspan="0">
 	                	<div align="left">
 	                        <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.typeCode" 
-    	                                              attributeEntry="${attributes.typeCode}"  readOnly="${!modify}" />
+    	                                              attributeEntry="${attributes.typeCode}" readOnly="${!modify}" />
 		            	</div>
 					</td>
 	         	</tr>
@@ -419,11 +420,16 @@
 			         	<tr>
 			         		<td colspan="6" class="infoline">
 								<div align="center">
+									<c:set var="id" value="${attachment.attachmentId}" />
+	         						<c:set var="permission" value="${canDeleteUpdateAttachments[id]}" />
+	         						
 									<input type="hidden" id="coiDisclosureRefreshButtonClicked${itrStatus.index}" name="coiDisclosureRefreshButtonClicked${itrStatus.index}" value="F"/>
 									<html:image property="methodToCall.viewAttachmentCoi.line${itrStatus.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 										alt="View Coi Disclosure Attachment" onclick="excludeSubmitRestriction = true;"/>
-										<c:if test="${modify}">
+										
+										<c:if test="${modify and permission}" >
+										
 										<input class="tinybutton" type="image"
 											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
 											id="replaceButton${itrStatus.index}"
@@ -433,6 +439,7 @@
 											document.getElementById('replaceButton${itrStatus.index}').style.display = 'none';
 											document.getElementById('coiDisclosureRefreshButtonClicked${itrStatus.index}').value = 'T';
 											return false;"/>
+											
 										    <html:image property="methodToCall.deleteCoiDisclosureAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
 											    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
 											    alt="Delete Coi Disclosure Attachment"/>

@@ -33,6 +33,8 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.auth.CoiDisclosureDeleteUpdateAttachmentTask;
+import org.kuali.kra.coi.auth.CoiDisclosureDeleteUpdateNoteTask;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachmentFilter;
@@ -68,8 +70,10 @@ public class CoiNotesAndAttachmentsHelper {
     private boolean viewRestricted;
     private boolean modifyAttachments;
     private boolean modifyNotepads;
-
-
+    //private List<Boolean> canDeleteUpdateNote = new ArrayList<Boolean>(); 
+    private Map<Long, Boolean> canDeleteUpdateAttachment = new HashMap<Long, Boolean>(); 
+    private Map<Long, Boolean> canDeleteUpdateNote = new HashMap<Long, Boolean>();
+    
     public CoiNotesAndAttachmentsHelper(CoiDisclosureForm coiDisclosureForm) {
         this.coiDisclosureForm = coiDisclosureForm;
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
@@ -97,6 +101,10 @@ public class CoiNotesAndAttachmentsHelper {
         modifyAttachments = canMaintainCoiDisclosureAttachments();
         modifyNotepads = canMaintainCoiDisclosureNotes();
         viewRestricted = canViewRestrictedProtocolNotepads();
+        
+        // initialize individual permissions for notes and attachments
+        canDeleteUpdateNotes();
+        canDeleteUpdateAttachments();
     }
 
     public boolean isModifyAttachments() {
@@ -110,7 +118,53 @@ public class CoiNotesAndAttachmentsHelper {
     public void setNewCoiDisclosureAttachment(CoiDisclosureAttachment coiDisclosureAttachment) {
         this.newCoiDisclosureAttachment = coiDisclosureAttachment;
     }
+    
+    private  void canDeleteUpdateNotes() {
+        getCoiDisclosure().refreshReferenceObject("coiDisclosureNotepads");
+        List<CoiDisclosureNotepad> notes = getCoiDisclosure().getCoiDisclosureNotepads();
+        for (int i=0; i < notes.size(); i++) {
+            CoiDisclosureTask task = new CoiDisclosureDeleteUpdateNoteTask(TaskName.DELETE_UPDATE_NOTE, getCoiDisclosure(), notes.get(i));
+            
+            canDeleteUpdateNote.put(notes.get(i).getId(), getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
+        }
+    }
+    
+    public Map<Long, Boolean> getCanDeleteUpdateNotes() {
+        return canDeleteUpdateNote;
+    }
+    
+    private  void canDeleteUpdateAttachments() {
+        getCoiDisclosure().refreshReferenceObject("coiDisclosureAttachments");
+        List<CoiDisclosureAttachment> attachments = getCoiDisclosure().getCoiDisclosureAttachments();
+        for (int i=0; i < attachments.size(); i++) {
+            CoiDisclosureTask task = new CoiDisclosureDeleteUpdateAttachmentTask(TaskName.DELETE_UPDATE_ATTACHMENT, getCoiDisclosure(), attachments.get(i));
+            
+            canDeleteUpdateAttachment.put(attachments.get(i).getAttachmentId(), getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
+        }
+    }
 
+    protected boolean canDeleteAttachmentById(String id) {
+        
+        getCoiDisclosure().refreshReferenceObject("coiDisclosureAttachments");
+        List<CoiDisclosureAttachment> attachments = getCoiDisclosure().getCoiDisclosureAttachments();
+        for (CoiDisclosureAttachment attachment : attachments) {
+            if (StringUtils.equalsIgnoreCase(attachment.getAttachmentId().toString(), id)) {
+                CoiDisclosureTask task = new CoiDisclosureDeleteUpdateAttachmentTask(TaskName.DELETE_UPDATE_ATTACHMENT, getCoiDisclosure(), attachment);
+                return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+
+            }
+        }
+        return false;
+    }
+    
+    public Map<Long, Boolean> getCanDeleteUpdateNote() {
+        return canDeleteUpdateNote;
+    }
+    
+    public Map<Long, Boolean> getCanDeleteUpdateAttachment() {
+        return canDeleteUpdateAttachment;
+    }
+    
     private void initCoiDisclosureAttachment() {
         
         this.setNewCoiDisclosureAttachment(new CoiDisclosureAttachment(this.getCoiDisclosure()));
