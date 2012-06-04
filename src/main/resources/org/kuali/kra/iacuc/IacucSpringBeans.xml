@@ -600,6 +600,12 @@
         class="org.kuali.kra.iacuc.actions.print.IacucProtocolSummaryXmlStream" parent="printBaseXmlStream">
         <property name="iacucProtocolActionService" ref="iacucActionService" />
     </bean>
+    <bean id="iacucCorrespondenceXmlStream"
+            class="org.kuali.kra.iacuc.actions.print.IacucCorrespondenceXmlStream" parent="printBaseXmlStream">
+            <property name="protocolXmlStream">
+                <ref bean="iacucProtocolXmlStream" />
+            </property>
+        </bean>
 
     <bean id="iacucProtocolFullProtocolPrint"
         class="org.kuali.kra.iacuc.actions.print.IacucProtocolFullProtocolPrint" scope="prototype">
@@ -635,6 +641,9 @@
     <bean id="iacucProtocolFactBuilderService" class="org.kuali.kra.iacuc.rules.IacucProtocolFactBuilderServiceImpl">
          <property name="businessObjectService" ref="businessObjectService" />
           <property name="documentService" ref="documentService" />
+    </bean>
+    <bean id="iacucProtocolActionTypeToCorrespondenceTemplateService" class="org.kuali.kra.iacuc.actions.correspondence.IacucProtocolActionTypeToCorrespondenceTemplateServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
 
 </beans>
