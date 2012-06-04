@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.assignagenda;
 
-import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.correspondence.AbstractProtocolActionsCorrespondence;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.protocol.actions.correspondence.AbstractProtocolActionsCorrespondence;
 
 /**
  * 
@@ -28,6 +28,6 @@ public class IacucAssignToAgendaCorrespondence extends AbstractProtocolActionsCo
     
     @Override
     public String getProtocolActionType() {
-        return ProtocolActionType.ASSIGN_TO_AGENDA;
+        return IacucProtocolActionType.ASSIGNED_TO_AGENDA;
     }
 }
