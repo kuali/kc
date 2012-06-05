@@ -19,12 +19,12 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 
 /**
- * Is the user allowed to submit a protocol to the IRB for review and the action is currently not available?
+ * Is the user allowed to submit a protocol to the IACUC for review and the action is currently not available?
  */
 public class SubmitIacucProtocolUnavailableAuthorizer extends IacucProtocolAuthorizer {
 
     /**
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.iacuc.auth.IacucProtocolTask)
      */
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         

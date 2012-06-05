@@ -27,9 +27,8 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
+import org.kuali.kra.iacuc.IacucProtocolVersionService;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
-import org.kuali.kra.iacuc.actions.assignagenda.IacucAssignToAgendaCorrespondence;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteBean;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
@@ -51,6 +50,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
+import org.kuali.kra.protocol.ProtocolVersionService;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
@@ -62,10 +62,8 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewDeterminationRecommendation;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -246,8 +244,8 @@ public class IacucActionHelper extends ActionHelper {
 
         canSubmitProtocol = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL);
         canSubmitProtocolUnavailable = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE);
-//        canWithdraw = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW);
-//        canWithdrawUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE);
+        canWithdraw = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW);
+        canWithdrawUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE);
 
         // IACUC-specific actions
         canAssignCmt = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE);
@@ -348,22 +346,6 @@ public class IacucActionHelper extends ActionHelper {
         return form.getProtocolDocument().getProtocol();
     }
 
-    
- 
-    
-    private boolean hasAnsweredQuestionnaire(String moduleSubItemCode, String moduleSubItemKey) {
-        return getAnswerHeaderCount(moduleSubItemCode, moduleSubItemKey) > 0;
-    }
-
-    int getAnswerHeaderCount(String moduleSubItemCode, String moduleSubItemKey) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("moduleItemCode", CoeusModule.IACUC_PROTOCOL_MODULE_CODE);
-        fieldValues.put("moduleItemKey", getProtocol().getProtocolNumber());
-        fieldValues.put("moduleSubItemCode", moduleSubItemCode);
-        fieldValues.put("moduleSubItemKey", moduleSubItemKey);
-        return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues);
-    }
-    
     /*
      * This will check whether there is submission questionnaire.
      * When business rule is implemented, this will become more complicated because
@@ -676,6 +658,19 @@ public class IacucActionHelper extends ActionHelper {
     @Override
     protected ProtocolTask getNewWithdrawProtocolTaskInstanceUnavailableHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolVersionService getProtocolVersionService() {
+        if (this.protocolVersionService == null) {
+            this.protocolVersionService = KraServiceLocator.getService(IacucProtocolVersionService.class);        
+        }
+        return this.protocolVersionService;
+    }
+
+    @Override
+    protected String getCoeusModule() {
+        return CoeusModule.IRB_MODULE_CODE;
     }
 
 }
