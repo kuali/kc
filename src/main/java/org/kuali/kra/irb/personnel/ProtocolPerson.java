@@ -377,7 +377,7 @@ public class ProtocolPerson extends ProtocolAssociate implements PersonEditableI
      * @return String
      */
     public String getPersonUniqueKey() {
-        return new StringBuilder(this.getPersonId() == null ? this.getRolodexId().toString() : this.getPersonId()).append(this.getProtocolPersonRoleId()).toString();
+        return this.getPersonId() == null ? this.getRolodexId().toString() : this.getPersonId();
     }
 
     public String getPreviousPersonRoleId() {
