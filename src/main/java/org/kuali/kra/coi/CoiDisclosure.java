@@ -87,7 +87,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 //    private String moduleCode; 
     private String eventTypeCode; 
     private String moduleItemKey; 
-    private String reviewStatusCode; 
+//    private String reviewStatusCode; 
     private Integer discActiveStatus; 
     private CoiDisclosureDocument coiDisclosureDocument;
     private List<DisclosurePerson> disclosurePersons;
@@ -276,13 +276,13 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 //        this.moduleCode = moduleCode;
 //    }
 
-    public String getReviewStatusCode() {
-        return reviewStatusCode;
-    }
-
-    public void setReviewStatusCode(String reviewStatusCode) {
-        this.reviewStatusCode = reviewStatusCode;
-    }
+//    public String getReviewStatusCode() {
+//        return reviewStatusCode;
+//    }
+//
+//    public void setReviewStatusCode(String reviewStatusCode) {
+//        this.reviewStatusCode = reviewStatusCode;
+//    }
 
     public Integer getDiscActiveStatus() {
         return discActiveStatus;
