@@ -660,13 +660,13 @@ public class IacucActionHelper extends ActionHelper {
         return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
-    @Override
-    protected ProtocolVersionService getProtocolVersionService() {
-        if (this.protocolVersionService == null) {
-            this.protocolVersionService = KraServiceLocator.getService(IacucProtocolVersionService.class);        
-        }
-        return this.protocolVersionService;
-    }
+//    @Override
+//    protected ProtocolVersionService getProtocolVersionService() {
+//        if (this.protocolVersionService == null) {
+//            this.protocolVersionService = KraServiceLocator.getService(IacucProtocolVersionService.class);        
+//        }
+//        return this.protocolVersionService;
+//    }
 
     @Override
     protected String getCoeusModule() {
