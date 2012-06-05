@@ -17,6 +17,7 @@ package org.kuali.kra.award;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -80,6 +81,20 @@ public abstract class AwardAssociate extends KraPersistableBusinessObjectBase im
         } else {
             setSequenceNumber(0);
             setAwardNumber("");
+        }
+    }
+    
+    /**
+     * If the award's award number is not equal to the award number we will persist, 
+     * then update it based on the award.
+     * @see org.kuali.kra.bo.KraPersistableBusinessObjectBase#prePersist()
+     */
+    @Override
+    protected void prePersist() {
+        super.prePersist();
+        if (award != null && !StringUtils.equals(award.getAwardNumber(), getAwardNumber())) {
+            setSequenceNumber(award.getSequenceNumber());
+            setAwardNumber(award.getAwardNumber());            
         }
     }
 
