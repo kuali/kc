@@ -376,7 +376,7 @@ public abstract class ProtocolPerson extends ProtocolAssociate implements Person
      * @return String
      */
     public String getPersonUniqueKey() {
-        return new StringBuilder(this.getPersonId() == null ? this.getRolodexId().toString() : this.getPersonId()).append(this.getProtocolPersonRoleId()).toString();
+        return this.getPersonId() == null ? this.getRolodexId().toString() : this.getPersonId();
     }
 
     public String getPreviousPersonRoleId() {
