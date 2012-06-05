@@ -204,10 +204,8 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         String disclosureDisposition = disposition != null ? disposition.getDescription() : "NEW";
         HeaderField headerDisposition = new HeaderField("DataDictionary.CoiDispositionStatus.attributes.description", disclosureDisposition);
         newDocInfo.add(headerDisposition);
-        
 
         newDocInfo.add(getReporterAndCreatedHeaderField(workflowDocument));
-
         
         // last updated 
         Timestamp timeStamp = document.getUpdateTimestamp();
@@ -248,12 +246,11 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     protected HeaderField getReporterAndCreatedHeaderField(WorkflowDocument workflowDocument) {
 
         String reporterCreated = Constants.COLON;
-        String reporter = null;
+        String reporter = getCoiDisclosureDocument().getCoiDisclosure().getDisclosureReporter().getPersonId();
+
         long creationMsecs = 0L;
 
         if (workflowDocument != null) {
-            // reporter (initiator?)        
-            reporter = workflowDocument.getPrincipalId();
             // creation date 
             creationMsecs = workflowDocument.getDateCreated().getMillis();
         }
