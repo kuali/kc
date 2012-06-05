@@ -48,7 +48,7 @@
                 <ref bean="CoiAnnualEventDisclosure-moduleItemKey" />
                 <ref bean="CoiAnnualEventDisclosure-eventTypeCode" />
 				<ref bean="CoiAnnualEventDisclosure-coiDisclosureEventType.description" />
-                <ref bean="CoiAnnualEventDisclosure-reviewStatusCode" />
+<!--                 <ref bean="CoiAnnualEventDisclosure-reviewStatusCode" /> -->
                 <ref bean="CoiAnnualEventDisclosure-discActiveStatus" />
                 <ref bean="CoiAnnualEventDisclosure-versionNumber" />
                 <ref bean="CoiAnnualEventDisclosure-leadUnitNumber" />
@@ -88,7 +88,7 @@
    
     <bean id="CoiAnnualEventDisclosure-moduleItemKey" parent="CoiDisclosure-moduleItemKey-parentBean" />
    
-    <bean id="CoiAnnualEventDisclosure-reviewStatusCode" parent="CoiDisclosure-reviewStatusCode-parentBean" />
+<!--     <bean id="CoiAnnualEventDisclosure-reviewStatusCode" parent="CoiDisclosure-reviewStatusCode-parentBean" /> -->
 
     <bean id="CoiAnnualEventDisclosure-eventTypeCode" parent="CoiDisclosure-eventTypeCode-parentBean" />
 
@@ -121,7 +121,7 @@
                             <bean parent="FieldDefinition" p:attributeName="disclosureDispositionCode" />
                             <bean parent="FieldDefinition" p:attributeName="disclosureStatusCode" />
                             <bean parent="FieldDefinition" p:attributeName="expirationDate" />
-                            <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" />
+<!--                             <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" /> -->
                             <bean parent="FieldDefinition" p:attributeName="eventTypeCode" />
                             <bean parent="FieldDefinition" p:attributeName="discActiveStatus" />
                             <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
@@ -151,7 +151,7 @@
                 <bean parent="FieldDefinition" p:attributeName="disclosureDispositionCode" />
                 <bean parent="FieldDefinition" p:attributeName="disclosureStatusCode" />
                 <bean parent="FieldDefinition" p:attributeName="expirationDate" />
-                <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" />
+<!--                 <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" /> -->
                 <bean parent="FieldDefinition" p:attributeName="eventTypeCode" />
                 <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
             </list>
@@ -166,7 +166,7 @@
                 <bean parent="FieldDefinition" p:attributeName="coiDisclosureStatus.description" />
                 <bean parent="FieldDefinition" p:attributeName="coiDispositionStatus.description" />
                 <bean parent="FieldDefinition" p:attributeName="expirationDate" />
-                <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" />
+<!--                 <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" /> -->
                 <bean parent="FieldDefinition" p:attributeName="coiDisclosureEventType.description" />
                 <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
             </list>
