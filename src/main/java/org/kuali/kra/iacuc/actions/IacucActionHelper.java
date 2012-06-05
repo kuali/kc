@@ -668,7 +668,6 @@ public class IacucActionHelper extends ActionHelper {
 //        return this.protocolVersionService;
 //    }
 
-    @Override
     protected String getCoeusModule() {
         return CoeusModule.IRB_MODULE_CODE;
     }
