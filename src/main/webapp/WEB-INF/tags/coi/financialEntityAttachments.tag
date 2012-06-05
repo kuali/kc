@@ -33,7 +33,7 @@
         		  		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${finEntAttachAttributes.contactName}" noColon="true" /></div></th>
           				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${finEntAttachAttributes.contactEmailAddress}" noColon="true" /></div></th>
 		          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${finEntAttachAttributes.description}" noColon="true" /></div></th>
-        		  		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${finEntAttachAttributes.fileName}" noColon="true" /></div></th>
+        		  		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${attachmentFileAttributes['name']}" noColon="true" /></div></th>
               			<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
 		          	</tr>   
 
@@ -73,6 +73,8 @@
 			                <td class="infoline">
 	            		    	<div align="left">
 	    			          		<html:file property="${newAttachment}.newFile" size="50"/>
+									<c:set var="fileErrorProperty" value="${newAttachment}.newFile" />
+		               				<kul:checkErrors keyMatch="${fileErrorProperty}" auditMatch="${fileErrorProperty}"/>
 	            			   		<c:if test="${hasErrors}">
                     			 		<kul:fieldShowErrorIcon />
 		                    	    </c:if>
