@@ -43,6 +43,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.service.WatermarkService;
+import org.kuali.kra.irb.personnel.ProtocolPersonRole;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -95,6 +96,10 @@ public class ProtocolPersonnelAction extends ProtocolAction {
             newProtocolPerson));
         if (rulePassed) {
             getProtocolPersonnelService().addProtocolPerson(protocol, newProtocolPerson);
+            //If we are adding a new principal investigator, make sure we update the person id
+            if (StringUtils.equals(newProtocolPerson.getProtocolPersonRoleId(), ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)) {
+                protocolForm.getProtocolHelper().setPersonId(newProtocolPerson.getPersonId());
+            }
             protocolForm.getPersonnelHelper().setNewProtocolPerson(new ProtocolPerson());
         }
 
