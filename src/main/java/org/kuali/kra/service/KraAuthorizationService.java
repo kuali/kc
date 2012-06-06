@@ -63,6 +63,16 @@ public interface KraAuthorizationService {
      * @return true if the user has permission; otherwise false
      */
     public boolean hasPermission(String userId, Permissionable permissionable, String permissionName);
+    
+    /**
+     * Does the user have the given permission in the given namespace?
+     * @param userId
+     * @param permissionable
+     * @param permissionNamespace
+     * @param permissionName
+     * @return
+     */
+    boolean hasPermission(String userId, Permissionable permissionable, String permissionNamespace, String permissionName);    
 
     /**
      * Does the user have the given role for the given Award?

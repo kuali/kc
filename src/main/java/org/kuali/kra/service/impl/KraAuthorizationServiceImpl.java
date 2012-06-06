@@ -123,27 +123,29 @@ public class KraAuthorizationServiceImpl implements KraAuthorizationService {
      * @see org.kuali.kra.award.service.KraAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.common.permissions.Permissionable, java.lang.String)
      */
     public boolean hasPermission(String userId, Permissionable permissionable, String permissionName) {
+        return hasPermission(userId, permissionable, permissionable.getNamespace(), permissionName);
+    }
+    
+    /**
+     * @see org.kuali.kra.award.service.KraAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.common.permissions.Permissionable, java.lang.String)
+     */
+    public boolean hasPermission(String userId, Permissionable permissionable, String permissionNamespace, String permissionName) {
         boolean userHasPermission = false;
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
         permissionable.populateAdditionalQualifiedRoleAttributes(qualifiedRoleAttributes);
         Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
         
-        //Temp code to proceed with rice 2.0 upgrade testing
-        //if(permissionAttributes == null) {
-        //    permissionAttributes = new HashMap<String, String>();
-        //}
-        //Temp code ends here
         String unitNumber = permissionable.getLeadUnitNumber();
         
         if(StringUtils.isNotEmpty(permissionable.getDocumentNumberForPermission())) {
-            userHasPermission = permissionService.isAuthorized(userId, permissionable.getNamespace(), permissionName, qualifiedRoleAttributes); 
+            userHasPermission = permissionService.isAuthorized(userId, permissionNamespace, permissionName, qualifiedRoleAttributes); 
         }
         if (!userHasPermission && StringUtils.isNotEmpty(unitNumber)) {
-            userHasPermission = unitAuthorizationService.hasPermission(userId, unitNumber, permissionable.getNamespace(), permissionName);
+            userHasPermission = unitAuthorizationService.hasPermission(userId, unitNumber, permissionNamespace, permissionName);
         }
         return userHasPermission;
-    }
+    }    
     
     /**
      * @see org.kuali.kra.award.service.KraAuthorizationService#hasRole(java.lang.String, org.kuali.kra.common.permissions.Permissionable, java.lang.String)
