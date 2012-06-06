@@ -542,7 +542,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     }   
 
     private void fundingSourceNotification(ActionForm form) {
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
         for (ProtocolFundingSource fundingSource : protocolForm.getProtocolHelper().getNewProtocolFundingSources()) {
             String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();

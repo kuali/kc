@@ -33,6 +33,7 @@ import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
+import org.kuali.kra.iacuc.summary.IacucProtocolSummary;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.infrastructure.Constants;
@@ -45,6 +46,7 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilter;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
+import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -405,6 +407,42 @@ public class IacucProtocol extends Protocol {
     public String getDocumentKey() {
         // TODO need to change this to IACUC PROTOCOL KEY!!!!
         return Permissionable.PROTOCOL_KEY;
+    }
+
+    public ProtocolSummary getProtocolSummary() {
+        ProtocolSummary protocolSummary = createProtocolSummary();
+        addPersonnelSummaries(protocolSummary);
+        addResearchAreaSummaries(protocolSummary);
+        addAttachmentSummaries(protocolSummary);
+        addFundingSourceSummaries(protocolSummary);
+        addParticipantSummaries(protocolSummary);
+        addOrganizationSummaries(protocolSummary);
+        addSpecialReviewSummaries(protocolSummary);
+        addAdditionalInfoSummary(protocolSummary);
+        return protocolSummary;
+    }
+    
+    @Override
+    protected ProtocolSummary createProtocolSummary() {
+        IacucProtocolSummary summary = new IacucProtocolSummary();
+        summary.setLastProtocolAction(getLastProtocolAction());
+        summary.setProtocolNumber(getProtocolNumber().toString());
+        summary.setPiName(getPrincipalInvestigator().getPersonName());
+        summary.setPiProtocolPersonId(getPrincipalInvestigator().getProtocolPersonId());
+        summary.setInitialSubmissionDate(getInitialSubmissionDate());
+        summary.setApprovalDate(getApprovalDate());
+        summary.setLastApprovalDate(getLastApprovalDate());
+        summary.setExpirationDate(getExpirationDate());
+        if (getProtocolType() == null) {
+            refreshReferenceObject("protocolType");
+        }
+        summary.setType(getProtocolType().getDescription());
+        if (getProtocolStatus() == null) {
+            refreshReferenceObject("protocolStatus");
+        }
+        summary.setStatus(getProtocolStatus().getDescription());
+        summary.setTitle(getTitle());
+        return summary;
     }
 
 }

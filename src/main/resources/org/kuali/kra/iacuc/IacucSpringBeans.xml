@@ -342,7 +342,7 @@
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="iacucActionService" />
-        <property name="protocolVersionService" ref="iacucVersionService" />
+        <property name="protocolVersionService" ref="iacucProtocolVersionService" />
 <!-- IACUC
         <property name="protocolAssignToAgendaService" ref="iacucAssignToAgendaService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
@@ -380,7 +380,7 @@
        <property name="documentService" ref="documentService" />
     </bean>
     
-   <bean id="iacucVersionService" class="org.kuali.kra.iacuc.IacucProtocolVersionServiceImpl">
+   <bean id="iacucProtocolVersionService" class="org.kuali.kra.iacuc.IacucProtocolVersionServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="versioningService" ref="versioningService" />

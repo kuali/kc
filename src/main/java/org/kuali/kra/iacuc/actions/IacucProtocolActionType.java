@@ -73,9 +73,7 @@ public class IacucProtocolActionType extends ProtocolActionType {
     public static final String MODIFY_PROTOCOL_SUBMISSION = "309";
     public static final String ASSIGN_REVIEWER = "901";
 
-
-    // TODO Need to check about the right place for funding source
-    public static final String FUNDING_SOURCE =  "904";
+    public static final String IACUC_DELETED =  "906";
     
     //We need a unique Action code to map if the option to be chosen is 'Approve' since we need to enable 'Approve' action subsequently 
     public static final String RECORD_COMMITTEE_DECISION = "308";
