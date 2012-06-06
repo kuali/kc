@@ -124,4 +124,18 @@ public class IacucProtocolException extends ProtocolAssociate {
         this.exceptionCount = exceptionCount;
     }
 
+    public String getSpeciesName() {
+        if (iacucSpecies == null) {
+            refreshReferenceObject("iacucSpecies");
+        }
+        return iacucSpecies.getSpeciesName();
+    }
+
+    public String getCategoryName() {
+        if (iacucExceptionCategory == null) {
+            refreshReferenceObject("iacucExceptionCategory");
+        }
+        return iacucExceptionCategory.getExceptionCategoryDesc();
+    }
+
 }
