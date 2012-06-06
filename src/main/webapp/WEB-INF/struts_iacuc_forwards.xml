@@ -26,3 +26,4 @@
 <forward name="iacucSpeciesAndGroups" path="/WEB-INF/jsp/iacuc/ProtocolSpeciesAndGroups.jsp" />
 <forward name="iacucProtocolException" path="/WEB-INF/jsp/iacuc/ProtocolException.jsp" />
 <forward name="iacucProtocolProcedures" path="/WEB-INF/jsp/iacuc/ProtocolProcedures.jsp" />
+<forward name="iacucProtocolNotificationEditor" path="/WEB-INF/jsp/iacuc/ProtocolNotificationEditor.jsp"/>

@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
@@ -33,6 +36,7 @@ import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.ProtocolVersionService;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
@@ -56,6 +60,7 @@ import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
+import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -255,7 +260,7 @@ public abstract class ActionHelper implements Serializable {
     protected transient ParameterService parameterService;
     protected transient TaskAuthorizationService taskAuthorizationService;
 //    protected transient ProtocolAmendRenewService protocolAmendRenewService;
-//    protected transient ProtocolVersionService protocolVersionService;
+    protected transient ProtocolVersionService protocolVersionService;
 //    protected transient ProtocolSubmitActionService protocolSubmitActionService;
 //    protected transient ProtocolActionService protocolActionService;
 //    protected boolean hasAmendments;
@@ -272,8 +277,8 @@ public abstract class ActionHelper implements Serializable {
     protected Boolean historyReport;
     protected Boolean reviewCommentsReport;
     
-//    protected ProtocolSummary protocolSummary;
-//    protected ProtocolSummary prevProtocolSummary;
+    protected ProtocolSummary protocolSummary;
+    protected ProtocolSummary prevProtocolSummary;
     protected int currentSequenceNumber = -1;
     
     protected String selectedHistoryItem;
@@ -955,14 +960,14 @@ public abstract class ActionHelper implements Serializable {
         }
         return committeeScheduleService;
     }
-//    
-//    private ProtocolVersionService getProtocolVersionService() {
-//        if (this.protocolVersionService == null) {
-//            this.protocolVersionService = KraServiceLocator.getService(ProtocolVersionService.class);        
-//        }
-//        return this.protocolVersionService;
-//    }
-//    
+    
+    protected ProtocolVersionService getProtocolVersionService() {
+        if (this.protocolVersionService == null) {
+            this.protocolVersionService = KraServiceLocator.getService(ProtocolVersionService.class);        
+        }
+        return this.protocolVersionService;
+    }
+    
 //    private ProtocolSubmitActionService getProtocolSubmitActionService() {
 //        if (protocolSubmitActionService == null) {
 //            protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
@@ -2055,39 +2060,39 @@ public abstract class ActionHelper implements Serializable {
 //    public String getPrintTag() {
 //        return printTag;
 //    }
-//    
-//    public ProtocolSummary getProtocolSummary() {
-//        return protocolSummary;
-//    }
-//    
-//    public ProtocolSummary getPrevProtocolSummary() {
-//        return prevProtocolSummary;
-//    }
-//    
-//    public void setSelectedHistoryItem(String selectedHistoryItem) {
-//        this.selectedHistoryItem = selectedHistoryItem;
-//    }
-//    
-//    public String getSelectedHistoryItem() {
-//        return selectedHistoryItem;
-//    }
-//    
-//    public Date getFilteredHistoryStartDate() {
-//        return filteredHistoryStartDate;
-//    }
-//    
-//    public void setFilteredHistoryStartDate(Date filteredHistoryStartDate) {
-//        this.filteredHistoryStartDate = filteredHistoryStartDate;
-//    }
-//    
-//    public Date getFilteredHistoryEndDate() {
-//        return filteredHistoryEndDate;
-//    }
-//    
-//    public void setFilteredHistoryEndDate(Date filteredHistoryEndDate) {
-//        this.filteredHistoryEndDate = filteredHistoryEndDate;
-//    }
-//    
+    
+    public ProtocolSummary getProtocolSummary() {
+        return protocolSummary;
+    }
+    
+    public ProtocolSummary getPrevProtocolSummary() {
+        return prevProtocolSummary;
+    }
+    
+    public void setSelectedHistoryItem(String selectedHistoryItem) {
+        this.selectedHistoryItem = selectedHistoryItem;
+    }
+    
+    public String getSelectedHistoryItem() {
+        return selectedHistoryItem;
+    }
+    
+    public Date getFilteredHistoryStartDate() {
+        return filteredHistoryStartDate;
+    }
+    
+    public void setFilteredHistoryStartDate(Date filteredHistoryStartDate) {
+        this.filteredHistoryStartDate = filteredHistoryStartDate;
+    }
+    
+    public Date getFilteredHistoryEndDate() {
+        return filteredHistoryEndDate;
+    }
+    
+    public void setFilteredHistoryEndDate(Date filteredHistoryEndDate) {
+        this.filteredHistoryEndDate = filteredHistoryEndDate;
+    }
+    
 //    public ProtocolAction getLastPerformedAction() {
 //        List<ProtocolAction> protocolActions = form.getProtocolDocument().getProtocol().getProtocolActions();
 //        Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
@@ -2251,15 +2256,14 @@ public abstract class ActionHelper implements Serializable {
 //        fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber());
 //        return getBusinessObjectService().findMatchingOrderBy(ProtocolSubmissionDoc.class, fieldValues, "documentId", true);
 //    }
-//    
-//    public ProtocolAction getSelectedProtocolAction() {
-//        for (ProtocolAction action : getProtocol().getProtocolActions()) {
-//            if (StringUtils.equals(action.getProtocolActionId().toString(), selectedHistoryItem)) {
-//                return action;
-//            }
-//        }
-//        return null;
-//    }
+    public ProtocolAction getSelectedProtocolAction() {
+        for (ProtocolAction action : getProtocol().getProtocolActions()) {
+            if (StringUtils.equals(action.getProtocolActionId().toString(), selectedHistoryItem)) {
+                return action;
+            }
+        }
+        return null;
+    }
     
     public void setCurrentSequenceNumber(int currentSequenceNumber) {
         this.currentSequenceNumber = currentSequenceNumber;
@@ -2379,41 +2383,41 @@ public abstract class ActionHelper implements Serializable {
 //    public int getTotalSubmissions() {
 //        return getProtocolSubmitActionService().getTotalSubmissions(getProtocol());
 //    }
-//    
-//    /**
-//     * Sets up the summary details subpanel.
-//     * @throws Exception 
-//     */
-//    public void initSummaryDetails() throws Exception {
-//        if (currentSequenceNumber == -1) {
-//            currentSequenceNumber = getProtocol().getSequenceNumber();
-//        } else if (currentSequenceNumber > getProtocol().getSequenceNumber()) {
-//            currentSequenceNumber = getProtocol().getSequenceNumber();
-//        }
-//        
-//        protocolSummary =  null;
-//        String protocolNumber = getProtocol().getProtocolNumber();
-//        Protocol protocol = getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber);
-//        if (protocol != null) {
-//            protocolSummary = protocol.getProtocolSummary();
-//        }
-//        
-//        prevProtocolSummary = null;
-//        if (currentSequenceNumber > 0) {
-//            protocol = getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber - 1);
-//            if (protocol != null) {
-//                prevProtocolSummary = protocol.getProtocolSummary();
-//            }
-//        }
-//        
-//        if (protocolSummary != null && prevProtocolSummary != null) {
-//            protocolSummary.compare(prevProtocolSummary);
-//            prevProtocolSummary.compare(protocolSummary);
-//        }
-//
-//        setSummaryQuestionnaireExist(hasAnsweredQuestionnaire((protocol.isAmendment() || protocol.isRenewal()) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, protocol.getSequenceNumber().toString()));
-//    }
-//
+    
+    /**
+     * Sets up the summary details subpanel.
+     * @throws Exception 
+     */
+    public void initSummaryDetails() throws Exception {
+        if (currentSequenceNumber == -1) {
+            currentSequenceNumber = getProtocol().getSequenceNumber();
+        } else if (currentSequenceNumber > getProtocol().getSequenceNumber()) {
+            currentSequenceNumber = getProtocol().getSequenceNumber();
+        }
+        
+        protocolSummary =  null;
+        String protocolNumber = getProtocol().getProtocolNumber();
+        Protocol protocol = getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber);
+        if (protocol != null) {
+            protocolSummary = protocol.getProtocolSummary();
+        }
+        
+        prevProtocolSummary = null;
+        if (currentSequenceNumber > 0) {
+            protocol = getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber - 1);
+            if (protocol != null) {
+                prevProtocolSummary = protocol.getProtocolSummary();
+            }
+        }
+        
+        if (protocolSummary != null && prevProtocolSummary != null) {
+            protocolSummary.compare(prevProtocolSummary);
+            prevProtocolSummary.compare(protocolSummary);
+        }
+
+        setSummaryQuestionnaireExist(hasAnsweredQuestionnaire((protocol.isAmendment() || protocol.isRenewal()) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, protocol.getSequenceNumber().toString()));
+    }
+
 //    /**
 //     * Sets up dates for the submission details subpanel.
 //     */
@@ -2545,23 +2549,25 @@ public abstract class ActionHelper implements Serializable {
 //        }
 //        return null;
 //    }
-//    
-//    private boolean hasAnsweredQuestionnaire(String moduleSubItemCode, String moduleSubItemKey) {
-//        return getAnswerHeaderCount(moduleSubItemCode, moduleSubItemKey) > 0;
-//    }
-//
-//    int getAnswerHeaderCount(String moduleSubItemCode, String moduleSubItemKey) {
-//        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
-//        fieldValues.put("moduleItemKey", getProtocol().getProtocolNumber());
-//        fieldValues.put("moduleSubItemCode", moduleSubItemCode);
-//        fieldValues.put("moduleSubItemKey", moduleSubItemKey);
-//        return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues);
-//        
-//    }
-//    
+    
+    protected boolean hasAnsweredQuestionnaire(String moduleSubItemCode, String moduleSubItemKey) {
+        return getAnswerHeaderCount(moduleSubItemCode, moduleSubItemKey) > 0;
+    }
+
+    protected int getAnswerHeaderCount(String moduleSubItemCode, String moduleSubItemKey) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("moduleItemCode", getCoeusModule());
+        fieldValues.put("moduleItemKey", getProtocol().getProtocolNumber());
+        fieldValues.put("moduleSubItemCode", moduleSubItemCode);
+        fieldValues.put("moduleSubItemKey", moduleSubItemKey);
+        return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues);
+        
+    }
+    
+    protected abstract String getCoeusModule();
+    
 //    /*
-//     * This will check whetehr there is submission questionnaire.
+//     * This will check whether there is submission questionnaire.
 //     * When business rule is implemented, this will become more complicated because
 //     * each request action may have different set of questionnaire, so this has to be changed.
 //     */
@@ -2618,33 +2624,34 @@ public abstract class ActionHelper implements Serializable {
 //    }
 //
 
-//  
-//
-//    /*
-//     * utility method to set whether to display next or previous button on submission panel.
-//     */
-//    private void setPrevNextFlag() {
-//        int maxSubmissionNumber = 0;
-//        int minSubmissionNumber = 0;
-//        setPrevDisabled(false);
-//        setNextDisabled(false);
-//
-//        for (ProtocolSubmission submission : getProtocol().getProtocolSubmissions()) {
-//            if (submission.getSubmissionNumber() > maxSubmissionNumber) {
-//                maxSubmissionNumber = submission.getSubmissionNumber();
-//            }
-//            if (submission.getSubmissionNumber() < minSubmissionNumber || minSubmissionNumber == 0) {
-//                minSubmissionNumber = submission.getSubmissionNumber();
-//            }
-//        }
-//        if (currentSubmissionNumber == minSubmissionNumber) {
-//            setPrevDisabled(true);
-//        }
-//        if (currentSubmissionNumber == maxSubmissionNumber) {
-//            setNextDisabled(true);
-//        }
-//    }
-//
+  
+
+    /*
+     * utility method to set whether to display next or previous button on submission panel.
+     */
+    private void setPrevNextFlag() {
+        int maxSubmissionNumber = 0;
+        int minSubmissionNumber = 0;
+        setPrevDisabled(false);
+        setNextDisabled(false);
+
+        for (ProtocolSubmission submission : getProtocol().getProtocolSubmissions()) {
+            if (submission.getSubmissionNumber() > maxSubmissionNumber) {
+                maxSubmissionNumber = submission.getSubmissionNumber();
+            }
+            if (submission.getSubmissionNumber() < minSubmissionNumber || minSubmissionNumber == 0) {
+                minSubmissionNumber = submission.getSubmissionNumber();
+            }
+        }
+        if (currentSubmissionNumber == minSubmissionNumber) {
+            setPrevDisabled(true);
+        }
+        if (currentSubmissionNumber == maxSubmissionNumber) {
+            setNextDisabled(true);
+        }
+    }
+
+// TODO *********commented the code below during IACUC refactoring*********         
 //    /**
 //     * This method returns true if a protocol has amendments
 //     * @return
@@ -2714,6 +2721,7 @@ public abstract class ActionHelper implements Serializable {
         return "O".equals(this.getSubmissionConstraint()) || "M".equals(this.getSubmissionConstraint());
     }
 
+// TODO *********commented the code below during IACUC refactoring*********         
 //    public ProtocolGenericActionBean getProtocolDeferBean() {
 //        return protocolDeferBean;
 //    }
@@ -2722,27 +2730,24 @@ public abstract class ActionHelper implements Serializable {
 //    public ProtocolReviewNotRequiredBean getProtocolReviewNotRequiredBean() {
 //        return this.protocolReviewNotRequiredBean;
 //    }
-//
-//    public boolean isPrevDisabled() {
-//        return prevDisabled;
-//    }
-//
-//
-//    public void setPrevDisabled(boolean prevDisabled) {
-//        this.prevDisabled = prevDisabled;
-//    }
-//
-//
-//    public boolean isNextDisabled() {
-//        return nextDisabled;
-//    }
-//
-//
-//    public void setNextDisabled(boolean nextDisabled) {
-//        this.nextDisabled = nextDisabled;
-//    }
-//
-//
+
+    public boolean isPrevDisabled() {
+        return prevDisabled;
+    }
+
+    public void setPrevDisabled(boolean prevDisabled) {
+        this.prevDisabled = prevDisabled;
+    }
+
+    public boolean isNextDisabled() {
+        return nextDisabled;
+    }
+
+    public void setNextDisabled(boolean nextDisabled) {
+        this.nextDisabled = nextDisabled;
+    }
+
+// TODO *********commented the code below during IACUC refactoring*********         
 //    public List<ProtocolReviewer> getProtocolReviewers() {
 //        return protocolReviewers;
 //    }
@@ -2886,18 +2891,15 @@ public abstract class ActionHelper implements Serializable {
     private ProtocolQuestionnairePrintingService getProtocolQuestionnairePrintingService() {
         return KraServiceLocator.getService(ProtocolQuestionnairePrintingService.class);
     }
-
     
-//    
-//
-//    public boolean isSummaryQuestionnaireExist() {
-//        return summaryQuestionnaireExist;
-//    }
-//
-//    public void setSummaryQuestionnaireExist(boolean summaryQuestionnaireExist) {
-//        this.summaryQuestionnaireExist = summaryQuestionnaireExist;
-//    }
-//
+    public boolean isSummaryQuestionnaireExist() {
+        return summaryQuestionnaireExist;
+    }
+
+    public void setSummaryQuestionnaireExist(boolean summaryQuestionnaireExist) {
+        this.summaryQuestionnaireExist = summaryQuestionnaireExist;
+    }
+
     public boolean isCanAbandon() {
         return canAbandon;
     }

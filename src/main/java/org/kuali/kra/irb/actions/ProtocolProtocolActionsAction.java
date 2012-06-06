@@ -1775,12 +1775,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 getProtocolApproveService().grantExpeditedApproval(protocolForm.getProtocolDocument().getProtocol(), actionBean);
                 saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
                 recordProtocolActionSuccess("Expedited Approval");
-                forward = confirmFollowupAction(mapping, form, request, response, KRADConstants.MAPPING_PORTAL);
+                forward = confirmFollowupAction(mapping, form, request, response, PROTOCOL_ACTIONS_TAB);
+                protocolForm.getTabStates().put(":" + WebUtils.generateTabKey("Assign to Agenda"), "OPEN");
             }
         }
         // Question frame work will execute method twice.  so, need to be aware that service will not be executed twice.
         if (request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME) != null) {
-            confirmFollowupAction(mapping, form, request, response, KRADConstants.MAPPING_PORTAL);
+            confirmFollowupAction(mapping, form, request, response, PROTOCOL_ACTIONS_TAB);
             //forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);                                    
 //            forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
             protocolForm.getProtocolHelper().prepareView();

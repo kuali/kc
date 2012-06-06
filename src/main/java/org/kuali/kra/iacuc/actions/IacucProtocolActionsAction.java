@@ -49,6 +49,7 @@ import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteService;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionEvent;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionService;
+import org.kuali.kra.iacuc.actions.notifyiacuc.NotifyIacucNotificationRenderer;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
@@ -60,6 +61,7 @@ import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawService;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolWithReasonNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
@@ -77,6 +79,7 @@ import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -451,10 +454,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     super.route(mapping, protocolForm, request, response);
     
+    // first, send out notification that protocol has been submitted
     IacucProtocolNotificationRenderer submitRenderer = new IacucProtocolNotificationRenderer(protocol);
     IacucProtocolNotificationContext submitContext = new IacucProtocolNotificationContext(protocol, null, 
                                                 IacucProtocolActionType.SUBMITTED_TO_IACUC, "Submit", submitRenderer);
     getNotificationService().sendNotification(submitContext);
+    // next send out notification that reviewers have been assigned
 // TODO *********commented the code below during IACUC refactoring********* 
 //    AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocolForm.getProtocolDocument().getProtocol(), "added");
 //    List<ProtocolNotificationRequestBean> addReviewerNotificationBeans = getNotificationRequestBeans(submitAction.getReviewers(),ProtocolReviewerBean.CREATE);
@@ -507,18 +512,16 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 loadDocument(protocolForm);
                 protocolForm.getProtocolHelper().prepareView();
                 
-// TODO *********commented the code below during IACUC refactoring*********                 
-//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"), false));
+                IacucProtocolNotificationRequestBean newNotificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_WITHDRAWN, "Withdrawn");
+                ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, newNotificationBean, false);
+                protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
                 recordProtocolActionSuccess("Withdraw");
                 
-// TODO *********commented the code below during IACUC refactoring*********     
-//                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                    return mapping.findForward(CORRESPONDENCE);
-//                } else {
-                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_WITHDRAWN, "Withdrawn"));
-                
-// TODO *********commented the code below during IACUC refactoring*********                 
-//                }
+                if (newProtocolCorrespondence != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, newNotificationBean);
+                }
             }
         } else {
             GlobalVariables.getMessageMap().clearErrorMessages();
@@ -845,10 +848,20 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_PROTOCOL_KEY.equals(question)) {
             ProtocolForm protocolForm = (ProtocolForm) form;
-            getProtocolDeleteService().delete(protocolForm.getProtocolDocument().getProtocol(),
-                    protocolForm.getActionHelper().getProtocolDeleteBean());
+            IacucProtocol protocol = (IacucProtocol)protocolForm.getProtocolDocument().getProtocol();
+            getProtocolDeleteService().delete(protocol, protocolForm.getActionHelper().getProtocolDeleteBean());
             
+            // send out notification that protocol has been deleted and record success
+            IacucProtocolNotificationRequestBean newNotificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_DELETED, "Deleted");
+            ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, newNotificationBean, false);
+            protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
             recordProtocolActionSuccess("Delete Protocol, Amendment, or Renewal");
+            
+            if (newProtocolCorrespondence != null) {
+                return mapping.findForward(CORRESPONDENCE);
+            } else {
+                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, newNotificationBean);
+            }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1212,28 +1225,28 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
-//
-//    /**
-//     * Load a Protocol summary into the summary sub-panel. The protocol summary to load corresponds to the currently selected
-//     * protocol action in the History sub-panel.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward loadProtocolSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        org.kuali.kra.irb.actions.ProtocolAction action = protocolForm.getActionHelper().getSelectedProtocolAction();
-//        if (action != null) {
-//            protocolForm.getActionHelper().setCurrentSequenceNumber(action.getSequenceNumber());
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
+
+    /**
+     * Load a Protocol summary into the summary sub-panel. The protocol summary to load corresponds to the currently selected
+     * protocol action in the History sub-panel.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward loadProtocolSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        org.kuali.kra.iacuc.actions.IacucProtocolAction action = (org.kuali.kra.iacuc.actions.IacucProtocolAction)protocolForm.getActionHelper().getSelectedProtocolAction();
+        if (action != null) {
+            protocolForm.getActionHelper().setCurrentSequenceNumber(action.getSequenceNumber());
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
 //    /**
 //     * View an attachment via the Summary sub-panel.
 //     * 
@@ -1264,53 +1277,51 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //            ProtocolAttachmentBase personnelAttachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentPersonnel.class, attachmentSummary.getAttachmentId());
 //            return printPersonnelAttachmentProtocol(mapping, response, personnelAttachment, protocolForm);
 //        }
-//        
-//        
 //    }
-//       
-//
-//    /**
-//     * Go to the previous summary.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewPreviousProtocolSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ActionHelper actionHelper = protocolForm.getActionHelper();
-//        actionHelper.setCurrentSequenceNumber(actionHelper.getCurrentSequenceNumber() - 1);
-//        ((ProtocolForm) form).getActionHelper().initSummaryDetails();
-//
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * Go to the next summary.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewNextProtocolSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ActionHelper actionHelper = protocolForm.getActionHelper();
-//        actionHelper.setCurrentSequenceNumber(actionHelper.getCurrentSequenceNumber() + 1);
-//        ((ProtocolForm) form).getActionHelper().initSummaryDetails();
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
+       
+
+    /**
+     * Go to the previous summary.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewPreviousProtocolSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+        actionHelper.setCurrentSequenceNumber(actionHelper.getCurrentSequenceNumber() - 1);
+        ((ProtocolForm) form).getActionHelper().initSummaryDetails();
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * Go to the next summary.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewNextProtocolSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+        actionHelper.setCurrentSequenceNumber(actionHelper.getCurrentSequenceNumber() + 1);
+        ((ProtocolForm) form).getActionHelper().initSummaryDetails();
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
 //    /**
 //     * 
 //     * This method to load previous submission for display
@@ -3657,44 +3668,42 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolForm protocolForm, IacucProtocolNotificationRequestBean notificationRequestBean) {
         
               IacucProtocolNotificationRenderer renderer = null;
+              IacucProtocol protocol = (IacucProtocol)notificationRequestBean.getProtocol();
               
-// TODO *********commented the code below during IACUC refactoring*********               
-//              if (StringUtils.equals(IacucProtocolActionType.NOTIFY_IACUC, notificationRequestBean.getActionType())) {
-//                  renderer = new NotifyIacucNotificationRenderer(notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolNotifyIrbBean().getComment());
+              if (StringUtils.equals(IacucProtocolActionType.NOTIFY_IACUC, notificationRequestBean.getActionType())) {
+                  renderer = new NotifyIacucNotificationRenderer(protocol, ((IacucActionHelper)protocolForm.getActionHelper()).getProtocolNotifyIacucBean().getComment());
 //              } else if (StringUtils.equals(IacucProtocolActionType.NOTIFIED_COMMITTEE, notificationRequestBean.getActionType())) {
 //                  renderer = new NotifyCommitteeNotificationRenderer(notificationRequestBean.getProtocol(), 
 //                          protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getCommitteeName(), 
 //                          protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getComment(), 
 //                          protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getActionDate());
 //              } else if (StringUtils.equals(IacucProtocolActionType.TERMINATED, notificationRequestBean.getActionType())) {
-//                  renderer = new ProtocolTerminatedNotificationRenderer(notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolTerminateRequestBean().getReason());
+//                  renderer = new ProtocolTerminatedNotificationRenderer(protocol, protocolForm.getActionHelper().getProtocolTerminateRequestBean().getReason());
 //              } else if (StringUtils.equals(IacucProtocolActionType.EXPIRED, notificationRequestBean.getActionType())) {
-//                  renderer = new ProtocolExpiredNotificationRenderer(notificationRequestBean.getProtocol());
+//                  renderer = new ProtocolExpiredNotificationRenderer(protocol);
 //              } else if (StringUtils.equals(IacucProtocolActionType.IACUC_DISAPPROVED, notificationRequestBean.getActionType())) {
-//                  renderer = new ProtocolDisapprovedNotificationRenderer(notificationRequestBean.getProtocol());
+//                  renderer = new ProtocolDisapprovedNotificationRenderer(protocol);
 //              } else if (StringUtils.equals(IacucProtocolActionType.SUSPENDED, notificationRequestBean.getActionType())) {
-//                  renderer = new ProtocolSuspendedNotificationRenderer(notificationRequestBean.getProtocol());
+//                  renderer = new ProtocolSuspendedNotificationRenderer(protocol);
 //              } else if (StringUtils.equals(IacucProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, notificationRequestBean.getActionType())) {
-//                  renderer = new ProtocolClosedNotificationRenderer(notificationRequestBean.getProtocol(), notificationRequestBean);
-//              } else {
+//                  renderer = new ProtocolClosedNotificationRenderer(protocol, notificationRequestBean);
+              } else if (StringUtils.equals(IacucProtocolActionType.IACUC_DELETED, notificationRequestBean.getActionType()) ||
+                         StringUtils.equals(IacucProtocolActionType.IACUC_WITHDRAWN, notificationRequestBean.getActionType())) {
+                  renderer = new IacucProtocolWithReasonNotificationRenderer(protocol, protocolForm.getActionHelper().getProtocolDeleteBean());
+              } else {
+                  renderer = new IacucProtocolNotificationRenderer(protocol);
+              }
+                  
+              IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
               
-                  renderer = new IacucProtocolNotificationRenderer((IacucProtocol)notificationRequestBean.getProtocol());
-                  
-// TODO *********commented the code below during IACUC refactoring*********                   
-//              }
-//                  
-//              IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol)notificationRequestBean.getProtocol(), notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
-//              
-//              if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-//                  context.setForwardName(forward.getName());
-//                  protocolForm.getNotificationHelper().initializeDefaultValues(context);
-//                  return mapping.findForward("iacucProtocolNotificationEditor");
-//              } else {
-//                  getNotificationService().sendNotification(context);
+              if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                  context.setForwardName(forward.getName());
+                  protocolForm.getNotificationHelper().initializeDefaultValues(context);
+                  return mapping.findForward("iacucProtocolNotificationEditor");
+              } else {
+                  getNotificationService().sendNotification(context);
                   return forward;
-                  
-// TODO *********commented the code below during IACUC refactoring*********                                      
-//              }
+              }
                   
           }
     
