@@ -352,6 +352,34 @@
             <th style="text-align:right; width:135px;">Replacement:</th>
             <td class="${protocolSummary.threeRsInfo.replacementChanged ? 'changed' : ''}">${protocolSummary.threeRsInfo.replacement}&nbsp;</td>
         </tr>
+        <tr>
+            <th style="text-align:right; width:135px;">Search Required:</th>
+            <td class="${protocolSummary.threeRsInfo.searchRequiredChanged ? 'changed' : ''}">${protocolSummary.threeRsInfo.searchRequired}&nbsp;</td>
+        </tr>
+        <tr>
+            <th style="text-align:right; width:135px;">Alternate Search:</th>
+        	<td cellpadding="0">
+        		<table border="0" cellpadding="0" cellspacing="0">
+    				<tbody>
+				        <tr>
+				            <th>Date</td>
+				            <th>Databases Searched</td>
+				            <th>Years Searched</td>
+				            <th>Search Terms/Keywords</td>
+				            <th>Comments</td>
+					    </tr>
+						<c:forEach items="${protocolSummary.threeRsInfo.alternateSearchSummaries}" var="alternateSearchSummary" varStatus="status">
+    	        			<tr>
+				                <td class="${alternateSearchSummary.searchDateChanged ? 'changed' : ''}">${alternateSearchSummary.searchDate}</td>
+            	   				<td class="${alternateSearchSummary.databasesChanged ? 'changed' : ''}">${alternateSearchSummary.databaseList}</td>
+				                <td class="${alternateSearchSummary.yearsSearchedChanged ? 'changed' : ''}">${alternateSearchSummary.yearsSearched}&nbsp;</td>
+                				<td class="${alternateSearchSummary.keywordsChanged ? 'changed' : ''}">${alternateSearchSummary.keywords}&nbsp;</td>
+				       	        <td class="${alternateSearchSummary.commentsChanged ? 'changed' : ''}">${alternateSearchSummary.comments}&nbsp;</td>
+	        				</tr>
+				        </c:forEach>
+    				</tbody>
+				</table>
+        	</td>        	
     </tbody>
 </table>
     
