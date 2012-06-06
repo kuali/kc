@@ -1282,4 +1282,33 @@
 			<foreignkey field-ref="submissionTypeQualCode"/>
 		</reference-descriptor>
 	</class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence" table="IACUC_PROTO_CORRESPONDENCE">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IACUC_PROTO_CORR_ID"/>
+        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="actionId" column="ACTION_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="actionIdFk" column="ACTION_ID_FK" jdbc-type="BIGINT" />
+        <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="correspondence" column="CORRESPONDENCE" jdbc-type="LONGVARBINARY" />
+        <field-descriptor name="finalFlag" column="FINAL_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="finalFlagTimestamp" column="FINAL_FLAG_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolId"/>
+        </reference-descriptor>
+        <reference-descriptor name="protocolCorrespondenceType" class-ref="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protoCorrespTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="protocolAction" class-ref="org.kuali.kra.iacuc.actions.IacucProtocolAction" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="actionId"/>
+        </reference-descriptor>
+    </class-descriptor> 
+
 </descriptor-repository>
