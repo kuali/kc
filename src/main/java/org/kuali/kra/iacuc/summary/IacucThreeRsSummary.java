@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.iacuc.summary;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -27,10 +30,13 @@ public class IacucThreeRsSummary {
     private String reduction;
     private String refinement;
     private String replacement;
+    private boolean searchRequired;
+    private List<IacucAlternateSearchSummary> alternateSearchSummaries = new ArrayList<IacucAlternateSearchSummary>();
     
     private boolean reductionChanged;
     private boolean refinementChanged;
     private boolean replacementChanged;
+    private boolean searchRequiredChanged;
     
     public String getReduction() {
         return reduction;
@@ -50,6 +56,12 @@ public class IacucThreeRsSummary {
     public void setReplacement(String replacement) {
         this.replacement = replacement;
     }
+    public boolean isSearchRequired() {
+        return searchRequired;
+    }
+    public void setSearchRequired(boolean searchRequired) {
+        this.searchRequired = searchRequired;
+    }
     public boolean isReductionChanged() {
         return reductionChanged;
     }
@@ -68,10 +80,23 @@ public class IacucThreeRsSummary {
     public void setReplacementChanged(boolean replacementChanged) {
         this.replacementChanged = replacementChanged;
     }
+    public boolean isSearchRequiredChanged() {
+        return searchRequiredChanged;
+    }
+    public void setSearchRequiredChanged(boolean searchRequiredChanged) {
+        this.searchRequiredChanged = searchRequiredChanged;
+    }
+    public List<IacucAlternateSearchSummary> getAlternateSearchSummaries() {
+        return alternateSearchSummaries;
+    }
+    public void setAlternateSearchSummaries(List<IacucAlternateSearchSummary> alternateSearchSummaries) {
+        this.alternateSearchSummaries = alternateSearchSummaries;
+    }
 
     public void compare(IacucThreeRsSummary other) {
         reductionChanged = !StringUtils.equals(reduction, other.getReduction());
         refinementChanged = !StringUtils.equals(refinement, other.getRefinement());
         replacementChanged = !StringUtils.equals(replacement, other.getReplacement());
+        searchRequiredChanged = searchRequired != other.searchRequired;
     }
 }

@@ -33,6 +33,7 @@ import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
+import org.kuali.kra.iacuc.summary.IacucAlternateSearchSummary;
 import org.kuali.kra.iacuc.summary.IacucProtocolExceptionSummary;
 import org.kuali.kra.iacuc.summary.IacucProtocolSpeciesSummary;
 import org.kuali.kra.iacuc.summary.IacucProtocolSummary;
@@ -467,6 +468,10 @@ public class IacucProtocol extends Protocol {
         threeRsSummary.setReduction(principles.getReduction());
         threeRsSummary.setRefinement(principles.getRefinement());
         threeRsSummary.setReplacement(principles.getReplacement());
+        for (IacucAlternateSearch alternateSearch:iacucAlternateSearches) {
+            threeRsSummary.getAlternateSearchSummaries().add(new IacucAlternateSearchSummary(alternateSearch));
+            threeRsSummary.setSearchRequired(alternateSearch.isSearchRequired());
+        }
         protocolSummary.setThreeRsInfo(threeRsSummary);
     }
 
