@@ -111,7 +111,7 @@
                 <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolActionsHelp" p:parameterDetailType="Document"/>
                 </property>
-                <property name="headerTabDisplayName" value="Iacuc Protocol Actions"/>
+                <property name="headerTabDisplayName" value="IACUC Protocol Actions"/>
                 <property name="headerTabNavigateTo" value="protocolActions"/>
             </bean>
             <bean parent="HeaderNavigation">
