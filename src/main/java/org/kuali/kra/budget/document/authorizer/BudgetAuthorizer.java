@@ -66,6 +66,10 @@ public abstract class BudgetAuthorizer extends TaskAuthorizerImpl {
         return kraAuthorizationService.hasPermission(userId, doc, permissionName);
     }
     
+    protected boolean hasParentPermission(String userId, BudgetParentDocument doc, String permissionNamespace, String permissionName) {
+        return kraAuthorizationService.hasPermission(userId, doc, permissionName);
+    }    
+    
     /**
      * Get the corresponding workflow document.  
      * @param doc the document

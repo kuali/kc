@@ -47,22 +47,20 @@ public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             editModes.add("modifyBudgets");
             editModes.add("viewBudgets");
-            //KRACOEUS-5556 - temp workaround hard coded access to salary information in awards
-            editModes.add(PermissionConstants.VIEW_INSTITUTIONAL_SALARIES); 
-            editModes.add(PermissionConstants.VIEW_PROP_PERSON_INST_SALARIES);                              
             setPermissions(userId, parentDocument, editModes);
         }
         else if (canExecuteAwardBudgetTask(user, awardBudgetDocument, TaskName.VIEW_BUDGET)) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             editModes.add("viewBudgets");
-            //KRACOEUS-5556 - temp workaround hard coded access to salary information in awards
-            editModes.add(PermissionConstants.VIEW_INSTITUTIONAL_SALARIES); 
-            editModes.add(PermissionConstants.VIEW_PROP_PERSON_INST_SALARIES);                  
             setPermissions(userId, parentDocument, editModes);
         }
         else {
             editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
         }
+        
+        if (canExecuteAwardBudgetTask(user, awardBudgetDocument, TaskName.VIEW_SALARIES)) {
+            editModes.add(TaskName.VIEW_SALARIES);
+        }        
         
         return editModes;
     }

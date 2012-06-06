@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.budget.document.authorizer;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.kew.KraDocumentRejectionService;
@@ -33,9 +34,7 @@ public class ViewProposalBudgetPersonSalaryAuthorizer extends BudgetAuthorizer{
         BudgetDocument budgetDocument = task.getBudgetDocument();
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) budgetDocument.getParentDocument();
         
-        return hasParentPermission(userId, doc, PermissionConstants.VIEW_PROP_PERSON_INST_SALARIES) 
-        || hasParentPermission(userId, doc, PermissionConstants.VIEW_INSTITUTIONAL_SALARIES) 
-        || kraWorkflowService.hasWorkflowPermission(userId, doc);
+        return hasParentPermission(userId, doc, Constants.MODULE_NAMESPACE_BUDGET, PermissionConstants.VIEW_SALARIES);
     }
 }
 
