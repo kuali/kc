@@ -68,5 +68,10 @@ public class KraAuthorizationServiceMock implements KraAuthorizationService {
 
     public void forceFlushRoleCaches() {
     }
+
+    @Override
+    public boolean hasPermission(String userId, Permissionable permissionable, String permissionNamespace, String permissionName) {
+        return hasPermission;
+    }
     
 }

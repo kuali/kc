@@ -47,6 +47,7 @@ public class PermissionAttributes {
     private static final String SECTION_ATTACHMENTS = "attachments";
     private static final String SECTION_AWARD = "award";
     private static final String SECTION_AWARD_BUDGET = "award_budget";
+    private static final String SECTION_PERSONNEL_SALARIES = "personnel_salaries";
     
     private static final String DOC_ACTION_SUBMIT_TO_SPONSOR = "submit_to_sponsor";
     private static final String DOC_ACTION_PRINT = "print";
@@ -96,6 +97,10 @@ public class PermissionAttributes {
         tempAttributesMap.put(PermissionConstants.MODIFY_BUDGET, attributes);
 
         tempAttributesMap.put(PermissionConstants.VIEW_BUDGET, attributes);
+        
+        attributes = new HashMap<String, String>(); 
+        attributes.put(ATTR_SECTION_NAME, SECTION_PERSONNEL_SALARIES);  
+        tempAttributesMap.put(PermissionConstants.VIEW_SALARIES, attributes);
 
         attributes = new HashMap<String, String>();
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_PROPOSAL_DEVELOPMENT); 

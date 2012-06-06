@@ -92,7 +92,7 @@
 			</td>
 			
 			<td>
-			<c:set var="canViewSalary" value="${KualiForm.canViewBudgetPersonSalaries}" />
+			<c:set var="canViewSalary" value="${KualiForm.editingMode['viewSalaries']}" />
 			 <c:choose>
 				<c:when test="${canViewSalary}">
 				   	<div align="center">
