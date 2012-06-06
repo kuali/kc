@@ -112,7 +112,10 @@
                     <property name="taskName" value="cancelBudget" />
                     <property name="requiresWritableDoc" value="true"/>
                     <property name="kraDocumentRejectionService" ref="kraDocumentRejectionService"/>
-                </bean>                
+                </bean>  
+                <bean class="org.kuali.kra.award.budget.document.authorizer.ViewAwardBudgetSalariesAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="viewSalaries" />
+                </bean>
             </list>
         </property>
     </bean>

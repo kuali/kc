@@ -52,12 +52,8 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
         BudgetParentDocument parentDocument = budgetDoc.getParentDocument();
         String userId = user.getPrincipalId(); 
         
-        if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_INSTITUTIONAL_SALARIES )) {
-            editModes.add(PermissionConstants.VIEW_INSTITUTIONAL_SALARIES); 
-            setPermissions(userId, parentDocument, editModes);
-        }
-        if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_PROP_PERSON_INST_SALARIES )) {
-            editModes.add(PermissionConstants.VIEW_PROP_PERSON_INST_SALARIES);          
+        if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_SALARIES )) {
+            editModes.add(TaskName.VIEW_SALARIES); 
             setPermissions(userId, parentDocument, editModes);
         }
       

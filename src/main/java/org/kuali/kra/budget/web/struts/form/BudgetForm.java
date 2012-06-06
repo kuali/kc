@@ -975,12 +975,6 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         return enableBudgetSalaryByPeriod;
     }
 
-    public boolean getCanViewBudgetPersonSalaries() {    
-        boolean retVal1 = Boolean.valueOf((String)this.getEditingMode().get(PermissionConstants.VIEW_PROP_PERSON_INST_SALARIES));
-        boolean retVal2 = Boolean.valueOf((String)this.getEditingMode().get(PermissionConstants.VIEW_INSTITUTIONAL_SALARIES));
-        return retVal1 || retVal2;
-    }
-    
     public java.util.Date getBudgetStartDate() {
         return this.getBudgetDocument().getBudgetStartDate();
     }
