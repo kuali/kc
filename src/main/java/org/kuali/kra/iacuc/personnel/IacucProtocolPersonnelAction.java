@@ -35,6 +35,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRole;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
@@ -93,6 +94,10 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
             newProtocolPerson));
         if (rulePassed) {
             getProtocolPersonnelService().addProtocolPerson(protocol, newProtocolPerson);
+            //If we are adding a new principal investigator, make sure we update the person id
+            if (StringUtils.equals(newProtocolPerson.getProtocolPersonRoleId(), ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)) {
+                protocolForm.getProtocolHelper().setPersonId(newProtocolPerson.getPersonId());
+            }
             protocolForm.getPersonnelHelper().setNewProtocolPerson(new IacucProtocolPerson());
         }
 
