@@ -24,6 +24,15 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 @SuppressWarnings("serial")
 public abstract class ProtocolActionType extends KraPersistableBusinessObjectBase {
 
+    //No corresponding actionTypeCode for these in Coeus  
+    public static final String RECORD_COMMITTEE_DECISION = "308";
+    public static final String MODIFY_PROTOCOL_SUBMISISON = "309";
+    public static final String ASSIGN_REVIEWER = "901";
+    public static final String REVIEW_COMPLETE = "902";
+    public static final String REVIEW_REJECTED = "903";
+    public static final String FUNDING_SOURCE = "904";
+    public static final String REVIEW_DELETED = "905";
+
     private String protocolActionTypeCode;
 
     private String description;
