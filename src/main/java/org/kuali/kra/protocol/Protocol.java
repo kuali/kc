@@ -1686,7 +1686,6 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
     
     
-  
     public ProtocolSummary getProtocolSummary() {
         ProtocolSummary protocolSummary = createProtocolSummary();
         addPersonnelSummaries(protocolSummary);
@@ -1700,7 +1699,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         return protocolSummary;
     }
     
-    private void addAdditionalInfoSummary(ProtocolSummary protocolSummary) {
+    protected void addAdditionalInfoSummary(ProtocolSummary protocolSummary) {
         AdditionalInfoSummary additionalInfoSummary = new AdditionalInfoSummary();
         additionalInfoSummary.setFdaApplicationNumber(this.getFdaApplicationNumber());
         //additionalInfoSummary.setBillable(isBillable());
@@ -1710,7 +1709,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         protocolSummary.setAdditionalInfo(additionalInfoSummary);
     }
 
-    private void addSpecialReviewSummaries(ProtocolSummary protocolSummary) {
+    protected void addSpecialReviewSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolSpecialReview specialReview : getSpecialReviews()) {
             SpecialReviewSummary specialReviewSummary = new SpecialReviewSummary();
             if (specialReview.getSpecialReviewType() == null) {
@@ -1734,7 +1733,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
     }
 
-    private void addOrganizationSummaries(ProtocolSummary protocolSummary) {
+    protected void addOrganizationSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolLocation organization : this.getProtocolLocations()) {
              OrganizationSummary organizationSummary = new OrganizationSummary();
              organizationSummary.setId(organization.getOrganizationId());
@@ -1748,7 +1747,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
     }
 
-    private void addParticipantSummaries(ProtocolSummary protocolSummary) {
+    protected void addParticipantSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolParticipant participant : this.getProtocolParticipants()) {
             ParticipantSummary participantSummary = new ParticipantSummary();
             participantSummary.setDescription(participant.getParticipantType().getDescription());
@@ -1757,7 +1756,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
     }
 
-    private void addFundingSourceSummaries(ProtocolSummary protocolSummary) {
+    protected void addFundingSourceSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolFundingSource source : getProtocolFundingSources()) {
             FundingSourceSummary fundingSourceSummary = new FundingSourceSummary();
             fundingSourceSummary.setFundingSourceType(source.getFundingSourceType().getDescription());
@@ -1769,7 +1768,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
     }
 
-    private void addAttachmentSummaries(ProtocolSummary protocolSummary) {
+    protected void addAttachmentSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolAttachmentProtocol attachment : getActiveAttachmentProtocols()) {
             if (!attachment.isDeleted()) {
                 AttachmentSummary attachmentSummary = new AttachmentSummary();
@@ -1800,7 +1799,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
     }
 
-    private void addResearchAreaSummaries(ProtocolSummary protocolSummary) {
+    protected void addResearchAreaSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolResearchArea researchArea : getProtocolResearchAreas()) {
             ResearchAreaSummary researchAreaSummary = new ResearchAreaSummary();
             researchAreaSummary.setResearchAreaCode(researchArea.getResearchAreaCode());
@@ -1809,7 +1808,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
     }
 
-    private void addPersonnelSummaries(ProtocolSummary protocolSummary) {
+    protected void addPersonnelSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolPerson person : getProtocolPersons()) {
             PersonnelSummary personnelSummary = new PersonnelSummary();
             personnelSummary.setPersonId(person.getPersonId());
@@ -1831,30 +1830,33 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
     }
 
-    private ProtocolSummary createProtocolSummary() {
-        ProtocolSummary summary = new ProtocolSummary();
-        
-        summary.setLastProtocolAction(getLastProtocolAction());
-        
-        
-        summary.setProtocolNumber(getProtocolNumber().toString());
-        summary.setPiName(getPrincipalInvestigator().getPersonName());
-        summary.setPiProtocolPersonId(getPrincipalInvestigator().getProtocolPersonId());
-        summary.setInitialSubmissionDate(getInitialSubmissionDate());
-        summary.setApprovalDate(getApprovalDate());
-        summary.setLastApprovalDate(getLastApprovalDate());
-        summary.setExpirationDate(getExpirationDate());
-        if (getProtocolType() == null) {
-            refreshReferenceObject("protocolType");
-        }
-        summary.setType(getProtocolType().getDescription());
-        if (getProtocolStatus() == null) {
-            refreshReferenceObject("protocolStatus");
-        }
-        summary.setStatus(getProtocolStatus().getDescription());
-        summary.setTitle(getTitle());
-        return summary;
-    }
+    protected abstract ProtocolSummary createProtocolSummary();
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    protected ProtocolSummary createProtocolSummary() {
+//        ProtocolSummary summary = new ProtocolSummary();
+//        
+//        summary.setLastProtocolAction(getLastProtocolAction());
+//        
+//        
+//        summary.setProtocolNumber(getProtocolNumber().toString());
+//        summary.setPiName(getPrincipalInvestigator().getPersonName());
+//        summary.setPiProtocolPersonId(getPrincipalInvestigator().getProtocolPersonId());
+//        summary.setInitialSubmissionDate(getInitialSubmissionDate());
+//        summary.setApprovalDate(getApprovalDate());
+//        summary.setLastApprovalDate(getLastApprovalDate());
+//        summary.setExpirationDate(getExpirationDate());
+//        if (getProtocolType() == null) {
+//            refreshReferenceObject("protocolType");
+//        }
+//        summary.setType(getProtocolType().getDescription());
+//        if (getProtocolStatus() == null) {
+//            refreshReferenceObject("protocolStatus");
+//        }
+//        summary.setStatus(getProtocolStatus().getDescription());
+//        summary.setTitle(getTitle());
+//        return summary;
+//    }
  
     
 

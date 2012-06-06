@@ -28,6 +28,7 @@ import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolVersionService;
+import org.kuali.kra.iacuc.IacucProtocolVersionServiceImpl;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteBean;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
@@ -289,6 +290,8 @@ public class IacucActionHelper extends ActionHelper {
         canTableUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_TABLE_UNAVAILABLE);
         canAssignCmt = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE);
         canAssignCmtUnavailable = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE_UNAVAILABLE);
+
+        initSummaryDetails();
 
     }
     
@@ -660,17 +663,54 @@ public class IacucActionHelper extends ActionHelper {
         return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
-//    @Override
-//    protected ProtocolVersionService getProtocolVersionService() {
-//        if (this.protocolVersionService == null) {
-//            this.protocolVersionService = KraServiceLocator.getService(IacucProtocolVersionService.class);        
-//        }
-//        return this.protocolVersionService;
-//    }
+    @Override
+    protected ProtocolVersionService getProtocolVersionService() {
+        if (this.protocolVersionService == null) {
+            this.protocolVersionService = KraServiceLocator.getService(IacucProtocolVersionService.class);        
+        }
+        return this.protocolVersionService;
+    }
 
+    @Override
     protected String getCoeusModule() {
         return CoeusModule.IRB_MODULE_CODE;
     }
+
+    /**
+     * Sets up the summary details subpanel.
+     * @throws Exception 
+     */
+    @Override
+    public void initSummaryDetails() throws Exception {
+        if (currentSequenceNumber == -1) {
+            currentSequenceNumber = getProtocol().getSequenceNumber();
+        } else if (currentSequenceNumber > getProtocol().getSequenceNumber()) {
+            currentSequenceNumber = getProtocol().getSequenceNumber();
+        }
+        
+        protocolSummary =  null;
+        String protocolNumber = getProtocol().getProtocolNumber();
+        IacucProtocol protocol = (IacucProtocol)getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber);
+        if (protocol != null) {
+            protocolSummary = protocol.getProtocolSummary();
+        }
+        
+        prevProtocolSummary = null;
+        if (currentSequenceNumber > 0) {
+            protocol = (IacucProtocol) getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber - 1);
+            if (protocol != null) {
+                prevProtocolSummary = protocol.getProtocolSummary();
+            }
+        }
+        
+        if (protocolSummary != null && prevProtocolSummary != null) {
+            protocolSummary.compare(prevProtocolSummary);
+            prevProtocolSummary.compare(protocolSummary);
+        }
+
+        setSummaryQuestionnaireExist(hasAnsweredQuestionnaire((protocol.isAmendment() || protocol.isRenewal()) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, protocol.getSequenceNumber().toString()));
+    }
+
 
 }
 

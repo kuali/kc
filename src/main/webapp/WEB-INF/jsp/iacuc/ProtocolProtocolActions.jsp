@@ -50,6 +50,7 @@
 
 <kra-iacuc:protocolRequestAction />
 <kra-iacuc:iacucProtocolSummaryPrint/>
+<kra-iacuc:protocolSummaryViewPrint/>
 <kra-iacuc:iacucProtocolCopyProtocol />
 
 <c:if test="${showActions}" >
