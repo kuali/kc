@@ -15,12 +15,130 @@
  */
 package org.kuali.kra.iacuc.summary;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.protocol.summary.ProtocolSummary;
 
 public class IacucProtocolSummary extends ProtocolSummary {
 
+    private String projectType;
+    private String layStmt1;
+    private String layStmt2;
+    
+    private boolean projectTypeChanged;
+    private boolean layStmt1Changed = false;
+    private boolean layStmt2Changed = false;
+
+    private IacucThreeRsSummary threeRsInfo;
+    private List<IacucProtocolSpeciesSummary> speciesSummaries = new ArrayList<IacucProtocolSpeciesSummary>();
+    private List<IacucProtocolExceptionSummary> exceptionSummaries = new ArrayList<IacucProtocolExceptionSummary>();
+    
     public IacucProtocolSummary() {
         super();
     }
     
+    public void compare(IacucProtocolSummary other) {
+        super.compare(other);
+        projectTypeChanged = !StringUtils.equals(projectType, other.projectType);
+        layStmt1Changed = !StringUtils.equals(layStmt1, other.layStmt1);
+        layStmt2Changed = !StringUtils.equals(layStmt2, other.layStmt2);
+        compareThreeRs(other);
+        compareSpecies(other);
+        compareProtocols(other);
+        compareExceptions(other);
+    }
+
+    public String getProjectType() {
+        return projectType;
+    }
+
+    public void setProjectType(String projectType) {
+        this.projectType = projectType;
+    }
+
+    public String getLayStmt1() {
+        return layStmt1;
+    }
+
+    public void setLayStmt1(String layStmt1) {
+        this.layStmt1 = layStmt1;
+    }
+
+    public String getLayStmt2() {
+        return layStmt2;
+    }
+
+    public void setLayStmt2(String layStmt2) {
+        this.layStmt2 = layStmt2;
+    }
+
+    public boolean isProjectTypeChanged() {
+        return projectTypeChanged;
+    }
+
+    public boolean isLayStmt1Changed() {
+        return layStmt1Changed;
+    }
+    
+    public boolean isLayStmt2Changed() {
+        return layStmt2Changed;
+    }
+
+    public IacucThreeRsSummary getThreeRsInfo() {
+        return threeRsInfo;
+    }
+    
+    public void setThreeRsInfo(IacucThreeRsSummary threeRsInfo) {
+        this.threeRsInfo = threeRsInfo;
+    }
+    
+    private void compareThreeRs(IacucProtocolSummary other) {
+        threeRsInfo.compare(other.getThreeRsInfo());
+    }
+    
+    private void compareSpecies(IacucProtocolSummary other) {
+        for (IacucProtocolSpeciesSummary mySummary : speciesSummaries) {
+            mySummary.compare(other);
+        }
+    }
+
+    public IacucProtocolSpeciesSummary findSpeciesSummary(Integer speciesId) {
+        for (IacucProtocolSpeciesSummary species : speciesSummaries) {
+            if (species.getSpeciesId().equals(speciesId)) {
+                return species;
+            }
+        }
+        return null;
+    }
+
+    public List<IacucProtocolSpeciesSummary> getSpeciesSummaries() {
+        return speciesSummaries;
+    }
+
+    public List<IacucProtocolExceptionSummary> getExceptionSummaries() {
+        return exceptionSummaries;
+    }
+
+    private void compareProtocols(IacucProtocolSummary other) {
+//TODO        for (IacucProtocolSpeciesSummary mySummary : speciesSummaries) {
+    }
+
+    private void compareExceptions(IacucProtocolSummary other) {
+        for (IacucProtocolExceptionSummary mySummary : exceptionSummaries) {
+            mySummary.compare(other);
+        }
+    }
+
+    public IacucProtocolExceptionSummary findExceptionSummary(Integer exceptionId) {
+        for (IacucProtocolExceptionSummary exception : exceptionSummaries) {
+            if (exception.getIacucProtocolExceptionId().equals(exceptionId)) {
+                return exception;
+            }
+        }
+        return null;
+    }
+
+
 }

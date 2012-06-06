@@ -33,7 +33,10 @@ import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
+import org.kuali.kra.iacuc.summary.IacucProtocolExceptionSummary;
+import org.kuali.kra.iacuc.summary.IacucProtocolSpeciesSummary;
 import org.kuali.kra.iacuc.summary.IacucProtocolSummary;
+import org.kuali.kra.iacuc.summary.IacucThreeRsSummary;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.infrastructure.Constants;
@@ -46,6 +49,8 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilter;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
+import org.kuali.kra.protocol.specialreview.ProtocolSpecialReview;
+import org.kuali.kra.protocol.summary.AdditionalInfoSummary;
 import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -415,10 +420,13 @@ public class IacucProtocol extends Protocol {
         addResearchAreaSummaries(protocolSummary);
         addAttachmentSummaries(protocolSummary);
         addFundingSourceSummaries(protocolSummary);
-        addParticipantSummaries(protocolSummary);
         addOrganizationSummaries(protocolSummary);
         addSpecialReviewSummaries(protocolSummary);
         addAdditionalInfoSummary(protocolSummary);
+        addThreeRsSummary((IacucProtocolSummary)protocolSummary);
+        addSpeciesAndGroupsSummaries((IacucProtocolSummary)protocolSummary);
+        addExceptionsSummaries((IacucProtocolSummary)protocolSummary);
+//        addProceduresSummaries((IacucProtocolSummary)protocolSummary);
         return protocolSummary;
     }
     
@@ -442,7 +450,38 @@ public class IacucProtocol extends Protocol {
         }
         summary.setStatus(getProtocolStatus().getDescription());
         summary.setTitle(getTitle());
+        
+        summary.setLayStmt1(getLayStatement1()); 
+        summary.setLayStmt2(getLayStatement2());
+        
+        if (getProtocolProjectType() == null) {
+            refreshReferenceObject("protocolProjectType");
+        }
+        summary.setProjectType(protocolProjectType.getDescription()); 
         return summary;
+    }
+
+    protected void addThreeRsSummary(IacucProtocolSummary protocolSummary) {
+        IacucThreeRsSummary threeRsSummary = new IacucThreeRsSummary();
+        IacucPrinciples principles = getIacucPrinciples().get(0);
+        threeRsSummary.setReduction(principles.getReduction());
+        threeRsSummary.setRefinement(principles.getRefinement());
+        threeRsSummary.setReplacement(principles.getReplacement());
+        protocolSummary.setThreeRsInfo(threeRsSummary);
+    }
+
+    protected void addSpeciesAndGroupsSummaries(IacucProtocolSummary protocolSummary) {
+        for (IacucProtocolSpecies species : iacucProtocolSpeciesList) {
+            IacucProtocolSpeciesSummary newSummary = new IacucProtocolSpeciesSummary(species);
+            protocolSummary.getSpeciesSummaries().add(newSummary);
+        }
+    }
+
+    protected void addExceptionsSummaries(IacucProtocolSummary protocolSummary) {
+        for (IacucProtocolException exception : iacucProtocolExceptions) {
+            IacucProtocolExceptionSummary newSummary = new IacucProtocolExceptionSummary(exception);
+            protocolSummary.getExceptionSummaries().add(newSummary);
+        }
     }
 
 }
