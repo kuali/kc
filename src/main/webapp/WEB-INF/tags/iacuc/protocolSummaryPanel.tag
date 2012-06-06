@@ -92,8 +92,8 @@
                     </tbody>
                 </table>
         
-<%--                <kra-iacuc:protocolSummary prefix="actionHelper.prevProtocolSummary" protocolSummary="${KualiForm.actionHelper.prevProtocolSummary}" />
---%>            </div>
+                <kra-iacuc:protocolSummary prefix="actionHelper.prevProtocolSummary" protocolSummary="${KualiForm.actionHelper.prevProtocolSummary}" />
+            </div>
         </c:if>
     </div>
 </kul:innerTab>

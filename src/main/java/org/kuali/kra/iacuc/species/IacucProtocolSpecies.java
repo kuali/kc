@@ -187,5 +187,25 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
     }
     */
 
-    
+    public String getSpeciesName() {
+        if (iacucSpecies == null) {
+            refreshReferenceObject("iacucSpecies");
+        }
+        return iacucSpecies.getSpeciesName();
+    }
+
+    public String getCountTypeName() {
+        if (iacucSpeciesCountType == null) {
+            refreshReferenceObject("iacucSpeciesCountType");
+        }
+        return iacucSpeciesCountType.getDescription();
+    }
+
+    public String getPainCategoryName() {
+        if (iacucPainCategory == null) {
+            refreshReferenceObject("iacucPainCategory");
+        }
+        return iacucPainCategory.getPainCategory();
+    }
+
 }

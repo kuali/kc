@@ -89,7 +89,15 @@
             
         <tr>
             <th style="text-align:right; width:135px;">Title:</th>
-            <td  class="${protocolSummary.titleChanged ? 'changed' : ''}" colspan="3">${protocolSummary.title}&nbsp;</td>
+            <td  class="${protocolSummary.titleChanged ? 'changed' : ''}">${protocolSummary.title}&nbsp;</td>
+            <th style="text-align:right; width:135px;">Project Type:</th>
+            <td  class="${protocolSummary.projectTypeChanged ? 'changed' : ''}">${protocolSummary.projectType}&nbsp;</td>
+        </tr>
+        <tr>
+            <th style="text-align:right; width:135px;">Lay Statement 1:</th>
+            <td  class="${protocolSummary.layStmt1Changed ? 'changed' : ''}">${protocolSummary.layStmt1}&nbsp;</td>
+            <th style="text-align:right; width:135px;">Lay Statement 2:</th>
+            <td  class="${protocolSummary.layStmt2Changed ? 'changed' : ''}">${protocolSummary.layStmt2}&nbsp;</td>
         </tr>
     </tbody>                  
 </table>
@@ -222,28 +230,6 @@
 <table cellpadding="0" cellspacing="0">
     <tbody>
         <tr>
-            <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="3">Participant Types:</td>
-        </tr>
-        
-        <tr>
-            <th style="width: 50px;">&nbsp;</th>
-            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Description</td>
-            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Count</td>
-        </tr>
-        
-        <c:forEach items="${protocolSummary.participants}" var="participant" varStatus="status">
-            <tr>
-                <th style="width:50px">${status.index + 1}</th>
-                <td class="${participant.descriptionChanged ? 'changed' : ''}">${participant.description}</td>
-                <td class="${participant.countChanged ? 'changed' : ''}">${participant.count}</td>
-           </tr>
-        </c:forEach>
-    </tbody>
-</table>
-    
-<table cellpadding="0" cellspacing="0">
-    <tbody>
-        <tr>
             <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="5">Organization:</td>
         </tr>
         
@@ -336,19 +322,6 @@
         </tr>
         
         <tr>
-            <th style="text-align:right; width:135px;">FDA IND or IDE #:</th>
-            <td class="${protocolSummary.additionalInfo.fdaApplicationNumberChanged ? 'changed' : ''}">${protocolSummary.additionalInfo.fdaApplicationNumber}&nbsp;</td>
-            <td></td>
-            <td></td>
-            <%--
-	            <th style="text-align:right; width:135px">Billable:</th>
-	            <td class="${protocolSummary.additionalInfo.billableChanged ? 'changed' : ''}">
-	            	${protocolSummary.additionalInfo.billable}&nbsp;
-	            </td>
-             --%>
-        </tr>
-        
-        <tr>
             <th style="text-align:right; width:135px;">Reference ID1:</th>
             <td class="${protocolSummary.additionalInfo.referenceId1Changed ? 'changed' : ''}">${protocolSummary.additionalInfo.referenceId1}&nbsp;</td>
             <th style="text-align:right; width:135px;">Reference ID2:</th>
@@ -361,6 +334,102 @@
         </tr>
     </tbody>
 </table>
+
+<table cellpadding="0" cellspacing="0">
+    <tbody>
+        <tr>
+            <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="3">Three Rs:</td>
+        </tr>
+        <tr>
+            <th style="text-align:right; width:135px;">Reduction:</th>
+            <td class="${protocolSummary.threeRsInfo.reductionChanged ? 'changed' : ''}">${protocolSummary.threeRsInfo.reduction}&nbsp;</td>
+        </tr>
+        <tr>
+            <th style="text-align:right; width:135px;">Refinement:</th>
+            <td class="${protocolSummary.threeRsInfo.refinementChanged ? 'changed' : ''}">${protocolSummary.threeRsInfo.refinement}&nbsp;</td>
+        </tr>
+        <tr>
+            <th style="text-align:right; width:135px;">Replacement:</th>
+            <td class="${protocolSummary.threeRsInfo.replacementChanged ? 'changed' : ''}">${protocolSummary.threeRsInfo.replacement}&nbsp;</td>
+        </tr>
+    </tbody>
+</table>
+    
+<table cellpadding="0" cellspacing="0">
+    <tbody>
+        <tr>
+            <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="0">Species/Groups:</td>
+        </tr>
+
+        <tr>
+            <th style="width: 50px;">&nbsp;</th>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Species</td>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Group</td>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">USDA Covered</td>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Strain</td>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Count</td>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Count Type</td>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Pain Category</td>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Procedure Summary</td>
+        </tr>
+    
+        <c:forEach items="${protocolSummary.speciesSummaries}" var="speciesSummary" varStatus="status">
+            <tr>
+                <th style="width:50px">${status.index + 1}</th>
+                <td class="${speciesSummary.speciesChanged ? 'changed' : ''}">${speciesSummary.species}</td>
+                <td class="${speciesSummary.speciesGroupChanged ? 'changed' : ''}">${speciesSummary.speciesGroup}</td>
+                <td class="${speciesSummary.usdaCoveredChanged ? 'changed' : ''}">${speciesSummary.usdaCovered}&nbsp;</td>
+                <td class="${speciesSummary.strainChanged ? 'changed' : ''}">${speciesSummary.strain}&nbsp;</td>
+                <td class="${speciesSummary.speciesCountChanged ? 'changed' : ''}">${speciesSummary.speciesCount}&nbsp;</td>
+                <td class="${speciesSummary.speciesCountTypeChanged ? 'changed' : ''}">${speciesSummary.speciesCountType}&nbsp;</td>
+                <td class="${speciesSummary.painCategoryChanged ? 'changed' : ''}">${speciesSummary.painCategory}&nbsp;</td>
+                <td class="${speciesSummary.procedureSummaryChanged ? 'changed' : ''}">${speciesSummary.procedureSummary}&nbsp;</td>
+           </tr>
+        </c:forEach>
+    </tbody>
+</table>
+
+<table cellpadding="0" cellspacing="0">
+    <tbody>
+        <tr>
+            <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="0">Procedures:</td>
+        </tr>
+
+        <tr>
+            <th style="width: 50px;">&nbsp;</th>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Nothing Here Yet</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+<table cellpadding="0" cellspacing="0">
+    <tbody>
+        <tr>
+            <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="0">Protocol Exceptions:</td>
+        </tr>
+
+        <tr>
+            <th style="width: 50px;">&nbsp;</th>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Species</td>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Category</td>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Description</td>
+            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Count</td>
+        </tr>
+    
+        <c:forEach items="${protocolSummary.exceptionSummaries}" var="exceptionSummary" varStatus="status">
+            <tr>
+                <th style="width:50px">${status.index + 1}</th>
+                <td class="${exceptionSummary.speciesNameChanged ? 'changed' : ''}">${exceptionSummary.speciesName}</td>
+                <td class="${exceptionSummary.exceptionCategoryChanged ? 'changed' : ''}">${exceptionSummary.exceptionCategory}&nbsp;</td>
+                <td class="${exceptionSummary.exceptionDescriptionChanged ? 'changed' : ''}">${exceptionSummary.exceptionDescription}&nbsp;</td>
+                <td class="${exceptionSummary.exceptionCountChanged ? 'changed' : ''}">${exceptionSummary.exceptionCount}&nbsp;</td>
+           </tr>
+        </c:forEach>
+    </tbody>
+</table>
+
+    
 <%--
 		    <c:if test="${KualiForm.actionHelper.summaryQuestionnaireExist}">
 		        <kra-irb:viewSummaryQuestionnaire />
