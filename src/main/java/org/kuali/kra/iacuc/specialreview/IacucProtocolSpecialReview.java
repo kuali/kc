@@ -27,7 +27,7 @@ public class IacucProtocolSpecialReview extends ProtocolSpecialReview {
     private static final long serialVersionUID = 8844844156781463843L;
 
     public IacucProtocol getSequenceOwner() {
-        return (IacucProtocol) getSequenceOwner();
+        return (IacucProtocol) super.getSequenceOwner();
     }
 
     public void resetPersistenceState() {
