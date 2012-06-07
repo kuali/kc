@@ -39,8 +39,8 @@
     
     <bean id="IacucProtocolAttachmentTypeMaintenanceDocument-EditProtocolAttachmentType" parent="IacucProtocolAttachmentTypeMaintenanceDocument-EditProtocolAttachmentType-parentBean"/>
     <bean id="IacucProtocolAttachmentTypeMaintenanceDocument-EditProtocolAttachmentType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Iacuc Protocol Attachment Type"/>
-        <property name="title" value="Edit Iacuc Protocol Attachment Type"/>
+        <property name="id" value="Edit IACUC Protocol Attachment Type"/>
+        <property name="title" value="Edit IACUC Protocol Attachment Type"/>
         <property name="maintainableItems">
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>

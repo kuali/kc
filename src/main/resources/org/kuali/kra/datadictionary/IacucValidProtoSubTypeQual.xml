@@ -22,7 +22,7 @@
 		<bean id="IacucValidProtoSubTypeQual" parent="IacucValidProtoSubTypeQual-parentBean" />
 		<bean id="IacucValidProtoSubTypeQual-parentBean" abstract="true" parent="BusinessObjectEntry">
 			<property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubTypeQual" />
-			<property name="objectLabel" value="Iacuc Valid Protocol Submission Type Qual" />
+			<property name="objectLabel" value="IACUC Valid Protocol Submission Type Qual" />
 			<property name="inquiryDefinition" >
 				<ref bean="IacucValidProtoSubTypeQual-inquiryDefinition" />
 			</property>
@@ -112,11 +112,11 @@
 		
 		<bean id="IacucValidProtoSubTypeQual-inquiryDefinition" parent="IacucValidProtoSubTypeQual-inquiryDefinition-parentBean" />
 		<bean id="IacucValidProtoSubTypeQual-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-			<property name="title" value="Iacuc Valid Protocol Submission Type Qualifier" />
+			<property name="title" value="IACUC Valid Protocol Submission Type Qualifier" />
 			<property name="inquirySections" >
 				<list>
 					<bean parent="InquirySectionDefinition">
-						<property name="title" value="Iacuc Valid Protocol Submission Type Qualier" />
+						<property name="title" value="IACUC Valid Protocol Submission Type Qualier" />
 						<property name="numberOfColumns" value="1" />
 						<property name="inquiryFields" >
 							<list>
@@ -139,7 +139,7 @@
 		<bean id="IacucValidProtoSubTypeQual-lookupDefinition" parent="IacucValidProtoSubTypeQual-lookupDefinition-parentBean" />
 		<bean id="IacucValidProtoSubTypeQual-lookupDefinition-parentBean"
 			abstract="true" parent="LookupDefinition">
-			<property name="title" value="Iacuc Valid Protocol Submission Type Qualifier Lookup" />
+			<property name="title" value="IACUC Valid Protocol Submission Type Qualifier Lookup" />
 			<property name="menubar"
 				value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 			<property name="defaultSort">
