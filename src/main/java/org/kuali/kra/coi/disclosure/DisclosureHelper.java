@@ -114,7 +114,7 @@ public class DisclosureHelper implements Serializable {
         return GlobalVariables.getUserSession().getPrincipalId();
     }
 
-    private CoiDisclosure getCoiDisclosure() {
+    public CoiDisclosure getCoiDisclosure() {
         CoiDisclosureDocument document = form.getCoiDisclosureDocument();
         if (document == null || document.getCoiDisclosure() == null) {
             throw new IllegalArgumentException("invalid (null) CoiDisclosureDocument in ProtocolForm");
@@ -216,13 +216,8 @@ public class DisclosureHelper implements Serializable {
         this.canEditDisclosureFinancialEntity = canEditDisclosureFinancialEntity;
     }
     private boolean hasCanEditDisclosureFinancialEntityPermission(CoiDisclosure coiDisclosure) {
-        // for now, no one can edit FE's in a master disclosure. So if it's approved, it cannot be edited.
-        if (coiDisclosure.isApprovedDisclosure()) {
-            return false;
-        } else {
-            CoiDisclosureTask task = new CoiDisclosureTask(TaskName.MODIFY_COI_DISCLOSURE, coiDisclosure);
-            return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
-        }
+        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.MODIFY_COI_DISCLOSURE, coiDisclosure);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
     }
 
     public String getConflictHeaderLabel() {
