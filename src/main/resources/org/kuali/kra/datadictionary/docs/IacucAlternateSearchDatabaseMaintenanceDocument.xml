@@ -39,8 +39,8 @@
     
     <bean id="IacucAlternateSearchDatabaseMaintenanceDocument-EditAlternateSearchDatabase" parent="IacucAlternateSearchDatabaseMaintenanceDocument-EditAlternateSearchDatabase-parentBean"/>
     <bean id="IacucAlternateSearchDatabaseMaintenanceDocument-EditAlternateSearchDatabase-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Iacuc Alternate Search Database"/>
-        <property name="title" value="Edit Iacuc Alternate Search Database"/>
+        <property name="id" value="Edit IACUC Alternate Search Database"/>
+        <property name="title" value="Edit IACUC Alternate Search Database"/>
         <property name="maintainableItems">
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="alternateSearchDbCode" p:required="true"/>

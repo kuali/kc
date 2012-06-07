@@ -22,7 +22,7 @@
 		<bean id="IacucValidProtoSubRevType" parent="IacucValidProtoSubRevType-parentBean" />
 		<bean id="IacucValidProtoSubRevType-parentBean" abstract="true" parent="BusinessObjectEntry">
 			<property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubRevType" />
-			<property name="objectLabel" value="Iacuc Valid Protocol Submission Review Type" />
+			<property name="objectLabel" value="IACUC Valid Protocol Submission Review Type" />
 			<property name="inquiryDefinition" >
 				<ref bean="IacucValidProtoSubRevType-inquiryDefinition" />
 			</property>
@@ -64,8 +64,8 @@
 		<bean id="IacucValidProtoSubRevType-iacucProtocolReviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 			<property name="name" value="iacucProtocolReviewTypeCode" />
 			<property name="forceUppercase" value="false" />
-			<property name="label" value="Iacuc Protocol Review Type Code" />
-			<property name="shortLabel" value="Iacuc Protocol Review Type Code" />
+			<property name="label" value="IACUC Protocol Review Type Code" />
+			<property name="shortLabel" value="IACUC Protocol Review Type Code" />
 			<property name="maxLength" value="3" />
 			<property name="validationPattern" >
 				<bean parent="NumericValidationPattern" />
@@ -78,8 +78,8 @@
             	p:keyAttribute="reviewTypeCode"
             	p:labelAttribute="description" />
         	</property>
-			<property name="summary" value="Iacuc Protocol Review Type Code" />
-			<property name="description" value="Iacuc Protocol Review Type Code" />
+			<property name="summary" value="IACUC Protocol Review Type Code" />
+			<property name="description" value="IACUC Protocol Review Type Code" />
 		</bean>
 		
 		<bean id="IacucValidProtoSubRevType-submissionTypeCode" parent="IacucValidProtoSubRevType-submissionTypeCode-parentBean" />
@@ -111,11 +111,11 @@
 		<!-- Business Object Inquiry Definition -->
 		<bean id="IacucValidProtoSubRevType-inquiryDefinition" parent="IacucValidProtoSubRevType-inquiryDefinition-parentBean" />
 		<bean id="IacucValidProtoSubRevType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-			<property name="title" value="Iacuc Valid Protocol Submission Review Type" />
+			<property name="title" value="IACUC Valid Protocol Submission Review Type" />
 			<property name="inquirySections" >
 				<list>
 					<bean parent="InquirySectionDefinition">
-						<property name="title" value="Iacuc Valid Protocol Submission Review Type" />
+						<property name="title" value="IACUC Valid Protocol Submission Review Type" />
 						<property name="numberOfColumns" value="1" />
 						<property name="inquiryFields" >
 							<list>
@@ -137,7 +137,7 @@
 		<bean id="IacucValidProtoSubRevType-lookupDefinition" parent="IacucValidProtoSubRevType-lookupDefinition-parentBean" />
 		<bean id="IacucValidProtoSubRevType-lookupDefinition-parentBean"
 			abstract="true" parent="LookupDefinition">
-			<property name="title" value="Iacuc Valid Protocol Submission Review Type Lookup" />
+			<property name="title" value="IACUC Valid Protocol Submission Review Type Lookup" />
 			<property name="menubar"
 				value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 

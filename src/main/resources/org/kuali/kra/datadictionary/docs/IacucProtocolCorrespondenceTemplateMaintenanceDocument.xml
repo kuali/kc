@@ -52,8 +52,8 @@
     
     <bean id="IacucProtoCorrespTemplMaintenanceDocument-EditIacucProtoCorrespTempl" parent="IacucProtoCorrespTemplMaintenanceDocument-EditIacucProtoCorrespTempl-parentBean" />
     <bean id="IacucProtoCorrespTemplMaintenanceDocument-EditIacucProtoCorrespTempl-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Iacuc Correspondence Template" />
-        <property name="title" value="Edit Iacuc Correspondcence Template" />
+        <property name="id" value="Edit IACUC Correspondence Template" />
+        <property name="title" value="Edit IACUC Correspondcence Template" />
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"
