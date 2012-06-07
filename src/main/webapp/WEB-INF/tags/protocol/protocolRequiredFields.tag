@@ -9,6 +9,8 @@
 
 <c:set var="textAreaFieldName" value="document.protocolList[0].title" />
 <c:set var="nonEmpFlag" value="false" />
+<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyGeneralInfo}" />
+
 
 <kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.protocolList[0].principalInvestigatorId,document.protocolList[0].protocolTypeCode,document.protocolList[0].title,document.protocolList[0].leadUnitNumber,document.protocolHelper.personId,document.protocolList[0].protocolTypeCode*,principalInvestigator*,protocolHelper.principalInvestigator*,document.protocolList[0].title*,protocolHelper.leadUnitNumber*,document.ProtocolTypeCode*,document.activityTypeCode*,document.title,document.protocolList[0].layStatement*" >
 	<div class="tab-container" align="center">
@@ -198,7 +200,7 @@
 	                </th>
 	                
 	                <td width="26%">
-	           				<kul:htmlControlAttribute property="document.protocolList[0].protocolProjectTypeCode" attributeEntry="${protocolAttributes.protocolProjectTypeCode}" readOnly="${readOnlymodifyReferences}" />
+	           				<kul:htmlControlAttribute property="document.protocolList[0].protocolProjectTypeCode" attributeEntry="${protocolAttributes.protocolProjectTypeCode}"  readOnly="${readOnly}" />
 	                </td>
 	                
 					<th width="20%" class="infoline"><div align="center">&nbsp;</th>
