@@ -762,7 +762,8 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
     public boolean isApprovedDisclosure() {
-        return StringUtils.equals(CoiDisclosureStatus.APPROVED, disclosureStatusCode);
+System.out.println("\n\nDDDDDDDDD disclosure for isApproved = " + this + "\n\n");        
+        return StringUtils.equals(CoiDisclosureStatus.APPROVED, getDisclosureStatusCode());
     }
 
     /*
@@ -774,7 +775,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
     
     public boolean isDisapprovedDisclosure() {
-        return StringUtils.equals(CoiDisclosureStatus.DISAPPROVED, disclosureStatusCode);
+        return StringUtils.equals(CoiDisclosureStatus.DISAPPROVED, getDisclosureStatusCode());
     }
 
     public CoiDispositionStatus getCoiDispositionStatus() {
