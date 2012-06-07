@@ -5,8 +5,8 @@
 <%@ attribute name="projectListName" required="true" description="Project list name in master bean" %>
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <c:set var="financialEntityAttributes" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
-              
-              
+<c:set var="canEditDisclosure" value="${KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
+<c:set var="isMasterDisclosure" value="${KualiForm.disclosureHelper.coiDisclosure.approvedDisclosure}" />
                                   
             <%-- New data --%>
             
@@ -63,7 +63,7 @@
 						 	        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton" title="View Entity"/>
                     	        </a>   
                     	    </c:if>         
-							<c:if test="${KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}">		
+							<c:if test="${!isMasterDisclosure && canEditDisclosure}">		
 							    <html:image property="methodToCall.editFinancialEntity.line${festatus.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/>
                     	     </c:if>
