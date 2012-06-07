@@ -41,8 +41,8 @@
     
     <bean id="IacucProtocolCorrespondenceTypeMaintenanceDocument-EditIacucProtocolCorrespondenceType" parent="IacucProtocolCorrespondenceTypeMaintenanceDocument-EditIacucProtocolCorrespondenceType-parentBean"/>
     <bean id="IacucProtocolCorrespondenceTypeMaintenanceDocument-EditIacucProtocolCorrespondenceType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Iacuc Protocol Correspondence Type"/>
-        <property name="title" value="Edit Iacuc Protocol Correspondence Type"/>
+        <property name="id" value="Edit IACUC Protocol Correspondence Type"/>
+        <property name="title" value="Edit IACUC Protocol Correspondence Type"/>
         <property name="maintainableItems">
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="protoCorrespTypeCode" p:required="true"/>
