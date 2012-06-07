@@ -17,7 +17,7 @@
     <bean id="IacucProtocolAttachmentStatus" parent="IacucProtocolAttachmentStatus-parentBean"/>
     <bean abstract="true" id="IacucProtocolAttachmentStatus-parentBean" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentStatus"/>
-		<property name="objectLabel" value="Iacuc Protocol Attachment Status"/>
+		<property name="objectLabel" value="IACUC Protocol Attachment Status"/>
         <property name="inquiryDefinition">
             <ref bean="IacucProtocolAttachmentStatus-inquiryDefinition"/>
         </property>
@@ -84,7 +84,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="IacucProtocolAttachmentStatus-lookupDefinition" parent="IacucProtocolAttachmentStatus-lookupDefinition-parentBean"/>
     <bean abstract="true" id="IacucProtocolAttachmentStatus-lookupDefinition-parentBean" parent="LookupDefinition">
-        <property name="title" value="Iacuc Protocol Attachment Status Lookup"/>
+        <property name="title" value="IACUC Protocol Attachment Status Lookup"/>
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
         <property name="defaultSort">

@@ -22,7 +22,7 @@
 	<bean id="IacucProtocolPersonRole" parent="IacucProtocolPersonRole-parentBean" />
 	<bean id="IacucProtocolPersonRole-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.iacuc.personnel.IacucProtocolPersonRole" />
-		<property name="objectLabel" value="Iacuc Protocol Person Role" />
+		<property name="objectLabel" value="IACUC Protocol Person Role" />
 		<property name="inquiryDefinition" >
 			<ref bean="IacucProtocolPersonRole-inquiryDefinition" />
 		</property>
@@ -50,8 +50,8 @@
 	<bean id="IacucProtocolPersonRole-protocolPersonRoleId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolPersonRoleId" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Iacuc Protocol Person Role Id" />
-		<property name="shortLabel" value="Iacuc Protocol Person Role Id" />
+		<property name="label" value="IACUC Protocol Person Role Id" />
+		<property name="shortLabel" value="IACUC Protocol Person Role Id" />
 		<property name="maxLength" value="12" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
@@ -60,8 +60,8 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="Iacuc Protocol Person Role Id" />
-		<property name="description" value="Iacuc Protocol Person Role Id" />
+		<property name="summary" value="IACUC Protocol Person Role Id" />
+		<property name="description" value="IACUC Protocol Person Role Id" />
 	</bean>
 
 	<bean id="IacucProtocolPersonRole-description" parent="IacucProtocolPersonRole-description-parentBean" />
@@ -125,7 +125,7 @@
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Iacuc Protocol Person Role Id" />
+					<property name="title" value="IACUC Protocol Person Role Id" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
@@ -146,7 +146,7 @@
 	<!-- Business Object Lookup Definition -->
 	<bean id="IacucProtocolPersonRole-lookupDefinition" parent="IacucProtocolPersonRole-lookupDefinition-parentBean" />
 	<bean id="IacucProtocolPersonRole-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Iacuc Protocol Person Roles Lookup" />
+		<property name="title" value="IACUC Protocol Person Roles Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
 		<property name="defaultSort" >

@@ -167,7 +167,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="IacucProtoCorrespTempl-lookupDefinition" parent="IacucProtoCorrespTempl-lookupDefinition-parentBean" />
     <bean id="IacucProtoCorrespTempl-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Iacuc Correspondence Template Lookup" />
+        <property name="title" value="IACUC Correspondence Template Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >

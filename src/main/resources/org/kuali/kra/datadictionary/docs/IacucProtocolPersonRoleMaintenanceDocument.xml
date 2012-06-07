@@ -39,8 +39,8 @@
     
     <bean id="IacucProtocolPersonRoleMaintenanceDocument-EditProtocolPersonRole" parent="IacucProtocolPersonRoleMaintenanceDocument-EditProtocolPersonRole-parentBean"/>
     <bean id="IacucProtocolPersonRoleMaintenanceDocument-EditProtocolPersonRole-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Iacuc Protocol Correspondence Type"/>
-        <property name="title" value="Edit Iacuc Protocol Correspondence Type"/>
+        <property name="id" value="Edit IACUC Protocol Correspondence Type"/>
+        <property name="title" value="Edit IACUC Protocol Correspondence Type"/>
         <property name="maintainableItems">
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="protocolPersonRoleId" p:required="true"/>
