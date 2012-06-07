@@ -40,6 +40,7 @@ public class CoiDisclosureAttachmentTypeValuesFinder extends KeyValuesBase {
      */
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         Collection<CoiAttachmentType> cdaTypes = this.getKeyValuesService().findAll(CoiAttachmentType.class);
         for (CoiAttachmentType cdaType : cdaTypes) {
             keyValues.add(new ConcreteKeyValue(cdaType.getCode(), cdaType.getDescription())); 
