@@ -458,7 +458,7 @@ public class IacucProtocol extends Protocol {
         if (getProtocolProjectType() == null) {
             refreshReferenceObject("protocolProjectType");
         }
-        summary.setProjectType(protocolProjectType.getDescription()); 
+        summary.setProjectType((protocolProjectType != null) ? protocolProjectType.getDescription() : "N/A"); 
         return summary;
     }
 
