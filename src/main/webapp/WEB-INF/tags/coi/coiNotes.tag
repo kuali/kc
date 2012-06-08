@@ -115,8 +115,9 @@
 		            </td>
 	          	</tr>
 	        </kra:permission>
-       		<c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">
-	         	<c:forEach var="coiDisclosureNotepad" items="${KualiForm.document.coiDisclosure.coiDisclosureNotepads}" varStatus="status">
+	        <c:forEach var="coiDisclosureNotepad" items="${KualiForm.document.coiDisclosure.coiDisclosureNotepads}" varStatus="status">
+                <c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">
+	         	
 	         	<c:set var="noteId" value="${coiDisclosureNotepad.id}" />
 	         	<c:set var="permission" value="${canDeleteUpdateNotes[noteId]}" />
 					<c:set var="noteReadOnly" value="${!modifyPermission || !coiDisclosureNotepad.editable}" />
@@ -180,8 +181,8 @@
 							</nobr></div>
 		            	</td>
 		            </tr>
-	        	</c:forEach> 
-	        </c:if>
+                </c:if>          
+	        </c:forEach> 
         </table>
    </div>
 

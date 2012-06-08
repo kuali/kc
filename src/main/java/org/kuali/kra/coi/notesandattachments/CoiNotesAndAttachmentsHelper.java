@@ -195,8 +195,13 @@ public class CoiNotesAndAttachmentsHelper {
         this.viewRestricted = viewRestricted;
     }
     private boolean canViewRestrictedProtocolNotepads() {
-        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE_RESTRICTED_NOTES, getCoiDisclosure());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        //The reporter should never be allowed to view restricted notes
+        if (StringUtils.equals(getUserIdentifier(), getCoiDisclosure().getPersonId())) {
+            return false;
+        } else {
+            CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE_RESTRICTED_NOTES, getCoiDisclosure());
+            return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        }
     }
 
     protected boolean canMaintainCoiDisclosureNotes() {
