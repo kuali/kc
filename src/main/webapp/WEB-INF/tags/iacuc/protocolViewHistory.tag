@@ -20,18 +20,18 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             	    <th class="infoline"><nobr>&nbsp;&nbsp;&nbsp;&nbsp;View Action Date Range:</nobr></th>
                 	<td class="infoline"> 
                     	<nobr>&nbsp;Beginning On&nbsp;
-<%--                       		<kul:htmlControlAttribute property="actionHelper.filteredHistoryStartDate" 
+                       		<kul:htmlControlAttribute property="actionHelper.filteredHistoryStartDate" 
                                                  attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />
---%>                	   	&nbsp;</nobr>
+                	   	&nbsp;</nobr>
                 	</td>
                 	<td class="infoline"> 
                     	<nobr>&nbsp;Ending On&nbsp;
-<%--                       		<kul:htmlControlAttribute property="actionHelper.filteredHistoryEndDate" 
+                       		<kul:htmlControlAttribute property="actionHelper.filteredHistoryEndDate" 
                                                  attributeEntry="${kraAttributeReferenceDummyAttributes.genericDate}" />
---%>                		&nbsp;
+                		&nbsp;
                 		</nobr>
 	                </td>
-<%--    	            <td class="infoline" style="width:90%;text-align:left;">&nbsp;
+    	            <td class="infoline" style="width:90%;text-align:left;">&nbsp;
         	            <html:image property="methodToCall.filterHistory.line${ctr}.anchor${currentTabIndex}"
             	                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-filter.gif' 
                 	                styleClass="tinybutton"/>
@@ -39,11 +39,11 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
                         	        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clear1.gif' 
                             	    styleClass="tinybutton"/>                      
 	                </td>
---%>    	        </tr>
+    	        </tr>
             </tbody>
         </table>
         
-<%--        <table id="historyTable" class="tab" cellpadding="0" cellspacing="0" summary="">
+        <table id="historyTable" class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
                 <tr>
 	                <td class="infoline">&nbsp;</td>
@@ -257,6 +257,6 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             	</tr>
             </tbody>
     	</table>
---%>    </div>
+    </div>
     			
 </kul:innerTab>

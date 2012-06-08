@@ -17,7 +17,11 @@ package org.kuali.kra.protocol.actions;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -2103,33 +2107,33 @@ public abstract class ActionHelper implements Serializable {
 //     
 //        return protocolActions.size() > 0 ? protocolActions.get(0) : null;
 //    }
-//    
-//    /**
-//     * Prepares all protocol actions for being filtered by setting their isInFilterView attribute.
-//     */
-//    public void initFilterDatesView() {
-//        java.util.Date dayBeforeStartDate = null;
-//        java.util.Date dayAfterEndDate = null;
-//
-//        if (filteredHistoryStartDate != null && filteredHistoryEndDate != null) {
-//            dayBeforeStartDate = DateUtils.addDays(filteredHistoryStartDate, -1);
-//            dayAfterEndDate = DateUtils.addDays(filteredHistoryEndDate, 1);
-//        }
-//
-//        for (ProtocolAction protocolAction : getSortedProtocolActions()) {
-//            Timestamp actionDate = protocolAction.getActionDate();
-//            if (dayBeforeStartDate != null && dayAfterEndDate != null) {
-//                protocolAction.setIsInFilterView(actionDate.after(dayBeforeStartDate) && actionDate.before(dayAfterEndDate));
-//            }
-//            else {
-//                protocolAction.setIsInFilterView(true);
-//            }
-//            if (protocolAction.getIsInFilterView()) {
-//                protocolAction.setQuestionnairePrintOptionFromHelper(this);
-//            }
-//        }
-//    }
-//    
+    
+    /**
+     * Prepares all protocol actions for being filtered by setting their isInFilterView attribute.
+     */
+    public void initFilterDatesView() {
+        java.util.Date dayBeforeStartDate = null;
+        java.util.Date dayAfterEndDate = null;
+
+        if (filteredHistoryStartDate != null && filteredHistoryEndDate != null) {
+            dayBeforeStartDate = DateUtils.addDays(filteredHistoryStartDate, -1);
+            dayAfterEndDate = DateUtils.addDays(filteredHistoryEndDate, 1);
+        }
+
+        for (ProtocolAction protocolAction : getSortedProtocolActions()) {
+            Timestamp actionDate = protocolAction.getActionDate();
+            if (dayBeforeStartDate != null && dayAfterEndDate != null) {
+                protocolAction.setIsInFilterView(actionDate.after(dayBeforeStartDate) && actionDate.before(dayAfterEndDate));
+            }
+            else {
+                protocolAction.setIsInFilterView(true);
+            }
+            if (protocolAction.getIsInFilterView()) {
+//TODO                protocolAction.setQuestionnairePrintOptionFromHelper(this);
+            }
+        }
+    }
+    
 //    // All the following methods were refactored into the ProtocolAction, where they belong
 //    
 //    /*
@@ -2227,35 +2231,36 @@ public abstract class ActionHelper implements Serializable {
 //                "protocolActionId", true)).get(0).getProtocol().getSequenceNumber().toString();
 //    }
 //*/
-//
-//    /**
-//     * Prepares, sorts, and returns a list of protocol actions.
-//     * @return
-//     */
-//    public List<ProtocolAction> getSortedProtocolActions() {
-//        List<ProtocolAction> protocolActions = new ArrayList<ProtocolAction>();
-//        for (ProtocolAction protocolAction : form.getProtocolDocument().getProtocol().getProtocolActions()) {
-//            if (protocolAction.getSubmissionNumber() != null && ACTION_TYPE_SUBMISSION_DOC.contains(protocolAction.getProtocolActionTypeCode())) {
-//                protocolAction.setProtocolSubmissionDocs(new ArrayList<ProtocolSubmissionDoc>(getSubmissionDocs(protocolAction)));
-//            }
-//            protocolActions.add(protocolAction);
-//        }
-//        
-//        Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
-//            public int compare(ProtocolAction action1, ProtocolAction action2) {
-//                return action2.getActualActionDate().compareTo(action1.getActualActionDate());
-//            }
-//        });
-//     
-//        return protocolActions;
-//    }
-//    
-//    private Collection<ProtocolSubmissionDoc> getSubmissionDocs(ProtocolAction protocolAction) {
-//        Map<String, Object> fieldValues = new HashMap<String, Object>();
-//        fieldValues.put("protocolNumber", protocolAction.getProtocolNumber());
-//        fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber());
-//        return getBusinessObjectService().findMatchingOrderBy(ProtocolSubmissionDoc.class, fieldValues, "documentId", true);
-//    }
+
+    /**
+     * Prepares, sorts, and returns a list of protocol actions.
+     * @return
+     */
+    public List<ProtocolAction> getSortedProtocolActions() {
+        List<ProtocolAction> protocolActions = new ArrayList<ProtocolAction>();
+        for (ProtocolAction protocolAction : form.getProtocolDocument().getProtocol().getProtocolActions()) {
+//TODO           if (protocolAction.getSubmissionNumber() != null && ACTION_TYPE_SUBMISSION_DOC.contains(protocolAction.getProtocolActionTypeCode())) {
+//TODO               protocolAction.setProtocolSubmissionDocs(new ArrayList<ProtocolSubmissionDoc>(getSubmissionDocs(protocolAction)));
+//TODO            }
+            protocolActions.add(protocolAction);
+        }
+        
+        Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
+            public int compare(ProtocolAction action1, ProtocolAction action2) {
+                return action2.getActualActionDate().compareTo(action1.getActualActionDate());
+            }
+        });
+     
+        return protocolActions;
+    }
+    
+    private Collection<ProtocolSubmissionDoc> getSubmissionDocs(ProtocolAction protocolAction) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("protocolNumber", protocolAction.getProtocolNumber());
+        fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber());
+        return getBusinessObjectService().findMatchingOrderBy(ProtocolSubmissionDoc.class, fieldValues, "documentId", true);
+    }
+
     public ProtocolAction getSelectedProtocolAction() {
         for (ProtocolAction action : getProtocol().getProtocolActions()) {
             if (StringUtils.equals(action.getProtocolActionId().toString(), selectedHistoryItem)) {

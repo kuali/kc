@@ -70,6 +70,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.actions.history.ProtocolHistoryFilterDatesEvent;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolDocument;
@@ -1184,47 +1185,47 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        }        
 //        return attachmentFile;
 //    }
-//    
-//    
-//    
-//    /**
-//     * Filters the actions shown in the History sub-panel, first validating the dates before filtering and refreshing the page.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward filterHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        Date startDate = protocolForm.getActionHelper().getFilteredHistoryStartDate();
-//        Date endDate = protocolForm.getActionHelper().getFilteredHistoryEndDate();
-//        
-//        if (applyRules(new ProtocolHistoryFilterDatesEvent(protocolForm.getProtocolDocument(), startDate, endDate))) {
-//            protocolForm.getActionHelper().initFilterDatesView();
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    /**
-//     * Shows all of the actions in the History sub-panel.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     */
-//    public ActionForward resetHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        protocolForm.getActionHelper().setFilteredHistoryStartDate(null);
-//        protocolForm.getActionHelper().setFilteredHistoryEndDate(null);
-//        protocolForm.getActionHelper().initFilterDatesView();
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
+    
+    
+    
+    /**
+     * Filters the actions shown in the History sub-panel, first validating the dates before filtering and refreshing the page.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward filterHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        Date startDate = protocolForm.getActionHelper().getFilteredHistoryStartDate();
+        Date endDate = protocolForm.getActionHelper().getFilteredHistoryEndDate();
+        
+        if (applyRules(new ProtocolHistoryFilterDatesEvent(protocolForm.getProtocolDocument(), startDate, endDate))) {
+            protocolForm.getActionHelper().initFilterDatesView();
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Shows all of the actions in the History sub-panel.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward resetHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        protocolForm.getActionHelper().setFilteredHistoryStartDate(null);
+        protocolForm.getActionHelper().setFilteredHistoryEndDate(null);
+        protocolForm.getActionHelper().initFilterDatesView();
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
     /**
      * Load a Protocol summary into the summary sub-panel. The protocol summary to load corresponds to the currently selected
