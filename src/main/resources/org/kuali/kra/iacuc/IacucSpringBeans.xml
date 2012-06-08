@@ -75,6 +75,10 @@
                     <property name="taskName" value="iacucProtocolAbandon" />
                 </bean>
                 
+                <bean class="org.kuali.kra.iacuc.auth.AddIacucProtocolBillableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucBillable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolGeneralInfoAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolGeneralInfo" />
                 </bean>

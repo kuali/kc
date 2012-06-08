@@ -188,7 +188,8 @@ public interface PermissionConstants {
      public static final String CREATE_IACUC_RENEWAL = "Create IACUC Renewal";                                      
      public static final String CREATE_IACUC_RENEWAL_AMENDMENT = "Create Renewal with Amendment for an IACUC Protocol";                        
      public static final String DELETE_ANY_IACUC_PROTOCOL = "Delete Any IACUC Protocol";                                                      
-     public static final String DELETE_IACUC_PROTOCOL = "Delete IACUC Protocol";                                                         
+     public static final String DELETE_IACUC_PROTOCOL = "Delete IACUC Protocol";    
+     public static final String EDIT_IACUC_PROTOCOL_BILLABLE = "Edit Iacuc Protocol Billable";
      public static final String IACUC_ADMINISTRATIVE_CORRECT = "IACUC Administrative Corrections";                          
      public static final String MAINTAIN_ANY_IACUC_PROT_ACCESS = "Maintain Any IACUC Protocol Access";                                             
      public static final String MAINTAIN_IACUC_CORR_TEMPLATES = "Maintain IACUC Correspondence Templates";               
