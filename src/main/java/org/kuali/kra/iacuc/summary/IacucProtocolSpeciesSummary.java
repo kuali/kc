@@ -15,10 +15,14 @@
  */
 package org.kuali.kra.iacuc.summary;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 
-public class IacucProtocolSpeciesSummary { 
+public class IacucProtocolSpeciesSummary implements Serializable { 
+
+    private static final long serialVersionUID = 9204826126972393444L;
 
     private Integer speciesId; 
     private String  species;
