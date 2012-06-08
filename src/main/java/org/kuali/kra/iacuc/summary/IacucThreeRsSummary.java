@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.summary;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,9 @@ import org.apache.commons.lang.StringUtils;
  * This class represents a summary view of the "Three R's" or principles of IACUC,
  * (Reduction, Refinement, & Replacement).
  */
-public class IacucThreeRsSummary {
+public class IacucThreeRsSummary implements Serializable {
+
+    private static final long serialVersionUID = -284292353512149490L;
 
     private String reduction;
     private String refinement;
