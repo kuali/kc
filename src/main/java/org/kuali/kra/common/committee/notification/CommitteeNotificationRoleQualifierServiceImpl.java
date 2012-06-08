@@ -41,7 +41,6 @@ public class CommitteeNotificationRoleQualifierServiceImpl implements CommitteeN
         else if (StringUtils.equalsIgnoreCase(qName, KcKimAttributes.COMMITTEESCHEDULE)) {
             qVal = committeeSchedule.getScheduleId();
         }
-System.out.println("\nQQQQQQQQQQQQQQQQQQQQQQQQQQQ getRoleQualifierValue() called, qualifier = " + qualifier.getQualifier() + ", value = " + qVal);        
         return qVal;
     }
 
