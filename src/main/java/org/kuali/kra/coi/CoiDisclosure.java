@@ -762,7 +762,6 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
     public boolean isApprovedDisclosure() {
-System.out.println("\n\nDDDDDDDDD disclosure for isApproved = " + this + "\n\n");        
         return StringUtils.equals(CoiDisclosureStatus.APPROVED, getDisclosureStatusCode());
     }
 
