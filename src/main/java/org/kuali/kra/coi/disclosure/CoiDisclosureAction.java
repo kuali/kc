@@ -140,7 +140,7 @@ public class CoiDisclosureAction extends CoiAction {
         // First validate the questionnaire data
         // TODO maybe add a COI questionnaire specific rule event to the condition below
         List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
-        if ( applyRules(new SaveQuestionnaireAnswerEvent(coiDisclosureDocument, answerHeaders, "disclosureQuestionnaireHelper"))) {
+        if ( applyRules(new SaveQuestionnaireAnswerEvent(coiDisclosureDocument, answerHeaders))) {
             // since Questionnaire data is OK we try to save doc
             actionForward = super.save(mapping, form, request, response);
             // check if doc save went OK
@@ -173,13 +173,15 @@ public class CoiDisclosureAction extends CoiAction {
             // 'view' in master disclosure's 'Disclosures' list
             super.loadDocument((KualiDocumentFormBase) form);
         }
-        ActionForward actionForward = super.execute(mapping, form, request, response);
-        
-        // we will populate questionnaire data after the execution of any dispatched ("methodTocall") methods. This point, right
-        // after the
-        // above super.execute() call works well for that because any such dispatched method has finished executing at the end of
-        // the call.
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        // We reset the "audit activated" flag because the current semantics of <<renderMultipart="true">> 
+        // cause the action form to be simply picked up from the user session (and not recreated) for each new request. 
+        // Thus any flags set on the form during the processing of one request are persistent and visible in any subsequent request.
+        coiDisclosureForm.setAuditActivated(false);
+        
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        // we will populate questionnaire data after the execution of any dispatched "methodTocall" methods. This point, right
+        // after the above super.execute() call works well for that.
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
         // specify conditions to narrow down the range of the execution paths in which questionnaire data is populated
@@ -530,8 +532,7 @@ public class CoiDisclosureAction extends CoiAction {
                 // First validate the questionnaire data
                 // TODO maybe add a COI questionnaire specific rule event to the condition below
                 List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
-                if (applyRules(new SaveQuestionnaireAnswerEvent(coiDisclosureDocument, answerHeaders,
-                    "disclosureQuestionnaireHelper"))) {
+                if (applyRules(new SaveQuestionnaireAnswerEvent(coiDisclosureDocument, answerHeaders))) {
                     // since Questionnaire data is OK we try to save doc
                     getDocumentService().saveDocument(coiDisclosureDocument);
                     // check if doc save went OK
@@ -981,7 +982,7 @@ public class CoiDisclosureAction extends CoiAction {
         // First validate the questionnaire data
         // TODO maybe add a COI questionnaire specific rule event to the condition below
         List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
-        if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders, "disclosureQuestionnaireHelper"))) {
+        if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders))) {
             // since Questionnaire data is OK we try to save doc
             actionForward = super.saveOnClose(mapping, form, request, response);
             // check if doc save went OK
