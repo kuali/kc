@@ -15,10 +15,14 @@
  */
 package org.kuali.kra.iacuc.summary;
 
+import java.io.Serializable;
+
 import org.kuali.kra.iacuc.procedures.IacucProcedure;
 
-public class IacucProcedureSummary { 
+public class IacucProcedureSummary implements Serializable { 
     
+    private static final long serialVersionUID = 5109886893332110100L;
+
     private Integer procedureCode; 
     private Integer procedureCategoryCode; 
     private String procedureDescription; 

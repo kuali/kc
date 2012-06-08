@@ -23,6 +23,8 @@ import org.kuali.kra.protocol.summary.ProtocolSummary;
 
 public class IacucProtocolSummary extends ProtocolSummary {
 
+    private static final long serialVersionUID = -8169452881498847762L;
+
     private String projectType;
     private String layStmt1;
     private String layStmt2;
