@@ -15,18 +15,17 @@
  */
 package org.kuali.kra.iacuc.summary;
 
-import java.sql.Date;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucProtocolAlternateSearchDatabase;
-import org.kuali.kra.protocol.ProtocolAssociate;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
-public class IacucAlternateSearchSummary {
+public class IacucAlternateSearchSummary implements Serializable {
+
+    private static final long serialVersionUID = -6996989015653936693L;
 
     private Integer iacucAltSearchId;
     private String searchDate;
