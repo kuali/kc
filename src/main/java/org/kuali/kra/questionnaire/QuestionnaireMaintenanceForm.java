@@ -61,6 +61,8 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private String value;
     private boolean questionCurrentVersion = true;
 
+    private boolean allQuestionsAreUpToDate = true;
+
     /**
      * Constructs a QuestionnaireMaintenanceForm.
      */
@@ -372,6 +374,16 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
     public void setQuestionCurrentVersion(boolean questionCurrentVersion) {
         this.questionCurrentVersion = questionCurrentVersion;
+    }
+
+
+    public void setAllQuestionsAreUpToDate(boolean allQuestionsAreUpToDate) {
+        this.allQuestionsAreUpToDate = allQuestionsAreUpToDate;
+    }
+
+
+    public boolean isAllQuestionsAreUpToDate() {
+        return allQuestionsAreUpToDate;
     }
 
 
