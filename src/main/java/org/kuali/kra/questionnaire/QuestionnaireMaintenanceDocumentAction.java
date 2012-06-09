@@ -91,6 +91,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         qnForm.setNewQuestionnaireUsage(new QuestionnaireUsage());
         newQuestionnaire.setDocumentNumber(((MaintenanceDocumentBase) qnForm.getDocument()).getDocumentNumber());
         ActionForward forward = super.save(mapping, form, request, response);
+        
+        checkAndSetAllQuestionsAreUpToDate(qnForm);
         return forward;
 
     }
@@ -106,8 +108,29 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         String questions = assembleQuestions(qnForm);
         String usages = assembleUsages(questionnaire);
         qnForm.setEditData(questions + PCP + usages);
-
+        
     }
+    
+    private void checkAndSetAllQuestionsAreUpToDate(QuestionnaireMaintenanceForm qnForm) {
+        Questionnaire questionnaire = ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
+                .getBusinessObject());
+        qnForm.setAllQuestionsAreUpToDate(checkIfAllQuestionsAreUpToDate(questionnaire));
+    }
+
+    private boolean checkIfAllQuestionsAreUpToDate(Questionnaire questionnaire) {
+        boolean retVal = true;
+        for (QuestionnaireQuestion question : questionnaire.getQuestionnaireQuestions()) {
+            if (question.getQuestion() == null || !question.getQuestionRefIdFk().equals(question.getQuestion().getQuestionRefId())) {
+                question.refreshReferenceObject("question");
+            }
+            if( !("N".equals(getVersionedQuestion(question))) ) {
+                retVal = false;
+                break;
+            }
+        }
+        return retVal;
+    }
+
 
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -116,6 +139,10 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         permissionCheckForDocHandler(form);
         ActionForward forward = super.docHandler(mapping, form, request, response);
         setupQuestionAndUsage(form);
+        
+        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
+        checkAndSetAllQuestionsAreUpToDate(qnForm);
+        
         return forward;
     }
 
@@ -345,6 +372,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         String usages = assembleUsages(((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
                 .getBusinessObject()));
         qnForm.setEditData(questions + PCP + usages);
+        
+        checkAndSetAllQuestionsAreUpToDate(qnForm);
 
         return forward;
     }
@@ -365,6 +394,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         setupQuestionAndUsage(form);
         qnForm.setNewQuestionnaireUsage(new QuestionnaireUsage());
         ActionForward forward = super.route(mapping, form, request, response);
+        
+        checkAndSetAllQuestionsAreUpToDate(qnForm);
         return forward;
 
     }
@@ -384,6 +415,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
 //        .setIsFinal(true);
         setupQuestionAndUsage(form);
         ActionForward forward = super.blanketApprove(mapping, form, request, response);
+        
+        checkAndSetAllQuestionsAreUpToDate(qnForm);
         return forward;
     }
 
@@ -439,6 +472,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getDataObject())
                     .setSequenceNumber(1);
         }
+        
+        checkAndSetAllQuestionsAreUpToDate(qnForm);
         return forward;
     }
 
@@ -467,6 +502,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             // this is processed twice, so questionnaireUsage will be reset in qnform.reset
             // that's why we need to save this for restoration later
             questionnaire.setQuestionnaireUsages(new ArrayList<QuestionnaireUsage>());
+           
         }
         return forward;
     }

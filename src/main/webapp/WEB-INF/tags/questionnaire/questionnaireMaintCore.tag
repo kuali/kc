@@ -35,7 +35,15 @@
                 Status:
             </th>
             <td align="left" valign="middle" colspan="4">
-                This questionnaire is up to date. All questions used are the latest versions. 
+            	 <c:choose>
+            		<c:when test="${KualiForm.allQuestionsAreUpToDate}" >
+                		This questionnaire is up to date. All questions used are the latest versions.
+                	</c:when>
+                	
+            		<c:otherwise>
+            			This questionnaire is NOT up to date; one or more questions used are NOT the latest versions.
+            		</c:otherwise>
+            	</c:choose>	 
             </td>
         </tr>
         <tr>
