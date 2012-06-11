@@ -17,8 +17,13 @@ package org.kuali.kra.coi.auth;
 
 
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.role.RoleService;
 
 public class CoiDeleteUpdateAttachmentAuthorizer extends CoiDeleteUpdateNotesAttachmentsAuthorizerBase {
+
+    private RoleService roleService;
+    private IdentityService identityService;
 
     @Override
     public boolean isAuthorized(String userId, CoiDisclosureTask task) {
@@ -27,6 +32,22 @@ public class CoiDeleteUpdateAttachmentAuthorizer extends CoiDeleteUpdateNotesAtt
         String attachmentCreator = attachment.getUpdateUser();
         
         return isAuthorized(userId, task, attachmentCreator);
+    }
+    
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
+    }
+    
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
+    }
+    
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public RoleService getRoleService() {
+        return roleService;
     }
 
 }

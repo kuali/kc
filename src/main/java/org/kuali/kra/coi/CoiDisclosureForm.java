@@ -76,8 +76,10 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
      */
     public void initialize() {
        setDisclosureHelper(new DisclosureHelper(this));
+       
        setCoiNotesAndAttachmentsHelper(new CoiNotesAndAttachmentsHelper(this));
-       coiNotesAndAttachmentsHelper.prepareView();
+       //coiNotesAndAttachmentsHelper.prepareView();
+
        setDisclosureActionHelper(new DisclosureActionHelper(this));
        disclosureActionHelper.prepareView();
        setNotificationHelper(new NotificationHelper<CoiNotificationContext>());

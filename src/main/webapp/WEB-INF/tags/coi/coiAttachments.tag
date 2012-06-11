@@ -427,9 +427,8 @@
 									<html:image property="methodToCall.viewAttachmentCoi.line${itrStatus.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 										alt="View Coi Disclosure Attachment" onclick="excludeSubmitRestriction = true;"/>
-										
+																														
 										<c:if test="${modify and permission}" >
-										
 										<input class="tinybutton" type="image"
 											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif'
 											id="replaceButton${itrStatus.index}"

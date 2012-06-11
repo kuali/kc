@@ -169,21 +169,30 @@ public class CoiDisclosureAction extends CoiAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         String command = request.getParameter("command");
-        if (StringUtils.isNotBlank(command) && MASTER_DISCLOSURE.equals(command)) {
+        //KCCOI-278 added the load line above to fix master disclosure issues but this should really be done 
+        // in all cases.
+        if (StringUtils.isNotBlank(command) && !StringUtils.containsIgnoreCase(command, KewApiConstants.INITIATE_COMMAND)) {
             // 'view' in master disclosure's 'Disclosures' list
             super.loadDocument((KualiDocumentFormBase) form);
         }
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+       
         // We reset the "audit activated" flag because the current semantics of <<renderMultipart="true">> 
         // cause the action form to be simply picked up from the user session (and not recreated) for each new request. 
         // Thus any flags set on the form during the processing of one request are persistent and visible in any subsequent request.
         coiDisclosureForm.setAuditActivated(false);
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
+        
+        // we will populate questionnaire data after the execution of any dispatched ("methodTocall") methods. This point, right
+        // after the
+        // above super.execute() call works well for that because any such dispatched method has finished executing at the end of
+        // the call.
         // we will populate questionnaire data after the execution of any dispatched "methodTocall" methods. This point, right
         // after the above super.execute() call works well for that.
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
+
         // specify conditions to narrow down the range of the execution paths in which questionnaire data is populated
         if ((coiDisclosureDocument.getDocumentHeader().hasWorkflowDocument())
                 && ((!coiDisclosure.isManualEvent()) || (!CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())))) {
@@ -234,7 +243,11 @@ public class CoiDisclosureAction extends CoiAction {
        }
 
         // initialize the permissions for notes and attachments helper
+        //coiDisclosure was becoming null here, so loading the document above.
+        //KCCOI-278 added the line above to fix master disclosure issues but this should really be done 
+        // in all cases.
         coiDisclosureForm.getCoiNotesAndAttachmentsHelper().prepareView();
+
         return actionForward;
 
     }
@@ -286,8 +299,8 @@ public class CoiDisclosureAction extends CoiAction {
                             getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosure));
                     // this coiDisclosure is not in coidisclosureform yet
                     setQuestionnaireStatuses(coiDisclosureForm, coiDisclosure);
-
                     forward = mapping.findForward(UPDATE_DISCLOSURE);
+                    ((CoiDisclosureForm)form).getCoiNotesAndAttachmentsHelper().prepareView();
                 }
             }
 
@@ -310,12 +323,16 @@ public class CoiDisclosureAction extends CoiAction {
            } 
         }
         ((CoiDisclosureForm)form).getDisclosureHelper().prepareView();
+        ((CoiDisclosureForm)form).getCoiNotesAndAttachmentsHelper().prepareView();
+
         if (!coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().isUpdateEvent() 
                 && (coiDisclosureForm.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isInitiated() || coiDisclosureForm.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isSaved())) {
             checkToLoadDisclosureDetails(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(),
                     ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId(),
                     coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
         }
+        //((CoiDisclosureForm)form).getCoiNotesAndAttachmentsHelper().prepareView();
+
         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().refreshReferenceObject("coiDispositionStatus");
 
         return forward;
