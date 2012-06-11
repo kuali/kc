@@ -124,5 +124,23 @@ public class UnitServiceImplTest extends KcUnitTestBase {
         int retVal = unitService.getMaxUnitTreeDepth();
         assertTrue(retVal>1);
     }
+    
+    @Test
+    public void testGetUnitHierarchyForUnit() {
+        List<Unit> units = unitService.getUnitHierarchyForUnit("IN-PERS");
+        assertEquals(6, units.size());
+    }
+    
+    @Test
+    public void testGetUnitHierarchyForUnit2() {
+        List<Unit> units = unitService.getUnitHierarchyForUnit("000001");
+        assertEquals(1, units.size());
+    }
+    
+    @Test
+    public void testGetUnitHierarchyForUnit3() {
+        List<Unit> units = unitService.getUnitHierarchyForUnit("xyz");
+        assertEquals(0, units.size());
+    }
 
 }
