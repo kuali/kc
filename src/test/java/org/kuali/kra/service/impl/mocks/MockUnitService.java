@@ -66,6 +66,28 @@ public class MockUnitService implements UnitService {
         }
         return units;
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.service.UnitService#getUnitHierarchyForUnit(java.lang.String)
+     */
+    public List<Unit> getUnitHierarchyForUnit(String unitNumber) {
+        List<Unit> units = new ArrayList<Unit>();
+        Unit thisUnit = this.getUnit(unitNumber);
+        if (thisUnit != null) {
+            units.addAll(getUnitParentsAndSelf(thisUnit));
+        }
+        return units;
+    }
+    
+    private List<Unit> getUnitParentsAndSelf(Unit unit) {
+        List<Unit> units = new ArrayList<Unit>();
+        if (!StringUtils.isEmpty(unit.getParentUnitNumber())) {
+            units.addAll(getUnitHierarchyForUnit(unit.getParentUnitNumber()));
+        }
+        units.add(unit);
+        return units;
+    }
 
     /**
      * @see org.kuali.kra.service.UnitService#getSubUnits(java.lang.String)
