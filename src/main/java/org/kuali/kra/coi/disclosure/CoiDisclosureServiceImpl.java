@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1578,7 +1582,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         for (CoiDisclosureAttachment coiDisclosureAttachment : masterCoiDisclosure.getCoiDisclosureAttachments()) {
 //            if (!isDisclosureNotePadExist(coiDisclosure, coiDisclosureNotepad)) {
                 // TODO implement the if check when originaldisclosureid is added to notepad
-                CoiDisclosureAttachment copiedCoiDisclosureAttachment = (CoiDisclosureAttachment) ObjectUtils.deepCopy(coiDisclosureAttachment);
+                //CoiDisclosureAttachment copiedCoiDisclosureAttachment = (CoiDisclosureAttachment) ObjectUtils.deepCopy(coiDisclosureAttachment);
+                CoiDisclosureAttachment copiedCoiDisclosureAttachment = copyCoiDisclosureAttachment(coiDisclosureAttachment);
                 copiedCoiDisclosureAttachment.setSequenceNumber(coiDisclosure.getSequenceNumber());
                 copiedCoiDisclosureAttachment.setAttachmentId(null);
                 copiedCoiDisclosureAttachment.setFileId(coiDisclosureAttachment.getFileId());
@@ -1790,5 +1795,40 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
 
 
+    }   
+
+    
+    
+    private CoiDisclosureAttachment copyCoiDisclosureAttachment(CoiDisclosureAttachment attachment) {
+        CoiDisclosureAttachment attachCopy = new CoiDisclosureAttachment();
+        
+        attachCopy.setAttachmentId(attachment.getAttachmentId());
+        attachCopy.setCoiAttachmentType(attachment.getCoiAttachmentType());
+        attachCopy.setCoiDisclosure(attachment.getCoiDisclosure());
+        attachCopy.setCoiDisclosureId(attachment.getCoiDisclosureId());
+        attachCopy.setCoiDisclosureNumber(attachment.getCoiDisclosureNumber());
+        attachCopy.setComments(attachment.getComments());
+        attachCopy.setContactEmailAddress(attachment.getContactEmailAddress());
+        attachCopy.setContactName(attachment.getContactName());
+        attachCopy.setContactPhoneNumber(attachment.getContactPhoneNumber());
+        attachCopy.setCreateTimestamp(attachment.getCreateTimestamp());
+        attachCopy.setDescription(attachment.getDescription());
+        attachCopy.setDocumentId(attachment.getDocumentId());
+        attachCopy.setDocumentStatusCode(attachment.getDocumentStatusCode());
+        attachCopy.setEventTypeCode(attachment.getEventTypeCode());
+        attachCopy.setFileId(attachment.getFileId());
+        attachCopy.setFinancialEntityId(attachment.getFinancialEntityId());
+        attachCopy.setOriginalCoiDisclosureId(attachment.getOriginalCoiDisclosureId());
+        attachCopy.setProjectId(attachment.getProjectId());
+        attachCopy.setSequenceNumber(attachment.getSequenceNumber());
+        attachCopy.setTypeCode(attachment.getTypeCode());
+        
+        attachCopy.setUpdateTimestamp(attachment.getUpdateTimestamp());
+        attachCopy.setUpdateUser(attachment.getUpdateUser());
+        attachCopy.setUpdateUserFullName(attachment.getUpdateUserFullName());
+        attachCopy.setVersionNumber(attachment.getVersionNumber());
+        attachCopy.setObjectId(attachment.getObjectId());
+        
+        return attachCopy;
     }    
 }
