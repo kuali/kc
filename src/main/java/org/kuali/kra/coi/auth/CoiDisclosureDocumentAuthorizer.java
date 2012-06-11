@@ -141,9 +141,18 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
      */
     @Override
     public boolean canSave(Document document, Person user) {
-        return canEdit(document, user);
+        return canEdit(document, user) || canModifyAttachments((CoiDisclosureDocument)document, user) || canModifyNotes((CoiDisclosureDocument)document, user);
     }
     
+    protected boolean canModifyAttachments(CoiDisclosureDocument doc, Person user) {       
+        return canExecuteCoiDisclosureTask(user.getPrincipalId(), doc, TaskName.MAINTAIN_COI_DISCLOSURE_ATTACHMENTS);                                                   
+    }
+    
+    protected boolean canModifyNotes(CoiDisclosureDocument doc, Person user) {                                                                                                
+        return canExecuteCoiDisclosureTask(user.getPrincipalId(), doc, TaskName.MAINTAIN_COI_DISCLOSURE_NOTES);                                                   
+                                                                                          
+    }
+
 //    @Override
 //    public boolean canClose(Document document, Person user) {
 //        return canEdit(document, user);
