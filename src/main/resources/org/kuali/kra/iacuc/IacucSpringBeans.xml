@@ -94,7 +94,7 @@
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolOrganizationsAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolOrganizations" />
                 </bean>                
-
+                
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolOthersAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolOthers" />
                 </bean>
@@ -215,7 +215,13 @@
         </property>
         <property name="sequenceAccessorService">
             <ref bean="sequenceAccessorService" />
-        </property>        
+        </property>     
+        <property name="kcPersonService">
+            <ref bean="kcPersonService"/>
+        </property> 
+        <property name="unitService">
+            <ref bean="unitService"/>
+        </property>           
         <property name="protocolPersonTrainingService">
             <ref bean="iacucProtocolPersonTrainingService" />
         </property>         
