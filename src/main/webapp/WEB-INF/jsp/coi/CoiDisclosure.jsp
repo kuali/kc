@@ -314,7 +314,6 @@
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
-		viewOnly="${KualiForm.editingMode['viewOnly']}"
 		/>
 
 <SCRIPT type="text/javascript">

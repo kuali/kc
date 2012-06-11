@@ -120,7 +120,6 @@ public class CoiNotesAndAttachmentsHelper {
     }
     
     private  void canDeleteUpdateNotes() {
-        getCoiDisclosure().refreshReferenceObject("coiDisclosureNotepads");
         List<CoiDisclosureNotepad> notes = getCoiDisclosure().getCoiDisclosureNotepads();
         for (int i=0; i < notes.size(); i++) {
             CoiDisclosureTask task = new CoiDisclosureDeleteUpdateNoteTask(TaskName.DELETE_UPDATE_NOTE, getCoiDisclosure(), notes.get(i));
@@ -134,7 +133,6 @@ public class CoiNotesAndAttachmentsHelper {
     }
     
     private  void canDeleteUpdateAttachments() {
-        getCoiDisclosure().refreshReferenceObject("coiDisclosureAttachments");
         List<CoiDisclosureAttachment> attachments = getCoiDisclosure().getCoiDisclosureAttachments();
         for (int i=0; i < attachments.size(); i++) {
             CoiDisclosureTask task = new CoiDisclosureDeleteUpdateAttachmentTask(TaskName.DELETE_UPDATE_ATTACHMENT, getCoiDisclosure(), attachments.get(i));
