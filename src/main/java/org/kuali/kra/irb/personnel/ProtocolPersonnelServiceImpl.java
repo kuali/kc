@@ -24,13 +24,17 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonEditableService;
+import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
@@ -42,6 +46,8 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
     private SequenceAccessorService sequenceAccessorService;
     private ProtocolPersonTrainingService protocolPersonTrainingService;
     private PersonEditableService personEditableService;
+    private KcPersonService kcPersonService;
+    private UnitService unitService;
 
     private static final String REFERENCE_PERSON_ROLE = "protocolPersonRole";
     private static final String REFERENCE_PERSON = "person";
@@ -89,6 +95,7 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         }
         protocolPerson.refreshReferenceObject(REFERENCE_PERSON_ROLE);
         getProtocolPersonTrainingService().setTrainedFlag(protocolPerson);
+        populateUnitFromPrimaryDepartmentCode(protocol, protocolPerson);
         protocol.getProtocolPersons().add(protocolPerson);
     }
 
@@ -710,4 +717,52 @@ public class ProtocolPersonnelServiceImpl implements ProtocolPersonnelService {
         this.personEditableService = personEditableService;
     }
 
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
+
+    public UnitService getUnitService() {
+        return unitService;
+    }
+
+
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
+    }
+
+
+    protected void populateUnitFromPrimaryDepartmentCode(Protocol protocol, ProtocolPerson protocolPerson) {
+        if (protocolPerson.getPersonId() != null) {     
+            KcPerson person = getKcPersonService().getKcPersonByPersonId(protocolPerson.getPersonId());
+            String unitNumber = person.getOrganizationIdentifier();
+            if (unitNumber != null) {
+                Unit unit = getUnitService().getUnit(unitNumber);
+                
+                if (unit != null) {
+                    ProtocolUnit newProtocolPersonUnit = new ProtocolUnit();
+                    newProtocolPersonUnit.setUnit(unit);
+                    newProtocolPersonUnit.setUnitName(unit.getUnitName());
+                    newProtocolPersonUnit.setUnitNumber(unit.getUnitNumber());
+                    newProtocolPersonUnit.setProtocolNumber(protocolPerson.getProtocolNumber());
+                    newProtocolPersonUnit.setProtocolPersonId(protocolPerson.getProtocolPersonId());
+                    newProtocolPersonUnit.setPersonId(protocolPerson.getPersonId());
+                    newProtocolPersonUnit.setLeadUnitFlag(true);
+        
+                    protocolPerson.addProtocolUnit(newProtocolPersonUnit);
+                    if (newProtocolPersonUnit.getLeadUnitFlag()) {
+                        protocolPerson.setSelectedUnit(protocolPerson.getProtocolUnits().size() - 1);
+                        setLeadUnit(protocolPerson);
+                    }
+                }
+               
+            }
+        }
+
+    }    
+    
 }
