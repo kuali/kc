@@ -111,6 +111,10 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     private CoiDisclosureStatus coiDisclosureStatus; 
     private CoiDispositionStatus coiDispositionStatus; 
     private CoiDisclosureEventType coiDisclosureEventType;
+    
+    // COI disclosure project 
+    private transient String coiDisclProjectId;
+    private transient String coiDisclProjectTitle;
     @SkipVersioning
     private List<CoiDisclProject> coiDisclProjects; 
 //    private CoiDocuments coiDocuments; 
@@ -431,6 +435,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         this.coiDisclProjects = coiDisclProjects;
     }
 
+    
     /*
     public List<CoiDisclEventProject> getCoiDisclEventProjects() {
         return coiDisclEventProjects;
@@ -489,6 +494,14 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
             && !StringUtils.equals(CoiDisclosureEventType.OTHER, this.getEventTypeCode());
     }
 
+
+    public boolean isSystemEvent() {
+        return ( StringUtils.equals(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, this.getEventTypeCode())
+            || StringUtils.equals(CoiDisclosureEventType.AWARD, this.getEventTypeCode())
+            || StringUtils.equals(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, this.getEventTypeCode())
+            || StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.getEventTypeCode())
+            || StringUtils.equals(CoiDisclosureEventType.IACUC_PROTOCOL, this.getEventTypeCode()) );
+    }
 
     public String getCompleteMessage() {
         String completeMessage = "Disclosure is complete";
@@ -835,5 +848,17 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         this.reporterCreated = reporterCreated;
     }
 
+    public String getCoiDisclProjectId() {
+        return coiDisclProjectId;
+    }
+    public void setCoiDisclProjectId(String coiDisclProjectId) {
+        this.coiDisclProjectId = coiDisclProjectId;
+    }
+    public String getCoiDisclProjectTitle() {
+        return coiDisclProjectTitle;
+    }
+    public void setCoiDisclProjectTitle(String coiDisclProjectTitle) {
+        this.coiDisclProjectTitle = coiDisclProjectTitle;
+    }
  
 }
