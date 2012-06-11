@@ -1565,7 +1565,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         for (CoiDisclosureNotepad coiDisclosureNotepad : masterCoiDisclosure.getCoiDisclosureNotepads()) {
 //            if (!isDisclosureNotePadExist(coiDisclosure, coiDisclosureNotepad)) {
                 // TODO implement the if check when originaldisclosureid is added to notepad
-                CoiDisclosureNotepad copiedCoiDisclosureNotepad = (CoiDisclosureNotepad) ObjectUtils.deepCopy(coiDisclosureNotepad);
+                //CoiDisclosureNotepad copiedCoiDisclosureNotepad = (CoiDisclosureNotepad) ObjectUtils.deepCopy(coiDisclosureNotepad);
+                CoiDisclosureNotepad copiedCoiDisclosureNotepad = copyCoiDisclosureNotepad(coiDisclosureNotepad);
                 copiedCoiDisclosureNotepad.setSequenceNumber(coiDisclosure.getSequenceNumber());
                 copiedCoiDisclosureNotepad.setId(null);
                 if (copiedCoiDisclosureNotepad.getOriginalCoiDisclosureId() == null) {
@@ -1830,5 +1831,35 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         attachCopy.setObjectId(attachment.getObjectId());
         
         return attachCopy;
-    }    
+    }  
+    
+    
+    private CoiDisclosureNotepad copyCoiDisclosureNotepad(CoiDisclosureNotepad notepad) {
+        CoiDisclosureNotepad notesCopy = new CoiDisclosureNotepad();
+        
+        notesCopy.setCoiDisclosure(notepad.getCoiDisclosure());
+        notesCopy.setCoiDisclosureId(notepad.getCoiDisclosureId());
+        notesCopy.setCoiDisclosureNumber(notepad.getCoiDisclosureNumber());
+        notesCopy.setComments(notepad.getComments());
+        notesCopy.setEditable(notepad.isEditable());
+        notesCopy.setEntryNumber(notepad.getEntryNumber());
+        notesCopy.setEventTypeCode(notepad.getEventTypeCode());
+        notesCopy.setFinancialEntityId(notepad.getFinancialEntityId());
+        notesCopy.setId(notepad.getId());
+        notesCopy.setNoteTopic(notepad.getNoteTopic());
+        notesCopy.setObjectId(notepad.getObjectId());
+        notesCopy.setOriginalCoiDisclosure(notepad.getOriginalCoiDisclosure());
+        notesCopy.setOriginalCoiDisclosureId(notepad.getOriginalCoiDisclosureId());
+        notesCopy.setProjectId(notepad.getProjectId());
+        notesCopy.setRestrictedView(notepad.getRestrictedView());
+        notesCopy.setSequenceNumber(notepad.getSequenceNumber());
+        notesCopy.setUpdateTimestamp(notepad.getUpdateTimestamp());
+        notesCopy.setUpdateUser(notepad.getUpdateUser());
+        notesCopy.setUpdateUserFullName(notepad.getUpdateUserFullName());
+        notesCopy.setVersionNumber(notepad.getVersionNumber());
+        
+        return notesCopy;
+    }
 }
+
+
