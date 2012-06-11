@@ -24,7 +24,6 @@ import java.util.Map;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -43,6 +42,7 @@ public class MasterDisclosureBean implements Serializable {
     private List<CoiDisclosureProjectBean> manualProtocolProjects;
     private List<CoiDisclosureProjectBean> manualTravelProjects;
     private List<CoiDisclosureProjectBean> allProjects;
+    private List<CoiDisclosureProjectBean> otherManualProjects;
     private List<AnswerHeader> answerHeaders;
 
     
@@ -54,6 +54,7 @@ public class MasterDisclosureBean implements Serializable {
         manualProposalProjects = new ArrayList<CoiDisclosureProjectBean>();
         manualProtocolProjects = new ArrayList<CoiDisclosureProjectBean>();
         manualTravelProjects = new ArrayList<CoiDisclosureProjectBean>();
+        otherManualProjects = new ArrayList<CoiDisclosureProjectBean>();
         allProjects = new ArrayList<CoiDisclosureProjectBean>();
     }
     
@@ -113,38 +114,47 @@ public class MasterDisclosureBean implements Serializable {
         this.manualProtocolProjects = manualProtocolProjects;
     }
 
+    /*
+     * Cannot use CoiDisclosureEventType.AWARD directly in switch because it is a string. 
+     * Could use a enum with Strings but that would have to match the description field in the CoiDisclosureEventType
+     * table but since it is not the PK, better to use the codes directly.
+     */
     public void addProject(CoiDisclosureProjectBean coiDisclosureProjectBean, String projectTypeCode) {
 //        allProjects.add(coiDisclosureProjectBean);
-        int projectType = Integer.parseInt(projectTypeCode);
-        switch (projectType) {
+        int typeCode = Integer.parseInt(projectTypeCode);
+        switch (typeCode) {
             case 1 :
                 getAwardProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.AWARD));
                 break;
-            case 2:
+            case 2 :
                 getProposalProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL));
                 break;
-            case 3:
+            case 3 :
                 getProtocolProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.IRB_PROTOCOL));
                 break;
-            case 11:
+            case 11 :
                 getManualAwardProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.MANUAL_AWARD));
                 break;
-            case 12:
+            case 12 :
                 getManualProposalProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL));
                 break;
-            case 13:
+            case 13 :
                 getManualProtocolProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL));
                 break;
-            case 15:
+            case 15 :
                 getManualTravelProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.MANUAL_TRAVEL));
                 break;
+            default:
+                getOtherManualProjects().add(coiDisclosureProjectBean);
+                coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.OTHER));
+
         }
     }
 
@@ -175,7 +185,7 @@ public class MasterDisclosureBean implements Serializable {
         projects.add(manualProposalProjects);
         projects.add(manualProtocolProjects);
         projects.add(manualTravelProjects);
-        
+        projects.add(otherManualProjects);
         return projects;
     }
 
@@ -193,6 +203,14 @@ public class MasterDisclosureBean implements Serializable {
 
     public void setManualTravelProjects(List<CoiDisclosureProjectBean> manualTravelProjects) {
         this.manualTravelProjects = manualTravelProjects;
+    }
+
+    public void setOtherManualProjects(List<CoiDisclosureProjectBean> otherManualProjects) {
+        this.otherManualProjects = otherManualProjects;
+    }
+
+    public List<CoiDisclosureProjectBean> getOtherManualProjects() {
+        return otherManualProjects;
     }
 
 
