@@ -104,6 +104,12 @@
             <ref bean="protocolPersonTrainingService" />
         </property>        
         <property name="personEditableService" ref="personEditableService" />
+        <property name="kcPersonService">
+            <ref bean="kcPersonService"/>
+        </property> 
+        <property name="unitService">
+            <ref bean="unitService"/>
+        </property>        
     </bean> 
 
     <bean id="protocolPersonTrainingService" class="org.kuali.kra.irb.personnel.ProtocolPersonTrainingServiceImpl">
