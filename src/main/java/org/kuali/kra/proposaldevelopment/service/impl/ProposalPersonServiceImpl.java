@@ -116,10 +116,10 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         String personDivisionName = null;
         if(proposalPerson != null ) {
             UnitService unitService = KraServiceLocator.getService(UnitService.class);
-            List<Unit> units = unitService.getAllSubUnits(proposalPerson.getHomeUnit());
-            if(units.size()> UNIT_HEIRARCHY_NODE){
+            List<Unit> units = unitService.getUnitHierarchyForUnit(proposalPerson.getHomeUnit());
+            if(units.size() > UNIT_HEIRARCHY_NODE){
                 Unit unit=units.get(UNIT_HEIRARCHY_NODE);
-                personDivisionName=unit.getUnitName();
+                personDivisionName = unit.getUnitName();
             }
         }
         return personDivisionName;

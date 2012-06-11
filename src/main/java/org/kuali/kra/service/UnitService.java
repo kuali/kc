@@ -68,6 +68,14 @@ public interface UnitService {
      * @return the list of all sub-units
      */
     public List<Unit> getAllSubUnits(String unitNumber);
+    
+    /**
+     * 
+     * This method returns the unit hierarch the passed in unit.  Including all the parent units, and the unit itself.
+     * @param unitNumber
+     * @return
+     */
+    public List<Unit> getUnitHierarchyForUnit(String unitNumber);
 
     /**
      * Get all of the Units.
