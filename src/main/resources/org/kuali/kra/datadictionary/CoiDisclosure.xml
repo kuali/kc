@@ -55,6 +55,8 @@
         		<ref bean="CoiDisclosure-reporterCreated" />
 		        <ref bean="CoiDisclosure-person.fullName" />
 		        <ref bean="CoiDisclosure-person.userName" />
+		        <ref bean="CoiDisclProject-coiDisclProjectId" />
+		        <ref bean="CoiDisclProject-coiDisclProjectTitle" />
             </list>
         </property>
     </bean>
@@ -426,6 +428,42 @@
 			value="The EventType for a Disclosure." />
 	</bean>
 
+    <bean id="CoiDisclProject-coiDisclProjectId" parent="CoiDisclProject-coiDisclProjectId-parentBean" />
+    <bean id="CoiDisclProject-coiDisclProjectId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiDisclProjectId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="COI Project Id" />
+        <property name="shortLabel" value="COI Project Id" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="summary" value="COI Project Id" />
+        <property name="description" value="COI Project Id" />
+    </bean>
+
+    <bean id="CoiDisclProject-coiDisclProjectTitle" parent="CoiDisclProject-coiDisclProjectTitle-parentBean" />
+    <bean id="CoiDisclProject-coiDisclProjectTitle-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiDisclProjectTitle" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="COI Project Title" />
+        <property name="shortLabel" value="COI Project Title" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="200" />
+        </property>
+        <property name="summary" value="COI Project Title" />
+        <property name="description" value="COI Project Title" />
+    </bean>    
+
     <!-- Business Object Inquiry Definition -->
     <bean id="CoiDisclosure-inquiryDefinition" parent="CoiDisclosure-inquiryDefinition-parentBean" />
     <bean id="CoiDisclosure-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -482,6 +520,7 @@
             <list>
                 <bean parent="FieldDefinition" p:attributeName="coiDisclosureNumber" 
 					p:forceInquiry="true" />
+                <bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
                 <bean parent="FieldDefinition" p:attributeName="personId" />
                 <bean parent="FieldDefinition" p:attributeName="certifiedBy" />
                 <bean parent="FieldDefinition" p:attributeName="certificationTimestamp" />
@@ -491,6 +530,8 @@
 <!--                 <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" /> -->
                 <bean parent="FieldDefinition" p:attributeName="coiDisclosureEventType.description" />
                 <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
+                <bean parent="FieldDefinition" p:attributeName="coiDisclProjectId" />
+                <bean parent="FieldDefinition" p:attributeName="coiDisclProjectTitle" />
             </list>
         </property>
     </bean>
