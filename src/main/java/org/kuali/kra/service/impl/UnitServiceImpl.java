@@ -127,6 +127,35 @@ public class UnitServiceImpl implements UnitService {
         
         return units;
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.service.UnitService#getUnitHierarchyForUnit(java.lang.String)
+     */
+    public List<Unit> getUnitHierarchyForUnit(String unitNumber) {
+        List<Unit> units = new ArrayList<Unit>();
+        Unit thisUnit = this.getUnit(unitNumber);
+        if (thisUnit != null) {
+            units.addAll(getUnitParentsAndSelf(thisUnit));
+            //units.addAll(getAllSubUnits(unitNumber));
+        }
+        return units;
+    }
+    
+    /**
+     * 
+     * This method returns a List of Units containing all the unit's parents up to the root unit, and includes the unit itself.
+     * @param unit
+     * @return
+     */
+    private List<Unit> getUnitParentsAndSelf(Unit unit) {
+        List<Unit> units = new ArrayList<Unit>();
+        if (!StringUtils.isEmpty(unit.getParentUnitNumber())) {
+            units.addAll(getUnitHierarchyForUnit(unit.getParentUnitNumber()));
+        }
+        units.add(unit);
+        return units;
+    }
 
     /**
      * Sets the businessObjectService attribute value. Injected by Spring.
