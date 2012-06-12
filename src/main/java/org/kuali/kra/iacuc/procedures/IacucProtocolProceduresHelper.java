@@ -16,6 +16,8 @@
 package org.kuali.kra.iacuc.procedures;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
@@ -34,15 +36,36 @@ public class IacucProtocolProceduresHelper implements Serializable{
     protected IacucProtocolForm form;
     
     protected boolean modifyProtocolProcedures = true;
-
+    
+    protected IacucProtocolStudyGroup newIacucProtocolStudyGroup;
+    protected IacucProtocolStudyGroupBean newIacucProtocolStudyGroupBean;
+    protected IacucProcedurePersonResponsible newIacucProcedurePersonResponsible;
+    
+    private List<IacucProcedure> allProcedures;
+  
+    protected int MAX_CATEGORY_COLUMNS = 3;
+    
     public IacucProtocolProceduresHelper(IacucProtocolForm form) {
         setForm(form); 
+        setNewIacucProtocolStudyGroup(new IacucProtocolStudyGroup());
+        setNewIacucProtocolStudyGroupBean(new IacucProtocolStudyGroupBean());
+        setNewIacucProcedurePersonResponsible(new IacucProcedurePersonResponsible());
+        setAllProcedures(new ArrayList<IacucProcedure>());
     }    
+    
     
     public void prepareView() {
         //getForm().populateEditableFields();
         initializePermission(getProtocol());
+        initializeIncludedProceduresAndCategories();
+    }
+    
+    private void initializeIncludedProceduresAndCategories() {
+        setAllProcedures(getIacucProtocolProcedureService().getAllProcedures());
+    }
 
+    protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
+        return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
     }
 
     protected IacucProtocol getProtocol() {
@@ -81,6 +104,48 @@ public class IacucProtocolProceduresHelper implements Serializable{
 
     protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
+    }
+
+    public IacucProtocolStudyGroup getNewIacucProtocolStudyGroup() {
+        return newIacucProtocolStudyGroup;
+    }
+
+    public void setNewIacucProtocolStudyGroup(IacucProtocolStudyGroup newIacucProtocolStudyGroup) {
+        this.newIacucProtocolStudyGroup = newIacucProtocolStudyGroup;
+    }
+
+
+    public List<IacucProcedure> getAllProcedures() {
+        return allProcedures;
+    }
+
+    public void setAllProcedures(List<IacucProcedure> allProcedures) {
+        this.allProcedures = allProcedures;
+    }
+
+
+    public int getMaxCategoriesInAColumn() {
+        return ((int) Math.ceil(getAllProcedures().size() / MAX_CATEGORY_COLUMNS)); 
+    }
+
+
+    public IacucProtocolStudyGroupBean getNewIacucProtocolStudyGroupBean() {
+        return newIacucProtocolStudyGroupBean;
+    }
+
+
+    public void setNewIacucProtocolStudyGroupBean(IacucProtocolStudyGroupBean newIacucProtocolStudyGroupBean) {
+        this.newIacucProtocolStudyGroupBean = newIacucProtocolStudyGroupBean;
+    }
+
+
+    public IacucProcedurePersonResponsible getNewIacucProcedurePersonResponsible() {
+        return newIacucProcedurePersonResponsible;
+    }
+
+
+    public void setNewIacucProcedurePersonResponsible(IacucProcedurePersonResponsible newIacucProcedurePersonResponsible) {
+        this.newIacucProcedurePersonResponsible = newIacucProcedurePersonResponsible;
     }
 
 }

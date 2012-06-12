@@ -27,6 +27,8 @@ public class IacucProcedure extends KraPersistableBusinessObjectBase {
     
     private IacucProcedureCategory iacucProcedureCategory; 
     
+    private boolean procedureSelected;
+    
     public IacucProcedure() { 
 
     } 
@@ -110,6 +112,14 @@ public class IacucProcedure extends KraPersistableBusinessObjectBase {
             return false;
         }
         return true;
+    }
+
+    public boolean isProcedureSelected() {
+        return procedureSelected;
+    }
+
+    public void setProcedureSelected(boolean procedureSelected) {
+        this.procedureSelected = procedureSelected;
     }
     
 }

@@ -28,6 +28,8 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentFilter;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
 import org.kuali.kra.iacuc.protocol.IacucProtocolProjectType;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
@@ -50,8 +52,6 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilter;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
-import org.kuali.kra.protocol.specialreview.ProtocolSpecialReview;
-import org.kuali.kra.protocol.summary.AdditionalInfoSummary;
 import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -93,6 +93,9 @@ public class IacucProtocol extends Protocol {
     private List<IacucProtocolSpecies> iacucProtocolSpeciesList;
     private List<IacucProtocolException> iacucProtocolExceptions;
 
+    private List<IacucProtocolStudyGroup> iacucProtocolStudyGroups;
+    private List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans;
+    
     // lookup field
     private Integer speciesCode; 
     private Integer exceptionCategoryCode; 
@@ -112,6 +115,8 @@ public class IacucProtocol extends Protocol {
         setIacucAlternateSearches(new ArrayList<IacucAlternateSearch>());
         setIacucProtocolCustomDataList(new ArrayList<IacucProtocolCustomData>());
         setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
+        setIacucProtocolStudyGroups(new ArrayList<IacucProtocolStudyGroup>());
+        setIacucProtocolStudyGroupBeans(new ArrayList<IacucProtocolStudyGroupBean>());
         
         initIacucPrinciples();
     } 
@@ -487,6 +492,22 @@ public class IacucProtocol extends Protocol {
             IacucProtocolExceptionSummary newSummary = new IacucProtocolExceptionSummary(exception);
             protocolSummary.getExceptionSummaries().add(newSummary);
         }
+    }
+
+    public List<IacucProtocolStudyGroup> getIacucProtocolStudyGroups() {
+        return iacucProtocolStudyGroups;
+    }
+
+    public void setIacucProtocolStudyGroups(List<IacucProtocolStudyGroup> iacucProtocolStudyGroups) {
+        this.iacucProtocolStudyGroups = iacucProtocolStudyGroups;
+    }
+
+    public List<IacucProtocolStudyGroupBean> getIacucProtocolStudyGroupBeans() {
+        return iacucProtocolStudyGroupBeans;
+    }
+
+    public void setIacucProtocolStudyGroupBeans(List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans) {
+        this.iacucProtocolStudyGroupBeans = iacucProtocolStudyGroupBeans;
     }
 
 }
