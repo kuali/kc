@@ -23,6 +23,7 @@ import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.IacucSpeciesCountType;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class IacucProtocolSpecies extends ProtocolAssociate { 
     
@@ -45,6 +46,8 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
     private IacucPainCategory iacucPainCategory;
     
     private List<IacucProtocolException> iacucProtocolExceptions; 
+    
+    private transient String groupAndSpecies;
     
     public IacucProtocolSpecies() { 
         setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
@@ -206,6 +209,14 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
             refreshReferenceObject("iacucPainCategory");
         }
         return iacucPainCategory.getPainCategory();
+    }
+
+    public String getGroupAndSpecies() {
+        if(ObjectUtils.isNull(iacucSpecies)) {
+            this.refreshReferenceObject("iacucSpecies");
+        }
+        this.groupAndSpecies = speciesGroup.concat(" : ").concat(iacucSpecies.getSpeciesName());
+        return groupAndSpecies;
     }
 
 }
