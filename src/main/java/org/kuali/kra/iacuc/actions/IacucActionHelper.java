@@ -28,6 +28,7 @@ import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolVersionService;
+import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveBean;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteBean;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
@@ -55,6 +56,7 @@ import org.kuali.kra.protocol.ProtocolVersionService;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
+import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
@@ -90,12 +92,7 @@ public class IacucActionHelper extends ActionHelper {
      */
     private boolean canDeleteIacucProtocol;
     private boolean canDeleteIacucProtocolUnavailable;
-    private boolean canAdministrativelyApprove;
-    private boolean canAdministrativelyApproveUnavailable;
-    private boolean canAdministrativelyMarkIncomplete;
-    private boolean canAdministrativelyMarkIncompleteUnavailable;
-    private boolean canAdministrativelyWithdraw;
-    private boolean canAdministrativelyWithdrawUnavailable;
+    
     private boolean canReviewNotRequired;
     private boolean canReviewNotRequiredUnavailable;
     private boolean canNotifyIacuc = false;
@@ -153,7 +150,6 @@ public class IacucActionHelper extends ActionHelper {
      * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
      */
     private void initIacucSpecificActionBeanTaskMap() {
-        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_WITHDRAW, getProtocolWithdrawBean());
         actionBeanTaskMap.put(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION, iacucProtocolModifySubmissionBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_TABLE, iacucProtocolTableBean);
         actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_TO_COMMITTEE, protocolAssignCmtBean);
@@ -246,17 +242,8 @@ public class IacucActionHelper extends ActionHelper {
 
         canSubmitProtocol = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL);
         canSubmitProtocolUnavailable = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE);
-        canWithdraw = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW);
-        canWithdrawUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE);
-
+       
         // IACUC-specific actions
-        canAssignCmt = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE);
-        canDeleteIacucProtocol = hasPermission(TaskName.DELETE_IACUC_PROTOCOL);
-        canDeleteIacucProtocolUnavailable = hasPermission(TaskName.DELETE_IACUC_PROTOCOL_UNAVAILABLE);
-        canAdministrativelyApprove = hasPermission(TaskName.ADMIN_APPROVE_IACUC_PROTOCOL);
-        canAdministrativelyApproveUnavailable = hasPermission(TaskName.ADMIN_APPROVE_IACUC_PROTOCOL_UNAVAILABLE);
-        canAdministrativelyWithdraw = hasPermission(TaskName.ADMIN_WITHDRAW_IACUC_PROTOCOL);
-        canAdministrativelyWithdrawUnavailable = hasPermission(TaskName.ADMIN_WITHDRAW_IACUC_PROTOCOL_UNAVAILABLE);
         canNotifyIacuc = hasPermission(TaskName.IACUC_NOTIFY_COMMITTEE);
         canNotifyIacucUnavailable = hasPermission(TaskName.IACUC_NOTIFY_COMMITTEE_UNAVAILABLE);
         canHold = hasPermission(TaskName.IACUC_PROTOCOL_HOLD);
@@ -271,8 +258,7 @@ public class IacucActionHelper extends ActionHelper {
         canIacucAcknowledgeUnavailable = hasPermission(TaskName.IACUC_ACKNOWLEDGEMENT_UNAVAILABLE);
         canIacucRequestDeactivate = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE);
         canIacucRequestDeactivateUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE_UNAVAILABLE);
-        canAdministrativelyMarkIncomplete = hasPermission(TaskName.ADMIN_INCOMPLETE_IACUC_PROTOCOL);
-        canAdministrativelyMarkIncompleteUnavailable = hasPermission(TaskName.ADMIN_INCOMPLETE_IACUC_PROTOCOL_UNAVAILABLE);
+        
         canDesignatedMemberApproval = hasPermission(TaskName.IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL);
         canDesignatedMemberApprovalUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL_UNAVAILABLE);
         canHold = hasPermission(TaskName.IACUC_PROTOCOL_HOLD);
@@ -462,30 +448,6 @@ public class IacucActionHelper extends ActionHelper {
         return canDeleteIacucProtocolUnavailable;
     }
     
-    public boolean getCanAdministrativelyApprove() {
-        return canAdministrativelyApprove;
-    }
-    
-    public boolean getCanAdministrativelyApproveUnavailable() {
-        return canAdministrativelyApproveUnavailable;
-    }
-    
-    public boolean getCanAdministrativelyMarkIncomplete() {
-        return canAdministrativelyMarkIncomplete;
-    }
-    
-    public boolean getCanAdministrativelyMarkIncompleteUnavailable() {
-        return canAdministrativelyMarkIncompleteUnavailable;
-    }
-    
-    public boolean getCanAdministrativelyWithdraw() {
-        return canAdministrativelyWithdraw;
-    }
-    
-    public boolean getCanAdministrativelyWithdrawUnavailable() {
-        return canAdministrativelyWithdrawUnavailable;
-    }
-    
     public boolean getCanReviewNotRequired() {
         return canReviewNotRequired;
     }
@@ -540,13 +502,13 @@ public class IacucActionHelper extends ActionHelper {
 
     @Override
     protected IacucProtocolTask createNewAmendRenewDeleteTaskInstanceHook(Protocol protocol) {
-        return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_AMEND_RENEW_DELETE, (IacucProtocol) protocol);
+        return new IacucProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, (IacucProtocol) protocol);
     }
     
 
     @Override
     protected IacucProtocolTask createNewAmendRenewDeleteUnavailableTaskInstanceHook(Protocol protocol) {
-        return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE, (IacucProtocol) protocol);
+        return new IacucProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
     @Override
@@ -656,12 +618,12 @@ public class IacucActionHelper extends ActionHelper {
 
     @Override
     protected ProtocolTask getNewWithdrawProtocolTaskInstanceHook(Protocol protocol) {
-        return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_WITHDRAW, (IacucProtocol) protocol);
+        return new IacucProtocolTask(TaskName.PROTOCOL_WITHDRAW, (IacucProtocol) protocol);
     }
 
     @Override
-    protected ProtocolTask getNewWithdrawProtocolTaskInstanceUnavailableHook(Protocol protocol) {
-        return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_WITHDRAW_UNAVAILABLE, (IacucProtocol) protocol);
+    protected ProtocolTask getNewWithdrawProtocolUnavailableTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.PROTOCOL_WITHDRAW_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
     @Override
@@ -716,5 +678,46 @@ public class IacucActionHelper extends ActionHelper {
         return getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
     }
 
+    @Override
+    protected String getAdminApprovalProtocolActionTypeHook() {
+        return IacucProtocolActionType.ADMINISTRATIVE_APPROVAL;
+    }
+
+    @Override
+    protected ProtocolApproveBean getNewProtocolApproveBeanInstanceHook(ActionHelper actionHelper, String errorPropertyKey) {
+        return new IacucProtocolApproveBean((IacucActionHelper) actionHelper, errorPropertyKey);
+    }
+
+    @Override
+    protected ProtocolTask getNewAdminApproveProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.ADMIN_APPROVE_PROTOCOL, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolTask getNewAdminApproveUnavailableProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.ADMIN_APPROVE_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolTask getNewAdminWithdrawProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.ADMIN_WITHDRAW_PROTOCOL, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolTask getNewAdminWithdrawUnavailableProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.ADMIN_WITHDRAW_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolTask getNewAdminMarkIncompleteProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.ADMIN_INCOMPLETE_PROTOCOL, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolTask getNewAdminMarkIncompleteUnavailableProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.ADMIN_INCOMPLETE_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
+    }
+
+    
 }
 

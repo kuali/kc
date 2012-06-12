@@ -22,11 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.drools.brms.FactBean;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDao;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionType;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kim.api.identity.Person;
@@ -387,5 +390,20 @@ return false;
 //        }
 //        return revisionSubmission;
 //    }
+    
+    
+    // Check if submission status is "Submitted to Committee" if committee selected, or "Pending" if committee not selected.
+    public boolean getSubmissionStatusForAdminAction() {
+        boolean retVal;
+        if(StringUtils.isNotBlank(this.protocol.getProtocolSubmission().getCommitteeId())) {
+            retVal = StringUtils.equals(this.submissionStatusCode, IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+        }
+        else {
+            retVal = StringUtils.equals(this.submissionStatusCode, IacucProtocolSubmissionStatus.PENDING);
+        }
+        
+        return retVal;
+    }
+    
 
 }
