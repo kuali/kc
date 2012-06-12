@@ -265,5 +265,8 @@ public abstract class ProtocolWithdrawServiceImpl implements ProtocolWithdrawSer
     public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
         this.protocolOnlineReviewService = protocolOnlineReviewService;
     }
+
+    // new addition developed for IACUC, has to be backfitted to IRB
+    public abstract ProtocolDocument administrativelyWithdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception;
  
 }

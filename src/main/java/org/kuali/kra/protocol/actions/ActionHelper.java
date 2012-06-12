@@ -33,6 +33,7 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.meeting.ProtocolVoteAbstainee;
@@ -220,6 +221,19 @@ public abstract class ActionHelper implements Serializable {
     protected boolean canAddSuspendReviewerComments;
     protected boolean canAddTerminateReviewerComments;
     
+    
+    // new addition that needs to be backfitted to IRB as well
+    private boolean canPerformAdminDetermination;
+    private boolean canPerformAdminDeterminationUnavailable;
+    private boolean canAdministrativelyApprove;
+    private boolean canAdministrativelyApproveUnavailable;
+    private boolean canAdministrativelyMarkIncomplete;
+    private boolean canAdministrativelyMarkIncompleteUnavailable;
+    private boolean canAdministrativelyWithdraw;
+    private boolean canAdministrativelyWithdrawUnavailable;
+    
+    
+    
     protected ProtocolSubmitAction protocolSubmitAction;
     protected ProtocolWithdrawBean protocolWithdrawBean;
     protected ProtocolRequestBean protocolCloseRequestBean;
@@ -238,6 +252,10 @@ public abstract class ActionHelper implements Serializable {
     protected ProtocolApproveBean protocolFullApprovalBean;
     protected ProtocolApproveBean protocolExpeditedApprovalBean;
     protected ProtocolApproveBean protocolResponseApprovalBean;
+    
+    private ProtocolApproveBean protocolAdminApprovalBean;
+    private ProtocolWithdrawBean protocolAdminWithdrawBean;
+    
     protected ProtocolGenericActionBean protocolDisapproveBean;
     protected ProtocolGenericActionBean protocolSMRBean;
     protected ProtocolGenericActionBean protocolSRRBean;
@@ -324,6 +342,10 @@ public abstract class ActionHelper implements Serializable {
     protected boolean hideSubmissionReviewerName;
     protected boolean hideReviewerNameForAttachment;
     protected ProtocolCorrespondence protocolCorrespondence;
+    
+    
+    
+   
 
     /**
      * Constructs an ActionHelper.
@@ -363,6 +385,11 @@ public abstract class ActionHelper implements Serializable {
 //                Constants.PROTOCOL_EXPEDITED_APPROVAL_ACTION_PROPERTY_KEY);
 //        protocolResponseApprovalBean = buildProtocolApproveBean(ProtocolActionType.RESPONSE_APPROVAL, 
 //                Constants.PROTOCOL_RESPONSE_APPROVAL_ACTION_PROPERTY_KEY);
+            
+        protocolAdminApprovalBean = buildProtocolApproveBean(getAdminApprovalProtocolActionTypeHook(), Constants.PROTOCOL_ADMIN_APPROVAL_ACTION_PROPERTY_KEY);
+        protocolAdminWithdrawBean = getNewProtocolWithdrawBeanInstanceHook(this);
+
+// TODO *********commented the code below during IACUC refactoring*********         
 //        protocolDisapproveBean = buildProtocolGenericActionBean(ProtocolActionType.DISAPPROVED, 
 //                Constants.PROTOCOL_DISAPPROVE_ACTION_PROPERTY_KEY);
 //        protocolSMRBean = buildProtocolGenericActionBean(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
@@ -389,6 +416,7 @@ public abstract class ActionHelper implements Serializable {
 //                Constants.PROTOCOL_IRB_ACKNOWLEDGEMENT_ACTION_PROPERTY_KEY);
         
         protocolAbandonBean = buildProtocolGenericActionBean(getAbandonActionTypeHook(), getAbandonPropertyKeyHook());//buildProtocolAbandonBeanHook();
+        
  
 // TODO *********commented the code below during IACUC refactoring*********         
 //        protocolAdminCorrectionBean = createAdminCorrectionBean();
@@ -432,6 +460,8 @@ public abstract class ActionHelper implements Serializable {
 //        initPrintQuestionnaire();
     }
     
+    protected abstract String getAdminApprovalProtocolActionTypeHook();
+
     protected abstract ProtocolWithdrawBean getNewProtocolWithdrawBeanInstanceHook(ActionHelper actionHelper);
 
     protected abstract ProtocolNotifyCommitteeBean getNewProtocolNotifyCommitteeBeanInstanceHook(ActionHelper actionHelper);
@@ -500,6 +530,10 @@ public abstract class ActionHelper implements Serializable {
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_UNDO_LAST_ACTION, undoLastActionBean);
         
         actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW, protocolWithdrawBean);
+        
+        actionBeanTaskMap.put(TaskName.ADMIN_APPROVE_PROTOCOL, protocolAdminApprovalBean);
+        actionBeanTaskMap.put(TaskName.ADMIN_WITHDRAW_PROTOCOL, protocolAdminWithdrawBean);
+        
     }
     
     
@@ -540,25 +574,24 @@ public abstract class ActionHelper implements Serializable {
         protected abstract Class<? extends ReviewCommentsService> getReviewCommentsServiceClassHook();  
 
         
-// TODO *********commented the code below during IACUC refactoring********* 
-//    private ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, String errorPropertyKey) throws Exception {
-//        
-//        ProtocolApproveBean bean = new ProtocolApproveBean(this, errorPropertyKey);
-//        
-//        bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-////        bean.getReviewAttachmentsBean().setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
-////        bean.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(bean.getReviewCommentsBean().getReviewComments()));            
-//       ProtocolAction protocolAction = findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
-//        if (protocolAction != null) {
-//            bean.setComments(protocolAction.getComments());
-//            bean.setActionDate(new Date(protocolAction.getActionDate().getTime()));
-//        }
-//        bean.setApprovalDate(buildApprovalDate(getProtocol()));
-//        bean.setExpirationDate(buildExpirationDate(getProtocol(), bean.getApprovalDate()));
-//        return bean;
-//    }
+ 
+    private ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, String errorPropertyKey) throws Exception {        
+        ProtocolApproveBean bean = getNewProtocolApproveBeanInstanceHook(this, errorPropertyKey);       
+        bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        
+        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
+        if (protocolAction != null) {
+            bean.setComments(protocolAction.getComments());
+            bean.setActionDate(new Date(protocolAction.getActionDate().getTime()));
+        }
+        bean.setApprovalDate(buildApprovalDate(getProtocol()));
+        bean.setExpirationDate(buildExpirationDate(getProtocol(), bean.getApprovalDate()));
+        return bean;
+    }
 
         
+    protected abstract ProtocolApproveBean getNewProtocolApproveBeanInstanceHook(ActionHelper actionHelper, String errorPropertyKey);
+
     /**
      * Builds an approval date, defaulting to the approval date from the protocol.
      * 
@@ -868,6 +901,15 @@ public abstract class ActionHelper implements Serializable {
 //        canPermitDataAnalysisUnavailable = hasPermitDataAnalysisUnavailablePermission();
 //        canMakeAdminCorrection = hasAdminCorrectionPermission();
 //        canMakeAdminCorrectionUnavailable = hasAdminCorrectionUnavailablePermission();
+        
+        canAdministrativelyApprove = hasAdministrativelyApprovePermission();
+        canAdministrativelyApproveUnavailable = hasAdministrativelyApproveUnavailablePermission();
+        canAdministrativelyWithdraw = hasAdministrativelyWithdrawPermission();
+        canAdministrativelyWithdrawUnavailable = hasAdministrativelyWithdrawUnavailablePermission();
+        canAdministrativelyMarkIncomplete = hasAdministrativelyMarkIncompletePermission();
+        canAdministrativelyMarkIncompleteUnavailable = hasAdministrativelyMarkIncompleteUnavailablePermission();
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        canRecordCommitteeDecision = hasRecordCommitteeDecisionPermission();
 //        canRecordCommitteeDecisionUnavailable = hasRecordCommitteeDecisionUnavailablePermission();
 //        canEnterRiskLevel = hasEnterRiskLevelPermission();
@@ -912,7 +954,59 @@ public abstract class ActionHelper implements Serializable {
 //        initAmendmentBeans();
 //        initPrintQuestionnaire();
     }
-//    
+    
+    
+    private boolean hasAdministrativelyApprovePermission() {
+        ProtocolTask task = getNewAdminApproveProtocolTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+
+    protected abstract ProtocolTask getNewAdminApproveProtocolTaskInstanceHook(Protocol protocol);
+    
+    private boolean hasAdministrativelyApproveUnavailablePermission() {
+        ProtocolTask task = getNewAdminApproveUnavailableProtocolTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+
+    protected abstract ProtocolTask getNewAdminApproveUnavailableProtocolTaskInstanceHook(Protocol protocol);
+    
+    
+    
+    
+    private boolean hasAdministrativelyWithdrawPermission() {
+        ProtocolTask task = getNewAdminWithdrawProtocolTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+
+    protected abstract ProtocolTask getNewAdminWithdrawProtocolTaskInstanceHook(Protocol protocol);
+    
+    private boolean hasAdministrativelyWithdrawUnavailablePermission() {
+        ProtocolTask task = getNewAdminWithdrawUnavailableProtocolTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+
+    protected abstract ProtocolTask getNewAdminWithdrawUnavailableProtocolTaskInstanceHook(Protocol protocol);
+    
+    
+    
+    
+    private boolean hasAdministrativelyMarkIncompletePermission() {
+        ProtocolTask task = getNewAdminMarkIncompleteProtocolTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+
+    protected abstract ProtocolTask getNewAdminMarkIncompleteProtocolTaskInstanceHook(Protocol protocol);
+    
+    private boolean hasAdministrativelyMarkIncompleteUnavailablePermission() {
+        ProtocolTask task = getNewAdminMarkIncompleteUnavailableProtocolTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+
+    protected abstract ProtocolTask getNewAdminMarkIncompleteUnavailableProtocolTaskInstanceHook(Protocol protocol);
+    
+    
+    
+// TODO *********commented the code below during IACUC refactoring*********   
 //    /**
 //     * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
 //     */
@@ -1068,11 +1162,11 @@ public abstract class ActionHelper implements Serializable {
 
     
     protected boolean hasWithdrawUnavailablePermission() {
-        ProtocolTask task = getNewWithdrawProtocolTaskInstanceUnavailableHook(getProtocol());
+        ProtocolTask task = getNewWithdrawProtocolUnavailableTaskInstanceHook(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
-    protected abstract ProtocolTask getNewWithdrawProtocolTaskInstanceUnavailableHook(Protocol protocol);
+    protected abstract ProtocolTask getNewWithdrawProtocolUnavailableTaskInstanceHook(Protocol protocol);
     
     
 // TODO *********commented the code below during IACUC refactoring********* 
@@ -1920,6 +2014,92 @@ public abstract class ActionHelper implements Serializable {
 //        return canEnterRiskLevel;
 //    }
     
+    
+  
+
+    public boolean getCanPerformAdminDetermination() {
+        return canPerformAdminDetermination;
+    }
+
+    public void setCanPerformAdminDetermination(boolean canPerformAdminDetermination) {
+        this.canPerformAdminDetermination = canPerformAdminDetermination;
+    }
+
+    public boolean getCanPerformAdminDeterminationUnavailable() {
+        return canPerformAdminDeterminationUnavailable;
+    }
+
+    public void setCanPerformAdminDeterminationUnavailable(boolean canPerformAdminDeterminationUnavailable) {
+        this.canPerformAdminDeterminationUnavailable = canPerformAdminDeterminationUnavailable;
+    }
+
+    public boolean getCanAdministrativelyApprove() {
+        return canAdministrativelyApprove;
+    }
+
+    public void setCanAdministrativelyApprove(boolean canAdministrativelyApprove) {
+        this.canAdministrativelyApprove = canAdministrativelyApprove;
+    }
+
+    public boolean getCanAdministrativelyApproveUnavailable() {
+        return canAdministrativelyApproveUnavailable;
+    }
+
+    public void setCanAdministrativelyApproveUnavailable(boolean canAdministrativelyApproveUnavailable) {
+        this.canAdministrativelyApproveUnavailable = canAdministrativelyApproveUnavailable;
+    }
+
+    public boolean getCanAdministrativelyMarkIncomplete() {
+        return canAdministrativelyMarkIncomplete;
+    }
+
+    public void setCanAdministrativelyMarkIncomplete(boolean canAdministrativelyMarkIncomplete) {
+        this.canAdministrativelyMarkIncomplete = canAdministrativelyMarkIncomplete;
+    }
+
+    public boolean getCanAdministrativelyMarkIncompleteUnavailable() {
+        return canAdministrativelyMarkIncompleteUnavailable;
+    }
+
+    public void setCanAdministrativelyMarkIncompleteUnavailable(boolean canAdministrativelyMarkIncompleteUnavailable) {
+        this.canAdministrativelyMarkIncompleteUnavailable = canAdministrativelyMarkIncompleteUnavailable;
+    }
+
+    public boolean getCanAdministrativelyWithdraw() {
+        return canAdministrativelyWithdraw;
+    }
+
+    public void setCanAdministrativelyWithdraw(boolean canAdministrativelyWithdraw) {
+        this.canAdministrativelyWithdraw = canAdministrativelyWithdraw;
+    }
+
+    public boolean getCanAdministrativelyWithdrawUnavailable() {
+        return canAdministrativelyWithdrawUnavailable;
+    }
+
+    public void setCanAdministrativelyWithdrawUnavailable(boolean canAdministrativelyWithdrawUnavailable) {
+        this.canAdministrativelyWithdrawUnavailable = canAdministrativelyWithdrawUnavailable;
+    }
+    
+    
+    
+
+    public void setProtocolAdminWithdrawBean(ProtocolWithdrawBean protocolAdminWithdrawBean) {
+        this.protocolAdminWithdrawBean = protocolAdminWithdrawBean;
+    }
+
+    public ProtocolWithdrawBean getProtocolAdminWithdrawBean() {
+        return protocolAdminWithdrawBean;
+    }
+
+    public void setProtocolAdminApprovalBean(ProtocolApproveBean protocolAdminApprovalBean) {
+        this.protocolAdminApprovalBean = protocolAdminApprovalBean;
+    }
+
+    public ProtocolApproveBean getProtocolAdminApprovalBean() {
+        return protocolAdminApprovalBean;
+    }
+
     public boolean getCanMakeAdminCorrection() {
         return canMakeAdminCorrection;
     }
