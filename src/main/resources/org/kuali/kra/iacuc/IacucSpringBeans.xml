@@ -259,7 +259,8 @@
         </property>
     </bean>
     
-    <bean id="iacucProtocolPersonTrainingService" class="org.kuali.kra.protocol.personnel.ProtocolPersonTrainingServiceImpl">
+    
+    <bean id="iacucProtocolPersonTrainingService" class="org.kuali.kra.iacuc.personnel.IacucProtocolPersonTrainingServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -666,6 +667,18 @@
     </bean>
     <bean id="iacucProtocolActionTypeToCorrespondenceTemplateService" class="org.kuali.kra.iacuc.actions.correspondence.IacucProtocolActionTypeToCorrespondenceTemplateServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+
+
+    <bean id="iacucProtocolProcedureService"
+        class="org.kuali.kra.iacuc.procedures.IacucProtocolProcedureServiceImpl" scope="prototype">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="iacucProtocolPersonTrainingService">
+            <ref bean="iacucProtocolPersonTrainingService" />
+        </property>         
+        <property name="sequenceAccessorService">
+            <ref bean="sequenceAccessorService" />
+        </property>        
     </bean>
 
 </beans>

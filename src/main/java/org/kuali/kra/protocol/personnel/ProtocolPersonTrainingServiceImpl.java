@@ -26,7 +26,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 
-public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTrainingService {
+public abstract class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTrainingService {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonTrainingServiceImpl.class);
     private static final String PERSON_ID_FIELD = "personId";
@@ -72,6 +72,13 @@ public class ProtocolPersonTrainingServiceImpl implements ProtocolPersonTraining
             }
         }
         return false;        
+    }
+
+    public List<PersonTraining> getPersonTrainingDetails(String personId) {
+        Map<String, Object> matchingKeys = new HashMap<String, Object>();
+        matchingKeys.put(PERSON_ID_FIELD, personId);
+        matchingKeys.put(ACTIVE_FLAG_FIELD, IS_ACTIVE_VALUE);
+        return (List<PersonTraining>) getBusinessObjectService().findMatchingOrderBy(PersonTraining.class, matchingKeys, FOLLOWUP_DATE_FIELD, false);
     }
     
     /**

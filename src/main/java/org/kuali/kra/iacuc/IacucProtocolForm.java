@@ -32,6 +32,7 @@ import org.kuali.kra.iacuc.onlinereview.IacucOnlineReviewsActionHelper;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.permission.IacucPermissionsHelper;
 import org.kuali.kra.iacuc.personnel.IacucPersonnelHelper;
+import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProceduresHelper;
 import org.kuali.kra.iacuc.protocol.IacucProtocolHelper;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceBean;
@@ -47,7 +48,6 @@ import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
 import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBean;
@@ -213,6 +213,8 @@ public class IacucProtocolForm extends ProtocolForm {
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
         }
+        getIacucProtocolDocument().getIacucProtocol().setIacucProtocolStudyGroupBeans(getIacucProtocolProcedureService().getRevisedStudyGroupBeans(getIacucProtocolDocument().getIacucProtocol().getIacucProtocolStudyGroupBeans()));
+
     }
     
     @Override
@@ -346,5 +348,8 @@ public class IacucProtocolForm extends ProtocolForm {
         return new NotificationHelper<IacucProtocolNotificationContext>();
     }
 
+    protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
+        return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+    }
    
 }

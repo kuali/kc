@@ -51,3 +51,10 @@
         </table>
     </div> 
 </kul:tab>
+
+<c:set var="protocolStudyGroups" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans}" />
+
+
+<kra-iacuc:protocolProcedureCategories businessObjectClassName="org.kuali.kra.iacuc.IacucProtocol"
+		                            collectionReference="${protocolStudyGroups}"
+		                            collectionProperty="document.protocolList[0].iacucProtocolStudyGroupBeans"/>
