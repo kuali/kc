@@ -38,11 +38,29 @@ import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawServiceImpl;
 public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImpl implements IacucProtocolWithdrawService {
     
     
+
+    @Override
+    public ProtocolDocument administrativelyWithdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception {
+        return this.commonWithdrawLogic(protocol, withdrawBean, true);
+    }
     
     @Override
     public ProtocolDocument withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception {
+        return this.commonWithdrawLogic(protocol, withdrawBean, false);
+    }
+    
+
+    private ProtocolDocument commonWithdrawLogic(Protocol protocol, ProtocolWithdrawBean withdrawBean, boolean isAdminWithdrawal) throws Exception {
+        // set the codes based on whether or not its admin withdrawal
+        String protocolWithdrawnActionTypeCode = IacucProtocolActionType.IACUC_WITHDRAWN;
+        String protocolWithdrawnStatusCode = IacucProtocolStatus.WITHDRAWN;
+        if(isAdminWithdrawal) {
+            protocolWithdrawnActionTypeCode = IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN;
+            protocolWithdrawnStatusCode = IacucProtocolStatus.ADMINISTRATIVELY_WITHDRAWN;
+        }        
+        
         ProtocolSubmission submission = getSubmission(protocol);
-        ProtocolAction protocolAction = new IacucProtocolAction((IacucProtocol) protocol, null, IacucProtocolActionType.IACUC_WITHDRAWN);
+        ProtocolAction protocolAction = new IacucProtocolAction((IacucProtocol) protocol, null, protocolWithdrawnActionTypeCode);
         protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
 
@@ -71,7 +89,7 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
              * Create a new protocol document for the user to edit so they can re-submit at a later time.
              */
             IacucProtocolDocument newProtocolDocument = (IacucProtocolDocument) protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
-            newProtocolDocument.getProtocol().setProtocolStatusCode(IacucProtocolStatus.WITHDRAWN);
+            newProtocolDocument.getProtocol().setProtocolStatusCode(protocolWithdrawnStatusCode);
             // to force it to retrieve from list.
             newProtocolDocument.getProtocol().setProtocolSubmission(null);
             // update some info

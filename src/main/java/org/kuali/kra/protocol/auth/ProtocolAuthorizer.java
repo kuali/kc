@@ -31,7 +31,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
     
-    private KraAuthorizationService kraAuthorizationService;
+    protected KraAuthorizationService kraAuthorizationService;
     private ProtocolActionService protocolActionService;
     
     /**
