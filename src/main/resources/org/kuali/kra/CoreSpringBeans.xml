@@ -919,6 +919,7 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
     <bean id="kcKrmsJavaFunctionTermService" class="org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
     <bean 
