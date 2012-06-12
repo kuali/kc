@@ -22,4 +22,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
  */
 public interface KcKrmsJavaFunctionTermService {
     public String specifiedGGForm(DevelopmentProposal developmentProposal,String formName);
+    public String multiplePI(DevelopmentProposal developmentProposal);
+    public String s2sBudgetRule(DevelopmentProposal developmentProposal, String formNames);
+    public String monitoredSponsorRule(DevelopmentProposal developmentProposal, String monitoredSponsorHirearchies);
 }
