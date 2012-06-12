@@ -124,20 +124,37 @@
                 </bean>
                                 
                 <bean class="org.kuali.kra.iacuc.auth.WithdrawIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
-                    <property name="taskName" value="withdrawIacucProtocol" />
+                    <property name="taskName" value="protocolWithdraw" />
                 </bean>                          
 
                 <bean class="org.kuali.kra.iacuc.auth.WithdrawIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
-                    <property name="taskName" value="withdrawIacucProtocolUnavailable" />
+                    <property name="taskName" value="protocolWithdrawUnavailable" />
                 </bean>                          
 
                 <bean class="org.kuali.kra.iacuc.auth.IacucProtocolAmendRenewDeleteAuthorizer" parent="parentIacucProtocolAuthorizer">
-                    <property name="taskName" value="iacucProtocolAmendRenewDelete" />
+                    <property name="taskName" value="protocolAmendRenewDelete" />
                 </bean>
                 
                 <bean class="org.kuali.kra.iacuc.auth.IacucProtocolAmendRenewDeleteUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
-                    <property name="taskName" value="iacucProtocolAmendRenewDeleteUnavailable" />
-                </bean>                          
+                    <property name="taskName" value="protocolAmendRenewDeleteUnavailable" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.AdminApproveIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="adminApproveProtocol" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.AdminApproveIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="adminApproveProtocolUnavailable" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.AdminWithdrawIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="adminWithdrawProtocol" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.AdminWithdrawIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="adminWithdrawProtocolUnavailable" />
+                </bean>
+                                                                        
           
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolFundingSourceAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolFundingSource" />

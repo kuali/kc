@@ -68,33 +68,24 @@ end
 
 rule "Administratively approved"
 salience 100
-#"Submitted to Committee" if committee selected or "Pending" if committee not selected.
-# TODO : need to implement submissionstatuscheck
 when
-  #  protocolAction : IacucProtocolActionMapping(actionTypeCode == "215", protocolStatusCode == "101", subStatusForAdminAction == true , protocolReviewTypeCode in ("1"))
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "215", protocolStatusCode == "101",  protocolReviewTypeCode in ("1"))
+  protocolAction : IacucProtocolActionMapping(actionTypeCode == "215", protocolStatusCode == "101", submissionStatusForAdminAction == true, protocolReviewTypeCode == "1")
 then    
     setAction(protocolAction, true);
 end
 
 rule "Administratively incomplete"
 salience 100
-//"Submitted to Committee" if committee selected or "Pending" if committee not selected.
-// TODO : need to implement submissionstatuscheck
 when
- #   protocolAction : IacucProtocolActionMapping(actionTypeCode == "216", protocolStatusCode == "101", subStatusForAdminAction == true , protocolReviewTypeCode in ("1"))
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "216", protocolStatusCode == "101", protocolReviewTypeCode in ("1"))
+   protocolAction : IacucProtocolActionMapping(actionTypeCode == "216", protocolStatusCode == "101", submissionStatusForAdminAction == true, protocolReviewTypeCode == "1")
 then    
     setAction(protocolAction, true);
 end
 
 rule "Administratively withdrawn"
 salience 100
-//"Submitted to Committee" if committee selected or "Pending" if committee not selected.
-// TODO : need to implement submissionstatuscheck
 when
-#    protocolAction : IacucProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("101","203"), subStatusForAdminAction == true , protocolReviewTypeCode in ("1"))
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("101","203") , protocolReviewTypeCode in ("1"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("101","203"), submissionStatusForAdminAction == true)
 then    
     setAction(protocolAction, true);
 end

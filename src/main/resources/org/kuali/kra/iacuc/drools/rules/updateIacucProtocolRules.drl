@@ -338,3 +338,21 @@ then
 	setProtocolStatusCode(protocolAction, "309");
 end
 
+
+rule "fn_Administratively_Withdraw: Submission Status =  204 (Withdrawn)" 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "300")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "204");
+end
+
+rule "fn_Administratively_Withdraw: Protocol Status =  302 (Administratively Withdrawn) " 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "300", protocolStatusCode in ("101","203"))
+then	
+	createAuditTrail(protocolAction);
+	setProtocolStatusCode(protocolAction, "302");
+end
