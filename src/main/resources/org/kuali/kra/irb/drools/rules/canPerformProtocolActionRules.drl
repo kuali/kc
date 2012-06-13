@@ -227,7 +227,7 @@ end
 rule "Response Approval Protocol"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "208", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode == "6", protocolReviewerCountCond1 == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "208", submissionNumber != null, submissionStatusCode in ("100","101"), protocolReviewTypeCode == "6")
 then	
 	setAction(protocolAction, true);
 end
