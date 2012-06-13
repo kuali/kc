@@ -23,9 +23,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.SponsorHierarchy;
+import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.krms.service.KcKrmsJavaFunctionTermService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -62,6 +65,7 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
     
     /**
      * This method checks if the proposal has multiple PIs set.
+     * see FN_MULTIPI_RULE.
      * @param developmentProposal
      * @return 'true' if true
      */
@@ -79,6 +83,7 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
     /**
      * 
      * This method checks if the proposal has multiple PIs set.
+     * see FN_S2S_BUDGET_RULE.
      * @param developmentProposal
      * @param formName a comma delimited list of s2s forms to check against.
      * @return 'true' if true
@@ -112,6 +117,7 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
     /**
      * 
      * This method checks if the proposal is associated with one of monitored sponsored hierarchies. 
+     * see FN_COI_MONITORED_SPONSOR_RULE.
      * @param developmentProposal
      * @param monitoredSponsorHirearchies a comma delimited list of sponsored hirearchies.
      * @return 'true' if true
@@ -135,6 +141,139 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
             }
         }
         
+        return FALSE;
+    }
+    
+    /**
+     * 
+     * This method determines if the proposal has more than the maximum number of attachments of the types provided in the narativeTypes list.
+     * see FN_S2S_RESPLAN_RULE.
+     * @param developmentProposal.
+     * @param narativeTypes a comma delimited list of narrative types.
+     * @param maxNumber the maximum number to check.
+     * @return 'true' if true
+     */
+    @Override
+    public String s2sReplanRule(DevelopmentProposal developmentProposal, String narativeTypes, String maxNumber) {
+        //- max of 10 narrative types PHS_ResearchPlan_Appendix
+        String[] narrativeTypesArray = narativeTypes.split(","); //MIT Equity Interests
+        if(narativeTypes!=null && narrativeTypesArray.length==0){
+            narrativeTypesArray = new String[]{narativeTypes.trim()};
+        }
+        int[] narrativeCounts = new int[narrativeTypesArray.length];
+        int maxNumberInt = Integer.parseInt(maxNumber);
+        for (Narrative narrative : developmentProposal.getNarratives()) {
+            int narrativePosition = 0;
+            for (String narrativeType : narrativeTypesArray) {
+                if (StringUtils.equalsIgnoreCase(narrativeType, narrative.getNarrativeType().getDescription())) {
+                    narrativeCounts[narrativePosition]++;
+                    if (narrativeCounts[narrativePosition] > maxNumberInt) {
+                        return TRUE;
+                    }
+                }
+                narrativePosition++;
+            }
+        }
+        return FALSE;
+    }
+    
+    /**
+     * 
+     * This method checks if the proposal is associated the grants form passed in. 
+     * see FN_GG_FORM_RULE.
+     * @param developmentProposal
+     * @param formName the grants form to check against.
+     * @return 'true' if true
+     */
+    @Override
+    public String grantsFormRule(DevelopmentProposal developmentProposal, String formName) {
+        for(S2sOppForms form: developmentProposal.getS2sOppForms()) {
+            if (StringUtils.equalsIgnoreCase(formName, form.getFormName())) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    
+    /**
+     * 
+     * This method checks to see if the biosketch file names contain any restricted special characters.
+     * See  fn_prop_pers_att_name_rule 
+     * @param developmentProposal
+     * @param restrictedSpecialCharacters comma delimited list of spcial characters to restrict.
+     * @return 'true' if no special characters are found.
+     */
+    @Override
+    public String biosketchFileNameRule(DevelopmentProposal developmentProposal, String restrictedSpecialCharacters) {
+        
+        /**
+         * i_Pos := instr(ls_FileName, ' ') +
+                      instr(ls_FileName, '`') +
+                      instr(ls_FileName, '@') +
+                      instr(ls_FileName, '#') +
+                      instr(ls_FileName, '!') +
+                      instr(ls_FileName, '$') +
+                      instr(ls_FileName, '%') +
+                      instr(ls_FileName, '^') +
+                      instr(ls_FileName, '&') +
+                      instr(ls_FileName, '*') +
+                      instr(ls_FileName, '(') +
+                      instr(ls_FileName, ')') +
+                      instr(ls_FileName, '{') +
+                      instr(ls_FileName, '}') +
+                      instr(ls_FileName, '[') +
+                      instr(ls_FileName, ']') +
+                      instr(ls_FileName, '|') +
+                      instr(ls_FileName, '\') +
+                      instr(ls_FileName, '/') +
+                      instr(ls_FileName, '?') +
+                      instr(ls_FileName, '<') +
+                      instr(ls_FileName, '>') +
+                      instr(ls_FileName, ',') +
+                      instr(ls_FileName, ';') +
+                      instr(ls_FileName, ':') +
+                      instr(ls_FileName, '"') +
+                      instr(ls_FileName, '''') +
+                      instr(ls_FileName, '`') +
+                      instr(ls_FileName, '+') ;
+         */
+        
+        String[] restrictedSpecialCharactersArray = restrictedSpecialCharacters.split(","); //MIT Equity Interests
+        if(restrictedSpecialCharacters!=null && restrictedSpecialCharactersArray.length==0){
+            restrictedSpecialCharactersArray = new String[]{restrictedSpecialCharacters.trim()};
+        }
+        for (ProposalPersonBiography ppb : developmentProposal.getPropPersonBios()) {
+            if (StringUtils.equalsIgnoreCase(ppb.getPropPerDocType().getDescription(), "Biosketch")) {
+                for (String character : restrictedSpecialCharactersArray) {
+                    if (StringUtils.equalsIgnoreCase(character, ppb.getFileName())) {
+                        return FALSE;
+                    }
+                }
+            }
+        }
+        return TRUE;
+        
+    }
+    
+    /**
+     * 
+     * This method checks to see if the OSP administrator is also a personal person.
+     * See  FN_OSP_ADMIN_IS_PERSON 
+     * @param developmentProposal
+     * @return 'true' if the OSP admin is also a proposal person, otherwise 'false'
+     */
+    @Override
+    public String ospAdminPropPersonRule(DevelopmentProposal developmentProposal) {
+        List<UnitAdministrator> ospAdmins = developmentProposal.getUnit().getUnitAdministrators();
+        if (ospAdmins != null && ospAdmins.size() > 0) {
+            for (ProposalPerson person : developmentProposal.getProposalPersons()) {
+                for (UnitAdministrator admin : ospAdmins) {
+                    if (StringUtils.equals(person.getPersonId(), admin.getPersonId())) {
+                        return TRUE;
+                    }
+                }
+            }
+        }
         return FALSE;
     }
 

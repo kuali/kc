@@ -25,4 +25,8 @@ public interface KcKrmsJavaFunctionTermService {
     public String multiplePI(DevelopmentProposal developmentProposal);
     public String s2sBudgetRule(DevelopmentProposal developmentProposal, String formNames);
     public String monitoredSponsorRule(DevelopmentProposal developmentProposal, String monitoredSponsorHirearchies);
+    public String s2sReplanRule(DevelopmentProposal developmentProposal, String narativeTypes, String maxNumber);
+    public String grantsFormRule(DevelopmentProposal developmentProposal, String formName);
+    public String biosketchFileNameRule(DevelopmentProposal developmentProposal, String restrictedSpecialCharacters);
+    public String ospAdminPropPersonRule(DevelopmentProposal developmentProposal);
 }
