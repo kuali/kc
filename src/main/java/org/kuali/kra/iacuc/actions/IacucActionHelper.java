@@ -28,6 +28,8 @@ import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolVersionService;
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewal;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveBean;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteBean;
@@ -49,6 +51,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.meeting.ProtocolVoteAbstainee;
+import org.kuali.kra.meeting.ProtocolVoteRecused;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
@@ -56,11 +60,14 @@ import org.kuali.kra.protocol.ProtocolVersionService;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
@@ -277,6 +284,10 @@ public class IacucActionHelper extends ActionHelper {
         canTableUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_TABLE_UNAVAILABLE);
         canAssignCmt = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE);
         canAssignCmtUnavailable = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE_UNAVAILABLE);
+//TODO IACUC        canViewOnlineReviewers = getReviewerCommentsService().canViewOnlineReviewers(getUserIdentifier(), getSelectedSubmission());
+//TODO IACUC        canViewOnlineReviewerComments = getReviewerCommentsService().canViewOnlineReviewerComments(getUserIdentifier(), getSelectedSubmission());
+canViewOnlineReviewers = true;        
+canViewOnlineReviewerComments = true;        
 
         initSummaryDetails();
 
@@ -678,6 +689,129 @@ public class IacucActionHelper extends ActionHelper {
         return getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
     }
 
+    /**
+     * This method populates the protocolAmendmentBean with the amendment details from the 
+     * current submission.
+     * @throws Exception
+     */
+    protected void setAmendmentDetails() throws Exception {
+        /*
+         * Check if the user is trying to modify amendment sections, if so, do not setAmendmentDetials.
+         * If you set it, the user's data gets refreshed and the amendment details from the currentSubmission
+         * will be populated in the protocolAmendmentBean.
+         */
+        if (!currentTaskName.equalsIgnoreCase(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS)) {
+            //TODO: Should change following to IACUC version once it is created
+            ProtocolAmendmentBean amendmentBean = getProtocolAmendmentBean();
+            String originalProtocolNumber;
+//            // Use the submission number to get the correct amendment details
+//            if (getProtocol().isAmendment()) {
+//                originalProtocolNumber = getProtocol().getProtocolAmendRenewal().getProtocolNumber();           
+//            } else {
+//                // We want to display amendment details even if the document is not an amendment.
+//                // Amendment details needs to be displayed even after the amendment has been merged with the protocol.
+//                originalProtocolNumber = getProtocol().getProtocolNumber();
+//            }
+//            List<Protocol> protocols = getProtocolAmendRenewService().getAmendmentAndRenewals(originalProtocolNumber);
+//
+//            IacucProtocolAmendRenewal correctAmendment = getCorrectAmendment(protocols);
+//            if (ObjectUtils.isNotNull(correctAmendment)) {
+//                setSubmissionHasNoAmendmentDetails(false);
+//                amendmentBean.setSummary(correctAmendment.getSummary());
+//                amendmentBean.setGeneralInfo((correctAmendment.hasModule(IacucProtocolModule.GENERAL_INFO)) ? true : false);
+//                amendmentBean.setProtocolPersonnel((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_PERSONNEL)) ? true : false);
+//                amendmentBean.setAreasOfResearch((correctAmendment.hasModule(IacucProtocolModule.AREAS_OF_RESEARCH)) ? true : false);
+//                amendmentBean.setAddModifyAttachments((correctAmendment.hasModule(IacucProtocolModule.ADD_MODIFY_ATTACHMENTS)) ? true : false);
+//                amendmentBean.setFundingSource((correctAmendment.hasModule(IacucProtocolModule.FUNDING_SOURCE)) ? true : false);
+//                amendmentBean.setOthers((correctAmendment.hasModule(IacucProtocolModule.OTHERS)) ? true : false);
+//                amendmentBean.setProtocolOrganizations((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_ORGANIZATIONS)) ? true : false);
+//                amendmentBean.setProtocolPermissions((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_PERMISSIONS)) ? true : false);
+//                amendmentBean.setProtocolReferencesAndOtherIdentifiers((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_REFERENCES)) ? true : false);
+//                amendmentBean.setQuestionnaire((correctAmendment.hasModule(IacucProtocolModule.QUESTIONNAIRE)) ? true : false);
+//                amendmentBean.setSpecialReview((correctAmendment.hasModule(IacucProtocolModule.SPECIAL_REVIEW)) ? true : false);
+//                amendmentBean.setSubjects((correctAmendment.hasModule(IacucProtocolModule.SUBJECTS)) ? true : false);
+//            } else {
+//                setSubmissionHasNoAmendmentDetails(true);
+//            }
+        }
+    }
+
+    /**
+     * This method returns the amendRenewal bean with the current submission number. 
+     * @param protocols
+     * @return
+     */
+    private IacucProtocolAmendRenewal getCorrectAmendment(List<Protocol> protocols) {
+        for (Protocol protocol : protocols) {
+            // There should always be an amendment with the current submission number.
+            if (protocol.isAmendment() && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
+                && protocol.getProtocolSubmission().getSubmissionNumber() == currentSubmissionNumber) {
+                IacucProtocol iacucProtocol = (IacucProtocol)protocol;
+                return (IacucProtocolAmendRenewal) iacucProtocol.getProtocolAmendRenewal();
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Sets up dates for the submission details subpanel.
+     */
+    public void initSubmissionDetails() {
+//TODO        if (currentSubmissionNumber <= 0) {
+//TODO            currentSubmissionNumber = getTotalSubmissions();
+//TODO        }
+
+        if (CollectionUtils.isNotEmpty(getProtocol().getProtocolSubmissions()) && getProtocol().getProtocolSubmissions().size() > 1) {
+            setPrevNextFlag();
+        } else {
+            setPrevDisabled(true);
+            setNextDisabled(true);
+        }
+
+//        setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber));
+//        if (CollectionUtils.isNotEmpty(getReviewComments())) {
+//            // check if our comments bean has empty list of review comments, this can happen if the submission has no schedule assigned
+//            if(protocolManageReviewCommentsBean.getReviewCommentsBean().getReviewComments().size() == 0) {
+//                List<CommitteeScheduleMinute> reviewComments = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), 
+//                        currentSubmissionNumber);
+//                Collections.sort(reviewComments, new Comparator<CommitteeScheduleMinute>() {
+//
+//                    @Override
+//                    public int compare(CommitteeScheduleMinute csm1, CommitteeScheduleMinute csm2) {
+//                        int retVal = 0;
+//                        if( (csm1 != null) && (csm2 != null) && (csm1.getEntryNumber() != null) && (csm2.getEntryNumber() != null) ) {
+//                            retVal = csm1.getEntryNumber().compareTo(csm2.getEntryNumber());
+//                        }
+//                        return retVal;
+//                    }
+//
+//                });
+//                protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(reviewComments);
+//                getReviewerCommentsService().setHideReviewerName(reviewComments);
+//            }
+//            getReviewerCommentsService().setHideReviewerName(getReviewComments());
+//        }
+//        setReviewAttachments(getReviewerCommentsService().getReviewerAttachments(getProtocol().getProtocolNumber(),
+//                currentSubmissionNumber));
+//        if (CollectionUtils.isNotEmpty(getReviewAttachments())) {
+//            hideReviewerNameForAttachment = getReviewerCommentsService().setHideReviewerName(getReviewAttachments());
+//            getReviewerCommentsService().setHideViewButton(getReviewAttachments());
+//        }
+//        getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
+//        //     setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
+//        hideSubmissionReviewerName = checkToHideSubmissionReviewerName();
+//
+//        setProtocolReviewers(getReviewerCommentsService().getProtocolReviewers(getProtocol().getProtocolNumber(),
+//                currentSubmissionNumber));
+//        setAbstainees(getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
+//        setRecusers(getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
+//TEMP
+setProtocolReviewers(new ArrayList<ProtocolReviewer>());
+setAbstainees(new ArrayList<ProtocolVoteAbstainee>());        
+setRecusers(new ArrayList<ProtocolVoteRecused>());        
+//        setSubmissionQuestionnaireExist(hasAnsweredQuestionnaire(CoeusSubModule.PROTOCOL_SUBMISSION, Integer.toString(currentSubmissionNumber)));
+    }
+
     @Override
     protected String getAdminApprovalProtocolActionTypeHook() {
         return IacucProtocolActionType.ADMINISTRATIVE_APPROVAL;
@@ -717,7 +851,6 @@ public class IacucActionHelper extends ActionHelper {
     protected ProtocolTask getNewAdminMarkIncompleteUnavailableProtocolTaskInstanceHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.ADMIN_INCOMPLETE_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
     }
-
     
 }
 

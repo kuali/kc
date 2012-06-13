@@ -42,7 +42,7 @@ public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase imple
 
     private Integer sequenceNumber;
 
-    private List<ProtocolAmendRenewModule> modules;
+    protected List<ProtocolAmendRenewModule> modules;
 
     private Protocol protocol;
 
