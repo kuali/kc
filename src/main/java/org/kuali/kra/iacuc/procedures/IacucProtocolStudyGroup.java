@@ -106,6 +106,9 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
     }
 
     public IacucProcedureCategory getIacucProcedureCategory() {
+        if (iacucProcedureCategory == null) {
+            refreshReferenceObject("iacucProcedureCategory");
+        }
         return iacucProcedureCategory;
     }
 
@@ -114,6 +117,9 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
     }
 
     public IacucProcedure getIacucProcedure() {
+        if (iacucProcedure == null) {
+            refreshReferenceObject("iacucProcedure");
+        }
         return iacucProcedure;
     }
 
@@ -128,6 +134,9 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
     }
 
     public IacucProtocolSpecies getIacucProtocolSpecies() {
+        if (iacucProtocolSpecies == null) {
+            refreshReferenceObject("iacucProtocolSpecies");
+        }
         return iacucProtocolSpecies;
     }
 

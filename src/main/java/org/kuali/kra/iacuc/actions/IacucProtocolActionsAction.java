@@ -211,9 +211,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         protocolForm.getActionHelper().prepareView();
         
-        // submit action may change "submission details", so re-initializa it        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolForm.getActionHelper().initSubmissionDetails();
+        // submit action may change "submission details", so re-initialize it        
+        ((IacucActionHelper)protocolForm.getActionHelper()).initSubmissionDetails();
         
         return actionForward;
     }

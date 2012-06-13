@@ -29,7 +29,7 @@
     <h3>
    			<span class="subhead-left">Submission Details</span>
    			<span class="subhead-right">
-   				<kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolSubmissionDetailsHelp" altText="Help"/>
+   				<kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="protocolSubmissionDetailsHelp" altText="Help"/>
 			</span>
        </h3>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
@@ -56,20 +56,14 @@
                      </div>
                 </th>
             </tr>
-		    <kra-irb:submissionDetails />
- 		    <kra-irb:reviewers />
-		    <kra-irb:voteSummary />
+		    <kra-iacuc:submissionDetails />
+ 		    <kra-iacuc:reviewers />
+		    <kra-iacuc:voteSummary />
 		    <c:if test="${!submissionHasNoAmendmentDetails and KualiForm.actionHelper.hasAmendments or KualiForm.actionHelper.hasRenewals }" >
-		      <kra-irb:amendmentSummary />
+		      <kra-iacuc:amendmentSummary />
 		    </c:if>
-		    <kra-irb:checklistItems />
-		    <kra-irb:protocolReviewComments />
-		    <kra-irb:protocolReviewAttachments />
-		    <%-- kcirb-1016 : not to display it here.  it will be shown at print panel
-		    <c:if test="${KualiForm.actionHelper.submissionQuestionnaireExist}">
-		        <kra-irb:viewSubmissionQuestionnaire />
-		    </c:if>
-		     --%>
+		    <kra-iacuc:protocolReviewComments />
+		    <kra-iacuc:protocolReviewAttachments />
             </tbody>
         </table>
     </div>

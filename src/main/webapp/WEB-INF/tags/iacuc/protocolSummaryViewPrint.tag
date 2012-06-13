@@ -19,8 +19,8 @@
 			</span>
        </h3>
 		<kra-iacuc:protocolSummaryPanel />
-<%--		<kra-iacuc:protocolSubmissionDetailsPanel />
---%>		<kra-iacuc:protocolViewHistory />
+		<kra-iacuc:protocolSubmissionDetailsPanel />
+		<kra-iacuc:protocolViewHistory />
 		
     </div>	    
 </kul:tab>

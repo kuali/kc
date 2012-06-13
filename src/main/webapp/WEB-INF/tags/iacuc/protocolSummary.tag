@@ -358,27 +358,34 @@
         </tr>
         <tr>
             <th style="text-align:right; width:135px;">Alternate Search:</th>
-        	<td cellpadding="0">
-        		<table border="0" cellpadding="0" cellspacing="0">
-    				<tbody>
-				        <tr>
-				            <th>Date</td>
-				            <th>Databases Searched</td>
-				            <th>Years Searched</td>
-				            <th>Search Terms/Keywords</td>
-				            <th>Comments</td>
-					    </tr>
-						<c:forEach items="${protocolSummary.threeRsInfo.alternateSearchSummaries}" var="alternateSearchSummary" varStatus="status">
-    	        			<tr>
-				                <td class="${alternateSearchSummary.searchDateChanged ? 'changed' : ''}">${alternateSearchSummary.searchDate}</td>
-            	   				<td class="${alternateSearchSummary.databasesChanged ? 'changed' : ''}">${alternateSearchSummary.databaseList}</td>
-				                <td class="${alternateSearchSummary.yearsSearchedChanged ? 'changed' : ''}">${alternateSearchSummary.yearsSearched}&nbsp;</td>
-                				<td class="${alternateSearchSummary.keywordsChanged ? 'changed' : ''}">${alternateSearchSummary.keywords}&nbsp;</td>
-				       	        <td class="${alternateSearchSummary.commentsChanged ? 'changed' : ''}">${alternateSearchSummary.comments}&nbsp;</td>
-	        				</tr>
-				        </c:forEach>
-    				</tbody>
-				</table>
+        	<td padding="0">
+				<c:choose>
+					<c:when test="${fn:length(protocolSummary.threeRsInfo.alternateSearchSummaries) == 0}" >
+            			None
+	            	</c:when>
+    	        	<c:otherwise>
+		        		<table frame=void border="0" cellpadding="0" cellspacing="0">
+    						<tbody>
+						        <tr>
+				        		    <th>Date</td>
+						            <th>Databases Searched</td>
+						            <th>Years Searched</td>
+						            <th>Search Terms/Keywords</td>
+				        		    <th>Comments</td>
+							    </tr>
+								<c:forEach items="${protocolSummary.threeRsInfo.alternateSearchSummaries}" var="alternateSearchSummary" varStatus="status">
+    	        					<tr>
+				        		        <td class="${alternateSearchSummary.searchDateChanged ? 'changed' : ''}">${alternateSearchSummary.searchDate}</td>
+            	   						<td class="${alternateSearchSummary.databasesChanged ? 'changed' : ''}">${alternateSearchSummary.databaseList}</td>
+						                <td class="${alternateSearchSummary.yearsSearchedChanged ? 'changed' : ''}">${alternateSearchSummary.yearsSearched}&nbsp;</td>
+        		        				<td class="${alternateSearchSummary.keywordsChanged ? 'changed' : ''}">${alternateSearchSummary.keywords}&nbsp;</td>
+						       	        <td class="${alternateSearchSummary.commentsChanged ? 'changed' : ''}">${alternateSearchSummary.comments}&nbsp;</td>
+	        						</tr>
+						        </c:forEach>
+    						</tbody>
+						</table>
+					</c:otherwise>
+				</c:choose>
         	</td>        	
     </tbody>
 </table>
@@ -422,10 +429,43 @@
         <tr>
             <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="0">Procedures:</td>
         </tr>
-
         <tr>
-            <th style="width: 50px;">&nbsp;</th>
-            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Nothing Here Yet</td>
+            <th style="text-align:right; width:135px;">Overview and Timeline:</th>
+            <td class="${protocolSummary.procedureOverviewSummaryChanged ? 'changed' : ''}">${protocolSummary.procedureOverviewSummary}&nbsp;</td>
+        </tr>
+        <tr>
+            <th style="text-align:right;">Procedures:</td>
+            <td padding="0">
+				<c:choose>
+					<c:when test="${fn:length(protocolSummary.procedureSummaries) == 0}" >
+            			None
+	            	</c:when>
+    	        	<c:otherwise>
+						<table frame="void" border="0" cellpadding="0" cellspacing="0">
+							<tr> 
+						        <th style="text-align:center; width:15%;">Category:</th>
+	        					<th style="text-align:center; width:15%;">Groups : Species</th>
+								<th style="text-align:center; width:15%;">Person(s) Responsible</th>
+								<th style="text-align:center; width:10%;">Pain Category</th>
+   								<th style="text-align:center; width:6%;">Count</th>
+   								<th style="text-align:center; width:10%;">Count Type</th>
+   								<th style="text-align:center;">Description</th>
+						    </tr>
+					    	<c:forEach items="${protocolSummary.procedureSummaries}" var="procedureSummary" varStatus="status">  
+								<tr> 
+				    	            <td class="${procedureSummary.procedureCategoryChanged ? 'changed' : ''}">${procedureSummary.procedureCategory}&nbsp;</td>
+			    		            <td class="${procedureSummary.speciesChanged ? 'changed' : ''}">${procedureSummary.species}&nbsp;</td>
+		    	        	    	<td class="${procedureSummary.personnelChanged ? 'changed' : ''}">${procedureSummary.personnel}&nbsp;</td> 
+				            	    <td class="${procedureSummary.painCategoryChanged ? 'changed' : ''}">${procedureSummary.painCategory}&nbsp;</td>
+				                	<td class="${procedureSummary.countChanged ? 'changed' : ''}">${procedureSummary.count}&nbsp;</td>
+					                <td class="${procedureSummary.countTypeChanged ? 'changed' : ''}">${procedureSummary.countType}&nbsp;</td>
+				                	<td class="${procedureSummary.procedureDescriptionChanged ? 'changed' : ''}">${procedureSummary.procedureDescription}&nbsp;</td>
+       							</tr>
+       						</c:forEach>  
+						</table>
+            		</c:otherwise>
+            	</c:choose>
+			</td>
         </tr>
     
     </tbody>
