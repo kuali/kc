@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
@@ -42,7 +43,9 @@ import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.ProtocolVersionService;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersBean;
@@ -56,6 +59,7 @@ import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.protocol.actions.request.ProtocolRequestBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
@@ -281,13 +285,13 @@ public abstract class ActionHelper implements Serializable {
     protected boolean nextDisabled;
     protected transient ParameterService parameterService;
     protected transient TaskAuthorizationService taskAuthorizationService;
-//    protected transient ProtocolAmendRenewService protocolAmendRenewService;
+    protected transient ProtocolAmendRenewService protocolAmendRenewService;
     protected transient ProtocolVersionService protocolVersionService;
 //    protected transient ProtocolSubmitActionService protocolSubmitActionService;
 //    protected transient ProtocolActionService protocolActionService;
-//    protected boolean hasAmendments;
-//    protected boolean hasRenewals;
-//    protected boolean submissionHasNoAmendmentDetails;
+    protected boolean hasAmendments;
+    protected boolean hasRenewals;
+    protected boolean submissionHasNoAmendmentDetails;
 //    /*
 //     * Identifies the protocol "document" to print.
 //     */
@@ -313,7 +317,7 @@ public abstract class ActionHelper implements Serializable {
     protected List<ProtocolReviewAttachment> reviewAttachments;        
     protected List<ProtocolVoteAbstainee> abstainees;        
     protected List<ProtocolVoteRecused> recusers;        
-//    protected List<ProtocolReviewer> protocolReviewers;        
+    protected List<ProtocolReviewer> protocolReviewers;        
     protected int currentSubmissionNumber;
     protected String renewalSummary;
     
@@ -811,13 +815,13 @@ public abstract class ActionHelper implements Serializable {
 //            amendmentBean.setQuestionnaireEnabled(true);
 //        }
 //    }
-//
-//    private ProtocolAmendRenewService getProtocolAmendRenewService() {
-//        if (this.protocolAmendRenewService == null) {
-//            this.protocolAmendRenewService = KraServiceLocator.getService(ProtocolAmendRenewService.class);        
-//        }
-//        return this.protocolAmendRenewService;
-//    }
+
+    protected ProtocolAmendRenewService getProtocolAmendRenewService() {
+        if (this.protocolAmendRenewService == null) {
+            this.protocolAmendRenewService = KraServiceLocator.getService(ProtocolAmendRenewService.class);        
+        }
+        return this.protocolAmendRenewService;
+    }
 
     public void prepareView() throws Exception {
         protocolSubmitAction.prepareView();
@@ -2204,15 +2208,15 @@ public abstract class ActionHelper implements Serializable {
 //    public Map<String,Boolean> getFollowupActionMap() {
 //        return followupActionMap;
 //    }
-//    
-//    public boolean getCanViewOnlineReviewers() {
-//        return canViewOnlineReviewers;
-//    }
-//    
-//    public boolean getCanViewOnlineReviewerComments() {
-//        return canViewOnlineReviewerComments;
-//    }
-//
+    
+    public boolean getCanViewOnlineReviewers() {
+        return canViewOnlineReviewers;
+    }
+    
+    public boolean getCanViewOnlineReviewerComments() {
+        return canViewOnlineReviewerComments;
+    }
+
 //    public boolean getCanAddCloseReviewerComments() {
 //        return canAddCloseReviewerComments;
 //    }
@@ -2473,59 +2477,57 @@ public abstract class ActionHelper implements Serializable {
         return this.parameterService;
     }
 
-//    /**
-//     * Finds and returns the current selection based on the currentSubmissionNumber.
-//     * 
-//     * If the currentSubmissionNumber is invalid, it will return the current protocol's latest submission (which is always non-null); otherwise, it will get
-//     * the submission from the protocol based on the currentSubmissionNumber.
-//     * @return the currently selected submission
-//     */
-//    public ProtocolSubmission getSelectedSubmission() {
-//        ProtocolSubmission protocolSubmission = null;
-//        
-//        if (currentSubmissionNumber <= 0) {
-//            protocolSubmission = getProtocol().getProtocolSubmission();
-//        } else if (currentSubmissionNumber > 0) {
-//            // For amendment/renewal, the submission number are not starting at 1
-//            //protocolSubmission = getProtocol().getProtocolSubmissions().get(currentSubmissionNumber - 1);
-//            for (ProtocolSubmission submission : getProtocol().getProtocolSubmissions()) {
-//                if (submission.getSubmissionNumber().intValue() == currentSubmissionNumber) {
-//                    protocolSubmission = submission;
-//                    break;
-//                }
-//            }
-//            if (protocolSubmission == null) {
-//                // undo last action may remove the last submission; so it can't be found
-//                protocolSubmission = getProtocol().getProtocolSubmission();
-//                currentSubmissionNumber = protocolSubmission.getSubmissionNumber();
-//            }
-//        }
-//        
-//        return protocolSubmission;
-//    }
-//  
+    /**
+     * Finds and returns the current selection based on the currentSubmissionNumber.
+     * 
+     * If the currentSubmissionNumber is invalid, it will return the current protocol's latest submission (which is always non-null); otherwise, it will get
+     * the submission from the protocol based on the currentSubmissionNumber.
+     * @return the currently selected submission
+     */
+    public ProtocolSubmission getSelectedSubmission() {
+        ProtocolSubmission protocolSubmission = null;
+        
+        if (currentSubmissionNumber <= 0) {
+            protocolSubmission = getProtocol().getProtocolSubmission();
+        } else if (currentSubmissionNumber > 0) {
+            // For amendment/renewal, the submission number are not starting at 1
+            //protocolSubmission = getProtocol().getProtocolSubmissions().get(currentSubmissionNumber - 1);
+            for (ProtocolSubmission submission : getProtocol().getProtocolSubmissions()) {
+                if (submission.getSubmissionNumber().intValue() == currentSubmissionNumber) {
+                    protocolSubmission = submission;
+                    break;
+                }
+            }
+            if (protocolSubmission == null) {
+                // undo last action may remove the last submission; so it can't be found
+                protocolSubmission = getProtocol().getProtocolSubmission();
+                currentSubmissionNumber = protocolSubmission.getSubmissionNumber();
+            }
+        }
+        
+        return protocolSubmission;
+    }
+  
 //    private CommitteeService getCommitteeService() {
 //        return KraServiceLocator.getService(CommitteeService.class);
 //    }
-//
-//
-//    public List<CommitteeScheduleMinute> getReviewComments() {
-//        return reviewComments;
-//    }
-//
-//    private void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
-//        this.reviewComments = reviewComments;
-//    }
-//
-//
-//    public List<ProtocolVoteAbstainee> getAbstainees() {
-//        return abstainees;
-//    }
-//
-//
-//    public void setAbstainees(List<ProtocolVoteAbstainee> abstainees) {
-//        this.abstainees = abstainees;
-//    }
+
+
+    public List<CommitteeScheduleMinute> getReviewComments() {
+        return reviewComments;
+    }
+
+    private void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
+        this.reviewComments = reviewComments;
+    }
+
+    public List<ProtocolVoteAbstainee> getAbstainees() {
+        return abstainees;
+    }
+
+    public void setAbstainees(List<ProtocolVoteAbstainee> abstainees) {
+        this.abstainees = abstainees;
+    }
     
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
@@ -2564,7 +2566,8 @@ public abstract class ActionHelper implements Serializable {
     public void setCurrentSubmissionNumber(int currentSubmissionNumber) {
         this.currentSubmissionNumber = currentSubmissionNumber;
     }
-    
+
+//TODO: Must implement for IACUC    
 //    public int getTotalSubmissions() {
 //        return getProtocolSubmitActionService().getTotalSubmissions(getProtocol());
 //    }
@@ -2710,15 +2713,15 @@ public abstract class ActionHelper implements Serializable {
 //            }
 //        }
 //    }
-//    
-//    public void setSubmissionHasNoAmendmentDetails(boolean submissionHasNoAmendmentDetails) {
-//        this.submissionHasNoAmendmentDetails = submissionHasNoAmendmentDetails;
-//    }
-//    
-//    public boolean getSubmissionHasNoAmendmentDetails() {
-//        return submissionHasNoAmendmentDetails;
-//    }
-//    
+    
+    public void setSubmissionHasNoAmendmentDetails(boolean submissionHasNoAmendmentDetails) {
+        this.submissionHasNoAmendmentDetails = submissionHasNoAmendmentDetails;
+    }
+    
+    public boolean getSubmissionHasNoAmendmentDetails() {
+        return submissionHasNoAmendmentDetails;
+    }
+    
 //    /**
 //     * This method returns the amendRenewal bean with the current submission number. 
 //     * @param protocols
@@ -2734,7 +2737,7 @@ public abstract class ActionHelper implements Serializable {
 //        }
 //        return null;
 //    }
-    
+//    
     protected boolean hasAnsweredQuestionnaire(String moduleSubItemCode, String moduleSubItemKey) {
         return getAnswerHeaderCount(moduleSubItemCode, moduleSubItemKey) > 0;
     }
@@ -2814,7 +2817,7 @@ public abstract class ActionHelper implements Serializable {
     /*
      * utility method to set whether to display next or previous button on submission panel.
      */
-    private void setPrevNextFlag() {
+    protected void setPrevNextFlag() {
         int maxSubmissionNumber = 0;
         int minSubmissionNumber = 0;
         setPrevDisabled(false);
@@ -2836,38 +2839,40 @@ public abstract class ActionHelper implements Serializable {
         }
     }
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//    /**
-//     * This method returns true if a protocol has amendments
-//     * @return
-//     * @throws Exception
-//     */
-//    public boolean getHasAmendments() throws Exception {
-//        if (getProtocol().isAmendment()) {
-//            hasAmendments = true;
+    /**
+     * This method returns true if a protocol has amendments
+     * @return
+     * @throws Exception
+     */
+    public boolean getHasAmendments() throws Exception {
+        if (getProtocol().isAmendment()) {
+            hasAmendments = true;
+//TODO: Must be put back in for IACUC            
 //        } else {
 //            List<Protocol> protocols = (List<Protocol>) getProtocolAmendRenewService().getAmendments(getProtocol().getProtocolNumber());
 //            hasAmendments = protocols.isEmpty() ? false : true;
-//        } 
-//        return hasAmendments;
-//    }
-//    
-//    
-//    /**
-//     * This method returns true if a protocol has renewals.
-//     * @return
-//     * @throws Exception
-//     */
-//    public boolean getHasRenewals() throws Exception {
-//        if (getProtocol().isRenewal()) {
-//            hasRenewals = true;
+        } 
+        return hasAmendments;
+    }
+    
+    
+    /**
+     * This method returns true if a protocol has renewals.
+     * @return
+     * @throws Exception
+     */
+    public boolean getHasRenewals() throws Exception {
+        if (getProtocol().isRenewal()) {
+            hasRenewals = true;
+//TODO: Must be put back in for IACUC            
 //        } else {
 //            List<Protocol> protocols = (List<Protocol>) getProtocolAmendRenewService().getRenewals(getProtocol().getProtocolNumber());
 //            hasRenewals = protocols.isEmpty() ? false : true;
-//        }
-//        return hasRenewals;
-//    }
-//    
+        }
+        return hasRenewals;
+    }
+    
+// TODO *********commented the code below during IACUC refactoring*********         
 //    public void addNotifyIrbAttachment() {
 //        getProtocolNotifyIrbBean().getActionAttachments().add(
 //                getProtocolNotifyIrbBean().getNewActionAttachment());
@@ -2887,15 +2892,14 @@ public abstract class ActionHelper implements Serializable {
 //        
 //        return valid;
 //    }
-//
-//    public List<ProtocolVoteRecused> getRecusers() {
-//        return recusers;
-//    }
-//
-//
-//    public void setRecusers(List<ProtocolVoteRecused> recusers) {
-//        this.recusers = recusers;
-//    }
+
+    public List<ProtocolVoteRecused> getRecusers() {
+        return recusers;
+    }
+
+    public void setRecusers(List<ProtocolVoteRecused> recusers) {
+        this.recusers = recusers;
+    }
     
     /**
      * 
@@ -2932,17 +2936,15 @@ public abstract class ActionHelper implements Serializable {
         this.nextDisabled = nextDisabled;
     }
 
+    public List<ProtocolReviewer> getProtocolReviewers() {
+        return protocolReviewers;
+    }
+
+    public void setProtocolReviewers(List<ProtocolReviewer> protocolReviewers) {
+        this.protocolReviewers = protocolReviewers;
+    }
+
 // TODO *********commented the code below during IACUC refactoring*********         
-//    public List<ProtocolReviewer> getProtocolReviewers() {
-//        return protocolReviewers;
-//    }
-//
-//
-//    public void setProtocolReviewers(List<ProtocolReviewer> protocolReviewers) {
-//        this.protocolReviewers = protocolReviewers;
-//    }
-//
-//
 //    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
 //        this.businessObjectService = businessObjectService;
 //    }
@@ -3100,15 +3102,15 @@ public abstract class ActionHelper implements Serializable {
     public void setProtocolAbandonBean(ProtocolGenericActionBean protocolAbandonBean) {
         this.protocolAbandonBean = protocolAbandonBean;
     }
-//
-//    public boolean isHideReviewerName() {
-//        return hideReviewerName;
-//    }
-//
-//    public void setHideReviewerName(boolean hideReviewerName) {
-//        this.hideReviewerName = hideReviewerName;
-//    }
-//    
+
+    public boolean isHideReviewerName() {
+        return hideReviewerName;
+    }
+
+    public void setHideReviewerName(boolean hideReviewerName) {
+        this.hideReviewerName = hideReviewerName;
+    }
+    
 //    /*
 //     * check if to display reviewer name for any of the review comments of the submission selected in submission details..
 //     */
@@ -3133,30 +3135,30 @@ public abstract class ActionHelper implements Serializable {
 //        }
 //        return isHide;
 //    }
-//
-//    public boolean isHideSubmissionReviewerName() {
-//        return hideSubmissionReviewerName;
-//    }
-//
-//    public void setHideSubmissionReviewerName(boolean hideSubmissionReviewerName) {
-//        this.hideSubmissionReviewerName = hideSubmissionReviewerName;
-//    }
-//
-//    public List<ProtocolReviewAttachment> getReviewAttachments() {
-//        return reviewAttachments;
-//    }
-//
-//    public void setReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments) {
-//        this.reviewAttachments = reviewAttachments;
-//    }
-//
-//    public boolean isHideReviewerNameForAttachment() {
-//        return hideReviewerNameForAttachment;
-//    }
-//
-//    public void setHideReviewerNameForAttachment(boolean hideReviewerNameForAttachment) {
-//        this.hideReviewerNameForAttachment = hideReviewerNameForAttachment;
-//    }
+
+    public boolean isHideSubmissionReviewerName() {
+        return hideSubmissionReviewerName;
+    }
+
+    public void setHideSubmissionReviewerName(boolean hideSubmissionReviewerName) {
+        this.hideSubmissionReviewerName = hideSubmissionReviewerName;
+    }
+
+    public List<ProtocolReviewAttachment> getReviewAttachments() {
+        return reviewAttachments;
+    }
+
+    public void setReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments) {
+        this.reviewAttachments = reviewAttachments;
+    }
+
+    public boolean isHideReviewerNameForAttachment() {
+        return hideReviewerNameForAttachment;
+    }
+
+    public void setHideReviewerNameForAttachment(boolean hideReviewerNameForAttachment) {
+        this.hideReviewerNameForAttachment = hideReviewerNameForAttachment;
+    }
 
     public ProtocolCorrespondence getProtocolCorrespondence() {
         return protocolCorrespondence;

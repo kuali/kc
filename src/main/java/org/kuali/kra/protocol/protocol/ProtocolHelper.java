@@ -228,7 +228,7 @@ public abstract class ProtocolHelper implements Serializable {
      * Reason: For Institution who does not bill.  
      * @param protocol
      */
-    private void initializePermissions(Protocol protocol) {
+    protected void initializePermissions(Protocol protocol) {
          
         initializeModifyProtocolPermission(protocol);
 

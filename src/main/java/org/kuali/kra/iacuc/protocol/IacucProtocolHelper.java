@@ -173,6 +173,24 @@ public class IacucProtocolHelper extends ProtocolHelper {
         return Constants.PARAMETER_MODULE_IACUC_PROTOCOL_BILLABLE;
     }
 
-    
+    /*
+     * here as a placeholder for now, for when we must call specific IACUC prepareView().
+     */
+    @Override
+    public void prepareView() {
+        super.prepareView();    
+    }
+
+    /**
+     * This method initializes permission related to form.
+     * Note: Billable permission is only set if displayBillable is true.
+     * Reason: For Institution who does not bill.  
+     * @param protocol
+     */
+    @Override
+    protected void initializePermissions(Protocol protocol) {
+        IacucProtocol iacucProtocol = (IacucProtocol)protocol;
+        super.initializePermissions(protocol); 
+    }
 
 }

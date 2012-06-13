@@ -36,6 +36,7 @@ import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.iacuc.summary.IacucAlternateSearchSummary;
+import org.kuali.kra.iacuc.summary.IacucProcedureSummary;
 import org.kuali.kra.iacuc.summary.IacucProtocolExceptionSummary;
 import org.kuali.kra.iacuc.summary.IacucProtocolSpeciesSummary;
 import org.kuali.kra.iacuc.summary.IacucProtocolSummary;
@@ -432,7 +433,7 @@ public class IacucProtocol extends Protocol {
         addThreeRsSummary((IacucProtocolSummary)protocolSummary);
         addSpeciesAndGroupsSummaries((IacucProtocolSummary)protocolSummary);
         addExceptionsSummaries((IacucProtocolSummary)protocolSummary);
-//        addProceduresSummaries((IacucProtocolSummary)protocolSummary);
+        addProceduresSummaries((IacucProtocolSummary)protocolSummary);
         return protocolSummary;
     }
     
@@ -491,6 +492,14 @@ public class IacucProtocol extends Protocol {
         for (IacucProtocolException exception : iacucProtocolExceptions) {
             IacucProtocolExceptionSummary newSummary = new IacucProtocolExceptionSummary(exception);
             protocolSummary.getExceptionSummaries().add(newSummary);
+        }
+    }
+
+    protected void addProceduresSummaries(IacucProtocolSummary protocolSummary) {
+        protocolSummary.setProcedureOverviewSummary(overviewTimeline);
+        for (IacucProtocolStudyGroup studyGroup: iacucProtocolStudyGroups) {
+            IacucProcedureSummary newSummary = new IacucProcedureSummary(studyGroup);
+            protocolSummary.getProcedureSummaries().add(newSummary);
         }
     }
 

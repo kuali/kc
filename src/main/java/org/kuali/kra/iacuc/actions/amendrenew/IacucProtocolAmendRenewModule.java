@@ -20,7 +20,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.Protocol;
 
 @SuppressWarnings("serial")
-public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
+public class IacucProtocolAmendRenewModule extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
 
     private Long protocolAmendRenewModuleId;
 
@@ -32,11 +32,11 @@ public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase i
 
     private String protocolModuleTypeCode;
 
-    private ProtocolAmendRenewal protocolAmendRenewal;
+    private IacucProtocolAmendRenewal protocolAmendRenewal;
 
     private IacucProtocolModule protocolModule;
 
-    public ProtocolAmendRenewModule() {
+    public IacucProtocolAmendRenewModule() {
     }
 
     public Long getProtocolAmendRenewModuleId() {
@@ -79,11 +79,11 @@ public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase i
         this.protocolModuleTypeCode = protocolModuleTypeCode;
     }
 
-    public ProtocolAmendRenewal getProtocolAmendRenewal() {
+    public IacucProtocolAmendRenewal getProtocolAmendRenewal() {
         return protocolAmendRenewal;
     }
 
-    public void setProtocolAmendRenewal(ProtocolAmendRenewal protocolAmendRenewal) {
+    public void setProtocolAmendRenewal(IacucProtocolAmendRenewal protocolAmendRenewal) {
         this.protocolAmendRenewal = protocolAmendRenewal;
     }
 
