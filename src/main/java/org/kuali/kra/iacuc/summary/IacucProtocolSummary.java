@@ -36,6 +36,9 @@ public class IacucProtocolSummary extends ProtocolSummary {
     private IacucThreeRsSummary threeRsInfo;
     private List<IacucProtocolSpeciesSummary> speciesSummaries = new ArrayList<IacucProtocolSpeciesSummary>();
     private List<IacucProtocolExceptionSummary> exceptionSummaries = new ArrayList<IacucProtocolExceptionSummary>();
+    private String procedureOverviewSummary;
+    private boolean procedureOverviewSummaryChanged = false;
+    private List<IacucProcedureSummary> procedureSummaries = new ArrayList<IacucProcedureSummary>();
     
     public IacucProtocolSummary() {
         super();
@@ -48,8 +51,8 @@ public class IacucProtocolSummary extends ProtocolSummary {
         layStmt2Changed = !StringUtils.equals(layStmt2, other.layStmt2);
         compareThreeRs(other);
         compareSpecies(other);
-        compareProtocols(other);
         compareExceptions(other);
+        compareProcedures(other);
     }
 
     public String getProjectType() {
@@ -94,8 +97,36 @@ public class IacucProtocolSummary extends ProtocolSummary {
     
     public void setThreeRsInfo(IacucThreeRsSummary threeRsInfo) {
         this.threeRsInfo = threeRsInfo;
-    }
+    }    
     
+    public List<IacucProcedureSummary> getProcedureSummaries() {
+        return procedureSummaries;
+    }
+
+    public void setProcedureSummaries(List<IacucProcedureSummary> procedureSummaries) {
+        this.procedureSummaries = procedureSummaries;
+    }
+
+    public void setProjectTypeChanged(boolean projectTypeChanged) {
+        this.projectTypeChanged = projectTypeChanged;
+    }
+
+    public void setLayStmt1Changed(boolean layStmt1Changed) {
+        this.layStmt1Changed = layStmt1Changed;
+    }
+
+    public void setLayStmt2Changed(boolean layStmt2Changed) {
+        this.layStmt2Changed = layStmt2Changed;
+    }
+
+    public void setSpeciesSummaries(List<IacucProtocolSpeciesSummary> speciesSummaries) {
+        this.speciesSummaries = speciesSummaries;
+    }
+
+    public void setExceptionSummaries(List<IacucProtocolExceptionSummary> exceptionSummaries) {
+        this.exceptionSummaries = exceptionSummaries;
+    }
+
     private void compareThreeRs(IacucProtocolSummary other) {
         threeRsInfo.compare(other.getThreeRsInfo());
     }
@@ -123,16 +154,19 @@ public class IacucProtocolSummary extends ProtocolSummary {
         return exceptionSummaries;
     }
 
-    private void compareProtocols(IacucProtocolSummary other) {
-//TODO        for (IacucProtocolSpeciesSummary mySummary : speciesSummaries) {
-    }
-
     private void compareExceptions(IacucProtocolSummary other) {
         for (IacucProtocolExceptionSummary mySummary : exceptionSummaries) {
             mySummary.compare(other);
         }
     }
 
+    private void compareProcedures(IacucProtocolSummary other) {
+        procedureOverviewSummaryChanged = !StringUtils.equals(procedureOverviewSummary, other.procedureOverviewSummary);
+        for (IacucProcedureSummary mySummary : procedureSummaries) {
+            mySummary.compare(other);
+        }
+    }
+    
     public IacucProtocolExceptionSummary findExceptionSummary(Integer exceptionId) {
         for (IacucProtocolExceptionSummary exception : exceptionSummaries) {
             if (exception.getIacucProtocolExceptionId().equals(exceptionId)) {
@@ -142,5 +176,29 @@ public class IacucProtocolSummary extends ProtocolSummary {
         return null;
     }
 
+    public String getProcedureOverviewSummary() {
+        return procedureOverviewSummary;
+    }
+
+    public void setProcedureOverviewSummary(String procedureOverviewSummary) {
+        this.procedureOverviewSummary = procedureOverviewSummary;
+    }
+
+    public boolean isProcedureOverviewSummaryChanged() {
+        return procedureOverviewSummaryChanged;
+    }
+
+    public void setProcedureOverviewSummaryChanged(boolean procedureOverviewSummaryChanged) {
+        this.procedureOverviewSummaryChanged = procedureOverviewSummaryChanged;
+    }
+
+    public IacucProcedureSummary findProcedureSummary(Integer procedureCode) {
+        for (IacucProcedureSummary procedure : procedureSummaries) {
+            if (procedure.getProcedureCode().equals(procedureCode)) {
+                return procedure;
+            }
+        }
+        return null;
+    }
 
 }

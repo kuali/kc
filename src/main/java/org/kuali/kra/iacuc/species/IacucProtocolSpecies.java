@@ -192,7 +192,7 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
 
     public String getSpeciesName() {
         if (iacucSpecies == null) {
-            refreshReferenceObject("iacucSpecies");
+            refreshReferenceObject("speciesCode");
         }
         return iacucSpecies.getSpeciesName();
     }

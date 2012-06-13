@@ -547,8 +547,8 @@
         </property>
 		<property name="control" >
       		<bean parent="TextareaControlDefinition"
-            	p:rows="2"
-            	p:cols="290" />
+            	p:rows="3"
+            	p:cols="200" />
 		</property>
         <property name="summary" value="Overview and Timeline" />
         <property name="description" value="Overview and Timeline" />
