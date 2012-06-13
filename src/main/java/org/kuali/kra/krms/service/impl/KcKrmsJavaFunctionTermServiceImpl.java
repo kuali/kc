@@ -24,6 +24,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.KcKrmsJavaFunctionTermService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -31,6 +37,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 
 public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTermService {
     
@@ -46,10 +53,7 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
      */
     @Override
     public String specifiedGGForm(DevelopmentProposal developmentProposal, String formNames) {
-        String[] formNamesArray = formNames.split(",");
-        if(formNames!=null && formNamesArray.length==0){
-            formNamesArray = new String[]{formNames.trim()};
-        }
+        String[] formNamesArray = buildArrayFromCommaList(formNames);
         developmentProposal.refreshReferenceObject("s2sOppForms");
         List<S2sOppForms> s2sOppForms = developmentProposal.getS2sOppForms();
         for (int i = 0; i < formNamesArray.length; i++) {
@@ -94,10 +98,7 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
          * F.FORM_NAME in ('RR Budget V1-1','RR SubAward Budget V1.2','RR_FedNonFed_SubawardBudget-V1.2',
          * 'RR_FedNonFed_SubawardBudget-V1.1','RR SubAward Budget V1.1','PHS398 Modular Budget V1-1', 'PHS398 Modular Budget V1-2')
          */
-        String[] formNamesArray = formNames.split(",");
-        if(formNames!=null && formNamesArray.length==0){
-            formNamesArray = new String[]{formNames.trim()};
-        }
+        String[] formNamesArray = buildArrayFromCommaList(formNames);
         int li_count_bud = 0;
         for (String formName : formNamesArray) {
             for(S2sOppForms form: developmentProposal.getS2sOppForms()) {
@@ -124,10 +125,7 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
      */
     @Override
     public String monitoredSponsorRule(DevelopmentProposal developmentProposal, String monitoredSponsorHirearchies) {
-        String[] sponsoredHierarchyArray = monitoredSponsorHirearchies.split(","); //MIT Equity Interests
-        if(monitoredSponsorHirearchies!=null && sponsoredHierarchyArray.length==0){
-            sponsoredHierarchyArray = new String[]{monitoredSponsorHirearchies.trim()};
-        }
+        String[] sponsoredHierarchyArray = buildArrayFromCommaList(monitoredSponsorHirearchies);
         ArrayList<SponsorHierarchy> hierarchies = new ArrayList<SponsorHierarchy>();
         for (String hierarchyName : sponsoredHierarchyArray) {
             Map fieldValues = new HashMap();
@@ -156,10 +154,7 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
     @Override
     public String s2sReplanRule(DevelopmentProposal developmentProposal, String narativeTypes, String maxNumber) {
         //- max of 10 narrative types PHS_ResearchPlan_Appendix
-        String[] narrativeTypesArray = narativeTypes.split(","); //MIT Equity Interests
-        if(narativeTypes!=null && narrativeTypesArray.length==0){
-            narrativeTypesArray = new String[]{narativeTypes.trim()};
-        }
+        String[] narrativeTypesArray = buildArrayFromCommaList(narativeTypes);
         int[] narrativeCounts = new int[narrativeTypesArray.length];
         int maxNumberInt = Integer.parseInt(maxNumber);
         for (Narrative narrative : developmentProposal.getNarratives()) {
@@ -237,11 +232,7 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
                       instr(ls_FileName, '`') +
                       instr(ls_FileName, '+') ;
          */
-        
-        String[] restrictedSpecialCharactersArray = restrictedSpecialCharacters.split(","); //MIT Equity Interests
-        if(restrictedSpecialCharacters!=null && restrictedSpecialCharactersArray.length==0){
-            restrictedSpecialCharactersArray = new String[]{restrictedSpecialCharacters.trim()};
-        }
+        String[] restrictedSpecialCharactersArray = buildArrayFromCommaList(restrictedSpecialCharacters);
         for (ProposalPersonBiography ppb : developmentProposal.getPropPersonBios()) {
             if (StringUtils.equalsIgnoreCase(ppb.getPropPerDocType().getDescription(), "Biosketch")) {
                 for (String character : restrictedSpecialCharactersArray) {
@@ -276,6 +267,88 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
         }
         return FALSE;
     }
+    
+    /**
+     * 
+     * This method is used to check if , in any period of the given version of budget, the given cost element has crossed the given limit or not.
+     * See  fn_cost_element_ver_per_limit 
+     * @param developmentProposal
+     * @param versionNumber the version number to be checked
+     * @param costElementName the cost element to be checked
+     * @param limit the amount limitto be checked
+     * @return 'true' - if the total cost of the CE crossed the limit in any one of the period, otherwise 'false'
+     */
+    @Override
+    public String costElementVersionLimit(DevelopmentProposal developmentProposal, String versionNumber, String costElementName, String limit) {
+        Long versionNumberLong = Long.parseLong(versionNumber);
+        float limitLong = Float.parseFloat(limit);
+        for (BudgetDocumentVersion bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
+            if (bdv.getVersionNumber().equals(versionNumberLong)) {
+                try {
+                    DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+                    BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(bdv.getDocumentNumber());
+                    List<Budget> budgets = budgetDocument.getBudgets();
+                    for (Budget budget : budgets) {
+                        if (budget.getVersionNumber().equals(versionNumberLong)) {
+                            for (BudgetPeriod period : budget.getBudgetPeriods()) {
+                                float costElementTotal = 0;
+                                for (BudgetLineItem item : period.getBudgetLineItems()) {
+                                    if (StringUtils.equalsIgnoreCase(costElementName, item.getCostElementName())) {
+                                        costElementTotal = costElementTotal + item.getLineItemCost().getFloatValue();
+                                    }
+                                }
+                                if (costElementTotal > limitLong) {
+                                    return TRUE;
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    //lets just ignor and return false.
+                }
+            }
+        }
+        return FALSE;
+    }
+    
+    /**
+     * 
+     * This method is used to CHECK IF a proposal's division code field  is  null
+     * See  fn_agency_divcode_is_null_rule 
+     * @param developmentProposal
+     * @return 'true' - if the division field is null, otherwise return false.
+     */
+    @Override
+    public String divisionCodeRule(DevelopmentProposal developmentProposal) {
+        return StringUtils.isEmpty(developmentProposal.getActivityTypeCode()) ? TRUE : FALSE;
+    }
+    
+    /**
+     * 
+     * This method is used to CHECK IF THIS PROPOSAL IS FOR A FELLOWSHIP.  Typically 3 or 7 is a fellowship code.
+     * See  FN_IS_FELLOWSHIP 
+     * @param developmentProposal
+     * @return 'true' - if the division field is a fellowship code, otherwise return false.
+     */
+    @Override
+    public String divisionCodeIsFellowship(DevelopmentProposal developmentProposal, String fellowshipCodes) {
+        String[] fellowShipCodeArray = buildArrayFromCommaList(fellowshipCodes);
+        for (String code : fellowShipCodeArray) {
+            if (StringUtils.equalsIgnoreCase(code, developmentProposal.getActivityTypeCode())) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    
+    protected String[] buildArrayFromCommaList(String commaList) {
+        String[] newArray = commaList.split(","); //MIT Equity Interests
+        if(commaList!=null && newArray.length==0){
+            newArray = new String[]{commaList.trim()};
+        }
+        return newArray;
+    }
+    
 
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
