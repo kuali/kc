@@ -29,4 +29,7 @@ public interface KcKrmsJavaFunctionTermService {
     public String grantsFormRule(DevelopmentProposal developmentProposal, String formName);
     public String biosketchFileNameRule(DevelopmentProposal developmentProposal, String restrictedSpecialCharacters);
     public String ospAdminPropPersonRule(DevelopmentProposal developmentProposal);
+    public String costElementVersionLimit(DevelopmentProposal developmentProposal, String versionNumber, String costElementName, String limit);
+    public String divisionCodeRule(DevelopmentProposal developmentProposal);
+    public String divisionCodeIsFellowship(DevelopmentProposal developmentProposal, String fellowshipCodes);
 }
