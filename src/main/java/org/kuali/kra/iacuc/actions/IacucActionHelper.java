@@ -42,6 +42,8 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
+import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolAdministrativelyIncompleteBean;
+import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
@@ -69,6 +71,8 @@ import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBea
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
+import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncompleteBean;
+import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
@@ -626,6 +630,17 @@ canViewOnlineReviewerComments = true;
     protected ProtocolWithdrawBean getNewProtocolWithdrawBeanInstanceHook(ActionHelper actionHelper) {
         return new IacucProtocolWithdrawBean((IacucActionHelper) actionHelper);
     }
+    
+    @Override
+    protected ProtocolAdministrativelyWithdrawBean getNewProtocolAdminWithdrawBeanInstanceHook(ActionHelper actionHelper) {
+        return new IacucProtocolAdministrativelyWithdrawBean((IacucActionHelper) actionHelper);
+    }
+    
+    @Override
+    protected ProtocolAdministrativelyIncompleteBean getNewProtocolAdminIncompleteBeanInstanceHook(ActionHelper actionHelper) {
+        return new IacucProtocolAdministrativelyIncompleteBean((IacucActionHelper) actionHelper);
+    }
+
 
     @Override
     protected ProtocolTask getNewWithdrawProtocolTaskInstanceHook(Protocol protocol) {
@@ -851,6 +866,7 @@ setRecusers(new ArrayList<ProtocolVoteRecused>());
     protected ProtocolTask getNewAdminMarkIncompleteUnavailableProtocolTaskInstanceHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.ADMIN_INCOMPLETE_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
     }
+    
     
 }
 

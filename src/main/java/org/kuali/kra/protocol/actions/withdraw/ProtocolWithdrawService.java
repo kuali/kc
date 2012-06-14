@@ -24,7 +24,7 @@ import org.kuali.kra.protocol.ProtocolDocument;
 public interface ProtocolWithdrawService {
 
     /**
-     * Perform the task of withdrawing a protocol.  A new protocol document will be created
+     * Perform the task of withdrawing a protocol. A new protocol document will be created
      * so that it can be re-submitted into workflow at a later time.
      * @param protocol the protocol
      * @param withdrawBean the required data for performing a withdrawal
@@ -35,12 +35,22 @@ public interface ProtocolWithdrawService {
 
     
     /**
-     * Perform the task of administratively withdrawing a protocol.  A new protocol document will be created
+     * Perform the task of administratively withdrawing a protocol. A new protocol document will be created
      * so that it can be re-submitted into workflow at a later time.
      * @param protocol the protocol
      * @param withdrawBean the required data for performing a withdrawal
      * @return new protocol document 
      * @throws Exception 
      */
-    public ProtocolDocument administrativelyWithdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception;
+    public ProtocolDocument administrativelyWithdraw(Protocol protocol, ProtocolAdministrativelyWithdrawBean administrativelyWithdrawBean) throws Exception;
+    
+    /**
+     * Perform the task of administratively marking a protocol as 'incomplete'. A new protocol document will be created
+     * so that it can be re-submitted into workflow at a later time.
+     * @param protocol the protocol
+     * @param withdrawBean the required data for performing a withdrawal
+     * @return new protocol document 
+     * @throws Exception 
+     */
+    public ProtocolDocument administrativelyMarkIncomplete(Protocol protocol, ProtocolAdministrativelyIncompleteBean markIncompleteBean) throws Exception;
 }

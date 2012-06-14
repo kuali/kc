@@ -173,23 +173,17 @@ then
 	setProtocolStatusCode(protocolAction, "1308");
 end
 
-rule "fn_withdraw: Submission Status =  204 (Withdrawn )" 
+
+rule "fn_withdraw: Submission Status =  204 (Withdrawn); Protocol Status =  105 (Withdrawn)" 
 salience 100
 when
 	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "115")
 then	
 	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "204");
-end
-
-rule "fn_withdraw: Protocol Status =  105 (Withdrawn) " 
-salience 100
-when
-	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "115", protocolStatusCode == "101")
-then	
-	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "105");
 end
+
 
 rule "fn_disapprove: Submission Status = 1201(Disapproved); Protocol Status =  306(Disapprove)  " 
 salience 100
@@ -200,6 +194,7 @@ then
 	setProtocolSubmissionStatusCode(protocolAction, "1201");
 	setProtocolStatusCode(protocolAction, "306");
 end
+
 
 // following is changed from "exempt" to "review not required"
 rule "fn_grantExempt: Submission Status = 1104 (Review Not Required); Protocol Status = 1300" 
@@ -339,20 +334,27 @@ then
 end
 
 
-rule "fn_Administratively_Withdraw: Submission Status =  204 (Withdrawn)" 
+
+rule "fn_Administratively_Withdraw: Submission Status =  204 (Withdrawn); Protocol Status =  302 (Administratively Withdrawn)" 
 salience 100
 when
-	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "300")
+	protocolAction : IacucProtocolActionUpdateMapping(actionTypeCode == "300")
 then	
 	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "204");
-end
-
-rule "fn_Administratively_Withdraw: Protocol Status =  302 (Administratively Withdrawn) " 
-salience 100
-when
-	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "300", protocolStatusCode in ("101","203"))
-then	
-	createAuditTrail(protocolAction);
 	setProtocolStatusCode(protocolAction, "302");
 end
+
+
+
+rule "fn_Administratively_Incomplete: Submission Status =  214 (Administratively Incomplete); Protocol Status =  203 (Administratively Incomplete)" 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping(actionTypeCode == "216")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "214");
+	setProtocolStatusCode(protocolAction, "203");
+end
+
+
