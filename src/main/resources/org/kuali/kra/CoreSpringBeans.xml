@@ -920,6 +920,7 @@
     </bean>
     <bean id="kcKrmsJavaFunctionTermService" class="org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceImpl">
     	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="unitService" ref="unitService" />
     </bean>
     
     <bean 

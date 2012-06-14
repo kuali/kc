@@ -27,9 +27,14 @@ public interface KcKrmsJavaFunctionTermService {
     public String monitoredSponsorRule(DevelopmentProposal developmentProposal, String monitoredSponsorHirearchies);
     public String s2sReplanRule(DevelopmentProposal developmentProposal, String narativeTypes, String maxNumber);
     public String grantsFormRule(DevelopmentProposal developmentProposal, String formName);
-    public String biosketchFileNameRule(DevelopmentProposal developmentProposal, String restrictedSpecialCharacters);
+    public String biosketchFileNameRule(DevelopmentProposal developmentProposal);
     public String ospAdminPropPersonRule(DevelopmentProposal developmentProposal);
     public String costElementVersionLimit(DevelopmentProposal developmentProposal, String versionNumber, String costElementName, String limit);
     public String divisionCodeRule(DevelopmentProposal developmentProposal);
     public String divisionCodeIsFellowship(DevelopmentProposal developmentProposal, String fellowshipCodes);
+    public String budgetSubawardOrganizationnameRule(DevelopmentProposal developmentProposal);
+    public String checkProposalPerson(DevelopmentProposal developmentProposal, String personId);
+    public String agencyProgramCodeNullRule(DevelopmentProposal developmentProposal);
+    public String allProposalsRule(DevelopmentProposal developmentProposal);
+    public String proposalLeadUnitInHierarchy(DevelopmentProposal developmentProposal, String unitNumberToCheck);
 }
