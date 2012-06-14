@@ -39,11 +39,8 @@
             <kra-iacuc-action:submitAction />
             <kra-iacuc-action:assignCmtAction />  
             <kra-iacuc-action:withdrawAction />
-            <kra-iacuc-action:modifySubmissionAction />
-            <kra-iacuc-action:adminWithdrawAction />
-            <kra-iacuc-action:adminApproveAction />
-            <kra-iacuc-action:adminMarkIncompleteAction />
-
+            <kra-iacuc-action:modifySubmissionAction />            
+			<kra-iacuc-action:adminActions />
           
           <%--
             <kra-iacuc-action:assignReviewersAction />
