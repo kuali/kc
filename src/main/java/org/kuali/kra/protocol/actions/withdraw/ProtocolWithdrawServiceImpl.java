@@ -20,8 +20,8 @@ import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolVersionService;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawServiceImpl;
-import org.kuali.kra.protocol.actions.withdraw.WithdrawCorrespondence;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
+import org.kuali.kra.protocol.actions.correspondence.AbstractProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.printing.PrintingException;
@@ -185,7 +185,7 @@ public abstract class ProtocolWithdrawServiceImpl implements ProtocolWithdrawSer
      * @param protocol a Protocol object.
      */
     protected void generateCorrespondenceDocumentAndAttach(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws PrintingException {
-        WithdrawCorrespondence correspondence = withdrawBean.getCorrespondence();
+        AbstractProtocolActionsCorrespondence correspondence = withdrawBean.getCorrespondence();
 // TODO *********commented the code below during IACUC refactoring*********         
 //        correspondence.setProtocol(protocol);
 //        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
@@ -267,6 +267,10 @@ public abstract class ProtocolWithdrawServiceImpl implements ProtocolWithdrawSer
     }
 
     // new addition developed for IACUC, has to be backfitted to IRB
-    public abstract ProtocolDocument administrativelyWithdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception;
+    public abstract ProtocolDocument administrativelyWithdraw(Protocol protocol, ProtocolAdministrativelyWithdrawBean administrativelyWithdrawBean) throws Exception;
+    
+    // new addition developed for IACUC, has to be backfitted to IRB
+    public abstract ProtocolDocument administrativelyMarkIncomplete(Protocol protocol, ProtocolAdministrativelyIncompleteBean markIncompleteBean) throws Exception;
+ 
  
 }

@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.actions.withdraw;
 
 import java.io.Serializable;
 
-import org.kuali.kra.protocol.actions.withdraw.WithdrawCorrespondence;
+import org.kuali.kra.protocol.actions.correspondence.AbstractProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 
 /**
@@ -35,5 +35,5 @@ public interface ProtocolWithdrawBean extends ProtocolActionBean, Serializable {
      * This method returns the correct correspondence for this object
      * @return a WithdrawCorrespondence object
      */
-    public WithdrawCorrespondence getCorrespondence();
+    public AbstractProtocolActionsCorrespondence getCorrespondence();
 }
