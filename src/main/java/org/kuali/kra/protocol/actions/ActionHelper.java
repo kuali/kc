@@ -64,6 +64,8 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
 import org.kuali.kra.protocol.actions.undo.UndoLastActionBean;
+import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncompleteBean;
+import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
@@ -258,7 +260,8 @@ public abstract class ActionHelper implements Serializable {
     protected ProtocolApproveBean protocolResponseApprovalBean;
     
     private ProtocolApproveBean protocolAdminApprovalBean;
-    private ProtocolWithdrawBean protocolAdminWithdrawBean;
+    private ProtocolAdministrativelyWithdrawBean protocolAdminWithdrawBean;
+    private ProtocolAdministrativelyIncompleteBean protocolAdminIncompleteBean;
     
     protected ProtocolGenericActionBean protocolDisapproveBean;
     protected ProtocolGenericActionBean protocolSMRBean;
@@ -391,7 +394,8 @@ public abstract class ActionHelper implements Serializable {
 //                Constants.PROTOCOL_RESPONSE_APPROVAL_ACTION_PROPERTY_KEY);
             
         protocolAdminApprovalBean = buildProtocolApproveBean(getAdminApprovalProtocolActionTypeHook(), Constants.PROTOCOL_ADMIN_APPROVAL_ACTION_PROPERTY_KEY);
-        protocolAdminWithdrawBean = getNewProtocolWithdrawBeanInstanceHook(this);
+        protocolAdminWithdrawBean = getNewProtocolAdminWithdrawBeanInstanceHook(this);
+        protocolAdminIncompleteBean = getNewProtocolAdminIncompleteBeanInstanceHook(this);
 
 // TODO *********commented the code below during IACUC refactoring*********         
 //        protocolDisapproveBean = buildProtocolGenericActionBean(ProtocolActionType.DISAPPROVED, 
@@ -463,6 +467,10 @@ public abstract class ActionHelper implements Serializable {
 //        protocolPrintOption = new ProtocolSummaryPrintOptions();
 //        initPrintQuestionnaire();
     }
+    
+    protected abstract ProtocolAdministrativelyWithdrawBean getNewProtocolAdminWithdrawBeanInstanceHook(ActionHelper actionHelper);
+    
+    protected abstract ProtocolAdministrativelyIncompleteBean getNewProtocolAdminIncompleteBeanInstanceHook(ActionHelper actionHelper);
     
     protected abstract String getAdminApprovalProtocolActionTypeHook();
 
@@ -537,7 +545,7 @@ public abstract class ActionHelper implements Serializable {
         
         actionBeanTaskMap.put(TaskName.ADMIN_APPROVE_PROTOCOL, protocolAdminApprovalBean);
         actionBeanTaskMap.put(TaskName.ADMIN_WITHDRAW_PROTOCOL, protocolAdminWithdrawBean);
-        
+        actionBeanTaskMap.put(TaskName.ADMIN_INCOMPLETE_PROTOCOL, protocolAdminIncompleteBean);
     }
     
     
@@ -2088,11 +2096,11 @@ public abstract class ActionHelper implements Serializable {
     
     
 
-    public void setProtocolAdminWithdrawBean(ProtocolWithdrawBean protocolAdminWithdrawBean) {
+    public void setProtocolAdminWithdrawBean(ProtocolAdministrativelyWithdrawBean protocolAdminWithdrawBean) {
         this.protocolAdminWithdrawBean = protocolAdminWithdrawBean;
     }
 
-    public ProtocolWithdrawBean getProtocolAdminWithdrawBean() {
+    public ProtocolAdministrativelyWithdrawBean getProtocolAdminWithdrawBean() {
         return protocolAdminWithdrawBean;
     }
 
@@ -2102,6 +2110,14 @@ public abstract class ActionHelper implements Serializable {
 
     public ProtocolApproveBean getProtocolAdminApprovalBean() {
         return protocolAdminApprovalBean;
+    }
+
+    public void setProtocolAdminIncompleteBean(ProtocolAdministrativelyIncompleteBean protocolAdminIncompleteBean) {
+        this.protocolAdminIncompleteBean = protocolAdminIncompleteBean;
+    }
+
+    public ProtocolAdministrativelyIncompleteBean getProtocolAdminIncompleteBean() {
+        return protocolAdminIncompleteBean;
     }
 
     public boolean getCanMakeAdminCorrection() {

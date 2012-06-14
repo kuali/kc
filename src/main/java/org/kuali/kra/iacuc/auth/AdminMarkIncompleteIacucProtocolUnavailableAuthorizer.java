@@ -13,8 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.actions.withdraw;
+package org.kuali.kra.iacuc.auth;
 
-public class WithdrawCorrespondence {
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.infrastructure.RoleConstants;
+
+public class AdminMarkIncompleteIacucProtocolUnavailableAuthorizer extends IacucProtocolAuthorizer {
+    private static final String NAMESPACE = "KC-UNT";
+    
+    @Override
+    public boolean isAuthorized(String userId, IacucProtocolTask task) {
+        return  !canExecuteAction(task.getProtocol(), IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE) && 
+                kraAuthorizationService.hasRole(userId, NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
+    }
 
 }
