@@ -25,6 +25,7 @@ public class SpecialReviewApprovalType extends KraPersistableBusinessObjectBase 
      * The type code for Approval Type 'Approved'.
      */
     public static final String APPROVED = "2";
+    public static final String EXEMPT = "4";
 
     /**
      * The type code for Approval Type 'Link to IRB'.
