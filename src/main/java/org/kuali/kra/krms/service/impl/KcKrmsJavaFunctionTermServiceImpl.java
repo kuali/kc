@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.SponsorHierarchy;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -35,7 +36,9 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.s2s.bo.S2sOppForms;
+import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -44,6 +47,7 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
     private static final String TRUE = "true";
     private static final String FALSE = "false";
     private BusinessObjectService businessObjectService;
+    private UnitService unitService;
 
     /**
      * 
@@ -195,50 +199,14 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
      * This method checks to see if the biosketch file names contain any restricted special characters.
      * See  fn_prop_pers_att_name_rule 
      * @param developmentProposal
-     * @param restrictedSpecialCharacters comma delimited list of spcial characters to restrict.
      * @return 'true' if no special characters are found.
      */
     @Override
-    public String biosketchFileNameRule(DevelopmentProposal developmentProposal, String restrictedSpecialCharacters) {
-        
-        /**
-         * i_Pos := instr(ls_FileName, ' ') +
-                      instr(ls_FileName, '`') +
-                      instr(ls_FileName, '@') +
-                      instr(ls_FileName, '#') +
-                      instr(ls_FileName, '!') +
-                      instr(ls_FileName, '$') +
-                      instr(ls_FileName, '%') +
-                      instr(ls_FileName, '^') +
-                      instr(ls_FileName, '&') +
-                      instr(ls_FileName, '*') +
-                      instr(ls_FileName, '(') +
-                      instr(ls_FileName, ')') +
-                      instr(ls_FileName, '{') +
-                      instr(ls_FileName, '}') +
-                      instr(ls_FileName, '[') +
-                      instr(ls_FileName, ']') +
-                      instr(ls_FileName, '|') +
-                      instr(ls_FileName, '\') +
-                      instr(ls_FileName, '/') +
-                      instr(ls_FileName, '?') +
-                      instr(ls_FileName, '<') +
-                      instr(ls_FileName, '>') +
-                      instr(ls_FileName, ',') +
-                      instr(ls_FileName, ';') +
-                      instr(ls_FileName, ':') +
-                      instr(ls_FileName, '"') +
-                      instr(ls_FileName, '''') +
-                      instr(ls_FileName, '`') +
-                      instr(ls_FileName, '+') ;
-         */
-        String[] restrictedSpecialCharactersArray = buildArrayFromCommaList(restrictedSpecialCharacters);
+    public String biosketchFileNameRule(DevelopmentProposal developmentProposal) {
         for (ProposalPersonBiography ppb : developmentProposal.getPropPersonBios()) {
             if (StringUtils.equalsIgnoreCase(ppb.getPropPerDocType().getDescription(), "Biosketch")) {
-                for (String character : restrictedSpecialCharactersArray) {
-                    if (StringUtils.equalsIgnoreCase(character, ppb.getFileName())) {
-                        return FALSE;
-                    }
+                if (StringUtils.equals(FALSE, specialCharacterRule(ppb.getFileName()))) {
+                    return FALSE;
                 }
             }
         }
@@ -341,6 +309,103 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
         return FALSE;
     }
     
+    /**
+     * 
+     * This method is used to check if a budget sub award organization name contains special characters.  
+     * See  fn_sub_awd_org_name_rule  
+     * @param developmentProposal
+     * @return 'true' - if it does not contain special characters.  If it does have special characters, otherwise returns 'false'.
+     */
+    @Override
+    public String budgetSubawardOrganizationnameRule(DevelopmentProposal developmentProposal) {
+        for (BudgetDocumentVersion bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
+            try {
+                DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+                BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(bdv.getDocumentNumber());
+                List<Budget> budgets = budgetDocument.getBudgets();
+                for (Budget budget : budgets) {
+                    if (budget.isFinalVersionFlag()) {
+                        for (BudgetSubAwards bsa : budget.getBudgetSubAwards()) {
+                            if (StringUtils.equals(FALSE, specialCharacterRule(bsa.getOrganizationName()))) {
+                                return FALSE;
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                //lets just ignor and return false.
+            }
+        }
+        return TRUE;
+    }
+    
+    /**
+     * 
+     * This method is used to check if the passed in personId, is among the proposal people.  
+     * See FN_CHECK_PROPOSAL_KEY_PERSON   
+     * @param developmentProposal
+     * @return 'true' - if the logged in user is a proposal person, otherwise returns 'false'.
+     */
+    @Override
+    public String checkProposalPerson(DevelopmentProposal developmentProposal, String personId) {
+        for (ProposalPerson person : developmentProposal.getProposalPersons()) {
+            if (StringUtils.equals(person.getPersonId(), personId)) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    
+    /**
+     * 
+     * This method is a rule to CHECK IF a proposal's agency program code field  is  null  
+     * See fn_ag_progcode_is_null_rule   
+     * @param developmentProposal
+     * @return 'true' - if the agency program code is NULL, otherwise returns 'false'.
+     */
+    @Override
+    public String agencyProgramCodeNullRule(DevelopmentProposal developmentProposal){
+        return StringUtils.isEmpty(developmentProposal.getAgencyProgramCode()) ? TRUE : FALSE;
+    }
+    
+    /**
+     * 
+     * This method returns 'true', and is implemented because the original function existed.  
+     * See FN_ALL_PROPOSALS_RULE   
+     * @param developmentProposal
+     * @return 'true' always
+     */
+    @Override
+    public String allProposalsRule(DevelopmentProposal developmentProposal) {
+        return TRUE;
+    }
+    
+    /**
+     * 
+     * This method checks to see if the proposal lead unit is in the unit hierarchy of the passed in unit.  
+     * See FN_LEAD_UNIT_BELOW   
+     * @param developmentProposal
+     * @param unitNumberToCheck
+     * @return 'true' if the lead unit is in the unit hiearchy of the passed in unit, otherwise returns 'false'.
+     */
+    @Override
+    public String proposalLeadUnitInHierarchy(DevelopmentProposal developmentProposal, String unitNumberToCheck) {
+        String leadUnitNumber = developmentProposal.getUnitNumber();
+        if (StringUtils.equals(developmentProposal.getUnitNumber(), unitNumberToCheck)) {
+            return TRUE;
+        }
+        List<Unit> units = this.getUnitService().getAllSubUnits(unitNumberToCheck);
+        if (units != null && units.size() > 0) {
+            for (Unit unit : units) {
+                if (StringUtils.equals(developmentProposal.getUnitNumber(), unit.getUnitNumber())) {
+                    return TRUE;
+                }
+            }
+        }
+        return FALSE;
+    }
+    
+    
     protected String[] buildArrayFromCommaList(String commaList) {
         String[] newArray = commaList.split(","); //MIT Equity Interests
         if(commaList!=null && newArray.length==0){
@@ -349,6 +414,22 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
         return newArray;
     }
     
+    /**
+     * 
+     * This method returns 'true' if 'stringToCheck' does not contain a special character, otherwise returns 'false'.
+     * @param stringToCheck
+     * @return
+     */
+    protected String specialCharacterRule(String stringToCheck) {
+        String[] restrictedElements = {" ", "`", "@", "#", "!", "$", "%", "^", "&", "*", "(", ")", "[", "]", "{", "}", 
+                "|", "\\", "/", "?", "<", ">", ",", ";", ":", "'", "\"", "`", "+"};
+        for (String element : restrictedElements) {
+            if (StringUtils.equalsIgnoreCase(element, stringToCheck)) {
+                return FALSE;
+            }
+        }
+        return TRUE;
+    }
 
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
@@ -356,6 +437,14 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public UnitService getUnitService() {
+        return unitService;
+    }
+
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
     }
     
 }
