@@ -174,6 +174,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             while(personInfo.hasMoreTokens()) { 
                 personId = personInfo.nextToken(); 
                 personName = personInfo.nextToken(); 
+System.out.println("PPPPPPP personId = " + personId + ", name = " + personName);                
             } 
             //personResponsible.add(personName);
             iacucProcedurePersonResponsible.setPersonId(personId);

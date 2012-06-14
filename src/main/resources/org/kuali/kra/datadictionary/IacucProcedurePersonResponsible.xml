@@ -39,6 +39,7 @@
 				<ref bean="IacucProcedurePersonResponsible-personId" />
 				<ref bean="IacucProcedurePersonResponsible-personResponsibleDescription" />
 				<ref bean="IacucProcedurePersonResponsible-trainingDetails" />
+				<ref bean="IacucProcedurePersonResponsible-personName" />
             </list>
         </property>
     </bean>
@@ -130,6 +131,27 @@
     <property name="summary" value="Training"/>
     <property name="description" value="Training"/>  
   </bean>
+
+	<bean id="IacucProcedurePersonResponsible-personName" parent="IacucProcedurePersonResponsible-personName-parentBean" />
+	<bean id="IacucProcedurePersonResponsible-personName-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="personName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+		</property>
+    	<property name="required" value="false" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+		<property name="summary" value="Procedure Description" />
+		<property name="description" value="Description" />
+	</bean>
+
 
 	<!-- Business Object Inquiry Definition -->
 	<bean id="IacucProcedurePersonResponsible-inquiryDefinition" parent="IacucProcedurePersonResponsible-inquiryDefinition-parentBean" />

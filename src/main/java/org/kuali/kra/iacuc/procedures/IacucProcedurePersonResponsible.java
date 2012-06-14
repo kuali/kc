@@ -98,6 +98,9 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociate {
     }
 
     public String getPersonResponsibleDescription() {
+        if (personResponsibleDescription == null) {
+            refreshReferenceObject("personResponsibleDescription");
+        }
         return personResponsibleDescription;
     }
 
@@ -114,12 +117,14 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociate {
     }
 
     public String getPersonName() {
+        if (personName == null) {
+            refreshReferenceObject("personName");
+        }
         return personName;
     }
 
     public void setPersonName(String personName) {
         this.personName = personName;
     }
-
    
 }
