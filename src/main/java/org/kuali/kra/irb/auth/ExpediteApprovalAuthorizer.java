@@ -28,6 +28,10 @@ public class ExpediteApprovalAuthorizer extends ProtocolAuthorizer {
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
+System.out.println("PPPPPPPP, canExecute = " + canExecuteAction(task.getProtocol(), ProtocolActionType.EXPEDITE_APPROVAL) + 
+", isOnNode = " + kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) +
+", hasPermission = " + hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS));
+        
         return canExecuteAction(task.getProtocol(), ProtocolActionType.EXPEDITE_APPROVAL) 
         && kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)
          && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
