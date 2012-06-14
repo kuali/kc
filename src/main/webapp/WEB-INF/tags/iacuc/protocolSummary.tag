@@ -446,9 +446,6 @@
 						        <th style="text-align:center; width:15%;">Category:</th>
 	        					<th style="text-align:center; width:15%;">Groups : Species</th>
 								<th style="text-align:center; width:15%;">Person(s) Responsible</th>
-								<th style="text-align:center; width:10%;">Pain Category</th>
-   								<th style="text-align:center; width:6%;">Count</th>
-   								<th style="text-align:center; width:10%;">Count Type</th>
    								<th style="text-align:center;">Description</th>
 						    </tr>
 					    	<c:forEach items="${protocolSummary.procedureSummaries}" var="procedureSummary" varStatus="status">  
@@ -456,9 +453,6 @@
 				    	            <td class="${procedureSummary.procedureCategoryChanged ? 'changed' : ''}">${procedureSummary.procedureCategory}&nbsp;</td>
 			    		            <td class="${procedureSummary.speciesChanged ? 'changed' : ''}">${procedureSummary.species}&nbsp;</td>
 		    	        	    	<td class="${procedureSummary.personnelChanged ? 'changed' : ''}">${procedureSummary.personnel}&nbsp;</td> 
-				            	    <td class="${procedureSummary.painCategoryChanged ? 'changed' : ''}">${procedureSummary.painCategory}&nbsp;</td>
-				                	<td class="${procedureSummary.countChanged ? 'changed' : ''}">${procedureSummary.count}&nbsp;</td>
-					                <td class="${procedureSummary.countTypeChanged ? 'changed' : ''}">${procedureSummary.countType}&nbsp;</td>
 				                	<td class="${procedureSummary.procedureDescriptionChanged ? 'changed' : ''}">${procedureSummary.procedureDescription}&nbsp;</td>
        							</tr>
        						</c:forEach>  

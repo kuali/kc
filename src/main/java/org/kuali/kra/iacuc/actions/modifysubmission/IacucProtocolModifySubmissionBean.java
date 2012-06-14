@@ -92,12 +92,12 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
       ProtocolSubmission submission = getProtocol().getProtocolSubmission();
         
         if (submission != null) {
-            committeeId = submission.getCommitteeId();
-            scheduleId = submission.getScheduleId();
+            String newCommitteeId = submission.getCommitteeId();
+            String newScheduleId = submission.getScheduleId();
             
-          //  if (!StringUtils.equals(this.committeeId, committeeId)) {
-            //    this.committeeId = committeeId;
-               // currentScheduleId = scheduleId;
+            if (!StringUtils.equals(committeeId, newCommitteeId)) {
+                this.committeeId = newCommitteeId;
+               // currentScheduleId = newScheduleId;
                 reviewers.clear();
                 /*
                  * took out the schedule id check because we do not need schedule assigned at this point
@@ -122,7 +122,7 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
                         }
                     }
                 }
-            //}
+            }
         }
     }
     
