@@ -37,4 +37,7 @@ public interface KcKrmsJavaFunctionTermService {
     public String agencyProgramCodeNullRule(DevelopmentProposal developmentProposal);
     public String allProposalsRule(DevelopmentProposal developmentProposal);
     public String proposalLeadUnitInHierarchy(DevelopmentProposal developmentProposal, String unitNumberToCheck);
+    public String s2sSubawardRule(DevelopmentProposal developmentProposal, String rrFormNames, String phsFromNames);
+    public String proposalGrantsRule(DevelopmentProposal developmentProposal);
+    public String narrativeTypeRule(DevelopmentProposal developmentProposal);
 }
