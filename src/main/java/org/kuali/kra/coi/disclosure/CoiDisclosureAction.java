@@ -609,6 +609,7 @@ public class CoiDisclosureAction extends CoiAction {
             HttpServletResponse response) throws Exception {
     	ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         CoiDisclosure coiDisclosure = ((CoiDisclosureForm)form).getCoiDisclosureDocument().getCoiDisclosure();
+        coiDisclosure.setCertificationText(new String(coiDisclosure.getAcknowledgementStatement()));
         CoiPrintingService printService = KraServiceLocator.getService(CoiPrintingService.class);
         Map<String,Object> reportParameters = new HashMap<String,Object>();
         List<Printable> printableArtifactList = new ArrayList<Printable>();
