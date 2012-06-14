@@ -405,6 +405,71 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
         return FALSE;
     }
     
+    /**
+     * 
+     * This method verifies that there is not both a restricted set of RR forms along with PHS forms.  
+     * See FN_S2S_SUBAWARD_RULE   
+     * @param developmentProposal
+     * @param rrFormNames
+     * @param phsFromNames
+     * @return 'true' if there are RR forms and PHS forms, otherwise returns 'false'.
+     */
+    @Override
+    public String s2sSubawardRule(DevelopmentProposal developmentProposal, String rrFormNames, String phsFromNames) {
+        
+        /**
+         * And     F.FORM_NAME in ('RR SubAward Budget V1.2','RR_FedNonFed_SubawardBudget-V1.2',
+         * 'RR_FedNonFed_SubawardBudget-V1.1','RR SubAward Budget V1.1')
+         * 
+         * And     F.FORM_NAME in ('PHS398 Modular Budget V1-1','PHS398 Modular Budget V1-0', 'PHS398 Modular Budget V1-2')
+         */
+        
+        boolean foundRRforms = false;
+        boolean foundPHSforms = false;
+        String[] rrFormNamesArray =  buildArrayFromCommaList(rrFormNames);
+        String[] phsFromNamesArray =  buildArrayFromCommaList(phsFromNames);
+        
+        for(S2sOppForms form: developmentProposal.getS2sOppForms()) {
+            if (form.getInclude()) {
+                for (String formName : rrFormNamesArray) {
+                    if (StringUtils.equalsIgnoreCase(formName, form.getFormName())) {
+                        foundRRforms = true;
+                    }
+                }
+                for (String formName : phsFromNamesArray) {
+                    if (StringUtils.equalsIgnoreCase(formName, form.getFormName())) {
+                        foundPHSforms = true;
+                    }
+                }
+            }
+        }
+        return foundRRforms && foundPHSforms ? TRUE : FALSE;
+    }
+    
+    /**
+     * 
+     * This method verifies that there grans.gov submission.  
+     * See FN_IS_GG_RULE   
+     * @param developmentProposal
+     * @return 'true' if there are grants.gov submssion, otherwise returns 'false'.
+     */
+    @Override
+    public String proposalGrantsRule(DevelopmentProposal developmentProposal) {
+        return developmentProposal.getS2sAppSubmission().size() > 0 ? TRUE : FALSE;
+    }
+    
+    /**
+     * 
+     * This method verifies that the activity type is specified.  
+     * See FN_NARRATIVE_TYPE_RULE   
+     * @param developmentProposal
+     * @return 'true' if there an activity type, otherwise returns 'false'.
+     */
+    @Override
+    public String narrativeTypeRule(DevelopmentProposal developmentProposal) {
+        return StringUtils.isEmpty(developmentProposal.getActivityTypeCode()) ? FALSE : TRUE;
+    }
+    
     
     protected String[] buildArrayFromCommaList(String commaList) {
         String[] newArray = commaList.split(","); //MIT Equity Interests
