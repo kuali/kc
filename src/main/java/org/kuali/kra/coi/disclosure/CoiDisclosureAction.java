@@ -25,6 +25,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import noNamespace.ApprovedDisclosureDocument.ApprovedDisclosure.DisclosureStatus;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -278,10 +280,25 @@ public class CoiDisclosureAction extends CoiAction {
                 // also treated annual event when master disclosure exist
                 eventTypeCode = CoiDisclosureEventType.UPDATE;
             }
-            coiDisclosureForm.setCommand(KewApiConstants.INITIATE_COMMAND);
+            
+            // check to see if there's an existing update master that is not approved/disapproved
+            CoiDisclosure coiDisclosure = null;
+            if (StringUtils.equals(eventTypeCode, CoiDisclosureEventType.UPDATE)) {
+                coiDisclosure = getExistingUpdateMasterDisclosure();
+            }
+            
+            // if an existing update master exists, let's load it, otherwise initiate
+            if (coiDisclosure != null) {
+                coiDisclosureForm.setCommand(KewApiConstants.DOCSEARCH_COMMAND);
+                coiDisclosureForm.setDocId(coiDisclosure.getCoiDisclosureDocument().getDocumentNumber());
+            } else {
+                coiDisclosureForm.setCommand(KewApiConstants.INITIATE_COMMAND);
+                coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();                
+            }
+
             forward = super.docHandler(mapping, form, request, response);
-            CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
-            if (CoiDisclosureEventType.UPDATE.equals(eventTypeCode) || (KewApiConstants.INITIATE_COMMAND.equals(command)
+
+            if (CoiDisclosureEventType.UPDATE.equals(eventTypeCode) || (KewApiConstants.INITIATE_COMMAND.startsWith(command)
                     && KRADConstants.DOC_HANDLER_METHOD.equals(coiDisclosureForm.getMethodToCall()) && isMasterDisclosureExist())) {
                 // update master disclosure or annual event with master disclosure exist
                 if (!isMasterDisclosureExist()) {
@@ -290,17 +307,23 @@ public class CoiDisclosureAction extends CoiAction {
                     forward = mapping.findForward("masterDisclosureNotAvailable");
                 }
                 else {
-                    getCoiDisclosureService().initDisclosureFromMasterDisclosure(coiDisclosure);
-                    if (StringUtils.equals(eventTypeCode, CoiDisclosureEventType.ANNUAL)) {
-                        coiDisclosure.setAnnualUpdate(true);
+                    if (StringUtils.equals(coiDisclosureForm.getCommand(), KewApiConstants.INITIATE_COMMAND)) {
+                        getCoiDisclosureService().initDisclosureFromMasterDisclosure(coiDisclosure);
+                        if (StringUtils.equals(eventTypeCode, CoiDisclosureEventType.ANNUAL)) {
+                            coiDisclosure.setAnnualUpdate(true);
+                        }
+                        coiDisclosure.setEventTypeCode(eventTypeCode);
+
+                        ((CoiDisclosureForm) form).getDisclosureHelper().setMasterDisclosureBean(
+                                getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosure));  
+                        
+                        // this coiDisclosure is not in coidisclosureform yet
+                        setQuestionnaireStatuses(coiDisclosureForm, coiDisclosure);
                     }
-                    coiDisclosure.setEventTypeCode(eventTypeCode);
                     ((CoiDisclosureForm) form).getDisclosureHelper().setMasterDisclosureBean(
-                            getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosure));
-                    // this coiDisclosure is not in coidisclosureform yet
-                    setQuestionnaireStatuses(coiDisclosureForm, coiDisclosure);
+                            getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosure));                    
                     forward = mapping.findForward(UPDATE_DISCLOSURE);
-                    ((CoiDisclosureForm)form).getCoiNotesAndAttachmentsHelper().prepareView();
+                    //((CoiDisclosureForm)form).getCoiNotesAndAttachmentsHelper().prepareView();
                 }
             }
 
@@ -1114,5 +1137,27 @@ public class CoiDisclosureAction extends CoiAction {
                 fieldValues);
         return !CollectionUtils.isEmpty(disclosures);
 
+    }
+    
+    private CoiDisclosure getExistingUpdateMasterDisclosure() {
+        CoiDisclosure updateMaster = null;
+        Map fieldValues = new HashMap();
+        fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
+        fieldValues.put("eventTypeCode", CoiDisclosureEventType.UPDATE);
+
+        List<CoiDisclosure> disclosures = (List<CoiDisclosure>) getBusinessObjectService().findMatchingOrderBy(CoiDisclosure.class,
+                fieldValues, "sequenceNumber", false);
+        
+        if (!CollectionUtils.isEmpty(disclosures)) {
+            for (CoiDisclosure disc : disclosures) {
+                if (!StringUtils.equals(disc.getDisclosureStatusCode(), CoiDisclosureStatus.APPROVED) &&
+                    !StringUtils.equals(disc.getDisclosureStatusCode(), CoiDisclosureStatus.DISAPPROVED)) {
+                    updateMaster = disc;
+                    break;
+                }
+            }
+        }
+        
+        return updateMaster;
     }
 }
