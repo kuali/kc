@@ -24,7 +24,6 @@ import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
-import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -37,6 +36,11 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
  */
 public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -4743158845190302163L;
+
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
@@ -98,8 +102,13 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
     }
     
     private boolean displayInitialSubmission(String currentStatus) {
-        String validStatuses[] = { IacucProtocolStatus.IN_PROGRESS,
-                IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.SUBMITTED_TO_IACUC};
+        String validStatuses[] = { 
+                                   IacucProtocolStatus.IN_PROGRESS, 
+                                   IacucProtocolStatus.WITHDRAWN, 
+                                   IacucProtocolStatus.SUBMITTED_TO_IACUC,
+                                   IacucProtocolStatus.ADMINISTRATIVELY_WITHDRAWN,
+                                   IacucProtocolStatus.ADMINISTRATIVELY_INCOMPLETE
+                                  };
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     

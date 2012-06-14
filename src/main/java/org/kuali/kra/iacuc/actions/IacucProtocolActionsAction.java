@@ -513,10 +513,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 loadDocument(protocolForm);
                 protocolForm.getProtocolHelper().prepareView();
                 
-                IacucProtocolNotificationRequestBean newNotificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, "Administratively marked incomplete");
+                IacucProtocolNotificationRequestBean newNotificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, "Administratively Marked Incomplete");
                 ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, newNotificationBean, false);
                 protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
-                recordProtocolActionSuccess("Administratively marked incomplete");
+                recordProtocolActionSuccess("Administratively Mark Incomplete");
                 
                 if (newProtocolCorrespondence != null) {
                     return mapping.findForward(CORRESPONDENCE);
@@ -559,10 +559,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 loadDocument(protocolForm);
                 protocolForm.getProtocolHelper().prepareView();
                 
-                IacucProtocolNotificationRequestBean newNotificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, "Administratively withdrawn");
+                IacucProtocolNotificationRequestBean newNotificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, "Administratively Withdrawn");
                 ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, newNotificationBean, false);
                 protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
-                recordProtocolActionSuccess("Administratively withdraw");
+                recordProtocolActionSuccess("Administratively Withdraw");
                 
                 if (newProtocolCorrespondence != null) {
                     return mapping.findForward(CORRESPONDENCE);
