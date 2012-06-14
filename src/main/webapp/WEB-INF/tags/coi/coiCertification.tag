@@ -143,7 +143,7 @@
 											<html:image property="methodToCall.printDisclosureCertification"
 													    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" 
 														title="Print Approved Disclosure" alt="Print Approved Disclosure" 
-														styleClass="tinybutton"  />
+														styleClass="tinybutton"  onclick="excludeSubmitRestriction = true;"/>
 	                                    </td>
                                     </c:if>
                                 </tr>
