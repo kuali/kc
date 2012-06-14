@@ -500,7 +500,9 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
             || StringUtils.equals(CoiDisclosureEventType.AWARD, this.getEventTypeCode())
             || StringUtils.equals(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, this.getEventTypeCode())
             || StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.getEventTypeCode())
-            || StringUtils.equals(CoiDisclosureEventType.IACUC_PROTOCOL, this.getEventTypeCode()) );
+            || StringUtils.equals(CoiDisclosureEventType.IACUC_PROTOCOL, this.getEventTypeCode())
+            || StringUtils.equals(CoiDisclosureEventType.TRAVEL, this.getEventTypeCode())
+            );
     }
 
     public String getCompleteMessage() {
