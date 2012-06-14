@@ -44,8 +44,8 @@ public interface Constants {
     public static final String KEYWORD_PANEL_DISPLAY = "proposaldevelopment.displayKeywordPanel";
     public static final String BIOSKETCH_ATTACHMENT_TYPE_CODE = "1";
 
-    public static final int PHS_RESTRAININGPLAN_PILEADERSHIPPLAN_ATTACHMENT=121;
-    public static final int PHS_RESEARCHPLAN_MULTIPLEPILEADERSHIPPLAN=46;
+    public static final String PHS_RESTRAININGPLAN_PILEADERSHIPPLAN_ATTACHMENT="121";
+    public static final String PHS_RESEARCHPLAN_MULTIPLEPILEADERSHIPPLAN="46";
     public static final int MENTORING_PLAN_ATTACHMENT_TYPE_CODE=8;
     public static final String MENTORING_PLAN_ATTACHMENT="Mentoring Plan.pdf";
 
@@ -100,6 +100,7 @@ public interface Constants {
     public static final String SPONSOR_LEVEL_HIERARCHY = "sponsorLevelHierarchy";
     public static final String SPONSOR_HIERARCHY_NAME = "sponsorGroupHierarchyName";
     public static final String SPONSOR_HIERARCHY_NIH_MULT_PI = "NIH Multiple PI";
+    public static final String SPONSOR_HIERARCHY_ROUTING = "Routing";
     public static final String SPONSOR_HIERARCHY_NIH_OSC = "NIH Other Significant Contributor";
     public static final String MODULE_NAMESPACE_PROTOCOL = "KC-PROTOCOL"; 
     public static final String PARAMETER_MODULE_PROTOCOL_REFERENCEID1 = "irb.protocol.referenceID1";

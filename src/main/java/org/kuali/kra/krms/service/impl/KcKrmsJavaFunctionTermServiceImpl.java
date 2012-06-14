@@ -22,23 +22,31 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.KcKrmsJavaFunctionTermService;
+import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -48,6 +56,7 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
     private static final String FALSE = "false";
     private BusinessObjectService businessObjectService;
     private UnitService unitService;
+    private ParameterService parameterService;
 
     /**
      * 
@@ -504,12 +513,318 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
         this.businessObjectService = businessObjectService;
     }
 
+    @Override
+    public String activityTypeRule(DevelopmentProposal developmentProposal, String activityTypeCode) {
+        if (StringUtils.equals(developmentProposal.getActivityTypeCode(), activityTypeCode)) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    @Override
+    public String attachmentFileNameRule(DevelopmentProposal developmentProposal, String restrictedSpecialCharacters) {
+        String[] restrictedSpecialCharactersArray = restrictedSpecialCharacters.split(",");
+        if (restrictedSpecialCharacters!=null && restrictedSpecialCharactersArray.length==0) {
+            restrictedSpecialCharactersArray = new String[]{restrictedSpecialCharacters.trim()};
+        }
+        for (Narrative narr : developmentProposal.getNarratives()) {
+            for (String character : restrictedSpecialCharactersArray) {
+                if (StringUtils.containsIgnoreCase(narr.getFileName(), character)) {
+                    return FALSE;
+                }
+            }
+        }
+        return TRUE;
+    }
+
+    @Override
+    public String checkProposalCoiRule(DevelopmentProposal developmentProposal, String principalId) {
+        for (ProposalPerson person : developmentProposal.getInvestigators()) {
+            if (person.isInvestigator() && !person.getRole().isPrincipalInvestigatorRole()
+                    && StringUtils.equals(principalId, person.getPersonId())) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+
+    @Override
+    public String checkProposalPiRule(DevelopmentProposal developmentProposal, String principalId) {
+        for (ProposalPerson person : developmentProposal.getInvestigators()) {
+            if (person.isInvestigator() && person.getRole().isPrincipalInvestigatorRole()
+                    && StringUtils.equals(principalId, person.getPersonId())) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+
+    @Override
+    public String costElement(DevelopmentProposal developmentProposal, String costElement) {
+        for (BudgetDocumentVersion budgetVersion : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
+            Map<String, Object> values = new HashMap<String, Object>();
+            values.put("costElement", costElement);
+            values.put("budgetId", budgetVersion.getBudgetVersionOverview().getBudgetId());
+            List<BudgetLineItem> matchingLineItems = 
+                (List<BudgetLineItem>) getBusinessObjectService().findMatching(BudgetLineItem.class, values);
+            if (matchingLineItems != null && !matchingLineItems.isEmpty()) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+
+    @Override
+    public String isUserProposalPi(DevelopmentProposal developmentProposal, String principalId) {
+        return checkProposalPiRule(developmentProposal, principalId);
+    }
+
+    @Override
+    public String leadUnitBelowRule(DevelopmentProposal developmentProposal, String unitNumber) {
+        if (StringUtils.equals(developmentProposal.getUnitNumber(), unitNumber)) {
+            return TRUE;
+        } else {
+            for (Unit unit : getUnitService().getAllSubUnits(unitNumber)) {
+                if (StringUtils.equals(unit.getUnitNumber(), developmentProposal.getUnitNumber())) {
+                    return TRUE;
+                }
+            }
+        }
+        return FALSE;
+    }
+
+    @Override
+    public String leadUnitRule(DevelopmentProposal developmentProposal, String unitNumber) {
+        if (StringUtils.equals(developmentProposal.getUnitNumber(), unitNumber)) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    @Override
+    public String mtdcDeviation(DevelopmentProposal developmentProposal) {
+        if (mtdcDeviationInBudget(developmentProposal.getProposalDocument().getFinalBudgetForThisProposal())) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    @Override
+    public String mtdcDeviationInVersion(DevelopmentProposal developmentProposal, String versionNumber) {
+        if (mtdcDeviationInBudget(getBudgetVersion(developmentProposal, versionNumber))) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+    
+    protected Budget getBudgetVersion(DevelopmentProposal developmentProposal, String versionNumber) {
+        Integer versionNumberLong = Integer.valueOf(versionNumber);
+        for (BudgetDocumentVersion bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
+            if (bdv.getBudgetVersionOverview().getBudgetVersionNumber().equals(versionNumberLong)) {
+                return getBusinessObjectService().findBySinglePrimaryKey(Budget.class, bdv.getBudgetVersionOverview().getBudgetId());
+            }
+        }
+        return null;
+    }
+    
+    protected boolean mtdcDeviationInBudget(Budget budget) {
+        if (budget != null) {
+            return StringUtils.equals(budget.getOhRateClassCode(), "1");
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public String nonFacultyPi(DevelopmentProposal developmentProposal) {
+        if (developmentProposal.getPrincipalInvestigator().getFacultyFlag()) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    @Override
+    public String piIsSpecifiedPerson(DevelopmentProposal developmentProposal, String principalId) {
+        return this.isUserProposalPi(developmentProposal, principalId);
+    }
+
+    @Override
+    public String proposalAwardTypeRule(DevelopmentProposal developmentProposal, Integer awardTypeCode) {
+        if (awardTypeCode.equals(developmentProposal.getAnticipatedAwardTypeCode())) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    @Override
+    public String proposalTypeRule(DevelopmentProposal developmentProposal, String proposalTypeCode) {
+        if (StringUtils.equals(developmentProposal.getProposalTypeCode(), proposalTypeCode)) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    @Override
+    public String proposalUnitRule(DevelopmentProposal developmentProposal, String unitNumber) {
+        for (ProposalPerson person : developmentProposal.getProposalPersons()) {
+            for (ProposalPersonUnit unit : person.getUnits()) {
+                if (StringUtils.equals(unit.getUnitNumber(), unitNumber)) {
+                    return TRUE;
+                }
+            }
+        }
+        return FALSE;
+    }
+
+    @Override
+    public String s2sAttachmentNarrativeRule(DevelopmentProposal developmentProposal) {
+        if (developmentProposal.getS2sOpportunity() != null) {
+            for (Narrative narrative : developmentProposal.getNarratives()) {
+                if (StringUtils.equals(narrative.getNarrativeTypeCode(), "61")
+                        && narrative.getModuleTitle() == null) {
+                    return FALSE;
+                }
+            }
+        }
+        return TRUE;
+    }
+
+    @Override
+    public String s2sExemptionRule(DevelopmentProposal developmentProposal) {
+        boolean irbLinkingEnabled = getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK);
+        if (!irbLinkingEnabled) {
+            for (ProposalSpecialReview specialReview : developmentProposal.getPropSpecialReviews()) {
+                if (specialReview.getApprovalTypeCode() == SpecialReviewApprovalType.EXEMPT
+                        && specialReview.getSpecialReviewTypeCode() == SpecialReviewType.HUMAN_SUBJECTS) {
+                    if (specialReview.getComments() == null 
+                            || !specialReview.getComments().matches("\\w*E[1-6](\\w*,\\w*E[1-6])*[\\w,]*")) {
+                        return FALSE;
+                    }
+                }
+            }
+        }
+        return TRUE;
+    }
+
+    @Override
+    public String s2sFederalIdRule(DevelopmentProposal developmentProposal) {
+        if (developmentProposal.getS2sOpportunity() != null) {
+            String renewalType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM);
+            String continuationType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM);
+            String revisionType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM);
+            String taskOrderType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_TASK_ORDER_PARM);
+            if (StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)
+                    || StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)
+                    || StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)
+                    || StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)) {
+                if (StringUtils.isBlank(developmentProposal.getSponsorProposalNumber())
+                        || !developmentProposal.getSponsorProposalNumber().matches("[a-zA-Z]{2}\\d{6}")) {
+                    return FALSE;
+                }
+            }
+        }
+        return TRUE;
+    }
+
+    @Override
+    public String s2sLeadershipRule(DevelopmentProposal developmentProposal) {
+        if (developmentProposal.getS2sOpportunity() != null) {
+            int piNumber = 0;
+            for (ProposalPerson person : developmentProposal.getProposalPersons()) {
+                if (person.isMultiplePi()) {
+                    piNumber++;
+                }
+            }
+            if (piNumber > 0) {
+                int neededAttachmentCount = 0;
+                for (Narrative narrative : developmentProposal.getNarratives()) {
+                    if (StringUtils.equals(narrative.getNarrativeTypeCode(), Constants.PHS_RESEARCHPLAN_MULTIPLEPILEADERSHIPPLAN)
+                            || StringUtils.equals(narrative.getNarrativeTypeCode(), Constants.PHS_RESTRAININGPLAN_PILEADERSHIPPLAN_ATTACHMENT)) {
+                        neededAttachmentCount++;
+                    }
+                }
+                if (neededAttachmentCount < 1) {
+                    return FALSE;
+                }                
+            }
+        }
+        return TRUE;
+    }
+
+    @Override
+    public String s2sModularBudgetRule(DevelopmentProposal developmentProposal) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String specialReviewRule(DevelopmentProposal developmentProposal, String specialReviewTypeCode) {
+        for (ProposalSpecialReview review : developmentProposal.getPropSpecialReviews()) {
+            if (StringUtils.equals(review.getSpecialReviewTypeCode(), specialReviewTypeCode)) {
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+
+    @Override
+    public String sponsor(DevelopmentProposal developmentProposal, String sponsorCode) {
+        if (StringUtils.equals(developmentProposal.getSponsorCode(), sponsorCode)) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    @Override
+    public String sponsorGroupRule(DevelopmentProposal developmentProposal, String sponsorGroup) {
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("hierarchyName", Constants.SPONSOR_HIERARCHY_ROUTING);
+        values.put("sponsorCode", developmentProposal.getSponsorCode());
+        List<SponsorHierarchy> hierarchies = (List<SponsorHierarchy>) getBusinessObjectService().findMatching(SponsorHierarchy.class, values);
+        if (hierarchies != null && !hierarchies.isEmpty()
+                && StringUtils.equals(hierarchies.get(0).getLevel1(), sponsorGroup)) {
+            return TRUE;
+        }
+        values.put("sponsorCode", developmentProposal.getPrimeSponsorCode());
+        hierarchies = (List<SponsorHierarchy>) getBusinessObjectService().findMatching(SponsorHierarchy.class, values);
+        if (hierarchies != null && !hierarchies.isEmpty()
+                && StringUtils.equals(hierarchies.get(0).getLevel1(), sponsorGroup)) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+    @Override
+    public String sponsorTypeRule(DevelopmentProposal developmentProposal, String sponsorTypeCode) {
+        if (StringUtils.equals(developmentProposal.getSponsor().getSponsorTypeCode(), sponsorTypeCode)) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+    
     public UnitService getUnitService() {
         return unitService;
     }
 
     public void setUnitService(UnitService unitService) {
         this.unitService = unitService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
     
 }

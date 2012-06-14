@@ -88,8 +88,8 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule  implements Documen
                        
                         for (Narrative narrative : developmentProposal.getNarratives()) {                                       
                              if(narrative.getNarrativeTypeCode() != null 
-                                     &&  Integer.parseInt(narrative.getNarrativeTypeCode()) == Constants.PHS_RESTRAININGPLAN_PILEADERSHIPPLAN_ATTACHMENT
-                                     ||  Integer.parseInt(narrative.getNarrativeTypeCode()) == Constants.PHS_RESEARCHPLAN_MULTIPLEPILEADERSHIPPLAN){
+                                     &&  StringUtils.equals(narrative.getNarrativeTypeCode(), Constants.PHS_RESTRAININGPLAN_PILEADERSHIPPLAN_ATTACHMENT)
+                                     ||  StringUtils.equals(narrative.getNarrativeTypeCode(), Constants.PHS_RESEARCHPLAN_MULTIPLEPILEADERSHIPPLAN)){
                                 attachment = false;
                                 break;
                              }
