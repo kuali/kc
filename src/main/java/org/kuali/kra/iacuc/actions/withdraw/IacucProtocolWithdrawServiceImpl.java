@@ -29,6 +29,8 @@ import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncompleteBean;
+import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawServiceImpl;
 
@@ -37,27 +39,40 @@ import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawServiceImpl;
 
 public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImpl implements IacucProtocolWithdrawService {
     
-    
-
     @Override
-    public ProtocolDocument administrativelyWithdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception {
-        return this.commonWithdrawLogic(protocol, withdrawBean, true);
+    public ProtocolDocument administrativelyMarkIncomplete(Protocol protocol, ProtocolAdministrativelyIncompleteBean markIncompleteBean) throws Exception {
+        String protocolWithdrawnActionTypeCode = IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE;
+        String protocolWithdrawnStatusCode = IacucProtocolStatus.ADMINISTRATIVELY_INCOMPLETE;
+        String protocolWithdrawnSubmissionStatusCode = IacucProtocolSubmissionStatus.ADMINISTRATIVELY_INCOMPLETE;
+        return this.commonWithdrawLogic(protocol, markIncompleteBean, protocolWithdrawnActionTypeCode, protocolWithdrawnStatusCode, protocolWithdrawnSubmissionStatusCode);
     }
+
+    
+    @Override
+    public ProtocolDocument administrativelyWithdraw(Protocol protocol, ProtocolAdministrativelyWithdrawBean administrativelyWithdrawBean) throws Exception {
+        String protocolWithdrawnActionTypeCode = IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN;
+        String protocolWithdrawnStatusCode = IacucProtocolStatus.ADMINISTRATIVELY_WITHDRAWN;
+        String protocolWithdrawnSubmissionStatusCode = IacucProtocolSubmissionStatus.WITHDRAWN;
+        return this.commonWithdrawLogic(protocol, administrativelyWithdrawBean, protocolWithdrawnActionTypeCode, protocolWithdrawnStatusCode, protocolWithdrawnSubmissionStatusCode);
+    }
+    
     
     @Override
     public ProtocolDocument withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception {
-        return this.commonWithdrawLogic(protocol, withdrawBean, false);
+        String protocolWithdrawnActionTypeCode = IacucProtocolActionType.IACUC_WITHDRAWN;
+        String protocolWithdrawnStatusCode = IacucProtocolStatus.WITHDRAWN;
+        String protocolWithdrawnSubmissionStatusCode = IacucProtocolSubmissionStatus.WITHDRAWN; 
+        return this.commonWithdrawLogic(protocol, withdrawBean,  protocolWithdrawnActionTypeCode, protocolWithdrawnStatusCode, protocolWithdrawnSubmissionStatusCode);
     }
     
 
-    private ProtocolDocument commonWithdrawLogic(Protocol protocol, ProtocolWithdrawBean withdrawBean, boolean isAdminWithdrawal) throws Exception {
-        // set the codes based on whether or not its admin withdrawal
-        String protocolWithdrawnActionTypeCode = IacucProtocolActionType.IACUC_WITHDRAWN;
-        String protocolWithdrawnStatusCode = IacucProtocolStatus.WITHDRAWN;
-        if(isAdminWithdrawal) {
-            protocolWithdrawnActionTypeCode = IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN;
-            protocolWithdrawnStatusCode = IacucProtocolStatus.ADMINISTRATIVELY_WITHDRAWN;
-        }        
+    
+    // the common withdrawal logic used by three service methods above
+    private ProtocolDocument commonWithdrawLogic(Protocol protocol, 
+                                                 ProtocolWithdrawBean withdrawBean, 
+                                                 String protocolWithdrawnActionTypeCode,
+                                                 String protocolWithdrawnStatusCode,
+                                                 String protocolWithdrawnSubmissionStatusCode) throws Exception {        
         
         ProtocolSubmission submission = getSubmission(protocol);
         ProtocolAction protocolAction = new IacucProtocolAction((IacucProtocol) protocol, null, protocolWithdrawnActionTypeCode);
@@ -70,7 +85,7 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
 
         if (submission != null) {
             submission.setSubmissionDate(new Date(System.currentTimeMillis()));
-            submission.setSubmissionStatusCode(IacucProtocolSubmissionStatus.WITHDRAWN);
+            submission.setSubmissionStatusCode(protocolWithdrawnSubmissionStatusCode);
             // need to finalize any outstanding review documents.
             
 // TODO *********commented the code below during IACUC refactoring*********             
@@ -110,10 +125,8 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
 //            }
             
             newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
-            documentService.saveDocument(newProtocolDocument);
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            generateCorrespondenceDocumentAndAttach(newProtocolDocument.getProtocol(), withdrawBean);
+            documentService.saveDocument(newProtocolDocument);             
+            generateCorrespondenceDocumentAndAttach(newProtocolDocument.getProtocol(), withdrawBean);
             
             return newProtocolDocument;
         }
@@ -121,10 +134,8 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
 // This is withdraw submission not protocol.  the withdraw correspondence is for 'protocol' now.
 // it's not suitable for withdraw protocol submission.
         
-        else {
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            generateCorrespondenceDocumentAndAttach(protocol, withdrawBean);
+        else {        
+            generateCorrespondenceDocumentAndAttach(protocol, withdrawBean);
         }
         
         return protocol.getProtocolDocument();
@@ -154,6 +165,8 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
                StringUtils.equals(submission.getSubmissionTypeCode(), IacucProtocolSubmissionType.CONTINUATION) ||
                StringUtils.equals(submission.getSubmissionTypeCode(), IacucProtocolSubmissionType.CONTINUATION_WITH_AMENDMENT);
     }
+
+    
 
 
 }

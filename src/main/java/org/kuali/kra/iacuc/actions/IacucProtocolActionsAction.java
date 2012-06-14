@@ -486,6 +486,54 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
     }
     
+    
+    
+    /**
+     * Administratively withdraw a previously submitted protocol.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward administrativelyMarkIncompleteProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.ADMIN_INCOMPLETE_PROTOCOL, protocol);
+        
+        if (!hasDocumentStateChanged(protocolForm)) {
+            if (isAuthorized(task)) {
+                ProtocolDocument pd = getProtocolWithdrawService().administrativelyMarkIncomplete(protocol, protocolForm.getActionHelper().getProtocolAdminIncompleteBean());
+    
+                protocolForm.setDocId(pd.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                
+                IacucProtocolNotificationRequestBean newNotificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, "Administratively marked incomplete");
+                ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, newNotificationBean, false);
+                protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
+                recordProtocolActionSuccess("Administratively marked incomplete");
+                
+                if (newProtocolCorrespondence != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, newNotificationBean);
+                }
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    
+    
     /**
      * Administratively withdraw a previously submitted protocol.
      * 
@@ -505,7 +553,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         if (!hasDocumentStateChanged(protocolForm)) {
             if (isAuthorized(task)) {
-                ProtocolDocument pd = getProtocolWithdrawService().administrativelyWithdraw(protocol, protocolForm.getActionHelper().getProtocolWithdrawBean());
+                ProtocolDocument pd = getProtocolWithdrawService().administrativelyWithdraw(protocol, protocolForm.getActionHelper().getProtocolAdminWithdrawBean());
     
                 protocolForm.setDocId(pd.getDocumentNumber());
                 loadDocument(protocolForm);
