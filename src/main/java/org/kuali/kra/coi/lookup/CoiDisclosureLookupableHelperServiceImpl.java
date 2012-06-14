@@ -23,6 +23,7 @@ import java.util.Map;
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -96,14 +97,25 @@ public class CoiDisclosureLookupableHelperServiceImpl extends CoiDisclosureLooku
                 CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE, disclosure);
                 if (getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task) && 
                         (StringUtils.isEmpty(researcherLeadUnit) || researcherLeadUnit.equals(disclosure.getLeadUnitNumber()))) {
-                    //populate only for system and manual projects
+                    //populate project id, title only for system generated and manual projects
                     if ( disclosure.isSystemEvent() || disclosure.isManualEvent())
                     {
                         List<CoiDisclProject> coiDisclProjects = disclosure.getCoiDisclProjects();
-                        if ( coiDisclProjects.size() == 1)
+
+                        CoiDisclosureEventType coiDisclosureEventType = disclosure.getCoiDisclosureEventType();
+                        String coiDisclosureModuleItemKey = disclosure.getModuleItemKey();
+                        int index = 0;
+                        for(CoiDisclProject coiDisclProject : coiDisclProjects)
                         {
-                            disclosure.setCoiDisclProjectId(coiDisclProjects.get(0).getProjectId());
-                            disclosure.setCoiDisclProjectTitle(coiDisclProjects.get(0).getCoiProjectTitle());
+                            if ( coiDisclosureEventType.getEventTypeCode().equals(coiDisclProject.getDisclosureEventType()) &&
+                                        coiDisclosureModuleItemKey.equals(coiDisclProject.getProjectId()) )
+                            {
+                                disclosure.setCoiDisclProjectId(coiDisclProjects.get(index).getProjectId());
+                                disclosure.setCoiDisclProjectTitle(coiDisclProjects.get(index).getCoiProjectTitle());
+                                break;
+                            }
+                            index++;
+                            
                         }
                     }
                     finalResults.add(disclosure);
