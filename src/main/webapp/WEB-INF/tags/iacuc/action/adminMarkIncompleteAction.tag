@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="attributes" value="${DataDictionary.IacucProtocolWithdrawBean.attributes}" />  <!-- using the parent bean class's attributes for the time being -->
+<c:set var="attributes" value="${DataDictionary.IacucProtocolAdministrativelyIncompleteBean.attributes}" />  <!-- using the parent bean class's attributes for the time being -->
 <c:set var="action" value="protocolProtocolActions" />
 
 <kra:permission value="${KualiForm.actionHelper.canAdministrativelyMarkIncomplete}">
