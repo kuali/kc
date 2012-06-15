@@ -42,8 +42,12 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -894,6 +898,29 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
             }
         }
         return FALSE;
+    }
+    
+    /**
+     * 
+     * This method is used to verify that each investigator and key person are certified
+     * See  FN_IS_EPS_PROP_INVKEY_CERT  
+     * @param developmentProposal
+     * @return 'true' if all the investigators and key person have completed their questionaires, otherwise return 'false'
+     */
+    @Override
+    public String investigatorKeyPersonCertificationRule(DevelopmentProposal developmentProposal) {
+        QuestionnaireAnswerService questionnaireService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        for (ProposalPerson person : developmentProposal.getProposalPersons()) {
+            ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean = 
+                new ProposalPersonModuleQuestionnaireBean(developmentProposal, person);
+            List<AnswerHeader> answerHeaders = questionnaireService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+            for (AnswerHeader ah : answerHeaders) {
+                if (!ah.getCompleted()) {
+                    return FALSE;
+                }
+            }
+        }
+        return TRUE;
     }
 
     @Override
