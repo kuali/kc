@@ -67,4 +67,5 @@ public interface KcKrmsJavaFunctionTermService {
     public String s2s398CoverRule(DevelopmentProposal developmentProposal, String PHSCoverLetters, String narrativeTypeCode);
     public String narrativeFileName(DevelopmentProposal developmentProposal);
     public String costElementInVersion(DevelopmentProposal developmentProposal, String versionNumber, String costElement);
+    public String investigatorKeyPersonCertificationRule(DevelopmentProposal developmentProposal);
 }
