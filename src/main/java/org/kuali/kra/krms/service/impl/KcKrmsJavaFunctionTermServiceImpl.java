@@ -248,11 +248,11 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
     /**
      * 
      * This method is used to check if , in any period of the given version of budget, the given cost element has crossed the given limit or not.
-     * See  fn_cost_element_ver_per_limit 
+     * See  fn_cost_element_ver_per_limit  AND fn_cost_element_limit_in_ver
      * @param developmentProposal
      * @param versionNumber the version number to be checked
      * @param costElementName the cost element to be checked
-     * @param limit the amount limitto be checked
+     * @param limit the amount limit to be checked
      * @return 'true' - if the total cost of the CE crossed the limit in any one of the period, otherwise 'false'
      */
     @Override
@@ -798,6 +798,100 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
         if (hierarchies != null && !hierarchies.isEmpty()
                 && StringUtils.equals(hierarchies.get(0).getLevel1(), sponsorGroup)) {
             return TRUE;
+        }
+        return FALSE;
+    }
+    
+    /**
+     * 
+     * This method is used to verify PHS Cover letter narrative(39) is attached, must include s2s cover letter form.
+     * See  FN_S2S_398COVER_RULE 
+     * @param developmentProposal
+     * @param PHSCoverLetters PHS Cover letter names, comma separated list
+     * @param narrativeTypeCode The narrative type code to check.
+     * @return 'false' if the passed in narrative type is used, and a PHS cover letter is not attached, otherwise returns 'true'
+     */
+    @Override
+    public String s2s398CoverRule(DevelopmentProposal developmentProposal, String PHSCoverLetters, String narrativeTypeCode) {
+        if (developmentProposal.getS2sAppSubmission().size() > 0) {
+            boolean foundNarrative = false;
+            for (Narrative narrative : developmentProposal.getNarratives()) {
+                if (StringUtils.equalsIgnoreCase(narrative.getNarrativeTypeCode(), narrativeTypeCode)) {
+                    foundNarrative = true;
+                }
+            }
+            if (foundNarrative) {
+                String[] coverLetters = this.buildArrayFromCommaList(PHSCoverLetters);
+                boolean foundForm = false;
+                for (S2sOppForms form : developmentProposal.getS2sOppForms()) {
+                    for (String coverLetter : coverLetters) {
+                        if (StringUtils.equals(form.getFormName(), coverLetter)) {
+                            foundForm = true;
+                        }
+                    }
+                }
+                if (!foundForm) {
+                    return FALSE;
+                }
+            }
+        }
+        return TRUE;
+    }
+    
+    /**
+     * 
+     * This method is used to verify no special characters are used.
+     * See  fn_narrative_file_name_rule  
+     * @param developmentProposal
+     * @return 'false' if there is a special character in the file name, otherwise returns 'true'
+     */
+    @Override
+    public String narrativeFileName(DevelopmentProposal developmentProposal) {
+        for (Narrative narrative : developmentProposal.getNarratives()) {
+            if (StringUtils.equalsIgnoreCase(narrative.getNarrativeType().getNarrativeTypeGroup(), "P")
+                    && StringUtils.equals(FALSE, specialCharacterRule(narrative.getFileName()))) {
+                return FALSE;
+            }
+            if (StringUtils.equalsIgnoreCase(narrative.getNarrativeTypeCode(), "8")
+                    && StringUtils.equals(FALSE, specialCharacterRule(narrative.getModuleTitle()))) {
+                return FALSE;
+            }
+            
+        }
+        return TRUE;
+    }
+    
+    /**
+     * 
+     * This method is used to verify that a cost element is used in the specified version of the proposal.
+     * See  fn_cost_element_in_version  
+     * @param developmentProposal
+     * @param versionNumber
+     * @param costElement
+     * @return 'false' if the cost element is not in the version of the proposal, otherwise returns 'true'
+     */
+    @Override
+    public String costElementInVersion(DevelopmentProposal developmentProposal, String versionNumber, String costElement) {
+        Long versionNumberLong = Long.parseLong(versionNumber);
+        for (BudgetDocumentVersion bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
+            if (bdv.getVersionNumber().equals(versionNumberLong)) {
+                try {
+                    DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+                    BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(bdv.getDocumentNumber());
+                    List<Budget> budgets = budgetDocument.getBudgets();
+                    for (Budget budget : budgets) {
+                        if (budget.getVersionNumber().equals(versionNumberLong)) {
+                            for (BudgetPeriod period : budget.getBudgetPeriods()) {
+                                for (BudgetLineItem item : period.getBudgetLineItems()) {
+                                    return TRUE;
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    //lets just ignor and return false.
+                }
+            }
         }
         return FALSE;
     }
