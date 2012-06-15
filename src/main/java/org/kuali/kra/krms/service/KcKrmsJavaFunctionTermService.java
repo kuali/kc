@@ -64,4 +64,7 @@ public interface KcKrmsJavaFunctionTermService {
     public String attachmentFileNameRule(DevelopmentProposal developmentProposal, String restrictedSpecialCharacters);
     public String mtdcDeviationInVersion(DevelopmentProposal developmentProposal, String versionNumber);
     public String proposalTypeRule(DevelopmentProposal developmentProposal, String proposalTypeCode);
+    public String s2s398CoverRule(DevelopmentProposal developmentProposal, String PHSCoverLetters, String narrativeTypeCode);
+    public String narrativeFileName(DevelopmentProposal developmentProposal);
+    public String costElementInVersion(DevelopmentProposal developmentProposal, String versionNumber, String costElement);
 }
