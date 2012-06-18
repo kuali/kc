@@ -19,9 +19,7 @@
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <kul:tab defaultOpen="false" tabTitle="Proposals" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="${auditErrorKey}" useRiceAuditMode="true"
-    tabErrorKey="disclosureHelper.newCoiDisclProject.*" >
-              
-              
+    tabErrorKey="disclosureHelper.newCoiDisclProject.*,document.coiDisclosureList[0].coiDisclEventProjects*">
                                   
             <%-- New data --%>
             
