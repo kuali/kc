@@ -16,12 +16,12 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
-<c:set var="attributes" value="${DataDictionary.ProtocolApproveBean.attributes}" />
+<c:set var="attributes" value="${DataDictionary.IacucProtocolApproveBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 <c:set var="datesReadOnly" value="${KualiForm.actionHelper.protocol.amendment and not KualiForm.actionHelper.protocol.renewal}" />
 <c:set var="bean" value="${KualiForm.actionHelper.protocolAdminApprovalBean}" />
 <c:set var="property" value="actionHelper.protocolAdminApprovalBean" />
-<c:set var="methodToCall" value="administrativelyApprove" />
+<c:set var="methodToCall" value="grantAdminApproval" />
 <c:set var="taskName" value="adminApproveProtocol" />
 
 <kra:permission value="${KualiForm.actionHelper.canAdministrativelyApprove}">
@@ -102,14 +102,14 @@
 			                </tr>
 			                
 			                
-			<!--                 <tr> -->
-			<!--                     <td colspan="2"> -->
-			<%--                         <kra-irb-action:reviewComments bean="${bean.reviewCommentsBean}" --%>
-			<%--                                                        property="${property}.reviewCommentsBean" --%>
-			<%--                                                        action="${action}" --%>
-			<%--                                                        taskName="${taskName}" /> --%>
-			<!--                    </td> -->
-			<!--                 </tr> -->
+			                <tr>
+			                    <td colspan="2">
+			                        <kra-iacuc-action:reviewComments bean="${bean.reviewCommentsBean}"
+			                                                         property="${property}.reviewCommentsBean"
+			                                                         action="${action}"
+																     taskName="${taskName}" />
+								</td> 
+							</tr> 
 			                
 			                <tr>
 			                    <td align="center" colspan="2">
