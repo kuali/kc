@@ -105,10 +105,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             InstitutionalProposal institutionalProposal = new InstitutionalProposal();
             
             // Set proposal number on new Institutional Proposal so that it will be propagated to all created child BO's before initial save.
-            Long nextProposalNumber = sequenceAccessorService.getNextAvailableSequenceNumber(Constants.INSTITUTIONAL_PROPSAL_PROPSAL_NUMBER_SEQUENCE);
-            DecimalFormat formatter = new DecimalFormat(DECIMAL_FORMAT);
-            String nextProposalNumberAsString = formatter.format(nextProposalNumber);
-            institutionalProposal.setProposalNumber(nextProposalNumberAsString);
+
+            institutionalProposal.setProposalNumber(getNextInstitutionalProposalNumber());
             
             InstitutionalProposalDocument institutionalProposalDocument = mergeProposals(institutionalProposal, developmentProposal, budget);
             documentService.routeDocument(institutionalProposalDocument, 
@@ -326,6 +324,13 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             }
         }
         return result;
+    }
+    
+    public String getNextInstitutionalProposalNumber() {
+        Long nextProposalNumber = sequenceAccessorService.getNextAvailableSequenceNumber(Constants.INSTITUTIONAL_PROPSAL_PROPSAL_NUMBER_SEQUENCE);
+        DecimalFormat formatter = new DecimalFormat(DECIMAL_FORMAT);
+        String nextProposalNumberAsString = formatter.format(nextProposalNumber);
+        return nextProposalNumberAsString;
     }
     
     /* Local helper methods */

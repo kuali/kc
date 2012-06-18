@@ -116,5 +116,7 @@ public interface InstitutionalProposalService {
      * @param proposalNumber
      * @return
      */
-    List<DevelopmentProposal> getAllLinkedDevelopmentProposals(String proposalNumber);    
+    List<DevelopmentProposal> getAllLinkedDevelopmentProposals(String proposalNumber); 
+    
+    String getNextInstitutionalProposalNumber();
 }
