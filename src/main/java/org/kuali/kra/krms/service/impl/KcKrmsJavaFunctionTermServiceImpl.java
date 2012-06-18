@@ -54,6 +54,8 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
+import com.google.common.collect.Lists;
+
 public class KcKrmsJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements KcKrmsJavaFunctionTermService {
     /**
      * 
@@ -721,8 +723,24 @@ public class KcKrmsJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTermSer
 
     @Override
     public String s2sModularBudgetRule(DevelopmentProposal developmentProposal) {
-        // TODO Auto-generated method stub
-        return null;
+        List<String> allowedForms = Lists.newArrayList(new String[]{"PHS398 Modular Budget V1-1", "PHS398 Modular Budget V1-2"});
+        boolean s2sProp = (developmentProposal.getS2sOpportunity() != null);
+        Budget finalBudgetVersion = developmentProposal.getProposalDocument().getFinalBudgetForThisProposal();
+        if (s2sProp && finalBudgetVersion != null && finalBudgetVersion.getModularBudgetFlag()) {
+            int matchingForms = 0;
+            for (S2sOppForms form : developmentProposal.getS2sOppForms()) {
+                if (form.getInclude() && allowedForms.contains(form.getFormName())) {
+                    matchingForms++;
+                }
+            }
+            if (matchingForms == 0) {
+                return FALSE;
+            } else {
+                return TRUE;
+            }
+        } else {
+            return TRUE;
+        }
     }
 
     @Override
