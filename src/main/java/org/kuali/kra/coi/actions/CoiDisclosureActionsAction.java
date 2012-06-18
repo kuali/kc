@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.coi.actions;
 
+import java.sql.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -121,6 +123,7 @@ public class CoiDisclosureActionsAction extends CoiAction {
         coiUserRole.setUserId(userName);
         coiUserRole.setRoleName(RoleConstants.COI_REVIEWER);
         coiUserRole.setReviewerCode(reviewerCode);
+        coiUserRole.setDateAssigned(new Date(System.currentTimeMillis()));
         
         if (checkRule(new AddCoiReviewerEvent("", coiDisclosureDocument.getCoiDisclosure(), coiUserRole))) {
             coiUserRole.setCoiReviewer(coiDisclosureForm.getDisclosureActionHelper().getCoiReviewer(reviewerCode));
