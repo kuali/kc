@@ -92,7 +92,7 @@
                     <td align="center" valign="middle">${user.person.fullName}</td>
                     <td align="center" valign="middle">${user.coiReviewer.description} (${user.reviewerCode})</td>
                     <td align="center" valign="middle">${user.person.unit.unitName} (${user.person.unit.unitNumber})</td>
-                    <td align="center" valign="middle">${user.updateTimestamp}</td>
+                    <td align="center" valign="middle">${user.dateAssigned}</td>
                     
                     <kra:permission value="${modifyPermissions}">
                         <td align="center" valign="middle">
