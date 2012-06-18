@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.coi;
 
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KcPerson;
@@ -29,6 +30,7 @@ public class CoiUserRole extends KraPersistableBusinessObjectBase {
     private String roleName;
     private String userId;
     private String reviewerCode;
+    private Date dateAssigned;
     
     //transient fields used for display purposes
     private transient KcPerson person;
@@ -104,6 +106,14 @@ public class CoiUserRole extends KraPersistableBusinessObjectBase {
 
     public void setCoiReviewer(CoiReviewer coiReviewer) {
         this.coiReviewer = coiReviewer;
+    }
+
+    public Date getDateAssigned() {
+        return dateAssigned;
+    }
+
+    public void setDateAssigned(Date dateAssigned) {
+        this.dateAssigned = dateAssigned;
     }
 
 }
