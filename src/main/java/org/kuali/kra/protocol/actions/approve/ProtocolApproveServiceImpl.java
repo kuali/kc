@@ -42,7 +42,9 @@ public abstract class ProtocolApproveServiceImpl implements ProtocolApproveServi
 //    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     
     protected ProtocolOnlineReviewService protocolOnlineReviewService;
-    protected ParameterService parameterService;
+
+// TODO *********commented the code below during IACUC refactoring*********     
+//    protected ParameterService parameterService;
 
 
 // TODO *********commented the code below during IACUC refactoring********* 
@@ -125,7 +127,7 @@ public abstract class ProtocolApproveServiceImpl implements ProtocolApproveServi
      *      org.kuali.kra.protocol.actions.approve.ProtocolApproveBean)
      */
     public void grantAdminApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception {
-        generateProtocolActionAndAttach(protocol, actionBean, getProtocolActionTypeCodeForResponseApprovalHook());
+        generateProtocolActionAndAttach(protocol, actionBean, getProtocolActionTypeCodeForAdminApprovalHook());
         
         if (protocol.getApprovalDate() == null) {
             protocol.setApprovalDate(actionBean.getApprovalDate());
@@ -201,8 +203,9 @@ public abstract class ProtocolApproveServiceImpl implements ProtocolApproveServi
         this.protocolOnlineReviewService = protocolOnlineReviewService;
     } 
 
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
+    
+//    public void setParameterService(ParameterService parameterService) {
+//        this.parameterService = parameterService;
+//    }
     
 }

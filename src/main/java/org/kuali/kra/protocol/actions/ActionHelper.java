@@ -935,8 +935,11 @@ public abstract class ActionHelper implements Serializable {
         canModifyProtocolSubmissionUnavailable = hasCanModifySubmissionUnavailablePermission();
 //        canReviewNotRequired = hasReviewNotRequiredPermission();
 //        canReviewNotRequiredUnavailable = hasReviewNotRequiredUnavailablePermission();
-//        canManageReviewComments = hasManageReviewCommentsPermission();
-//        canManageReviewCommentsUnavailable = hasManageReviewCommentsUnavailablePermission();
+        
+        canManageReviewComments = hasManageReviewCommentsPermission();
+        canManageReviewCommentsUnavailable = hasManageReviewCommentsUnavailablePermission();
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        canApproveOther = hasApproveOtherPermission();
 //        canManageNotes = hasManageNotesPermission();
 //        canManageNotesUnavailable = hasManageNotesUnavailablePermission();
@@ -1017,12 +1020,15 @@ public abstract class ActionHelper implements Serializable {
     protected abstract ProtocolTask getNewAdminMarkIncompleteUnavailableProtocolTaskInstanceHook(Protocol protocol);
     
     
-    
-// TODO *********commented the code below during IACUC refactoring*********   
-//    /**
-//     * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
-//     */
-//    public void prepareCommentsView() {
+     
+    /**
+     * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
+     */
+    public void prepareCommentsView() {
+        
+        protocolAdminApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolIrbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
@@ -1049,8 +1055,8 @@ public abstract class ActionHelper implements Serializable {
 //        if (CollectionUtils.isNotEmpty(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments())) {
 //            protocolManageReviewCommentsBean.getReviewAttachmentsBean().setHideReviewerName(getReviewerCommentsService().setHideReviewerName(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments()));
 //        }
-//    }
-//    
+    }
+    
     protected List<CommitteeScheduleMinute> getCopiedReviewComments() {
         List<CommitteeScheduleMinute> clonedMinutes = new ArrayList<CommitteeScheduleMinute>();
         Long scheduleIdFk = getProtocol().getProtocolSubmission().getScheduleIdFk();
@@ -1063,7 +1069,7 @@ public abstract class ActionHelper implements Serializable {
         
         return clonedMinutes;
     }
-//        
+       
     private CommonCommitteeScheduleService getCommitteeScheduleService() {
         if (committeeScheduleService == null) {
             committeeScheduleService = KraServiceLocator.getService(CommonCommitteeScheduleService.class);        
@@ -1461,15 +1467,15 @@ public abstract class ActionHelper implements Serializable {
 //    protected boolean hasDeferUnavailablePermission() {
 //        return hasPermission(TaskName.DEFER_PROTOCOL_UNAVAILABLE);
 //    }
-//    
-//    protected boolean hasManageReviewCommentsPermission() {
-//        return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS); 
-//    }
-//    
-//    protected boolean hasManageReviewCommentsUnavailablePermission() {
-//        return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE); 
-//    }
-//    
+    
+    protected boolean hasManageReviewCommentsPermission() {
+        return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS); 
+    }
+    
+    protected boolean hasManageReviewCommentsUnavailablePermission() {
+        return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE); 
+    }
+    
 //    protected boolean hasApproveOtherPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_APPROVE_OTHER, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -1498,11 +1504,8 @@ public abstract class ActionHelper implements Serializable {
     protected abstract ProtocolTask createNewAbandonTaskInstanceHook(Protocol protocol);
     
     
-//    protected boolean hasPermission(String taskName) {
-//        ProtocolTask task = new ProtocolTask(taskName, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
+    protected abstract boolean hasPermission(String taskName);
+    
 //    protected boolean hasGenericPermission(String genericActionName) {
 //        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, getProtocol(), genericActionName);
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -2993,10 +2996,11 @@ public abstract class ActionHelper implements Serializable {
         return protocolSummaryPrintOptions;
     }
     
-//    public ProtocolActionBean getActionBean(String taskName) {
-//        return actionBeanTaskMap.get(taskName);
-//    }
-//
+    public ProtocolActionBean getActionBean(String taskName) {
+        return actionBeanTaskMap.get(taskName);
+    }
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public ProtocolRequestBean getRequestBean(String actionTypeCode) {
 //        ProtocolRequestBean protocolRequestBean = null;
 //        

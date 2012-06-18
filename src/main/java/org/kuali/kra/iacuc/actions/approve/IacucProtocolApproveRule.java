@@ -13,19 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.actions;
+package org.kuali.kra.iacuc.actions.approve;
 
-import org.kuali.kra.protocol.actions.risklevel.ProtocolRiskLevelBean;
+import org.kuali.kra.protocol.actions.approve.ProtocolApproveRule;
 
-/**
- * Marks a <code>ProtocolActionBean</code> as being able to contain risk level comments.
- */
-public interface ProtocolRiskLevelCommentable {
-    
-    /**
-     * Gets the <code>ProtocolRiskLevelBean</code>.
-     * @return the <code>ProtocolRiskLevelBean</code>
-     */
-    ProtocolRiskLevelBean getProtocolRiskLevelBean();
+public class IacucProtocolApproveRule extends ProtocolApproveRule<IacucProtocolApproveEvent> {
 
 }
