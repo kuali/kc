@@ -19,9 +19,7 @@ import java.sql.Date;
 
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
-import org.kuali.kra.iacuc.actions.risklevel.IacucProtocolRiskLevelBean;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
-import org.kuali.kra.protocol.actions.risklevel.ProtocolRiskLevelBean;
 
 public class IacucProtocolApproveBean extends IacucProtocolGenericActionBean implements ProtocolApproveBean {
     
@@ -32,19 +30,13 @@ public class IacucProtocolApproveBean extends IacucProtocolGenericActionBean imp
     
     private Date approvalDate;
     private Date expirationDate;
-    
-    private String errorPropertyKey;
-    private IacucProtocolRiskLevelBean protocolRiskLevelBean;
-    
+ 
     /**
      * Constructs a ProtocolApproveBean.
      * @param actionHelper a reference back to the parent helper
      */
     public IacucProtocolApproveBean(IacucActionHelper actionHelper, String errorPropertyKey) {
         super(actionHelper, errorPropertyKey);
-        
-        this.errorPropertyKey = errorPropertyKey;
-        protocolRiskLevelBean = new IacucProtocolRiskLevelBean(errorPropertyKey);
     }
     
     public Date getApprovalDate() {
@@ -62,13 +54,6 @@ public class IacucProtocolApproveBean extends IacucProtocolGenericActionBean imp
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
-    
-    public String getErrorPropertyKey() {
-        return errorPropertyKey;
-    }
+ 
        
-    public ProtocolRiskLevelBean getProtocolRiskLevelBean() {
-        return protocolRiskLevelBean;
-    }
-
 }

@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.actions.approve;
+package org.kuali.kra.iacuc.actions.approve;
 
-import java.sql.Date;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.protocol.actions.approve.ProtocolApproveEvent;
 
-import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
+public class IacucProtocolApproveEvent extends ProtocolApproveEvent {
 
-/**
- * This class is really just a "form" for approving a protocol.
- */
-public interface ProtocolApproveBean extends ProtocolGenericActionBean {
+    public IacucProtocolApproveEvent(IacucProtocolDocument document, IacucProtocolApproveBean protocolApproveBean) {
+        super(document, protocolApproveBean);
+    }
+
+    @Override
+    protected IacucProtocolApproveRule getNewProtocolApproveRuleInstanceHook() {
+        return new IacucProtocolApproveRule();
+    }
+
    
-    public Date getApprovalDate();
-    
-    public void setApprovalDate(Date approvalDate);
-    
-    public Date getExpirationDate();
-    
-    public void setExpirationDate(Date expirationDate);
-    
 }

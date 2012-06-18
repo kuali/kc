@@ -358,3 +358,13 @@ then
 end
 
 
+
+rule "fn_Administrative_Approve: Submission Status = 213 (Administratively Approved); Protocol Status = 202 (Administratively Approved)" 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping(actionTypeCode == "215")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "213");
+	setProtocolStatusCode(protocolAction, "202");
+end

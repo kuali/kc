@@ -13,18 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.actions.risklevel;
+package org.kuali.kra.iacuc.actions.reviewcomments;
 
-import java.io.Serializable;
+import org.kuali.kra.protocol.actions.reviewcomments.ProtocolAddReviewCommentRule;
 
+public class IacucProtocolAddReviewCommentRule extends ProtocolAddReviewCommentRule<IacucProtocolAddReviewCommentEvent> {
 
-public interface ProtocolRiskLevelBean extends Serializable {
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public String getErrorPropertyKey();
-//    
-//    public ProtocolRiskLevel getNewProtocolRiskLevel();
-//    
-//    public void setNewProtocolRiskLevel(ProtocolRiskLevel newProtocolRiskLevel);
-    
 }

@@ -52,7 +52,7 @@
         <property name="kraWorkflowService" ref="kraWorkflowService" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
-        <property name="protocolActionService" ref="iacucActionService" />
+        <property name="protocolActionService" ref="iacucProtocolActionService" />
     </bean>
 
     <bean id="iacucProtocolTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
@@ -322,7 +322,7 @@
     <bean id="iacucAlternateSearchService" class="org.kuali.kra.iacuc.threers.IacucAlternateSearchServiceImpl">
     </bean>        
     
-    <bean id="iacucActionService" class="org.kuali.kra.iacuc.actions.submit.IacucProtocolActionServiceImpl">
+    <bean id="iacucProtocolActionService" class="org.kuali.kra.iacuc.actions.submit.IacucProtocolActionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
@@ -365,7 +365,7 @@
     
     <bean id="iacucProtocolSubmitActionService" class="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionServiceImpl">
         <property name="documentService" ref="documentService" />
-        <property name="protocolActionService" ref="iacucActionService" /> 
+        <property name="protocolActionService" ref="iacucProtocolActionService" /> 
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolFinderDao" ref="iacucProtocolFinderDao" />
               <!--  assign reviewer is just for testing.  don't commit 
@@ -389,7 +389,7 @@
     <bean id="iacucProtocolWithdrawService" class="org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="protocolActionService" ref="iacucActionService" />
+        <property name="protocolActionService" ref="iacucProtocolActionService" />
         <property name="protocolVersionService" ref="iacucProtocolVersionService" />
 <!-- IACUC
         <property name="protocolAssignToAgendaService" ref="iacucAssignToAgendaService" />
@@ -421,7 +421,7 @@
     </bean>
     
      <bean id="iacucProtocolAbandonService" class="org.kuali.kra.iacuc.actions.abandon.IacucProtocolAbandonServiceImpl">
-        <property name="protocolActionService" ref="iacucActionService" />
+        <property name="protocolActionService" ref="iacucProtocolActionService" />
         <!-- Need to add this in when protocol corresspondences is done. -->
        <!-- <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />-->
         <property name="kcNotificationService" ref="kcNotificationService" />
@@ -650,7 +650,7 @@
     
     <bean id="iacucProtocolSummaryXmlStream"
         class="org.kuali.kra.iacuc.actions.print.IacucProtocolSummaryXmlStream" parent="printBaseXmlStream">
-        <property name="iacucProtocolActionService" ref="iacucActionService" />
+        <property name="iacucProtocolActionService" ref="iacucProtocolActionService" />
     </bean>
     <bean id="iacucCorrespondenceXmlStream"
             class="org.kuali.kra.iacuc.actions.print.IacucCorrespondenceXmlStream" parent="printBaseXmlStream">
@@ -709,6 +709,16 @@
             <ref bean="sequenceAccessorService" />
         </property>        
     </bean>
+    
+    
+    <bean id="iacucProtocolApproveService" class="org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="protocolActionService" ref="iacucProtocolActionService" />
+<!--         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" /> -->
+        <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
+<!--         <property name="parameterService" ref="parameterService"/> -->
+    </bean>
+
 
 </beans>
 
