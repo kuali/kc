@@ -111,23 +111,7 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
             valid = false;
         }
         
-        if (valid && "Copy".equals(document.getNewMaintainableObject().getMaintenanceAction())) {
-            setupProposalNumberForCopy(proposalLog);
-        }
         return valid;
-    }
-    
-    /*
-     * This is to create proposal number for copied proposal log
-     * It is a little odd to put here, but there is no other places that can accomplish this so far
-     * The PropLogmaintenanable have to generate this proposal number at 'save'.
-     * If there is a better place found, then this should be removed.
-     */
-    private void setupProposalNumberForCopy(ProposalLog proposalLog) {
-        if (StringUtils.isBlank(proposalLog.getProposalNumber())) {
-            proposalLog.setProposalNumber(KraServiceLocator.getService(SequenceAccessorService.class)
-                    .getNextAvailableSequenceNumber("SEQ_PROPOSAL_NUMBER").toString());
-        }
     }
     
     /*
