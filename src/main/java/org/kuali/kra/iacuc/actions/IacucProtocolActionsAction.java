@@ -17,8 +17,6 @@ package org.kuali.kra.iacuc.actions;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +31,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.service.KcNotificationService;
@@ -41,6 +41,9 @@ import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.abandon.IacucProtocolAbandonService;
+import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveBean;
+import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveEvent;
+import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveService;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtEvent;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtService;
@@ -51,12 +54,14 @@ import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissio
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionService;
 import org.kuali.kra.iacuc.actions.notifyiacuc.NotifyIacucNotificationRenderer;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucProtocolAddReviewCommentEvent;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsBean;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionEvent;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
-import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawService;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
@@ -76,6 +81,8 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.ProtocolActionBean;
+import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
@@ -91,7 +98,6 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
@@ -1888,45 +1894,46 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return forward;
 //    }
 //    
-//    /**
-//     * Perform Response Approve Action.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward grantResponseApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//        throws Exception {
-//        
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument document = protocolForm.getProtocolDocument();
-//        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolResponseApprovalBean();
-//        
-//        if (hasPermission(TaskName.RESPONSE_APPROVAL, document.getProtocol())) {
-//            if (applyRules(new ProtocolApproveEvent(document, actionBean))) {
-//                getProtocolApproveService().grantResponseApproval(document.getProtocol(), actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//               // forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-//                forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
-//                
-//                recordProtocolActionSuccess("Response Approval");
-//                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(document.getProtocol(), ProtocolActionType.RESPONSE_APPROVAL, "Response Approval");
-//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                    return mapping.findForward(CORRESPONDENCE);
-//                } else {
-//                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
-//                }
-//            }
-//        }
-//        
-//        return forward;
-//    }
-//    
+    /**
+     * Perform Response Approve Action.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward grantAdminApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+        IacucProtocolApproveBean actionBean = (IacucProtocolApproveBean) protocolForm.getActionHelper().getProtocolAdminApprovalBean();
+        
+        if (hasPermission(TaskName.ADMIN_APPROVE_PROTOCOL, (IacucProtocol) document.getProtocol())) {
+            if (applyRules(new IacucProtocolApproveEvent(document, actionBean))) {
+                getProtocolApproveService().grantAdminApproval(document.getProtocol(), actionBean);
+                saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+               // forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
+                forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
+                
+                recordProtocolActionSuccess("Administrative Approval");
+                IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) document.getProtocol(), IacucProtocolActionType.ADMINISTRATIVE_APPROVAL, "Response Approval");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+                }
+            }
+        }
+        
+        return forward;
+    }
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * Requests an action to be performed by an administrator.  The user can request the following actions:
 //     * 
@@ -2749,117 +2756,122 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        
 //        return protocolRiskLevelBean;
 //    }
-//
-//    /**
-//     * Adds a review comment to the bean indicated by the task name in the request.
-//     * 
-//     * @param mapping The mapping associated with this action.
-//     * @param form The Protocol form.
-//     * @param request The HTTP request
-//     * @param response The HTTP response
-//     * @return the forward to the current page
-//     */
-//    public ActionForward addReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument document = protocolForm.getProtocolDocument();
-//        ReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
-//        
-//        if (reviewCommentsBean != null) {
-//            String errorPropertyName = reviewCommentsBean.getErrorPropertyName();
-//            CommitteeScheduleMinute newReviewComment = reviewCommentsBean.getNewReviewComment();
-//            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
-//            Protocol protocol = document.getProtocol();
-//            
-//            if (applyRules(new ProtocolAddReviewCommentEvent(document, errorPropertyName, newReviewComment))) {
-//                getReviewCommentsService().addReviewComment(newReviewComment, reviewComments, protocol);
-//                
-//                reviewCommentsBean.setNewReviewComment(new CommitteeScheduleMinute(MinuteEntryType.PROTOCOL));
-//            }
-//            reviewCommentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewCommentsBean.getReviewComments()));            
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//
-//    /**
-//     * Moves up a review comment in the bean indicated by the task name in the request.
-//     * 
-//     * @param mapping The mapping associated with this action.
-//     * @param form The Protocol form.
-//     * @param request The HTTP request
-//     * @param response The HTTP response
-//     * @return the forward to the current page
-//     */
-//    public ActionForward moveUpReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument document = protocolForm.getProtocolDocument();
-//        ReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
-//        
-//        if (reviewCommentsBean != null) {
-//            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
-//            Protocol protocol = document.getProtocol();
-//            int lineNumber = getSelectedLine(request);
-//    
-//            getReviewCommentsService().moveUpReviewComment(reviewComments, protocol, lineNumber);
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    /**
-//     * Moves down a review comment in the bean indicated by the task name in the request.
-//     * 
-//     * @param mapping The mapping associated with this action.
-//     * @param form The Protocol form.
-//     * @param request The HTTP request
-//     * @param response The HTTP response
-//     * @return the forward to the current page
-//     */
-//    public ActionForward moveDownReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument document = protocolForm.getProtocolDocument();
-//        ReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
-//        
-//        if (reviewCommentsBean != null) {
-//            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
-//            Protocol protocol = document.getProtocol();
-//            int lineNumber = getSelectedLine(request);
-//            
-//            getReviewCommentsService().moveDownReviewComment(reviewComments, protocol, lineNumber);
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    /**
-//     * Deletes a review comment from the bean indicated by the task name in the request.
-//     * 
-//     * @param mapping The mapping associated with this action.
-//     * @param form The Protocol form.
-//     * @param request The HTTP request
-//     * @param response The HTTP response
-//     * @return the forward to the current page
-//     */
-//    public ActionForward deleteReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
-//        
-//        if (reviewCommentsBean != null) {
-//            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
-//            int lineNumber = getLineToDelete(request);
-//            List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
-//            
-//            getReviewCommentsService().deleteReviewComment(reviewComments, lineNumber, deletedReviewComments);
-//            if (reviewComments.isEmpty()) {
-//                reviewCommentsBean.setHideReviewerName(true);
-//            } else {
-//                reviewCommentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewCommentsBean.getReviewComments()));
-//            }
-//       }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
+
+    
+    
+    
+    
+    /**
+     * Adds a review comment to the bean indicated by the task name in the request.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     */
+    public ActionForward addReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        IacucReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
+        
+        if (reviewCommentsBean != null) {
+            String errorPropertyName = reviewCommentsBean.getErrorPropertyName();
+            CommitteeScheduleMinute newReviewComment = reviewCommentsBean.getNewReviewComment();
+            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            IacucProtocol protocol = (IacucProtocol) document.getProtocol();
+            
+            if (applyRules(new IacucProtocolAddReviewCommentEvent((IacucProtocolDocument) document, errorPropertyName, newReviewComment))) {
+                getReviewCommentsService().addReviewComment(newReviewComment, reviewComments, protocol);
+                
+                reviewCommentsBean.setNewReviewComment(new CommitteeScheduleMinute(MinuteEntryType.PROTOCOL));
+            }
+            reviewCommentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewCommentsBean.getReviewComments()));            
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }    
+
+     
+    /**
+     * Moves up a review comment in the bean indicated by the task name in the request.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     */
+    public ActionForward moveUpReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        IacucReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
+        
+        if (reviewCommentsBean != null) {
+            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            int lineNumber = getSelectedLine(request);    
+            getReviewCommentsService().moveUpReviewComment(reviewComments, document.getProtocol(), lineNumber);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Moves down a review comment in the bean indicated by the task name in the request.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     */
+    public ActionForward moveDownReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        IacucReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
+        
+        if (reviewCommentsBean != null) {
+            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            int lineNumber = getSelectedLine(request);            
+            getReviewCommentsService().moveDownReviewComment(reviewComments, document.getProtocol(), lineNumber);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Deletes a review comment from the bean indicated by the task name in the request.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Protocol form.
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @return the forward to the current page
+     */
+    public ActionForward deleteReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        IacucReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
+        
+        if (reviewCommentsBean != null) {
+            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            int lineNumber = getLineToDelete(request);
+            List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
+            
+            getReviewCommentsService().deleteReviewComment(reviewComments, lineNumber, deletedReviewComments);
+            if (reviewComments.isEmpty()) {
+                reviewCommentsBean.setHideReviewerName(true);
+            } else {
+                reviewCommentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewCommentsBean.getReviewComments()));
+            }
+       }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    
+    
+    
+    
+    
     public ActionForward abandon(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -2891,59 +2903,65 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
 
-//    
-//    /**
-//     * Saves the review comments to the database and performs refresh and cleanup.
-//     * @param protocolForm
-//     * @param actionBean
-//     * @throws Exception
-//     */
-//    private void saveReviewComments(ProtocolForm protocolForm, ReviewCommentsBean actionBean) throws Exception { 
-//        getReviewCommentsService().saveReviewComments(actionBean.getReviewComments(), actionBean.getDeletedReviewComments());           
-//        actionBean.setDeletedReviewComments(new ArrayList<CommitteeScheduleMinute>());
-//        protocolForm.getActionHelper().prepareCommentsView();
-//    }
-//    
-//    private ReviewCommentsBean getReviewCommentsBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ReviewCommentsBean reviewCommentsBean = null;
-//        
-//        ProtocolActionBean protocolActionBean = getActionBean(form, request);
-//        if (protocolActionBean != null && protocolActionBean instanceof ProtocolOnlineReviewCommentable) {
-//            reviewCommentsBean = ((ProtocolOnlineReviewCommentable) protocolActionBean).getReviewCommentsBean();
-//        }
-//        
-//        return reviewCommentsBean;
-//    }
-//    
-//    private ProtocolActionBean getActionBean(ActionForm form, HttpServletRequest request) {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//
-//        String taskName = getTaskName(request);
-//        
-//        ProtocolActionBean protocolActionBean = null;
-//        if (StringUtils.isNotBlank(taskName)) {
-//            protocolActionBean = protocolForm.getActionHelper().getActionBean(taskName);
-//        }
-//
-//        return protocolActionBean;
-//    }
-//    
-//    private String getTaskName(HttpServletRequest request) {
-//        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
-//        
-//        String taskName = "";
-//        if (StringUtils.isNotBlank(parameterName)) {
-//            taskName = StringUtils.substringBetween(parameterName, ".taskName", ".");
-//        }
-//        
-//        return taskName;
-//    }
-//    
-//    private boolean hasPermission(String taskName, Protocol protocol) {
-//        ProtocolTask task = new ProtocolTask(taskName, protocol);
-//        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
-//    }
-//    
+    
+    /**
+     * Saves the review comments to the database and performs refresh and cleanup.
+     * @param protocolForm
+     * @param actionBean
+     * @throws Exception
+     */
+    private void saveReviewComments(ProtocolForm protocolForm, IacucReviewCommentsBean actionBean) throws Exception { 
+        getReviewCommentsService().saveReviewComments(actionBean.getReviewComments(), actionBean.getDeletedReviewComments());           
+        actionBean.setDeletedReviewComments(new ArrayList<CommitteeScheduleMinute>());
+        protocolForm.getActionHelper().prepareCommentsView();
+    }
+ 
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+    
+    private IacucReviewCommentsBean getReviewCommentsBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        IacucReviewCommentsBean reviewCommentsBean = null;
+        
+        ProtocolActionBean protocolActionBean = getActionBean(form, request);
+        if (protocolActionBean != null && protocolActionBean instanceof ProtocolOnlineReviewCommentable) {
+            reviewCommentsBean = (IacucReviewCommentsBean) ((ProtocolOnlineReviewCommentable) protocolActionBean).getReviewCommentsBean();
+        }
+        
+        return reviewCommentsBean;
+    }
+    
+    
+    private ProtocolActionBean getActionBean(ActionForm form, HttpServletRequest request) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+
+        String taskName = getTaskName(request);
+        
+        ProtocolActionBean protocolActionBean = null;
+        if (StringUtils.isNotBlank(taskName)) {
+            protocolActionBean = protocolForm.getActionHelper().getActionBean(taskName);
+        }
+
+        return protocolActionBean;
+    }
+    
+    
+    private String getTaskName(HttpServletRequest request) {
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        
+        String taskName = "";
+        if (StringUtils.isNotBlank(parameterName)) {
+            taskName = StringUtils.substringBetween(parameterName, ".taskName", ".");
+        }
+        
+        return taskName;
+    }
+    
+    private boolean hasPermission(String taskName, IacucProtocol protocol) {
+        ProtocolTask task = new IacucProtocolTask(taskName, protocol);
+        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
+    }
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    private boolean hasGenericPermission(String genericActionName, Protocol protocol) {
 //        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, protocol, genericActionName);
 //        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
@@ -3017,10 +3035,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //    private ProtocolGrantExemptionService getProtocolGrantExemptionService() {
 //        return KraServiceLocator.getService(ProtocolGrantExemptionService.class);
 //    }
-//    
-//    private ProtocolApproveService getProtocolApproveService() {
-//        return KraServiceLocator.getService(ProtocolApproveService.class);
-//    }
+    
+    private IacucProtocolApproveService getProtocolApproveService() {
+        return KraServiceLocator.getService(IacucProtocolApproveService.class);
+    }
     
     private CommonCommitteeService getCommitteeService() {
         return KraServiceLocator.getService(CommonCommitteeService.class);
@@ -3033,10 +3051,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //    private ProtocolRiskLevelService getProtocolRiskLevelService() {
 //        return KraServiceLocator.getService(ProtocolRiskLevelService.class);
 //    }
-//    
-//    private ReviewCommentsService getReviewCommentsService() {
-//        return KraServiceLocator.getService(ReviewCommentsService.class);
-//    }
+ 
+    private IacucReviewCommentsService getReviewCommentsService() {
+        return KraServiceLocator.getService(IacucReviewCommentsService.class);
+    }
+    
 //    
 //    /**
 //     * 
