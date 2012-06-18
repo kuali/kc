@@ -495,13 +495,15 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
 
+    /*
+     * These are disclosures generated from KC.
+     */
     public boolean isSystemEvent() {
         return ( StringUtils.equals(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, this.getEventTypeCode())
             || StringUtils.equals(CoiDisclosureEventType.AWARD, this.getEventTypeCode())
             || StringUtils.equals(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, this.getEventTypeCode())
             || StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.getEventTypeCode())
             || StringUtils.equals(CoiDisclosureEventType.IACUC_PROTOCOL, this.getEventTypeCode())
-            || StringUtils.equals(CoiDisclosureEventType.TRAVEL, this.getEventTypeCode())
             );
     }
 

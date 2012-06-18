@@ -108,7 +108,7 @@ public class CoiDisclosureLookupableHelperServiceImpl extends CoiDisclosureLooku
                         for(CoiDisclProject coiDisclProject : coiDisclProjects)
                         {
                             if ( coiDisclosureEventType.getEventTypeCode().equals(coiDisclProject.getDisclosureEventType()) &&
-                                        coiDisclosureModuleItemKey.equals(coiDisclProject.getProjectId()) )
+                                        coiDisclosureModuleItemKey.equals(coiDisclProject.getModuleItemKey()) )
                             {
                                 disclosure.setCoiDisclProjectId(coiDisclProjects.get(index).getProjectId());
                                 disclosure.setCoiDisclProjectTitle(coiDisclProjects.get(index).getCoiProjectTitle());
