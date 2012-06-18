@@ -22,11 +22,10 @@
 	<c:set var="property" value="disclosureQuestionnaireHelper" />
 	<c:set var="bean" value="${KualiForm.disclosureQuestionnaireHelper}" />
 			
-			
 	<c:forEach items="${bean.answerHeaders}" var="answerHeader" varStatus="status">
        <c:choose>
            <c:when test="${KualiForm.document.coiDisclosureList[0].updateEvent or (KualiForm.document.coiDisclosureList[0].annualEvent and KualiForm.document.coiDisclosureList[0].annualUpdate)}">
-              <c:if  test="${answerHeader.moduleSubItemCode == '14'}">
+              <c:if  test="${answerHeader.moduleSubItemCode == '14' or answerHeader.moduleSubItemCode == '6'}">
 		         <div class="tab-container" align="center">
 			         <c:set var="prop" value="${property}.answerHeaders[${status.index}].showQuestions"/>
 			         ${kfunc:registerEditableProperty(KualiForm, prop)}
