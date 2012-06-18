@@ -921,6 +921,8 @@
     <bean id="kcKrmsJavaFunctionTermService" class="org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceImpl">
     	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="unitService" ref="unitService" />
+    	<property name="parameterService" ref="parameterService" />
+    	<property name="documentService" ref="documentService" />
     </bean>
     
     <bean 
