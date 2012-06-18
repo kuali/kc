@@ -54,14 +54,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
-public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTermService {
-    
-    private static final String TRUE = "true";
-    private static final String FALSE = "false";
-    private BusinessObjectService businessObjectService;
-    private UnitService unitService;
-    private ParameterService parameterService;
-
+public class KcKrmsJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements KcKrmsJavaFunctionTermService {
     /**
      * 
      * This method checks if the formName is included in the given proposal
@@ -266,8 +259,7 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
         for (BudgetDocumentVersion bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
             if (bdv.getVersionNumber().equals(versionNumberLong)) {
                 try {
-                    DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-                    BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(bdv.getDocumentNumber());
+                    BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(bdv.getDocumentNumber());
                     List<Budget> budgets = budgetDocument.getBudgets();
                     for (Budget budget : budgets) {
                         if (budget.getVersionNumber().equals(versionNumberLong)) {
@@ -333,8 +325,7 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
     public String budgetSubawardOrganizationnameRule(DevelopmentProposal developmentProposal) {
         for (BudgetDocumentVersion bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
             try {
-                DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-                BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(bdv.getDocumentNumber());
+                BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(bdv.getDocumentNumber());
                 List<Budget> budgets = budgetDocument.getBudgets();
                 for (Budget budget : budgets) {
                     if (budget.isFinalVersionFlag()) {
@@ -481,40 +472,6 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
     @Override
     public String narrativeTypeRule(DevelopmentProposal developmentProposal) {
         return StringUtils.isEmpty(developmentProposal.getActivityTypeCode()) ? FALSE : TRUE;
-    }
-    
-    
-    protected String[] buildArrayFromCommaList(String commaList) {
-        String[] newArray = commaList.split(","); //MIT Equity Interests
-        if(commaList!=null && newArray.length==0){
-            newArray = new String[]{commaList.trim()};
-        }
-        return newArray;
-    }
-    
-    /**
-     * 
-     * This method returns 'true' if 'stringToCheck' does not contain a special character, otherwise returns 'false'.
-     * @param stringToCheck
-     * @return
-     */
-    protected String specialCharacterRule(String stringToCheck) {
-        String[] restrictedElements = {" ", "`", "@", "#", "!", "$", "%", "^", "&", "*", "(", ")", "[", "]", "{", "}", 
-                "|", "\\", "/", "?", "<", ">", ",", ";", ":", "'", "\"", "`", "+"};
-        for (String element : restrictedElements) {
-            if (StringUtils.equalsIgnoreCase(element, stringToCheck)) {
-                return FALSE;
-            }
-        }
-        return TRUE;
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     @Override
@@ -880,8 +837,7 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
         for (BudgetDocumentVersion bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
             if (bdv.getVersionNumber().equals(versionNumberLong)) {
                 try {
-                    DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-                    BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(bdv.getDocumentNumber());
+                    BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(bdv.getDocumentNumber());
                     List<Budget> budgets = budgetDocument.getBudgets();
                     for (Budget budget : budgets) {
                         if (budget.getVersionNumber().equals(versionNumberLong)) {
@@ -931,22 +887,4 @@ public class KcKrmsJavaFunctionTermServiceImpl implements KcKrmsJavaFunctionTerm
             return FALSE;
         }
     }
-    
-    public UnitService getUnitService() {
-        return unitService;
-    }
-
-    public void setUnitService(UnitService unitService) {
-        this.unitService = unitService;
-    }
-
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-    
 }
- 
