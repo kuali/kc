@@ -21,26 +21,25 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements Maintainable {
 
     private static final long serialVersionUID = 4690638717398206040L;
     private static final String KIM_PERSON_LOOKUPABLE_REFRESH_CALLER = "kimPersonLookupable";
-    private static final String PROPOSAL_LOG_SEQUENCE = "SEQ_PROPOSAL_NUMBER";
     
     private static final int FISCAL_YEAR_OFFSET = 6;
     
     private transient DateTimeService dateTimeService;
-    private transient SequenceAccessorService sequenceAccessorService;
     private transient FiscalYearMonthService fiscalYearMonthService;
+    private transient InstitutionalProposalService institutionalProposalService;
     
     /* Temporary workaround..this overriding can be removed once 
      * DataObjectMetaDataService.areNotesSupported is fixed
@@ -76,7 +75,8 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
             // New record; set default values.
             setupDefaultValues(proposalLog);
             populateAuditProperties(proposalLog);
-            proposalLog.setProposalNumber(getSequenceAccessorService().getNextAvailableSequenceNumber(PROPOSAL_LOG_SEQUENCE, ProposalLog.class).toString());
+
+            proposalLog.setProposalNumber(getInstitutionalProposalService().getNextInstitutionalProposalNumber());
         }
     }
         
@@ -93,7 +93,7 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         proposalLog.setProposalLogTypeCode(ProposalLogUtils.getProposalLogPermanentTypeCode());
         
         populateAuditProperties(proposalLog);
-        proposalLog.setProposalNumber(getSequenceAccessorService().getNextAvailableSequenceNumber(PROPOSAL_LOG_SEQUENCE, ProposalLog.class).toString());
+        proposalLog.setProposalNumber(getInstitutionalProposalService().getNextInstitutionalProposalNumber());
     }
     
     /**
@@ -154,15 +154,15 @@ public class ProposalLogMaintainableImpl extends KraMaintainableImpl implements 
         return this.dateTimeService;
     }
 
-    protected SequenceAccessorService getSequenceAccessorService() {
-        if (sequenceAccessorService == null) {
-            sequenceAccessorService = KraServiceLocator.getService(SequenceAccessorService.class);
+    protected InstitutionalProposalService getInstitutionalProposalService() {
+        if (institutionalProposalService == null) {
+            institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
         }
-        return sequenceAccessorService;
+        return institutionalProposalService;
     }
 
-    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
-        this.sequenceAccessorService = sequenceAccessorService;
+    public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
+        this.institutionalProposalService = institutionalProposalService;
     }
 
 }
