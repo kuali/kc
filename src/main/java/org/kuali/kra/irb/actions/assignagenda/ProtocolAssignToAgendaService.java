@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.assignagenda;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.expeditedapprove.ProtocolExpeditedApproveBean;
 
 /**
  * Handles the processing of assigning a protocol to an agenda.
@@ -70,6 +71,8 @@ public interface ProtocolAssignToAgendaService {
      */
     void assignToAgenda(Protocol protocol, ProtocolAssignToAgendaBean actionBean) throws Exception;
     
+    void assignToAgenda(Protocol protocol, ProtocolExpeditedApproveBean actionBean) throws Exception;
+
     /**
      * 
      * This method returns the protocol action that assigned the passed in protocol to a committee agenda.
