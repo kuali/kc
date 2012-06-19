@@ -66,7 +66,7 @@
 		<property name="required" value="false" />
 		<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder"
+            	p:valuesFinderClass="org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinder"
                 p:includeKeyInLabel="false" />
 		</property>
 		<property name="summary" value="Committee" />
@@ -83,7 +83,7 @@
 		<property name="required" value="false" />
 		<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.common.committee.lookup.keyvalue.CommitteeScheduleValuesFinder"
+            	p:valuesFinderClass="org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionScheduleValuesFinder"
                 p:includeKeyInLabel="false" />
 		</property>
 		<property name="summary" value="Schedule Date" />

@@ -65,7 +65,7 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
         this.submissionQualifierTypeCode = actionHelper.getProtocol().getProtocolSubmission().getSubmissionTypeQualifierCode();
         this.protocolReviewTypeCode = actionHelper.getProtocol().getProtocolSubmission().getProtocolReviewTypeCode();
         this.billable = actionHelper.getProtocol().getProtocolSubmission().isBillable();
-        // set due date here probably from submission?
+        // TODO set due date here probably from submission?
       
     }
 
@@ -85,39 +85,37 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
     /* ASSIGN REVIEWERS PART STARTS HERE */
 
     /**
-     * Create the list of reviewers based upon the current committee
-     * and schedule, and assigns their reviewer types if any have been saved in the past
+     * Create the list of reviewers based upon the current committee and schedule, and assigns their reviewer types if any have been
+     * saved in the last submission's reviews
      */
     public void prepareView() {
-      ProtocolSubmission submission = getProtocol().getProtocolSubmission();
-        
+        ProtocolSubmission submission = getProtocol().getProtocolSubmission();
+
         if (submission != null) {
-            String newCommitteeId = submission.getCommitteeId();
-            String newScheduleId = submission.getScheduleId();
-            
-            if (!StringUtils.equals(committeeId, newCommitteeId)) {
-                this.committeeId = newCommitteeId;
-               // currentScheduleId = newScheduleId;
-                reviewers.clear();
+            // whenever submission is not null, we will show the cmt and schedule chosen for the last submission
+            committeeId = submission.getCommitteeId();
+            scheduleId = submission.getScheduleId();
+
+            // now build the reviewers
+            reviewers.clear();
+            /*
+             * need to build only if committee was chosen in the last submission
+             */
+            if (!StringUtils.isBlank(committeeId)) {
                 /*
-                 * took out the schedule id check because we do not need schedule assigned at this point
+                 * just getAvailable members here by sending blank schedule id is schedule not chosen.
                  */
-                if (!StringUtils.isBlank(committeeId) || !StringUtils.isBlank(scheduleId)) {
-                    /*
-                     * just getAvailable members here by sending blank schedule id.
-                     */
-                    List<CommitteeMembership> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
-                    for (CommitteeMembership member : members) {
-                        reviewers.add(new IacucProtocolReviewerBean(member));
-                    }
-                    
-                    for (ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
-                        if (review.isActive()) {
-                            for (ProtocolReviewerBean reviewerBean : reviewers) {
-                                if (reviewerBean.isProtocolReviewerBeanForReviewer(review.getProtocolReviewer())) {
-                                    reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
-                                    break;
-                                }
+                List<CommitteeMembership> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
+                for (CommitteeMembership member : members) {
+                    reviewers.add(new IacucProtocolReviewerBean(member));
+                }
+
+                for (ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
+                    if (review.isActive()) {
+                        for (ProtocolReviewerBean reviewerBean : reviewers) {
+                            if (reviewerBean.isProtocolReviewerBeanForReviewer(review.getProtocolReviewer())) {
+                                reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
+                                break;
                             }
                         }
                     }
