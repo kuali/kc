@@ -1,0 +1,2 @@
+alter table PROPOSAL_NOTEPAD add CREATE_USER VARCHAR2(60)
+/

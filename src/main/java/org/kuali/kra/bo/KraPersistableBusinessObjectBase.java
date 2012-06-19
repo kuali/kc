@@ -35,7 +35,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class KraPersistableBusinessObjectBase extends PersistableBusinessObjectBase {
     
-    private static final int UPDATE_USER_LENGTH = 60;
+    protected static final int UPDATE_USER_LENGTH = 60;
 
     private transient KcPersonService kcPersonService;
     

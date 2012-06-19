@@ -103,7 +103,7 @@
 						<c:out value="${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].createTimestamp}" />
 					</td>
 	                <td valign="middle">
-						<c:out value="${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].updateUser}" />
+						<c:out value="${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].createUser}" />
 	                </td>
 	                <td valign="middle">                	
 						<c:out value="${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].noteTopic}" />  
