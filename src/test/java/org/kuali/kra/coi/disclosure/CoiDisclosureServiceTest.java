@@ -946,6 +946,8 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
         coiDisclProject.setCoiProjectId("1");
         coiDisclProject.setCoiProjectTitle("Test Title");
         coiDisclProject.setModuleItemKey("1");
+        coiDisclProject.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
+        coiDisclProject.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);
         return coiDisclProject;
     
     }

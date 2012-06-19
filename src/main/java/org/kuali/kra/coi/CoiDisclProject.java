@@ -68,6 +68,8 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private String shortTextField3;
     private String longTextField3;
     private String selectBox1;
+    private String disclosureDispositionCode; 
+    private String disclosureStatusCode;  
     private ProposalType proposalType;
     private ProtocolType protocolType;
     private Protocol protocol;
@@ -526,5 +528,17 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     }
     public void setOriginalCoiDisclosureId(Long originalCoiDisclosureId) {
         this.originalCoiDisclosureId = originalCoiDisclosureId;
+    }
+    public String getDisclosureDispositionCode() {
+        return disclosureDispositionCode;
+    }
+    public void setDisclosureDispositionCode(String disclosureDispositionCode) {
+        this.disclosureDispositionCode = disclosureDispositionCode;
+    }
+    public String getDisclosureStatusCode() {
+        return disclosureStatusCode;
+    }
+    public void setDisclosureStatusCode(String disclosureStatusCode) {
+        this.disclosureStatusCode = disclosureStatusCode;
     }
 }
