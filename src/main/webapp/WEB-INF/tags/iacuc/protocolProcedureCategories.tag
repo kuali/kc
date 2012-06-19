@@ -41,7 +41,7 @@
 		// trigger
 		$j(".checkBox").click(
 		function() {
-				funcHideShowProcedure(this.value);
+				funcHideShowProcedure(this.title);
 			}
 		);
 		// function
@@ -77,7 +77,7 @@
 					    	</br>
 						</c:if>
 						<c:set var="procedureCategory" value="category${status.index}Procedure" />
-		            	<input type="checkbox" class="checkBox" name="iacucProtocolProceduresHelper.allProcedures[${status.index}].procedureSelected" value="${procedureCategory}"/>
+		            	<html:checkbox styleClass="checkBox" property="iacucProtocolProceduresHelper.allProcedures[${status.index}].procedureSelected" title="${procedureCategory}"/>
 					    <c:out value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index].procedureDescription}" />
 					    </br>
 						<c:choose>

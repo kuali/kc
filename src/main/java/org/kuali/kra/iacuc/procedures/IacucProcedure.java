@@ -121,5 +121,6 @@ public class IacucProcedure extends KraPersistableBusinessObjectBase {
     public void setProcedureSelected(boolean procedureSelected) {
         this.procedureSelected = procedureSelected;
     }
+
     
 }
