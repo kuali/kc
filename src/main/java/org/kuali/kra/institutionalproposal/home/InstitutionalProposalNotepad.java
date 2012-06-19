@@ -28,6 +28,8 @@ import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate implements SequenceAssociate {
 
@@ -47,6 +49,8 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
 
     private Date createTimestamp;
     
+    private String createUser;
+    
     private Long noteId;
     
     private List<Note> attachments;
@@ -54,6 +58,7 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
     public InstitutionalProposalNotepad() {
         Calendar cl = Calendar.getInstance();
         setCreateTimestamp(new Date(cl.getTime().getTime()));
+        setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
         attachments = new ArrayList<Note>();
     }
 
@@ -163,7 +168,7 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
         //if we haven't saved the note id or the note id is different, save the note id.
         //This is done to allow for versioning of InstProp while still
         //maintaining the link to this object.
-        if (getNoteId() == null || getNoteId() != getAttachments().get(0).getNoteIdentifier()) {
+        if (!getAttachments().isEmpty() && (getNoteId() == null || getNoteId() != getAttachments().get(0).getNoteIdentifier())) {
             setNoteId(getAttachments().get(0).getNoteIdentifier());
             KraServiceLocator.getService(BusinessObjectService.class).save(this);
         }
@@ -197,4 +202,16 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
     public void setNoteId(Long noteId) {
         this.noteId = noteId;
     }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        if (!KRADConstants.SYSTEM_USER.equals(createUser)) {
+            this.createUser = StringUtils.substring(createUser, 0, UPDATE_USER_LENGTH);
+        }
+
+    }
+
 }
