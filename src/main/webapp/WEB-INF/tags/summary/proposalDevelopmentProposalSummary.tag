@@ -20,7 +20,7 @@
 	value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="textAreaFieldName"
 	value="document.developmentProposalList[0].title" />
-<c:set var="action" value="proposalDevelopmentProposal" />
+<c:set var="action" value="proposalDevelopmentApproverView" />
 <c:set var="budgetAttributes"
 	value="${DataDictionary.Budget.attributes}" />
 <c:set var="projectIncomeAttributes"
@@ -28,7 +28,7 @@
 <c:set var="budgetProjectIncomeAttributes"
 	value="${DataDictionary.BudgetProjectIncome.attributes}" />
 <c:set var="budgetVersion"
-	value="${KualiForm.budgetVersionNumbers.budgetVersionNumber}" />
+	value="${KualiForm.budgetToSummarize.budgetVersionNumber}" />
 
 <kul:tab tabTitle="Proposal Summary" transparentBackground="true"
 	defaultOpen="true"
@@ -340,7 +340,7 @@
 									<div align=right>
 										$
 										<kul:htmlControlAttribute
-											property="budgetVersionNumbers.projectIncomeTotal"
+											property="budgetToSummarize.projectIncomeTotal"
 											attributeEntry="${projectIncomeAttributes.projectIncome}"
 											styleClass="amount" readOnly="true" />
 									</div>

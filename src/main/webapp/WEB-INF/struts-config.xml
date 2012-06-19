@@ -141,7 +141,6 @@
       	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsCloseEditRoles.jsp" />
           <forward name="resubmissionPrompt" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmissionPrompt.jsp" />
           <forward name="proposalMedusa" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentMedusa.jsp" />
-          <forward name="proposalSummary" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentProposalSummary.jsp" />
           <forward name="ajaxProposalSummary" path="/WEB-INF/jsp/proposalhierarchy/ProposalHierarchyProposalSummary.jsp" />
           <forward name="ajaxBudgetSummary" path="/WEB-INF/jsp/proposalhierarchy/ProposalHierarchyBudgetSummary.jsp" />
           <forward name="deleted" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentDeleted.jsp"/>
