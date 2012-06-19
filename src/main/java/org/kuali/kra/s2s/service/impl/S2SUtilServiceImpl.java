@@ -426,13 +426,32 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
     protected DevelopmentProposal getNewestDevPropFromInstProp(InstitutionalProposal instProp) {
-            Map<String, Object> detailFieldValues = new HashMap<String, Object>();
-            detailFieldValues.put("instProposalId", instProp.getProposalId());
-            List<ProposalAdminDetails> details = (List<ProposalAdminDetails>) businessObjectService.findMatchingOrderBy(
-                    ProposalAdminDetails.class, detailFieldValues,"devProposalNumber",false);
-            for (ProposalAdminDetails curDetail : details) {
-                return curDetail.getDevelopmentProposal();
-            }
+        Integer listDetailSize = 0;
+        ProposalAdminDetails curDetail = new ProposalAdminDetails();
+        Map<String, Object> detailFieldValues = new HashMap<String, Object>();
+        detailFieldValues.put("instProposalId", instProp.getProposalId());
+        List<ProposalAdminDetails> details = (List<ProposalAdminDetails>) businessObjectService.findMatchingOrderBy(ProposalAdminDetails.class,
+                detailFieldValues, "devProposalNumber", true);
+        listDetailSize = details.size();
+        if (listDetailSize > 1) {
+            curDetail = details.get(listDetailSize - 2);
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("proposalNumber", curDetail.getDevelopmentProposal().getProposalNumber());
+            List<S2sAppSubmission> s2sSubmissionDetails = (List<S2sAppSubmission>) businessObjectService.findMatchingOrderBy(S2sAppSubmission.class,
+                    fieldValues, "proposalNumber", true);
+            curDetail.getDevelopmentProposal().setS2sAppSubmission(s2sSubmissionDetails);
+            return curDetail.getDevelopmentProposal();
+        }
+        if (listDetailSize == 1) {
+            curDetail = details.get(0);
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("proposalNumber", curDetail.getDevelopmentProposal().getProposalNumber());
+            List<S2sAppSubmission> s2sSubmissionDetails = (List<S2sAppSubmission>) businessObjectService.findMatchingOrderBy(S2sAppSubmission.class,
+                    fieldValues, "proposalNumber", true);
+            curDetail.getDevelopmentProposal().setS2sAppSubmission(s2sSubmissionDetails);
+            return curDetail.getDevelopmentProposal();
+
+        }
         return null;
     }
 
