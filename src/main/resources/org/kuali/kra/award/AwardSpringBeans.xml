@@ -468,7 +468,11 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="awardService" ref="awardService" />
     </bean>
-    
+    <bean id="reportTrackingPrintingService" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingPrintingServiceImpl">
+		<property name="printingService" ref ="printingService" />
+		 <property name="reportTrackingPrint" ref="reportTrackingPrint" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
     <bean id="reportTrackingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="reportTrackingLookupableHelperService" />
     </bean>     
@@ -1017,7 +1021,25 @@
 			</list>
 		</property>
 	</bean>
-	
+
+	<bean id="reportTrackingXmlStream"
+		class="org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingXmlStream">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+	</bean>
+	<bean id="reportTrackingPrint"
+		class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingPrint"
+		scope="prototype">
+		<property name="xmlStream" ref="reportTrackingXmlStream" />
+	</bean>
+    
 	<bean id="reportTrackingNotificationJobDetail" class="org.quartz.JobDetail" >
 		<property name="jobClass" value="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationJobDetail" />
 		<property name="name" value="reportTrackingNotificationJobDetail" />

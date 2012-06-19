@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.budget.printing.BudgetPrintType;
@@ -80,7 +81,7 @@ public class PrintingUtils {
 	private static final String COMMENT_TYPE_CODE_PARAMETER = "commentTypeCode";
 	private static final String  XSL_PRINT_NEGOTIATION_ACTIVITY_REPORT ="NegotiationActivityReport.xsl";
 	private static final String XSL_COI_APPROVED_DISCLOSURE = "ApprovedDisclosure.xsl";
-
+    private static final String XSL_AWARD_REPORT_TRACKING = "AwardReportingRequirements.xsl";
 	/**
 	 * This method fetches system constant parameters
 	 * 
@@ -209,6 +210,10 @@ public class PrintingUtils {
             xsl = XSL_COMMITTEE_ROSTER;
         } else if (reportType.equals(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS.getCommitteeReportType())) {
             xsl = XSL_FUTURE_SCHEDULED_MEETINGS;
+        } 
+        else if (reportType.equals(ReportTrackingType.
+                AWARD_REPORT_TRACKING.getReportTrackingType())) {
+            xsl = XSL_AWARD_REPORT_TRACKING;
         } 
         else if (reportType
                 .equals(NegotiationActivityPrintType.NEGOTIATION_ACTIVITY_REPORT
