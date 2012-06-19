@@ -27,15 +27,15 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
-
 import edu.mit.coeus.utils.xml.v2.lookuptypes.ACTIVITYTYPEDocument.ACTIVITYTYPE;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.APPLICABLEREVIEWTYPEDocument.APPLICABLEREVIEWTYPE;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.NOTICEOFOPPORTUNITYDocument.NOTICEOFOPPORTUNITY;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.PROPOSALTYPEDocument.PROPOSALTYPE;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.SPECIALREVIEWDocument.SPECIALREVIEW;
 import edu.mit.coeus.utils.xml.v2.organization.ORGANIZATIONDocument.ORGANIZATION;
+import edu.mit.coeus.utils.xml.v2.propdev.PROPINVESTIGATORTYPE;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALDocument;
-//import edu.mit.coeus.utils.xml.v2.propdev.PROPINVESTIGATORSDocument.PROPINVESTIGATORS;
+
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALDocument.PROPOSAL;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPOSALMASTERDocument.PROPOSALMASTER;
 import edu.mit.coeus.utils.xml.v2.propdev.PROPPERCREDITSPLITDocument.PROPPERCREDITSPLIT;
@@ -140,9 +140,8 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 		proposal.setLOGOPATH(IMAGES_PATH);
 		proposal.setPROPUNITSArray(getPropUnits(developmentProposal
 				.getProposalPersons()));
-//		proposal
-//				.setPROPINVESTIGATORSArray(getProposalInvestigators(developmentProposal
-//						.getProposalPersons()));
+		proposal
+				.setPROPINVESTIGATORSArray(getProposalInvestigators(developmentProposal.getProposalPersons()));
 		proposal
 				.setPROPSPECIALREVIEWArray(getPropSpecialReviews(developmentProposal
 						.getPropSpecialReviews()));
@@ -307,11 +306,11 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 * This method gets arrays of PROPINVESTIGATORS XMLObject and set data to it
 	 * from list of proposalPerson
 	 */
-	/*private PROPINVESTIGATORS[] getProposalInvestigators(
+	private PROPINVESTIGATORTYPE[] getProposalInvestigators(
 			List<ProposalPerson> proposalPersons) {
-		List<PROPINVESTIGATORS> propInvestigatorList = new ArrayList<PROPINVESTIGATORS>();
+		List<PROPINVESTIGATORTYPE> propInvestigatorList = new ArrayList<PROPINVESTIGATORTYPE>();
 		for (ProposalPerson propPerson : proposalPersons) {
-			PROPINVESTIGATORS propInvestigator = PROPINVESTIGATORS.Factory
+		    PROPINVESTIGATORTYPE propInvestigator = PROPINVESTIGATORTYPE.Factory
 					.newInstance();
 			propInvestigator
 					.setPERSONNAME(propPerson.getPerson().getFullName());
@@ -326,8 +325,8 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 			propInvestigator.setPROPPERCREDITSPLIT(propPersonCredit);
 			propInvestigatorList.add(propInvestigator);
 		}
-		return propInvestigatorList.toArray(new PROPINVESTIGATORS[0]);
-	}*/
+		return propInvestigatorList.toArray(new PROPINVESTIGATORTYPE[0]);
+	}
 
 	/*
 	 * This method gets credit from List of ProposalPersonCreditSplit by
@@ -463,9 +462,9 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 		proposalMaster
 				.setPRIMESPONSOR(getPrimeSponsorXMLObject(developmentProposal
 						.getPrimeSponsorCode()));
-//		proposalMaster
-//				.setPROPINVESTIGATORS(getProposalInvestigatorXMLObject(developmentProposal
-//						.getProposalPersons()));
+		proposalMaster
+				.setPROPINVESTIGATORS(getProposalInvestigatorXMLObject(developmentProposal
+						.getProposalPersons()));
 		proposalMaster
 				.setPROPOSALTYPE(getProposalTypeXMLObject(developmentProposal
 						.getProposalType().getDescription()));
@@ -639,19 +638,19 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 * and info from principalInvestigator Person
 	 * 
 	 */
-	/*private PROPINVESTIGATORS getProposalInvestigatorXMLObject(
+	private PROPINVESTIGATORTYPE getProposalInvestigatorXMLObject(
 			List<ProposalPerson> proposalPersonList) {
-		PROPINVESTIGATORS propInvestigator = PROPINVESTIGATORS.Factory
+	    PROPINVESTIGATORTYPE propInvestigatorType = PROPINVESTIGATORTYPE.Factory
 				.newInstance();
 		KcPerson person = getPrincipalInvetigatorPerson(proposalPersonList);
 		if (person != null) {
-			propInvestigator.setPERSONNAME(getPersonNameAndInfo(person));
+		    propInvestigatorType.setPERSONNAME(getPersonNameAndInfo(person));
 		}
 		if (person.getFullName() != null) {
-			propInvestigator.setPERSONID(person.getFullName());
+		    propInvestigatorType.setPERSONID(person.getFullName());
 		}
-		return propInvestigator;
-	}*/
+		return propInvestigatorType;
+	}
 
 	/*
 	 * This method gets Principal Investigator Person from list of Proposal

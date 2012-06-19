@@ -97,6 +97,7 @@ public interface Constants {
     public static final String PERSON_ROLE_PARAMETER_PREFIX = "personrole.";
     public static final String NIH_SPONSOR_ACRONYM = "NIH";
     public static final String NIH_SPONSOR_CODE = "000340";
+    public static final String LOCAL_PRINT_FORM_SPONSOR_CODE = "LOCAL_PRINT_FORM_SPONSOR_CODE";
     public static final String SPONSOR_LEVEL_HIERARCHY = "sponsorLevelHierarchy";
     public static final String SPONSOR_HIERARCHY_NAME = "sponsorGroupHierarchyName";
     public static final String SPONSOR_HIERARCHY_NIH_MULT_PI = "NIH Multiple PI";
