@@ -15,14 +15,23 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteEventBase.ErrorType;
 import org.kuali.kra.rules.TemplateRuleTest;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
-public class InstitutionalProposalNoteAddRuleTest {
+public class InstitutionalProposalNoteAddRuleTest extends KcUnitTestBase {
 
+    @Before
+    public void setUp() {
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
+    }
+    
     @Test
     public void testOK() {
         new TemplateRuleTest<InstitutionalProposalNoteAddEvent, InstitutionalProposalNoteAddRule>() {
