@@ -38,6 +38,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     private static final String BEAN_FIND_PARAM_START = "iacucProtocolStudyGroupBeans[";
     private static final String BEAN_DETAIL_FIND_PARAM_START = "iacucProtocolStudyGroupDetailBeans[";
     private static final String BEAN_PERSON_FIND_PARAM_START = "iacucProcedurePersonsResponsible[";
+    private static final String BEAN_LOCATION_FIND_PARAM_START = "iacucProtocolStudyGroupLocations[";
     private static final String FIND_PARAM_END = "].";
 
     @Override
@@ -65,7 +66,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean = getSelectedProcedureBean(request, protocolForm.getIacucProtocolDocument());
         IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean = getSelectedProcedureDetailBean(request, protocolForm.getIacucProtocolDocument());
-        getIacucProtocolProcedureService().deleteProtocolStudyGroup(selectedIacucProtocolStudyGroupBean, selectedProcedureDetailBean);
+        getIacucProtocolProcedureService().deleteProtocolStudyGroup(selectedIacucProtocolStudyGroupBean, selectedProcedureDetailBean, getIacucProtocol(form));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -81,6 +82,16 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward addProcedureLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolStudyGroupDetailBean procedureDetailBean = getSelectedProcedureDetailBean(request, protocolForm.getIacucProtocolDocument());
+        IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation = procedureDetailBean.getNewIacucProtocolStudyGroupLocation();
+        getIacucProtocolProcedureService().addProcedureLocation(newIacucProtocolStudyGroupLocation, procedureDetailBean, getIacucProtocol(form));
+        procedureDetailBean.setNewIacucProtocolStudyGroupLocation(new IacucProtocolStudyGroupLocation());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    
     public ActionForward updateIacucProtocolStudyGroupCategory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -88,19 +99,28 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.preSave(mapping, form, request, response);
-        //getIacucProtocolProcedureService().updateIacucProtocolStudyGroup(getIacucProtocol(form));
+        getIacucProtocolProcedureService().updateIacucProtocolStudyGroup(getIacucProtocol(form));
     }
     
     public ActionForward deleteProcedurePersonResponsible(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        //IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
-        //IacucProcedurePersonResponsible selectedPersonResponsible = getSelectedProcedurePerson(request, document);
         IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean = getSelectedProcedureDetailBean(request, protocolForm.getIacucProtocolDocument());
-        selectedProcedureDetailBean.getIacucProcedurePersonsResponsible().remove(getSelectedProcedurePersonIndex(request));
+        IacucProcedurePersonResponsible selectedPersonResponsible = getSelectedProcedurePerson(request, protocolForm.getIacucProtocolDocument());
+        getIacucProtocolProcedureService().deleteProcedurePersonResponsible(selectedProcedureDetailBean, selectedPersonResponsible, getIacucProtocol(form));
+        //selectedProcedureDetailBean.getIacucProcedurePersonsResponsible().remove(getSelectedProcedurePersonIndex(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    public ActionForward deleteProcedureLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean = getSelectedProcedureDetailBean(request, protocolForm.getIacucProtocolDocument());
+        IacucProtocolStudyGroupLocation selectedStudyGroupLocation = getSelectedProcedureLocation(request, protocolForm.getIacucProtocolDocument());
+        getIacucProtocolProcedureService().deleteStudyGroupLocation(selectedProcedureDetailBean, selectedStudyGroupLocation, getIacucProtocol(form));
+        //selectedProcedureDetailBean.getIacucProcedurePersonsResponsible().remove(getSelectedProcedurePersonIndex(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
+    
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
         return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
     }
@@ -136,7 +156,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     /**
      * This method is to get the selected person in each section.
      * Based on the index set in the tag, we get appropriate person selected by user.
-     * say for example this will help use to remove the person information from the collection.
+     * say for example this will help us to remove the person information from the collection.
      * @param request
      * @param document
      * @return
@@ -147,6 +167,20 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         return procedureDetailBean.getIacucProcedurePersonsResponsible().get(selectedPersonIndex);
     }
     
+    /**
+     * This method is to get the selected location in each section.
+     * Based on the index set in the tag, we get appropriate study group location selected by user.
+     * say for example this will help us to remove the location information from the collection.
+     * @param request
+     * @param document
+     * @return
+     */
+    protected IacucProtocolStudyGroupLocation getSelectedProcedureLocation(HttpServletRequest request, IacucProtocolDocument document) {
+        IacucProtocolStudyGroupDetailBean procedureDetailBean = getSelectedProcedureDetailBean(request, document);
+        int selectedLocationIndex = getSelectedBeanIndex(request, BEAN_LOCATION_FIND_PARAM_START, FIND_PARAM_END);
+        return procedureDetailBean.getIacucProtocolStudyGroupLocations().get(selectedLocationIndex);
+    }
+
     protected int getSelectedBeanIndex(HttpServletRequest request, String beanNameOpen, String beanNameClose) {
         int selectedBeanIndex = -1;
         String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);

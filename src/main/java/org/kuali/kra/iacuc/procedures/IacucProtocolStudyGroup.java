@@ -16,12 +16,13 @@
 package org.kuali.kra.iacuc.procedures;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class IacucProtocolStudyGroup extends ProtocolAssociate { 
     
@@ -41,11 +42,13 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
     private IacucProtocolSpecies iacucProtocolSpecies; 
     
     private List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible;
+    private List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations;
     
     private Integer procedureBeanIndex;
     
     public IacucProtocolStudyGroup() { 
         setIacucProcedurePersonsResponsible(new ArrayList<IacucProcedurePersonResponsible>());
+        setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
     } 
     
     public Integer getIacucProtocolStudyGroupId() {
@@ -144,14 +147,6 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
         this.iacucProtocolSpecies = iacucProtocolSpecies;
     }
 
-    public HashMap<Integer, List<IacucProcedure>> getCategoryAndRelatedProcedures() {
-        return getIacucProtocolProcedureService().getProcedureCategoryAndRelatedProcedures();
-    }
-
-    private IacucProtocolProcedureService getIacucProtocolProcedureService() {
-        return KraServiceLocator.getService(IacucProtocolProcedureService.class);
-    }
-
     public List<IacucProcedurePersonResponsible> getIacucProcedurePersonsResponsible() {
         return iacucProcedurePersonsResponsible;
     }
@@ -168,4 +163,57 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
         this.procedureBeanIndex = procedureBeanIndex;
     }
 
+    public List<IacucProtocolStudyGroupLocation> getIacucProtocolStudyGroupLocations() {
+        return iacucProtocolStudyGroupLocations;
+    }
+
+    public void setIacucProtocolStudyGroupLocations(List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations) {
+        this.iacucProtocolStudyGroupLocations = iacucProtocolStudyGroupLocations;
+    }
+
+    /**  {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        IacucProtocolStudyGroup other = (IacucProtocolStudyGroup) obj;
+        if (this.iacucProtocolStudyGroupId == null) {
+            if (other.iacucProtocolStudyGroupId != null) {
+                return false;
+            }
+        } else if (!this.iacucProtocolStudyGroupId.equals(other.iacucProtocolStudyGroupId)) {
+            return false;
+        }
+        if (this.studyGroupId == null) {
+            if (other.studyGroupId != null) {
+                return false;
+            }
+        } else if (!this.studyGroupId.equals(other.studyGroupId)) {
+            return false;
+        }
+        if (this.iacucProtocolSpeciesId == null) {
+            if (other.iacucProtocolSpeciesId != null) {
+                return false;
+            }
+        } else if (!this.iacucProtocolSpeciesId.equals(other.iacucProtocolSpeciesId)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {      
+        List<Collection<PersistableBusinessObject>> deleteAwareList = super.buildListOfDeletionAwareLists();
+        deleteAwareList.add((Collection) getIacucProcedurePersonsResponsible());
+        deleteAwareList.add((Collection) getIacucProtocolStudyGroupLocations());
+        return deleteAwareList;
+    }
+    
 }
