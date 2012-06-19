@@ -166,6 +166,8 @@ public class CoiDisclosureActionServiceTest extends KcUnitTestBase {
         coiDisclProject.setCoiDisclosureId(coiDisclosure.getCoiDisclosureId());
         coiDisclProject.setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
         coiDisclProject.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
+        coiDisclProject.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
+        coiDisclProject.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);
         return coiDisclProject;
     }
 
