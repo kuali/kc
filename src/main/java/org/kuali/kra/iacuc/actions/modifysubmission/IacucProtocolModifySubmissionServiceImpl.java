@@ -32,7 +32,6 @@ import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.processBillable.IacucProtocolProcessBillableService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
@@ -44,7 +43,6 @@ import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewType;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
@@ -87,6 +85,15 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         
         assignReviewers(submission, beans);
         addNewAction((IacucProtocol)protocolDocument.getProtocol(), bean);
+        
+        // if a committee has not been assigned, then submission status is 'pending' else its 'submitted to committee", 
+        // TODO this should perhaps be encoded as a drools rule
+        if(submission.getCommittee() != null) {
+            submission.setSubmissionStatusCode(IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+        }
+        else {
+            submission.setSubmissionStatusCode(IacucProtocolSubmissionStatus.PENDING);
+        }
 
         documentService.saveDocument(protocolDocument);
     }

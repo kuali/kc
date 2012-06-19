@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
@@ -31,9 +30,7 @@ import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -316,7 +313,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
      */
     protected void setSubmissionStatus(IacucProtocolSubmissionBuilder submissionBuilder, IacucProtocolSubmitAction submitAction) {
         // not setting committee during submit in iacuc so need not check that like in irb.
-            submissionBuilder.setSubmissionStatus(IacucProtocolSubmissionStatus.PENDING);
+        submissionBuilder.setSubmissionStatus(IacucProtocolSubmissionStatus.PENDING);
     }
     
     /**
