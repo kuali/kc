@@ -61,7 +61,9 @@ public class IacucProtocolProceduresHelper implements Serializable{
     }
     
     private void initializeIncludedProceduresAndCategories() {
-        setAllProcedures(getIacucProtocolProcedureService().getAllProcedures());
+        if(getAllProcedures().isEmpty()) {
+            setAllProcedures(getIacucProtocolProcedureService().getAllProcedures());
+        }
     }
 
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
