@@ -23,6 +23,8 @@ import org.junit.Test;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureEventType;
+import org.kuali.kra.coi.CoiDisclosureStatus;
+import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
@@ -55,6 +57,9 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
                 
                 coiDisclProject.setSelectBox1("1");
                 
+                coiDisclProject.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
+                coiDisclProject.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);
+                
                 event = new AddManualProjectEvent(Constants.EMPTY_STRING, coiDisclProject);
                 rule = new AddManualProjectRule();
                 expectedReturnValue = true;
@@ -76,6 +81,8 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
                 coiDisclProject.setCoiProjectTitle("test title");
                 coiDisclProject.setModuleItemKey(coiDisclProject.getCoiProjectId());
                 coiDisclProject.setDateField1(new java.sql.Date(new Date().getTime()));
+                coiDisclProject.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
+                coiDisclProject.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);                
                 CoiDisclosure coiDisclosure = new CoiDisclosure();
                 coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
                 coiDisclProject.setCoiDisclosure(coiDisclosure);
@@ -99,6 +106,8 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
                 coiDisclProject.setCoiProjectId("test id");
                 coiDisclProject.setCoiProjectTitle("test title");
                 coiDisclProject.setModuleItemKey(coiDisclProject.getCoiProjectId());
+                coiDisclProject.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
+                coiDisclProject.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);                
                 CoiDisclosure coiDisclosure = new CoiDisclosure();
                 coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
                 coiDisclProject.setCoiDisclosure(coiDisclosure);
@@ -125,6 +134,8 @@ public class AddManualProjectRuleTest extends KcUnitTestBase {
                 coiDisclProject.setCoiProjectId("event id");
                 coiDisclProject.setCoiProjectTitle("event title");
                 coiDisclProject.setModuleItemKey(coiDisclProject.getCoiProjectId());
+                coiDisclProject.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
+                coiDisclProject.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);                
                 CoiDisclosure coiDisclosure = new CoiDisclosure();
                 coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
                 coiDisclProject.setCoiDisclosure(coiDisclosure);

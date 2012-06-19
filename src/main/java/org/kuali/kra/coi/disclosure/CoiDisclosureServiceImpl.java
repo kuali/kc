@@ -775,6 +775,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         coiDisclProject.setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
         coiDisclProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
         coiDisclProject.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
+        coiDisclProject.setDisclosureStatusCode(coiDisclosure.getDisclosureStatusCode());
+        coiDisclProject.setDisclosureDispositionCode(coiDisclosure.getDisclosureDispositionCode());
         
         return coiDisclProject;
     }
@@ -1638,7 +1640,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         newProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
         newProject.setCoiProjectId(projectIdFk);
         newProject.setModuleItemKey(moduleItemKey);
-        newProject.setCoiProjectTitle(projectTitle); 
+        newProject.setCoiProjectTitle(projectTitle);
+        newProject.setDisclosureDispositionCode(coiDisclosure.getDisclosureDispositionCode());
+        newProject.setDisclosureStatusCode(coiDisclosure.getDisclosureStatusCode());
         
         this.initializeDisclosureDetails(newProject);
         coiDisclProjects.add(newProject);
