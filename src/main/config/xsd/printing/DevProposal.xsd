@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2006 rel. 3 U (http://www.altova.com) by Geo Thomas (Massachusetts Institute of Technology) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:propdev="http://v2.xml.utils.coeus.mit.edu/propdev" xmlns:budget="http://v2.xml.utils.coeus.mit.edu/budget" xmlns:organization="http://v2.xml.utils.coeus.mit.edu/organization" xmlns:lookuptypes="http://v2.xml.utils.coeus.mit.edu/lookuptypes" xmlns:sponsor="http://v2.xml.utils.coeus.mit.edu/sponsor" xmlns:rolodex="http://v2.xml.utils.coeus.mit.edu/rolodex" xmlns:user_unit="http://v2.xml.utils.coeus.mit.edu/user_unit" targetNamespace="http://v2.xml.utils.coeus.mit.edu/propdev" elementFormDefault="qualified" attributeFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"	
+	xmlns:propdev="http://v2.xml.utils.coeus.mit.edu/propdev" 
+	xmlns:budget="http://v2.xml.utils.coeus.mit.edu/budget" 
+	xmlns:organization="http://v2.xml.utils.coeus.mit.edu/organization" 
+	xmlns:lookuptypes="http://v2.xml.utils.coeus.mit.edu/lookuptypes" 
+	xmlns:sponsor="http://v2.xml.utils.coeus.mit.edu/sponsor" 
+	xmlns:rolodex="http://v2.xml.utils.coeus.mit.edu/rolodex" 
+	xmlns:user_unit="http://v2.xml.utils.coeus.mit.edu/user_unit" 
+	targetNamespace="http://v2.xml.utils.coeus.mit.edu/propdev" 
+	elementFormDefault="qualified" 
+	attributeFormDefault="qualified">
+
+	
 	<xs:import namespace="http://v2.xml.utils.coeus.mit.edu/budget" schemaLocation="ProposalBudget.xsd"/>
 	<xs:import namespace="http://v2.xml.utils.coeus.mit.edu/organization" schemaLocation="Orgnaization.xsd"/>
 	<xs:import namespace="http://v2.xml.utils.coeus.mit.edu/sponsor" schemaLocation="Sponsor.xsd"/>
 	<xs:import namespace="http://v2.xml.utils.coeus.mit.edu/lookuptypes" schemaLocation="LookupTypes.xsd"/>
 	<xs:import namespace="http://v2.xml.utils.coeus.mit.edu/rolodex" schemaLocation="Rolodex.xsd"/>
 	<xs:import namespace="http://v2.xml.utils.coeus.mit.edu/user_unit" schemaLocation="User_Unit.xsd"/>
+	
 	<xs:element name="PROPOSAL">
 		<xs:complexType>
 			<xs:sequence>
@@ -16,6 +29,7 @@
 				<xs:element ref="propdev:PROP_CHANGED_DATA_31" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="propdev:PROP_CUSTOM_DATA" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="propdev:PROP_INVESTIGATORS" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="propdev:PROP_INVESTIGATORS_BASIC_DETAILS" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="propdev:PROP_KEY_PERSONS" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="propdev:PROP_LOCATION" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="propdev:PROP_NOTEPAD" minOccurs="0" maxOccurs="unbounded"/>
@@ -23,6 +37,7 @@
 				<xs:element ref="propdev:PROP_SCIENCE_CODE" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="propdev:PROP_SPECIAL_REVIEW" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="propdev:PROP_PER_CREDIT_SPLIT" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="propdev:CREDIT_SPLIT_COLUMNS" minOccurs="0"/>
 				<xs:element ref="propdev:PROP_UNIT_CREDIT_SPLIT" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="propdev:PROP_USER_ROLES" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="propdev:PROP_YNQ" minOccurs="0" maxOccurs="unbounded"/>
@@ -584,9 +599,12 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="PROP_INVESTIGATORS">
-		<xs:complexType>
-			<xs:sequence>
+	
+<xs:element name="PROP_INVESTIGATORS" type="propdev:PROP_INVESTIGATOR_TYPE"/>
+<xs:element name="PROP_INVESTIGATORS_BASIC_DETAILS" type="propdev:PROP_INVESTIGATOR_TYPE"/>
+
+	<xs:complexType name="PROP_INVESTIGATOR_TYPE">
+		<xs:sequence>
 				<xs:element name="PROPOSAL_NUMBER" minOccurs="0">
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
@@ -622,6 +640,13 @@
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
+				<xs:element name="MULTI_PI_FLAG" nillable="true" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
 				<xs:element name="NON_MIT_PERSON_FLAG" minOccurs="0">
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
@@ -637,6 +662,30 @@
 					</xs:simpleType>
 				</xs:element>
 				<xs:element name="PERCENTAGE_EFFORT" nillable="true" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="5"/>
+							<xs:fractionDigits value="2"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ACADEMIC_YEAR_EFFORT" nillable="true" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="5"/>
+							<xs:fractionDigits value="2"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SUMMER_YEAR_EFFORT" nillable="true" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="5"/>
+							<xs:fractionDigits value="2"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CALENDAR_YEAR_EFFORT" nillable="true" minOccurs="0">
 					<xs:simpleType>
 						<xs:restriction base="xs:decimal">
 							<xs:totalDigits value="5"/>
@@ -670,10 +719,12 @@
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
+				<xs:element ref="propdev:PROP_UNITS" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="propdev:PROP_PER_CREDIT_SPLIT" minOccurs="0"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	
 	<xs:element name="PROP_KEY_PERSONS">
 		<xs:complexType>
 			<xs:sequence>
@@ -1866,6 +1917,7 @@
 				</xs:element>
 				<xs:element name="PERSON_ID" minOccurs="0"/>
 				<xs:element name="UNIT" type="xs:string" minOccurs="0"/>
+				<xs:element name="UNIT_NAME" type="xs:string" minOccurs="0"/>
 				<xs:element ref="lookuptypes:INV_CREDIT_TYPE" minOccurs="0"/>
 				<xs:element name="CREDIT" nillable="true" minOccurs="0">
 					<xs:simpleType>
@@ -2044,6 +2096,18 @@
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
+				<xs:element name="PRINCIPAL_INVESTIGATOR_NAME">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="90"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PRINCIPAL_INVESTIGATOR_ID">
+					<xs:simpleType>
+						<xs:restriction base="xs:string"/>
+					</xs:simpleType>
+				</xs:element>
 				<xs:element name="TEMPLATE_FLAG" minOccurs="0">
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
@@ -2125,6 +2189,7 @@
 					</xs:simpleType>
 				</xs:element>
 				<xs:element ref="lookuptypes:ACTIVITY_TYPE" minOccurs="0"/>
+				<xs:element ref="lookuptypes:ANTICIPATED_AWARD_TYPE" minOccurs="0"/>
 				<xs:element name="REQUESTED_START_DATE_INITIAL" nillable="true" minOccurs="0">
 					<xs:simpleType>
 						<xs:restriction base="xs:dateTime"/>
@@ -2331,7 +2396,8 @@
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
-				<xs:element name="PERSON_ID" minOccurs="0"/>
+				<xs:element name="PERSON_ID" type="xs:string" minOccurs="0"/>
+				<xs:element name="PERSON_NAME" type="xs:string" minOccurs="0"/>
 				<xs:element ref="lookuptypes:INV_CREDIT_TYPE" minOccurs="0"/>
 				<xs:element name="CREDIT" type="xs:string" nillable="true" minOccurs="0"/>
 				<xs:element name="UPDATE_TIMESTAMP" minOccurs="0">
@@ -2347,6 +2413,22 @@
 					</xs:simpleType>
 				</xs:element>
 				<xs:element ref="propdev:PROP_UNIT_CREDIT_SPLIT" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CREDIT_SPLIT_COLUMNS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ColumnName1"   type="xs:string" minOccurs="0"/>
+				<xs:element name="ColumnName2"   type="xs:string" minOccurs="0"/>
+				<xs:element name="ColumnName3"   type="xs:string" minOccurs="0"/>
+				<xs:element name="ColumnName4"   type="xs:string" minOccurs="0"/>
+				<xs:element name="ColumnName5"   type="xs:string" minOccurs="0"/>
+				<xs:element name="ColumnName6"   type="xs:string" minOccurs="0"/>
+				<xs:element name="ColumnName7"   type="xs:string" minOccurs="0"/>
+				<xs:element name="ColumnName8"   type="xs:string" minOccurs="0"/>
+				<xs:element name="ColumnName9"   type="xs:string" minOccurs="0"/>
+				<xs:element name="ColumnName10"  type="xs:string" minOccurs="0"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

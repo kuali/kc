@@ -153,6 +153,27 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="ANTICIPATED_AWARD_TYPE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AWARD_TYPE_CODE" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="3"/>
+							<xs:fractionDigits value="0"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="DESCRIPTION" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="200"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="AFFILIATION_TYPE">
 		<xs:complexType>
 			<xs:sequence>
@@ -363,4 +384,90 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="RATE_TYPE">
+		<xs:complexType>
+			<xs:sequence>			
+				<xs:element name="RATE_CLASS_CODE" type="xs:int" minOccurs="0"/>
+				<xs:element name="RATE_TYPE_CODE" type="xs:int" minOccurs="0"/>
+				<xs:element name="DESCRIPTION" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="200"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>			
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RATE_CLASS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="RATE_CLASS_CODE" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="3"/>
+							<xs:fractionDigits value="0"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="DESCRIPTION" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="200"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="RATE_CLASS_TYPE" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="NSF_SCIENCE_CODE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="NSF_CODE" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="15"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="DESCRIPTION" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="200"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="LOCATION">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="LOCATION_TYPE_CODE" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:int"/>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="DESCRIPTION" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="200"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+ 
+
+
 </xs:schema>
