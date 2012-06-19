@@ -98,7 +98,7 @@ public class KcKrmsJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTermSer
     }
     /**
      * 
-     * This method checks if the proposal has multiple PIs set.
+     * This method checks if the passed in forms are included.
      * see FN_S2S_BUDGET_RULE.
      * @param developmentProposal
      * @param formName a comma delimited list of s2s forms to check against.
@@ -164,7 +164,7 @@ public class KcKrmsJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTermSer
      * @return 'true' if true
      */
     @Override
-    public String s2sReplanRule(DevelopmentProposal developmentProposal, String narativeTypes, String maxNumber) {
+    public String s2sResplanRule(DevelopmentProposal developmentProposal, String narativeTypes, String maxNumber) {
         //- max of 10 narrative types PHS_ResearchPlan_Appendix
         String[] narrativeTypesArray = buildArrayFromCommaList(narativeTypes);
         int[] narrativeCounts = new int[narrativeTypesArray.length];
@@ -454,7 +454,7 @@ public class KcKrmsJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTermSer
     
     /**
      * 
-     * This method verifies that there grans.gov submission.  
+     * This method verifies that there are grans.gov submissions.  
      * See FN_IS_GG_RULE   
      * @param developmentProposal
      * @return 'true' if there are grants.gov submssion, otherwise returns 'false'.
