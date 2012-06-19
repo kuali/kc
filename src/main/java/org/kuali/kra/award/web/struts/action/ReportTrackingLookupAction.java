@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -53,16 +53,22 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.AwardReportTracking;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingPrintingService;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
+import org.kuali.kra.printing.Printable;
+import org.kuali.rice.kns.util.WebUtils;
 
 public class ReportTrackingLookupAction extends KualiLookupAction {
     
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportTrackingLookupForm.class);
-    
+    private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private ReportTrackingDao reportTrackingDao;
     private DateTimeService dateTimeService;
     private DocumentService documentService;
     private VersionHistoryService versionHistoryService;
     private UnitAuthorizationService unitAuthorizationService;
+    private ReportTrackingPrintingService reportTrackingPrintingService;
     
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         isAuthorized();
@@ -166,7 +172,42 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    
+    public ActionForward printAllReportTracking(ActionMapping mapping,ActionForm form, HttpServletRequest request,HttpServletResponse response) throws Exception {
+        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
+        List<Printable> printableArtifactLists = new ArrayList<Printable>();
+        Map<String, String> allFields = new HashMap<String,String>(lookupForm.getFields());
+        List<ReportTracking> detailResults = getReportTrackingDao().getDetailResults(allFields, lookupForm.getDetailFields());
+        for (ReportTracking detailResult : detailResults) {
+            AwardReportTracking  printables = new AwardReportTracking();  
+            printables = getReportTrackingPrintingService().getReportPrintable(ReportTrackingType.AWARD_REPORT_TRACKING,detailResult,printables);
+            printableArtifactLists.add((AwardReportTracking) printables.clone());
+        }
+        org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource attachmentDataSource =
+            getReportTrackingPrintingService()
+            .printAwardReportTracking(printableArtifactLists);
+        streamToResponse(attachmentDataSource, response);
+        actionForward = RESPONSE_ALREADY_HANDLED;
+        return actionForward;
+    }
+    public ActionForward printReportTracking(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
+        List<ReportTracking> detailResults = lookupForm.getGroupedByResults();
+        String line = request.getParameter("line");
+        ReportTracking reportTracking = detailResults.get(Integer.parseInt(line));
+        List<Printable> printableArtifactList = new ArrayList<Printable>();
+        AwardReportTracking printable = new AwardReportTracking();  
+        printable = getReportTrackingPrintingService().getReportPrintable(
+                ReportTrackingType.AWARD_REPORT_TRACKING,reportTracking,printable);
+        printableArtifactList.add(printable);
+        org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource attachmentDataSource =
+            getReportTrackingPrintingService()
+            .printAwardReportTracking(printableArtifactList);
+        streamToResponse(attachmentDataSource, response);
+        actionForward = RESPONSE_ALREADY_HANDLED;
+        return actionForward;
+    }
     public ActionForward openAwardReports(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String awardNumber = getSelectedAwardNumber(request);
         List<VersionHistory> versions = KraServiceLocator.getService(VersionHistoryService.class).loadVersionHistory(Award.class, awardNumber);
@@ -292,7 +333,48 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         }
         return versionHistoryService;
     }
+    
+    private ReportTrackingPrintingService getReportTrackingPrintingService() {
+        return KraServiceLocator.getService(ReportTrackingPrintingService.class);
+    }
+    public void setReportTrackingPrintingService(
+            ReportTrackingPrintingService reportTrackingPrintingService) {
+        this.reportTrackingPrintingService = reportTrackingPrintingService;
+    }
+    /**
+     * method to stream the byte array to response object
+     *
+     * @param fileContents
+     * @param fileName
+     * @param fileContentType
+     * @param response
+     * @throws Exception
+     */
+    protected void streamToResponse(org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource attachmentDataSource,
+            HttpServletResponse response) throws Exception {
+        byte[] xbts = attachmentDataSource.getContent();
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream(xbts.length);
+            baos.write(xbts);
 
+            WebUtils
+                    .saveMimeOutputStreamAsFile(response, attachmentDataSource
+                            .getContentType(), baos, attachmentDataSource
+                            .getFileName());
+
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.close();
+                    baos = null;
+                }
+            } catch (IOException ioEx) {
+                LOG.error("Error while downloading attachment");
+                throw new RuntimeException("IOException occurred while downloading attachment", ioEx);
+            }
+        }
+    }
     public UnitAuthorizationService getUnitAuthorizationService() {
         if (unitAuthorizationService == null) {
             unitAuthorizationService = KraServiceLocator.getService(UnitAuthorizationService.class);
