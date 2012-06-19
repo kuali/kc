@@ -358,7 +358,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 }
             }
         } else {
-            
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_IACUC_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {});            
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -4220,35 +4221,38 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         String callerString = String.format("assignReviewers");
 
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+       
+        IacucProtocol protocol = (IacucProtocol)protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION, protocol);
         if (!hasDocumentStateChanged(protocolForm)) {
-            IacucProtocolModifySubmissionBean bean = actionHelper.getIacucProtocolModifySubmissionBean();
-            /*
-             * TODO: Fix rules for assign reviewers and add committee + schedule and take the valid protocol sub tables into account
-             */
-            if (applyRules(new IacucProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), bean))) {
-                actionHelper.prepareView();
-                IacucProtocol protocol = (IacucProtocol)protocolForm.getIacucProtocolDocument().getIacucProtocol();
-                ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
-                // hack. you should not have to do this, the bean should automatically set.
-                setReviewers(form, request);
-                List<ProtocolReviewerBean> beans = bean.getReviewers();
-
-                //clear the warnings before rendering the page.
-                getModifySubmissionService().modifySubmission(protocolForm.getProtocolDocument(), bean, beans);
-                GlobalVariables.getMessageMap().getWarningMessages().clear();
-                recordProtocolActionSuccess("Modify Submission");
-
+            if (isAuthorized(task)) {
+                IacucProtocolModifySubmissionBean bean = ((IacucActionHelper) protocolForm.getActionHelper()).getIacucProtocolModifySubmissionBean();
                 /*
-                 * remove this when autopop list works,the method needs to be refactores so wait till this functionality works
+                 * TODO: Fix rules for assign reviewers and add committee + schedule and take the valid protocol sub tables into account
                  */
-                forward = performNotificationRendering(mapping, protocolForm, beans);
-
-                recordProtocolActionSuccess("Modify Submission Request");
-                IacucProtocolNotificationRenderer assignRenderer = new IacucProtocolNotificationRenderer(protocol);
-                IacucProtocolNotificationContext assignContext = new IacucProtocolNotificationContext(protocol, null, 
-                        IacucProtocolActionType.MODIFY_PROTOCOL_SUBMISSION, "Modified", assignRenderer);
-                getNotificationService().sendNotification(assignContext);
+                if (applyRules(new IacucProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), bean))) {
+                   
+                    ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
+                    // hack. you should not have to do this, the bean should automatically set.
+                    setReviewers(form, request);
+                    List<ProtocolReviewerBean> beans = bean.getReviewers();
+    
+                    //clear the warnings before rendering the page.
+                    getModifySubmissionService().modifySubmission(protocolForm.getProtocolDocument(), bean, beans);
+                    GlobalVariables.getMessageMap().getWarningMessages().clear();
+                    recordProtocolActionSuccess("Modify Submission");
+    
+                    /*
+                     * remove this when autopop list works,the method needs to be refactores so wait till this functionality works
+                     */
+                    forward = performNotificationRendering(mapping, protocolForm, beans);
+    
+                    recordProtocolActionSuccess("Modify Submission Request");
+                    IacucProtocolNotificationRenderer assignRenderer = new IacucProtocolNotificationRenderer(protocol);
+                    IacucProtocolNotificationContext assignContext = new IacucProtocolNotificationContext(protocol, null, 
+                            IacucProtocolActionType.MODIFY_PROTOCOL_SUBMISSION, "Modified", assignRenderer);
+                    getNotificationService().sendNotification(assignContext);
+                }
             }
         } else {
             GlobalVariables.getMessageMap().clearErrorMessages();
