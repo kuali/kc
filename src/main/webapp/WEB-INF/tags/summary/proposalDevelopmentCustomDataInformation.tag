@@ -21,7 +21,7 @@
 	value="${DataDictionary.ScienceKeyword.attributes}" />
 <c:set var="textAreaFieldName"
 	value="document.developmentProposalList[0].mailDescription" />
-<c:set var="action" value="proposalDevelopmentProposal" />
+<c:set var="action" value="proposalDevelopmentApproverView" />
 <c:set var="className"
 	value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
 <c:set var="className"

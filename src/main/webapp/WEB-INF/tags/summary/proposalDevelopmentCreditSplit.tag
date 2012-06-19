@@ -1,3 +1,18 @@
+<%--
+ Copyright 2005-2010 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.osedu.org/licenses/ECL-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="proposalPersonAttributes"
@@ -14,27 +29,24 @@
 	<div class="tab-container" align="center">
 
 		<table cellpadding="0" cellspacing="0" summary="">
-			<tr>
+			 <tr>
 				<th width="${columnWidth}">&nbsp;</th>
-				<c:forEach
+				 <c:forEach
 					items="${KualiForm.document.developmentProposalList[0].investigatorCreditTypes}"
-					var="invType">
-					<th width="${columnWidth}">${invType.description}</th>
-				</c:forEach>
-			</tr>
+					var="invType"> 
+				 	<th width="${columnWidth}">${invType.description}</th> 	
+				 </c:forEach> 
+			</tr> 
 			<c:forEach
 				items="${KualiForm.document.developmentProposalList[0].investigators}"
 				var="investigator" varStatus="invStatus">
 				<c:set var="investigatorProperty"
 					value="document.developmentProposalList[0].investigator[${invStatus.index}]" />
 				<tr>
-					<td nowrap class="tab-subhead"><strong> <kul:htmlControlAttribute
-								property="${investigatorProperty}.fullName"
-								attributeEntry="${proposalPersonAttributes.fullName}"
-								readOnly="true" /> </strong>
+					<td>
+					<div align="left"><strong>  <bean:write name="KualiForm"
+											property="${investigatorProperty}.fullName" /></strong>
 					</td>
-
-
 					<c:forEach
 						items="${KualiForm.document.developmentProposalList[0].investigatorCreditTypes}"
 						var="invType">
@@ -44,29 +56,24 @@
 								value="${investigatorProperty}.creditSplits[${splitStatus.index}]" />
 							<c:if
 								test="${personcreditsplit.invCreditTypeCode == invType.invCreditTypeCode}">
-								<td class="tab-subhead"><div align="right">
-										<strong> <kul:htmlControlAttribute
-												property="${personCreditSplit}.credit"
-												attributeEntry="${personCreditSplitAttributes.credit}"
-												styleClass="align-right" />
-							</c:if>
-							</strong>
-							</div>
-							</td>
 
+								<td>
+									<div align="right"><strong>
+										<bean:write name="KualiForm"
+											property="${personCreditSplit}.credit" /><strong>
+								</td>
+							</c:if>					
 						</c:forEach>
 					</c:forEach>
 
-
 				</tr>
-
 				<c:forEach items="${investigator.units}" var="personUnit"
 					varStatus="unitStatus">
 					<tr>
 						<c:set var="unitProperty"
 							value="${investigatorProperty}.units[${unitStatus.index}]" />
-						<td nowrap>${personUnit.unitNumber} -
-							${personUnit.unit.unitName}</td>
+						 <td nowrap>${personUnit.unitNumber} -
+							${personUnit.unit.unitName}</td> 
 
 						<c:forEach
 							items="${KualiForm.document.developmentProposalList[0].investigatorCreditTypes}"
@@ -77,18 +84,15 @@
 									value="${unitProperty}.creditSplits[${splitStatus.index}]" />
 								<c:if
 									test="${unitcreditsplit.invCreditTypeCode == invType.invCreditTypeCode}">
-									<td><div align="right">
-											<kul:htmlControlAttribute
-												property="${unitCreditSplit}.credit"
-												attributeEntry="${unitCreditSplitAttributes.credit}"
-												styleClass="align-right" />
-								</c:if>
-								</div>
-								</td>
+								
+								<td>
+					<div align="right"> <bean:write name="KualiForm"
+											property="${unitCreditSplit}.credit" />
+					</td>
+					</c:if>
 							</c:forEach>
 						</c:forEach>
 					</tr>
-
 				</c:forEach>
 				<c:if test="${fn:length(investigator.units) > 0}">
 					<tr>
@@ -125,9 +129,7 @@
 					</td>
 				</c:forEach>
 			</tr>
-
 		</table>
-
 	</div>
 </kul:innerTab>
 

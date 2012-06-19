@@ -105,7 +105,7 @@
 									<c:when
 										test="${KualiForm.document.developmentProposalList[0].proposalPersons[status.index].proposalPersonRoleId ne 'KP'}">
 										<c:choose>
-											<c:when test="${completed}">
+											<c:when test="${completed}">										
 												<c:set var="questionStatus" value="(Complete)" />
 											</c:when>
 											<c:otherwise>
@@ -129,9 +129,8 @@
 		</table>
 	</div>
 	</c:if>
-	<c:if
-		test="${not empty KualiForm.creditSplitEnabled and KualiForm.creditSplitEnabled}">
+	<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].proposalPersons) > 0}">
 		<kra-summary:proposalDevelopmentCreditSplit />
-	</c:if>
+	  </c:if>  
 
 </kul:tab>
