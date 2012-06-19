@@ -23,12 +23,14 @@
 <script language="javascript" src="dwr/interface/ProtocolActionAjaxService.js"></script>
 <c:set var="docNumber" value="${KualiForm.document.protocol.protocolNumber}" />
 <script>
-var $j = jQuery.noConflict();          
-$j(document).ready(function() {
-	loadScheduleDates('actionHelper.iacucProtocolModifySubmissionBean.committeeId', ${docNumber}, 'actionHelper.iacucProtocolModifySubmissionBean.scheduleId');
-	}
-);
+	var $j = jQuery.noConflict();          
+	$j(document).ready(
+		function() {
+			protocolDisplayReviewers('getProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId', 'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId}, '${docNumber}');
+		}
+	);
 </script>
+
 
 <kra:permission value="${KualiForm.actionHelper.canModifyProtocolSubmission}">
 ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySubmissionBean.numberOfReviewers")}
@@ -152,7 +154,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
                                             <c:forEach var="reviewer" items="${KualiForm.actionHelper.iacucProtocolModifySubmissionBean.leftReviewers}" varStatus="status">
                                                 <tr>
                                                     <td style="border: 0 none">
-                                                        ${reviewer.fullName} left
+                                                        ${reviewer.fullName}
                                                     </td>
                                                     <td style="border: 0 none">
                                                         <kul:htmlControlAttribute property="actionHelper.iacucProtocolModifySubmissionBean.reviewer[${status.index}].reviewerTypeCode"
@@ -169,7 +171,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
                                             <c:forEach var="reviewer" items="${KualiForm.actionHelper.iacucProtocolModifySubmissionBean.rightReviewers}" varStatus="status">
                                                 <tr>
                                                     <td style="border: 0 none">
-                                                        ${reviewer.fullName} right
+                                                        ${reviewer.fullName}
                                                     </td>
                                                     <td style="border: 0 none">
                                                         <kul:htmlControlAttribute property="actionHelper.iacucProtocolModifySubmissionBean.reviewer[${status.index + numLeftReviewers}].reviewerTypeCode"
