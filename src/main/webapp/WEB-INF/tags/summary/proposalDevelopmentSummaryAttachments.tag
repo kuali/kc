@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="action" value="proposalDevelopmentProposalSummary" />
+<c:set var="action" value="proposalDevelopmentApproverView" />
 <c:set var="proposalDevelopmentAttributes"
 	value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="narrativeAttributes"

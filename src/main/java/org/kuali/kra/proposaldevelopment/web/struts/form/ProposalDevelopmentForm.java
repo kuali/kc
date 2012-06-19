@@ -186,7 +186,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private List<HierarchyProposalSummary> hierarchyProposalSummaries;
     private DevelopmentProposal proposalToSummarize;
     private Budget budgetToSummarize;
-    private Budget budgetVersionNumbers;
     private String proposalNumberToSummarize;
     private String budgetNumberToSummarize;
     private transient boolean showSubmissionDetails;
@@ -1723,22 +1722,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
     public Budget getBudgetToSummarize() {
         return budgetToSummarize;
-    }
-
-    /**
-     * Sets the budgetVersionNumber attribute value.
-     * @param budgetDocument The budgetVersionNumber to set.
-     */
-    public void setBudgetVersionNumbers(Budget budgetVersionNumbers) {
-        this.budgetVersionNumbers = budgetVersionNumbers;
-    }
-    
-    /**
-     * Gets the budgetVersionNumber attribute. 
-     * @return Returns the budgetToSummarize.
-     */
-    public Budget getBudgetVersionNumbers() {
-        return budgetVersionNumbers;
     }
 
     /**
