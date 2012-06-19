@@ -22,7 +22,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 /**
  * Encapsulates the rules for approving a Protocol.
  */
-public class ProtocolApproveRule<E extends ProtocolApproveEvent> extends ResearchDocumentRuleBase implements BusinessRuleInterface<E> {
+public abstract class ProtocolApproveRule<E extends ProtocolApproveEvent> extends ResearchDocumentRuleBase implements BusinessRuleInterface<E> {
     
     private static final String APPROVAL_DATE_FIELD = "approvalDate";
     private static final String EXPIRATION_DATE_FIELD = "expirationDate";

@@ -22,7 +22,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * Validates the rules for a Protocol Risk Level add action.
  */
-public class ProtocolAddReviewCommentRule<E extends ProtocolAddReviewCommentEvent> extends ResearchDocumentRuleBase implements BusinessRuleInterface<E> {
+public abstract class ProtocolAddReviewCommentRule<E extends ProtocolAddReviewCommentEvent> extends ResearchDocumentRuleBase implements BusinessRuleInterface<E> {
     
     /**
      * {@inheritDoc}
