@@ -26,6 +26,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService;
+import org.kuali.kra.irb.actions.expeditedapprove.ProtocolExpeditedApproveBean;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
@@ -75,6 +76,19 @@ public class ProtocolAssignToAgendaServiceImpl implements ProtocolAssignToAgenda
 
     /** {@inheritDoc} */
     public void assignToAgenda(Protocol protocol, ProtocolAssignToAgendaBean actionBean) throws Exception {
+
+        ProtocolSubmission submission = findSubmission(protocol);
+        // add a new protocol action
+        ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.ASSIGN_TO_AGENDA);
+        protocolAction.setComments(actionBean.getComments());
+        protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
+        protocol.getProtocolActions().add(protocolAction);
+        protocolActionService.updateProtocolStatus(protocolAction, protocol);
+        documentService.saveDocument(protocol.getProtocolDocument());    
+    }
+
+    /** {@inheritDoc} */
+    public void assignToAgenda(Protocol protocol, ProtocolExpeditedApproveBean actionBean) throws Exception {
 
         ProtocolSubmission submission = findSubmission(protocol);
         // add a new protocol action
