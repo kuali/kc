@@ -1917,16 +1917,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             if (applyRules(new IacucProtocolApproveEvent(document, actionBean))) {
                 getProtocolApproveService().grantAdminApproval(document.getProtocol(), actionBean);
                 saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
-               // forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-                forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
-                
                 recordProtocolActionSuccess("Administrative Approval");
                 IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) document.getProtocol(), IacucProtocolActionType.ADMINISTRATIVE_APPROVAL, "Response Approval");
                 protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-                    return mapping.findForward(CORRESPONDENCE);
+                    forward = mapping.findForward(CORRESPONDENCE);
                 } else {
-                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
                 }
             }
         }
@@ -4231,10 +4228,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                  * TODO: Fix rules for assign reviewers and add committee + schedule and take the valid protocol sub tables into account
                  */
                 if (applyRules(new IacucProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), bean))) {
-                   
-                    ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
+                    
                     // hack. you should not have to do this, the bean should automatically set.
                     setReviewers(form, request);
+                    
                     List<ProtocolReviewerBean> beans = bean.getReviewers();
     
                     //clear the warnings before rendering the page.
@@ -4260,11 +4257,14 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
+
+    
    /**
     * Gross hack to get reviewers
     * This method...
     * @param request
     */
+  
     protected void setReviewers(ActionForm form, HttpServletRequest request) {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
 
