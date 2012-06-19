@@ -491,6 +491,8 @@ public class CoiDisclosureAction extends CoiAction {
         disclosureHelper.getNewCoiDisclProject().setCoiDisclosure(coiDisclosure);
         disclosureHelper.getNewCoiDisclProject().setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
         disclosureHelper.getNewCoiDisclProject().setModuleItemKey(disclosureHelper.getNewCoiDisclProject().getCoiProjectId());
+        disclosureHelper.getNewCoiDisclProject().setDisclosureStatusCode(coiDisclosure.getDisclosureStatusCode());
+        disclosureHelper.getNewCoiDisclProject().setDisclosureDispositionCode(coiDisclosure.getDisclosureDispositionCode());
         if (checkRule(new AddManualProjectEvent("disclosureHelper.newCoiDisclProject", disclosureHelper.getNewCoiDisclProject()))) {
             getCoiDisclosureService().initializeDisclosureDetails(disclosureHelper.getNewCoiDisclProject());
             disclosureHelper.getNewCoiDisclProject().setSequenceNumber(coiDisclosure.getSequenceNumber());
@@ -586,6 +588,10 @@ public class CoiDisclosureAction extends CoiAction {
                         // set the disclosure codes
                         coiDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.SUBMITTED_FOR_REVIEW);
                         coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.ROUTED_FOR_REVIEW);
+
+                        // Update the corresponding discl project
+                        updateCorrespondingCoiDisclProject(coiDisclosure, CoiDispositionStatus.SUBMITTED_FOR_REVIEW, CoiDisclosureStatus.ROUTED_FOR_REVIEW);
+                        
                         // Certification occurs after the audit rules pass, and the document and the questionnaire data have been
                         // saved successfully
                         coiDisclosure.certifyDisclosure();
@@ -1161,4 +1167,16 @@ public class CoiDisclosureAction extends CoiAction {
         
         return updateMaster;
     }
+    
+    private void updateCorrespondingCoiDisclProject(CoiDisclosure coiDisclosure, String dispositionStatus, String disclosureStatus) {
+        List<CoiDisclProject> disclProjects = coiDisclosure.getCoiDisclProjects();
+        
+        for (CoiDisclProject tmpProj : disclProjects) {
+            if (StringUtils.equals(tmpProj.getDisclosureEventType(), coiDisclosure.getCoiDisclosureEventType().getEventTypeCode())
+                && StringUtils.equals(tmpProj.getModuleItemKey(), coiDisclosure.getModuleItemKey()) ) {
+                tmpProj.setDisclosureDispositionCode(dispositionStatus);
+                tmpProj.setDisclosureStatusCode(disclosureStatus);
+            }
+        }      
+    }    
 }

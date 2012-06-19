@@ -83,6 +83,10 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         List<KraPersistableBusinessObjectBase> disclosures = new ArrayList<KraPersistableBusinessObjectBase>();
         coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
         coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.APPROVED);
+        
+        // Update the corresponding discl project
+        updateCorrespondingCoiDisclProject(coiDisclosure, coiDispositionCode, CoiDisclosureStatus.APPROVED);
+        
         disclosures.add(coiDisclosure);
      
         if (masterCoiDisclosure != null) {
@@ -113,6 +117,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         
         coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
         coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.DISAPPROVED);
+        
+        // Update the corresponding discl project
+        updateCorrespondingCoiDisclProject(coiDisclosure, coiDispositionCode, CoiDisclosureStatus.DISAPPROVED);
       
         businessObjectService.save(coiDisclosure);
         businessObjectService.save(createDisclosureHistory(coiDisclosure));
@@ -126,6 +133,8 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     public void setStatus(CoiDisclosure coiDisclosure, String coiDispositionCode) {
         coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
         coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.ROUTED_FOR_REVIEW);
+        // Update the corresponding discl project
+        updateCorrespondingCoiDisclProject(coiDisclosure, coiDispositionCode, CoiDisclosureStatus.ROUTED_FOR_REVIEW);
         coiDisclosure.refreshReferenceObject("coiDispositionStatus");
         coiDisclosure.refreshReferenceObject("coiDisclosureStatus");
         businessObjectService.save(coiDisclosure);
@@ -416,4 +425,15 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         this.questionnaireAnswerService = questionnaireAnswerService;
     }
 
+    private void updateCorrespondingCoiDisclProject(CoiDisclosure coiDisclosure, String dispositionStatus, String disclosureStatus) {
+        List<CoiDisclProject> disclProjects = coiDisclosure.getCoiDisclProjects();
+        
+        for (CoiDisclProject tmpProj : disclProjects) {
+            if (StringUtils.equals(tmpProj.getDisclosureEventType(), coiDisclosure.getCoiDisclosureEventType().getEventTypeCode())
+                && StringUtils.equals(tmpProj.getModuleItemKey(), coiDisclosure.getModuleItemKey()) ) {
+                tmpProj.setDisclosureDispositionCode(dispositionStatus);
+                tmpProj.setDisclosureStatusCode(disclosureStatus);
+            }
+        }      
+    }
 }

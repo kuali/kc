@@ -537,6 +537,8 @@
         <field-descriptor name="originalCoiDisclosureId" column="ORIGINAL_COI_DISCLOSURE_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="disclosureDispositionCode" column="DISCLOSURE_DISPOSITION_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="disclosureStatusCode" column="DISCLOSURE_STATUS_CODE" jdbc-type="VARCHAR" />		
 		<reference-descriptor name="coiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="coiDisclosureId"/>
 		</reference-descriptor>

@@ -52,6 +52,8 @@
                 <ref bean="CoiDisclProject-longTextField3" />
                 <ref bean="CoiDisclProject-selectBox1" />                
                 <ref bean="CoiDisclProject-versionNumber" />
+                <ref bean="CoiDisclProject-disclosureDispositionCode" />
+                <ref bean="CoiDisclProject-disclosureStatusCode" />
                 
             </list>
         </property>
@@ -372,6 +374,42 @@
     <bean id="CoiDisclProject-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
     
+    <bean id="CoiDisclProject-disclosureDispositionCode" parent="CoiDisclProject-disclosureDispositionCode-parentBean" />
+    <bean id="CoiDisclProject-disclosureDispositionCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="disclosureDispositionCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Disclosure Disposition Code" />
+        <property name="shortLabel" value="Disclosure Disposition Code" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Disclosure Disposition Code" />
+        <property name="description" value="Disclosure Disposition Code" />
+    </bean>
+
+    <bean id="CoiDisclProject-disclosureStatusCode" parent="CoiDisclProject-disclosureStatusCode-parentBean" />
+    <bean id="CoiDisclProject-disclosureStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="disclosureStatusCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Disclosure Status Code" />
+        <property name="shortLabel" value="Disclosure Status Code" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Disclosure Status Code" />
+        <property name="description" value="Disclosure Status Code" />
+    </bean>    
+    
     <!-- Business Object Inquiry Definition -->
     <bean id="CoiDisclProject-inquiryDefinition" parent="CoiDisclProject-inquiryDefinition-parentBean" />
     <bean id="CoiDisclProject-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -413,7 +451,11 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="longTextField3" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="selectBox1" />                                
+                                p:attributeName="selectBox1" />      
+                            <bean parent="FieldDefinition"
+                                p:attributeName="disclosureDispositionCode" />    
+                            <bean parent="FieldDefinition"
+                                p:attributeName="disclosureStatusCode" />                                                                                        
                         </list>
                     </property>
                 </bean>
