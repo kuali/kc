@@ -147,7 +147,7 @@
 					  <html:image
 						property="methodToCall.search" value="search"
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_search.gif" styleClass="tinybutton"
-						alt="search" title="search" border="0" /> 
+						alt="search" title="search" border="0" onclick="showPrint();"/> 
 					  <html:image
 						property="methodToCall.clearValues" value="clearValues"
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="tinybutton"
@@ -200,8 +200,16 @@
 							<html:image property="methodToCall.viewAggregateResults" src="${ConfigProperties.kra.externalizable.images.url}buttonsmall-aggregateview.gif" styleClass="tinybutton"/>
 						</c:when><c:otherwise>
 							<html:image property="methodToCall.viewRawResults" src="${ConfigProperties.kra.externalizable.images.url}buttonsmall-reportview.gif" styleClass="tinybutton"/>
-						</c:otherwise></c:choose>						
-						<!--  hidden image used by fancybox.close to call updateView on close -->
+						</c:otherwise></c:choose>
+										<div id="printAll" style="display: none;">
+											<c:if test="${KualiForm.currentView.viewName =='PI View'}">
+												<html:image property="methodToCall.printAllReportTracking"
+													src="${ConfigProperties.kra.externalizable.images.url}buttonsmall-print.gif"
+													styleClass="tinybutton"
+													onclick="javascript: openNewWindow('reportTrackingLookup','printAllReportTracking','0',${KualiForm.formKey},'true'); return false" />
+											</c:if>
+										</div>
+										<!--  hidden image used by fancybox.close to call updateView on close -->
 						${kfunc:registerEditableProperty(KualiForm, "methodToCall.resetCustomView")}			  
 				  		<html:image styleId="onChangeViewClose" property="methodToCall.updateView" style="display:none;"
 				     		src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton"/>
@@ -312,6 +320,9 @@
 				var showHideSearchClass = ".showHideSearch";
 				var showSearchClass = "showSearch";
 				var hideSearchClass = "hideSearch";
+				function showPrint(){
+					document.getElementById("printAll").style.display='block';
+				}
 				function toggleSearchTable() {
 					if (jq('table.searchTable').is(':visible')) {
 						jq('table.searchTable').hide();
@@ -484,9 +495,9 @@
 			</script>
 
 <c:choose><c:when test="${KualiForm.viewRawResults}">
-	<kra-a:reportTrackingRawResults/>
+	 <kra-a:reportTrackingRawResults/>
 </c:when><c:otherwise>
-	<kra-a:reportTrackingAggregateResults/>
+	<kra-a:reportTrackingAggregateResults/> 
 </c:otherwise></c:choose>
 </td>
 </tr>
