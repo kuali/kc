@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,14 +30,12 @@ import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.SponsorForms;
 import org.kuali.kra.bo.SponsorHierarchy;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.printing.print.PrintCertificationPrint;
 import org.kuali.kra.proposaldevelopment.printing.print.ProposalSponsorFormsPrint;
 import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPrintingService;
@@ -127,23 +124,24 @@ public class ProposalDevelopmentPrintingServiceImpl implements
     public void populateSponsorForms(
             List<SponsorFormTemplateList> sponsorFormTemplates,
             String sponsorCode) {
-        // check if sponsor forms isEmpty
         if (!sponsorFormTemplates.isEmpty()) {
-            // if exists - check if sponsor code has changed
             if (StringUtils.equalsIgnoreCase(sponsorCode, 
                     sponsorFormTemplates.get(0).getSponsorForms().getSponsorCode())) {
                 sponsorFormTemplates.clear();
             }
+            sponsorFormTemplates.clear();
+            
         }
 
         if (sponsorFormTemplates.isEmpty()) {
-            // fetch all templates for proposal sponsor code
             Collection<SponsorFormTemplateList> clsponsorFormTemplates = getSponsorTemplatesList(sponsorCode);
             sponsorFormTemplates.addAll(clsponsorFormTemplates);
-            // fetch all templates for generic sponsor code
+            if(!s2SUtilService
+                    .getParameterValue(Constants.LOCAL_PRINT_FORM_SPONSOR_CODE).equals(sponsorCode)){
             String genericSponsorCode = s2SUtilService
                     .getParameterValue(Constants.GENERIC_SPONSOR_CODE);
             clsponsorFormTemplates = getSponsorTemplatesList(genericSponsorCode);
+            }
             sponsorFormTemplates.addAll(clsponsorFormTemplates);
         } else {
             resetSelectedFormList(sponsorFormTemplates);
