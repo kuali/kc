@@ -33,26 +33,26 @@
 
 <c:set var="procedureAttributes" value="${DataDictionary.IacucProcedure.attributes}" />
 
+
 <script type="text/javascript">
-	var $j = jQuery.noConflict();
-	$j(document).ready(function(){
-		// initial state
-		//$j("#panel").hide();
-		// trigger
-		$j(".checkBox").click(
-		function() {
-				funcHideShowProcedure(this.title);
-			}
-		);
-		// function
-		function funcHideShowProcedure(divName) {
-			if ($j(".checkBox").is(':checked')) {
-				$j("#" + divName).show();
-			} else {
-				$j("#" + divName).hide();
-			}
-		}
-	}
+    var $j = jQuery.noConflict();
+    $j(document).ready(function(){
+        // initial state
+        // trigger
+        $j(".checkBox").click(
+        function() {
+                funcHideShowProcedure(this.title, $j(this).is(':checked'));
+            }
+        );
+        // function
+        function funcHideShowProcedure(divName, isChecked) {
+            if (isChecked) {
+                $j("#" + divName).show();
+        } else {
+                $j("#" + divName).hide();
+            }
+        }
+    }
 );
 </script>
 
@@ -114,8 +114,13 @@
     </div>
 
     <c:forEach var="protocolStudyGroups" items="${collectionReference}" varStatus="status">
+		<c:set var="procedureSelected" value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index].procedureSelected}" />
+		<c:set var="divDisplay" value="display: none" />
+		<c:if test="${procedureSelected}">
+			<c:set var="divDisplay" value="display: block" />
+		</c:if>
 		<c:set var="procedureCategory" value="category${status.index}Procedure" />
-	    <div id="${procedureCategory}" style="display: none" class="tab-container" align="center">
+	    <div id="${procedureCategory}" style="${divDisplay}" class="tab-container" align="center">
 	    	<h3>
 				<c:set var="procCategory" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[status.index].procedureCategory}" />
 				<c:set var="procDescription" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[status.index].procedureDescription}" />
