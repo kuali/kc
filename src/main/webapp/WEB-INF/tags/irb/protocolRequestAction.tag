@@ -49,7 +49,7 @@
                                           methodToCall="grantFullApproval"
                                           canPerformAction="${KualiForm.actionHelper.canApproveFull}"
                                           defaultOpen="${KualiForm.actionHelper.isApproveOpenForFollowup}" />
-            <kra-irb-action:approveAction tabTitle="Expedited Approval"
+            <kra-irb-action:expeditedApproveAction tabTitle="Expedited Approval"
                                           bean="${KualiForm.actionHelper.protocolExpeditedApprovalBean}"
                                           property="actionHelper.protocolExpeditedApprovalBean"
                                           taskName="protocolExpediteApproval"

@@ -77,6 +77,8 @@ import org.kuali.kra.irb.actions.decision.CommitteeDecisionRecuserEvent;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.decision.CommitteePerson;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteService;
+import org.kuali.kra.irb.actions.expeditedapprove.ProtocolExpeditedApproveBean;
+import org.kuali.kra.irb.actions.expeditedapprove.ProtocolExpeditedApproveEvent;
 import org.kuali.kra.irb.actions.followup.FollowupActionService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionEvent;
@@ -1768,12 +1770,22 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument document = protocolForm.getProtocolDocument();
-        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolExpeditedApprovalBean();
+        ProtocolExpeditedApproveBean expeditedActionBean = (ProtocolExpeditedApproveBean) protocolForm.getActionHelper().getProtocolExpeditedApprovalBean();
         
         if (hasPermission(TaskName.EXPEDITE_APPROVAL, document.getProtocol())) {
-            if (applyRules(new ProtocolApproveEvent(document, actionBean))) {
-                getProtocolApproveService().grantExpeditedApproval(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+            if (applyRules(new ProtocolExpeditedApproveEvent(document, expeditedActionBean))) {
+                if (expeditedActionBean.isAssignToAgenda()) {
+                    ProtocolAssignCmtSchedBean cmtAssignBean = protocolForm.getActionHelper().getAssignCmtSchedBean();
+                    cmtAssignBean.setScheduleId(expeditedActionBean.getScheduleId());
+                    getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), cmtAssignBean);
+                    ProtocolAssignToAgendaBean agendaBean = protocolForm.getActionHelper().getAssignToAgendaBean();
+                    agendaBean.setScheduleDate(getProtocolAssignToAgendaService().getAssignedScheduleDate(protocolForm.getProtocolDocument().getProtocol()));
+                    agendaBean.setActionDate(expeditedActionBean.getActionDate());
+                    getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), expeditedActionBean);
+                    recordProtocolActionSuccess("Assign to Agenda");
+                }
+                getProtocolApproveService().grantExpeditedApproval(protocolForm.getProtocolDocument().getProtocol(), expeditedActionBean);
+                saveReviewComments(protocolForm, expeditedActionBean.getReviewCommentsBean());
                 recordProtocolActionSuccess("Expedited Approval");
                 forward = confirmFollowupAction(mapping, form, request, response, PROTOCOL_ACTIONS_TAB);
                 protocolForm.getTabStates().put(":" + WebUtils.generateTabKey("Assign to Agenda"), "OPEN");
