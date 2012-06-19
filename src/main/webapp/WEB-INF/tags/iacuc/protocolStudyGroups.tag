@@ -117,7 +117,13 @@
 	      	</td>
 	     	<td colspan="4">
 				<c:set var="procedurePersonsResponsible" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[procedureBeanIndex].iacucProtocolStudyGroupDetailBeans[detailStatus.index].iacucProcedurePersonsResponsible}" />
-	     		<kra-iacuc:procedureLocations/>
+				<c:set var="procedureLocations" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[procedureBeanIndex].iacucProtocolStudyGroupDetailBeans[detailStatus.index].iacucProtocolStudyGroupLocations}" />
+	     		<kra-iacuc:procedureLocations
+	                      collectionReference="${procedureLocations}"
+    	                  collectionProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${detailStatus.index}].iacucProtocolStudyGroupLocations"
+    	                  procedureBeanIndex="${procedureBeanIndex}"
+	                      procedureDetailBeanIndex="${detailStatus.index}"
+                     	  procedureLocationProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${detailStatus.index}]"/>
 	     		<kra-iacuc:procedurePersonResponsible
 	                      collectionReference="${procedurePersonsResponsible}"
     	                  collectionProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${detailStatus.index}].iacucProcedurePersonsResponsible"
