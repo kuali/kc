@@ -28,8 +28,10 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentFilter;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
+import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
 import org.kuali.kra.iacuc.protocol.IacucProtocolProjectType;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
@@ -130,6 +132,21 @@ public class IacucProtocol extends Protocol {
         managedLists.add(getIacucProtocolCustomDataList());
         managedLists.add(getIacucAlternateSearches());
         managedLists.add(getIacucProtocolExceptions());
+
+        List<IacucProtocolStudyGroupLocation> studyGroupLocations = new ArrayList<IacucProtocolStudyGroupLocation>();
+        for (IacucProtocolStudyGroup studyGroup : getIacucProtocolStudyGroups()) {
+            studyGroupLocations.addAll(studyGroup.getIacucProtocolStudyGroupLocations());
+        }
+        managedLists.add(studyGroupLocations);
+        
+        List<IacucProcedurePersonResponsible> personsResponsible = new ArrayList<IacucProcedurePersonResponsible>();
+        for (IacucProtocolStudyGroup studyGroup : getIacucProtocolStudyGroups()) {
+            personsResponsible.addAll(studyGroup.getIacucProcedurePersonsResponsible());
+        }
+        managedLists.add(personsResponsible);
+
+        managedLists.add(getIacucProtocolStudyGroups());
+        
         return managedLists;
     }
 

@@ -38,13 +38,16 @@ public class IacucProtocolStudyGroupDetailBean implements Serializable {
 
     private List<IacucProtocolStudyGroup> iacucProtocolStudyGroups;
     private List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible;
+    private List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations;
 
     private IacucProcedurePersonResponsible newIacucProcedurePersonResponsible;
+    private IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation;
     
     public IacucProtocolStudyGroupDetailBean() {
         setSpeciesAndGroupsText(new ArrayList<String>());
         setIacucProcedurePersonsResponsible(new ArrayList<IacucProcedurePersonResponsible>());
         setIacucProtocolStudyGroups(new ArrayList<IacucProtocolStudyGroup>());
+        setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
     }
     
     public List<String> getSpeciesAndGroupsText() {
@@ -109,6 +112,22 @@ public class IacucProtocolStudyGroupDetailBean implements Serializable {
 
     public void setMaxPainCategoryCode(Integer maxPainCategoryCode) {
         this.maxPainCategoryCode = maxPainCategoryCode;
+    }
+
+    public List<IacucProtocolStudyGroupLocation> getIacucProtocolStudyGroupLocations() {
+        return iacucProtocolStudyGroupLocations;
+    }
+
+    public void setIacucProtocolStudyGroupLocations(List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations) {
+        this.iacucProtocolStudyGroupLocations = iacucProtocolStudyGroupLocations;
+    }
+
+    public IacucProtocolStudyGroupLocation getNewIacucProtocolStudyGroupLocation() {
+        return newIacucProtocolStudyGroupLocation;
+    }
+
+    public void setNewIacucProtocolStudyGroupLocation(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation) {
+        this.newIacucProtocolStudyGroupLocation = newIacucProtocolStudyGroupLocation;
     }
     
 }

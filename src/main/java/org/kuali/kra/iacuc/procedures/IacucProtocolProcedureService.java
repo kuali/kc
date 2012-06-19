@@ -44,7 +44,7 @@ public interface IacucProtocolProcedureService {
      * This method is to get procedure category and related list of procedures
      * @return
      */
-    public HashMap<Integer, List<IacucProcedure>> getProcedureCategoryAndRelatedProcedures();
+    //public HashMap<Integer, List<IacucProcedure>> getProcedureCategoryAndRelatedProcedures();
     
     
     /**
@@ -65,24 +65,43 @@ public interface IacucProtocolProcedureService {
      * This method is to add procedure responsible person.
      * This method is invoked from person responsible section
      * @param newIacucProcedurePersonResponsible
-     * @param procedureDetailBean
+     * @param selectedProcedureDetailBean
      */
-    public void addProcedurePersonResponsible(IacucProcedurePersonResponsible newIacucProcedurePersonResponsible, IacucProtocolStudyGroupDetailBean procedureDetailBean);
+    public void addProcedurePersonResponsible(IacucProcedurePersonResponsible newIacucProcedurePersonResponsible, IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean);
     
     /**
      * This method is to format procedure study group data, group by categories for display
-     * @param studyGroupBeans
+     * @param iacucProtocol
      * @return
      */
-    public List<IacucProtocolStudyGroupBean> getRevisedStudyGroupBeans(List<IacucProtocolStudyGroupBean> studyGroupBeans);
+    public List<IacucProtocolStudyGroupBean> getRevisedStudyGroupBeans(IacucProtocol iacucProtocol);
 
     /**
      * This method is to remove a selected study group section
      * @param selectedProtocolStudyGroupBean
      * @param selectedProcedureDetailBean
+     * @param iacucProtocol
      */
-    public void deleteProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean);
+    public void deleteProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, 
+            IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, IacucProtocol iacucProtocol);
     
+    /**
+     * This method is to deleted selected person responsible
+     * @param selectedProcedureDetailBean
+     * @param selectedPersonResponsible
+     * @param iacucProtocol
+     */
+    public void deleteProcedurePersonResponsible(IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, 
+            IacucProcedurePersonResponsible selectedPersonResponsible, IacucProtocol iacucProtocol);
+    
+    /**
+     * This method is to deleted selected group location
+     * @param selectedProcedureDetailBean
+     * @param selectedStudyGroupLocation
+     * @param iacucProtocol
+     */
+    public void deleteStudyGroupLocation(IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, 
+            IacucProtocolStudyGroupLocation selectedStudyGroupLocation, IacucProtocol iacucProtocol);
     
     /**
      * This method is to update original iacuc protocol study group records
@@ -90,5 +109,16 @@ public interface IacucProtocolProcedureService {
      * @param protocol
      */
     public void updateIacucProtocolStudyGroup(IacucProtocol protocol);
+    
+    /**
+     * This method is to add location to study group
+     * Since it is grouped, we have to add the same location to list of locations
+     * under each study group linked to the study group detail bean (this is where it is grouped)
+     * @param newIacucProtocolStudyGroupLocation
+     * @param selectedProcedureDetailBean
+     * @param protocol
+     */
+    public void addProcedureLocation(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation, IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, 
+            IacucProtocol protocol);
 
 }

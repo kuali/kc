@@ -15,6 +15,12 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<script type="text/javascript">
+   var $j = jQuery.noConflict();
+   $j(document).ready(function() {
+	   populateSelect('getIacucProcedureLocationNames', 'locationTypeCode', 'locationId');
+   });
+</script>
 
 
 <kul:documentPage

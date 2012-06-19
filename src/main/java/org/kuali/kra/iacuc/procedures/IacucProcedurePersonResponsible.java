@@ -117,9 +117,6 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociate {
     }
 
     public String getPersonName() {
-        if (personName == null) {
-            refreshReferenceObject("personName");
-        }
         return personName;
     }
 
@@ -127,4 +124,41 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociate {
         this.personName = personName;
     }
    
+    /**  {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        IacucProcedurePersonResponsible other = (IacucProcedurePersonResponsible) obj;
+        if (this.iacucProcedurePersonResponsibleId == null) {
+            if (other.iacucProcedurePersonResponsibleId != null) {
+                return false;
+            }
+        } else if (!this.iacucProcedurePersonResponsibleId.equals(other.iacucProcedurePersonResponsibleId)) {
+            return false;
+        }
+        if (this.iacucProtocolStudyGroupId == null) {
+            if (other.iacucProtocolStudyGroupId != null) {
+                return false;
+            }
+        } else if (!this.iacucProtocolStudyGroupId.equals(other.iacucProtocolStudyGroupId)) {
+            return false;
+        }
+        if (this.personId == null) {
+            if (other.personId != null) {
+                return false;
+            }
+        } else if (!this.personId.equals(other.personId)) {
+            return false;
+        }
+        return true;
+    }
+
 }

@@ -34,6 +34,7 @@ import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.committee.bo.CommitteeType;
 import org.kuali.kra.common.notification.service.NotificationRoleSubQualifierFinders;
+import org.kuali.kra.iacuc.IacucLocationName;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionAjaxService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.infrastructure.Constants;
@@ -96,6 +97,30 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
             buffer.append(value.getCoiDispositionCode());
             buffer.append("', 'value' : '");
             buffer.append(value.getDescription());
+            buffer.append("'} , ");
+        }
+        buffer.append("]");
+        ajaxForm.setReturnVal(buffer.toString());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+
+    public ActionForward getIacucProcedureLocationNames(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
+        JqueryAjaxForm ajaxForm = (JqueryAjaxForm) form;
+        String locationTypeCode = ajaxForm.getCode();
+
+        Map<String, Object> filterValues = new HashMap<String, Object>();
+        filterValues.put("locationTypeCode", locationTypeCode);
+        List<IacucLocationName> iacucLocationNames = (List<IacucLocationName>)getBusinessObjectService().findMatching(IacucLocationName.class, filterValues);
+        
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("[ ");
+        for (IacucLocationName value : iacucLocationNames) {
+            buffer.append("{ 'key' :'");
+            buffer.append(value.getLocationId());
+            buffer.append("', 'value' : '");
+            buffer.append(value.getLocationName());
             buffer.append("'} , ");
         }
         buffer.append("]");
