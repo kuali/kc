@@ -55,6 +55,7 @@ import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.irb.actions.delete.ProtocolDeleteBean;
+import org.kuali.kra.irb.actions.expeditedapprove.ProtocolExpeditedApproveBean;
 import org.kuali.kra.irb.actions.followup.FollowupActionService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
@@ -250,7 +251,7 @@ public class ActionHelper implements Serializable {
     private ProtocolAssignReviewersBean protocolAssignReviewersBean;
     private ProtocolGrantExemptionBean protocolGrantExemptionBean;
     private ProtocolApproveBean protocolFullApprovalBean;
-    private ProtocolApproveBean protocolExpeditedApprovalBean;
+    private ProtocolExpeditedApproveBean protocolExpeditedApprovalBean;
     private ProtocolApproveBean protocolResponseApprovalBean;
     private ProtocolGenericActionBean protocolDisapproveBean;
     private ProtocolGenericActionBean protocolSMRBean;
@@ -367,8 +368,7 @@ public class ActionHelper implements Serializable {
         protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolFullApprovalBean = buildProtocolApproveBean(ProtocolActionType.APPROVED, 
                 Constants.PROTOCOL_FULL_APPROVAL_ACTION_PROPERTY_KEY);
-        protocolExpeditedApprovalBean = buildProtocolApproveBean(ProtocolActionType.EXPEDITE_APPROVAL, 
-                Constants.PROTOCOL_EXPEDITED_APPROVAL_ACTION_PROPERTY_KEY);
+        protocolExpeditedApprovalBean = buildProtocolExpeditedApproveBean(ProtocolActionType.EXPEDITE_APPROVAL);
         protocolResponseApprovalBean = buildProtocolApproveBean(ProtocolActionType.RESPONSE_APPROVAL, 
                 Constants.PROTOCOL_RESPONSE_APPROVAL_ACTION_PROPERTY_KEY);
         protocolDisapproveBean = buildProtocolGenericActionBean(ProtocolActionType.DISAPPROVED, 
@@ -520,6 +520,21 @@ public class ActionHelper implements Serializable {
 //        bean.getReviewAttachmentsBean().setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
 //        bean.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(bean.getReviewCommentsBean().getReviewComments()));            
        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
+        if (protocolAction != null) {
+            bean.setComments(protocolAction.getComments());
+            bean.setActionDate(new Date(protocolAction.getActionDate().getTime()));
+        }
+        bean.setApprovalDate(buildApprovalDate(getProtocol()));
+        bean.setExpirationDate(buildExpirationDate(getProtocol(), bean.getApprovalDate()));
+        return bean;
+    }
+    
+    private ProtocolExpeditedApproveBean buildProtocolExpeditedApproveBean(String actionTypeCode) throws Exception {
+        
+        ProtocolExpeditedApproveBean bean = new ProtocolExpeditedApproveBean(this);
+        
+        bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
             bean.setActionDate(new Date(protocolAction.getActionDate().getTime()));
@@ -763,6 +778,7 @@ public class ActionHelper implements Serializable {
         assignToAgendaBean.prepareView();
         assignCmtSchedBean.prepareView();
         protocolAssignReviewersBean.prepareView();
+        protocolExpeditedApprovalBean.prepareView();
         submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
         
         canCreateAmendment = hasCreateAmendmentPermission();
