@@ -77,6 +77,11 @@
 					    	</br>
 						</c:if>
 						<c:set var="procedureCategory" value="category${status.index}Procedure" />
+
+				    	<c:set var="prop" value="iacucProtocolProceduresHelper.allProcedures[${status.index}].procedureSelected"/>
+				        ${kfunc:registerEditableProperty(KualiForm, prop)} 
+				        <input type="hidden" name="checkboxToReset" value="${prop}"/>
+
 		            	<html:checkbox styleClass="checkBox" property="iacucProtocolProceduresHelper.allProcedures[${status.index}].procedureSelected" title="${procedureCategory}"/>
 					    <c:out value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index].procedureDescription}" />
 					    </br>

@@ -112,14 +112,16 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         for(IacucProtocolStudyGroup beanProtocolStudyGroup : selectedProcedureDetailBean.getIacucProtocolStudyGroups()) {
             for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocol.getIacucProtocolStudyGroups()) {
                 if(iacucProtocolStudyGroup.equals(beanProtocolStudyGroup)) {
-                    iacucProtocolStudyGroup.getIacucProcedurePersonsResponsible().remove(selectedPersonResponsible);
-                    break;
+                    IacucProcedurePersonResponsible tempPersonResponsible = getNewCopyOfPersonResponsible(selectedPersonResponsible);
+                    tempPersonResponsible.setIacucProtocolStudyGroupId(beanProtocolStudyGroup.getIacucProtocolStudyGroupId());
+                    iacucProtocolStudyGroup.getIacucProcedurePersonsResponsible().remove(tempPersonResponsible);
                 }
             }
             beanProtocolStudyGroup.getIacucProcedurePersonsResponsible().remove(selectedPersonResponsible);
         }
         selectedProcedureDetailBean.getIacucProcedurePersonsResponsible().remove(selectedPersonResponsible);
     }
+    
        
     /**
      * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#deleteStudyGroupLocation(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean, org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation, org.kuali.kra.iacuc.IacucProtocol)
@@ -624,20 +626,23 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
     private void printStudyGroup(List<IacucProtocolStudyGroup> iacucProtocolStudyGroups, String message) {
         System.out.println("printing ==========> " + message);
         for(IacucProtocolStudyGroup studyGroup : iacucProtocolStudyGroups) {
-            System.out.println("pk study grp id ==========> " + studyGroup.getIacucProtocolStudyGroupId());
-            System.out.println("protocol id ==========> " + studyGroup.getProtocolId());
-            System.out.println("protocol num ==========> " + studyGroup.getProtocolNumber());
-            System.out.println("seq num ==========> " + studyGroup.getSequenceNumber());
-            System.out.println("study grp id ==========> " + studyGroup.getStudyGroupId());
-            System.out.println("prot species id ==========> " + studyGroup.getIacucProtocolSpeciesId());
-            System.out.println("proc cat code ==========> " + studyGroup.getProcedureCategoryCode());
-            System.out.println("proc code ==========> " + studyGroup.getProcedureCode());
-            printDetailBeanPersons(studyGroup.getIacucProcedurePersonsResponsible());
-            printGroupLocations(studyGroup.getIacucProtocolStudyGroupLocations());
+            printForStudyGroup(studyGroup);
         }
         System.out.println("--------------------------------------------------------------------------\r\n");
     }
     
+    private void printForStudyGroup(IacucProtocolStudyGroup studyGroup) {
+        System.out.println("pk study grp id ==========> " + studyGroup.getIacucProtocolStudyGroupId());
+        System.out.println("protocol id ==========> " + studyGroup.getProtocolId());
+        System.out.println("protocol num ==========> " + studyGroup.getProtocolNumber());
+        System.out.println("seq num ==========> " + studyGroup.getSequenceNumber());
+        System.out.println("study grp id ==========> " + studyGroup.getStudyGroupId());
+        System.out.println("prot species id ==========> " + studyGroup.getIacucProtocolSpeciesId());
+        System.out.println("proc cat code ==========> " + studyGroup.getProcedureCategoryCode());
+        System.out.println("proc code ==========> " + studyGroup.getProcedureCode());
+        printDetailBeanPersons(studyGroup.getIacucProcedurePersonsResponsible());
+        printGroupLocations(studyGroup.getIacucProtocolStudyGroupLocations());
+    }
     private void printDetailBeanPersons(List<IacucProcedurePersonResponsible> personsResponsible) {
         System.out.println("################ printing bean person information #####################");
         for(IacucProcedurePersonResponsible personResponsible : personsResponsible) {
