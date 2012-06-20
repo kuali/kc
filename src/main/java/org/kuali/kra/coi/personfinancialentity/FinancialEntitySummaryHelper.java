@@ -48,6 +48,7 @@ public class FinancialEntitySummaryHelper implements Serializable {
     private String[] relationshipType; 
     private String[] percentages; 
     private String[] remuneration;
+    private String entityStatus = "";
     
     private static final String newLine = "<BR>";
     private static final String remunerationRange = "remuneration_range";
@@ -341,38 +342,40 @@ public class FinancialEntitySummaryHelper implements Serializable {
         Map<String, String> relationshipDetails = new HashMap<String, String>();
         Map<String, String> dataGroups = getDataGroups();
         String value = "";
-        for (PersonFinIntDisclDet detail : details) {
-            FinEntitiesDataMatrix dm = dataType.get(detail.getColumnName());
-            
-            // if column value is null, it is a comment
-            if (ObjectUtils.isNotNull(detail.getColumnValue())) {
-                int columnValue = Integer.parseInt(detail.getColumnValue());
-                // if lookup argument is null, it is a select. Hence get the relationship type
-                if (ObjectUtils.isNull(dm.getLookupArgument())) {
-                    value = relationshipType[Integer.parseInt(detail.getRelationshipTypeCode()) - 1] + ", ";
-                } else {
-                    if (dm.getLookupArgument().equalsIgnoreCase(remunerationRange)) {
-                        value = relationshipType[Integer.parseInt(detail.getRelationshipTypeCode()) - 1]  + " : "
-                        + remuneration[columnValue - 1] + ", ";
-                    } else if (dm.getLookupArgument().equalsIgnoreCase(ownershipInterests)) {
-                        value = relationshipType[Integer.parseInt(detail.getRelationshipTypeCode()) - 1] + " : " 
-                        + percentages[columnValue - 1] + ", ";
+        if (details != null) {
+            for (PersonFinIntDisclDet detail : details) {
+                FinEntitiesDataMatrix dm = dataType.get(detail.getColumnName());
+                
+                // if column value is null, it is a comment
+                if (ObjectUtils.isNotNull(detail.getColumnValue())) {
+                    int columnValue = Integer.parseInt(detail.getColumnValue());
+                    // if lookup argument is null, it is a select. Hence get the relationship type
+                    if (ObjectUtils.isNull(dm.getLookupArgument())) {
+                        value = relationshipType[Integer.parseInt(detail.getRelationshipTypeCode()) - 1] + ", ";
+                    } else {
+                        if (dm.getLookupArgument().equalsIgnoreCase(remunerationRange)) {
+                            value = relationshipType[Integer.parseInt(detail.getRelationshipTypeCode()) - 1]  + " : "
+                            + remuneration[columnValue - 1] + ", ";
+                        } else if (dm.getLookupArgument().equalsIgnoreCase(ownershipInterests)) {
+                            value = relationshipType[Integer.parseInt(detail.getRelationshipTypeCode()) - 1] + " : " 
+                            + percentages[columnValue - 1] + ", ";
+                        } 
+                    }
+                    
+                    String groupName = dataGroups.get(dm.getDataGroupId().toString());
+                    String hashKey = groupName + plusString + dm.getColumnLabel();
+                    if (relationshipDetails.containsKey(hashKey)) {
+                        relationshipDetails.put(hashKey, relationshipDetails.get(hashKey) + value);
+                    } else {
+                        
+                        if (ObjectUtils.isNotNull(detail.getComments())) {
+                            value =  "Comments: " + detail.getComments() + newLine + value; 
+                        } 
+                        relationshipDetails.put(hashKey, value);
+                        
                     } 
+                    
                 }
-                
-                String groupName = dataGroups.get(dm.getDataGroupId().toString());
-                String hashKey = groupName + plusString + dm.getColumnLabel();
-                if (relationshipDetails.containsKey(hashKey)) {
-                    relationshipDetails.put(hashKey, relationshipDetails.get(hashKey) + value);
-                } else {
-                    
-                    if (ObjectUtils.isNotNull(detail.getComments())) {
-                        value =  "Comments: " + detail.getComments() + newLine + value; 
-                    } 
-                    relationshipDetails.put(hashKey, value);
-                    
-                } 
-                
             }
         }
        
@@ -477,5 +480,13 @@ public class FinancialEntitySummaryHelper implements Serializable {
 
     public void setRemuneration(String[] remuneration) {
         this.remuneration = remuneration;
+    }
+
+    public String getEntityStatus() {
+        return entityStatus;
+    }
+
+    public void setEntityStatus(String entityStatus) {
+        this.entityStatus = entityStatus;
     }
 }
