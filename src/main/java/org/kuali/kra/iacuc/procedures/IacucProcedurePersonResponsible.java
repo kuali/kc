@@ -136,15 +136,6 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociate {
             return false;
         }
         IacucProcedurePersonResponsible other = (IacucProcedurePersonResponsible) obj;
-        /*
-        if (this.iacucProcedurePersonResponsibleId == null) {
-            if (other.iacucProcedurePersonResponsibleId != null) {
-                return false;
-            }
-        } else if (!this.iacucProcedurePersonResponsibleId.equals(other.iacucProcedurePersonResponsibleId)) {
-            return false;
-        }
-        */
         if (this.iacucProtocolStudyGroupId == null) {
             if (other.iacucProtocolStudyGroupId != null) {
                 return false;

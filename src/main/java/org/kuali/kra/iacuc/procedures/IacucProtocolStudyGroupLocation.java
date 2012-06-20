@@ -148,13 +148,6 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociate {
             return false;
         }
         IacucProtocolStudyGroupLocation other = (IacucProtocolStudyGroupLocation) obj;
-        if (this.iacucProtocolStudyGroupLocationId == null) {
-            if (other.iacucProtocolStudyGroupLocationId != null) {
-                return false;
-            }
-        } else if (!this.iacucProtocolStudyGroupLocationId.equals(other.iacucProtocolStudyGroupLocationId)) {
-            return false;
-        }
         if (this.iacucProtocolStudyGroupId == null) {
             if (other.iacucProtocolStudyGroupId != null) {
                 return false;
@@ -162,11 +155,18 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociate {
         } else if (!this.iacucProtocolStudyGroupId.equals(other.iacucProtocolStudyGroupId)) {
             return false;
         }
-        if (this.studyGroupLocationId == null) {
-            if (other.studyGroupLocationId != null) {
+        if (this.locationId == null) {
+            if (other.locationId != null) {
                 return false;
             }
-        } else if (!this.studyGroupLocationId.equals(other.studyGroupLocationId)) {
+        } else if (!this.locationId.equals(other.locationId)) {
+            return false;
+        }
+        if (this.locationTypeCode == null) {
+            if (other.locationTypeCode != null) {
+                return false;
+            }
+        } else if (!this.locationTypeCode.equals(other.locationTypeCode)) {
             return false;
         }
         return true;
