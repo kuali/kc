@@ -95,29 +95,19 @@ public class FinancialEntitySummaryHelper implements Serializable {
         this.currentVersionNumber = currentVersionNumber;
         currentFinancialEntity = new PersonFinIntDisclosure();
         previousFinancialEntity = new PersonFinIntDisclosure();
-        if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_INACTIVE)) {
-            List<PersonFinIntDisclosure> inactiveDisclosures = financialEntityForm.getFinancialEntityHelper().getInactiveFinancialEntities();
-            for (PersonFinIntDisclosure financialEntity : inactiveDisclosures) {
-                if (StringUtils.equalsIgnoreCase(financialEntity.getEntityNumber(), entityNumber)) {
-                    List<PersonFinIntDisclosure> currentVersions = financialEntity.getVersions();
-                    currentFinancialEntity = currentVersions.get(currentVersions.size() - currentVersionNumber);
-                    setVersions(currentVersions);
-                    if (currentVersionNumber > 1) {                     
-                        previousFinancialEntity = currentVersions.get(currentVersions.size() - currentVersionNumber + 1);
-                    }
-                }
-            }
-            
+        List<PersonFinIntDisclosure> disclosures;
+        if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_ACTIVE)) {
+            disclosures = financialEntityForm.getFinancialEntityHelper().getActiveFinancialEntities();
         } else {
-            List<PersonFinIntDisclosure> activeDisclosures = financialEntityForm.getFinancialEntityHelper().getActiveFinancialEntities();
-            for (PersonFinIntDisclosure financialEntity : activeDisclosures) {
-                if (StringUtils.equalsIgnoreCase(financialEntity.getEntityNumber(), entityNumber)) { 
-                    List<PersonFinIntDisclosure> currentVersions = financialEntity.getVersions();
-                    currentFinancialEntity = currentVersions.get(currentVersions.size() - currentVersionNumber);
-                    setVersions(currentVersions);
-                    if (currentVersionNumber > 1) {                     
-                        previousFinancialEntity = currentVersions.get(currentVersions.size() - currentVersionNumber + 1);
-                    }
+            disclosures = financialEntityForm.getFinancialEntityHelper().getInactiveFinancialEntities();
+        }
+        for (PersonFinIntDisclosure financialEntity : disclosures) {
+            if (StringUtils.equalsIgnoreCase(financialEntity.getEntityNumber(), entityNumber)) { 
+                List<PersonFinIntDisclosure> currentVersions = financialEntity.getVersions();
+                currentFinancialEntity = currentVersions.get(currentVersions.size() - currentVersionNumber);
+                setVersions(currentVersions);
+                if (currentVersionNumber > 1) {                     
+                    previousFinancialEntity = currentVersions.get(currentVersions.size() - currentVersionNumber + 1);
                 }
             }
         }
