@@ -132,8 +132,7 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
 
     @Override
     public void resetPersistenceState() {
-        // TODO Auto-generated method stub
-        
+        this.setIacucProtocolStudyGroupId(null);        
     }
 
     public IacucProtocolSpecies getIacucProtocolSpecies() {
@@ -184,25 +183,39 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
             return false;
         }
         IacucProtocolStudyGroup other = (IacucProtocolStudyGroup) obj;
-        if (this.iacucProtocolStudyGroupId == null) {
-            if (other.iacucProtocolStudyGroupId != null) {
+        if (this.getProtocolId() == null) {
+            if (other.getProtocolId() != null) {
                 return false;
             }
-        } else if (!this.iacucProtocolStudyGroupId.equals(other.iacucProtocolStudyGroupId)) {
+        } else if (!this.getProtocolId().equals(other.getProtocolId())) {
             return false;
         }
-        if (this.studyGroupId == null) {
-            if (other.studyGroupId != null) {
+        if (this.procedureCategoryCode == null) {
+            if (other.procedureCategoryCode != null) {
                 return false;
             }
-        } else if (!this.studyGroupId.equals(other.studyGroupId)) {
+        } else if (!this.procedureCategoryCode.equals(other.procedureCategoryCode)) {
             return false;
         }
-        if (this.iacucProtocolSpeciesId == null) {
-            if (other.iacucProtocolSpeciesId != null) {
+        if (this.procedureCode == null) {
+            if (other.procedureCode != null) {
                 return false;
             }
-        } else if (!this.iacucProtocolSpeciesId.equals(other.iacucProtocolSpeciesId)) {
+        } else if (!this.procedureCode.equals(other.procedureCode)) {
+            return false;
+        }
+        if (this.painCategoryCode == null) {
+            if (other.painCategoryCode != null) {
+                return false;
+            }
+        } else if (!this.painCategoryCode.equals(other.painCategoryCode)) {
+            return false;
+        }
+        if (this.count == null) {
+            if (other.count != null) {
+                return false;
+            }
+        } else if (!this.count.equals(other.count)) {
             return false;
         }
         return true;
