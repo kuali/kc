@@ -280,7 +280,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
     public ActionForward previousNextVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         int currentVersionNumber = Integer.parseInt(request.getParameter("versionNumber"));
         String entityNumber = request.getParameter("entityNumber");
-        String status = request.getParameter("statusCode");
+        String status = request.getParameter("status");
         FinancialEntitySummaryHelper summaryHelper = ((FinancialEntityForm) form).getFinancialEntitySummaryHelper();
         summaryHelper.setSummaryDetails(currentVersionNumber, entityNumber, status);
         return mapping.findForward("viewEntity");
