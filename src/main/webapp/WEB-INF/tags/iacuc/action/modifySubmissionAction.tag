@@ -22,14 +22,6 @@
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 <script language="javascript" src="dwr/interface/ProtocolActionAjaxService.js"></script>
 <c:set var="docNumber" value="${KualiForm.document.protocol.protocolNumber}" />
-<script>
-	var $j = jQuery.noConflict();          
-	$j(document).ready(
-		function() {
-			protocolDisplayReviewers('getProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId', 'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId}, '${docNumber}');
-		}
-	);
-</script>
 
 
 <kra:permission value="${KualiForm.actionHelper.canModifyProtocolSubmission}">
@@ -157,8 +149,18 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
                                                         ${reviewer.fullName}
                                                     </td>
                                                     <td style="border: 0 none">
+                                                    
                                                         <kul:htmlControlAttribute property="actionHelper.iacucProtocolModifySubmissionBean.reviewer[${status.index}].reviewerTypeCode"
                                                                                   attributeEntry="${reviewerAttributes.reviewerTypeCode}"/> 
+                                                                                  
+                                                        <html:hidden property="actionHelper.iacucProtocolModifySubmissionBean.reviewer[${status.index}].personId" 
+                                                        			value="${reviewer.personId}" />
+                                                        			
+                                                        <html:hidden property="actionHelper.iacucProtocolModifySubmissionBean.reviewer[${status.index}].fullName" 
+                                                        			value="${reviewer.fullName}" />
+                                                        			
+                                                        <html:hidden property="actionHelper.iacucProtocolModifySubmissionBean.reviewer[${status.index}].nonEmployeeFlag" 
+                                                        			value="${reviewer.nonEmployeeFlag}" />						                        
                                                         
                                                     </td>
                                                 </tr>
