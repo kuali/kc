@@ -79,6 +79,7 @@
     <bean id="IacucProtocolStudyGroupLocation-locationTypeCode" parent="IacucLocationType-locationTypeCode-parentBean">
 		<property name="label" value="Type" />
 		<property name="shortLabel" value="Type" />
+        <property name="required" value="true" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
 				p:valuesFinderClass="org.kuali.kra.iacuc.IacucLocationTypeValuesFinder"
@@ -89,6 +90,7 @@
     <bean id="IacucProtocolStudyGroupLocation-locationId" parent="IacucLocationName-locationId-parentBean">
 		<property name="label" value="Name" />
 		<property name="shortLabel" value="Name" />
+        <property name="required" value="true" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
 				p:valuesFinderClass="org.kuali.kra.iacuc.IacucLocationNameValuesFinder"
