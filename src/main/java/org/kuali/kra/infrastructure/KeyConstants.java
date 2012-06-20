@@ -1078,6 +1078,10 @@ public final class KeyConstants {
     public static final String ERROR_IACUC_VALIDATION_SEARCHDATE_AFTER_CURRENTDATE = "error.iacuc.validation.searchdate.after.currentdate";
     public static final String ERROR_IACUC_PROTOCOL_DOCUMENT_STATE_CHANGED = "error.iacuc.protocol.document.state.changed";
 
+
+    // IACUC protocol procedures
+    public static final String ERROR_IACUC_VALIDATION_PERSON_RESPONSIBLE_VALID = "error.iacuc.validation.personResponsible.valid";
+    public static final String ERROR_IACUC_VALIDATION_DUPLICATE_PERSON_RESPONSIBLE = "error.iacuc.validation.duplicate.personResponsible";
     
     // Disclosure and Financial Entity errors
     public static final String ERROR_DISCLOSURE_SEARCH_INVALID_DATE = "error.search.invalid.date";
