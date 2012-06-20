@@ -28,6 +28,7 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.procedures.rule.AddProcedurePersonResponsibleEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -73,8 +74,10 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     public ActionForward addProcedurePersonResponsible(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolStudyGroupDetailBean procedureDetailBean = getSelectedProcedureDetailBean(request, protocolForm.getIacucProtocolDocument());
-        List<String> protocolPersonsResponsible = procedureDetailBean.getNewIacucProcedurePersonResponsible().getProtocolPersonsResponsible(); 
-        if(!protocolPersonsResponsible.isEmpty()) {
+        //List<String> protocolPersonsResponsible = procedureDetailBean.getNewIacucProcedurePersonResponsible().getProtocolPersonsResponsible(); 
+        //if(!protocolPersonsResponsible.isEmpty()) {
+        int selectedBeanDetailIndex = getSelectedBeanIndex(request,BEAN_DETAIL_FIND_PARAM_START, FIND_PARAM_END);
+        if (applyRules(new AddProcedurePersonResponsibleEvent(protocolForm.getIacucProtocolDocument(), procedureDetailBean, selectedBeanDetailIndex))) {
             IacucProcedurePersonResponsible newIacucProcedurePersonResponsible = procedureDetailBean.getNewIacucProcedurePersonResponsible();
             getIacucProtocolProcedureService().addProcedurePersonResponsible(newIacucProcedurePersonResponsible, procedureDetailBean);
             procedureDetailBean.setNewIacucProcedurePersonResponsible(new IacucProcedurePersonResponsible());

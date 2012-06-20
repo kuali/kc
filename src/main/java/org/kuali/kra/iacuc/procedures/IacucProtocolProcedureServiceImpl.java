@@ -32,6 +32,7 @@ import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonTrainingService;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
@@ -131,8 +132,10 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         for(IacucProtocolStudyGroup beanProtocolStudyGroup : selectedProcedureDetailBean.getIacucProtocolStudyGroups()) {
             for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocol.getIacucProtocolStudyGroups()) {
                 if(iacucProtocolStudyGroup.equals(beanProtocolStudyGroup)) {
-                    iacucProtocolStudyGroup.getIacucProtocolStudyGroupLocations().remove(selectedStudyGroupLocation);
-                    break;
+                    IacucProtocolStudyGroupLocation tempStudyGroupLocation = getNewCopyOfStudyGroupLocation(selectedStudyGroupLocation);
+                    tempStudyGroupLocation.setIacucProtocolStudyGroupId(beanProtocolStudyGroup.getIacucProtocolStudyGroupId());
+                    iacucProtocolStudyGroup.getIacucProtocolStudyGroupLocations().remove(tempStudyGroupLocation);
+                    //break;
                 }
             }
             beanProtocolStudyGroup.getIacucProtocolStudyGroupLocations().remove(selectedStudyGroupLocation);
@@ -301,7 +304,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             IacucProcedurePersonResponsible iacucProcedurePersonResponsible = new IacucProcedurePersonResponsible();
             String personId = null;
             String personName = null;
-            StringTokenizer personInfo = new StringTokenizer(personKey, "|"); 
+            StringTokenizer personInfo = new StringTokenizer(personKey, Constants.IACUC_PROCEDURE_PERSON_RESPONSIBLE_DELIMITER); 
             while(personInfo.hasMoreTokens()) { 
                 personId = personInfo.nextToken(); 
                 personName = personInfo.nextToken(); 
@@ -390,6 +393,15 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      */
     private IacucProcedurePersonResponsible getNewCopyOfPersonResponsible(IacucProcedurePersonResponsible personResponsible) {
         return (IacucProcedurePersonResponsible)ObjectUtils.deepCopy(personResponsible);
+    }
+
+    /**
+     * This method is to get a copy of study group location
+     * @param studyGroupLocation
+     * @return
+     */
+    private IacucProtocolStudyGroupLocation getNewCopyOfStudyGroupLocation(IacucProtocolStudyGroupLocation studyGroupLocation) {
+        return (IacucProtocolStudyGroupLocation)ObjectUtils.deepCopy(studyGroupLocation);
     }
     
     
