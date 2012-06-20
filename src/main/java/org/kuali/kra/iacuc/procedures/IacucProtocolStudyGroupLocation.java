@@ -108,8 +108,7 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociate {
 
     @Override
     public void resetPersistenceState() {
-        // TODO Auto-generated method stub
-        
+        this.setIacucProtocolStudyGroupLocationId(null);        
     }
 
     public Integer getIacucProtocolStudyGroupId() {
@@ -134,6 +133,43 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociate {
 
     public void setLocationGroupIndex(Integer locationGroupIndex) {
         this.locationGroupIndex = locationGroupIndex;
+    }
+
+    /**  {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        IacucProtocolStudyGroupLocation other = (IacucProtocolStudyGroupLocation) obj;
+        if (this.iacucProtocolStudyGroupLocationId == null) {
+            if (other.iacucProtocolStudyGroupLocationId != null) {
+                return false;
+            }
+        } else if (!this.iacucProtocolStudyGroupLocationId.equals(other.iacucProtocolStudyGroupLocationId)) {
+            return false;
+        }
+        if (this.iacucProtocolStudyGroupId == null) {
+            if (other.iacucProtocolStudyGroupId != null) {
+                return false;
+            }
+        } else if (!this.iacucProtocolStudyGroupId.equals(other.iacucProtocolStudyGroupId)) {
+            return false;
+        }
+        if (this.studyGroupLocationId == null) {
+            if (other.studyGroupLocationId != null) {
+                return false;
+            }
+        } else if (!this.studyGroupLocationId.equals(other.studyGroupLocationId)) {
+            return false;
+        }
+        return true;
     }
 
 }

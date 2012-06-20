@@ -77,8 +77,7 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociate {
 
     @Override
     public void resetPersistenceState() {
-        // TODO Auto-generated method stub
-        
+        this.setIacucProcedurePersonResponsibleId(null);        
     }
 
     public List<PersonTraining> getTrainings() {
@@ -137,6 +136,7 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociate {
             return false;
         }
         IacucProcedurePersonResponsible other = (IacucProcedurePersonResponsible) obj;
+        /*
         if (this.iacucProcedurePersonResponsibleId == null) {
             if (other.iacucProcedurePersonResponsibleId != null) {
                 return false;
@@ -144,6 +144,7 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociate {
         } else if (!this.iacucProcedurePersonResponsibleId.equals(other.iacucProcedurePersonResponsibleId)) {
             return false;
         }
+        */
         if (this.iacucProtocolStudyGroupId == null) {
             if (other.iacucProtocolStudyGroupId != null) {
                 return false;
