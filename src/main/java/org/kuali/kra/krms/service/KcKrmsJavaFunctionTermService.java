@@ -51,8 +51,6 @@ public interface KcKrmsJavaFunctionTermService {
     public String proposalUnitRule(DevelopmentProposal developmentProposal, String unitNumber);
     public String sponsorTypeRule(DevelopmentProposal developmentProposal, String sponsorTypeCode);
     public String s2sAttachmentNarrativeRule(DevelopmentProposal developmentProposal);
-    public String isUserProposalPi(DevelopmentProposal developmentProposal, String principalId);
-    public String piIsSpecifiedPerson(DevelopmentProposal developmentProposal, String principalId);
     public String s2sModularBudgetRule(DevelopmentProposal developmentProposal);
     public String s2sFederalIdRule(DevelopmentProposal developmentProposal);
     public String mtdcDeviation(DevelopmentProposal developmentProposal);
@@ -61,11 +59,12 @@ public interface KcKrmsJavaFunctionTermService {
     public String activityTypeRule(DevelopmentProposal developmentProposal, String activityTypeCode);
     public String sponsor(DevelopmentProposal developmentProposal, String sponsorCode);
     public String nonFacultyPi(DevelopmentProposal developmentProposal);
-    public String attachmentFileNameRule(DevelopmentProposal developmentProposal, String restrictedSpecialCharacters);
+    public String attachmentFileNameRule(DevelopmentProposal developmentProposal);
     public String mtdcDeviationInVersion(DevelopmentProposal developmentProposal, String versionNumber);
     public String proposalTypeRule(DevelopmentProposal developmentProposal, String proposalTypeCode);
     public String s2s398CoverRule(DevelopmentProposal developmentProposal, String PHSCoverLetters, String narrativeTypeCode);
     public String narrativeFileName(DevelopmentProposal developmentProposal);
     public String costElementInVersion(DevelopmentProposal developmentProposal, String versionNumber, String costElement);
     public String investigatorKeyPersonCertificationRule(DevelopmentProposal developmentProposal);
+    public String incompleteNarrativeRule(DevelopmentProposal developmentProposal);
 }
