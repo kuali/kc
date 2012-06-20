@@ -486,13 +486,9 @@ public class KcKrmsJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTermSer
     }
 
     @Override
-    public String attachmentFileNameRule(DevelopmentProposal developmentProposal, String restrictedSpecialCharacters) {
-        String[] restrictedSpecialCharactersArray = restrictedSpecialCharacters.split(",");
-        if (restrictedSpecialCharacters!=null && restrictedSpecialCharactersArray.length==0) {
-            restrictedSpecialCharactersArray = new String[]{restrictedSpecialCharacters.trim()};
-        }
+    public String attachmentFileNameRule(DevelopmentProposal developmentProposal) {
         for (Narrative narr : developmentProposal.getNarratives()) {
-            for (String character : restrictedSpecialCharactersArray) {
+            for (String character : restrictedElements) {
                 if (StringUtils.containsIgnoreCase(narr.getFileName(), character)) {
                     return FALSE;
                 }
@@ -536,11 +532,6 @@ public class KcKrmsJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTermSer
             }
         }
         return FALSE;
-    }
-
-    @Override
-    public String isUserProposalPi(DevelopmentProposal developmentProposal, String principalId) {
-        return checkProposalPiRule(developmentProposal, principalId);
     }
 
     @Override
@@ -609,11 +600,6 @@ public class KcKrmsJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTermSer
         } else {
             return TRUE;
         }
-    }
-
-    @Override
-    public String piIsSpecifiedPerson(DevelopmentProposal developmentProposal, String principalId) {
-        return this.isUserProposalPi(developmentProposal, principalId);
     }
 
     @Override
@@ -904,5 +890,15 @@ public class KcKrmsJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTermSer
         } else {
             return FALSE;
         }
+    }
+
+    @Override
+    public String incompleteNarrativeRule(DevelopmentProposal developmentProposal) {
+        for (Narrative narrative : developmentProposal.getNarratives()) {
+            if (StringUtils.equals(narrative.getModuleStatusCode(), "I")) {
+                return FALSE;
+            }
+        }
+        return TRUE;
     }
 }

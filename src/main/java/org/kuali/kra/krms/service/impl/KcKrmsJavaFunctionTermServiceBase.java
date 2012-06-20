@@ -24,6 +24,8 @@ import org.kuali.rice.krad.service.DocumentService;
 public abstract class KcKrmsJavaFunctionTermServiceBase {
     public static final String TRUE = "true";
     public static final String FALSE = "false";
+    public static final String[] restrictedElements = {" ", "`", "@", "#", "!", "$", "%", "^", "&", "*", "(", ")", "[", "]", "{", "}", 
+            "|", "\\", "/", "?", "<", ">", ",", ";", ":", "'", "\"", "`", "+"};    
     private BusinessObjectService businessObjectService;
     private UnitService unitService;
     private ParameterService parameterService;
@@ -44,8 +46,6 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
      * @return
      */
     protected String specialCharacterRule(String stringToCheck) {
-        String[] restrictedElements = {" ", "`", "@", "#", "!", "$", "%", "^", "&", "*", "(", ")", "[", "]", "{", "}", 
-                "|", "\\", "/", "?", "<", ">", ",", ";", ":", "'", "\"", "`", "+"};
         for (String element : restrictedElements) {
             if (StringUtils.equalsIgnoreCase(element, stringToCheck)) {
                 return FALSE;
