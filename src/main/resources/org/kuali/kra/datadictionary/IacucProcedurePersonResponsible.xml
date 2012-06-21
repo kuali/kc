@@ -112,7 +112,7 @@
 		<property name="control" >
       		<bean parent="TextareaControlDefinition"
             	p:rows="1"
-            	p:cols="200" />
+            	p:cols="120" />
 		</property>
 		<property name="summary" value="Procedure Description" />
 		<property name="description" value="Description" />
