@@ -46,6 +46,7 @@ import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
+import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -91,6 +92,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private OnlineReviewsActionHelper onlineReviewsActionHelper;
     private QuestionnaireHelper questionnaireHelper;
     private NotificationHelper<IRBNotificationContext> notificationHelper;
+    private MedusaBean medusaBean;
     //transient so that the helper and its members don't have to be serializable or transient
     //reinitialized in the getter
     private transient NotesAttachmentsHelper notesAttachmentsHelper;
@@ -147,6 +149,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         setNewProtocolReferenceBean(new ProtocolReferenceBean());
         setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
         setNotificationHelper(new NotificationHelper<IRBNotificationContext>());
+        setMedusaBean(new MedusaBean());
     }
 
     /**
@@ -555,5 +558,14 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     public String getQuestionnaireFieldEnd() {
         return DEFAULT_END;
     }
-    
+
+
+    public MedusaBean getMedusaBean() {
+        return medusaBean;
+    }
+
+
+    public void setMedusaBean(MedusaBean medusaBean) {
+        this.medusaBean = medusaBean;
+    }    
 }

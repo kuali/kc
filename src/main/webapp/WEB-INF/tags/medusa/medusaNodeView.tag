@@ -19,6 +19,9 @@
 <c:when test="${node.type == 'subaward'}">
   <kra-m:medusaSubAwardSummary node="${node}"/>
 </c:when>
+<c:when test="${node.type == 'irb'}">
+  <kra-m:medusaProtocolSummary node="${node}"/>
+</c:when>
 </c:choose>
 </div>
 

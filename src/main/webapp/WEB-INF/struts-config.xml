@@ -411,6 +411,11 @@
         <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNotificationEditor.jsp"/>
         &protocol_forwards;
       </action>
+      
+      <action path="/protocolMedusa" name="ProtocolForm" input="/WEB-INF/jsp/irb/ProtocolMedusa.jsp" type="org.kuali.kra.irb.ProtocolMedusaAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+		<forward name="basic" path="/WEB-INF/jsp/irb/ProtocolMedusa.jsp" />
+		&protocol_forwards;
+      </action>      
 
 
       <!--  KRA IRB Mapping END -->
