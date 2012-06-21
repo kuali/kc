@@ -28,7 +28,7 @@
 
 <c:set var="personResponsibleAttributes" value="${DataDictionary.IacucProcedurePersonResponsible.attributes}" />
 
-<kul:innerTab tabTitle="Persons Responsible" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="iacucProtocolStudyGroupDetailBeans[${procedureDetailBeanIndex}].newIacucProcedurePersonResponsible*" useCurrentTabIndexAsKey="true">
+<kul:innerTab tabTitle="Persons Responsible" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${procedureDetailBeanIndex}].newIacucProcedurePersonResponsible*" useCurrentTabIndexAsKey="true">
 	<div class="innerTab-container" align="left">
     	<h3>
     		<span class="subhead-left">Persons Responsible</span>
@@ -52,19 +52,19 @@
 					<th class="infoline">
 						Add:
 					</th>
-		            <td align="left" valign="middle" class="infoline">
+		            <td width="20%" align="left" valign="middle" class="infoline">
 		               	<div align="center">
 		               		<kul:htmlControlAttribute property="${procedurePersonProperty}.newIacucProcedurePersonResponsible.protocolPersonsResponsible" 
 		               		                          attributeEntry="${personResponsibleAttributes.protocolPersonsResponsible}" 
 		               		                          readOnly="${readOnly}" />
 		            	</div>
 					</td>
-		            <td align="left" valign="middle" class="infoline">
+		            <td width="30%" align="left" valign="middle" class="infoline">
 		               	<div align="center">
 		               		&nbsp;
 		            	</div>
 					</td>
-		            <td align="left" valign="middle" class="infoline">
+		            <td width="50%" align="left" valign="middle" class="infoline">
 		               	<div align="center">
 		               		<kul:htmlControlAttribute property="${procedurePersonProperty}.newIacucProcedurePersonResponsible.personResponsibleDescription" 
 		               		                          attributeEntry="${personResponsibleAttributes.personResponsibleDescription}" 

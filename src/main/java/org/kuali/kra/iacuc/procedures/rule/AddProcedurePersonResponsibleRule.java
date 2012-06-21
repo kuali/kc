@@ -31,8 +31,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class adds rule for adding new <code>ProcedurePersonResponsible</code> object
  */
 public class AddProcedurePersonResponsibleRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddProcedurePersonResponsibleEvent> { 
-    private static final String PROCEDURE_DETAIL_BEAN_PATH = "iacucProtocolStudyGroupDetailBeans[";
+
+    private static final String PROCEDURE_BEAN_PATH = "iacucProtocolStudyGroupBeans[";
+    private static final String PROCEDURE_DETAIL_BEAN_PATH = "].iacucProtocolStudyGroupDetailBeans[";
     private static final String NEW_PROCEDURE_PERSON_RESPONSIBLE_PATH = "].newIacucProcedurePersonResponsible";
+    
     
     @Override
     public boolean processRules(AddProcedurePersonResponsibleEvent event) {
@@ -94,7 +97,12 @@ public class AddProcedurePersonResponsibleRule extends ResearchDocumentRuleBase 
     }
     
     private String getErrorPath(AddProcedurePersonResponsibleEvent event) {
-        String errorPath = PROCEDURE_DETAIL_BEAN_PATH.concat(event.getProcedureDetailBeanIndex().toString()).concat(NEW_PROCEDURE_PERSON_RESPONSIBLE_PATH);
-        return errorPath;
+        StringBuffer errorPath = new StringBuffer();
+        errorPath.append(PROCEDURE_BEAN_PATH);
+        errorPath.append(event.getProcedureBeanIndex());
+        errorPath.append(PROCEDURE_DETAIL_BEAN_PATH);
+        errorPath.append(event.getProcedureDetailBeanIndex());
+        errorPath.append(NEW_PROCEDURE_PERSON_RESPONSIBLE_PATH);
+        return errorPath.toString();
     }
 }

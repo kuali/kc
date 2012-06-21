@@ -1083,6 +1083,12 @@ public final class KeyConstants {
     public static final String ERROR_IACUC_VALIDATION_PERSON_RESPONSIBLE_VALID = "error.iacuc.validation.personResponsible.valid";
     public static final String ERROR_IACUC_VALIDATION_DUPLICATE_PERSON_RESPONSIBLE = "error.iacuc.validation.duplicate.personResponsible";
     public static final String ERROR_IACUC_VALIDATION_DUPLICATE_STUDY_GROUP_LOCATION = "error.iacuc.validation.duplicate.studyGroup.location";
+
+    // IACUC person training
+    public static final String ERROR_IACUC_VALIDATION_INVALID_PERSON_TRAINING = "error.iacuc.validation.invalid.person.training";
+    public static final String ERROR_IACUC_VALIDATION_MISMATCH_PERSON_TRAINING = "error.iacuc.validation.mismatch.person.training";
+    
+    
     
     // Disclosure and Financial Entity errors
     public static final String ERROR_DISCLOSURE_SEARCH_INVALID_DATE = "error.search.invalid.date";
