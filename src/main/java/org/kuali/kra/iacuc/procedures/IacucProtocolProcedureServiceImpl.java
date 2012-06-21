@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
-import org.kuali.kra.bo.PersonTraining;
+import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.IacucSpecies;
@@ -314,14 +314,14 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             iacucProcedurePersonResponsible.setPersonName(personName);
             String description =  ObjectUtils.isNull(newIacucProcedurePersonResponsible) ? null : newIacucProcedurePersonResponsible.getPersonResponsibleDescription();
             iacucProcedurePersonResponsible.setPersonResponsibleDescription(description);
-            iacucProcedurePersonResponsible.setTrainings(getPersonTrainingDetails(personId));
+            iacucProcedurePersonResponsible.setTrainings(getIacucPersonTrainingDetails(personId));
             iacucProcedurePersonsResponsible.add(iacucProcedurePersonResponsible);
         }
         return iacucProcedurePersonsResponsible;
     }
     
-    protected List<PersonTraining> getPersonTrainingDetails(String personId) {
-        return getIacucProtocolPersonTrainingService().getPersonTrainingDetails(personId);
+    protected List<IacucPersonTraining> getIacucPersonTrainingDetails(String personId) {
+        return getIacucProtocolPersonTrainingService().getIacucPersonTrainingDetails(personId);
     }
     
     /**
@@ -528,7 +528,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         List<IacucProcedurePersonResponsible> protocolPersonsResponsible = getDistinctPersonsResponsibleForDetailBean(studyGroupDetailBean);
         for(IacucProcedurePersonResponsible personResponsible : protocolPersonsResponsible) {
             IacucProcedurePersonResponsible newPersonResponsible = getNewCopyOfPersonResponsible(personResponsible);
-            newPersonResponsible.setTrainings(getPersonTrainingDetails(newPersonResponsible.getPersonId()));
+            newPersonResponsible.setTrainings(getIacucPersonTrainingDetails(newPersonResponsible.getPersonId()));
             studyGroupDetailBean.getIacucProcedurePersonsResponsible().add(newPersonResponsible);
         }
     }

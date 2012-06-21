@@ -15,8 +15,20 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingServiceImpl;
 
 public class IacucProtocolPersonTrainingServiceImpl extends ProtocolPersonTrainingServiceImpl implements IacucProtocolPersonTrainingService{
+    private static final String PERSON_ID_FIELD = "personId";
+
+    public List<IacucPersonTraining> getIacucPersonTrainingDetails(String personId) {
+        Map<String, Object> matchingKeys = new HashMap<String, Object>();
+        matchingKeys.put(PERSON_ID_FIELD, personId);
+        return (List<IacucPersonTraining>) getBusinessObjectService().findMatching(IacucPersonTraining.class, matchingKeys);
+    }
 
 }

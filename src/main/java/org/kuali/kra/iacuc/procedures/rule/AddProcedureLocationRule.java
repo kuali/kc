@@ -27,7 +27,8 @@ import org.kuali.rice.krad.util.MessageMap;
  * This class adds rule for adding new <code>ProcedureLocation</code> object
  */
 public class AddProcedureLocationRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<AddProcedureLocationEvent> { 
-    private static final String PROCEDURE_DETAIL_BEAN_PATH = "iacucProtocolStudyGroupDetailBeans[";
+    private static final String PROCEDURE_BEAN_PATH = "iacucProtocolStudyGroupBeans[";
+    private static final String PROCEDURE_DETAIL_BEAN_PATH = "].iacucProtocolStudyGroupDetailBeans[";
     private static final String NEW_PROCEDURE_LOCATION_PATH = "].newIacucProtocolStudyGroupLocation";
     
     @Override
@@ -82,7 +83,12 @@ public class AddProcedureLocationRule extends ResearchDocumentRuleBase implement
     }
     
     private String getErrorPath(AddProcedureLocationEvent event) {
-        String errorPath = PROCEDURE_DETAIL_BEAN_PATH.concat(event.getProcedureDetailBeanIndex().toString()).concat(NEW_PROCEDURE_LOCATION_PATH);
-        return errorPath;
+        StringBuffer errorPath = new StringBuffer();
+        errorPath.append(PROCEDURE_BEAN_PATH);
+        errorPath.append(event.getProcedureBeanIndex());
+        errorPath.append(PROCEDURE_DETAIL_BEAN_PATH);
+        errorPath.append(event.getProcedureDetailBeanIndex());
+        errorPath.append(NEW_PROCEDURE_LOCATION_PATH);
+        return errorPath.toString();
     }
 }

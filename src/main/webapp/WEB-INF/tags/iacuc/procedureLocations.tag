@@ -28,7 +28,7 @@
 
 <c:set var="procedureLocationAttributes" value="${DataDictionary.IacucProtocolStudyGroupLocation.attributes}" />
 
-<kul:innerTab tabTitle="Location(s)" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="iacucProtocolStudyGroupDetailBeans[${procedureDetailBeanIndex}].newIacucProtocolStudyGroupLocation*" useCurrentTabIndexAsKey="true">
+<kul:innerTab tabTitle="Location(s)" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${procedureDetailBeanIndex}].newIacucProtocolStudyGroupLocation*" useCurrentTabIndexAsKey="true">
 	<div class="innerTab-container" align="left">
     	<h3>
     		<span class="subhead-left">Location(s)</span>

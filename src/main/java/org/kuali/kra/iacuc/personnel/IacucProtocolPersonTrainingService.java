@@ -15,8 +15,18 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
+import java.util.List;
+
+import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 
 public interface IacucProtocolPersonTrainingService extends ProtocolPersonTrainingService {
 
+    /**
+     * This method is to get the iacuc person training details
+     * @param personId
+     * @return
+     */
+    public List<IacucPersonTraining> getIacucPersonTrainingDetails(String personId);
+    
 }
