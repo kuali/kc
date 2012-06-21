@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
@@ -477,16 +478,18 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     public boolean isGrantsGovEnabledForProposal(DevelopmentProposal devProposal) {
+        String federalSponsorTypeCode = parameterService.getParameterValueAsString(AwardDocument.class, Constants.FEDERAL_SPONSOR_TYPE_CODE);
         return !devProposal.isChild() && devProposal.getSponsor() != null
-                && StringUtils.equals(devProposal.getSponsor().getSponsorTypeCode(), "0");
+                && StringUtils.equals(devProposal.getSponsor().getSponsorTypeCode(), federalSponsorTypeCode);
     }
 
     public boolean isGrantsGovEnabledOnSponsorChange(String proposalNumber, String sponsorCode) {
+        String federalSponsorTypeCode = parameterService.getParameterValueAsString(AwardDocument.class, Constants.FEDERAL_SPONSOR_TYPE_CODE);
         DevelopmentProposal proposal = (DevelopmentProposal) getBusinessObjectService().findBySinglePrimaryKey(
                 DevelopmentProposal.class, proposalNumber);
         Sponsor sponsor = (Sponsor) getBusinessObjectService().findBySinglePrimaryKey(Sponsor.class, sponsorCode);
         boolean enableGrantsGov = proposal == null || !proposal.isChild();
-        enableGrantsGov &= sponsor != null && StringUtils.equals(sponsor.getSponsorTypeCode(), "0");
+        enableGrantsGov &= sponsor != null && StringUtils.equals(sponsor.getSponsorTypeCode(), federalSponsorTypeCode);
         return enableGrantsGov;
     }
 
