@@ -219,6 +219,17 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
         ((ProtocolForm)form).getCustomDataHelper().prepareView(((ProtocolForm)form).getProtocolDocument());
         return CustomDataAction.customData(mapping, form, request, response);
     }
+    
+    public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        if (protocolForm.getProtocolDocument().getDocumentNumber() == null) {
+            loadDocument(protocolForm);
+        }
+        protocolForm.getMedusaBean().setMedusaViewRadio("0");
+        protocolForm.getMedusaBean().setModuleName("irb");
+        protocolForm.getMedusaBean().setModuleIdentifier(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
+        return mapping.findForward("medusa");
+    }    
 
     /**
      * {@inheritDoc}
