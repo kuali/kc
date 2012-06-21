@@ -18,6 +18,27 @@
 
 <descriptor-repository version="1.0">
 
+	<class-descriptor class="org.kuali.kra.iacuc.IacucPersonTraining" table="IACUC_PERSON_TRAINING">
+		<field-descriptor name="iacucPersonTrainingId" column="IACUC_PERSON_TRAINING_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="personTrainingId" column="PERSON_TRAINING_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="speciesCode" column="SPECIES_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="procedureCode" column="PROCEDURE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="personTraining" class-ref="org.kuali.kra.bo.PersonTraining" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="personTrainingId"/>
+		</reference-descriptor>
+		<reference-descriptor name="iacucSpecies" class-ref="org.kuali.kra.iacuc.IacucSpecies" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="speciesCode"/>
+		</reference-descriptor>
+		<reference-descriptor name="iacucProcedure" class-ref="org.kuali.kra.iacuc.procedures.IacucProcedure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="procedureCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
 	<class-descriptor class="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation" table="IACUC_PROTO_STUDY_GROUP_LOCS">
 		<field-descriptor name="iacucProtocolStudyGroupLocationId" column="IACUC_PROT_STUD_GROU_LOCS_ID" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />

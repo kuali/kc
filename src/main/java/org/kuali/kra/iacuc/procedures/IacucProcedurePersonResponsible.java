@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.bo.PersonTraining;
+import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.protocol.ProtocolAssociate;
 
 public class IacucProcedurePersonResponsible extends ProtocolAssociate { 
@@ -36,7 +37,7 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociate {
     
     private IacucProtocolStudyGroup iacucProtocolStudyGroup; 
     
-    private List<PersonTraining> trainings;
+    private List<IacucPersonTraining> trainings;
 
     public IacucProcedurePersonResponsible() { 
         setProtocolPersonsResponsible(new ArrayList<String>());
@@ -80,18 +81,23 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociate {
         this.setIacucProcedurePersonResponsibleId(null);        
     }
 
-    public List<PersonTraining> getTrainings() {
+    public List<IacucPersonTraining> getTrainings() {
         return trainings;
     }
 
-    public void setTrainings(List<PersonTraining> trainings) {
+    public void setTrainings(List<IacucPersonTraining> trainings) {
         this.trainings = trainings;
     }
     
     public List<String> getTrainingDetails() {
         this.trainingDetails = new ArrayList<String>();
-        for(PersonTraining personTraining : getTrainings()) {
-            this.trainingDetails.add(personTraining.getTraining().getDescription());
+        for(IacucPersonTraining iacucPersonTraining : getTrainings()) {
+            StringBuffer trainingInfo = new StringBuffer();
+            trainingInfo.append("Training : " + iacucPersonTraining.getPersonTraining().getTraining().getDescription());
+            trainingInfo.append("\r\nSpecies : " + iacucPersonTraining.getIacucSpecies().getSpeciesName());
+            trainingInfo.append("\r\nProcedure : " + iacucPersonTraining.getIacucProcedure().getProcedureDescription());
+            trainingInfo.append("\r\n");
+            this.trainingDetails.add(trainingInfo.toString());
         }
         return trainingDetails;
     }

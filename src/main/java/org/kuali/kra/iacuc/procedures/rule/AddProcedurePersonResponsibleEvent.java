@@ -26,12 +26,14 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 public class AddProcedurePersonResponsibleEvent extends KraDocumentEventBaseExtension {
 
     private IacucProtocolStudyGroupDetailBean procedureDetailBean;
+    private Integer procedureBeanIndex;
     private Integer procedureDetailBeanIndex;
     
     public AddProcedurePersonResponsibleEvent(IacucProtocolDocument document, IacucProtocolStudyGroupDetailBean procedureDetailBean, 
-            Integer procedureDetailBeanIndex) {
+            Integer procedureBeanIndex, Integer procedureDetailBeanIndex) {
         super("Add Person Responsible", "", document);
         this.procedureDetailBean = procedureDetailBean;
+        this.procedureBeanIndex = procedureBeanIndex;
         this.procedureDetailBeanIndex = procedureDetailBeanIndex;
     }
 
@@ -55,6 +57,14 @@ public class AddProcedurePersonResponsibleEvent extends KraDocumentEventBaseExte
 
     public void setProcedureDetailBeanIndex(Integer procedureDetailBeanIndex) {
         this.procedureDetailBeanIndex = procedureDetailBeanIndex;
+    }
+
+    public Integer getProcedureBeanIndex() {
+        return procedureBeanIndex;
+    }
+
+    public void setProcedureBeanIndex(Integer procedureBeanIndex) {
+        this.procedureBeanIndex = procedureBeanIndex;
     }
 
 }
