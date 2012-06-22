@@ -31,7 +31,7 @@ insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM
 /
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
-	values ('KC2003','KC-PD','proposalAwardTypeRule','Lead Unit Rule','java.lang.String','Y',1)
+	values ('KC2003','KC-PD','proposalAwardTypeRule','Proposal Award Type Rule','java.lang.String','Y',1)
 /
 insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
 	values ('KC2003','KC-PD-CONTEXT','KC2003','Y')
@@ -47,7 +47,7 @@ insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM
 /
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
-	values ('KC2004','KC-PD','s2sLeadershipRule','Lead Unit Rule','java.lang.String','Y',1)
+	values ('KC2004','KC-PD','s2sLeadershipRule','S2S Leadership Rule','java.lang.String','Y',1)
 /
 insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
 	values ('KC2004','KC-PD-CONTEXT','KC2004','Y')
@@ -58,9 +58,11 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PD' and NM='s2sLeadershipRule'), 
 	(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PD' and NM='Function'))
 /
+insert into KRMS_TERM_T(TERM_ID,TERM_SPEC_ID,VER_NBR,DESC_TXT) values ('KC2012','KC2004',1,'S2S Leadership Rule')
+/
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
-	values ('KC2005','KC-PD','checkProposalPiRule','Lead Unit Rule','java.lang.String','Y',1)
+	values ('KC2005','KC-PD','checkProposalPiRule','Check Proposal Principal Investigator Rule','java.lang.String','Y',1)
 /
 insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
 	values ('KC2005','KC-PD-CONTEXT','KC2005','Y')
@@ -76,7 +78,7 @@ insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM
 /
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
-	values ('KC2006','KC-PD','checkProposalCoiRule','Lead Unit Rule','java.lang.String','Y',1)
+	values ('KC2006','KC-PD','checkProposalCoiRule','Check Proposal Co-Investigator Rule','java.lang.String','Y',1)
 /
 insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
 	values ('KC2006','KC-PD-CONTEXT','KC2006','Y')
@@ -92,7 +94,7 @@ insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM
 /
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
-	values ('KC2007','KC-PD','leadUnitBelowRule','Lead Unit Rule','java.lang.String','Y',1)
+	values ('KC2007','KC-PD','leadUnitBelowRule','Lead Unit Below Rule','java.lang.String','Y',1)
 /
 insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
 	values ('KC2007','KC-PD-CONTEXT','KC2007','Y')
@@ -108,7 +110,7 @@ insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM
 /
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
-	values ('KC2008','KC-PD','specialReviewRule','Lead Unit Rule','java.lang.String','Y',1)
+	values ('KC2008','KC-PD','specialReviewRule','Special Review Rule','java.lang.String','Y',1)
 /
 insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
 	values ('KC2008','KC-PD-CONTEXT','KC2008','Y')
@@ -124,7 +126,7 @@ insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM
 /
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
-	values ('KC2009','KC-PD','proposalUnitRule','Lead Unit Rule','java.lang.String','Y',1)
+	values ('KC2009','KC-PD','proposalUnitRule','Proposal Unit Rule','java.lang.String','Y',1)
 /
 insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
 	values ('KC2009','KC-PD-CONTEXT','KC2009','Y')
@@ -140,7 +142,7 @@ insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM
 /
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
-	values ('KC2010','KC-PD','sponsorTypeRule','Lead Unit Rule','java.lang.String','Y',1)
+	values ('KC2010','KC-PD','sponsorTypeRule','Sponsor Type Rule','java.lang.String','Y',1)
 /
 insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
 	values ('KC2010','KC-PD-CONTEXT','KC2010','Y')
@@ -156,7 +158,7 @@ insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM
 /
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
-	values ('KC2011','KC-PD','s2sAttachmentNarrativeRule','Lead Unit Rule','java.lang.String','Y',1)
+	values ('KC2011','KC-PD','s2sAttachmentNarrativeRule','S2S Attachment Narrative Rule','java.lang.String','Y',1)
 /
 insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
 	values ('KC2011','KC-PD-CONTEXT','KC2011','Y')
@@ -166,6 +168,8 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 /
 insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PD' and NM='s2sAttachmentNarrativeRule'), 
 	(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PD' and NM='Function'))
+/
+insert into KRMS_TERM_T(TERM_ID,TERM_SPEC_ID,VER_NBR,DESC_TXT) values ('KC2013','KC2011',1,'S2S Attachment Narrative Rule')
 /
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
@@ -180,6 +184,8 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PD' and NM='s2sModularBudgetRule'), 
 	(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PD' and NM='Function'))
 /
+insert into KRMS_TERM_T(TERM_ID,TERM_SPEC_ID,VER_NBR,DESC_TXT) values ('KC2014','KC2012',1,'S2S Modular Budget Rule')
+/
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2013','KC-PD','s2sFederalIdRule','S2S Federal Id Rule','java.lang.String','Y',1)
@@ -192,6 +198,8 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 /
 insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PD' and NM='s2sFederalIdRule'), 
 	(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PD' and NM='Function'))
+/
+insert into KRMS_TERM_T(TERM_ID,TERM_SPEC_ID,VER_NBR,DESC_TXT) values ('KC2015','KC2013',1,'S2S Federal Id Rule')
 /
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
@@ -206,6 +214,8 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PD' and NM='mtdcDeviation'), 
 	(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PD' and NM='Function'))
 /
+insert into KRMS_TERM_T(TERM_ID,TERM_SPEC_ID,VER_NBR,DESC_TXT) values ('KC2016','KC2014',1,'MTDC Deviation')
+/
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2015','KC-PD','s2sExemptionRule','S2S Exemption Rule','java.lang.String','Y',1)
@@ -218,6 +228,8 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 /
 insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PD' and NM='s2sExemptionRule'), 
 	(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PD' and NM='Function'))
+/
+insert into KRMS_TERM_T(TERM_ID,TERM_SPEC_ID,VER_NBR,DESC_TXT) values ('KC2017','KC2015',1,'S2S Exemption Rule')
 /
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
@@ -280,6 +292,8 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PD' and NM='nonFacultyPi'), 
 	(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PD' and NM='Function'))
 /
+insert into KRMS_TERM_T(TERM_ID,TERM_SPEC_ID,VER_NBR,DESC_TXT) values ('KC2018','KC2019',1,'Non Faculty Principal Investigator')
+/
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2020','KC-PD','attachmentFileNameRule','Attachment File Name Rule','java.lang.String','Y',1)
@@ -292,6 +306,8 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 /
 insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PD' and NM='attachmentFileNameRule'), 
 	(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PD' and NM='Function'))
+/
+insert into KRMS_TERM_T(TERM_ID,TERM_SPEC_ID,VER_NBR,DESC_TXT) values ('KC2019','KC2020',1,'Attachment File Name Valid')
 /
 
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
@@ -337,4 +353,6 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 /
 insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) values ((select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PD' and NM='incompleteNarrativeRule'), 
 	(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PD' and NM='Function'))
+/
+insert into KRMS_TERM_T(TERM_ID,TERM_SPEC_ID,VER_NBR,DESC_TXT) values ('KC2020','KC2023',1,'Incomplete Narratives')
 /
