@@ -15,23 +15,13 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.drools.brms.FactBean;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDao;
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -72,7 +62,7 @@ public abstract class ProtocolActionMapping implements FactBean {
 
     protected BusinessObjectService businessObjectService;
     
-    protected ProtocolDao dao;
+    protected ProtocolDao<? extends Protocol> dao;
     
     protected String submissionStatusCode;
     
@@ -107,7 +97,7 @@ public abstract class ProtocolActionMapping implements FactBean {
         this.businessObjectService = businessObjectService;
     }
     
-    public void setDao(ProtocolDao dao) {
+    public void setDao(ProtocolDao<? extends Protocol> dao) {
         this.dao = dao;
     }
 
@@ -115,7 +105,6 @@ public abstract class ProtocolActionMapping implements FactBean {
         this.protocol = protocol;
     }
     
-    @SuppressWarnings("unchecked")
     public String getProtocolSubmissionScheduleId() {
         // TODO : should not need to retrieve from DB because protocol.getProtocolSubmission() is
         // the same as the one retrieved.  The positiveFieldValues are the pk in coeus.
@@ -139,41 +128,49 @@ public abstract class ProtocolActionMapping implements FactBean {
         fieldValues.put(SUBMISSION_NUMBER, protocol.getProtocolSubmission().getSubmissionNumber());
         return businessObjectService.countMatching(CommitteeScheduleMinute.class, fieldValues) > 0;
     }
-        
-    /**
-     * Check if there are any pending submissions for this protocol
-     *  whose submission type is not the matching submission type in ACTION_TYPE_SUBMISSION_TYPE_MAP.
-     */
-    public boolean getSubmissionCount() {
-        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
-        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
-        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
- 
-        positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
-        
-        Map<String, Object> negativeFieldValues = new HashMap<String, Object>();        
-        negativeFieldValues.put("submissionTypeCode", getActionTypeSubmissionType(actionTypeCode));
-        
-        return businessObjectService.countMatching(ProtocolSubmission.class, positiveFieldValues, negativeFieldValues) == 0;    
-    }
     
-    protected abstract String getActionTypeSubmissionType(String actionTypeCode);     
     
-    protected abstract List<String> getPendingSubmissionStatusCodes();
+    public abstract boolean getSubmissionCount();
 
-    /**
-     * 
-     * This method Checks if there are any pending submissions for this protocol
-     * @return
-     */
-    public boolean getSubmissionCountCond2() {
-        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
-        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
-        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
-        positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
-        
-        return businessObjectService.countMatching(ProtocolSubmission.class, positiveFieldValues) == 0;
-    }
+// TODO *********commented the code below during IACUC refactoring********* 
+ // this method has been pushed down to the subclasses
+//    /**
+//     * Check if there are any pending submissions for this protocol
+//     *  whose submission type is not the matching submission type in ACTION_TYPE_SUBMISSION_TYPE_MAP.
+//     */
+//    public boolean getSubmissionCount() {
+//        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+//        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
+//        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
+// 
+//        positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
+//        
+//        Map<String, Object> negativeFieldValues = new HashMap<String, Object>();        
+//        negativeFieldValues.put("submissionTypeCode", ACTION_TYPE_SUBMISSION_TYPE_MAP.get(actionTypeCode));
+//        
+//        return businessObjectService.countMatching(ProtocolSubmission.class, positiveFieldValues, negativeFieldValues) == 0;    
+//    }
+    
+    
+    public abstract boolean getSubmissionCountCond2();
+    
+// TODO *********commented the code below during IACUC refactoring*********
+// this method has been pushed down to the subclasses    
+//    /**
+//     * 
+//     * This method Checks if there are any pending submissions for this protocol
+//     * @return
+//     */
+//    public boolean getSubmissionCountCond2() {
+//        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+//        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
+//        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
+//        positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
+//        
+//        return businessObjectService.countMatching(ProtocolSubmission.class, positiveFieldValues) == 0;
+//    }
+    
+    
     
     /**
      * 
@@ -184,6 +181,9 @@ public abstract class ProtocolActionMapping implements FactBean {
         return dao.getProtocolSubmissionCountFromProtocol(protocol.getProtocolNumber());
     }
 
+    
+    public abstract boolean getSubmissionCountCond4();
+    
 // Demoted to IacucProtocolActionMapping    
 //    /**
 //     * 
@@ -236,7 +236,14 @@ public abstract class ProtocolActionMapping implements FactBean {
 //                                                 osp$protocol_submission.sequence_number = a.sequence_number);
 //     * 
 //     */
-//    
+
+    
+
+    public abstract boolean getSubmissionCountCond5();
+    
+    
+// TODO *********commented the code below during IACUC refactoring*********
+// this method demoted to the subclasses    
 //    /**
 //     * check if there are any other pending submissions.
 //     * Basically, check the matching protocol submission with the highest submission# does not have
@@ -251,7 +258,14 @@ public abstract class ProtocolActionMapping implements FactBean {
 //        return submissions.isEmpty() || !getPendingSubmissionStatusCodes().contains(submissions.get(0).getSubmissionStatusCode());
 //        
 //    }
-//    
+
+    
+    
+    
+    public abstract boolean getSubmissionCountForWithdraw(); 
+    
+// TODO *********commented the code below during IACUC refactoring*********
+// this method demoted to the subclasses    
 //    /**
 //     * 
 //     * This method Check if protocol has a submission which is in statuscode (100,101,102, 201, 202)  
@@ -279,8 +293,7 @@ public abstract class ProtocolActionMapping implements FactBean {
      * @return
      */
     public boolean getProtocolReviewerCountCond1() {       
-//TODO:IACUC        return protocol.getProtocolSubmission().getProtocolReviewers().size() > 0;
-return false;        
+        return protocol.getProtocolSubmission().getProtocolReviewers().size() > 0;
     }
     
     public String getActionTypeCode() {
@@ -392,18 +405,7 @@ return false;
 //    }
     
     
-    // Check if submission status is "Submitted to Committee" if committee selected, or "Pending" if committee not selected.
-    public boolean getSubmissionStatusForAdminAction() {
-        boolean retVal;
-        if(StringUtils.isNotBlank(this.protocol.getProtocolSubmission().getCommitteeId())) {
-            retVal = StringUtils.equals(this.submissionStatusCode, IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
-        }
-        else {
-            retVal = StringUtils.equals(this.submissionStatusCode, IacucProtocolSubmissionStatus.PENDING);
-        }
-        
-        return retVal;
-    }
+    
     
 
 }
