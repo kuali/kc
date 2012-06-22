@@ -548,9 +548,9 @@ public class KRAS2SServiceImpl implements S2SService {
 
 			appSubmission
 					.setGgTrackingId(response.getGrantsGovTrackingNumber());
-//			appSubmission.setReceivedDate(new Timestamp(response
-//					.getReceivedDateTime().toGregorianCalendar()
-//					.getTimeInMillis()));
+			appSubmission.setReceivedDate(new Timestamp(response
+					.getReceivedDateTime().toGregorianCalendar()
+					.getTimeInMillis()));
 			appSubmission.setS2sApplication(s2sApplicationList);
 			appSubmission.setProposalNumber(proposalNumber);
 
