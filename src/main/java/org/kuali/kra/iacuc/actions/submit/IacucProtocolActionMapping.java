@@ -22,16 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.drools.brms.FactBean;
-import org.kuali.kra.iacuc.actions.IacucProtocolAction;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionMapping;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 /*
  * This class is for the condition attributes of of the protocol action.
@@ -63,11 +56,25 @@ public class IacucProtocolActionMapping extends ProtocolActionMapping {
     public IacucProtocolActionMapping(String actionTypeCode, String submissionStatusCode, String submissionTypeCode, String protocolReviewTypeCode, String protocolStatusCode, String scheduleId, Integer submissionNumber) {
         super(actionTypeCode, submissionStatusCode, submissionTypeCode, protocolReviewTypeCode, protocolStatusCode, scheduleId, submissionNumber);
     }
+ 
     
-    protected String getActionTypeSubmissionType(String actionTypeCode) {
-        return ACTION_TYPE_SUBMISSION_TYPE_MAP.get(actionTypeCode);
+    /**
+     * Check if there are any pending submissions for this protocol
+     *  whose submission type is not the matching submission type in ACTION_TYPE_SUBMISSION_TYPE_MAP.
+     */
+    public boolean getSubmissionCount() {
+        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
+        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
+        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
+ 
+        positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
+        
+        Map<String, Object> negativeFieldValues = new HashMap<String, Object>();        
+        negativeFieldValues.put("submissionTypeCode", ACTION_TYPE_SUBMISSION_TYPE_MAP.get(actionTypeCode));
+        
+        return businessObjectService.countMatching(IacucProtocolSubmission.class, positiveFieldValues, negativeFieldValues) == 0;    
     }
-
+    
     /**
      * 
      * This method Checks if there are any pending submissions for this protocol
@@ -82,14 +89,6 @@ public class IacucProtocolActionMapping extends ProtocolActionMapping {
         return businessObjectService.countMatching(IacucProtocolSubmission.class, positiveFieldValues) == 0;
     }
     
-    /**
-     * 
-     * This method Check if there are any pending amendmends/renewals for this protocols
-     * @return
-     */
-    public boolean getSubmissionCountCond3() {
-        return dao.getProtocolSubmissionCountFromProtocol(protocol.getProtocolNumber());
-    }
     
 //TODO: IACUC work needed here to determine additional request types    
     /**
@@ -119,7 +118,7 @@ public class IacucProtocolActionMapping extends ProtocolActionMapping {
     /*
      * Coeus called submission status of 100/101/102 as pending submission
      */
-    protected List<String> getPendingSubmissionStatusCodes() {
+    private List<String> getPendingSubmissionStatusCodes() {
         List<String> submissionStatusCodes = new ArrayList<String>();
         submissionStatusCodes.add(IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         submissionStatusCodes.add(IacucProtocolSubmissionStatus.IN_AGENDA); 
@@ -133,7 +132,6 @@ public class IacucProtocolActionMapping extends ProtocolActionMapping {
      * Basically, check the matching protocol submission with the highest submission# does not have
      * status of (100,101,102)
      */
-    @SuppressWarnings("unchecked")
     public boolean getSubmissionCountCond5() {                
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
@@ -148,7 +146,6 @@ public class IacucProtocolActionMapping extends ProtocolActionMapping {
      * This method Check if protocol has a submission which is in statuscode (100,101,102, 201, 202)  
      * @return
      */
-    @SuppressWarnings("unchecked")
     public boolean getSubmissionCountForWithdraw() {              
         List <String> statusCodes = Arrays.asList(new String[] {"101","102","103"});
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
@@ -170,4 +167,21 @@ public class IacucProtocolActionMapping extends ProtocolActionMapping {
                                               ", submissionNumber = " + submissionNumber +
                                               ", allowed = " + allowed + ")";
     }
+    
+    
+    
+    // Check if submission status is "Submitted to Committee" if committee selected, or "Pending" if committee not selected.
+    public boolean getSubmissionStatusForAdminAction() {
+        boolean retVal;
+        if(StringUtils.isNotBlank(this.protocol.getProtocolSubmission().getCommitteeId())) {
+            retVal = StringUtils.equals(this.submissionStatusCode, IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+        }
+        else {
+            retVal = StringUtils.equals(this.submissionStatusCode, IacucProtocolSubmissionStatus.PENDING);
+        }
+        
+        return retVal;
+    }
+    
+    
 }
