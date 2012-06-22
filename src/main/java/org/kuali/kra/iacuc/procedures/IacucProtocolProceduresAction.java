@@ -72,6 +72,18 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward reload(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception { 
+        super.reload(mapping, form, request, response);
+        //IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        //protocolForm.getIacucProtocolProceduresHelper().prepareView();
+        
+        IacucProtocol iacucProtocol = getIacucProtocol(form);
+        iacucProtocol.setIacucProtocolStudyGroupBeans(getIacucProtocolProcedureService().getRevisedStudyGroupBeans(iacucProtocol));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     public ActionForward addProcedurePersonResponsible(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolStudyGroupDetailBean procedureDetailBean = getSelectedProcedureDetailBean(request, protocolForm.getIacucProtocolDocument());
