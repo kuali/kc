@@ -98,7 +98,7 @@ public abstract class ProtocolActionServiceImpl implements ProtocolActionService
 // TODO *********commented the code below during IACUC refactoring*********     
 //    protected FollowupActionService followupActionService;
    
-    protected ProtocolDao protocolDao;
+    private ProtocolDao<? extends Protocol> protocolDao;
 
     protected DroolsRuleHandler canPerformRuleHandler;
     
@@ -132,7 +132,7 @@ public abstract class ProtocolActionServiceImpl implements ProtocolActionService
         this.unitAuthorizationService = unitAuthorizationService;
     }
 
-    public void setProtocolDao(ProtocolDao protocolDao) {
+    public void setProtocolDao(ProtocolDao<? extends Protocol> protocolDao) {
         this.protocolDao = protocolDao;
     }
     
