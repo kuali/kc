@@ -34,6 +34,7 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
     private Integer iacucProtocolSpeciesId; 
     private Integer procedureCategoryCode; 
     private Integer procedureCode; 
+    private String  painCategory;
     private Integer painCategoryCode; 
     private Integer count; 
     
@@ -90,6 +91,14 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
 
     public void setProcedureCode(Integer procedureCode) {
         this.procedureCode = procedureCode;
+    }
+
+    public String getPainCategory() {
+        return painCategory;
+    }
+
+    public void setPainCategory(String painCategory) {
+        this.painCategory = painCategory;
     }
 
     public Integer getPainCategoryCode() {

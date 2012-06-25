@@ -91,6 +91,9 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociate {
     }
 
     public IacucLocationType getIacucLocationType() {
+        if (iacucLocationType == null) {
+            refreshReferenceObject("iacucLocationType");
+        }
         return iacucLocationType;
     }
 
@@ -99,6 +102,9 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociate {
     }
 
     public IacucLocationName getIacucLocationName() {
+        if (iacucLocationName == null) {
+            refreshReferenceObject("iacucLocationName");
+        }
         return iacucLocationName;
     }
 

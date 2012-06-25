@@ -430,7 +430,7 @@
             <td style="background-color: rgb(195, 195, 195); font-weight: bold;" colspan="0">Procedures:</td>
         </tr>
         <tr>
-            <th style="text-align:right; width:135px;">Overview and Timeline:</th>
+            <th style="text-align:right; width:80px;">Overview and Timeline:</th>
             <td class="${protocolSummary.procedureOverviewSummaryChanged ? 'changed' : ''}">${protocolSummary.procedureOverviewSummary}&nbsp;</td>
         </tr>
         <tr>
@@ -442,19 +442,63 @@
 	            	</c:when>
     	        	<c:otherwise>
 						<table frame="void" border="0" cellpadding="0" cellspacing="0">
-							<tr> 
-						        <th style="text-align:center; width:15%;">Category:</th>
-	        					<th style="text-align:center; width:15%;">Groups : Species</th>
-								<th style="text-align:center; width:15%;">Person(s) Responsible</th>
-   								<th style="text-align:center;">Description</th>
 						    </tr>
 					    	<c:forEach items="${protocolSummary.procedureSummaries}" var="procedureSummary" varStatus="status">  
 								<tr> 
-				    	            <td class="${procedureSummary.procedureCategoryChanged ? 'changed' : ''}">${procedureSummary.procedureCategory}&nbsp;</td>
-			    		            <td class="${procedureSummary.speciesChanged ? 'changed' : ''}">${procedureSummary.species}&nbsp;</td>
-		    	        	    	<td class="${procedureSummary.personnelChanged ? 'changed' : ''}">${procedureSummary.personnel}&nbsp;</td> 
-				                	<td class="${procedureSummary.procedureDescriptionChanged ? 'changed' : ''}">${procedureSummary.procedureDescription}&nbsp;</td>
+							        <th style="text-align:left;" colspan="0" class="${procedureSummary.procedureCategoryChanged ? 'changed' : ''}">${procedureSummary.procedureCategory}&nbsp;</th>
+							    </tr>
+							    <tr> 
+									<th width="50px">${status.index+1}:</th>
+						            <td colspan="3" class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Group/Species</td>
+            						<td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Person(s) Responsible</td>
+            						<td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Pain Category</td>
+            						<td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Count</td>
+							    </tr>
+							    <tr>    
+							        <td>&nbsp;</td>   
+			    		            <td colspan="3" class="${procedureSummary.speciesChanged ? 'changed' : ''}">${procedureSummary.species}</td>
+		    	        	    	<td class="${procedureSummary.personnelListChanged ? 'changed' : ''}">${procedureSummary.personnelList}</td> 
+				                	<td class="${procedureSummary.painCategoryChanged ? 'changed' : ''}">${procedureSummary.painCategory}</td>
+				                	<td class="${procedureSummary.countChanged ? 'changed' : ''}">${procedureSummary.count}</td>
        							</tr>
+							    <tr>    
+									<th>&nbsp;</th>
+						            <td colspan="0" class="infoline fineprint sequencetd" style="font-weight: bold; text-align: left; color: rgb(51, 51, 51);">Locations:</td>
+       							</tr>
+							    <tr>    
+									<th>&nbsp;</th>
+						            <td width="250px" class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Type</td>
+            						<td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Name</td>
+            						<td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Room</td>
+            						<td colspan="0" class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Description</td>
+       							</tr>
+       							<c:forEach items="${procedureSummary.locationSummaries}" var="locationSummary" varStatus="lStatus">
+								    <tr>    
+										<th>&nbsp;</th>
+							            <td class="${locationSummary.typeChanged ? 'changed' : ''}">${locationSummary.type}</td>
+        	    						<td class="${locationSummary.nameChanged ? 'changed' : ''}">${locationSummary.name}</td>
+    	        						<td class="${locationSummary.roomChanged ? 'changed' : ''}">${locationSummary.room}</td>
+	            						<td colspan="0" class="${locationSummary.descriptionChanged ? 'changed' : ''}">${locationSummary.description}</td>
+								    </tr>    
+       							</c:forEach>
+							    <tr>    
+									<th>&nbsp;</th>
+						            <td colspan="0" class="infoline fineprint sequencetd" style="font-weight: bold; text-align: left; color: rgb(51, 51, 51);">Persons Responsible:</td>
+       							</tr>
+							    <tr>    
+									<th>&nbsp;</th>
+						            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Persons Responsible</td>
+            						<td colspan="2" class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Training</td>
+            						<td colspan="0" class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Description</td>
+       							</tr>
+       							<c:forEach items="${procedureSummary.personsResponsible}" var="personResponsible" varStatus="pStatus">
+								    <tr>    
+										<th>&nbsp;</th>
+							            <td class="${personResponsible.personNameChanged ? 'changed' : ''}">${personResponsible.personName}</td>
+            							<td colspan="2" class="${personResponsible.personTrainingChanged ? 'changed' : ''}">${personResponsible.personTraining}</td>
+            							<td colspan="0" class="${personResponsible.descriptionChanged ? 'changed' : ''}">${personResponsible.description}</td>
+								    </tr>    
+       							</c:forEach>
        						</c:forEach>  
 						</table>
             		</c:otherwise>

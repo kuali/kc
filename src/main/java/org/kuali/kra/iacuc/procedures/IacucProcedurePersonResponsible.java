@@ -89,15 +89,30 @@ public class IacucProcedurePersonResponsible extends ProtocolAssociate {
         this.trainings = trainings;
     }
     
+    public String getTrainingDetailsString() {
+        String details = new String();
+        boolean first = true;
+        for(String detail: getTrainingDetails()) {
+            if (!first) {
+                details += "<br/>";
+            }
+            details += detail;
+            first = false;
+        }
+        return details;
+    }
+    
     public List<String> getTrainingDetails() {
         this.trainingDetails = new ArrayList<String>();
-        for(IacucPersonTraining iacucPersonTraining : getTrainings()) {
-            StringBuffer trainingInfo = new StringBuffer();
-            trainingInfo.append("Training : " + iacucPersonTraining.getPersonTraining().getTraining().getDescription());
-            trainingInfo.append("\r\nSpecies : " + iacucPersonTraining.getIacucSpecies().getSpeciesName());
-            trainingInfo.append("\r\nProcedure : " + iacucPersonTraining.getIacucProcedure().getProcedureDescription());
-            trainingInfo.append("\r\n");
-            this.trainingDetails.add(trainingInfo.toString());
+        if (getTrainings() != null) {
+            for(IacucPersonTraining iacucPersonTraining : getTrainings()) {
+                StringBuffer trainingInfo = new StringBuffer();
+                trainingInfo.append("Training : " + iacucPersonTraining.getPersonTraining().getTraining().getDescription());
+                trainingInfo.append("\r\nSpecies : " + iacucPersonTraining.getIacucSpecies().getSpeciesName());
+                trainingInfo.append("\r\nProcedure : " + iacucPersonTraining.getIacucProcedure().getProcedureDescription());
+                trainingInfo.append("\r\n");
+                this.trainingDetails.add(trainingInfo.toString());
+            }
         }
         return trainingDetails;
     }
