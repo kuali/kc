@@ -29,16 +29,8 @@
 			<list>
 				<value>painCategoryCode</value>
 			</list>
-		</property>		<property name="allowsRecordDeletion" value="true" />	
-		
-		
-		
-		
-		
-		<property name="documentTypeName" value="IacucPainCategoryMaintenanceDocument"/>
+		</property>		<property name="allowsRecordDeletion" value="true" />		<property name="documentTypeName" value="IacucPainCategoryMaintenanceDocument"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-		
-		
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
@@ -51,6 +43,7 @@
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="painCategoryCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="painCategory" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="painLevel" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
 			</list>
