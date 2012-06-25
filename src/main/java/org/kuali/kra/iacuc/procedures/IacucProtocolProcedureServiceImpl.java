@@ -198,20 +198,20 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
     private void addNewStudyGroupDetailBean(List<IacucProtocolStudyGroup> studyGroups, IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean) {
         Integer speciesCount = 0;
         TreeSet<IacucPainCategory> painCategory = new TreeSet<IacucPainCategory>();
-        HashMap<String, Integer> painCategoryCodes = new HashMap<String, Integer>();
+        //HashMap<String, Integer> painCategoryCodes = new HashMap<String, Integer>();
         List<String> speciesAndGroups = new ArrayList<String>();
         IacucProtocolStudyGroupDetailBean newIacucProtocolStudyGroupDetailBean = new IacucProtocolStudyGroupDetailBean();
         for(IacucProtocolStudyGroup iacucProtocolStudyGroup : studyGroups) {
             IacucProtocolSpecies protocolSpecies = iacucProtocolStudyGroup.getIacucProtocolSpecies();
             painCategory.add(protocolSpecies.getIacucPainCategory());
-            painCategoryCodes.put(protocolSpecies.getIacucPainCategory().getPainCategory(), protocolSpecies.getIacucPainCategory().getPainCategoryCode());
+            //painCategoryCodes.put(protocolSpecies.getIacucPainCategory().getPainCategory(), protocolSpecies.getIacucPainCategory().getPainCategoryCode());
             speciesCount = speciesCount + protocolSpecies.getSpeciesCount();
             speciesAndGroups.add(protocolSpecies.getGroupAndSpecies());
             //protocolStudyGroups.add(iacucProtocolStudyGroup);
             newIacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups().add(iacucProtocolStudyGroup);
         }
         newIacucProtocolStudyGroupDetailBean.setMaxPainCategory(painCategory.last().getPainCategory());
-        newIacucProtocolStudyGroupDetailBean.setMaxPainCategoryCode(painCategoryCodes.get(painCategory.last().getPainCategoryCode()));
+        newIacucProtocolStudyGroupDetailBean.setMaxPainCategoryCode(painCategory.last().getPainCategoryCode());
         newIacucProtocolStudyGroupDetailBean.setSpeciesAndGroupsText(speciesAndGroups);
         newIacucProtocolStudyGroupDetailBean.setTotalSpeciesCount(speciesCount);
         selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans().add(newIacucProtocolStudyGroupDetailBean);
