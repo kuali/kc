@@ -15,24 +15,19 @@
  */
 package org.kuali.kra.coi.auth;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.kra.kim.bo.KcKimAttributes;
+
+import org.kuali.rice.kim.api.permission.PermissionService;
 
 public class MaintainCoiDisclosureNotesAuthorizer extends CoiDisclosureAuthorizer {
-
-    private IdentityService identityService;
-    private RoleService roleService;
 
     @Override
     public boolean isAuthorized(String userId, CoiDisclosureTask task) {
@@ -42,88 +37,71 @@ public class MaintainCoiDisclosureNotesAuthorizer extends CoiDisclosureAuthorize
             CoiDisclosure coiDisclosure = task.getCoiDisclosure();
             if (isNewDisclosure(coiDisclosure)) {
                 hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.REPORT_COI_DISCLOSURE);
-            } 
-            else {
-                // check if the user is the original reporter for the saved disclosure and that the disclosure is editable, 
-                // and that it is not yet submitted (certified)
-                hasPermission = hasPermissionToEdit(coiDisclosure, userId);
-
+            } else if (isNotSubmitted(coiDisclosure)) {
+                if (isDisclosureReporter(userId, coiDisclosure)) {
+                    hasPermission = true;
+                } else {
+                    //hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.MAINTAIN_COI_DISCLOSURE_NOTES)
+                    hasPermission = getPermissionService().isAuthorized(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.MAINTAIN_COI_DISCLOSURE_NOTES, getQualificationMap(task.getCoiDisclosure()))
+                                && isEditableByAdminReviewer(coiDisclosure);
+                }
+            } else {
+                // check if the user is the original reporter for the saved disclosure and that the disclosure is editable.  
+                // Since the disclosure is submitted at this point, the reporter no longer has permission to edit.
+                if (isDisclosureReporter(userId, coiDisclosure)) {
+                    hasPermission = false;
+                } else {
+                    //hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.MAINTAIN_COI_DISCLOSURE_NOTES)
+                    hasPermission = getPermissionService().isAuthorized(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.MAINTAIN_COI_DISCLOSURE_NOTES, getQualificationMap(task.getCoiDisclosure()))
+                        && !isDocumentFinal(coiDisclosure) && isEditableByAdminReviewer(coiDisclosure);                    
+                }
             }
+            
         return hasPermission;  
     }
     
     protected boolean isNewDisclosure(CoiDisclosure coiDisclosure) {
-        return coiDisclosure == null || !coiDisclosure.isSubmitted();
-    }
-    
-    /*                                                                                                                                                                           
-     * If the person is the original reporter and not submitted or if the person is reviewer or admin and not approved.                                                          
-     */
-    protected boolean hasPermissionToEdit(CoiDisclosure disclosure, String userId) {
-        if (isAdministrator(userId) || isReviewer(userId, disclosure)) {
-            System.out.println(disclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isFinal());
-            /*
-             * Going to keep this auth so that once a disclosure is approved, you cannot edit N&A. This is because, in order to edit Notes
-             * or replace attachments, you need the save button and that button does not appear if the document has been approved because the MasterDisclosure.jsp which
-             * is where we forward to once a disclosure is approved, and that page sets viewOnly to true in the documentControls.tag file.
-             */
-            if(!disclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isFinal() &&
-                    isEditableByAdminReviewer(disclosure)) {
+        if (coiDisclosure == null) {
+            return true;
+        } else {
+            if (coiDisclosure.getPersonId() == null) {
                 return true;
             }
-        } else {
-            // check if the user is the original reporter for the saved disclosure and that the disclosure is editable,                                                          
-            // and that it is not yet submitted (certified)                                                                                                                      
-            return StringUtils.equals(userId, disclosure.getPersonId()) && isDisclosureEditable(disclosure);
-
         }
+        
         return false;
     }
     
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
+    protected boolean isNotSubmitted(CoiDisclosure coiDisclosure) {
+        return !coiDisclosure.isSubmitted();
     }
     
-    public void setIdentityService(IdentityService identityService) {
-        this.identityService = identityService;
+    protected boolean isDocumentFinal(CoiDisclosure coiDisclosure) {
+        return coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isFinal();     
+    }
+    
+    protected boolean isDisclosureReporter(String userId, CoiDisclosure coiDisclosure) {
+        return StringUtils.equals(userId, coiDisclosure.getPersonId());
     }
 
     protected boolean isEditableByAdminReviewer(CoiDisclosure coiDisclosure) {
         return (coiDisclosure != null)
         && !coiDisclosure.getCoiDisclosureDocument().isViewOnly()
-        && !isPessimisticLocked(coiDisclosure.getCoiDisclosureDocument());
+        && !isPessimisticLocked(coiDisclosure.getCoiDisclosureDocument())
+        && !coiDisclosure.isApprovedDisclosure()
+        && !coiDisclosure.isDisapprovedDisclosure();
     }
 
-
-    protected boolean isAdministrator(String userId) {                                                                                                                       
-        RoleService roleService = getRoleService();                                                                                            
-        Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.COI_DISCLOSURE_ROLE_TYPE,RoleConstants.COI_ADMINISTRATOR, null);                         
-        return ids.contains(userId);                                                                                                                                          
-    }                                                                                                                                                                         
-
-    protected boolean isReviewer(String userId, CoiDisclosure disclosure) {                                                                                                   
-        List<CoiUserRole> userRoles = disclosure.getCoiUserRoles();                                                                                                           
-        for (CoiUserRole userRole : userRoles) {                                                                                                                              
-            if (StringUtils.equalsIgnoreCase(userRole.getRoleName(), RoleConstants.COI_REVIEWER)) {                                                                           
-                if (StringUtils.equalsIgnoreCase(getPrincipalName(userId), userRole.getUserId())) {                                                                                             
-                    return true;                                                                                                                                              
-                }                                                                                                                                                             
-            }                                                                                                                                                                 
-        }                                                                                                                                                                     
-        return false;                                                                                                                                                        
-    }                
-   
-    protected String getPrincipalName(String userId) {
-        Principal user = getIdentityService().getPrincipal(userId);
-        return user.getPrincipalName();
-    }
-    
-    public IdentityService getIdentityService() {
-        return identityService;
+    protected PermissionService getPermissionService() {
+        return KraServiceLocator.getService(PermissionService.class);
     }
 
-    public RoleService getRoleService() {
-        return roleService;
+    private Map<String, String> getQualificationMap(CoiDisclosure coiDisclosure) {
+        Map<String, String> qualifications = new HashMap<String, String>();
+        
+        qualifications.put("coiDisclosureId", coiDisclosure.getCoiDisclosureId().toString());
+        qualifications.put(KcKimAttributes.UNIT_NUMBER, "*");
+        
+        return qualifications;
     }
-
 }

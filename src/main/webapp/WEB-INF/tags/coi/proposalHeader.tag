@@ -25,6 +25,7 @@
     	    <span class="subhead-left" style="${style}">Proposal Number: ${disclProject.proposal.proposalNumber}</span>
                 </span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
+    		<span style="text-align: right; float: right; padding-left: 20px;">Disposition:&nbsp;${disclProject.coiDispositionStatus.description}&nbsp;&nbsp;&nbsp;</span>
         </h3>
                   
                     <table class=tab cellpadding="0" cellspacing="0" summary="">
