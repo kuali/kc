@@ -293,15 +293,11 @@
                 </bean>
                 
                 <bean class="org.kuali.kra.coi.auth.MaintainCoiDisclosureAttachmentsAuthorizer" parent="parentCoiDisclosureAuthorizer" >
-                	 <property name="taskName" value="maintainCoiDisclosureAttachments" />  
-                	 <property name="roleService" ref ="roleService" />
-                	 <property name="identityService" ref ="identityService" />             	
+                	 <property name="taskName" value="maintainCoiDisclosureAttachments" />                	 
                 </bean>
                 
                 <bean class="org.kuali.kra.coi.auth.MaintainCoiDisclosureNotesAuthorizer" parent="parentCoiDisclosureAuthorizer" >
-                	 <property name="taskName" value="maintainCoiDisclosureNotes" />               	
-                	 <property name="roleService" ref ="roleService" />
-                	 <property name="identityService" ref ="identityService" />
+                	 <property name="taskName" value="maintainCoiDisclosureNotes" />   
                 </bean>
                 
                 <bean class="org.kuali.kra.coi.auth.ViewRestrictedNotesCoiDisclosureAuthorizer" parent="parentCoiDisclosureAuthorizer" >

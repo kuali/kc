@@ -1227,6 +1227,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         masterDisclosureBean.setAnswerHeaders(answerHeaders);
         for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
             CoiDisclProject coiDisclProject1 = (CoiDisclProject)ObjectUtils.deepCopy(coiDisclProject);
+            coiDisclProject1.setCoiDispositionStatus(coiDisclProject.getCoiDispositionStatus());
             if (CollectionUtils.isNotEmpty(coiDisclProject1.getCoiDiscDetails())) {
             for (CoiDiscDetail coiDiscDetail : coiDisclProject1.getCoiDiscDetails()) {
                 if (!StringUtils.equals(projectType, coiDiscDetail.getProjectType()) || !StringUtils.equals(moduleItemKey, coiDiscDetail.getModuleItemKey())) {
@@ -1547,8 +1548,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 //            if (!coiDisclProject.getCoiDisclosureEventType().isExcludeFromMasterDisclosure()) {
                 List<CoiDiscDetail> coiDiscDetails = coiDisclProject.getCoiDiscDetails();
                 // coiDisclProject.setCoiDiscDetails(null);
-
                 CoiDisclProject copiedDisclProject = (CoiDisclProject) ObjectUtils.deepCopy(coiDisclProject);
+                copiedDisclProject.setCoiDispositionStatus(coiDisclProject.getCoiDispositionStatus());
+                if (copiedDisclProject.getCoiDispositionStatus() == null) {
+                    copiedDisclProject.refreshReferenceObject("coiDispositionStatus");
+                }
                 copiedDisclProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
                 copiedDisclProject.setCoiDisclProjectsId(null);
                 // copy disc details

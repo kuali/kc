@@ -357,7 +357,7 @@ public class CoiDisclosureAction extends CoiAction {
         //((CoiDisclosureForm)form).getCoiNotesAndAttachmentsHelper().prepareView();
 
         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().refreshReferenceObject("coiDispositionStatus");
-
+        
         return forward;
     }
 
@@ -1176,6 +1176,7 @@ public class CoiDisclosureAction extends CoiAction {
                 && StringUtils.equals(tmpProj.getModuleItemKey(), coiDisclosure.getModuleItemKey()) ) {
                 tmpProj.setDisclosureDispositionCode(dispositionStatus);
                 tmpProj.setDisclosureStatusCode(disclosureStatus);
+                tmpProj.setCoiDispositionStatus(coiDisclosure.getCoiDispositionStatus());
             }
         }      
     }    
