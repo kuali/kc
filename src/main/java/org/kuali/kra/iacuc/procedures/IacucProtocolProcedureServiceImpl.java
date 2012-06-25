@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
+import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolForm;
@@ -196,21 +197,21 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      */
     private void addNewStudyGroupDetailBean(List<IacucProtocolStudyGroup> studyGroups, IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean) {
         Integer speciesCount = 0;
-        TreeSet<String> painCategory = new TreeSet<String>();
+        TreeSet<IacucPainCategory> painCategory = new TreeSet<IacucPainCategory>();
         HashMap<String, Integer> painCategoryCodes = new HashMap<String, Integer>();
         List<String> speciesAndGroups = new ArrayList<String>();
         IacucProtocolStudyGroupDetailBean newIacucProtocolStudyGroupDetailBean = new IacucProtocolStudyGroupDetailBean();
         for(IacucProtocolStudyGroup iacucProtocolStudyGroup : studyGroups) {
             IacucProtocolSpecies protocolSpecies = iacucProtocolStudyGroup.getIacucProtocolSpecies();
-            painCategory.add(protocolSpecies.getIacucPainCategory().getPainCategory());
+            painCategory.add(protocolSpecies.getIacucPainCategory());
             painCategoryCodes.put(protocolSpecies.getIacucPainCategory().getPainCategory(), protocolSpecies.getIacucPainCategory().getPainCategoryCode());
             speciesCount = speciesCount + protocolSpecies.getSpeciesCount();
             speciesAndGroups.add(protocolSpecies.getGroupAndSpecies());
             //protocolStudyGroups.add(iacucProtocolStudyGroup);
             newIacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups().add(iacucProtocolStudyGroup);
         }
-        newIacucProtocolStudyGroupDetailBean.setMaxPainCategory(painCategory.last());
-        newIacucProtocolStudyGroupDetailBean.setMaxPainCategoryCode(painCategoryCodes.get(painCategory.last()));
+        newIacucProtocolStudyGroupDetailBean.setMaxPainCategory(painCategory.last().getPainCategory());
+        newIacucProtocolStudyGroupDetailBean.setMaxPainCategoryCode(painCategoryCodes.get(painCategory.last().getPainCategoryCode()));
         newIacucProtocolStudyGroupDetailBean.setSpeciesAndGroupsText(speciesAndGroups);
         newIacucProtocolStudyGroupDetailBean.setTotalSpeciesCount(speciesCount);
         selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans().add(newIacucProtocolStudyGroupDetailBean);
@@ -801,6 +802,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             IacucProtocolStudyGroupDetailBean studyGroupDetailBean, IacucProtocolStudyGroupBean studyGroupBean) {
         studyGroup.setProtocolNumber(protocol.getProtocolNumber());
         studyGroup.setSequenceNumber(protocol.getSequenceNumber());
+        studyGroup.setPainCategory(studyGroupDetailBean.getMaxPainCategory());
         studyGroup.setPainCategoryCode(studyGroupDetailBean.getMaxPainCategoryCode());
         studyGroup.setProcedureCategoryCode(studyGroupBean.getProcedureCategoryCode());
         studyGroup.setProcedureCode(studyGroupBean.getProcedureCode());

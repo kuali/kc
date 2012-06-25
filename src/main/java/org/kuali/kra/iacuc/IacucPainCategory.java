@@ -17,12 +17,13 @@ package org.kuali.kra.iacuc;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class IacucPainCategory extends KraPersistableBusinessObjectBase { 
+public class IacucPainCategory extends KraPersistableBusinessObjectBase implements Comparable { 
     
     private static final long serialVersionUID = 1L;
 
     private Integer painCategoryCode; 
     private String painCategory; 
+    private Integer painLevel;
     private boolean active;
     
     
@@ -46,6 +47,14 @@ public class IacucPainCategory extends KraPersistableBusinessObjectBase {
         this.painCategory = painCategory;
     }
 
+    public Integer getPainLevel() {
+        return painLevel;
+    }
+
+    public void setPainLevel(Integer painLevel) {
+        this.painLevel = painLevel;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -61,6 +70,7 @@ public class IacucPainCategory extends KraPersistableBusinessObjectBase {
         int result = 1;
         result = prime * result + ((this.painCategoryCode == null) ? 0 : this.painCategoryCode.hashCode());
         result = prime * result + ((this.painCategory == null) ? 0 : this.painCategory.hashCode());
+        result = prime * result + ((this.painLevel == null) ? 0 : this.painLevel.hashCode());
         return result;
     }
 
@@ -88,10 +98,34 @@ public class IacucPainCategory extends KraPersistableBusinessObjectBase {
             if (other.painCategory != null) {
                 return false;
             }
-        } else if (!this.painCategory.equals(other.painCategory)) {
+        } else if (!this.painLevel.equals(other.painLevel)) {
+            return false;
+        }
+        if (this.painLevel == null) {
+            if (other.painLevel != null) {
+                return false;
+            }
+        } else if (!this.painLevel.equals(other.painLevel)) {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int compareTo(Object obj) {
+        if (this == obj) {
+            return 0;
+        }
+        if (obj == null) {
+            return 1;
+        }
+        IacucPainCategory other = (IacucPainCategory) obj;
+        if (this.painLevel == null) {
+            if (other.painLevel != null) {
+                return -1;
+            }
+        }
+        return this.painLevel.compareTo(other.painLevel);
     }
     
 }
