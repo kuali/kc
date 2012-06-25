@@ -433,6 +433,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
                 && StringUtils.equals(tmpProj.getModuleItemKey(), coiDisclosure.getModuleItemKey()) ) {
                 tmpProj.setDisclosureDispositionCode(dispositionStatus);
                 tmpProj.setDisclosureStatusCode(disclosureStatus);
+                tmpProj.setCoiDispositionStatus(coiDisclosure.getCoiDispositionStatus());
             }
         }      
     }

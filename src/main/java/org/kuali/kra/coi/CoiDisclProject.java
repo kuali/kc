@@ -85,6 +85,9 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     
     @SkipVersioning
     private transient List<LabelValuePair> headerItems; 
+    
+    @SkipVersioning
+    private transient CoiDispositionStatus coiDispositionStatus;
 
     public CoiDisclProject(String coiDisclosureNumber, Integer sequenceNumber) { 
         this.coiDisclosureNumber = coiDisclosureNumber;
@@ -540,5 +543,11 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     }
     public void setDisclosureStatusCode(String disclosureStatusCode) {
         this.disclosureStatusCode = disclosureStatusCode;
+    }
+    public void setCoiDispositionStatus(CoiDispositionStatus coiDispositionStatus) {
+        this.coiDispositionStatus = coiDispositionStatus;
+    }
+    public CoiDispositionStatus getCoiDispositionStatus() {
+        return coiDispositionStatus;
     }
 }
