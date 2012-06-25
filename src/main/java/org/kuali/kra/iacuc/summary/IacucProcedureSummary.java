@@ -16,12 +16,15 @@
 package org.kuali.kra.iacuc.summary;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.iacuc.IacucLocationName;
 import org.kuali.kra.iacuc.procedures.IacucProcedure;
 import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
 
 public class IacucProcedureSummary implements Serializable { 
     
@@ -31,42 +34,41 @@ public class IacucProcedureSummary implements Serializable {
     private String  species;
     private String  speciesStrain;
     private String  procedureCategory; 
-    private String  procedureDescription; 
-    private String  personnel;
+    private String  painCategory;
+    private List<IacucProcedureLocationSummary>locationSummaries;
+    private List<IacucProcedurePersonSummary>personsResponsible;
+    private boolean personnelListChanged;
+    private int     count;
     
     private boolean procedureCategoryChanged;
-    private boolean procedureDescriptionChanged;
     private boolean speciesChanged;
+    private boolean speciesStrainChanged;
     private boolean personnelChanged;
+    private boolean painCategoryChanged;
+    private boolean countChanged;
     
     public IacucProcedureSummary(IacucProtocolStudyGroup studyGroup) { 
         procedureCode = studyGroup.getProcedureCode();
         species = studyGroup.getIacucProtocolSpecies().getSpeciesName();
+        speciesStrain = studyGroup.getIacucProtocolSpecies().getStrain();
+        painCategory = studyGroup.getPainCategory();
         procedureCategory = studyGroup.getIacucProcedureCategory().getProcedureCategory() + " - " + 
                             studyGroup.getIacucProcedure().getProcedureDescription();
-        procedureDescription = studyGroup.getIacucProcedure().getProcedureDescription();
-        StringBuffer personStringBuffer = new StringBuffer();
-        StringBuffer procedureStringBuffer = new StringBuffer();
-        boolean showPrefix = studyGroup.getIacucProcedurePersonsResponsible().size() > 1;  
+        personsResponsible = new ArrayList<IacucProcedurePersonSummary>();  
         for (IacucProcedurePersonResponsible person: studyGroup.getIacucProcedurePersonsResponsible()) {
-            if (personStringBuffer.length() > 0) {
-                personStringBuffer.append(", ");
-            }
-            personStringBuffer.append(person.getPersonName());
-            if (showPrefix) {
-                procedureStringBuffer.append(person.getPersonName() + ": ");
-            }
-            procedureStringBuffer.append(person.getPersonResponsibleDescription());
-            if (showPrefix) {
-                procedureStringBuffer.append("<br/>");
-            }
+            personsResponsible.add(new IacucProcedurePersonSummary(person));
         }
-        personnel = personStringBuffer.toString();
-        procedureDescription = procedureStringBuffer.toString();
+        locationSummaries = new ArrayList<IacucProcedureLocationSummary>();
+        for (IacucProtocolStudyGroupLocation location: studyGroup.getIacucProtocolStudyGroupLocations()) {
+            locationSummaries.add(new IacucProcedureLocationSummary(location));
+        }
+        count = studyGroup.getCount().intValue();
         procedureCategoryChanged = false;
-        procedureDescriptionChanged = false;
         speciesChanged = false;
+        speciesStrainChanged = false;
         personnelChanged = false;
+        painCategoryChanged = false;
+        countChanged = false;
     } 
     
     public boolean isProcedureCategoryChanged() {
@@ -75,14 +77,6 @@ public class IacucProcedureSummary implements Serializable {
 
     public void setProcedureCategoryChanged(boolean procedureCategoryChanged) {
         this.procedureCategoryChanged = procedureCategoryChanged;
-    }
-
-    public boolean isProcedureDescriptionChanged() {
-        return procedureDescriptionChanged;
-    }
-
-    public void setProcedureDescriptionChanged(boolean procedureDescriptionChanged) {
-        this.procedureDescriptionChanged = procedureDescriptionChanged;
     }
 
     public Integer getProcedureCode() {
@@ -101,14 +95,6 @@ public class IacucProcedureSummary implements Serializable {
         this.procedureCategory = procedureCategory;
     }
 
-    public String getProcedureDescription() {
-        return procedureDescription;
-    }
-
-    public void setProcedureDescription(String procedureDescription) {
-        this.procedureDescription = procedureDescription;
-    }
- 
     public String getSpecies() {
         return species;
     }
@@ -133,14 +119,6 @@ public class IacucProcedureSummary implements Serializable {
         this.speciesChanged = speciesChanged;
     }
 
-    public String getPersonnel() {
-        return personnel;
-    }
-
-    public void setPersonnel(String personnel) {
-        this.personnel = personnel;
-    }
-
     public boolean isPersonnelChanged() {
         return personnelChanged;
     }
@@ -149,18 +127,104 @@ public class IacucProcedureSummary implements Serializable {
         this.personnelChanged = personnelChanged;
     }
 
+    public List<IacucProcedureLocationSummary> getLocations() {
+        return locationSummaries;
+    }
+
+    public void setLocations(List<IacucProcedureLocationSummary> locations) {
+        this.locationSummaries = locations;
+    }
+
+    public String getPainCategory() {
+        return painCategory;
+    }
+
+    public void setPainCategory(String painCategory) {
+        this.painCategory = painCategory;
+    }
+
+    public boolean isSpeciesStrainChanged() {
+        return speciesStrainChanged;
+    }
+
+    public void setSpeciesStrainChanged(boolean speciesStrainChanged) {
+        this.speciesStrainChanged = speciesStrainChanged;
+    }
+
+    public boolean isPainCategoryChanged() {
+        return painCategoryChanged;
+    }
+
+    public void setPainCategoryChanged(boolean painCategoryChanged) {
+        this.painCategoryChanged = painCategoryChanged;
+    }
+
+    public List<IacucProcedurePersonSummary> getPersonsResponsible() {
+        return personsResponsible;
+    }
+
+    public void setPersonsResponsible(List<IacucProcedurePersonSummary> personsResponsible) {
+        this.personsResponsible = personsResponsible;
+    }
+
+    public String getPersonnelList() {
+        String results = "";
+        if (personsResponsible != null) {
+            for (IacucProcedurePersonSummary person: personsResponsible) {
+                if (results.length() > 0) {
+                    results += "<br/>";
+                }
+                results += person.getPersonName();
+            }
+        }
+        return results;
+    }
+    public boolean isPersonnelListChanged() {
+        return personnelListChanged;
+    }
+ 
+    
+    public List<IacucProcedureLocationSummary> getLocationSummaries() {
+        return locationSummaries;
+    }
+
+    public void setLocationSummaries(List<IacucProcedureLocationSummary> locationSummaries) {
+        this.locationSummaries = locationSummaries;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public boolean isCountChanged() {
+        return countChanged;
+    }
+
+    public void setCountChanged(boolean countChanged) {
+        this.countChanged = countChanged;
+    }
+
+    public void setPersonnelListChanged(boolean personnelListChanged) {
+        this.personnelListChanged = personnelListChanged;
+    }
+
     public void compare(IacucProtocolSummary other) {
         IacucProcedureSummary otherSummary = other.findProcedureSummary(procedureCode);
         if (otherSummary == null) {
             procedureCategoryChanged = true;
-            procedureDescriptionChanged = true;
             speciesChanged = true;
             personnelChanged = true;
-        } else {
+            speciesStrainChanged = false;
+            painCategoryChanged = false;
+       } else {
             procedureCategoryChanged = !procedureCategory.equals(otherSummary.procedureCategory);
-            procedureDescriptionChanged = !StringUtils.equals(procedureDescription, otherSummary.procedureDescription);
             speciesChanged = !StringUtils.equals(species, otherSummary.species);
-            personnelChanged = !StringUtils.equals(personnel, otherSummary.personnel);
+            speciesStrainChanged = !StringUtils.equals(speciesStrain, otherSummary.speciesStrain);
+            painCategoryChanged = !StringUtils.equals(painCategory, otherSummary.painCategory);
         }
     }
 

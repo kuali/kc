@@ -26,13 +26,15 @@
 
 <c:set var="studyGroupBeanAttributes" value="${DataDictionary.IacucProtocolStudyGroupBean.attributes}" />
 <c:set var="protocolStudyGroupAttributes" value="${DataDictionary.IacucProtocolStudyGroup.attributes}" />
+<c:set var="painCategoryAttributes" value="${DataDictionary.IacucPainCategory.attributes}" />
 
 <table id="protocolProcedures" cellpadding="0" cellspacing="0" summary="">
 	<tr>
   		<th><div align="left">&nbsp;</div></th> 
   		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${studyGroupBeanAttributes.protocolSpeciesAndGroups}" noColon="true" /></div></th>
   		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${studyGroupBeanAttributes.protocolPersonsResponsible}" noColon="true" /></div></th>
-  		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolStudyGroupAttributes.painCategoryCode}" noColon="true" /></nobr></div></th>
+  		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${painCategoryAttributes.painCategory}" noColon="true" /></nobr></div></th>
+  		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${painCategoryAttributes.painLevel}" noColon="true" /></nobr></div></th>
   		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolStudyGroupAttributes.count}" noColon="true" /></div></th>
 		<c:if test="${!readOnly}">
 			<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
@@ -94,6 +96,11 @@
 	      	<td align="left" valign="middle" class="infoline">
 	         	<div align="center">
 					<c:out value="${protocolStudyGroupBeanDetail.maxPainCategory}" />
+	      		</div>
+	      	</td>
+	      	<td align="left" valign="middle" class="infoline">
+	         	<div align="center">
+					<c:out value="${protocolStudyGroupBeanDetail.maxPainLevel}" />
 	      		</div>
 	      	</td>
 	      	<td align="left" valign="middle" class="infoline">

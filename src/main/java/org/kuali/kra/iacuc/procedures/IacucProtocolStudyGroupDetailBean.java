@@ -36,6 +36,8 @@ public class IacucProtocolStudyGroupDetailBean implements Serializable {
     
     Integer maxPainCategoryCode;
 
+    Integer maxPainLevel;
+
     private List<IacucProtocolStudyGroup> iacucProtocolStudyGroups;
     private List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible;
     private List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations;
@@ -112,6 +114,14 @@ public class IacucProtocolStudyGroupDetailBean implements Serializable {
 
     public void setMaxPainCategoryCode(Integer maxPainCategoryCode) {
         this.maxPainCategoryCode = maxPainCategoryCode;
+    }
+
+    public Integer getMaxPainLevel() {
+        return maxPainLevel;
+    }
+
+    public void setMaxPainLevel(Integer maxPainLevel) {
+        this.maxPainLevel = maxPainLevel;
     }
 
     public List<IacucProtocolStudyGroupLocation> getIacucProtocolStudyGroupLocations() {
