@@ -36,6 +36,7 @@
 			<list>
 				<ref bean="IacucPainCategory-painCategoryCode" />
 				<ref bean="IacucPainCategory-painCategory" />
+				<ref bean="IacucPainCategory-painLevel" />
 				<ref bean="IacucPainCategory-versionNumber" />
 				<ref bean="IacucPainCategory-active" />
 			</list>
@@ -86,8 +87,24 @@
 		<property name="description" value="Pain Category"/>
 	</bean>
 
-
-
+	<bean id="IacucPainCategory-painLevel" parent="IacucPainCategory-painLevel-parentBean" />
+	<bean id="IacucPainCategory-painLevel-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="painLevel" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Pain Level" />
+		<property name="shortLabel" value="Pain Level" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="3" />
+		</property>
+		<property name="summary" value="Pain Level" />
+		<property name="description" value="Pain Level" />
+	</bean>
+	
 	<bean id="IacucPainCategory-versionNumber" parent="IacucPainCategory-versionNumber-parentBean" />
 	<bean id="IacucPainCategory-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
@@ -108,6 +125,8 @@
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition"
 								p:attributeName="painCategory" />
+							<bean parent="FieldDefinition"
+								p:attributeName="painLevel" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
@@ -133,6 +152,8 @@
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="painCategory" />
+				<bean parent="FieldDefinition"
+					p:attributeName="painLevel" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -142,6 +163,8 @@
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="painCategory" />
+				<bean parent="FieldDefinition"
+					p:attributeName="painLevel" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
