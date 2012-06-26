@@ -30,10 +30,10 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.procedures.rule.AddProcedureLocationEvent;
 import org.kuali.kra.iacuc.procedures.rule.AddProcedurePersonResponsibleEvent;
+import org.kuali.kra.iacuc.procedures.rule.AddProtocolStudyGroupEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class IacucProtocolProceduresAction extends IacucProtocolAction {
 
@@ -53,11 +53,9 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     
     public ActionForward addProtocolStudyGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         int groupBeanIndex = getSelectedLine(request);
-        //IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean = getIacucProtocol(form).getIacucProtocolStudyGroupBeans().get(groupBeanIndex);
-        List<String> protocolSpeciesAndGroups =  selectedIacucProtocolStudyGroupBean.getProtocolSpeciesAndGroups(); 
-        List<String> protocolPersonsResponsible =  selectedIacucProtocolStudyGroupBean.getProtocolPersonsResponsible(); 
-        if(ObjectUtils.isNotNull(protocolSpeciesAndGroups) && ObjectUtils.isNotNull(protocolPersonsResponsible)) {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        if (applyRules(new AddProtocolStudyGroupEvent(protocolForm.getIacucProtocolDocument(), selectedIacucProtocolStudyGroupBean, groupBeanIndex))) {
             getIacucProtocolProcedureService().addProtocolStudyGroup(selectedIacucProtocolStudyGroupBean, getIacucProtocol(form));
             selectedIacucProtocolStudyGroupBean.initializeStudyGroupItems() ;
         }
