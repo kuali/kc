@@ -41,10 +41,11 @@
             <kra-iacuc-action:withdrawAction />
             <kra-iacuc-action:modifySubmissionAction />            
 			<kra-iacuc-action:adminActions />
+			<kra-iacuc-action:assignToAgendaAction />
           
           <%--
             <kra-iacuc-action:assignReviewersAction />
-            <kra-iacuc-action:assignToAgendaAction />
+            
             <kra-iacuc-action:grantExemptionAction />
             <kra-iacuc-action:approveAction tabTitle="Approve Action"
                                           bean="${KualiForm.actionHelper.protocolFullApprovalBean}"
@@ -298,7 +299,7 @@
     	                                                     canPerformAction="${KualiForm.actionHelper.canAssignToAgendaUnavailable}" 
         	                                                 reason="Protocol must be assigned to a committee and committee schedule.
             	                                                     <p>
-                	                                                 Protocol submission status must be Pending or Submitted To Committee.
+                	                                                 Protocol submission status must be Submitted To Committee.
                     	                                             <p>
                         	                                         Protocol must be enroute in workflow." />
 	        	    <kra-iacuc-action:genericUnavailableAction tabTitle="Table"
