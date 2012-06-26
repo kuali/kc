@@ -195,7 +195,6 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         financialEntityHelper.setEditEntityIndex(entityIndex);
         String status = request.getParameter("status");
         PersonFinIntDisclosure currentPersonFinIntDisclosure;
-
         if (StringUtils.equalsIgnoreCase(status, "activecoi")) {
             // this is a patch to retrieve coi disclosure history 
             currentPersonFinIntDisclosure = getFinancialEntity(entityIndex.toString());
@@ -204,8 +203,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
             if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_INACTIVE)) {
                 currentPersonFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
                         .getInactiveFinancialEntities().get(entityIndex);
-            }
-            else {
+            } else {
                 currentPersonFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
                         .getActiveFinancialEntities().get(entityIndex);
                 List<PersonFinIntDisclosure> versionList = currentPersonFinIntDisclosure.getVersions();
@@ -218,8 +216,8 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
                 }
                 currentPersonFinIntDisclosure.setVersions(activeFinancialIntDisclosure);
             }
-          financialEntityHelper.setVersions(currentPersonFinIntDisclosure);
-          }
+        }
+        financialEntityHelper.setVersions(currentPersonFinIntDisclosure);
         return mapping.findForward("history");
     }
     
