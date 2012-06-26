@@ -376,11 +376,10 @@ public abstract class ActionHelper implements Serializable {
 //        protocolAmendmentBean = createAmendmentBean();
 //        protocolRenewAmendmentBean = createAmendmentBean();
                 
-        protocolDeleteBean = getNewProtocolDeleteBeanInstanceHook(this);
+        protocolDeleteBean = getNewProtocolDeleteBeanInstanceHook(this);      
+        assignToAgendaBean = getNewProtocolAssignToAgendaBeanInstanceHook(this);         
+        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         
-// TODO *********commented the code below during IACUC refactoring*********         
-//        assignToAgendaBean = new ProtocolAssignToAgendaBean(this);
-//        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
 //        assignCmtSchedBean.init();
 //        protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
@@ -468,6 +467,8 @@ public abstract class ActionHelper implements Serializable {
 //        initPrintQuestionnaire();
     }
     
+    protected abstract ProtocolAssignToAgendaBean getNewProtocolAssignToAgendaBeanInstanceHook(ActionHelper actionHelper);
+
     protected abstract ProtocolAdministrativelyWithdrawBean getNewProtocolAdminWithdrawBeanInstanceHook(ActionHelper actionHelper);
     
     protected abstract ProtocolAdministrativelyIncompleteBean getNewProtocolAdminIncompleteBeanInstanceHook(ActionHelper actionHelper);
@@ -496,7 +497,10 @@ public abstract class ActionHelper implements Serializable {
 //        actionBeanTaskMap.put(TaskName.APPROVE_PROTOCOL, protocolFullApprovalBean);
 //        actionBeanTaskMap.put(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, assignCmtSchedBean);
 //        actionBeanTaskMap.put(TaskName.ASSIGN_REVIEWERS, protocolAssignReviewersBean);
-//        actionBeanTaskMap.put(TaskName.ASSIGN_TO_AGENDA, assignToAgendaBean);
+        
+        actionBeanTaskMap.put(TaskName.ASSIGN_TO_AGENDA, assignToAgendaBean);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        actionBeanTaskMap.put(TaskName.CLOSE_PROTOCOL, protocolCloseBean);
 //        actionBeanTaskMap.put(TaskName.CLOSE_ENROLLMENT_PROTOCOL, protocolCloseEnrollmentBean);
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, protocolCloseEnrollmentRequestBean);
@@ -834,10 +838,10 @@ public abstract class ActionHelper implements Serializable {
     public void prepareView() throws Exception {
         protocolSubmitAction.prepareView();
         canSubmitProtocol = hasSubmitProtocolPermission();
-        canSubmitProtocolUnavailable = hasSubmitProtocolUnavailablePermission();
-  
+        canSubmitProtocolUnavailable = hasSubmitProtocolUnavailablePermission();          
+        assignToAgendaBean.prepareView();
+        
 // TODO *********commented the code below during IACUC refactoring*********         
-//        assignToAgendaBean.prepareView();
 //        assignCmtSchedBean.prepareView();
 //        protocolAssignReviewersBean.prepareView();
 //        submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
@@ -872,10 +876,12 @@ public abstract class ActionHelper implements Serializable {
         
         canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
         canDeleteProtocolAmendRenewUnavailable = hasDeleteProtocolAmendRenewUnavailablePermission();
+               
+        canAssignToAgenda = hasAssignToAgendaPermission();
+        canAssignToAgendaUnavailable = hasAssignToAgendaUnavailablePermission();
+        
         
 // TODO *********commented the code below during IACUC refactoring*********         
-//        canAssignToAgenda = hasAssignToAgendaPermission();
-//        canAssignToAgendaUnavailable = hasAssignToAgendaUnavailablePermission();
 //        canAssignCmtSched = hasAssignCmtSchedPermission();
 //        canAssignCmtSchedUnavailable = hasAssignCmtSchedUnavailablePermission();
 //        canAssignReviewers = hasAssignReviewersPermission();
@@ -1027,9 +1033,10 @@ public abstract class ActionHelper implements Serializable {
     public void prepareCommentsView() {
         
         protocolAdminApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+             
+        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         
-// TODO *********commented the code below during IACUC refactoring*********         
-//        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+// TODO *********commented the code below during IACUC refactoring********* 
 //        protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolIrbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolFullApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
@@ -1266,17 +1273,22 @@ public abstract class ActionHelper implements Serializable {
     protected abstract ProtocolTask createNewAmendRenewDeleteUnavailableTaskInstanceHook(Protocol protocol);
     
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected boolean hasAssignToAgendaPermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasAssignToAgendaUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
+    protected boolean hasAssignToAgendaPermission() {
+        ProtocolTask task = createNewAssignToAgendaTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected abstract ProtocolTask createNewAssignToAgendaTaskInstanceHook(Protocol protocol);
+
+    
+    protected boolean hasAssignToAgendaUnavailablePermission() {
+        ProtocolTask task = createNewAssignToAgendaUnavailableTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected abstract ProtocolTask createNewAssignToAgendaUnavailableTaskInstanceHook(Protocol protocol);
+    
+
 //    protected boolean hasAssignCmtSchedPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -1542,11 +1554,11 @@ public abstract class ActionHelper implements Serializable {
    
 
     protected boolean hasFollowupAction(String actionCode) {
-//        for (ValidProtocolActionAction action : followupActionActions) {
-//            if (StringUtils.equals(action.getFollowupActionCode(),actionCode)) {
-//                return true;
-//            }
-//        }
+        for (ValidProtocolActionAction action : followupActionActions) {
+            if (StringUtils.equals(action.getFollowupActionCode(),actionCode)) {
+                return true;
+            }
+        }
         return false;
     }
     

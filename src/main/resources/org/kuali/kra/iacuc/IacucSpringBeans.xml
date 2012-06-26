@@ -164,8 +164,15 @@
                 <bean class="org.kuali.kra.iacuc.auth.AdminMarkIncompleteIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="adminMarkIncompleteProtocolUnavailable" />
                 </bean>
+                
                        
-                       
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolAssignToAgendaAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolAssignToAgenda" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolAssignToAgendaUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolAssignToAgendaUnavailable" />
+                </bean>
                                                                         
           
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolFundingSourceAuthorizer" parent="parentIacucProtocolAuthorizer">
@@ -718,6 +725,14 @@
         <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
 <!--         <property name="parameterService" ref="parameterService"/> -->
     </bean>
+    
+    
+    <bean id="iacucProtocolAssignToAgendaService" class="org.kuali.kra.iacuc.actions.assignagenda.IacucProtocolAssignToAgendaServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="protocolActionService" ref="iacucProtocolActionService" />
+        <property name="protocolAssignCmtService" ref="iacucProtocolAssignCmtService" />
+        <property name="committeeService" ref="commonCommitteeService" />
+    </bean> 
 
 
 </beans>

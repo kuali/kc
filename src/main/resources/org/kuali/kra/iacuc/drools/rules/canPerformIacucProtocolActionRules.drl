@@ -176,7 +176,7 @@ end
 rule "SMR Required Protocol2"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "209", protocolStatusCode == "101", submissionStatusCode in ("103","102") , protocolReviewTypeCode not in ("2"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "209", protocolStatusCode == "101", submissionStatusCode in ("103","102") , protocolReviewTypeCode == "2")
 then    
     setAction(protocolAction, true);
 end

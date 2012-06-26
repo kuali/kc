@@ -23,5 +23,7 @@ public interface IacucProtocolAssignCmtService {
     public void assignToCommittee(Protocol protocol, IacucProtocolAssignCmtBean actionBean) throws Exception;
 
     public String getAssignedCommitteeId(Protocol protocol);
+    
+    public String getAssignedScheduleId(Protocol protocol);
 
 }

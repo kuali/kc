@@ -15,38 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.assignagenda;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaRule;
 
-/**
- * Validate the assignment of a protocol to a agenda.
- */
-public class IacucProtocolAssignToAgendaRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<IacucProtocolAssignToAgendaEvent> {
-
-    private static final String COMMITTEE_ID_FIELD = "committeeId";
-    private static final String ACTION_DATE_FIELD = "actionDate";
-    private static final String PROTOCOL_ASSIGNED = "protocolAssigned";
-    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
-     */
-    public boolean processRules(IacucProtocolAssignToAgendaEvent event) {
-        boolean isValid = true;
-        
-        if (StringUtils.isBlank(event.getProtocolAssignToAgendaBean().getCommitteeId())) {
-            isValid = false;
-            reportError(COMMITTEE_ID_FIELD, KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
-        }
-        
-        if (event.getProtocolAssignToAgendaBean().getActionDate() == null) {
-            isValid = false;
-            reportError(ACTION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_ASSIGN_TO_AGENDA_NO_ACTION_DATE);
-        }
-       
-        return isValid;
-    }
+public class IacucProtocolAssignToAgendaRule extends ProtocolAssignToAgendaRule<IacucProtocolAssignToAgendaEvent> {
     
 }
