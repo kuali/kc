@@ -24,7 +24,7 @@
                 <h3>
                     <span class="subhead-left" style="${style}">${disclProject.coiDisclosureEventType.projectIdLabel}: ${disclProject.coiProjectId}</span>
                     <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
-                    <span style="text-align: right; float: right; padding-left: 20px; padding-right: 5px;">Hello Disposition:&nbsp;${disclProject.coiDispositionStatus.description}</span>                    
+                    <span style="text-align: right; float: right; padding-left: 20px; padding-right: 5px;">Disposition:&nbsp;${disclProject.coiDispositionStatus.description}</span>                    
                 </h3>
               
                     <table class=tab cellpadding="0" cellspacing="0" summary="">
