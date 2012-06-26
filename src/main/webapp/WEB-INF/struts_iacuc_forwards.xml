@@ -27,3 +27,4 @@
 <forward name="iacucProtocolException" path="/WEB-INF/jsp/iacuc/ProtocolException.jsp" />
 <forward name="iacucProtocolProcedures" path="/WEB-INF/jsp/iacuc/ProtocolProcedures.jsp" />
 <forward name="iacucProtocolNotificationEditor" path="/WEB-INF/jsp/iacuc/ProtocolNotificationEditor.jsp"/>
+<forward name="medusa" path="/WEB-INF/jsp/iacuc/ProtocolMedusa.jsp" />

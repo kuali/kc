@@ -27,6 +27,7 @@ import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
 import org.kuali.kra.protocol.noteattachment.NotesAttachmentsHelper;
@@ -88,6 +89,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
     private boolean auditActivated;
     
     private ProtocolReferenceBean newProtocolReferenceBean;
+    private MedusaBean medusaBean;
     
     //KNS Lookup hooks
     private String lookupResultsSequenceNumber;
@@ -126,6 +128,7 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
         this.notesAttachmentsHelper.prepareView();
         setNewProtocolReferenceBean(createNewProtocolReferenceBeanInstance());
         setOnlineReviewsActionHelper(createNewOnlineReviewsActionHelperInstanceHook(this));
+        setMedusaBean(new MedusaBean());
         
 // TODO *********commented the code below during IACUC refactoring*********         
 //        setNotificationHelper(new NotificationHelper<IRBNotificationContext>());
@@ -521,5 +524,15 @@ public abstract class ProtocolForm extends KraTransactionalDocumentFormBase impl
 //    protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
 //        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
 //    }
+
+
+    public MedusaBean getMedusaBean() {
+        return medusaBean;
+    }
+
+
+    public void setMedusaBean(MedusaBean medusaBean) {
+        this.medusaBean = medusaBean;
+    }
     
 }

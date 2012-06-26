@@ -39,6 +39,7 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -71,6 +72,18 @@ public class IacucProtocolAction extends ProtocolAction {
     
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("iacucCustomData");
+    }
+    
+    public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws WorkflowException {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        if (protocolForm.getProtocolDocument().getDocumentNumber() == null) {
+            loadDocument(protocolForm);
+        }
+        protocolForm.getMedusaBean().setMedusaViewRadio("0");
+        protocolForm.getMedusaBean().setModuleName("iacuc");
+        protocolForm.getMedusaBean().setModuleIdentifier(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
+        return mapping.findForward("medusa");
+
     }
 
     public ActionForward procedures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
