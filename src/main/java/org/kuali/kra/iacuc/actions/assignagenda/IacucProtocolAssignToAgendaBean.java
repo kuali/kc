@@ -15,18 +15,17 @@
  */
 package org.kuali.kra.iacuc.actions.assignagenda;
 
-import java.io.Serializable;
-
+import org.kuali.kra.iacuc.actions.IacucActionHelper;
+import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.printing.Printable;
+import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
 
 /**
  * This class is really just a "form" for assigning a protocol to an agenda.
  */
-public class IacucProtocolAssignToAgendaBean extends ProtocolGenericActionBean implements Serializable {
+public class IacucProtocolAssignToAgendaBean extends IacucProtocolGenericActionBean implements ProtocolAssignToAgendaBean {
 
     private static final long serialVersionUID = -1671485882883282877L;
     
@@ -41,7 +40,7 @@ public class IacucProtocolAssignToAgendaBean extends ProtocolGenericActionBean i
      * Constructs a ProtocolAssignToAgendaBean.
      * @param actionHelper a reference back to the parent helper
      */
-    public IacucProtocolAssignToAgendaBean(ActionHelper actionHelper) {
+    public IacucProtocolAssignToAgendaBean(IacucActionHelper actionHelper) {
         super(actionHelper, Constants.PROTOCOL_ASSIGN_TO_AGENDA_ACTION_PROPERTY_KEY);
     }
 
@@ -64,7 +63,7 @@ public class IacucProtocolAssignToAgendaBean extends ProtocolGenericActionBean i
         this.protocolAssigned = protocolAssigned;
     }
 
-    private IacucProtocolAssignToAgendaService getProtocolAssigntoAgendaService() {
+    private IacucProtocolAssignToAgendaService getProtocolAssignToAgendaService() {
         if (this.agendaService == null){
             this.agendaService = KraServiceLocator.getService(IacucProtocolAssignToAgendaService.class);
         }
@@ -96,13 +95,13 @@ public class IacucProtocolAssignToAgendaBean extends ProtocolGenericActionBean i
      */
     public void prepareView() {
         if (getProtocol() != null && getProtocol().getProtocolNumber() != null) {
-            String assignedCommitteeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
+            String assignedCommitteeId = getProtocolAssignToAgendaService().getAssignedCommitteeId(getProtocol());
             if (assignedCommitteeId != null) {
                 this.committeeId = assignedCommitteeId;
-                this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(getProtocol());
-                this.setComments(getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol()));
-                this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(getProtocol());
-                this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(getProtocol());
+                this.committeName = getProtocolAssignToAgendaService().getAssignedCommitteeName(getProtocol());
+                this.setComments(getProtocolAssignToAgendaService().getAssignToAgendaComments(getProtocol()));
+                this.protocolAssigned = getProtocolAssignToAgendaService().isAssignedToAgenda(getProtocol());
+                this.scheduleDate = getProtocolAssignToAgendaService().getAssignedScheduleDate(getProtocol());
             }
         }
         

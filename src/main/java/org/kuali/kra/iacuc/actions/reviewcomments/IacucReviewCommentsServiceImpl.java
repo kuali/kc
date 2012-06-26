@@ -30,27 +30,29 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 
 public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl implements IacucReviewCommentsService {
-    
+
 
     private IacucProtocolFinderDao protocolFinderDao;
 
-    public void saveReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments, List<ProtocolReviewAttachment> deletedReviewAttachments) {
+    public void saveReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments,
+            List<ProtocolReviewAttachment> deletedReviewAttachments) {
         for (ProtocolReviewAttachment reviewAttachment : reviewAttachments) {
             boolean doUpdate = true;
-//            if (reviewAttachment.getReviewerAttachmentId() != null) {
-//                ProtocolOnlineReviewAttachment existing = committeeScheduleService.getCommitteeScheduleMinute(reviewAttachment.getCommScheduleMinutesId());
-//                doUpdate = !reviewAttachment.equals(existing);
-//            }
+            // if (reviewAttachment.getReviewerAttachmentId() != null) {
+            // ProtocolOnlineReviewAttachment existing =
+            // committeeScheduleService.getCommitteeScheduleMinute(reviewAttachment.getCommScheduleMinutesId());
+            // doUpdate = !reviewAttachment.equals(existing);
+            // }
             if (doUpdate) {
                 reviewAttachment.setPrivateFlag(!reviewAttachment.isProtocolPersonCanView());
                 businessObjectService.save(reviewAttachment);
             }
         }
-        
+
         if (!deletedReviewAttachments.isEmpty()) {
-//            for (ProtocolReviewAttachment reviewAttachment : deletedReviewAttachments) {
-//                businessObjectService.delete((IacucProtocolReviewAttachment)reviewAttachment);
-//            }
+            // for (ProtocolReviewAttachment reviewAttachment : deletedReviewAttachments) {
+            // businessObjectService.delete((IacucProtocolReviewAttachment)reviewAttachment);
+            // }
             // TODO : bos expecting the object defined in repository
             businessObjectService.delete(deletedReviewAttachments);
         }
@@ -58,17 +60,17 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl im
 
     @Override
     protected ProtocolSubmission getSubmission(Protocol protocol) {
-          ProtocolSubmission protocolSubmission = protocol.getProtocolSubmission();
-          if (protocol.getNotifyIrbSubmissionId() != null) {
-              // not the current submission, then check programically
-              for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
-                  if (submission.getSubmissionId().equals(protocol.getNotifyIrbSubmissionId())) {
-                      protocolSubmission = submission;
-                      break;
-                  }
-              }
-          }
-          return protocolSubmission;
+        ProtocolSubmission protocolSubmission = protocol.getProtocolSubmission();
+        if (protocol.getNotifyIrbSubmissionId() != null) {
+            // not the current submission, then check programically
+            for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+                if (submission.getSubmissionId().equals(protocol.getNotifyIrbSubmissionId())) {
+                    protocolSubmission = submission;
+                    break;
+                }
+            }
+        }
+        return protocolSubmission;
     }
 
     @Override
@@ -99,30 +101,30 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl im
 
     @Override
     protected String getProtocolViewerRoleNameHook() {
-       return RoleConstants.IACUC_PROTOCOL_VIEWER;
+        return RoleConstants.IACUC_PROTOCOL_VIEWER;
     }
 
-  public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
-      this.protocolFinderDao = (IacucProtocolFinderDao) protocolFinderDao;
-  }
+    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
+        this.protocolFinderDao = (IacucProtocolFinderDao) protocolFinderDao;
+    }
 
-  public ProtocolFinderDao getProtocolFinderDao() {
-      return protocolFinderDao;
-  }
+    public ProtocolFinderDao getProtocolFinderDao() {
+        return protocolFinderDao;
+    }
 
-@Override
-protected String getDisplayRevNameToActiveCmtMembersHook() {
-   return Constants.PARAMETER_IACUC_DISPLAY_REVIEWER_NAME_TO_ACTIVE_COMMITTEE_MEMBERS;
-}
+    @Override
+    protected String getDisplayRevNameToActiveCmtMembersHook() {
+        return Constants.PARAMETER_IACUC_DISPLAY_REVIEWER_NAME_TO_ACTIVE_COMMITTEE_MEMBERS;
+    }
 
-@Override
-protected String getDisplayRevNameToProtocolPersonnelHook() {
-    return Constants.PARAMETER_IACUC_DISPLAY_REVIEWER_NAME_TO_PROTOCOL_PERSONNEL;
-}
+    @Override
+    protected String getDisplayRevNameToProtocolPersonnelHook() {
+        return Constants.PARAMETER_IACUC_DISPLAY_REVIEWER_NAME_TO_PROTOCOL_PERSONNEL;
+    }
 
-@Override
-protected String getDisplayRevNameToReviewersHook() {
-    return Constants.PARAMETER_IACUC_DISPLAY_REVIEWER_NAME_TO_REVIEWERS;
-}
+    @Override
+    protected String getDisplayRevNameToReviewersHook() {
+        return Constants.PARAMETER_IACUC_DISPLAY_REVIEWER_NAME_TO_REVIEWERS;
+    }
 
 }

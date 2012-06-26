@@ -344,15 +344,9 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
         fieldValues.put(SCHEDULE_ID_FIELD, scheduleId);
         List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>)businessObjectService.findMatchingOrderBy(CommitteeScheduleMinute.class, fieldValues, ENTRY_NUMBER_FIELD, true);
         for (CommitteeScheduleMinute minute : minutes) {
-            
-            // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-            /*
-
-                if(reviewCommentsService.getReviewerCommentsView(minute)){
-                    permittedMinutes.add(minute);
-                }
-                */
-               
+            if(reviewCommentsService.getReviewerCommentsView(minute)){
+                permittedMinutes.add(minute);
+            }
         }
         
         return permittedMinutes;

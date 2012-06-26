@@ -15,31 +15,18 @@
  */
 package org.kuali.kra.iacuc.actions.assignagenda;
 
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaEvent;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * The event that occurs when the IRB Administrator assigns a protocol to an agenda.
  */
-public class IacucProtocolAssignToAgendaEvent extends KraDocumentEventBaseExtension {
+public class IacucProtocolAssignToAgendaEvent extends ProtocolAssignToAgendaEvent {
 
-    private IacucProtocolAssignToAgendaBean protocolAssignToAgendaBean;
-    
-    /**
-     * Constructs a ProtocolAssignToAgendaEvent.
-     * @param document the document to validate
-     * @param protocolAssignToAgendaBean the bean that keeps the data
-     */
-    public IacucProtocolAssignToAgendaEvent(ProtocolDocument document, IacucProtocolAssignToAgendaBean protocolAssignToAgendaBean) {
-        super("Submitting to agenda document " + getDocumentId(document), Constants.PROTOCOL_ASSIGN_TO_AGENDA_ACTION_PROPERTY_KEY, document);
-        
-        this.protocolAssignToAgendaBean = protocolAssignToAgendaBean;
-    }
-    
-    public IacucProtocolAssignToAgendaBean getProtocolAssignToAgendaBean() {
-        return protocolAssignToAgendaBean;
+
+    public IacucProtocolAssignToAgendaEvent(IacucProtocolDocument document, IacucProtocolAssignToAgendaBean protocolAssignToAgendaBean) {
+        super(document, protocolAssignToAgendaBean);
     }
 
     @Override

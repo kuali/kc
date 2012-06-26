@@ -32,6 +32,7 @@ import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewal;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveBean;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
+import org.kuali.kra.iacuc.actions.assignagenda.IacucProtocolAssignToAgendaBean;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteBean;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
@@ -65,6 +66,7 @@ import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
+import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
@@ -132,14 +134,6 @@ public class IacucActionHelper extends ActionHelper {
     protected IacucProtocolModifySubmissionBean iacucProtocolModifySubmissionBean;
 
 
-    public IacucProtocolAssignCmtBean getProtocolAssignCmtBean() {
-        return protocolAssignCmtBean;
-    }
-
-    public void setProtocolAssignCmtBean(IacucProtocolAssignCmtBean protocolAssignCmtBean) {
-        this.protocolAssignCmtBean = protocolAssignCmtBean;
-    }
-
     /**
      * Constructs an ActionHelper.
      * @param form the protocol form
@@ -168,15 +162,14 @@ public class IacucActionHelper extends ActionHelper {
    
     }
 
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public IacucProtocolAssignCommitteeBean getProtocolAssignCmtBean() {
-//        return protocolAssignCmtBean;
-//    }
-//
-//    public void setProtocolAssignCmtBean(IacucProtocolAssignCommitteeBean protocolAssignCmtBean) {
-//        this.protocolAssignCmtBean = protocolAssignCmtBean;
-//    }
+        
+    public IacucProtocolAssignCmtBean getProtocolAssignCmtBean() {
+        return protocolAssignCmtBean;
+    }
+
+    public void setProtocolAssignCmtBean(IacucProtocolAssignCmtBean protocolAssignCmtBean) {
+        this.protocolAssignCmtBean = protocolAssignCmtBean;
+    }
 
     public IacucProtocolModifySubmissionBean getIacucProtocolModifySubmissionBean() {
         return iacucProtocolModifySubmissionBean;
@@ -296,14 +289,7 @@ canViewOnlineReviewerComments = true;
         initSummaryDetails();
 
     }
-    
-    /**
-     * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
-     */
-    public void prepareCommentsView() {
-
-    }
-    
+ 
 
 
     public static boolean hasAssignCmtSchedPermission(String userId, String protocolNumber) {
@@ -865,6 +851,21 @@ setRecusers(new ArrayList<ProtocolVoteRecused>());
     @Override
     protected ProtocolTask getNewAdminMarkIncompleteUnavailableProtocolTaskInstanceHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.ADMIN_INCOMPLETE_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolAssignToAgendaBean getNewProtocolAssignToAgendaBeanInstanceHook(ActionHelper actionHelper) {
+        return new IacucProtocolAssignToAgendaBean((IacucActionHelper) actionHelper);
+    }
+
+    @Override
+    protected ProtocolTask createNewAssignToAgendaTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.ASSIGN_TO_AGENDA, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolTask createNewAssignToAgendaUnavailableTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.ASSIGN_TO_AGENDA_UNAVAILABLE, (IacucProtocol) protocol);
     }
     
     
