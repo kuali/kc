@@ -26,7 +26,7 @@
   	headerTabActive="medusa">
   	
 <kul:tabTop tabTitle="Medusa" defaultOpen="true" tabErrorKey="">
-<kra-m:medusa helpParameterNamespace="KC-PROTOCOL" helpParameterDetailType="Document" helpParameterName="protocolMedusaHelpUrl" />
+<kra-m:medusa helpParameterNamespace="KC-PROTOCOL" helpParameterDetailType="Document" helpParameterName="protocolMedusaHelp" />
 </kul:tabTop>
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
