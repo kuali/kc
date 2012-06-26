@@ -95,7 +95,7 @@
         	</bean>
         	<bean parent="HeaderNavigation">
 	          	<property name="helpDefinition">
-	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolMedusaHelpUrl" p:parameterDetailType="Document"/>
+	            	<bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolMedusaHelp" p:parameterDetailType="Document"/>
 	          	</property>
 	          	<property name="headerTabDisplayName" value="Medusa"/>
 	          	<property name="headerTabNavigateTo" value="medusa"/>
