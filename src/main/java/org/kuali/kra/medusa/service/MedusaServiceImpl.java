@@ -37,6 +37,7 @@ import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
@@ -66,6 +67,7 @@ public class MedusaServiceImpl implements MedusaService {
     private static final int INST_PROPOSAL_STATUS_FUNDED = 2;
     public static final String SUBAWARD_MODULE = "subaward";
     public static final String IRB_MODULE = "irb";
+    public static final String IACUC_MODULE = "iacuc";
     
 
     private BusinessObjectService businessObjectService;
@@ -102,6 +104,9 @@ public class MedusaServiceImpl implements MedusaService {
             curNode.setBo(subaward);
         } else if (StringUtils.equalsIgnoreCase(IRB_MODULE, moduleName)) {
             Protocol protocol = getProtocol(moduleId);
+            curNode.setBo(protocol);
+        } else if (StringUtils.equalsIgnoreCase(IACUC_MODULE, moduleName)) {
+            IacucProtocol protocol = getIacuc(moduleId);
             curNode.setBo(protocol);
         }
         return curNode;
@@ -187,6 +192,13 @@ public class MedusaServiceImpl implements MedusaService {
                 addVertex(graph, protocol);
                 buildGraph(graph, protocol);
                 nodes = getParentNodes(graph, new String[]{preferredModule, IRB_MODULE});
+            }
+        } else if (StringUtils.equals(moduleName, IACUC_MODULE)) {
+            IacucProtocol protocol = getIacuc(moduleIdentifier);
+            if (protocol != null) {
+                addVertex(graph, protocol);
+                buildGraph(graph, protocol);
+                nodes = getParentNodes(graph, new String[]{preferredModule, IACUC_MODULE});
             }
         }
         return nodes;
@@ -316,10 +328,24 @@ public class MedusaServiceImpl implements MedusaService {
         }       
     }
     
+    protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, IacucProtocol protocol) {
+        for (org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource fundingSource : protocol.getProtocolFundingSources()) {
+            if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.AWARD)) {
+                addToGraph(graph, getAward(fundingSource.getFundingSourceNumber()), protocol);
+            } else if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.INSTITUTIONAL_PROPOSAL)) {
+                addToGraph(graph, getInstitutionalProposal(fundingSource.getFundingSourceNumber()), protocol);
+            } else if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.PROPOSAL_DEVELOPMENT)) {
+                addToGraph(graph, getDevelopmentProposal(fundingSource.getFundingSourceNumber()), protocol);
+            }
+        }       
+    }    
+    
     protected void addSpecialReviewLinksToGraph(HashMap<BusinessObject, List<BusinessObject>> graph, List<? extends SpecialReview> specialReviews, BusinessObject existingBo) {
         for (SpecialReview specialReview : specialReviews) {
             if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
                 addToGraph(graph, getProtocol(specialReview.getProtocolNumber()), existingBo);
+            } else if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), SpecialReviewType.ANIMAL_USAGE)) {
+                addToGraph(graph, getIacuc(specialReview.getProtocolNumber()), existingBo);
             }
         }
     }
@@ -400,6 +426,8 @@ public class MedusaServiceImpl implements MedusaService {
                 buildGraph(graph, (SubAward) newBo);
             } else if (newBo instanceof Protocol) {
                 buildGraph(graph, (Protocol) newBo);
+            } else if (newBo instanceof IacucProtocol) {
+                buildGraph(graph, (IacucProtocol) newBo);
             }
         } else {
             addEdge(graph, existingBo, newBo);            
@@ -462,6 +490,10 @@ public class MedusaServiceImpl implements MedusaService {
         } else if (bo1 instanceof Protocol && bo2 instanceof Protocol) {
             if (ObjectUtils.equals(((Protocol) bo1).getProtocolId(),
                     ((Protocol) bo2).getProtocolId()))
+                return true;
+        } else if (bo1 instanceof IacucProtocol && bo2 instanceof IacucProtocol) {
+            if (ObjectUtils.equals(((IacucProtocol) bo1).getProtocolId(),
+                    ((IacucProtocol) bo2).getProtocolId()))
                 return true;
         }
         return false;
@@ -543,6 +575,23 @@ public class MedusaServiceImpl implements MedusaService {
         }
         return newest;
     }
+    
+    protected IacucProtocol getIacuc(Long protocolId) {
+        IacucProtocol protocol = (IacucProtocol) businessObjectService.findBySinglePrimaryKey(IacucProtocol.class, protocolId);
+        return protocol;
+    }
+    protected IacucProtocol getIacuc(String protocolNumber) {
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("protocolNumber", protocolNumber);
+        List<IacucProtocol> versions = (List<IacucProtocol>) businessObjectService.findMatching(IacucProtocol.class, values);
+        IacucProtocol newest = null;
+        for (IacucProtocol version : versions) {
+            if (newest == null || version.getSequenceNumber() > newest.getSequenceNumber()) {
+                newest = version;
+            }
+        }
+        return newest;
+    }
     /**
      * 
      * Gets the active or if not available the most current, not cancelled version of a 
@@ -593,6 +642,8 @@ public class MedusaServiceImpl implements MedusaService {
             return getNode((SubAward)bo);
         } else if (bo instanceof Protocol) {
             return getNode((Protocol) bo);
+        } else if (bo instanceof IacucProtocol) {
+            return getNode((IacucProtocol) bo);
         } else {
             return null;
         }
@@ -639,6 +690,14 @@ public class MedusaServiceImpl implements MedusaService {
         node.setType(IRB_MODULE);
         return node;
     }
+    protected MedusaNode getNode(IacucProtocol protocol) {
+        MedusaNode node = new MedusaNode();
+        node.setBo(protocol);
+        node.setType(IACUC_MODULE);
+        return node;
+    }
+    
+    
     /**
      * 
      * Returns a list of the Development Proposals linked to the institutional proposal.

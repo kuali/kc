@@ -500,6 +500,10 @@
         <forward name="basic" path="/WEB-INF/jsp/irb/ProtocolNotificationEditor.jsp"/>
         &iacuc_forwards;
       </action>
+      <action path="/iacucProtocolMedusa" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolMedusa.jsp" type="org.kuali.kra.iacuc.IacucProtocolMedusaAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolMedusa.jsp" />
+        &iacuc_forwards;
+      </action>      
       
       <!--  KRA Committee Mapping -->
       <action path="/committee*" name="CommitteeForm" input="/WEB-INF/jsp/committee/Committee{1}.jsp" type="org.kuali.kra.committee.web.struts.action.Committee{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
