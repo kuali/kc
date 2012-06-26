@@ -126,17 +126,20 @@
 		</c:if>
 		<c:set var="procedureCategory" value="category${status.index}Procedure" />
 	    <div id="${procedureCategory}" style="${divDisplay}" class="tab-container" align="center">
-	    	<h3>
-				<c:set var="procCategory" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[status.index].procedureCategory}" />
-				<c:set var="procDescription" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[status.index].procedureDescription}" />
-	    		<span class="subhead-left">${procCategory} : ${procDescription}</span>
-	    		<span class="subhead-right"><kul:help businessObjectClassName="${businessObjectClassName}" altText="help"/></span>
-	        </h3>
-     		<kra-iacuc:protocolStudyGroups
-                      collectionReference="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[status.index].iacucProtocolStudyGroupDetailBeans}"
-                      collectionProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${status.index}].iacucProtocolStudyGroupDetailBeans"
-                      procedureBeanProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${status.index}]"
-                      procedureBeanIndex="${status.index}"/>
+			<c:set var="procCategory" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[status.index].procedureCategory}" />
+			<c:set var="procDescription" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[status.index].procedureDescription}" />
+			<kul:innerTab tabTitle="${procCategory} : ${procDescription}" parentTab="${parentTabName}" defaultOpen="true" tabErrorKey="iacucProtocolStudyGroupBeans[${status.index}]" useCurrentTabIndexAsKey="true">
+		    	<h3>
+		    		<span class="subhead-left">${procCategory} : ${procDescription}</span>
+		    		<span class="subhead-right"><kul:help businessObjectClassName="${businessObjectClassName}" altText="help"/></span>
+		        </h3>
+	     		<kra-iacuc:protocolStudyGroups
+	                      collectionReference="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[status.index].iacucProtocolStudyGroupDetailBeans}"
+	                      collectionProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${status.index}].iacucProtocolStudyGroupDetailBeans"
+	                      procedureBeanProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${status.index}]"
+	                      procedureBeanIndex="${status.index}"/>
+		 	</kul:innerTab>
 		 </div>
     </c:forEach>
+    
 </kul:tab>    	 	

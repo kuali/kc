@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.iacuc.IacucPainCategory;
+
 public class IacucProtocolStudyGroupDetailBean implements Serializable {
 
     /**
@@ -26,6 +28,8 @@ public class IacucProtocolStudyGroupDetailBean implements Serializable {
      */
     private static final long serialVersionUID = 5919176798738325709L;
 
+    private Integer speciesCode;
+    
     /* These fields are for group display in tag */
     // list that holds species and groups description
     List<String> speciesAndGroupsText;
@@ -37,6 +41,8 @@ public class IacucProtocolStudyGroupDetailBean implements Serializable {
     Integer maxPainCategoryCode;
 
     Integer maxPainLevel;
+    
+    private IacucPainCategory maxIacucPainCategory;
 
     private List<IacucProtocolStudyGroup> iacucProtocolStudyGroups;
     private List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible;
@@ -138,6 +144,22 @@ public class IacucProtocolStudyGroupDetailBean implements Serializable {
 
     public void setNewIacucProtocolStudyGroupLocation(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation) {
         this.newIacucProtocolStudyGroupLocation = newIacucProtocolStudyGroupLocation;
+    }
+
+    public Integer getSpeciesCode() {
+        return speciesCode;
+    }
+
+    public void setSpeciesCode(Integer speciesCode) {
+        this.speciesCode = speciesCode;
+    }
+
+    public IacucPainCategory getMaxIacucPainCategory() {
+        return maxIacucPainCategory;
+    }
+
+    public void setMaxIacucPainCategory(IacucPainCategory maxIacucPainCategory) {
+        this.maxIacucPainCategory = maxIacucPainCategory;
     }
     
 }

@@ -1083,6 +1083,8 @@ public final class KeyConstants {
     public static final String ERROR_IACUC_VALIDATION_PERSON_RESPONSIBLE_VALID = "error.iacuc.validation.personResponsible.valid";
     public static final String ERROR_IACUC_VALIDATION_DUPLICATE_PERSON_RESPONSIBLE = "error.iacuc.validation.duplicate.personResponsible";
     public static final String ERROR_IACUC_VALIDATION_DUPLICATE_STUDY_GROUP_LOCATION = "error.iacuc.validation.duplicate.studyGroup.location";
+    public static final String ERROR_IACUC_VALIDATION_STUDY_GROUP_VALID = "error.iacuc.validation.studyGroup.valid";
+    public static final String ERROR_IACUC_VALIDATION_DUPLICATE_STUDY_GROUP = "error.iacuc.validation.duplicate.studyGroup";
 
     // IACUC person training
     public static final String ERROR_IACUC_VALIDATION_INVALID_PERSON_TRAINING = "error.iacuc.validation.invalid.person.training";
