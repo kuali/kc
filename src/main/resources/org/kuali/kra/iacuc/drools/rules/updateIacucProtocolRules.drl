@@ -53,14 +53,17 @@ function void setProtocolStatusCode(IacucProtocolActionUpdateMapping protocolAct
     protocolAction.getProtocol().setProtocolStatusCode(newProtocolStatusCode);  
 } 
 
-rule "fn_assign_to_agenda: Submission Status = 1102 (Assigned to Agenda);"
+
+
+rule "fn_assign_to_agenda: Submission Status = 103 (Assigned to Agenda);"
 salience 100
 when
-	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "1200")
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "200")
 then	
 	createAuditTrail(protocolAction);
-	setProtocolSubmissionStatusCode(protocolAction, "1102");
+	setProtocolSubmissionStatusCode(protocolAction, "103");
 end
+
 
 rule "fn_table: Submission Status = 1212 (Major Revisions Required); Protocol Status = 1107 (Tabled)" 
 salience 100

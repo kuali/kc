@@ -47,6 +47,9 @@ import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveService;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtEvent;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtService;
+import org.kuali.kra.iacuc.actions.assignagenda.IacucProtocolAssignToAgendaBean;
+import org.kuali.kra.iacuc.actions.assignagenda.IacucProtocolAssignToAgendaEvent;
+import org.kuali.kra.iacuc.actions.assignagenda.IacucProtocolAssignToAgendaService;
 import org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteService;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
@@ -82,10 +85,10 @@ import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
+import org.kuali.kra.protocol.actions.ProtocolActionType;
 import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
@@ -1488,54 +1491,57 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
 //    
-//    
-//    /**
-//     * 
-//     * This method...
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward assignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-//       
-//        if (!hasDocumentStateChanged(protocolForm)) {
-//            ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA, protocolForm.getProtocolDocument().getProtocol());
-//            if (isAuthorized(task)) {
-//                ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
-//                if (applyRules(new ProtocolAssignToAgendaEvent(protocolForm.getProtocolDocument(), actionBean))) {               
-//                    getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-//                    saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                    recordProtocolActionSuccess("Assign to Agenda");
-//                    
-//                    org.kuali.kra.irb.actions.ProtocolAction lastAction = protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction();
-//                    ProtocolActionType lastActionType = lastAction.getProtocolActionType();
-//                    String description = lastActionType.getDescription();
-//                    IACUCNotificationRenderer renderer = new IACUCNotificationRenderer(protocol);
-//                    IACUCNotificationContext context = new IACUCNotificationContext(protocol, ProtocolActionType.ASSIGN_TO_AGENDA, description, renderer);
-//                    
-//                    if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-//                        protocolForm.getNotificationHelper().initializeDefaultValues(context);
-//                        forward = mapping.findForward("protocolNotificationEditor");
-//                    } else {
-//                        getNotificationService().sendNotification(context);
-//                    }
-//                }
-//            }
-//        } else {
-//            GlobalVariables.getMessageMap().clearErrorMessages();
-//            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
-//        }
-//        
-//        return forward;
-//    }
-//    
+    
+    
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward assignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
+       
+        if (!hasDocumentStateChanged(protocolForm)) {
+            ProtocolTask task = new IacucProtocolTask(TaskName.ASSIGN_TO_AGENDA, protocol);
+            if (isAuthorized(task)) {
+                IacucProtocolAssignToAgendaBean actionBean = (IacucProtocolAssignToAgendaBean) protocolForm.getActionHelper().getAssignToAgendaBean();
+                if (applyRules(new IacucProtocolAssignToAgendaEvent((IacucProtocolDocument) protocolForm.getProtocolDocument(), actionBean))) {               
+                    getProtocolAssignToAgendaService().assignToAgenda(protocol, actionBean);
+                    saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+                    recordProtocolActionSuccess("Assign to Agenda");
+                    
+                    ProtocolAction lastAction = protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction();
+                    ProtocolActionType lastActionType = lastAction.getProtocolActionType();
+                    String description = lastActionType.getDescription();
+                    IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer(protocol);
+                    IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.ASSIGNED_TO_AGENDA, description, renderer);
+                    
+                    if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                        protocolForm.getNotificationHelper().initializeDefaultValues(context);
+                        forward = mapping.findForward("iacucProtocolNotificationEditor");
+                    } else {
+                        getNotificationService().sendNotification(context);
+                    }
+                }
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+        }
+        
+        return forward;
+    }
+
+    
+    
 //    public ActionForward protocolReviewNotRequired(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 //            HttpServletResponse response) throws Exception {
 //        ProtocolForm protocolForm = (ProtocolForm) form;
@@ -1909,7 +1915,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocolApproveBean actionBean = (IacucProtocolApproveBean) protocolForm.getActionHelper().getProtocolAdminApprovalBean();
         
@@ -2908,7 +2914,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @param actionBean
      * @throws Exception
      */
-    private void saveReviewComments(ProtocolForm protocolForm, IacucReviewCommentsBean actionBean) throws Exception { 
+    private void saveReviewComments(IacucProtocolForm protocolForm, IacucReviewCommentsBean actionBean) throws Exception { 
         getReviewCommentsService().saveReviewComments(actionBean.getReviewComments(), actionBean.getDeletedReviewComments());           
         actionBean.setDeletedReviewComments(new ArrayList<CommitteeScheduleMinute>());
         protocolForm.getActionHelper().prepareCommentsView();
@@ -3017,15 +3023,15 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private IacucProtocolDeleteService getProtocolDeleteService() {
         return KraServiceLocator.getService(IacucProtocolDeleteService.class);
     }
-//    
-//    private ProtocolAssignCmtSchedService getProtocolAssignCmtSchedService() {
-//        return KraServiceLocator.getService(ProtocolAssignCmtSchedService.class);
-//    }
-//    
-//    private ProtocolAssignToAgendaService getProtocolAssignToAgendaService() {
-//        return KraServiceLocator.getService(ProtocolAssignToAgendaService.class);
-//    }
-//    
+    
+    private IacucProtocolAssignCmtService getProtocolAssignCmtService() {
+        return KraServiceLocator.getService(IacucProtocolAssignCmtService.class);
+    }
+    
+    private IacucProtocolAssignToAgendaService getProtocolAssignToAgendaService() {
+        return KraServiceLocator.getService(IacucProtocolAssignToAgendaService.class);
+    }
+    
 //    private ProtocolAssignReviewersService getProtocolAssignReviewersService() {
 //        return KraServiceLocator.getService(ProtocolAssignReviewersService.class);
 //    }
