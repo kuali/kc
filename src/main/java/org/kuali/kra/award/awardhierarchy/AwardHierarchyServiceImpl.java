@@ -496,7 +496,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     DocumentHeader findPlaceholderDocumentHeader() {
         @SuppressWarnings("unchecked")
         Collection c = businessObjectService.findMatching(DocumentHeader.class, getDocumentDescriptionCriteriaMap());
-        return c.size() == 1 ? (DocumentHeader) c.iterator().next() : null;
+        return !c.isEmpty() ? (DocumentHeader) c.iterator().next() : null;
     }
 
     AwardHierarchy loadAwardHierarchyBranch(AwardHierarchy branchNode) {
