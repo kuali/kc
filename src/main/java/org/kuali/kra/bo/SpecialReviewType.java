@@ -25,6 +25,7 @@ public class SpecialReviewType extends KraSortablePersistableBusinessObjectBase 
      * The Human Subjects Special Review type.
      */
     public static final String HUMAN_SUBJECTS = "1";
+    public static final String ANIMAL_USAGE = "2";
 
     private static final long serialVersionUID = -7939863013575475658L;
 

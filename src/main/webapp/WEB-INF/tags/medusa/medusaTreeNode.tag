@@ -51,6 +51,13 @@
     </c:if>
     <span class="medusaNode"><a name="${node.type}-${node.bo.protocolId}" class="${hideOpen}"><img src="static/images/protocol12.gif"/>Protocol ${node.bo.protocolNumber}</a></span><a></a>    
   </c:when>
+   <c:when test="${node.type == 'iacuc'}">
+    <c:if test="${KualiForm.medusaBean.moduleName == node.type && KualiForm.medusaBean.moduleIdentifier == node.bo.protocolId}">
+      <c:set var="hideOpen" value="hideOpen"/>
+      <c:set var="currentDoc" value="true"/>
+    </c:if>
+    <span class="medusaNode"><a name="${node.type}-${node.bo.protocolId}" class="${hideOpen}"><img src="static/images/protocol12.gif"/>Iacuc Protocol ${node.bo.protocolNumber}</a></span><a></a>    
+  </c:when>  
   
 </c:choose>
 
