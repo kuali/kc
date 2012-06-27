@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.negotiations.auth;
+package org.kuali.kra.authorizer;
 
+import org.kuali.kra.authorization.Task;
+import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class CreateNegotiationAuthorizer extends NegotiationAuthorizer {
+public class CreateNegotiationAuthorizer extends TaskAuthorizerImpl {
 
     @Override
-    public boolean isAuthorized(String userId, NegotiationTask task) {
+    public boolean isAuthorized(String userId, Task task) {
         boolean retVal = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_NEGOTIATION, PermissionConstants.NEGOTIATION_CREATE_NEGOTIATION);
         return retVal;
     }
