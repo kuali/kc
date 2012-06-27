@@ -850,6 +850,9 @@
                 <bean class="org.kuali.kra.authorizer.CreateIacucProtocolAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createIacucProtocol" />
                 </bean>
+                <bean class="org.kuali.kra.authorizer.CreateNegotiationAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="createNegotiation" />
+                </bean>                
             </list>
         </property>
     </bean>
