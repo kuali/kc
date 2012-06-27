@@ -24,6 +24,7 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -91,7 +92,7 @@ public class TestNegotiationAuthorizers extends KcUnitTestBase {
     @Test
     public void testCreateNegotiationAuthorizer() throws WorkflowException {
         NegotiationDocument negotiationDoc = getNewNegotiationWithUnassociatedDetail(); 
-        NegotiationTask task = new NegotiationTask(TaskName.NEGOTIATION_CREATE_NEGOTIATION, negotiationDoc);
+        ApplicationTask task = new ApplicationTask(TaskName.NEGOTIATION_CREATE_NEGOTIATION);
         boolean retVal = taskAuthorizationService.isAuthorized(quickstart.getPrincipalId(), task);
         assertTrue(retVal);
         
