@@ -72,7 +72,7 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
     
     protected void setPermissions(Person user, NegotiationDocument negotiationDoc, Set<String> editModes) {
         
-        if (canExecuteNegotiationTask(user.getPrincipalId(), negotiationDoc, TaskName.NEGOTIATION_CREATE_NEGOTIATION)) {
+        if (canCreateNegotiation(user)) {
             editModes.add("create");
         }
         
