@@ -49,7 +49,7 @@ import org.kuali.rice.krad.service.DocumentService;
 public class SpecialReviewServiceImpl implements SpecialReviewService {
     
     private static final String PROTOCOL_NUMBER = ".protocolNumber";
-    private static final String NEW_SPECIAL_REVIEW_COMMENT = "A Special Review has been inserted.";
+    public static final String NEW_SPECIAL_REVIEW_COMMENT = "A Special Review has been inserted.";
     
     private AwardService awardService;
     private InstitutionalProposalService institutionalProposalService;

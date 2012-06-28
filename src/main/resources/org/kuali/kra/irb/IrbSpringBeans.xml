@@ -514,6 +514,9 @@
                 <bean class="org.kuali.kra.irb.auth.AbandonProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAbandon" />
                 </bean>   
+                <bean class="org.kuali.kra.irb.auth.CreateProposalDevelopmentProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="createProposalForIrbProtocol" />
+                </bean>   
             </list>
         </property>
     </bean>
@@ -1028,6 +1031,9 @@
          <property name="businessObjectService" ref="businessObjectService" />
           <property name="documentService" ref="documentService" />
     </bean>
+
+    <bean id="protocolProposalDevelopmentDocumentService" class="org.kuali.kra.irb.protocol.funding.impl.ProtocolProposalDevelopmentDocumentServiceImpl">
+    </bean> 
 
 </beans>
 

@@ -115,7 +115,11 @@ public class IacucProtocolHelper extends ProtocolHelper {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ORGANIZATIONS, (IacucProtocol) protocol);
     }
 
-    
+    @Override
+    protected ProtocolTask getNewInstanceCreateProposalDevelopmentTaskHook(Protocol protocol)
+    {
+        return new IacucProtocolTask(TaskName.CREATE_PROPOSAL, (IacucProtocol) protocol);
+    }
     
     protected ProtocolAction createProtocolCreatedTypeProtocolActionInstanceHook(Protocol protocol) {
         return new IacucProtocolAction((IacucProtocol) protocol, null, IacucProtocolActionType.IACUC_PROTOCOL_CREATED);

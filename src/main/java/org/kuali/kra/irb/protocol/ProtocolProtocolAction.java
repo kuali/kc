@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
@@ -48,7 +49,10 @@ import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.LookupProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService;
+import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
+import org.kuali.kra.irb.protocol.funding.ProtocolProposalDevelopmentDocumentService;
 import org.kuali.kra.irb.protocol.funding.SaveProtocolFundingSourceLinkEvent;
+import org.kuali.kra.irb.protocol.funding.impl.ProtocolProposalDevelopmentDocumentServiceImpl;
 import org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
@@ -61,10 +65,13 @@ import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceService;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceType;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -538,6 +545,53 @@ public class ProtocolProtocolAction extends ProtocolAction {
      */
     private ProtocolFundingSourceService getProtocolFundingSourceService() {
         return (ProtocolFundingSourceService) KraServiceLocator.getService(ProtocolFundingSourceService.class);
+    }
+
+
+    /**
+     * This method is to return Proposal Development Document service
+     * 
+     * @return ProtocolProposalDevelopmentDocumentService
+     */
+    private ProtocolProposalDevelopmentDocumentService getProtocolProposalDevelopmentDocumentService() {
+        return (ProtocolProposalDevelopmentDocumentService) KraServiceLocator.getService(ProtocolProposalDevelopmentDocumentService.class);
+    }
+
+    /**
+     * This method is linked to ProtocolFundingService to perform the action - Create Proposal Development. Method is called in
+     * protocolFundingSources.tag
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward createProposalDevelopment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        
+        ProtocolProposalDevelopmentDocumentService service = getProtocolProposalDevelopmentDocumentService(); 
+        ProposalDevelopmentDocument proposalDevelopmentDocument = service.createProposalDevelopmentDocument(protocolForm);
+        if (proposalDevelopmentDocument != null )
+        {
+            DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+    
+            ProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = KraServiceLocator.getService("protocolFundingSourceService");
+            ProtocolFundingSource proposalProtocolFundingSource = protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.PROPOSAL_DEVELOPMENT, developmentProposal.getProposalNumber(), developmentProposal.getSponsorName());
+            proposalProtocolFundingSource.setProtocol(protocolDocument.getProtocol());
+           
+            List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+            AddProtocolFundingSourceEvent event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument,
+                    proposalProtocolFundingSource, protocolFundingSources);
+            
+            if (applyRules(event)) {
+                protocolDocument.getProtocol().getProtocolFundingSources().add(proposalProtocolFundingSource);
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     @Override
