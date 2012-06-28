@@ -132,7 +132,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private ProposalHierarcyActionHelper hierarchyHelper;
     private KcNotificationService notificationService;
     private BudgetService budgetService;
-    private S2SBudgetCalculatorService s2SBudgetCalculatorService; 
+    private S2SBudgetCalculatorService s2SBudgetCalculatorService;
     List<AnswerHeader> answerHeaders;
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -1101,11 +1101,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         proposalDevelopmentForm.getQuestionnaireHelper().prepareView();
         proposalDevelopmentForm.getS2sQuestionnaireHelper().prepareView();
         //((ProposalDevelopmentForm)form).getQuestionnaireHelper().setSubmissionActionTypeCode(getSubmitActionType(request));
-        if (CollectionUtils.isEmpty(proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders())) {
+//        if (CollectionUtils.isEmpty(proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders())) {
             proposalDevelopmentForm.getQuestionnaireHelper().populateAnswers();
-        } else {
-            //nothing to do in this case right now..
-        }
+//        } else {
+//            //nothing to do in this case right now..
+//        }
         
         proposalDevelopmentForm.getS2sQuestionnaireHelper().populateAnswers();
         

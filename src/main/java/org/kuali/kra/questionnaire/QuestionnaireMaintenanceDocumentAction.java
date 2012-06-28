@@ -93,7 +93,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         ActionForward forward = super.save(mapping, form, request, response);
         
         checkAndSetAllQuestionsAreUpToDate(qnForm);
-        return forward;
+        return forward; 
 
     }
 
@@ -285,7 +285,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 + PFP + desc + PFP + question.getQuestion().getQuestionTypeId() + PFP + question.getQuestionNumber() + PFP
                 + question.getCondition() + PFP + question.getConditionValue() + PFP + question.getParentQuestionNumber() + PFP
                 + question.getQuestion().getSequenceNumber() + PFP + getQeustionResponse(question.getQuestion()) + PFP
-                + question.getVersionNumber() + PFP + (question.getConditionFlag() ? "Y" : "N") + PFP + getVersionedQuestion(question);
+                + question.getVersionNumber() + PFP + (question.getConditionFlag() ? "Y" : "N") + PFP + getVersionedQuestion(question)+
+                PFP+question.getRuleId();
 
     }
 

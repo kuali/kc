@@ -52,6 +52,8 @@
                 <bean parent="MaintainableFieldDefinition"
                     p:name="questionSeqNumber" />
                 <bean parent="MaintainableFieldDefinition"
+                    p:name="ruleId" />
+                <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />
             </list>
         </property>

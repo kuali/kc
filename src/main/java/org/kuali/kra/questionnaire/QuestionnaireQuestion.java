@@ -41,6 +41,16 @@ public class QuestionnaireQuestion extends KraPersistableBusinessObjectBase impl
 
     private Integer questionSeqNumber;
 
+    private String ruleId;
+
+    public String getRuleId() {
+        return ruleId;
+    }
+
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
+    }
+
     private Question question;
 
     private Questionnaire questionnaire;

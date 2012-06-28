@@ -59,6 +59,17 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private String childNode;
     private String response;
     private String value;
+    private String ruleId;
+    public String getRuleId() {
+        return ruleId;
+    }
+
+
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
+    }
+
+
     private boolean questionCurrentVersion = true;
 
     private boolean allQuestionsAreUpToDate = true;
@@ -181,7 +192,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
             // changed to AutoPopulatingList.  Should also investigate List<String> is working?
             if (qstr instanceof ArrayList) {
                 String[] splitstr = ((ArrayList)qstr).get(0).toString().split("#f#");
-                if (splitstr.length == 11 && !("Y").equals(splitstr[10])) {
+                if (splitstr.length == 12 && !("Y").equals(splitstr[10])) {
                     QuestionnaireQuestion question = new QuestionnaireQuestion();
                     // "null" is coming between js and java code
                     if (StringUtils.isNotBlank(splitstr[0]) && !splitstr[0].equals("null")) { 
@@ -203,6 +214,11 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
                     question.setQuestionSeqNumber(Integer.parseInt(splitstr[8]));
                     question.setVersionNumber(Long.parseLong(splitstr[9]));
                     question.setDeleted(splitstr[10]);
+                    if (StringUtils.isNotBlank(splitstr[11]) && !splitstr[11].equals("null")) { 
+                        question.setRuleId(splitstr[11]);
+                    }else{
+                        question.setRuleId(null);
+                    }
                     qList.add(question);
                 }
             }
