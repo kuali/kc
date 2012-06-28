@@ -39,6 +39,10 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.DocumentAuthorizer;
+import org.kuali.rice.krad.document.DocumentPresentationController;
+import org.kuali.rice.krad.exception.DocumentAuthorizationException;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -91,7 +95,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         
-        checkIsLookupForProposalCreation(fieldValues);
+        checkIsLookupForProposalCreation(fieldValues.get("backLocation"));
         List<ProposalLog> results = (List<ProposalLog>)super.getSearchResults(fieldValues);
         String returnLocation = fieldValues.get("backLocation");
        List<ProposalLog> searchList = filterForPermissions(results);
@@ -244,10 +248,22 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         return htmlData;
     }    
     
-    protected void checkIsLookupForProposalCreation(Map<String, String> fieldValues) {
-        String returnLocation = fieldValues.get("backLocation");
-        if (returnLocation.contains("institutionalProposalCreate.do")) {
+    protected void checkIsLookupForProposalCreation(String backLocation) {
+        if (backLocation.contains("institutionalProposalCreate.do")) {
             isLookupForProposalCreation = true;
+            Person user = GlobalVariables.getUserSession().getPerson();
+            String instPropDocName = "InstitutionalProposalDocument";
+            // get the authorization
+            DocumentAuthorizer documentAuthorizer = 
+                KraServiceLocator.getService(DocumentDictionaryService.class).getDocumentAuthorizer(instPropDocName);
+            DocumentPresentationController documentPresentationController =
+                KraServiceLocator.getService(DocumentDictionaryService.class).getDocumentPresentationController(instPropDocName);
+            // make sure this person is authorized to initiate
+            LOG.debug("calling canInitiate from getNewDocument()");
+            if (!documentPresentationController.canInitiate(instPropDocName) ||
+                    !documentAuthorizer.canInitiate(instPropDocName, user)) {
+                throw new DocumentAuthorizationException(user.getPrincipalName(), "initiate", instPropDocName);
+            }
         }
     }
     
