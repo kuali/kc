@@ -26,6 +26,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -101,7 +103,7 @@ public class ProtocolHelper implements Serializable {
     private boolean modifyOrganizations = false;
     private boolean modifySubjects = false;
     private boolean modifyAreasOfResearch = false;
-    
+    private boolean createProposalDevelopment = false;    
     // TODO *********code has been moved to base class, should ultimately be removed**********
     private boolean leadUnitAutoPopulated = false;
     // TODO **********************end************************
@@ -230,6 +232,7 @@ public class ProtocolHelper implements Serializable {
         initializeModifyOrganizationsPermission(protocol);
         initializeModifySubjectsPermission(protocol);
         initializeModifyAreasOfResearchPermission(protocol);
+        initializeCreateProposalDevelopmentPermission(protocol);
     }
 
     private void initializeModifyProtocolPermission(Protocol protocol) {
@@ -271,7 +274,13 @@ public class ProtocolHelper implements Serializable {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AREAS_OF_RESEARCH, protocol);
         modifyAreasOfResearch = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
-    
+
+    private void initializeCreateProposalDevelopmentPermission(Protocol protocol) {
+        ProtocolTask task = new ProtocolTask(ProtocolTask.CREATE_PROPOSAL_FOR_IRB_PROTOCOL, protocol);
+        createProposalDevelopment = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+
+
     /**
      * This method is to get parameter value
      * @return parameter value
@@ -721,7 +730,12 @@ public class ProtocolHelper implements Serializable {
     public boolean getModifyAreasOfResearch() {
         return modifyAreasOfResearch;
     }
-    
+
+    public boolean isCreateProposalDevelopment()    
+    {
+        return createProposalDevelopment;
+    }
+
     public boolean isFundingNumberLookupable() {
         if (newFundingSource != null && StringUtils.isNotBlank(newFundingSource.getFundingSourceTypeCode())) {
             return getProtocolFundingSourceService().isLookupable(newFundingSource.getFundingSourceTypeCode());
