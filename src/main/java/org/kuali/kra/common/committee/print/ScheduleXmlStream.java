@@ -35,9 +35,6 @@ import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.common.committee.service.CommitteeMembershipService;
-import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
-import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
@@ -48,22 +45,21 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.service.KcPersonService;
 
-import edu.mit.irb.irbnamespace.InvestigatorDocument.Investigator;
-import edu.mit.irb.irbnamespace.PersonDocument.Person;
-import edu.mit.irb.irbnamespace.ProtocolMasterDataDocument.ProtocolMasterData;
-import edu.mit.irb.irbnamespace.ProtocolSubmissionDocument.ProtocolSubmission;
-import edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary;
-import edu.mit.irb.irbnamespace.ScheduleDocument;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.Attendents;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.NextSchedule;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.OtherBusiness;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.PreviousSchedule;
-import edu.mit.irb.irbnamespace.ScheduleMasterDataDocument.ScheduleMasterData;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.ActionType;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo.Checklists;
+import edu.mit.coeus.xml.iacuc.FundingSourceType;
+import edu.mit.coeus.xml.iacuc.InvestigatorType;
+import edu.mit.coeus.xml.iacuc.PersonType;
+import edu.mit.coeus.xml.iacuc.ProtocolMasterDataType;
+import edu.mit.coeus.xml.iacuc.ProtocolReviewerType;
+import edu.mit.coeus.xml.iacuc.ProtocolSubmissionType;
+import edu.mit.coeus.xml.iacuc.ProtocolSummaryType;
+import edu.mit.coeus.xml.iacuc.ScheduleDocument;
+import edu.mit.coeus.xml.iacuc.ScheduleMasterDataType;
+import edu.mit.coeus.xml.iacuc.ScheduleSummaryType;
+import edu.mit.coeus.xml.iacuc.ScheduleType.Attendents;
+import edu.mit.coeus.xml.iacuc.ScheduleType.OtherBusiness;
+import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
+import edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo;
+import edu.mit.coeus.xml.iacuc.ScheduleType;
 
 public class ScheduleXmlStream extends PrintBaseXmlStream {
     private CommitteeMembershipService committeeMembershipService;
@@ -98,13 +94,13 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         return null;
     }
 
-    public Schedule getSchedule(
+    public ScheduleType getSchedule(
      CommitteeSchedule committeeSchedule) {
-        Schedule schedule = Schedule.Factory.newInstance();
+        ScheduleType schedule = ScheduleType.Factory.newInstance();
         setScheduleMasterData(committeeSchedule, schedule.addNewScheduleMasterData());
-        PreviousSchedule prevSchedule = schedule.addNewPreviousSchedule();
+        ScheduleSummaryType prevSchedule = schedule.addNewPreviousSchedule();
         setPreviousSchedule(committeeSchedule,prevSchedule.addNewScheduleMasterData());
-        NextSchedule nextScheduleType = schedule.addNewNextSchedule();
+        ScheduleSummaryType nextScheduleType = schedule.addNewNextSchedule();
         setNextSchedule(committeeSchedule,nextScheduleType.addNewScheduleMasterData());
          
         getPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
@@ -115,13 +111,13 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         for (org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission : submissions) {
         	
 //            protocolSubmission.refreshNonUpdateableReferences();
-            ProtocolSubmission protocolSubmissionType =
+            ProtocolSubmissionType protocolSubmissionType =
             	schedule.addNewProtocolSubmission();
             
-            SubmissionDetails protocolSubmissionDetail = protocolSubmissionType.addNewSubmissionDetails();
-            ProtocolSummary protocolSummary =
+            SubmissionDetailsType protocolSubmissionDetail = protocolSubmissionType.addNewSubmissionDetails();
+            ProtocolSummaryType protocolSummary =
 					protocolSubmissionType.addNewProtocolSummary();
-			ProtocolMasterData protocolMaster = protocolSummary.addNewProtocolMasterData();
+			ProtocolMasterDataType protocolMaster = protocolSummary.addNewProtocolMasterData();
 			String followUpAction = null;
 			String actionTypeCode = null;
             Protocol protocol = protocolSubmission.getProtocol();
@@ -251,7 +247,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             for (ProtocolPerson protocolPerson : protocolPersons) {
                 if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)
                         || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CO_INVESTIGATOR)) {
-                    Investigator investigator = protocolSummary.addNewInvestigator();
+                    InvestigatorType investigator = protocolSummary.addNewInvestigator();
                     getPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
                     if(protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)){
                         investigator.setPIFlag(true);
@@ -275,7 +271,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             String fundingSourceName, fundingSourceCode;
             for (ProtocolFundingSource protocolFundingSourceBean : vecFundingSource) {
                 protocolFundingSourceBean.refreshNonUpdateableReferences();
-                edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary.FundingSource fundingSource = protocolSummary
+                FundingSourceType fundingSource = protocolSummary
                         .addNewFundingSource();
                 fundingSourceCode = protocolFundingSourceBean.getFundingSourceNumber();
                 fundingSourceTypeCode = Integer.valueOf(protocolFundingSourceBean.getFundingSourceTypeCode());
@@ -301,11 +297,11 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
      * @param protocolSubmissionDetail
      */
     private void setProtocolSubmissionAction(org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission,
-            SubmissionDetails protocolSubmissionDetail) {
+            SubmissionDetailsType protocolSubmissionDetail) {
         ProtocolAction protcolAction = findProtocolActionForSubmission(protocolSubmission);
         if(protcolAction!=null){
             protcolAction.refreshNonUpdateableReferences();
-            ActionType actionTypeInfo = protocolSubmissionDetail.addNewActionType();
+           edu.mit.coeus.xml.iacuc.SubmissionDetailsType.ActionType actionTypeInfo = protocolSubmissionDetail.addNewActionType();
             actionTypeInfo.setActionId(BigInteger.valueOf(protcolAction.getActionId()));
             if (protcolAction.getProtocolActionTypeCode() != null) {
                 actionTypeInfo.setActionTypeCode(new BigInteger(protcolAction.getProtocolActionTypeCode()));
@@ -318,7 +314,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         }
     }
 
-    private void setOtherActionItems(CommitteeSchedule committeeSchedule, Schedule schedule) {
+    private void setOtherActionItems(CommitteeSchedule committeeSchedule, ScheduleType schedule) {
         List<CommScheduleActItem> otherActions = committeeSchedule.getCommScheduleActItems();
         for (CommScheduleActItem otherActionInfoBean : otherActions) {
             otherActionInfoBean.refreshNonUpdateableReferences();
@@ -352,7 +348,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
 
     private void setProtocolSubmissionReviewers(org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission,
-            SubmissionDetails protocolSubmissionDetail) {
+            SubmissionDetailsType protocolSubmissionDetail) {
         
         
         // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
@@ -371,8 +367,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     }
 
     private void setPerson(ProtocolReviewer protocolReviewer,
-            edu.mit.irb.irbnamespace.ProtocolReviewerDocument.ProtocolReviewer protocolReviewerType) {
-        Person personType = protocolReviewerType.addNewPerson();
+           ProtocolReviewerType protocolReviewerType) {
+        PersonType personType = protocolReviewerType.addNewPerson();
         boolean nonEmployeeFlag = protocolReviewer.getNonEmployeeFlag();
         if (!nonEmployeeFlag) {
             String personId = protocolReviewer.getPersonId();
@@ -389,7 +385,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
 
     private void setSubmissionCheckListinfo(org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission,
-            SubmissionDetails protocolSubmissionDetail) {
+            SubmissionDetailsType protocolSubmissionDetail) {
         SubmissionChecklistInfo submissionChecklistInfo = protocolSubmissionDetail.addNewSubmissionChecklistInfo();
         String formattedCode = new String();
 
@@ -441,7 +437,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 //        return actions.isEmpty() ? null : actions.get(0);
     }
 
-    private void setAttendance(CommitteeSchedule committeeSchedule, Schedule schedule) {
+    private void setAttendance(CommitteeSchedule committeeSchedule, ScheduleType schedule) {
         List<CommitteeScheduleAttendance> attendenceList = committeeSchedule.getCommitteeScheduleAttendances();
         for (CommitteeScheduleAttendance attendanceInfoBean : attendenceList) {
             Attendents attendents = schedule.addNewAttendents();
@@ -467,70 +463,70 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
 
 
-    public ScheduleMasterData setScheduleMasterData(CommitteeSchedule scheduleDetailsBean, ScheduleMasterData currentSchedule) {
+    public ScheduleMasterDataType setScheduleMasterData(CommitteeSchedule scheduleDetailsBean, ScheduleMasterDataType scheduleMasterDataType) {
         scheduleDetailsBean.refreshNonUpdateableReferences();
         String committeeId = scheduleDetailsBean.getCommittee().getCommitteeId();
-        currentSchedule.setScheduleId(scheduleDetailsBean.getScheduleId());
-        currentSchedule.setCommitteeId(committeeId);
-        currentSchedule.setCommitteeName(scheduleDetailsBean.getCommittee().getCommitteeName());
-        currentSchedule.setScheduleStatusCode(BigInteger.valueOf(scheduleDetailsBean.getScheduleStatusCode()));
-        currentSchedule.setScheduleStatusDesc(scheduleDetailsBean.getScheduleStatus().getDescription());
+        scheduleMasterDataType.setScheduleId(scheduleDetailsBean.getScheduleId());
+        scheduleMasterDataType.setCommitteeId(committeeId);
+        scheduleMasterDataType.setCommitteeName(scheduleDetailsBean.getCommittee().getCommitteeName());
+        scheduleMasterDataType.setScheduleStatusCode(BigInteger.valueOf(scheduleDetailsBean.getScheduleStatusCode()));
+        scheduleMasterDataType.setScheduleStatusDesc(scheduleDetailsBean.getScheduleStatus().getDescription());
         if (scheduleDetailsBean.getScheduledDate() != null) {
-            currentSchedule.setScheduledDate(getDateTimeService().getCalendar(scheduleDetailsBean.getScheduledDate()));
+            scheduleMasterDataType.setScheduledDate(getDateTimeService().getCalendar(scheduleDetailsBean.getScheduledDate()));
         }
         else {
-            currentSchedule.setScheduledDate(getDateTimeService().getCurrentCalendar());
+            scheduleMasterDataType.setScheduledDate(getDateTimeService().getCurrentCalendar());
         }
         try {
             if (scheduleDetailsBean.getTime() != null) {
                 Date date;
                 date = getDateTimeService().convertToSqlDate(scheduleDetailsBean.getTime());
-                currentSchedule.setScheduledTime(getDateTimeService().getCalendar(date));
+                scheduleMasterDataType.setScheduledTime(getDateTimeService().getCalendar(date));
             }
 
-            currentSchedule.setPlace(scheduleDetailsBean.getPlace());
+            scheduleMasterDataType.setPlace(scheduleDetailsBean.getPlace());
 
             if (scheduleDetailsBean.getProtocolSubDeadline() != null) {
-                currentSchedule.setProtocolSubDeadline(getDateTimeService().getCalendar(
+                scheduleMasterDataType.setProtocolSubDeadline(getDateTimeService().getCalendar(
                         scheduleDetailsBean.getProtocolSubDeadline()));
             }
             if (scheduleDetailsBean.getMeetingDate() != null) {
-                currentSchedule.setMeetingDate(getDateTimeService().getCalendar(scheduleDetailsBean.getMeetingDate()));
+                scheduleMasterDataType.setMeetingDate(getDateTimeService().getCalendar(scheduleDetailsBean.getMeetingDate()));
             }
 
             if (scheduleDetailsBean.getStartTime() != null) {
-                currentSchedule.setStartTime(getDateTimeService().getCalendar(
+                scheduleMasterDataType.setStartTime(getDateTimeService().getCalendar(
                         getDateTimeService().convertToSqlDate(scheduleDetailsBean.getStartTime())));
             }
 
             if (scheduleDetailsBean.getEndTime() != null) {
-                currentSchedule.setEndTime(getDateTimeService().getCalendar(
+                scheduleMasterDataType.setEndTime(getDateTimeService().getCalendar(
                         getDateTimeService().convertToSqlDate(scheduleDetailsBean.getEndTime())));
             }
             if (scheduleDetailsBean.getAgendaProdRevDate() != null) {
-                currentSchedule.setAgendaProdRevDate(getDateTimeService().getCalendar(scheduleDetailsBean.getAgendaProdRevDate()));
+                scheduleMasterDataType.setAgendaProdRevDate(getDateTimeService().getCalendar(scheduleDetailsBean.getAgendaProdRevDate()));
             }
         }
         catch (ParseException e) {
             e.printStackTrace();
         }
 
-        currentSchedule.setMaxProtocols(new BigInteger(String.valueOf(scheduleDetailsBean.getMaxProtocols())));
+        scheduleMasterDataType.setMaxProtocols(new BigInteger(String.valueOf(scheduleDetailsBean.getMaxProtocols())));
         if (scheduleDetailsBean.getComments() != null) {
-            currentSchedule.setComments(scheduleDetailsBean.getComments());
+            scheduleMasterDataType.setComments(scheduleDetailsBean.getComments());
         }
 
-        return currentSchedule;
+        return scheduleMasterDataType;
     }
 
-    public void setNextSchedule(CommitteeSchedule scheduleDetailsBean,ScheduleMasterData scheduleMasterData) {
+    public void setNextSchedule(CommitteeSchedule scheduleDetailsBean,ScheduleMasterDataType scheduleMasterData) {
         CommitteeSchedule nextSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
         if (nextSchedule != null){
             setScheduleMasterData(nextSchedule, scheduleMasterData);
         }
     }
 
-    public void setPreviousSchedule(CommitteeSchedule scheduleDetailsBean,ScheduleMasterData scheduleMasterDataType) {
+    public void setPreviousSchedule(CommitteeSchedule scheduleDetailsBean,ScheduleMasterDataType scheduleMasterDataType) {
         CommitteeSchedule prevSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
         if (prevSchedule != null){
             setScheduleMasterData(prevSchedule, scheduleMasterDataType);

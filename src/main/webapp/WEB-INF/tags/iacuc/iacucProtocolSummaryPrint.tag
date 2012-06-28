@@ -39,9 +39,9 @@
                     <tr>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.protocolDetails" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.organizaition" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
-                                                          readOnly="false" styleClass="printOptions"/>Protocol Details
+                                                          readOnly="false" styleClass="printOptions"/>Organization
                             </div>
                         </td>
                         <td>
@@ -63,9 +63,9 @@
                     <tr>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.organizaition" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.speciesAndGroups" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
-                                                          readOnly="false" styleClass="printOptions"/>Organization
+                                                          readOnly="false" styleClass="printOptions"/>Species & Groups
                             </div>
                         </td>
                         <td>
@@ -93,9 +93,9 @@
                         </td>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.subjects" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.procedure" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
-                                                          readOnly="false" styleClass="printOptions"/>Subjects
+                                                          readOnly="false" styleClass="printOptions"/>Procedures
                             </div>
                         </td>
                         <td>
@@ -152,13 +152,9 @@
                                         	                  readOnly="false" styleClass="printOptions"/>Review Comments
                             	</div>
                         	</td>
-                        	</kra:section>
-                        <td>
-                           <div align="left">
-                                &nbsp;
-                            </div>
-                        </td>
                     </tr>
+                        	</kra:section>                        
+                       
                     <tr>
                         <td>
                           <div align="left">
@@ -175,9 +171,11 @@
                             </div>
                         </td>
                         <td>
-                           <div align="left">
-                                &nbsp;
-                            </div>
+	                           	<div align="left">
+	                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.principles" 
+	                                                          attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
+	                                                          readOnly="false" styleClass="printOptions"/>Three R's
+	                            </div>
                         </td>
                     </tr>
                    <%-- kcirb-1159 is closed (not fix, so comment out this       

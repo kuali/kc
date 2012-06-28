@@ -25,25 +25,26 @@ import java.util.Map;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 
-import edu.mit.irb.irbnamespace.CommitteeDocument.Committee;
-import edu.mit.irb.irbnamespace.CommitteeMasterDataDocument.CommitteeMasterData;
-import edu.mit.irb.irbnamespace.CommitteeMemberDocument.CommitteeMember;
-import edu.mit.irb.irbnamespace.CommitteeMemberRoleDocument.CommitteeMemberRole;
-import edu.mit.irb.irbnamespace.PersonDocument.Person;
-import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.Submissions;
-import edu.mit.irb.irbnamespace.ResearchAreaDocument.ResearchArea;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule.NextSchedule;
+import edu.mit.coeus.xml.iacuc.CommitteeDocument;
+import edu.mit.coeus.xml.iacuc.CommitteeMasterDataType;
+import edu.mit.coeus.xml.iacuc.CommitteeMemberRoleType;
+import edu.mit.coeus.xml.iacuc.CommitteeMemberType;
+import edu.mit.coeus.xml.iacuc.CommitteeType;
+import edu.mit.coeus.xml.iacuc.PersonType;
+import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
+import edu.mit.coeus.xml.iacuc.ResearchAreaType;
+import edu.mit.coeus.xml.iacuc.ScheduleSummaryType;
+import edu.mit.coeus.xml.iacuc.ScheduleType;
 
 /**
  * This class generates XML that confirms with the XSD related to 
@@ -66,32 +67,32 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
      * @return {@link XmlObject} representing the XML
      */
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
-        org.kuali.kra.common.committee.bo.Committee committee = (org.kuali.kra.common.committee.bo.Committee)printableBusinessObject;
+        Committee committee = (Committee)printableBusinessObject;
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
-        edu.mit.irb.irbnamespace.CommitteeDocument committeeDocumentType = edu.mit.irb.irbnamespace.CommitteeDocument.Factory.newInstance();
+       CommitteeDocument committeeDocumentType = CommitteeDocument.Factory.newInstance();
         committeeDocumentType.setCommittee(getCommitteeCompleteDetails(committee));
         xmlObjectList.put("Committee", committeeDocumentType);
         return xmlObjectList;
     }
-    public Committee getCommitteeCompleteDetails(org.kuali.kra.common.committee.bo.Committee committee)  {
-        Committee committeeType = Committee.Factory.newInstance();
+    public CommitteeType getCommitteeCompleteDetails(Committee committee)  {
+        CommitteeType committeeType = CommitteeType.Factory.newInstance();
         setCommitteeMasterData(committee,committeeType.addNewCommitteeMasterData()) ;
         setCommitteeMembers(committee,committeeType);
         setScheduleForcommittee(committee,committeeType) ;
         setCommitteeResearchArea(committee,committeeType) ;
         return committeeType ;
     }
-    private void setCommitteeResearchArea(org.kuali.kra.common.committee.bo.Committee committee, Committee committeeType) {
+    private void setCommitteeResearchArea(org.kuali.kra.common.committee.bo.Committee committee, CommitteeType committeeType) {
         List<CommitteeResearchArea> committeeResearchAreas = committee.getCommitteeResearchAreas();
         if(committeeResearchAreas.isEmpty()) return;
         for (CommitteeResearchArea committeeResearchArea : committeeResearchAreas) {
-            edu.mit.irb.irbnamespace.ResearchAreaDocument.ResearchArea researchArea = committeeType.addNewResearchArea();
+           ResearchAreaType researchArea = committeeType.addNewResearchArea();
             researchArea.setResearchAreaCode(committeeResearchArea.getResearchAreaCode()) ;
             researchArea.setResearchAreaDescription(committeeResearchArea.getResearchArea().getDescription()) ;
         }
     }
 
-    private void setScheduleForcommittee(org.kuali.kra.common.committee.bo.Committee committee, Committee committeeType) {
+    private void setScheduleForcommittee(org.kuali.kra.common.committee.bo.Committee committee, CommitteeType committeeType) {
         Date currentDate = new Date();
         Boolean isRooster=committee.getPrintRooster();
         List<CommitteeSchedule> vecSchedule = committee.getCommitteeSchedules();
@@ -100,25 +101,25 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
            Date scheduleDate =  scheduleDetailsBean.getScheduledDate();
            int dateCount = scheduleDate.compareTo(currentDate);
            if(isRooster){
-             Schedule scheduleType = committeeType.addNewSchedule();
+             ScheduleType scheduleType = committeeType.addNewSchedule();
             getScheduleXmlStream().setScheduleMasterData(scheduleDetailsBean,scheduleType.addNewScheduleMasterData()) ;
-            NextSchedule nextSchedule = scheduleType.addNewNextSchedule();
+            ScheduleSummaryType nextSchedule = scheduleType.addNewNextSchedule();
             getScheduleXmlStream().setNextSchedule(scheduleDetailsBean,nextSchedule.addNewScheduleMasterData());
         }
            if(!isRooster){
                if(dateCount>0){
-                   Schedule scheduleType = committeeType.addNewSchedule();
+                   ScheduleType scheduleType = committeeType.addNewSchedule();
                    getScheduleXmlStream().setScheduleMasterData(scheduleDetailsBean,scheduleType.addNewScheduleMasterData()) ;
-                   NextSchedule nextSchedule = scheduleType.addNewNextSchedule();
+                   ScheduleSummaryType nextSchedule = scheduleType.addNewNextSchedule();
                    getScheduleXmlStream().setNextSchedule(scheduleDetailsBean,nextSchedule.addNewScheduleMasterData());   
            }}}
     }
 
-    public void setCommitteeMembers(org.kuali.kra.common.committee.bo.Committee committee, Committee committeeType) {
+    public void setCommitteeMembers(org.kuali.kra.common.committee.bo.Committee committee, CommitteeType committeeType) {
         List<CommitteeMembership> committeeMemberships = committee.getCommitteeMemberships();
         if(committeeMemberships.isEmpty()) return;
         for (CommitteeMembership membershipBean : committeeMemberships) {
-            CommitteeMember committeeMember = committeeType.addNewCommitteeMember();
+            CommitteeMemberType committeeMember = committeeType.addNewCommitteeMember();
             setCommitteeMembershipType(membershipBean, committeeMember);
         }
         
@@ -127,7 +128,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
         List<CommitteeMembership> committeeMemberships = committee.getCommitteeMemberships();
         if(committeeMemberships.isEmpty()) return;
         for (CommitteeMembership membershipBean : committeeMemberships) {
-            CommitteeMember committeeMember = committeeType.addNewCommitteeMember();
+            CommitteeMemberType committeeMember = committeeType.addNewCommitteeMember();
             setCommitteeMembershipType(membershipBean, committeeMember);
         }
         
@@ -137,7 +138,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
      * @param membershipBean
      * @param committeeMember
      */
-    private void setCommitteeMembershipType(CommitteeMembership membershipBean, CommitteeMember committeeMember) {
+    private void setCommitteeMembershipType(CommitteeMembership membershipBean, CommitteeMemberType committeeMember) {
         membershipBean.refreshNonUpdateableReferences();
         setPersonType(membershipBean,committeeMember);
         committeeMember.setMemberStatus(membershipBean.isActive()?"active":"inactive") ;
@@ -156,7 +157,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
         List<CommitteeMembershipExpertise> committeeMemResearchArea =  membershipBean.getMembershipExpertise();
         if (committeeMemResearchArea != null){
             for (CommitteeMembershipExpertise committeeMemberExpertise : committeeMemResearchArea) {
-                ResearchArea researchArea = committeeMember.addNewResearchArea();
+                ResearchAreaType researchArea = committeeMember.addNewResearchArea();
                 researchArea.setResearchAreaCode(committeeMemberExpertise.getResearchAreaCode()) ;
                 if (committeeMemberExpertise.getResearchArea()!=null){
                     researchArea.setResearchAreaDescription(committeeMemberExpertise.getResearchArea().getDescription()) ;
@@ -166,7 +167,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
         List<CommitteeMembershipRole> vecMemRoles = membershipBean.getMembershipRoles();
         if ( vecMemRoles != null){
             for (CommitteeMembershipRole committeeMembershipRole : vecMemRoles) {
-                CommitteeMemberRole committeeMemRole = committeeMember.addNewCommitteeMemberRole();
+                CommitteeMemberRoleType committeeMemRole = committeeMember.addNewCommitteeMemberRole();
                 committeeMemRole.setMemberRoleCode(new BigInteger(String.valueOf(committeeMembershipRole.getMembershipRoleCode()))) ;
                 if (committeeMembershipRole.getMembershipRole()!= null){
                     committeeMemRole.setMemberRoleDesc(committeeMembershipRole.getMembershipRole().getDescription()) ;
@@ -183,8 +184,8 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
         }
     }
 
-    private void setPersonType(CommitteeMembership membershipBean,CommitteeMember committeeMember) {
-        Person person = committeeMember.addNewPerson();
+    private void setPersonType(CommitteeMembership membershipBean,CommitteeMemberType committeeMember) {
+        PersonType person = committeeMember.addNewPerson();
         boolean employeeFlag = membershipBean.getPerson()!=null;
         person.setFacultyFlag(false) ; 
         person.setEmployeeFlag(!employeeFlag) ;
@@ -197,21 +198,21 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
          }    
     }
 
-    public void setCommitteeMasterData(org.kuali.kra.common.committee.bo.Committee committee,CommitteeMasterData committeeMasterData){
+    public void setCommitteeMasterData(Committee committee,CommitteeMasterDataType committeeMasterDataType){
 //      committee.refreshNonUpdateableReferences();
-      committeeMasterData.setCommitteeId(committee.getCommitteeId()) ;
-      committeeMasterData.setCommitteeName(committee.getCommitteeName()) ;
-      committeeMasterData.setHomeUnitNumber(committee.getHomeUnitNumber()) ;
-      committeeMasterData.setHomeUnitName(committee.getUnitName()) ;
-      committeeMasterData.setCommitteeTypeCode(new BigInteger(String.valueOf(committee.getCommitteeTypeCode()))) ;
-      committeeMasterData.setCommitteeTypeDesc(committee.getCommitteeType().getDescription()) ;
-      committeeMasterData.setScheduleDescription(committee.getScheduleDescription()) ;
-      committeeMasterData.setMinimumMembersRequired(new BigInteger(String.valueOf(committee.getMinimumMembersRequired()))) ;
-      committeeMasterData.setMaxProtocols(new BigInteger(String.valueOf(committee.getMaxProtocols()))) ;
-      committeeMasterData.setAdvSubmissionDays(new BigInteger(String.valueOf(committee.getAdvancedSubmissionDaysRequired()))) ;
+      committeeMasterDataType.setCommitteeId(committee.getCommitteeId()) ;
+      committeeMasterDataType.setCommitteeName(committee.getCommitteeName()) ;
+      committeeMasterDataType.setHomeUnitNumber(committee.getHomeUnitNumber()) ;
+      committeeMasterDataType.setHomeUnitName(committee.getUnitName()) ;
+      committeeMasterDataType.setCommitteeTypeCode(new BigInteger(String.valueOf(committee.getCommitteeTypeCode()))) ;
+      committeeMasterDataType.setCommitteeTypeDesc(committee.getCommitteeType().getDescription()) ;
+      committeeMasterDataType.setScheduleDescription(committee.getScheduleDescription()) ;
+      committeeMasterDataType.setMinimumMembersRequired(new BigInteger(String.valueOf(committee.getMinimumMembersRequired()))) ;
+      committeeMasterDataType.setMaxProtocols(new BigInteger(String.valueOf(committee.getMaxProtocols()))) ;
+      committeeMasterDataType.setAdvSubmissionDays(new BigInteger(String.valueOf(committee.getAdvancedSubmissionDaysRequired()))) ;
         if(committee.getReviewType()!=null){
-        committeeMasterData.setDefaultReviewTypeCode(new BigInteger(String.valueOf(committee.getReviewTypeCode()))) ;
-          committeeMasterData.setDefaultReviewTypeDesc(committee.getReviewType().getDescription()) ;
+        committeeMasterDataType.setDefaultReviewTypeCode(new BigInteger(String.valueOf(committee.getReviewTypeCode()))) ;
+          committeeMasterDataType.setDefaultReviewTypeDesc(committee.getReviewType().getDescription()) ;
       }
     }
     /**
