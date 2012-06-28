@@ -26,7 +26,8 @@ import org.kuali.kra.irb.Protocol;
 public final class ProtocolTask extends Task {
     
     private Protocol protocol;
-    
+    public static final String CREATE_PROPOSAL_FOR_IRB_PROTOCOL = "createProposalForIrbProtocol";
+
     /**
      * Constructs a ProtocolTask.
      * @param taskName the name of the task
