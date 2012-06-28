@@ -151,12 +151,13 @@ function getMaintTable(description, qtypeid, vers, idx, childNode) {
 	var text = '';
 	var response = '';
 	var value = '';
+	var ruleId = '';
 	// the requirement response is also including root node, so comment out this childnode check.
 //	if (childNode == 'true') {
 		var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 		response = responseArray[splitq[6]];
 		value = splitq[7];
-
+		ruleId = splitq[11];
 		
 //	}
 
@@ -166,7 +167,7 @@ function getMaintTable(description, qtypeid, vers, idx, childNode) {
 		dataType : 'html',
 		data : 'methodToCall=getQuestionMaintainTable&qidx=' + idx +'&questionId='+jq('#qid'+idx).attr('value')
 		       + '&moveup=' + jq("#qnaireid" + idx).prev().size()+ '&movedn=' + jq("#qnaireid" + idx).next().size()
-		       + '&childNode=' + childNode + '&response=' + response+ '&value=' + value + '&readOnly=' + jq("#readOnly").attr("value"),
+		       + '&childNode=' + childNode + '&response=' + response+ '&value=' + value + '&ruleId=' + ruleId + '&readOnly=' + jq("#readOnly").attr("value"),
 		cache : false,
 		async : false,
 		timeout : 1000,
@@ -334,7 +335,7 @@ function clickAdd(curidx) {
 					var splitq = jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
 				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
-			        splitq[7] +"#f#" +nextseq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+			        splitq[7] +"#f#" +nextseq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
 				jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
 //				    jq("#"+jqprefix + nextitem.attr("id").substring(8) + "\\]\\.questionSeqNumber").attr("value",nextseq);
 			    	jq("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
@@ -350,7 +351,7 @@ function clickAdd(curidx) {
 			idx = jq(listitem).attr("id").substring(8);		
             var tmpstr = "" +"#f#" +jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
                +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
-               "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" ;
+               "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N"+"#f#" +null ;
             jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 
 					
@@ -375,16 +376,49 @@ function addrequirement(curidx) {
 		 */
 		var newResponse = getRequirementDeleteRow(
 				responseArray[response], value, idx);
-		newResponse.appendTo(jq("#addrequirement"+curidx).parents('div:eq(0)')
+		newResponse.prependTo(jq("#addrequirement"+curidx).parents('div:eq(0)')
 				.children('table:eq(0)').children('tbody'));
 		var idx = jq("#addrequirement"+curidx).parents('li:eq(0)').attr("id")
 				.substring(8);
 		var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
         +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +response +"#f#" +
-        value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+        value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
 	jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 		jq("#addrequirement"+curidx).parents('tr:eq(0)').remove();
+	}
+	// }
+	return false;
+	
+}
+function addRuleRequirement(curidx) {
+	var idx = curidx;
+	var response = jq("#addRuleRequirement"+curidx).parents('tr:eq(1)').children(
+			'td:eq(0)').children('select:eq(0)').attr(
+			"value");
+	var value = jq("#addRuleRequirement"+curidx).parents('tr:eq(0)').children(
+			'td:eq(0)').children('input:eq(0)').attr(
+			"value");
+	if (value == '') {
+        alert("Please enter a value");
+        return false;
+	}else{
+		/*
+		 * var opDesc; if (sequence == 1) { opDesc =
+		 * "Current Requirements:"; } else { opDesc =
+		 * opArray[operator]; }
+		 */
+		var newResponse = getRuleEvaluationDeleteRow(value, idx);
+		newResponse.appendTo(jq("#addRuleRequirement"+curidx).parents('div:eq(0)')
+				.children('table:eq(0)').children('tbody'));
+		var idx = jq("#addRuleRequirement"+curidx).parents('li:eq(0)').attr("id")
+				.substring(8);
+		var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
+        splitq[7] +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +value ;
+	    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+		jq("#addRuleRequirement"+curidx).parents('tr:eq(0)').remove();
 	}
 	// }
 	return false;
@@ -399,13 +433,32 @@ function clickDeleteResponse(idx) {
 	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"N" +"#f#" +"" +"#f#" +
-    "" +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+    "" +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
 jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 	
-	getAddRequirementRow(idx).appendTo(
+	getAddRequirementRow(idx).prependTo(
 			jq("#deletereq" + idx).parents('tr:eq(0)').parents(
 					'tbody:eq(0)'));
 	jq("#deletereq" + idx).parents('tr:eq(0)').remove();
+	return false;
+
+}
+function clickDeleteRule(idx) {
+	
+	// alert("This would delete this rule requirement."
+	// + jq(this).parents('tr:eq(0)').next().size());
+	//var idx = jq(this).parents('li:eq(0)').attr("id")
+	//		.substring(8);
+	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+    +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"N" +"#f#" +"" +"#f#" +
+    "" +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
+    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+	
+    getAddRuleRequirementRow(idx).appendTo(
+			jq("#deleteRule" + idx).parents('tr:eq(0)').parents(
+					'tbody:eq(0)'));
+	jq("#deleteRule" + idx).parents('tr:eq(0)').remove();
 	return false;
 
 }
@@ -482,7 +535,7 @@ function clickMoveup(curidx) {
 	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
-    splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+    splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
     jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 //    jq("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 
@@ -505,7 +558,7 @@ function clickMoveup(curidx) {
 	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
-    splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+    splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
     jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 	swapGroupId(curNode, nextNode);
 	
@@ -560,7 +613,7 @@ function clickMovedn(curidx) {
 	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
-    splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+    splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
     jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 	
 	//jq("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
@@ -585,7 +638,7 @@ function clickMovedn(curidx) {
 	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
-    splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+    splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
     jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 //    jq("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 	// TODO : trying to group
@@ -1087,7 +1140,7 @@ function pasteChild(parentid, startnode) {
     //conditionFlag/condition/conditionValue/questionSeqNumber/versionNumber/deleted
 	var tmpstr = "" +"#f#" +jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
           +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
-          "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" ;
+          "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" +null ;
 	jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
     	
 			
@@ -1098,18 +1151,31 @@ function pasteChild(parentid, startnode) {
 	var splitq = jq("#qnaireQuestions\\["+ cidx+"\\]").attr("value").split("#f#");
 	cond = splitq[6];
 	value = splitq[7];
+	ruleId = splitq[11];
 	if (cond != '') {
 		var newResponse = getRequirementDeleteRow(responseArray[cond], value,
 				idx);
-		newResponse.appendTo(jq("#addrequirement" + idx).parents('div:eq(0)')
+		newResponse.prependTo(jq("#addrequirement" + idx).parents('div:eq(0)')
 				.children('table:eq(0)').children('tbody'));
 		jq("#addrequirement" + idx).parents('tr:eq(0)').remove();
 		
 		splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
         +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +cond +"#f#" +
-        value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+        value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
 	jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+	}
+	if (ruleId != '') {
+		var newResponse = getRuleEvaluationDeleteRow(ruleId, idx);
+		newResponse.appendTo(jq("#addRuleRequirement"+curidx).parents('div:eq(0)')
+				.children('table:eq(0)').children('tbody'));
+		var idx = jq("#addRuleRequirement"+curidx).parents('li:eq(0)').attr("id")
+				.substring(8);
+		var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
+        splitq[7] +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +ruleId ;
+	    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 	}
 
 	if (jq(startnode).children('ul').children('li').size() > 0) {
@@ -1138,7 +1204,7 @@ function deleteChild(parentNum, childid) {
 	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
-    splitq[7] +"#f#" +splitq[8]  +"#f#" +splitq[9] +"#f#" +"Y" ;
+    splitq[7] +"#f#" +splitq[8]  +"#f#" +splitq[9] +"#f#" +"Y" +"#f#" +splitq[11] ;
 jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 
 var nextseq = splitq[8];
@@ -1149,7 +1215,7 @@ while (nextitem.size() > 0) {
 	var splitq = jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
-    splitq[7] +"#f#" +(nextseq++) +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+    splitq[7] +"#f#" +(nextseq++) +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
 jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
 	nextitem = nextitem.next();
 }	
@@ -1236,7 +1302,7 @@ function getMoveDownLink(curidx) {
 						var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 				        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
-				        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+				        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
 					jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 						
 						//jq("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
@@ -1261,7 +1327,7 @@ function getMoveDownLink(curidx) {
 						var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 				        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
-				        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+				        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
 					jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 //					    jq("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 						// TODO : trying to group
@@ -1336,7 +1402,7 @@ function getMoveUpLink(curidx) {
 					var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
-			        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+			        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
 				jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 //				    jq("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 
@@ -1359,7 +1425,7 @@ function getMoveUpLink(curidx) {
 					var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
-			        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+			        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
 				jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 					swapGroupId(curNode, nextNode);
 					
@@ -1604,7 +1670,7 @@ function getAddQuestionRow(curidx) {
 								var splitq = jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
 							    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 						        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
-						        splitq[7] +"#f#" +nextseq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+						        splitq[7] +"#f#" +nextseq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
 							jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
 //							    jq("#"+jqprefix + nextitem.attr("id").substring(8) + "\\]\\.questionSeqNumber").attr("value",nextseq);
 						    	jq("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
@@ -1620,7 +1686,7 @@ function getAddQuestionRow(curidx) {
 								idx = jq(listitem).attr("id").substring(8);		
     var tmpstr = "" +"#f#" +jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
           +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
-          "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" ;
+          "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" +null ;
 	jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 
 								
@@ -1690,23 +1756,23 @@ function getAddRequirementRow(curidx) {
 	tdtmp = jq('<td class="content_info" style="text-align:center;"></td>')
 			.html("Value:");
 	jq('<input type="text" size="25" />').attr("id", "reqVal" + curidx).attr("name", "reqVal" + curidx).appendTo(tdtmp);
-    var atag = jq('<a href="#"></a>');
-    var image = jq('<img border="0" title="Search Rule" alt="Search Rule" class="tinybutton" src="static/images/searchicon.gif" />')
-            .attr("id", "search" + curidx).attr("name", "search" + curidx).click(function() {
-         var nodeIndex = jq(this).attr("id").substring(6);
-         var url = window.location.href
-         var pathname = window.location.pathname
-         var idx1 = url.indexOf(pathname);
-         var idx2 = url.indexOf("/", idx1 + 1);
-          var extractUrl = url.substr(0, idx2);
-         //alert("nodeidx "+nodeIndex)
-         var winPop = window.open(extractUrl + "/krmsRuleLookup.do?nodeIndex="
-            + nodeIndex  + "&anchor=topOfForm",
-            "_blank", "width=1000, height=800, scrollbars=yes");
-
-            });
-    image.appendTo(atag);
-    atag.appendTo(tdtmp);        
+//    var atag = jq('<a href="#"></a>');
+//    var image = jq('<img border="0" title="Search Rule" alt="Search Rule" class="tinybutton" src="static/images/searchicon.gif" />')
+//            .attr("id", "search" + curidx).attr("name", "search" + curidx).click(function() {
+//         var nodeIndex = jq(this).attr("id").substring(6);
+//         var url = window.location.href
+//         var pathname = window.location.pathname
+//         var idx1 = url.indexOf(pathname);
+//         var idx2 = url.indexOf("/", idx1 + 1);
+//          var extractUrl = url.substr(0, idx2);
+//         //alert("nodeidx "+nodeIndex)
+//         var winPop = window.open(extractUrl + "/krmsRuleLookup.do?nodeIndex="
+//            + nodeIndex  + "&anchor=topOfForm",
+//            "_blank", "width=1000, height=800, scrollbars=yes");
+//
+//            });
+//    image.appendTo(atag);
+//    atag.appendTo(tdtmp);        
 //    jq('<a href="#"><img border="0" title="Search Rule"
 //                                            alt="Search Rule" class="tinybutton" 
 //                                             src="static/images/searchicon.gif"  onClick="clickSearchRule(${qidx})"></a>').appendTo(tdtmp);
@@ -1732,15 +1798,15 @@ function getAddRequirementRow(curidx) {
 							 */
 							var newResponse = getRequirementDeleteRow(
 									responseArray[response], value, idx);
-							newResponse.appendTo(jq(this).parents('div:eq(0)')
+							newResponse.prependTo(jq(this).parents('div:eq(0)')
 									.children('table:eq(0)').children('tbody'));
 							var idx = jq(this).parents('li:eq(0)').attr("id")
 									.substring(8);
 							var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 						    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 					        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +response +"#f#" +
-					        value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] ;
-						jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+					        value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
+						    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 							jq(this).parents('tr:eq(0)').remove();
 						}
 						// }
@@ -1752,6 +1818,78 @@ function getAddRequirementRow(curidx) {
 	return trtmp;
 }
 
+/*
+ * set up add requirement row
+ */
+function getAddRuleRequirementRow(curidx) {
+	var trtmp = jq('<tr></tr>');
+	var thtmp = jq('<th style="text-align:left; width:150px;"></th>').html(
+			"Add Rule");
+	thtmp.appendTo(trtmp);
+	tdtmp = jq('<td colspan="2" align="left" class="content_info" style="text-align:left;"/>');
+	jq('<input type="text" size="25" />').attr("id", "ruleId" + curidx).attr("name", "ruleId" + curidx).appendTo(tdtmp);
+    var atag = jq('<a href="#"></a>');
+    var image = jq('<img border="0" title="Search Rule" alt="Search Rule" class="tinybutton" src="static/images/searchicon.gif" />')
+            .attr("id", "searchRule" + curidx).attr("name", "searchRule" + curidx).click(
+       function() {
+         var nodeIndex = jq(this).attr("id").substring(10);
+         var url = window.location.href
+         var pathname = window.location.pathname
+         var idx1 = url.indexOf(pathname);
+         var idx2 = url.indexOf("/", idx1 + 1);
+          var extractUrl = url.substr(0, idx2);
+         //alert("nodeidx "+nodeIndex)
+         var winPop = window.open(extractUrl + "/krmsRuleLookup.do?nodeIndex="
+            + nodeIndex  + "&anchor=topOfForm",
+            "_blank", "width=1000, height=800, scrollbars=yes");
+
+            });
+    image.appendTo(atag);
+    atag.appendTo(tdtmp);        
+//    jq('<a href="#"><img border="0" title="Search Rule"
+//                                            alt="Search Rule" class="tinybutton" 
+//                                             src="static/images/searchicon.gif"  onClick="clickSearchRule(${qidx})"></a>').appendTo(tdtmp);
+	tdtmp.appendTo(trtmp);
+	tdtmp = jq('<td class="content_info" class="content_white" style="width:65px; text-align:center;"></td>');
+	var image = jq(
+			'<input name="addRuleRequirement" src="kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />')
+			.attr("id", "addRuleRequirement" + curidx)
+			.click(
+					function() {
+						var idx = jq(this).attr("id").substring(18);
+						var value = jq(this).parents('tr:eq(0)').children(
+								'td:eq(0)').children('input:eq(0)').attr(
+								"value");
+						if (value == '') {
+					        alert("Please enter a value");
+					        return false;
+						}else{
+							/*
+							 * var opDesc; if (sequence == 1) { opDesc =
+							 * "Current Requirements:"; } else { opDesc =
+							 * opArray[operator]; }
+							 */
+							var newResponse = getRuleEvaluationDeleteRow(value, idx);
+							newResponse.appendTo(jq(this).parents('div:eq(0)')
+									.children('table:eq(0)').children('tbody'));
+							var idx = jq(this).parents('li:eq(0)').attr("id")
+									.substring(8);
+							jq('<input type="hidden" size="25" />').attr("id", "ruleId" + curidx).attr("value", value);
+							var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+						    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+					        				+"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
+					        				splitq[7] +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +value ;
+						    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+							jq(this).parents('tr:eq(0)').remove();
+						}
+						// }
+						return false;
+					});
+
+	image.appendTo(tdtmp);
+	tdtmp.appendTo(trtmp);
+	return trtmp;
+}
 /*
  * check if required fields entered for requirement to add Also, some basic
  * validation of number and date
@@ -1824,7 +1962,7 @@ function getRequirementDeleteRow(response, value, curidx) {
 	var thtmp = jq('<th style="text-align:left; border-top:none; width:150px;">')
 			.html("Current Requirements:");
 	thtmp.appendTo(trtmp);
-	var tdtmp = jq('<td style="text-align:left; border-top:none;">').html(
+	var tdtmp = jq('<td colspan="2" style="text-align:left; border-top:none;">').html(
 			response + " : " + value);
 	tdtmp.appendTo(trtmp);
 	tdtmp = jq('<td class="content_white" style="text-align:center; border-top:none; width:65px;">');
@@ -1839,10 +1977,10 @@ function getRequirementDeleteRow(response, value, curidx) {
 						var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 				        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"N" +"#f#" +"" +"#f#" +
-				        "" +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+				        "" +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
 					jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 						
-						getAddRequirementRow(idx).appendTo(
+						getAddRequirementRow(idx).prependTo(
 								jq(this).parents('tr:eq(0)').parents(
 										'tbody:eq(0)'));
 						jq(this).parents('tr:eq(0)').remove();
@@ -1850,6 +1988,41 @@ function getRequirementDeleteRow(response, value, curidx) {
 					});
 	if (jq("#readOnly").attr("value") != 'true') {
 	image.appendTo(tdtmp);
+	}
+	tdtmp.appendTo(trtmp);
+	return trtmp;
+
+}
+function getRuleEvaluationDeleteRow(value, curidx) {
+	var trtmp = jq('<tr></tr>');
+	var thtmp = jq('<th style="text-align:left; border-top:none; width:150px;">')
+			.html("Rule Id:");
+	thtmp.appendTo(trtmp);
+	var tdtmp = jq('<td colspan="2" align="left" style="text-align:left; border-top:none;">').html(value);
+	tdtmp.appendTo(trtmp);
+	tdtmp = jq('<input type="hidden"/>').attr("id","ruleId"+curidx).attr("name","ruleId"+curidx).attr("value",value);
+	tdtmp.appendTo(trtmp);
+	tdtmp = jq('<td class="content_white" style="text-align:center; border-top:none; width:65px;">');
+	var image = jq(
+			'<input src="kr/static/images/tinybutton-delete1.gif"  style="border:none;" alt="delete" type="image" />')
+			.attr("id", "deleterulereq" + curidx).click(
+					function() {
+						// alert("This would delete this requirement."
+						// + jq(this).parents('tr:eq(0)').next().size());
+						var idx = jq(this).parents('li:eq(0)').attr("id").substring(8);
+						var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
+				        				+"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
+				        				splitq[7] +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +null ;
+					    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+						getAddRuleRequirementRow(idx).appendTo(
+								jq(this).parents('tr:eq(0)').parents(
+										'tbody:eq(0)'));
+						jq(this).parents('tr:eq(0)').remove();
+						return false;
+					});
+	if (jq("#readOnly").attr("value") != 'true') {
+		image.appendTo(tdtmp);
 	}
 	tdtmp.appendTo(trtmp);
 	return trtmp;
@@ -1972,7 +2145,7 @@ function returnQuestionList(questionList) {
 
     var tmpstr = "" +"#f#" +jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
           +"#f#" +field[0]+"#f#" +qnum +"#f#" +parentnum +"#f#" +"N" +"#f#" +"" +"#f#" +
-          "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" ;
+          "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" +null ;
 	jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 				
 				
@@ -2700,7 +2873,7 @@ function loadQuestion() {
                 // "+jq("#addrequirement"+i).parents('tr:eq(0)').size());
                 var newResponse = getRequirementDeleteRow(
                         responseArray[field[6]], field[7]);
-                newResponse.appendTo(jq("#addrequirement" + curi).parents(
+                newResponse.prependTo(jq("#addrequirement" + curi).parents(
                         'div:eq(0)').children('table:eq(0)').children('tbody'));
                 jq("#addrequirement" + curi).parents('tr:eq(0)').remove();
             }
@@ -2716,9 +2889,12 @@ function loadQuestion() {
             if (field[7] == 'null') {
                 field[7] = ''
             }        
+//            if (field[16] == 'null') {
+//                field[16] = ''
+//            }        
             var tmpstr = field[0] +"#f#" +refid
             +"#f#" +field[1] +"#f#" +field[5] +"#f#" +field[8] +"#f#" +field[14] +"#f#" +field[6] +"#f#" +
-            field[7] +"#f#" +field[2] +"#f#" +field[13] +"#f#" +"N" ;
+            field[7] +"#f#" +field[2] +"#f#" +field[13] +"#f#" +"N" +"#f#" +field[16];
     jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
             
         } // end if-then-else
@@ -3099,7 +3275,7 @@ function addForReplace(curidx) {
 					var splitq = jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
 				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
-			        splitq[7] +"#f#" +nextseq +"#f#" +splitq[9] +"#f#" +splitq[10] ;
+			        splitq[7] +"#f#" +nextseq +"#f#" +splitq[9] +"#f#" +splitq[10] + "#f#" +splitq[11];
 				jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
 //				    jq("#"+jqprefix + nextitem.attr("id").substring(8) + "\\]\\.questionSeqNumber").attr("value",nextseq);
 			    	jq("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
@@ -3115,7 +3291,7 @@ function addForReplace(curidx) {
 			idx = jq(listitem).attr("id").substring(8);		
             var tmpstr = "" +"#f#" +jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
                +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
-               "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" ;
+               "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" +null;
             jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 
 					
@@ -3186,7 +3362,7 @@ function clickSearchRule(nodeIndex) {
     var idx1 = url.indexOf(pathname);
     var idx2 = url.indexOf("/", idx1 + 1);
     var extractUrl = url.substr(0, idx2);
-    //alert("nodeidx "+nodeIndex)
+//    alert("nodeidx "+nodeIndex)
     
      var winPop = window.open(extractUrl + "/krmsRuleLookup.do?nodeIndex="
             + nodeIndex  + "&anchor=topOfForm",
@@ -3201,7 +3377,7 @@ function clickSearchRule(nodeIndex) {
 }
 
 function returnRule(ruleId, nodeIndex) {
-  // alert("return rule "+ruleId+" for "+nodeIndex);
-   jq("#reqVal"+nodeIndex).attr("value",ruleId);
+//   alert("return rule "+ruleId+" for "+nodeIndex);
+   jq("#ruleId"+nodeIndex).attr("value",ruleId);
 }
 

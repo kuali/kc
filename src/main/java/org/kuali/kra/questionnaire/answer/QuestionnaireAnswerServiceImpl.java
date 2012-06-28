@@ -550,12 +550,18 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         Collections.sort(answers, new AnswerComparator());
 
         for (Answer answer : answers) {
-            if (answer.getQuestionnaireQuestion().getParentQuestionNumber() == 0) {
-                // TODO : need to do rule evaluation if KRMS rule is set.
-                if (StringUtils.isNotBlank(answer.getQuestionnaireQuestion().getCondition()) && ConditionType.RULE_EVALUATION.getCondition().equals(answer.getQuestionnaireQuestion().getCondition())) {
+//            answer.refreshReferenceObject("questionnaireQuestion");
+            QuestionnaireQuestion questionnaireQuestion = answer.getQuestionnaireQuestion();
+//            if(questionnaireQuestion.getQuestionnaireRefIdFk().equals("883")){
+//                String condition = questionnaireQuestion.getCondition();
+//                //do something
+//            }
+            if (questionnaireQuestion.getParentQuestionNumber() == 0) {
+                String ruleId = questionnaireQuestion.getRuleId();
+                if (StringUtils.isNotBlank(ruleId)) {
                     // TODO : need to implement rulematched
                   //  if (ruleMatched(answer.getQuestionnaireQuestion().getConditionValue())) {
-                    if (isRuleValid(answer.getQuestionnaireQuestion().getConditionValue(), getKrmsRulesContext(answer.getAnswerHeader()))) {
+                    if (isRuleValid(ruleId, getKrmsRulesContext(answer.getAnswerHeader()))) {
                         answer.setMatchedChild(YES);
                     } else {
                         answer.setMatchedChild(NO);
@@ -565,24 +571,23 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
             }
             else {
-                answer.setParentAnswer(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()));
-                if (StringUtils.isBlank(answer.getQuestionnaireQuestion().getCondition())) {
-                    if (isParentNotDisplayed(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()))) {
+                answer.setParentAnswer(parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()));
+                if (StringUtils.isBlank(questionnaireQuestion.getCondition())) {
+                    if (isParentNotDisplayed(parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()))) {
                         answer.setMatchedChild(NO);
                     }
                     else {
                         answer.setMatchedChild(YES);
                     }
                 }
-                else if (isParentNotDisplayed(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()))) {
+                else if (isParentNotDisplayed(parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()))) {
                     answer.setMatchedChild(NO);
-                    if (ConditionType.RULE_EVALUATION.getCondition().equals(answer.getQuestionnaireQuestion().getCondition())) {
+                    if (ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition())) {
                         // evaluate this rule, so the ruleReferenced map can be populated
-                         isRuleValid(answer.getQuestionnaireQuestion().getConditionValue(), getKrmsRulesContext(answer.getAnswerHeader()));
+                         isRuleValid(questionnaireQuestion.getConditionValue(), getKrmsRulesContext(answer.getAnswerHeader()));
                     }
                 }
-                else if ((ConditionType.RULE_EVALUATION.getCondition().equals(answer.getQuestionnaireQuestion().getCondition()) && isRuleValid(answer.getQuestionnaireQuestion().getConditionValue(), getKrmsRulesContext(answer.getAnswerHeader()))) || isAnyAnswerMatched(answer.getQuestionnaireQuestion().getCondition(), parentAnswers.get(answer
-                        .getQuestionnaireQuestion().getParentQuestionNumber()), answer.getQuestionnaireQuestion()
+                else if ((ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition()) && isRuleValid(questionnaireQuestion.getConditionValue(), getKrmsRulesContext(answer.getAnswerHeader()))) || isAnyAnswerMatched(questionnaireQuestion.getCondition(), parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()), questionnaireQuestion
                         .getConditionValue())) {
                     answer.setMatchedChild(YES);
                 }
@@ -810,10 +815,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private KrmsRulesContext getKrmsRulesContext(AnswerHeader answerHeader) {
         KrmsRulesContext ruleContext = null;
         if (CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE.equals(answerHeader.getModuleItemCode())) {
-            // TODO : currently only PDDocument implement KrmsRulesContext
             ruleContext = getRuleContextClass(answerHeader, "proposalNumber", DevelopmentProposal.class);
         } else if (CoeusModule.IRB_MODULE_CODE.equals(answerHeader.getModuleItemCode())) {
-            // TODO : currently only PDDocument implement KrmsRulesContext
             ruleContext = getRuleContextClass(answerHeader, "protocolNumber", Protocol.class);
             
         }
@@ -845,15 +848,15 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             contextKey = ((ProtocolDocument)rulesContext).getProtocol().getProtocolNumber()+"-"+((ProtocolDocument)rulesContext).getProtocol().getSequenceNumber();
         }
         boolean isValid = false;
-        if (GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-ruleresults") == null) {
+//        if (GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-ruleresults") == null) {
             isValid = loadAndisRuleValid(ruleId, rulesContext);
-        } else {
-            Map <String, Boolean> results = (Map <String, Boolean>)GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-ruleresults");
-            String ruleName = KrmsApiServiceLocator.getRuleRepositoryService().getRule(ruleId).getName(); 
-            if (MapUtils.isNotEmpty(results)) {
-                isValid = results.get(ruleName);
-            }
-        }
+//        } else {
+//            Map <String, Boolean> results = (Map <String, Boolean>)GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-ruleresults");
+//            String ruleName = KrmsApiServiceLocator.getRuleRepositoryService().getRule(ruleId).getName(); 
+//            if (MapUtils.isNotEmpty(results)) {
+//                isValid = results.get(ruleName);
+//            }
+//        }
         ((Map <String, Boolean>)GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-rulereferenced")).put(ruleId, Boolean.valueOf(isValid));
         return isValid;
     }
