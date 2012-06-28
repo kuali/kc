@@ -54,8 +54,8 @@
 	<bean id="IacucPersonTraining-iacucPersonTrainingId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="iacucPersonTrainingId" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Iacuc Person Training Id" />
-		<property name="shortLabel" value="Iacuc Person Training Id" />
+		<property name="label" value="IACUC Person Training Id" />
+		<property name="shortLabel" value="IACUC Person Training Id" />
 		<property name="maxLength" value="5" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
@@ -64,8 +64,8 @@
 			<bean parent="TextControlDefinition"
 				p:size="5" />
 		</property>
-		<property name="summary" value="Iacuc Person Training Id" />
-		<property name="description" value="Iacuc Person Training Id" />
+		<property name="summary" value="IACUC Person Training Id" />
+		<property name="description" value="IACUC Person Training Id" />
 	</bean>
 
 	<bean id="IacucPersonTraining-personTrainingId" parent="PersonTraining-personTrainingId-parentBean"/>
@@ -125,7 +125,7 @@
 	<!-- Business Object Lookup Definition -->
 	<bean id="IacucPersonTraining-lookupDefinition" parent="IacucPersonTraining-lookupDefinition-parentBean" />
 	<bean id="IacucPersonTraining-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Iacuc Person Training Lookup" />
+		<property name="title" value="IACUC Person Training Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
 		<property name="defaultSort" >
