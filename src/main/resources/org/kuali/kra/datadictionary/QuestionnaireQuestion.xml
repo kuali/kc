@@ -41,6 +41,7 @@
                 <ref bean="QuestionnaireQuestion-condition" />
                 <ref bean="QuestionnaireQuestion-conditionValue" />
                 <ref bean="QuestionnaireQuestion-questionSeqNumber" />
+                <ref bean="QuestionnaireQuestion-ruleId" />
                 <ref bean="QuestionnaireQuestion-versionNumber" />
             </list>
         </property>
@@ -200,6 +201,23 @@
         <property name="summary" value="Question Seq Number" />
         <property name="description" value="Question Seq Number" />
     </bean>
+    <bean id="QuestionnaireQuestion-ruleId" parent="QuestionnaireQuestion-ruleId-parentBean" />
+    <bean id="QuestionnaireQuestion-ruleId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="ruleId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question Seq Number" />
+        <property name="shortLabel" value="Question Seq Number" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="3" />
+        </property>
+        <property name="summary" value="Question Seq Number" />
+        <property name="description" value="Question Seq Number" />
+    </bean>
 
     <bean id="QuestionnaireQuestion-versionNumber" parent="QuestionnaireQuestion-versionNumber-parentBean" />
     <bean id="QuestionnaireQuestion-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -233,6 +251,8 @@
                                 p:attributeName="conditionValue" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="questionSeqNumber" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="ruleId" />
                         </list>
                     </property>
                 </bean>
@@ -269,6 +289,8 @@
                     p:attributeName="conditionValue" />
                 <bean parent="FieldDefinition"
                     p:attributeName="questionSeqNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="ruleId" />
             </list>
         </property>
         <property name="resultFields" >
@@ -290,6 +312,8 @@
                     p:attributeName="conditionValue" />
                 <bean parent="FieldDefinition"
                     p:attributeName="questionSeqNumber" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="ruleId" />
             </list>
         </property>
     </bean>

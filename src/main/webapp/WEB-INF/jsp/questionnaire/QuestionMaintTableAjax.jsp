@@ -144,10 +144,10 @@
 				<div id="HSReqdiv${qidx}">
 				    <c:choose>
 				        <c:when test="${KualiForm.childNode == 'true'}">
-				            <kra-questionnaire:qnQuestionResponse response="${KualiForm.response}" value = "${KualiForm.value}" topQuestion="false"/>
+				            <kra-questionnaire:qnQuestionResponse response="${KualiForm.response}" value = "${KualiForm.value}" ruleId="${KualiForm.ruleId}" topQuestion="false"/>
 				        </c:when>
 				        <c:otherwise>
-                            <kra-questionnaire:qnQuestionResponse response="${KualiForm.response}" value = "${KualiForm.value}" topQuestion="true"/>
+                            <kra-questionnaire:qnQuestionResponse response="${KualiForm.response}" value = "${KualiForm.value}" ruleId="${KualiForm.ruleId}" topQuestion="true"/>
 				        </c:otherwise>
 				    </c:choose>
 				</div>
