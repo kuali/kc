@@ -46,6 +46,9 @@ public class ProtocolSummaryPrintOptions implements Serializable {
     private boolean otherData = true;
     private boolean reviewComments = true;
     private boolean protocolHistory = true;
+    private boolean speciesAndGroups = true;
+    private boolean principles = true;
+    private boolean procedure = true; 
     /**
      * Gets the actions attribute. 
      * @return Returns the actions.
@@ -313,17 +316,74 @@ public class ProtocolSummaryPrintOptions implements Serializable {
         return otherData;
     }
     
+    /**
+     * Gets the reviewComments attribute. 
+     * @return Returns the reviewComments.
+     */
     public boolean isReviewComments() {
         return reviewComments;
     }
-    
+    /**
+     * Sets the reviewComments attribute value.
+     * @param reviewComments The reviewComments to set.
+     */
     public void setReviewComments(boolean reviewComments) {
         this.reviewComments = reviewComments;
     }
+    /**
+     * Gets the protocolHistory attribute. 
+     * @return Returns the protocolHistory.
+     */
     public boolean isProtocolHistory() {
         return protocolHistory;
     }
+    /**
+     * Sets the protocolHistory attribute value.
+     * @param protocolHistory The protocolHistory to set.
+     */
     public void setProtocolHistory(boolean protocolHistory) {
         this.protocolHistory = protocolHistory;
     }
+    /**
+     * Gets the speciesAndGroups attribute. 
+     * @return Returns the speciesAndGroups.
+     */
+    public boolean isSpeciesAndGroups() {
+        return speciesAndGroups;
+    }
+    /**
+     * Sets the speciesAndGroups attribute value.
+     * @param speciesAndGroups The speciesAndGroups to set.
+     */
+    public void setSpeciesAndGroups(boolean speciesAndGroups) {
+        this.speciesAndGroups = speciesAndGroups;
+    }
+    /**
+     * Gets the principles attribute. 
+     * @return Returns the principles.
+     */
+    public boolean isPrinciples() {
+        return principles;
+    }
+    /**
+     * Sets the principles attribute value.
+     * @param principles The principles to set.
+     */
+    public void setPrinciples(boolean principles) {
+        this.principles = principles;
+    }
+    /**
+     * Gets the procedure attribute. 
+     * @return Returns the procedure.
+     */
+    public boolean isProcedure() {
+        return procedure;
+    }
+    /**
+     * Sets the procedure attribute value.
+     * @param procedure The procedure to set.
+     */
+    public void setProcedure(boolean procedure) {
+        this.procedure = procedure;
+    }       
 }

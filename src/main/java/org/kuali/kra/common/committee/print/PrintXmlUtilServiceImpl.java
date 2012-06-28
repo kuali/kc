@@ -24,25 +24,21 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.iacuc.actions.IacucProtocolAction;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-import edu.mit.irb.irbnamespace.MinutesDocument.Minutes;
-import edu.mit.irb.irbnamespace.PersonDocument.Person;
-import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.Submissions;
-import edu.mit.irb.irbnamespace.ProtocolSubmissionDocument.ProtocolSubmission;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.ActionType;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo.Checklists;
+import edu.mit.coeus.xml.iacuc.MinuteType;
+import edu.mit.coeus.xml.iacuc.PersonType;
+import edu.mit.coeus.xml.iacuc.ProtocolSubmissionType;
+import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
+import edu.mit.coeus.xml.iacuc.ScheduleType;
+import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
 
 /**
  * This class...
@@ -53,7 +49,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
     private DateTimeService dateTimeService;
     //private ReviewCommentsService reviewCommentsService;
     
-    public void setPersonXml(KcPerson person, Person personType) {
+    public void setPersonXml(KcPerson person, PersonType personType) {
         personType.setPersonID(person.getPersonId());
         personType.setFullname(person.getFullName());
         personType.setLastName(person.getLastName());
@@ -83,7 +79,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
 
     }
 
-    public void setPersonRolodexType(ProtocolPerson protocolPerson, Person personType) {
+    public void setPersonRolodexType(ProtocolPerson protocolPerson, PersonType personType) {
         if (protocolPerson.getPerson() == null) {
             ProtocolPersonRolodex rolodex = getBusinessObjectService().findBySinglePrimaryKey(ProtocolPersonRolodex.class,
                     protocolPerson.getRolodexId());
@@ -96,7 +92,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
     }
 
 
-    public void setPersonXml(ProtocolPersonRolodex rolodex, Person personType) {
+    public void setPersonXml(ProtocolPersonRolodex rolodex, PersonType personType) {
         personType.setPersonID(rolodex.getRolodexId().toString());
         String fullName = rolodex.getMiddleName() != null ? rolodex.getLastName() + "," + rolodex.getFirstName()
                 + rolodex.getMiddleName() : rolodex.getLastName() + "," + rolodex.getFirstName();
@@ -123,12 +119,12 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
      * @param protocolSubmission
      * @param protocolSubmissionDetail
      */
-    public void setProtocolSubmissionAction(org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission,
-            SubmissionDetails protocolSubmissionDetail) {
+    public void setProtocolSubmissionAction(IacucProtocolSubmission protocolSubmission,
+            SubmissionDetailsType protocolSubmissionDetail) {
         ProtocolAction protcolAction = findProtocolActionForSubmission(protocolSubmission);
         if (protcolAction != null) {
             protcolAction.refreshNonUpdateableReferences();
-            ActionType actionTypeInfo = protocolSubmissionDetail.addNewActionType();
+            edu.mit.coeus.xml.iacuc.SubmissionDetailsType.ActionType actionTypeInfo = protocolSubmissionDetail.addNewActionType();
             actionTypeInfo.setActionId(BigInteger.valueOf(protcolAction.getActionId()));
             if (protcolAction.getProtocolActionTypeCode() != null) {
                 actionTypeInfo.setActionTypeCode(new BigInteger(protcolAction.getProtocolActionTypeCode()));
@@ -141,17 +137,17 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
         }
     }
 
-    protected ProtocolAction findProtocolActionForSubmission(org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission) {
+    protected ProtocolAction findProtocolActionForSubmission(IacucProtocolSubmission protocolSubmission) {
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("submissionIdFk", protocolSubmission.getSubmissionId());
-        List<ProtocolAction> actions = (List) getBusinessObjectService().findMatchingOrderBy(ProtocolAction.class, param,
+        List<ProtocolAction> actions = (List) getBusinessObjectService().findMatchingOrderBy(IacucProtocolAction.class, param,
                 "actionId", true);
         return actions.isEmpty() ? null : actions.get(0);
     }
 
     public void setSubmissionCheckListinfo(org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission,
-            SubmissionDetails protocolSubmissionDetail) {
-        SubmissionChecklistInfo submissionChecklistInfo = protocolSubmissionDetail.addNewSubmissionChecklistInfo();
+            SubmissionDetailsType protocolSubmissionDetail) {
+        edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo submissionChecklistInfo = protocolSubmissionDetail.addNewSubmissionChecklistInfo();
         String formattedCode = new String();
 
 // TODO verify code for refactor        
@@ -181,7 +177,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
 //        }
     }
 
-    public void setMinutes(CommitteeSchedule scheduleDetailsBean, Schedule schedule) {
+    public void setMinutes(CommitteeSchedule scheduleDetailsBean, ScheduleType schedule) {
 // TODO verify refactor code        
 //        List<CommitteeScheduleMinute> vecMinutes = scheduleDetailsBean.getCommitteeScheduleMinutes();
 //        if (!vecMinutes.isEmpty()) {
@@ -199,7 +195,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
 //        }
     }
 
-    protected void addMinute(CommitteeSchedule committeeSchedule, CommitteeScheduleMinute committeeScheduleMinute, Minutes minutesType) {
+    protected void addMinute(CommitteeSchedule committeeSchedule, CommitteeScheduleMinute committeeScheduleMinute, MinuteType minutesType) {
         committeeScheduleMinute.refreshNonUpdateableReferences();
         minutesType.setScheduleId(committeeScheduleMinute.getScheduleIdFk().toString());
         minutesType.setEntryNumber(new BigInteger(String.valueOf(committeeScheduleMinute.getEntryNumber())));
@@ -236,7 +232,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
     }
 
     public void setProcotolMinutes(CommitteeSchedule committeeSchedule,
-            org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, ProtocolSubmission protocolSubmissionType) {
+            org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, ProtocolSubmissionType protocolSubmissionType) {
 // TODO verify refactor code        
 //        List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
 //        for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
@@ -257,7 +253,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
     }
 
     public void setProcotolSubmissionMinutes(CommitteeSchedule committeeSchedule,
-            ProtocolSubmission protocolSubmission, Submissions submissionsType) {
+            ProtocolSubmissionType protocolSubmission, Submissions submissionsType) {
      // TODO verify refactor code        
 //        List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
 //        for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
@@ -326,7 +322,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+        return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
     /**
@@ -345,7 +341,6 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
      */
     public DateTimeService getDateTimeService() {
         return dateTimeService;
-    }
-
-
+    }    
+    
 }
