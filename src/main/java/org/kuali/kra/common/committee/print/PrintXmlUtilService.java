@@ -17,31 +17,34 @@ package org.kuali.kra.common.committee.print;
 
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
 
-import edu.mit.irb.irbnamespace.PersonDocument.Person;
-import edu.mit.irb.irbnamespace.ProtocolDocument.Protocol.Submissions;
-import edu.mit.irb.irbnamespace.ProtocolSubmissionDocument.ProtocolSubmission;
-import edu.mit.irb.irbnamespace.ScheduleDocument.Schedule;
-import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails;
+import edu.mit.coeus.xml.iacuc.PersonType;
+import edu.mit.coeus.xml.iacuc.ProtocolSubmissionType;
+import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
+import edu.mit.coeus.xml.iacuc.ScheduleType;
+import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
 
 /**
  * This class has different helper methods to populate data for Person XML data.
  */
 public interface PrintXmlUtilService {
-    public void setPersonXml(KcPerson person, Person personType);
-    public void setPersonXml(ProtocolPersonRolodex rolodex, Person personType);
-    public void setPersonRolodexType(ProtocolPerson protocolPerson, Person personType);
-    public void setProtocolSubmissionAction(org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission,
-            SubmissionDetails protocolSubmissionDetail);
+    
+    public void setPersonXml(KcPerson person, PersonType personType);
+    public void setPersonXml(ProtocolPersonRolodex rolodex, PersonType personType);
+    public void setPersonRolodexType(ProtocolPerson protocolPerson, PersonType personType);   
+    
+    public void setProtocolSubmissionAction(IacucProtocolSubmission protocolSubmission,
+            SubmissionDetailsType protocolSubmissionDetail);
     public void setSubmissionCheckListinfo(org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission,
-            SubmissionDetails protocolSubmissionDetail);
-    public void setMinutes(CommitteeSchedule scheduleDetailsBean, Schedule schedule);
+            SubmissionDetailsType protocolSubmissionDetail);
+    public void setMinutes(CommitteeSchedule scheduleDetailsBean, ScheduleType schedule);
     public void setProcotolMinutes(CommitteeSchedule committeeSchedule, 
-            org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, ProtocolSubmission protocolSubmissionType);
+            org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, ProtocolSubmissionType protocolSubmissionType);
     public void setProcotolSubmissionMinutes(CommitteeSchedule committeeSchedule,
-            ProtocolSubmission protocolSubmission, Submissions submissionsType);
+            ProtocolSubmissionType protocolSubmission, Submissions submissionsType);
     
     public void setProtocolReviewMinutes(CommitteeSchedule committeeSchedule,
             org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType);

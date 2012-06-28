@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.protocol.actions.print;
 
-import java.sql.Date;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,18 +23,16 @@ import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.print.CommitteeXmlStream;
+import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.print.CommitteeXmlStream;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
 
-import edu.mit.irb.irbnamespace.CommitteeMasterDataDocument.CommitteeMasterData;
-import edu.mit.irb.irbnamespace.NextScheduleDateDocument.NextScheduleDate;
-import edu.mit.irb.irbnamespace.RenewalReminderDocument;
-import edu.mit.irb.irbnamespace.RenewalReminderDocument.RenewalReminder;
+import edu.mit.coeus.xml.iacuc.CommitteeMasterDataType;
+import edu.mit.coeus.xml.iacuc.NextScheduleDateType;
+import edu.mit.coeus.xml.iacuc.RenewalReminderDocument;
+import edu.mit.coeus.xml.iacuc.RenewalReminderType;
 
 /**
  * This class...
@@ -48,9 +45,9 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
      * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
      */
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
-        Protocol protocol = (Protocol)printableBusinessObject;
+        IacucProtocol protocol = (IacucProtocol)printableBusinessObject;
         RenewalReminderDocument renewalReminderDocument = RenewalReminderDocument.Factory.newInstance() ;
-        RenewalReminder renewalReminder = RenewalReminder.Factory.newInstance() ;
+        RenewalReminderType renewalReminder = RenewalReminderType.Factory.newInstance() ;
         renewalReminder.setCurrentDate(getDateTimeService().getCurrentCalendar()) ;
         String committeeId = (String)reportParameters.get("committeeId");
         Committee committee = null;
@@ -64,17 +61,17 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
              */
             committee = (Committee) Collections.max(committees);
         }
-        CommitteeMasterData committeeMasterData = CommitteeMasterData.Factory.newInstance();
+        CommitteeMasterDataType committeeMasterData = CommitteeMasterDataType.Factory.newInstance();
         committeeXmlStream.setCommitteeMasterData(committee,committeeMasterData) ;
         renewalReminder.setCommitteeMasterData(committeeMasterData) ;
-        List<CommitteeSchedule> committeSchedules = committee.getCommitteeSchedules();
+        List<org.kuali.kra.common.committee.bo.CommitteeSchedule> committeSchedules = committee.getCommitteeSchedules();
         int rowNumber = 0;
-        for (CommitteeSchedule committeeSchedule : committeSchedules) {
+        for (org.kuali.kra.common.committee.bo.CommitteeSchedule committeeSchedule : committeSchedules) {
             if(rowNumber<5 ) break;
             if(committeeSchedule.getScheduledDate().after(getDateTimeService().getCurrentDate()) ||
                     committeeSchedule.getScheduledDate().equals(getDateTimeService().getCurrentDate())){
                 ++rowNumber;
-                NextScheduleDate nextScheduleDateType = renewalReminder.addNewNextScheduleDate();
+                NextScheduleDateType nextScheduleDateType = renewalReminder.addNewNextScheduleDate();
                 nextScheduleDateType.setScheduleDate(getDateTimeService().getCalendar(committeeSchedule.getScheduledDate()));
                 nextScheduleDateType.setScheduleNumber(rowNumber);
             }
