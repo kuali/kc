@@ -465,22 +465,17 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
         for (InvestigatorCreditType investigatorCreditType : investigatorCreditTypes) {
             String invCreditTypeCode = investigatorCreditType.getInvCreditTypeCode();
             String invCreditDescription = investigatorCreditType.getDescription();
-            if (invCreditTypeCode == "0") {
+            if (invCreditTypeCode.equals("0")) {
                 proposalCreditSplitColumns.setColumnName1(invCreditDescription);
-            }
-            else if (invCreditTypeCode == "1") {
+            } else if (invCreditTypeCode.equals("1")) {
                 proposalCreditSplitColumns.setColumnName2(invCreditDescription);
-            }
-            else if (invCreditTypeCode == "2") {
+            } else if (invCreditTypeCode.equals("2")) {
                 proposalCreditSplitColumns.setColumnName3(invCreditDescription);
-            }
-            else if (invCreditTypeCode == "3") {
+            } else if (invCreditTypeCode.equals("3")) {
                 proposalCreditSplitColumns.setColumnName4(invCreditDescription);
-            }
-            else if (invCreditTypeCode == "4") {
+            } else if (invCreditTypeCode.equals("4")) {
                 proposalCreditSplitColumns.setColumnName5(invCreditDescription);
-            }
-            else if (invCreditTypeCode == "5") {
+            } else if (invCreditTypeCode.equals("5")) {
                 proposalCreditSplitColumns.setColumnName6(invCreditDescription);
             }
         }
