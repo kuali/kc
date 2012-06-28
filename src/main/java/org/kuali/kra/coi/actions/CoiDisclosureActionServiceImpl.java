@@ -17,8 +17,10 @@ package org.kuali.kra.coi.actions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -94,6 +96,8 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
                 if (!(coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
                      copyCollections(masterCoiDisclosure, coiDisclosure);
                 }
+            } else {
+                syncCollections(masterCoiDisclosure, coiDisclosure);
             }
             masterCoiDisclosure.setCurrentDisclosure(false);
 //            coiDisclosure.setCurrentDisclosure(true);
@@ -436,5 +440,155 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
                 tmpProj.setCoiDispositionStatus(coiDisclosure.getCoiDispositionStatus());
             }
         }      
+    }
+    
+    /**
+     * 
+     * This method is called to ensure that any approved manual
+     * @param masterCoiDisclosure
+     * @param coiDisclosure
+     */
+    private void syncCollections(CoiDisclosure masterCoiDisclosure, CoiDisclosure updateDisclosure) {
+        syncDisclosureProjects(masterCoiDisclosure, updateDisclosure);
+        syncDisclosureNotepads(masterCoiDisclosure, updateDisclosure);
+        syncDisclosureAttachments(masterCoiDisclosure, updateDisclosure);
+        syncDisclosureQuestionnaire(masterCoiDisclosure, updateDisclosure);        
+    }
+    
+    private void syncDisclosureProjects(CoiDisclosure masterCoiDisclosure, CoiDisclosure updateDisclosure) {
+ 
+        //Lets see the map with the update items first...
+        Map<String, CoiDisclProject> masterProjectMap = new HashMap<String, CoiDisclProject>();
+        for (CoiDisclProject updateDisclProject : updateDisclosure.getCoiDisclProjects()) {
+            masterProjectMap.put(getCoiDisclProjectMapKey(updateDisclProject),updateDisclProject);
+        }
+        
+        //Lets put the current master list of discl projects into a map for easier processing
+        for (CoiDisclProject masterDisclProject : masterCoiDisclosure.getCoiDisclProjects()) {
+            if (!masterProjectMap.containsKey(getCoiDisclProjectMapKey(masterDisclProject))) {
+                CoiDisclProject copiedDisclProject = (CoiDisclProject) ObjectUtils.deepCopy(masterDisclProject);
+                copiedDisclProject.setSequenceNumber(updateDisclosure.getSequenceNumber());
+                copiedDisclProject.setCoiDisclProjectsId(null);
+
+                // copy disc details
+                copiedDisclProject.setCoiDisclosureId(updateDisclosure.getCoiDisclosureId());                
+                copyDisclosureDetails(masterDisclProject.getCoiDiscDetails(), copiedDisclProject);
+                masterProjectMap.put(getCoiDisclProjectMapKey(masterDisclProject), copiedDisclProject);                
+            }
+        }
+        
+        //Now lets convert the entry set to a list and set it on the update disclosure
+        List<CoiDisclProject> mergedProjectList = new ArrayList<CoiDisclProject>();
+        mergedProjectList.addAll(masterProjectMap.values());
+        
+        updateDisclosure.setCoiDisclProjects(mergedProjectList);
+
+    }
+    
+    private String getCoiDisclProjectMapKey(CoiDisclProject disclProject) {
+        return disclProject.getCoiProjectId() + "^" + disclProject.getModuleItemKey() + "^" + disclProject.getDisclosureEventType();
+    }
+    
+    private void syncDisclosureNotepads(CoiDisclosure masterCoiDisclosure, CoiDisclosure updateDisclosure) {
+        List<CoiDisclosureNotepad> mergedNotepadList = new ArrayList<CoiDisclosureNotepad>();
+        
+        //Lets add the original disclosure id from notes from a previous disclosure that are found in 
+        //the update to a set to check against later
+        Set<Long> origDisclIds = new HashSet<Long>();
+        for (CoiDisclosureNotepad updateNotepad : updateDisclosure.getCoiDisclosureNotepads()) {
+            if (updateNotepad.getOriginalCoiDisclosureId() != null) {
+                origDisclIds.add(updateNotepad.getOriginalCoiDisclosureId());
+            }
+            
+            //All notes from the update are guaranteed to be the latest notes
+            mergedNotepadList.add(updateNotepad);
+        }
+        
+        //Now lets iterate over the notepads in the master, any original disclosure ids that are not
+        //found in the update set or if they are null (attached to the current master) we need to 
+        //add them to the list
+        for (CoiDisclosureNotepad masterNotepad : masterCoiDisclosure.getCoiDisclosureNotepads()) {
+            if (masterNotepad.getOriginalCoiDisclosureId() == null ||
+                !origDisclIds.contains(masterNotepad.getOriginalCoiDisclosureId())) {
+                CoiDisclosureNotepad copiedCoiDisclosureNotepad = (CoiDisclosureNotepad) ObjectUtils.deepCopy(masterNotepad);
+                copiedCoiDisclosureNotepad.setSequenceNumber(updateDisclosure.getSequenceNumber());
+                copiedCoiDisclosureNotepad.setId(null);
+                if (copiedCoiDisclosureNotepad.getOriginalCoiDisclosureId() == null) {
+                    copiedCoiDisclosureNotepad.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                }                
+                mergedNotepadList.add(copiedCoiDisclosureNotepad);
+            }
+        }
+        
+        //Lets set our merged list in the update
+        updateDisclosure.setCoiDisclosureNotepads(mergedNotepadList);       
+    }
+    
+    private void syncDisclosureAttachments(CoiDisclosure masterCoiDisclosure, CoiDisclosure updateDisclosure) {
+        List<CoiDisclosureAttachment> mergedAttachmentList = new ArrayList<CoiDisclosureAttachment>();
+        
+        //Lets add the original disclosure id from attachments from a previous disclosure that are found in 
+        //the update to a set to check against later
+        Set<Long> origDisclIds = new HashSet<Long>();
+        for (CoiDisclosureAttachment updateAttachment : updateDisclosure.getCoiDisclosureAttachments()) {
+            if (updateAttachment.getOriginalCoiDisclosureId() != null) {
+                origDisclIds.add(updateAttachment.getOriginalCoiDisclosureId());
+            }
+            
+            //All attachments from the update are guaranteed to be the latest attachments
+            mergedAttachmentList.add(updateAttachment);
+        }
+        
+        //Now lets iterate over the attachments in the master, any original disclosure ids that are not
+        //found in the update set or if they are null (attached to the current master) we need to 
+        //add them to the list
+        for (CoiDisclosureAttachment masterAttachment : masterCoiDisclosure.getCoiDisclosureAttachments()) {
+            if (masterAttachment.getOriginalCoiDisclosureId() == null ||
+                !origDisclIds.contains(masterAttachment.getOriginalCoiDisclosureId())) {
+                CoiDisclosureAttachment copiedCoiDisclosureAttachment = (CoiDisclosureAttachment) ObjectUtils.deepCopy(masterAttachment);
+                copiedCoiDisclosureAttachment.setSequenceNumber(updateDisclosure.getSequenceNumber());
+                copiedCoiDisclosureAttachment.setAttachmentId(null);
+                copiedCoiDisclosureAttachment.setFile(masterAttachment.getFile());
+                copiedCoiDisclosureAttachment.setFileId(masterAttachment.getFileId());
+                if (copiedCoiDisclosureAttachment.getOriginalCoiDisclosureId() == null) {
+                    copiedCoiDisclosureAttachment.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                }                
+                mergedAttachmentList.add(copiedCoiDisclosureAttachment);
+            }
+        }
+        
+        //Lets set our merged list in the update
+        updateDisclosure.setCoiDisclosureAttachments(mergedAttachmentList);           
+    }
+    
+    private void syncDisclosureQuestionnaire(CoiDisclosure masterCoiDisclosure, CoiDisclosure updateDisclosure) {
+        List<AnswerHeader> updateAnswerHeaders = retrieveAnswerHeaders(updateDisclosure);
+        List<AnswerHeader> masterAnswerHeaders = retrieveAnswerHeaders(masterCoiDisclosure);
+        
+        Set<Long> origDisclIds = new HashSet<Long>();
+        for (AnswerHeader updateHeader : updateAnswerHeaders) {
+            if (updateHeader.getOriginalCoiDisclosureId() != null) {
+                origDisclIds.add(updateHeader.getOriginalCoiDisclosureId());
+            }
+        }
+        
+        for (AnswerHeader masterHeader : masterAnswerHeaders) {
+            if (masterHeader.getOriginalCoiDisclosureId() == null ||
+                    !origDisclIds.contains(masterHeader.getOriginalCoiDisclosureId())) {
+                AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(masterHeader);
+                copiedAnswerHeader.setAnswerHeaderId(null);
+                for (Answer answer : copiedAnswerHeader.getAnswers()) {
+                    answer.setId(null);
+                }                
+                copiedAnswerHeader.setModuleSubItemKey(updateDisclosure.getSequenceNumber().toString());
+                if (copiedAnswerHeader.getOriginalCoiDisclosureId() == null) {
+                    copiedAnswerHeader.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                }
+                
+                updateAnswerHeaders.add(copiedAnswerHeader);
+            }
+        }
+        
+        businessObjectService.save(updateAnswerHeaders);       
     }
 }
