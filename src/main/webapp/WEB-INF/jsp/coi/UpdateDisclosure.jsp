@@ -78,7 +78,7 @@
 
     
 <%-- --%>
-<c:set var="readOnly" value="false" scope="request"/>
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 <div align="right"><kul:help documentTypeName="CoiDisclosureDocument" pageName="CoiDisclosure" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-coi:disclosureReporter />
@@ -89,6 +89,7 @@
 <kra-coi:updateDisclosureProjects/>
 <kra-coi:coiNoteAndAttachment/>
 <kra-coi:coiCertification topTab="false" />
+
 
 <kul:panelFooter />
     <kul:documentControls 
