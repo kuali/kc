@@ -105,6 +105,7 @@ public abstract class ProtocolHelper implements Serializable {
     private boolean modifyOrganizations = false;
     private boolean modifySubjects = false;
     private boolean modifyAreasOfResearch = false;
+    private boolean createProposalDevelopment = false;
     
     private boolean leadUnitAutoPopulated = false;
     
@@ -247,6 +248,8 @@ public abstract class ProtocolHelper implements Serializable {
 //        initializeModifySubjectsPermission(protocol);
         
         initializeModifyAreasOfResearchPermission(protocol);
+        
+        initializeCreateProposalDevelopmentPermission(protocol);
     }
 
     private void initializeModifyProtocolPermission(Protocol protocol) {
@@ -313,7 +316,15 @@ public abstract class ProtocolHelper implements Serializable {
     
     protected abstract ProtocolTask getNewInstanceModifyProtocolResearchAreasTaskHook(Protocol protocol);
     
+
     
+    private void initializeCreateProposalDevelopmentPermission(Protocol protocol) {
+        ProtocolTask task = getNewInstanceCreateProposalDevelopmentTaskHook(protocol);
+        createProposalDevelopment = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected abstract ProtocolTask getNewInstanceCreateProposalDevelopmentTaskHook(Protocol protocol);
+
     /**
      * This method is to get parameter value
      * @return parameter value
@@ -754,6 +765,11 @@ public abstract class ProtocolHelper implements Serializable {
 
     public boolean getModifyAreasOfResearch() {
         return modifyAreasOfResearch;
+    }
+
+    public boolean isCreateProposalDevelopment()    
+    {
+        return createProposalDevelopment;
     }
     
     public boolean isFundingNumberLookupable() {
