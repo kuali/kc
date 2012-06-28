@@ -181,7 +181,7 @@ public abstract class ProtocolPrintingServiceImpl extends PrintingServiceImpl im
 
     protected Map<Class,Object> getReportOptions(ProtocolForm protocolForm, ProtocolPrintType printType) {
         Map<Class,Object> reportParameters = new HashMap<Class, Object>();
-        ProtocolSummaryPrintOptions summaryOptions = protocolForm.getActionHelper().getProtocolSummaryPrintOptions();
+        ProtocolSummaryPrintOptions summaryOptions = protocolForm.getActionHelper().getProtocolPrintOption();
         if(printType.equals(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT)){
             summaryOptions.setActions(true);
             summaryOptions.setAmendmentRenewalHistory(true);

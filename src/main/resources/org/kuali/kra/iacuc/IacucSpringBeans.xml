@@ -658,6 +658,9 @@
     <bean id="iacucProtocolSummaryXmlStream"
         class="org.kuali.kra.iacuc.actions.print.IacucProtocolSummaryXmlStream" parent="printBaseXmlStream">
         <property name="iacucProtocolActionService" ref="iacucProtocolActionService" />
+        <property name="printXmlUtilService" ref="printXmlUtilService" />
+        <property name="scheduleXmlStream" ref="commonScheduleXmlStream" />
+        <property name="committeeXmlStream" ref="commonCommitteeXmlStream" />
     </bean>
     <bean id="iacucCorrespondenceXmlStream"
             class="org.kuali.kra.iacuc.actions.print.IacucCorrespondenceXmlStream" parent="printBaseXmlStream">
@@ -676,7 +679,7 @@
     </bean>
     <bean id="iacucProtocolReviewCommentsPrint"
         class="org.kuali.kra.iacuc.actions.print.IacucProtocolReviewCommentsPrint" scope="prototype">
-        <property name="xmlStream" ref="iacucProtocolXmlStream" />
+        <property name="xmlStream" ref="iacucProtocolSummaryXmlStream" />
     </bean>
     <bean id="iacucProtocolSummaryViewPrint"
         class="org.kuali.kra.iacuc.actions.print.IacucProtocolSummaryViewPrint" scope="prototype">
