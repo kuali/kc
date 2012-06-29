@@ -20,6 +20,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -30,11 +31,15 @@ import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class IacucProtocolSpeciesAction extends IacucProtocolAction{
     private static final String CONFIRM_DELETE_PROTOCOL_SPECIES_KEY = "confirmDeleteProtocolSpecies";
+    private static final String DUPLICATE_SPECIES_ERROR_PATH = "iacucProtocolSpeciesHelper.newIacucProtocolSpecies";
+    private static final String DUPLICATE_SPECIES_ERROR_KEY = "error.iacuc.validation.duplicate.group";
 
+    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
@@ -51,10 +56,23 @@ public class IacucProtocolSpeciesAction extends IacucProtocolAction{
         IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
         List<IacucProtocolSpecies> iacucProtocolSpeciesList = document.getIacucProtocol().getIacucProtocolSpeciesList();
         IacucProtocolSpecies iacucProtocolSpecies = protocolForm.getIacucProtocolSpeciesHelper().getNewIacucProtocolSpecies();
-        
-        if (applyRules(new AddProtocolSpeciesEvent(Constants.EMPTY_STRING, document, iacucProtocolSpecies))) {
-            getIacucProtocolSpeciesService().addProtocolSpecies(document.getIacucProtocol(), iacucProtocolSpecies);
-            protocolForm.getIacucProtocolSpeciesHelper().setNewIacucProtocolSpecies(new IacucProtocolSpecies());
+
+        // look for duplicates
+        boolean found = false;
+        for (IacucProtocolSpecies oldSpecies: iacucProtocolSpeciesList) {
+            if (iacucProtocolSpecies.isSameGroupAs(oldSpecies)) {
+                GlobalVariables.getMessageMap().clearErrorPath();
+                GlobalVariables.getMessageMap().addToErrorPath(DUPLICATE_SPECIES_ERROR_PATH);
+                GlobalVariables.getMessageMap().putError("speciesCode", DUPLICATE_SPECIES_ERROR_KEY);  
+               found = true;
+            }
+        }
+ 
+        if (!found) {
+            if (applyRules(new AddProtocolSpeciesEvent(Constants.EMPTY_STRING, document, iacucProtocolSpecies))) {
+                getIacucProtocolSpeciesService().addProtocolSpecies(document.getIacucProtocol(), iacucProtocolSpecies);
+                protocolForm.getIacucProtocolSpeciesHelper().setNewIacucProtocolSpecies(new IacucProtocolSpecies());
+            }
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
