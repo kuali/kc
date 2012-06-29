@@ -37,7 +37,8 @@
    	<div align="right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="disclosureActionsHelp" altText="help"/></div>
   	<%-- TODO : 'data validation' is not in mock.  however, for audit rule consistency, we should
   	             consider to add it. If we don't need it, then remove this. --%>
-    <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>
+	<div id="workarea">
+    <%--<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>--%>
     <kra-coi:disclosureReviewerActions/>
     <%--add document authorizer here --%>
     <kra:section permission="approveCoiDisclosure">
