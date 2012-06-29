@@ -24,7 +24,7 @@
 	<bean id="IacucProtocolSpecialReviewExemption" parent="IacucProtocolSpecialReviewExemption-parentBean" />
 	<bean id="IacucProtocolSpecialReviewExemption-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewExemption" />
-		<property name="objectLabel" value="Iacuc Protocol Special Review Exemption" />
+		<property name="objectLabel" value="IACUC Protocol Special Review Exemption" />
 		<property name="inquiryDefinition" >
 			<ref bean="IacucProtocolSpecialReviewExemption-inquiryDefinition" />
 		</property>
@@ -47,8 +47,8 @@
 	<bean id="IacucProtocolSpecialReviewExemption-protocolSpecialReviewExemptionId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolSpecialReviewExemptionId" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Iacuc Protocol Special Review Exemption Id" />
-		<property name="shortLabel" value="Iacuc Protocol Special Review Exemption Id" />
+		<property name="label" value="IACUC Protocol Special Review Exemption Id" />
+		<property name="shortLabel" value="IACUC Protocol Special Review Exemption Id" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
@@ -57,8 +57,8 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="Iacuc Protocol Special Review Exemption Id" />
-		<property name="description" value="Iacuc Protocol Special Review Exemption Id" />
+		<property name="summary" value="IACUC Protocol Special Review Exemption Id" />
+		<property name="description" value="IACUC Protocol Special Review Exemption Id" />
 	</bean>
 
     <bean id="IacucProtocolSpecialReviewExemption-exemptionTypeCode" parent="IacucProtocolSpecialReviewExemption-exemptionTypeCode-parentBean" />
@@ -71,11 +71,11 @@
 	
 	<bean id="IacucProtocolSpecialReviewExemption-inquiryDefinition" parent="IacucProtocolSpecialReviewExemption-inquiryDefinition-parentBean" />
 	<bean id="IacucProtocolSpecialReviewExemption-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Iacuc Protocol Special Review Exemption" />
+		<property name="title" value="IACUC Protocol Special Review Exemption" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Iacuc Protocol Special Review Exemption" />
+					<property name="title" value="IACUC Protocol Special Review Exemption" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
