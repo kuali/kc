@@ -473,22 +473,28 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         protocolForm.getActionHelper().getAssignCmtSchedBean().init();
         
         super.route(mapping, protocolForm, request, response);
-        IRBNotificationRenderer submitRenderer = new IRBNotificationRenderer(protocol);
-        IRBNotificationContext submitContext = new IRBNotificationContext(protocol, null, 
-                                                    ProtocolActionType.SUBMIT_TO_IRB_NOTIFICATION, "Submit", submitRenderer);
-        getNotificationService().sendNotification(submitContext);
-        AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocolForm.getProtocolDocument().getProtocol(), "added");
+        AssignReviewerNotificationRenderer renderer1 = new AssignReviewerNotificationRenderer(protocolForm.getProtocolDocument().getProtocol(), "added");
         List<ProtocolNotificationRequestBean> addReviewerNotificationBeans = getNotificationRequestBeans(submitAction.getReviewers(),ProtocolReviewerBean.CREATE);
         if (!CollectionUtils.isEmpty(addReviewerNotificationBeans)) {
-            ProtocolNotificationRequestBean notificationBean = addReviewerNotificationBeans.get(0);
-            IRBNotificationContext context = new IRBNotificationContext(notificationBean.getProtocol(),
-                    notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),
-                    notificationBean.getDescription(), renderer);
-            if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-                return checkToSendNotification(mapping, null, protocolForm, renderer, addReviewerNotificationBeans);
-            }
+            ProtocolNotificationRequestBean notificationBean1 = addReviewerNotificationBeans.get(0);
+            IRBNotificationContext context1 = new IRBNotificationContext(notificationBean1.getProtocol(),
+                    notificationBean1.getProtocolOnlineReview(), notificationBean1.getActionType(),
+                    notificationBean1.getDescription(), renderer1);
+            getNotificationService().sendNotification(context1);
         }
-        return routeProtocolToHoldingPage(mapping, protocolForm);
+        
+        ProtocolNotificationRequestBean notificationBean2 = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.SUBMIT_TO_IRB_NOTIFICATION, "Submit");
+        IRBNotificationRenderer renderer2 = new IRBNotificationRenderer(notificationBean2.getProtocol());
+        IRBNotificationContext context2 = new IRBNotificationContext(protocol, notificationBean2.getActionType(), notificationBean2.getDescription(), renderer2);
+        
+        if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context2)) {
+            context2.setForwardName("holdingPage");
+            protocolForm.getNotificationHelper().initializeDefaultValues(context2);
+            return mapping.findForward("protocolNotificationEditor");
+        } else {
+            getNotificationService().sendNotification(context2);
+            return routeProtocolToHoldingPage(mapping, protocolForm);
+        }
         //return createSuccessfulSubmitRedirect("Protocol", protocolDocument.getProtocol().getProtocolNumber(), request, mapping, protocolForm);
     }
 
@@ -526,14 +532,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 protocolForm.setDocId(pd.getDocumentNumber());
                 loadDocument(protocolForm);
                 protocolForm.getProtocolHelper().prepareView();
-                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"), false));
+                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
                 recordProtocolActionSuccess("Withdraw");
 //                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
     
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                     return mapping.findForward(CORRESPONDENCE);
                 } else {
-                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn"));
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
                 }
             }
         } else {
