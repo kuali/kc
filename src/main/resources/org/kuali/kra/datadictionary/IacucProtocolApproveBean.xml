@@ -22,7 +22,7 @@
 	<bean id="IacucProtocolApproveBean" parent="IacucProtocolApproveBean-parentBean" />
 	<bean id="IacucProtocolApproveBean-parentBean" abstract="true" parent="IacucProtocolGenericActionBean">
 		<property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveBean" />
-		<property name="objectLabel" value="Iacuc Protocol Approve Bean" />
+		<property name="objectLabel" value="IACUC Protocol Approve Bean" />
 		<property name="titleAttribute" value="IacucProtocolApproveBean-reason" />
 		<property name="attributes" >
 			<list>

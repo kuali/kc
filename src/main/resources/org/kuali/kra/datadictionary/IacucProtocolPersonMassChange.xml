@@ -21,7 +21,7 @@
     <bean id="IacucProtocolPersonMassChange" parent="IacucProtocolPersonMassChange-parentBean" />
     <bean id="IacucProtocolPersonMassChange-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.personmasschange.bo.IacucProtocolPersonMassChange" />
-        <property name="objectLabel" value="Iacuc Protocol Person Mass Change" />
+        <property name="objectLabel" value="IACUC Protocol Person Mass Change" />
         <property name="attributes" >
             <list>
                 <ref bean="IacucProtocolPersonMassChange-iacucProtocolPersonMassChangeId" />
@@ -41,8 +41,8 @@
     <bean id="IacucProtocolPersonMassChange-iacucProtocolPersonMassChangeId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="iacucProtocolPersonMassChangeId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Iacuc Protocol Person Mass Change Id" />
-        <property name="shortLabel" value="Iacuc Protocol Person Mass Change Id" />
+        <property name="label" value="IACUC Protocol Person Mass Change Id" />
+        <property name="shortLabel" value="IACUC Protocol Person Mass Change Id" />
         <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -51,8 +51,8 @@
             <bean parent="TextControlDefinition"
                 p:size="12" />
         </property>
-        <property name="summary" value="Iacuc Protocol Person Mass Change Id" />
-        <property name="description" value="Iacuc Protocol Person Mass Change Id" />
+        <property name="summary" value="IACUC Protocol Person Mass Change Id" />
+        <property name="description" value="IACUC Protocol Person Mass Change Id" />
     </bean>
     
     <bean id="IacucProtocolPersonMassChange-personMassChangeId" parent="IacucProtocolPersonMassChange-personMassChangeId-parentBean" />
