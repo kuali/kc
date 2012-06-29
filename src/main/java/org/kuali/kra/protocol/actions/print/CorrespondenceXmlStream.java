@@ -17,17 +17,20 @@ package org.kuali.kra.protocol.actions.print;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import edu.mit.coeus.xml.iacuc.CorrespondenceDocument;
+import edu.mit.coeus.xml.iacuc.CorrespondenceType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
-import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
 
+
+
 /**
- * This class is used to populate the xml beans objects for Correspondence schema elements in irb.xsd
+ * This class is used to populate the xml beans objects for Correspondence schema elements in irb.xsd.
  */
 public class CorrespondenceXmlStream extends PrintBaseXmlStream {
     private ProtocolXmlStream protocolXmlStream;
@@ -35,37 +38,37 @@ public class CorrespondenceXmlStream extends PrintBaseXmlStream {
      * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
      */
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
-        Protocol protocol = (Protocol)printableBusinessObject;
+        IacucProtocol protocol = (IacucProtocol) printableBusinessObject;
         ProtocolSubmission protocolSubmission = protocol.getProtocolSubmission();
-        String scheduleId=null;
+        String scheduleId = null;
         Integer submissionNumber = null;
-        if(protocolSubmission!=null){
+        if (protocolSubmission != null) {
             CommitteeSchedule committeeSchedule = protocolSubmission.getCommitteeSchedule();
-            scheduleId = committeeSchedule!=null?committeeSchedule.getScheduleId():null;
+            scheduleId = committeeSchedule != null ? committeeSchedule.getScheduleId() : null;
             submissionNumber = protocolSubmission.getSubmissionNumber();
         }
-// TODO - Correspondence is in IRB package        
-//        CorrespondenceDocument correspondenceDocument = CorrespondenceDocument.Factory.newInstance();
-//        correspondenceDocument.setCorrespondence(getCorrespondence(protocol, scheduleId, submissionNumber));
-//        Map<String,XmlObject> correspondenceStreamMap = new HashMap<String, XmlObject>();
-//        correspondenceStreamMap.put("Correspondence", correspondenceDocument);
-//        return correspondenceStreamMap;
-        return null;
+       
+        CorrespondenceDocument correspondenceDocument = CorrespondenceDocument.Factory.newInstance();
+        correspondenceDocument.setCorrespondence(getCorrespondence(protocol, scheduleId, submissionNumber));
+        Map<String,XmlObject> correspondenceStreamMap = new HashMap<String, XmlObject>();
+        correspondenceStreamMap.put("Correspondence", correspondenceDocument);
+        return correspondenceStreamMap;
+        
     }
 
-//    public Correspondence getCorrespondence(Protocol protocol,String scheduleId,Integer submissionNumber) {
-//      Correspondence correspondence = Correspondence.Factory.newInstance();
-//      correspondence.setCurrentDate(getDateTimeService().getCurrentCalendar());
-//      ProtocolXmlStream protocolStream = getProtocolXmlStream();
-//     if (submissionNumber==null || submissionNumber.intValue() <= 0){    
-//        correspondence.setProtocol(protocolStream.getProtocol(protocol)) ;
-//     }else{
-//         correspondence.setProtocol(protocolStream.getProtocol(protocol, submissionNumber)) ;
-//     }    
-//     correspondence.setCurrentDate(getDateTimeService().getCurrentCalendar());
-//      return correspondence ;
-//      
-//    }
+    public CorrespondenceType getCorrespondence(IacucProtocol  protocol, String scheduleId, Integer submissionNumber) {
+        CorrespondenceType correspondence = CorrespondenceType.Factory.newInstance();
+        correspondence.setCurrentDate(getDateTimeService().getCurrentCalendar());
+        ProtocolXmlStream protocolStream = getProtocolXmlStream();
+        if (submissionNumber == null || submissionNumber.intValue() <= 0) {
+            correspondence.setProtocol(protocolStream.getProtocol(protocol));
+        } else {
+            correspondence.setProtocol(protocolStream.getProtocol(protocol, submissionNumber));
+        }    
+        correspondence.setCurrentDate(getDateTimeService().getCurrentCalendar());
+        return correspondence;
+      
+    }
 
     /**
      * Sets the protocolXmlStream attribute value.
