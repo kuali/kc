@@ -3,8 +3,8 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>IacucPersonTrainingMaintenanceDocument</name>
-			<description>Create Iacuc Person Training</description>
-			<label>Iacuc Person Training Maintenance Document</label>
+			<description>Create IACUC Person Training</description>
+			<label>IACUC Person Training Maintenance Document</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/iacucpersontraining.htm</helpDefinitionURL>
 		</documentType>
