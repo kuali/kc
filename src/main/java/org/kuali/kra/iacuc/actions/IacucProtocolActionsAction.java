@@ -269,19 +269,18 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
 
     
-    
-// TODO *********commented the code below during IACUC refactoring*********   
-//    /** {@inheritDoc} */
-//    public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-//            HttpServletResponse response) throws Exception {
-//        return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, true);
-//    }
-//
-//    /** {@inheritDoc} */
-//    public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-//            HttpServletResponse response) throws Exception {
-//        return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, false);
-//    }
+    // TODO *********commented the code below during IACUC refactoring*********
+    /** {@inheritDoc} */
+    public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, true);
+    }
+
+    /** {@inheritDoc} */
+    public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, false);
+    }
 
     /**
      * Refreshes the page. We only need to redraw the page. This method is used when JavaScript is disabled. During a review
