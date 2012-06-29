@@ -306,6 +306,7 @@
 <kra-coi:coiNoteAndAttachment/>
 
 <kra-coi:coiCertification topTab="false" />
+<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
 
 <kul:panelFooter />
 	<kul:documentControls 
