@@ -42,39 +42,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class CoiDisclosureActionsAction extends CoiAction {
-    
-    /**
-     * 
-     * This method is to activate data validation
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
-        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        coiDisclosureForm.setUnitRulesMessages(getUnitRulesMessages(coiDisclosureForm.getCoiDisclosureDocument()));
-        return new AuditActionHelper().setAuditMode(mapping, coiDisclosureForm, true);
-    }
-
-    /**
-     * 
-     * This method is to deactivate data validation
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
-        ((CoiDisclosureForm) form).clearUnitRulesMessages();
-        return new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, false);
-    }
 
     public ActionForward performAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         

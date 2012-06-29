@@ -146,15 +146,38 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         return rulesService.processUnitValidations(coiDisclosureDoc.getCoiDisclosure().getLeadUnitNumber(), coiDisclosureDoc);
     }
     
-//    @Override
-   /* public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
-        
-        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
-        actionForward = super.save(mapping, form, request, response);
-        
-        return actionForward;
-    }*/
+    /**
+     * 
+     * This method is to activate data validation
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        coiDisclosureForm.setUnitRulesMessages(getUnitRulesMessages(coiDisclosureForm.getCoiDisclosureDocument()));
+        return new AuditActionHelper().setAuditMode(mapping, coiDisclosureForm, true);
+    }
+
+    /**
+     * 
+     * This method is to deactivate data validation
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        ((CoiDisclosureForm) form).clearUnitRulesMessages();
+        return new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, false);
+    }
 
 
 }
