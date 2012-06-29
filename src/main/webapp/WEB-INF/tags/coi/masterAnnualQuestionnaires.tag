@@ -8,6 +8,7 @@
             
             
     <c:forEach items="${bean.answerHeaders}" var="answerHeader" varStatus="ahstatus">
+        <c:if test="${answerHeader.moduleSubItemCode == '14'}" >
         <div class="tab-container" align="center">
             <c:set var="prop" value="${property}.answerHeaders[${ahstatus.index}].showQuestions"/>
             ${kfunc:registerEditableProperty(KualiForm, prop)}
@@ -15,5 +16,6 @@
                    value = "${bean.answerHeaders[ahstatus.index].showQuestions}" />
             <kra-coi:masterQuestionnaireAnswers bean = "${bean}" property = "${property}" answerHeaderIndex = "${ahstatus.index}" parentTab="Master Disclosure"/>
        </div>
+        </c:if>
     </c:forEach>
 </kul:tab>
