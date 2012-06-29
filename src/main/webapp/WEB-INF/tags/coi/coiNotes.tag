@@ -22,6 +22,7 @@
 <c:set var="attachmentHelper" value="${KualiForm.coiNotesAndAttachmentsHelper}" />
 <c:set var="canDeleteUpdateNotes" value="${attachmentHelper.canDeleteUpdateNote}" />
 <c:set var="disclosureType" value="${KualiForm.document.coiDisclosure}" />
+<c:set var="currentUser" value="${KualiForm.coiNotesAndAttachmentsHelper.currentUser}" />
 <c:forEach var="coiDisclosureNotepad" items="${KualiForm.document.coiDisclosure.coiDisclosureNotepads}" varStatus="status">
     <c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">               
         <c:set var="tabItemCount" value="${tabItemCount+1}" />
@@ -118,7 +119,7 @@
                 <c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">
 	         	
 	         	<c:set var="noteId" value="${coiDisclosureNotepad.id}" />
-	         	<c:set var="permission" value="${canDeleteUpdateNotes[noteId]}" />
+	         	<c:set var="permission" value="${canDeleteUpdateNotes[noteId] or (empty noteId and (currentUser == coiDisclosureNotepad.updateUser))}" />
 	         	<%--This noteReadOnly just makes the note readonly. Editing and Deleting permissions is controlled by another authorizer. --%>
 					<c:set var="noteReadOnly" value="${!modifyPermission || !coiDisclosureNotepad.editable}" />
 					<c:set var="disclosureEditable" value="${coiDisclosureNotepad.editable}" />
