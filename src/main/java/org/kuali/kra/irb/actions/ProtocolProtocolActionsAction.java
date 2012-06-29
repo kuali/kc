@@ -1686,16 +1686,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
         if (request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME) != null) {
             forward = confirmFollowupAction(mapping, form, request, response, Constants.MAPPING_BASIC);
-            ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.GRANT_EXEMPTION, "Exemption Granted");
-            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-                return mapping.findForward(CORRESPONDENCE);
-            } else {
-                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
-            }
+        }
+        ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.GRANT_EXEMPTION, "Exemption Granted");
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+        if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+            return mapping.findForward(CORRESPONDENCE);
+        } else {
+            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
         }
         
-        return forward;
     }
     
     /**
@@ -1797,14 +1796,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             //forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);                                    
 //            forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
             protocolForm.getProtocolHelper().prepareView();
+        }
 
-            ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.EXPEDITE_APPROVAL, "Expedited Approval Granted");
-            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-                return mapping.findForward(CORRESPONDENCE);
-            } else {
-                forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
-            }
+        ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.EXPEDITE_APPROVAL, "Expedited Approval Granted");
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+        if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+            return mapping.findForward(CORRESPONDENCE);
+        } else {
+            forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
         }
         return forward;
     }
