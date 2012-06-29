@@ -46,8 +46,8 @@
 	
 	<bean id="IacucPersonTrainingMaintenanceDocument-EditIacucPersonTraining" parent="IacucPersonTrainingMaintenanceDocument-EditIacucPersonTraining-parentBean"/>
 	<bean id="IacucPersonTrainingMaintenanceDocument-EditIacucPersonTraining-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Iacuc Person Training"/>
-		<property name="title" value="Edit Iacuc Person Training"/>
+		<property name="id" value="Edit IACUC Person Training"/>
+		<property name="title" value="Edit IACUC Person Training"/>
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="iacucPersonTrainingId" p:required="true"/>

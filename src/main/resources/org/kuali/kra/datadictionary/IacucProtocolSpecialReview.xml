@@ -57,8 +57,8 @@
 	<bean id="IacucProtocolSpecialReview-protocolSpecialReviewId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="protocolSpecialReviewId" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Iacuc Protocol Special Review Id" />
-		<property name="shortLabel" value="Iacuc Protocol Special Review Id" />
+		<property name="label" value="IACUC Protocol Special Review Id" />
+		<property name="shortLabel" value="IACUC Protocol Special Review Id" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
@@ -67,8 +67,8 @@
 			<bean parent="TextControlDefinition"
 				  p:size="10" />
 		</property>
-		<property name="summary" value="Iacuc Protocol Special Review Id" />
-		<property name="description" value="Iacuc Protocol Special Review Id" />
+		<property name="summary" value="IACUC Protocol Special Review Id" />
+		<property name="description" value="IACUC Protocol Special Review Id" />
 	</bean>
 
 	<bean id="IacucProtocolSpecialReview-specialReviewNumber" parent="IacucProtocolSpecialReview-specialReviewNumber-parentBean" />
@@ -108,11 +108,11 @@
 	
 	<bean id="IacucProtocolSpecialReview-inquiryDefinition" parent="IacucProtocolSpecialReview-inquiryDefinition-parentBean" />
 	<bean id="IacucProtocolSpecialReview-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Iacuc Protocol Special Review" />
+		<property name="title" value="IACUC Protocol Special Review" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Iacuc Protocol Special Review" />
+					<property name="title" value="IACUC Protocol Special Review" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
@@ -146,7 +146,7 @@
 	
 	<bean id="IacucProtocolSpecialReview-lookupDefinition" parent="IacucProtocolSpecialReview-lookupDefinition-parentBean" />
 	<bean id="IacucProtocolSpecialReview-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Iacuc Protocol Special Review Lookup" />
+		<property name="title" value="IACUC Protocol Special Review Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 		<property name="defaultSort" >
 			<bean parent="SortDefinition" />
