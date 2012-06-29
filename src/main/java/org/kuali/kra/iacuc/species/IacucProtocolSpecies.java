@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc.species;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.IacucSpeciesCountType;
@@ -219,4 +220,7 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
         return groupAndSpecies;
     }
 
+    public boolean isSameGroupAs(IacucProtocolSpecies other) {
+        return StringUtils.equals(this.getSpeciesGroup(), other.getSpeciesGroup());
+    }
 }
