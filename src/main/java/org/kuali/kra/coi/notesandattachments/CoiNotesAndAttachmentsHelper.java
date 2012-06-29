@@ -44,6 +44,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.CollectionUtil;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -63,6 +65,7 @@ public class CoiNotesAndAttachmentsHelper {
     private List<AttachmentFile> filesToDelete;
     private CoiDisclosureNotepad newCoiDisclosureNotepad;
     private final DateTimeService dateTimeService;
+    private final IdentityService identityService;
 
     private static final String CONFIRM_YES_DELETE_ATTACHMENT = "confirmDeleteCoiDisclosureAttachment";
     // Currently setting this to 1 since there are no CoiDisclosure attachment types
@@ -78,7 +81,8 @@ public class CoiNotesAndAttachmentsHelper {
         this.coiDisclosureForm = coiDisclosureForm;
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         this.parameterService = KraServiceLocator.getService(ParameterService.class);
-        this.dateTimeService = KraServiceLocator.getService(DateTimeService.class);       
+        this.dateTimeService = KraServiceLocator.getService(DateTimeService.class);   
+        this.identityService = KraServiceLocator.getService(IdentityService.class);
         filesToDelete = new ArrayList<AttachmentFile>();
     }
 
@@ -216,8 +220,12 @@ public class CoiNotesAndAttachmentsHelper {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
 
-    protected String getUserIdentifier() {
+    public String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
+    }
+    
+    public String getCurrentUser() {
+        return ((Principal)identityService.getPrincipal(getUserIdentifier())).getPrincipalName();
     }
 
 
