@@ -21,6 +21,7 @@
   <ul class="chan">
     <li><portal:portalLink displayTitle="false" title="Create New Financial Entity" url="${ConfigProperties.application.url}/financialEntityManagement.do?methodToCall=management&financialEntityHelper.reporterId=&coiDocId=">Financial Entity</portal:portalLink></li>
     <li><portal:portalLink displayTitle="false" title="View/Edit Financial Entities" url="${ConfigProperties.application.url}/financialEntityManagement.do?methodToCall=editList&financialEntityHelper.reporterId=&coiDocId=">View/Edit Financial Entities</portal:portalLink></li>
+    <li><portal:portalLink displayTitle="false" title="All My Financial Entities" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">All My Financial Entities</portal:portalLink></li>
   </ul>
   <strong>My Disclosures </strong>
   <ul class="chan">
