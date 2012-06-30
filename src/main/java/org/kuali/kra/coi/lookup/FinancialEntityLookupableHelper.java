@@ -22,9 +22,11 @@ import java.util.Properties;
 
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
@@ -42,8 +44,9 @@ public class FinancialEntityLookupableHelper extends KraLookupableHelperServiceI
   
         List<PersonFinIntDisclosure> financialEntities = (List<PersonFinIntDisclosure>) super.getSearchResultsUnbounded(fieldValues);
         List<PersonFinIntDisclosure> filtered = new ArrayList<PersonFinIntDisclosure>();
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
         for (PersonFinIntDisclosure financialEntity : financialEntities) {
-            if (financialEntity.isCurrentFlag()) {
+            if (financialEntity.isCurrentFlag() && financialEntity.getPersonId().equals(principalId)) {
                 filtered.add(financialEntity);
             }
         }
