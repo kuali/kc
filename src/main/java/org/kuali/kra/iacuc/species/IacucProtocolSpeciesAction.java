@@ -63,7 +63,7 @@ public class IacucProtocolSpeciesAction extends IacucProtocolAction{
             if (iacucProtocolSpecies.isSameGroupAs(oldSpecies)) {
                 GlobalVariables.getMessageMap().clearErrorPath();
                 GlobalVariables.getMessageMap().addToErrorPath(DUPLICATE_SPECIES_ERROR_PATH);
-                GlobalVariables.getMessageMap().putError("speciesCode", DUPLICATE_SPECIES_ERROR_KEY);  
+                GlobalVariables.getMessageMap().putError("speciesGroup", DUPLICATE_SPECIES_ERROR_KEY);  
                found = true;
             }
         }
