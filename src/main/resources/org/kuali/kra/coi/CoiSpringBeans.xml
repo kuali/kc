@@ -375,13 +375,11 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="coiCoeusModuleCode" value="8" />
     </bean>
-    
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kcService" p:service-ref="coiDisclosureReviewerDerivedRoleTypeService"
-                p:localServiceName="coiDisclosureReviewerDerivedRoleTypeService" />
-        </property>
-    </bean>    
+
+    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="coiDisclosureReviewerDerivedRoleTypeService" p:localServiceName="coiDisclosureReviewerDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+
 
 	<bean id="coiDisclosureLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
