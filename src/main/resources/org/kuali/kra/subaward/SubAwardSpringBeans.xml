@@ -198,10 +198,9 @@
     <bean id="subAwardRequisitionerDerivedRoleTypeService" class="org.kuali.kra.subaward.service.impl.SubAwardRequisitionerDerivedRoleTypeServiceImpl">
 
     </bean>
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kcService" p:service-ref="subAwardRequisitionerDerivedRoleTypeService" p:localServiceName="subAwardRequisitionerDerivedRoleTypeService" />                
-        </property>
-    </bean>     
-
+    
+	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="subAwardRequisitionerDerivedRoleTypeService" p:localServiceName="subAwardRequisitionerDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+	
 </beans>	

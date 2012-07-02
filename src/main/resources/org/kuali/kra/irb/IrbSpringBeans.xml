@@ -158,12 +158,6 @@
    		
     </bean>
     
-    <!--  <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-			<bean parent="kcService" p:service-ref="protocolOnlineReviewService"
-	      p:localServiceName="protocolOnlineReviewService" />
-	  </property>
-	</bean> -->
     
     <bean id="parentAmendmentAuthorizer" abstract="true" parent="parentProtocolAuthorizer">
         <property name="protocolAmendRenewService" ref="protocolAmendRenewService" />
@@ -878,13 +872,10 @@
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="roleManagementService" ref="roleService" />
 	</bean>
-	
-	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-			<bean parent="kcService" p:service-ref="protocolOnlineReviewRoleTypeService"
-	      p:localServiceName="protocolOnlineReviewRoleTypeService" />
-	  </property>
-	</bean>
+    
+    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="protocolOnlineReviewRoleTypeService" p:localServiceName="protocolOnlineReviewRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
     
     <!-- Protocol Print -->
         <bean id="protocolXmlStream"
@@ -958,13 +949,10 @@
  	<bean id="protocolApproverRoleTypeService"
 			  class="org.kuali.kra.kim.service.impl.IRBApproverRoleTypeServiceImpl">
 	</bean>
-	
-	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-			<bean parent="kcService" p:service-ref="protocolApproverRoleTypeService"
-	      p:localServiceName="protocolApproverRoleTypeService" />
-	  </property>
-	</bean>
+
+	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="protocolApproverRoleTypeService" p:localServiceName="protocolApproverRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
 
 	<bean id="followupActionService" class="org.kuali.kra.irb.actions.followup.FollowupActionServiceImpl">
 		<property name="businessObjectService">
@@ -982,13 +970,10 @@
     <bean id="activeCommitteeMemberOnProtocolDerivedRoleTypeService"
           class="org.kuali.kra.kim.service.impl.ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl">
     </bean>
-    
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-      <property name="serviceDefinition">
-            <bean parent="kcService" p:service-ref="activeCommitteeMemberOnProtocolDerivedRoleTypeService"
-          p:localServiceName="activeCommitteeMemberOnProtocolDerivedRoleTypeService" />
-      </property>
-    </bean>
+   
+    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="activeCommitteeMemberOnProtocolDerivedRoleTypeService" p:localServiceName="activeCommitteeMemberOnProtocolDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
     
     <bean id="iRBNotificationRoleQualifierService" class="org.kuali.kra.irb.notification.IRBNotificationRoleQualifierServiceImpl"
           scope="prototype">
@@ -997,35 +982,26 @@
     <bean id="protocolPersonnelDerivedRoleTypeService"
           class="org.kuali.kra.kim.service.impl.ProtocolPersonnelDerivedRoleTypeServiceImpl">
     </bean>
-    
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-      <property name="serviceDefinition">
-            <bean parent="kcService" p:service-ref="protocolPersonnelDerivedRoleTypeService"
-                  p:localServiceName="protocolPersonnelDerivedRoleTypeService" />
-      </property>
-    </bean>
-    
+   
+   <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="protocolPersonnelDerivedRoleTypeService" p:localServiceName="protocolPersonnelDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+   
     <bean id="protocolAffiliateTypeDerivedRoleTypeService"
           class="org.kuali.kra.kim.service.impl.ProtocolAffiliateTypeDerivedRoleTypeServiceImpl">
     </bean>
-    
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-      <property name="serviceDefinition">
-            <bean parent="kcService" p:service-ref="protocolAffiliateTypeDerivedRoleTypeService"
-                  p:localServiceName="protocolAffiliateTypeDerivedRoleTypeService" />
-      </property>
-    </bean>    
+  
+	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="protocolAffiliateTypeDerivedRoleTypeService" p:localServiceName="protocolAffiliateTypeDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
 
     <bean id="irbCorrespondentDerivedRoleTypeService"
           class="org.kuali.kra.kim.service.impl.IrbCorrespondentDerivedRoleTypeServiceImpl">
     </bean>
-    
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-	  <property name="serviceDefinition">
-			<bean parent="kcService" p:service-ref="irbCorrespondentDerivedRoleTypeService"
-	      p:localServiceName="irbCorrespondentDerivedRoleTypeService" />
-	  </property>
-	</bean>
+	
+	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="irbCorrespondentDerivedRoleTypeService" p:localServiceName="irbCorrespondentDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
 	
 	<bean id="irbProtocolFactBuilderService" class="org.kuali.kra.irb.rules.IrbProtocolFactBuilderServiceImpl">
          <property name="businessObjectService" ref="businessObjectService" />

@@ -200,20 +200,18 @@
           scope="prototype" />
     
     <bean id="negotiationNegotiatorDerivedRoleType" class="org.kuali.kra.negotiations.service.NegotiationNegotiatorDerivedRoleTypeServiceImpl"/>    
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kcService" p:service-ref="negotiationNegotiatorDerivedRoleType" p:localServiceName="negotiationNegotiatorDerivedRoleType" />
-        </property>
-    </bean>
+    
+    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="negotiationNegotiatorDerivedRoleType" p:localServiceName="negotiationNegotiatorDerivedRoleType" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
     
     <bean id="negotiationPersonDerivedRoleType" class="org.kuali.kra.negotiations.service.NegotiationPersonDerivedRoleTypeServiceImpl">
         <property name="negotiationService" ref="negotiationService" />
     </bean>
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kcService" p:service-ref="negotiationPersonDerivedRoleType" p:localServiceName="negotiationPersonDerivedRoleType" />
-        </property>
-    </bean>
+   
+    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="negotiationPersonDerivedRoleType" p:localServiceName="negotiationPersonDerivedRoleType" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
     
     <!-- Negotiation Printing Services -->
 

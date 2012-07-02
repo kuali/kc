@@ -281,11 +281,10 @@
         <property name="awardService" ref="awardService"/>
         <property name="unitService" ref="unitService"/>
     </bean>
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kcService" p:service-ref="awardAllUnitAdministratorDerivedRoleTypeService" p:localServiceName="awardAllUnitAdministratorDerivedRoleTypeService" />                
-        </property>
-    </bean>
+   
+    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="awardAllUnitAdministratorDerivedRoleTypeService" p:localServiceName="awardAllUnitAdministratorDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
     
     <bean id="awardAmountInfoService" class="org.kuali.kra.award.AwardAmountInfoServiceImpl">   
         <property name="businessObjectService" ref="businessObjectService" />
@@ -337,11 +336,10 @@
     <bean id="awardInvestigatorsRoleTypeService" class="org.kuali.kra.award.AwardInvestigatorDerivedRoleTypeServiceImpl">
         <property name="awardService" ref="awardService"/>
     </bean>
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kcService" p:service-ref="awardInvestigatorsRoleTypeService" p:localServiceName="awardInvestigatorsRoleTypeService" />
-        </property>
-    </bean>
+    
+    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="awardInvestigatorsRoleTypeService" p:localServiceName="awardInvestigatorsRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
     
     <bean id="awardLockService" class="org.kuali.kra.award.AwardLockServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
