@@ -59,7 +59,7 @@
             </list>
         </property>
     </bean>
-    
+   
     <bean id="awardService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="awardService" />
     </bean>
@@ -261,13 +261,10 @@
           class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl">
         <property name="unitService" ref="unitService" />
     </bean>
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kcService" 
-                  p:service-ref="proposalAllUnitAdministratorDerivedRoleTypeService"
-                  p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService" />
-        </property>
-    </bean> 
+  
+    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="proposalAllUnitAdministratorDerivedRoleTypeService" p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
     
     <bean id="proposalCopyService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalCopyServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -344,11 +341,10 @@
 	<bean id="proposalRoleTypeService" class="org.kuali.kra.workflow.ProposalPersonDerivedRoleTypeServiceImpl">
 		<property name="proposalPersonService" ref="proposalPersonService" />
 	</bean>
-	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-		<property name="serviceDefinition">
-			<bean parent="kcService" p:service-ref="proposalRoleTypeService" p:localServiceName="proposalRoleTypeService" />
-		</property>
-	</bean>
+	
+	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="proposalRoleTypeService" p:localServiceName="proposalRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
 	
     <bean id="proposalStatusService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStatusServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />

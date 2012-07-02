@@ -164,11 +164,10 @@
 
     <bean id="proposalLogPiDerivedRoleTypeService" 
           class="org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogPiDerivedRoleTypeServiceImpl" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kcService" p:service-ref="proposalLogPiDerivedRoleTypeService" p:localServiceName="proposalLogPiDerivedRoleTypeService" />
-        </property>
-    </bean>
+    
+    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="proposalLogPiDerivedRoleTypeService" p:localServiceName="proposalLogPiDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
     
     <!-- Proposal Log Printing Services -->
     
@@ -230,23 +229,19 @@
         <property name="institutionalProposalService" ref="institutionalProposalService"/>
         <property name="unitService" ref="unitService"/>
     </bean>
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kcService" p:service-ref="institutionalProposalAllUnitAdministratorDerivedRoleTypeService" 
-                  p:localServiceName="institutionalProposalAllUnitAdministratorDerivedRoleTypeService" />               
-        </property>
-    </bean>
+  
+    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="institutionalProposalAllUnitAdministratorDerivedRoleTypeService" p:localServiceName="institutionalProposalAllUnitAdministratorDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
     
     <bean id="institutionalProposalInvestigatorsRoleTypeService" 
           class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalInvestigatorDerivedRoleTypeServiceImpl">
         <property name="institutionalProposalService" ref="institutionalProposalService"/>
     </bean>
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kcService" p:service-ref="institutionalProposalInvestigatorsRoleTypeService" 
-                  p:localServiceName="institutionalProposalInvestigatorsRoleTypeService" />
-        </property>
-    </bean>
+    
+    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+		p:callbackService-ref="institutionalProposalInvestigatorsRoleTypeService" p:localServiceName="institutionalProposalInvestigatorsRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
     
     <bean id="institutionalProposalVersioningService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalVersioningServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
