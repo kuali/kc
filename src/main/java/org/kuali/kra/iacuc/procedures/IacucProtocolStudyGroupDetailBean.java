@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.iacuc.IacucPainCategory;
+import org.kuali.kra.iacuc.IacucProcedureCategoryCustomData;
 
 public class IacucProtocolStudyGroupDetailBean implements Serializable {
 
@@ -47,6 +48,7 @@ public class IacucProtocolStudyGroupDetailBean implements Serializable {
     private List<IacucProtocolStudyGroup> iacucProtocolStudyGroups;
     private List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible;
     private List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations;
+    private List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList;
 
     private IacucProcedurePersonResponsible newIacucProcedurePersonResponsible;
     private IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation;
@@ -56,6 +58,7 @@ public class IacucProtocolStudyGroupDetailBean implements Serializable {
         setIacucProcedurePersonsResponsible(new ArrayList<IacucProcedurePersonResponsible>());
         setIacucProtocolStudyGroups(new ArrayList<IacucProtocolStudyGroup>());
         setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
+        setIacucProtocolStudyCustomDataList(new ArrayList<IacucProtocolStudyCustomData>());
     }
     
     public List<String> getSpeciesAndGroupsText() {
@@ -161,5 +164,14 @@ public class IacucProtocolStudyGroupDetailBean implements Serializable {
     public void setMaxIacucPainCategory(IacucPainCategory maxIacucPainCategory) {
         this.maxIacucPainCategory = maxIacucPainCategory;
     }
+
+    public List<IacucProtocolStudyCustomData> getIacucProtocolStudyCustomDataList() {
+        return iacucProtocolStudyCustomDataList;
+    }
+
+    public void setIacucProtocolStudyCustomDataList(List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList) {
+        this.iacucProtocolStudyCustomDataList = iacucProtocolStudyCustomDataList;
+    }
+
     
 }

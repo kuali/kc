@@ -44,12 +44,14 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
     
     private List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible;
     private List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations;
+    private List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList;
     
     private Integer procedureBeanIndex;
     
     public IacucProtocolStudyGroup() { 
         setIacucProcedurePersonsResponsible(new ArrayList<IacucProcedurePersonResponsible>());
         setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
+        setIacucProtocolStudyCustomDataList(new ArrayList<IacucProtocolStudyCustomData>());
     } 
     
     public Integer getIacucProtocolStudyGroupId() {
@@ -236,6 +238,14 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
         deleteAwareList.add((Collection) getIacucProcedurePersonsResponsible());
         deleteAwareList.add((Collection) getIacucProtocolStudyGroupLocations());
         return deleteAwareList;
+    }
+
+    public List<IacucProtocolStudyCustomData> getIacucProtocolStudyCustomDataList() {
+        return iacucProtocolStudyCustomDataList;
+    }
+
+    public void setIacucProtocolStudyCustomDataList(List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList) {
+        this.iacucProtocolStudyCustomDataList = iacucProtocolStudyCustomDataList;
     }
     
 }
