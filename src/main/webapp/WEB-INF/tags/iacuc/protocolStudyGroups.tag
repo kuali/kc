@@ -118,6 +118,8 @@
 	     	<td colspan="4">
 				<c:set var="procedurePersonsResponsible" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[procedureBeanIndex].iacucProtocolStudyGroupDetailBeans[detailStatus.index].iacucProcedurePersonsResponsible}" />
 				<c:set var="procedureLocations" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[procedureBeanIndex].iacucProtocolStudyGroupDetailBeans[detailStatus.index].iacucProtocolStudyGroupLocations}" />
+				<c:set var="procedureCustomDataList" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[procedureBeanIndex].iacucProtocolStudyGroupDetailBeans[detailStatus.index].iacucProtocolStudyCustomDataList}" />
+				<c:set var="procedureCategoryName" value="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[procedureBeanIndex].procedureCategory}" />
 	     		<kra-iacuc:procedureLocations
 	                      collectionReference="${procedureLocations}"
     	                  collectionProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${detailStatus.index}].iacucProtocolStudyGroupLocations"
@@ -130,7 +132,12 @@
     	                  procedureBeanIndex="${procedureBeanIndex}"
 	                      procedureDetailBeanIndex="${detailStatus.index}"
                      	  procedurePersonProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${detailStatus.index}]"/>
-	     		<kra-iacuc:procedureCustomData/>
+	     		<kra-iacuc:procedureCustomData
+	                      collectionReference="${procedureCustomDataList}"
+    	                  collectionProperty="document.protocolList[0].iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${detailStatus.index}].iacucProtocolStudyCustomDataList"
+    	                  procedureBeanIndex="${procedureBeanIndex}"
+	                      procedureDetailBeanIndex="${detailStatus.index}"
+                     	  procedureCategoryName="${procedureCategoryName}"/>
 			</td>
 		</tr>
     </c:forEach>

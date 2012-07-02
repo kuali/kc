@@ -18,6 +18,44 @@
 
 <descriptor-repository version="1.0">
 
+	<class-descriptor class="org.kuali.kra.iacuc.procedures.IacucProtocolStudyCustomData" table="IACUC_PROTO_STUDY_CUSTOM_DATA">
+		<field-descriptor name="iacucProtocolStudyCustomDataId" column="IACUC_PROT_STUD_CUST_DATA_ID" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="iacucProtocolStudyGroupId" column="STUDY_GROUP_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="procedureCustomAttributeId" column="PROC_CUSTOM_ATTRIBUTE_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="iacucProcedureCategoryCustomData" class-ref="org.kuali.kra.iacuc.IacucProcedureCategoryCustomData" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="procedureCustomAttributeId"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.iacuc.IacucProcedureCategoryCustomData" table="IACUC_PROC_CAT_CUSTOM_DATA">
+		<field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true"  sequence-name="SEQ_IACUC_PROC_CAT_CUST_DAT_ID" autoincrement="true" />
+		<field-descriptor name="procedureCategoryCode" column="PROCEDURE_CATEGORY_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="dataLength" column="DATA_LENGTH" jdbc-type="INTEGER"/>
+		<field-descriptor name="dataTypeCode" column="DATA_TYPE_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="defaultValue" column="DEFAULT_VALUE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="label" column="LABEL" jdbc-type="VARCHAR"/>
+		<field-descriptor name="lookupClass" column="LOOKUP_CLASS" jdbc-type="VARCHAR"/>
+		<field-descriptor name="lookupReturn" column="LOOKUP_RETURN" jdbc-type="VARCHAR"/>
+		<field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<reference-descriptor name="customAttributeDataType" class-ref="org.kuali.kra.bo.CustomAttributeDataType" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="dataTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+
 	<class-descriptor class="org.kuali.kra.iacuc.IacucPersonTraining" table="IACUC_PERSON_TRAINING">
 		<field-descriptor name="iacucPersonTrainingId" column="IACUC_PERSON_TRAINING_ID" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="personTrainingId" column="PERSON_TRAINING_ID" jdbc-type="INTEGER" />
@@ -116,6 +154,9 @@
             <inverse-foreignkey field-ref="iacucProtocolStudyGroupId" />
         </collection-descriptor>
         <collection-descriptor name="iacucProtocolStudyGroupLocations" proxy="true" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="iacucProtocolStudyGroupId" />
+        </collection-descriptor>
+        <collection-descriptor name="iacucProtocolStudyCustomDataList" proxy="true" element-class-ref="org.kuali.kra.iacuc.procedures.IacucProtocolStudyCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="iacucProtocolStudyGroupId" />
         </collection-descriptor>
 	</class-descriptor>

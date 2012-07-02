@@ -890,6 +890,8 @@ public interface Constants {
     public static final String MAPPING_IACUC_PROTOCOL_ACTIONS = "iacucProtocolActions";
     
     public static final String IACUC_PROCEDURE_PERSON_RESPONSIBLE_DELIMITER = "|";
+
+    public static final int IACUC_PROCEDURE_CUSTOM_DATA_SMALL_STRING_MAX_LENGTH = 1000;
     
     public static final String PARAMETER_MODULE_IACUC_PROTOCOL_REFERENCEID1 = "iacuc.protocol.referenceID1";;
     public static final String PARAMETER_MODULE_IACUC_PROTOCOL_REFERENCEID2 = "iacuc.protocol.referenceID2";;
