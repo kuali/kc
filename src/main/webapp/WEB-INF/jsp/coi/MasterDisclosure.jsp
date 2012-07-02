@@ -128,6 +128,7 @@
     <%-- <kra-coi:proposalProjects /> --%>
     <kra-coi:masterDisclosures />
 </c:if>
+<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
 
 <kul:panelFooter />
 	<kul:documentControls 
