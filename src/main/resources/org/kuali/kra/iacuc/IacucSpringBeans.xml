@@ -154,8 +154,7 @@
                 
                 <bean class="org.kuali.kra.iacuc.auth.AdminWithdrawIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="adminWithdrawProtocolUnavailable" />
-                </bean>
-                                
+                </bean>      
                 
                 <bean class="org.kuali.kra.iacuc.auth.AdminMarkIncompleteIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="adminMarkIncompleteProtocol" />
@@ -205,8 +204,11 @@
                   
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolThreeRsAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolThreeRs"/>
-                </bean>                
-                                              
+                </bean> 
+                               
+                <bean class="org.kuali.kra.iacuc.auth.NotifyIacucAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucProtocolNotifyIacuc"/>
+                </bean>                                               
            </list>
         </property>
     </bean>
@@ -724,6 +726,12 @@
         <property name="protocolAssignCmtService" ref="iacucProtocolAssignCmtService" />
         <property name="committeeService" ref="commonCommitteeService" />
     </bean> 
+    
+    <bean id="iacucProtocolNotifyIacucService" class="org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService" />
+        <property name="documentService" ref="documentService" />
+        <property name="protocolActionService" ref="iacucProtocolActionService" />    
+    </bean>
 
 
 </beans>

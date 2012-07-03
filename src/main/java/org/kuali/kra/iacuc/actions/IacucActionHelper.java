@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
@@ -37,7 +38,7 @@ import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteBean;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
 import org.kuali.kra.iacuc.actions.notifycommittee.IacucProtocolNotifyCommitteeBean;
-import org.kuali.kra.iacuc.actions.notifyiacuc.ProtocolNotifyIacucBean;
+import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
@@ -51,6 +52,7 @@ import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -69,6 +71,7 @@ import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
@@ -82,6 +85,7 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -129,9 +133,9 @@ public class IacucActionHelper extends ActionHelper {
     
     // action beans that are specific to IACUC
     protected IacucProtocolTableBean iacucProtocolTableBean;
-    protected ProtocolNotifyIacucBean protocolNotifyIacucBean;      
     protected IacucProtocolAssignCmtBean protocolAssignCmtBean;
     protected IacucProtocolModifySubmissionBean iacucProtocolModifySubmissionBean;
+    protected IacucProtocolNotifyIacucBean iacucProtocolNotifyIacucBean;
 
 
     /**
@@ -145,6 +149,7 @@ public class IacucActionHelper extends ActionHelper {
         protocolAssignCmtBean = new IacucProtocolAssignCmtBean(this);
         iacucProtocolTableBean = new IacucProtocolTableBean(this);
         iacucProtocolModifySubmissionBean = new IacucProtocolModifySubmissionBean(this);
+        iacucProtocolNotifyIacucBean = new IacucProtocolNotifyIacucBean(this);
 
 
         initIacucSpecificActionBeanTaskMap();
@@ -159,7 +164,7 @@ public class IacucActionHelper extends ActionHelper {
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_TABLE, iacucProtocolTableBean);
         actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_TO_COMMITTEE, protocolAssignCmtBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_TABLE, iacucProtocolTableBean);
-   
+        actionBeanTaskMap.put(TaskName.IACUC_NOTIFY_IACUC, iacucProtocolNotifyIacucBean);
     }
 
         
@@ -248,8 +253,9 @@ public class IacucActionHelper extends ActionHelper {
         canSubmitProtocolUnavailable = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE);
        
         // IACUC-specific actions
-        canNotifyIacuc = hasPermission(TaskName.IACUC_NOTIFY_COMMITTEE);
-        canNotifyIacucUnavailable = hasPermission(TaskName.IACUC_NOTIFY_COMMITTEE_UNAVAILABLE);
+        canNotifyIacuc = hasPermission(TaskName.IACUC_NOTIFY_IACUC);
+        canNotifyIacucUnavailable = !canNotifyIacuc;
+        canNotifyCommittee = hasPermission(TaskName.IACUC_NOTIFY_COMMITTEE);
         canHold = hasPermission(TaskName.IACUC_PROTOCOL_HOLD);
         canHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_HOLD_UNAVAILABLE);
         canLiftHold = hasPermission(TaskName.IACUC_PROTOCOL_LIFT_HOLD);
@@ -269,8 +275,6 @@ public class IacucActionHelper extends ActionHelper {
         canHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_HOLD_UNAVAILABLE);
         canLiftHold = hasPermission(TaskName.IACUC_PROTOCOL_LIFT_HOLD);
         canLiftHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_LIFT_HOLD_UNAVAILABLE);
-        canNotifyIacuc = hasPermission(TaskName.IACUC_NOTIFY_COMMITTEE);
-        canNotifyIacucUnavailable = hasPermission(TaskName.IACUC_NOTIFY_COMMITTEE_UNAVAILABLE);
         canRequestToLiftHold = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD);
         canRequestToLiftHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD_UNAVAILABLE);
         canReturnToPI = hasPermission(TaskName.RETURN_TO_PI_IACUC_PROTOCOL);
@@ -323,10 +327,6 @@ canViewOnlineReviewerComments = true;
     
     public IacucProtocolSubmitAction getIacucProtocolSubmitAction() {
         return (IacucProtocolSubmitAction)protocolSubmitAction;
-    }
-
-    public ProtocolNotifyIacucBean getProtocolNotifyIacucBean() {
-        return protocolNotifyIacucBean;
     }
 
     public ProtocolForm getProtocolForm() {
@@ -867,6 +867,35 @@ setRecusers(new ArrayList<ProtocolVoteRecused>());
     protected ProtocolTask createNewAssignToAgendaUnavailableTaskInstanceHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.ASSIGN_TO_AGENDA_UNAVAILABLE, (IacucProtocol) protocol);
     }
+
+    public IacucProtocolNotifyIacucBean getIacucProtocolNotifyIacucBean() {
+        return iacucProtocolNotifyIacucBean;
+    }
+
+    public void setIacucProtocolNotifyIacucBean(IacucProtocolNotifyIacucBean iacucProtocolNotifyIacucBean) {
+        this.iacucProtocolNotifyIacucBean = iacucProtocolNotifyIacucBean;
+    }
+
+    public void addNotifyIacucAttachment() {
+        getIacucProtocolNotifyIacucBean().getActionAttachments().add(
+                getIacucProtocolNotifyIacucBean().getNewActionAttachment());
+        getIacucProtocolNotifyIacucBean().setNewActionAttachment(new ProtocolActionAttachment());
+    }
+
+    public boolean validFile(final ProtocolActionAttachment attachment, String propertyName) {
+        
+        boolean valid = true;
+        
+        //this got much more complex using anon keys
+        if (attachment.getFile() == null || StringUtils.isBlank(attachment.getFile().getFileName())) {
+            valid = false;
+            new ErrorReporter().reportError("actionHelper." + propertyName + ".newActionAttachment.file",
+                KeyConstants.ERROR_ATTACHMENT_REQUIRED);
+        }
+        
+        return valid;
+    }
+
     
     
 }

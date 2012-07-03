@@ -299,7 +299,7 @@ rule "Notify IACUC"
 salience 100
 when
     protocolAction : IacucProtocolActionMapping(actionTypeCode == "114",
-      protocolStatusCode not in ("200", "201", "105", "302", "300", "303", "304", "305","306","307","308"))
+      protocolStatusCode in ("105", "200", "201", "300", "302", "303", "304", "305", "306", "307", "308"))
 then    
     setAction(protocolAction, true);
 end

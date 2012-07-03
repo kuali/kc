@@ -31,8 +31,8 @@ import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.iacuc.actions.IacucProtocolSubmissionDoc;
-import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolActionAttachment;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -49,7 +49,7 @@ public class IacucProtocolSubmissionBuilder {
     
     private IacucProtocolSubmission protocolSubmission;
     private List<FormFile> attachments = new ArrayList<FormFile>();
-    private List<IacucProtocolActionAttachment> actionAttachments = new ArrayList<IacucProtocolActionAttachment>();
+    private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
     
     /**
      * Constructs a IacucProtocolSubmissionBuilder.
@@ -282,7 +282,7 @@ public class IacucProtocolSubmissionBuilder {
      * save notify irb attachments.
      */
     private void saveAttachments() {
-        for (IacucProtocolActionAttachment attachment : actionAttachments) {
+        for (ProtocolActionAttachment attachment : actionAttachments) {
             saveAttachment(attachment.getFile(), attachment.getDescription());
         }
         
@@ -339,11 +339,11 @@ public class IacucProtocolSubmissionBuilder {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
-    public List<IacucProtocolActionAttachment> getActionAttachments() {
+    public List<ProtocolActionAttachment> getActionAttachments() {
         return actionAttachments;
     }
 
-    public void setActionAttachments(List<IacucProtocolActionAttachment> actionAttachments) {
+    public void setActionAttachments(List<ProtocolActionAttachment> actionAttachments) {
         this.actionAttachments = actionAttachments;
     }
 }
