@@ -208,7 +208,12 @@
                                
                 <bean class="org.kuali.kra.iacuc.auth.NotifyIacucAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="iacucProtocolNotifyIacuc"/>
-                </bean>                                               
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.NotifyIacucUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucProtocolNotifyIacucUnavailable"/>
+                </bean>
+                
            </list>
         </property>
     </bean>
