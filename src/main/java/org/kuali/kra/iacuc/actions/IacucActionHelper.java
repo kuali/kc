@@ -254,7 +254,7 @@ public class IacucActionHelper extends ActionHelper {
        
         // IACUC-specific actions
         canNotifyIacuc = hasPermission(TaskName.IACUC_NOTIFY_IACUC);
-        canNotifyIacucUnavailable = !canNotifyIacuc;
+        canNotifyIacucUnavailable = hasPermission(TaskName.IACUC_NOTIFY_IACUC_UNAVAILABLE);
         canNotifyCommittee = hasPermission(TaskName.IACUC_NOTIFY_COMMITTEE);
         canHold = hasPermission(TaskName.IACUC_PROTOCOL_HOLD);
         canHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_HOLD_UNAVAILABLE);

@@ -289,6 +289,7 @@ public interface TaskName {
     public static final String IACUC_NOTIFY_COMMITTEE = "iacucProtocolNotifyCommittee"; 
     public static final String IACUC_NOTIFY_COMMITTEE_UNAVAILABLE = "iacucProtocolNotifyCommitteeUnavailable";
     public static final String IACUC_NOTIFY_IACUC = "iacucProtocolNotifyIacuc";
+    public static final String IACUC_NOTIFY_IACUC_UNAVAILABLE = "iacucProtocolNotifyIacucUnavailable";
     public static final String IACUC_ACKNOWLEDGEMENT = "iacucAcknowledgement"; 
     public static final String IACUC_ACKNOWLEDGEMENT_UNAVAILABLE = "iacucAcknowledgementUnavailable"; 
 //    public static final String IACUC_PROTOCOL_WITHDRAW = "withdrawIacucProtocol"; 
