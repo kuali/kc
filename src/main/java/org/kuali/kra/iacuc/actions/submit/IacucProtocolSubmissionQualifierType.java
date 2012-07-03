@@ -19,19 +19,19 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierType;
 
 public class IacucProtocolSubmissionQualifierType extends ProtocolSubmissionQualifierType {
 
-    public final String MODIFICATION_AMENDMENTS_NEW_FINDINGS = "1";
-    public final String ANNUAL_SCHEDULED_BY_IACUC = "2";
-    public final String CONTINGENT_CONDITIONAL_APPROVAL = "3";
-    public final String ELIGIBILITY_EXCEPTIONS_PROTOCOL_DEVIATIONS = "4";
-    public final String AE_UADE = "5";
-    public final String COMPLAINT = "6";
-    public final String DEVIATION = "7";
-    public final String IACUC_PROTOCOL_RELATED_COI_PROJECT = "8";
-    public final String SELF_REPORT_FOR_NONCOMPLIANCE = "9";
-    public final String REQUEST_ELIGIBILITY_EXCEPTION = "10";
-    public final String TRAINING_CERTIFICATION = "11";
-    public final String UNANTICIPATED_PROBLEMS = "12";
-    public final String ANNUAL_REPORT = "13";
+    public final static String MODIFICATION_AMENDMENTS_NEW_FINDINGS = "1";
+    public final static String ANNUAL_SCHEDULED_BY_IACUC = "2";
+    public final static String CONTINGENT_CONDITIONAL_APPROVAL = "3";
+    public final static String ELIGIBILITY_EXCEPTIONS_PROTOCOL_DEVIATIONS = "4";
+    public final static String AE_UADE = "5";
+    public final static String COMPLAINT = "6";
+    public final static String DEVIATION = "7";
+    public final static String IACUC_PROTOCOL_RELATED_COI_PROJECT = "8";
+    public final static String SELF_REPORT_FOR_NONCOMPLIANCE = "9";
+    public final static String REQUEST_ELIGIBILITY_EXCEPTION = "10";
+    public final static String TRAINING_CERTIFICATION = "11";
+    public final static String UNANTICIPATED_PROBLEMS = "12";
+    public final static String ANNUAL_REPORT = "13";
     
     /**
      * Comment for <code>serialVersionUID</code>
