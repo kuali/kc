@@ -31,6 +31,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
@@ -55,6 +57,8 @@ import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteService;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionEvent;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionService;
+import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucBean;
+import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucService;
 import org.kuali.kra.iacuc.actions.notifyiacuc.NotifyIacucNotificationRenderer;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucProtocolAddReviewCommentEvent;
@@ -74,6 +78,7 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
+import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireAuditRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -87,12 +92,17 @@ import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolActionType;
 import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
+import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
+import org.kuali.kra.protocol.actions.request.ProtocolRequestBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -655,33 +665,39 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
     }
 //
-//    /**
-//     * Notify the IACUC office.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward notifyIacucProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        protocolForm.getActionHelper().getProtocolNotifyIacucBean().setAnswerHeaders(getAnswerHeaders(form, ProtocolActionType.NOTIFY_IACUC));
-//        if (isMandatoryQuestionnaireComplete(protocolForm.getActionHelper().getProtocolNotifyIacucBean(), "actionHelper.protocolNotifyIacucBean.datavalidation")) {
-//            getProtocolNotifyIacucService().submitIacucNotification(protocolForm.getProtocolDocument().getProtocol(),
-//                    protocolForm.getActionHelper().getProtocolNotifyIacucBean());
-//            protocolForm.getQuestionnaireHelper().setAnswerHeaders(new ArrayList<AnswerHeader>());
-//            LOG.info("notifyIacucProtocol " + protocolForm.getProtocolDocument().getDocumentNumber());
-//
-//            recordProtocolActionSuccess("Notify IACUC");
-//            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.NOTIFY_IACUC, "Notify IACUC"));
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
+    /**
+     * Notify the IACUC office.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward notifyIacucProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+        actionHelper.getIacucProtocolNotifyIacucBean().setAnswerHeaders(getAnswerHeaders(form, IacucProtocolActionType.NOTIFY_IACUC));
+        if (isMandatoryQuestionnaireComplete(actionHelper.getIacucProtocolNotifyIacucBean(), "actionHelper.protocolNotifyIacucBean.datavalidation")) {
+            getIacucProtocolNotifyIacucService().submitIacucNotification((IacucProtocol)protocolForm.getProtocolDocument().getProtocol(),
+                    actionHelper.getIacucProtocolNotifyIacucBean());
+            protocolForm.getQuestionnaireHelper().setAnswerHeaders(new ArrayList<AnswerHeader>());
+            LOG.info("notifyIacucProtocol " + protocolForm.getProtocolDocument().getDocumentNumber());
+
+            recordProtocolActionSuccess("Notify IACUC");
+            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new IacucProtocolNotificationRequestBean((IacucProtocol)protocolForm.getProtocolDocument().getProtocol(),IacucProtocolActionType.NOTIFY_IACUC, "Notify IACUC"));
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    private IacucProtocolNotifyIacucService getIacucProtocolNotifyIacucService() {
+        return KraServiceLocator.getService(IacucProtocolNotifyIacucService.class);
+    }    
+
+    //
 //    /**
 //     * Notify the IACUC committee.
 //     * 
@@ -712,29 +728,29 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        }
 //    }
 //
-//    /*
-//     * get the saved answer headers
-//     */
-//    private List<AnswerHeader> getAnswerHeaders(ActionForm form, String actionTypeCode) {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IACUC_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
-//        return getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
-//
-//    }
-//    
-//    /*
-//     * check if the mandatory submission questionnaire is complete before submit a request/notify IACUC action
-//     */
-//    private boolean isMandatoryQuestionnaireComplete(ProtocolSubmissionBeanBase submissionBean, String errorKey) {
-//        boolean valid = true;
-//        ProtocolQuestionnaireAuditRule auditRule = new ProtocolQuestionnaireAuditRule();
-//        if (!auditRule.isMandatorySubmissionQuestionnaireComplete(submissionBean.getAnswerHeaders())) {
-//            GlobalVariables.getMessageMap().clearErrorMessages();
-//            GlobalVariables.getMessageMap().putError(errorKey, KeyConstants.ERROR_MANDATORY_QUESTIONNAIRE);
-//            valid = false;
-//        }
-//        return valid;
-//    }
+    /*
+     * get the saved answer headers
+     */
+    private List<AnswerHeader> getAnswerHeaders(ActionForm form, String actionTypeCode) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
+        return getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
+
+    }
+    
+    /*
+     * check if the mandatory submission questionnaire is complete before submit a request/notify IACUC action
+     */
+    private boolean isMandatoryQuestionnaireComplete(IacucProtocolSubmissionBeanBase submissionBean, String errorKey) {
+        boolean valid = true;
+        IacucProtocolQuestionnaireAuditRule auditRule = new IacucProtocolQuestionnaireAuditRule();
+        if (!auditRule.isMandatorySubmissionQuestionnaireComplete(submissionBean.getAnswerHeaders())) {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError(errorKey, KeyConstants.ERROR_MANDATORY_QUESTIONNAIRE);
+            valid = false;
+        }
+        return valid;
+    }
 //    
 //    /**
 //     * Create an Amendment.
@@ -1991,16 +2007,16 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), protocolActionTypeCode, description));
 //    }
 //
-//    private ProtocolRequestBean getProtocolRequestBean(ActionForm form, HttpServletRequest request) {
-//        ProtocolRequestBean protocolRequestBean = null;
-//        
-//        ProtocolActionBean protocolActionBean = getActionBean(form, request);
-//        if (protocolActionBean != null && protocolActionBean instanceof ProtocolRequestBean) {
-//            protocolRequestBean = (ProtocolRequestBean) protocolActionBean;
-//        }
-//        
-//        return protocolRequestBean;
-//    }
+    private ProtocolRequestBean getProtocolRequestBean(ActionForm form, HttpServletRequest request) {
+        ProtocolRequestBean protocolRequestBean = null;
+        
+        ProtocolActionBean protocolActionBean = getActionBean(form, request);
+        if (protocolActionBean != null && protocolActionBean instanceof ProtocolRequestBean) {
+            protocolRequestBean = (ProtocolRequestBean) protocolActionBean;
+        }
+        
+        return protocolRequestBean;
+    }
 //    
 //    /**
 //     * Closes this Protocol.
@@ -3007,10 +3023,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return KraServiceLocator.getService(ProtocolRequestService.class);
 //    }
 //    
-//    private ProtocolNotifyIrbService getProtocolNotifyIrbService() {
-//        return KraServiceLocator.getService(ProtocolNotifyIrbService.class);
-//    }
-//    
 //    private ProtocolNotifyCommitteeService getProtocolNotifyCommitteeService() {
 //        return KraServiceLocator.getService(ProtocolNotifyCommitteeService.class);
 //    }
@@ -3060,127 +3072,134 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
 //    
-//    /**
-//     * 
-//     * This method is to add a file to notify irb 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward addNotifyIrbAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        if (((ProtocolForm) form).getActionHelper().validFile(((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean().getNewActionAttachment(), "protocolNotifyIrbBean")) {
-//            LOG.info("addNotifyIrbAttachment " +((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean().getNewActionAttachment().getFile().getFileName()
-//                    + ((ProtocolForm) form).getProtocolDocument().getDocumentNumber());
-//            ((ProtocolForm) form).getActionHelper().addNotifyIrbAttachment();
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * 
-//     * This method view a file added to notify irb panel
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewNotifyIrbAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        return this.viewAttachment(mapping, (ProtocolForm) form, request, response);
-//    }
-//
-//    /*
-//     * utility to view file 
-//     */
-//    private ActionForward viewAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        int selection = this.getSelectedLine(request);
-//        ProtocolActionAttachment attachment = form.getActionHelper().getProtocolNotifyIrbBean().getActionAttachments().get(
-//                selection);
-//
-//        if (attachment == null) {
-//            LOG.info(NOT_FOUND_SELECTION + selection);
-//            // may want to tell the user the selection was invalid.
-//            return mapping.findForward(Constants.MAPPING_BASIC);
-//        }
-//
-//        this.streamToResponse(attachment.getFile().getFileData(), getValidHeaderString(attachment.getFile().getFileName()),
-//                getValidHeaderString(attachment.getFile().getContentType()), response);
-//
-//        return RESPONSE_ALREADY_HANDLED;
-//    }
-//
-//    /**
-//     * 
-//     * This method to delete a file added in norify irb panel
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward deleteNotifyIrbAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, ((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean().getActionAttachments());
-//    }
-//
-//    /*
-//     * confirmation question for delete norify irb file or request attachment file
-//     */
-//    private ActionForward confirmDeleteAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
-//            HttpServletResponse response, List<ProtocolActionAttachment> attachments) throws Exception {
-//
-//        int selection = this.getSelectedLine(request);
-//        ProtocolActionAttachment attachment = attachments.get(selection);
-//
-//        if (attachment == null) {
-//            LOG.info(NOT_FOUND_SELECTION + selection);
-//            // may want to tell the user the selection was invalid.
-//            return mapping.findForward(Constants.MAPPING_BASIC);
-//        }
-//
-//        StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response,
-//                CONFIRM_DELETE_ACTION_ATT, KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, "", attachment
-//                        .getFile().getFileName());
-//
-//        return confirm(confirm, CONFIRM_DELETE_ACTION_ATT, CONFIRM_NO_ACTION);
-//    }
-//
-//
-//    /**
-//     * 
-//     * method when confirm to delete notify irb file or request action attachment
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward confirmDeleteActionAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//        throws Exception {
-//        
-//        String taskName = getTaskName(request);
-//        int selection = getSelectedLine(request);
-//
-//        if (StringUtils.isBlank(taskName)) {
-//            ProtocolNotifyIrbBean notifyIrbBean = ((ProtocolForm) form).getActionHelper().getProtocolNotifyIrbBean();
-//            notifyIrbBean.getActionAttachments().remove(selection);
-//        } else {
-//            ProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
-//            requestBean.getActionAttachments().remove(selection);
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
+    /**
+     * 
+     * This method is to add a file to notify iacuc 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addNotifyIacucAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+        if (actionHelper.validFile(actionHelper.getIacucProtocolNotifyIacucBean().getNewActionAttachment(), "iacucProtocolNotifyIacucBean")) {
+            LOG.info("addNotifyIacucAttachment " + actionHelper.getIacucProtocolNotifyIacucBean().getNewActionAttachment().getFile().getFileName()
+                    + ((ProtocolForm) form).getProtocolDocument().getDocumentNumber());
+            actionHelper.addNotifyIacucAttachment();
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * 
+     * This method view a file added to notify irb panel
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewNotifyIacucAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return this.viewAttachment(mapping, (IacucProtocolForm) form, request, response);
+    }
+
+    /*
+     * utility to view file 
+     */
+    private ActionForward viewAttachment(ActionMapping mapping, IacucProtocolForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        int selection = this.getSelectedLine(request);
+        IacucActionHelper actionHelper = (IacucActionHelper) form.getActionHelper();
+        ProtocolActionAttachment attachment = actionHelper.getIacucProtocolNotifyIacucBean().getActionAttachments().get(
+                selection);
+
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + selection);
+            // may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        this.streamToResponse(attachment.getFile().getFileData(), getValidHeaderString(attachment.getFile().getFileName()),
+                getValidHeaderString(attachment.getFile().getContentType()), response);
+
+        return RESPONSE_ALREADY_HANDLED;
+    }
+
+    /**
+     * 
+     * This method to delete a file added in norify irb panel
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteNotifyIacucAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+        return confirmDeleteAttachment(mapping, protocolForm, request, response, 
+                actionHelper.getIacucProtocolNotifyIacucBean().getActionAttachments());
+    }
+
+    /*
+     * confirmation question for delete norify irb file or request attachment file
+     */
+    private ActionForward confirmDeleteAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
+            HttpServletResponse response, List<ProtocolActionAttachment> attachments) throws Exception {
+
+        int selection = this.getSelectedLine(request);
+        ProtocolActionAttachment attachment = attachments.get(selection);
+
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + selection);
+            // may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response,
+                CONFIRM_DELETE_ACTION_ATT, KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, "", attachment
+                        .getFile().getFileName());
+
+        return confirm(confirm, CONFIRM_DELETE_ACTION_ATT, CONFIRM_NO_ACTION);
+    }
+
+
+    /**
+     * 
+     * method when confirm to delete notify irb file or request action attachment
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmDeleteActionAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        String taskName = getTaskName(request);
+        int selection = getSelectedLine(request);
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+        
+        if (StringUtils.isBlank(taskName)) {
+            actionHelper.getIacucProtocolNotifyIacucBean().getActionAttachments().remove(selection);
+        } else {
+            ProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
+            requestBean.getActionAttachments().remove(selection);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 //
 //    /**
 //     * 
@@ -3534,9 +3553,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        }
 //    }
 //    
-//    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-//        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
-//    }
+    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+    }
 //    private FollowupActionService getFollowupActionService() {
 //        return KraServiceLocator.getService(FollowupActionService.class);
 //    }
@@ -3786,7 +3805,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
               IacucProtocol protocol = (IacucProtocol)notificationRequestBean.getProtocol();
               
               if (StringUtils.equals(IacucProtocolActionType.NOTIFY_IACUC, notificationRequestBean.getActionType())) {
-                  renderer = new NotifyIacucNotificationRenderer(protocol, ((IacucActionHelper)protocolForm.getActionHelper()).getProtocolNotifyIacucBean().getComment());
+                  renderer = new NotifyIacucNotificationRenderer(protocol, ((IacucActionHelper)protocolForm.getActionHelper()).getIacucProtocolNotifyIacucBean().getComment());
 //              } else if (StringUtils.equals(IacucProtocolActionType.NOTIFIED_COMMITTEE, notificationRequestBean.getActionType())) {
 //                  renderer = new NotifyCommitteeNotificationRenderer(notificationRequestBean.getProtocol(), 
 //                          protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getCommitteeName(), 
@@ -4414,5 +4433,5 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
          }
      }
      return notificationRequestBeans;
- }
+ } 
 }

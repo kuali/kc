@@ -42,6 +42,7 @@
             <kra-iacuc-action:modifySubmissionAction />            
 			<kra-iacuc-action:adminActions />
 			<kra-iacuc-action:assignToAgendaAction />
+			<kra-iacuc-action:notifyIacucAction />
           
           <%--
             <kra-iacuc-action:assignReviewersAction />
@@ -94,7 +95,6 @@
                                           methodToCall="returnForSRR"
                                           canPerformAction="${KualiForm.actionHelper.canReturnForSRR}"
                                           defaultOpen="${KualiForm.actionHelper.isReturnForSRROpenForFollowup}" />
-            <kra-iacuc-action:notifyIrbAction />
             <kra-iacuc-action:notifyCommitteeAction />
             <kra-iacuc-action:genericAction tabTitle="IRB Acknowledgement"
                                           bean="${KualiForm.actionHelper.protocolIrbAcknowledgementBean}"
