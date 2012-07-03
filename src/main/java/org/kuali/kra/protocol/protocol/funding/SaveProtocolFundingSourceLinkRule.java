@@ -57,10 +57,6 @@ public class SaveProtocolFundingSourceLinkRule extends ResearchDocumentRuleBase 
             }
         }
         
-        for (ProtocolFundingSource protocolFundingSource : event.getDeletedProtocolFundingSources()) {
-            rulePassed &= validateProtocolFundingSource(protocolFundingSource);
-        }
-        
         return rulePassed;
     }
     
