@@ -26,19 +26,18 @@ import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsBean;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
-import org.kuali.kra.protocol.actions.decision.CommitteePerson;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class IacucCommitteeDecision extends IacucProtocolActionBean implements CommitteeDecision {
+public class IacucCommitteeDecision extends IacucProtocolActionBean implements CommitteeDecision<IacucCommitteePerson> {
     
     private static final long serialVersionUID = -8052093280852074307L;
     
@@ -51,13 +50,13 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
     
     private CommitteeDecisionMotionType motionType;
     
-    private CommitteePerson newAbstainer = new CommitteePerson();
-    private CommitteePerson newRecused = new CommitteePerson();
+    private IacucCommitteePerson newAbstainer = new IacucCommitteePerson();
+    private IacucCommitteePerson newRecused = new IacucCommitteePerson();
     
-    private List<CommitteePerson> abstainers = new ArrayList<CommitteePerson>();
-    private List<CommitteePerson> recused = new ArrayList<CommitteePerson>();
-    private List<CommitteePerson> abstainersToDelete = new ArrayList<CommitteePerson>();
-    private List<CommitteePerson> recusedToDelete = new ArrayList<CommitteePerson>();
+    private List<IacucCommitteePerson> abstainers = new ArrayList<IacucCommitteePerson>();
+    private List<IacucCommitteePerson> recused = new ArrayList<IacucCommitteePerson>();
+    private List<IacucCommitteePerson> abstainersToDelete = new ArrayList<IacucCommitteePerson>();
+    private List<IacucCommitteePerson> recusedToDelete = new ArrayList<IacucCommitteePerson>();
     
     private IacucReviewCommentsBean reviewCommentsBean;
     
@@ -65,7 +64,7 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
      * Constructs a CommitteeDecision.
      * @param actionHelper Reference back to the action helper for this bean
      */
-    public IacucCommitteeDecision(ActionHelper actionHelper) {
+    public IacucCommitteeDecision(IacucActionHelper actionHelper) {
         super(actionHelper);
         reviewCommentsBean = new IacucReviewCommentsBean(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY);
     }
@@ -79,7 +78,7 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
         // npe when try to getavailable member
         // TODO : check with Jay
         //ProtocolSubmission submission = getSubmission(protocol);
-        ProtocolSubmission submission = getProtocol().getProtocolSubmission();
+        IacucProtocolSubmission submission = (IacucProtocolSubmission) getProtocol().getProtocolSubmission();
         if (submission != null) {
             this.motionTypeCode = submission.getCommitteeDecisionMotionTypeCode();
             this.noCount = submission.getNoVoteCount();
@@ -121,7 +120,7 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
         return committeeMemberships;
     }
     
-    private void initializeAbstainees(ProtocolSubmission submission) {
+    private void initializeAbstainees(IacucProtocolSubmission submission) {
         Map<String, Long> absenteeLookFields = getLookUpFields(getProtocol().getProtocolId(), submission.getSubmissionId());
         
         Collection<ProtocolVoteAbstainee> protocolVoteAbstainees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteAbstainee.class, absenteeLookFields);
@@ -132,7 +131,7 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
             for (CommitteeMembership membership : committeeMemberships) {
                 if (abstainee.isProtocolReviewerFromCommitteeMembership(membership)) {
                     //this committee person is an abstainee
-                    CommitteePerson person = new CommitteePerson();
+                    IacucCommitteePerson person = new IacucCommitteePerson();
                     person.setMembershipId(membership.getCommitteeMembershipId());
                     this.abstainers.add(person);
                     break;
@@ -141,7 +140,7 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
         }
     }
     
-    private void initializeRecused(ProtocolSubmission submission) {
+    private void initializeRecused(IacucProtocolSubmission submission) {
         Map<String, Long> absenteeLookFields = getLookUpFields(getProtocol().getProtocolId(), submission.getSubmissionId());
         
         Collection<ProtocolVoteRecused> protocolVoteRecused = KraServiceLocator.getService(BusinessObjectService.class).findMatching(ProtocolVoteRecused.class, absenteeLookFields);
@@ -152,7 +151,7 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
             for (CommitteeMembership membership : committeeMemberships) {
                 if (recusee.isProtocolReviewerFromCommitteeMembership(membership)) {
                     //this committee person is an recusee
-                    CommitteePerson person = new CommitteePerson();
+                    IacucCommitteePerson person = new IacucCommitteePerson();
                     person.setMembershipId(membership.getCommitteeMembershipId());
                     this.recused.add(person);
                     break;
@@ -210,43 +209,43 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
         this.motionType = motionType;
     }
 
-    public List<CommitteePerson> getAbstainers() {
+    public List<IacucCommitteePerson> getAbstainers() {
         return abstainers;
     }
 
-    public void setAbstainers(List<CommitteePerson> abstainers) {
+    public void setAbstainers(List<IacucCommitteePerson> abstainers) {
         this.abstainers = abstainers;
     }
     
-    public List<CommitteePerson> getAbstainersToDelete() {
+    public List<IacucCommitteePerson> getAbstainersToDelete() {
         return abstainersToDelete;
     }
 
-    public List<CommitteePerson> getRecused() {
+    public List<IacucCommitteePerson> getRecused() {
         return recused;
     }
 
-    public void setRecused(List<CommitteePerson> recused) {
+    public void setRecused(List<IacucCommitteePerson> recused) {
         this.recused = recused;
     }
     
-    public List<CommitteePerson> getRecusedToDelete() {
+    public List<IacucCommitteePerson> getRecusedToDelete() {
         return recusedToDelete;
     }
 
-    public CommitteePerson getNewAbstainer() {
+    public IacucCommitteePerson getNewAbstainer() {
         return newAbstainer;
     }
 
-    public void setNewAbstainer(CommitteePerson newAbstainer) {
+    public void setNewAbstainer(IacucCommitteePerson newAbstainer) {
         this.newAbstainer = newAbstainer;
     }
 
-    public CommitteePerson getNewRecused() {
+    public IacucCommitteePerson getNewRecused() {
         return newRecused;
     }
 
-    public void setNewRecused(CommitteePerson newRecused) {
+    public void setNewRecused(IacucCommitteePerson newRecused) {
         this.newRecused = newRecused;
     }
     
@@ -257,7 +256,7 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
                 (this.getRecusedCount() != null ? this.getRecusedCount() : 0);
     }
 
-    public ReviewCommentsBean getReviewCommentsBean() {
+    public IacucReviewCommentsBean getReviewCommentsBean() {
         return reviewCommentsBean;
     }
 

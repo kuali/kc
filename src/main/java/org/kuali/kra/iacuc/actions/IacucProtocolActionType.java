@@ -71,12 +71,22 @@ public class IacucProtocolActionType extends ProtocolActionType {
     public static final String TERMINATED = "306"; 
     public static final String SUSPENDED = "307";     
     public static final String MODIFY_PROTOCOL_SUBMISSION = "309";
+    public static final String MANAGE_REVIEW_COMMENTS = "310";
+    
     public static final String ASSIGN_REVIEWER = "901";
 
     public static final String IACUC_DELETED =  "906";
     
     //We need a unique Action code to map if the option to be chosen is 'Approve' since we need to enable 'Approve' action subsequently 
-    public static final String RECORD_COMMITTEE_DECISION = "308";
+    public static final String RECORD_COMMITTEE_DECISION = "318";
+    
+    
+    //No corresponding actionTypeCode for these in Coeus  
+    public static final String REVIEW_COMPLETE = "902";
+    public static final String REVIEW_REJECTED = "903";
+    public static final String FUNDING_SOURCE = "904";
+    public static final String REVIEW_DELETED = "905";
+    
 
     public static List<String>getActionTypeSubmissionDocs() {
         return ACTION_TYPE_SUBMISSION_DOC;

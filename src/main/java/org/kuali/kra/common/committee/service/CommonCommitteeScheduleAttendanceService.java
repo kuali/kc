@@ -13,21 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions;
+package org.kuali.kra.common.committee.service;
 
-import org.kuali.kra.protocol.actions.ActionsKeyValuesBase;
+import java.util.Set;
 
-
-/**
- * 
- * This class should be extended by IACUC values finder classes.
- */
-public abstract class IacucActionsKeyValuesBase extends ActionsKeyValuesBase {
-
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 5653084925713964704L;
- 
+public interface CommonCommitteeScheduleAttendanceService {
     
+    Set<String> getVotingMembersPresent (String committeeId, String scheduleId);
+    
+    Set<String> getActualVotingMembersPresent (String committeeId, String scheduleId);
+    
+    int getActualVotingMembersCount (String committeeId, String scheduleId);
 }

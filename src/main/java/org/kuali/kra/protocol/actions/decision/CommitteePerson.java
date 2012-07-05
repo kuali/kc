@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.actions.decision;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class CommitteePerson implements Serializable{
+public abstract class CommitteePerson implements Serializable{
 
     private Long membershipId;
 

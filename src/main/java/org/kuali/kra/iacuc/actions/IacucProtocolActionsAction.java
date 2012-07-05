@@ -53,7 +53,14 @@ import org.kuali.kra.iacuc.actions.assignagenda.IacucProtocolAssignToAgendaBean;
 import org.kuali.kra.iacuc.actions.assignagenda.IacucProtocolAssignToAgendaEvent;
 import org.kuali.kra.iacuc.actions.assignagenda.IacucProtocolAssignToAgendaService;
 import org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService;
+import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecision;
+import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionAbstainerEvent;
+import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionEvent;
+import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionRecuserEvent;
+import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionService;
+import org.kuali.kra.iacuc.actions.decision.IacucCommitteePerson;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteService;
+import org.kuali.kra.iacuc.actions.followup.IacucFollowupActionService;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionEvent;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionService;
@@ -69,6 +76,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionEvent;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
+import org.kuali.kra.iacuc.actions.submit.IacucValidProtocolActionAction;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawService;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
@@ -86,6 +94,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.history.ProtocolHistoryFilterDatesEvent;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.actions.ProtocolAction;
@@ -113,6 +122,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -230,7 +240,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         protocolForm.getActionHelper().prepareView();
         
-        // submit action may change "submission details", so re-initialize it        
+        // submit action may change "submission details", so re-initialize it
+        // TODO do we really need this? the above call to prepareView() will invoke it anyway, so the below call seems redundant and wasteful.
         ((IacucActionHelper)protocolForm.getActionHelper()).initSubmissionDetails();
         
         return actionForward;
@@ -2592,84 +2603,86 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //
 //    }
-//    
-//    public ActionForward submitCommitteeDecision(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        if (!hasDocumentStateChanged(protocolForm)) {
-//            if (applyRules(new CommitteeDecisionEvent(protocolForm.getProtocolDocument(), protocolForm.getActionHelper().getCommitteeDecision()))){
-//                CommitteeDecision actionBean = protocolForm.getActionHelper().getCommitteeDecision();
-//                getCommitteeDecisionService().processCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                confirmFollowupAction(mapping, form, request, response, Constants.MAPPING_BASIC);
-//                protocolForm.getTabStates().put(":" + WebUtils.generateTabKey(motionTypeMap.get(actionBean.getMotionTypeCode())), "OPEN");
-//                recordProtocolActionSuccess("Record Committee Decision");
-//            }
-//        } else {
-//            GlobalVariables.getMessageMap().clearErrorMessages();
-//            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    public ActionForward addAbstainer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
-//        if (applyRules(new CommitteeDecisionAbstainerEvent(protocolForm.getProtocolDocument(), decision))){
-//            decision.getAbstainers().add(decision.getNewAbstainer());
-//            decision.setNewAbstainer(new CommitteePerson());
-//            decision.setAbstainCount(decision.getAbstainCount() + 1);
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    public ActionForward deleteAbstainer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
-//        CommitteePerson person = decision.getAbstainers().get(getLineToDelete(request));
-//        if (person != null) {
-//            decision.getAbstainersToDelete().add(person);
-//            decision.getAbstainers().remove(getLineToDelete(request));
-//            decision.setAbstainCount(decision.getAbstainCount() - 1);
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    public ActionForward addRecused(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
-//        if (applyRules(new CommitteeDecisionRecuserEvent(protocolForm.getProtocolDocument(), decision))) {
-//            decision.getRecused().add(decision.getNewRecused());
-//            decision.setNewRecused(new CommitteePerson());
-//            decision.setRecusedCount(decision.getRecusedCount() + 1);
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
+    
+    public ActionForward submitCommitteeDecision(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        if (!hasDocumentStateChanged(protocolForm)) {
+            IacucCommitteeDecision actionBean = (IacucCommitteeDecision) protocolForm.getActionHelper().getCommitteeDecision();
+            if (applyRules(new IacucCommitteeDecisionEvent((IacucProtocolDocument) protocolForm.getProtocolDocument(), actionBean))){                
+                getCommitteeDecisionService().processCommitteeDecision(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                confirmFollowupAction(mapping, form, request, response, Constants.MAPPING_BASIC);
+                protocolForm.getTabStates().put(":" + WebUtils.generateTabKey(motionTypeMap.get(actionBean.getMotionTypeCode())), "OPEN");
+                recordProtocolActionSuccess("Record Committee Decision");
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward addAbstainer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucCommitteeDecision decision = (IacucCommitteeDecision) protocolForm.getActionHelper().getCommitteeDecision();
+        if (applyRules(new IacucCommitteeDecisionAbstainerEvent((IacucProtocolDocument) protocolForm.getProtocolDocument(), decision))){
+            decision.getAbstainers().add(decision.getNewAbstainer());
+            decision.setNewAbstainer(new IacucCommitteePerson());
+            decision.setAbstainCount(decision.getAbstainCount() + 1);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward deleteAbstainer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucCommitteeDecision decision = (IacucCommitteeDecision) protocolForm.getActionHelper().getCommitteeDecision();
+        IacucCommitteePerson person = decision.getAbstainers().get(getLineToDelete(request));
+        if (person != null) {
+            decision.getAbstainersToDelete().add(person);
+            decision.getAbstainers().remove(getLineToDelete(request));
+            decision.setAbstainCount(decision.getAbstainCount() - 1);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward addRecused(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucCommitteeDecision decision = (IacucCommitteeDecision) protocolForm.getActionHelper().getCommitteeDecision();
+        if (applyRules(new IacucCommitteeDecisionRecuserEvent((IacucProtocolDocument) protocolForm.getProtocolDocument(), decision))) {
+            decision.getRecused().add(decision.getNewRecused());
+            decision.setNewRecused(new IacucCommitteePerson());
+            decision.setRecusedCount(decision.getRecusedCount() + 1);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
-//    
-//    public ActionForward deleteRecused(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        CommitteeDecision decision = protocolForm.getActionHelper().getCommitteeDecision();
-//        CommitteePerson person = decision.getRecused().get(getLineToDelete(request));
-//        if (person != null) {
-//            decision.getRecusedToDelete().add(person);
-//            decision.getRecused().remove(getLineToDelete(request));
-//            decision.setRecusedCount(decision.getRecusedCount() - 1);
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
+    
+    public ActionForward deleteRecused(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucCommitteeDecision decision = (IacucCommitteeDecision) protocolForm.getActionHelper().getCommitteeDecision();
+        IacucCommitteePerson person = decision.getRecused().get(getLineToDelete(request));
+        if (person != null) {
+            decision.getRecusedToDelete().add(person);
+            decision.getRecused().remove(getLineToDelete(request));
+            decision.setRecusedCount(decision.getRecusedCount() - 1);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    
+    
 //    private Printable getPrintableArtifacts(Protocol protocol, String reportType, StringBuffer fileName,Map reportParameters) {
 //        ProtocolPrintType printType = ProtocolPrintType.valueOf(PRINTTAG_MAP.get(reportType));
 //
@@ -3059,10 +3072,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return KraServiceLocator.getService(CommonCommitteeService.class);
     }
     
-//    private CommitteeDecisionService getCommitteeDecisionService() {
-//        return KraServiceLocator.getService("protocolCommitteeDecisionService");
-//    }
-//    
+    private IacucCommitteeDecisionService getCommitteeDecisionService() {
+        return KraServiceLocator.getService(IacucCommitteeDecisionService.class);
+    }
+    
 //    private ProtocolRiskLevelService getProtocolRiskLevelService() {
 //        return KraServiceLocator.getService(ProtocolRiskLevelService.class);
 //    }
@@ -3498,55 +3511,55 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
 //
-//
-//    /*
-//     * confirmation question for followup action
-//     */
-//    private ActionForward confirmFollowupAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response, String forward) throws Exception {
-//
-//        //List<ValidProtocolActionAction> validFollowupActions = getFollowupActionService().getFollowupsForProtocol(((ProtocolForm)form).getProtocolDocument().getProtocol());
-//        List<ValidProtocolActionAction> validFollowupActions = getFollowupActionService().getFollowupsForProtocol(((ProtocolForm)form).getProtocolDocument().getProtocol());
-//
-//        if (validFollowupActions.isEmpty()) {
-//            LOG.info("No followup action");
-//            return mapping.findForward(forward);
-//        } else if (!validFollowupActions.get(0).getUserPromptFlag()) {
-//            addFollowupAction(((ProtocolForm)form).getProtocolDocument().getProtocol());
-//            return mapping.findForward(forward);
-//        }
-//
-//        StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_FOLLOWUP_ACTION,
-//                KeyConstants.QUESTION_PROTOCOL_CONFIRM_FOLLOWUP_ACTION, validFollowupActions.get(0).getUserPrompt());
-//        LOG.info("followup action "+validFollowupActions.get(0).getUserPrompt());
-//
-//        return confirm(confirm, CONFIRM_FOLLOWUP_ACTION, CONFIRM_NO_ACTION);
-//    }
-//
-//    /**
-//     * 
-//     * This method if 'Yes' to do followup action, then this will be executed.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward confirmAddFollowupAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        addFollowupAction(((ProtocolForm)form).getProtocolDocument().getProtocol());
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    private void addFollowupAction(Protocol protocol) throws Exception {
-//
-//        List<ValidProtocolActionAction> validFollowupActions = getFollowupActionService().getFollowupsForProtocol(protocol);
-//        protocol.getLastProtocolAction().setFollowupActionCode(validFollowupActions.get(0).getFollowupActionCode());
-//        getBusinessObjectService().save(protocol.getLastProtocolAction());
-//    }
-//
+
+    /*
+     * confirmation question for followup action
+     */
+    private ActionForward confirmFollowupAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response, String forward) throws Exception {
+
+        //List<ValidProtocolActionAction> validFollowupActions = getFollowupActionService().getFollowupsForProtocol(((ProtocolForm)form).getProtocolDocument().getProtocol());
+        List<IacucValidProtocolActionAction> validFollowupActions = getFollowupActionService().getFollowupsForProtocol(((ProtocolForm)form).getProtocolDocument().getProtocol());
+
+        if (validFollowupActions.isEmpty()) {
+            LOG.info("No followup action");
+            return mapping.findForward(forward);
+        } else if (!validFollowupActions.get(0).getUserPromptFlag()) {
+            addFollowupAction(((ProtocolForm)form).getProtocolDocument().getProtocol());
+            return mapping.findForward(forward);
+        }
+
+        StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_FOLLOWUP_ACTION,
+                KeyConstants.QUESTION_PROTOCOL_CONFIRM_FOLLOWUP_ACTION, validFollowupActions.get(0).getUserPrompt());
+        LOG.info("followup action "+validFollowupActions.get(0).getUserPrompt());
+
+        return confirm(confirm, CONFIRM_FOLLOWUP_ACTION, CONFIRM_NO_ACTION);
+    }
+
+    /**
+     * 
+     * This method if 'Yes' to do followup action, then this will be executed.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmAddFollowupAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        addFollowupAction(((ProtocolForm)form).getProtocolDocument().getProtocol());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    private void addFollowupAction(Protocol protocol) throws Exception {
+
+        List<IacucValidProtocolActionAction> validFollowupActions = getFollowupActionService().getFollowupsForProtocol(protocol);
+        protocol.getLastProtocolAction().setFollowupActionCode(validFollowupActions.get(0).getFollowupActionCode());
+        getBusinessObjectService().save(protocol.getLastProtocolAction());
+    }
+
 //    private void setQnCompleteStatus(List<AnswerHeader> answerHeaders) {
 //        for (AnswerHeader answerHeader : answerHeaders) {
 //            answerHeader.setCompleted(getQuestionnaireAnswerService().isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
@@ -3556,9 +3569,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
     }
-//    private FollowupActionService getFollowupActionService() {
-//        return KraServiceLocator.getService(FollowupActionService.class);
-//    }
+    
+    private IacucFollowupActionService getFollowupActionService() {
+        return KraServiceLocator.getService(IacucFollowupActionService.class);
+    }
+    
 //    /**
 //     * This method is to get Watermark Service. 
 //     */
