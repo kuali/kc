@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -42,6 +43,7 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.protocol.funding.AddIacucProtocolFundingSourceEvent;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceService;
+import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceServiceImpl;
 import org.kuali.kra.iacuc.protocol.funding.LookupIacucProtocolFundingSourceEvent;
 import org.kuali.kra.iacuc.protocol.funding.SaveIacucProtocolFundingSourceLinkEvent;
 import org.kuali.kra.iacuc.protocol.location.AddIacucProtocolLocationEvent;
@@ -56,6 +58,11 @@ import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
+import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
+import org.kuali.kra.protocol.protocol.funding.ProtocolProposalDevelopmentDocumentService;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolEventBase;
 import org.kuali.kra.protocol.ProtocolForm;
@@ -462,6 +469,52 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         return KraServiceLocator.getService(IacucProtocolFundingSourceService.class);
     }
 
+    /**
+     * This method is to return Proposal Development Document service
+     * 
+     * @return ProtocolProposalDevelopmentDocumentService
+     */
+    private ProtocolProposalDevelopmentDocumentService getProtocolProposalDevelopmentDocumentService() {
+        return (ProtocolProposalDevelopmentDocumentService) KraServiceLocator.getService(ProtocolProposalDevelopmentDocumentService.class);
+    }
+
+    /**
+     * This method is linked to ProtocolFundingService to perform the action - Create Proposal Development. Method is called in
+     * protocolFundingSources.tag
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward createProposalDevelopment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        
+        ProtocolProposalDevelopmentDocumentService service = getProtocolProposalDevelopmentDocumentService(); 
+        ProposalDevelopmentDocument proposalDevelopmentDocument = service.createProposalDevelopmentDocument(protocolForm);
+        if (proposalDevelopmentDocument != null )
+        {
+            DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+    
+            IacucProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = KraServiceLocator.getService("iacucProtocolFundingSourceService");
+            IacucProtocolFundingSource proposalProtocolFundingSource = (IacucProtocolFundingSource) protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.PROPOSAL_DEVELOPMENT, developmentProposal.getProposalNumber(), developmentProposal.getSponsorName());
+            proposalProtocolFundingSource.setProtocol(protocolDocument.getProtocol());
+           
+            List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+            AddIacucProtocolFundingSourceEvent event = 
+                    new AddIacucProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument, proposalProtocolFundingSource, protocolFundingSources);
+            
+            if (applyRules(event)) {
+                protocolDocument.getProtocol().getProtocolFundingSources().add(proposalProtocolFundingSource);
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+ 
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.preSave(mapping, form, request, response);

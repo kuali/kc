@@ -7,6 +7,7 @@
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyFundingSource}" />
 <c:set var="allowEditName" value="${KualiForm.protocolHelper.editProtocolFundingSourceName}" />
 <c:set var="viewStyle" value="display: block;"/>
+<c:set var="allowCreateProposal" value="${KualiForm.protocolHelper.createProposalDevelopment}" />
 
 <c:choose>
     <c:when test="${KualiForm.protocolHelper.fundingNumberLookupable}">
@@ -117,6 +118,12 @@
 	                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
 	                            title="Add protocol funding source"
 	                            styleClass="tinybutton"/>
+					            <c:if test="${allowCreateProposal}">
+		                            <html:image property="methodToCall.createProposalDevelopment.anchor${tabKey}"
+		                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-startproposal.gif' 
+	    	                        title="Create Proposal Development"
+	        	                    styleClass="tinybutton"/>
+	        	                </c:if>
 	                        </div>
 	                </td>
 	            </tr>
