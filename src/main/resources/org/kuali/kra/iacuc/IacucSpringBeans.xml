@@ -222,6 +222,10 @@
                     <property name="taskName" value="iacucProtocolNotifyIacucUnavailable"/>
                 </bean>
                 
+                <bean class="org.kuali.kra.iacuc.auth.CreateProposalDevelopmentIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="createProposalForIacucProtocol" />
+                </bean>   
+                
                 
            </list>
         </property>
@@ -759,6 +763,8 @@
         <property name="protocolActionService" ref="iacucProtocolActionService" />    
     </bean>
 
+	<bean id="protocolProposalDevelopmentDocumentService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentDocumentServiceImpl">
+    </bean> 
 
 </beans>
 

@@ -21,6 +21,7 @@ import org.kuali.kra.protocol.auth.ProtocolTask;
 
 public final class IacucProtocolTask  extends ProtocolTask {
     
+    public static final String CREATE_PROPOSAL_FOR_IACUC_PROTOCOL = "createProposalForIacucProtocol";
     
     /**
      * Constructs a ProtocolTask.
