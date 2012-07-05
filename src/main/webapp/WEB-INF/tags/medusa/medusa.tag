@@ -52,14 +52,7 @@
         			<input class="nobord" type="radio" value="0" name="medusaBean.medusaViewRadio"/>
         		</c:otherwise>
         	</c:choose>	  
-        	<c:choose>
-        	 <c:when test="${KualiForm.medusaBean.moduleName == 'subaward'}">
-        	 	    Subaward > Award      	
-        	 	</c:when>   
-        	 	<c:otherwise>
-        			Proposal > Award
-        		</c:otherwise>
-        	</c:choose>	 
+        	Proposal > Award
         </th>	
         <th style="text-align: center;">        
         	<c:choose>
@@ -69,15 +62,8 @@
         		<c:otherwise>        	
         			<input class="nobord" type="radio" value="1" name="medusaBean.medusaViewRadio"/>
         		</c:otherwise>
-        	</c:choose>
-        	<c:choose>
-        	 	<c:when test="${KualiForm.medusaBean.moduleName == 'subaward'}">
-        	 		Award > Subaward
-        	 	</c:when>   
-        	 	<c:otherwise>
-        			Award > Proposal
-        		</c:otherwise>
-        	</c:choose>	
+        	</c:choose> 
+        	Award > Proposal
         </th>
         <th style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
 				<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
