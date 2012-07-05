@@ -189,19 +189,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl im
         if (!answerHeaders.isEmpty()) {
             businessObjectService.delete(answerHeaders);
         }
-    }
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.IacucProtocolActionFollowupService#isActionOpenForFollowup(java.lang.String, org.kuali.kra.irb.IacucProtocol)
-     */
-    public boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol) {
-//TODO:IACUC        return followupActionService.isActionOpenForFollowup(protocolActionTypeCode, (IacucProtocol)protocol);
-        return true;        
-    }
-    
-    
-    
-    
+    }  
     
     
 

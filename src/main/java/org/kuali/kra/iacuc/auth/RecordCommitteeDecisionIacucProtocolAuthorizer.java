@@ -13,29 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.auth;
+package org.kuali.kra.iacuc.auth;
 
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.protocol.actions.ProtocolAction;
+
+
 
 /**
  * Is the user allowed to record committee decisions for a protocol?
  */
-public class RecordCommitteeDecisionProtocolAuthorizer extends ProtocolAuthorizer {
+public class RecordCommitteeDecisionIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
 
-    /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
-     */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
-        
-        /* -- commented as part of GENERATED CODE need to verify
+    public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&
-                canExecuteAction(task.getProtocol(), ProtocolActionType.RECORD_COMMITTEE_DECISION) && 
-               hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO) &&
+               canExecuteAction(task.getProtocol(), IacucProtocolActionType.RECORD_COMMITTEE_DECISION) && 
+               hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO) &&
                canRecordCommitteeDecision(task.getProtocol().getLastProtocolAction());
-               */
-        return false;
     }
     
     /**
@@ -47,10 +42,11 @@ public class RecordCommitteeDecisionProtocolAuthorizer extends ProtocolAuthorize
      * @return
      */
     private boolean canRecordCommitteeDecision(ProtocolAction lastAction) {
-        if(lastAction != null && !ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())) {
+        if(lastAction != null && !IacucProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())) {
             return true;
         }
                 
         return false;
     }
+    
 }

@@ -30,6 +30,10 @@ import org.kuali.kra.protocol.personnel.AddProtocolUnitRule;
 import org.kuali.kra.protocol.personnel.ProtocolAttachmentPersonnelRule;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRule;
 import org.kuali.kra.protocol.personnel.ProtocolUnitRule;
+import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
+import org.kuali.kra.protocol.actions.decision.CommitteeDecisionRule;
+import org.kuali.kra.protocol.actions.decision.CommitteePerson;
+import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
@@ -57,19 +61,22 @@ import org.kuali.rice.krad.util.MessageMap;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase   
+public abstract class ProtocolDocumentRule<CD extends CommitteeDecision<? extends CommitteePerson>>
+                                                                    extends ResearchDocumentRuleBase   
                                                                     implements                                                                  
                                                                                 AddProtocolReferenceRule, 
                                                                                 AddProtocolLocationRule,
                                                                                 AddProtocolAttachmentPersonnelRule, 
                                                                                 AddProtocolUnitRule,
                                                                                 BusinessRuleInterface,                                                                                 
-                                                                                ExecuteProtocolSubmitActionRule
+                                                                                ExecuteProtocolSubmitActionRule,
 // TODO *********commented the code below during IACUC refactoring*********                                                                                 
 //                                                                                ExecuteProtocolAssignCmtSchedRule, 
 //                                                                                ExecuteProtocolAssignReviewersRule, 
-//                                                                                ExecuteProtocolAdminCorrectionRule, 
-//                                                                                ExecuteCommitteeDecisionRule, 
+//                                                                                ExecuteProtocolAdminCorrectionRule,
+                                                                                
+                                                                                ExecuteCommitteeDecisionRule<CD>
+                                                                                
 //                                                                                ExecuteCommitteeDecisionAbstainerRule, 
 //                                                                                ExecuteCommitteeDecisionRecuserRule, 
 //                                                                                ExecuteProtocolModifySubmissionRule, 
@@ -374,14 +381,17 @@ public abstract class ProtocolDocumentRule extends ResearchDocumentRuleBase
 //    public boolean processAdminCorrectionRule(ProtocolDocument document, AdminCorrectionBean actionBean) {
 //        return new ProtocolAdminCorrectionRule().processAdminCorrectionRule(document, actionBean);
 //    }
-//    
-//    /**
-//     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRule#proccessCommitteeDecisionRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.decision.CommitteeDecision)
-//     */
-//    public boolean proccessCommitteeDecisionRule(ProtocolDocument document, CommitteeDecision actionBean) {
-//        return new CommitteeDecisionRule().proccessCommitteeDecisionRule(document, actionBean);
-//    }
-//    
+    
+    /**
+     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRule#proccessCommitteeDecisionRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.decision.CommitteeDecision)
+     */
+    public boolean proccessCommitteeDecisionRule(ProtocolDocument document, CD actionBean) {
+        return newCommitteeDecisionRuleInstanceHook().proccessCommitteeDecisionRule(document, actionBean);
+    }
+
+    protected abstract CommitteeDecisionRule<CD> newCommitteeDecisionRuleInstanceHook();
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionBean actionBean) {
 //        return new ProtocolModifySubmissionRule().processModifySubmissionRule(document, actionBean);
 //    }

@@ -19,41 +19,43 @@ import java.util.List;
 
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewable;
 
 public interface ReviewCommentsService {
-//    /**
-//     * Determines whether the given principal can view the list of online reviewer comments for the given protocol submission.
-//     * 
-//     * This is true when 
-//     *   1) The principal is an IRB Administrator
-//     *   2) The principal is an online reviewer of the given protocol submission
-//     *   3) The protocol submission processing has been completed
-//     * @param principalId the id of the user
-//     * @param protocolSubmission the protocol submission
-//     * @return true if the principal can view the list of online reviewer comments for the given protocol submission, false otherwise
-//     */
-//    boolean canViewOnlineReviewerComments(String principalId, ProtocolSubmission protocolSubmission);
-//    
-//    /**
-//     * Determines whether the given principal can view the list of online reviewers for the given protocol submission.
-//     * 
-//     * This is true when the principal is an IRB Administrator or an online reviewer of the given protocol submission.
-//     * @param principalId the id of the user
-//     * @param protocolSubmission the protocol submission
-//     * @return true if the principal can view the list of online reviewers, false otherwise
-//     */
-//    boolean canViewOnlineReviewers(String principalId, ProtocolSubmission protocolSubmission);    
-//    
-//    /**
-//     * Finds and returns the reviewer comments for a protocol number and a certain submission.
-//     * @param protocolNumber The protocol number
-//     * @param submissionNumber The number of the submission
-//     * @return a list of reviewer comments
-//     */
-//    List<CommitteeScheduleMinute> getReviewerComments(String protocolNumber, int submissionNumber);
+    /**
+     * Determines whether the given principal can view the list of online reviewer comments for the given protocol submission.
+     * 
+     * This is true when 
+     *   1) The principal is an IRB Administrator
+     *   2) The principal is an online reviewer of the given protocol submission
+     *   3) The protocol submission processing has been completed
+     * @param principalId the id of the user
+     * @param protocolSubmission the protocol submission
+     * @return true if the principal can view the list of online reviewer comments for the given protocol submission, false otherwise
+     */
+    boolean canViewOnlineReviewerComments(String principalId, ProtocolSubmission protocolSubmission);
+    
+    /**
+     * Determines whether the given principal can view the list of online reviewers for the given protocol submission.
+     * 
+     * This is true when the principal is an IRB Administrator or an online reviewer of the given protocol submission.
+     * @param principalId the id of the user
+     * @param protocolSubmission the protocol submission
+     * @return true if the principal can view the list of online reviewers, false otherwise
+     */
+    boolean canViewOnlineReviewers(String principalId, ProtocolSubmission protocolSubmission);    
+    
+    /**
+     * Finds and returns the reviewer comments for a protocol number and a certain submission.
+     * @param protocolNumber The protocol number
+     * @param submissionNumber The number of the submission
+     * @return a list of reviewer comments
+     */
+    List<CommitteeScheduleMinute> getReviewerComments(String protocolNumber, int submissionNumber);
     
     /**
      *     
@@ -67,155 +69,158 @@ public interface ReviewCommentsService {
      */
     boolean getReviewerCommentsView(ProtocolReviewable minute);
     
-//    /**
-//     * 
-//     * This method is to get a list or protocol reviewers for this submission.
-//     * @param protocolNumber
-//     * @param submissionNumber
-//     * @return
-//     */
-//    List<ProtocolReviewer> getProtocolReviewers(String protocolNumber, int submissionNumber);
-//    
-//    /**
-//     * Adds the newReviewComment to the list of reviewComments in the given protocol.
-//     * @param newReviewComment the new review comment to add
-//     * @param reviewComments the list of reviewer comments
-//     * @param protocol the current protocol
-//     */
+    /**
+     * 
+     * This method is to get a list or protocol reviewers for this submission.
+     * @param protocolNumber
+     * @param submissionNumber
+     * @return
+     */
+    List<ProtocolReviewer> getProtocolReviewers(String protocolNumber, int submissionNumber);
+    
+    /**
+     * Adds the newReviewComment to the list of reviewComments in the given protocol.
+     * @param newReviewComment the new review comment to add
+     * @param reviewComments the list of reviewer comments
+     * @param protocol the current protocol
+     */
     void addReviewComment(CommitteeScheduleMinute newReviewComment, List<CommitteeScheduleMinute> reviewComments, Protocol protocol);
-//    
-//    /**
-//     * Adds the newReviewerComment to the list of reviewerComments in the given protocol online review.
-//     * @param newReviewComment the new review comment to add
-//     * @param reviewComments the list of reviewer comments
-//     * @param protocolOnlineReview the current protocol online review
-//     */
+    
+    /**
+     * Adds the newReviewerComment to the list of reviewerComments in the given protocol online review.
+     * @param newReviewComment the new review comment to add
+     * @param reviewComments the list of reviewer comments
+     * @param protocolOnlineReview the current protocol online review
+     */
     void addReviewComment(CommitteeScheduleMinute newReviewComment, List<CommitteeScheduleMinute> reviewComments, ProtocolOnlineReview protocolOnlineReview);
-//    
-//    /**
-//     * Moves one review comment up the list by one value.
-//     * @param reviewComments the list of review comments
-//     * @param protocol the current protocol
-//     * @param fromIndex the current position of the review comment
-//     */
+    
+    /**
+     * Moves one review comment up the list by one value.
+     * @param reviewComments the list of review comments
+     * @param protocol the current protocol
+     * @param fromIndex the current position of the review comment
+     */
     void moveUpReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol, int fromIndex);
-//    
-//    /**
-//     * Moves one review comment down the list by one value.
-//     * @param reviewComments the list of reviewer comments
-//     * @param protocol the current protocol
-//     * @param fromIndex the current position of the review comment
-//     */
+    
+    /**
+     * Moves one review comment down the list by one value.
+     * @param reviewComments the list of reviewer comments
+     * @param protocol the current protocol
+     * @param fromIndex the current position of the review comment
+     */
     void moveDownReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol, int fromIndex);
-//    
-//    /**
-//     * Delete the review comment at index from the list of reviewComments and add it to the list of deletedReviewComments.
-//     * @param reviewComments the list of reviewer comments
-//     * @param index the index of the reviewer comment to be deleted
-//     * @param deletedReviewComments the list of deleted reviewer comments
-//     */
+    
+    /**
+     * Delete the review comment at index from the list of reviewComments and add it to the list of deletedReviewComments.
+     * @param reviewComments the list of reviewer comments
+     * @param index the index of the reviewer comment to be deleted
+     * @param deletedReviewComments the list of deleted reviewer comments
+     */
     void deleteReviewComment(List<CommitteeScheduleMinute> reviewComments, int index, List<CommitteeScheduleMinute> deletedReviewComments);
-//    
-//    /**
-//     * Delete all review comments from the list of reviewComments and add them all to the  list of deletedReviewComments.
-//     * @param reviewComments the list of reviewer comments
-//     * @param deletedReviewComments the list of deleted reviewer comments
-//     */
+    
+    /**
+     * Delete all review comments from the list of reviewComments and add them all to the  list of deletedReviewComments.
+     * @param reviewComments the list of reviewer comments
+     * @param deletedReviewComments the list of deleted reviewer comments
+     */
     void deleteAllReviewComments(List<CommitteeScheduleMinute> reviewComments, List<CommitteeScheduleMinute> deletedReviewComments);
-//    
-//    /**
-//     * Saves the given reviewComments to the database and deletes the given deletedReviewComments.
-//     * @param reviewComments the review comments that will be saved
-//     * @param deletedReviewComments the review comments that will be deleted
-//     */
+    
+    /**
+     * Saves the given reviewComments to the database and deletes the given deletedReviewComments.
+     * @param reviewComments the review comments that will be saved
+     * @param deletedReviewComments the review comments that will be deleted
+     */
     void saveReviewComments(List<CommitteeScheduleMinute> reviewComments, List<CommitteeScheduleMinute> deletedReviewComments);
-//
-//
-//    /**
-//     * 
-//     * This method is to check whether there is any review comments can display reviewer name
-//     * based on IRB_DISPLAY_REVIEWER_NAME parameter, and role based business rule.
-//     * This is called by protocol action helper.
-//     * @param protocol
-//     * @param submissionNumber
-//     * @return
-//     */
+
+
+    /**
+     * 
+     * This method is to check whether there is any review comments can display reviewer name
+     * based on IRB_DISPLAY_REVIEWER_NAME parameter, and role based business rule.
+     * This is called by protocol action helper.
+     * @param protocol
+     * @param submissionNumber
+     * @return
+     */
     boolean setHideReviewerName(Protocol protocol, int submissionNumber);
-//    
-//
-//    /**
-//     * 
-//     * This method is to check whether there is any review comments can display reviewer name
-//     * based on IRB_DISPLAY_REVIEWER_NAME parameter, and role based business rule.
-//     * @param reviewComments
-//     * @return
-//     */
+    
+
+    /**
+     * 
+     * This method is to check whether there is any review comments can display reviewer name
+     * based on IRB_DISPLAY_REVIEWER_NAME parameter, and role based business rule.
+     * @param reviewComments
+     * @return
+     */
     boolean setHideReviewerName(List<? extends ProtocolReviewable> reviewComments);
-//    /**
-//     * 
-//     * This method is to check whether the current user can view this minute comment.
-//     * 
-//     * @param CommitteeScheduleMinute minute
-//     * @return whether the current user can view this comment
-//     */
-//    boolean getReviewerMinuteCommentsView(CommitteeScheduleMinute minute);
-//    /**
-//     * 
-//     * This method is to check whether the Reviewer can view Accepted minute comment.
-//     * 
-//     * @param CommitteeScheduleMinute minute
-//     * @return whether the current user can view this comment
-//     */
-//    boolean getReviewerAcceptedCommentsView(CommitteeScheduleMinute minute);
-//    
-//    /**
-//     * 
-//     * This method is to delete a review attachment.
-//     * @param reviewAttachments
-//     * @param index
-//     * @param deletedReviewAttachments
-//     */
+    
+    /**
+     * 
+     * This method is to check whether the current user can view this minute comment.
+     * 
+     * @param CommitteeScheduleMinute minute
+     * @return whether the current user can view this comment
+     */
+    boolean getReviewerMinuteCommentsView(CommitteeScheduleMinute minute);
+    
+    /**
+     * 
+     * This method is to check whether the Reviewer can view Accepted minute comment.
+     * 
+     * @param CommitteeScheduleMinute minute
+     * @return whether the current user can view this comment
+     */
+    boolean getReviewerAcceptedCommentsView(CommitteeScheduleMinute minute);
+    
+    /**
+     * 
+     * This method is to delete a review attachment.
+     * @param reviewAttachments
+     * @param index
+     * @param deletedReviewAttachments
+     */
     void deleteReviewAttachment(List<ProtocolReviewAttachment> reviewAttachments, int index, List<ProtocolReviewAttachment> deletedReviewAttachments);
-//
-//    /**
-//     * 
-//     * This method is to save review attachments in OLR or manage review attachment
-//     * @param reviewAttachments
-//     * @param deletedReviewAttachments
-//     */
+
+    /**
+     * 
+     * This method is to save review attachments in OLR or manage review attachment
+     * @param reviewAttachments
+     * @param deletedReviewAttachments
+     */
     void saveReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments, List<ProtocolReviewAttachment> deletedReviewAttachments);
-//
-//    /**
-//     * 
-//     * This method is to delete all saved attachments
-//     * @param reviewAttachments
-//     * @param deletedReviewAttachments
-//     */
+
+    /**
+     * 
+     * This method is to delete all saved attachments
+     * @param reviewAttachments
+     * @param deletedReviewAttachments
+     */
     void deleteAllReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments,
             List<ProtocolReviewAttachment> deletedReviewAttachments);
-//    /**
-//     * 
-//     * This method is to add review attachment in OLR or manage review attachment
-//     * @param newReviewAttachment
-//     * @param reviewAttachments
-//     * @param protocol
-//     */
+    
+    /**
+     * 
+     * This method is to add review attachment in OLR or manage review attachment
+     * @param newReviewAttachment
+     * @param reviewAttachments
+     * @param protocol
+     */
     void addReviewAttachment(ProtocolReviewAttachment newReviewAttachment, List<ProtocolReviewAttachment> reviewAttachments, Protocol protocol);
-//
-//    /**
-//     * 
-//     * This method is to get review attachments for submission detail
-//     * @param protocolNumber
-//     * @param submissionNumber
-//     * @return
-//     */
-//    List<ProtocolReviewAttachment> getReviewerAttachments(String protocolNumber, int submissionNumber);
-//
-//    /**
-//     * 
-//     * This method is to check to show 'view' button for protocol personnel
-//     * @param reviewAttachments
-//     * @return
-//     */
-//    boolean setHideViewButton(List<ProtocolReviewAttachment> reviewAttachments);
+
+    /**
+     * 
+     * This method is to get review attachments for submission detail
+     * @param protocolNumber
+     * @param submissionNumber
+     * @return
+     */
+    List<ProtocolReviewAttachment> getReviewerAttachments(String protocolNumber, int submissionNumber);
+
+    /**
+     * 
+     * This method is to check to show 'view' button for protocol personnel
+     * @param reviewAttachments
+     * @return
+     */
+    boolean setHideViewButton(List<ProtocolReviewAttachment> reviewAttachments);
 }

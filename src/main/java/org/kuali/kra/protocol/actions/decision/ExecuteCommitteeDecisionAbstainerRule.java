@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions;
+package org.kuali.kra.protocol.actions.decision;
 
-import org.kuali.kra.protocol.actions.ActionsKeyValuesBase;
-
+import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * 
- * This class should be extended by IACUC values finder classes.
+ * This class manages the business rule for adding a new abstainer.
  */
-public abstract class IacucActionsKeyValuesBase extends ActionsKeyValuesBase {
-
+public interface ExecuteCommitteeDecisionAbstainerRule<CD extends CommitteeDecision<?> > extends BusinessRule {
     /**
-     * Comment for <code>serialVersionUID</code>
+     * 
+     * This method...
+     * @param committeeDecision
+     * @return
      */
-    private static final long serialVersionUID = 5653084925713964704L;
- 
-    
+    boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocument document, CD committeeDecision);
 }

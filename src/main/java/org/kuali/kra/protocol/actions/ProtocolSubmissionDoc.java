@@ -16,14 +16,11 @@
 package org.kuali.kra.protocol.actions;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-// TODO *********commented the code below during IACUC refactoring********* 
-//import org.kuali.kra.irb.Protocol;
-//import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
 @SuppressWarnings("serial")
-public class ProtocolSubmissionDoc extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolSubmissionDoc extends KraPersistableBusinessObjectBase {
 
     private Long submissionDocId;
 

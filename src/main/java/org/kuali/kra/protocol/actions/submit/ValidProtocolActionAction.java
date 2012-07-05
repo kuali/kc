@@ -16,8 +16,8 @@
 package org.kuali.kra.protocol.actions.submit;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
-import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
+import org.kuali.kra.protocol.actions.ProtocolActionType;
 
 /**
  * This class represents the action follow up mapping as it exists in coeus.
@@ -27,7 +27,7 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
  * a unique key on the underlying table.
  * 
  */
-public class ValidProtocolActionAction extends KraPersistableBusinessObjectBase {
+public abstract class ValidProtocolActionAction extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

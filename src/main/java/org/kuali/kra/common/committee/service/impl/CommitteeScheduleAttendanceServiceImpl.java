@@ -25,13 +25,13 @@ import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.document.CommitteeDocument;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
-import org.kuali.kra.common.committee.service.CommitteeScheduleAttendanceService;
+import org.kuali.kra.common.committee.service.CommonCommitteeScheduleAttendanceService;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 
-public class CommitteeScheduleAttendanceServiceImpl implements CommitteeScheduleAttendanceService {
+public class CommitteeScheduleAttendanceServiceImpl implements CommonCommitteeScheduleAttendanceService {
     private CommonCommitteeService committeeService;
     private ParameterService parameterService;
     

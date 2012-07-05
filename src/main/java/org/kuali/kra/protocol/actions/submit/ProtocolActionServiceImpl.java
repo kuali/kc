@@ -25,6 +25,7 @@ import org.kuali.kra.drools.util.DroolsRuleHandler;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDao;
 import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.followup.FollowupActionService;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
@@ -94,9 +95,8 @@ public abstract class ProtocolActionServiceImpl implements ProtocolActionService
     protected KraAuthorizationService kraAuthorizationService;
 
     protected UnitAuthorizationService unitAuthorizationService;
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected FollowupActionService followupActionService;
+         
+    protected FollowupActionService<?> followupActionService;
    
     private ProtocolDao<? extends Protocol> protocolDao;
 
@@ -136,10 +136,10 @@ public abstract class ProtocolActionServiceImpl implements ProtocolActionService
         this.protocolDao = protocolDao;
     }
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public void setFollowupActionService(FollowupActionService followupActionService) {
-//        this.followupActionService = followupActionService;
-//    }
+
+    public void setFollowupActionService(FollowupActionService<?> followupActionService) {
+        this.followupActionService = followupActionService;
+    }
 
     
     
@@ -364,15 +364,14 @@ public abstract class ProtocolActionServiceImpl implements ProtocolActionService
 //    }
     
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//TODO: Following must be reworked or demoted for IACUC implementation.    
-//    /**
-//     * {@inheritDoc}
-//     * @see org.kuali.kra.protocol.actions.ProtocolActionFollowupService#isActionOpenForFollowup(java.lang.String, org.kuali.kra.protocol.Protocol)
-//     */
-//    public boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol) {
-//        return followupActionService.isActionOpenForFollowup(protocolActionTypeCode, protocol);
-//    }
+
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.protocol.actions.ProtocolActionFollowupService#isActionOpenForFollowup(java.lang.String, org.kuali.kra.protocol.Protocol)
+     */
+    public boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol) {
+        return followupActionService.isActionOpenForFollowup(protocolActionTypeCode, protocol);
+    }
     
     
     

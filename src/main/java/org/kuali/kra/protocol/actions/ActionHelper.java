@@ -34,11 +34,12 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.meeting.ProtocolVoteAbstainee;
-import org.kuali.kra.meeting.ProtocolVoteRecused;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
@@ -51,7 +52,10 @@ import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersBean;
 import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
+import org.kuali.kra.protocol.actions.decision.CommitteeDecisionService;
+import org.kuali.kra.protocol.actions.decision.CommitteePerson;
 import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
+import org.kuali.kra.protocol.actions.followup.FollowupActionService;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 import org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingService;
@@ -91,7 +95,8 @@ public abstract class ActionHelper implements Serializable {
 
     protected static final long ONE_DAY = 1000L * 60L * 60L * 24L;
     protected static final String NAMESPACE = "KC-UNT";
-    
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    private static final List<String> ACTION_TYPE_SUBMISSION_DOC;  
 //    static {
 //        final List<String> codes = new ArrayList<String>();     
@@ -212,7 +217,7 @@ public abstract class ActionHelper implements Serializable {
     protected boolean canManageNotesUnavailable = false;
     protected boolean canAbandon = false;
 
-    protected List<ValidProtocolActionAction> followupActionActions;
+    protected List<? extends ValidProtocolActionAction> followupActionActions;
     
     protected boolean canViewOnlineReviewers;
     protected boolean canViewOnlineReviewerComments;
@@ -277,7 +282,7 @@ public abstract class ActionHelper implements Serializable {
     protected ProtocolGenericActionBean protocolIrbAcknowledgementBean;
     protected AdminCorrectionBean protocolAdminCorrectionBean;
     protected UndoLastActionBean undoLastActionBean;
-    protected CommitteeDecision committeeDecision;
+    protected CommitteeDecision<?> committeeDecision;
     protected ProtocolGenericActionBean protocolDeferBean;
 //    protected ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
     protected ProtocolGenericActionBean protocolManageReviewCommentsBean;
@@ -334,8 +339,10 @@ public abstract class ActionHelper implements Serializable {
     protected transient KcPersonService kcPersonService;
     protected transient KraAuthorizationService kraAuthorizationService;
     protected transient BusinessObjectService businessObjectService;
-//    protected transient FollowupActionService followupActionService;
+    protected transient FollowupActionService<?> followupActionService;
+    
 //    protected Map<String, ProtocolRequestBean>  actionTypeRequestBeanMap = new HashMap<String, ProtocolRequestBean>();
+    
     protected Map<String,Boolean> followupActionMap = new HashMap<String,Boolean>();
     
     protected Map<String, ProtocolActionBean> actionBeanTaskMap = new HashMap<String, ProtocolActionBean>();    
@@ -428,21 +435,27 @@ public abstract class ActionHelper implements Serializable {
 // TODO *********commented the code below during IACUC refactoring*********         
 //        protocolAdminCorrectionBean = createAdminCorrectionBean();
 //        undoLastActionBean = createUndoLastActionBean(getProtocol());
-//        committeeDecision = new CommitteeDecision(this);
-//        committeeDecision.init();
-//        committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-////        committeeDecision.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(committeeDecision.getReviewCommentsBean().getReviewComments()));            
+        
+        committeeDecision = getNewCommitteeDecisionInstanceHook(this);
+        committeeDecision.init();
+        committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+
+////        committeeDecision.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(committeeDecision.getReviewCommentsBean().getReviewComments())); 
 //        protocolModifySubmissionBean = new ProtocolModifySubmissionBean(this);
 //        protocolDeferBean = buildProtocolGenericActionBean(ProtocolActionType.DEFERRED, 
 //                Constants.PROTOCOL_DEFER_ACTION_PROPERTY_KEY);
 //        protocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean(this);
-//        protocolManageReviewCommentsBean = buildProtocolGenericActionBean(ProtocolActionType.MANAGE_REVIEW_COMMENTS, 
-//                Constants.PROTOCOL_MANAGE_REVIEW_COMMENTS_KEY);
-//        getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
-//        protocolManageReviewCommentsBean.getReviewAttachmentsBean().setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
-//        if (CollectionUtils.isNotEmpty(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments())) {
-//            protocolManageReviewCommentsBean.getReviewAttachmentsBean().setHideReviewerName(getReviewerCommentsService().setHideReviewerName(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments()));
-//        }
+        
+        
+        protocolManageReviewCommentsBean = buildProtocolGenericActionBean(getProtocolActionTypeCodeForManageReviewCommentsHook(), 
+                Constants.PROTOCOL_MANAGE_REVIEW_COMMENTS_KEY);
+        getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
+        protocolManageReviewCommentsBean.getReviewAttachmentsBean().setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
+        if (CollectionUtils.isNotEmpty(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments())) {
+            protocolManageReviewCommentsBean.getReviewAttachmentsBean().setHideReviewerName(getReviewerCommentsService().setHideReviewerName(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments()));
+        }
+        
+        
 //        protocolCloseRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_TO_CLOSE, 
 //                ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
 //        protocolSuspendRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_FOR_SUSPENSION, 
@@ -467,6 +480,12 @@ public abstract class ActionHelper implements Serializable {
 //        initPrintQuestionnaire();
     }
     
+    protected abstract String getProtocolActionTypeCodeForManageReviewCommentsHook();
+    
+    
+    protected abstract CommitteeDecision<?> getNewCommitteeDecisionInstanceHook(ActionHelper actionHelper);
+    
+
     protected abstract ProtocolAssignToAgendaBean getNewProtocolAssignToAgendaBeanInstanceHook(ActionHelper actionHelper);
 
     protected abstract ProtocolAdministrativelyWithdrawBean getNewProtocolAdminWithdrawBeanInstanceHook(ActionHelper actionHelper);
@@ -505,7 +524,10 @@ public abstract class ActionHelper implements Serializable {
 //        actionBeanTaskMap.put(TaskName.CLOSE_ENROLLMENT_PROTOCOL, protocolCloseEnrollmentBean);
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, protocolCloseEnrollmentRequestBean);
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_CLOSE, protocolCloseRequestBean);
-//        actionBeanTaskMap.put(TaskName.RECORD_COMMITTEE_DECISION, committeeDecision);
+        
+        actionBeanTaskMap.put(TaskName.RECORD_COMMITTEE_DECISION, committeeDecision);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        actionBeanTaskMap.put(TaskName.PERMIT_DATA_ANALYSIS, protocolPermitDataAnalysisBean);
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, protocolDataAnalysisRequestBean);
         
@@ -518,7 +540,10 @@ public abstract class ActionHelper implements Serializable {
 //        actionBeanTaskMap.put(TaskName.EXPIRE_PROTOCOL, protocolExpireBean);
 //        actionBeanTaskMap.put(TaskName.GRANT_EXEMPTION, protocolGrantExemptionBean);
 //        actionBeanTaskMap.put(TaskName.IRB_ACKNOWLEDGEMENT, protocolIrbAcknowledgementBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolManageReviewCommentsBean);
+        
+        actionBeanTaskMap.put(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolManageReviewCommentsBean);
+
+// TODO *********commented the code below during IACUC refactoring*********         
 //        actionBeanTaskMap.put(TaskName.MODIFY_PROTOCOL_SUBMISSION, protocolModifySubmissionBean);
 //        actionBeanTaskMap.put(TaskName.NOTIFY_IRB, protocolNotifyIrbBean);
 //        actionBeanTaskMap.put(TaskName.NOTIFY_COMMITTEE, protocolNotifyCommitteeBean);
@@ -927,9 +952,11 @@ public abstract class ActionHelper implements Serializable {
         canAdministrativelyMarkIncomplete = hasAdministrativelyMarkIncompletePermission();
         canAdministrativelyMarkIncompleteUnavailable = hasAdministrativelyMarkIncompleteUnavailablePermission();
         
+ 
+        canRecordCommitteeDecision = hasRecordCommitteeDecisionPermission();
+        canRecordCommitteeDecisionUnavailable = hasRecordCommitteeDecisionUnavailablePermission();
+        
 // TODO *********commented the code below during IACUC refactoring*********         
-//        canRecordCommitteeDecision = hasRecordCommitteeDecisionPermission();
-//        canRecordCommitteeDecisionUnavailable = hasRecordCommitteeDecisionUnavailablePermission();
 //        canEnterRiskLevel = hasEnterRiskLevelPermission();
 //        canUndoLastAction = hasUndoLastActionPermission();
 //        canUndoLastActionUnavailable = hasUndoLastActionUnavailablePermission();
@@ -951,13 +978,13 @@ public abstract class ActionHelper implements Serializable {
 //        canManageNotesUnavailable = hasManageNotesUnavailablePermission();
         
         canAbandon = hasAbandonProtocolPermission();
+        
+        followupActionActions = getFollowupActionService().getFollowupsForProtocol(form.getProtocolDocument().getProtocol());
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//        followupActionActions = getFollowupActionService().getFollowupsForProtocol(form.getProtocolDocument().getProtocol());
-//        
-//        
-//        canViewOnlineReviewers = hasCanViewOnlineReviewersPermission();
-//        canViewOnlineReviewerComments = hasCanViewOnlineReviewerCommentsPermission();
+        
+        canViewOnlineReviewers = hasCanViewOnlineReviewersPermission();
+        canViewOnlineReviewerComments = hasCanViewOnlineReviewerCommentsPermission();
+        
 //        
 //        canAddCloseReviewerComments = hasCloseRequestLastAction();
 //        canAddCloseEnrollmentReviewerComments = hasCloseEnrollmentRequestLastAction();
@@ -969,7 +996,10 @@ public abstract class ActionHelper implements Serializable {
 ////        undoLastActionBean = createUndoLastActionBean(getProtocol());
 //       
 //        initSummaryDetails();
-//        initSubmissionDetails();
+        
+        initSubmissionDetails();
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        setAmendmentDetails();
 //        initFilterDatesView();
 //        initAmendmentBeans();
@@ -1053,15 +1083,20 @@ public abstract class ActionHelper implements Serializable {
 //        protocolExpireBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolTerminateBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolPermitDataAnalysisBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        
+        committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 ////        committeeDecision.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(committeeDecision.getReviewCommentsBean().getReviewComments()));            
 //        protocolDeferBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
-//        protocolManageReviewCommentsBean.getReviewAttachmentsBean().setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
-//        if (CollectionUtils.isNotEmpty(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments())) {
-//            protocolManageReviewCommentsBean.getReviewAttachmentsBean().setHideReviewerName(getReviewerCommentsService().setHideReviewerName(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments()));
-//        }
+        
+// TODO *********commented the code below during IACUC refactoring********* 
+        protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
+        protocolManageReviewCommentsBean.getReviewAttachmentsBean().setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
+        if (CollectionUtils.isNotEmpty(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments())) {
+            protocolManageReviewCommentsBean.getReviewAttachmentsBean().setHideReviewerName(getReviewerCommentsService().setHideReviewerName(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments()));
+        }
     }
     
     protected List<CommitteeScheduleMinute> getCopiedReviewComments() {
@@ -1459,15 +1494,15 @@ public abstract class ActionHelper implements Serializable {
 //    protected boolean hasUndoLastActionUnavailablePermission() {
 //        return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && !undoLastActionBean.canUndoLastAction();
 //    }
-//    
-//    protected boolean hasRecordCommitteeDecisionPermission() {
-//        return hasPermission(TaskName.RECORD_COMMITTEE_DECISION);
-//    }
-//    
-//    protected boolean hasRecordCommitteeDecisionUnavailablePermission() {
-//        return hasPermission(TaskName.RECORD_COMMITTEE_DECISION_UNAVAILABLE);
-//    }
-//    
+    
+    protected boolean hasRecordCommitteeDecisionPermission() {
+        return hasPermission(TaskName.RECORD_COMMITTEE_DECISION);
+    }
+    
+    protected boolean hasRecordCommitteeDecisionUnavailablePermission() {
+        return hasPermission(TaskName.RECORD_COMMITTEE_DECISION_UNAVAILABLE);
+    }
+    
 //    protected boolean hasEnterRiskLevelPermission() {
 //        return hasPermission(TaskName.ENTER_RISK_LEVEL);
 //    }
@@ -1517,7 +1552,8 @@ public abstract class ActionHelper implements Serializable {
     
     
     protected abstract boolean hasPermission(String taskName);
-    
+  
+// TODO *********commented the code below during IACUC refactoring*********     
 //    protected boolean hasGenericPermission(String genericActionName) {
 //        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, getProtocol(), genericActionName);
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -1562,14 +1598,17 @@ public abstract class ActionHelper implements Serializable {
         return false;
     }
     
-//	protected boolean hasCanViewOnlineReviewersPermission() {
-//        return getReviewerCommentsService().canViewOnlineReviewers(getUserIdentifier(), getSelectedSubmission());
-//    }
-//    
-//    protected boolean hasCanViewOnlineReviewerCommentsPermission() {
-//        return getReviewerCommentsService().canViewOnlineReviewerComments(getUserIdentifier(), getSelectedSubmission());
-//    }
-//    
+     
+	protected boolean hasCanViewOnlineReviewersPermission() {
+        return getReviewerCommentsService().canViewOnlineReviewers(getUserIdentifier(), getSelectedSubmission());
+    }
+    
+    protected boolean hasCanViewOnlineReviewerCommentsPermission() {
+        return getReviewerCommentsService().canViewOnlineReviewerComments(getUserIdentifier(), getSelectedSubmission());
+    }
+
+    
+// TODO *********commented the code below during IACUC refactoring*********    
 //    protected boolean hasCloseRequestLastAction() {
 //        return ProtocolActionType.REQUEST_TO_CLOSE.equals(getLastPerformedAction().getProtocolActionTypeCode());
 //    }
@@ -1688,7 +1727,8 @@ public abstract class ActionHelper implements Serializable {
     public ProtocolAssignReviewersBean getProtocolAssignReviewersBean() {
         return protocolAssignReviewersBean;
     }
-                           
+    
+// TODO *********commented the code below during IACUC refactoring*********                            
 //    public ProtocolGrantExemptionBean getProtocolGrantExemptionBean() {
 //        return protocolGrantExemptionBean;
 //    }
@@ -1696,7 +1736,8 @@ public abstract class ActionHelper implements Serializable {
     public ProtocolApproveBean getProtocolFullApprovalBean() {
         return protocolFullApprovalBean;
     }
-
+    
+// TODO *********commented the code below during IACUC refactoring********* 
 //    public ProtocolApproveBean getProtocolExpeditedApprovalBean() {
 //        return protocolExpeditedApprovalBean;
 //    }
@@ -1704,6 +1745,7 @@ public abstract class ActionHelper implements Serializable {
 //    public ProtocolApproveBean getProtocolResponseApprovalBean() {
 //        return protocolResponseApprovalBean;
 //    }
+    
     
     public ProtocolGenericActionBean getProtocolDisapproveBean() {
         return protocolDisapproveBean;
@@ -1716,7 +1758,8 @@ public abstract class ActionHelper implements Serializable {
     public ProtocolGenericActionBean getProtocolSRRBean() {
         return protocolSRRBean;
     }
-    
+ 
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public ProtocolGenericActionBean getProtocolReopenEnrollmentBean() {
 //        return protocolReopenEnrollmentBean;
 //    }
@@ -1729,6 +1772,7 @@ public abstract class ActionHelper implements Serializable {
         return protocolSuspendBean;
     }
     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public ProtocolGenericActionBean getProtocolSuspendByDsmbBean() {
 //        return protocolSuspendByDsmbBean;
 //    }
@@ -1745,6 +1789,7 @@ public abstract class ActionHelper implements Serializable {
         return protocolTerminateBean;
     }
     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public ProtocolGenericActionBean getProtocolPermitDataAnalysisBean() {
 //        return protocolPermitDataAnalysisBean;
 //    }
@@ -1764,10 +1809,11 @@ public abstract class ActionHelper implements Serializable {
         return undoLastActionBean;
     }
 
-//    public CommitteeDecision getCommitteeDecision() {
-//        return committeeDecision;
-//    }
- protected abstract ProtocolTask getModifySubmissionAvailableTaskHook();
+    public CommitteeDecision<?> getCommitteeDecision() {
+        return committeeDecision;
+    }
+    
+    protected abstract ProtocolTask getModifySubmissionAvailableTaskHook();
     
     protected abstract ProtocolTask getModifySubmissionUnavailableTaskHook();
     
@@ -1808,7 +1854,8 @@ public abstract class ActionHelper implements Serializable {
     public boolean getCanCreateRenewalUnavailable() {
         return canCreateRenewalUnavailable;
     }
-//    
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean getCanNotifyIrb() {
 //        return canNotifyIrb;
 //    }
@@ -1833,6 +1880,7 @@ public abstract class ActionHelper implements Serializable {
         return canWithdrawUnavailable;
     }
     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean getCanRequestClose() {
 //        return canRequestClose;
 //    }
@@ -1849,6 +1897,7 @@ public abstract class ActionHelper implements Serializable {
         return canRequestSuspensionUnavailable;
     }
     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean getCanRequestCloseEnrollment() {
 //        return canRequestCloseEnrollment;
 //    }
@@ -1917,6 +1966,8 @@ public abstract class ActionHelper implements Serializable {
         return canAssignReviewersCmtSel;
     }
     
+    
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean getCanGrantExemption() {
 //        return canGrantExemption;
 //    }
@@ -1933,6 +1984,7 @@ public abstract class ActionHelper implements Serializable {
         return canApproveFullUnavailable;
     }
     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean getCanApproveExpedited() {
 //        return canApproveExpedited;
 //    }
@@ -1973,6 +2025,8 @@ public abstract class ActionHelper implements Serializable {
         return canReturnForSRRUnavailable;
     }
     
+    
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean getCanReopenEnrollment() {
 //        return canReopenEnrollment;
 //    }
@@ -1997,6 +2051,7 @@ public abstract class ActionHelper implements Serializable {
         return canSuspendUnavailable;
     }
     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean getCanSuspendByDsmb() {
 //        return canSuspendByDsmb;
 //    }
@@ -2029,6 +2084,7 @@ public abstract class ActionHelper implements Serializable {
         return canTerminateUnavailable;
     }
     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean getCanPermitDataAnalysis() {
 //        return canPermitDataAnalysis;
 //    }
@@ -2167,6 +2223,8 @@ public abstract class ActionHelper implements Serializable {
         return this.canModifyProtocolSubmissionUnavailable;
     }
     
+    
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean getCanIrbAcknowledgement() {
 //        return canIrbAcknowledgement;
 //    }
@@ -2211,6 +2269,7 @@ public abstract class ActionHelper implements Serializable {
         return canManageNotesUnavailable;
     }
 
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean getIsApproveOpenForFollowup() {
 //        return hasFollowupAction(ProtocolActionType.APPROVED);
 //    }
@@ -2247,7 +2306,9 @@ public abstract class ActionHelper implements Serializable {
     public boolean getCanViewOnlineReviewerComments() {
         return canViewOnlineReviewerComments;
     }
-
+    
+    
+// TODO *********commented the code below during IACUC refactoring********* 
 //    public boolean getCanAddCloseReviewerComments() {
 //        return canAddCloseReviewerComments;
 //    }
@@ -2311,17 +2372,17 @@ public abstract class ActionHelper implements Serializable {
     public void setFilteredHistoryEndDate(Date filteredHistoryEndDate) {
         this.filteredHistoryEndDate = filteredHistoryEndDate;
     }
-    
-//    public ProtocolAction getLastPerformedAction() {
-//        List<ProtocolAction> protocolActions = form.getProtocolDocument().getProtocol().getProtocolActions();
-//        Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
-//            public int compare(ProtocolAction action1, ProtocolAction action2) {
-//                return action2.getActualActionDate().compareTo(action1.getActualActionDate());
-//            }
-//        });
-//     
-//        return protocolActions.size() > 0 ? protocolActions.get(0) : null;
-//    }
+         
+    public ProtocolAction getLastPerformedAction() {
+        List<ProtocolAction> protocolActions = form.getProtocolDocument().getProtocol().getProtocolActions();
+        Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
+            public int compare(ProtocolAction action1, ProtocolAction action2) {
+                return action2.getActualActionDate().compareTo(action1.getActualActionDate());
+            }
+        });
+     
+        return protocolActions.size() > 0 ? protocolActions.get(0) : null;
+    }
     
     /**
      * Prepares all protocol actions for being filtered by setting their isInFilterView attribute.
@@ -2454,9 +2515,10 @@ public abstract class ActionHelper implements Serializable {
     public List<ProtocolAction> getSortedProtocolActions() {
         List<ProtocolAction> protocolActions = new ArrayList<ProtocolAction>();
         for (ProtocolAction protocolAction : form.getProtocolDocument().getProtocol().getProtocolActions()) {
-//TODO           if (protocolAction.getSubmissionNumber() != null && ACTION_TYPE_SUBMISSION_DOC.contains(protocolAction.getProtocolActionTypeCode())) {
-//TODO               protocolAction.setProtocolSubmissionDocs(new ArrayList<ProtocolSubmissionDoc>(getSubmissionDocs(protocolAction)));
-//TODO            }
+// TODO *********commented the code below during IACUC refactoring*********             
+//           if (protocolAction.getSubmissionNumber() != null && getActionTypeSubmissionDocListHook().contains(protocolAction.getProtocolActionTypeCode())) {
+//               protocolAction.setProtocolSubmissionDocs(new ArrayList<ProtocolSubmissionDoc>(getSubmissionDocs(protocolAction)));
+//           }
             protocolActions.add(protocolAction);
         }
         
@@ -2469,13 +2531,22 @@ public abstract class ActionHelper implements Serializable {
         return protocolActions;
     }
     
-    private Collection<ProtocolSubmissionDoc> getSubmissionDocs(ProtocolAction protocolAction) {
+    protected abstract List<String> getActionTypeSubmissionDocListHook();
+    
+
+    private Collection<? extends ProtocolSubmissionDoc> getSubmissionDocs(ProtocolAction protocolAction) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("protocolNumber", protocolAction.getProtocolNumber());
         fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber());
-        return getBusinessObjectService().findMatchingOrderBy(ProtocolSubmissionDoc.class, fieldValues, "documentId", true);
+        return getBusinessObjectService().findMatchingOrderBy(getProtocolSubmissionDocClassHook(), fieldValues, "documentId", true);
     }
 
+    
+    
+    protected abstract Class<? extends ProtocolSubmissionDoc> getProtocolSubmissionDocClassHook();
+
+    
+    
     public ProtocolAction getSelectedProtocolAction() {
         for (ProtocolAction action : getProtocol().getProtocolActions()) {
             if (StringUtils.equals(action.getProtocolActionId().toString(), selectedHistoryItem)) {
@@ -2539,9 +2610,9 @@ public abstract class ActionHelper implements Serializable {
         return protocolSubmission;
     }
   
-//    private CommitteeService getCommitteeService() {
-//        return KraServiceLocator.getService(CommitteeService.class);
-//    }
+    private CommonCommitteeService getCommitteeService() {
+        return KraServiceLocator.getService(CommonCommitteeService.class);
+    }
 
 
     public List<CommitteeScheduleMinute> getReviewComments() {
@@ -2567,20 +2638,29 @@ public abstract class ActionHelper implements Serializable {
         return businessObjectService;
     }
     
-//    public FollowupActionService getFollowupActionService() {
-//        if (followupActionService == null) {
-//            followupActionService = KraServiceLocator.getService(FollowupActionService.class);
-//        }
-//        return followupActionService;
-//    }
-//    
-//    private ReviewCommentsService getReviewerCommentsService() {
-//        return KraServiceLocator.getService(ReviewCommentsService.class);
-//    }
-//    
+    public FollowupActionService<?> getFollowupActionService() {
+        if (followupActionService == null) {
+            followupActionService = KraServiceLocator.getService(getFollowupActionServiceClassHook());
+        }
+        return followupActionService;
+    }
+    
+    
+    protected abstract Class<? extends FollowupActionService<?>> getFollowupActionServiceClassHook();
+    
+
+    private ReviewCommentsService getReviewerCommentsService() {
+        return getReviewCommentsService();
+    }
+
+    
+    
+// TODO *********commented the code below during IACUC refactoring*********     
 //    private CommitteeDecisionService getCommitteeDecisionService() {
 //        return KraServiceLocator.getService("protocolCommitteeDecisionService");
 //    }
+    
+    protected abstract CommitteeDecisionService<? extends CommitteeDecision<?> > getCommitteeDecisionService();
     
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
@@ -2598,10 +2678,14 @@ public abstract class ActionHelper implements Serializable {
         this.currentSubmissionNumber = currentSubmissionNumber;
     }
 
-//TODO: Must implement for IACUC    
+    
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public int getTotalSubmissions() {
 //        return getProtocolSubmitActionService().getTotalSubmissions(getProtocol());
 //    }
+    
+    public abstract int getTotalSubmissions();
     
     /**
      * Sets up the summary details subpanel.
@@ -2637,61 +2721,65 @@ public abstract class ActionHelper implements Serializable {
         setSummaryQuestionnaireExist(hasAnsweredQuestionnaire((protocol.isAmendment() || protocol.isRenewal()) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, protocol.getSequenceNumber().toString()));
     }
 
-//    /**
-//     * Sets up dates for the submission details subpanel.
-//     */
-//    public void initSubmissionDetails() {
-//        if (currentSubmissionNumber <= 0) {
-//            currentSubmissionNumber = getTotalSubmissions();
-//        }
-//
-//        if (CollectionUtils.isNotEmpty(getProtocol().getProtocolSubmissions()) && getProtocol().getProtocolSubmissions().size() > 1) {
-//            setPrevNextFlag();
-//        } else {
-//            setPrevDisabled(true);
-//            setNextDisabled(true);
-//        }
-//
-//        setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber));
-//        if (CollectionUtils.isNotEmpty(getReviewComments())) {
-//            // check if our comments bean has empty list of review comments, this can happen if the submission has no schedule assigned
-//            if(protocolManageReviewCommentsBean.getReviewCommentsBean().getReviewComments().size() == 0) {
-//                List<CommitteeScheduleMinute> reviewComments = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), 
-//                        currentSubmissionNumber);
-//                Collections.sort(reviewComments, new Comparator<CommitteeScheduleMinute>() {
-//
-//                    @Override
-//                    public int compare(CommitteeScheduleMinute csm1, CommitteeScheduleMinute csm2) {
-//                        int retVal = 0;
-//                        if( (csm1 != null) && (csm2 != null) && (csm1.getEntryNumber() != null) && (csm2.getEntryNumber() != null) ) {
-//                            retVal = csm1.getEntryNumber().compareTo(csm2.getEntryNumber());
-//                        }
-//                        return retVal;
-//                    }
-//                    
-//                });
-//                protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(reviewComments);
-//                getReviewerCommentsService().setHideReviewerName(reviewComments);
-//            }
-//            getReviewerCommentsService().setHideReviewerName(getReviewComments());
-//        }
-//        setReviewAttachments(getReviewerCommentsService().getReviewerAttachments(getProtocol().getProtocolNumber(),
-//                currentSubmissionNumber));
-//        if (CollectionUtils.isNotEmpty(getReviewAttachments())) {
-//            hideReviewerNameForAttachment = getReviewerCommentsService().setHideReviewerName(getReviewAttachments());
-//            getReviewerCommentsService().setHideViewButton(getReviewAttachments());
-//        }
-//        getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
-////        setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
-//        hideSubmissionReviewerName = checkToHideSubmissionReviewerName();
-//
-//        setProtocolReviewers(getReviewerCommentsService().getProtocolReviewers(getProtocol().getProtocolNumber(),
-//                currentSubmissionNumber));
-//        setAbstainees(getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
-//        setRecusers(getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
+    /**
+     * Sets up dates for the submission details subpanel.
+     */
+    public void initSubmissionDetails() {
+        if (currentSubmissionNumber <= 0) {
+            currentSubmissionNumber = getTotalSubmissions();
+        }
+
+        if (CollectionUtils.isNotEmpty(getProtocol().getProtocolSubmissions()) && getProtocol().getProtocolSubmissions().size() > 1) {
+            setPrevNextFlag();
+        } else {
+            setPrevDisabled(true);
+            setNextDisabled(true);
+        }
+      
+        setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber));
+        if (CollectionUtils.isNotEmpty(getReviewComments())) {
+            // check if our comments bean has empty list of review comments, this can happen if the submission has no schedule assigned
+            if(protocolManageReviewCommentsBean.getReviewCommentsBean().getReviewComments().size() == 0) {
+                List<CommitteeScheduleMinute> reviewComments = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), 
+                        currentSubmissionNumber);
+                Collections.sort(reviewComments, new Comparator<CommitteeScheduleMinute>() {
+
+                    @Override
+                    public int compare(CommitteeScheduleMinute csm1, CommitteeScheduleMinute csm2) {
+                        int retVal = 0;
+                        if( (csm1 != null) && (csm2 != null) && (csm1.getEntryNumber() != null) && (csm2.getEntryNumber() != null) ) {
+                            retVal = csm1.getEntryNumber().compareTo(csm2.getEntryNumber());
+                        }
+                        return retVal;
+                    }
+                    
+                });
+                protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(reviewComments);
+                getReviewerCommentsService().setHideReviewerName(reviewComments);
+            }
+            getReviewerCommentsService().setHideReviewerName(getReviewComments());
+        }
+        setReviewAttachments(getReviewerCommentsService().getReviewerAttachments(getProtocol().getProtocolNumber(),
+                currentSubmissionNumber));
+        if (CollectionUtils.isNotEmpty(getReviewAttachments())) {
+            hideReviewerNameForAttachment = getReviewerCommentsService().setHideReviewerName(getReviewAttachments());
+            getReviewerCommentsService().setHideViewButton(getReviewAttachments());
+        }
+        getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
+//        setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
+        hideSubmissionReviewerName = checkToHideSubmissionReviewerName();
+
+        setProtocolReviewers(getReviewerCommentsService().getProtocolReviewers(getProtocol().getProtocolNumber(),
+                currentSubmissionNumber));
+        setAbstainees(getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
+        setRecusers(getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
+
+// TODO *********commented the code below during IACUC refactoring*********         
 //        setSubmissionQuestionnaireExist(hasAnsweredQuestionnaire(CoeusSubModule.PROTOCOL_SUBMISSION, Integer.toString(currentSubmissionNumber)));
-//    }
-//    
+    }
+    
+    
+// TODO *********commented the code below during IACUC refactoring*********  
 //    public void setCurrentTask(String currentTaskName) {
 //        this.currentTaskName = currentTaskName;
 //    }
@@ -2753,6 +2841,7 @@ public abstract class ActionHelper implements Serializable {
         return submissionHasNoAmendmentDetails;
     }
     
+// TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * This method returns the amendRenewal bean with the current submission number. 
 //     * @param protocols
@@ -2769,6 +2858,8 @@ public abstract class ActionHelper implements Serializable {
 //        return null;
 //    }
 //    
+    
+    
     protected boolean hasAnsweredQuestionnaire(String moduleSubItemCode, String moduleSubItemKey) {
         return getAnswerHeaderCount(moduleSubItemCode, moduleSubItemKey) > 0;
     }
@@ -2975,12 +3066,13 @@ public abstract class ActionHelper implements Serializable {
         this.protocolReviewers = protocolReviewers;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-//        this.businessObjectService = businessObjectService;
-//    }
-//
-//
+  
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public String getRenewalSummary() {
 //        return renewalSummary;
 //    }
@@ -2990,7 +3082,7 @@ public abstract class ActionHelper implements Serializable {
 //        this.renewalSummary = renewalSummary;
 //    }
 //
-//
+
     /**
      * Sets the protocolSummaryPrintOptions attribute value.
      * @param protocolSummaryPrintOptions The protocolSummaryPrintOptions to set.
@@ -3026,7 +3118,7 @@ public abstract class ActionHelper implements Serializable {
 //        
 //        return protocolRequestBean;
 //    }
-//
+
     public Boolean getSummaryReport() {
         return summaryReport;
     }
@@ -3143,30 +3235,30 @@ public abstract class ActionHelper implements Serializable {
         this.hideReviewerName = hideReviewerName;
     }
     
-//    /*
-//     * check if to display reviewer name for any of the review comments of the submission selected in submission details..
-//     */
-//    private boolean checkToHideSubmissionReviewerName() {
-//        boolean isHide = true;
-//        for (CommitteeScheduleMinute reviewComment : getReviewComments()) {
-//            if (reviewComment.isDisplayReviewerName()) {
-//                isHide = false;
-//                break;
-//            }
-//        }
-//        return isHide;
-//    }
-//    
-//    /*
-//     * check if to display reviewer name for any of the review comments of current submission.
-//     */
-//    private boolean checkToHideReviewName() {
-//        boolean isHide = true;
-//        if (getProtocol().getProtocolSubmission().getSubmissionId() != null) {
-//            isHide = getReviewerCommentsService().setHideReviewerName(getProtocol(), getProtocol().getProtocolSubmission().getSubmissionNumber());
-//        }
-//        return isHide;
-//    }
+    /*
+     * check if to display reviewer name for any of the review comments of the submission selected in submission details..
+     */
+    private boolean checkToHideSubmissionReviewerName() {
+        boolean isHide = true;
+        for (CommitteeScheduleMinute reviewComment : getReviewComments()) {
+            if (reviewComment.isDisplayReviewerName()) {
+                isHide = false;
+                break;
+            }
+        }
+        return isHide;
+    }
+    
+    /*
+     * check if to display reviewer name for any of the review comments of current submission.
+     */
+    private boolean checkToHideReviewName() {
+        boolean isHide = true;
+        if (getProtocol().getProtocolSubmission().getSubmissionId() != null) {
+            isHide = getReviewerCommentsService().setHideReviewerName(getProtocol(), getProtocol().getProtocolSubmission().getSubmissionNumber());
+        }
+        return isHide;
+    }
 
     public boolean isHideSubmissionReviewerName() {
         return hideSubmissionReviewerName;
@@ -3200,6 +3292,7 @@ public abstract class ActionHelper implements Serializable {
         this.protocolCorrespondence = protocolCorrespondence;
     }
 
+// TODO *********commented the code below during IACUC refactoring*********     
 //    public boolean isIrbAdmin() {
 //        return getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
 //    }

@@ -13,15 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.committee.service;
+package org.kuali.kra.protocol.actions.decision;
 
-import java.util.Set;
+import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public interface CommitteeScheduleAttendanceService {
-    
-    Set<String> getVotingMembersPresent (String committeeId, String scheduleId);
-    
-    Set<String> getActualVotingMembersPresent (String committeeId, String scheduleId);
-    
-    int getActualVotingMembersCount (String committeeId, String scheduleId);
+/**
+ * 
+ * This class manages the business rule for adding a new abstainer.
+ */
+public interface ExecuteCommitteeDecisionRecuserRule<CD extends CommitteeDecision<?> > extends BusinessRule {
+    /**
+     * 
+     * This method...
+     * @param committeeDecision
+     * @return
+     */
+    boolean proccessCommitteeDecisionRecuserRule(ProtocolDocument document, CD committeeDecision);
 }
