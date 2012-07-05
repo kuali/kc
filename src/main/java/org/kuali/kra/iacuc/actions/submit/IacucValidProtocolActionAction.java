@@ -25,7 +25,7 @@ import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
  * a unique key on the underlying table.
  * 
  */
-public abstract class IacucValidProtocolActionAction extends ValidProtocolActionAction {
+public class IacucValidProtocolActionAction extends ValidProtocolActionAction {
 
     /**
      * Comment for <code>serialVersionUID</code>
