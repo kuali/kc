@@ -15,28 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions.followup;
 
-import java.util.List;
-
-import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucValidProtocolActionAction;
+import org.kuali.kra.protocol.actions.followup.FollowupActionService;
 
-public interface IacucFollowupActionService {
-    
-    
-    /**
-     * Determines if the action is a follow-up action for the current state of the
-     * protocol.  This is a replacement method for the one found in the ProtocolActionService
-     * that relies on drools rules instead of the ValidProtocolActionAction maintenance artifact.
-     * 
-     * @param protocolActionTypeCode  The type code we are checking is a follow up action
-     * @param protocol The protocol you are interested in.
-     * 
-     * @return 
-     */
-    boolean isActionOpenForFollowup(String protocolActionTypeCode, IacucProtocol protocol);
-    
-    List<IacucValidProtocolActionAction> getFollowupsForActionTypeAndMotionType(String protocolActionTypeCode, String committeeMotionTypeCode);
-    
-    List<IacucValidProtocolActionAction> getFollowupsForProtocol(IacucProtocol protocol);
+public interface IacucFollowupActionService extends FollowupActionService<IacucValidProtocolActionAction> {    
 
 }

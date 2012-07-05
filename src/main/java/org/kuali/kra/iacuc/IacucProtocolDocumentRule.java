@@ -19,6 +19,8 @@ import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRule;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRuleImpl;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
+import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecision;
+import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionRule;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionRule;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionRuleImpl;
@@ -40,8 +42,6 @@ import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesEvent;
 import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesRule;
 import org.kuali.kra.iacuc.species.rule.ProtocolSpeciesRule;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImpl;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceAuditRule;
@@ -50,11 +50,9 @@ import org.kuali.kra.protocol.protocol.location.ProtocolLocationRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolDocumentRule;
-import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
 import org.kuali.kra.protocol.personnel.ProtocolAttachmentPersonnelRule;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRule;
 import org.kuali.kra.protocol.personnel.ProtocolUnitRule;
-import org.kuali.kra.protocol.personnel.SaveProtocolPersonnelEvent;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRule;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
@@ -63,7 +61,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements AddProtocolSpeciesRule, 
+public class IacucProtocolDocumentRule extends ProtocolDocumentRule<IacucCommitteeDecision> implements AddProtocolSpeciesRule, 
                                                                                AddProtocolExceptionRule, 
                                                                                IacucProtocolAssignCmtRule,
                                                                                IacucProtocolModifySubmissionRule {
@@ -148,5 +146,10 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule implements A
     @Override
     public boolean processModifySubmissionRule(ProtocolDocument document, IacucProtocolModifySubmissionBean actionBean) {
         return new IacucProtocolModifySubmissionRuleImpl().processModifySubmissionRule(document, actionBean);
+    }
+
+    @Override
+    protected IacucCommitteeDecisionRule newCommitteeDecisionRuleInstanceHook() {
+        return new IacucCommitteeDecisionRule();
     }
 }

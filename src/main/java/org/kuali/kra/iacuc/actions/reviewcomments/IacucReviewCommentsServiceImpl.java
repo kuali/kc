@@ -17,22 +17,25 @@ package org.kuali.kra.iacuc.actions.reviewcomments;
 
 import java.util.List;
 
-import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsServiceImpl;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 
 public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl implements IacucReviewCommentsService {
-
-
-    private IacucProtocolFinderDao protocolFinderDao;
+    
+  private static final String[] PROTOCOL_SUBMISSION_COMPLETE_STATUSES = { IacucProtocolSubmissionStatus.APPROVED,                                                                           
+                                                                          IacucProtocolSubmissionStatus.MINOR_REVISIONS_REQUIRED,
+                                                                          IacucProtocolSubmissionStatus.MAJOR_REVISIONS_REQUIRED,
+                                                                          IacucProtocolSubmissionStatus.DISAPPROVED };
 
     public void saveReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments,
             List<ProtocolReviewAttachment> deletedReviewAttachments) {
@@ -104,13 +107,6 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl im
         return RoleConstants.IACUC_PROTOCOL_VIEWER;
     }
 
-    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
-        this.protocolFinderDao = (IacucProtocolFinderDao) protocolFinderDao;
-    }
-
-    public ProtocolFinderDao getProtocolFinderDao() {
-        return protocolFinderDao;
-    }
 
     @Override
     protected String getDisplayRevNameToActiveCmtMembersHook() {
@@ -125,6 +121,16 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl im
     @Override
     protected String getDisplayRevNameToReviewersHook() {
         return Constants.PARAMETER_IACUC_DISPLAY_REVIEWER_NAME_TO_REVIEWERS;
+    }
+
+    @Override
+    protected String[] getProtocolSubmissionCompleteStatusCodeArrayHook() {
+        return IacucReviewCommentsServiceImpl.PROTOCOL_SUBMISSION_COMPLETE_STATUSES;
+    }
+
+    @Override
+    protected Class<? extends ProtocolOnlineReview> getProtocolOnlineReviewClassHook() {
+        return IacucProtocolOnlineReview.class;
     }
 
 }

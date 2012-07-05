@@ -44,7 +44,7 @@
 			<kra-iacuc-action:assignToAgendaAction />
 			<kra-iacuc-action:notifyIacucAction />
           
-          <%--
+<%--
             <kra-iacuc-action:assignReviewersAction />
             
             <kra-iacuc-action:grantExemptionAction />
@@ -67,7 +67,12 @@
                                           taskName="protocolResponseApproval"
                                           methodToCall="grantResponseApproval"
                                           canPerformAction="${KualiForm.actionHelper.canApproveResponse}" />
+                                          
+--%> 
+                                         
             <kra-iacuc-action:recordCommitteeDecisionAction />
+            
+<%--
             <kra-iacuc-action:genericAction tabTitle="Defer Action"
 			                              bean="${KualiForm.actionHelper.protocolDeferBean}"
 			                              property="actionHelper.protocolDeferBean"

@@ -204,8 +204,16 @@
                   
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolThreeRsAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucProtocolThreeRs"/>
-                </bean> 
-                               
+                </bean>                
+                
+                <bean class="org.kuali.kra.iacuc.auth.RecordCommitteeDecisionIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolRecordCommitteeDecision" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.RecordCommitteeDecisionIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolRecordCommitteeDecisionUnavailable" />
+                </bean>
+                                                                            
                 <bean class="org.kuali.kra.iacuc.auth.NotifyIacucAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="iacucProtocolNotifyIacuc"/>
                 </bean>
@@ -213,6 +221,7 @@
                 <bean class="org.kuali.kra.iacuc.auth.NotifyIacucUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="iacucProtocolNotifyIacucUnavailable"/>
                 </bean>
+                
                 
            </list>
         </property>
@@ -340,9 +349,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-<!-- IACUC
-        <property name="followupActionService" ref = "followupActionService"/>
--->        
+        <property name="followupActionService" ref = "iacucFollowupActionService"/>
         <property name="protocolDao" ref="iacucProtocolDao" />
         <property name="ruleFiles">
             <list>
@@ -393,11 +400,9 @@
     </bean>   
     
     <bean id="baseCommitteeScheduleService" class="org.kuali.kra.common.committee.service.impl.CommitteeScheduleServiceImpl">
-	<property name="businessObjectService" ref="businessObjectService" />
-	<property name="scheduleService" ref="scheduleService" />
-	<!--  
-	<property name="reviewCommentsService" ref="reviewCommentsService" />
-    	-->
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="scheduleService" ref="scheduleService" />
+		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
     </bean>
 
     <bean id="iacucProtocolWithdrawService" class="org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawServiceImpl">
@@ -730,7 +735,23 @@
         <property name="protocolActionService" ref="iacucProtocolActionService" />
         <property name="protocolAssignCmtService" ref="iacucProtocolAssignCmtService" />
         <property name="committeeService" ref="commonCommitteeService" />
-    </bean> 
+    </bean>
+    
+    
+    <bean id="iacucFollowupActionService" class="org.kuali.kra.iacuc.actions.followup.IacucFollowupActionServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
+	</bean>
+	
+	
+	<bean id="iacucCommitteeDecisionService" class="org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolActionService" ref="iacucProtocolActionService" />
+        <property name="committeeService" ref="commonCommitteeService" />
+        <property name="documentService" ref="documentService" />
+   		<property name="protocolFinderDao" ref="iacucProtocolFinderDao" />
+    </bean>
     
     <bean id="iacucProtocolNotifyIacucService" class="org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucServiceImpl">
     	<property name="businessObjectService" ref="businessObjectService" />

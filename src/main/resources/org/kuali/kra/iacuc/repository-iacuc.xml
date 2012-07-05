@@ -1474,6 +1474,30 @@
         <reference-descriptor name="protocolAction" class-ref="org.kuali.kra.iacuc.actions.IacucProtocolAction" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="actionId"/>
         </reference-descriptor>
+    </class-descriptor>
+    
+    
+     <class-descriptor class="org.kuali.kra.iacuc.actions.submit.IacucValidProtocolActionAction" table="VALID_IACUC_PROTO_ACTN_ACTN">
+        <field-descriptor name="validProtocolActionActionId" column="VALID_IACUC_PROTO_ACTN_ACTN_ID" jdbc-type="BIGINT" primarykey="true" />
+        <field-descriptor name="protocolActionTypeCode" column="PROTOCOL_ACTION_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="motionTypeCode" column="COMM_DECISION_MOTION_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="actionNumber" column="ACTION_NUMBER" jdbc-type="INTEGER"/>
+        <field-descriptor name="followupActionCode" column="FOLLOWUP_ACTION_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="userPromptFlag" column="USER_PROMPT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="userPrompt" column="USER_PROMPT" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <reference-descriptor name="protocolActionType" class-ref="org.kuali.kra.iacuc.actions.IacucProtocolActionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolActionTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="followupProtocolActionType" class-ref="org.kuali.kra.iacuc.actions.IacucProtocolActionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="followupActionCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="committeeDecisionMotionType" class-ref="org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="motionTypeCode"/>
+        </reference-descriptor>
     </class-descriptor> 
 
 	<class-descriptor class="org.kuali.kra.iacuc.actions.IacucProtocolSubmissionDoc" table="IACUC_PROTOCOL_SUBMISSION_DOC">
