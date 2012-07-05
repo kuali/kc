@@ -20,13 +20,12 @@ import java.util.List;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
 
 /**
  * This class is a bean for managing the input for a committee decision.
  */
-public interface CommitteeDecision extends ProtocolActionBean, ProtocolOnlineReviewCommentable, Serializable {
+public interface CommitteeDecision<CP extends CommitteePerson> extends ProtocolActionBean, ProtocolOnlineReviewCommentable, Serializable {
     
     /**
      * This method initializes the class.
@@ -61,25 +60,25 @@ public interface CommitteeDecision extends ProtocolActionBean, ProtocolOnlineRev
 
     public void setMotionType(CommitteeDecisionMotionType motionType);
 
-    public List<CommitteePerson> getAbstainers();
+    public List<CP> getAbstainers();
 
-    public void setAbstainers(List<CommitteePerson> abstainers);
+    public void setAbstainers(List<CP> abstainers);
     
-    public List<CommitteePerson> getAbstainersToDelete();
+    public List<CP> getAbstainersToDelete();
 
-    public List<CommitteePerson> getRecused();
+    public List<CP> getRecused();
 
-    public void setRecused(List<CommitteePerson> recused);
+    public void setRecused(List<CP> recused);
     
-    public List<CommitteePerson> getRecusedToDelete();
+    public List<CP> getRecusedToDelete();
 
-    public CommitteePerson getNewAbstainer();
+    public CP getNewAbstainer();
 
-    public void setNewAbstainer(CommitteePerson newAbstainer);
+    public void setNewAbstainer(CP newAbstainer);
 
-    public CommitteePerson getNewRecused();
+    public CP getNewRecused();
 
-    public void setNewRecused(CommitteePerson newRecused);
+    public void setNewRecused(CP newRecused);
     
     public int getTotalVoteCount();
 

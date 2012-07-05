@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol.actions.reviewcomments;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,6 +36,7 @@ import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolDocument;
@@ -43,7 +45,6 @@ import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewable;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.meeting.MinuteEntryType;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
@@ -58,14 +59,17 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService {
 
+// TODO *********commented the code below during IACUC refactoring*********    
 //    private static final String[] PROTOCOL_SUBMISSION_COMPLETE_STATUSES = { ProtocolSubmissionStatus.APPROVED,
 //                                                                            ProtocolSubmissionStatus.EXEMPT, 
 //                                                                            ProtocolSubmissionStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED,
 //                                                                            ProtocolSubmissionStatus.SUBSTANTIVE_REVISIONS_REQUIRED, 
 //                                                                            ProtocolSubmissionStatus.DEFERRED,
 //                                                                            ProtocolSubmissionStatus.DISAPPROVED };
-    private static final String HIDE = "0";
-//    private static final String DISPLAY = "1";
+    
+    
+    private static final String HIDE = "0";  
+    private static final String DISPLAY = "1";
     protected BusinessObjectService businessObjectService;
     private CommonCommitteeScheduleService committeeScheduleService;
     private CommonCommitteeService committeeService;
@@ -82,53 +86,59 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
     private boolean displayReviewerNameToPersonnel;
     private boolean displayReviewerNameToReviewers;
     private boolean displayReviewerNameToActiveMembers;
-//
-//    /**
-//     * {@inheritDoc}
-//     * 
-//     * @see org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService#canViewOnlineReviewerComments(java.lang.String,
-//     *      org.kuali.kra.irb.actions.submit.ProtocolSubmission)
-//     */
-//    public boolean canViewOnlineReviewerComments(String principalId, ProtocolSubmission protocolSubmission) {
-//        return isIrbAdminOrOnlineReviewer(principalId, protocolSubmission) || hasSubmissionCompleteStatus(protocolSubmission)
-//                || isActiveCommitteeMember(protocolSubmission, principalId);
-//    }
-//
-//    /**
-//     * {@inheritDoc}
-//     * 
-//     * @see org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService#canViewOnlineReviewers(java.lang.String,
-//     *      org.kuali.kra.irb.actions.submit.ProtocolSubmission)
-//     */
-//    public boolean canViewOnlineReviewers(String principalId, ProtocolSubmission protocolSubmission) {
-//        return isIrbAdminOrOnlineReviewer(principalId, protocolSubmission);
-//    }
-//
-//    private boolean isIrbAdminOrOnlineReviewer(String principalId, ProtocolSubmission submission) {
-//        boolean isAdmin = false;
-//        boolean isReviewer = false;
-//
-//        Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE,
-//                RoleConstants.IRB_ADMINISTRATOR, null);
-//        isAdmin = ids.contains(principalId);
-//
-//        if (principalId != null) {
-//            List<ProtocolReviewer> reviewers = submission.getProtocolReviewers();
-//            for (ProtocolReviewer reviewer : reviewers) {
-//                if (StringUtils.equals(principalId, reviewer.getPersonId())) {
-//                    isReviewer = true;
-//                    break;
-//                }
-//            }
-//        }
-//
-//        return isAdmin || isReviewer;
-//    }
-//
-//    private boolean hasSubmissionCompleteStatus(ProtocolSubmission submission) {
-//        return Arrays.asList(PROTOCOL_SUBMISSION_COMPLETE_STATUSES).contains(submission.getSubmissionStatusCode());
-//    }
 
+    
+    
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService#canViewOnlineReviewerComments(java.lang.String,
+     *      org.kuali.kra.protocol.actions.submit.ProtocolSubmission)
+     */
+    public boolean canViewOnlineReviewerComments(String principalId, ProtocolSubmission protocolSubmission) {
+        return isAdminOrOnlineReviewer(principalId, protocolSubmission) || hasSubmissionCompleteStatus(protocolSubmission)
+                || isActiveCommitteeMember(protocolSubmission, principalId);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService#canViewOnlineReviewers(java.lang.String,
+     *      org.kuali.kra.protocol.actions.submit.ProtocolSubmission)
+     */
+    public boolean canViewOnlineReviewers(String principalId, ProtocolSubmission protocolSubmission) {
+        return isAdminOrOnlineReviewer(principalId, protocolSubmission);
+    }
+
+    private boolean isAdminOrOnlineReviewer(String principalId, ProtocolSubmission submission) {
+        boolean isAdmin = false;
+        boolean isReviewer = false;
+
+        Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, getAdministratorRoleHook(), null);
+        isAdmin = ids.contains(principalId);
+
+        if (principalId != null) {
+            List<ProtocolReviewer> reviewers = submission.getProtocolReviewers();
+            for (ProtocolReviewer reviewer : reviewers) {
+                if (StringUtils.equals(principalId, reviewer.getPersonId())) {
+                    isReviewer = true;
+                    break;
+                }
+            }
+        }
+
+        return isAdmin || isReviewer;
+    }
+
+    private boolean hasSubmissionCompleteStatus(ProtocolSubmission submission) {
+        return Arrays.asList(getProtocolSubmissionCompleteStatusCodeArrayHook()).contains(submission.getSubmissionStatusCode());
+    }
+
+    protected abstract String[] getProtocolSubmissionCompleteStatusCodeArrayHook();
+    
+    
+    
     public List<CommitteeScheduleMinute> getReviewerComments(String protocolNumber, int submissionNumber) {
         ArrayList<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
 
@@ -151,39 +161,42 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
 
         return reviewComments;
     }
-//
-//    public List<ProtocolReviewAttachment> getReviewerAttachments(String protocolNumber, int submissionNumber) {
-//
-//        List<ProtocolReviewAttachment> reviewAttachments = new ArrayList<ProtocolReviewAttachment>();
-//        List<ProtocolSubmission> protocolSubmissions = protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber);
-//        // protocol versioning does not version review attachments/comments
-//        for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
-//            if (CollectionUtils.isNotEmpty(protocolSubmission.getReviewAttachments())) {
-//                for (ProtocolReviewAttachment reviewAttachment : protocolSubmission.getReviewAttachments()) {
-//                    if (getReviewerCommentsView(reviewAttachment)) {
-//                        reviewAttachments.add(reviewAttachment);
-//                    }
-//                }
-//            }
-//        }
-//        return reviewAttachments;
-//    }
-//
-//   
-//    public List<ProtocolReviewer> getProtocolReviewers(String protocolNumber, int submissionNumber) {
-//        List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
-//
-//        List<ProtocolSubmission> protocolSubmissions = protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber);
-//
-//        for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
-//            if (CollectionUtils.isNotEmpty(protocolSubmission.getProtocolReviewers())) {
-//                reviewers.addAll(protocolSubmission.getProtocolReviewers());
-//            }
-//        }
-//
-//        return reviewers;
-//    }
-//
+
+    @Override
+    public List<ProtocolReviewAttachment> getReviewerAttachments(String protocolNumber, int submissionNumber) {
+
+        List<ProtocolReviewAttachment> reviewAttachments = new ArrayList<ProtocolReviewAttachment>();
+        List<ProtocolSubmission> protocolSubmissions = protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber);
+        // protocol versioning does not version review attachments/comments
+        for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
+            if (CollectionUtils.isNotEmpty(protocolSubmission.getReviewAttachments())) {
+                for (ProtocolReviewAttachment reviewAttachment : protocolSubmission.getReviewAttachments()) {
+                    if (getReviewerCommentsView(reviewAttachment)) {
+                        reviewAttachments.add(reviewAttachment);
+                    }
+                }
+            }
+        }
+        return reviewAttachments;
+    }
+
+    
+    @Override
+    public List<ProtocolReviewer> getProtocolReviewers(String protocolNumber, int submissionNumber) {
+        List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
+
+        List<ProtocolSubmission> protocolSubmissions = protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber);
+
+        for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
+            if (CollectionUtils.isNotEmpty(protocolSubmission.getProtocolReviewers())) {
+                reviewers.addAll(protocolSubmission.getProtocolReviewers());
+            }
+        }
+
+        return reviewers;
+    }
+
+    
     /*
      * when version committee, the minutes also versioned. This is to get the current one.
      */
@@ -245,6 +258,8 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
         }
     }
 
+    
+    
     /**
      * Returns the index of the review comment just before to the one at index, where both of the review comments are in the same
      * protocol.
@@ -272,6 +287,8 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
         return previousIndex;
     }
 
+    
+    
     public void moveDownReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol, int fromIndex) {
         if (fromIndex < reviewComments.size() - 1) {
             int toIndex = indexOfNextProtocolReviewComment(reviewComments, protocol, fromIndex);
@@ -286,21 +303,21 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
     }
 
 
-//    /**
-//     * Returns whether the current user can view this comment.
-//     * 
-//     * This is true either if 1) The current user has the role IRB Administrator 2) The comment/minute has been accepted by an IRB
-//     * Administrator and one of the following conditions is true: 3) The current user does not have the role IRB Administrator, but
-//     * the current user is the comment creator 4) The current user does not have the role IRB Administrator, but is a reviewer of
-//     * the protocol, and not part of the protocol personnel, and the comment is final 5) The current user does not have the role IRB
-//     * Administrator, but is an active committee member, and not part of the protocol personnel, and the comment is final 6) The
-//     * comment is public and final
-//     * 
-//     * In addition if the comment is not associated with an online review then it automatically returns true.
-//     * 
-//     * @param CommitteeScheduleMinute minute
-//     * @return whether the current user can view this comment
-//     */
+    /**
+     * Returns whether the current user can view this comment.
+     * 
+     * This is true either if 1) The current user has the role IRB Administrator 2) The comment/minute has been accepted by an IRB
+     * Administrator and one of the following conditions is true: 3) The current user does not have the role IRB Administrator, but
+     * the current user is the comment creator 4) The current user does not have the role IRB Administrator, but is a reviewer of
+     * the protocol, and not part of the protocol personnel, and the comment is final 5) The current user does not have the role IRB
+     * Administrator, but is an active committee member, and not part of the protocol personnel, and the comment is final 6) The
+     * comment is public and final
+     * 
+     * In addition if the comment is not associated with an online review then it automatically returns true.
+     * 
+     * @param CommitteeScheduleMinute minute
+     * @return whether the current user can view this comment
+     */
     public boolean getReviewerCommentsView(ProtocolReviewable minute) {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String principalName = GlobalVariables.getUserSession().getPrincipalName();
@@ -324,9 +341,9 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
     }
     
 
-//    /*
-//     * This method is to check if review comment/attachment is viewable for this user
-//     */
+    /*
+     * This method is to check if review comment/attachment is viewable for this user
+     */
     private boolean isViewable(ProtocolReviewable reviewable) {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         return (isReviewer(reviewable, principalId) && !isProtocolPersonnel(reviewable) && !hasProtocolPermission(reviewable) && reviewable
@@ -462,8 +479,8 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-//
-//
+    
+    
     private void getReviewerNameParams() {
         displayReviewerNameToActiveMembers = isDisplayReviewerName(getDisplayRevNameToActiveCmtMembersHook());
         displayReviewerNameToPersonnel = isDisplayReviewerName(getDisplayRevNameToProtocolPersonnelHook());
@@ -477,10 +494,10 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
     protected abstract String getDisplayRevNameToReviewersHook();
 
     
-//
-//    /*
-//     * retrieve Display reviewer name parameter and compre with 'HIDE'
-//     */
+
+    /*
+     * retrieve Display reviewer name parameter and compre with 'HIDE'
+     */
     private boolean isDisplayReviewerName(String paramName) {
         String param = parameterService.getParameterValueAsString(ProtocolDocument.class, paramName);
         return !StringUtils.equals(HIDE, param);
@@ -490,10 +507,10 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
         this.parameterService = parameterService;
     }
 
-//    /**
-//     * 
-//     * @see org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService#setHideReviewerName(org.kuali.kra.irb.Protocol, int)
-//     */
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService#setHideReviewerName(org.kuali.kra.irb.Protocol, int)
+     */
     public boolean setHideReviewerName(Protocol protocol, int submissionNumber) {
         return setHideReviewerName(getReviewerComments(protocol.getProtocolNumber(), submissionNumber));
     }
@@ -512,25 +529,25 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
         }
         return isHide;
     }
-//
-//    public boolean setHideViewButton(List<ProtocolReviewAttachment> reviewAttachments) {
-//        boolean isHide = true;
-//        getReviewerNameParams();
-//        for (ProtocolReviewAttachment reviewAttachment : reviewAttachments) {
-//            if (!reviewAttachment.isPrivateFlag() || !isProtocolPersonnel(reviewAttachment)) {
-//                reviewAttachment.setDisplayViewButton(true);
-//                isHide = false;
-//            }
-//
-//        }
-//        return isHide;
-//    }
-//
+
+    public boolean setHideViewButton(List<ProtocolReviewAttachment> reviewAttachments) {
+        boolean isHide = true;
+        getReviewerNameParams();
+        for (ProtocolReviewAttachment reviewAttachment : reviewAttachments) {
+            if (!reviewAttachment.isPrivateFlag() || !isProtocolPersonnel(reviewAttachment)) {
+                reviewAttachment.setDisplayViewButton(true);
+                isHide = false;
+            }
+
+        }
+        return isHide;
+    }
+
     private boolean canViewName(ProtocolReviewable reviewComment) {
         boolean canViewName = false;
         Person person = GlobalVariables.getUserSession().getPerson();
         // if (hideReviewerName) {
-        if (isIrbAdmin(person.getPrincipalId()) || isCreator(reviewComment, person.getPrincipalName())) {
+        if (isAdmin(person.getPrincipalId()) || isCreator(reviewComment, person.getPrincipalName())) {
             canViewName = true;
         }
         // }
@@ -558,7 +575,7 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
         return getProtocolAggregators(reviewComment).contains(person.getPrincipalId())
                 || getProtocolViewers(reviewComment).contains(person.getPrincipalId());
     }
-//
+
     private boolean isProtocolPersonnel(ProtocolReviewable reviewComment) {
         Person person = GlobalVariables.getUserSession().getPerson();
         return getPersonnelIds(reviewComment).contains(person.getPrincipalId());
@@ -612,41 +629,41 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
         }
         return PersonnelIds;
     }
-//
-//    /**
-//     * Returns whether the current user can view this non Final Comments and Private Comment.
-//     * 
-//     * @param CommitteeScheduleMinute minute
-//     * @return whether the current user can view this comment
-//     */
-//    public boolean getReviewerMinuteCommentsView(CommitteeScheduleMinute minute) {
-//        String principalId = GlobalVariables.getUserSession().getPrincipalId();
-//        String principalName = GlobalVariables.getUserSession().getPrincipalName();
-//        return StringUtils.equals(principalName, minute.getCreateUser()) && minute.isFinalFlag()
-//                || (isReviewer(minute, principalId) && minute.isFinalFlag())
-//                || (!minute.getPrivateCommentFlag() && minute.isFinalFlag());
-//    }
-//
 
-    private boolean isIrbAdmin(String principalId) {
+    /**
+     * Returns whether the current user can view this non Final Comments and Private Comment.
+     * 
+     * @param CommitteeScheduleMinute minute
+     * @return whether the current user can view this comment
+     */
+    public boolean getReviewerMinuteCommentsView(CommitteeScheduleMinute minute) {
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        String principalName = GlobalVariables.getUserSession().getPrincipalName();
+        return StringUtils.equals(principalName, minute.getCreateUser()) && minute.isFinalFlag()
+                || (isReviewer(minute, principalId) && minute.isFinalFlag())
+                || (!minute.getPrivateCommentFlag() && minute.isFinalFlag());
+    }
+
+
+    private boolean isAdmin(String principalId) {
         return !CollectionUtils.isEmpty(getAdminIds()) && getAdminIds().contains(principalId);
     }
 
-//    /*
-//     * if the person is PI.
-//     */
-//    private boolean isPrincipalInvestigator(CommitteeScheduleMinute reviewComment, String principalId) {
-//        boolean isPi = false;
-//        if (reviewComment.getProtocolId() != null) {
-//            // TODO : need to check if the submission number is ok to get this way
-//            isPi = principalId.equals(reviewComment.getProtocol().getPrincipalInvestigatorId());
-//        }
-//        return isPi;
-//    }
-//
-//    /*
-//     * if the person a reviewer.
-//     */
+    /*
+     * if the person is PI.
+     */
+    private boolean isPrincipalInvestigator(CommitteeScheduleMinute reviewComment, String principalId) {
+        boolean isPi = false;
+        if (reviewComment.getProtocolId() != null) {
+            // TODO : need to check if the submission number is ok to get this way
+            isPi = principalId.equals(reviewComment.getProtocol().getPrincipalInvestigatorId());
+        }
+        return isPi;
+    }
+
+    /*
+     * if the person a reviewer.
+     */
     private boolean isReviewer(ProtocolReviewable reviewComment, String principalId) {
         List<String> reviewerIds = getProtocolReviewerIds(reviewComment);
         return !reviewerIds.isEmpty() && reviewerIds.contains(principalId);
@@ -666,22 +683,20 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
         List<String> reviewerIds = new ArrayList<String>();
         if (reviewComment.getProtocolId() != null) {
             // TODO : need to check if the submission number is ok to get this way
-            reviewerIds = getProtocolReviewerIds(reviewComment.getProtocolId(), reviewComment.getProtocol().getProtocolSubmission()
-                    .getSubmissionNumber());
+            reviewerIds = getProtocolReviewerIds(reviewComment.getProtocolId(), reviewComment.getProtocol().getProtocolSubmission().getSubmissionNumber());
         }
         return reviewerIds;
     }
-//
-//    /*
-//     * retrieve reviewer ids from db based on protocolid and submissionnumber
-//     */
+
+    /*
+     * retrieve reviewer ids from db based on protocolid and submissionnumber
+     */
     private List<String> getProtocolReviewerIds(Long protocolId, int submissionNumber) {
         Map fieldValues = new HashMap();
         fieldValues.put("protocolIdFk", protocolId);
         fieldValues.put("submissionNumber", submissionNumber);
         List<String> reviewerPersonIds = new ArrayList<String>();
-        for (ProtocolReviewer reviewer : (List<ProtocolReviewer>) businessObjectService.findMatching(getProtocolReviewClassHook(),
-                fieldValues)) {
+        for (ProtocolReviewer reviewer : (List<ProtocolReviewer>) businessObjectService.findMatching(getProtocolReviewClassHook(), fieldValues)) {
             reviewerPersonIds.add(reviewer.getPersonId());
         }
         return reviewerPersonIds;
@@ -693,7 +708,7 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
     /*
      * retrieve admins from role table
      */
-    private void getAdmins() {
+    private void populateAdmins() {
         adminIds = (Set<String>) roleService.getRoleMemberPrincipalIds("KC-UNT", getAdministratorRoleHook(), null);
         adminUserNames = new ArrayList<String>();
         for (String id : adminIds) {
@@ -716,7 +731,7 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
     protected abstract String getAggregatorRoleNameHook();
     
     
-//
+
     private Set<String> getProtocolAggregators(ProtocolReviewable minute) {
         if (CollectionUtils.isEmpty(aggregatorIds) && minute != null) {
 
@@ -761,7 +776,7 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
     
     protected abstract String getProtocolViewerRoleNameHook();
     
-//
+
     private Set<String> getProtocolViewers(ProtocolReviewable minute) {
         if (CollectionUtils.isEmpty(viewerIds) && minute != null) {
 
@@ -796,41 +811,41 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
         return viewerIds;
 
     }
-//
-//    public void setKimRoleManagementService(RoleService kimRoleManagementService) {
-//        this.roleService = kimRoleManagementService;
-//    }
-//
+
+    public void setKimRoleManagementService(RoleService kimRoleManagementService) {
+        this.roleService = kimRoleManagementService;
+    }
+
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
 
     public Set<String> getAdminIds() {
         if (CollectionUtils.isEmpty(adminIds)) {
-            getAdmins();
+            populateAdmins();
         }
         return adminIds;
     }
 
-//    public void setIrbAdminIds(Set<String> irbAdminIds) {
-//        this.irbAdminIds = irbAdminIds;
-//    }
-//
-//    public List<String> getIrbAdminUserNames() {
-//        if (CollectionUtils.isEmpty(irbAdminUserNames)) {
-//            getIrbAdmins();
-//        }
-//        return irbAdminUserNames;
-//    }
-//
-//    public void setIrbAdminUserNames(List<String> irbAdminUserNames) {
-//        this.irbAdminUserNames = irbAdminUserNames;
-//    }
-//
-//    public List<String> getReviewerIds() {
-//        return reviewerIds;
-//    }
-//
+    public void setAdminIds(Set<String> adminIds) {
+        this.adminIds = adminIds;
+    }
+
+    public List<String> getAdminUserNames() {
+        if (CollectionUtils.isEmpty(adminUserNames)) {
+            populateAdmins();
+        }
+        return adminUserNames;
+    }
+
+    public void setAdminUserNames(List<String> adminUserNames) {
+        this.adminUserNames = adminUserNames;
+    }
+
+    public List<String> getReviewerIds() {
+        return reviewerIds;
+    }
+
     public void setReviewerIds(List<String> reviewerIds) {
         this.reviewerIds = reviewerIds;
     }
@@ -881,59 +896,61 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
         }
         return result;
     }
-//
-//    /**
-//     * 
-//     * This method determines if the current user is an active committee member
-//     * 
-//     * @param minute
-//     * @param principalId
-//     * @return true if and active committee member, false otherwise.
-//     */
-//    private boolean isActiveCommitteeMember(ProtocolSubmission submission, String principalId) {
-//        boolean result = false;
-//
-//        List<CommitteeMembership> committeeMembers = committeeService.getAvailableMembers(submission.getCommitteeId(),
-//                submission.getScheduleId());
-//        if (CollectionUtils.isNotEmpty(committeeMembers)) {
-//            for (CommitteeMembership member : committeeMembers) {
-//                if (StringUtils.equals(principalId, member.getPersonId())) {
-//                    result = true;
-//                    break;
-//                }
-//            }
-//        }
-//
-//        return result;
-//    }
-//
-//
-//    /**
-//     * Returns whether the Reviewer can view this accepted minute Comments in print.
-//     * 
-//     * @param CommitteeScheduleMinute minute
-//     * @return whether the current user can view this comment
-//     */
-//    public boolean getReviewerAcceptedCommentsView(CommitteeScheduleMinute minute) {
-//        boolean viewAcceptedMinute = false;
-//        String principalId = GlobalVariables.getUserSession().getPrincipalId();
-//        String principalName = GlobalVariables.getUserSession().getPrincipalName();
-//        if (minute.getProtocolOnlineReviewIdFk() != null) {
-//            ProtocolOnlineReview protocolOnlineReview = businessObjectService.findBySinglePrimaryKey(ProtocolOnlineReview.class,
-//                    minute.getProtocolOnlineReviewIdFk());
-//            if (protocolOnlineReview.isAdminAccepted()) {
-//                viewAcceptedMinute = true;
-//            }
-//        }
-//        else {
-//            viewAcceptedMinute = true;
-//        }
-//        return (StringUtils.equals(principalName, minute.getCreateUser()) && viewAcceptedMinute)
-//                || (isReviewer(minute, principalId) && minute.isFinalFlag() && viewAcceptedMinute)
-//                || (!minute.getPrivateCommentFlag() && minute.isFinalFlag() && viewAcceptedMinute);
-//    }
-//
+
+    /**
+     * 
+     * This method determines if the current user is an active committee member
+     * 
+     * @param minute
+     * @param principalId
+     * @return true if and active committee member, false otherwise.
+     */
+    private boolean isActiveCommitteeMember(ProtocolSubmission submission, String principalId) {
+        boolean result = false;
+
+        List<CommitteeMembership> committeeMembers = committeeService.getAvailableMembers(submission.getCommitteeId(),
+                submission.getScheduleId());
+        if (CollectionUtils.isNotEmpty(committeeMembers)) {
+            for (CommitteeMembership member : committeeMembers) {
+                if (StringUtils.equals(principalId, member.getPersonId())) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+
+    /**
+     * Returns whether the Reviewer can view this accepted minute Comments in print.
+     * 
+     * @param CommitteeScheduleMinute minute
+     * @return whether the current user can view this comment
+     */
+    public boolean getReviewerAcceptedCommentsView(CommitteeScheduleMinute minute) {
+        boolean viewAcceptedMinute = false;
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        String principalName = GlobalVariables.getUserSession().getPrincipalName();
+        if (minute.getProtocolOnlineReviewIdFk() != null) {
+            ProtocolOnlineReview protocolOnlineReview = businessObjectService.findBySinglePrimaryKey(getProtocolOnlineReviewClassHook(), minute.getProtocolOnlineReviewIdFk());
+            if (protocolOnlineReview.isAdminAccepted()) {
+                viewAcceptedMinute = true;
+            }
+        }
+        else {
+            viewAcceptedMinute = true;
+        }
+        return (StringUtils.equals(principalName, minute.getCreateUser()) && viewAcceptedMinute)
+                || (isReviewer(minute, principalId) && minute.isFinalFlag() && viewAcceptedMinute)
+                || (!minute.getPrivateCommentFlag() && minute.isFinalFlag() && viewAcceptedMinute);
+    }
+
  
+    protected abstract Class<? extends ProtocolOnlineReview> getProtocolOnlineReviewClassHook();
+    
+
     public void deleteReviewAttachment(List<ProtocolReviewAttachment> reviewAttachments, int index,
             List<ProtocolReviewAttachment> deletedReviewAttachments) {
         if (index >= 0 && index < reviewAttachments.size()) {

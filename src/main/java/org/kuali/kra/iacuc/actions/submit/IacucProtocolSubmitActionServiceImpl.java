@@ -92,22 +92,24 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
 //        this.protocolAssignReviewersService = protocolAssignReviewersService;
 //    }
 //    
-//    /**
-//     * {@inheritDoc}
-//     * @see org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionService#getTotalSubmissions(java.lang.String)
-//     */
-//    public int getTotalSubmissions(Protocol protocol) {
-//        int totalSubmissions = 0;
-//        
-//        for (IacucProtocolSubmission protocolSubmission : getProtocolSubmissions(protocol.getProtocolNumber())) {
-//            int submissionNumber = protocolSubmission.getSubmissionNumber();
-//            if (submissionNumber > totalSubmissions && protocolSubmission.getSequenceNumber() <= protocol.getSequenceNumber()) {
-//                totalSubmissions = submissionNumber;
-//            }
-//        }
-//        
-//        return totalSubmissions;
-//    }
+    
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionService#getTotalSubmissions(java.lang.String)
+     */
+    @Override
+    public int getTotalSubmissions(IacucProtocol protocol) {
+        int totalSubmissions = 0;
+        
+        for (IacucProtocolSubmission protocolSubmission : getProtocolSubmissions(protocol.getProtocolNumber())) {
+            int submissionNumber = protocolSubmission.getSubmissionNumber();
+            if (submissionNumber > totalSubmissions && protocolSubmission.getSequenceNumber() <= protocol.getSequenceNumber()) {
+                totalSubmissions = submissionNumber;
+            }
+        }
+        
+        return totalSubmissions;
+    }
     
     /**
      * {@inheritDoc}
@@ -388,13 +390,8 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
 //    }
 
     public List<IacucProtocolSubmission> getProtocolSubmissionsLookupData(List<IacucProtocolSubmission> protocolSubmissionList) throws Exception {
+        // TODO
         return null;
-    }
-
-    @Override
-    public int getTotalSubmissions(IacucProtocol protocol) {
-        // TODO Auto-generated method stub
-        return 0;
     }
 
 }
