@@ -15,14 +15,19 @@
  */
 package org.kuali.kra.subaward.document.authorizer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.document.authorization.SubAwardTask;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.krad.document.Document;
@@ -58,7 +63,16 @@ public class SubAwardInvoiceMaintenanceDocumentAuthorizer extends MaintenanceDoc
         }
         return result;
     }
-
+    
+    @Override
+    protected void addRoleQualification(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
+        super.addRoleQualification(primaryDataObjectOrDocument, attributes);
+        SubAwardAmountReleased invoice = (SubAwardAmountReleased) ((MaintenanceDocument)primaryDataObjectOrDocument).getNewMaintainableObject().getDataObject();
+        if (invoice != null && invoice.getSubAwardId() != null) {
+            attributes.put(KcKimAttributes.SUBAWARD, invoice.getSubAwardId().toString());
+        }
+    }
+    
     
     /**
      * Get the TaskAuthorizationService.
