@@ -84,15 +84,19 @@ then
 	setProtocolSubmissionStatusCode(protocolAction, "1200");
 end
 
-rule "fn_approve: Submission Status = 1200; Protocol Status = 1200" 
+
+
+rule "fn_approve: Submission Status = 200; Protocol Status = 200" 
 salience 100
 when
-	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "1204", protocolNumberARCondition not in ("A", "R"))
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "204", protocolNumberARCondition not in ("A", "R"))
 then	
 	createAuditTrail(protocolAction);
-	setProtocolSubmissionStatusCode(protocolAction, "1200");
-	setProtocolStatusCode(protocolAction, "1200");
+	setProtocolSubmissionStatusCode(protocolAction, "200");
+	setProtocolStatusCode(protocolAction, "200");
 end
+
+
 
 rule "fn_SMRReqd: Submission Status = 1210 (Specific Minor Revisions Required); Protocol Status = 1104 (Specific Minor Revisions Required)" 
 salience 100
