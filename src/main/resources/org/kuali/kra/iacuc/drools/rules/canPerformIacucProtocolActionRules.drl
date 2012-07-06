@@ -331,7 +331,7 @@ end
 rule "Rule 1 -  Modify Protocol Submission"
 salience 100
 when
-	protocolAction : IacucProtocolActionMapping(actionTypeCode == '309',  protocolStatusCode == '101')
+	protocolAction : IacucProtocolActionMapping(actionTypeCode == '309',  protocolStatusCode == '101', submissionStatusCode in ("101", "102"))
 then	
     setAction(protocolAction, true);
 end

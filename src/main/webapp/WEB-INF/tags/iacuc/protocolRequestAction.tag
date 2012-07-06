@@ -285,7 +285,9 @@
                                                     	                                             	             
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Modify Submission Request"
     	                                                     canPerformAction="${KualiForm.actionHelper.canModifyProtocolSubmissionUnavailable}"
-        	                                                 reason="Protocol status must be Submitted To IACUC." />
+        	                                                 reason="Protocol status must be Submitted To IACUC.
+																	 <p>
+                                            	                     Protocol submission status must be Pending or Submitted To Committee." />
 	        	    <kra-iacuc-action:genericUnavailableAction tabTitle="Assign to Committee"
                 	                                         canPerformAction="${KualiForm.actionHelper.canAssignCmtUnavailable}" 
                     	                                     reason="Protocol submission status must be Pending or Submitted To Committee.
