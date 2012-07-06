@@ -58,4 +58,9 @@ public class SubAwardRequisitionerDerivedRoleTypeServiceImpl extends DerivedRole
         }
         return false;
     }
+    
+    @Override
+    public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
+        return true;
+    }
 }
