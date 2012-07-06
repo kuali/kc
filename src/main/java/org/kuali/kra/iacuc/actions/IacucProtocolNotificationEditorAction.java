@@ -43,7 +43,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
-    private static final String PROTOCOL_ACTIONS_TAB = "protocolActions";
+    private static final String PROTOCOL_ACTIONS_TAB = "iacucProtocolActions";
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -140,7 +140,7 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
                     actionForward = mapping.findForward(forwardName);
                 }
             } else {
-                actionForward = mapping.findForward("protocolActions");
+                actionForward = mapping.findForward(PROTOCOL_ACTIONS_TAB);
             }
         }
         Object notificationRequestBeans = GlobalVariables.getUserSession().retrieveObject("removeReviewer");
@@ -264,7 +264,7 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
         
         protocolForm.getNotificationHelper().setNotificationContext(null);
         
-        return mapping.findForward("protocolActions");
+        return mapping.findForward(PROTOCOL_ACTIONS_TAB);
     }
     
     private ActionForward routeProtocolOLRToHoldingPage(ActionMapping mapping, IacucProtocolForm protocolForm, String olrDocId, String olrEvent) {
