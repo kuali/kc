@@ -286,16 +286,14 @@ then
 	setProtocolSubmissionStatusCode(protocolAction, "1205");
 end
 
-// Notify IACUC does not exist in submission type table for IACUC
-//rule "fn_notify_iacuc: submissionTypeCode = 112, reviewCode = 7, submissionStatusCode = 1104" 
-//salience 100
-//when
-//	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "1114")
-//then	
-//	createAuditTrail(protocolAction);
-//	# new submission already created in notifyirbservice.  this is duplicate
-//	#setNewProtocolSubmission(protocolAction, "112", "7", "102");
-//end
+rule "fn_notify_iacuc" 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "114")
+then	
+	createAuditTrail(protocolAction);
+	//new submission handled by notify iacuc service
+end
 
 // Following 2 statii do not exist in IACUC status table. What to do about them?
 //rule "fn_table:  Protocol Status = 105 (Tabled)" 
