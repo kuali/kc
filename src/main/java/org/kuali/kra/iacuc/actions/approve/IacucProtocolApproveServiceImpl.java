@@ -44,6 +44,7 @@ public class IacucProtocolApproveServiceImpl extends ProtocolApproveServiceImpl 
         }
         
         finalizeReviewsAndSave(protocol, IacucProtocolActionType.IACUC_APPROVED, FULL_APPROVAL_FINALIZE_OLR_ANNOTATION);
+        protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
     }  
 
     

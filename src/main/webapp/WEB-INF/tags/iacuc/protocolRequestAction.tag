@@ -43,18 +43,21 @@
 			<kra-iacuc-action:adminActions />
 			<kra-iacuc-action:assignToAgendaAction />
 			<kra-iacuc-action:notifyIacucAction />
-          
-<%--
-            <kra-iacuc-action:assignReviewersAction />
-            
-            <kra-iacuc-action:grantExemptionAction />
-            <kra-iacuc-action:approveAction tabTitle="Approve Action"
+			
+          	<kra-iacuc-action:approveAction 
+          								  tabTitle="Approve Action"
                                           bean="${KualiForm.actionHelper.protocolFullApprovalBean}"
                                           property="actionHelper.protocolFullApprovalBean"
                                           taskName="protocolApprove"
                                           methodToCall="grantFullApproval"
                                           canPerformAction="${KualiForm.actionHelper.canApproveFull}"
                                           defaultOpen="${KualiForm.actionHelper.isApproveOpenForFollowup}" />
+          
+<%--
+            <kra-iacuc-action:assignReviewersAction />
+            
+            <kra-iacuc-action:grantExemptionAction />
+           
             <kra-iacuc-action:approveAction tabTitle="Expedited Approval"
                                           bean="${KualiForm.actionHelper.protocolExpeditedApprovalBean}"
                                           property="actionHelper.protocolExpeditedApprovalBean"

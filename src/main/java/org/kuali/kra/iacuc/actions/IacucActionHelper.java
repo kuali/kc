@@ -875,6 +875,26 @@ public class IacucActionHelper extends ActionHelper {
     protected String getProtocolActionTypeCodeForManageReviewCommentsHook() {
         return IacucProtocolActionType.MANAGE_REVIEW_COMMENTS;
     }
+
+    @Override
+    protected String getFullApprovalProtocolActionTypeHook() {
+        return IacucProtocolActionType.IACUC_APPROVED;
+    }
+
+    @Override
+    protected String getDisapprovedProtocolActionTypehook() {
+        return IacucProtocolActionType.IACUC_DISAPPROVED;
+    }
+
+    @Override
+    protected String getSMRRProtocolActionTypeHook() {
+        return IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED;
+    }
+
+    @Override
+    protected String getSRRProtocolActionTypeHook() {
+        return IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED;
+    }
     
 }
 

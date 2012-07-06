@@ -387,13 +387,17 @@ public abstract class ActionHelper implements Serializable {
         assignToAgendaBean = getNewProtocolAssignToAgendaBeanInstanceHook(this);         
         assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         
+// TODO *********commented the code below during IACUC refactoring*********         
 //        assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
 //        assignCmtSchedBean.init();
 //        protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
 //        protocolGrantExemptionBean = new ProtocolGrantExemptionBean(this);
 //        protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        protocolFullApprovalBean = buildProtocolApproveBean(ProtocolActionType.APPROVED, 
-//                Constants.PROTOCOL_FULL_APPROVAL_ACTION_PROPERTY_KEY);
+        
+        
+        protocolFullApprovalBean = buildProtocolApproveBean(getFullApprovalProtocolActionTypeHook(), Constants.PROTOCOL_FULL_APPROVAL_ACTION_PROPERTY_KEY);
+
+// TODO *********commented the code below during IACUC refactoring*********         
 //        protocolExpeditedApprovalBean = buildProtocolApproveBean(ProtocolActionType.EXPEDITE_APPROVAL, 
 //                Constants.PROTOCOL_EXPEDITED_APPROVAL_ACTION_PROPERTY_KEY);
 //        protocolResponseApprovalBean = buildProtocolApproveBean(ProtocolActionType.RESPONSE_APPROVAL, 
@@ -480,6 +484,7 @@ public abstract class ActionHelper implements Serializable {
 //        initPrintQuestionnaire();
     }
     
+    
     protected abstract String getProtocolActionTypeCodeForManageReviewCommentsHook();
     
     
@@ -493,6 +498,8 @@ public abstract class ActionHelper implements Serializable {
     protected abstract ProtocolAdministrativelyIncompleteBean getNewProtocolAdminIncompleteBeanInstanceHook(ActionHelper actionHelper);
     
     protected abstract String getAdminApprovalProtocolActionTypeHook();
+    
+    protected abstract String getFullApprovalProtocolActionTypeHook();
 
     protected abstract ProtocolWithdrawBean getNewProtocolWithdrawBeanInstanceHook(ActionHelper actionHelper);
 
@@ -513,7 +520,10 @@ public abstract class ActionHelper implements Serializable {
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolAdminCorrectionBean);
 //        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolAmendmentBean);
 //        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_RENEWAL, protocolRenewAmendmentBean);
-//        actionBeanTaskMap.put(TaskName.APPROVE_PROTOCOL, protocolFullApprovalBean);
+        
+        actionBeanTaskMap.put(TaskName.APPROVE_PROTOCOL, protocolFullApprovalBean);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        actionBeanTaskMap.put(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, assignCmtSchedBean);
 //        actionBeanTaskMap.put(TaskName.ASSIGN_REVIEWERS, protocolAssignReviewersBean);
         
@@ -914,8 +924,11 @@ public abstract class ActionHelper implements Serializable {
 //        canAssignReviewersUnavailable = hasAssignReviewersUnavailablePermission();
 //        canGrantExemption = hasGrantExemptionPermission();
 //        canGrantExemptionUnavailable = hasGrantExemptionUnavailablePermission();
-//        canApproveFull = hasFullApprovePermission();
-//        canApproveFullUnavailable = hasFullApproveUnavailablePermission();
+        
+        canApproveFull = hasFullApprovePermission();
+        canApproveFullUnavailable = hasFullApproveUnavailablePermission();
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        canApproveExpedited = hasExpeditedApprovalPermission();
 //        canApproveExpeditedUnavailable = hasExpeditedApprovalUnavailablePermission();
 //        canApproveResponse = hasResponseApprovalPermission();
@@ -1069,7 +1082,10 @@ public abstract class ActionHelper implements Serializable {
 // TODO *********commented the code below during IACUC refactoring********* 
 //        protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolIrbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        protocolFullApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        
+        protocolFullApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        protocolExpeditedApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolResponseApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolDisapproveBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
@@ -1366,15 +1382,15 @@ public abstract class ActionHelper implements Serializable {
 //    protected boolean hasGrantExemptionUnavailablePermission() {
 //        return hasPermission(TaskName.GRANT_EXEMPTION_UNAVAILABLE);
 //    }
-//    
-//    protected boolean hasFullApprovePermission() {
-//        return hasPermission(TaskName.APPROVE_PROTOCOL);
-//    }
-//    
-//    protected boolean hasFullApproveUnavailablePermission() {
-//        return hasPermission(TaskName.APPROVE_PROTOCOL_UNAVAILABLE);
-//    }
-//    
+    
+    protected boolean hasFullApprovePermission() {
+        return hasPermission(TaskName.APPROVE_PROTOCOL);
+    }
+    
+    protected boolean hasFullApproveUnavailablePermission() {
+        return hasPermission(TaskName.APPROVE_PROTOCOL_UNAVAILABLE);
+    }
+    
 //    protected boolean hasExpeditedApprovalPermission() {
 //        return hasPermission(TaskName.EXPEDITE_APPROVAL);
 //    }
@@ -2269,35 +2285,42 @@ public abstract class ActionHelper implements Serializable {
         return canManageNotesUnavailable;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean getIsApproveOpenForFollowup() {
-//        return hasFollowupAction(ProtocolActionType.APPROVED);
-//    }
-//    
-//    public boolean getIsDisapproveOpenForFollowup() {
-//        return hasFollowupAction(ProtocolActionType.DISAPPROVED);
-//    }
-//    
-//    public boolean getIsReturnForSMROpenForFollowup() {
-//        return hasFollowupAction(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED);
-//    }
-//    
-//    public boolean getIsReturnForSRROpenForFollowup() {
-//        return hasFollowupAction(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED);
-//    }
-//    
-//    /**
-//     * 
-//     * This method is one of the criteria to decide if there is a followup action for requested action panel to open
-//     * @return
-//     */
-//    public boolean isOpenForFollowup() {
-//        return getIsApproveOpenForFollowup() || getIsDisapproveOpenForFollowup() || getIsReturnForSMROpenForFollowup() || getIsReturnForSRROpenForFollowup();
-//    }
-//    
-//    public Map<String,Boolean> getFollowupActionMap() {
-//        return followupActionMap;
-//    }
+     
+    public boolean getIsApproveOpenForFollowup() {
+        return hasFollowupAction(getFullApprovalProtocolActionTypeHook());
+    }
+
+    
+    public boolean getIsDisapproveOpenForFollowup() {
+        return hasFollowupAction(getDisapprovedProtocolActionTypehook());
+    }
+    
+    protected abstract String getDisapprovedProtocolActionTypehook();
+
+    public boolean getIsReturnForSMROpenForFollowup() {
+        return hasFollowupAction(getSMRRProtocolActionTypeHook());
+    }
+    
+    protected abstract String getSMRRProtocolActionTypeHook();
+
+    public boolean getIsReturnForSRROpenForFollowup() {
+        return hasFollowupAction(getSRRProtocolActionTypeHook());
+    }
+    
+    protected abstract String getSRRProtocolActionTypeHook();
+
+    /**
+     * 
+     * This method is one of the criteria to decide if there is a followup action for requested action panel to open
+     * @return
+     */
+    public boolean isOpenForFollowup() {
+        return getIsApproveOpenForFollowup() || getIsDisapproveOpenForFollowup() || getIsReturnForSMROpenForFollowup() || getIsReturnForSRROpenForFollowup();
+    }
+    
+    public Map<String,Boolean> getFollowupActionMap() {
+        return followupActionMap;
+    }
     
     public boolean getCanViewOnlineReviewers() {
         return canViewOnlineReviewers;
