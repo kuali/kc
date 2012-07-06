@@ -135,7 +135,7 @@ end
 rule "Major Revision Required  2"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "211", protocolStatusCode == "101", submissionStatusCode in ("103","102") , protocolReviewTypeCode not in ("2"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "211", protocolStatusCode == "101", submissionStatusCode in ("103","102") , protocolReviewTypeCode == "2")
 then    
     setAction(protocolAction, true);
 end
@@ -152,7 +152,7 @@ end
 rule "Approve Protocol"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "204", protocolStatusCode == "101", submissionStatusCode == "103")
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "204", protocolStatusCode == "101", submissionStatusCode == "103",  protocolReviewTypeCode in ("1", "2", "3", "5"))
 then    
     setAction(protocolAction, true);
 end

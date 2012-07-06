@@ -222,6 +222,14 @@
                     <property name="taskName" value="iacucProtocolNotifyIacucUnavailable"/>
                 </bean>
                 
+                <bean class="org.kuali.kra.iacuc.auth.ApproveIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolApprove" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.ApproveIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolApproveUnavailable" />
+                </bean>
+                
                 <bean class="org.kuali.kra.iacuc.auth.CreateProposalDevelopmentIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                 	<property name="taskName" value="createProposalForIacucProtocol" />
                 </bean>   
