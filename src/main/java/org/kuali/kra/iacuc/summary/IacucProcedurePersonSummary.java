@@ -40,6 +40,16 @@ public class IacucProcedurePersonSummary implements Serializable {
         this.personTrainingChanged = false;
         this.descriptionChanged = false;
     }
+        
+    public Integer getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Integer personId) {
+        this.personId = personId;
+    }
+
+
     public String getPersonName() {
         return personName;
     }
@@ -77,6 +87,19 @@ public class IacucProcedurePersonSummary implements Serializable {
         this.descriptionChanged = descriptionChanged;
     }    
     
+    public void compare(IacucProcedureSummary other) {
+        IacucProcedurePersonSummary otherSummary = other.findProcedurePersonSummary(personId);
+        if (otherSummary == null) {
+            personNameChanged = true;
+            personTrainingChanged = true;
+            descriptionChanged = true;
+        } else {
+            personNameChanged = !StringUtils.equals(this.personName, otherSummary.personName);
+            personTrainingChanged = !StringUtils.equals(this.personTraining, otherSummary.personTraining);
+            descriptionChanged = !StringUtils.equals(this.description, otherSummary.description);
+        }
+    }
+
     public void compare(IacucProcedurePersonSummary other) {
         personNameChanged = !StringUtils.equals(personName, other.personName);
         personTrainingChanged = !StringUtils.equals(personTraining, other.personTraining);

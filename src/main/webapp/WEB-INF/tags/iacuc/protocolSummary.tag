@@ -491,14 +491,35 @@
             						<td colspan="2" class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Training</td>
             						<td colspan="0" class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Description</td>
        							</tr>
-       							<c:forEach items="${procedureSummary.personsResponsible}" var="personResponsible" varStatus="pStatus">
+       							<c:forEach items="${procedureSummary.personSummaries}" var="personSummary" varStatus="pStatus">
 								    <tr>    
 										<th>&nbsp;</th>
-							            <td class="${personResponsible.personNameChanged ? 'changed' : ''}">${personResponsible.personName}</td>
-            							<td colspan="2" class="${personResponsible.personTrainingChanged ? 'changed' : ''}">${personResponsible.personTraining}</td>
-            							<td colspan="0" class="${personResponsible.descriptionChanged ? 'changed' : ''}">${personResponsible.description}</td>
+							            <td class="${personSummary.personNameChanged ? 'changed' : ''}">${personSummary.personName}</td>
+            							<td colspan="2" class="${personSummary.personTrainingChanged ? 'changed' : ''}">${personSummary.personTraining}</td>
+            							<td colspan="0" class="${personSummary.descriptionChanged ? 'changed' : ''}">${personSummary.description}</td>
 								    </tr>    
        							</c:forEach>
+							    <tr>    
+									<th>&nbsp;</th>
+						            <td colspan="0" class="infoline fineprint sequencetd" style="font-weight: bold; text-align: left; color: rgb(51, 51, 51);">Custom Data : ${procedureSummary.procedureCategory}</td>
+       							</tr>
+       							<c:choose>
+									<c:when test="${fn:length(procedureSummary.customDataSummaries) == 0}" >
+										<tr>
+											<th>&nbsp;</th>
+											<td colspan="0">None</td>
+										</tr>
+	       							</c:when>
+	       							<c:otherwise>
+	       								<c:forEach items="${procedureSummary.customDataSummaries}" var="customDataSummary" varStatus="pStatus">
+										    <tr>    
+												<th>&nbsp;</th>
+            									<td colspan="2" class="${customDataSummary.customDataTagChanged ? 'changed' : ''}">${customDataSummary.customDataTag}</td>
+            									<td colspan="0" class="${customDataSummary.customDataValChanged ? 'changed' : ''}">${customDataSummary.customDataVal}</td>
+										    </tr>    
+    	   								</c:forEach>
+	       							</c:otherwise>
+       							</c:choose>
        						</c:forEach>  
 						</table>
             		</c:otherwise>
