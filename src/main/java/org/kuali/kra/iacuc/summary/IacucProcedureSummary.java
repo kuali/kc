@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucLocationName;
 import org.kuali.kra.iacuc.procedures.IacucProcedure;
 import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyCustomData;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
 
@@ -36,14 +37,13 @@ public class IacucProcedureSummary implements Serializable {
     private String  procedureCategory; 
     private String  painCategory;
     private List<IacucProcedureLocationSummary>locationSummaries;
-    private List<IacucProcedurePersonSummary>personsResponsible;
-    private boolean personnelListChanged;
+    private List<IacucProcedurePersonSummary>personSummaries;
+    private List<IacucProcedureCustomDataSummary>customDataSummaries;
     private int     count;
     
     private boolean procedureCategoryChanged;
     private boolean speciesChanged;
     private boolean speciesStrainChanged;
-    private boolean personnelChanged;
     private boolean painCategoryChanged;
     private boolean countChanged;
     
@@ -54,19 +54,22 @@ public class IacucProcedureSummary implements Serializable {
         painCategory = studyGroup.getPainCategory();
         procedureCategory = studyGroup.getIacucProcedureCategory().getProcedureCategory() + " - " + 
                             studyGroup.getIacucProcedure().getProcedureDescription();
-        personsResponsible = new ArrayList<IacucProcedurePersonSummary>();  
+        personSummaries = new ArrayList<IacucProcedurePersonSummary>();  
         for (IacucProcedurePersonResponsible person: studyGroup.getIacucProcedurePersonsResponsible()) {
-            personsResponsible.add(new IacucProcedurePersonSummary(person));
+            personSummaries.add(new IacucProcedurePersonSummary(person));
         }
         locationSummaries = new ArrayList<IacucProcedureLocationSummary>();
         for (IacucProtocolStudyGroupLocation location: studyGroup.getIacucProtocolStudyGroupLocations()) {
             locationSummaries.add(new IacucProcedureLocationSummary(location));
         }
+        customDataSummaries = new ArrayList<IacucProcedureCustomDataSummary>();
+        for (IacucProtocolStudyCustomData customDataItem: studyGroup.getIacucProtocolStudyCustomDataList()) {
+            customDataSummaries.add(new IacucProcedureCustomDataSummary(customDataItem));
+        }
         count = studyGroup.getCount().intValue();
         procedureCategoryChanged = false;
         speciesChanged = false;
         speciesStrainChanged = false;
-        personnelChanged = false;
         painCategoryChanged = false;
         countChanged = false;
     } 
@@ -119,14 +122,6 @@ public class IacucProcedureSummary implements Serializable {
         this.speciesChanged = speciesChanged;
     }
 
-    public boolean isPersonnelChanged() {
-        return personnelChanged;
-    }
-
-    public void setPersonnelChanged(boolean personnelChanged) {
-        this.personnelChanged = personnelChanged;
-    }
-
     public List<IacucProcedureLocationSummary> getLocations() {
         return locationSummaries;
     }
@@ -159,18 +154,18 @@ public class IacucProcedureSummary implements Serializable {
         this.painCategoryChanged = painCategoryChanged;
     }
 
-    public List<IacucProcedurePersonSummary> getPersonsResponsible() {
-        return personsResponsible;
+    public List<IacucProcedurePersonSummary> getPersonSummaries() {
+        return personSummaries;
     }
 
-    public void setPersonsResponsible(List<IacucProcedurePersonSummary> personsResponsible) {
-        this.personsResponsible = personsResponsible;
+    public void setPersonSummaries(List<IacucProcedurePersonSummary> personsResponsible) {
+        this.personSummaries = personsResponsible;
     }
 
     public String getPersonnelList() {
         String results = "";
-        if (personsResponsible != null) {
-            for (IacucProcedurePersonSummary person: personsResponsible) {
+        if (personSummaries != null) {
+            for (IacucProcedurePersonSummary person: personSummaries) {
                 if (results.length() > 0) {
                     results += "<br/>";
                 }
@@ -179,10 +174,6 @@ public class IacucProcedureSummary implements Serializable {
         }
         return results;
     }
-    public boolean isPersonnelListChanged() {
-        return personnelListChanged;
-    }
- 
     
     public List<IacucProcedureLocationSummary> getLocationSummaries() {
         return locationSummaries;
@@ -190,6 +181,15 @@ public class IacucProcedureSummary implements Serializable {
 
     public void setLocationSummaries(List<IacucProcedureLocationSummary> locationSummaries) {
         this.locationSummaries = locationSummaries;
+    }
+
+    
+    public List<IacucProcedureCustomDataSummary> getCustomDataSummaries() {
+        return customDataSummaries;
+    }
+
+    public void setCustomDataSummaries(List<IacucProcedureCustomDataSummary> customDataSummaries) {
+        this.customDataSummaries = customDataSummaries;
     }
 
     public int getCount() {
@@ -208,24 +208,75 @@ public class IacucProcedureSummary implements Serializable {
         this.countChanged = countChanged;
     }
 
-    public void setPersonnelListChanged(boolean personnelListChanged) {
-        this.personnelListChanged = personnelListChanged;
-    }
-
     public void compare(IacucProtocolSummary other) {
         IacucProcedureSummary otherSummary = other.findProcedureSummary(procedureCode);
         if (otherSummary == null) {
             procedureCategoryChanged = true;
             speciesChanged = true;
-            personnelChanged = true;
             speciesStrainChanged = false;
             painCategoryChanged = false;
-       } else {
+        } else {
             procedureCategoryChanged = !procedureCategory.equals(otherSummary.procedureCategory);
             speciesChanged = !StringUtils.equals(species, otherSummary.species);
             speciesStrainChanged = !StringUtils.equals(speciesStrain, otherSummary.speciesStrain);
             painCategoryChanged = !StringUtils.equals(painCategory, otherSummary.painCategory);
         }
+        compareProcedureCustomDataSummaries(otherSummary);
+        compareProcedurePersonSummaries(otherSummary);
+        compareProcedureLocationSummaries(otherSummary);
     }
 
+    public void compareProcedureCustomDataSummaries(IacucProcedureSummary other) {
+        for (IacucProcedureCustomDataSummary mySummary : customDataSummaries) {
+            mySummary.compare(other);
+        }
+    }
+    
+    public IacucProcedureCustomDataSummary findProcedureCustomDataSummary(Integer id) {
+        for (IacucProcedureCustomDataSummary customDataSummary : customDataSummaries) {
+            if (customDataSummary.getId().equals(id)) {
+                return customDataSummary;
+            }
+        }
+        return null;
+    }
+
+    public void compareProcedureLocationSummaries(IacucProcedureSummary other) {
+        for (IacucProcedureLocationSummary mySummary : locationSummaries) {
+            mySummary.compare(other);
+        }
+    }
+    
+    public IacucProcedureLocationSummary findProcedureLocationSummary(Integer id) {
+        for (IacucProcedureLocationSummary locationSummary : locationSummaries) {
+            if (locationSummary.getId().equals(id)) {
+                return locationSummary;
+            }
+        }
+        return null;
+    }
+
+    public void compareProcedurePersonSummaries(IacucProcedureSummary other) {
+        for (IacucProcedurePersonSummary mySummary : personSummaries) {
+            mySummary.compare(other);
+        }
+    }
+    
+    public IacucProcedurePersonSummary findProcedurePersonSummary(Integer id) {
+        for (IacucProcedurePersonSummary personSummary : personSummaries) {
+            if (personSummary.getPersonId().equals(id)) {
+                return personSummary;
+            }
+        }
+        return null;
+    }
+
+    public boolean isPersonnelListChanged() {
+        for (IacucProcedurePersonSummary personSummary : personSummaries) {
+            if (personSummary.isPersonNameChanged()) {
+                return true;
+            }
+        }
+        return false;        
+    }
 }

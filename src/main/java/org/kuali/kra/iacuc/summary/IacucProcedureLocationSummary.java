@@ -24,6 +24,7 @@ public class IacucProcedureLocationSummary implements Serializable {
     
     private static final long serialVersionUID = -2115905931286970929L;
 
+    private Integer id;
     private String type;
     private String name;
     private String room;
@@ -35,6 +36,7 @@ public class IacucProcedureLocationSummary implements Serializable {
     private boolean descriptionChanged;
     
     public IacucProcedureLocationSummary(IacucProtocolStudyGroupLocation location) {
+        this.id = location.getIacucProtocolStudyGroupLocationId();
         this.type = location.getIacucLocationType().getLocation();
         this.name = location.getIacucLocationName().getLocationName();
         this.room = location.getLocationRoom();
@@ -94,11 +96,26 @@ public class IacucProcedureLocationSummary implements Serializable {
     public void setDescriptionChanged(boolean descriptionChanged) {
         this.descriptionChanged = descriptionChanged;
     }
-
-    public void compare(IacucProcedureLocationSummary other) {
-        typeChanged = !StringUtils.equals(this.type, other.type);
-        nameChanged = !StringUtils.equals(this.name, other.name);
-        roomChanged = !StringUtils.equals(this.room, other.room);
-        descriptionChanged = !StringUtils.equals(this.description, other.description);   
+    
+    public Integer getId() {
+        return id;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void compare(IacucProcedureSummary other) {
+        IacucProcedureLocationSummary otherSummary = other.findProcedureLocationSummary(id);
+        if (otherSummary == null) {
+            nameChanged = true;
+            roomChanged = true;
+            descriptionChanged = true;
+        } else {
+            nameChanged = !StringUtils.equals(this.name, otherSummary.name);
+            roomChanged = !StringUtils.equals(this.room, otherSummary.room);
+            descriptionChanged = !StringUtils.equals(this.description, otherSummary.description);
+        }
+    }
+    
 }
