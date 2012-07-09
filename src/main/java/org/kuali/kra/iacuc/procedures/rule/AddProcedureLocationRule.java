@@ -72,7 +72,7 @@ public class AddProcedureLocationRule extends ResearchDocumentRuleBase implement
         IacucProtocolStudyGroupDetailBean procedureDetailBean = event.getProcedureDetailBean();
         IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation = procedureDetailBean.getNewIacucProtocolStudyGroupLocation();
         for(IacucProtocolStudyGroupLocation studyGroupLocation : procedureDetailBean.getIacucProtocolStudyGroupLocations()) {
-            if(studyGroupLocation.getLocationId().equals(newIacucProtocolStudyGroupLocation.getLocationId()) ||
+            if(studyGroupLocation.getLocationId().equals(newIacucProtocolStudyGroupLocation.getLocationId()) &&
                     studyGroupLocation.getLocationTypeCode().equals(newIacucProtocolStudyGroupLocation.getLocationTypeCode())){
                 GlobalVariables.getMessageMap().putError(getErrorPath(event) + "locationTypeCode", 
                         KeyConstants.ERROR_IACUC_VALIDATION_DUPLICATE_STUDY_GROUP_LOCATION);                

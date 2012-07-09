@@ -15,11 +15,12 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IacucProtocolStudyGroupBean implements Serializable {
+import org.kuali.kra.protocol.ProtocolAssociate;
+
+public class IacucProtocolStudyGroupBean extends ProtocolAssociate {
 
 
     /**
@@ -27,15 +28,19 @@ public class IacucProtocolStudyGroupBean implements Serializable {
      */
     private static final long serialVersionUID = 112662320812476906L;
 
-    private List<String> protocolSpeciesAndGroups;
-    private List<String> protocolPersonsResponsible;
-
-    // these fields are for header display in tag
+    private Integer iacucProtocolStudyGroupHeaderId; 
     private Integer procedureCategoryCode; 
     private Integer procedureCode; 
+
+    // these fields are for header display in tag
+    private List<String> protocolSpeciesAndGroups;
+    private List<String> protocolPersonsResponsible;
     private String procedureDescription; 
     private String procedureCategory; 
     
+    private IacucProcedureCategory iacucProcedureCategory;
+    private IacucProcedure iacucProcedure;
+
     private List<IacucProtocolStudyGroupDetailBean> iacucProtocolStudyGroupDetailBeans;
     
     public IacucProtocolStudyGroupBean() {
@@ -115,5 +120,63 @@ public class IacucProtocolStudyGroupBean implements Serializable {
         this.iacucProtocolStudyGroupDetailBeans = iacucProtocolStudyGroupDetailBeans;
     }
 
+    public Integer getIacucProtocolStudyGroupHeaderId() {
+        return iacucProtocolStudyGroupHeaderId;
+    }
+
+    public void setIacucProtocolStudyGroupHeaderId(Integer iacucProtocolStudyGroupHeaderId) {
+        this.iacucProtocolStudyGroupHeaderId = iacucProtocolStudyGroupHeaderId;
+    }
+
+    @Override
+    public void resetPersistenceState() {
+        setIacucProtocolStudyGroupHeaderId(null);
+    }
+
+    public IacucProcedureCategory getIacucProcedureCategory() {
+        return iacucProcedureCategory;
+    }
+
+    public void setIacucProcedureCategory(IacucProcedureCategory iacucProcedureCategory) {
+        this.iacucProcedureCategory = iacucProcedureCategory;
+    }
+
+    public IacucProcedure getIacucProcedure() {
+        return iacucProcedure;
+    }
+
+    public void setIacucProcedure(IacucProcedure iacucProcedure) {
+        this.iacucProcedure = iacucProcedure;
+    }
+
+    /**  {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        IacucProtocolStudyGroupBean other = (IacucProtocolStudyGroupBean) obj;
+        if (this.procedureCode == null) {
+            if (other.procedureCode != null) {
+                return false;
+            }
+        } else if (!this.procedureCode.equals(other.procedureCode)) {
+            return false;
+        }
+        if (this.procedureCategoryCode == null) {
+            if (other.procedureCategoryCode != null) {
+                return false;
+            }
+        } else if (!this.procedureCategoryCode.equals(other.procedureCategoryCode)) {
+            return false;
+        }
+        return true;
+    }
 
 }

@@ -26,6 +26,7 @@
 
 <c:set var="studyGroupBeanAttributes" value="${DataDictionary.IacucProtocolStudyGroupBean.attributes}" />
 <c:set var="protocolStudyGroupAttributes" value="${DataDictionary.IacucProtocolStudyGroup.attributes}" />
+<c:set var="studyGroupDetailBeanAttributes" value="${DataDictionary.IacucProtocolStudyGroupDetailBean.attributes}" />
 
 <table id="protocolProcedures" cellpadding="0" cellspacing="0" summary="">
 	<tr>
@@ -93,12 +94,16 @@
 	      	</td>
 	      	<td align="left" valign="middle" class="infoline">
 	         	<div align="center">
-					<c:out value="${protocolStudyGroupBeanDetail.maxPainCategory}" />
+            		<kul:htmlControlAttribute property="${collectionProperty}[${detailStatus.index}].maxPainCategoryCode" 
+         		                          attributeEntry="${studyGroupDetailBeanAttributes.maxPainCategoryCode}" 
+         		                          readOnly="${readOnly}" />
 	      		</div>
 	      	</td>
 	      	<td align="left" valign="middle" class="infoline">
 	         	<div align="center">
-					<c:out value="${protocolStudyGroupBeanDetail.totalSpeciesCount}" />
+            		<kul:htmlControlAttribute property="${collectionProperty}[${detailStatus.index}].totalSpeciesCount" 
+         		                          attributeEntry="${studyGroupDetailBeanAttributes.totalSpeciesCount}" 
+         		                          readOnly="${readOnly}" />
 	         	</div>
 	        </td>
 			<td rowspan="2">

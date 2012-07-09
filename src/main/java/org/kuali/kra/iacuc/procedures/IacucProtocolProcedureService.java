@@ -66,8 +66,10 @@ public interface IacucProtocolProcedureService {
      * This method is invoked from person responsible section
      * @param newIacucProcedurePersonResponsible
      * @param selectedProcedureDetailBean
+     * @param selectedProtocolStudyGroupBean
      */
-    public void addProcedurePersonResponsible(IacucProcedurePersonResponsible newIacucProcedurePersonResponsible, IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean);
+    public void addProcedurePersonResponsible(IacucProcedurePersonResponsible newIacucProcedurePersonResponsible, 
+            IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean);
     
     /**
      * This method is to format procedure study group data, group by categories for display

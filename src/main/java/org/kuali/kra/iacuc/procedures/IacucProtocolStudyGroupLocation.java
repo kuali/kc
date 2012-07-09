@@ -154,13 +154,6 @@ public class IacucProtocolStudyGroupLocation extends ProtocolAssociate {
             return false;
         }
         IacucProtocolStudyGroupLocation other = (IacucProtocolStudyGroupLocation) obj;
-        if (this.iacucProtocolStudyGroupId == null) {
-            if (other.iacucProtocolStudyGroupId != null) {
-                return false;
-            }
-        } else if (!this.iacucProtocolStudyGroupId.equals(other.iacucProtocolStudyGroupId)) {
-            return false;
-        }
         if (this.locationId == null) {
             if (other.locationId != null) {
                 return false;
