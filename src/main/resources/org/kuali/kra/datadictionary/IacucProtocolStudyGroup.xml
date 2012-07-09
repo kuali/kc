@@ -42,11 +42,9 @@
 		<property name="attributes" >
 			<list>
 			    <ref bean="IacucProtocolStudyGroup-iacucProtocolStudyGroupId" />
-				<ref bean="IacucProtocolStudyGroup-protocolId" />
+			    <ref bean="IacucProtocolStudyGroup-iacucProtocolStudyGroupDetailId" />
 				<ref bean="IacucProtocolStudyGroup-iacucProtocolSpeciesId" />
 				<ref bean="IacucProtocolStudyGroup-studyGroupId" />
-				<ref bean="IacucProtocolStudyGroup-procedureCategoryCode" />
-				<ref bean="IacucProtocolStudyGroup-procedureCode" />
 				<ref bean="IacucProtocolStudyGroup-painCategoryCode" />
 				<ref bean="IacucProtocolStudyGroup-count" />
 				<ref bean="IacucProtocolStudyGroup-versionNumber" />
@@ -74,23 +72,7 @@
         <property name="description" value="Protocol Study Group Id" />
     </bean>
 
-	<bean id="IacucProtocolStudyGroup-protocolId" parent="IacucProtocolStudyGroup-protocolId-parentBean" />
-	<bean id="IacucProtocolStudyGroup-protocolId-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="protocolId" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Protocol Id" />
-		<property name="shortLabel" value="Protocol Id" />
-		<property name="maxLength" value="22" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="10" />
-		</property>
-		<property name="summary" value="Protocol Id" />
-		<property name="description" value="Protocol Id" />
-	</bean>
+    <bean id="IacucProtocolStudyGroup-iacucProtocolStudyGroupDetailId" parent="IacucProtocolStudyGroupDetailBean-iacucProtocolStudyGroupDetailId-parentBean" />
 
 	<bean id="IacucProtocolStudyGroup-iacucProtocolSpeciesId" parent="IacucProtocolStudyGroup-iacucProtocolSpeciesId-parentBean" />
 	<bean id="IacucProtocolStudyGroup-iacucProtocolSpeciesId-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -166,44 +148,6 @@
 		<property name="description" value="Pain Category" />
 	</bean>
 
-	<bean id="IacucProtocolStudyGroup-procedureCategoryCode" parent="IacucProtocolStudyGroup-procedureCategoryCode-parentBean" />
-	<bean id="IacucProtocolStudyGroup-procedureCategoryCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="procedureCategoryCode" />
-		<property name="required" value="false" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Procedure Category" />
-        <property name="shortLabel" value="Procedure Category" />
-		<property name="maxLength" value="3" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="4" />
-		</property>
-		<property name="summary" value="Procedure Category" />
-		<property name="description" value="Procedure Category" />
-	</bean>
-
-	<bean id="IacucProtocolStudyGroup-procedureCode" parent="IacucProtocolStudyGroup-procedureCode-parentBean" />
-	<bean id="IacucProtocolStudyGroup-procedureCode-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="procedureCode" />
-		<property name="required" value="false" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Procedure Code" />
-        <property name="shortLabel" value="Procedure Code" />
-		<property name="maxLength" value="4" />
-		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control" >
-			<bean parent="TextControlDefinition"
-				p:size="4" />
-		</property>
-		<property name="summary" value="Procedure Code" />
-		<property name="description" value="Procedure Code" />
-	</bean>
-
 
 	<bean id="IacucProtocolStudyGroup-versionNumber" parent="IacucProtocolStudyGroup-versionNumber-parentBean" />
 	<bean id="IacucProtocolStudyGroup-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -224,8 +168,6 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="iacucProtocolStudyGroupId" 
 								p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="protocolId" />
 						</list>
 					</property>
 				</bean>
@@ -248,8 +190,6 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="iacucProtocolStudyGroupId" 
 					p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolId" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -257,8 +197,6 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="iacucProtocolStudyGroupId"
 					p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="protocolId" />
 			</list>
 		</property>
 	</bean>

@@ -25,6 +25,10 @@
 		<property name="objectLabel" value="Study Group Bean" />
         <property name="attributes" >
             <list>
+			    <ref bean="IacucProtocolStudyGroupBean-iacucProtocolStudyGroupHeaderId" />
+				<ref bean="IacucProtocolStudyGroupBean-protocolId" />
+				<ref bean="IacucProtocolStudyGroupBean-procedureCategoryCode" />
+				<ref bean="IacucProtocolStudyGroupBean-procedureCode" />
 				<ref bean="IacucProtocolStudyGroupBean-protocolSpeciesAndGroups" />
 				<ref bean="IacucProtocolStudyGroupBean-protocolPersonsResponsible" />
             </list>
@@ -32,6 +36,80 @@
     </bean>
 
     <!-- Attribute Definitions -->
+    
+    <bean id="IacucProtocolStudyGroupBean-iacucProtocolStudyGroupHeaderId" parent="IacucProtocolStudyGroupBean-iacucProtocolStudyGroupHeaderId-parentBean" />
+    <bean id="IacucProtocolStudyGroupBean-iacucProtocolStudyGroupHeaderId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="iacucProtocolStudyGroupHeaderId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Protocol Study Group Header Id" />
+        <property name="shortLabel" value="Protocol Study Group Header Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Protocol Study Group Header Id" />
+        <property name="description" value="Protocol Study Group Header Id" />
+    </bean>
+    
+	<bean id="IacucProtocolStudyGroupBean-protocolId" parent="IacucProtocolStudyGroupBean-protocolId-parentBean" />
+	<bean id="IacucProtocolStudyGroupBean-protocolId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="protocolId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Protocol Id" />
+		<property name="shortLabel" value="Protocol Id" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="10" />
+		</property>
+		<property name="summary" value="Protocol Id" />
+		<property name="description" value="Protocol Id" />
+	</bean>
+
+    	<bean id="IacucProtocolStudyGroupBean-procedureCategoryCode" parent="IacucProtocolStudyGroupBean-procedureCategoryCode-parentBean" />
+	<bean id="IacucProtocolStudyGroupBean-procedureCategoryCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="procedureCategoryCode" />
+		<property name="required" value="false" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Procedure Category" />
+        <property name="shortLabel" value="Procedure Category" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="4" />
+		</property>
+		<property name="summary" value="Procedure Category" />
+		<property name="description" value="Procedure Category" />
+	</bean>
+
+	<bean id="IacucProtocolStudyGroupBean-procedureCode" parent="IacucProtocolStudyGroupBean-procedureCode-parentBean" />
+	<bean id="IacucProtocolStudyGroupBean-procedureCode-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="procedureCode" />
+		<property name="required" value="false" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Procedure Code" />
+        <property name="shortLabel" value="Procedure Code" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern" >
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="4" />
+		</property>
+		<property name="summary" value="Procedure Code" />
+		<property name="description" value="Procedure Code" />
+	</bean>
     
     <bean id="IacucProtocolStudyGroupBean-protocolSpeciesAndGroups" parent="IacucProtocolStudyGroupBean-protocolSpeciesAndGroups-parentBean" />
     <bean id="IacucProtocolStudyGroupBean-protocolSpeciesAndGroups-parentBean" abstract="true" parent="AttributeDefinition" >
