@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.ProtocolAssociate;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
-public class IacucProtocolStudyGroup extends ProtocolAssociate { 
+public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase { 
     
 
     private static final long serialVersionUID = 1L;
@@ -32,15 +32,16 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
     private Integer iacucProtocolStudyGroupId; 
     private Integer studyGroupId; 
     private Integer iacucProtocolSpeciesId; 
-    private Integer procedureCategoryCode; 
-    private Integer procedureCode; 
     private String  painCategory;
     private Integer painCategoryCode; 
     private Integer count; 
+    private Integer iacucProtocolStudyGroupDetailId;
     
     private IacucProcedureCategory iacucProcedureCategory; 
     private IacucProcedure iacucProcedure; 
     private IacucProtocolSpecies iacucProtocolSpecies; 
+    private IacucPainCategory iacucPainCategory;
+    private IacucProtocolStudyGroupDetailBean iacucProtocolStudyGroupDetailBean;
     
     private List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible;
     private List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations;
@@ -77,22 +78,6 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
 
     public void setIacucProtocolSpeciesId(Integer iacucProtocolSpeciesId) {
         this.iacucProtocolSpeciesId = iacucProtocolSpeciesId;
-    }
-
-    public Integer getProcedureCategoryCode() {
-        return procedureCategoryCode;
-    }
-
-    public void setProcedureCategoryCode(Integer procedureCategoryCode) {
-        this.procedureCategoryCode = procedureCategoryCode;
-    }
-
-    public Integer getProcedureCode() {
-        return procedureCode;
-    }
-
-    public void setProcedureCode(Integer procedureCode) {
-        this.procedureCode = procedureCode;
     }
 
     public String getPainCategory() {
@@ -139,11 +124,6 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
 
     public void setIacucProcedure(IacucProcedure iacucProcedure) {
         this.iacucProcedure = iacucProcedure;
-    }
-
-    @Override
-    public void resetPersistenceState() {
-        this.setIacucProtocolStudyGroupId(null);        
     }
 
     public IacucProtocolSpecies getIacucProtocolSpecies() {
@@ -194,27 +174,6 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
             return false;
         }
         IacucProtocolStudyGroup other = (IacucProtocolStudyGroup) obj;
-        if (this.getProtocolId() == null) {
-            if (other.getProtocolId() != null) {
-                return false;
-            }
-        } else if (!this.getProtocolId().equals(other.getProtocolId())) {
-            return false;
-        }
-        if (this.procedureCategoryCode == null) {
-            if (other.procedureCategoryCode != null) {
-                return false;
-            }
-        } else if (!this.procedureCategoryCode.equals(other.procedureCategoryCode)) {
-            return false;
-        }
-        if (this.procedureCode == null) {
-            if (other.procedureCode != null) {
-                return false;
-            }
-        } else if (!this.procedureCode.equals(other.procedureCode)) {
-            return false;
-        }
         if (this.painCategoryCode == null) {
             if (other.painCategoryCode != null) {
                 return false;
@@ -246,6 +205,30 @@ public class IacucProtocolStudyGroup extends ProtocolAssociate {
 
     public void setIacucProtocolStudyCustomDataList(List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList) {
         this.iacucProtocolStudyCustomDataList = iacucProtocolStudyCustomDataList;
+    }
+
+    public IacucPainCategory getIacucPainCategory() {
+        return iacucPainCategory;
+    }
+
+    public void setIacucPainCategory(IacucPainCategory iacucPainCategory) {
+        this.iacucPainCategory = iacucPainCategory;
+    }
+
+    public Integer getIacucProtocolStudyGroupDetailId() {
+        return iacucProtocolStudyGroupDetailId;
+    }
+
+    public void setIacucProtocolStudyGroupDetailId(Integer iacucProtocolStudyGroupDetailId) {
+        this.iacucProtocolStudyGroupDetailId = iacucProtocolStudyGroupDetailId;
+    }
+
+    public IacucProtocolStudyGroupDetailBean getIacucProtocolStudyGroupDetailBean() {
+        return iacucProtocolStudyGroupDetailBean;
+    }
+
+    public void setIacucProtocolStudyGroupDetailBean(IacucProtocolStudyGroupDetailBean iacucProtocolStudyGroupDetailBean) {
+        this.iacucProtocolStudyGroupDetailBean = iacucProtocolStudyGroupDetailBean;
     }
     
 }

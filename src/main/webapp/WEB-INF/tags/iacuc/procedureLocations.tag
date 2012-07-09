@@ -69,11 +69,6 @@
 	                		</c:choose>   
                             </c:forEach>
                             </html:select>
-		               		<%-- 
-		               		<kul:htmlControlAttribute property="${procedureLocationProperty}.newIacucProtocolStudyGroupLocation.locationTypeCode" 
-		               		                          attributeEntry="${procedureLocationAttributes.locationTypeCode}" 
-		               		                          readOnly="${readOnly}" />
-		               		                          --%>
 		            	</div>
 					</td>
 		            <td align="left" valign="middle" class="infoline">
@@ -81,11 +76,6 @@
 		                    <html:select property="${procedureLocationProperty}.newIacucProtocolStudyGroupLocation.locationId" styleId="${procedureLocationProperty}.newIacucProtocolStudyGroupLocation.locationId">                                              	                
 								<option value="">select</option> 
 							</html:select>                         
-		               		<%-- 
-		               		<kul:htmlControlAttribute property="${procedureLocationProperty}.newIacucProtocolStudyGroupLocation.locationId" 
-		               		                          attributeEntry="${procedureLocationAttributes.locationId}" 
-		               		                          readOnly="${readOnly}" />
-		               		                    --%>
 		            	</div>
 					</td>
 		            <td align="left" valign="middle" class="infoline">

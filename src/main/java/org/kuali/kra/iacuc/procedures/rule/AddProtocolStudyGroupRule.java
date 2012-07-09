@@ -38,9 +38,11 @@ public class AddProtocolStudyGroupRule extends ResearchDocumentRuleBase implemen
     private boolean processAddStudyGroupBusinessRules(AddProtocolStudyGroupEvent event) {
         boolean rulePassed = true;
         rulePassed &= isStudyGroupValid(event);
+        /*
         if(rulePassed) {
             rulePassed &= !isDuplicateStudyGroup(event);
         }
+        */
         return rulePassed;
     }
     
