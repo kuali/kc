@@ -13,39 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.auth;
+package org.kuali.kra.iacuc.auth;
 
-import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
+import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+
 
 /**
- * Is the user allowed to disapprove protocols and the action is currently not available?
+ * Is the user allowed to disapprove protocols?
  */
-public class DisapproveProtocolUnavailableAuthorizer extends ProtocolAuthorizer {
+public class DisapproveIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
 
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
-        
-        /* -- commented as part of GENERATED CODE need to verify
+    public boolean isAuthorized(String userId, IacucProtocolTask task) {        
         ProtocolAction lastAction = task.getProtocol().getLastProtocolAction();
         ProtocolSubmission lastSubmission = task.getProtocol().getProtocolSubmission();
         
-        return !canPerform(lastAction, lastSubmission) && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
-        */
-        return false;
+        return canPerform(lastAction, lastSubmission) && hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }
     
     private boolean canPerform(ProtocolAction lastAction, ProtocolSubmission lastSubmission) {
         boolean canPerform = false;
         
         if (lastAction != null && lastSubmission != null) {
-            canPerform = ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())
+            canPerform = IacucProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())
                       && CommitteeDecisionMotionType.DISAPPROVE.equals(lastSubmission.getCommitteeDecisionMotionTypeCode());
         }
         

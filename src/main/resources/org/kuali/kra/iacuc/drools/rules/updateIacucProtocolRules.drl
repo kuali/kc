@@ -192,14 +192,14 @@ then
 end
 
 
-rule "fn_disapprove: Submission Status = 1201(Disapproved); Protocol Status =  306(Disapprove)  " 
+rule "fn_disapprove: Submission Status = 201(Disapproved); Protocol Status =  306(Disapprove)  " 
 salience 100
 when
-	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "1301")
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "301")
 then	
 	createAuditTrail(protocolAction);
-	setProtocolSubmissionStatusCode(protocolAction, "1201");
-	setProtocolStatusCode(protocolAction, "306");
+	setProtocolSubmissionStatusCode(protocolAction, "201");
+	setProtocolStatusCode(protocolAction, "303");
 end
 
 

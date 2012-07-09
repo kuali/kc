@@ -36,14 +36,14 @@
     <c:set var="defaultOpen" value="false" />
 </c:if>
 
-<c:set var="attributes" value="${DataDictionary.ProtocolGenericActionBean.attributes}" />
+<c:set var="attributes" value="${DataDictionary.IacucProtocolGenericActionBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 
 <kra:permission value="${canPerformAction}">
 
 <kul:innerTab tabTitle="${tabTitle}" parentTab="" defaultOpen="${defaultOpen}" tabErrorKey="${property}.*">
    
-   <kra-irb-action:padLeft>
+   <kra-protocol-action:padLeft>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
                 
@@ -82,7 +82,7 @@
                 <c:if test="${canAddReviewComments}">
 	                <tr>
 	                    <td colspan="2">
-	                        <kra-irb-action:reviewComments bean="${bean.reviewCommentsBean}"
+	                        <kra-iacuc-action:reviewComments bean="${bean.reviewCommentsBean}"
 	                                                       property="${property}.reviewCommentsBean"
 	                                                       action="${action}"
 	                                                       taskName="${taskName}" />
@@ -101,7 +101,7 @@
                 </tr>
             </tbody>
         </table>       
-   </kra-irb-action:padLeft>
+   </kra-protocol-action:padLeft>
     
 </kul:innerTab>
 
