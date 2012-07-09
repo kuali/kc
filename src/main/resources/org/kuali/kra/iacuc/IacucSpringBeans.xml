@@ -232,6 +232,14 @@
                 
                 <bean class="org.kuali.kra.iacuc.auth.CreateProposalDevelopmentIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                 	<property name="taskName" value="createProposalForIacucProtocol" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.DisapproveIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolDisapprove" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.DisapproveIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolDisapproveUnavailable" />
                 </bean>   
                 
                 
@@ -772,6 +780,18 @@
     </bean>
 
 	<bean id="protocolProposalDevelopmentDocumentService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentDocumentServiceImpl">
+    </bean>
+    
+    
+    <bean id="iacucProtocolGenericActionService" class="org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionServiceImpl">
+        <property name="protocolActionService" ref="iacucProtocolActionService" />
+        <property name="documentService" ref="documentService" />
+<!--         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" /> -->
+        <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
+        <property name="protocolVersionService" ref="iacucProtocolVersionService" />
+        <property name="protocolAssignToAgendaService" ref="iacucProtocolAssignToAgendaService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="kcNotificationService" ref="kcNotificationService" />
     </bean> 
 
 </beans>

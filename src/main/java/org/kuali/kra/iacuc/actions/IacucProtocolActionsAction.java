@@ -61,6 +61,9 @@ import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionService;
 import org.kuali.kra.iacuc.actions.decision.IacucCommitteePerson;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteService;
 import org.kuali.kra.iacuc.actions.followup.IacucFollowupActionService;
+import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
+import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionEvent;
+import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionService;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionEvent;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionService;
@@ -2146,40 +2149,42 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        
 //        return forward;
 //    }
-//    
-//    /**
-//     * Disapproves this Protocol.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward disapproveProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument document = protocolForm.getProtocolDocument();
-//        Protocol protocol = document.getProtocol();
-//        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDisapproveBean();
-//        
-//        if (hasPermission(TaskName.DISAPPROVE_PROTOCOL, protocol)) {
-//            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//                getProtocolGenericActionService().disapprove(protocol, actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                
-//                recordProtocolActionSuccess("Disapprove");
-//                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.DISAPPROVED, "Disapproved");
-//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                    return mapping.findForward(CORRESPONDENCE);
-//                } else {
-//                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
-//                }
-//            }
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
+
+    
+    /**
+     * Disapproves this Protocol.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward disapproveProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+        IacucProtocol protocol = (IacucProtocol) document.getProtocol();
+        IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolDisapproveBean();
+        
+        if (hasPermission(TaskName.DISAPPROVE_PROTOCOL, protocol)) {
+            if (applyRules(new IacucProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().disapprove(protocol, actionBean);
+                saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Disapprove");
+                IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.IACUC_DISAPPROVED, "Disapproved");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+                }
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    
 //    /**
 //     * Expires this Protocol.
 //     * @param mapping
@@ -3008,9 +3013,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
     
-//    private ProtocolGenericActionService getProtocolGenericActionService() {
-//        return KraServiceLocator.getService(ProtocolGenericActionService.class);
-//    }
+    private IacucProtocolGenericActionService getProtocolGenericActionService() {
+        return KraServiceLocator.getService(IacucProtocolGenericActionService.class);
+    }
      
     private IacucProtocolAbandonService getProtocolAbandonService() {
         return KraServiceLocator.getService(IacucProtocolAbandonService.class);
