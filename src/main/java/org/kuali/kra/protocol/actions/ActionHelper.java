@@ -406,10 +406,9 @@ public abstract class ActionHelper implements Serializable {
         protocolAdminApprovalBean = buildProtocolApproveBean(getAdminApprovalProtocolActionTypeHook(), Constants.PROTOCOL_ADMIN_APPROVAL_ACTION_PROPERTY_KEY);
         protocolAdminWithdrawBean = getNewProtocolAdminWithdrawBeanInstanceHook(this);
         protocolAdminIncompleteBean = getNewProtocolAdminIncompleteBeanInstanceHook(this);
-
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolDisapproveBean = buildProtocolGenericActionBean(ProtocolActionType.DISAPPROVED, 
-//                Constants.PROTOCOL_DISAPPROVE_ACTION_PROPERTY_KEY);
+         
+        protocolDisapproveBean = buildProtocolGenericActionBean(getDisapprovedProtocolActionTypeHook(), Constants.PROTOCOL_DISAPPROVE_ACTION_PROPERTY_KEY);
+        
 //        protocolSMRBean = buildProtocolGenericActionBean(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
 //                Constants.PROTOCOL_SMR_ACTION_PROPERTY_KEY);
 //        protocolSRRBean = buildProtocolGenericActionBean(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, 
@@ -485,11 +484,11 @@ public abstract class ActionHelper implements Serializable {
     }
     
     
-    protected abstract String getProtocolActionTypeCodeForManageReviewCommentsHook();
+    protected abstract String getDisapprovedProtocolActionTypeHook();
+
+    protected abstract String getProtocolActionTypeCodeForManageReviewCommentsHook();    
     
-    
-    protected abstract CommitteeDecision<?> getNewCommitteeDecisionInstanceHook(ActionHelper actionHelper);
-    
+    protected abstract CommitteeDecision<?> getNewCommitteeDecisionInstanceHook(ActionHelper actionHelper);    
 
     protected abstract ProtocolAssignToAgendaBean getNewProtocolAssignToAgendaBeanInstanceHook(ActionHelper actionHelper);
 
@@ -545,7 +544,11 @@ public abstract class ActionHelper implements Serializable {
  
 // TODO *********commented the code below during IACUC refactoring*********         
 //        actionBeanTaskMap.put(TaskName.DEFER_PROTOCOL, protocolDeferBean);
-//        actionBeanTaskMap.put(TaskName.DISAPPROVE_PROTOCOL, protocolDisapproveBean);
+        
+        
+        actionBeanTaskMap.put(TaskName.DISAPPROVE_PROTOCOL, protocolDisapproveBean);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        actionBeanTaskMap.put(TaskName.EXPEDITE_APPROVAL, protocolExpeditedApprovalBean);
 //        actionBeanTaskMap.put(TaskName.EXPIRE_PROTOCOL, protocolExpireBean);
 //        actionBeanTaskMap.put(TaskName.GRANT_EXEMPTION, protocolGrantExemptionBean);
@@ -933,8 +936,12 @@ public abstract class ActionHelper implements Serializable {
 //        canApproveExpeditedUnavailable = hasExpeditedApprovalUnavailablePermission();
 //        canApproveResponse = hasResponseApprovalPermission();
 //        canApproveResponseUnavailable = hasResponseApprovalUnavailablePermission();
-//        canDisapprove = hasDisapprovePermission();
-//        canDisapproveUnavailable = hasDisapproveUnavailablePermission();
+        
+        
+        canDisapprove = hasDisapprovePermission();
+        canDisapproveUnavailable = hasDisapproveUnavailablePermission();
+        
+// TODO *********commented the code below during IACUC refactoring*********         
 //        canReturnForSMR = hasReturnForSMRPermission();
 //        canReturnForSMRUnavailable = hasReturnForSMRUnavailablePermission();
 //        canReturnForSRR = hasReturnForSRRPermission();
@@ -1088,7 +1095,10 @@ public abstract class ActionHelper implements Serializable {
 // TODO *********commented the code below during IACUC refactoring*********         
 //        protocolExpeditedApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolResponseApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        protocolDisapproveBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        
+        protocolDisapproveBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+     
+// TODO *********commented the code below during IACUC refactoring*********         
 //        protocolSMRBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolSRRBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolReopenEnrollmentBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
@@ -1406,15 +1416,18 @@ public abstract class ActionHelper implements Serializable {
 //    protected boolean hasResponseApprovalUnavailablePermission() {
 //        return hasPermission(TaskName.RESPONSE_APPROVAL_UNAVAILABLE);
 //    }
-//    
-//    protected boolean hasDisapprovePermission() {
-//        return hasPermission(TaskName.DISAPPROVE_PROTOCOL);
-//    }
-//    
-//    protected boolean hasDisapproveUnavailablePermission() {
-//        return hasPermission(TaskName.DISAPPROVE_PROTOCOL_UNAVAILABLE);
-//    }
-//    
+    
+    
+    protected boolean hasDisapprovePermission() {
+        return hasPermission(TaskName.DISAPPROVE_PROTOCOL);
+    }
+    
+    protected boolean hasDisapproveUnavailablePermission() {
+        return hasPermission(TaskName.DISAPPROVE_PROTOCOL_UNAVAILABLE);
+    }
+    
+    
+// TODO *********commented the code below during IACUC refactoring*********     
 //    protected boolean hasReturnForSMRPermission() {
 //        return hasPermission(TaskName.RETURN_FOR_SMR);
 //    }

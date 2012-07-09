@@ -895,6 +895,11 @@ public class IacucActionHelper extends ActionHelper {
     protected String getSRRProtocolActionTypeHook() {
         return IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED;
     }
+
+    @Override
+    protected String getDisapprovedProtocolActionTypeHook() {
+        return IacucProtocolActionType.IACUC_DISAPPROVED;
+    }
     
 }
 
