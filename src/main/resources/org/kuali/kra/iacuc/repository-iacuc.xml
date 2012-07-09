@@ -797,6 +797,7 @@
         <field-descriptor name="reduction" column="REDUCTION" jdbc-type="VARCHAR" />
         <field-descriptor name="refinement" column="REFINEMENT" jdbc-type="VARCHAR" />
         <field-descriptor name="replacement" column="REPLACEMENT" jdbc-type="VARCHAR" />
+        <field-descriptor name="searchRequired" column="SEARCH_REQUIRED" jdbc-type="CHAR"/>        
         <field-descriptor name="exceptionsPresent" column="EXCEPTIONS_PRESENT" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>        
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -809,7 +810,6 @@
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
-        <field-descriptor name="searchRequired" column="SEARCH_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>        
         <field-descriptor name="searchDate" column="SEARCH_DATE" jdbc-type="DATE" />
         <field-descriptor name="yearsSearched" column="YEARS_SEARCHED" jdbc-type="VARCHAR" />
         <field-descriptor name="keywords" column="KEYWORDS" jdbc-type="VARCHAR" />

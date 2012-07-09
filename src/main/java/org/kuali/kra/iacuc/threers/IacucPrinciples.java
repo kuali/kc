@@ -30,6 +30,7 @@ public class IacucPrinciples extends ProtocolAssociate {
     private String reduction;
     private String refinement;
     private String replacement;
+    private String searchRequired;
     private boolean exceptionsPresent;
     
     public Integer getIacucPrinciplesId() {
@@ -67,4 +68,11 @@ public class IacucPrinciples extends ProtocolAssociate {
     public void setExceptionsPresent(boolean exceptionsPresent) {
         this.exceptionsPresent = exceptionsPresent;
     }
+    public String getSearchRequired() {
+        return searchRequired;
+    }
+    public void setSearchRequired(String searchRequired) {
+        this.searchRequired = searchRequired;
+    }
+    
 }
