@@ -920,6 +920,9 @@ public interface Constants {
     public static final String REPORT_TRACKING_NOTIFICATIONS_BATCH_RECIPIENT = "REPORT_TRACKING_NOTIFICATIONS_BATCH_RECIPIENT";
     public static final String REPORT_TRACKING_NOTIFICATIONS_BATCH_ENABLED = "REPORT_TRACKING_NOTIFICATIONS_BATCH_ENABLED";
     
+    public static final String IACUC_PROTOCOL_PAGE = "iacucProtocol";
+    public static final String IACUC_PROTOCOL_PANEL_NAME = "The Three R\'s";
+    public static final String IACUC_PROTOCOL_ALTERNATE_SEARCH = "Alternate Search";
 
 }
 

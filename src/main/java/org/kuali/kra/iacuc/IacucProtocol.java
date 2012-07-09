@@ -493,7 +493,7 @@ public class IacucProtocol extends Protocol {
         threeRsSummary.setReplacement(principles.getReplacement());
         for (IacucAlternateSearch alternateSearch:iacucAlternateSearches) {
             threeRsSummary.getAlternateSearchSummaries().add(new IacucAlternateSearchSummary(alternateSearch));
-            threeRsSummary.setSearchRequired(alternateSearch.isSearchRequired());
+            threeRsSummary.setSearchRequired("Y".equals(principles.getSearchRequired()));
         }
         protocolSummary.setThreeRsInfo(threeRsSummary);
     }
