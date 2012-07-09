@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="isOpen" value="${KualiForm.auditActivated or KualiForm.actionHelper.openForFollowup}" />
+
 <c:forEach items="${param}" var="par">
     <c:if test="${fn:startsWith(par.key, 'lookupActionAmendRenewProtocol') and fn:startsWith(par.value, 'true')}">
         <c:set var="isOpen" value="true" />
@@ -27,6 +28,7 @@
         <c:set var="isOpen" value="true" />
     </c:if>
 </c:forEach>
+
 
 <kul:tabTop tabTitle="Request an Action" defaultOpen="${isOpen}" tabErrorKey="">
 	<div class="tab-container"  align="center">
@@ -82,6 +84,10 @@
 			                              taskName="protocolDefer"
 			                              methodToCall="defer"
 			                              canPerformAction="${KualiForm.actionHelper.canDefer}" />
+--%>		                              
+
+
+			                              
             <kra-iacuc-action:genericAction tabTitle="Disapprove"
                                           bean="${KualiForm.actionHelper.protocolDisapproveBean}"
                                           property="actionHelper.protocolDisapproveBean"
@@ -89,6 +95,9 @@
                                           methodToCall="disapproveProtocol"
                                           canPerformAction="${KualiForm.actionHelper.canDisapprove}"
                                           defaultOpen="${KualiForm.actionHelper.isDisapproveOpenForFollowup}"/>
+                                          
+ 
+<%--                                         
             <kra-iacuc-action:genericAction tabTitle="Return for Minor Revisions"
                                           bean="${KualiForm.actionHelper.protocolSMRBean}"
                                           property="actionHelper.protocolSMRBean"
