@@ -15,10 +15,15 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.threers.IacucPrinciplesAuditError;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewType;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
 
 /**
@@ -28,6 +33,40 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
  * This class...
  */
 public class IacucProtocolSubmitActionRule extends ProtocolSubmitActionRule {
+
+    private final String PROTOCOL_ALT_SEARCH_REQUIRED_PROPERTY_KEY = "document.protocolList[0].iacucPrinciples[0].searchRequired";
+    private final String PROTOCOL_ALT_SEARCH_PROPERTY_KEY = "iacucAlternateSearchHelper.newAlternateSearch.databases";
+
+    
+    /**
+     * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.iacuc.IacucProtocolDocument,
+     *      org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
+     */
+    @Override
+    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction) {
+
+        boolean isValid = super.processSubmitAction(document, submitAction);
+        isValid &= validateThreeRs(submitAction);
+        return isValid;
+    }
+
+    /**
+     * If the user has indicated that pain is coming, then require alternate search
+     */
+    private boolean validateThreeRs(ProtocolSubmitAction submitAction) {
+        IacucProtocol protocol = (IacucProtocol)submitAction.getProtocol();
+        String searchRequired = protocol.getIacucPrinciples().get(0).getSearchRequired();
+        if (StringUtils.isBlank(searchRequired)) {
+            IacucPrinciplesAuditError.addAuditError(PROTOCOL_ALT_SEARCH_REQUIRED_PROPERTY_KEY, KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_QUESTION_NOT_ANSWERED);
+            reportError(PROTOCOL_ALT_SEARCH_REQUIRED_PROPERTY_KEY, KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_QUESTION_NOT_ANSWERED);
+            return false;
+        } else if (StringUtils.equals("Y", searchRequired) && protocol.getIacucAlternateSearches().isEmpty()) {
+            IacucPrinciplesAuditError.addAuditError(PROTOCOL_ALT_SEARCH_PROPERTY_KEY, KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_DATA_NOT_ENTERED);
+            reportError(PROTOCOL_ALT_SEARCH_PROPERTY_KEY, KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_DATA_NOT_ENTERED);
+            return false;
+        }
+        return true;
+    }
 
     @Override
     protected Class<? extends ProtocolSubmissionType> getProtocolSubmissionTypeClassHook() {

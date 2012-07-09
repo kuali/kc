@@ -34,7 +34,6 @@
         <property name="titleAttribute" value="alternativeSearch" />
         <property name="attributes" >
             <list>
-                <ref bean="IacucAlternateSearch-searchRequired" />
                 <ref bean="IacucAlternateSearch-searchDate" />
                 <ref bean="IacucAlternateSearch-databases" />
                 <ref bean="IacucAlternateSearch-yearsSearched" />
@@ -42,26 +41,6 @@
                 <ref bean="IacucAlternateSearch-comments" />
             </list>
         </property>
-    </bean>
-
-    <bean id="IacucAlternateSearch-searchRequired" parent="IacucAlternateSearch-searchRequired-parentBean" />
-    <bean id="IacucAlternateSearch-searchRequired-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="searchRequired" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Does the protocol involve proceedures which cause more than momentary pain and distress?" />
-        <property name="shortLabel" value="Search Required" />
-        <property name="maxLength" value="3" />
-        <property name="required" value="true" />
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
-        </property>
-        <property name="control" >
-            <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorYNOnlyValuesFinder" />
-        </property>
-        <property name="summary" value="Search Required" />
-        <property name="description" value="Search Required" />
     </bean>
 
     <bean id="IacucAlternateSearch-searchDate" parent="IacucAlternateSearch-searchDate-parentBean" />
@@ -172,8 +151,6 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="searchRequired" />
-                            <bean parent="FieldDefinition"
                                 p:attributeName="searchDate" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="databases" />    
@@ -202,8 +179,6 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="searchRequired" />
-                <bean parent="FieldDefinition"
                     p:attributeName="searchDate" />
                 <bean parent="FieldDefinition"
                     p:attributeName="databases" />                    
@@ -217,8 +192,6 @@
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="searchRequired" />
                 <bean parent="FieldDefinition"
                     p:attributeName="searchDate" />
                 <bean parent="FieldDefinition"

@@ -18,6 +18,9 @@
 <%@ attribute name="protocolAlternateSearch" required="true" type="java.util.Map" %>
 <%@ attribute name="modifyPermissions" required="true" %>
 
+<c:set var="protocol" value="${KualiForm.document.protocolList[0]}" />
+<c:set var="principlesAttributes" value="${DataDictionary.IacucPrinciples.attributes}" />
+
 <!-- needed to attach to a styleClass attribute for a specific select box UI element -->
 <style type="text/css">
     <!--
@@ -28,7 +31,10 @@
     -->
 </style>
 
-<kul:tab tabTitle="Alternate Search" defaultOpen="false" tabErrorKey="iacucAlternateSearchHelper.newAlternateSearch.*">
+<kul:tab tabTitle="Alternate Search" defaultOpen="false" useRiceAuditMode="true"
+			tabErrorKey="iacucAlternateSearchHelper*,document.protocolList[0].iacucPrinciples[0]*" 
+			auditCluster="alternateSearchAuditErrors"
+			tabAuditKey="iacucAlternateSearchHelper*,document.protocolList[0].iacucPrinciples[0]*" >
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Alternate Search Required?</span>
@@ -38,12 +44,17 @@
         </h3>
         <table cellpadding="4" cellspacing="0" summary="">
             <tr>
-                <th width="50%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAlternateSearch.searchRequired}" /></div></th>
+                <th width="50%">
+                	<div align="right">
+                		<kul:htmlAttributeLabel attributeEntry="${principlesAttributes.searchRequired}" forceRequired="true" />
+                	</div>
+                </th>
                 <td align="left" valign="center">
-                    <kul:htmlControlAttribute property="iacucAlternateSearchHelper.newAlternateSearch.searchRequired" 
-                                              readOnly="${readOnly}" 
-                                              attributeEntry="${protocolAlternateSearch.searchRequired}" 
-                                              onchange="alternateSearchRequired(this);"/>
+			    	<html:select property="document.protocolList[0].iacucPrinciples[0].searchRequired">
+			        	<html:option value="">Select</html:option>
+			        	<html:option value="Y">Yes</html:option>
+			        	<html:option value="N">No</html:option>
+			        </html:select>
                 </td>        
             </tr>        
         </table>
@@ -136,7 +147,7 @@
             </tr>   
             
             <!--  existing alternate search database -->
-            <c:forEach var="altSearches" items="${KualiForm.document.protocolList[0].iacucAlternateSearches}" varStatus="status">
+            <c:forEach var="altSearches" items="${protocol.iacucAlternateSearches}" varStatus="status">
                 <tr>
                     <th>${status.index + 1}</th>
                     <td align="left" valign="middle">${altSearches.searchDate}</td>
@@ -151,7 +162,7 @@
                     <td align="center" valign="middle">${altSearches.yearsSearched}</td>
                     <td align="center" valign="middle">${altSearches.keywords}</td>
                     <td align="center" valign="middle">
-                        <kra:truncateComment textAreaFieldName="document.protocolList[0].iacucAlternateSearches[${status.index}].comments" action="iacucProtocolThreeRs" textAreaLabel="${protocolAlternateSearch.comments.label}" textValue="${KualiForm.document.protocolList[0].iacucAlternateSearches[status.index].comments}" displaySize="60"/>
+                        <kra:truncateComment textAreaFieldName="protocol.iacucAlternateSearches[${status.index}].comments" action="iacucProtocolThreeRs" textAreaLabel="${protocolAlternateSearch.comments.label}" textValue="${KualiForm.document.protocolList[0].iacucAlternateSearches[status.index].comments}" displaySize="60"/>
                     </td>
                     
                     <c:choose>
