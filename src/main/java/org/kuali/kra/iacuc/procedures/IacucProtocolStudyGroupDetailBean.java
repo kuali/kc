@@ -15,35 +15,39 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucPainCategory;
-import org.kuali.kra.iacuc.IacucProcedureCategoryCustomData;
+import org.kuali.kra.iacuc.IacucSpecies;
+import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
+import org.kuali.rice.krad.util.ObjectUtils;
 
-public class IacucProtocolStudyGroupDetailBean implements Serializable {
+public class IacucProtocolStudyGroupDetailBean extends KraPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 5919176798738325709L;
 
+    private Integer iacucProtocolStudyGroupDetailId; 
+    private Integer iacucProtocolStudyGroupHeaderId; 
     private Integer speciesCode;
+    // sum of all species count for the category and species selected
+    Integer totalSpeciesCount;
+    Integer maxPainCategoryCode;
     
     /* These fields are for group display in tag */
     // list that holds species and groups description
     List<String> speciesAndGroupsText;
     // max pain category for selected species group
     String maxPainCategory;
-    // sum of all species count for the category and species selected
-    Integer totalSpeciesCount;
-    
-    Integer maxPainCategoryCode;
-
     Integer maxPainLevel;
     
     private IacucPainCategory maxIacucPainCategory;
+    private IacucSpecies iacucSpecies;
+    private IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean;
 
     private List<IacucProtocolStudyGroup> iacucProtocolStudyGroups;
     private List<IacucProcedurePersonResponsible> iacucProcedurePersonsResponsible;
@@ -62,6 +66,12 @@ public class IacucProtocolStudyGroupDetailBean implements Serializable {
     }
     
     public List<String> getSpeciesAndGroupsText() {
+        if(speciesAndGroupsText.isEmpty()) {
+            for(IacucProtocolStudyGroup iacucProtocolStudyGroup : getIacucProtocolStudyGroups()) {
+                IacucProtocolSpecies protocolSpecies = iacucProtocolStudyGroup.getIacucProtocolSpecies();
+                speciesAndGroupsText.add(protocolSpecies.getGroupAndSpecies());
+            }
+        }
         return speciesAndGroupsText;
     }
 
@@ -70,6 +80,9 @@ public class IacucProtocolStudyGroupDetailBean implements Serializable {
     }
 
     public String getMaxPainCategory() {
+        if(ObjectUtils.isNull(maxPainCategory)) {
+            maxPainCategory = maxIacucPainCategory.getPainCategory();
+        }
         return maxPainCategory;
     }
 
@@ -171,6 +184,38 @@ public class IacucProtocolStudyGroupDetailBean implements Serializable {
 
     public void setIacucProtocolStudyCustomDataList(List<IacucProtocolStudyCustomData> iacucProtocolStudyCustomDataList) {
         this.iacucProtocolStudyCustomDataList = iacucProtocolStudyCustomDataList;
+    }
+
+    public Integer getIacucProtocolStudyGroupDetailId() {
+        return iacucProtocolStudyGroupDetailId;
+    }
+
+    public void setIacucProtocolStudyGroupDetailId(Integer iacucProtocolStudyGroupDetailId) {
+        this.iacucProtocolStudyGroupDetailId = iacucProtocolStudyGroupDetailId;
+    }
+
+    public Integer getIacucProtocolStudyGroupHeaderId() {
+        return iacucProtocolStudyGroupHeaderId;
+    }
+
+    public void setIacucProtocolStudyGroupHeaderId(Integer iacucProtocolStudyGroupHeaderId) {
+        this.iacucProtocolStudyGroupHeaderId = iacucProtocolStudyGroupHeaderId;
+    }
+
+    public IacucSpecies getIacucSpecies() {
+        return iacucSpecies;
+    }
+
+    public void setIacucSpecies(IacucSpecies iacucSpecies) {
+        this.iacucSpecies = iacucSpecies;
+    }
+
+    public IacucProtocolStudyGroupBean getIacucProtocolStudyGroupBean() {
+        return iacucProtocolStudyGroupBean;
+    }
+
+    public void setIacucProtocolStudyGroupBean(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean) {
+        this.iacucProtocolStudyGroupBean = iacucProtocolStudyGroupBean;
     }
 
     
