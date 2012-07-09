@@ -37,6 +37,7 @@
                 <ref bean="IacucPrinciples-reduction" />
                 <ref bean="IacucPrinciples-refinement" />
                 <ref bean="IacucPrinciples-replacement" />
+                <ref bean="IacucPrinciples-searchRequired" />
             </list>
         </property>
     </bean>
@@ -104,6 +105,27 @@
         <property name="description" value="Replacement" />
     </bean>   
 
+    <bean id="IacucPrinciples-searchRequired" parent="IacucPrinciples-searchRequired-parentBean" />
+    <bean id="IacucPrinciples-searchRequired-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="searchRequired" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Does the protocol involve procedures which cause more than momentary pain and distress?" />
+        <property name="shortLabel" value="Search Required" />
+	    <property name="maxLength" value="1" />
+    	<property name="validationPattern" >
+      	<bean parent="AlphaValidationPattern"
+        	    p:exactLength="1" />
+    	</property>
+    	<property name="required" value="false" />
+    	<property name="control" >
+      	<bean parent="TextControlDefinition"
+    	        p:size="10" />
+	    </property>
+        <property name="summary" value="Search Required" />
+        <property name="description" value="Search Required" />
+    </bean>
+
+
     <!-- Business Object Inquiry Definition -->
     <bean id="IacucPrinciples-inquiryDefinition" parent="IacucPrinciples-inquiryDefinition-parentBean" />
     <bean id="IacucPrinciples-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -121,6 +143,8 @@
                                 p:attributeName="refinement" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="replacement" />                                
+                            <bean parent="FieldDefinition"
+                                p:attributeName="searchRequired" />                                
                         </list>
                     </property>
                 </bean>
@@ -146,6 +170,8 @@
                     p:attributeName="refinement" />
                 <bean parent="FieldDefinition"
                     p:attributeName="replacement" />                    
+                <bean parent="FieldDefinition"
+                    p:attributeName="searchRequired" />                                
             </list>
         </property>
         <property name="resultFields" >
@@ -157,6 +183,8 @@
                     p:attributeName="refinement" />
                 <bean parent="FieldDefinition"
                     p:attributeName="replacement" />  
+                <bean parent="FieldDefinition"
+                    p:attributeName="searchRequired" />                                
             </list>
         </property>
     </bean>                 
