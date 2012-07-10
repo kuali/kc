@@ -134,6 +134,9 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociate {
     }
 
     public IacucProcedureCategory getIacucProcedureCategory() {
+        if (iacucProcedureCategory == null) {
+            refreshReferenceObject("iacucProcedureCategory");
+        }
         return iacucProcedureCategory;
     }
 
@@ -142,6 +145,9 @@ public class IacucProtocolStudyGroupBean extends ProtocolAssociate {
     }
 
     public IacucProcedure getIacucProcedure() {
+        if (iacucProcedure == null) {
+            refreshReferenceObject("iacucProcedure");
+        }
         return iacucProcedure;
     }
 

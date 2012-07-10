@@ -20,7 +20,10 @@ import java.io.Serializable;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -33,7 +36,6 @@ public class IacucProtocolSpeciesHelper implements Serializable{
 
     protected IacucProtocolForm form;
     
-    protected boolean modifyProtocolSpecies = true;
     protected IacucProtocolSpecies newIacucProtocolSpecies;
 
     public IacucProtocolSpeciesHelper(IacucProtocolForm form) {
@@ -42,9 +44,6 @@ public class IacucProtocolSpeciesHelper implements Serializable{
     }    
     
     public void prepareView() {
-        //getForm().populateEditableFields();
-        initializePermission(getProtocol());
-
     }
 
     protected IacucProtocol getProtocol() {
@@ -64,11 +63,8 @@ public class IacucProtocolSpeciesHelper implements Serializable{
     }
 
     public boolean isModifyProtocolSpecies() {
-        return modifyProtocolSpecies;
-    }
-
-    public void setModifyProtocolSpecies(boolean modifyProtocolSpecies) {
-        this.modifyProtocolSpecies = modifyProtocolSpecies;
+        final ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_SPECIES, (IacucProtocol) form.getProtocolDocument().getProtocol());
+        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
 
     public IacucProtocolSpecies getNewIacucProtocolSpecies() {
@@ -79,12 +75,6 @@ public class IacucProtocolSpeciesHelper implements Serializable{
         this.newIacucProtocolSpecies = newIacucProtocolSpecies;
     }
 
-    protected void initializePermission(IacucProtocol protocol) {
-        //IacucProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIES, protocol);
-        //modifyProtocolSpecies = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-        modifyProtocolSpecies = true;
-    }
-    
     protected TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
