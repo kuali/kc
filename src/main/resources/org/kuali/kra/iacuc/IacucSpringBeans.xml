@@ -206,6 +206,18 @@
                     <property name="taskName" value="modifyIacucProtocolThreeRs"/>
                 </bean>                
                 
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolSpeciesAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolSpecies"/>
+                </bean>                
+
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolProceduresAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolProcedures"/>
+                </bean>                
+
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolExceptionAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolException"/>
+                </bean>                
+
                 <bean class="org.kuali.kra.iacuc.auth.RecordCommitteeDecisionIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="protocolRecordCommitteeDecision" />
                 </bean>

@@ -26,7 +26,7 @@
 <%@ attribute name="action" required="true" 
               description="The name of the action class" %>
 
-<c:set var="readOnly" value="${!KualiForm.iacucProtocolSpeciesHelper.modifyProtocolSpecies}" />
+<c:set var="readOnly" value="${kualiForm.editingMode['viewOnly']}" scope="request" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.IACUC_PROCEDURE_SUMMARY_LENGTH%>" />
 
 
@@ -194,10 +194,15 @@
 		            	</div>
 					</td>
 					<td rowspan="1"><div align=center>
-                        <c:if test="${!readOnly}">
+                    <c:choose>
+                        <c:when test="${!readOnly}">
                             <html:image property="methodToCall.deleteProtocolSpecies.line${status.index}.anchor${currentTabIndex}.validate0"
 									    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-                        </c:if>
+                        </c:when>
+                        <c:otherwise>
+                            &nbsp;
+                        </c:otherwise>
+                    </c:choose>
 	                </div></td>
 	            </tr>
 	            <tr>

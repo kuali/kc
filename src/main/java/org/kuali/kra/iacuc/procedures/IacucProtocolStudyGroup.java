@@ -37,8 +37,6 @@ public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase {
     private Integer count; 
     private Integer iacucProtocolStudyGroupDetailId;
     
-    private IacucProcedureCategory iacucProcedureCategory; 
-    private IacucProcedure iacucProcedure; 
     private IacucProtocolSpecies iacucProtocolSpecies; 
     private IacucPainCategory iacucPainCategory;
     private IacucProtocolStudyGroupDetailBean iacucProtocolStudyGroupDetailBean;
@@ -102,28 +100,6 @@ public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase {
 
     public void setCount(Integer count) {
         this.count = count;
-    }
-
-    public IacucProcedureCategory getIacucProcedureCategory() {
-        if (iacucProcedureCategory == null) {
-            refreshReferenceObject("iacucProcedureCategory");
-        }
-        return iacucProcedureCategory;
-    }
-
-    public void setIacucProcedureCategory(IacucProcedureCategory iacucProcedureCategory) {
-        this.iacucProcedureCategory = iacucProcedureCategory;
-    }
-
-    public IacucProcedure getIacucProcedure() {
-        if (iacucProcedure == null) {
-            refreshReferenceObject("iacucProcedure");
-        }
-        return iacucProcedure;
-    }
-
-    public void setIacucProcedure(IacucProcedure iacucProcedure) {
-        this.iacucProcedure = iacucProcedure;
     }
 
     public IacucProtocolSpecies getIacucProtocolSpecies() {
