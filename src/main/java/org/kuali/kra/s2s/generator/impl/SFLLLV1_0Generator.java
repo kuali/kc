@@ -160,9 +160,18 @@ public class SFLLLV1_0Generator extends SFLLLBaseGenerator {
     private FederalProgramName getFedProgramName() {
 
         FederalProgramName fedProgramName = FederalProgramName.Factory.newInstance();
-        fedProgramName.setFederalProgramDescription(pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle());
+        if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle() != null) {
+            String announcementTitle;
+            if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle()
+                    .length() > PROGRAM_ANNOUNCEMENT_TITLE_MAX_LENGTH) {
+                announcementTitle = pdDoc.getDevelopmentProposal()
+                        .getProgramAnnouncementTitle().substring(0,PROGRAM_ANNOUNCEMENT_TITLE_MAX_LENGTH);
+            } else {
+                announcementTitle = pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle();
+            }
+            fedProgramName.setFederalProgramDescription(announcementTitle);
+        }
         fedProgramName.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
-
         return fedProgramName;
     }
 

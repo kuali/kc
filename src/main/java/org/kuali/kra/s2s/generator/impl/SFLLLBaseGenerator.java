@@ -33,6 +33,7 @@ public abstract class SFLLLBaseGenerator extends S2SBaseFormGenerator {
     protected static final int ADDRESS_LINE1_MAX_LENGTH = 55;
     protected static final int ADDRESS_LINE2_MAX_LENGTH = 55;
     protected static final int CITY_MAX_LENGTH = 35;
+    protected static final int PROGRAM_ANNOUNCEMENT_TITLE_MAX_LENGTH = 120;
     
     /**
      * 
