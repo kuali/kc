@@ -96,8 +96,7 @@
                                           canPerformAction="${KualiForm.actionHelper.canDisapprove}"
                                           defaultOpen="${KualiForm.actionHelper.isDisapproveOpenForFollowup}"/>
                                           
- 
-<%--                                         
+                                         
             <kra-iacuc-action:genericAction tabTitle="Return for Minor Revisions"
                                           bean="${KualiForm.actionHelper.protocolSMRBean}"
                                           property="actionHelper.protocolSMRBean"
@@ -105,6 +104,7 @@
                                           methodToCall="returnForSMR"
                                           canPerformAction="${KualiForm.actionHelper.canReturnForSMR}"
                                           defaultOpen="${KualiForm.actionHelper.isReturnForSMROpenForFollowup}" />
+                                          
             <kra-iacuc-action:genericAction tabTitle="Return for Major Revisions"
                                           bean="${KualiForm.actionHelper.protocolSRRBean}"
                                           property="actionHelper.protocolSRRBean"
@@ -112,6 +112,8 @@
                                           methodToCall="returnForSRR"
                                           canPerformAction="${KualiForm.actionHelper.canReturnForSRR}"
                                           defaultOpen="${KualiForm.actionHelper.isReturnForSRROpenForFollowup}" />
+                                          
+<%--                                           
             <kra-iacuc-action:notifyCommitteeAction />
             <kra-iacuc-action:genericAction tabTitle="IRB Acknowledgement"
                                           bean="${KualiForm.actionHelper.protocolIrbAcknowledgementBean}"

@@ -242,6 +242,21 @@
                     <property name="taskName" value="protocolDisapproveUnavailable" />
                 </bean>   
                 
+                <bean class="org.kuali.kra.iacuc.auth.IacucReturnForSMRAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolReturnForSMR" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucReturnForSMRUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolReturnForSMRUnavailable" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucReturnForSRRAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolReturnForSRR" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucReturnForSRRUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolReturnForSRRUnavailable" />
+                </bean>
                 
            </list>
         </property>

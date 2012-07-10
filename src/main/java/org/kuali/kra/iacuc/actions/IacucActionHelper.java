@@ -882,12 +882,7 @@ public class IacucActionHelper extends ActionHelper {
     }
 
     @Override
-    protected String getDisapprovedProtocolActionTypehook() {
-        return IacucProtocolActionType.IACUC_DISAPPROVED;
-    }
-
-    @Override
-    protected String getSMRRProtocolActionTypeHook() {
+    protected String getSMRProtocolActionTypeHook() {
         return IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED;
     }
 

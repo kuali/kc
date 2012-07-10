@@ -88,8 +88,7 @@ public class CommitteeDecisionRule<CD extends CommitteeDecision<?>> extends Rese
             if ((CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(motionTypeCode) 
                     || CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(motionTypeCode)) 
                     && CollectionUtils.isEmpty(filterReviewComments(reviewComments, protocol))) {
-                reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + MOTION_FIELD, 
-                            KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_REVIEWER_COMMENTS);
+                reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + MOTION_FIELD, getNoCommentsForRevisionsErrorMessageHook());
                 retVal = false;
             }
         }
@@ -97,6 +96,11 @@ public class CommitteeDecisionRule<CD extends CommitteeDecision<?>> extends Rese
         return retVal;
     }
     
+    // this hook can be overridden to change the error message; this is a rare case of a non-abstract (default) hook introduced during IACUC refactoring
+    protected String getNoCommentsForRevisionsErrorMessageHook() {
+        return KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_REVIEWER_COMMENTS;
+    }
+
     private List<CommitteeScheduleMinute> filterReviewComments(List<CommitteeScheduleMinute> reviewComments, Protocol protocol) {
         List<CommitteeScheduleMinute> filteredComments = new ArrayList<CommitteeScheduleMinute>();
         for (CommitteeScheduleMinute comment : reviewComments) {
