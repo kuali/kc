@@ -218,7 +218,12 @@
                 	</div>
                 </th>
                 <td width = "25%" class="grid" >
-                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.determinationReviewDateDue" attributeEntry="${onlineReviewAttributes.determinationReviewDateDue}" datePicker="true" readOnly = "${readOnly || !kualiForm.adminFieldsEditable}" />
+                	<%--
+                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.determinationReviewDateDue" 
+                		attributeEntry="${onlineReviewAttributes.determinationReviewDateDue}" datePicker="true" readOnly = "${readOnly || !kualiForm.adminFieldsEditable}" />
+                	 --%>
+                	 <kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.determinationReviewDateDue" 
+                		attributeEntry="${onlineReviewAttributes.determinationReviewDateDue}" datePicker="true" readOnly = "${true}" />
                 </td>
               </tr>
          	</table>
