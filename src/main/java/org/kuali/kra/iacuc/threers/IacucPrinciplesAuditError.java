@@ -30,7 +30,7 @@ public class IacucPrinciplesAuditError extends AuditError {
     
     public static final String PRINCIPLES_PANEL_NAME = "threeRs";
     public static final String PRINCIPLES_CLUSTER_NAME = "alternateSearchAuditErrors";
-    public static final String PRINCIPLES_ANCHOR_NAME = "Alternate Search Audit Errors";
+    public static final String PRINCIPLES_ANCHOR_NAME = "Alternate Search";
 
     /**
      * 
@@ -50,7 +50,7 @@ public class IacucPrinciplesAuditError extends AuditError {
     private static List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         if (!KNSGlobalVariables.getAuditErrorMap().containsKey(PRINCIPLES_CLUSTER_NAME)) {
-            KNSGlobalVariables.getAuditErrorMap().put(PRINCIPLES_CLUSTER_NAME, new AuditCluster(PRINCIPLES_PANEL_NAME, auditErrors, AUDIT_ERRORS));
+            KNSGlobalVariables.getAuditErrorMap().put(PRINCIPLES_CLUSTER_NAME, new AuditCluster(PRINCIPLES_ANCHOR_NAME, auditErrors, AUDIT_ERRORS));
         }
         else {
             auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(PRINCIPLES_CLUSTER_NAME)).getAuditErrorList();
