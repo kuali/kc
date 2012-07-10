@@ -15,8 +15,15 @@
  */
 package org.kuali.kra.iacuc.actions.decision;
 
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionRule;
 
 public class IacucCommitteeDecisionRule extends CommitteeDecisionRule<IacucCommitteeDecision> {
+
+    @Override
+    protected String getNoCommentsForRevisionsErrorMessageHook() {
+        return KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MINOR_MAJOR_REVIEWER_COMMENTS;
+    }
+    
 
 }
