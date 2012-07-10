@@ -57,7 +57,7 @@
         			'width' : 553,
         			'height': 500,
         			'type' : 'iframe',
-        			'autoscale' : 'false',
+        			'autoscale' : 'false'
         		});
         		
         		           if ($j(".financialEntitySubpanel").length > 0) {
