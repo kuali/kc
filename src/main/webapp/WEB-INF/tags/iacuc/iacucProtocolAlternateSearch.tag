@@ -31,10 +31,10 @@
     -->
 </style>
 
-<kul:tab tabTitle="Alternate Search" defaultOpen="false" useRiceAuditMode="true"
-			tabErrorKey="iacucAlternateSearchHelper*,document.protocolList[0].iacucPrinciples[0]*" 
+<kul:tab tabTitle="Alternate Search" defaultOpen="true" useRiceAuditMode="true"
+			tabErrorKey="iacucAlternateSearchHelper*,document.protocolList[0].iacucPrinciples*" 
 			auditCluster="alternateSearchAuditErrors"
-			tabAuditKey="iacucAlternateSearchHelper*,document.protocolList[0].iacucPrinciples[0]*" >
+			tabAuditKey="iacucAlternateSearchHelper*,document.protocolList[0].iacucPrinciples*" >
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Alternate Search Required?</span>
