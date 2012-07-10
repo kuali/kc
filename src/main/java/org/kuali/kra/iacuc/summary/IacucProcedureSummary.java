@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucLocationName;
 import org.kuali.kra.iacuc.procedures.IacucProcedure;
+import org.kuali.kra.iacuc.procedures.IacucProcedureCategory;
 import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyCustomData;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
@@ -47,13 +48,15 @@ public class IacucProcedureSummary implements Serializable {
     private boolean painCategoryChanged;
     private boolean countChanged;
     
-    public IacucProcedureSummary(IacucProtocolStudyGroup studyGroup) { 
-        //procedureCode = studyGroup.getProcedureCode();
+    public IacucProcedureSummary(IacucProtocolStudyGroup studyGroup, IacucProcedureCategory iacucProcedureCategory, 
+            IacucProcedure iacucProcedure) { 
+        procedureCode = iacucProcedure.getProcedureCode();
         species = studyGroup.getIacucProtocolSpecies().getSpeciesName();
         speciesStrain = studyGroup.getIacucProtocolSpecies().getStrain();
         painCategory = studyGroup.getPainCategory();
-        procedureCategory = studyGroup.getIacucProcedureCategory().getProcedureCategory() + " - " + 
-                            studyGroup.getIacucProcedure().getProcedureDescription();
+        
+        procedureCategory = iacucProcedureCategory.getProcedureCategory() + " - " + iacucProcedure.getProcedureDescription();
+        
         personSummaries = new ArrayList<IacucProcedurePersonSummary>();  
         for (IacucProcedurePersonResponsible person: studyGroup.getIacucProcedurePersonsResponsible()) {
             personSummaries.add(new IacucProcedurePersonSummary(person));

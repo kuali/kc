@@ -22,7 +22,10 @@ import java.util.List;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -34,8 +37,6 @@ public class IacucProtocolProceduresHelper implements Serializable{
     private static final long serialVersionUID = -2090976351003068814L;
 
     protected IacucProtocolForm form;
-    
-    protected boolean modifyProtocolProcedures = true;
     
     protected IacucProtocolStudyGroup newIacucProtocolStudyGroup;
     protected IacucProtocolStudyGroupBean newIacucProtocolStudyGroupBean;
@@ -56,7 +57,6 @@ public class IacucProtocolProceduresHelper implements Serializable{
     
     public void prepareView() {
         //getForm().populateEditableFields();
-        initializePermission(getProtocol());
         initializeIncludedProceduresAndCategories();
     }
     
@@ -87,19 +87,10 @@ public class IacucProtocolProceduresHelper implements Serializable{
     }
 
     public boolean isModifyProtocolProcedures() {
-        return modifyProtocolProcedures;
+        final ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_PROCEDURES, (IacucProtocol) form.getProtocolDocument().getProtocol());
+        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
 
-    public void setModifyProtocolProcedures(boolean modifyProtocolProcedures) {
-        this.modifyProtocolProcedures = modifyProtocolProcedures;
-    }
-
-    protected void initializePermission(IacucProtocol protocol) {
-        //IacucProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_PROTOCOL_PROCEDURES, protocol);
-        //modifyProtocolProcedures = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-        modifyProtocolProcedures = true;
-    }
-    
     protected TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }

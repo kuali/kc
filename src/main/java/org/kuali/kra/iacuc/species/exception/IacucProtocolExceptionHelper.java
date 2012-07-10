@@ -20,7 +20,10 @@ import java.io.Serializable;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -33,7 +36,6 @@ public class IacucProtocolExceptionHelper implements Serializable{
 
     protected IacucProtocolForm form;
     
-    protected boolean modifyProtocolException = true;
     protected IacucProtocolException newIacucProtocolException;
 
     public IacucProtocolExceptionHelper(IacucProtocolForm form) {
@@ -43,7 +45,6 @@ public class IacucProtocolExceptionHelper implements Serializable{
     
     public void prepareView() {
         //getForm().populateEditableFields();
-        initializePermission(getProtocol());
 
     }
 
@@ -64,12 +65,10 @@ public class IacucProtocolExceptionHelper implements Serializable{
     }
 
     public boolean isModifyProtocolException() {
-        return modifyProtocolException;
+        final ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_EXCEPTION, (IacucProtocol) form.getProtocolDocument().getProtocol());
+        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
 
-    public void setModifyProtocolException(boolean modifyProtocolException) {
-        this.modifyProtocolException = modifyProtocolException;
-    }
 
     public IacucProtocolException getNewIacucProtocolException() {
         return newIacucProtocolException;
@@ -79,11 +78,6 @@ public class IacucProtocolExceptionHelper implements Serializable{
         this.newIacucProtocolException = newIacucProtocolException;
     }
 
-    protected void initializePermission(IacucProtocol protocol) {
-        //IacucProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_PROTOCOL_EXCEPTION, protocol);
-        //modifyProtocolException = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-        modifyProtocolException = true;
-    }
     
     protected TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);

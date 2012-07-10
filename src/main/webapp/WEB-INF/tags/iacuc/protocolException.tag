@@ -26,7 +26,7 @@
 <%@ attribute name="action" required="true" 
               description="The name of the action class" %>
 
-<c:set var="readOnly" value="${!KualiForm.iacucProtocolExceptionHelper.modifyProtocolException}" />
+<c:set var="readOnly" value="${kualiForm.editingMode['viewOnly']}" scope="request" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.IACUC_PROTOCOL_EXCEPTION_DESC_LENGTH%>" />
 <c:set var="modifyPermission" value="${KualiForm.iacucProtocolExceptionHelper.modifyProtocolException}" />
 
@@ -145,7 +145,7 @@
 		            	</div>
 					</td>
                     <c:choose>
-                        <c:when test="${modifyPermission}">
+                        <c:when test="${!readOnly}">
                         <td align="center" valign="middle">
                             <div align="center">
                             <nobr>
