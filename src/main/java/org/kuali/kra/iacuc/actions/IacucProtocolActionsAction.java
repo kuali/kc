@@ -2301,103 +2301,98 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
-//    
-//    /**
-//     * Returns the protocol to the PI for specific minor revisions.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward returnForSMR(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument document = protocolForm.getProtocolDocument();
-//        Protocol protocol = document.getProtocol();
-//        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSMRBean();
-//        
-//        if (hasPermission(TaskName.RETURN_FOR_SMR, protocol)) {
-//            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//                ProtocolDocument newDocument = getProtocolGenericActionService().returnForSMR(protocol, actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                
-//                protocolForm.setDocId(newDocument.getDocumentNumber());
-//                loadDocument(protocolForm);
-//                protocolForm.getProtocolHelper().prepareView();
-//                
-//                recordProtocolActionSuccess("Return for Specific Minor Revisions");
-////              org.kuali.kra.irb.actions.ProtocolAction lastAction = protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction();
-////              ProtocolActionType lastActionType = lastAction.getProtocolActionType();
-////              String description = lastActionType.getDescription();
-////              IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocolForm.getProtocolDocument().getProtocol());
-////              IRBNotificationContext context = new IRBNotificationContext(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required", renderer);
-////              
-////              if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-////                  protocolForm.getNotificationHelper().initializeDefaultValues(context);
-////                  return mapping.findForward("protocolNotificationEditor");
-////              } else {
-////                  getNotificationService().sendNotification(context);
-////              }
-//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required"), false));
-//
-//                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                    return mapping.findForward(CORRESPONDENCE);
-//                } else {
-//                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required"));                                   
-//                }
-////               forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required"));
-////                forward = mapping.findForward(PROTOCOL_TAB);
-//            }
-//        }
-//        
-//        return forward;
-//    }
-//    
-//    /**
-//     * Returns the protocol to the PI for substantial revisions.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward returnForSRR(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument document = protocolForm.getProtocolDocument();
-//        Protocol protocol = document.getProtocol();
-//        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSRRBean();
-//        
-//        if (hasPermission(TaskName.RETURN_FOR_SRR, protocol)) {
-//            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//                ProtocolDocument newDocument = getProtocolGenericActionService().returnForSRR(protocol, actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                
-//                protocolForm.setDocId(newDocument.getDocumentNumber());
-//                loadDocument(protocolForm);
-//                protocolForm.getProtocolHelper().prepareView();
-//                
-//                recordProtocolActionSuccess("Return for Substantive Revisions Required");
-//                
-//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, "Substantive Revisions Required"), false));
-//
-//                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                    return mapping.findForward(CORRESPONDENCE);
-//                } else {
-//                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, "Substantive Revisions Required"));                                   
-//                }
-////                forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, "Substantive Revisions Required"));
-//            }
-//        }
-//        
-//        return forward;
-//    }
-//    
+    
+    
+    
+    
+    
+    
+    /**
+     * Returns the protocol to the PI for specific minor revisions.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward returnForSMR(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+        IacucProtocol protocol = (IacucProtocol) document.getProtocol();
+        IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolSMRBean();
+        
+        if (hasPermission(TaskName.RETURN_FOR_SMR, protocol)) {
+            if (applyRules(new IacucProtocolGenericActionEvent(document, actionBean))) {
+                ProtocolDocument newDocument = getProtocolGenericActionService().returnForSMR(protocol, actionBean);
+                saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+                
+                protocolForm.setDocId(newDocument.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                recordProtocolActionSuccess("Return for Specific Minor Revisions");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, 
+                        new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED, "Minor Revisions Required"), false));
+
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, 
+                            new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED, "Minor Revisions Required"));                                   
+                }
+            }
+        }
+        
+        return forward;
+    }
+    
+    
+    
+    /**
+     * Returns the protocol to the PI for substantial revisions.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward returnForSRR(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+        IacucProtocol protocol = (IacucProtocol) document.getProtocol();
+        IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolSRRBean();
+        
+        if (hasPermission(TaskName.RETURN_FOR_SRR, protocol)) {
+            if (applyRules(new IacucProtocolGenericActionEvent(document, actionBean))) {
+                ProtocolDocument newDocument = getProtocolGenericActionService().returnForSRR(protocol, actionBean);
+                saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+                
+                protocolForm.setDocId(newDocument.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                
+                recordProtocolActionSuccess("Return for Substantive Revisions Required");
+                
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED, "Major Revisions Required"), false));
+
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED, "Major Revisions Required"));                                   
+                }
+            }
+        }
+        
+        return forward;
+    }
+    
+    
+    
 //    /**
 //     * Suspends this Protocol.
 //     * @param mapping
