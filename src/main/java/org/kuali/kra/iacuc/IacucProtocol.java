@@ -523,18 +523,12 @@ public class IacucProtocol extends Protocol {
         for(IacucProtocolStudyGroupBean studyGroupBean : getIacucProtocolStudyGroups()) {
             for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
                 for (IacucProtocolStudyGroup studyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
-                    IacucProcedureSummary newSummary = new IacucProcedureSummary(studyGroup);
+                    IacucProcedureSummary newSummary = new IacucProcedureSummary(studyGroup, studyGroupBean.getIacucProcedureCategory(),
+                            studyGroupBean.getIacucProcedure());
                     protocolSummary.getProcedureSummaries().add(newSummary);
                 }
             }
         }
-        
-        /*
-        for (IacucProtocolStudyGroup studyGroup: iacucProtocolStudyGroups) {
-            IacucProcedureSummary newSummary = new IacucProcedureSummary(studyGroup);
-            protocolSummary.getProcedureSummaries().add(newSummary);
-        }
-        */
     }
 
     public List<IacucProtocolStudyGroupBean> getIacucProtocolStudyGroups() {
