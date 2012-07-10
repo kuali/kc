@@ -20,28 +20,26 @@ import java.util.List;
 
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeDecisionMotionValuesFinder;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
+@SuppressWarnings("deprecation")
 public class IacucCommitteeDecisionMotionValuesFinder extends CommitteeDecisionMotionValuesFinder {
- 
-    
-    
+       
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -449881228899486120L;
-    
-    
-    
+         
     /*
-     * We replace the default descriptions of SRR and SMR with IACUC-specific labels. 
+     * We replace the default descriptions of SRR and SMR with IACUC-specific labels, and filter out 
+     * the disallowed motion types 
      */
     @Override
     public List<KeyValue> getKeyValues() {
@@ -62,28 +60,23 @@ public class IacucCommitteeDecisionMotionValuesFinder extends CommitteeDecisionM
         }
         
         // filter out the motions whose follow-up actions are not allowed
-        returnList = removeUnAllowedMotions(newList);
-        
-        
-        
+        returnList = removedisAllowedMotions(newList);
         
         return returnList;
     }
     
-    
-    
-    
+     
     // TODO Ideally we should check if the motion is allowed in the current state of the protocol and submission, i.e. use the follow-up service and 
     // the protocol action service to determine if the follow-up actions for each motion can be performed---and only then should the motion be allowed 
     // to appear in the selection drop down.
     // Currently, however, we will make do with a hardcoded check for review type of FYI, and defer the more robust check for later. 
-    private List<KeyValue> removeUnAllowedMotions(List<KeyValue> srcList) {
-        List<KeyValue> returnList = new ArrayList<KeyValue>();
-        boolean isFYI = false;
+    private List<KeyValue> removedisAllowedMotions(List<KeyValue> srcList) {
         
-        Protocol protocol = getProtocol();
+        List<KeyValue> returnList = new ArrayList<KeyValue>();
+        IacucProtocol protocol = getProtocol();
+        boolean isFYI = false;
         if(null != protocol) {
-            ProtocolSubmission submission = protocol.getProtocolSubmission();
+            IacucProtocolSubmission submission = (IacucProtocolSubmission) protocol.getProtocolSubmission();
             if( (null != submission) && (IacucProtocolReviewType.FYI.equals(submission.getProtocolReviewTypeCode())) ) { 
                 isFYI = true;
             }
@@ -110,15 +103,14 @@ public class IacucCommitteeDecisionMotionValuesFinder extends CommitteeDecisionM
     }
 
 
-
-
-
-    private Protocol getProtocol() {
+    private IacucProtocol getProtocol() {
+        IacucProtocol retVal = null;
         KualiForm form = KNSGlobalVariables.getKualiForm();
-        if (form != null && form instanceof ProtocolForm) {
-            return ((ProtocolForm) form).getProtocolDocument().getProtocol();
+        if (form != null && form instanceof IacucProtocolForm) {
+            retVal = (IacucProtocol) ((IacucProtocolForm) form).getProtocolDocument().getProtocol();
         }
-        return null;
+        
+        return retVal;
     }
 
 }
