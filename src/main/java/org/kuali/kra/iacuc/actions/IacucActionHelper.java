@@ -529,7 +529,7 @@ public class IacucActionHelper extends ActionHelper {
         
         bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         bean.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(bean.getReviewCommentsBean().getReviewComments()));            
-        ProtocolAction protocolAction = findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
+        IacucProtocolAction protocolAction = (IacucProtocolAction) findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
             bean.setActionDate(new Date(protocolAction.getActionDate().getTime()));

@@ -232,7 +232,10 @@
                                         
            <%-- <kra-iacuc-action:reviewNotRequiredAction />
             <kra-iacuc-action:undoLastAction />
+            --%>
+            
             <kra-iacuc-action:manageReviewComments />
+<%--            
             <kra-iacuc-action:manageNotes />
 --%>            
 		</c:if>		
@@ -459,7 +462,7 @@
 	    	                                                 reason="No action to undo." />
 	        	    <kra-iacuc-action:genericUnavailableAction tabTitle="Manage Review Comments"
 	            	                                         canPerformAction="${KualiForm.actionHelper.canManageReviewCommentsUnavailable}"
-	                	                                     reason="Protocol Status is Submitted to IACUC, Minor Revisions Required, Major Revisions Required, Amendment in Progress, Renewal in Progress, Withdrawn, or Deferred.
+	                	                                     reason="Protocol Status is Submitted to IACUC, Minor Revisions Required, Major Revisions Required, Tabled.
 	                    	                                         <p>
 	                        	                                     Protocol must be enroute in workflow." />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Manage Notes"

@@ -2499,25 +2499,25 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
-//    
-//    public ActionForward manageComments(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        if (!hasDocumentStateChanged(protocolForm)) {
-//            if (hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolForm.getProtocolDocument().getProtocol())) {
-//                ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                
-//                recordProtocolActionSuccess("Manage Review Comments");
-//            }
-//        } else {
-//            GlobalVariables.getMessageMap().clearErrorMessages();
-//            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
-//        }        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
+    
+    public ActionForward manageComments(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        if (!hasDocumentStateChanged(protocolForm)) {
+            if (hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, (IacucProtocol) protocolForm.getProtocolDocument().getProtocol())) {
+                IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
+                saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Manage Review Comments");
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+        }        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
 //    /**
 //     * Open ProtocolDocument in Read/Write mode for Admin Correction
 //     * 
@@ -3214,6 +3214,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    
 //
 //    /**
 //     * 
