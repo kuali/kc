@@ -270,6 +270,14 @@
                     <property name="taskName" value="protocolReturnForSRRUnavailable" />
                 </bean>
                 
+                <bean class="org.kuali.kra.iacuc.auth.IacucManageReviewCommentsAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolManageReviewComments" />
+                </bean>
+                           
+                <bean class="org.kuali.kra.iacuc.auth.IacucManageReviewCommentsUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolManageReviewCommentsUnavailable" />
+                </bean>
+                
            </list>
         </property>
     </bean>
