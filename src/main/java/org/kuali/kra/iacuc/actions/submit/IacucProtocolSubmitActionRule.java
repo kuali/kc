@@ -15,16 +15,23 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
+import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.iacuc.threers.IacucPrinciplesAuditError;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewType;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 /**
  * Validate a protocol submission to the IRB for review.
@@ -32,10 +39,14 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
 /**
  * This class...
  */
+@SuppressWarnings("deprecation")
 public class IacucProtocolSubmitActionRule extends ProtocolSubmitActionRule {
 
     private final String PROTOCOL_ALT_SEARCH_REQUIRED_PROPERTY_KEY = "document.protocolList[0].iacucPrinciples[0].searchRequired";
     private final String PROTOCOL_ALT_SEARCH_PROPERTY_KEY = "iacucAlternateSearchHelper.newAlternateSearch.databases";
+    private static final String PRINCIPLES_PANEL_NAME = "threeRs";
+    private static final String PRINCIPLES_CLUSTER_NAME = "alternateSearchAuditErrors";
+    private static final String PRINCIPLES_ANCHOR_NAME = "Alternate Search";
 
     
     /**
@@ -57,11 +68,11 @@ public class IacucProtocolSubmitActionRule extends ProtocolSubmitActionRule {
         IacucProtocol protocol = (IacucProtocol)submitAction.getProtocol();
         String searchRequired = protocol.getIacucPrinciples().get(0).getSearchRequired();
         if (StringUtils.isBlank(searchRequired)) {
-            IacucPrinciplesAuditError.addAuditError(PROTOCOL_ALT_SEARCH_REQUIRED_PROPERTY_KEY, KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_QUESTION_NOT_ANSWERED);
+            getAuditErrors().add(new AuditError(PROTOCOL_ALT_SEARCH_REQUIRED_PROPERTY_KEY , KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_QUESTION_NOT_ANSWERED, PRINCIPLES_PANEL_NAME + "." + PRINCIPLES_ANCHOR_NAME));
             reportError(PROTOCOL_ALT_SEARCH_REQUIRED_PROPERTY_KEY, KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_QUESTION_NOT_ANSWERED);
             return false;
         } else if (StringUtils.equals("Y", searchRequired) && protocol.getIacucAlternateSearches().isEmpty()) {
-            IacucPrinciplesAuditError.addAuditError(PROTOCOL_ALT_SEARCH_PROPERTY_KEY, KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_DATA_NOT_ENTERED);
+            getAuditErrors().add(new AuditError(PROTOCOL_ALT_SEARCH_PROPERTY_KEY , KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_DATA_NOT_ENTERED, PRINCIPLES_PANEL_NAME + "." + PRINCIPLES_ANCHOR_NAME));
             reportError(PROTOCOL_ALT_SEARCH_PROPERTY_KEY, KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_DATA_NOT_ENTERED);
             return false;
         }
@@ -83,5 +94,17 @@ public class IacucProtocolSubmitActionRule extends ProtocolSubmitActionRule {
         return IacucProtocolDocument.class;
     }
 
+    private List<AuditError> getAuditErrors() {
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        
+        if (!KNSGlobalVariables.getAuditErrorMap().containsKey(PRINCIPLES_CLUSTER_NAME)) {
+           KNSGlobalVariables.getAuditErrorMap().put(PRINCIPLES_CLUSTER_NAME, new AuditCluster(PRINCIPLES_ANCHOR_NAME, auditErrors, AUDIT_ERRORS));
+        }
+        else {
+            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(PRINCIPLES_ANCHOR_NAME)).getAuditErrorList();
+        }
+        
+        return auditErrors;
+    }
 
 }
