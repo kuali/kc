@@ -13,25 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.auth;
+package org.kuali.kra.iacuc.auth;
 
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
  */
-public class ManageReviewCommentsAuthorizer extends ProtocolAuthorizer {
+public class IacucManageReviewCommentsAuthorizer extends IacucProtocolAuthorizer {
 
     /** {@inheritDoc} */
     @Override
-    public boolean isAuthorized(String username, ProtocolTask task) {
-        Protocol protocol = task.getProtocol();
-        boolean isWorklowed = kraWorkflowService.isInWorkflow(protocol.getProtocolDocument());
-        boolean hasPermission = hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
-        boolean canExecute = canExecuteAction(protocol, ProtocolActionType.MANAGE_REVIEW_COMMENTS);
-        return isWorklowed && hasPermission && canExecute;
+    public boolean isAuthorized(String username, IacucProtocolTask task) {
+        IacucProtocol protocol = task.getProtocol();
+        
+        boolean isWorkflowed = kraWorkflowService.isInWorkflow(protocol.getProtocolDocument());
+        boolean hasPermission = hasPermission(username, protocol, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        boolean canExecute = canExecuteAction(protocol, IacucProtocolActionType.MANAGE_REVIEW_COMMENTS);
+        
+        return isWorkflowed && hasPermission && canExecute;
     }
 
 }
