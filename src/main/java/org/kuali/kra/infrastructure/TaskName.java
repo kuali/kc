@@ -339,8 +339,8 @@ public interface TaskName {
     public static final String IACUC_MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE = "modifyIacucProtocolSubmissionUnavailable";
     public static final String IACUC_PROTOCOL_TABLE = "iacucProtocolTable"; 
     public static final String IACUC_PROTOCOL_TABLE_UNAVAILABLE = "iacucProtocolTableUnavailable"; 
-    public static final String IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS = "iacucProtocolManageReviewComments";
-    public static final String IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE = "iacucProtocolManageReviewCommentsUnavailable";
+//    public static final String IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS = "iacucProtocolManageReviewComments";
+//    public static final String IACUC_PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE = "iacucProtocolManageReviewCommentsUnavailable";
     public static final String IACUC_PROTOCOL_APPROVE_OTHER = "iacucProtocolApproveOther"; 
     public static final String IACUC_PROTOCOL_MANAGE_NOTES = "iacucProtocolManageNotes";
     public static final String IACUC_PROTOCOL_MANAGE_NOTES_UNAVAILABLE = "iacucProtocolManageNotesUnavailable";

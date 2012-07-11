@@ -80,7 +80,6 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     private CommitteeSchedule committeeSchedule;
 
     private ProtocolReviewer protocolReviewer;
-//    private IacucProtocolReviewer iacucProtocolReviewer;
 
     private String createUser;
 
@@ -88,8 +87,6 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
 
     @SkipVersioning
     private transient ProtocolOnlineReview protocolOnlineReview;
-//    @SkipVersioning
-//    private transient IacucProtocolOnlineReview iacucProtocolOnlineReview;
 
     private String minuteEntry;
 
@@ -100,9 +97,6 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     @SkipVersioning
     private Protocol protocol;
     
-//    @SkipVersioning
-//    private IacucProtocol iacucProtocol;
-
     private boolean generateAttendance = false;
 
     @SkipVersioning
@@ -453,28 +447,8 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
         }
         return protocolId;
         
-//        if (protocolId == null) {
-//            return getIacucProtocolId();
-//        } else {
-//            return protocolId;
-//        }
     }
 
-//    public Long getIacucProtocolId() {
-//        Long protocolId = null;
-//        if (this.iacucProtocol != null) {
-//            protocolId = this.iacucProtocol.getProtocolId();
-//        } else {
-//            if (this.protocolIdFk != null) {
-//                this.refreshReferenceObject("iacucProtocol");
-//            }
-//            if (iacucProtocol != null) {
-//                protocolId = this.iacucProtocol.getProtocolId();
-//            } 
-//        }
-//        return protocolId;
-//        
-//    }
     /**
      * Gets the createUserFullName attribute. 
      * @return Returns the createUserFullName.
@@ -535,13 +509,23 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public boolean getCanView() {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String principalName = GlobalVariables.getUserSession().getPrincipalName();
-        return isIrbAdministrator(principalId) || StringUtils.equals(principalName, createUser) || (!getPrivateCommentFlag() && isFinalFlag());
+        return isAdministrator(principalId) || StringUtils.equals(principalName, createUser) || (!getPrivateCommentFlag() && isFinalFlag());
     }
 
-    private boolean isIrbAdministrator(String principalId) {
+    // TODO this is a temporary solution until we decide on a uniform strategy to handle references into IRB from committee classes.
+    // this method will now return true if principal is either IRB admin or IACUC admin
+    private boolean isAdministrator(String principalId) {
+        boolean retVal = false;
         RoleService roleService = KraServiceLocator.getService(RoleService.class);
         Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR, null);
-        return ids.contains(principalId);
+        if(ids.contains(principalId)) {
+            retVal = true;
+        }
+        else {
+            ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IACUC_ADMINISTRATOR, null);
+            retVal = ids.contains(principalId); 
+        }
+        return retVal;
     }
 
     public CommitteeScheduleMinute getCopy() {
@@ -600,29 +584,4 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     public boolean isPrivate() {
         return getPrivateCommentFlag();
     }
-
-//    public IacucProtocolReviewer getIacucProtocolReviewer() {
-//        return iacucProtocolReviewer;
-//    }
-//
-//    public void setIacucProtocolReviewer(IacucProtocolReviewer iacucProtocolReviewer) {
-//        this.iacucProtocolReviewer = iacucProtocolReviewer;
-//    }
-//
-//    public IacucProtocolOnlineReview getIacucProtocolOnlineReview() {
-//        return iacucProtocolOnlineReview;
-//    }
-//
-//    public void setIacucProtocolOnlineReview(IacucProtocolOnlineReview iacucProtocolOnlineReview) {
-//        this.iacucProtocolOnlineReview = iacucProtocolOnlineReview;
-//    }
-//
-//    public IacucProtocol getIacucProtocol() {
-//        return iacucProtocol;
-//    }
-//
-//    public void setIacucProtocol(IacucProtocol iacucProtocol) {
-//        this.iacucProtocol = iacucProtocol;
-//    }
-    
 }
