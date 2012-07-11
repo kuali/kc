@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
@@ -35,9 +34,7 @@ public class ApproveIacucProtocolUnavailableAuthorizer extends IacucProtocolAuth
         IacucProtocolAction lastAction = (IacucProtocolAction) task.getProtocol().getLastProtocolAction();
         IacucProtocolSubmission lastSubmission = (IacucProtocolSubmission) task.getProtocol().getProtocolSubmission();
         
-        return !(canPerform(lastAction, lastSubmission) &&
-                 canExecuteAction(task.getProtocol(), IacucProtocolActionType.IACUC_APPROVED)) && 
-                 hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        return (!canPerform(lastAction, lastSubmission)) && hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }
     
     
