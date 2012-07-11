@@ -21,7 +21,6 @@ import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-
 /**
  * Is the user allowed to approve protocols?
  */
@@ -35,9 +34,7 @@ public class ApproveIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
         IacucProtocolAction lastAction = (IacucProtocolAction) task.getProtocol().getLastProtocolAction();
         IacucProtocolSubmission lastSubmission = (IacucProtocolSubmission) task.getProtocol().getProtocolSubmission();
         
-        return canPerform(lastAction, lastSubmission) &&
-               canExecuteAction(task.getProtocol(), IacucProtocolActionType.IACUC_APPROVED) && 
-               hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        return canPerform(lastAction, lastSubmission) && hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }
     
     private boolean canPerform(IacucProtocolAction lastAction, IacucProtocolSubmission lastSubmission) {
