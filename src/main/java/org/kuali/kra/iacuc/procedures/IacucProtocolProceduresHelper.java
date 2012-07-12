@@ -52,6 +52,7 @@ public class IacucProtocolProceduresHelper implements Serializable{
         setNewIacucProtocolStudyGroupBean(new IacucProtocolStudyGroupBean());
         setNewIacucProcedurePersonResponsible(new IacucProcedurePersonResponsible());
         setAllProcedures(new ArrayList<IacucProcedure>());
+        initializeIncludedProceduresAndCategories();
     }    
     
     
