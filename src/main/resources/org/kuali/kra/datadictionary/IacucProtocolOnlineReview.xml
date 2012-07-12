@@ -544,10 +544,21 @@
           <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="required" value="false" />
+        <!-- 
         <property name="control" >
           <bean parent="SelectControlDefinition"
                 p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewerType"
-                p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                p:includeKeyInLabel="false"
+                p:includeBlankRow="false"
+                p:keyAttribute="reviewerTypeCode"
+                p:labelAttribute="description" />
+        </property>
+         -->
+         <property name="control" >
+          <bean parent="SelectControlDefinition"
+                p:businessObjectClass="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType"
+                p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
                 p:includeKeyInLabel="false"
                 p:includeBlankRow="false"
                 p:keyAttribute="reviewerTypeCode"
