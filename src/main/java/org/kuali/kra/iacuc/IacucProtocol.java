@@ -98,7 +98,7 @@ public class IacucProtocol extends Protocol {
     private List<IacucProtocolException> iacucProtocolExceptions;
 
     private List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroups;
-    private transient List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans;
+    private List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans;
     
     // lookup field
     private Integer speciesCode; 
