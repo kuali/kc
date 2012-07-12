@@ -29,28 +29,19 @@ import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
  * This service creates Proposal Development Document from Protocol for users authorized to create proposal. This created
  * proposal is then added to Protocol Funding sources. 
  */
-public class IacucProtocolProposalDevelopmentDocumentServiceImpl extends ProtocolProposalDevelopmentDocumentServiceImpl {
+public class IacucProtocolProposalDevelopmentDocumentServiceImpl extends ProtocolProposalDevelopmentDocumentServiceImpl implements IacucProtocolProposalDevelopmentDocumentService {
 
-    /*
-     * Populate Special review specific to IACUC protocol
-     */
-    @Override
-    public void populateProposalSpecialReview(Protocol protocol, ProposalDevelopmentDocument proposalDocument)
+    public final static String IACUC_PROJECT_END_DATE_NUMBER_OF_YEARS = "iacucProtocolProjectEndDateNumberOfYears";
+
+    @Override 
+    protected String getSpecialReviewTypeHook()
     {
-    if (protocol != null) {
-        Integer specialReviewNumber = proposalDocument.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER);
-        
-        ProposalSpecialReview specialReview = new ProposalSpecialReview();
-        specialReview.setSpecialReviewNumber(specialReviewNumber);
-        specialReview.setSpecialReviewTypeCode(SpecialReviewType.ANIMAL_USAGE);
-        specialReview.setApprovalTypeCode(SpecialReviewApprovalType.PENDING);
-        specialReview.setProtocolNumber(protocol.getProtocolNumber());
-        specialReview.setProposalNumber(proposalDocument.getDevelopmentProposal().getProposalNumber());
-        
-        specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
-        specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
-        proposalDocument.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
-        }
+        return SpecialReviewType.ANIMAL_USAGE;
     }
-
+    
+    @Override
+    protected String getProjectEndDateNumberOfYearsHook()
+    {
+        return IACUC_PROJECT_END_DATE_NUMBER_OF_YEARS;
+    }
 }

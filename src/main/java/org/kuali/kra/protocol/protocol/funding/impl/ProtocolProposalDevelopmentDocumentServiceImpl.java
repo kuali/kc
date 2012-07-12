@@ -19,6 +19,9 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
+import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.kra.bo.SpecialReviewType;
+import org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -36,6 +39,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -98,7 +102,7 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImpl implements 
         developmentProposal.setRequestedStartDateInitial(new Date(System.currentTimeMillis()));
 
         ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
-        String projectEndDateParameter = parameterService.getParameterValueAsString(IacucProtocolDocument.class, ProtocolProposalDevelopmentDocumentService.IACUC_PROJECT_END_DATE_NUMBER_OF_YEARS);
+        String projectEndDateParameter = parameterService.getParameterValueAsString(IacucProtocolDocument.class, getProjectEndDateNumberOfYearsHook());
         int numberOfYears = Integer.parseInt(projectEndDateParameter);
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, numberOfYears);
@@ -167,7 +171,24 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImpl implements 
     
     }
 
-    public abstract void populateProposalSpecialReview(Protocol protocol, ProposalDevelopmentDocument proposalDocument);
+    @Override
+    public void populateProposalSpecialReview(Protocol protocol, ProposalDevelopmentDocument proposalDocument)
+    {
+    if (protocol != null) {
+        Integer specialReviewNumber = proposalDocument.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER);
+        
+        ProposalSpecialReview specialReview = new ProposalSpecialReview();
+        specialReview.setSpecialReviewNumber(specialReviewNumber);
+        specialReview.setSpecialReviewTypeCode(getSpecialReviewTypeHook());
+        specialReview.setApprovalTypeCode(SpecialReviewApprovalType.PENDING);
+        specialReview.setProtocolNumber(protocol.getProtocolNumber());
+        specialReview.setProposalNumber(proposalDocument.getDevelopmentProposal().getProposalNumber());
+        
+        specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
+        specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
+        proposalDocument.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
+        }
+    }
 
     @Override
     public boolean isAuthorizedCreateProposal(ProtocolHelper protocolHelper) {
@@ -176,5 +197,8 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImpl implements 
         return canCreateProposal;
     }
 
+
+    protected abstract String getProjectEndDateNumberOfYearsHook();
+    protected abstract String getSpecialReviewTypeHook();
 
 }

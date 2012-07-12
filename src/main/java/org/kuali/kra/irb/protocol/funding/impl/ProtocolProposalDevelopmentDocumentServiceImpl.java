@@ -188,26 +188,6 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
         }
     }
 
-/*
-    public void addProtocolFundingSourceFromProposalDevelopment(Protocol protocol, ProposalDevelopmentDocument proposalDevelopmentDocument)
-    {
-        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
-
-        ProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = KraServiceLocator.getService("protocolFundingSourceService");
-        ProtocolFundingSource proposalProtocolFundingSource = protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.PROPOSAL_DEVELOPMENT, developmentProposal.getProposalNumber(), developmentProposal.getSponsorName());
-        proposalProtocolFundingSource.setProtocol(protocol);
-       
-        List<ProtocolFundingSource> protocolFundingSources = protocol.getProtocolFundingSources();
-        AddProtocolFundingSourceEvent event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocol.getProtocolDocument(),
-                proposalProtocolFundingSource, protocolFundingSources);
-        
-        KualiRuleService kualiRuleService = KraServiceLocator.getService(KualiRuleService.class);
-        if (kualiRuleService.applyRules(event)) {
-            protocol.getProtocolFundingSources().add(proposalProtocolFundingSource);
-        }
-
-    }
-*/
     @Override
     public boolean isAuthorizedCreateProposal(ProtocolHelper protocolHelper) {
         // TODO Auto-generated method stub
