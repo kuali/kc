@@ -44,6 +44,8 @@ import org.kuali.kra.iacuc.protocol.funding.AddIacucProtocolFundingSourceEvent;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceService;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceServiceImpl;
+import org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentDocumentService;
+import org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentDocumentServiceImpl;
 import org.kuali.kra.iacuc.protocol.funding.LookupIacucProtocolFundingSourceEvent;
 import org.kuali.kra.iacuc.protocol.funding.SaveIacucProtocolFundingSourceLinkEvent;
 import org.kuali.kra.iacuc.protocol.location.AddIacucProtocolLocationEvent;
@@ -474,8 +476,8 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      * 
      * @return ProtocolProposalDevelopmentDocumentService
      */
-    private ProtocolProposalDevelopmentDocumentService getProtocolProposalDevelopmentDocumentService() {
-        return (ProtocolProposalDevelopmentDocumentService) KraServiceLocator.getService(ProtocolProposalDevelopmentDocumentService.class);
+    private IacucProtocolProposalDevelopmentDocumentService getProtocolProposalDevelopmentDocumentService() {
+        return KraServiceLocator.getService(IacucProtocolProposalDevelopmentDocumentService.class);
     }
 
     /**
@@ -500,7 +502,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         {
             DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
     
-            IacucProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = KraServiceLocator.getService("iacucProtocolFundingSourceService");
+            IacucProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = (IacucProtocolFundingSourceServiceImpl) getProtocolFundingSourceService();
             IacucProtocolFundingSource proposalProtocolFundingSource = (IacucProtocolFundingSource) protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.PROPOSAL_DEVELOPMENT, developmentProposal.getProposalNumber(), developmentProposal.getSponsorName());
             proposalProtocolFundingSource.setProtocol(protocolDocument.getProtocol());
            

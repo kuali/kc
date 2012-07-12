@@ -814,7 +814,7 @@
         <property name="protocolActionService" ref="iacucProtocolActionService" />    
     </bean>
 
-	<bean id="protocolProposalDevelopmentDocumentService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentDocumentServiceImpl">
+	<bean id="iacucProtocolProposalDevelopmentDocumentService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentDocumentServiceImpl">
     </bean>
     
     

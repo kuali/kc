@@ -21,12 +21,11 @@ import org.kuali.kra.protocol.protocol.ProtocolHelper;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public interface ProtocolProposalDevelopmentDocumentService {
-    public final static String IACUC_PROJECT_END_DATE_NUMBER_OF_YEARS = "iacucProtocolProjectEndDateNumberOfYears";
     public ProposalDevelopmentDocument createProposalDevelopmentDocument(ProtocolForm protocolForm) throws Exception;
     public boolean isAuthorizedCreateProposal(ProtocolHelper protocolHelper);
     public void populateDocumentOverview(Protocol protocol, ProposalDevelopmentDocument proposalDocument);
     public void populateRequiredFields(Protocol protocol, ProposalDevelopmentDocument proposalDocument) throws Exception;
     public void populateProposalPerson_Investigator(Protocol protocol, ProposalDevelopmentDocument proposalDocument);
-    public void populateProposalSpecialReview(Protocol protocol, ProposalDevelopmentDocument proposalDocument);
+    public void populateProposalSpecialReview(Protocol protocol, ProposalDevelopmentDocument proposalDocument);    
     public void initializeAuthorization(ProposalDevelopmentDocument document);
 }
