@@ -666,6 +666,13 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		aorInfoType.setAddress(address);
 		aorInfoType.setPhone(departmentalPerson.getOfficePhone());
 		aorInfoType.setFax(departmentalPerson.getFaxNumber());
+		String departmentName = departmentalPerson.getDirDept();
+		if (departmentName != null
+		        && departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
+		    departmentName = departmentName.substring(0,
+		            DEPARTMENT_NAME_MAX_LENGTH - 1);
+		}
+		aorInfoType.setDepartmentName(departmentName);
 		aorInfoType.setEmail(departmentalPerson.getEmailAddress());
 	}
 
