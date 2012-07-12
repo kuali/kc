@@ -480,11 +480,11 @@
   <bean id="NonOrganizationalRolodex-inquiryDefinition" parent="NonOrganizationalRolodex-inquiryDefinition-parentBean" />
 
   <bean id="NonOrganizationalRolodex-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Non-Organizational Rolodex" />
+    <property name="title" value="Address Book" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Non-Organizational Address Book" />
+          <property name="title" value="Address Book" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
