@@ -579,7 +579,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         {
             DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
     
-            ProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = KraServiceLocator.getService("protocolFundingSourceService");
+            ProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = (ProtocolFundingSourceServiceImpl) getProtocolFundingSourceService(); 
             ProtocolFundingSource proposalProtocolFundingSource = protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.PROPOSAL_DEVELOPMENT, developmentProposal.getProposalNumber(), developmentProposal.getSponsorName());
             proposalProtocolFundingSource.setProtocol(protocolDocument.getProtocol());
            
