@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,17 +24,24 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     // TODO : detail need to be implemented after role and tasks are set up.
@@ -75,6 +84,12 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
             if (canViewReviewComments(iacucProtocolDocument, user)) {
                 editModes.add(Constants.CAN_VIEW_REVIEW_COMMENTS);
             }
+            if (canEditReviewComments(iacucProtocolDocument, user)) {
+                editModes.add(Constants.CAN_EDIT_REVIEW_COMMENTS);
+            }
+            if (canEditReviewAttachments(iacucProtocolDocument, user)) {
+                editModes.add(Constants.CAN_EDIT_REVIEW_ATTACHMENTS);
+            }
            
         }
         
@@ -94,6 +109,58 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
         }
         return true;
     }
+    
+    public boolean canEditReviewComments(Document document, Person user) {
+        IacucProtocolDocument protocolDoc = (IacucProtocolDocument)document;
+        List<ProtocolOnlineReview> reviews = getIacucProtocolOnlineReviewService().getProtocolReviews(protocolDoc.getProtocol().getProtocolNumber());
+        if (reviews != null && reviews.size() > 0) {
+            for (ProtocolOnlineReview review : reviews) {
+                ProtocolReviewer reviewer = review.getProtocolReviewer();
+                if (StringUtils.equalsIgnoreCase(reviewer.getPerson().getPersonId(), user.getPrincipalId())) {
+                    if (isPrimarySecondary(reviewer)) {
+                        return true;
+                    } else if(isCommitteeAndPastDeterminationDueDate(reviewer, review)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean canEditReviewAttachments(Document document, Person user) {
+        IacucProtocolDocument protocolDoc = (IacucProtocolDocument)document;
+        List<ProtocolOnlineReview> reviews = getIacucProtocolOnlineReviewService().getProtocolReviews(protocolDoc.getProtocol().getProtocolNumber());
+        if (reviews != null && reviews.size() > 0) {
+            for (ProtocolOnlineReview review : reviews) {
+                ProtocolReviewer reviewer = review.getProtocolReviewer();
+                if (StringUtils.equalsIgnoreCase(reviewer.getPerson().getPersonId(), user.getPrincipalId())) {
+                    if (isPrimarySecondary(reviewer)) {
+                        return true;
+                    } else if(isCommitteeAndPastDeterminationDueDate(reviewer, review)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    protected boolean isPrimarySecondary(ProtocolReviewer reviewer) {
+        return StringUtils.equalsIgnoreCase(reviewer.getReviewerTypeCode(), IacucProtocolReviewerType.PRIMARY) || 
+                StringUtils.equalsIgnoreCase(reviewer.getReviewerTypeCode(), IacucProtocolReviewerType.SECONDARY);
+    }
+    
+    protected boolean isCommitteeAndPastDeterminationDueDate(ProtocolReviewer reviewer, ProtocolOnlineReview review) {
+        if(StringUtils.equalsIgnoreCase(reviewer.getReviewerTypeCode(), IacucProtocolReviewerType.COMMITTEE)) {
+            Date determinationDueDate = ((IacucProtocolOnlineReview) review.getProtocolOnlineReviewDocument().getProtocolOnlineReview()).getDeterminationReviewDateDue();
+            if (determinationDueDate != null && Calendar.getInstance().getTime().after(determinationDueDate)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
@@ -207,5 +274,7 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
         return false;
     }
     
-
+    protected IacucProtocolOnlineReviewService getIacucProtocolOnlineReviewService() {
+        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+    }
 }
