@@ -631,6 +631,8 @@ public interface Constants {
     
     // Protocol edit modes
     public static final String CAN_VIEW_REVIEW_COMMENTS = "viewReviewComments";
+    public static final String CAN_EDIT_REVIEW_COMMENTS = "canEditReviewComments";
+    public static final String CAN_EDIT_REVIEW_ATTACHMENTS = "canEditReviewAttachments";
     // Risk Level
     public static final String PROTOCOL_UPDATE_RISK_LEVEL_KEY = "document.protocol.protocolRiskLevels";
     
