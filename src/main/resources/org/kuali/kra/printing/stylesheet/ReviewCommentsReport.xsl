@@ -130,15 +130,17 @@
                                             <fo:block padding-top="1pt" padding-bottom="1pt">
                                                 <xsl:for-each select="n1:Protocol">
                                                     <xsl:for-each select="n1:Investigator">
-                                                        <xsl:for-each select="n1:Person">
-                                                            <xsl:for-each select="n1:Fullname">
-                                                                <fo:inline>
-                                                                    <xsl:apply-templates>
-                                                                        <xsl:with-param name="maxwidth" select="$columnwidth1_1 + $columnwidth1_2 + $columnwidth1_3 - 0.02083 - 0.02083" />
-                                                                    </xsl:apply-templates>
-                                                                </fo:inline>
-                                                            </xsl:for-each>
-                                                        </xsl:for-each>
+                                                    	<xsl:if test="n1:PI_flag = &apos;true&apos;">
+	                                                        <xsl:for-each select="n1:Person">
+	                                                            <xsl:for-each select="n1:Fullname">
+	                                                                <fo:inline>
+	                                                                    <xsl:apply-templates>
+	                                                                        <xsl:with-param name="maxwidth" select="$columnwidth1_1 + $columnwidth1_2 + $columnwidth1_3 - 0.02083 - 0.02083" />
+	                                                                    </xsl:apply-templates>
+	                                                                </fo:inline>
+	                                                            </xsl:for-each>
+	                                                        </xsl:for-each>
+                                                        </xsl:if>
                                                     </xsl:for-each>
                                                 </xsl:for-each>
                                             </fo:block>

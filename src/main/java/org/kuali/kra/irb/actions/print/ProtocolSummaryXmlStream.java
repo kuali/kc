@@ -709,8 +709,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         List<ProtocolPerson> vecInvestigator = protocol.getProtocolPersons();
         for (ProtocolPerson protocolPerson : vecInvestigator) {
             protocolPerson.refreshNonUpdateableReferences();
-            if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)
-                    || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CO_INVESTIGATOR)) {
+            if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)) {
                 protocolDetailsType.setInvestigator(protocolPerson.getPersonName());
             }
         }        
