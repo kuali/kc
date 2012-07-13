@@ -230,20 +230,21 @@
 			</kul:innerTab>
 		
 		<!--  end determine review type -->
-		
+			<c:set var="commentsReadOnly" value="${!KualiForm.editingMode['canEditReviewComments']}" scope="request" />
 			<kra-iacuc-olr:onlineReviewComments bean="${KualiForm.onlineReviewsActionHelper.reviewCommentsBeans[renderIndex]}"
        										  documentNumber = "${documentNumber}" 
        										  allowReadOnly="${readOnly}" 
        										  action="Online" 
        										  property="onlineReviewsActionHelper.reviewCommentsBeans[${renderIndex}]"
-       										  reviewIndex = "${renderIndex}" readOnly="${readOnly}"></kra-iacuc-olr:onlineReviewComments>
-		
+       										  reviewIndex = "${renderIndex}" readOnly="${commentsReadOnly}"></kra-iacuc-olr:onlineReviewComments>
+			
+			<c:set var="attachmentsReadOnly" value="${!KualiForm.editingMode['canEditReviewAttachments']}" scope="request" />
 			<kra-iacuc-olr:onlineReviewAttachments bean="${KualiForm.onlineReviewsActionHelper.reviewAttachmentsBeans[renderIndex]}"
        										  documentNumber = "${documentNumber}" 
        										  allowReadOnly="${readOnly}" 
        										  action="Online" 
        										  property="onlineReviewsActionHelper.reviewAttachmentsBeans[${renderIndex}]"
-       										  reviewIndex = "${renderIndex}" readOnly="${readOnly}"></kra-iacuc-olr:onlineReviewAttachments>
+       										  reviewIndex = "${renderIndex}" readOnly="${attachmentsReadOnly}"></kra-iacuc-olr:onlineReviewAttachments>
 		
 
 			<kul:innerTab tabTitle="Protocol Review Actions" parentTab="" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
