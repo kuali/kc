@@ -50,7 +50,8 @@
                 	</div>
                 </th>
                 <td align="left" valign="center">
-			    	<html:select property="document.protocolList[0].iacucPrinciples[0].searchRequired">
+			    	<html:select property="document.protocolList[0].iacucPrinciples[0].searchRequired"
+                                 onchange="alternateSearchRequired(this);">
 			        	<html:option value="">Select</html:option>
 			        	<html:option value="Y">Yes</html:option>
 			        	<html:option value="N">No</html:option>
