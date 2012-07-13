@@ -15,22 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions.reviewcomments;
 
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ProtocolAddReviewAttachmentRule;
 
-public class IacucReviewAttachmentsBean extends ReviewAttachmentsBean<IacucProtocolReviewAttachment> {
+public class IacucProtocolAddReviewAttachmentRule extends ProtocolAddReviewAttachmentRule<IacucProtocolAddReviewAttachmentEvent> {
 
-    /**
-     * Comment for <code<IacucProtocolReviewAttachment>*/
-    private static final long serialVersionUID = -8599936995989105543L;
-
-    public IacucReviewAttachmentsBean(String errorPropertyKey) {
-        super(errorPropertyKey);
-    }
-
-    @Override
-    protected IacucProtocolReviewAttachment getNewProtocolReviewAttachmentInstanceHook() {
-        return new IacucProtocolReviewAttachment();
-    }
 
 }

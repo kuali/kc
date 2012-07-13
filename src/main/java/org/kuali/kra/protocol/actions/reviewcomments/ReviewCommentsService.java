@@ -25,7 +25,7 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewable;
 
-public interface ReviewCommentsService {
+public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
     /**
      * Determines whether the given principal can view the list of online reviewer comments for the given protocol submission.
      * 
@@ -179,7 +179,7 @@ public interface ReviewCommentsService {
      * @param index
      * @param deletedReviewAttachments
      */
-    void deleteReviewAttachment(List<ProtocolReviewAttachment> reviewAttachments, int index, List<ProtocolReviewAttachment> deletedReviewAttachments);
+    void deleteReviewAttachment(List<PRA> reviewAttachments, int index, List<PRA> deletedReviewAttachments);
 
     /**
      * 
@@ -187,7 +187,7 @@ public interface ReviewCommentsService {
      * @param reviewAttachments
      * @param deletedReviewAttachments
      */
-    void saveReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments, List<ProtocolReviewAttachment> deletedReviewAttachments);
+    void saveReviewAttachments(List<PRA> reviewAttachments, List<PRA> deletedReviewAttachments);
 
     /**
      * 
@@ -195,8 +195,7 @@ public interface ReviewCommentsService {
      * @param reviewAttachments
      * @param deletedReviewAttachments
      */
-    void deleteAllReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments,
-            List<ProtocolReviewAttachment> deletedReviewAttachments);
+    void deleteAllReviewAttachments(List<PRA> reviewAttachments, List<PRA> deletedReviewAttachments);
     
     /**
      * 
@@ -205,7 +204,7 @@ public interface ReviewCommentsService {
      * @param reviewAttachments
      * @param protocol
      */
-    void addReviewAttachment(ProtocolReviewAttachment newReviewAttachment, List<ProtocolReviewAttachment> reviewAttachments, Protocol protocol);
+    void addReviewAttachment(PRA newReviewAttachment, List<PRA> reviewAttachments, Protocol protocol);
 
     /**
      * 
@@ -214,7 +213,7 @@ public interface ReviewCommentsService {
      * @param submissionNumber
      * @return
      */
-    List<ProtocolReviewAttachment> getReviewerAttachments(String protocolNumber, int submissionNumber);
+    List<PRA> getReviewerAttachments(String protocolNumber, int submissionNumber);
 
     /**
      * 
@@ -222,5 +221,5 @@ public interface ReviewCommentsService {
      * @param reviewAttachments
      * @return
      */
-    boolean setHideViewButton(List<ProtocolReviewAttachment> reviewAttachments);
+    boolean setHideViewButton(List<PRA> reviewAttachments);
 }

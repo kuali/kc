@@ -31,6 +31,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
@@ -71,7 +72,10 @@ import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucBean;
 import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucService;
 import org.kuali.kra.iacuc.actions.notifyiacuc.NotifyIacucNotificationRenderer;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucProtocolAddReviewAttachmentEvent;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucProtocolAddReviewCommentEvent;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucProtocolManageReviewAttachmentEvent;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewAttachmentsBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
@@ -89,6 +93,7 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireAuditRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -196,9 +201,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
     };
 
-    private static final List GENERIC_TYPE_PONDENCE;
+    private static final List<String> GENERIC_TYPE_PONDENCE;
     static {
-        final List correspondenceTypes = new ArrayList();
+        final List<String> correspondenceTypes = new ArrayList<String>();
         correspondenceTypes.add(ProtocolCorrespondenceType.ABANDON_NOTICE);
         correspondenceTypes.add(ProtocolCorrespondenceType.APPROVAL_LETTER);
         correspondenceTypes.add(ProtocolCorrespondenceType.CLOSURE_NOTICE);
@@ -2964,14 +2969,14 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
     
-    private ProtocolActionBean getActionBean(ActionForm form, HttpServletRequest request) {
+    private IacucProtocolActionBean getActionBean(ActionForm form, HttpServletRequest request) {
         ProtocolForm protocolForm = (ProtocolForm) form;
 
         String taskName = getTaskName(request);
         
-        ProtocolActionBean protocolActionBean = null;
+        IacucProtocolActionBean protocolActionBean = null;
         if (StringUtils.isNotBlank(taskName)) {
-            protocolActionBean = protocolForm.getActionHelper().getActionBean(taskName);
+            protocolActionBean = (IacucProtocolActionBean) protocolForm.getActionHelper().getActionBean(taskName);
         }
 
         return protocolActionBean;
@@ -2990,7 +2995,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
     private boolean hasPermission(String taskName, IacucProtocol protocol) {
-        ProtocolTask task = new IacucProtocolTask(taskName, protocol);
+        IacucProtocolTask task = new IacucProtocolTask(taskName, protocol);
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
 
@@ -3583,179 +3588,180 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //    private WatermarkService getWatermarkService() {
 //        return  KraServiceLocator.getService(WatermarkService.class);  
 //    }
-//
-//    /**
-//     * 
-//     * This method is to view review attachment
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        // TODO : refactor methods related with review attachment to see if they are sharable with
-//        // online review action
-//        ReviewAttachmentsBean reviewAttachmentsBean = getReviewAttachmentsBean(mapping, form, request, response);
-//
-//        if (reviewAttachmentsBean != null) {
-//            return streamReviewAttachment(mapping, request, response, reviewAttachmentsBean.getReviewAttachments());
-//        } else {
-//            return RESPONSE_ALREADY_HANDLED;
-//        }
-//    }
-//    
-//    /**
-//     * 
-//     * This method is to view review attachment from submission detail sub panel
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewSubmissionReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        // TODO : refactor methods related with review attachment to see if they are sharable with 
-//        // online review action
-//          return streamReviewAttachment(mapping, request, response, ((ProtocolForm)form).getActionHelper().getReviewAttachments());
-//    }
-//    
-//    private ActionForward streamReviewAttachment (ActionMapping mapping, HttpServletRequest request, HttpServletResponse response, List<ProtocolReviewAttachment> reviewAttachments) throws Exception {
-//
-//        int lineNumber = getLineToDelete(request);
-//        final ProtocolReviewAttachment attachment = reviewAttachments.get(lineNumber);
-//        
-//        if (attachment == null) {
-//            LOG.info(NOT_FOUND_SELECTION + lineNumber);
-//            //may want to tell the user the selection was invalid.
-//            return mapping.findForward(Constants.MAPPING_BASIC);
-//        }
-//        
-//        final AttachmentFile file = attachment.getFile();
-//        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
-//        return RESPONSE_ALREADY_HANDLED;
-//    }
-//    
-//    /**
-//     * 
-//     * This method is to delete the review attachment from manage review attachment
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     */
-//    public ActionForward deleteReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ReviewAttachmentsBean reviewAttachmentsBean = getReviewAttachmentsBean(mapping, form, request, response);
-//        
-//        if (reviewAttachmentsBean != null) {
-//            List<ProtocolReviewAttachment> reviewAttachments = reviewAttachmentsBean.getReviewAttachments();
-//            int lineNumber = getLineToDelete(request);
-//            List<ProtocolReviewAttachment> deletedReviewAttachments = reviewAttachmentsBean.getDeletedReviewAttachments();
-//            
-//            getReviewCommentsService().deleteReviewAttachment(reviewAttachments, lineNumber, deletedReviewAttachments);
-//            if (reviewAttachments.isEmpty()) {
-//                reviewAttachmentsBean.setHideReviewerName(true);
-//            } else {
-//                reviewAttachmentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewAttachmentsBean.getReviewAttachments()));
-//            }
-//       }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /*
-//     * get the protocol manage review attachment bean
-//     */
-//    private ReviewAttachmentsBean getReviewAttachmentsBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ReviewAttachmentsBean reviewAttachmentsBean = null;
-//        
-//        ProtocolActionBean protocolActionBean = getActionBean(form, request);
-//        if (protocolActionBean != null && protocolActionBean instanceof ProtocolOnlineReviewCommentable) {
-//            reviewAttachmentsBean = ((ProtocolOnlineReviewCommentable) protocolActionBean).getReviewAttachmentsBean();
-//        }
-//        
-//        return reviewAttachmentsBean;
-//    }
-//
-//    /**
-//     * 
-//     * This method is for the submission of manage review attachment
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward manageAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        if(!hasDocumentStateChanged(protocolForm)) {
-//            if (hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolForm.getProtocolDocument().getProtocol())) {
-//                if (applyRules(new ProtocolManageReviewAttachmentEvent(protocolForm.getProtocolDocument(),
-//                    "actionHelper.protocolManageReviewCommentsBean.reviewAttachmentsBean.", protocolForm.getActionHelper()
-//                            .getProtocolManageReviewCommentsBean().getReviewAttachmentsBean().getReviewAttachments()))) {
-//                    ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
-//                    saveReviewAttachments(protocolForm, actionBean.getReviewAttachmentsBean());
-//    
-//                    recordProtocolActionSuccess("Manage Review Attachments");
-//                }
-//            }
-//        } else {
-//            GlobalVariables.getMessageMap().clearErrorMessages();
-//            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    /*
-//     * this method is to save review attachment when manage review attachment is submitted
-//     */
-//    private void saveReviewAttachments(ProtocolForm protocolForm, ReviewAttachmentsBean actionBean) throws Exception { 
-//        getReviewCommentsService().saveReviewAttachments(actionBean.getReviewAttachments(), actionBean.getDeletedReviewAttachments());           
-//        actionBean.setDeletedReviewAttachments(new ArrayList<ProtocolReviewAttachment>());
-//        protocolForm.getActionHelper().prepareCommentsView();
-//    }
-//
-//    /**
-//     * 
-//     * This method is for adding new review attachment in manage review attachment
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     */
-//    public ActionForward addReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument document = protocolForm.getProtocolDocument();
-//        ReviewAttachmentsBean reviewAttachmentsBean = getReviewAttachmentsBean(mapping, form, request, response);
-//        
-//        if (reviewAttachmentsBean != null) {
-//            String errorPropertyName = reviewAttachmentsBean.getErrorPropertyName();
-//            ProtocolReviewAttachment newReviewAttachment = reviewAttachmentsBean.getNewReviewAttachment();
-//            List<ProtocolReviewAttachment> reviewAttachments = reviewAttachmentsBean.getReviewAttachments();
-//            Protocol protocol = document.getProtocol();
-//            
-//            if (applyRules(new ProtocolAddReviewAttachmentEvent(document, errorPropertyName, newReviewAttachment))) {
-//                getReviewCommentsService().addReviewAttachment(newReviewAttachment, reviewAttachments, protocol);
-//                
-//                reviewAttachmentsBean.setNewReviewAttachment(new ProtocolReviewAttachment());
-//            }
-//            reviewAttachmentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewAttachmentsBean.getReviewAttachments()));            
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//  
+
+    /**
+     * 
+     * This method is to view review attachment
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        // TODO : refactor methods related with review attachment to see if they are sharable with
+        // online review action
+        IacucReviewAttachmentsBean reviewAttachmentsBean = getReviewAttachmentsBean(mapping, form, request, response);
+
+        if (reviewAttachmentsBean != null) {
+            return streamReviewAttachment(mapping, request, response, reviewAttachmentsBean.getReviewAttachments());
+        } else {
+            return RESPONSE_ALREADY_HANDLED;
+        }
+    }
+    
+    /**
+     * 
+     * This method is to view review attachment from submission detail sub panel
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewSubmissionReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        // TODO : refactor methods related with review attachment to see if they are sharable with 
+        // online review action
+          return streamReviewAttachment(mapping, request, response, (List<IacucProtocolReviewAttachment>) ((IacucProtocolForm)form).getActionHelper().getReviewAttachments());
+    }
+    
+    private ActionForward streamReviewAttachment (ActionMapping mapping, HttpServletRequest request, HttpServletResponse response, List<IacucProtocolReviewAttachment> reviewAttachments) throws Exception {
+
+        int lineNumber = getLineToDelete(request);
+        final IacucProtocolReviewAttachment attachment = reviewAttachments.get(lineNumber);
+        
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + lineNumber);
+            //may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
+        final AttachmentFile file = attachment.getFile();
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+        return RESPONSE_ALREADY_HANDLED;
+    }
+
+    
+    /**
+     * 
+     * This method is to delete the review attachment from manage review attachment
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward deleteReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        IacucReviewAttachmentsBean reviewAttachmentsBean = getReviewAttachmentsBean(mapping, form, request, response);
+        
+        if (reviewAttachmentsBean != null) {
+            List<IacucProtocolReviewAttachment> reviewAttachments = reviewAttachmentsBean.getReviewAttachments();
+            int lineNumber = getLineToDelete(request);
+            List<IacucProtocolReviewAttachment> deletedReviewAttachments = reviewAttachmentsBean.getDeletedReviewAttachments();
+            
+            getReviewCommentsService().deleteReviewAttachment(reviewAttachments, lineNumber, deletedReviewAttachments);
+            if (reviewAttachments.isEmpty()) {
+                reviewAttachmentsBean.setHideReviewerName(true);
+            } else {
+                reviewAttachmentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewAttachmentsBean.getReviewAttachments()));
+            }
+       }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /*
+     * get the protocol manage review attachment bean
+     */
+    private IacucReviewAttachmentsBean getReviewAttachmentsBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        IacucReviewAttachmentsBean reviewAttachmentsBean = null;
+        
+        IacucProtocolActionBean protocolActionBean = getActionBean(form, request);
+        if (protocolActionBean != null && protocolActionBean instanceof ProtocolOnlineReviewCommentable) {
+            reviewAttachmentsBean = (IacucReviewAttachmentsBean) ((ProtocolOnlineReviewCommentable) protocolActionBean).getReviewAttachmentsBean();
+        }
+        
+        return reviewAttachmentsBean;
+    }
+
+    /**
+     * 
+     * This method is for the submission of manage review attachment
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward manageAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        if(!hasDocumentStateChanged(protocolForm)) {
+            if (hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, (IacucProtocol) protocolForm.getProtocolDocument().getProtocol())) {
+                if (applyRules(new IacucProtocolManageReviewAttachmentEvent((IacucProtocolDocument) protocolForm.getProtocolDocument(),
+                    "actionHelper.protocolManageReviewCommentsBean.reviewAttachmentsBean.", 
+                    ((IacucReviewAttachmentsBean)protocolForm.getActionHelper().getProtocolManageReviewCommentsBean().getReviewAttachmentsBean()).getReviewAttachments()))) {
+                    IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
+                    saveReviewAttachments(protocolForm, (IacucReviewAttachmentsBean) actionBean.getReviewAttachmentsBean());
+    
+                    recordProtocolActionSuccess("Manage Review Attachments");
+                }
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /*
+     * this method is to save review attachment when manage review attachment is submitted
+     */
+    private void saveReviewAttachments(IacucProtocolForm protocolForm, IacucReviewAttachmentsBean actionBean) throws Exception { 
+        getReviewCommentsService().saveReviewAttachments(actionBean.getReviewAttachments(), actionBean.getDeletedReviewAttachments());           
+        actionBean.setDeletedReviewAttachments(new ArrayList<IacucProtocolReviewAttachment>());
+        protocolForm.getActionHelper().prepareCommentsView();
+    }
+
+    
+    /**
+     * 
+     * This method is for adding new review attachment in manage review attachment
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward addReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        IacucReviewAttachmentsBean reviewAttachmentsBean = getReviewAttachmentsBean(mapping, form, request, response);
+        
+        if (reviewAttachmentsBean != null) {
+            String errorPropertyName = reviewAttachmentsBean.getErrorPropertyName();
+            IacucProtocolReviewAttachment newReviewAttachment = reviewAttachmentsBean.getNewReviewAttachment();
+            List<IacucProtocolReviewAttachment> reviewAttachments = reviewAttachmentsBean.getReviewAttachments();
+            Protocol protocol = document.getProtocol();
+            
+            if (applyRules(new IacucProtocolAddReviewAttachmentEvent((IacucProtocolDocument) document, errorPropertyName, newReviewAttachment))) {
+                getReviewCommentsService().addReviewAttachment(newReviewAttachment, reviewAttachments, protocol);
+                
+                reviewAttachmentsBean.setNewReviewAttachment(new IacucProtocolReviewAttachment());
+            }
+            reviewAttachmentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewAttachmentsBean.getReviewAttachments()));            
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+  
     
     
     /**
