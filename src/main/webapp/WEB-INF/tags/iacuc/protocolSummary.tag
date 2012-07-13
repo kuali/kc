@@ -487,7 +487,7 @@
        							</tr>
 							    <tr>    
 									<th>&nbsp;</th>
-						            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Persons Responsible</td>
+						            <td class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Name</td>
             						<td colspan="2" class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Training</td>
             						<td colspan="0" class="infoline fineprint sequencetd" style="font-weight: bold; text-align: center; color: rgb(51, 51, 51);">Description</td>
        							</tr>
