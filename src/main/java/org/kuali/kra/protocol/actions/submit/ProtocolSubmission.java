@@ -27,7 +27,6 @@ import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.protocol.ProtocolAssociate;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;

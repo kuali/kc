@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 
-public abstract class ReviewAttachmentsBean implements Serializable {
+public abstract class ReviewAttachmentsBean<PRA extends ProtocolReviewAttachment> implements Serializable {
 
 
     /**
@@ -30,9 +30,9 @@ public abstract class ReviewAttachmentsBean implements Serializable {
     private static final long serialVersionUID = -376105485699731967L;
     
     private String errorPropertyKey;
-    private ProtocolReviewAttachment newReviewAttachment;
-    private List<ProtocolReviewAttachment> reviewAttachments;
-    private List<ProtocolReviewAttachment> deletedReviewAttachments;
+    private PRA newReviewAttachment;
+    private List<PRA> reviewAttachments;
+    private List<PRA> deletedReviewAttachments;
     // flag to hide reviewer name for this bean.
     private boolean hideReviewerName;
     /**
@@ -41,11 +41,11 @@ public abstract class ReviewAttachmentsBean implements Serializable {
     public ReviewAttachmentsBean(String errorPropertyKey) {
         this.errorPropertyKey = errorPropertyKey + ".reviewAttachmentsBean";        
         this.newReviewAttachment = getNewProtocolReviewAttachmentInstanceHook();
-        this.reviewAttachments = new ArrayList<ProtocolReviewAttachment>();
-        this.deletedReviewAttachments = new ArrayList<ProtocolReviewAttachment>();
+        this.reviewAttachments = new ArrayList<PRA>();
+        this.deletedReviewAttachments = new ArrayList<PRA>();
     }
 
-    protected abstract ProtocolReviewAttachment getNewProtocolReviewAttachmentInstanceHook();
+    protected abstract PRA getNewProtocolReviewAttachmentInstanceHook();
     
     public String getErrorPropertyName() {
         return errorPropertyKey;
@@ -60,27 +60,27 @@ public abstract class ReviewAttachmentsBean implements Serializable {
         this.hideReviewerName = hideReviewerName;
     }
     
-    public ProtocolReviewAttachment getNewReviewAttachment() {
+    public PRA getNewReviewAttachment() {
         return newReviewAttachment;
     }
 
-    public void setNewReviewAttachment(ProtocolReviewAttachment newReviewAttachment) {
+    public void setNewReviewAttachment(PRA newReviewAttachment) {
         this.newReviewAttachment = newReviewAttachment;
     }
 
-    public List<ProtocolReviewAttachment> getReviewAttachments() {
+    public List<PRA> getReviewAttachments() {
         return reviewAttachments;
     }
 
-    public void setReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments) {
+    public void setReviewAttachments(List<PRA> reviewAttachments) {
         this.reviewAttachments = reviewAttachments;
     }
 
-    public List<ProtocolReviewAttachment> getDeletedReviewAttachments() {
+    public List<PRA> getDeletedReviewAttachments() {
         return deletedReviewAttachments;
     }
 
-    public void setDeletedReviewAttachments(List<ProtocolReviewAttachment> deletedReviewAttachments) {
+    public void setDeletedReviewAttachments(List<PRA> deletedReviewAttachments) {
         this.deletedReviewAttachments = deletedReviewAttachments;
     }
 }

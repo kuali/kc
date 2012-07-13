@@ -15,31 +15,33 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
-
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
- * Encapsulates a validation event for a Reviewer Comment add action.
+ * 
+ * This class is validate the new review attachment when 'add' is clicked
  */
-public abstract class ProtocolAddReviewCommentEvent extends KraDocumentEventBaseExtension {
+public abstract class ProtocolAddReviewAttachmentEvent<PRA extends ProtocolReviewAttachment> extends KraDocumentEventBaseExtension {
     
+    // TODO : technically, this can be refactored to share with ProtocolAddReviewCommentEvent/rule
+    // Since, we are waiting for KRMS, so probably just live with this for now.
     private String propertyName;
-    private CommitteeScheduleMinute reviewComment;
+    private PRA reviewAttachment;
 
     /**
-     * Constructs a ProtocolAddReviewerCommentEvent.
+     * Constructs a ProtocolAddReviewAttachmentEvent.
      * 
      * @param document The document to validate
      * @param propertyName The error path property prefix
-     * @param reviewComment The added Reviewer Comment
+     * @param reviewAttachment The added Reviewer Attachment
      */
-    public ProtocolAddReviewCommentEvent(ProtocolDocument document, String propertyName, CommitteeScheduleMinute reviewComment) {
-        super("Enter reviewer comment", "", document);
+    public ProtocolAddReviewAttachmentEvent(ProtocolDocument document, String propertyName, PRA reviewAttachment) {
+        super("Enter reviewer attachment", "", document);
         this.propertyName = propertyName;
-        this.reviewComment = reviewComment;
+        this.reviewAttachment = reviewAttachment;
     }
     
     public ProtocolDocument getProtocolDocument() {
@@ -50,16 +52,17 @@ public abstract class ProtocolAddReviewCommentEvent extends KraDocumentEventBase
         return propertyName;
     }
     
-    public CommitteeScheduleMinute getReviewComment() {
-        return reviewComment;
+    public PRA getReviewAttachment() {
+        return reviewAttachment;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public BusinessRuleInterface getRule() {
-        return getNewProtocolAddReviewCommentRuleInstanceHook();
+        return getNewProtocolAddReviewAttachmentRuleInstancehook();
     }
 
-    protected abstract ProtocolAddReviewCommentRule<?> getNewProtocolAddReviewCommentRuleInstanceHook();
+    protected abstract ProtocolAddReviewAttachmentRule<?> getNewProtocolAddReviewAttachmentRuleInstancehook();
+
 
 }

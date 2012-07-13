@@ -15,9 +15,10 @@
  */
 package org.kuali.kra.iacuc.actions.reviewcomments;
 
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 
-public interface IacucReviewCommentsService extends ReviewCommentsService {
+public interface IacucReviewCommentsService extends ReviewCommentsService<IacucProtocolReviewAttachment> {
 
 
 }

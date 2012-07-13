@@ -30,15 +30,14 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 
-public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl implements IacucReviewCommentsService {
+public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl<IacucProtocolReviewAttachment> implements IacucReviewCommentsService {
     
   private static final String[] PROTOCOL_SUBMISSION_COMPLETE_STATUSES = { IacucProtocolSubmissionStatus.APPROVED,                                                                           
                                                                           IacucProtocolSubmissionStatus.MINOR_REVISIONS_REQUIRED,
                                                                           IacucProtocolSubmissionStatus.MAJOR_REVISIONS_REQUIRED,
                                                                           IacucProtocolSubmissionStatus.DISAPPROVED };
 
-    public void saveReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments,
-            List<ProtocolReviewAttachment> deletedReviewAttachments) {
+    public void saveReviewAttachments(List<IacucProtocolReviewAttachment> reviewAttachments, List<IacucProtocolReviewAttachment> deletedReviewAttachments) {
         for (ProtocolReviewAttachment reviewAttachment : reviewAttachments) {
             boolean doUpdate = true;
             // if (reviewAttachment.getReviewerAttachmentId() != null) {
@@ -77,7 +76,7 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl im
     }
 
     @Override
-    protected Class<? extends ProtocolReviewAttachment> getProtocolReviewAttachmentClassHook() {
+    protected Class<IacucProtocolReviewAttachment> getProtocolReviewAttachmentClassHook() {
         return IacucProtocolReviewAttachment.class;
     }
 

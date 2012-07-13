@@ -33,6 +33,7 @@ import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewAttachmentsBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.infrastructure.Constants;
@@ -396,9 +397,9 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String documentNumber = getOnlineReviewActionDocumentNumber(parameterName, "viewOnlineReviewAttachment");
         
-        ReviewAttachmentsBean reviewCommentsBean = actionHelper.getReviewAttachmentsBeanFromHelperMap(documentNumber);
+        IacucReviewAttachmentsBean reviewAttachmentsBean = (IacucReviewAttachmentsBean) actionHelper.getReviewAttachmentsBeanFromHelperMap(documentNumber);
         int attachmentIndex = getOnlineReviewActionIndexNumber(parameterName, "viewOnlineReviewAttachment");
-       final ProtocolReviewAttachment attachment = reviewCommentsBean.getReviewAttachments().get(attachmentIndex);
+        final IacucProtocolReviewAttachment attachment = reviewAttachmentsBean.getReviewAttachments().get(attachmentIndex);
         
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + attachmentIndex);

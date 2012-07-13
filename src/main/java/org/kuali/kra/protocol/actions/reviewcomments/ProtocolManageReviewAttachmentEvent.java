@@ -15,31 +15,33 @@
  */
 package org.kuali.kra.protocol.actions.reviewcomments;
 
+import java.util.List;
 
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
- * Encapsulates a validation event for a Reviewer Comment add action.
+ * 
+ * This class is for the rule event of 'manage review attachment'
  */
-public abstract class ProtocolAddReviewCommentEvent extends KraDocumentEventBaseExtension {
+public abstract class ProtocolManageReviewAttachmentEvent<PRA extends ProtocolReviewAttachment> extends KraDocumentEventBaseExtension {
     
     private String propertyName;
-    private CommitteeScheduleMinute reviewComment;
+    private List<PRA> reviewAttachments;
 
     /**
-     * Constructs a ProtocolAddReviewerCommentEvent.
+     * Constructs a ProtocolManageReviewAttachmentEvent.
      * 
      * @param document The document to validate
      * @param propertyName The error path property prefix
-     * @param reviewComment The added Reviewer Comment
+     * @param reviewAttachments The manage Reviewer Attachment
      */
-    public ProtocolAddReviewCommentEvent(ProtocolDocument document, String propertyName, CommitteeScheduleMinute reviewComment) {
-        super("Enter reviewer comment", "", document);
+    public ProtocolManageReviewAttachmentEvent(ProtocolDocument document, String propertyName, List<PRA> reviewAttachments) {
+        super("Enter reviewer attachment", "", document);
         this.propertyName = propertyName;
-        this.reviewComment = reviewComment;
+        this.reviewAttachments = reviewAttachments;
     }
     
     public ProtocolDocument getProtocolDocument() {
@@ -50,16 +52,19 @@ public abstract class ProtocolAddReviewCommentEvent extends KraDocumentEventBase
         return propertyName;
     }
     
-    public CommitteeScheduleMinute getReviewComment() {
-        return reviewComment;
-    }
-
+ 
     @Override
     @SuppressWarnings("unchecked")
     public BusinessRuleInterface getRule() {
-        return getNewProtocolAddReviewCommentRuleInstanceHook();
+        return getNewProtocolManageReviewAttachmentRuleInstaceHook();
     }
 
-    protected abstract ProtocolAddReviewCommentRule<?> getNewProtocolAddReviewCommentRuleInstanceHook();
+    protected abstract ProtocolManageReviewAttachmentRule<?> getNewProtocolManageReviewAttachmentRuleInstaceHook();
+
+    
+    public List<PRA> getReviewAttachments() {
+        return reviewAttachments;
+    }
+
 
 }
