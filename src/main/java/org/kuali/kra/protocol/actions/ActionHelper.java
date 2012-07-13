@@ -322,7 +322,7 @@ public abstract class ActionHelper implements Serializable {
     // additional properties for Submission Details
     protected ProtocolSubmission selectedSubmission;
     protected List<CommitteeScheduleMinute> reviewComments;        
-    protected List<ProtocolReviewAttachment> reviewAttachments;        
+    protected List<? extends ProtocolReviewAttachment> reviewAttachments;        
     protected List<ProtocolVoteAbstainee> abstainees;        
     protected List<ProtocolVoteRecused> recusers;        
     protected List<ProtocolReviewer> protocolReviewers;        
@@ -2777,8 +2777,7 @@ public abstract class ActionHelper implements Serializable {
         if (CollectionUtils.isNotEmpty(getReviewComments())) {
             // check if our comments bean has empty list of review comments, this can happen if the submission has no schedule assigned
             if(protocolManageReviewCommentsBean.getReviewCommentsBean().getReviewComments().size() == 0) {
-                List<CommitteeScheduleMinute> reviewComments = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), 
-                        currentSubmissionNumber);
+                List<CommitteeScheduleMinute> reviewComments = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber);
                 Collections.sort(reviewComments, new Comparator<CommitteeScheduleMinute>() {
 
                     @Override
@@ -2796,8 +2795,7 @@ public abstract class ActionHelper implements Serializable {
             }
             getReviewerCommentsService().setHideReviewerName(getReviewComments());
         }
-        setReviewAttachments(getReviewerCommentsService().getReviewerAttachments(getProtocol().getProtocolNumber(),
-                currentSubmissionNumber));
+        setReviewAttachments(getReviewerCommentsService().getReviewerAttachments(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         if (CollectionUtils.isNotEmpty(getReviewAttachments())) {
             hideReviewerNameForAttachment = getReviewerCommentsService().setHideReviewerName(getReviewAttachments());
             getReviewerCommentsService().setHideViewButton(getReviewAttachments());
@@ -2806,8 +2804,7 @@ public abstract class ActionHelper implements Serializable {
 //        setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
         hideSubmissionReviewerName = checkToHideSubmissionReviewerName();
 
-        setProtocolReviewers(getReviewerCommentsService().getProtocolReviewers(getProtocol().getProtocolNumber(),
-                currentSubmissionNumber));
+        setProtocolReviewers(getReviewerCommentsService().getProtocolReviewers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         setAbstainees(getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         setRecusers(getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
 
@@ -3305,11 +3302,11 @@ public abstract class ActionHelper implements Serializable {
         this.hideSubmissionReviewerName = hideSubmissionReviewerName;
     }
 
-    public List<ProtocolReviewAttachment> getReviewAttachments() {
+    public List<? extends ProtocolReviewAttachment> getReviewAttachments() {
         return reviewAttachments;
     }
 
-    public void setReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments) {
+    public void setReviewAttachments(List<? extends ProtocolReviewAttachment> reviewAttachments) {
         this.reviewAttachments = reviewAttachments;
     }
 

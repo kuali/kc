@@ -24,10 +24,11 @@
               taskName="protocolManageReviewComments" 
               tabCustomTitle="Manage Review Comments" 
               methodToCall="manageComments" />
-<%--       <kra-iacuc-action:reviewAttachments bean="${KualiForm.actionHelper.protocolManageReviewCommentsBean.reviewAttachmentsBean}" --%>
-<!--               property="actionHelper.protocolManageReviewCommentsBean.reviewAttachmentsBean" -->
-<%--               action="${action}" --%>
-<!--               taskName="protocolManageReviewComments"  -->
-<!--               tabCustomTitle="Manage Review Attachments"  -->
-<!--               methodToCall="manageAttachments" /> -->
+              
+      <kra-iacuc-action:reviewAttachments bean="${KualiForm.actionHelper.protocolManageReviewCommentsBean.reviewAttachmentsBean}"
+              property="actionHelper.protocolManageReviewCommentsBean.reviewAttachmentsBean"
+              action="${action}" 
+              taskName="protocolManageReviewComments" 
+              tabCustomTitle="Manage Review Attachments" 
+              methodToCall="manageAttachments" />
 </kra:permission>

@@ -57,7 +57,7 @@ import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService {
+public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttachment> implements ReviewCommentsService<PRA> {
 
 // TODO *********commented the code below during IACUC refactoring*********    
 //    private static final String[] PROTOCOL_SUBMISSION_COMPLETE_STATUSES = { ProtocolSubmissionStatus.APPROVED,
@@ -163,16 +163,16 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
     }
 
     @Override
-    public List<ProtocolReviewAttachment> getReviewerAttachments(String protocolNumber, int submissionNumber) {
+    public List<PRA> getReviewerAttachments(String protocolNumber, int submissionNumber) {
 
-        List<ProtocolReviewAttachment> reviewAttachments = new ArrayList<ProtocolReviewAttachment>();
+        List<PRA> reviewAttachments = new ArrayList<PRA>();
         List<ProtocolSubmission> protocolSubmissions = protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber);
         // protocol versioning does not version review attachments/comments
         for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
             if (CollectionUtils.isNotEmpty(protocolSubmission.getReviewAttachments())) {
                 for (ProtocolReviewAttachment reviewAttachment : protocolSubmission.getReviewAttachments()) {
                     if (getReviewerCommentsView(reviewAttachment)) {
-                        reviewAttachments.add(reviewAttachment);
+                        reviewAttachments.add((PRA) reviewAttachment);
                     }
                 }
             }
@@ -530,10 +530,10 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
         return isHide;
     }
 
-    public boolean setHideViewButton(List<ProtocolReviewAttachment> reviewAttachments) {
+    public boolean setHideViewButton(List<PRA> reviewAttachments) {
         boolean isHide = true;
         getReviewerNameParams();
-        for (ProtocolReviewAttachment reviewAttachment : reviewAttachments) {
+        for (PRA reviewAttachment : reviewAttachments) {
             if (!reviewAttachment.isPrivateFlag() || !isProtocolPersonnel(reviewAttachment)) {
                 reviewAttachment.setDisplayViewButton(true);
                 isHide = false;
@@ -599,7 +599,7 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
             members = ((CommitteeScheduleMinute) reviewComment).getCommitteeSchedule().getCommittee().getCommitteeMemberships();
         }
         else {
-            members = ((ProtocolReviewAttachment) reviewComment).getProtocol().getProtocolSubmission().getCommittee()
+            members = ((PRA) reviewComment).getProtocol().getProtocolSubmission().getCommittee()
                     .getCommitteeMemberships();
         }
         for (CommitteeMembership member : members) {
@@ -951,10 +951,10 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
     protected abstract Class<? extends ProtocolOnlineReview> getProtocolOnlineReviewClassHook();
     
 
-    public void deleteReviewAttachment(List<ProtocolReviewAttachment> reviewAttachments, int index,
-            List<ProtocolReviewAttachment> deletedReviewAttachments) {
+    public void deleteReviewAttachment(List<PRA> reviewAttachments, int index,
+            List<PRA> deletedReviewAttachments) {
         if (index >= 0 && index < reviewAttachments.size()) {
-            ProtocolReviewAttachment reviewAttachment = reviewAttachments.get(index);
+            PRA reviewAttachment = reviewAttachments.get(index);
             if (reviewAttachment.getReviewerAttachmentId() != null) {
                 deletedReviewAttachments.add(reviewAttachment);
             }
@@ -970,9 +970,9 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
 // TODO *********commented the code below during IACUC refactoring********* 
 //    This method is being pushed down to subclasses
 //  
-//    public void saveReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments,
-//            List<ProtocolReviewAttachment> deletedReviewAttachments) {
-//        for (ProtocolReviewAttachment reviewAttachment : reviewAttachments) {
+//    public void saveReviewAttachments(List<PRA> reviewAttachments,
+//            List<PRA> deletedReviewAttachments) {
+//        for (PRA reviewAttachment : reviewAttachments) {
 //            boolean doUpdate = true;
 //            // if (reviewAttachment.getReviewerAttachmentId() != null) {
 //            // ProtocolOnlineReviewAttachment existing =
@@ -990,12 +990,12 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
 //        }
 //    }
     
-    public abstract void saveReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments, List<ProtocolReviewAttachment> deletedReviewAttachments);
+    public abstract void saveReviewAttachments(List<PRA> reviewAttachments, List<PRA> deletedReviewAttachments);
     
     
 
     
-    public void addReviewAttachment(ProtocolReviewAttachment newReviewAttachment, List<ProtocolReviewAttachment> reviewAttachments,
+    public void addReviewAttachment(PRA newReviewAttachment, List<PRA> reviewAttachments,
             Protocol protocol) {
         ProtocolSubmission protocolSubmission = getSubmission(protocol);
         newReviewAttachment.setAttachmentId(getNextAttachmentId(protocol));
@@ -1024,7 +1024,7 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
     private int getNextAttachmentId(Protocol protocol) {
         Map fieldValues = new HashMap();
         fieldValues.put("protocolIdFk", protocol.getProtocolId());
-        List<ProtocolReviewAttachment> reviewAttachments = (List<ProtocolReviewAttachment>) businessObjectService
+        List<PRA> reviewAttachments = (List<PRA>) businessObjectService
                 .findMatchingOrderBy(getProtocolReviewAttachmentClassHook(), fieldValues, "attachmentId", false);
         if (CollectionUtils.isEmpty(reviewAttachments)) {
             return 1;
@@ -1036,14 +1036,14 @@ public abstract class ReviewCommentsServiceImpl implements ReviewCommentsService
     }
     
 
-    protected abstract Class<? extends ProtocolReviewAttachment> getProtocolReviewAttachmentClassHook();
+    protected abstract Class<PRA> getProtocolReviewAttachmentClassHook();
 
 
 
     @Override
-    public void deleteAllReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments,
-            List<ProtocolReviewAttachment> deletedReviewAttachments) {
-        for (ProtocolReviewAttachment reviewerAttachment : reviewAttachments) {
+    public void deleteAllReviewAttachments(List<PRA> reviewAttachments,
+            List<PRA> deletedReviewAttachments) {
+        for (PRA reviewerAttachment : reviewAttachments) {
             if (reviewerAttachment.getReviewerAttachmentId() != null) {
                 deletedReviewAttachments.add(reviewerAttachment);
             }
