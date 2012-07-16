@@ -191,6 +191,7 @@
 	<bean id="IacucProtocolSpecies-speciesCount" parent="IacucProtocolSpecies-speciesCount-parentBean" />
 	<bean id="IacucProtocolSpecies-speciesCount-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="speciesCount" />
+		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Species Count" />
 		<property name="shortLabel" value="Species Count" />
@@ -209,7 +210,7 @@
 	<bean id="IacucProtocolSpecies-painCategoryCode" parent="IacucProtocolSpecies-painCategoryCode-parentBean" />
 	<bean id="IacucProtocolSpecies-painCategoryCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="painCategoryCode" />
-		<property name="required" value="false" />
+		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Pain Category" />
         <property name="shortLabel" value="Pain Category" />
@@ -230,7 +231,7 @@
 	<bean id="IacucProtocolSpecies-speciesCountCode" parent="IacucProtocolSpecies-speciesCountCode-parentBean" />
 	<bean id="IacucProtocolSpecies-speciesCountCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="speciesCountCode" />
-		<property name="required" value="false" />
+		<property name="required" value="true" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Count Type" />
         <property name="shortLabel" value="Count Type" />
