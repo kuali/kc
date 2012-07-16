@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
@@ -72,4 +73,13 @@ public class UnitCorrespondentRoleServiceImpl extends DerivedRoleTypeServiceBase
             
         return members;
     }
+
+    /*
+     * Should override if derivedRoles should not to be cached.  Currently defaults to system-wide default.
+     */
+    @Override
+    public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
+        return super.dynamicRoleMembership(namespaceCode, roleName);
+    }
+
 }
