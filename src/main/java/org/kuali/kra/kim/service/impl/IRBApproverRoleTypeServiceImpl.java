@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
 public class IRBApproverRoleTypeServiceImpl extends RoleTypeServiceBase {
@@ -35,6 +36,14 @@ public class IRBApproverRoleTypeServiceImpl extends RoleTypeServiceBase {
 
     protected boolean roleQualifiedByProtocolKey(Map<String,String> roleQualifier) {
         return roleQualifier.containsKey(KcKimAttributes.PROTOCOL);
+    }
+
+    /*
+     * Should override if derivedRoles should not to be cached.  Currently defaulting to system-wide default.
+     */
+    @Override
+    public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
+        return super.dynamicRoleMembership(namespaceCode, roleName);
     }
 
 }
