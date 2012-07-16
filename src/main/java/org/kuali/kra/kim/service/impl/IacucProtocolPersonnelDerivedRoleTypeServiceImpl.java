@@ -26,6 +26,7 @@ import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
@@ -92,4 +93,19 @@ public class IacucProtocolPersonnelDerivedRoleTypeServiceImpl extends DerivedRol
         return (Protocol) getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, keymap);
     }
     
+    /*
+     * Should override if derivedRoles should not to be cached.
+     */
+    @Override
+    public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
+        if (StringUtils.isBlank(namespaceCode)) {
+            throw new RiceIllegalArgumentException("namespaceCode was null or blank");
+        }
+
+        if (StringUtils.isBlank(roleName)) {
+            throw new RiceIllegalArgumentException("roleName was null or blank");
+        }
+
+        return true;
+    }
 }
