@@ -17,6 +17,7 @@ package org.kuali.kra.protocol.onlinereview;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -69,9 +70,8 @@ public abstract class ProtocolReviewable extends KraPersistableBusinessObjectBas
      */
     public boolean isAccepted() {
         boolean accepted = false;
-        
         if (getProtocolOnlineReviewIdFk() != null) {
-            ProtocolOnlineReview protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(ProtocolOnlineReview.class, getProtocolOnlineReviewIdFk());
+            IacucProtocolOnlineReview protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(IacucProtocolOnlineReview.class, getProtocolOnlineReviewIdFk());
             if (protocolOnlineReview.isAdminAccepted()) {
                 accepted = true;
             }
