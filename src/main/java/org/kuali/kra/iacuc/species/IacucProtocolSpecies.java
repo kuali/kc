@@ -202,14 +202,14 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
         if (iacucSpeciesCountType == null) {
             refreshReferenceObject("iacucSpeciesCountType");
         }
-        return iacucSpeciesCountType.getDescription();
+        return iacucSpeciesCountType == null ? "None" : iacucSpeciesCountType.getDescription();
     }
 
     public String getPainCategoryName() {
         if (iacucPainCategory == null) {
             refreshReferenceObject("iacucPainCategory");
         }
-        return iacucPainCategory.getPainCategory();
+        return iacucPainCategory == null ? "None" : iacucPainCategory.getPainCategory();
     }
 
     public String getGroupAndSpecies() {
