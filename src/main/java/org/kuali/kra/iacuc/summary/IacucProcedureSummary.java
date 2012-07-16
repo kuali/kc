@@ -53,7 +53,7 @@ public class IacucProcedureSummary implements Serializable {
         procedureCode = iacucProcedure.getProcedureCode();
         species = studyGroup.getIacucProtocolSpecies().getSpeciesName();
         speciesStrain = studyGroup.getIacucProtocolSpecies().getStrain();
-        painCategory = studyGroup.getPainCategory();
+        painCategory = studyGroup.getIacucPainCategory().getPainCategory();
         
         procedureCategory = iacucProcedureCategory.getProcedureCategory() + " - " + iacucProcedure.getProcedureDescription();
         
