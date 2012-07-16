@@ -26,6 +26,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -158,4 +159,19 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends DerivedRoleT
         this.roleManagementService = roleManagementService;
     }
     
+    /*
+     * Should override if derivedRoles should not to be cached.
+     */
+    @Override
+    public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
+        if (StringUtils.isBlank(namespaceCode)) {
+            throw new RiceIllegalArgumentException("namespaceCode was null or blank");
+        }
+
+        if (StringUtils.isBlank(roleName)) {
+            throw new RiceIllegalArgumentException("roleName was null or blank");
+        }
+
+        return true;
+    }
 }

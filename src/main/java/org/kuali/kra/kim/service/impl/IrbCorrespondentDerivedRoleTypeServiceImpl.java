@@ -30,6 +30,7 @@ import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.OrganizationService;
 import org.kuali.kra.service.UnitService;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -168,4 +169,11 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends DerivedRoleTypeS
         return (Protocol)getBusinessObjectService().findByPrimaryKey(Protocol.class, keymap );    
     }
 
+    /*
+     * Should override if derivedRoles should not to be cached.  Currently defaulting to system-wide default.
+     */
+    @Override
+    public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
+        return super.dynamicRoleMembership(namespaceCode, roleName);
+    }
 }
