@@ -75,7 +75,7 @@ public abstract class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
     private String protocolLeadUnit;
     private String docRouteStatus;
     private String currentCommitteeId;
-    
+    public static final String FINAL_STATUS_CD = "F";
     private Set<String> unitIds = new HashSet<String>(); 
     
     /**
@@ -185,13 +185,15 @@ public abstract class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
         
         Committee tmpComm = null;
         for (Committee comm : allCommittees) {
-            if (committeeMap.containsKey(comm.getCommitteeId())) {
-                tmpComm = committeeMap.get(comm.getCommitteeId());
-                if (comm.getSequenceNumber().intValue() > tmpComm.getSequenceNumber().intValue()) {
+            if (FINAL_STATUS_CD.equalsIgnoreCase(comm.getCommitteeDocument().getDocStatusCode())) {
+                if (committeeMap.containsKey(comm.getCommitteeId())) {
+                    tmpComm = committeeMap.get(comm.getCommitteeId());
+                    if (comm.getSequenceNumber().intValue() > tmpComm.getSequenceNumber().intValue()) {
+                        committeeMap.put(comm.getCommitteeId(), comm);
+                    }
+                } else {
                     committeeMap.put(comm.getCommitteeId(), comm);
                 }
-            } else {
-                committeeMap.put(comm.getCommitteeId(), comm);
             }
         }
         
