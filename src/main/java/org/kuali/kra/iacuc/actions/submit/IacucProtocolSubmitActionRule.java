@@ -67,16 +67,19 @@ public class IacucProtocolSubmitActionRule extends ProtocolSubmitActionRule {
     private boolean validateThreeRs(ProtocolSubmitAction submitAction) {
         IacucProtocol protocol = (IacucProtocol)submitAction.getProtocol();
         String searchRequired = protocol.getIacucPrinciples().get(0).getSearchRequired();
+        List<AuditError> auditErrors = getAuditErrors();
+
         if (StringUtils.isBlank(searchRequired)) {
-            getAuditErrors().add(new AuditError(PROTOCOL_ALT_SEARCH_REQUIRED_PROPERTY_KEY , KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_QUESTION_NOT_ANSWERED, PRINCIPLES_PANEL_NAME + "." + PRINCIPLES_ANCHOR_NAME));
-            reportError(PROTOCOL_ALT_SEARCH_REQUIRED_PROPERTY_KEY, KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_QUESTION_NOT_ANSWERED);
-            return false;
+            auditErrors.add(new AuditError(PROTOCOL_ALT_SEARCH_REQUIRED_PROPERTY_KEY , KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_QUESTION_NOT_ANSWERED, PRINCIPLES_PANEL_NAME + "." + PRINCIPLES_ANCHOR_NAME));
         } else if (StringUtils.equals("Y", searchRequired) && protocol.getIacucAlternateSearches().isEmpty()) {
-            getAuditErrors().add(new AuditError(PROTOCOL_ALT_SEARCH_PROPERTY_KEY , KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_DATA_NOT_ENTERED, PRINCIPLES_PANEL_NAME + "." + PRINCIPLES_ANCHOR_NAME));
-            reportError(PROTOCOL_ALT_SEARCH_PROPERTY_KEY, KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_DATA_NOT_ENTERED);
-            return false;
+            auditErrors.add(new AuditError(PROTOCOL_ALT_SEARCH_PROPERTY_KEY , KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_DATA_NOT_ENTERED, PRINCIPLES_PANEL_NAME + "." + PRINCIPLES_ANCHOR_NAME));
         }
-        return true;
+        if (auditErrors.size() > 0) {
+            KNSGlobalVariables.getAuditErrorMap().put(PRINCIPLES_CLUSTER_NAME, new AuditCluster(PRINCIPLES_ANCHOR_NAME, auditErrors, AUDIT_ERRORS));
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
@@ -98,12 +101,11 @@ public class IacucProtocolSubmitActionRule extends ProtocolSubmitActionRule {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
         if (!KNSGlobalVariables.getAuditErrorMap().containsKey(PRINCIPLES_CLUSTER_NAME)) {
-           KNSGlobalVariables.getAuditErrorMap().put(PRINCIPLES_CLUSTER_NAME, new AuditCluster(PRINCIPLES_ANCHOR_NAME, auditErrors, AUDIT_ERRORS));
+            auditErrors = new ArrayList<AuditError>();
         }
         else {
-            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(PRINCIPLES_ANCHOR_NAME)).getAuditErrorList();
-        }
-        
+            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(PRINCIPLES_CLUSTER_NAME)).getAuditErrorList();
+        }        
         return auditErrors;
     }
 
