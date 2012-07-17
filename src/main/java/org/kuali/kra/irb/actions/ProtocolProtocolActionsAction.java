@@ -1349,6 +1349,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionHelper actionHelper = protocolForm.getActionHelper();
         actionHelper.setCurrentSubmissionNumber(actionHelper.getPrevSubmissionNumber());
         actionHelper.setAmendmentDetails();
+        actionHelper.initAmendmentBeans(true);
         protocolForm.getActionHelper().initSubmissionDetails();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -1370,6 +1371,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionHelper actionHelper = protocolForm.getActionHelper();
         actionHelper.setCurrentSubmissionNumber(actionHelper.getNextSubmissionNumber());
         actionHelper.setAmendmentDetails();
+        actionHelper.initAmendmentBeans(true);
         protocolForm.getActionHelper().initSubmissionDetails();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
