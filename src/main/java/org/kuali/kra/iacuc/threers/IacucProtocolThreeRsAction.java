@@ -55,13 +55,18 @@ public class IacucProtocolThreeRsAction extends IacucProtocolAction {
     public ActionForward addAlternateSearchDatabase (ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        IacucAlternateSearch altSearch = protocolForm.getIacucAlternateSearchHelper().getNewAlternateSearch();
-        List<String> newDatabases = protocolForm.getIacucAlternateSearchHelper().getNewDatabases();
+        IacucAlternateSearchHelper alternateSearchHelper = protocolForm.getIacucAlternateSearchHelper();
+        IacucAlternateSearch altSearch = alternateSearchHelper.getNewAlternateSearch();
+        List<String> newDatabases = alternateSearchHelper.getNewDatabases();
         
         if (applyRules(new AddAlternateSearchEvent(protocolForm.getProtocolDocument(), altSearch, newDatabases))) {
             getIacucAlternateSearchService().addAlternateSearch(((IacucProtocol)protocolForm.getIacucProtocolDocument().getProtocol()),
                      altSearch, newDatabases);       
             getDocumentService().saveDocument(protocolForm.getProtocolDocument());
+
+            // clear entry since this one's good
+            alternateSearchHelper.setNewAlternateSearch(new IacucAlternateSearch());
+            alternateSearchHelper.setNewDatabases(new ArrayList<String>()); 
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);        
