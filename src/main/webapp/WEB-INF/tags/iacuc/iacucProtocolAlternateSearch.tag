@@ -32,9 +32,9 @@
 </style>
 
 <kul:tab tabTitle="Alternate Search" defaultOpen="true" useRiceAuditMode="true"
-			tabErrorKey="iacucAlternateSearchHelper*,document.protocolList[0].iacucPrinciples*" 
+			tabErrorKey="iacucAlternateSearchHelper*,document.protocolList*" 
 			auditCluster="alternateSearchAuditErrors"
-			tabAuditKey="iacucAlternateSearchHelper*,document.protocolList[0].iacucPrinciples*" >
+			tabAuditKey="iacucAlternateSearchHelper*,document.protocolList*" >
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Alternate Search Required?</span>
