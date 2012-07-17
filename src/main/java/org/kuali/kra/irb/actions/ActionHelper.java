@@ -355,7 +355,6 @@ public class ActionHelper implements Serializable {
         // setting the attachment here so new files can be attached to newActionAttachment
         protocolNotifyIrbBean.setNewActionAttachment(new ProtocolActionAttachment());
         protocolNotifyCommitteeBean = new ProtocolNotifyCommitteeBean(this);
-
         protocolAmendmentBean = createAmendmentBean();
         protocolRenewAmendmentBean = createAmendmentBean();
         protocolDeleteBean = new ProtocolDeleteBean(this);
@@ -603,13 +602,13 @@ public class ActionHelper implements Serializable {
 
     // always reinitialize amendment beans, otherwise a second pass thru prepareView() will show same
     // amendment creation options as previous passes
-    public void initAmendmentBeans() throws Exception {
-//        if (protocolAmendmentBean == null) {
+    public void initAmendmentBeans(boolean forceReset) throws Exception {
+        if (protocolAmendmentBean == null || forceReset) {
             protocolAmendmentBean = createAmendmentBean();
-//        }
-//        if (protocolRenewAmendmentBean == null) {
+        }
+        if (protocolRenewAmendmentBean == null || forceReset) {
             protocolRenewAmendmentBean = createAmendmentBean();
-//        }
+        }
     }
 
     /**
@@ -885,7 +884,7 @@ public class ActionHelper implements Serializable {
         initSubmissionDetails();
         setAmendmentDetails();
         initFilterDatesView();
-        initAmendmentBeans();
+        initAmendmentBeans(false);
         initPrintQuestionnaire();
     }
     
