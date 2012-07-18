@@ -414,6 +414,16 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
             tdcValidator.validateGeneratingErrorsAndWarnings(doc);
         }
+        if (doc.getBudgetDocumentVersions() != null && !doc.getBudgetDocumentVersions().isEmpty()) {
+            for (BudgetDocumentVersion bdv : doc.getBudgetDocumentVersions()) {
+                Budget budget = this.getBusinessObjectService().findBySinglePrimaryKey(Budget.class, bdv.getBudgetVersionOverview().getBudgetId());
+                if (!budget.getFinalVersionFlag()) {
+                    budget.setStartDate(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getRequestedStartDateInitial());
+                    budget.setEndDate(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getRequestedEndDateInitial());
+                    this.getBusinessObjectService().save(budget);
+                }
+            }
+        }
 
         return forward;
     }
