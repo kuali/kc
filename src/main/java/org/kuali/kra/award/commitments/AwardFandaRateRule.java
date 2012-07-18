@@ -214,36 +214,41 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
      */
     public boolean checkValidFandARate(AwardFandaRate awardFandaRate,String propertyPrefix){
         boolean valid = true;
-        Collection<ValidRates> validRates = null;
-
-        String onOFFCampusRate = null;
-        if (awardFandaRate.getOnCampusFlag().equalsIgnoreCase("N")) {
-            onOFFCampusRate = ON_CAMPUS;
-            validRates =  getValidRatesForFandA(ON_CAMPUS_RATE, awardFandaRate.getApplicableFandaRate());
-        } else {
-            validRates =  getValidRatesForFandA(OFF_CAMPUS_RATE, awardFandaRate.getApplicableFandaRate());
-            onOFFCampusRate = OFF_CAMPUS;
-        }
-        if (validRates.size() == 0) {
-            valid = false;
-            KualiDecimal kdApplicableFandaRate = awardFandaRate.getApplicableFandaRate();
-            String strApplicableFandaRate;
-            if (kdApplicableFandaRate != null) {
-                strApplicableFandaRate = awardFandaRate.getApplicableFandaRate().toString();
+        String enableFandAValidation =getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD,  
+                ParameterConstants.DOCUMENT_COMPONENT, KeyConstants.ENABLE_AWARD_FNA_VALIDATION); 
+        if (StringUtils.equalsIgnoreCase(enableFandAValidation, KeyConstants.ENABLED_PARAMETER_VALUE_ONE) ||
+                StringUtils.equalsIgnoreCase(enableFandAValidation, KeyConstants.ENABLED_PARAMETER_VALUE_TWO)) {
+            Collection<ValidRates> validRates = null;
+    
+            String onOFFCampusRate = null;
+            if (awardFandaRate.getOnCampusFlag().equalsIgnoreCase("N")) {
+                onOFFCampusRate = ON_CAMPUS;
+                validRates =  getValidRatesForFandA(ON_CAMPUS_RATE, awardFandaRate.getApplicableFandaRate());
             } else {
-                strApplicableFandaRate = "0";
+                validRates =  getValidRatesForFandA(OFF_CAMPUS_RATE, awardFandaRate.getApplicableFandaRate());
+                onOFFCampusRate = OFF_CAMPUS;
             }
-            if (StringUtils.equalsIgnoreCase(
-                    this.getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.OPTION_WARNING_ERROR_AWARD_FANDA_VALIDATION),
-                    KeyConstants.ERROR)) {
-                reportError(propertyPrefix + ".applicableFandaRate", 
-                        KeyConstants.ERROR_AWARD_FANDA_INVALID_RTAES_FOR_SINGLE_RATE,
-                        strApplicableFandaRate,onOFFCampusRate);
-            } else {
-                valid = true;
-                reportWarning(propertyPrefix + ".applicableFandaRate", 
-                        KeyConstants.ERROR_AWARD_FANDA_INVALID_RTAES_FOR_SINGLE_RATE,
-                        awardFandaRate.getApplicableFandaRate().toString(),onOFFCampusRate);
+            if (validRates.size() == 0) {
+                valid = false;
+                KualiDecimal kdApplicableFandaRate = awardFandaRate.getApplicableFandaRate();
+                String strApplicableFandaRate;
+                if (kdApplicableFandaRate != null) {
+                    strApplicableFandaRate = awardFandaRate.getApplicableFandaRate().toString();
+                } else {
+                    strApplicableFandaRate = "0";
+                }
+                if (StringUtils.equalsIgnoreCase(
+                        this.getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.OPTION_WARNING_ERROR_AWARD_FANDA_VALIDATION),
+                        KeyConstants.ERROR)) {
+                    reportError(propertyPrefix + ".applicableFandaRate", 
+                            KeyConstants.ERROR_AWARD_FANDA_INVALID_RTAES_FOR_SINGLE_RATE,
+                            strApplicableFandaRate,onOFFCampusRate);
+                } else {
+                    valid = true;
+                    reportWarning(propertyPrefix + ".applicableFandaRate", 
+                            KeyConstants.ERROR_AWARD_FANDA_INVALID_RTAES_FOR_SINGLE_RATE,
+                            awardFandaRate.getApplicableFandaRate().toString(),onOFFCampusRate);
+                }
             }
         }
         return valid;
