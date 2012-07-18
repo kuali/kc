@@ -77,34 +77,37 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
      * @return
      */
     public boolean processAddPendingTransactionBusinessRules(AddTransactionRuleEvent event) {
-        List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
-        Award award = getLastSourceAwardReferenceInAwards(awards, event.getPendingTransactionItemForValidation().getSourceAwardNumber());
-        //if source award is "External, the award will be null and we don't need to validate these amounts.
-        boolean validObligatedFunds = true;
-        boolean validAnticipatedFunds = true;
-        boolean validTotalCostLimit = true;
-        if(!(award == null)) {
-            validObligatedFunds = validateSourceObligatedFunds(event.getPendingTransactionItemForValidation(), award);
-            validAnticipatedFunds = validateSourceAnticipatedFunds(event.getPendingTransactionItemForValidation(), award);
-            validTotalCostLimit = validateAwardTotalCostLimit(event.getPendingTransactionItemForValidation(), award);
-            //need to remove the award amount info created from this process transactions call so there won't be a double entry in collection.
-            award.refreshReferenceObject("awardAmountInfos");
-        }
         boolean requiredFieldsComplete = areRequiredFieldsComplete(event.getPendingTransactionItemForValidation());
-        
-        boolean validFunds = false;
-        boolean validDates = false;
-        boolean validSourceAwardDestinationAward = false;
-        if(requiredFieldsComplete){
+        if (requiredFieldsComplete) {
+            event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
+            List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
+            event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getPendingTransactionItemForValidation());
+            Award award = getLastSourceAwardReferenceInAwards(awards, event.getPendingTransactionItemForValidation().getSourceAwardNumber());
+            //if source award is "External, the award will be null and we don't need to validate these amounts.
+            boolean validObligatedFunds = true;
+            boolean validAnticipatedFunds = true;
+            boolean validTotalCostLimit = true;
+            if(!(award == null)) {
+                validObligatedFunds = validateSourceObligatedFunds(event.getPendingTransactionItemForValidation(), award);
+                validAnticipatedFunds = validateSourceAnticipatedFunds(event.getPendingTransactionItemForValidation(), award);
+                validTotalCostLimit = validateAwardTotalCostLimit(event.getPendingTransactionItemForValidation(), award);
+                //need to remove the award amount info created from this process transactions call so there won't be a double entry in collection.
+                award.refreshReferenceObject("awardAmountInfos");
+            }
+            
+            boolean validFunds = false;
+            boolean validDates = false;
+            boolean validSourceAwardDestinationAward = false;
             validSourceAwardDestinationAward = processCommonValidations(event);
             if(validSourceAwardDestinationAward){
                 validFunds = validateAnticipatedGreaterThanObligated (event, awards);
                 validDates = validateObligatedDateIsSet(event, awards);
             }
+            return requiredFieldsComplete && validSourceAwardDestinationAward && validObligatedFunds  
+            && validAnticipatedFunds && validFunds && validDates && validTotalCostLimit ;                    
+        } else {
+            return false;
         }
-        
-        return requiredFieldsComplete && validSourceAwardDestinationAward && validObligatedFunds  
-            && validAnticipatedFunds && validFunds && validDates && validTotalCostLimit ;        
     }
     
     /**
