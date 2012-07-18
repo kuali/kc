@@ -50,6 +50,10 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     protected static final String NAMESPACE_CODE = "KC-PROTOCOL";
     
     /**
+     * Namespace code for IACUC Protocol linking parameters.
+     */
+    protected static final String IACUC_NAMESPACE_CODE = "KC-IACUC";
+    /**
      * Parameter code for Protocol linking parameters.
      */
     protected static final String PARAMETER_CODE = "Document";
@@ -65,6 +69,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
 
     private boolean canModifySpecialReview;
     private boolean isIrbProtocolLinkingEnabled;
+    private boolean isIacucProtocolLinkingEnabled;
     
     private transient ParameterService parameterService;
     private transient ProtocolFinderDao protocolFinderDao;
@@ -92,6 +97,9 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     
     public boolean getIsIrbProtocolLinkingEnabled() {
         return isIrbProtocolLinkingEnabled;
+    }
+    public boolean getIsIacucProtocolLinkingEnabled() {
+        return isIacucProtocolLinkingEnabled;
     }
     
     /**
@@ -175,18 +183,20 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      * @return true if the current user can modify Special Review, false otherwise
      */
     protected abstract boolean hasModifySpecialReviewPermission(String principalId);
-    
+       
     /**
      * Is the Protocol linking parameter enabled for this module?
      * @return true if Protocol liking is enabled for this module, false otherwise
      */
+
     protected abstract boolean isIrbProtocolLinkingEnabledForModule();
-    
+
     /**
      * Gets the last approved Protocol, ignoring any amendments or renewals.
      * @param protocolNumber the number of the Protocol
      * @return the last approved Protocol
      */
+
     protected Protocol getLastApprovedProtocol(String protocolNumber) {
         String lastApprovedProtocolNumber = protocolNumber;
         
@@ -251,6 +261,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     private void initializePermissions() {
         canModifySpecialReview = hasModifySpecialReviewPermission(getUserIdentifier());
         isIrbProtocolLinkingEnabled = isIrbProtocolLinkingEnabledForModule();
+       // isIacucProtocolLinkingEnabled = isIacucProtocolLinkingEnabledForModule();
     }
     
     private String getUserIdentifier() {
