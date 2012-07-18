@@ -38,8 +38,6 @@ public class SubAwardFundingSource extends SubAwardAssociate {
     
     private String sponsorName;
 
-    private SubAward subAward;
-
     private Award award;
 
     private KualiDecimal amountObligatedToDate;

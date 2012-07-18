@@ -126,18 +126,13 @@ private static final String DOC_HANDLER_URL_PATTERN =
     HttpServletResponse response, SubAwardForm subAwardForm,
        SubAwardDocument subAwardDocument, SubAward subAward) throws Exception {
        subAwardForm.getSubAwardDocument().getSubAward().setNewVersion(true);
-        SubAwardDocument newSubAwardDocument =
-        getSubAwardService().createNewSubAwardVersion(
-        subAwardForm.getSubAwardDocument());
+       SubAwardDocument newSubAwardDocument = getSubAwardService().createNewSubAwardVersion(subAwardForm.getSubAwardDocument());
        getDocumentService().saveDocument(newSubAwardDocument);
-       getSubAwardService().updateSubAwardSequenceStatus(
-       newSubAwardDocument.getSubAward(), VersionStatus.PENDING);
-       getVersionHistoryService().createVersionHistory(
-       newSubAwardDocument.getSubAward(), VersionStatus.PENDING,
-                GlobalVariables.getUserSession().getPrincipalName());
+       getSubAwardService().updateSubAwardSequenceStatus(newSubAwardDocument.getSubAward(), VersionStatus.PENDING);
+       getVersionHistoryService().createVersionHistory(newSubAwardDocument.getSubAward(), VersionStatus.PENDING, 
+               GlobalVariables.getUserSession().getPrincipalName());
         reinitializeSubAwardForm(subAwardForm, newSubAwardDocument);
-        return new ActionForward(makeDocumentOpenUrl(
-        newSubAwardDocument), true);
+        return new ActionForward(makeDocumentOpenUrl(newSubAwardDocument), true);
     }
 
     private String makeDocumentOpenUrl(SubAwardDocument newSubAwardDocument) {

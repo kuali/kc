@@ -160,6 +160,7 @@
         <property name="versioningService" ref="versioningService" />
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
         <property name="parameterService" ref="parameterService" />
+        <property name="versionHistoryService" ref="versionHistoryService" />
     </bean>
     
 	<bean id="subAwardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
