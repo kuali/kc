@@ -206,7 +206,7 @@ public interface PermissionConstants {
      public static final String SUBMIT_IACUC_PROTOCOL = "Submit IACUC Protocol";
      public static final String VIEW_ANY_IACUC_PROTOCOL = "View Any IACUC Protocol";                                    
      public static final String VIEW_IACUC_PROTOCOL = "View IACUC Protocol";
-     public static final String VIEW_IACUC_RESTRICTED_NOTES = "View IACUC Protocol Restricted Notes";
+     public static final String VIEW_IACUC_RESTRICTED_NOTES = "View IACUC Restricted Notes";
      public static final String MAINTAIN_IACUC_ONLINE_REVIEWS = "Maintain IACUC Protocol Online Reviews";
 
      /* IACUC - Online Review Permissions */
