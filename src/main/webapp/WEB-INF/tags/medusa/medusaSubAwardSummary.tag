@@ -56,14 +56,14 @@
     </tr>
     <tr>
      <th style="text-align: right;">Anticipated Amount:</th>
-      <td><c:out value="${KualiForm.subAwardDocument.subAward.totalAnticipatedAmount}"/></td>
+      <td><c:out value="${node.bo.totalAnticipatedAmount}"/></td>
       <th style="text-align: right;" >Obligated Amount:</th>
-      <td><c:out value="${KualiForm.subAwardDocument.subAward.totalObligatedAmount}"/></td>
+      <td><c:out value="${node.bo.totalObligatedAmount}"/></td>
     </tr>
      <tr>
       <th style="text-align: right;">Amount Released:</th>
-      <td><c:out value="${KualiForm.subAwardDocument.subAward.totalAmountReleased}"/></td>
+      <td><c:out value="${node.bo.totalAmountReleased}"/></td>
       <th style="text-align: right;" >Available Amount:</th>
-      <td><c:out value="${KualiForm.subAwardDocument.subAward.totalAvailableAmount}"/></td>
+      <td><c:out value="${node.bo.totalAvailableAmount}"/></td>
     </tr>
   </table>

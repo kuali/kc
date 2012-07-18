@@ -19,25 +19,33 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.VersionException;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
+import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -57,6 +65,7 @@ public class SubAwardServiceImpl implements SubAwardService {
 
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
+    private VersionHistoryService versionHistoryService;
     private DocumentService documentService;
     private SequenceAccessorService sequenceAccessorService;
     private ParameterService parameterService;
@@ -347,5 +356,37 @@ public class SubAwardServiceImpl implements SubAwardService {
         SubAward subAward = subAwards.get(0);
         getAmountInfo(subAward);
         return subAward;
+    }
+
+    @Override
+    public List<SubAward> getLinkedSubAwards(Award award) {
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("awardId", award.getAwardId());
+        Collection<SubAwardFundingSource> subAwardFundingSources = businessObjectService.findMatching(SubAwardFundingSource.class, values);
+        Set<String> subAwardSet = new TreeSet<String>();
+        for(SubAwardFundingSource subAwardFundingSource : subAwardFundingSources){
+            subAwardSet.add(subAwardFundingSource.getSubAward().getSubAwardCode());
+        }
+        List<SubAward> subAwards = new ArrayList<SubAward>();
+        for (String subAwardCode : subAwardSet) {
+            VersionHistory activeVersion = getVersionHistoryService().findActiveVersion(SubAward.class, subAwardCode);
+            if (activeVersion == null) {
+                VersionHistory pendingVersion = getVersionHistoryService().findPendingVersion(SubAward.class, subAwardCode);
+                if (pendingVersion != null) {
+                    subAwards.add((SubAward) pendingVersion.getSequenceOwner());
+                }
+            } else {
+                subAwards.add((SubAward) activeVersion.getSequenceOwner());
+            }
+        }
+        return subAwards;
+    }
+
+    public VersionHistoryService getVersionHistoryService() {
+        return versionHistoryService;
+    }
+
+    public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
+        this.versionHistoryService = versionHistoryService;
     }
 }

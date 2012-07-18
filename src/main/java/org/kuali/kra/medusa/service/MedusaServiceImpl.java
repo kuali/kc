@@ -51,6 +51,7 @@ import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
+import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -74,6 +75,7 @@ public class MedusaServiceImpl implements MedusaService {
     private AwardAmountInfoService awardAmountInfoService;
     private VersionHistoryService versionHistoryService;
     private NegotiationService negotiationService;
+    private SubAwardService subAwardService;
     
     /**
      * 
@@ -365,6 +367,10 @@ public class MedusaServiceImpl implements MedusaService {
         for (Negotiation negotiation : negotiations) {
             addToGraph(graph, negotiation, award);
         }
+        Collection<SubAward> subAwards = getSubAwards(award);
+        for (SubAward subAward : subAwards) {
+            addToGraph(graph, subAward, award);
+        }
         addSpecialReviewLinksToGraph(graph, award.getSpecialReviews(), award);
     }
     
@@ -556,7 +562,11 @@ public class MedusaServiceImpl implements MedusaService {
     
     protected SubAward getSubAward(Long subAwardId) {
         SubAward subAward = (SubAward) businessObjectService.findBySinglePrimaryKey(SubAward.class, subAwardId);
-        return subAward;
+        if (subAward == null) {
+            return null;
+        }
+        SubAward currentSubAward = (SubAward) getActiveOrCurrentVersion(SubAward.class, subAward.getSubAwardCode());
+        return currentSubAward == null ? subAward : currentSubAward;
     }
     
     protected Protocol getProtocol(Long protocolId) {
@@ -727,22 +737,23 @@ public class MedusaServiceImpl implements MedusaService {
     protected Collection<Award> getAwards(SubAward subAward) {
         
         Collection<Award> awards = new ArrayList<Award>();
-        Collection<SubAward> subAwardVersions = businessObjectService.findMatching(SubAward.class, getFieldValues("subAwardCode", subAward.getSubAwardCode()));
-        SubAward newestSubAaward = null;
-        for (SubAward currenSubAward : subAwardVersions) {
-            
-            if(newestSubAaward==null){
-                newestSubAaward = currenSubAward;
-            }
-            else if (currenSubAward.getSequenceNumber() > newestSubAaward.getSequenceNumber()) {
-                newestSubAaward = currenSubAward;
-            }
-        }
-        Collection<SubAwardFundingSource> subAwardFundingSources =newestSubAaward.getSubAwardFundingSourceList();
-        for (SubAwardFundingSource subAwardFundingSource :subAwardFundingSources){
+        SubAward newestSubAaward = getSubAward(subAward.getSubAwardCode());
+
+        Collection<SubAwardFundingSource> subAwardFundingSources = newestSubAaward.getSubAwardFundingSourceList();
+        for (SubAwardFundingSource subAwardFundingSource : subAwardFundingSources){
             awards.add(getAward(subAwardFundingSource.getAwardId()));
         }
         return awards;
+    }
+    
+    protected SubAward getSubAward(String subAwardCode) {
+        SubAward subAward = (SubAward) getActiveOrCurrentVersion(SubAward.class, subAwardCode);
+        return subAward;
+    }
+    
+    protected Collection<SubAward> getSubAwards(Award award) {
+        Collection<SubAward> subAwards = getSubAwardService().getLinkedSubAwards(award);
+        return subAwards;
     }
     /**
      * 
@@ -899,6 +910,14 @@ public class MedusaServiceImpl implements MedusaService {
 
     public void setNegotiationService(NegotiationService negotiationService) {
         this.negotiationService = negotiationService;
+    }
+
+    protected SubAwardService getSubAwardService() {
+        return subAwardService;
+    }
+
+    public void setSubAwardService(SubAwardService subAwardService) {
+        this.subAwardService = subAwardService;
     } 
     
 }
