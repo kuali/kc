@@ -66,7 +66,10 @@ public class PermissionAttributes {
     private static final String DOC_ACTION_ADMIN_CORRECTION = "admin_correction";
     private static final String DOC_ACTION_POST_AWARD_BUDGET = "post_award_budget";
     private static final String DOC_ACTION_DELETE_PROPOSAL = "delete_proposal";
-    
+
+    private static final String DOC_TYPE_IACUC_PROTOCOL = "IacucProtocolDocument";
+    private static final String DOC_ACTION_VIEW_IACUC_RESTRICTED_NOTES = "view_iacuc_restricted_notes";
+
     private static final Map<String, HashMap<String, String>> attributesMap;
     
     static {
@@ -168,6 +171,12 @@ public class PermissionAttributes {
         attributes.put(ATTR_DOCUMENT_ACTION, DOC_ACTION_VIEW_RESTRICTED_NOTES); 
         tempAttributesMap.put(PermissionConstants.VIEW_RESTRICTED_NOTES, attributes);
 
+        attributes = new HashMap<String, String>(); 
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_IACUC_PROTOCOL); 
+        attributes.put(ATTR_DOCUMENT_ACTION, DOC_ACTION_VIEW_IACUC_RESTRICTED_NOTES); 
+        tempAttributesMap.put(PermissionConstants.VIEW_IACUC_RESTRICTED_NOTES, attributes);
+
+        
         attributes = new HashMap<String, String>(); 
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_PROTOCOL); 
         attributes.put(ATTR_DOCUMENT_ACTION, DOC_ACTION_CREATE_AMMENDMENT); 
