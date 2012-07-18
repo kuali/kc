@@ -184,6 +184,9 @@ public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase {
     }
 
     public IacucPainCategory getIacucPainCategory() {
+        if (iacucPainCategory == null) {
+            refreshReferenceObject("iacucPainCategory");
+        }
         return iacucPainCategory;
     }
 
