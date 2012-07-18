@@ -19,8 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.kuali.kra.bo.SpecialReviewType;
+import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Defines the Special Review Helper for Development Proposal.
@@ -30,7 +37,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     private static final long serialVersionUID = 8832539481443727887L;
 
     private static final String PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER = "irb.protocol.development.proposal.linking.enabled";
-    
+    private static final String IACUC_PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER = "iacuc.protocol.development.proposal.linking.enabled";
     private ProposalDevelopmentForm form;
     
     /**
@@ -53,9 +60,37 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
         return getParameterService().getParameterValueAsBoolean(NAMESPACE_CODE, PARAMETER_CODE, PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
     }
 
+/*
+    @Override
+    protected boolean isIacucProtocolLinkingEnabledForModule() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, PARAMETER_CODE, IACUC_PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
+    }
+*/
     @Override
     protected List<ProposalSpecialReview> getSpecialReviews() {
         return form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews();
     }
+
+    public boolean isCreateIrbProtocol() {
+        //SpecialReview specialReview = getNewSpecialReview();
+        boolean createIrbProtocol=false;
+        //if (specialReview != null )
+        {
+          //  if ( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) )
+            {
+                ProposalTask task = new ProposalTask(ProposalTask.CREATE_IRB_PROTOCOL_FROM_PROPOSAL, form.getProposalDevelopmentDocument());
+                createIrbProtocol = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+            }
+        }
+        return createIrbProtocol;
+    }
     
+    private TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+
+    private String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
+   }
+
 }

@@ -557,7 +557,10 @@
 					<property name="taskName" value="modifyBudget" />
 					<property name="requiresWritableDoc" value="true" />
 				</bean>
-				
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.CreateProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="createIrbProtocolFromProposal" />
+                </bean>   
+
 			</list>
 		</property>
 	</bean>
