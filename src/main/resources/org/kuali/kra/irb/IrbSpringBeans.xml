@@ -1011,6 +1011,14 @@
     <bean id="protocolProposalDevelopmentDocumentService" class="org.kuali.kra.irb.protocol.funding.impl.ProtocolProposalDevelopmentDocumentServiceImpl">
     </bean> 
 
+    <bean id="proposalDevelopmentProtocolDocumentService" class="org.kuali.kra.irb.protocol.funding.impl.ProposalDevelopmentProtocolDocumentServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="systemAuthorizationService" ref="systemAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="protocolNumberService" ref="protocolNumberService" />
+        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+    </bean> 
+
 </beans>
 
 

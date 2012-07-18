@@ -27,6 +27,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 public final class ProposalTask extends Task {
     
     private ProposalDevelopmentDocument document;
+    public static final String CREATE_IRB_PROTOCOL_FROM_PROPOSAL = "createIrbProtocolFromProposal";
     
     /**
      * Constructs a ProposalTask.
