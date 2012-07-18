@@ -19,16 +19,20 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.protocol.ProtocolHelper;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
-public interface ProtocolProposalDevelopmentDocumentService {
+public interface ProposalDevelopmentProtocolDocumentService {
     public final static String PROJECT_END_DATE_NUMBER_OF_YEARS = "protocolProjectEndDateNumberOfYears";
-    public ProposalDevelopmentDocument createProposalDevelopmentDocument(ProtocolForm protocolForm) throws Exception;
-    public boolean isAuthorizedCreateProposal(ProtocolHelper protocolHelper);
-    public void populateDocumentOverview(Protocol protocol, ProposalDevelopmentDocument proposalDocument);
-    public void populateRequiredFields(Protocol protocol, ProposalDevelopmentDocument proposalDocument) throws Exception;
-    public void populateProposalPerson_Investigator(Protocol protocol, ProposalDevelopmentDocument proposalDocument);
-    public void populateProposalSpecialReview(Protocol protocol, ProposalDevelopmentDocument proposalDocument);
-    public void initializeAuthorization(ProposalDevelopmentDocument document);
+    public static final String PROTOCOL_CREATED = "Protocol created";
+
+    public ProtocolDocument createProtocolDocument(ProposalDevelopmentForm proposalDevelopmentForm) throws Exception;
+    public boolean isAuthorizedCreateProtocol(SpecialReviewHelper specialReviewHelper);
+    public void populateDocumentOverview(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument);
+    public void populateRequiredFields(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument) throws Exception;
+    public void populateProtocolPerson_Investigator(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument);
+    public void populateProtocolFundingSource(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument);
+    public void initializeAuthorization(ProtocolDocument protocolDocument);
 }

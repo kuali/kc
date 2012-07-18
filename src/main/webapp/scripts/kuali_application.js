@@ -3275,6 +3275,11 @@ function showHideSpecialReviewProtocolLink(specialReviewTypeCode, idPrefix) {
 	} else {
 		changeObjectVisibility(idPrefix + ".protocolNumber.link.div", "none"); 
 	}
+	if (specialReviewTypeCode.value == '1' ) {
+		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "inline");
+	} else {
+		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "none"); 
+	}
 	
 	enableDisableReadOnlyDynamicHtmlControl(readOnly, new Array(idPrefix + ".approvalTypeCode", idPrefix + ".applicationDate", idPrefix + ".approvalDate", idPrefix + ".expirationDate", idPrefix + ".exemptionTypeCodes"));
 }

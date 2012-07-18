@@ -25,12 +25,18 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
+import org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.irb.protocol.funding.ProposalDevelopmentProtocolDocumentService;
+import org.kuali.kra.irb.protocol.funding.ProtocolProposalDevelopmentDocumentService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -249,5 +255,71 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     public void setSpecialReviewService(SpecialReviewService specialReviewService) {
         this.specialReviewService = specialReviewService;
     }
-    
+
+    /**
+     * creates Protocol for Human subjects or Animal subjects
+     * 
+     * @param mapping the action mapping
+     * @param form the action form
+     * @param request the request
+     * @param response the response
+     * @return the action forward
+     * @throws Exception if unable to add the special review
+     */
+    public ActionForward createProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProtocolDocument protocolDocument = null;
+        
+        ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
+        List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
+        boolean isProtocolLinkingEnabled = false;
+        
+        if ( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) )
+        {
+            isProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
+            if ( isProtocolLinkingEnabled)
+            {
+                ProposalDevelopmentProtocolDocumentService service = getProposalDevelopmentProtocolDocumentService(); 
+                protocolDocument = service.createProtocolDocument(proposalDevelopmentForm);
+                if (protocolDocument != null )
+                {
+                    specialReview.setSpecialReviewTypeCode(SpecialReviewType.HUMAN_SUBJECTS);
+                }
+            }
+        }
+        else if ( SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode()) )
+        {
+            // add code for iacuc
+        }
+
+        if (protocolDocument != null )
+        {
+            Integer specialReviewNumber = document.getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER);
+            specialReview.setSpecialReviewNumber(specialReviewNumber);
+            specialReview.setApprovalTypeCode(SpecialReviewApprovalType.PENDING);
+            specialReview.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
+            specialReview.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+            specialReview.setProtocolStatus(protocolDocument.getProtocol().getProtocolStatus().getDescription());
+            specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
+
+            proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
+            KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
+            if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, specialReviews, isProtocolLinkingEnabled))) {
+                specialReviews.add(specialReview);
+                proposalDevelopmentForm.getSpecialReviewHelper().setNewSpecialReview(new ProposalSpecialReview());
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * This method is to return Protocol service
+     * 
+     * @return ProposalDevelopmentProtocolDocumentService
+     */
+    private ProposalDevelopmentProtocolDocumentService getProposalDevelopmentProtocolDocumentService() {
+        return (ProposalDevelopmentProtocolDocumentService) KraServiceLocator.getService(ProposalDevelopmentProtocolDocumentService.class);
+    }
+
 }
