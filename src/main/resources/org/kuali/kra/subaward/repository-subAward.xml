@@ -239,6 +239,9 @@
 		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardId"/>
 		</reference-descriptor> 
+		<reference-descriptor name="subAward" class-ref="org.kuali.kra.subaward.bo.SubAward" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="subAwardId"/>
+		</reference-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardStatus" table="SUBAWARD_STATUS">
