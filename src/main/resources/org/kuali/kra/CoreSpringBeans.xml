@@ -738,11 +738,17 @@
         <property name="serviceName" value="negotiationService" />
     </bean>
     
+    <bean id="subAwardService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="subAwardService" />
+    </bean>
+    
+    
     <bean id="medusaService" class="org.kuali.kra.medusa.service.MedusaServiceImpl" lazy-init="true">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="awardAmountInfoService" ref="awardAmountInfoService" />
         <property name="versionHistoryService" ref="versionHistoryService" />
         <property name="negotiationService" ref="negotiationService" />
+        <property name="subAwardService" ref="subAwardService"/>
     </bean>
     
     <bean id ="specialReviewService" class ="org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl" lazy-init="true">

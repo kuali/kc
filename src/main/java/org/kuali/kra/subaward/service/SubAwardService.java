@@ -16,9 +16,11 @@
 package org.kuali.kra.subaward.service;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.service.VersionException;
@@ -100,5 +102,5 @@ public interface SubAwardService {
      
      SubAward getActiveSubAward(Long subAwardCode);
 
-
+     List<SubAward> getLinkedSubAwards(Award award);
 }

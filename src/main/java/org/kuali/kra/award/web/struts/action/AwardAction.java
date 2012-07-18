@@ -141,6 +141,7 @@ public class AwardAction extends BudgetParentActionBase {
     private transient AwardService awardService;
     private transient ReportTrackingService reportTrackingService;
     private transient KcNotificationService notificationService;
+    private transient SubAwardService subAwardService;
     TimeAndMoneyAwardDateSaveRuleImpl timeAndMoneyAwardDateSaveRuleImpl;
     
     private static final Log LOG = LogFactory.getLog( AwardAction.class );
@@ -1881,21 +1882,8 @@ public class AwardAction extends BudgetParentActionBase {
      * This method will populate the subawards  if award is added as a funding source to perticular subaward
      * @param award
      */
-    private void setSubAwardDetails(Award award){
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
-        Collection<SubAward> subAwards = businessObjectService.findAll(SubAward.class);
-        List<SubAward> subAwardList = new ArrayList<SubAward>();
-        for(SubAward subAward:subAwards){
-            List<SubAwardFundingSource> subAwardFundingSourceList =subAward.getSubAwardFundingSourceList();
-            for(SubAwardFundingSource subAwardFundingSource : subAwardFundingSourceList){
-                if(subAwardFundingSource.getAwardId().equals(award.getAwardId())){
-                    subAward = KraServiceLocator.getService(SubAwardService.class).getAmountInfo(subAward);
-                    subAwardList.add(subAward);
-                    break;
-                }
-            }
-        }
-        award.setSubAwardList(subAwardList);
+    protected void setSubAwardDetails(Award award){
+        award.setSubAwardList(getSubAwardService().getLinkedSubAwards(award));
     }
 
     protected KcNotificationService getNotificationService() {
@@ -1907,5 +1895,16 @@ public class AwardAction extends BudgetParentActionBase {
 
     public void setNotificationService(KcNotificationService notificationService) {
         this.notificationService = notificationService;
+    }
+
+    protected SubAwardService getSubAwardService() {
+        if (subAwardService == null) {
+            subAwardService = KraServiceLocator.getService(SubAwardService.class);
+        }
+        return subAwardService;
+    }
+
+    public void setSubAwardService(SubAwardService subAwardService) {
+        this.subAwardService = subAwardService;
     }
 }
