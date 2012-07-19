@@ -727,38 +727,37 @@ public class IacucActionHelper extends ActionHelper {
          * will be populated in the protocolAmendmentBean.
          */
         if (!currentTaskName.equalsIgnoreCase(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS)) {
-            //TODO: Should change following to IACUC version once it is created
-            ProtocolAmendmentBean amendmentBean = getProtocolAmendmentBean();
+            IacucProtocolAmendmentBean amendmentBean = (IacucProtocolAmendmentBean)getProtocolAmendmentBean();
             String originalProtocolNumber;
-//            // Use the submission number to get the correct amendment details
-//            if (getProtocol().isAmendment()) {
-//                originalProtocolNumber = getProtocol().getProtocolAmendRenewal().getProtocolNumber();           
-//            } else {
-//                // We want to display amendment details even if the document is not an amendment.
-//                // Amendment details needs to be displayed even after the amendment has been merged with the protocol.
-//                originalProtocolNumber = getProtocol().getProtocolNumber();
-//            }
-//            List<Protocol> protocols = getProtocolAmendRenewService().getAmendmentAndRenewals(originalProtocolNumber);
-//
-//            IacucProtocolAmendRenewal correctAmendment = getCorrectAmendment(protocols);
-//            if (ObjectUtils.isNotNull(correctAmendment)) {
-//                setSubmissionHasNoAmendmentDetails(false);
-//                amendmentBean.setSummary(correctAmendment.getSummary());
-//                amendmentBean.setGeneralInfo((correctAmendment.hasModule(IacucProtocolModule.GENERAL_INFO)) ? true : false);
-//                amendmentBean.setProtocolPersonnel((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_PERSONNEL)) ? true : false);
-//                amendmentBean.setAreasOfResearch((correctAmendment.hasModule(IacucProtocolModule.AREAS_OF_RESEARCH)) ? true : false);
-//                amendmentBean.setAddModifyAttachments((correctAmendment.hasModule(IacucProtocolModule.ADD_MODIFY_ATTACHMENTS)) ? true : false);
-//                amendmentBean.setFundingSource((correctAmendment.hasModule(IacucProtocolModule.FUNDING_SOURCE)) ? true : false);
-//                amendmentBean.setOthers((correctAmendment.hasModule(IacucProtocolModule.OTHERS)) ? true : false);
-//                amendmentBean.setProtocolOrganizations((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_ORGANIZATIONS)) ? true : false);
-//                amendmentBean.setProtocolPermissions((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_PERMISSIONS)) ? true : false);
-//                amendmentBean.setProtocolReferencesAndOtherIdentifiers((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_REFERENCES)) ? true : false);
-//                amendmentBean.setQuestionnaire((correctAmendment.hasModule(IacucProtocolModule.QUESTIONNAIRE)) ? true : false);
-//                amendmentBean.setSpecialReview((correctAmendment.hasModule(IacucProtocolModule.SPECIAL_REVIEW)) ? true : false);
-//                amendmentBean.setSubjects((correctAmendment.hasModule(IacucProtocolModule.SUBJECTS)) ? true : false);
-//            } else {
-//                setSubmissionHasNoAmendmentDetails(true);
-//            }
+            // Use the submission number to get the correct amendment details
+            if (getProtocol().isAmendment()) {
+                originalProtocolNumber = getProtocol().getProtocolAmendRenewal().getProtocolNumber();           
+            } else {
+                // We want to display amendment details even if the document is not an amendment.
+                // Amendment details needs to be displayed even after the amendment has been merged with the protocol.
+                originalProtocolNumber = getProtocol().getProtocolNumber();
+            }
+            List<Protocol> protocols = getProtocolAmendRenewServiceHook().getAmendmentAndRenewals(originalProtocolNumber);
+
+            IacucProtocolAmendRenewal correctAmendment = getCorrectAmendment(protocols);
+            if (ObjectUtils.isNotNull(correctAmendment)) {
+                setSubmissionHasNoAmendmentDetails(false);
+                amendmentBean.setSummary(correctAmendment.getSummary());
+                amendmentBean.setGeneralInfo((correctAmendment.hasModule(IacucProtocolModule.GENERAL_INFO)) ? true : false);
+                amendmentBean.setProtocolPersonnel((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_PERSONNEL)) ? true : false);
+                amendmentBean.setAreasOfResearch((correctAmendment.hasModule(IacucProtocolModule.AREAS_OF_RESEARCH)) ? true : false);
+                amendmentBean.setAddModifyAttachments((correctAmendment.hasModule(IacucProtocolModule.ADD_MODIFY_ATTACHMENTS)) ? true : false);
+                amendmentBean.setFundingSource((correctAmendment.hasModule(IacucProtocolModule.FUNDING_SOURCE)) ? true : false);
+                amendmentBean.setOthers((correctAmendment.hasModule(IacucProtocolModule.OTHERS)) ? true : false);
+                amendmentBean.setProtocolOrganizations((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_ORGANIZATIONS)) ? true : false);
+                amendmentBean.setProtocolPermissions((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_PERMISSIONS)) ? true : false);
+                amendmentBean.setProtocolReferencesAndOtherIdentifiers((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_REFERENCES)) ? true : false);
+                amendmentBean.setQuestionnaire((correctAmendment.hasModule(IacucProtocolModule.QUESTIONNAIRE)) ? true : false);
+                amendmentBean.setSpecialReview((correctAmendment.hasModule(IacucProtocolModule.SPECIAL_REVIEW)) ? true : false);
+                amendmentBean.setSubjects((correctAmendment.hasModule(IacucProtocolModule.SUBJECTS)) ? true : false);
+            } else {
+                setSubmissionHasNoAmendmentDetails(true);
+            }
         }
     }
 
@@ -921,7 +920,7 @@ public class IacucActionHelper extends ActionHelper {
     
     @Override
     protected void populateExistingAmendmentBean(ProtocolAmendmentBean amendmentBean, List<String> moduleTypeCodes) {
-        ProtocolAmendRenewal protocolAmendRenewal = getProtocol().getProtocolAmendRenewal();
+        IacucProtocolAmendRenewal protocolAmendRenewal = (IacucProtocolAmendRenewal)getProtocol().getProtocolAmendRenewal();
         amendmentBean.setSummary(protocolAmendRenewal.getSummary());
         for (ProtocolAmendRenewModule module : protocolAmendRenewal.getModules()) {
             moduleTypeCodes.add(module.getProtocolModuleTypeCode());
