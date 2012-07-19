@@ -15,20 +15,21 @@
  */
 package org.kuali.kra.protocol.auth;
 
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
  * Is the user allowed to create an amendment for the protocol and the action is currently not available?
  */
-public class CreateAmendmentUnavailableAuthorizer extends ProtocolAuthorizer {
+public abstract class CreateAmendmentUnavailableAuthorizer extends ProtocolAuthorizer {
 
     /**
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_AMMENDMENT) &&
+        return hasPermission(userId, task.getProtocol(), getPermissionCreateAmendmentHook()) &&
                (isAmendmentOrRenewal(task.getProtocol()) ||
-                !canExecuteAction(task.getProtocol(), ProtocolActionType.AMENDMENT_CREATED));
+                !canExecuteAction(task.getProtocol(), getActionTypeAmendmentCreatedHook()));
     }
+
+    protected abstract String getActionTypeAmendmentCreatedHook();
+    protected abstract String getPermissionCreateAmendmentHook();
 }

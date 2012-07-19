@@ -26,6 +26,30 @@ public class IacucProtocolModule extends ProtocolModule {
     public static final String PROCEDURES = "031";
     
 
+    public static final String GENERAL_INFO = "001";
+
+    public static final String PROTOCOL_PERSONNEL = "002";
+
+    public static final String AREAS_OF_RESEARCH = "004";
+
+    public static final String SUBJECTS = "006";
+
+    public static final String SPECIAL_REVIEW = "007";
+
+    public static final String ADD_MODIFY_ATTACHMENTS = "008";
+
+    public static final String PROTOCOL_REFERENCES = "016";
+
+    public static final String PROTOCOL_ORGANIZATIONS = "017";
+
+    public static final String OTHERS = "023";
+
+    public static final String FUNDING_SOURCE = "024";
+
+    public static final String PROTOCOL_PERMISSIONS = "025";
+
+    public static final String QUESTIONNAIRE = "026";
+    
     public IacucProtocolModule() {
         super();
     }

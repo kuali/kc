@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc;
+package org.kuali.kra.iacuc.actions.amendrenew;
 
-import org.kuali.kra.protocol.ProtocolFinderDao;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
 
-/**
- * The ProtocolFinderDao is used to find protocols.
- */
-public interface IacucProtocolFinderDao extends ProtocolFinderDao {
+public interface IacucProtocolAmendRenewService extends ProtocolAmendRenewService {
 
 }

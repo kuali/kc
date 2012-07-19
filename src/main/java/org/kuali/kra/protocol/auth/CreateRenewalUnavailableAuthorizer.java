@@ -15,20 +15,21 @@
  */
 package org.kuali.kra.protocol.auth;
 
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
  * Is the user allowed to create a renewal for the protocol and the action is currently not available?
  */
-public class CreateRenewalUnavailableAuthorizer extends ProtocolAuthorizer {
+public abstract class CreateRenewalUnavailableAuthorizer extends ProtocolAuthorizer {
 
     /**
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_RENEWAL) &&
+        return hasPermission(userId, task.getProtocol(), getPermissionCreateRenewalHook()) &&
                (isAmendmentOrRenewal(task.getProtocol()) ||
-                !canExecuteAction(task.getProtocol(), ProtocolActionType.RENEWAL_CREATED));
+                !canExecuteAction(task.getProtocol(), getActionTypeRenewalCreatedHook()));
     }
+
+    protected abstract String getActionTypeRenewalCreatedHook();
+    protected abstract String getPermissionCreateRenewalHook();
 }

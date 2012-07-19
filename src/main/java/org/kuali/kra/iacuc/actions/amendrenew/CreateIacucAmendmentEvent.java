@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc;
+package org.kuali.kra.iacuc.actions.amendrenew;
 
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolFinderDaoOjb;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.protocol.actions.amendrenew.CreateAmendmentEvent;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
+import org.kuali.kra.rule.BusinessRuleInterface;
 
-/**
- * The ProtocolFinderDao implementation for OJB.
- */
-public class IacucProtocolFinderDaoOjb extends ProtocolFinderDaoOjb implements IacucProtocolFinderDao {
+public class CreateIacucAmendmentEvent extends CreateAmendmentEvent {
 
-    @Override
-    protected Class<? extends Protocol> getProtocolBOClassHook() {
-        return IacucProtocol.class;
+    public CreateIacucAmendmentEvent(IacucProtocolDocument document, String propertyName, ProtocolAmendmentBean amendmentBean) {
+        super(document, propertyName, amendmentBean);
     }
 
     @Override
-    protected Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook() {
-        return IacucProtocolSubmission.class;
+    public BusinessRuleInterface getRule() {
+        return new CreateIacucAmendmentRule();
     }
 
 }
