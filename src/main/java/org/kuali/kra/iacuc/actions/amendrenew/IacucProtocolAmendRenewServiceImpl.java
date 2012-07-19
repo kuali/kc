@@ -25,6 +25,7 @@ import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewServiceImpl;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
@@ -172,6 +173,16 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
     @Override
     protected Class<? extends Protocol> getProtocolBOClassHook() {
         return IacucProtocol.class;
+    }
+
+    @Override
+    protected ProtocolAmendRenewal getNewProtocolAmendRenewalInstanceHook() {
+        return new IacucProtocolAmendRenewal();
+    }
+
+    @Override
+    protected ProtocolAmendRenewModule getNewProtocolAmendRenewModuleInstanceHook() {
+        return new IacucProtocolAmendRenewModule();
     }
 
 }
