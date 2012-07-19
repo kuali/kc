@@ -419,7 +419,51 @@
             <inverse-foreignkey field-ref="protocolId" />
             <orderby name="updateTimestamp" sort="ASC" />
         </collection-descriptor>
+        
+        <collection-descriptor name="protocolAmendRenewals" element-class-ref="org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="protocolId" />
+        </collection-descriptor>
+        
      </class-descriptor>
+    
+    
+    <class-descriptor class="org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewal" table="IACUC_PROTO_AMEND_RENEWAL">
+        <field-descriptor name="id" column="PROTO_AMEND_RENEWAL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROT_AMND_REN_ID" autoincrement="true"/>
+        <field-descriptor name="protoAmendRenNumber" column="PROTO_AMEND_REN_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="dateCreated" column="DATE_CREATED" jdbc-type="DATE" />
+        <field-descriptor name="summary" column="SUMMARY" jdbc-type="VARCHAR" />
+        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolId"/>
+        </reference-descriptor>
+        <collection-descriptor name="modules" element-class-ref="org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewModule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="protocolAmendRenewalId" />
+        </collection-descriptor> 
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewModule" table="IACUC_PROTO_AMEND_RENEW_MOD">
+        <field-descriptor name="protocolAmendRenewModuleId" column="PROTO_AMEND_RENEW_MODULES_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROT_AMND_REN_MOD_ID" autoincrement="true"/>
+        <field-descriptor name="protocolAmendRenewalNumber" column="PROTO_AMEND_RENEWAL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="protocolAmendRenewalId" column="PROTO_AMEND_RENEWAL_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="protocolModuleTypeCode" column="PROTOCOL_MODULE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="protocolAmendRenewal" class-ref="org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolAmendRenewalId"/>
+        </reference-descriptor>
+        <reference-descriptor name="protocolModule" class-ref="org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolModuleTypeCode"/>
+        </reference-descriptor>
+    </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.iacuc.actions.IacucProtocolAction" table="IACUC_PROTOCOL_ACTIONS">
         <field-descriptor name="protocolActionId" column="IACUC_PROTOCOL_ACTION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROTOCOL_ACTIONS_ID" autoincrement="true"/>

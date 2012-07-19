@@ -20,7 +20,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.Protocol;
 
 @SuppressWarnings("serial")
-public class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
+public abstract class ProtocolAmendRenewModule extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
 
     private Long protocolAmendRenewModuleId;
 

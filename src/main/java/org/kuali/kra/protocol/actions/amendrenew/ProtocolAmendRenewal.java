@@ -24,7 +24,7 @@ import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.Protocol;
 
-public class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
+public abstract class ProtocolAmendRenewal extends KraPersistableBusinessObjectBase implements SequenceAssociate<Protocol> {
 
     private static final long serialVersionUID = 1317253368511551232L;
 
