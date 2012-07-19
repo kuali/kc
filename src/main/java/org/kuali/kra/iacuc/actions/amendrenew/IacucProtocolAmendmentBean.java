@@ -17,10 +17,9 @@ package org.kuali.kra.iacuc.actions.amendrenew;
 
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolEditableBean;
-import org.kuali.kra.protocol.actions.ActionHelper;
-import org.kuali.kra.protocol.actions.ProtocolEditableBean;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 
-public class IacucProtocolAmendmentBean extends IacucProtocolEditableBean {
+public class IacucProtocolAmendmentBean extends IacucProtocolEditableBean implements ProtocolAmendmentBean {
 
     private static final long serialVersionUID = 6548643656057631296L;
 

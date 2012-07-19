@@ -44,6 +44,8 @@ import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.abandon.IacucProtocolAbandonService;
+import org.kuali.kra.iacuc.actions.amendrenew.CreateIacucAmendmentEvent;
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewService;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveBean;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveEvent;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveService;
@@ -68,7 +70,6 @@ import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionServ
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionEvent;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionService;
-import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucBean;
 import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucService;
 import org.kuali.kra.iacuc.actions.notifyiacuc.NotifyIacucNotificationRenderer;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
@@ -88,10 +89,10 @@ import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawService;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
-import org.kuali.kra.iacuc.notification.IacucProtocolWithReasonNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
+import org.kuali.kra.iacuc.notification.IacucProtocolWithReasonNotificationRenderer;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireAuditRule;
@@ -771,53 +772,57 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return valid;
     }
-//    
-//    /**
-//     * Create an Amendment.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    @SuppressWarnings("unchecked")
-//    public ActionForward createAmendment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//
-//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolForm.getProtocolDocument().getProtocol());
-//        if (isAuthorized(task)) {
-//            if (!applyRules(new CreateAmendmentEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_CREATE_AMENDMENT_KEY,
-//                protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
-//                return mapping.findForward(Constants.MAPPING_BASIC);
-//            }
-//
-//            String newDocId = getProtocolAmendRenewService().createAmendment(protocolForm.getProtocolDocument(),
-//                    protocolForm.getActionHelper().getProtocolAmendmentBean());
-//            // Switch over to the new protocol document and
-//            // go to the Protocol tab web page.
-//
-//            protocolForm.setDocId(newDocId);
-//            loadDocument(protocolForm);
-//            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
-//            protocolForm.getProtocolHelper().prepareView();
-//            
-//            recordProtocolActionSuccess("Create Amendment");
-//
-//            ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.AMENDMENT_CREATED_NOTIFICATION, "Amendment Created");
-//            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                return mapping.findForward(CORRESPONDENCE);
-//            } else {
-//                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
-//            }
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
+    
+    
+    /**
+     * Create an Amendment.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public ActionForward createAmendment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument protocolDocument = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT, protocol);
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+        if (isAuthorized(task)) {
+            if (!applyRules(new CreateIacucAmendmentEvent(protocolDocument, Constants.PROTOCOL_CREATE_AMENDMENT_KEY,
+                    actionHelper.getProtocolAmendmentBean()))) {
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
+
+            String newDocId = getProtocolAmendRenewService().createAmendment(protocolForm.getProtocolDocument(),
+                    protocolForm.getActionHelper().getProtocolAmendmentBean());
+            // Switch over to the new protocol document and
+            // go to the Protocol tab web page.
+
+            protocolForm.setDocId(newDocId);
+            loadDocument(protocolForm);
+            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
+            protocolForm.getProtocolHelper().prepareView();
+            
+            recordProtocolActionSuccess("Create Amendment");
+
+            IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.AMENDMENT_CREATED_NOTIFICATION, "Amendment Created");
+            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                return mapping.findForward(CORRESPONDENCE);
+            } else {
+                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+
 //    /**
 //     * Modify an Amendment.
 //     * 
@@ -3045,11 +3050,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //    private ProtocolNotifyCommitteeService getProtocolNotifyCommitteeService() {
 //        return KraServiceLocator.getService(ProtocolNotifyCommitteeService.class);
 //    }
-//    
-//    private ProtocolAmendRenewService getProtocolAmendRenewService() {
-//        return KraServiceLocator.getService(ProtocolAmendRenewService.class);
-//    }
-//    
+//   
+    
+    private IacucProtocolAmendRenewService getProtocolAmendRenewService() {
+        return KraServiceLocator.getService(IacucProtocolAmendRenewService.class);        
+    }
+    
     private IacucProtocolDeleteService getProtocolDeleteService() {
         return KraServiceLocator.getService(IacucProtocolDeleteService.class);
     }

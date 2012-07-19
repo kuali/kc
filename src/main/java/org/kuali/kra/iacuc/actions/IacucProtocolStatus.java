@@ -68,4 +68,8 @@ public class IacucProtocolStatus extends ProtocolStatus {
     
     public static final String ABANDONED = "309";
     
+    public static final String AMENDMENT_IN_PROGRESS = "205";
+    
+    public static final String RENEWAL_IN_PROGRESS = "206";
+
 }

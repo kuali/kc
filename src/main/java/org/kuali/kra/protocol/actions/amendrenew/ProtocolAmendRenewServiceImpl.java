@@ -25,11 +25,8 @@ import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
-import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.copy.ProtocolCopyService;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
-import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -58,7 +55,7 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
     protected static final String PROTOCOL_STATUS = "protocolStatus";
     
     protected DocumentService documentService;
-    protected ProtocolCopyService protocolCopyService;
+    protected ProtocolCopyService<ProtocolDocument> protocolCopyService;
     protected KraLookupDao kraLookupDao;
     protected ProtocolFinderDao protocolFinderDao;
     protected SequenceAccessorService sequenceAccessorService;
@@ -76,7 +73,7 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
      * Set the Protocol Copy Service.
      * @param protocolCopyService
      */
-    public void setProtocolCopyService(ProtocolCopyService protocolCopyService) {
+    public void setProtocolCopyService(ProtocolCopyService<ProtocolDocument> protocolCopyService) {
         this.protocolCopyService = protocolCopyService;
     }
     
@@ -105,7 +102,7 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
     }
     
     /**
-     * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#createAmendment(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean)
+     * @see org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService#createAmendment(org.kuali.kra.protocol.ProtocolDocument, org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean)
      */
     public String createAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
         ProtocolDocument amendProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolAmendmentNumber(protocolDocument), true);
@@ -274,110 +271,15 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
         return protocolAmendRenewal;
     }
 
-    /**
-     * Add the modules to the amendment that were selected by the end user.
-     * @param amendmentEntry
-     * @param amendmentBean
-     */
-    protected void addModules(Protocol protocol, ProtocolAmendmentBean amendmentBean) {
-        ProtocolAmendRenewal amendmentEntry = protocol.getProtocolAmendRenewal();
-        if (amendmentBean.getGeneralInfo()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.GENERAL_INFO));
-        } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.GENERAL_INFO);
-            amendmentEntry.removeModule(ProtocolModule.GENERAL_INFO);
+    protected void removeEditedQuestionaire(Protocol protocol) {
+        ModuleQuestionnaireBean moduleQuestionnaireBean = getNewProtocolModuleQuestionnaireBeanInstanceHook(protocol);
+        moduleQuestionnaireBean.setModuleSubItemCode("0");
+        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+        if (!answerHeaders.isEmpty() && answerHeaders.get(0).getAnswerHeaderId() != null) {
+            businessObjectService.delete(answerHeaders);
         }
-        
-        if (amendmentBean.getAddModifyAttachments()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.ADD_MODIFY_ATTACHMENTS));
-        } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.ADD_MODIFY_ATTACHMENTS);
-            amendmentEntry.removeModule(ProtocolModule.ADD_MODIFY_ATTACHMENTS);
-        }
-        
-        if (amendmentBean.getAreasOfResearch()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.AREAS_OF_RESEARCH));
-        } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.AREAS_OF_RESEARCH);
-            amendmentEntry.removeModule(ProtocolModule.AREAS_OF_RESEARCH);
-        }
-        
-        if (amendmentBean.getFundingSource()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.FUNDING_SOURCE));
-        } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.FUNDING_SOURCE);
-            amendmentEntry.removeModule(ProtocolModule.FUNDING_SOURCE);
-        }
-        
-        if (amendmentBean.getProtocolOrganizations()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_ORGANIZATIONS));
-        } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_ORGANIZATIONS);
-            amendmentEntry.removeModule(ProtocolModule.PROTOCOL_ORGANIZATIONS);
-        }
-        
-        if (amendmentBean.getProtocolPersonnel()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_PERSONNEL));
-        } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_PERSONNEL);
-            amendmentEntry.removeModule(ProtocolModule.PROTOCOL_PERSONNEL);
-        }
-        
-        if (amendmentBean.getProtocolReferencesAndOtherIdentifiers()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_REFERENCES));
-        } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_REFERENCES);
-            amendmentEntry.removeModule(ProtocolModule.PROTOCOL_REFERENCES);
-        }
-        
-        if (amendmentBean.getSubjects()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.SUBJECTS));
-        } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.SUBJECTS);
-            amendmentEntry.removeModule(ProtocolModule.SUBJECTS);
-        }
-        
-        if (amendmentBean.getSpecialReview()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.SPECIAL_REVIEW));
-        } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.SPECIAL_REVIEW);
-            amendmentEntry.removeModule(ProtocolModule.SPECIAL_REVIEW);
-        }
-        
-        if (amendmentBean.getOthers()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.OTHERS));
-        } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.OTHERS);
-            amendmentEntry.removeModule(ProtocolModule.OTHERS);
-        }
-        
-        if (amendmentBean.getProtocolPermissions()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_PERMISSIONS));
-        } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_PERMISSIONS);
-            amendmentEntry.removeModule(ProtocolModule.PROTOCOL_PERMISSIONS);
-        }
-        if (amendmentBean.getQuestionnaire()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.QUESTIONNAIRE));
-        } else {
-            // TODO : need further work for merge
-            removeEditedQuestionaire(protocol);
-            // protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()),
-            // ProtocolModule.QUESTIONNAIRE);
-            amendmentEntry.removeModule(ProtocolModule.QUESTIONNAIRE);
-        }
-
     }
-
-//    private void removeEditedQuestionaire(Protocol protocol) {
-//        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(protocol);
-//        moduleQuestionnaireBean.setModuleSubItemCode("0");
-//        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-//        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
-//        if (!answerHeaders.isEmpty() && answerHeaders.get(0).getAnswerHeaderId() != null) {
-//            businessObjectService.delete(answerHeaders);
-//        }
-//    }
 
     /**
      * Create a module entry.
@@ -395,33 +297,34 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
         return module;
     }
     
-//    /**
-//     * Create a Protocol Action indicating that an amendment has been created.
-//     * @param protocol
-//     * @param protocolNumber protocol number of the amendment
-//     * @return a protocol action
-//     */
-//    protected ProtocolAction createCreateAmendmentProtocolAction(Protocol protocol, String protocolNumber) {
-//        ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.AMENDMENT_CREATED);
-//        protocolAction.setComments(AMENDMENT + "-" + protocolNumber.substring(11) + ": " + CREATED);
-//        return protocolAction;
-//    }
-//    
-//    /**
-//     * Create a Protocol Action indicating that a renewal has been created.
-//     * @param protocol
-//     * @param protocolNumber protocol number of the renewal
-//     * @return a protocol action
-//     */
-//    protected ProtocolAction createCreateRenewalProtocolAction(Protocol protocol, String protocolNumber) {
-//        ProtocolAction protocolAction = new ProtocolAction(protocol, null, getRenewalCreatedStatusHook());
-//        protocolAction.setComments(RENEWAL + "-" + protocolNumber.substring(11) + ": " + CREATED);
-//        return protocolAction;
-//    }
+    /**
+     * Create a Protocol Action indicating that an amendment has been created.
+     * @param protocol
+     * @param protocolNumber protocol number of the amendment
+     * @return a protocol action
+     */
+    protected ProtocolAction createCreateAmendmentProtocolAction(Protocol protocol, String protocolNumber) {
+        ProtocolAction protocolAction = getNewAmendmentProtocolActionInstanceHook(protocol);
+        protocolAction.setComments(AMENDMENT + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        return protocolAction;
+    }
+    
+    
+    
+    /**
+     * Create a Protocol Action indicating that a renewal has been created.
+     * @param protocol
+     * @param protocolNumber protocol number of the renewal
+     * @return a protocol action
+     */
+    protected ProtocolAction createCreateRenewalProtocolAction(Protocol protocol, String protocolNumber) {
+        ProtocolAction protocolAction = getNewRenewalProtocolActionInstanceHook(protocol);
+        protocolAction.setComments(RENEWAL + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        return protocolAction;
+    }
 
     /**
-     * @throws Exception 
-     * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#getAmendmentAndRenewals(java.lang.String)
+     * @see org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService#getAmendmentAndRenewals(java.lang.String)
      */
     public List<Protocol> getAmendmentAndRenewals(String protocolNumber) throws Exception {
         List<Protocol> protocols = new ArrayList<Protocol>();
@@ -433,7 +336,7 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
     @SuppressWarnings("unchecked")
     public Collection<Protocol> getAmendments(String protocolNumber) throws Exception {
         List<Protocol> amendments = new ArrayList<Protocol>();
-        Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true);
+        Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true);
         for (Protocol protocol : protocols) {
             ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
             amendments.add(protocolDocument.getProtocol());
@@ -444,7 +347,7 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
     @SuppressWarnings("unchecked")
     public Collection<Protocol> getRenewals(String protocolNumber) throws Exception {
         List<Protocol> renewals = new ArrayList<Protocol>();
-        Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(Protocol.class, PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true);
+        Collection<Protocol> protocols = (Collection<Protocol>) kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true);
         for (Protocol protocol : protocols) {
             ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
             renewals.add(protocolDocument.getProtocol());
@@ -479,26 +382,6 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
         return moduleTypeCodes;
     }
 
-    /**
-     * Get the list of all of the module type codes.
-     * @return
-     */
-    protected List<String> getAllModuleTypeCodes() {
-        List<String> moduleTypeCodes = new ArrayList<String>();
-        moduleTypeCodes.add(ProtocolModule.GENERAL_INFO);
-        moduleTypeCodes.add(ProtocolModule.ADD_MODIFY_ATTACHMENTS);
-        moduleTypeCodes.add(ProtocolModule.AREAS_OF_RESEARCH);
-        moduleTypeCodes.add(ProtocolModule.FUNDING_SOURCE);
-        moduleTypeCodes.add(ProtocolModule.OTHERS);
-        moduleTypeCodes.add(ProtocolModule.PROTOCOL_ORGANIZATIONS);
-        moduleTypeCodes.add(ProtocolModule.PROTOCOL_PERSONNEL);
-        moduleTypeCodes.add(ProtocolModule.PROTOCOL_REFERENCES);
-        moduleTypeCodes.add(ProtocolModule.SPECIAL_REVIEW);
-        moduleTypeCodes.add(ProtocolModule.SUBJECTS);
-        moduleTypeCodes.add(ProtocolModule.PROTOCOL_PERMISSIONS);
-        moduleTypeCodes.add(ProtocolModule.QUESTIONNAIRE);
-        return moduleTypeCodes;
-    }
 
     /**
      * Has the amendment completed, e.g. been approved, disapproved, etc?
@@ -546,18 +429,21 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
         this.businessObjectService = businessObjectService;
     }
 
-    protected abstract ProtocolAction createCreateAmendmentProtocolAction(Protocol protocol, String protocolNumber);
+    protected abstract ProtocolAction getNewAmendmentProtocolActionInstanceHook(Protocol protocol);
     
-    protected abstract ProtocolAction createCreateRenewalProtocolAction(Protocol protocol, String protocolNumber);
+    protected abstract ProtocolAction getNewRenewalProtocolActionInstanceHook(Protocol protocol);
 
+    protected abstract ModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(Protocol protocol);
+    
     protected abstract String getAmendmentInProgressStatusHook();
     
     protected abstract String getRenewalInProgressStatusHook();
 
-    protected abstract String getAmendmentCreatedStatusHook();
+    protected abstract List<String> getAllModuleTypeCodes();
     
-    protected abstract String getRenewalCreatedStatusHook();
+    protected abstract void addModules(Protocol protocol, ProtocolAmendmentBean amendmentBean);
     
-    protected abstract void removeEditedQuestionaire(Protocol protocol);
-
+    protected abstract Class<? extends Protocol> getProtocolBOClassHook();
+    
+    
 }

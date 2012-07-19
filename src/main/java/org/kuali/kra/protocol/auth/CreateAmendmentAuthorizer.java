@@ -15,21 +15,24 @@
  */
 package org.kuali.kra.protocol.auth;
 
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
  * Is the user allowed to create an amendment for the protocol?
  */
-public class CreateAmendmentAuthorizer extends ProtocolAuthorizer {
+public abstract class CreateAmendmentAuthorizer extends ProtocolAuthorizer {
 
     /**
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return !isAmendmentOrRenewal(task.getProtocol()) &&
-               canExecuteAction(task.getProtocol(), ProtocolActionType.AMENDMENT_CREATED) &&
-               (hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_AMMENDMENT)
-                    || hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_ANY_AMENDMENT));
+               canExecuteAction(task.getProtocol(), getActionTypeAmendmentCreatedHook()) &&
+               (hasPermission(userId, task.getProtocol(), getPermissionCreateAmendmentHook())
+                    || hasPermission(userId, task.getProtocol(), getPermissionCreateAnyAmendmentHook()));
     }
+    
+    protected abstract String getActionTypeAmendmentCreatedHook();
+    protected abstract String getPermissionCreateAmendmentHook();
+    protected abstract String getPermissionCreateAnyAmendmentHook();
+    
 }

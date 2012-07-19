@@ -15,201 +15,163 @@
  */
 package org.kuali.kra.iacuc.actions.amendrenew;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.dao.KraLookupDao;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
-import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewServiceImpl;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
-import org.kuali.kra.protocol.actions.copy.ProtocolCopyService;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
-import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.SequenceAccessorService;
 
 /**
  * The Protocol Amendment/Renewal Service Implementation.
  */
-public abstract class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServiceImpl {
-
-    /**
-     * Create a Protocol Action indicating that an amendment has been created.
-     * @param protocol
-     * @param protocolNumber protocol number of the amendment
-     * @return a protocol action
-     */
-    @Override
-    protected ProtocolAction createCreateAmendmentProtocolAction(Protocol protocol, String protocolNumber) {
-        ProtocolAction protocolAction = new IacucProtocolAction((IacucProtocol)protocol, null, IacucProtocolActionType.AMENDMENT_CREATED);
-        protocolAction.setComments(AMENDMENT + "-" + protocolNumber.substring(11) + ": " + CREATED);
-        return protocolAction;
-    }
+public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServiceImpl implements IacucProtocolAmendRenewService {
     
-    @Override
-    protected void removeEditedQuestionaire(Protocol protocol) {
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean(protocol);
-        moduleQuestionnaireBean.setModuleSubItemCode("0");
-        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
-        if (!answerHeaders.isEmpty() && answerHeaders.get(0).getAnswerHeaderId() != null) {
-            businessObjectService.delete(answerHeaders);
-        }
-    }
 
-    /**
-     * Create a Protocol Action indicating that a renewal has been created.
-     * @param protocol
-     * @param protocolNumber protocol number of the renewal
-     * @return a protocol action
-     */
     @Override
-    protected ProtocolAction createCreateRenewalProtocolAction(Protocol protocol, String protocolNumber) {
-        ProtocolAction protocolAction = new IacucProtocolAction((IacucProtocol)protocol, null, IacucProtocolActionType.RENEWAL_CREATED);
-        protocolAction.setComments(RENEWAL + "-" + protocolNumber.substring(11) + ": " + CREATED);
-        return protocolAction;
-    }
-
-    /**
-     * @throws Exception 
-     * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#getAmendmentAndRenewals(java.lang.String)
-     */
-    public List<Protocol> getAmendmentAndRenewals(String protocolNumber) throws Exception {
-        List<Protocol> protocols = new ArrayList<Protocol>();
-        protocols.addAll(getAmendments(protocolNumber));
-        protocols.addAll(getRenewals(protocolNumber));
-        return protocols;
-    }
-    
-    /**
-     * Get the list of all of the module type codes.
-     * @return
-     */
-    @Override
-    protected List<String> getAllModuleTypeCodes() {
-        List<String> moduleTypeCodes = super.getAllModuleTypeCodes();
-//TODO: Add our modules here
-//      moduleTypeCodes.add(ProtocolModule.GENERAL_INFO);
-        return moduleTypeCodes;
-    }
-
     protected void addModules(Protocol protocol, ProtocolAmendmentBean amendmentBean) {
         ProtocolAmendRenewal amendmentEntry = protocol.getProtocolAmendRenewal();
         if (amendmentBean.getGeneralInfo()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.GENERAL_INFO));
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.GENERAL_INFO));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.GENERAL_INFO);
-            amendmentEntry.removeModule(ProtocolModule.GENERAL_INFO);
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.GENERAL_INFO);
+            amendmentEntry.removeModule(IacucProtocolModule.GENERAL_INFO);
         }
         
         if (amendmentBean.getAddModifyAttachments()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.ADD_MODIFY_ATTACHMENTS));
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.ADD_MODIFY_ATTACHMENTS));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.ADD_MODIFY_ATTACHMENTS);
-            amendmentEntry.removeModule(ProtocolModule.ADD_MODIFY_ATTACHMENTS);
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.ADD_MODIFY_ATTACHMENTS);
+            amendmentEntry.removeModule(IacucProtocolModule.ADD_MODIFY_ATTACHMENTS);
         }
         
         if (amendmentBean.getAreasOfResearch()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.AREAS_OF_RESEARCH));
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.AREAS_OF_RESEARCH));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.AREAS_OF_RESEARCH);
-            amendmentEntry.removeModule(ProtocolModule.AREAS_OF_RESEARCH);
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.AREAS_OF_RESEARCH);
+            amendmentEntry.removeModule(IacucProtocolModule.AREAS_OF_RESEARCH);
         }
         
         if (amendmentBean.getFundingSource()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.FUNDING_SOURCE));
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.FUNDING_SOURCE));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.FUNDING_SOURCE);
-            amendmentEntry.removeModule(ProtocolModule.FUNDING_SOURCE);
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.FUNDING_SOURCE);
+            amendmentEntry.removeModule(IacucProtocolModule.FUNDING_SOURCE);
         }
         
         if (amendmentBean.getProtocolOrganizations()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_ORGANIZATIONS));
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.PROTOCOL_ORGANIZATIONS));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_ORGANIZATIONS);
-            amendmentEntry.removeModule(ProtocolModule.PROTOCOL_ORGANIZATIONS);
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.PROTOCOL_ORGANIZATIONS);
+            amendmentEntry.removeModule(IacucProtocolModule.PROTOCOL_ORGANIZATIONS);
         }
         
         if (amendmentBean.getProtocolPersonnel()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_PERSONNEL));
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.PROTOCOL_PERSONNEL));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_PERSONNEL);
-            amendmentEntry.removeModule(ProtocolModule.PROTOCOL_PERSONNEL);
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.PROTOCOL_PERSONNEL);
+            amendmentEntry.removeModule(IacucProtocolModule.PROTOCOL_PERSONNEL);
         }
         
         if (amendmentBean.getProtocolReferencesAndOtherIdentifiers()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_REFERENCES));
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.PROTOCOL_REFERENCES));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_REFERENCES);
-            amendmentEntry.removeModule(ProtocolModule.PROTOCOL_REFERENCES);
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.PROTOCOL_REFERENCES);
+            amendmentEntry.removeModule(IacucProtocolModule.PROTOCOL_REFERENCES);
         }
         
         if (amendmentBean.getSubjects()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.SUBJECTS));
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.SUBJECTS));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.SUBJECTS);
-            amendmentEntry.removeModule(ProtocolModule.SUBJECTS);
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.SUBJECTS);
+            amendmentEntry.removeModule(IacucProtocolModule.SUBJECTS);
         }
         
         if (amendmentBean.getSpecialReview()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.SPECIAL_REVIEW));
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.SPECIAL_REVIEW));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.SPECIAL_REVIEW);
-            amendmentEntry.removeModule(ProtocolModule.SPECIAL_REVIEW);
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.SPECIAL_REVIEW);
+            amendmentEntry.removeModule(IacucProtocolModule.SPECIAL_REVIEW);
         }
         
         if (amendmentBean.getOthers()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.OTHERS));
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.OTHERS));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.OTHERS);
-            amendmentEntry.removeModule(ProtocolModule.OTHERS);
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.OTHERS);
+            amendmentEntry.removeModule(IacucProtocolModule.OTHERS);
         }
         
         if (amendmentBean.getProtocolPermissions()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.PROTOCOL_PERMISSIONS));
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.PROTOCOL_PERMISSIONS));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), ProtocolModule.PROTOCOL_PERMISSIONS);
-            amendmentEntry.removeModule(ProtocolModule.PROTOCOL_PERMISSIONS);
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.PROTOCOL_PERMISSIONS);
+            amendmentEntry.removeModule(IacucProtocolModule.PROTOCOL_PERMISSIONS);
         }
         if (amendmentBean.getQuestionnaire()) {
-            amendmentEntry.addModule(createModule(amendmentEntry, ProtocolModule.QUESTIONNAIRE));
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.QUESTIONNAIRE));
         } else {
             // TODO : need further work for merge
             removeEditedQuestionaire(protocol);
             // protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()),
-            // ProtocolModule.QUESTIONNAIRE);
-            amendmentEntry.removeModule(ProtocolModule.QUESTIONNAIRE);
+            // IacucProtocolModule.QUESTIONNAIRE);
+            amendmentEntry.removeModule(IacucProtocolModule.QUESTIONNAIRE);
         }
 
     }
 
+    @Override
+    protected ProtocolAction getNewAmendmentProtocolActionInstanceHook(Protocol protocol) {
+        return new IacucProtocolAction((IacucProtocol)protocol, IacucProtocolActionType.AMENDMENT_CREATED);
+    }
 
-    protected abstract String getAmendmentInProgressStatusHook();
-    
-    protected abstract String getRenewalInProgressStatusHook();
+    @Override
+    protected ProtocolAction getNewRenewalProtocolActionInstanceHook(Protocol protocol) {
+        return new IacucProtocolAction((IacucProtocol)protocol, IacucProtocolActionType.RENEWAL_CREATED);
+    }
 
-    protected abstract String getAmendmentCreatedStatusHook();
-    
-    protected abstract String getRenewalCreatedStatusHook();
+    @Override
+    protected ModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(Protocol protocol) {
+        return new IacucProtocolModuleQuestionnaireBean(protocol);
+    }
+
+    @Override
+    protected String getAmendmentInProgressStatusHook() {
+        return IacucProtocolStatus.AMENDMENT_IN_PROGRESS;
+    }
+
+    @Override
+    protected String getRenewalInProgressStatusHook() {
+        return IacucProtocolStatus.RENEWAL_IN_PROGRESS;
+    }
+
+    protected List<String> getAllModuleTypeCodes() {
+        List<String> moduleTypeCodes = new ArrayList<String>();
+        moduleTypeCodes.add(IacucProtocolModule.GENERAL_INFO);
+        moduleTypeCodes.add(IacucProtocolModule.ADD_MODIFY_ATTACHMENTS);
+        moduleTypeCodes.add(IacucProtocolModule.AREAS_OF_RESEARCH);
+        moduleTypeCodes.add(IacucProtocolModule.FUNDING_SOURCE);
+        moduleTypeCodes.add(IacucProtocolModule.OTHERS);
+        moduleTypeCodes.add(IacucProtocolModule.PROTOCOL_ORGANIZATIONS);
+        moduleTypeCodes.add(IacucProtocolModule.PROTOCOL_PERSONNEL);
+        moduleTypeCodes.add(IacucProtocolModule.PROTOCOL_REFERENCES);
+        moduleTypeCodes.add(IacucProtocolModule.SPECIAL_REVIEW);
+        moduleTypeCodes.add(IacucProtocolModule.SUBJECTS);
+        moduleTypeCodes.add(IacucProtocolModule.PROTOCOL_PERMISSIONS);
+        moduleTypeCodes.add(IacucProtocolModule.QUESTIONNAIRE);
+        return moduleTypeCodes;
+    }
+
+    @Override
+    protected Class<? extends Protocol> getProtocolBOClassHook() {
+        return IacucProtocol.class;
+    }
+
 }

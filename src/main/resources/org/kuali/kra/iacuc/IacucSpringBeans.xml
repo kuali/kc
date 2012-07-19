@@ -127,6 +127,22 @@
                     <property name="taskName" value="protocolWithdraw" />
                 </bean>                          
 
+                <bean class="org.kuali.kra.iacuc.auth.CreateIacucAmendmentAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="createIacucAmendment" />
+                </bean>                          
+
+                <bean class="org.kuali.kra.iacuc.auth.CreateIacucAmendmentUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="createIacucAmendmentUnavailable" />
+                </bean>                          
+
+                <bean class="org.kuali.kra.iacuc.auth.CreateIacucRenewalAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="createIacucRenewal" />
+                </bean>                          
+
+                <bean class="org.kuali.kra.iacuc.auth.CreateIacucRenewalUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="createIacucRenewalUnavailable" />
+                </bean>                          
+
                 <bean class="org.kuali.kra.iacuc.auth.WithdrawIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="protocolWithdrawUnavailable" />
                 </bean>                          
@@ -828,6 +844,16 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcNotificationService" ref="kcNotificationService" />
     </bean> 
+
+    <bean id="iacucProtocolAmendRenewService" class="org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewServiceImpl">
+        <property name="protocolCopyService" ref="iacucProtocolCopyService" />
+        <property name="documentService" ref="documentService" />
+        <property name="kraLookupDao" ref="kraLookupDao" />
+        <property name="protocolFinderDao" ref="iacucProtocolFinderDao" />
+        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+        <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 
 </beans>
 

@@ -13,13 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc;
+package org.kuali.kra.iacuc.auth;
 
-import org.kuali.kra.protocol.ProtocolFinderDao;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.protocol.auth.CreateRenewalUnavailableAuthorizer;
 
-/**
- * The ProtocolFinderDao is used to find protocols.
- */
-public interface IacucProtocolFinderDao extends ProtocolFinderDao {
+public class CreateIacucRenewalUnavailableAuthorizer extends CreateRenewalUnavailableAuthorizer {
+
+    @Override
+    protected String getActionTypeRenewalCreatedHook() {
+        return IacucProtocolActionType.RENEWAL_CREATED;
+    }
+
+    @Override
+    protected String getPermissionCreateRenewalHook() {
+        return PermissionConstants.CREATE_IACUC_RENEWAL;
+    }
 
 }

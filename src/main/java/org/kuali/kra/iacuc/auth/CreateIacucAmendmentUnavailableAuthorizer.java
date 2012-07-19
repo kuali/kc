@@ -13,13 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc;
+package org.kuali.kra.iacuc.auth;
 
-import org.kuali.kra.protocol.ProtocolFinderDao;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.protocol.auth.CreateAmendmentUnavailableAuthorizer;
 
-/**
- * The ProtocolFinderDao is used to find protocols.
- */
-public interface IacucProtocolFinderDao extends ProtocolFinderDao {
+public class CreateIacucAmendmentUnavailableAuthorizer extends CreateAmendmentUnavailableAuthorizer {
+
+    @Override
+    protected String getActionTypeAmendmentCreatedHook() {
+        return IacucProtocolActionType.AMENDMENT_CREATED;
+    }
+
+    @Override
+    protected String getPermissionCreateAmendmentHook() {
+        return PermissionConstants.CREATE_IACUC_AMENDMENT;
+    }
 
 }

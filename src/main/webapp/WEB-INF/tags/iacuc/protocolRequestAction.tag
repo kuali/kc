@@ -112,6 +112,8 @@
                                           methodToCall="returnForSRR"
                                           canPerformAction="${KualiForm.actionHelper.canReturnForSRR}"
                                           defaultOpen="${KualiForm.actionHelper.isReturnForSRROpenForFollowup}" />
+
+            <kra-iacuc-action:createAmendmentAction />
                                           
 <%--                                           
             <kra-iacuc-action:notifyCommitteeAction />
@@ -121,7 +123,6 @@
                                           taskName="irbAcknowledgement"
                                           methodToCall="irbAcknowledgement"
                                           canPerformAction="${KualiForm.actionHelper.canIrbAcknowledgement}" />
-            <kra-iacuc-action:createAmendmentAction />
             <kra-iacuc-action:modifyAmendmentSectionsAction />
             <kra-iacuc-action:createRenewalWithAmendmentAction />
             <kra-iacuc-action:createRenewalAction />
