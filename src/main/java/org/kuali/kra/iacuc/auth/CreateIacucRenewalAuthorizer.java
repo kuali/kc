@@ -13,26 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc;
+package org.kuali.kra.iacuc.auth;
 
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolFinderDaoOjb;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.protocol.auth.CreateRenewalAuthorizer;
 
-/**
- * The ProtocolFinderDao implementation for OJB.
- */
-public class IacucProtocolFinderDaoOjb extends ProtocolFinderDaoOjb implements IacucProtocolFinderDao {
+public class CreateIacucRenewalAuthorizer extends CreateRenewalAuthorizer {
 
     @Override
-    protected Class<? extends Protocol> getProtocolBOClassHook() {
-        return IacucProtocol.class;
+    protected String getActionTypeRenewalCreatedHook() {
+        return IacucProtocolActionType.RENEWAL_CREATED;
     }
 
     @Override
-    protected Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook() {
-        return IacucProtocolSubmission.class;
+    protected String getPermissionCreateRenewalHook() {
+        return PermissionConstants.CREATE_IACUC_RENEWAL;
+    }
+
+    @Override
+    protected String getPermissionCreateAnyRenewalHook() {
+        return PermissionConstants.CREATE_ANY_IACUC_RENEWAL;
     }
 
 }

@@ -96,6 +96,18 @@ public abstract class ProtocolAction extends ProtocolAssociate {
     }
 
     public ProtocolAction(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolActionTypeCode) {
+        initializeProtocolAction(protocol, protocolActionTypeCode);
+        if (protocolSubmission != null) {
+            setSubmissionIdFk(protocolSubmission.getSubmissionId());
+            setSubmissionNumber(protocolSubmission.getSubmissionNumber());
+        }
+    }
+
+    public ProtocolAction(Protocol protocol, String protocolActionTypeCode) {
+        initializeProtocolAction(protocol, protocolActionTypeCode);
+    }
+    
+    protected void initializeProtocolAction(Protocol protocol, String protocolActionTypeCode) {
         setProtocolId(protocol.getProtocolId());
         setProtocolNumber(protocol.getProtocolNumber());
         setSequenceNumber(0);
@@ -104,11 +116,8 @@ public abstract class ProtocolAction extends ProtocolAssociate {
         setActionDate(new Timestamp(System.currentTimeMillis()));
         setProtocolActionTypeCode(protocolActionTypeCode);
         setProtocol(protocol);
-        if (protocolSubmission != null) {
-            setSubmissionIdFk(protocolSubmission.getSubmissionId());
-            setSubmissionNumber(protocolSubmission.getSubmissionNumber());
-        }
     }
+    
 
     public Long getProtocolActionId() {
         return protocolActionId;

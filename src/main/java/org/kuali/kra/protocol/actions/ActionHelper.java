@@ -27,33 +27,32 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.ProtocolVersionService;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersBean;
 import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionService;
-import org.kuali.kra.protocol.actions.decision.CommitteePerson;
 import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.followup.FollowupActionService;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
@@ -86,6 +85,7 @@ import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The form helper class for the Protocol Actions tab.
@@ -371,6 +371,12 @@ public abstract class ActionHelper implements Serializable {
 
         protocolSubmitAction = getNewProtocolSubmitActionInstanceHook(this);
         protocolWithdrawBean = getNewProtocolWithdrawBeanInstanceHook(this);
+
+        initAmendmentBeans();
+        
+        //protocolAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
+        //protocolRenewAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
+        
         
 // TODO *********commented the code below during IACUC refactoring*********            
 //        protocolNotifyIrbBean = new ProtocolNotifyIrbBean(this);
@@ -379,9 +385,6 @@ public abstract class ActionHelper implements Serializable {
         
         protocolNotifyCommitteeBean = getNewProtocolNotifyCommitteeBeanInstanceHook(this);
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolAmendmentBean = createAmendmentBean();
-//        protocolRenewAmendmentBean = createAmendmentBean();
                 
         protocolDeleteBean = getNewProtocolDeleteBeanInstanceHook(this);      
         assignToAgendaBean = getNewProtocolAssignToAgendaBeanInstanceHook(this);         
@@ -505,6 +508,8 @@ public abstract class ActionHelper implements Serializable {
 
     protected abstract ProtocolWithdrawBean getNewProtocolWithdrawBeanInstanceHook(ActionHelper actionHelper);
 
+    protected abstract ProtocolAmendmentBean getNewProtocolAmendmentBeanInstanceHook(ActionHelper actionHelper);
+    
     protected abstract ProtocolNotifyCommitteeBean getNewProtocolNotifyCommitteeBeanInstanceHook(ActionHelper actionHelper);
 
     protected abstract ProtocolSubmitAction getNewProtocolSubmitActionInstanceHook(ActionHelper actionHelper);
@@ -520,8 +525,8 @@ public abstract class ActionHelper implements Serializable {
         
 // TODO *********commented the code below during IACUC refactoring********* 
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolAdminCorrectionBean);
-//        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolAmendmentBean);
-//        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_RENEWAL, protocolRenewAmendmentBean);
+        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolAmendmentBean);
+        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_RENEWAL, protocolRenewAmendmentBean);
         
         actionBeanTaskMap.put(TaskName.APPROVE_PROTOCOL, protocolFullApprovalBean);
         
@@ -706,95 +711,50 @@ public abstract class ActionHelper implements Serializable {
         }
         return null;
     }
-//
-//    // always reinitialize amendment beans, otherwise a second pass thru prepareView() will show same
-//    // amendment creation options as previous passes
-//    public void initAmendmentBeans() throws Exception {
-////        if (protocolAmendmentBean == null) {
-//            protocolAmendmentBean = createAmendmentBean();
-////        }
-////        if (protocolRenewAmendmentBean == null) {
-//            protocolRenewAmendmentBean = createAmendmentBean();
-////        }
-//    }
-//
-//    /**
-//     * Create an Amendment Bean.  The modules that can be selected depends upon the
-//     * current outstanding amendments.  If a module is currently being modified by a
-//     * previous amendment, it cannot be modified by another amendment.  Once the 
-//     * previous amendment has completed (approved, disapproved, etc), then a new
-//     * amendment can modify the same module.
-//     * @return
-//     * @throws Exception 
-//     */
-//    private ProtocolAmendmentBean createAmendmentBean() throws Exception {
-//        ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean(this);
-//        List<String> moduleTypeCodes;
-//
-//        if (StringUtils.isNotEmpty(getProtocol().getProtocolNumber()) && (getProtocol().isAmendment() || getProtocol().isRenewal())) {
-//            moduleTypeCodes = getProtocolAmendRenewService().getAvailableModules(getProtocol().getAmendedProtocolNumber());
-//            populateExistingAmendmentBean(amendmentBean, moduleTypeCodes);
-//        } else {
-//            moduleTypeCodes = getProtocolAmendRenewService().getAvailableModules(getProtocol().getProtocolNumber());
-//        }
-//        
-//        for (String moduleTypeCode : moduleTypeCodes) {
-//            enableModuleOption(moduleTypeCode, amendmentBean);
-//        }
-//        
-//        return amendmentBean;
-//    }
-//
-//    /**
-//     * This method copies the settings from the ProtocolAmendRenewal bo to the amendmentBean and enables the
-//     * corresponding modules. 
-//     * @param amendmentBean
-//     */
-//    private void populateExistingAmendmentBean(ProtocolAmendmentBean amendmentBean, List<String> moduleTypeCodes) {
-//        ProtocolAmendRenewal protocolAmendRenewal = getProtocol().getProtocolAmendRenewal();
-//        amendmentBean.setSummary(protocolAmendRenewal.getSummary());
-//        for (ProtocolAmendRenewModule module : protocolAmendRenewal.getModules()) {
-//            moduleTypeCodes.add(module.getProtocolModuleTypeCode());
-//            if (StringUtils.equals(ProtocolModule.GENERAL_INFO, module.getProtocolModuleTypeCode())) {
-//                amendmentBean.setGeneralInfo(true);
-//            } 
-//            else if (StringUtils.equals(ProtocolModule.ADD_MODIFY_ATTACHMENTS, module.getProtocolModuleTypeCode())) {
-//                amendmentBean.setAddModifyAttachments(true);
-//            }
-//            else if (StringUtils.equals(ProtocolModule.AREAS_OF_RESEARCH, module.getProtocolModuleTypeCode())) {
-//                amendmentBean.setAreasOfResearch(true);
-//            }
-//            else if (StringUtils.equals(ProtocolModule.FUNDING_SOURCE, module.getProtocolModuleTypeCode())) {
-//                amendmentBean.setFundingSource(true);
-//            }
-//            else if (StringUtils.equals(ProtocolModule.OTHERS, module.getProtocolModuleTypeCode())) {
-//                amendmentBean.setOthers(true);
-//            }
-//            else if (StringUtils.equals(ProtocolModule.PROTOCOL_ORGANIZATIONS, module.getProtocolModuleTypeCode())) {
-//                amendmentBean.setProtocolOrganizations(true);
-//            }
-//            else if (StringUtils.equals(ProtocolModule.PROTOCOL_PERSONNEL, module.getProtocolModuleTypeCode())) {
-//                amendmentBean.setProtocolPersonnel(true);
-//            }
-//            else if (StringUtils.equals(ProtocolModule.PROTOCOL_REFERENCES, module.getProtocolModuleTypeCode())) {
-//                amendmentBean.setProtocolReferencesAndOtherIdentifiers(true);
-//            }
-//            else if (StringUtils.equals(ProtocolModule.SPECIAL_REVIEW, module.getProtocolModuleTypeCode())) {
-//                amendmentBean.setSpecialReview(true);
-//            }
-//            else if (StringUtils.equals(ProtocolModule.SUBJECTS, module.getProtocolModuleTypeCode())) {
-//                amendmentBean.setSubjects(true);
-//            }
-//            else if (StringUtils.equals(ProtocolModule.PROTOCOL_PERMISSIONS, module.getProtocolModuleTypeCode())) {
-//                amendmentBean.setProtocolPermissions(true);
-//            }
-//            else if (StringUtils.equals(ProtocolModule.QUESTIONNAIRE, module.getProtocolModuleTypeCode())) {
-//                amendmentBean.setQuestionnaire(true);
-//            }
-//        }
-//    }
-//
-//
+
+    /**
+     * This method is to reinitialize amendment beans, otherwise a second pass thru prepareView() will show same
+     * amendment creation options as previous passes
+     * @throws Exception
+     */
+    public void initAmendmentBeans() throws Exception {
+        protocolAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
+        protocolRenewAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
+        configureAmendmentBean(protocolAmendmentBean);
+        configureAmendmentBean(protocolRenewAmendmentBean);
+    }
+    
+
+    /**
+     * Create an Amendment Bean.  The modules that can be selected depends upon the
+     * current outstanding amendments.  If a module is currently being modified by a
+     * previous amendment, it cannot be modified by another amendment.  Once the 
+     * previous amendment has completed (approved, disapproved, etc), then a new
+     * amendment can modify the same module.
+     * @return
+     * @throws Exception 
+     */
+    private ProtocolAmendmentBean configureAmendmentBean(ProtocolAmendmentBean amendmentBean) throws Exception {
+        //ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean(this);
+        List<String> moduleTypeCodes;
+
+        if (StringUtils.isNotEmpty(getProtocol().getProtocolNumber()) && (getProtocol().isAmendment() || getProtocol().isRenewal())) {
+            moduleTypeCodes = getProtocolAmendRenewServiceHook().getAvailableModules(getProtocol().getAmendedProtocolNumber());
+            populateExistingAmendmentBean(amendmentBean, moduleTypeCodes);
+        } else {
+            moduleTypeCodes = getProtocolAmendRenewServiceHook().getAvailableModules(getProtocol().getProtocolNumber());
+        }
+        
+        for (String moduleTypeCode : moduleTypeCodes) {
+            enableModuleOption(moduleTypeCode, amendmentBean);
+        }
+        
+        return amendmentBean;
+    }
+
+    
+
+
 //    /**
 //     * Create an AdminCorrection Bean.  The modules that can be edited (or corrected) depends upon the
 //     * current outstanding amendments.  If a module is currently being modified by a
@@ -804,7 +764,7 @@ public abstract class ActionHelper implements Serializable {
 //     */
 //    private AdminCorrectionBean createAdminCorrectionBean() throws Exception {
 //        AdminCorrectionBean adminCorrectionBean = new AdminCorrectionBean(this);
-//        List<String> moduleTypeCodes = getProtocolAmendRenewService().getAvailableModules(getProtocol().getProtocolNumber());
+//        List<String> moduleTypeCodes = getProtocolAmendRenewServiceHook().getAvailableModules(getProtocol().getProtocolNumber());
 //        
 //        for (String moduleTypeCode : moduleTypeCodes) {
 //            enableModuleOption(moduleTypeCode, adminCorrectionBean);
@@ -825,57 +785,7 @@ public abstract class ActionHelper implements Serializable {
 //        return undoLastActionBean;
 //    }
 //    
-//    /**
-//     * Enable a module for selection by a user by setting its corresponding enabled
-//     * flag to true in the amendment bean.
-//     * @param moduleTypeCode
-//     * @param amendmentBean
-//     */
-//    private void enableModuleOption(String moduleTypeCode, ProtocolEditableBean amendmentBean) {
-//        if (StringUtils.equals(ProtocolModule.GENERAL_INFO, moduleTypeCode)) {
-//            amendmentBean.setGeneralInfoEnabled(true);
-//        } 
-//        else if (StringUtils.equals(ProtocolModule.ADD_MODIFY_ATTACHMENTS, moduleTypeCode)) {
-//            amendmentBean.setAddModifyAttachmentsEnabled(true);
-//        }
-//        else if (StringUtils.equals(ProtocolModule.AREAS_OF_RESEARCH, moduleTypeCode)) {
-//            amendmentBean.setAreasOfResearchEnabled(true);
-//        }
-//        else if (StringUtils.equals(ProtocolModule.FUNDING_SOURCE, moduleTypeCode)) {
-//            amendmentBean.setFundingSourceEnabled(true);
-//        }
-//        else if (StringUtils.equals(ProtocolModule.OTHERS, moduleTypeCode)) {
-//            amendmentBean.setOthersEnabled(true);
-//        }
-//        else if (StringUtils.equals(ProtocolModule.PROTOCOL_ORGANIZATIONS, moduleTypeCode)) {
-//            amendmentBean.setProtocolOrganizationsEnabled(true);
-//        }
-//        else if (StringUtils.equals(ProtocolModule.PROTOCOL_PERSONNEL, moduleTypeCode)) {
-//            amendmentBean.setProtocolPersonnelEnabled(true);
-//        }
-//        else if (StringUtils.equals(ProtocolModule.PROTOCOL_REFERENCES, moduleTypeCode)) {
-//            amendmentBean.setProtocolReferencesEnabled(true);
-//        }
-//        else if (StringUtils.equals(ProtocolModule.SPECIAL_REVIEW, moduleTypeCode)) {
-//            amendmentBean.setSpecialReviewEnabled(true);
-//        }
-//        else if (StringUtils.equals(ProtocolModule.SUBJECTS,moduleTypeCode)) {
-//            amendmentBean.setSubjectsEnabled(true);
-//        }
-//        else if (StringUtils.equals(ProtocolModule.PROTOCOL_PERMISSIONS,moduleTypeCode)) {
-//            amendmentBean.setProtocolPermissionsEnabled(true);
-//        }
-//        else if (StringUtils.equals(ProtocolModule.QUESTIONNAIRE,moduleTypeCode)) {
-//            amendmentBean.setQuestionnaireEnabled(true);
-//        }
-//    }
-
-    protected ProtocolAmendRenewService getProtocolAmendRenewService() {
-        if (this.protocolAmendRenewService == null) {
-            this.protocolAmendRenewService = KraServiceLocator.getService(ProtocolAmendRenewService.class);        
-        }
-        return this.protocolAmendRenewService;
-    }
+    
 
     public void prepareView() throws Exception {
         protocolSubmitAction.prepareView();
@@ -888,8 +798,8 @@ public abstract class ActionHelper implements Serializable {
 //        protocolAssignReviewersBean.prepareView();
 //        submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
         
-//        canCreateAmendment = hasCreateAmendmentPermission();
-//        canCreateAmendmentUnavailable = hasCreateAmendmentUnavailablePermission();
+        canCreateAmendment = hasCreateAmendmentPermission();
+        canCreateAmendmentUnavailable = hasCreateAmendmentUnavailablePermission();
 //        canModifyAmendmentSections = hasModifyAmendmentSectionsPermission();
 //        canModifyAmendmentSectionsUnavailable = hasModifyAmendmentSectionsUnavailablePermission();
 //        canCreateRenewal = hasCreateRenewalPermission();
@@ -1028,7 +938,7 @@ public abstract class ActionHelper implements Serializable {
 // TODO *********commented the code below during IACUC refactoring*********         
 //        setAmendmentDetails();
 //        initFilterDatesView();
-//        initAmendmentBeans();
+        initAmendmentBeans();
 //        initPrintQuestionnaire();
     }
     
@@ -1192,17 +1102,22 @@ public abstract class ActionHelper implements Serializable {
     protected abstract ProtocolTask getNewSubmitProtocolUnavailableTaskInstanceHook(Protocol protocol);
 
     
-//    
-//    protected boolean hasCreateAmendmentPermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasCreateAmendmentUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
+    
+    protected boolean hasCreateAmendmentPermission() {
+        ProtocolTask task = getNewAmendmentProtocolTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    
+    }
+    
+    protected boolean hasCreateAmendmentUnavailablePermission() {
+        ProtocolTask task = getNewAmendmentProtocolUnavailableTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    
+    }
+
+    protected abstract ProtocolTask getNewAmendmentProtocolTaskInstanceHook(Protocol protocol);
+    protected abstract ProtocolTask getNewAmendmentProtocolUnavailableTaskInstanceHook(Protocol protocol);
+    
 //    protected boolean hasModifyAmendmentSectionsPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, getProtocol());
 //        return ((!getProtocol().isRenewalWithoutAmendment())&&(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)));
@@ -2821,51 +2736,42 @@ public abstract class ActionHelper implements Serializable {
 //    public String getCurrentTask() {
 //        return currentTaskName;
 //    }
-//    /**
-//     * This method populates the protocolAmendmentBean with the amendment details from the 
-//     * current submission.
-//     * @throws Exception
-//     */
-//    protected void setAmendmentDetails() throws Exception {
-//        /*
-//         * Check if the user is trying to modify amendment sections, if so, do not setAmendmentDetials.
-//         * If you set it, the user's data gets refreshed and the amendment details from the currentSubmission
-//         * will be populated in the protocolAmendmentBean.
-//         */
-//        if (!currentTaskName.equalsIgnoreCase(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS)) {
-//            ProtocolAmendmentBean amendmentBean = getProtocolAmendmentBean();
-//            String originalProtocolNumber;
-//            // Use the submission number to get the correct amendment details
-//            if (getProtocol().isAmendment()) {
-//                originalProtocolNumber = getProtocol().getProtocolAmendRenewal().getProtocolNumber();           
-//            } else {
-//                // We want to display amendment details even if the document is not an amendment.
-//                // Amendment details needs to be displayed even after the amendment has been merged with the protocol.
-//                originalProtocolNumber = getProtocol().getProtocolNumber();
-//            }
-//            List<Protocol> protocols = getProtocolAmendRenewService().getAmendmentAndRenewals(originalProtocolNumber);
-//
-//            ProtocolAmendRenewal correctAmendment = getCorrectAmendment(protocols);
-//            if (ObjectUtils.isNotNull(correctAmendment)) {
-//                setSubmissionHasNoAmendmentDetails(false);
-//                amendmentBean.setSummary(correctAmendment.getSummary());
-//                amendmentBean.setGeneralInfo((correctAmendment.hasModule(ProtocolModule.GENERAL_INFO)) ? true : false);
-//                amendmentBean.setProtocolPersonnel((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERSONNEL)) ? true : false);
-//                amendmentBean.setAreasOfResearch((correctAmendment.hasModule(ProtocolModule.AREAS_OF_RESEARCH)) ? true : false);
-//                amendmentBean.setAddModifyAttachments((correctAmendment.hasModule(ProtocolModule.ADD_MODIFY_ATTACHMENTS)) ? true : false);
-//                amendmentBean.setFundingSource((correctAmendment.hasModule(ProtocolModule.FUNDING_SOURCE)) ? true : false);
-//                amendmentBean.setOthers((correctAmendment.hasModule(ProtocolModule.OTHERS)) ? true : false);
-//                amendmentBean.setProtocolOrganizations((correctAmendment.hasModule(ProtocolModule.PROTOCOL_ORGANIZATIONS)) ? true : false);
-//                amendmentBean.setProtocolPermissions((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERMISSIONS)) ? true : false);
-//                amendmentBean.setProtocolReferencesAndOtherIdentifiers((correctAmendment.hasModule(ProtocolModule.PROTOCOL_REFERENCES)) ? true : false);
-//                amendmentBean.setQuestionnaire((correctAmendment.hasModule(ProtocolModule.QUESTIONNAIRE)) ? true : false);
-//                amendmentBean.setSpecialReview((correctAmendment.hasModule(ProtocolModule.SPECIAL_REVIEW)) ? true : false);
-//                amendmentBean.setSubjects((correctAmendment.hasModule(ProtocolModule.SUBJECTS)) ? true : false);
-//            } else {
-//                setSubmissionHasNoAmendmentDetails(true);
-//            }
-//        }
-//    }
+    
+    
+    /**
+     * This method populates the protocolAmendmentBean with the amendment details from the 
+     * current submission.
+     * @throws Exception
+     */
+    protected void setAmendmentDetails() throws Exception {
+        /*
+         * Check if the user is trying to modify amendment sections, if so, do not setAmendmentDetials.
+         * If you set it, the user's data gets refreshed and the amendment details from the currentSubmission
+         * will be populated in the protocolAmendmentBean.
+         */
+        if (!currentTaskName.equalsIgnoreCase(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS)) {
+            ProtocolAmendmentBean amendmentBean = getProtocolAmendmentBean();
+            String originalProtocolNumber;
+            // Use the submission number to get the correct amendment details
+            if (getProtocol().isAmendment()) {
+                originalProtocolNumber = getProtocol().getProtocolAmendRenewal().getProtocolNumber();           
+            } else {
+                // We want to display amendment details even if the document is not an amendment.
+                // Amendment details needs to be displayed even after the amendment has been merged with the protocol.
+                originalProtocolNumber = getProtocol().getProtocolNumber();
+            }
+            List<Protocol> protocols = getProtocolAmendRenewServiceHook().getAmendmentAndRenewals(originalProtocolNumber);
+
+            ProtocolAmendRenewal correctAmendment = getCorrectAmendment(protocols);
+            if (ObjectUtils.isNotNull(correctAmendment)) {
+                setSubmissionHasNoAmendmentDetails(false);
+                amendmentBean.setSummary(correctAmendment.getSummary());
+                enableModuleOption(amendmentBean, correctAmendment);
+            } else {
+                setSubmissionHasNoAmendmentDetails(true);
+            }
+        }
+    }
     
     public void setSubmissionHasNoAmendmentDetails(boolean submissionHasNoAmendmentDetails) {
         this.submissionHasNoAmendmentDetails = submissionHasNoAmendmentDetails;
@@ -2875,23 +2781,22 @@ public abstract class ActionHelper implements Serializable {
         return submissionHasNoAmendmentDetails;
     }
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * This method returns the amendRenewal bean with the current submission number. 
-//     * @param protocols
-//     * @return
-//     */
-//    protected ProtocolAmendRenewal getCorrectAmendment(List<Protocol> protocols) {
-//        for (Protocol protocol : protocols) {
-//            // There should always be an amendment with the current submission number.
-//            if (protocol.isAmendment() && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
-//                && protocol.getProtocolSubmission().getSubmissionNumber() == currentSubmissionNumber) {
-//                return protocol.getProtocolAmendRenewal();
-//            }
-//        }
-//        return null;
-//    }
-//    
+    /**
+     * This method returns the amendRenewal bean with the current submission number. 
+     * @param protocols
+     * @return
+     */
+    protected ProtocolAmendRenewal getCorrectAmendment(List<Protocol> protocols) {
+        for (Protocol protocol : protocols) {
+            // There should always be an amendment with the current submission number.
+            if (protocol.isAmendment() && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
+                && protocol.getProtocolSubmission().getSubmissionNumber() == currentSubmissionNumber) {
+                return protocol.getProtocolAmendRenewal();
+            }
+        }
+        return null;
+    }
+    
     
     
     protected boolean hasAnsweredQuestionnaire(String moduleSubItemCode, String moduleSubItemKey) {
@@ -3003,10 +2908,9 @@ public abstract class ActionHelper implements Serializable {
     public boolean getHasAmendments() throws Exception {
         if (getProtocol().isAmendment()) {
             hasAmendments = true;
-//TODO: Must be put back in for IACUC            
-//        } else {
-//            List<Protocol> protocols = (List<Protocol>) getProtocolAmendRenewService().getAmendments(getProtocol().getProtocolNumber());
-//            hasAmendments = protocols.isEmpty() ? false : true;
+        } else {
+            List<Protocol> protocols = (List<Protocol>) getProtocolAmendRenewServiceHook().getAmendments(getProtocol().getProtocolNumber());
+            hasAmendments = protocols.isEmpty() ? false : true;
         } 
         return hasAmendments;
     }
@@ -3022,7 +2926,7 @@ public abstract class ActionHelper implements Serializable {
             hasRenewals = true;
 //TODO: Must be put back in for IACUC            
 //        } else {
-//            List<Protocol> protocols = (List<Protocol>) getProtocolAmendRenewService().getRenewals(getProtocol().getProtocolNumber());
+//            List<Protocol> protocols = (List<Protocol>) getProtocolAmendRenewServiceHook().getRenewals(getProtocol().getProtocolNumber());
 //            hasRenewals = protocols.isEmpty() ? false : true;
         }
         return hasRenewals;
@@ -3342,5 +3246,33 @@ public abstract class ActionHelper implements Serializable {
     
     protected abstract ProtocolModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(Protocol protocol);
     
-
+    protected abstract ProtocolAmendRenewService getProtocolAmendRenewServiceHook();
+    
+    /**
+     * This method copies the settings from the ProtocolAmendRenewal bo to the amendmentBean and enables the
+     * corresponding modules. 
+     * Set appropriate details in subclass
+     * @param amendmentBean
+     * @param moduleTypeCodes
+     */
+    protected abstract void populateExistingAmendmentBean(ProtocolAmendmentBean amendmentBean, List<String> moduleTypeCodes);
+    
+    /**
+     * Enable a module for selection by a user by setting its corresponding enabled
+     * flag to true in the amendment bean.
+     * Set appropriate details in subclass
+     * This method...
+     * @param moduleTypeCode
+     * @param amendmentBean
+     */
+    protected abstract void enableModuleOption(String moduleTypeCode, ProtocolEditableBean amendmentBean);
+    
+    /**
+     * Enable module option while populating the protocolAmendmentBean with the amendment details from the 
+     * current submission.
+     * Set appropriate details in subclass
+     * @param amendmentBean
+     * @param correctAmendment
+     */
+    protected abstract void enableModuleOption(ProtocolAmendmentBean amendmentBean, ProtocolAmendRenewal correctAmendment);
 }

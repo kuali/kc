@@ -71,7 +71,7 @@ public abstract class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAu
         }
         
         // extra validation to check if any default usage-only qnnrs are made incomplete in an questionnaire amendment submission
-        if( !(protocol.isNew()) && (protocol.getProtocolAmendRenewal().hasModule(ProtocolModule.QUESTIONNAIRE)) ) {
+        if( !(protocol.isNew()) && (protocol.getProtocolAmendRenewal().hasModule(getQuestionnaireModuleCodeHook()))) {
             // create a module bean with the amendment protocol number but with default sub module to retrieve answer headers
             pmqb = getProtocolModuleQuestionnaireBean(getModuleCodeHook(), protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 
                 protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved());
@@ -217,5 +217,7 @@ public abstract class ProtocolQuestionnaireAuditRule extends BaseQuestionnaireAu
     protected abstract ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(Protocol protocol);
 
     protected abstract ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc);
+
+    protected abstract String getQuestionnaireModuleCodeHook();
 
 }
