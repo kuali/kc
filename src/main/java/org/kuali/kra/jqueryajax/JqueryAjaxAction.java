@@ -92,12 +92,17 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
         List<CoiDispositionStatus> coiDispositionStatuses = getCoiDisclosureService().getDispositionStatuses(disclosureStatusCode);
         StringBuffer buffer = new StringBuffer();
         buffer.append("[ ");
+        int index = 0;
         for (CoiDispositionStatus value : coiDispositionStatuses) {
+            if (index > 0) {
+                buffer.append(" , ");
+            }
             buffer.append("{ 'key' :'");
             buffer.append(value.getCoiDispositionCode());
             buffer.append("', 'value' : '");
             buffer.append(value.getDescription());
-            buffer.append("'} , ");
+            buffer.append("'}");
+            index++;
         }
         buffer.append("]");
         ajaxForm.setReturnVal(buffer.toString());
