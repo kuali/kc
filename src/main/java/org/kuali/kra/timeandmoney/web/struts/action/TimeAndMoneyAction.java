@@ -41,6 +41,7 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.KraWorkflowService;
@@ -349,6 +350,10 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                     awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
                     award.getAwardAmountInfos().add(aai);
             }
+        } else if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()==null &&
+                !(aai.getCurrentFundEffectiveDate()==null)) { 
+            String field = "awardHierarchyNodeItems[" + index + "].currentFundEffectiveDate"; 
+            GlobalVariables.getMessageMap().putError(field, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, "Oblg. Start"); 
         }
         //special case where a user can enter an invalid date that will throw a hard error.  If the user tries to change that date back
         //to the original date, we need to capture that and change the value on the document which is the date value that gets validated
@@ -384,7 +389,12 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                     awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
                     award.getAwardAmountInfos().add(aai);
             }
-        }
+        } else if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate()==null &&
+                !(aai.getObligationExpirationDate() == null)) { 
+            String field = "awardHierarchyNodeItems[" + index + "].obligationExpirationDate"; 
+            GlobalVariables.getMessageMap().putError(field, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, "Oblg. End"); 
+       }
+        
         //special case where a user can enter an invalid date that will throw a hard error.  If the user tries to change that date back
         //to the original date, we need to capture that and change the value on the document which is the date value that gets validated
         //in save rules.
