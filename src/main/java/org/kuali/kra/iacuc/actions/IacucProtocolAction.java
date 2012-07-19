@@ -36,6 +36,10 @@ public class IacucProtocolAction extends ProtocolAction {
         super(protocol, protocolSubmission, protocolActionTypeCode);
     }
         
+    public IacucProtocolAction(IacucProtocol protocol, String protocolActionTypeCode) {
+        super(protocol, protocolActionTypeCode);
+    }
+
     protected String getCoeusModule() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
     }

@@ -27,7 +27,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 /**
  * The ProtocolFinderDao implementation for OJB.
  */
-public class ProtocolFinderDaoOjb extends PlatformAwareDaoBaseOjb implements ProtocolFinderDao {
+public abstract class ProtocolFinderDaoOjb extends PlatformAwareDaoBaseOjb implements ProtocolFinderDao {
 
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
@@ -37,17 +37,18 @@ public class ProtocolFinderDaoOjb extends PlatformAwareDaoBaseOjb implements Pro
     /**
      * @see org.kuali.kra.protocol.ProtocolFinderDao#findCurrentProtocolByNumber(java.lang.String)
      */
+    @SuppressWarnings("unchecked")
     public Protocol findCurrentProtocolByNumber(String protocolNumber) {
         
         Criteria subCrit = new Criteria();
         subCrit.addEqualTo(PROTOCOL_NUMBER, protocolNumber);
-        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(Protocol.class, subCrit);
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(getProtocolBOClassHook(), subCrit);
         subQuery.setAttributes(new String[] { MAX_SEQUENCE_NUMBER });
 
         Criteria crit = new Criteria();
         crit.addEqualTo(PROTOCOL_NUMBER, protocolNumber);
         crit.addEqualTo(SEQUENCE_NUMBER, subQuery);
-        Query q = QueryFactory.newQuery(Protocol.class, crit);
+        Query q = QueryFactory.newQuery(getProtocolBOClassHook(), crit);
 
         return (Protocol) getPersistenceBrokerTemplate().getObjectByQuery(q);
     }
@@ -59,12 +60,10 @@ public class ProtocolFinderDaoOjb extends PlatformAwareDaoBaseOjb implements Pro
      */
     @SuppressWarnings("unchecked")
     public List<ProtocolSubmission> findProtocolSubmissions(String protocolNumber, int submissionNumber) {
-        
         Criteria crit = new Criteria();
         crit.addLike(PROTOCOL_NUMBER, protocolNumber + "%");
         crit.addEqualTo(SUBMISSION_NUMBER, submissionNumber);
-        Query q = QueryFactory.newQuery(ProtocolSubmission.class, crit);
-
+        Query q = QueryFactory.newQuery(getProtocolSubmissionBOClassHook(), crit);
         return (List<ProtocolSubmission>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
@@ -77,9 +76,13 @@ public class ProtocolFinderDaoOjb extends PlatformAwareDaoBaseOjb implements Pro
         
         Criteria crit = new Criteria();
         crit.addLike(PROTOCOL_NUMBER, protocolNumber + "%");
-        Query q = QueryFactory.newQuery(Protocol.class, crit);
+        Query q = QueryFactory.newQuery(getProtocolBOClassHook(), crit);
 
         return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
+    protected abstract Class<? extends Protocol> getProtocolBOClassHook();
+
+    protected abstract Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook();
+    
 }

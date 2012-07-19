@@ -82,7 +82,7 @@ public class IacucProtocolSubmissionBuilder {
         if (protocol.isAmendment() || protocol.isRenewal()) {
             String origProtocolNumber = protocol.getProtocolNumber();
             String protocolNumber = origProtocolNumber.substring(0, 10);
-            IacucProtocol origProtocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+            IacucProtocol origProtocol = (IacucProtocol)getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
             nextSubmissionNumber = origProtocol.getNextValue(NEXT_SUBMISSION_NUMBER_KEY);
             
             getBusinessObjectService().save(origProtocol.getProtocolDocument().getDocumentNextvalues());

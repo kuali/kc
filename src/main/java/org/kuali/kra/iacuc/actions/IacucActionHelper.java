@@ -29,7 +29,10 @@ import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolVersionService;
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewService;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewal;
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendmentBean;
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveBean;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.assignagenda.IacucProtocolAssignToAgendaBean;
@@ -66,8 +69,13 @@ import org.kuali.kra.protocol.ProtocolVersionService;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
+import org.kuali.kra.protocol.actions.ProtocolEditableBean;
 import org.kuali.kra.protocol.actions.ProtocolSubmissionDoc;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
@@ -629,7 +637,22 @@ public class IacucActionHelper extends ActionHelper {
         return new IacucProtocolAdministrativelyIncompleteBean((IacucActionHelper) actionHelper);
     }
 
+    @Override
+    protected ProtocolAmendmentBean getNewProtocolAmendmentBeanInstanceHook(ActionHelper actionHelper) {
+        return new IacucProtocolAmendmentBean((IacucActionHelper) actionHelper);
+    }
+    
 
+    @Override
+    protected ProtocolTask getNewAmendmentProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolTask getNewAmendmentProtocolUnavailableTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT_UNAVAILABLE, (IacucProtocol) protocol);
+    }
+    
     @Override
     protected ProtocolTask getNewWithdrawProtocolTaskInstanceHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.PROTOCOL_WITHDRAW, (IacucProtocol) protocol);
@@ -744,7 +767,7 @@ public class IacucActionHelper extends ActionHelper {
      * @param protocols
      * @return
      */
-    private IacucProtocolAmendRenewal getCorrectAmendment(List<Protocol> protocols) {
+    protected IacucProtocolAmendRenewal getCorrectAmendment(List<Protocol> protocols) {
         for (Protocol protocol : protocols) {
             // There should always be an amendment with the current submission number.
             if (protocol.isAmendment() && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
@@ -896,5 +919,112 @@ public class IacucActionHelper extends ActionHelper {
         return IacucProtocolActionType.IACUC_DISAPPROVED;
     }
     
+    @Override
+    protected void populateExistingAmendmentBean(ProtocolAmendmentBean amendmentBean, List<String> moduleTypeCodes) {
+        ProtocolAmendRenewal protocolAmendRenewal = getProtocol().getProtocolAmendRenewal();
+        amendmentBean.setSummary(protocolAmendRenewal.getSummary());
+        for (ProtocolAmendRenewModule module : protocolAmendRenewal.getModules()) {
+            moduleTypeCodes.add(module.getProtocolModuleTypeCode());
+            if (StringUtils.equals(IacucProtocolModule.GENERAL_INFO, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setGeneralInfo(true);
+            } 
+            else if (StringUtils.equals(IacucProtocolModule.ADD_MODIFY_ATTACHMENTS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setAddModifyAttachments(true);
+            }
+            else if (StringUtils.equals(IacucProtocolModule.AREAS_OF_RESEARCH, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setAreasOfResearch(true);
+            }
+            else if (StringUtils.equals(IacucProtocolModule.FUNDING_SOURCE, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setFundingSource(true);
+            }
+            else if (StringUtils.equals(IacucProtocolModule.OTHERS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setOthers(true);
+            }
+            else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_ORGANIZATIONS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setProtocolOrganizations(true);
+            }
+            else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_PERSONNEL, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setProtocolPersonnel(true);
+            }
+            else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_REFERENCES, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setProtocolReferencesAndOtherIdentifiers(true);
+            }
+            else if (StringUtils.equals(IacucProtocolModule.SPECIAL_REVIEW, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setSpecialReview(true);
+            }
+            else if (StringUtils.equals(IacucProtocolModule.SUBJECTS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setSubjects(true);
+            }
+            else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_PERMISSIONS, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setProtocolPermissions(true);
+            }
+            else if (StringUtils.equals(IacucProtocolModule.QUESTIONNAIRE, module.getProtocolModuleTypeCode())) {
+                amendmentBean.setQuestionnaire(true);
+            }
+        }
+    }
+
+    @Override
+    protected ProtocolAmendRenewService getProtocolAmendRenewServiceHook() {
+        return KraServiceLocator.getService(IacucProtocolAmendRenewService.class);        
+    }
+
+    @Override
+    protected void enableModuleOption(String moduleTypeCode, ProtocolEditableBean amendmentBean) {
+        if (StringUtils.equals(IacucProtocolModule.GENERAL_INFO, moduleTypeCode)) {
+            amendmentBean.setGeneralInfoEnabled(true);
+        } 
+        else if (StringUtils.equals(IacucProtocolModule.ADD_MODIFY_ATTACHMENTS, moduleTypeCode)) {
+            amendmentBean.setAddModifyAttachmentsEnabled(true);
+        }
+        else if (StringUtils.equals(IacucProtocolModule.AREAS_OF_RESEARCH, moduleTypeCode)) {
+            amendmentBean.setAreasOfResearchEnabled(true);
+        }
+        else if (StringUtils.equals(IacucProtocolModule.FUNDING_SOURCE, moduleTypeCode)) {
+            amendmentBean.setFundingSourceEnabled(true);
+        }
+        else if (StringUtils.equals(IacucProtocolModule.OTHERS, moduleTypeCode)) {
+            amendmentBean.setOthersEnabled(true);
+        }
+        else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_ORGANIZATIONS, moduleTypeCode)) {
+            amendmentBean.setProtocolOrganizationsEnabled(true);
+        }
+        else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_PERSONNEL, moduleTypeCode)) {
+            amendmentBean.setProtocolPersonnelEnabled(true);
+        }
+        else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_REFERENCES, moduleTypeCode)) {
+            amendmentBean.setProtocolReferencesEnabled(true);
+        }
+        else if (StringUtils.equals(IacucProtocolModule.SPECIAL_REVIEW, moduleTypeCode)) {
+            amendmentBean.setSpecialReviewEnabled(true);
+        }
+        else if (StringUtils.equals(IacucProtocolModule.SUBJECTS,moduleTypeCode)) {
+            amendmentBean.setSubjectsEnabled(true);
+        }
+        else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_PERMISSIONS,moduleTypeCode)) {
+            amendmentBean.setProtocolPermissionsEnabled(true);
+        }
+        else if (StringUtils.equals(IacucProtocolModule.QUESTIONNAIRE,moduleTypeCode)) {
+            amendmentBean.setQuestionnaireEnabled(true);
+        }
+    }
+    
+    @Override
+    protected void enableModuleOption(ProtocolAmendmentBean amendmentBean, ProtocolAmendRenewal correctAmendment) {
+        amendmentBean.setGeneralInfo((correctAmendment.hasModule(IacucProtocolModule.GENERAL_INFO)) ? true : false);
+        amendmentBean.setProtocolPersonnel((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_PERSONNEL)) ? true : false);
+        amendmentBean.setAreasOfResearch((correctAmendment.hasModule(IacucProtocolModule.AREAS_OF_RESEARCH)) ? true : false);
+        amendmentBean.setAddModifyAttachments((correctAmendment.hasModule(IacucProtocolModule.ADD_MODIFY_ATTACHMENTS)) ? true : false);
+        amendmentBean.setFundingSource((correctAmendment.hasModule(IacucProtocolModule.FUNDING_SOURCE)) ? true : false);
+        amendmentBean.setOthers((correctAmendment.hasModule(IacucProtocolModule.OTHERS)) ? true : false);
+        amendmentBean.setProtocolOrganizations((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_ORGANIZATIONS)) ? true : false);
+        amendmentBean.setProtocolPermissions((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_PERMISSIONS)) ? true : false);
+        amendmentBean.setProtocolReferencesAndOtherIdentifiers((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_REFERENCES)) ? true : false);
+        amendmentBean.setQuestionnaire((correctAmendment.hasModule(IacucProtocolModule.QUESTIONNAIRE)) ? true : false);
+        amendmentBean.setSpecialReview((correctAmendment.hasModule(IacucProtocolModule.SPECIAL_REVIEW)) ? true : false);
+        amendmentBean.setSubjects((correctAmendment.hasModule(IacucProtocolModule.SUBJECTS)) ? true : false);
+    }
+    
+
 }
 
