@@ -41,6 +41,9 @@ import org.kuali.rice.krad.service.SequenceAccessorService;
 /**
  * The Protocol Amendment/Renewal Service Implementation.
  */
+/**
+ * This class...
+ */
 public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRenewService {
 
     protected static final String AMEND_ID = "A";
@@ -136,7 +139,7 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
     }
 
     /**
-     * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#createRenewal(org.kuali.kra.irb.ProtocolDocument)
+     * @see org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService#createRenewal(org.kuali.kra.protocol.ProtocolDocument, java.lang.String)
      */
     public String createRenewal(ProtocolDocument protocolDocument, String renewalSummary) throws Exception {
         ProtocolDocument renewProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolRenewalNumber(protocolDocument), true);
@@ -260,7 +263,7 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
      * @return
      */
     protected ProtocolAmendRenewal createAmendmentRenewal(ProtocolDocument protocolDocument, ProtocolDocument amendProtocolDocument, String summary) {
-        ProtocolAmendRenewal protocolAmendRenewal = new ProtocolAmendRenewal();
+        ProtocolAmendRenewal protocolAmendRenewal = getNewProtocolAmendRenewalInstanceHook();
         protocolAmendRenewal.setProtoAmendRenNumber(amendProtocolDocument.getProtocol().getProtocolNumber());
         protocolAmendRenewal.setDateCreated(new Date(System.currentTimeMillis()));
         protocolAmendRenewal.setSummary(summary);
@@ -288,7 +291,7 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
      * @return
      */
     protected ProtocolAmendRenewModule createModule(ProtocolAmendRenewal amendmentEntry, String moduleTypeCode) {
-        ProtocolAmendRenewModule module = new ProtocolAmendRenewModule();
+        ProtocolAmendRenewModule module = getNewProtocolAmendRenewModuleInstanceHook();
         module.setProtocolAmendRenewalNumber(amendmentEntry.getProtoAmendRenNumber());
         module.setProtocolAmendRenewal(amendmentEntry);
         module.setProtocolAmendRenewalId(amendmentEntry.getId());
@@ -445,5 +448,7 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
     
     protected abstract Class<? extends Protocol> getProtocolBOClassHook();
     
+    protected abstract ProtocolAmendRenewal getNewProtocolAmendRenewalInstanceHook();
     
+    protected abstract ProtocolAmendRenewModule getNewProtocolAmendRenewModuleInstanceHook();
 }
