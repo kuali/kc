@@ -90,7 +90,7 @@
                                                           attributeEntry="${protocolFundingSourceAttributes.fundingSourceName}" 
                                                           readOnly="false" />
                             </div>
-                            <div id="protocolHelper.newFundingSource.fundingSourceName.display.div" style="${sourceNameDisplaySyle}">
+                            <div id="protocolHelper.newFundingSource.fundingSourceName.display.div" style="${sourceNameDisplayStyle}">
                                 <c:out value="${KualiForm.protocolHelper.newFundingSource.fundingSourceName}" />
                             </div>
                             
@@ -116,10 +116,12 @@
 	                            styleClass="tinybutton"/>
 					
 					            <c:if test="${allowCreateProposal}">
+       								<div id="protocolHelper.newFundingSource.fundingSourceTypeCode.startproposal.image.div" style="${sourceNameDisplayStyle}">
 		                            <html:image property="methodToCall.createProposalDevelopment.anchor${tabKey}"
 		                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-startproposal.gif' 
 	    	                        title="Create Proposal Development"
 	        	                    styleClass="tinybutton"/>
+	        	                    </div>
 	        	                </c:if>
 	                        </div>
 	                </td>
