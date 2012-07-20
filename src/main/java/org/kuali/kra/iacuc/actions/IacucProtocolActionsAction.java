@@ -86,6 +86,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionEvent;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
 import org.kuali.kra.iacuc.actions.submit.IacucValidProtocolActionAction;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawService;
+import org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
@@ -116,6 +117,7 @@ import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.protocol.actions.request.ProtocolRequestBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
+import org.kuali.kra.protocol.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
@@ -2406,42 +2408,78 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     
     
-//    /**
-//     * Suspends this Protocol.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward suspend(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument document = protocolForm.getProtocolDocument();
-//        Protocol protocol = document.getProtocol();
-//        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendBean();
-//        
-//        if (hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL, protocol)) {
-//            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//                getProtocolGenericActionService().suspend(protocol, actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                
-//                recordProtocolActionSuccess("Suspend");
-////                protocolForm.getProtocolHelper().prepareView();
-//                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.SUSPENDED, "Suspended");
-//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+    /**
+     * Deactivates this IACUC Protocol.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward iacucDeactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = document.getIacucProtocol();
+        IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
+        IacucProtocolGenericActionBean actionBean = actionHelper.getIacucProtocolDeactivateBean();
+        
+        if (hasGenericPermission(IacucGenericProtocolAuthorizer.DEACTIVATE_PROTOCOL, protocol)) {
+            if (applyRules(new IacucProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().iacucDeactivate(protocol, actionBean);
+                saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Deactivated");
+                IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.REQUEST_DEACTIVATE, "Deactivated");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
+                }
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+//  /**
+//  * Suspends this Protocol.
+//  * @param mapping
+//  * @param form
+//  * @param request
+//  * @param response
+//  * @return
+//  * @throws Exception
+//  */
+// public ActionForward suspend(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//     ProtocolForm protocolForm = (ProtocolForm) form;
+//     ProtocolDocument document = protocolForm.getProtocolDocument();
+//     Protocol protocol = document.getProtocol();
+//     ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendBean();
+//     
+//     if (hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL, protocol)) {
+//         if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+//             getProtocolGenericActionService().suspend(protocol, actionBean);
+//             saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+//             
+//             recordProtocolActionSuccess("Suspend");
+////             protocolForm.getProtocolHelper().prepareView();
+//             ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.SUSPENDED, "Suspended");
+//             protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
 //
-//                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                    return mapping.findForward(CORRESPONDENCE);
-//                } else {
-//                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
-//                }
-//            }
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
+//             if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+//                 return mapping.findForward(CORRESPONDENCE);
+//             } else {
+//                 return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
+//             }
+//         }
+//     }
+//     
+//     return mapping.findForward(Constants.MAPPING_BASIC);
+// }
+// 
 //    /**
 //     * Suspends this Protocol by DSMB.
 //     * @param mapping
@@ -3007,12 +3045,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
 
+    private boolean hasGenericPermission(String genericActionName, IacucProtocol protocol) {
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.GENERIC_IACUC_PROTOCOL_ACTION, protocol, genericActionName);
+System.out.println("\nTTTTT new task, name = " + TaskName.GENERIC_IACUC_PROTOCOL_ACTION + ", genericActionName = " + genericActionName);        
+        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
+    }
+    
 // TODO *********commented the code below during IACUC refactoring*********     
-//    private boolean hasGenericPermission(String genericActionName, Protocol protocol) {
-//        ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, protocol, genericActionName);
-//        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
-//    }
-//    
 //    private ProtocolAttachmentService getProtocolAttachmentService() {
 //        return KraServiceLocator.getService(ProtocolAttachmentService.class);
 //    }
@@ -3972,19 +4011,19 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //            return forward;
 //        }
 //    }
-//    
-//    public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-//        
-//        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-//        IRBNotificationContext context = new IRBNotificationContext(protocol, null, "Ad-Hoc Notification", renderer);
-//        
-//        protocolForm.getNotificationHelper().initializeDefaultValues(context);
-//        
-//        return mapping.findForward("protocolNotificationEditor");
-//    }
-//
+    
+    public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocol protocol = (IacucProtocol)protocolForm.getProtocolDocument().getProtocol();
+        
+        IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer(protocol);
+        IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, null, "Ad-Hoc Notification", renderer);
+        
+        protocolForm.getNotificationHelper().initializeDefaultValues(context);
+        
+        return mapping.findForward("iacucProtocolNotificationEditor");
+    }
+
     
     protected PersonService getPersonService() {
         return KraServiceLocator.getService(PersonService.class);
@@ -4450,7 +4489,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
          } else {
              context.setForwardName(forward.getName());
          }
-     return mapping.findForward("protocolNotificationEditor");
+         return mapping.findForward("iacucProtocolNotificationEditor");
      }
      else {
 
