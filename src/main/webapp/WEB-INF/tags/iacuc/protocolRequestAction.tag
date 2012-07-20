@@ -44,6 +44,7 @@
             <kra-iacuc-action:modifySubmissionAction />            
 			<kra-iacuc-action:adminActions />
 			<kra-iacuc-action:assignToAgendaAction />
+			<kra-iacuc-action:tableAction />
 			<kra-iacuc-action:notifyIacucAction />
 			
           	<kra-iacuc-action:approveAction 
@@ -285,27 +286,27 @@
                                                     	             
                     <kra-iacuc-action:genericUnavailableAction tabTitle="Administratively Withdraw Protocol"
                     	                                     canPerformAction="${KualiForm.actionHelper.canAdministrativelyWithdrawUnavailable}" 
-                        	                                 reason="Protocol status must be Submitted To IACUC or Administratively Incomplete.
+                        	                                 reason="Protocol status must be Submitted To IACUC, Tabled or Administratively Incomplete.
                                         	                         <p>
-                                            	                     Protocol submission status must be Submitted To Committee if committee selected, 
+                                            	                     Protocol submission status must be Submitted To Committee, Assigned To Agenda or Tabled if committee selected, 
                                             	                     or Pending if committee not selected." />
                                             	                     
  					<kra-iacuc-action:genericUnavailableAction tabTitle="Administratively Approve Protocol"
                     	                                     canPerformAction="${KualiForm.actionHelper.canAdministrativelyApproveUnavailable}" 
-                        	                                 reason="Protocol status must be Submitted To IACUC.
+                        	                                 reason="Protocol status must be Submitted To IACUC or Tabled.
                                         	                         <p>
                                         	                         Protocol review type must be Administrative Review.
                                         	                         <p>
-                                            	                     Protocol submission status must be Submitted To Committee if committee selected, 
+                                            	                     Protocol submission status must be Submitted To Committee, Assigned To Agenda or Tabled if committee selected, 
                                             	                     or Pending if committee not selected." />
                                             	                     
 					<kra-iacuc-action:genericUnavailableAction tabTitle="Administratively Mark Incomplete Protocol"
                     	                                     canPerformAction="${KualiForm.actionHelper.canAdministrativelyMarkIncompleteUnavailable}" 
-                        	                                 reason="Protocol status must be Submitted To IACUC.
+                        	                                 reason="Protocol status must be Submitted To IACUC or Tabled.
                                         	                         <p>
                                         	                         Protocol review type must be Administrative Review.
                                         	                         <p>
-                                            	                     Protocol submission status must be Submitted To Committee if committee selected, 
+                                            	                     Protocol submission status must be Submitted To Committee, Assigned To Agenda or Tabled if committee selected, 
                                             	                     or Pending if committee not selected." />                                                    	                                               	                     
                                                     	                                             	             
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Modify Submission Request"
@@ -336,9 +337,11 @@
                         	                                         Protocol must be enroute in workflow." />
 	        	    <kra-iacuc-action:genericUnavailableAction tabTitle="Table"
                 	                                         canPerformAction="${KualiForm.actionHelper.canTableUnavailable}" 
-                    	                                     reason="Protocol submission status must be Pending or Submitted To Committee.
+                    	                                     reason="Protocol submission status must be In Agenda.
                         	                                         <p>
-                            	                                     Protocol must be enroute in workflow." />
+                            	                                     Protocol status must be Submitted To IACUC.
+                            	                                     <p>
+                            	                                     Protocol submission's current committee schedule cannot be the last one, by date." />
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Approve Action"
                     	    	                             canPerformAction="${KualiForm.actionHelper.canApproveFullUnavailable}" 
                         	    	                         reason="The last protocol action must have been Record Committee Decision with the motion to approve. " />

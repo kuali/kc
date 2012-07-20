@@ -16,15 +16,13 @@
 package org.kuali.kra.iacuc.actions.table;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
-import org.kuali.kra.protocol.actions.ActionHelper;
-import org.kuali.kra.protocol.actions.ProtocolActionBean;
-import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 
 /**
- * This class is really just a "form" containing the reason
+ * This class is really just a "form" containing the comments and action date 
  * for tabling an IACUC protocol.
  */
 public class IacucProtocolTableBean extends IacucProtocolActionBean implements Serializable {
@@ -33,13 +31,33 @@ public class IacucProtocolTableBean extends IacucProtocolActionBean implements S
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 6076002106217543225L;
+    
+    private String comments = "";
+    private Date actionDate = new Date(System.currentTimeMillis());
+
 
     /**
-     * Constructs a ProtocolWithdrawBean.java.
+     * Constructs a IacucProtocolTableBean
      * @param actionHelper Reference back to the action helper for this bean
      */
-    public IacucProtocolTableBean(ActionHelper actionHelper) {
-        super((IacucActionHelper) actionHelper);
+    public IacucProtocolTableBean(IacucActionHelper actionHelper) {
+        super(actionHelper);
+    }
+    
+    public String getComments() {
+        return comments;
+    }
+    
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+    
+    public Date getActionDate() {
+        return actionDate;
+    }
+    
+    public void setActionDate(Date actionDate) {
+        this.actionDate = actionDate;
     }
 
 }

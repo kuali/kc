@@ -171,6 +171,7 @@ public class IacucActionHelper extends ActionHelper {
         initIacucSpecificActionBeanTaskMap();
    }
     
+
     /**
      * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
      * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
@@ -200,6 +201,15 @@ public class IacucActionHelper extends ActionHelper {
     public void setIacucProtocolModifySubmissionBean(IacucProtocolModifySubmissionBean iacucProtocolModifySubmissionBean) {
         this.iacucProtocolModifySubmissionBean = iacucProtocolModifySubmissionBean;
     }
+    
+    public IacucProtocolTableBean getIacucProtocolTableBean() {
+        return iacucProtocolTableBean;
+    }
+
+    public void setIacucProtocolTableBean(IacucProtocolTableBean iacucProtocolTableBean) {
+        this.iacucProtocolTableBean = iacucProtocolTableBean;
+    }
+
 
     /**
      * Builds an approval date, defaulting to the approval date from the protocol.
@@ -279,8 +289,6 @@ public class IacucActionHelper extends ActionHelper {
         canLiftHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_LIFT_HOLD_UNAVAILABLE);
         canRequestToLiftHold = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD);
         canRequestToLiftHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD_UNAVAILABLE);
-        canTable = hasPermission(TaskName.IACUC_PROTOCOL_TABLE);
-        canTableUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_TABLE_UNAVAILABLE);
         canIacucAcknowledge = hasPermission(TaskName.IACUC_ACKNOWLEDGEMENT);
         canIacucAcknowledgeUnavailable = hasPermission(TaskName.IACUC_ACKNOWLEDGEMENT_UNAVAILABLE);
         canIacucRequestDeactivate = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE);
@@ -348,14 +356,6 @@ public class IacucActionHelper extends ActionHelper {
     
     public IacucProtocol getProtocol() {
         return (IacucProtocol) form.getProtocolDocument().getProtocol();
-    }
-
-    public IacucProtocolTableBean getIacucProtocolTableBean() {
-        return iacucProtocolTableBean;
-    }
-
-    public void setIacucProtocolTableBean(IacucProtocolTableBean iacucProtocolTableBean) {
-        this.iacucProtocolTableBean = iacucProtocolTableBean;
     }
 
     public IacucProtocolGenericActionBean getIacucProtocolDeactivateBean() {

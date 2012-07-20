@@ -85,6 +85,8 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionEvent;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
 import org.kuali.kra.iacuc.actions.submit.IacucValidProtocolActionAction;
+import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
+import org.kuali.kra.iacuc.actions.table.IacucProtocolTableService;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawService;
 import org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
@@ -4505,5 +4507,44 @@ System.out.println("\nTTTTT new task, name = " + TaskName.GENERIC_IACUC_PROTOCOL
          }
      }
      return notificationRequestBeans;
- } 
+ }
+ 
+ 
+     /**
+      * Table a protocol.
+      * 
+      * @param mapping
+      * @param form
+      * @param request
+      * @param response
+      * @return
+      * @throws Exception
+      */
+     public ActionForward tableProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+         IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+         IacucProtocolTask task = new IacucProtocolTask(TaskName.IACUC_PROTOCOL_TABLE, protocol);
+         
+         if (!hasDocumentStateChanged(protocolForm)) {
+             if (isAuthorized(task)) {
+                 IacucProtocolTableBean actionBean = ((IacucActionHelper) protocolForm.getActionHelper()).getIacucProtocolTableBean();
+                 getIacucProtocolTableService().tableProtocol(protocol, actionBean);
+                 recordProtocolActionSuccess("Table Protocol");                 
+             }
+         } else {
+             GlobalVariables.getMessageMap().clearErrorMessages();
+             GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+         }
+    
+         return mapping.findForward(Constants.MAPPING_BASIC);
+     }
+    
+    
+    
+    private IacucProtocolTableService  getIacucProtocolTableService() {
+        return KraServiceLocator.getService(IacucProtocolTableService.class);
+    }
+
+
 }
