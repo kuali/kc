@@ -58,6 +58,12 @@ function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceN
 			ProtocolFundingSourceService.isEditable(fundingSourceTypeCode, dwrReply);
 		}
 		loadFundingSourceNameTitle(fundingSourceTypeCodeFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName, protocolModule);
+		if (fundingSourceTypeCode == '4' ) {
+			changeObjectVisibility(fundingSourceTypeCodeFieldName + ".startproposal.image.div", "inline");
+		} else {
+			changeObjectVisibility(fundingSourceTypeCodeFieldName + ".startproposal.image.div", "none"); 
+		}
+
 	}
 }
 

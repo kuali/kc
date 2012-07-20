@@ -30,7 +30,14 @@
 <c:set var="canModify" value="${KualiForm.specialReviewHelper.canModifySpecialReview}"/>
 <c:set var="enableIrbProtocolLinking" value="${KualiForm.specialReviewHelper.isIrbProtocolLinkingEnabled}" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.SPECIAL_REVIEW_COMMENT_LENGTH%>" />
-<c:set var="allowCreateProtocol" value="${KualiForm.specialReviewHelper.createIrbProtocol}" />
+<c:if test="${enableIrbProtocolLinking}">
+	<c:set var="allowCreateProtocol" value="${KualiForm.specialReviewHelper.createIrbProtocol}" />
+
+</c:if>
+<c:if test="!${enableIrbProtocolLinking}">
+	<c:set var="allowCreateProtocol" value="false" />
+</c:if>
+
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="specialReviewHelper.newSpecialReview*,${collectionProperty}*">
     <div class="tab-container" align="center">
     	<h3>
