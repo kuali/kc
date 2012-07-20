@@ -12,7 +12,7 @@ function void setAction(IacucProtocolActionMapping protocolAction, boolean flag)
 rule "Submit for Review"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "103", "104", "105", "107", "302", "203", "303"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "104", "105", "107", "302", "203", "303"))
 then    
     setAction(protocolAction, true);
 end
@@ -69,7 +69,7 @@ end
 rule "Administratively approved"
 salience 100
 when
-  protocolAction : IacucProtocolActionMapping(actionTypeCode == "215", protocolStatusCode == "101", submissionStatusForAdminAction == true, protocolReviewTypeCode == "1")
+  protocolAction : IacucProtocolActionMapping(actionTypeCode == "215", protocolStatusCode in ("101", "103"), submissionStatusForAdminAction == true, protocolReviewTypeCode == "1")
 then    
     setAction(protocolAction, true);
 end
@@ -77,7 +77,7 @@ end
 rule "Administratively incomplete"
 salience 100
 when
-   protocolAction : IacucProtocolActionMapping(actionTypeCode == "216", protocolStatusCode == "101", submissionStatusForAdminAction == true, protocolReviewTypeCode == "1")
+   protocolAction : IacucProtocolActionMapping(actionTypeCode == "216", protocolStatusCode in ("101", "103"), submissionStatusForAdminAction == true, protocolReviewTypeCode == "1")
 then    
     setAction(protocolAction, true);
 end
@@ -85,7 +85,7 @@ end
 rule "Administratively withdrawn"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("101","203"), submissionStatusForAdminAction == true)
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("101", "103", "203"), submissionStatusForAdminAction == true)
 then    
     setAction(protocolAction, true);
 end

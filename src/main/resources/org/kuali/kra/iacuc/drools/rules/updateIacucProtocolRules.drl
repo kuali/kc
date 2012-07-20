@@ -55,13 +55,14 @@ function void setProtocolStatusCode(IacucProtocolActionUpdateMapping protocolAct
 
 
 
-rule "fn_assign_to_agenda: Submission Status = 103 (Assigned to Agenda);"
+rule "fn_assign_to_agenda: Submission Status = 103 (Assigned to Agenda); Protocol Status = 101 (Submitted to IACUC)"
 salience 100
 when
 	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "200")
 then	
 	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "103");
+	setProtocolStatusCode(protocolAction, "101");
 end
 
 
@@ -376,4 +377,15 @@ then
 	createAuditTrail(protocolAction);
 	setProtocolSubmissionStatusCode(protocolAction, "213");
 	setProtocolStatusCode(protocolAction, "202");
+end
+
+
+rule "fn_table_protocol: Submission Status = 206 (Tabled); Protocol Status = 103 (Tabled)" 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping(actionTypeCode == "203")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "206");
+	setProtocolStatusCode(protocolAction, "103");
 end
