@@ -372,7 +372,7 @@ public abstract class ActionHelper implements Serializable {
         protocolSubmitAction = getNewProtocolSubmitActionInstanceHook(this);
         protocolWithdrawBean = getNewProtocolWithdrawBeanInstanceHook(this);
 
-        initAmendmentBeans();
+        createAmendmentBean();
         
         //protocolAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
         //protocolRenewAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
@@ -716,11 +716,21 @@ public abstract class ActionHelper implements Serializable {
      * amendment creation options as previous passes
      * @throws Exception
      */
-    public void initAmendmentBeans() throws Exception {
+    public void initAmendmentBeans(boolean forceReset) throws Exception {
+        if (protocolAmendmentBean == null || forceReset) {
+            protocolAmendmentBean = createAmendmentBean();
+        }
+        if (protocolRenewAmendmentBean == null || forceReset) {
+            protocolRenewAmendmentBean = createAmendmentBean();
+        }
+    }
+    
+    private ProtocolAmendmentBean createAmendmentBean() throws Exception {
         protocolAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
         protocolRenewAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
         configureAmendmentBean(protocolAmendmentBean);
         configureAmendmentBean(protocolRenewAmendmentBean);
+        return protocolAmendmentBean;
     }
     
 
@@ -799,8 +809,8 @@ public abstract class ActionHelper implements Serializable {
         
         canCreateAmendment = hasCreateAmendmentPermission();
         canCreateAmendmentUnavailable = hasCreateAmendmentUnavailablePermission();
-//        canModifyAmendmentSections = hasModifyAmendmentSectionsPermission();
-//        canModifyAmendmentSectionsUnavailable = hasModifyAmendmentSectionsUnavailablePermission();
+        canModifyAmendmentSections = hasModifyAmendmentSectionsPermission();
+        canModifyAmendmentSectionsUnavailable = hasModifyAmendmentSectionsUnavailablePermission();
 //        canCreateRenewal = hasCreateRenewalPermission();
 //        canCreateRenewalUnavailable = hasCreateRenewalUnavailablePermission();
 //        canNotifyIrb = hasNotifyIrbPermission();
@@ -937,7 +947,7 @@ public abstract class ActionHelper implements Serializable {
 // TODO *********commented the code below during IACUC refactoring*********         
 //        setAmendmentDetails();
 //        initFilterDatesView();
-        initAmendmentBeans();
+        initAmendmentBeans(false);
 //        initPrintQuestionnaire();
     }
     
@@ -1117,15 +1127,19 @@ public abstract class ActionHelper implements Serializable {
     protected abstract ProtocolTask getNewAmendmentProtocolTaskInstanceHook(Protocol protocol);
     protected abstract ProtocolTask getNewAmendmentProtocolUnavailableTaskInstanceHook(Protocol protocol);
     
-//    protected boolean hasModifyAmendmentSectionsPermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, getProtocol());
-//        return ((!getProtocol().isRenewalWithoutAmendment())&&(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)));
-//    }
-//    
-//    protected boolean hasModifyAmendmentSectionsUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
+    protected boolean hasModifyAmendmentSectionsPermission() {
+        ProtocolTask task = getModifyAmendmentSectionsProtocolTaskInstanceHook(getProtocol());
+        return ((!getProtocol().isRenewalWithoutAmendment())&&(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)));
+    }
+    
+    protected boolean hasModifyAmendmentSectionsUnavailablePermission() {
+        ProtocolTask task = getModifyAmendmentSectionsUnavailableProtocolUnavailableTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+
+    protected abstract ProtocolTask getModifyAmendmentSectionsProtocolTaskInstanceHook(Protocol protocol);
+    protected abstract ProtocolTask getModifyAmendmentSectionsUnavailableProtocolUnavailableTaskInstanceHook(Protocol protocol);
+    
 //    
 //    protected boolean hasCreateRenewalPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, getProtocol());
