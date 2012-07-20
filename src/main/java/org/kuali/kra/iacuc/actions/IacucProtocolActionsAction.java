@@ -110,6 +110,8 @@ import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolActionType;
 import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
+import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionEvent;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.protocol.actions.request.ProtocolRequestBean;
@@ -2229,33 +2231,34 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
 //    
-//    /**
-//     * Sends IRB Acknowledgement for this Protocol.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward irbAcknowledgement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument document = protocolForm.getProtocolDocument();
-//        Protocol protocol = document.getProtocol();
-//        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolIrbAcknowledgementBean();
-//        
-//        if (hasPermission(TaskName.IRB_ACKNOWLEDGEMENT, protocol)) {
-//            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//                getProtocolGenericActionService().irbAcknowledgement(protocol, actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                    
-//                recordProtocolActionSuccess("IRB Acknowledgement");
-//                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.IRB_ACKNOWLEDGEMENT, "IRB Acknowledgement"));
-//            }
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
+    /**
+     * Sends IACUC Acknowledgement for this Protocol.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward iacucAcknowledgement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+        IacucProtocol protocol = (IacucProtocol) document.getProtocol();
+        IacucProtocolGenericActionBean actionBean = ((IacucActionHelper) protocolForm.getActionHelper()).getIacucAcknowledgeBean();
+        
+        if (hasPermission(TaskName.IACUC_ACKNOWLEDGEMENT, protocol)) {
+            if (applyRules(new IacucProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().iacucAcknowledgement(protocol, actionBean);
+                saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+                    
+                recordProtocolActionSuccess("IACUC Acknowledgement");
+                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, 
+                        new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_ACKNOWLEDGEMENT, "IACUC Acknowledgement"));
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 //
 //    /**
 //     * Permits data analysis only on this Protocol.

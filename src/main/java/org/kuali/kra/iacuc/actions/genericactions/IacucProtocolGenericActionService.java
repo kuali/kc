@@ -15,8 +15,12 @@
  */
 package org.kuali.kra.iacuc.actions.genericactions;
 
+import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionService;
 
 public interface IacucProtocolGenericActionService extends ProtocolGenericActionService {
+    
+    void iacucAcknowledgement(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;    
 
 }

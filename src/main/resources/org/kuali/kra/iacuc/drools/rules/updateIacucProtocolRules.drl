@@ -285,13 +285,13 @@ then
 	setProtocolStatusCode(protocolAction, "1200");
 end
 
-rule "fn_IACUC_Acknowledge: Submission Status = 1205" 
+rule "fn_IACUC_Acknowledge: Submission Status = 205" 
 salience 100
 when
-	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "1206")
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "206")
 then	
 	createAuditTrail(protocolAction);
-	setProtocolSubmissionStatusCode(protocolAction, "1205");
+	setProtocolSubmissionStatusCode(protocolAction, "205");
 end
 
 rule "fn_notify_iacuc" 

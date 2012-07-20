@@ -20,6 +20,7 @@ import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.actions.ProtocolAction;
@@ -66,6 +67,11 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
     public void terminate(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, IacucProtocolActionType.TERMINATED, IacucProtocolStatus.TERMINATED);
     }
+    
+    /**{@inheritDoc}**/
+    public void iacucAcknowledgement(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        performGenericAction(protocol, actionBean, IacucProtocolActionType.IACUC_ACKNOWLEDGEMENT, protocol.getProtocolStatusCode());
+    }    
 
     @Override
     protected ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, ProtocolSubmission submission, String protocolActionType) {

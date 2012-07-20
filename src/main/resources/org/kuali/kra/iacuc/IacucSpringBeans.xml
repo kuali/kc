@@ -294,6 +294,13 @@
                     <property name="taskName" value="protocolManageReviewCommentsUnavailable" />
                 </bean>
                 
+                <bean class="org.kuali.kra.iacuc.auth.IacucAcknowledgeAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="iacucAcknowledgement"/>
+                </bean>                
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucAcknowledgeUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="iacucAcknowledgementUnavailable"/>
+                </bean>
            </list>
         </property>
     </bean>

@@ -560,7 +560,6 @@ public abstract class ActionHelper implements Serializable {
 //        actionBeanTaskMap.put(TaskName.EXPEDITE_APPROVAL, protocolExpeditedApprovalBean);
 //        actionBeanTaskMap.put(TaskName.EXPIRE_PROTOCOL, protocolExpireBean);
 //        actionBeanTaskMap.put(TaskName.GRANT_EXEMPTION, protocolGrantExemptionBean);
-//        actionBeanTaskMap.put(TaskName.IRB_ACKNOWLEDGEMENT, protocolIrbAcknowledgementBean);
         
         actionBeanTaskMap.put(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolManageReviewCommentsBean);
 
