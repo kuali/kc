@@ -42,7 +42,7 @@ public class SubmissionReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("submissionTypeCode", IacucProtocolSubmissionType.NOTIFY_IACUC);
+        fieldValues.put("submissionTypeCode", IacucProtocolSubmissionType.FYI);
         List<IacucValidProtoSubRevType> validProtoSubRevTypes = (List<IacucValidProtoSubRevType>) getBusinessObjectService().findMatching(
                 IacucValidProtoSubRevType.class, fieldValues);
         if (validProtoSubRevTypes.isEmpty()) {

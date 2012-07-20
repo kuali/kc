@@ -62,5 +62,6 @@ public class IacucProtocolSubmissionStatus extends ProtocolSubmissionStatus {
     public static final String ADMINISTRATIVELY_APPROVED = "213";
 
     public static final String ADMINISTRATIVELY_INCOMPLETE = "214";
+    
 
 }
