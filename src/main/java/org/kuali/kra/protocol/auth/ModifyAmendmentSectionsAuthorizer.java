@@ -15,17 +15,19 @@
  */
 package org.kuali.kra.protocol.auth;
 
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 
-public class ModifyAmendmentSectionsAuthorizer extends ProtocolAuthorizer {
+public abstract class ModifyAmendmentSectionsAuthorizer extends ProtocolAuthorizer {
 
     /**
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return isAmendmentOrRenewal(task.getProtocol()) &&
-               canExecuteAction(task.getProtocol(), ProtocolActionType.MODIFY_AMENDMENT_SECTION) &&
-               hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_AMMENDMENT);
+               canExecuteAction(task.getProtocol(), getActionTypeModifyAmendmentHook()) &&
+               hasPermission(userId, task.getProtocol(), getPermissionCreateAmendmentHook());
     }
+
+    protected abstract String getActionTypeModifyAmendmentHook();
+    protected abstract String getPermissionCreateAmendmentHook();
+
 }

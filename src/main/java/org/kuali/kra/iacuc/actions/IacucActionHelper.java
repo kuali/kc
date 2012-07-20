@@ -1052,6 +1052,15 @@ public class IacucActionHelper extends ActionHelper {
         amendmentBean.setSubjects((correctAmendment.hasModule(IacucProtocolModule.SUBJECTS)) ? true : false);
     }
     
+    @Override
+    protected ProtocolTask getModifyAmendmentSectionsProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolTask getModifyAmendmentSectionsUnavailableProtocolUnavailableTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS_UNAVAILABLE, (IacucProtocol) protocol);
+    }
 
 }
 

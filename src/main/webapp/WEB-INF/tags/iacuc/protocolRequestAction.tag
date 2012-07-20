@@ -119,6 +119,7 @@
                                           methodToCall="iacucDeactivate"
                                           canPerformAction="${KualiForm.actionHelper.canIacucRequestDeactivate}" />
             <kra-iacuc-action:createAmendmentAction />
+            <kra-iacuc-action:modifyAmendmentSectionsAction />
                                           
 <%--                                           
             <kra-iacuc-action:notifyCommitteeAction />--%>
