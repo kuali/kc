@@ -55,6 +55,11 @@
         <property name="protocolActionService" ref="iacucProtocolActionService" />
     </bean>
 
+
+	<bean id="parentIacucProtocolTableAuthorizer" abstract="true" parent="parentIacucProtocolAuthorizer">
+        <property name="iacucProtocolTableService" ref="iacucProtocolTableService" />
+    </bean>
+
     <bean id="iacucProtocolTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
         <property name="groupName" value="iacucProtocol" />
         <property name="taskAuthorizers">
@@ -316,6 +321,14 @@
                            
                 <bean class="org.kuali.kra.iacuc.auth.IacucManageReviewCommentsUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="protocolManageReviewCommentsUnavailable" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolTableAuthorizer" parent="parentIacucProtocolTableAuthorizer">
+                    <property name="taskName" value="iacucProtocolTable" />
+                </bean>
+                           
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolTableUnavailableAuthorizer" parent="parentIacucProtocolTableAuthorizer">
+                    <property name="taskName" value="iacucProtocolTableUnavailable" />
                 </bean>
                 
                 <bean class="org.kuali.kra.iacuc.auth.IacucAcknowledgeAuthorizer" parent="parentIacucProtocolAuthorizer">
@@ -875,6 +888,12 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcNotificationService" ref="kcNotificationService" />
     </bean> 
+    
+    <bean id="iacucProtocolTableService" class="org.kuali.kra.iacuc.actions.table.IacucProtocolTableServiceImpl">
+        <property name="documentService" ref="documentService" />
+        <property name="protocolActionService" ref="iacucProtocolActionService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 
     <bean id="iacucProtocolAmendRenewService" class="org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewServiceImpl">
         <property name="protocolCopyService" ref="iacucProtocolCopyService" />
@@ -887,6 +906,3 @@
     </bean>
 
 </beans>
-
-
-

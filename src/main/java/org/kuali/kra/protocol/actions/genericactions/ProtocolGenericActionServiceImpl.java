@@ -236,25 +236,22 @@ public abstract class ProtocolGenericActionServiceImpl implements ProtocolGeneri
     }
     
     
-    
-    protected ProtocolDocument getDeferredVersionedDocument(Protocol protocol) throws Exception {
-        documentService.cancelDocument(protocol.getProtocolDocument(), "Protocol document cancelled - protocol has been deferred.");
-        
-// TODO *********commented the code below during IACUC refactoring*********         
+// TODO *********commented the code below during IACUC refactoring*********     
+//    protected ProtocolDocument getDeferredVersionedDocument(Protocol protocol) throws Exception {
+//        documentService.cancelDocument(protocol.getProtocolDocument(), "Protocol document cancelled - protocol has been deferred.");
 //        protocolOnlineReviewService.cancelOnlineReviews(protocol.getProtocolSubmission(), "Protocol Review cancelled - protocol has been deferred.");
-        
-        ProtocolDocument newDocument = getVersionedDocument(protocol);
-
-        ProtocolAction assignToAgendaProtocolAction = protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(newDocument.getProtocol());
-        if (assignToAgendaProtocolAction != null) {
-            newDocument.getProtocol().getProtocolActions().remove(assignToAgendaProtocolAction);
-            businessObjectService.delete(assignToAgendaProtocolAction);
-        }
-        newDocument.getProtocol().refreshReferenceObject("protocolStatus");
-        documentService.saveDocument(newDocument);
-        
-        return newDocument;
-    }
+//        ProtocolDocument newDocument = getVersionedDocument(protocol);
+//
+//        ProtocolAction assignToAgendaProtocolAction = protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(newDocument.getProtocol());
+//        if (assignToAgendaProtocolAction != null) {
+//            newDocument.getProtocol().getProtocolActions().remove(assignToAgendaProtocolAction);
+//            businessObjectService.delete(assignToAgendaProtocolAction);
+//        }
+//        newDocument.getProtocol().refreshReferenceObject("protocolStatus");
+//        documentService.saveDocument(newDocument);
+//        
+//        return newDocument;
+//    }
     
     
     

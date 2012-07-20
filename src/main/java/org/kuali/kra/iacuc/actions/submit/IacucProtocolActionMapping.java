@@ -174,7 +174,9 @@ public class IacucProtocolActionMapping extends ProtocolActionMapping {
     public boolean getSubmissionStatusForAdminAction() {
         boolean retVal;
         if(StringUtils.isNotBlank(this.protocol.getProtocolSubmission().getCommitteeId())) {
-            retVal = StringUtils.equals(this.submissionStatusCode, IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+            retVal = StringUtils.equals(this.submissionStatusCode, IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) ||
+                     StringUtils.equals(this.submissionStatusCode, IacucProtocolSubmissionStatus.IN_AGENDA) ||
+                     StringUtils.equals(this.submissionStatusCode, IacucProtocolSubmissionStatus.TABLED);
         }
         else {
             retVal = StringUtils.equals(this.submissionStatusCode, IacucProtocolSubmissionStatus.PENDING);

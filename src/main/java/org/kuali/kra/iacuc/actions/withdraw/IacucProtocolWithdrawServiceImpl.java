@@ -79,8 +79,10 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
         protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
 
-        boolean isVersion = IacucProtocolStatus.IN_PROGRESS.equals(protocol.getProtocolStatusCode())
-              || IacucProtocolStatus.SUBMITTED_TO_IACUC.equals(protocol.getProtocolStatusCode());
+        boolean isVersion = IacucProtocolStatus.IN_PROGRESS.equals(protocol.getProtocolStatusCode()) ||
+                            IacucProtocolStatus.SUBMITTED_TO_IACUC.equals(protocol.getProtocolStatusCode()) ||
+                            IacucProtocolStatus.TABLED.equals(protocol.getProtocolStatusCode());
+        
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
 
         if (submission != null) {
