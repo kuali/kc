@@ -83,6 +83,8 @@ public class IacucProtocolActionType extends ProtocolActionType {
     //We need a unique Action code to map if the option to be chosen is 'Approve' since we need to enable 'Approve' action subsequently 
     public static final String RECORD_COMMITTEE_DECISION = "318";
     
+    public static final String MODIFY_AMENDMENT_SECTION = "125";
+    
     
     //No corresponding actionTypeCode for these in Coeus  
     public static final String REVIEW_COMPLETE = "902";
