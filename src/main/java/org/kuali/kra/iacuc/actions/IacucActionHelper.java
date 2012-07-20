@@ -149,6 +149,7 @@ public class IacucActionHelper extends ActionHelper {
     protected IacucProtocolAssignCmtBean protocolAssignCmtBean;
     protected IacucProtocolModifySubmissionBean iacucProtocolModifySubmissionBean;
     protected IacucProtocolNotifyIacucBean iacucProtocolNotifyIacucBean;
+    protected IacucProtocolGenericActionBean iacucAcknowledgeBean;
 
 
     /**
@@ -163,6 +164,7 @@ public class IacucActionHelper extends ActionHelper {
         iacucProtocolTableBean = new IacucProtocolTableBean(this);
         iacucProtocolModifySubmissionBean = new IacucProtocolModifySubmissionBean(this);
         iacucProtocolNotifyIacucBean = new IacucProtocolNotifyIacucBean(this);
+        iacucAcknowledgeBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucAcknowledgeBean");
 
 
         initIacucSpecificActionBeanTaskMap();
@@ -178,6 +180,7 @@ public class IacucActionHelper extends ActionHelper {
         actionBeanTaskMap.put(TaskName.IACUC_ASSIGN_TO_COMMITTEE, protocolAssignCmtBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_TABLE, iacucProtocolTableBean);
         actionBeanTaskMap.put(TaskName.IACUC_NOTIFY_IACUC, iacucProtocolNotifyIacucBean);
+        actionBeanTaskMap.put(TaskName.IACUC_ACKNOWLEDGEMENT, iacucAcknowledgeBean);
     }
 
         
@@ -916,6 +919,22 @@ public class IacucActionHelper extends ActionHelper {
     @Override
     protected String getDisapprovedProtocolActionTypeHook() {
         return IacucProtocolActionType.IACUC_DISAPPROVED;
+    }
+
+    public IacucProtocolGenericActionBean getIacucAcknowledgeBean() {
+        return iacucAcknowledgeBean;
+    }
+
+    public void setIacucAcknowledgeBean(IacucProtocolGenericActionBean iacucAcknowledgeBean) {
+        this.iacucAcknowledgeBean = iacucAcknowledgeBean;
+    }
+
+    public boolean isCanIacucAcknowledge() {
+        return canIacucAcknowledge;
+    }
+
+    public boolean isCanIacucAcknowledgeUnavailable() {
+        return canIacucAcknowledgeUnavailable;
     }
     
     @Override

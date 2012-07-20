@@ -45,7 +45,7 @@ public class SubmissionQualifierTypeValuesFinder extends IacucActionsKeyValuesBa
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("submissionTypeCode", IacucProtocolSubmissionType.NOTIFY_IACUC);
+        fieldValues.put("submissionTypeCode", IacucProtocolSubmissionType.FYI);
         List<IacucValidProtoSubTypeQual> validProtoSubTypeQuals = (List<IacucValidProtoSubTypeQual>) getBusinessObjectService().findMatching(
                 IacucValidProtoSubTypeQual.class, fieldValues);
         if (validProtoSubTypeQuals.isEmpty()) {
