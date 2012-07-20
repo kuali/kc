@@ -17,19 +17,19 @@ package org.kuali.kra.irb.auth;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 
 /**
- * Is the user allowed expedite approval?
+ * Is the user allowed to deactivate?
  */
-public class ExpediteApprovalAuthorizer extends ProtocolAuthorizer {
+public class DeactivateIacucProtocolAuthorizer extends ProtocolAuthorizer {
 
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return canExecuteAction(task.getProtocol(), ProtocolActionType.EXPEDITE_APPROVAL) 
-        && kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)
-         && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
+        return canExecuteAction(task.getProtocol(), IacucProtocolActionType.REQUEST_DEACTIVATE) && 
+                                hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO) &&
+                                kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.IACUC_PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
     }
 }

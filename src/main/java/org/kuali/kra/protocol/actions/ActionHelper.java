@@ -637,7 +637,7 @@ public abstract class ActionHelper implements Serializable {
 
         
  
-    private ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, String errorPropertyKey) throws Exception {        
+    protected ProtocolApproveBean buildProtocolApproveBean(String actionTypeCode, String errorPropertyKey) throws Exception {        
         ProtocolApproveBean bean = getNewProtocolApproveBeanInstanceHook(this, errorPropertyKey);       
         bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         
