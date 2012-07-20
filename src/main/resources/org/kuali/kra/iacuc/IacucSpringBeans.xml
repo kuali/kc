@@ -135,6 +135,14 @@
                     <property name="taskName" value="createIacucAmendmentUnavailable" />
                 </bean>                          
 
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucAmendmentSectionsAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucAmendmentSections" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucAmendmentSectionsUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucAmendmentSectionsUnavailable" />
+                </bean>
+
                 <bean class="org.kuali.kra.iacuc.auth.CreateIacucRenewalAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="createIacucRenewal" />
                 </bean>                          
