@@ -350,15 +350,15 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                     awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
                     award.getAwardAmountInfos().add(aai);
             }
-        } else if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()==null &&
-                !(aai.getCurrentFundEffectiveDate()==null)) { 
-            String field = "awardHierarchyNodeItems[" + index + "].currentFundEffectiveDate"; 
-            GlobalVariables.getMessageMap().putError(field, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, "Oblg. Start"); 
+        } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate() == null) {
+          //FYI, this will show an erorr to the user, we are doing this such they can see the error, and that they had put in a null value
+            awardHierarchyNode.getValue().setCurrentFundEffectiveDate(null);
         }
         //special case where a user can enter an invalid date that will throw a hard error.  If the user tries to change that date back
         //to the original date, we need to capture that and change the value on the document which is the date value that gets validated
         //in save rules.
         if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null && 
+                timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate() != null &&
                 timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().equals(aai.getCurrentFundEffectiveDate()) &&
                 !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().equals(awardHierarchyNode.getValue().getCurrentFundEffectiveDate())) {
             awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
@@ -389,16 +389,16 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                     awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
                     award.getAwardAmountInfos().add(aai);
             }
-        } else if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate()==null &&
-                !(aai.getObligationExpirationDate() == null)) { 
-            String field = "awardHierarchyNodeItems[" + index + "].obligationExpirationDate"; 
-            GlobalVariables.getMessageMap().putError(field, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, "Oblg. End"); 
-       }
+        } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate() == null) {
+          //FYI, this will show an erorr to the user, we are doing this such they can see the error, and that they had put in a null value
+            awardHierarchyNode.getValue().setObligationExpirationDate(null);
+        }
         
         //special case where a user can enter an invalid date that will throw a hard error.  If the user tries to change that date back
         //to the original date, we need to capture that and change the value on the document which is the date value that gets validated
         //in save rules.
-        if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate() != null &&
+        if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null && 
+                timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate() != null &&
                 timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate().equals(aai.getObligationExpirationDate()) &&
                 !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate().equals(awardHierarchyNode.getValue().getObligationExpirationDate())) {
             awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
@@ -430,11 +430,15 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                   awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
                   award.getAwardAmountInfos().add(aai);
           }
+      } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate() == null) {
+          //FYI, this will show an erorr to the user, we are doing this such they can see the error, and that they had put in a null value
+          awardHierarchyNode.getValue().setFinalExpirationDate(null);
       }
       //special case where a user can enter an invalid date that will throw a hard error.  If the user tries to change that date back
       //to the original date, we need to capture that and change the value on the document which is the date value that gets validated
       //in save rules.
       if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null && 
+              timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate() != null &&
               timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(aai.getFinalExpirationDate()) &&
               !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(awardHierarchyNode.getValue().getFinalExpirationDate())) {
           awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
