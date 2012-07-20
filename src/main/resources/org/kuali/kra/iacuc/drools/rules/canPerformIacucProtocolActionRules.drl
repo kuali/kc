@@ -265,7 +265,7 @@ end
 rule "IACUC Acknowledgement"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "206", submissionStatusCode in ("102","103"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "206", submissionStatusCode in ("102","103"), submissionTypeCode == "110")
 then    
     setAction(protocolAction, true);
 end

@@ -116,13 +116,14 @@
             <kra-iacuc-action:createAmendmentAction />
                                           
 <%--                                           
-            <kra-iacuc-action:notifyCommitteeAction />
-            <kra-iacuc-action:genericAction tabTitle="IRB Acknowledgement"
-                                          bean="${KualiForm.actionHelper.protocolIrbAcknowledgementBean}"
-                                          property="actionHelper.protocolIrbAcknowledgementBean"
-                                          taskName="irbAcknowledgement"
-                                          methodToCall="irbAcknowledgement"
-                                          canPerformAction="${KualiForm.actionHelper.canIrbAcknowledgement}" />
+            <kra-iacuc-action:notifyCommitteeAction />--%>
+            <kra-iacuc-action:genericAction tabTitle="IACUC Acknowledgement"
+                                          bean="${KualiForm.actionHelper.iacucAcknowledgeBean}"
+                                          property="actionHelper.iacucAcknowledgeBean"
+                                          taskName="iacucAcknowledgement"
+                                          methodToCall="iacucAcknowledgement"
+                                          canPerformAction="${KualiForm.actionHelper.canIacucAcknowledge}" />
+<%--
             <kra-iacuc-action:modifyAmendmentSectionsAction />
             <kra-iacuc-action:createRenewalWithAmendmentAction />
             <kra-iacuc-action:createRenewalAction />
@@ -476,6 +477,12 @@
 				            	                                     Protocol must be the initial Protocol.
 				                	                                 <p>
 				                    	                             Only PI can perform this action." />
+	            	<kra-iacuc-action:genericUnavailableAction tabTitle="IACUC Acknowledgement"
+				                                         canPerformAction="${KualiForm.actionHelper.canIacucAcknowledgeUnavailable}"
+				                                         reason="Submission status must be Submitted To Committee or In Agenda.
+				                                         		 <p>
+				                                         		 Last Submission must be Notify IACUC" />
+				                    	                             
 		    	</c:if>		   	
 		   	</div>
         </kul:innerTab>
