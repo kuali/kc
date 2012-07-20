@@ -197,6 +197,7 @@ public interface PermissionConstants {
      public static final String MODIFY_IACUC_PROTO_SUBMISSION = "Modify IACUC Protocol Submission";                                       
      public static final String MAINTAIN_IACUC_RESEARCH_AREAS = "Maintain IACUC Research Areas";                                               
      public static final String MAINTAIN_IACUC_REVIEW_COMMENTS = "Maintain IACUC Protocol Review Comments";                                        
+     public static final String MAINTAIN_IACUC_PROTOCOL_SUBMISSIONS = "Maintain IACUC Protocol Submissions";
      public static final String MODIFY_ANY_IACUC_PROTOCOL = "Modify Any IACUC Protocol";                                                    
      public static final String MODIFY_IACUC_PROTOCOL = "Modify IACUC Protocol";                                                          
      public static final String MODIFY_IACUC_PERMISSIONS = "Modify IACUC ProtocolPermissions";

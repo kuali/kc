@@ -149,6 +149,7 @@ public class IacucActionHelper extends ActionHelper {
     protected IacucProtocolAssignCmtBean protocolAssignCmtBean;
     protected IacucProtocolModifySubmissionBean iacucProtocolModifySubmissionBean;
     protected IacucProtocolNotifyIacucBean iacucProtocolNotifyIacucBean;
+    protected IacucProtocolGenericActionBean iacucProtocolDeactivateBean;
     protected IacucProtocolGenericActionBean iacucAcknowledgeBean;
 
 
@@ -164,9 +165,9 @@ public class IacucActionHelper extends ActionHelper {
         iacucProtocolTableBean = new IacucProtocolTableBean(this);
         iacucProtocolModifySubmissionBean = new IacucProtocolModifySubmissionBean(this);
         iacucProtocolNotifyIacucBean = new IacucProtocolNotifyIacucBean(this);
+        protocolFullApprovalBean = buildProtocolApproveBean(getFullApprovalProtocolActionTypeHook(), Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY);
+        iacucProtocolDeactivateBean = this.buildProtocolGenericActionBean(IacucProtocolActionType.REQUEST_DEACTIVATE, Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY);
         iacucAcknowledgeBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucAcknowledgeBean");
-
-
         initIacucSpecificActionBeanTaskMap();
    }
     
@@ -349,6 +350,22 @@ public class IacucActionHelper extends ActionHelper {
         return (IacucProtocol) form.getProtocolDocument().getProtocol();
     }
 
+    public IacucProtocolTableBean getIacucProtocolTableBean() {
+        return iacucProtocolTableBean;
+    }
+
+    public void setIacucProtocolTableBean(IacucProtocolTableBean iacucProtocolTableBean) {
+        this.iacucProtocolTableBean = iacucProtocolTableBean;
+    }
+
+    public IacucProtocolGenericActionBean getIacucProtocolDeactivateBean() {
+        return iacucProtocolDeactivateBean;
+    }
+
+    public void setIacucProtocolDeactivateBean(IacucProtocolGenericActionBean iacucProtocolDeactivateBean) {
+        this.iacucProtocolDeactivateBean = iacucProtocolDeactivateBean;
+    }
+
     /*
      * This will check whether there is submission questionnaire.
      * When business rule is implemented, this will become more complicated because
@@ -454,35 +471,27 @@ public class IacucActionHelper extends ActionHelper {
         return canNotifyIacucUnavailable;
     }
 
-    public boolean getCanDeleteIacucProtocol() {
+    public boolean isCanDeleteIacucProtocol() {
         return canDeleteIacucProtocol;
     }
     
-    public boolean getCanDeleteIacucProtocolUnavailable() {
+    public boolean isCanDeleteIacucProtocolUnavailable() {
         return canDeleteIacucProtocolUnavailable;
     }
     
-    public boolean getCanReviewNotRequired() {
+    public boolean isCanReviewNotRequired() {
         return canReviewNotRequired;
     }
     
-    public boolean getCanReviewNotRequiredUnavailable() {
+    public boolean isCanReviewNotRequiredUnavailable() {
         return canReviewNotRequiredUnavailable;
     }
 
-    public boolean canIacucAcknowledge() {
-        return canIacucAcknowledge;
-    }
-    
-    public boolean canIacucAcknowledgeUnavailable() {
-        return canIacucAcknowledgeUnavailable;
-    }
-    
-    public boolean canIacucRequestDeactivate() {
+    public boolean isCanIacucRequestDeactivate() {
         return canIacucRequestDeactivate;
     }
     
-    public boolean canIacucRequestDeactivateUnavailable() {
+    public boolean isCanIacucRequestDeactivateUnavailable() {
         return canIacucRequestDeactivateUnavailable;
     }
 
@@ -535,8 +544,8 @@ public class IacucActionHelper extends ActionHelper {
         return IacucReviewCommentsService.class;
     }
     
-    protected ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey) {
-        ProtocolGenericActionBean bean = new IacucProtocolGenericActionBean(this, errorPropertyKey);
+    protected IacucProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey) {
+        IacucProtocolGenericActionBean bean = new IacucProtocolGenericActionBean(this, errorPropertyKey);
         
         bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         bean.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(bean.getReviewCommentsBean().getReviewComments()));            

@@ -354,8 +354,8 @@ public interface TaskName {
     public static final String IACUC_PROTOCOL_LIFT_HOLD_UNAVAILABLE = "iacucProtocolLiftHoldUnavailable"; 
     public static final String IACUC_PROTOCOL_REQUEST_LIFT_HOLD = "iacucProtocolRequestLiftHold"; 
     public static final String IACUC_PROTOCOL_REQUEST_LIFT_HOLD_UNAVAILABLE = "iacucProtocolRequestLiftHoldUnavailable"; 
-    public static final String IACUC_PROTOCOL_REQUEST_DEACTIVATE = "iacucProtocolRequestDeactivate"; 
-    public static final String IACUC_PROTOCOL_REQUEST_DEACTIVATE_UNAVAILABLE = "iacucProtocolRequestDeactivateUnavailable"; 
+    public static final String IACUC_PROTOCOL_REQUEST_DEACTIVATE = "iacucProtocolDeactivate"; 
+    public static final String IACUC_PROTOCOL_REQUEST_DEACTIVATE_UNAVAILABLE = "iacucProtocolDeactivateUnavailable"; 
     public static final String MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS = "maintainIacucProtocolOnlineReviews";
     public static final String CREATE_IACUC_PROTOCOL_ONLINEREVIEW = "createIacucProtocolOnlineReview";
     public static final String MODIFY_IACUC_PROTOCOL_ONLINEREVIEW = "modifyIacucProtocolOnlineReview";
@@ -364,7 +364,7 @@ public interface TaskName {
     /**
      * Generic IACUC Action task
      */
-    public static final String GENERIC_IACUC_PROTOCOL_ACTION = "genericProtocolAction";
-    public static final String GENERIC_IACUC_PROTOCOL_ACTION_UNAVAILABLE = "genericProtocolActionUnavailable";
+    public static final String GENERIC_IACUC_PROTOCOL_ACTION = "iacucGenericProtocolAction";
+    public static final String GENERIC_IACUC_PROTOCOL_ACTION_UNAVAILABLE = "iacucGenericProtocolActionUnavailable";
     
 }

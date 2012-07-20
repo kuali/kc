@@ -20,16 +20,16 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
- * Is the user allowed expedite approval?
+ * Is the user allowed expedite approval and the action is currently unavailable?
  */
-public class ExpediteApprovalAuthorizer extends ProtocolAuthorizer {
+public class DeactivateIacucProtocolUnavailableAuthorizer extends ProtocolAuthorizer {
 
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return canExecuteAction(task.getProtocol(), ProtocolActionType.EXPEDITE_APPROVAL) 
-        && kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)
-         && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
+        return (   !canExecuteAction(task.getProtocol(), ProtocolActionType.EXPEDITE_APPROVAL) 
+                || !kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME))
+               && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
     }
 }

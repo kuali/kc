@@ -56,55 +56,54 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
         return actionForward;
     }
     
-//TODO: must revisit for IACUC development
-//    /**
-//     * Adds a Notification Recipient.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return ActionForward
-//     * @throws Exception
-//     */
-//    public ActionForward addNotificationRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//        throws Exception {
-//        
-//        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-//        IacucProtocolDocument document = protocolForm.getProtocolDocument();
-//        NotificationTypeRecipient notificationRecipient = protocolForm.getNotificationHelper().getNewNotificationRecipient();
-//        List<NotificationTypeRecipient> notificationRecipients = protocolForm.getNotificationHelper().getNotificationRecipients();
-//        
-//        if (applyRules(new AddNotificationRecipientEvent(document, notificationRecipient, notificationRecipients))) {
-//            protocolForm.getNotificationHelper().getNotificationRecipients().add(notificationRecipient);
-//            protocolForm.getNotificationHelper().setNewNotificationRecipient(new NotificationTypeRecipient());
-//            protocolForm.getNotificationHelper().setNewRoleId(null);
-//            protocolForm.getNotificationHelper().setNewPersonId(null);
-//            protocolForm.getNotificationHelper().setNewRolodexId(null);
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    /**
-//     * Deletes a Notification Recipient.
-//     * 
-//     * @param mapping the action mapping
-//     * @param form the action form
-//     * @param request the request
-//     * @param response the response
-//     * @return the action forward
-//     * @throws Exception
-//     */
-//    public ActionForward deleteNotificationRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//        throws Exception {
-//
-//        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-//        
-//        protocolForm.getNotificationHelper().getNotificationRecipients().remove(getLineToDelete(request));
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
+    /**
+     * Adds a Notification Recipient.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward addNotificationRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = (IacucProtocolDocument)protocolForm.getProtocolDocument();
+        NotificationTypeRecipient notificationRecipient = protocolForm.getNotificationHelper().getNewNotificationRecipient();
+        List<NotificationTypeRecipient> notificationRecipients = protocolForm.getNotificationHelper().getNotificationRecipients();
+        
+        if (applyRules(new AddNotificationRecipientEvent(document, notificationRecipient, notificationRecipients))) {
+            protocolForm.getNotificationHelper().getNotificationRecipients().add(notificationRecipient);
+            protocolForm.getNotificationHelper().setNewNotificationRecipient(new NotificationTypeRecipient());
+            protocolForm.getNotificationHelper().setNewRoleId(null);
+            protocolForm.getNotificationHelper().setNewPersonId(null);
+            protocolForm.getNotificationHelper().setNewRolodexId(null);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Deletes a Notification Recipient.
+     * 
+     * @param mapping the action mapping
+     * @param form the action form
+     * @param request the request
+     * @param response the response
+     * @return the action forward
+     * @throws Exception
+     */
+    public ActionForward deleteNotificationRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+        throws Exception {
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        
+        protocolForm.getNotificationHelper().getNotificationRecipients().remove(getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     
     /**
      * Sends a Notification.
