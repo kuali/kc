@@ -31,6 +31,7 @@ import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEven
 import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
@@ -38,6 +39,7 @@ import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -139,6 +141,7 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
                     actionForward = mapping.findForward(forwardName);
                 }
             } else {
+                recordProtocolActionSuccess("Send Notification");
                 actionForward = mapping.findForward(PROTOCOL_ACTIONS_TAB);
             }
         }
@@ -289,5 +292,9 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
 
     }
-    
+ 
+    private void recordProtocolActionSuccess(String protocolActionName) {
+        KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED, protocolActionName);
+    }
+
 }
