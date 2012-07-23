@@ -30,9 +30,9 @@ public class DeactivateIacucProtocolUnavailableAuthorizer extends IacucProtocolA
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, IacucProtocolTask task) {        
-System.out.println("\nUUUUU canExecute for deactivate = " + canExecuteAction(task.getProtocol(), IacucProtocolActionType.DEACTIVATE) + 
+System.out.println("\nUUUUU canExecute for deactivate = " + canExecuteAction(task.getProtocol(), IacucProtocolActionType.DEACTIVATED) + 
 ", hasPermission = " + hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO));
-        return !canExecuteAction(task.getProtocol(), IacucProtocolActionType.DEACTIVATE) &&
+        return !canExecuteAction(task.getProtocol(), IacucProtocolActionType.DEACTIVATED) &&
                hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }
 }

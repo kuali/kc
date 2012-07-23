@@ -60,12 +60,12 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
     
     /**{@inheritDoc}**/
     public void suspend(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, IacucProtocolActionType.SUSPEND, IacucProtocolStatus.SUSPENDED);
+        performGenericAction(protocol, actionBean, IacucProtocolActionType.SUSPENDED, IacucProtocolStatus.SUSPENDED);
     }
         
     /**{@inheritDoc}**/
     public void terminate(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, IacucProtocolActionType.TERMINATE, IacucProtocolStatus.TERMINATED);
+        performGenericAction(protocol, actionBean, IacucProtocolActionType.TERMINATED, IacucProtocolStatus.TERMINATED);
     }
     
     /**{@inheritDoc}**/
@@ -75,7 +75,7 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
 
     /**{@inheritDoc}**/
     public void iacucDeactivate(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, IacucProtocolActionType.DEACTIVATE, IacucProtocolStatus.DEACTIVATED);
+        performGenericAction(protocol, actionBean, IacucProtocolActionType.DEACTIVATED, IacucProtocolStatus.DEACTIVATED);
     }
 
     @Override

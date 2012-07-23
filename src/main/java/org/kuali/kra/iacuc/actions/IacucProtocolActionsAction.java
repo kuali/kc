@@ -239,8 +239,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //??        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.NOTICE_OF_DEFERRAL,ProtocolActionType.DEFERRED);
         CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SMR_LETTER, IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED);
         CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SRR_LETTER, IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SUSPENSION_NOTICE, IacucProtocolActionType.SUSPEND);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.TERMINATION_NOTICE, IacucProtocolActionType.TERMINATE);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SUSPENSION_NOTICE, IacucProtocolActionType.SUSPENDED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.TERMINATION_NOTICE, IacucProtocolActionType.TERMINATED);
     }
 
  
