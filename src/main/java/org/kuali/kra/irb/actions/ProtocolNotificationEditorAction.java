@@ -31,6 +31,7 @@ import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEven
 import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -40,6 +41,7 @@ import org.kuali.kra.irb.actions.notification.DeleteReviewNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -141,6 +143,7 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
                     actionForward = mapping.findForward(forwardName);
                 }
             } else {
+                recordProtocolActionSuccess("Send Notification");
                 actionForward = mapping.findForward("protocolActions");
             }
         }
@@ -289,5 +292,10 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
 
     }
+ 
+    private void recordProtocolActionSuccess(String protocolActionName) {
+        KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED, protocolActionName);
+    }
     
+
 }
