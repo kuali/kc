@@ -51,4 +51,9 @@ public class IacucProtocolSpecialReviewHelper extends ProtocolSpecialReviewHelpe
         setNewSpecialReview(new IacucProtocolSpecialReview());
     }
 
+    @Override
+    protected boolean isCanCreateProtocol() {
+        return false;
+    }
+
 }
