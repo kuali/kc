@@ -97,11 +97,11 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl im
             IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN,
             IacucProtocolActionType.IACUC_DISAPPROVED,
             IacucProtocolActionType.EXPIRED,
-            IacucProtocolActionType.DEACTIVATED,
-            IacucProtocolActionType.ADMINISTRATIVELY_DEACTIVATED ,
+            IacucProtocolActionType.DEACTIVATE,
+            IacucProtocolActionType.ADMINISTRATIVELY_DEACTIVATE ,
             IacucProtocolActionType.HOLD ,
-            IacucProtocolActionType.TERMINATED,
-            IacucProtocolActionType.SUSPENDED  };     
+            IacucProtocolActionType.TERMINATE,
+            IacucProtocolActionType.SUSPEND  };     
     
     
     public String getPerformActionFileNameHook() {     

@@ -338,6 +338,15 @@
                 <bean class="org.kuali.kra.iacuc.auth.IacucAcknowledgeUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                 	<property name="taskName" value="iacucAcknowledgementUnavailable"/>
                 </bean>
+
+                <bean class="org.kuali.kra.iacuc.auth.RequestDeactivateIacucProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucProtocolRequestDeactivate" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.RequestDeactivateIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucProtocolRequestDeactivateUnavailable" />
+                </bean>   
+                
            </list>
         </property>
     </bean>

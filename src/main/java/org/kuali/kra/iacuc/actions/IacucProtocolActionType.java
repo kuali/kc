@@ -65,11 +65,11 @@ public class IacucProtocolActionType extends ProtocolActionType {
     public static final String ADMINISTRATIVELY_WITHDRAWN = "300";
     public static final String IACUC_DISAPPROVED = "301";
     public static final String EXPIRED = "302";
-    public static final String DEACTIVATED = "303";
-    public static final String ADMINISTRATIVELY_DEACTIVATED = "304"; 
+    public static final String DEACTIVATE = "303";
+    public static final String ADMINISTRATIVELY_DEACTIVATE = "304"; 
     public static final String HOLD = "305"; 
-    public static final String TERMINATED = "306"; 
-    public static final String SUSPENDED = "307";     
+    public static final String TERMINATE = "306"; 
+    public static final String SUSPEND = "307";     
     public static final String MODIFY_PROTOCOL_SUBMISSION = "309";
     public static final String MANAGE_REVIEW_COMMENTS = "310";
 
