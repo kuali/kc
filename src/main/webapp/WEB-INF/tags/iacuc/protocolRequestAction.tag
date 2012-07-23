@@ -140,30 +140,20 @@
                                           taskName="protocolRequestClose"
                                           actionTypeCode="105" 
                                           tabTitle="Request To Close"/>
+--%>                                          
+            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.iacucProtocolDeactivateRequestBean}"
+                                          permission="${KualiForm.actionHelper.canIacucRequestDeactivate}"
+                                          taskName="iacucProtocolRequestDeactivate"
+                                          beanName="iacucProtocolDeactivateRequestBean"
+                                          actionTypeCode="107"
+                                          tabTitle="Request to Deactivate"/>
+<%--                                          
             <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolSuspendRequestBean}"
                                           permission="${KualiForm.actionHelper.canRequestSuspension}"
                                           beanName="protocolSuspendRequestBean"
                                           taskName="protocolRequestSuspension"
                                           actionTypeCode="106"
                                           tabTitle="Request for Suspension"/>
-            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolCloseEnrollmentRequestBean}"
-                                          permission="${KualiForm.actionHelper.canRequestCloseEnrollment}"
-                                          taskName="protocolRequestCloseEnrollment"
-                                          beanName="protocolCloseEnrollmentRequestBean"
-                                          actionTypeCode="108"
-                                          tabTitle="Request to Close Enrollment"/>
-            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolReOpenEnrollmentRequestBean}"
-                                          permission="${KualiForm.actionHelper.canRequestReOpenEnrollment}"
-                                          beanName="protocolReOpenEnrollmentRequestBean"
-                                          taskName="protocolRequestReOpenEnrollment"
-                                          actionTypeCode="115"
-                                          tabTitle="Request to Re-open Enrollment"/>
-            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolDataAnalysisRequestBean}"
-                                          permission="${KualiForm.actionHelper.canRequestDataAnalysis}"
-                                          beanName="protocolDataAnalysisRequestBean"
-                                          taskName="protocolRequestDataAnalysis"
-                                          actionTypeCode="114"
-                                          tabTitle="Request for Data Analysis Only"/>
             <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolTerminateRequestBean}"
                                           permission="${KualiForm.actionHelper.canRequestTerminate}"
                                           beanName="protocolTerminateRequestBean"
@@ -171,7 +161,6 @@
                                           actionTypeCode="104"
                                           tabTitle="Request for Termination"/>
 --%>                                          
-                                            
             <kra-protocol-action:deleteAction attributes="${DataDictionary.IacucProtocolDeleteBean.attributes}"
             							  action="iacucProtocolProtocolActions"/>
 <%--            
@@ -407,6 +396,11 @@
 					                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Suspended by Investigator, or Suspended by IACUC.
 				    	                                             <p>
 				        	                                         Submission Type is Request to Close, Request for Suspension, Request to Close Enrollment, Request for Termination, Request for Data Analysis Only, or Request for Re-open Enrollment." />
+		            <kra-iacuc-action:genericUnavailableAction tabTitle="Request To Deactivate"
+		                                                     canPerformAction="${KualiForm.actionHelper.canIacucRequestDeactivateUnavailable}"
+					                                         reason="Not sure yet what goes here...
+					                                                 <p>
+					                                                 Or here." />
 --%>
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Request for Termination"
 	                	                                     canPerformAction="${KualiForm.actionHelper.canRequestTerminateUnavailable}"
