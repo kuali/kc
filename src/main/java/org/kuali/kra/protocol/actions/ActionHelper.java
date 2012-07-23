@@ -2741,14 +2741,13 @@ public abstract class ActionHelper implements Serializable {
     }
     
     
-// TODO *********commented the code below during IACUC refactoring*********  
-//    public void setCurrentTask(String currentTaskName) {
-//        this.currentTaskName = currentTaskName;
-//    }
-//    
-//    public String getCurrentTask() {
-//        return currentTaskName;
-//    }
+    public void setCurrentTask(String currentTaskName) {
+        this.currentTaskName = currentTaskName;
+    }
+    
+    public String getCurrentTask() {
+        return currentTaskName;
+    }
     
     
     /**

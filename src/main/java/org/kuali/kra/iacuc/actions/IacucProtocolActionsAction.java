@@ -46,6 +46,7 @@ import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.abandon.IacucProtocolAbandonService;
 import org.kuali.kra.iacuc.actions.amendrenew.CreateIacucAmendmentEvent;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewService;
+import org.kuali.kra.iacuc.actions.amendrenew.ModifyIacucAmendmentSectionsEvent;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveBean;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveEvent;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveService;
@@ -118,13 +119,9 @@ import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolActionType;
 import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
-import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
-import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionEvent;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
-import org.kuali.kra.protocol.actions.request.ProtocolRequestBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
-import org.kuali.kra.protocol.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
@@ -834,39 +831,40 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
 
-//    /**
-//     * Modify an Amendment.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    @SuppressWarnings("unchecked")
-//    public ActionForward modifyAmendmentSections(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-//        protocolForm.getActionHelper().setCurrentTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS);
-//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, protocol);
-//        if (isAuthorized(task)) {
-//            if (!applyRules(new ModifyAmendmentSectionsEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_MODIFY_AMENDMENT_KEY,
-//                protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
-//                return mapping.findForward(Constants.MAPPING_BASIC);
-//            }
-//        
-//            getProtocolAmendRenewService().updateAmendmentRenewal(protocolForm.getProtocolDocument(), 
-//                    protocolForm.getActionHelper().getProtocolAmendmentBean());
-//            
-//            return save(mapping, protocolForm, request, response);
-//        }
-//            
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
+    /**
+     * Modify an Amendment.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public ActionForward modifyAmendmentSections(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument protocolDocument = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = protocolDocument.getIacucProtocol();
+        protocolForm.getActionHelper().setCurrentTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS);
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, protocol);
+        if (isAuthorized(task)) {
+            if (!applyRules(new ModifyIacucAmendmentSectionsEvent(protocolDocument, Constants.PROTOCOL_MODIFY_AMENDMENT_KEY,
+                protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
+        
+            getProtocolAmendRenewService().updateAmendmentRenewal(protocolForm.getProtocolDocument(), 
+                    protocolForm.getActionHelper().getProtocolAmendmentBean());
+            
+            return save(mapping, protocolForm, request, response);
+        }
+            
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    
 //    /**
 //     * Create a Renewal without an Amendment.
 //     * 
