@@ -70,5 +70,10 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<InstitutionalPr
     protected List<InstitutionalProposalSpecialReview> getSpecialReviews() {
         return form.getInstitutionalProposalDocument().getInstitutionalProposal().getSpecialReviews();
     }
+
+    @Override
+    public boolean isCanCreateProtocol() {
+        return false;
+    }
     
 }

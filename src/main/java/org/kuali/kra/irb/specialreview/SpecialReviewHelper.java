@@ -72,5 +72,10 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecial
     public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
         this.taskAuthorizationService = taskAuthorizationService;
     }
+
+    @Override
+    public boolean isCanCreateProtocol() {
+        return false;
+    }
     
 }
