@@ -44,9 +44,11 @@ import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
 import org.kuali.kra.iacuc.actions.notifycommittee.IacucProtocolNotifyCommitteeBean;
 import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucBean;
+import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
@@ -139,11 +141,21 @@ public class IacucActionHelper extends ActionHelper {
     private boolean canTableUnavailable = false;
     private boolean canIacucAcknowledge = false;
     private boolean canIacucAcknowledgeUnavailable = false;
+    private boolean canIacucDeactivate = false;
+    private boolean canIacucDeactivateUnavailable = false;
     private boolean canIacucRequestDeactivate = false;
     private boolean canIacucRequestDeactivateUnavailable = false;
+    private boolean canAddDeactivateReviewerComments = false;
+
     private boolean canAssignCmt = false;
     private boolean canAssignCmtUnavailable = false;
     
+    // indicator for whether there is submission questionnaire answer exist.
+    // ie, questionnaire has been saved for a request/notify irb action
+    private boolean submissionQuestionnaireExist;
+    // check if there is submission questionnaire to answer
+    private boolean toAnswerSubmissionQuestionnaire;
+
     // action beans that are specific to IACUC
     protected IacucProtocolTableBean iacucProtocolTableBean;
     protected IacucProtocolAssignCmtBean protocolAssignCmtBean;
@@ -151,7 +163,8 @@ public class IacucActionHelper extends ActionHelper {
     protected IacucProtocolNotifyIacucBean iacucProtocolNotifyIacucBean;
     protected IacucProtocolGenericActionBean iacucProtocolDeactivateBean;
     protected IacucProtocolGenericActionBean iacucAcknowledgeBean;
-
+    
+    protected IacucProtocolRequestBean iacucProtocolDeactivateRequestBean;
 
     /**
      * Constructs an ActionHelper.
@@ -168,6 +181,8 @@ public class IacucActionHelper extends ActionHelper {
         protocolFullApprovalBean = buildProtocolApproveBean(getFullApprovalProtocolActionTypeHook(), Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY);
         iacucProtocolDeactivateBean = this.buildProtocolGenericActionBean(IacucProtocolActionType.REQUEST_DEACTIVATE, Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY);
         iacucAcknowledgeBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucAcknowledgeBean");
+        iacucProtocolDeactivateRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.REQUEST_DEACTIVATE,
+                IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE, "iacucProtocolDeactivateRequestBean");
         initIacucSpecificActionBeanTaskMap();
    }
     
@@ -183,7 +198,9 @@ public class IacucActionHelper extends ActionHelper {
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_TABLE, iacucProtocolTableBean);
         actionBeanTaskMap.put(TaskName.IACUC_NOTIFY_IACUC, iacucProtocolNotifyIacucBean);
         actionBeanTaskMap.put(TaskName.IACUC_ACKNOWLEDGEMENT, iacucAcknowledgeBean);
-    }
+        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_DEACTIVATE, iacucProtocolDeactivateBean);
+        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE, iacucProtocolDeactivateRequestBean);
+}
 
         
     public IacucProtocolAssignCmtBean getProtocolAssignCmtBean() {
@@ -293,6 +310,8 @@ public class IacucActionHelper extends ActionHelper {
         canIacucAcknowledgeUnavailable = hasPermission(TaskName.IACUC_ACKNOWLEDGEMENT_UNAVAILABLE);
         canIacucRequestDeactivate = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE);
         canIacucRequestDeactivateUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE_UNAVAILABLE);
+        canIacucDeactivate = hasPermission(TaskName.IACUC_PROTOCOL_DEACTIVATE);
+        canIacucDeactivateUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_DEACTIVATE_UNAVAILABLE);
         
         canDesignatedMemberApproval = hasPermission(TaskName.IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL);
         canDesignatedMemberApprovalUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL_UNAVAILABLE);
@@ -310,11 +329,19 @@ public class IacucActionHelper extends ActionHelper {
         canTableUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_TABLE_UNAVAILABLE);
         canAssignCmt = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE);
         canAssignCmtUnavailable = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE_UNAVAILABLE);
+        canAddDeactivateReviewerComments = hasDeactivateRequestLastAction();
 
         initSummaryDetails();
 
     }
  
+    
+    /**
+     * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
+     */
+    public void prepareCommentsView() {
+        iacucProtocolDeactivateBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+    }
 
 
     public static boolean hasAssignCmtSchedPermission(String userId, String protocolNumber) {
@@ -1061,6 +1088,81 @@ public class IacucActionHelper extends ActionHelper {
     protected ProtocolTask getModifyAmendmentSectionsUnavailableProtocolUnavailableTaskInstanceHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS_UNAVAILABLE, (IacucProtocol) protocol);
     }
+
+    private boolean hasDeactivateRequestLastAction() {
+        return IacucProtocolActionType.REQUEST_DEACTIVATE.equals(getLastPerformedAction().getProtocolActionTypeCode());
+    }
+
+
+    public boolean isCanIacucDeactivate() {
+        return canIacucDeactivate;
+    }
+
+
+    public void setCanIacucDeactivate(boolean canIacucDeactivate) {
+        this.canIacucDeactivate = canIacucDeactivate;
+    }
+
+
+    public boolean isCanIacucDeactivateUnavailable() {
+        return canIacucDeactivateUnavailable;
+    }
+
+
+    public void setCanIacucDeactivateUnavailable(boolean canIacucDeactivateUnavailable) {
+        this.canIacucDeactivateUnavailable = canIacucDeactivateUnavailable;
+    }
+
+
+    public boolean isCanAddDeactivateReviewerComments() {
+        return canAddDeactivateReviewerComments;
+    }
+
+
+    public void setCanAddDeactivateReviewerComments(boolean canAddDeactivateReviewerComments) {
+        this.canAddDeactivateReviewerComments = canAddDeactivateReviewerComments;
+    }
+
+
+    public IacucProtocolRequestBean getIacucProtocolDeactivateRequestBean() {
+        return iacucProtocolDeactivateRequestBean;
+    }
+
+
+    public void setIacucProtocolDeactivateRequestBean(IacucProtocolRequestBean iacucProtocolDeactivateRequestBean) {
+        this.iacucProtocolDeactivateRequestBean = iacucProtocolDeactivateRequestBean;
+    }
+
+
+    public void setCanIacucRequestDeactivate(boolean canIacucRequestDeactivate) {
+        this.canIacucRequestDeactivate = canIacucRequestDeactivate;
+    }
+
+
+    public void setCanIacucRequestDeactivateUnavailable(boolean canIacucRequestDeactivateUnavailable) {
+        this.canIacucRequestDeactivateUnavailable = canIacucRequestDeactivateUnavailable;
+    }
+
+
+    public boolean isSubmissionQuestionnaireExist() {
+        return submissionQuestionnaireExist;
+    }
+
+
+    public void setSubmissionQuestionnaireExist(boolean submissionQuestionnaireExist) {
+        this.submissionQuestionnaireExist = submissionQuestionnaireExist;
+    }
+
+
+    public boolean isToAnswerSubmissionQuestionnaire() {
+        return toAnswerSubmissionQuestionnaire;
+    }
+
+
+    public void setToAnswerSubmissionQuestionnaire(boolean toAnswerSubmissionQuestionnaire) {
+        this.toAnswerSubmissionQuestionnaire = toAnswerSubmissionQuestionnaire;
+    }
+
 
 }
 
