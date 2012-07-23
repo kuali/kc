@@ -32,17 +32,16 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
      * deactivate protocol generic action.
      */
     public static final String DEACTIVATE_PROTOCOL = "iacucProtocolDeactivate";
-    
+    public static final String EXPIRE_PROTOCOL = "iacucProtocolExpire";
+    public static final String SUSPEND_PROTOCOL = "iacucProtocolSuspend";
+    public static final String TERMINATE_PROTOCOL = "iacucProtocolDeactivate";
+
     private static final Map<String, String> TASK_NAME_TO_ACTION_TYPE_MAP = new HashMap<String,String>();
     static {
-        TASK_NAME_TO_ACTION_TYPE_MAP.put(DEACTIVATE_PROTOCOL, IacucProtocolActionType.REQUEST_DEACTIVATE);
-//        TASK_NAME_TO_ACTION_TYPE_MAP.put(CLOSE_ENROLLMENT_PROTOCOL, ProtocolActionType.CLOSED_FOR_ENROLLMENT);
-//        TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_PROTOCOL, ProtocolActionType.EXPIRED);
-//        TASK_NAME_TO_ACTION_TYPE_MAP.put(PERMIT_DATA_ANALYSIS, ProtocolActionType.DATA_ANALYSIS_ONLY);
-//        TASK_NAME_TO_ACTION_TYPE_MAP.put(REOPEN_PROTOCOL, ProtocolActionType.REOPEN_ENROLLMENT);
-//        TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_PROTOCOL, ProtocolActionType.SUSPENDED);
-//        TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_PROTOCOL_BY_DSMB, ProtocolActionType.SUSPENDED_BY_DSMB);
-//        TASK_NAME_TO_ACTION_TYPE_MAP.put(TERMINATE_PROTOCOL, ProtocolActionType.TERMINATED);     
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(DEACTIVATE_PROTOCOL, IacucProtocolActionType.DEACTIVATED);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_PROTOCOL, IacucProtocolActionType.EXPIRED);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_PROTOCOL, IacucProtocolActionType.SUSPENDED);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(TERMINATE_PROTOCOL, IacucProtocolActionType.TERMINATED);     
     }
     
     private static final String ERROR_MESSAGE = "Please set genericTaskName with one of the static strings in this class.";

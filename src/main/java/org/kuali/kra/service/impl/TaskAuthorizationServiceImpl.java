@@ -50,9 +50,6 @@ public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
         String groupName = task.getGroupName();
         for (TaskAuthorizerGroup taskAuthorizerGroup : getTaskAuthorizerGroups()) {
             if (StringUtils.equals(taskAuthorizerGroup.getGroupName(), groupName)) {
-if (groupName.equals("iacucProtocol")) {
-    System.out.println("IIIIIIII, taskName = " + task.getGenericTaskName());
-}
                 TaskAuthorizer taskAuthorizer;
                 if (task.getGenericTaskName() == null || "".equals(task.getGenericTaskName().trim())) {
                     taskAuthorizer = taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName()); 
