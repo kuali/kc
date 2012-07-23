@@ -70,5 +70,10 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<AwardSpecialRev
     protected List<AwardSpecialReview> getSpecialReviews() {
         return form.getAwardDocument().getAward().getSpecialReviews();
     }
+ 
+    @Override
+     public boolean isCanCreateProtocol() {
+        return false;
+    }
     
 }

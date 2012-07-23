@@ -31,11 +31,10 @@
 <c:set var="enableIrbProtocolLinking" value="${KualiForm.specialReviewHelper.isIrbProtocolLinkingEnabled}" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.SPECIAL_REVIEW_COMMENT_LENGTH%>" />
 <c:if test="${enableIrbProtocolLinking}">
-	<c:set var="allowCreateProtocol" value="${KualiForm.specialReviewHelper.createIrbProtocol}" />
-
+	<c:set var="canCreateProtocol" value="${KualiForm.specialReviewHelper.canCreateProtocol}" />
 </c:if>
 <c:if test="!${enableIrbProtocolLinking}">
-	<c:set var="allowCreateProtocol" value="false" />
+	<c:set var="canCreateProtocol" value="false" />
 </c:if>
 
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="specialReviewHelper.newSpecialReview*,${collectionProperty}*">
@@ -129,7 +128,7 @@
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
 						            styleClass="tinybutton"/>
 
-					            <c:if test="${allowCreateProtocol}">
+					            <c:if test="${canCreateProtocol}">
 		                            <span id="specialReviewHelper.newSpecialReview.startprotocol.image.div" style="${initialStyle}">
 					                            <html:image property="methodToCall.createProtocol.anchor${tabKey}"
 					                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-startprotocol.gif' 

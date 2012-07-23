@@ -317,5 +317,6 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     public void setSpecialReviewService(SpecialReviewService specialReviewService) {
         this.specialReviewService = specialReviewService;
     }
-    
+
+    protected abstract boolean isCanCreateProtocol();
 }
