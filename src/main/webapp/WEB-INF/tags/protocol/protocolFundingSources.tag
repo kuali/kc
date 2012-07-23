@@ -119,10 +119,12 @@
 	                            title="Add protocol funding source"
 	                            styleClass="tinybutton"/>
 					            <c:if test="${allowCreateProposal}">
-		                            <html:image property="methodToCall.createProposalDevelopment.anchor${tabKey}"
-		                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-startproposal.gif' 
-	    	                        title="Create Proposal Development"
-	        	                    styleClass="tinybutton"/>
+       								<div id="protocolHelper.newFundingSource.fundingSourceTypeCode.startproposal.image.div" style="${sourceNameDisplayStyle}">
+			                            <html:image property="methodToCall.createProposalDevelopment.anchor${tabKey}"
+			                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-startproposal.gif' 
+		    	                        title="Create Proposal Development"
+		        	                    styleClass="tinybutton"/>
+	        	                    </div>
 	        	                </c:if>
 	                        </div>
 	                </td>
