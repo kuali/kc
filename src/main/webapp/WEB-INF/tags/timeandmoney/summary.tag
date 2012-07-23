@@ -302,10 +302,17 @@
 	        	<td style="text-align: center;">
 	        		<c:forEach var="leadUnit" items="${KualiForm.awardForSummaryPanelDisplay.principalInvestigator.units}" varStatus="status">
 	        			<c:out value="${KualiForm.awardForSummaryPanelDisplay.principalInvestigator.units[status.index].unit.unitName}" />	        			
-        				<c:if test="${KualiForm.awardForSummaryPanelDisplay.principalInvestigator.units[status.index].leadUnit}" >
+        				<c:if test="${KualiForm.awardForSummaryPanelDisplay.principalInvestigator.units[status.index].leadUnit}" >        				
         					(Lead Unit)
         				</c:if>
-	        		</c:forEach>
+						<c:if test="${KualiForm.awardForSummaryPanelDisplay.principalInvestigator.person != null}" >
+						 <c:if test="${KualiForm.awardForSummaryPanelDisplay.principalInvestigator.person.unit != null}" >
+						           <br/>
+							<c:out value="${KualiForm.awardForSummaryPanelDisplay.principalInvestigator.person.unit.unitName}"></c:out>
+						</c:if>
+						</c:if>
+					</c:forEach>
+	        		
 	        	</td>
 	        </tr>
 	        
