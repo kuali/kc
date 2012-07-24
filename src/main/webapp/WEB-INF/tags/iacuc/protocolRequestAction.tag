@@ -127,6 +127,7 @@
                                           canPerformAction="${KualiForm.actionHelper.canHold}" />                                          
             <kra-iacuc-action:createAmendmentAction />
             <kra-iacuc-action:modifyAmendmentSectionsAction />
+            <kra-iacuc-action:makeAdminCorrectionAction />
                                           
 <%--                                           
             <kra-iacuc-action:notifyCommitteeAction />--%>
@@ -170,7 +171,6 @@
             <kra-protocol-action:deleteAction attributes="${DataDictionary.IacucProtocolDeleteBean.attributes}"
             							  action="iacucProtocolProtocolActions"/>
 <%--            
-            <kra-iacuc-action:makeAdminCorrectionAction />
             <kra-iacuc-action:genericAction tabTitle="Close Enrollment"
                                           bean="${KualiForm.actionHelper.protocolCloseEnrollmentBean}"
                                           property="actionHelper.protocolCloseEnrollmentBean"

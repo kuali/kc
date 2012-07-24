@@ -148,6 +148,14 @@
                     <property name="taskName" value="modifyIacucAmendmentSectionsUnavailable" />
                 </bean>
 
+                <bean class="org.kuali.kra.iacuc.auth.IacucAdminCorrectionProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucProtocolAdminCorrection" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucAdminCorrectionProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="iacucProtocolAdminCorrectionUnavailable" />
+                </bean>
+
                 <bean class="org.kuali.kra.iacuc.auth.CreateIacucRenewalAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="createIacucRenewal" />
                 </bean>                          
@@ -928,5 +936,16 @@
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
+
+     <bean id="iacucAdminCorrectionService" class="org.kuali.kra.iacuc.actions.correction.IacucAdminCorrectionServiceImpl">
+        <property name="sendNotificationService" ref="sendNotificationService" />
+        <property name="notificationTemplates">
+			<list>
+			    <value>/org/kuali/kra/protocol/admincorrection_notification.xml</value>
+            </list>
+		</property>
+    </bean>   
+
+
 
 </beans>

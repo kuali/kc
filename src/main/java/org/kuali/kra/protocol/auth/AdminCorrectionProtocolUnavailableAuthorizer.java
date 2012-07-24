@@ -15,19 +15,21 @@
  */
 package org.kuali.kra.protocol.auth;
 
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
  * Is the user allowed to administratively correct a protocol and the action is currently unavailable?
  */
-public class AdminCorrectionProtocolUnavailableAuthorizer extends ProtocolAuthorizer {
+public abstract class AdminCorrectionProtocolUnavailableAuthorizer extends ProtocolAuthorizer {
 
     /**
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return !canExecuteAction(task.getProtocol(), ProtocolActionType.ADMINISTRATIVE_CORRECTION) &&
-               hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
+        return !canExecuteAction(task.getProtocol(), getActionTypeAdminCorrectionHook()) &&
+               hasPermission(userId, task.getProtocol(), getPermissionMaintainProtocolSubmissionHook());
     }
+
+    protected abstract String getActionTypeAdminCorrectionHook();
+    protected abstract String getPermissionMaintainProtocolSubmissionHook();
+
 }
