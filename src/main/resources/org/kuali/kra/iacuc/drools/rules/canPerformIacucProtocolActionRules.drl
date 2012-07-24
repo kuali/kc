@@ -41,6 +41,14 @@ then
     setAction(protocolAction, true);
 end
 
+rule "Deactivate Protocol"
+salience 100
+when
+	protocolAction : IacucProtocolActionMapping(actionTypeCode == "303", submissionStatusCode in ("200","201"))
+then	
+	setAction(protocolAction, true);
+end
+
 rule "Hold"
 salience 100
 when
