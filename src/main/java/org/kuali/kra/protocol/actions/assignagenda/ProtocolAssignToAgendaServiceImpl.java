@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.actions.assignagenda;
 import java.sql.Timestamp;
 import java.util.Iterator;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
@@ -198,7 +198,7 @@ public abstract class ProtocolAssignToAgendaServiceImpl implements ProtocolAssig
     public String getAssignedCommitteeName(Protocol protocol) {
         String committeeID = getAssignedCommitteeId(protocol);
         if (committeeID != null) {
-            Committee com = this.committeeService.getCommitteeById(committeeID);
+            CommonCommittee com = this.committeeService.getCommitteeById(committeeID);
             if (com != null) {
                 String committeeName = com.getCommitteeName();
                 return committeeName;

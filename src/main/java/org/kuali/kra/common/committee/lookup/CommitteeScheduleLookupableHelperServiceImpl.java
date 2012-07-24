@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
@@ -66,7 +66,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
     // committee PK list before querying the database via BOService.
     // (See replacement for this method in ResearchAreaReferencesDaoOjb if efficiency becomes a concern)
     // NOTE: this method modifies the state of this object by updating two instance fields.
-    private boolean isCurrentVersion(Committee committee) {
+    private boolean isCurrentVersion(CommonCommittee committee) {
         boolean retValue = false;
         if (this.activeCommitteePKs.contains(committee.getId())) {
             retValue = true;
@@ -79,7 +79,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
                 Map<String, String> fieldValues = new HashMap<String, String>();
                 fieldValues.put(COMMITTEE_ID, committee.getCommitteeId());
                 @SuppressWarnings("unchecked")
-                List<Committee> committees = (List<Committee>) this.getBusinessObjectService().findMatchingOrderBy(Committee.class, fieldValues, SEQUENCE_NUMBER, false);
+                List<CommonCommittee> committees = (List<CommonCommittee>) this.getBusinessObjectService().findMatchingOrderBy(CommonCommittee.class, fieldValues, SEQUENCE_NUMBER, false);
                 if ( (committees != null) && (!committees.isEmpty()) ) {
                     // check the first element with the argument
                     if(committees.get(0).equals(committee)) {
@@ -89,7 +89,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
                     this.activeCommitteePKs.add(committees.get(0).getId());
                     // update the inactive list, add the remaining elements PK
                     committees.remove(0);
-                    for(Committee cmt: committees) {                    
+                    for(CommonCommittee cmt: committees) {                    
                         this.inActiveCommitteePKs.add(cmt.getId());
                     }
                 }                

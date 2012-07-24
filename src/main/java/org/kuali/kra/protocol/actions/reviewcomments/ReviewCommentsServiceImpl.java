@@ -30,7 +30,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
@@ -203,7 +203,7 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
     protected boolean isCurrentMinuteEntry(CommitteeScheduleMinute minute) {
         minute.refreshReferenceObject("committeeSchedule");
         if (minute.getCommitteeSchedule() != null) {
-            Committee committee = committeeService.getCommitteeById(minute.getCommitteeSchedule().getCommittee().getCommitteeId());
+            CommonCommittee committee = committeeService.getCommitteeById(minute.getCommitteeSchedule().getCommittee().getCommitteeId());
             return committee.getId().equals(minute.getCommitteeSchedule().getCommittee().getId());
         }
         else {

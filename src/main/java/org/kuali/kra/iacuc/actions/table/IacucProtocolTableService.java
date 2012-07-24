@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.table;
 
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 
@@ -29,7 +29,7 @@ public interface IacucProtocolTableService {
      * @param schedule
      * @return the next schedule in order of schedule date, or null if there is no next schedule.
      */
-    public CommitteeSchedule getNextScheduleForCommittee(Committee committee, CommitteeSchedule schedule);
+    public CommitteeSchedule getNextScheduleForCommittee(CommonCommittee committee, CommitteeSchedule schedule);
     
     
     

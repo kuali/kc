@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -38,7 +38,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * The document is necessary for workflow.
  */
 @SuppressWarnings("serial")
-public class CommitteeDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
+public class CommonCommitteeDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
 
 	private static final String DOCUMENT_TYPE_CODE = "COMT";
 
@@ -52,13 +52,13 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
      * relationships within OJB in regards to anonymous keys.  We are
      * forced to use a one-to-many relationship.
      */
-    private List<Committee> committeeList = new ArrayList<Committee>();
+    private List<CommonCommittee> committeeList = new ArrayList<CommonCommittee>();
     
     /**
      * Constructs a CommitteeDocument object
      */
-    public CommitteeDocument() {
-        Committee committee = new Committee();
+    public CommonCommitteeDocument() {
+        CommonCommittee committee = new CommonCommittee();
         committeeList.add(committee);
         committee.setCommitteeDocument(this);
     }
@@ -74,7 +74,7 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
      * obtaining the single Committee BO in the list.
      * @return the Committee BO
      */
-    public Committee getCommittee() {
+    public CommonCommittee getCommittee() {
         return committeeList.get(0);
     }
 
@@ -83,7 +83,7 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
      * insert the committee into the list.
      * @param committee the Committee BO
      */
-    public void setCommittee(Committee committee) {
+    public void setCommittee(CommonCommittee committee) {
         committeeList.set(0, committee);
     }
 
@@ -93,7 +93,7 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
      *          This method is for OJB use only.
      * @return the list with the single committee
      */
-    public List<Committee> getCommitteeList() {
+    public List<CommonCommittee> getCommitteeList() {
         return committeeList;
     }
 
@@ -103,7 +103,7 @@ public class CommitteeDocument extends ResearchDocumentBase implements Copyable,
      *          This method is for OJB use only.
      * @param committeeList the list containing the single committee
      */
-    public void setCommitteeList(List<Committee> committeeList) {
+    public void setCommitteeList(List<CommonCommittee> committeeList) {
         this.committeeList = committeeList;
     }
 

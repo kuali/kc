@@ -69,7 +69,7 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
     private boolean availableToReviewers;
 	
 // TODO : recursive reference    
-	private Committee committee; 
+	private CommonCommittee committee; 
     private ScheduleStatus scheduleStatus;
     
     //TODO revisit required during meeting management to map Protocol
@@ -257,14 +257,14 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
         this.availableToReviewers = availableToReviewers;
     }
 
-    public Committee getCommittee() {
+    public CommonCommittee getCommittee() {
         if (committee == null && getCommitteeIdFk() == null) {
-            committee = new Committee();
+            committee = new CommonCommittee();
         }
         return committee;
 	}
 
-	public void setCommittee(Committee committee) {
+	public void setCommittee(CommonCommittee committee) {
 		this.committee = committee;
 	}
 
@@ -534,7 +534,7 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
      */
     public boolean isActiveFor(String personId) {
         boolean retVal = false;
-        Committee parentCommittee = this.getCommittee();
+        CommonCommittee parentCommittee = this.getCommittee();
         if(parentCommittee != null){
             CommitteeMembership member = parentCommittee.getCommitteeMembershipFor(personId);
             if(member != null) {

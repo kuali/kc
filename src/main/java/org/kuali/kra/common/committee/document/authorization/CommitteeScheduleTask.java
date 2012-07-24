@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.document.authorization;
 
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 
 /**
@@ -30,7 +30,7 @@ public class CommitteeScheduleTask extends CommitteeTask {
 
     protected CommitteeSchedule schedule;
     
-    public CommitteeScheduleTask(String taskName, Committee committee, CommitteeSchedule schedule) {
+    public CommitteeScheduleTask(String taskName, CommonCommittee committee, CommitteeSchedule schedule) {
         super(taskName, committee);
         this.schedule = schedule;
     }

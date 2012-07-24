@@ -28,7 +28,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.print.CommitteeXmlStream;
 import org.kuali.kra.common.committee.print.PrintXmlUtilService;
@@ -284,7 +284,7 @@ public abstract class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         submission.setCurrentSubmissionFlag(currentFlag);
         setMinutes(submissionInfoBean, submission);
         if (submissionInfoBean.getCommitteeId() != null) {
-            Committee committee = submissionInfoBean.getCommittee();            
+            CommonCommittee committee = submissionInfoBean.getCommittee();            
             getCommitteeXmlStream().setCommitteeMasterData(committee, submission.addNewCommitteeMasterData());
             getCommitteeXmlStream().setCommitteeMembers(committee, submission);
         }

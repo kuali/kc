@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.common.committee.rule.event;
 
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
@@ -25,7 +25,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 /**
  * 
  * This class represents the event when a <code>{@link CommitteeMembership}</code> is added to a 
- * <code>{@link Committee}</code>.
+ * <code>{@link CommonCommittee}</code>.
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
@@ -39,7 +39,7 @@ public class AddCommitteeMembershipEvent extends CommitteeMembershipEventBase {
      * @param committeeDocument
      * @param committeeMembership
      */
-   public AddCommitteeMembershipEvent(String errorPathPrefix, CommitteeDocument comitteeDocument, 
+   public AddCommitteeMembershipEvent(String errorPathPrefix, CommonCommitteeDocument comitteeDocument, 
            CommitteeMembership committeeMembership) {
         super("adding CommitteeMembership to document " + getDocumentId(comitteeDocument),
                 errorPathPrefix, comitteeDocument, committeeMembership);
@@ -55,7 +55,7 @@ public class AddCommitteeMembershipEvent extends CommitteeMembershipEventBase {
     */
   public AddCommitteeMembershipEvent(String errorPathPrefix, Document document, 
           CommitteeMembership committeeMembership) {
-       this(errorPathPrefix, (CommitteeDocument) document, committeeMembership);
+       this(errorPathPrefix, (CommonCommitteeDocument) document, committeeMembership);
    }
 
     /**

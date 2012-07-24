@@ -16,7 +16,7 @@
 package org.kuali.kra.common.committee.document.authorization;
 
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.infrastructure.TaskGroupName;
 
 /**
@@ -25,15 +25,15 @@ import org.kuali.kra.infrastructure.TaskGroupName;
  */
 public class CommitteeTask extends Task {
     
-    private Committee committee;
+    private CommonCommittee committee;
     
     /**
      * Constructs a CommitteeTask.
      * @param taskName the name of the task
      * @param committee the Committee
      */
-    public CommitteeTask(String taskName, Committee committee) {
-        super(TaskGroupName.COMMITTEE, taskName);
+    public CommitteeTask(String taskName, CommonCommittee committee) {
+        super(TaskGroupName.COMMON_COMMITTEE, taskName);
         this.committee = committee;
     }
 
@@ -41,7 +41,7 @@ public class CommitteeTask extends Task {
      * Get the Committee.
      * @return the Committee
      */
-    public Committee getCommittee() {
+    public CommonCommittee getCommittee() {
         return committee;
     }
 }

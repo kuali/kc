@@ -683,7 +683,7 @@
         <reference-descriptor name="protocolReviewType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolReviewTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="committee" class-ref="org.kuali.kra.common.committee.bo.Committee" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="committee" class-ref="org.kuali.kra.common.committee.bo.CommonCommittee" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="committeeIdFk"/>
         </reference-descriptor>
         <reference-descriptor name="submissionStatus" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 

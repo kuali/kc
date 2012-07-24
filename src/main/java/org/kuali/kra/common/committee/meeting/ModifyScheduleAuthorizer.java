@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.document.authorizer.CommitteeAuthorizer;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -27,7 +27,7 @@ public class ModifyScheduleAuthorizer extends CommitteeAuthorizer {
      */
     public boolean isAuthorized(String username, CommitteeTask task) {
         boolean hasPermission = true;
-        Committee committee = task.getCommittee();
+        CommonCommittee committee = task.getCommittee();
         hasPermission = hasPermission(username, committee, PermissionConstants.MODIFY_SCHEDULE);
         return hasPermission;
     }
