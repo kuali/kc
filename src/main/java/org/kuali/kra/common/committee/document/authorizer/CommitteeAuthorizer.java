@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.document.authorizer;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.service.KraAuthorizationService;
 
@@ -59,7 +59,7 @@ public abstract class CommitteeAuthorizer extends TaskAuthorizerImpl {
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
-    protected final boolean hasPermission(String userId, Committee committee, String permissionName) {
+    protected final boolean hasPermission(String userId, CommonCommittee committee, String permissionName) {
         return kraAuthorizationService.hasPermission(userId, committee, permissionName);
     }
 }

@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -35,14 +35,14 @@ public interface CommonCommitteeService {
      * @param committeeId the committee ID
      * @return the committee or null if not found
      */
-    public Committee getCommitteeById(String committeeId);
+    public CommonCommittee getCommitteeById(String committeeId);
    
     /**
      * Add the research areas to the committee.  Duplicates are not added.
      * @param committee the committee to add to
      * @param researchAreas the research areas to add
      */
-    public void addResearchAreas(Committee committee, Collection<ResearchArea> researchAreas);
+    public void addResearchAreas(CommonCommittee committee, Collection<ResearchArea> researchAreas);
 
     /**
      * Get the valid upcoming committee dates for scheduling a protocol.
@@ -73,7 +73,7 @@ public interface CommonCommitteeService {
      * @param scheduleId the id of the schedule to find
      * @return the schedule or null if not found
      */
-    public CommitteeSchedule getCommitteeSchedule(Committee committee, String scheduleId);
+    public CommitteeSchedule getCommitteeSchedule(CommonCommittee committee, String scheduleId);
     
     /**
      * 

@@ -41,7 +41,7 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
     
     /**
      * Constructs an IRB notification renderer.
-     * @param Committee
+     * @param CommonCommittee
      */
     public CommitteeNotificationRenderer(Committee committee) {
         this.committee = committee;

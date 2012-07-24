@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.bo.businessLogic.impl;
 
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.common.committee.bo.businessLogic.CommitteeBusinessLogic;
 import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactory;
@@ -24,11 +24,11 @@ import org.kuali.kra.common.committee.bo.businessLogic.CommitteeResearchAreaBusi
 
 public class CommitteeCollaboratorBusinessLogicFactoryGroupImpl implements CommitteeCollaboratorBusinessLogicFactoryGroup {
     
-    private CommitteeCollaboratorBusinessLogicFactory<Committee, CommitteeBusinessLogic> committeeBusinessLogicFactory;
+    private CommitteeCollaboratorBusinessLogicFactory<CommonCommittee, CommitteeBusinessLogic> committeeBusinessLogicFactory;
     private CommitteeCollaboratorBusinessLogicFactory<CommitteeResearchArea, CommitteeResearchAreaBusinessLogic> committeeResearchAreaBusinessLogicFactory;
     
     
-    public void setCommitteeBusinessLogicFactory(CommitteeCollaboratorBusinessLogicFactory<Committee, CommitteeBusinessLogic> committeeBusinessLogicFactory) {
+    public void setCommitteeBusinessLogicFactory(CommitteeCollaboratorBusinessLogicFactory<CommonCommittee, CommitteeBusinessLogic> committeeBusinessLogicFactory) {
         this.committeeBusinessLogicFactory = committeeBusinessLogicFactory;
         // set back pointer to this group into the factory
         this.committeeBusinessLogicFactory.setCommitteeCollaboratorBusinessLogicFactoryGroup(this);
@@ -46,7 +46,7 @@ public class CommitteeCollaboratorBusinessLogicFactoryGroupImpl implements Commi
         return this.committeeResearchAreaBusinessLogicFactory.getBusinessLogicFor(businessObject);
     }
     
-    public CommitteeBusinessLogic getCommitteeBusinessLogicFor(Committee businessObject) {
+    public CommitteeBusinessLogic getCommitteeBusinessLogicFor(CommonCommittee businessObject) {
         return this.committeeBusinessLogicFactory.getBusinessLogicFor(businessObject);
     }
     

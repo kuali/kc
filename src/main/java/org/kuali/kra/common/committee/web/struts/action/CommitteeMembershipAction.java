@@ -32,10 +32,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.rule.event.AddCommitteeMembershipEvent;
 import org.kuali.kra.common.committee.rule.event.AddCommitteeMembershipRoleEvent;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEvent;
@@ -115,7 +115,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
     public ActionForward deleteCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
-        CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
+        CommonCommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
         if (applyRules(new DeleteCommitteeMemberEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), committeeForm
                 .getCommitteeDocument().getCommittee().getCommitteeMemberships(), ErrorType.HARDERROR))) {
             getCommitteeMembershipService().deleteCommitteeMembership(committeeDocument.getCommittee());
@@ -156,7 +156,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
     public ActionForward addCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
-        Committee committee = committeeForm.getCommitteeDocument().getCommittee();
+        CommonCommittee committee = committeeForm.getCommitteeDocument().getCommittee();
         int selectedMembershipIndex = getSelectedMembershipIndex(request);
         CommitteeMembershipRole newCommitteeMembershipRole 
             = committeeForm.getCommitteeHelper().getNewCommitteeMembershipRoles().get(selectedMembershipIndex);
@@ -187,7 +187,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
     public ActionForward deleteCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
-        Committee committee = committeeForm.getCommitteeDocument().getCommittee();
+        CommonCommittee committee = committeeForm.getCommitteeDocument().getCommittee();
         
         getCommitteeMembershipService().deleteCommitteeMembershipRole(committee, getSelectedMembershipIndex(request), getSelectedLine(request));
 
@@ -245,7 +245,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
     public ActionForward deleteCommitteeMembershipExpertise(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         CommitteeForm committeeForm = (CommitteeForm) form;
-        Committee committee = committeeForm.getCommitteeDocument().getCommittee();
+        CommonCommittee committee = committeeForm.getCommitteeDocument().getCommittee();
         int membershipIndex = getSelectedMembershipIndex(request);
         getCommitteeMembershipService().deleteCommitteeMembershipExpertise(committee, membershipIndex, getSelectedLine(request));
         // finally do validation and error reporting for inactive research areas
@@ -258,7 +258,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
      * @return CommitteeMembershipService
      */
     private CommitteeMembershipService getCommitteeMembershipService() {
-        return (CommitteeMembershipService)KraServiceLocator.getService("committeeMembershipService");
+        return KraServiceLocator.getService(CommitteeMembershipService.class);
     }
 
     /**

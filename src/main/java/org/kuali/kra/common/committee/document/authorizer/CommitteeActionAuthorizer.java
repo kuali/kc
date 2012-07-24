@@ -16,7 +16,7 @@
 package org.kuali.kra.common.committee.document.authorizer;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -33,7 +33,7 @@ public class CommitteeActionAuthorizer extends CommitteeAuthorizer {
      * @see org.kuali.kra.protocol.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.document.authorization.CommitteeTask)
      */
     public boolean isAuthorized(String userId, CommitteeTask task) {
-        Committee committee = task.getCommittee();
+        CommonCommittee committee = task.getCommittee();
         return StringUtils.equals(committee.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getStatus().getLabel(), "FINAL")
                 && committee.getCommitteeId() != null
                 && committeeService.getCommitteeById(committee.getCommitteeId()).getId().equals(committee.getId())

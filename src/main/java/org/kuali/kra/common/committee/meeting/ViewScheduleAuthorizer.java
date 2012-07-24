@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
@@ -29,7 +29,7 @@ public class ViewScheduleAuthorizer extends CommitteeAuthorizer {
      */
     public boolean isAuthorized(String username, CommitteeTask task) {
         boolean hasPermission = true;
-        Committee committee = task.getCommittee();
+        CommonCommittee committee = task.getCommittee();
         if (task instanceof CommitteeScheduleTask) {
             hasPermission = hasPermission(username,((CommitteeScheduleTask)task).getCommitteeSchedule(),PermissionConstants.VIEW_SCHEDULE);
             // now check if this schedule is flagged as available by admin

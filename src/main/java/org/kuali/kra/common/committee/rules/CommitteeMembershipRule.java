@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.rule.AddCommitteeMembershipRoleRule;
 import org.kuali.kra.common.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.kra.common.committee.rule.event.AddCommitteeMembershipEvent;
@@ -80,7 +80,7 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
 
         int membershipIndex = addCommitteeMembershipRoleEvent.getMembershipIndex();
         
-        CommitteeDocument committeeDocument = (CommitteeDocument) addCommitteeMembershipRoleEvent.getDocument();
+        CommonCommitteeDocument committeeDocument = (CommonCommitteeDocument) addCommitteeMembershipRoleEvent.getDocument();
         CommitteeMembership committeeMembership = committeeDocument.getCommittee().getCommitteeMemberships().get(membershipIndex);
         List<CommitteeMembershipRole> membershipRoles = committeeMembership.getMembershipRoles();
 

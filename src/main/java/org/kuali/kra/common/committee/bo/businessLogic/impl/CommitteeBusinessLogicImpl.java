@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.bo.businessLogic.impl;
 
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.businessLogic.CommitteeBusinessLogic;
 import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -24,10 +24,10 @@ import org.kuali.kra.rules.ErrorReporter;
 public abstract class CommitteeBusinessLogicImpl implements CommitteeBusinessLogic {
     
     private CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup;
-    private Committee committeeBusinessObject;
+    private CommonCommittee committeeBusinessObject;
     private static final String REVIEW_TYPE_ERROR_PROPERTY_NAME = "document.committeeList[0].reviewTypeCode";
 
-    public CommitteeBusinessLogicImpl(Committee businessObject, CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
+    public CommitteeBusinessLogicImpl(CommonCommittee businessObject, CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
         this.committeeBusinessObject = businessObject;
         this.committeeCollaboratorFactoryGroup = committeeCollaborators;
     }
@@ -37,7 +37,7 @@ public abstract class CommitteeBusinessLogicImpl implements CommitteeBusinessLog
         return committeeCollaboratorFactoryGroup;
     }
 
-    public Committee getCommitteeBusinessObject() {
+    public CommonCommittee getCommitteeBusinessObject() {
         return committeeBusinessObject;
     }
     

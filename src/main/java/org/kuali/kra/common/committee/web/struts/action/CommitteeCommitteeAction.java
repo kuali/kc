@@ -25,10 +25,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.businessLogic.CommitteeBusinessLogic;
 import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.rules.CommitteeDocumentRule;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
@@ -61,12 +61,12 @@ public class CommitteeCommitteeAction extends CommitteeAction {
         CommitteeForm committeeForm = ((CommitteeForm)form);
         String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate") && StringUtils.isNotBlank(request.getParameter(COMMITTEE_ID))) {
-            Committee committee = getCommitteeService().getCommitteeById(request.getParameter(COMMITTEE_ID));
+            CommonCommittee committee = getCommitteeService().getCommitteeById(request.getParameter(COMMITTEE_ID));
             /* don't need the original committeeDocument saved in xml content */
             committee.setCommitteeDocument(null);
             committeeForm.getCommitteeDocument().setCommittee(committee);
             VersioningService versionService = new VersioningServiceImpl();
-            committeeForm.getCommitteeDocument().setCommittee((Committee) versionService.createNewVersion(committee));
+            committeeForm.getCommitteeDocument().setCommittee((CommonCommittee) versionService.createNewVersion(committee));
             committeeForm.getCommitteeDocument().getCommittee().setCommitteeDocument(committeeForm.getCommitteeDocument());
         }
        
@@ -76,13 +76,13 @@ public class CommitteeCommitteeAction extends CommitteeAction {
     }
     
     /**
-     * @see org.kuali.kra.common.committee.web.struts.action.CommitteeAction#processMultipleLookupResults(org.kuali.kra.common.committee.document.CommitteeDocument, java.lang.Class, java.util.Collection)
+     * @see org.kuali.kra.common.committee.web.struts.action.CommitteeAction#processMultipleLookupResults(org.kuali.kra.common.committee.document.CommonCommitteeDocument, java.lang.Class, java.util.Collection)
      */
     @Override
     protected void processMultipleLookupResults(CommitteeForm committeeForm,
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
-            Committee committee = committeeForm.getCommitteeDocument().getCommittee();
+            CommonCommittee committee = committeeForm.getCommitteeDocument().getCommittee();
             getCommitteeService().addResearchAreas(committee, (Collection) selectedBOs);
             // finally do validation and error reporting for inactive research areas
             getCommitteeBusinessLogic(committee).validateCommitteeResearchAreas();
@@ -102,8 +102,8 @@ public class CommitteeCommitteeAction extends CommitteeAction {
     throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
-        CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
-        Committee committee = committeeDocument.getCommittee();
+        CommonCommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
+        CommonCommittee committee = committeeDocument.getCommittee();
         
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, committee);
         if (isAuthorized(task)) {   
@@ -115,7 +115,7 @@ public class CommitteeCommitteeAction extends CommitteeAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    public CommitteeBusinessLogic getCommitteeBusinessLogic(Committee committee) {
+    public CommitteeBusinessLogic getCommitteeBusinessLogic(CommonCommittee committee) {
         CommitteeCollaboratorBusinessLogicFactoryGroup cmtGrp = KraServiceLocator.getService(CommitteeCollaboratorBusinessLogicFactoryGroup.class);
         CommitteeBusinessLogic committeeBusinessLogic = cmtGrp.getCommitteeBusinessLogicFor(committee);
         return committeeBusinessLogic;

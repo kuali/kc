@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleAttendanceService;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
@@ -45,14 +45,14 @@ public class CommitteeScheduleAttendanceServiceImpl implements CommonCommitteeSc
     
     public Set<String> getVotingMembersPresent(String committeeId, String scheduleId) {
         Set<String> attendedMembers = new HashSet<String>();
-        Committee committee = committeeService.getCommitteeById(committeeId);
+        CommonCommittee committee = committeeService.getCommitteeById(committeeId);
         CommitteeSchedule schedule = committeeService.getCommitteeSchedule(committee, scheduleId);
         List<CommitteeScheduleAttendance> attendances = schedule.getCommitteeScheduleAttendances();
         for (CommitteeScheduleAttendance attendance : attendances) {
              attendedMembers.add(attendance.getPersonId());
         }
         String memberId = null;
-        String votingMemberType = parameterService.getParameterValueAsString(CommitteeDocument.class, Constants.COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE);
+        String votingMemberType = parameterService.getParameterValueAsString(CommonCommitteeDocument.class, Constants.COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE);
         
         for(CommitteeMembership member : committee.getCommitteeMemberships()) {
             memberId = member.getRolodexId() != null ? member.getRolodexId().toString() : member.getPersonId();
@@ -66,7 +66,7 @@ public class CommitteeScheduleAttendanceServiceImpl implements CommonCommitteeSc
   
     public Set<String> getActualVotingMembersPresent(String committeeId, String scheduleId) {
         Set<String> attendedMembers = new HashSet<String>();
-        Committee committee = committeeService.getCommitteeById(committeeId);
+        CommonCommittee committee = committeeService.getCommitteeById(committeeId);
         CommitteeSchedule schedule = committeeService.getCommitteeSchedule(committee, scheduleId);
         List<CommitteeScheduleAttendance> attendances = schedule.getCommitteeScheduleAttendances();
         for (CommitteeScheduleAttendance attendance : attendances) {

@@ -16,14 +16,14 @@
 package org.kuali.kra.common.committee.bo.businessLogic.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.common.committee.bo.businessLogic.CommitteeBusinessLogic;
 import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactory;
 import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
 
-public class CommitteeBusinessLogicFactoryImpl implements CommitteeCollaboratorBusinessLogicFactory<Committee, CommitteeBusinessLogic>  {
+public class CommitteeBusinessLogicFactoryImpl implements CommitteeCollaboratorBusinessLogicFactory<CommonCommittee, CommitteeBusinessLogic>  {
 
     private CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup;
 
@@ -37,7 +37,7 @@ public class CommitteeBusinessLogicFactoryImpl implements CommitteeCollaboratorB
     }
 
 
-    public CommitteeBusinessLogic getBusinessLogicFor(Committee committee) {
+    public CommitteeBusinessLogic getBusinessLogicFor(CommonCommittee committee) {
         CommitteeBusinessLogic retVal = null;
 
         // return appropriate subclass of committee business logic based on committee type

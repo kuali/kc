@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -70,7 +70,7 @@ public class IacucProtocolTableServiceImpl implements IacucProtocolTableService 
     
     
     @Override
-    public CommitteeSchedule getNextScheduleForCommittee(Committee committee, CommitteeSchedule schedule) {
+    public CommitteeSchedule getNextScheduleForCommittee(CommonCommittee committee, CommitteeSchedule schedule) {
         CommitteeSchedule retVal = null;
         
         if((null != committee) && (null != schedule)) {

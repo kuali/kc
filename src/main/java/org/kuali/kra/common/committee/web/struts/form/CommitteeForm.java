@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -75,7 +75,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     /** {@inheritDoc} */
     @Override
     protected String getDefaultDocumentTypeName() {
-        return "CommitteeDocument";
+        return "CommonCommitteeDocument";
     }
 
     /**
@@ -89,8 +89,8 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
      * Get the Committee Document.
      * @return the committee document
      */
-    public CommitteeDocument getCommitteeDocument() {
-        return (CommitteeDocument) this.getDocument();
+    public CommonCommitteeDocument getCommitteeDocument() {
+        return (CommonCommitteeDocument) this.getDocument();
     }
 
     /**o
@@ -101,7 +101,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
         super.populate(request);
     }
     
-    private String getCommitteeNameForHeaderDisplay(CommitteeDocument committeeDoc) {
+    private String getCommitteeNameForHeaderDisplay(CommonCommitteeDocument committeeDoc) {
         String trimmedCommitteeName = null;
         if(committeeDoc != null && !CollectionUtils.isEmpty(committeeDoc.getCommitteeList())) {  
             trimmedCommitteeName = committeeDoc.getCommittee().getCommitteeName();
@@ -120,7 +120,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        CommitteeDocument committeeDoc = getCommitteeDocument();
+        CommonCommitteeDocument committeeDoc = getCommitteeDocument();
         
         HeaderField documentNumber = getDocInfo().get(0);
         documentNumber.setDdAttributeEntryName("DataDictionary.CommitteeDocument.attributes.documentNumber");
