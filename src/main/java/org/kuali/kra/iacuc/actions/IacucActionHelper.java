@@ -36,6 +36,7 @@ import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveBean;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.assignagenda.IacucProtocolAssignToAgendaBean;
+import org.kuali.kra.iacuc.actions.correction.IacucAdminCorrectionBean;
 import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecision;
 import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionService;
 import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteBean;
@@ -77,15 +78,14 @@ import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
+import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionService;
 import org.kuali.kra.protocol.actions.decision.CommitteePerson;
 import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.followup.FollowupActionService;
-import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
@@ -1175,5 +1175,22 @@ public class IacucActionHelper extends ActionHelper {
     }
 
 
+    @Override
+    protected ProtocolTask getAdminCorrectionProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_ADMIN_CORRECTION, (IacucProtocol) protocol);
+    }
+
+
+    @Override
+    protected ProtocolTask getAdminCorrectionUnavailableProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_ADMIN_CORRECTION_UNAVAILABLE, (IacucProtocol) protocol);
+    }
+
+
+    @Override
+    protected AdminCorrectionBean getNewAdminCorrectionBeanInstanceHook(ActionHelper actionHelper) {
+        return new IacucAdminCorrectionBean((IacucActionHelper) actionHelper);
+    }
+    
 }
 

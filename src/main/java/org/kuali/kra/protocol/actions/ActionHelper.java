@@ -438,7 +438,7 @@ public abstract class ActionHelper implements Serializable {
         
  
 // TODO *********commented the code below during IACUC refactoring*********         
-//        protocolAdminCorrectionBean = createAdminCorrectionBean();
+        protocolAdminCorrectionBean = createAdminCorrectionBean();
 //        undoLastActionBean = createUndoLastActionBean(getProtocol());
         
         committeeDecision = getNewCommitteeDecisionInstanceHook(this);
@@ -515,7 +515,9 @@ public abstract class ActionHelper implements Serializable {
     protected abstract ProtocolSubmitAction getNewProtocolSubmitActionInstanceHook(ActionHelper actionHelper);
     
     protected abstract ProtocolDeleteBean getNewProtocolDeleteBeanInstanceHook(ActionHelper actionHelper);
-    
+
+    protected abstract AdminCorrectionBean getNewAdminCorrectionBeanInstanceHook(ActionHelper actionHelper);
+   
 
     /**
      * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
@@ -523,8 +525,7 @@ public abstract class ActionHelper implements Serializable {
      */
     private void initActionBeanTaskMap() {
         
-// TODO *********commented the code below during IACUC refactoring********* 
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolAdminCorrectionBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolAdminCorrectionBean);
         actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolAmendmentBean);
         actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_RENEWAL, protocolRenewAmendmentBean);
         
@@ -764,24 +765,26 @@ public abstract class ActionHelper implements Serializable {
     
 
 
-//    /**
-//     * Create an AdminCorrection Bean.  The modules that can be edited (or corrected) depends upon the
-//     * current outstanding amendments.  If a module is currently being modified by a
-//     * an amendment, it cannot be corrected through Administrative Correction.  
-//     * @return
-//     * @throws Exception 
-//     */
-//    private AdminCorrectionBean createAdminCorrectionBean() throws Exception {
-//        AdminCorrectionBean adminCorrectionBean = new AdminCorrectionBean(this);
-//        List<String> moduleTypeCodes = getProtocolAmendRenewServiceHook().getAvailableModules(getProtocol().getProtocolNumber());
-//        
-//        for (String moduleTypeCode : moduleTypeCodes) {
-//            enableModuleOption(moduleTypeCode, adminCorrectionBean);
-//        }
-//        
-//        return adminCorrectionBean;
-//    }
-//    
+    /**
+     * Create an AdminCorrection Bean.  The modules that can be edited (or corrected) depends upon the
+     * current outstanding amendments.  If a module is currently being modified by a
+     * an amendment, it cannot be corrected through Administrative Correction.  
+     * @return
+     * @throws Exception 
+     */
+    private AdminCorrectionBean createAdminCorrectionBean() throws Exception {
+        AdminCorrectionBean adminCorrectionBean = getNewAdminCorrectionBeanInstanceHook(this); 
+        //new AdminCorrectionBean(this);
+        List<String> moduleTypeCodes = getProtocolAmendRenewServiceHook().getAvailableModules(getProtocol().getProtocolNumber());
+        
+        for (String moduleTypeCode : moduleTypeCodes) {
+            enableModuleOption(moduleTypeCode, adminCorrectionBean);
+        }
+        
+        return adminCorrectionBean;
+    }
+
+    
 //    private UndoLastActionBean createUndoLastActionBean(Protocol protocol) throws Exception {
 //        undoLastActionBean = new UndoLastActionBean(this);
 //        undoLastActionBean.setProtocol(protocol);
@@ -887,8 +890,9 @@ public abstract class ActionHelper implements Serializable {
 //        canTerminateUnavailable = hasTerminateUnavailablePermission();
 //        canPermitDataAnalysis = hasPermitDataAnalysisPermission();
 //        canPermitDataAnalysisUnavailable = hasPermitDataAnalysisUnavailablePermission();
-//        canMakeAdminCorrection = hasAdminCorrectionPermission();
-//        canMakeAdminCorrectionUnavailable = hasAdminCorrectionUnavailablePermission();
+
+        canMakeAdminCorrection = hasAdminCorrectionPermission();
+        canMakeAdminCorrectionUnavailable = hasAdminCorrectionUnavailablePermission();
         
         canAdministrativelyApprove = hasAdministrativelyApprovePermission();
         canAdministrativelyApproveUnavailable = hasAdministrativelyApproveUnavailablePermission();
@@ -1442,14 +1446,19 @@ public abstract class ActionHelper implements Serializable {
 //        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS);
 //    }
 //    
-//    protected boolean hasAdminCorrectionPermission() {
-//        return hasPermission(TaskName.PROTOCOL_ADMIN_CORRECTION);
-//    }
-//    
-//    protected boolean hasAdminCorrectionUnavailablePermission() {
-//        return hasPermission(TaskName.PROTOCOL_ADMIN_CORRECTION_UNAVAILABLE);
-//    }
-//    
+    protected boolean hasAdminCorrectionPermission() {
+        ProtocolTask task = getAdminCorrectionProtocolTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected boolean hasAdminCorrectionUnavailablePermission() {
+        ProtocolTask task = getAdminCorrectionUnavailableProtocolTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected abstract ProtocolTask getAdminCorrectionProtocolTaskInstanceHook(Protocol protocol);
+    protected abstract ProtocolTask getAdminCorrectionUnavailableProtocolTaskInstanceHook(Protocol protocol);
+    
 //    protected boolean hasUndoLastActionPermission() {
 //        return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && undoLastActionBean.canUndoLastAction();
 //    }
