@@ -33,8 +33,7 @@
 				<directory>src/main/resources</directory>
 				<includes>
 					<include>META-INF/kc-config-build.xml</include>
-					<include>org/kuali/kra/KC-RiceDataSourceSpringBeans.xml</include>
-					<include>org/kuali/kra/core/CommonSpringBeans.xml</include>
+					<include>kc-bootstrap-springbeans.xml</include>
 				</includes>
 			</resource>
 			<resource>
@@ -1443,13 +1442,7 @@
           <monitoring.spring.service>
 			<![CDATA[
 <import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
-<bean id="facadeMonitoringAdvisor" class="net.bull.javamelody.MonitoringSpringAdvisor">
-<property name="pointcut">
-<bean class="org.springframework.aop.support.JdkRegexpMethodPointcut">
-<property name="pattern" value=".*(krad|krms|location|edl|kim|kcb|ken|kew|kns|ksb|kra).*ServiceImp.*" />
-</bean>
-</property>
-</bean>
+<bean id="facadeMonitoringAdvisor" class="net.bull.javamelody.MonitoringSpringAdvisor" />
           		]]>
 		</monitoring.spring.service>
       </properties>
