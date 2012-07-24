@@ -33,6 +33,8 @@
 				<directory>src/main/resources</directory>
 				<includes>
 					<include>META-INF/kc-config-build.xml</include>
+					<include>org/kuali/kra/KC-RiceDataSourceSpringBeans.xml</include>
+					<include>org/kuali/kra/core/CommonSpringBeans.xml</include>
 				</includes>
 			</resource>
 			<resource>
@@ -45,14 +47,6 @@
                 </includes>
                 <filtering>true</filtering>
                 <targetPath>${project.build.directory}</targetPath>
-            </resource>
-            <resource>
-            	<filtering>true</filtering>
-            	<directory>src/main/resources/org/kuali/kra</directory>
-            	<includes>
-            		<include>KC-RiceDataSourceSpringBeans.xml</include>
-            		<include>core/CommonSpringBeans.xml</include>
-            	</includes>
             </resource>
 		</resources> 
 		<testResources>
