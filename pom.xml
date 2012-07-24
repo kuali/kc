@@ -25,14 +25,6 @@
 			<distribution>manual</distribution>
 		</license>
 	</licenses>
-
-    <properties>
-    	<monitoring.filter />
-    	<monitoring.mapping />
-    	<monitoring.listener />
-        <monitoring.spring.import />
-        <monitoring.spring.service />
-    </properties>
     
 	<build>
 		<resources>
@@ -1677,6 +1669,12 @@
 			        <url-pattern>*.kcb</url-pattern>
 			    </servlet-mapping>
 	          ]]>
-	        </rice.ken.servlet>  	
+	        </rice.ken.servlet>  
+	        
+	    <monitoring.filter />
+    	<monitoring.mapping />
+    	<monitoring.listener />
+        <monitoring.spring.import />
+        <monitoring.spring.service />	
 	</properties>
 </project>
