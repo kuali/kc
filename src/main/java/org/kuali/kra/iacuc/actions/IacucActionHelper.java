@@ -164,6 +164,7 @@ public class IacucActionHelper extends ActionHelper {
     protected IacucProtocolGenericActionBean iacucProtocolDeactivateBean;
     protected IacucProtocolGenericActionBean iacucAcknowledgeBean;
     protected IacucProtocolGenericActionBean iacucProtocolHoldBean;
+    protected IacucProtocolGenericActionBean iacucProtocolLiftHoldBean;
     
     protected IacucProtocolRequestBean iacucProtocolDeactivateRequestBean;
 
@@ -183,6 +184,7 @@ public class IacucActionHelper extends ActionHelper {
         iacucProtocolDeactivateBean = this.buildProtocolGenericActionBean(IacucProtocolActionType.DEACTIVATED, Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY);
         iacucAcknowledgeBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucAcknowledgeBean");
         iacucProtocolHoldBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucProtocolHoldBean");
+        iacucProtocolLiftHoldBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucProtocolLiftHoldBean");
         iacucProtocolDeactivateRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.REQUEST_DEACTIVATE,
                 IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE, "iacucProtocolDeactivateRequestBean");
         initIacucSpecificActionBeanTaskMap();
@@ -203,6 +205,7 @@ public class IacucActionHelper extends ActionHelper {
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_DEACTIVATE, iacucProtocolDeactivateBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE, iacucProtocolDeactivateRequestBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_HOLD, iacucProtocolHoldBean);
+        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_LIFT_HOLD, iacucProtocolLiftHoldBean);
 }
 
         
@@ -1172,6 +1175,11 @@ public class IacucActionHelper extends ActionHelper {
 
     public void setIacucProtocolHoldBean(IacucProtocolGenericActionBean iacucProtocolHoldBean) {
         this.iacucProtocolHoldBean = iacucProtocolHoldBean;
+    }
+
+
+    public IacucProtocolGenericActionBean getIacucProtocolLiftHoldBean() {
+        return iacucProtocolLiftHoldBean;
     }
 
 

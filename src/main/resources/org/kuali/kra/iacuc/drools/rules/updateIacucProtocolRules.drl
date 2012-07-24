@@ -389,3 +389,22 @@ then
 	setProtocolSubmissionStatusCode(protocolAction, "206");
 	setProtocolStatusCode(protocolAction, "103");
 end
+
+rule "fn_hold_protocol: Protocol Status = 201 (Active - On Hold)" 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping(actionTypeCode == "305")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolStatusCode(protocolAction, "201");
+end
+
+rule "fn_lift_hold_protocol: Submission Status = 208 (Lift Hold); Protocol Status = 200 (Active)" 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping(actionTypeCode == "208")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "208");
+	setProtocolStatusCode(protocolAction, "200");
+end
