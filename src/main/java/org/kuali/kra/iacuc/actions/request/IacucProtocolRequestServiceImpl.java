@@ -30,6 +30,7 @@ import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionBuilder;
@@ -51,7 +52,7 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    private ProtocolActionService protocolActionService;
+    private IacucProtocolActionService protocolActionService;
     private KcNotificationService kcNotificationService;
 
     /**
@@ -66,7 +67,7 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
      * Set the Protocol Action Service.
      * @param protocolActionService
      */
-    public void setProtocolActionService(ProtocolActionService protocolActionService) {
+    public void setProtocolActionService(IacucProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
     }
 
