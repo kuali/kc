@@ -124,7 +124,14 @@
                                           property="actionHelper.iacucProtocolHoldBean"
                                           taskName="iacucProtocolHold"
                                           methodToCall="iacucHold"
-                                          canPerformAction="${KualiForm.actionHelper.canHold}" />                                          
+                                          canPerformAction="${KualiForm.actionHelper.canHold}" />
+            <kra-iacuc-action:genericAction tabTitle="Lift Hold"
+                                          bean="${KualiForm.actionHelper.iacucProtocolLiftHoldBean}"
+                                          property="actionHelper.iacucProtocolLiftHoldBean"
+                                          taskName="iacucProtocolLiftHold"
+                                          methodToCall="iacucLiftHold"
+                                          canPerformAction="${KualiForm.actionHelper.canLiftHold}" />                                          
+                                                                                    
             <kra-iacuc-action:createAmendmentAction />
             <kra-iacuc-action:modifyAmendmentSectionsAction />
             <kra-iacuc-action:makeAdminCorrectionAction />
@@ -499,6 +506,10 @@
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Hold"
 				                                         canPerformAction="${KualiForm.actionHelper.canHoldUnavailable}"
 				                                         reason="Protocol status must be Active."/>
+	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Lift Hold"
+				                                         canPerformAction="${KualiForm.actionHelper.canLiftHoldUnavailable}"
+				                                         reason="Protocol status must be Active - On Hold."/>
+				                                         
 				                                         		 				                    	                             
 		    	</c:if>		   	
 		   	</div>

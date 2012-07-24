@@ -77,6 +77,11 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
     public void iacucHold(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, IacucProtocolActionType.HOLD, IacucProtocolStatus.ACTIVE_ON_HOLD);
     }     
+    
+    /**{@inheritDoc}**/
+    public void iacucLiftHold(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        performGenericAction(protocol, actionBean, IacucProtocolActionType.LIFT_HOLD, IacucProtocolStatus.ACTIVE);
+    }    
 
     /**{@inheritDoc}**/
     public void iacucDeactivate(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
