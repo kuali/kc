@@ -2286,6 +2286,35 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }   
+    
+    /**
+     * Hold the IACUC Protocol
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward iacucLiftHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+        IacucProtocol protocol = (IacucProtocol) document.getProtocol();
+        IacucProtocolGenericActionBean actionBean = ((IacucActionHelper) protocolForm.getActionHelper()).getIacucProtocolLiftHoldBean();
+        
+        if (hasPermission(TaskName.IACUC_PROTOCOL_LIFT_HOLD, protocol)) {
+            if (applyRules(new IacucProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().iacucLiftHold(protocol, actionBean);
+                saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+                    
+                recordProtocolActionSuccess("IACUC Lift Hold");
+                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, 
+                        new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.LIFT_HOLD, "IACUC Lift Hold"));
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }    
 //
 //    /**

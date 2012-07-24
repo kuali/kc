@@ -362,6 +362,14 @@
                 <bean class="org.kuali.kra.iacuc.auth.IacucHoldUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                 	<property name="taskName" value="iacucProtocolHoldUnavailable"/>
                 </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucLiftHoldAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="iacucProtocolLiftHold"/>
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucLiftHoldUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="iacucProtocolLiftHoldUnavailable"/>
+                </bean>                
            </list>
         </property>
     </bean>
