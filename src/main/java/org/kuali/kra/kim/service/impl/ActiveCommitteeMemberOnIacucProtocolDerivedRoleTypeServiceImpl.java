@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.kim.bo.KcKimAttributes;
@@ -55,7 +55,7 @@ public class ActiveCommitteeMemberOnIacucProtocolDerivedRoleTypeServiceImpl exte
             Protocol protocol = getProtocolByNumber(protocolNumber);
             if (protocol != null) {
                 if (protocol.getProtocolSubmission() != null) {
-                    Committee committee = protocol.getProtocolSubmission().getCommittee();
+                    CommonCommittee committee = protocol.getProtocolSubmission().getCommittee();
                     if (committee != null) {
                         for (CommitteeMembership membership : committee.getCommitteeMemberships()) {
                             if (membership.getPersonId()!=null && membership.isActive()) {
@@ -85,7 +85,7 @@ public class ActiveCommitteeMemberOnIacucProtocolDerivedRoleTypeServiceImpl exte
             Protocol protocol = getProtocolByNumber(protocolNumber);
             if (protocol != null) {
                 if (protocol.getProtocolSubmission() != null) {
-                    Committee committee = protocol.getProtocolSubmission().getCommittee();
+                    CommonCommittee committee = protocol.getProtocolSubmission().getCommittee();
                     if (committee != null) {
                         for (CommitteeMembership membership : committee.getCommitteeMemberships()) {
                             if (membership.getPersonId()!=null && StringUtils.equals(principalId, membership.getPersonId())) {
