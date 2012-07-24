@@ -877,6 +877,14 @@
    		<property name="protocolFinderDao" ref="iacucProtocolFinderDao" />
     </bean>
     
+    <bean id="iacucProtocolRequestService" class="org.kuali.kra.iacuc.actions.request.IacucProtocolRequestServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolActionService" ref="iacucProtocolActionService" />    
+        <property name="documentService" ref="documentService" />
+        <property name="kcNotificationService" ref="kcNotificationService" />
+    </bean>
+    
+    
     <bean id="iacucProtocolNotifyIacucService" class="org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucServiceImpl">
     	<property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />

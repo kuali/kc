@@ -179,7 +179,7 @@ public class IacucActionHelper extends ActionHelper {
         iacucProtocolModifySubmissionBean = new IacucProtocolModifySubmissionBean(this);
         iacucProtocolNotifyIacucBean = new IacucProtocolNotifyIacucBean(this);
         protocolFullApprovalBean = buildProtocolApproveBean(getFullApprovalProtocolActionTypeHook(), Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY);
-        iacucProtocolDeactivateBean = this.buildProtocolGenericActionBean(IacucProtocolActionType.REQUEST_DEACTIVATE, Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY);
+        iacucProtocolDeactivateBean = this.buildProtocolGenericActionBean(IacucProtocolActionType.DEACTIVATED, Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY);
         iacucAcknowledgeBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucAcknowledgeBean");
         iacucProtocolDeactivateRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.REQUEST_DEACTIVATE,
                 IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE, "iacucProtocolDeactivateRequestBean");
@@ -308,10 +308,10 @@ public class IacucActionHelper extends ActionHelper {
         canRequestToLiftHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD_UNAVAILABLE);
         canIacucAcknowledge = hasPermission(TaskName.IACUC_ACKNOWLEDGEMENT);
         canIacucAcknowledgeUnavailable = hasPermission(TaskName.IACUC_ACKNOWLEDGEMENT_UNAVAILABLE);
-        canIacucRequestDeactivate = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE);
-        canIacucRequestDeactivateUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE_UNAVAILABLE);
         canIacucDeactivate = hasPermission(TaskName.IACUC_PROTOCOL_DEACTIVATE);
         canIacucDeactivateUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_DEACTIVATE_UNAVAILABLE);
+        canIacucRequestDeactivate = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE);
+        canIacucRequestDeactivateUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE_UNAVAILABLE);
         
         canDesignatedMemberApproval = hasPermission(TaskName.IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL);
         canDesignatedMemberApprovalUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL_UNAVAILABLE);

@@ -97,6 +97,7 @@ import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawService;
 import org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
 import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
@@ -109,6 +110,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
+import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionEvent;
 import org.kuali.kra.irb.actions.history.ProtocolHistoryFilterDatesEvent;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -213,15 +216,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private static final List<String> GENERIC_TYPE_PONDENCE;
     static {
         final List<String> correspondenceTypes = new ArrayList<String>();
-        correspondenceTypes.add(ProtocolCorrespondenceType.ABANDON_NOTICE);
-        correspondenceTypes.add(ProtocolCorrespondenceType.APPROVAL_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceType.CLOSURE_NOTICE);
-        correspondenceTypes.add(ProtocolCorrespondenceType.EXPEDITED_APPROVAL_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceType.NOTICE_OF_DEFERRAL);
-        correspondenceTypes.add(ProtocolCorrespondenceType.SMR_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceType.SRR_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceType.SUSPENSION_NOTICE);
-        correspondenceTypes.add(ProtocolCorrespondenceType.TERMINATION_NOTICE);
+        correspondenceTypes.add(IacucProtocolCorrespondenceType.APPROVAL_LETTER);                     
+        correspondenceTypes.add(IacucProtocolCorrespondenceType.DEACTIVATED_LETTER);                     
+        correspondenceTypes.add(IacucProtocolCorrespondenceType.EXPIRED_LETTER);                      
+        correspondenceTypes.add(IacucProtocolCorrespondenceType.HOLD_LETTER);                         
+        correspondenceTypes.add(IacucProtocolCorrespondenceType.LIFT_HOLD_LETTER);                    
         GENERIC_TYPE_PONDENCE = correspondenceTypes;
     }
 
@@ -229,15 +228,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
     static {
         CORR_TYPE_TO_ACTION_TYPE_MAP = new HashMap<String, String>();
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.ABANDON_NOTICE, IacucProtocolActionType.IACUC_ABANDON);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.APPROVAL_LETTER, IacucProtocolActionType.IACUC_APPROVED);
-//??        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.CLOSURE_NOTICE,ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED);
-//??        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.EXPEDITED_APPROVAL_LETTER,ProtocolActionType.EXPEDITE_APPROVAL);
-//??        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.NOTICE_OF_DEFERRAL,ProtocolActionType.DEFERRED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SMR_LETTER, IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SRR_LETTER, IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SUSPENSION_NOTICE, IacucProtocolActionType.SUSPENDED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.TERMINATION_NOTICE, IacucProtocolActionType.TERMINATED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(IacucProtocolCorrespondenceType.APPROVAL_LETTER, IacucProtocolActionType.IACUC_APPROVED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(IacucProtocolCorrespondenceType.DEACTIVATED_LETTER, IacucProtocolActionType.DEACTIVATED);
     }
 
  
@@ -2422,31 +2414,41 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @return
      * @throws Exception
      */
+    
     public ActionForward iacucDeactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
         IacucProtocol protocol = document.getIacucProtocol();
         IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
         IacucProtocolGenericActionBean actionBean = actionHelper.getIacucProtocolDeactivateBean();
         
-        if (hasGenericPermission(IacucGenericProtocolAuthorizer.DEACTIVATE_PROTOCOL, protocol)) {
-            if (applyRules(new IacucProtocolGenericActionEvent(document, actionBean))) {
-                getProtocolGenericActionService().iacucDeactivate(protocol, actionBean);
-                saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
-                
-                recordProtocolActionSuccess("Deactivated");
-                IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.REQUEST_DEACTIVATE, "Deactivated");
-                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+        if (!hasDocumentStateChanged(protocolForm)) {
+System.out.println("\n\n This is the one I care about!!!\n\n");            
+            if (hasPermission(TaskName.IACUC_PROTOCOL_DEACTIVATE, protocol)) {
+                if (applyRules(new IacucProtocolGenericActionEvent(document, actionBean))) {
+                    getProtocolGenericActionService().iacucDeactivate(protocol, actionBean);
+                    saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
 
-                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-                    return mapping.findForward(CORRESPONDENCE);
-                } else {
-                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
+                    recordProtocolActionSuccess("Deactivated");
+                    IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.DEACTIVATED, "Deactivated");
+                    protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+
+                    if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                        return mapping.findForward(CORRESPONDENCE);
+                    } else {
+                        return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
+                    }
                 }
             }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
         }
+System.out.println("\n\n This is after the one I care about!!!\n\n");         
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
     
 //  /**
