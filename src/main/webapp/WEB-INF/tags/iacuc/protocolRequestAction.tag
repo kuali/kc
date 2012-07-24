@@ -119,6 +119,12 @@
                                           taskName="iacucProtocolRequestDeactivate"
                                           methodToCall="iacucDeactivate"
                                           canPerformAction="${KualiForm.actionHelper.canIacucRequestDeactivate}" />
+            <kra-iacuc-action:genericAction tabTitle="Hold"
+                                          bean="${KualiForm.actionHelper.iacucProtocolHoldBean}"
+                                          property="actionHelper.iacucProtocolHoldBean"
+                                          taskName="iacucProtocolHold"
+                                          methodToCall="iacucHold"
+                                          canPerformAction="${KualiForm.actionHelper.canHold}" />                                          
             <kra-iacuc-action:createAmendmentAction />
             <kra-iacuc-action:modifyAmendmentSectionsAction />
                                           
@@ -490,7 +496,10 @@
 				                                         reason="Submission status must be Submitted To Committee or In Agenda.
 				                                         		 <p>
 				                                         		 Last Submission must be Notify IACUC" />
-				                    	                             
+	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Hold"
+				                                         canPerformAction="${KualiForm.actionHelper.canHoldUnavailable}"
+				                                         reason="Protocol status must be Active."/>
+				                                         		 				                    	                             
 		    	</c:if>		   	
 		   	</div>
         </kul:innerTab>

@@ -2258,6 +2258,35 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    /**
+     * Hold the IACUC Protocol
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward iacucHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+        IacucProtocol protocol = (IacucProtocol) document.getProtocol();
+        IacucProtocolGenericActionBean actionBean = ((IacucActionHelper) protocolForm.getActionHelper()).getIacucProtocolHoldBean();
+        
+        if (hasPermission(TaskName.IACUC_PROTOCOL_HOLD, protocol)) {
+            if (applyRules(new IacucProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().iacucHold(protocol, actionBean);
+                saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+                    
+                recordProtocolActionSuccess("IACUC Hold");
+                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, 
+                        new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.HOLD, "IACUC Hold"));
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }    
 //
 //    /**
 //     * Permits data analysis only on this Protocol.
