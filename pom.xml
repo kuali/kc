@@ -26,6 +26,14 @@
 		</license>
 	</licenses>
 
+    <properties>
+    	<monitoring.filter />
+    	<monitoring.mapping />
+    	<monitoring.listener />
+        <monitoring.spring.import />
+        <monitoring.spring.service />
+    </properties>
+    
 	<build>
 		<resources>
 			<resource>
