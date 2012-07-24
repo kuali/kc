@@ -46,6 +46,14 @@
                 <filtering>true</filtering>
                 <targetPath>${project.build.directory}</targetPath>
             </resource>
+            <resource>
+            	<filtering>true</filtering>
+            	<directory>src/main/resources/org/kuali/kra</directory>
+            	<includes>
+            		<include>KC-RiceDataSourceSpringBeans.xml</include>
+            		<include>core/CommonSpringBeans.xml</include>
+            	</includes>
+            </resource>
 		</resources> 
 		<testResources>
 			<testResource>
