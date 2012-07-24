@@ -347,6 +347,13 @@
                     <property name="taskName" value="iacucProtocolRequestDeactivateUnavailable" />
                 </bean>   
                 
+                <bean class="org.kuali.kra.iacuc.auth.IacucHoldAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="iacucProtocolHold"/>
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucHoldUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="iacucProtocolHoldUnavailable"/>
+                </bean>
            </list>
         </property>
     </bean>

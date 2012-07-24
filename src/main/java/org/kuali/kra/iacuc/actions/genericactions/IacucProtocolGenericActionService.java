@@ -24,5 +24,7 @@ public interface IacucProtocolGenericActionService extends ProtocolGenericAction
     void iacucAcknowledgement(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;    
 
     void iacucDeactivate(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;    
+    
+    void iacucHold(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
 
 }
