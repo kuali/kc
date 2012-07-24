@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
 import org.kuali.kra.common.committee.bo.businessLogic.CommitteeResearchAreaBusinessLogic;
@@ -31,7 +31,7 @@ public class IrbCommitteeBusinessLogicImpl extends CommitteeBusinessLogicImpl {
     private static final String SEPERATOR = ".";
     private static final String INACTIVE_RESEARCH_AREAS_PREFIX = "document.committeeList[0].committeeResearchAreas.inactive";
 
-    public IrbCommitteeBusinessLogicImpl(Committee businessObject, CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
+    public IrbCommitteeBusinessLogicImpl(CommonCommittee businessObject, CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
         super(businessObject, committeeCollaborators);
     }
     

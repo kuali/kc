@@ -29,8 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.common.committee.service.CommitteeNotificationService;
@@ -134,7 +134,7 @@ public class MeetingActionsAction extends MeetingAction {
     private List<Printable> getPrintableArtifacts(MeetingHelper meetingHelper, String protoCorrespTypeCode) {
 //        meetingHelper.getCommitteeSchedule().getCommittee().getCommitteeDocument()
         AbstractPrint printable = (AbstractPrint)getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.SCHEDULE_TEMPLATE);
-        Committee committee = meetingHelper.getCommitteeSchedule().getCommittee();
+        CommonCommittee committee = meetingHelper.getCommitteeSchedule().getCommittee();
         printable.setPrintableBusinessObject(committee);
         
         Map<String, Object> reportParameters = new HashMap<String, Object>();
@@ -351,8 +351,8 @@ public class MeetingActionsAction extends MeetingAction {
     public ActionForward printRosterFutureSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
-        CommitteeDocument document = 
-            ((CommitteeDocument) getDocumentService().getByDocumentHeaderId(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentNumber()));
+        CommonCommitteeDocument document = 
+            ((CommonCommitteeDocument) getDocumentService().getByDocumentHeaderId(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentNumber()));
         Boolean printRooster = ((MeetingForm) form).getMeetingHelper().getPrintRooster();
         Boolean printFutureScheduledMeeting = ((MeetingForm) form).getMeetingHelper().getPrintFutureScheduledMeeting();
         

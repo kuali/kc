@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
@@ -37,7 +37,7 @@ public class MeetingDeleteOtherEvent extends MeetingEventBase<MeetingDeleteOther
      * @param type The type of error
      * @param otherNumber The index of the Other Action in the Other Action list.
      */
-    public MeetingDeleteOtherEvent(String errorPathPrefix, CommitteeDocument document, MeetingHelper meetingHelper, ErrorType type, int otherNumber) {
+    public MeetingDeleteOtherEvent(String errorPathPrefix, CommonCommitteeDocument document, MeetingHelper meetingHelper, ErrorType type, int otherNumber) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, meetingHelper, type);
         this.otherNumber = otherNumber;
     }
@@ -52,7 +52,7 @@ public class MeetingDeleteOtherEvent extends MeetingEventBase<MeetingDeleteOther
      * @param otherNumber The index of the Other Action in the Other Action list.
      */
     public MeetingDeleteOtherEvent(String errorPathPrefix, Document document, MeetingHelper meetingHelper, ErrorType type, int otherNumber) {
-        this(errorPathPrefix, (CommitteeDocument) document, meetingHelper, type, otherNumber);
+        this(errorPathPrefix, (CommonCommitteeDocument) document, meetingHelper, type, otherNumber);
     }
     
     @SuppressWarnings("unchecked")

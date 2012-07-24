@@ -18,7 +18,7 @@ package org.kuali.kra.iacuc.actions.decision;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
@@ -51,7 +51,7 @@ public class IacucCommitteeMemberValuesFinder extends IacucActionsKeyValuesBase 
             ProtocolSubmission submission = getCurrentSubmission(protocol);
             if (submission != null) {
                 String committeeId = submission.getCommitteeId();
-                Committee committee = getCommitteeService().getCommitteeById(committeeId);
+                CommonCommittee committee = getCommitteeService().getCommitteeById(committeeId);
                 if (committee != null) {
                     List<CommitteeMembership> members = committee.getCommitteeMemberships();
                     for (CommitteeMembership member : members) {

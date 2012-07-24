@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
@@ -84,7 +84,7 @@ public class CommitteeHelper implements Serializable {
         this.memberIndex = -1;
     }
     
-    public Committee getCommittee() {
+    public CommonCommittee getCommittee() {
         return committeeForm.getCommitteeDocument().getCommittee();
     }
     
@@ -94,7 +94,7 @@ public class CommitteeHelper implements Serializable {
     public void prepareView() {
         if (committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().isFinal() || committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().isEnroute() || committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().isCanceled()) {
             modifyCommittee = false;
-            Committee activeCommittee = getCommitteeService().getCommitteeById(
+            CommonCommittee activeCommittee = getCommitteeService().getCommitteeById(
                     getCommittee().getCommitteeId());
             if (activeCommittee != null && activeCommittee.getId().equals(getCommittee().getId())) {
                 modifySchedule = canModifySchedule();

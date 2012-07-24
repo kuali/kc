@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
@@ -109,7 +109,7 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
     private ProtocolReviewType protocolReviewType;
 
     @SkipVersioning
-    private transient Committee committee;
+    private transient CommonCommittee committee;
 
     private ProtocolSubmissionStatus submissionStatus;
 
@@ -367,14 +367,14 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
      * This method returns the committee object.
      * @return
      */
-    public Committee getCommittee() {
+    public CommonCommittee getCommittee() {
         if (committeeIdFk != null && committee == null) {
             refreshReferenceObject("committee");
         }
         return committee;
     }
 
-    public void setCommittee(Committee committee) {
+    public void setCommittee(CommonCommittee committee) {
         this.committee = committee;
     }
 

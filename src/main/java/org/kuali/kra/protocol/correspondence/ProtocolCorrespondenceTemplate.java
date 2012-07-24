@@ -17,8 +17,8 @@ package org.kuali.kra.protocol.correspondence;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public abstract class ProtocolCorrespondenceTemplate extends KraPersistableBusinessObjectBase implements Comparable<ProtocolCorrespondenceTemplate> {
@@ -81,7 +81,7 @@ public abstract class ProtocolCorrespondenceTemplate extends KraPersistableBusin
         this.correspondenceTemplate = correspondenceTemplate;
     }
 
-    public Committee getCommittee() {
+    public CommonCommittee getCommittee() {
         return getCommitteeService().getCommitteeById(committeeId);
     }
 
@@ -97,7 +97,7 @@ public abstract class ProtocolCorrespondenceTemplate extends KraPersistableBusin
         return this.getCommittee().getCommitteeName().compareTo(arg.getCommittee().getCommitteeName());
     }
 
-    private CommitteeService getCommitteeService() {
-        return (CommitteeService) KraServiceLocator.getService(CommitteeService.class);
+    private CommonCommitteeService getCommitteeService() {
+        return KraServiceLocator.getService(CommonCommitteeService.class);
     }
 }

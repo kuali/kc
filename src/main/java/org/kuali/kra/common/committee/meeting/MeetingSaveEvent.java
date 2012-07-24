@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
@@ -27,12 +27,12 @@ public class MeetingSaveEvent extends MeetingEventBase<MeetingSaveRule> {
     
     private static final String MSG = "Save meeting data ";
     
-    public MeetingSaveEvent(String errorPathPrefix, CommitteeDocument document, MeetingHelper meetingHelper, ErrorType type) {
+    public MeetingSaveEvent(String errorPathPrefix, CommonCommitteeDocument document, MeetingHelper meetingHelper, ErrorType type) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, meetingHelper, type);
     }
     
     public MeetingSaveEvent(String errorPathPrefix, Document document, MeetingHelper meetingHelper, ErrorType type) {
-        this(errorPathPrefix, (CommitteeDocument)document, meetingHelper, type);
+        this(errorPathPrefix, (CommonCommitteeDocument)document, meetingHelper, type);
     }
     
     @SuppressWarnings("unchecked")

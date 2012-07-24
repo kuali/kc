@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -44,18 +44,18 @@ public class CommitteeValuesFinder extends KeyValuesBase {
      */
     public List<KeyValue> getKeyValues() {
        
-        Collection<Committee> committees = getCommittees();
+        Collection<CommonCommittee> committees = getCommittees();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
-        for (Committee committee : committees) {
+        for (CommonCommittee committee : committees) {
             keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
         }
         return keyValues;
     }
 
     @SuppressWarnings("unchecked")
-    private Collection<Committee> getCommittees() {
+    private Collection<CommonCommittee> getCommittees() {
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        return businessObjectService.findAll(Committee.class);
+        return businessObjectService.findAll(CommonCommittee.class);
     }
 }

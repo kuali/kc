@@ -29,7 +29,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
@@ -193,9 +193,9 @@ public class MeetingAction extends KualiAction {
      * This method is to get committeedocument to apply tule. The committeedocument from committeeschedule is null for
      * 'documentheader.workflowdocument' it caused problem.
      */
-    protected CommitteeDocument getCommitteeDocument(String documentNumber) {
+    protected CommonCommitteeDocument getCommitteeDocument(String documentNumber) {
         try {
-            return (CommitteeDocument) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
+            return (CommonCommitteeDocument) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         }
         catch (Exception e) {
             return null;

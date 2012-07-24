@@ -27,7 +27,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
@@ -83,14 +83,14 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
      */
     @SuppressWarnings("unchecked" )
     public List getKeyValues() {
-        Collection<Committee> committees = getValidCommittees();
+        Collection<CommonCommittee> committees = getValidCommittees();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
         if (CollectionUtils.isNotEmpty(committees)) {    
             if (isSaved()) {
                 //Use the lead unit of the protocol to determine committees
                 getProtocolUnitIds();
-                for (Committee committee : committees) {
+                for (CommonCommittee committee : committees) {
                     if (StringUtils.equalsIgnoreCase(committee.getCommitteeDocument().getDocStatusCode(), "F") 
                             && unitIds.contains(committee.getHomeUnit().getUnitNumber())) {
                         keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
@@ -99,7 +99,7 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
             } else {
                 //Use the lead unit of the irb admin
                 getIRBAdminUnitIds();
-                for (Committee committee : committees) {
+                for (CommonCommittee committee : committees) {
                     if (unitIds.contains(committee.getHomeUnit().getUnitNumber()) ||
                             committee.getCommitteeId().equals(getCurrentCommitteeId())) {
                         keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
@@ -171,12 +171,12 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
      * @return a collection of unique committees based on committee id and sequence number.
      */
     @SuppressWarnings("unchecked")
-    private Collection<Committee> getValidCommittees() {
-        Collection<Committee> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findAll(Committee.class);
-        HashMap<String, Committee> committeeMap = new HashMap<String, Committee>();
+    private Collection<CommonCommittee> getValidCommittees() {
+        Collection<CommonCommittee> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findAll(CommonCommittee.class);
+        HashMap<String, CommonCommittee> committeeMap = new HashMap<String, CommonCommittee>();
         
-        Committee tmpComm = null;
-        for (Committee comm : allCommittees) {
+        CommonCommittee tmpComm = null;
+        for (CommonCommittee comm : allCommittees) {
             if (committeeMap.containsKey(comm.getCommitteeId())) {
                 tmpComm = committeeMap.get(comm.getCommitteeId());
                 if (comm.getSequenceNumber().intValue() > tmpComm.getSequenceNumber().intValue()) {

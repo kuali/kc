@@ -52,7 +52,7 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
 
     private BatchCorrespondence batchCorrespondence;
 
-    private Committee committee;
+    private CommonCommittee committee;
 
     private transient int finalActionCounter;
 
@@ -165,11 +165,11 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
         this.batchCorrespondence = batchCorrespondence;
     }
 
-    public Committee getCommittee() {
+    public CommonCommittee getCommittee() {
         return committee;
     }
 
-    public void setCommittee(Committee committee) {
+    public void setCommittee(CommonCommittee committee) {
         this.committee = committee;
     }
 

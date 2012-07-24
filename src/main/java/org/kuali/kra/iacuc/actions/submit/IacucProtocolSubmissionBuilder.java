@@ -25,7 +25,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -174,7 +174,7 @@ public class IacucProtocolSubmissionBuilder {
      * @param committeeId
      */
     public void setCommittee(String committeeId) {
-        Committee committee = getCommitteeService().getCommitteeById(committeeId);
+        CommonCommittee committee = getCommitteeService().getCommitteeById(committeeId);
         if (committee != null) {
             protocolSubmission.setCommitteeId(committee.getCommitteeId());
             protocolSubmission.setCommitteeIdFk(committee.getId());

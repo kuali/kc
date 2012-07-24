@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 
@@ -35,9 +35,9 @@ public class CommitteeIdIdPairValuesFinder extends CommitteeIdValuesFinder {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
         
-        List<Committee> committees = this.getActiveCommittees();
+        List<CommonCommittee> committees = this.getActiveCommittees();
         if (CollectionUtils.isNotEmpty(committees)) {
-            for (Committee committee : committees) {
+            for (CommonCommittee committee : committees) {
                 keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeId()));
             }
         }

@@ -25,7 +25,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.validator.Resources;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -168,7 +168,7 @@ public class MeetingManagementAction extends MeetingAction {
         
         MeetingForm meetingForm = (MeetingForm) form;
         MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
-        CommitteeDocument document 
+        CommonCommitteeDocument document 
             = getCommitteeDocument(meetingHelper.getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber());
         if (applyRules(new MeetingAddMinuteEvent(Constants.EMPTY_STRING, document, meetingHelper, ErrorType.HARDERROR))) {
             getMeetingService().addCommitteeScheduleMinute(meetingHelper);
@@ -296,7 +296,7 @@ public class MeetingManagementAction extends MeetingAction {
         final DocumentService docService = KraServiceLocator.getService(DocumentService.class);
         final String docNumber = form.getMeetingHelper().getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentNumber();
         
-        final CommitteeDocument pdDoc = (CommitteeDocument) docService.getByDocumentHeaderId(docNumber);
+        final CommonCommitteeDocument pdDoc = (CommonCommitteeDocument) docService.getByDocumentHeaderId(docNumber);
         String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getDocumentId());
         forwardUrl = forwardUrl.replaceFirst("committeeCommittee.do", "committeeSchedule.do");
         forwardUrl += "&methodToCallAttribute=methodToCall.reload";
@@ -336,7 +336,7 @@ public class MeetingManagementAction extends MeetingAction {
         
         MeetingForm meetingForm = (MeetingForm) form;
         MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
-        CommitteeDocument document = getCommitteeDocument(meetingHelper.getCommitteeSchedule().getCommittee().
+        CommonCommitteeDocument document = getCommitteeDocument(meetingHelper.getCommitteeSchedule().getCommittee().
                                         getCommitteeDocument().getDocumentHeader().getDocumentNumber());
         if (applyRules(new MeetingAddAttachmentsEvent(Constants.EMPTY_STRING, document, meetingHelper, ErrorType.HARDERROR))) {
         CommitteeSchedule committeSchedule= meetingHelper.getCommitteeSchedule();

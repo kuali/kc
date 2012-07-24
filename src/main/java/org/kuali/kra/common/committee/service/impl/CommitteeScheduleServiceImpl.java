@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.bo.ScheduleStatus;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachments;
@@ -138,9 +138,9 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#addSchedule(org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData, org.kuali.kra.common.committee.bo.Committee)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#addSchedule(org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData, org.kuali.kra.common.committee.bo.CommonCommittee)
      */
-    public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException {
+    public void addSchedule(ScheduleData scheduleData, CommonCommittee committee) throws ParseException {
         
         List<Date> dates = null;
         Date dtEnd = null;
@@ -253,7 +253,7 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
      * @param location
      * @param skippedDates
      */
-    protected void addScheduleDatesToCommittee(List<Date> dates, Committee committee, String location, List<java.sql.Date> skippedDates){
+    protected void addScheduleDatesToCommittee(List<Date> dates, CommonCommittee committee, String location, List<java.sql.Date> skippedDates){
         for(Date date: dates) {
             java.sql.Date sqldate = new java.sql.Date(date.getTime());
             

@@ -27,11 +27,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionFilterBatchCorrespondenceHistoryEvent;
@@ -85,7 +85,7 @@ public class CommitteeActionsAction extends CommitteeAction {
             HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;
-        CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
+        CommonCommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
         String committeeId = committeeDocument.getCommittee().getCommitteeId();
         String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getGenerateBatchCorrespondenceTypeCode();
         Date startDate = committeeForm.getCommitteeHelper().getGenerateStartDate();
@@ -309,7 +309,7 @@ public class CommitteeActionsAction extends CommitteeAction {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
         CommitteeForm committeeForm = (CommitteeForm) form;
-        CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
+        CommonCommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
         Boolean printRooster = committeeForm.getCommitteeHelper().getPrintRooster();
         Boolean printFutureScheduledMeeting = committeeForm.getCommitteeHelper().getPrintFutureScheduledMeeting();
         

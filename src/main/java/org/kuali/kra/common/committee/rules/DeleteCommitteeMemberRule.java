@@ -16,7 +16,7 @@
 package org.kuali.kra.common.committee.rules;
 
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEvent;
 import org.kuali.kra.common.committee.service.CommitteeMembershipService;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -44,12 +44,12 @@ public class DeleteCommitteeMemberRule extends ResearchDocumentRuleBase implemen
         int i = 0;
         for (CommitteeMembership member : event.getCommitteeMemberships()) {
             if (member.isDelete() && getCommitteeMembershipService().isMemberAssignedToReviewer(member,
-                    ((CommitteeDocument) event.getDocument()).getCommittee().getCommitteeId())) {
+                    ((CommonCommitteeDocument) event.getDocument()).getCommittee().getCommitteeId())) {
                 reportError(ID + i + "].delete", KeyConstants.ERROR_COMMITTEEMEMBER_DELETE, AS_REVIEWER);
                 rulePassed = false;
             }
             if (member.isDelete() && getCommitteeMembershipService().isMemberAttendedMeeting(member,
-                    ((CommitteeDocument) event.getDocument()).getCommittee().getCommitteeId())) {
+                    ((CommonCommitteeDocument) event.getDocument()).getCommittee().getCommitteeId())) {
                 reportError(ID + i + "].delete", KeyConstants.ERROR_COMMITTEEMEMBER_DELETE, AS_ATTENDANCE);
                 rulePassed = false;
             }

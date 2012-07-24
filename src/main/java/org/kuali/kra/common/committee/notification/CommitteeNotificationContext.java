@@ -19,7 +19,7 @@ package org.kuali.kra.common.committee.notification;
 import java.util.List;
 
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.NotificationContextBase;
@@ -39,7 +39,7 @@ public class CommitteeNotificationContext extends NotificationContextBase {
 
     private static final long serialVersionUID = 6642334312368480034L;
 
-    private Committee committee;
+    private CommonCommittee committee;
     private CommitteeSchedule committeeSchedule;
     private String actionTypeCode;
     private String contextName;
