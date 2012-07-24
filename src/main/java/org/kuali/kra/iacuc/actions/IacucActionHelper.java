@@ -163,6 +163,7 @@ public class IacucActionHelper extends ActionHelper {
     protected IacucProtocolNotifyIacucBean iacucProtocolNotifyIacucBean;
     protected IacucProtocolGenericActionBean iacucProtocolDeactivateBean;
     protected IacucProtocolGenericActionBean iacucAcknowledgeBean;
+    protected IacucProtocolGenericActionBean iacucProtocolHoldBean;
     
     protected IacucProtocolRequestBean iacucProtocolDeactivateRequestBean;
 
@@ -181,6 +182,7 @@ public class IacucActionHelper extends ActionHelper {
         protocolFullApprovalBean = buildProtocolApproveBean(getFullApprovalProtocolActionTypeHook(), Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY);
         iacucProtocolDeactivateBean = this.buildProtocolGenericActionBean(IacucProtocolActionType.DEACTIVATED, Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY);
         iacucAcknowledgeBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucAcknowledgeBean");
+        iacucProtocolHoldBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucProtocolHoldBean");
         iacucProtocolDeactivateRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.REQUEST_DEACTIVATE,
                 IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE, "iacucProtocolDeactivateRequestBean");
         initIacucSpecificActionBeanTaskMap();
@@ -200,6 +202,7 @@ public class IacucActionHelper extends ActionHelper {
         actionBeanTaskMap.put(TaskName.IACUC_ACKNOWLEDGEMENT, iacucAcknowledgeBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_DEACTIVATE, iacucProtocolDeactivateBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE, iacucProtocolDeactivateRequestBean);
+        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_HOLD, iacucProtocolHoldBean);
 }
 
         
@@ -315,8 +318,6 @@ public class IacucActionHelper extends ActionHelper {
         
         canDesignatedMemberApproval = hasPermission(TaskName.IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL);
         canDesignatedMemberApprovalUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_DESIGNATED_MEMBER_APPROVAL_UNAVAILABLE);
-        canHold = hasPermission(TaskName.IACUC_PROTOCOL_HOLD);
-        canHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_HOLD_UNAVAILABLE);
         canLiftHold = hasPermission(TaskName.IACUC_PROTOCOL_LIFT_HOLD);
         canLiftHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_LIFT_HOLD_UNAVAILABLE);
         canRequestToLiftHold = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD);
@@ -1161,6 +1162,16 @@ public class IacucActionHelper extends ActionHelper {
 
     public void setToAnswerSubmissionQuestionnaire(boolean toAnswerSubmissionQuestionnaire) {
         this.toAnswerSubmissionQuestionnaire = toAnswerSubmissionQuestionnaire;
+    }
+
+
+    public IacucProtocolGenericActionBean getIacucProtocolHoldBean() {
+        return iacucProtocolHoldBean;
+    }
+
+
+    public void setIacucProtocolHoldBean(IacucProtocolGenericActionBean iacucProtocolHoldBean) {
+        this.iacucProtocolHoldBean = iacucProtocolHoldBean;
     }
 
 
