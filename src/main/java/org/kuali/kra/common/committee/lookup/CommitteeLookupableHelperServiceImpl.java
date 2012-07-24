@@ -27,11 +27,11 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
@@ -67,7 +67,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
-        List<Committee> activeCommittees =  (List<Committee>)getUniqueList(super.getSearchResultsUnbounded(fieldValues), fieldValues);
+        List<CommonCommittee> activeCommittees =  (List<CommonCommittee>)getUniqueList(super.getSearchResultsUnbounded(fieldValues), fieldValues);
         Long matchingResultsCount = new Long(activeCommittees.size());
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Question.class);
         if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
@@ -103,12 +103,12 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     @SuppressWarnings("unchecked")
     protected List<? extends BusinessObject> getUniqueList(List<? extends BusinessObject> searchResults, Map<String, String> fieldValues) {
 
-        List<Committee> uniqueResults = new ArrayList<Committee>();
+        List<CommonCommittee> uniqueResults = new ArrayList<CommonCommittee>();
         List<String> committeeIds = new ArrayList<String>();
-        ((List<Committee>)searchResults).addAll(getUnapprovedCommittees(fieldValues));
+        ((List<CommonCommittee>)searchResults).addAll(getUnapprovedCommittees(fieldValues));
         if (CollectionUtils.isNotEmpty(searchResults)) {
-            Collections.sort((List<Committee>) searchResults, Collections.reverseOrder());
-            for (Committee committee : (List<Committee>) searchResults) {
+            Collections.sort((List<CommonCommittee>) searchResults, Collections.reverseOrder());
+            for (CommonCommittee committee : (List<CommonCommittee>) searchResults) {
                 if (!committeeIds.contains(committee.getCommitteeId())) {
                     committee.getCommitteeChair();
                     uniqueResults.add(committee);
@@ -120,11 +120,11 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     }
     
     protected String getHtmlAction() {
-        return "committeeCommittee.do";
+        return "commonCommitteeCommittee.do";
     }
     
     protected String getDocumentTypeName() {
-        return "CommitteeDocument";
+        return "CommonCommitteeDocument";
     }
     
     protected String getKeyFieldName() {
@@ -134,27 +134,27 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        String editCommitteeDocId = getEditedCommitteeDocId((Committee) businessObject);
+        String editCommitteeDocId = getEditedCommitteeDocId((CommonCommittee) businessObject);
         boolean isUnappprovedCommittee = false;
-        if (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals((((Committee) businessObject).getCommitteeDocument().getDocStatusCode())) 
-                && ((Committee) businessObject).getSequenceNumber() == 1) {
+        if (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals((((CommonCommittee) businessObject).getCommitteeDocument().getDocStatusCode())) 
+                && ((CommonCommittee) businessObject).getSequenceNumber() == 1) {
             isUnappprovedCommittee = true;
-            editCommitteeDocId = ((Committee) businessObject).getCommitteeDocument().getDocumentNumber();
+            editCommitteeDocId = ((CommonCommittee) businessObject).getCommitteeDocument().getDocumentNumber();
         }
-        if (getKraAuthorizationService().hasPermission(getUserIdentifier(), (Committee) businessObject,
+        if (getKraAuthorizationService().hasPermission(getUserIdentifier(), (CommonCommittee) businessObject,
                 PermissionConstants.MODIFY_COMMITTEE)) {
             htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
             if (StringUtils.isNotBlank(editCommitteeDocId)) {
                 AnchorHtmlData htmlData = (AnchorHtmlData) htmlDataList.get(0);
-                CommitteeDocument document = ((Committee) businessObject).getCommitteeDocument();
+                CommonCommitteeDocument document = ((CommonCommittee) businessObject).getCommitteeDocument();
                 String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
                 htmlData.setHref(String.format(DOCHANDLER_LINK, workflowUrl, editCommitteeDocId));
                 htmlData.setDisplayText("resume edit");
             }
         }
-        if (!isUnappprovedCommittee && getKraAuthorizationService().hasPermission(getUserIdentifier(), (Committee) businessObject,
+        if (!isUnappprovedCommittee && getKraAuthorizationService().hasPermission(getUserIdentifier(), (CommonCommittee) businessObject,
                 PermissionConstants.VIEW_COMMITTEE)) {
-            AnchorHtmlData htmlData = getViewLink(((Committee) businessObject).getCommitteeDocument());
+            AnchorHtmlData htmlData = getViewLink(((CommonCommittee) businessObject).getCommitteeDocument());
             htmlData.setDisplayText("view active");
             htmlDataList.add(htmlData);
         }
@@ -164,9 +164,9 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     /*
      * get the document number of the committee that is being edited.
      */
-    protected String getEditedCommitteeDocId(Committee committee) {
+    protected String getEditedCommitteeDocId(CommonCommittee committee) {
         String docId = null;
-        List<CommitteeDocument> documents = getCommitteeDocuments(committee.getCommitteeId());
+        List<CommonCommitteeDocument> documents = getCommitteeDocuments(committee.getCommitteeId());
         if (CollectionUtils.isNotEmpty(documents)) {
             docId = documents.get(0).getDocumentNumber();
         }
@@ -177,13 +177,13 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
      * get saved committee documents of the committeeId specified.
      * should only have one if exists
      */
-    protected List<CommitteeDocument> getCommitteeDocuments(String committeeId) {
+    protected List<CommonCommitteeDocument> getCommitteeDocuments(String committeeId) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("committeeId", committeeId);
-        List<CommitteeDocument> documents = (List<CommitteeDocument>) getBusinessObjectService()
-                .findMatching(CommitteeDocument.class, fieldValues);
-        List<CommitteeDocument> result = new ArrayList<CommitteeDocument>();
-        for (CommitteeDocument commDoc : documents) {
+        List<CommonCommitteeDocument> documents = (List<CommonCommitteeDocument>) getBusinessObjectService()
+                .findMatching(CommonCommitteeDocument.class, fieldValues);
+        List<CommonCommitteeDocument> result = new ArrayList<CommonCommitteeDocument>();
+        for (CommonCommitteeDocument commDoc : documents) {
             if (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(commDoc.getDocStatusCode())) {
                 result.add(commDoc);
             }
@@ -195,18 +195,18 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     /*
      * Get the committee that is saved, but not approved yet.  basically this is sequence = 1
      */
-    protected List<Committee> getUnapprovedCommittees(Map<String, String> criterias) {
+    protected List<CommonCommittee> getUnapprovedCommittees(Map<String, String> criterias) {
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("docStatusCode", "S");
-        List<CommitteeDocument> documents = (List<CommitteeDocument>) getBusinessObjectService().findMatching(
-                CommitteeDocument.class, fieldValues);
-        List<Committee> result = new ArrayList<Committee>();
+        List<CommonCommitteeDocument> documents = (List<CommonCommitteeDocument>) getBusinessObjectService().findMatching(
+                CommonCommitteeDocument.class, fieldValues);
+        List<CommonCommittee> result = new ArrayList<CommonCommittee>();
         List<String> committeeIds = getCommitteeIds();
-        for (CommitteeDocument commDoc : documents) {
+        for (CommonCommitteeDocument commDoc : documents) {
             if (!committeeIds.contains(commDoc.getCommitteeId())) {
                 try {
-                    CommitteeDocument workflowCommitteeDoc = (CommitteeDocument) KraServiceLocator
+                    CommonCommitteeDocument workflowCommitteeDoc = (CommonCommitteeDocument) KraServiceLocator
                             .getService(DocumentService.class).getByDocumentHeaderId(commDoc.getDocumentNumber());
                     // Get XML of workflow document
                     String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
@@ -232,7 +232,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
      * This is to check the committee, which is not approved yet, matches the search criteria specified.
      * This is a new committee and not persisted to DB yet.  So, this tedious criteria check is needed.
      */
-    protected boolean isCriteriaMatched(Committee committee, Map<String, String> criterias) {
+    protected boolean isCriteriaMatched(CommonCommittee committee, Map<String, String> criterias) {
         boolean isMatch = isMatching(criterias.get("committeeId"), committee.getCommitteeId())
                 && isMatching(criterias.get("committeeName"), committee.getCommitteeName())
                 && isMatching(criterias.get("homeUnitNumber"), committee.getHomeUnitNumber())
@@ -361,10 +361,10 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     /*
      * Create a Committee object and populate it from the xml.
      */
-    protected Committee populateCommitteeFromXmlDocumentContents(String xmlDocumentContents) {
-        Committee committee = null;
+    protected CommonCommittee populateCommitteeFromXmlDocumentContents(String xmlDocumentContents) {
+        CommonCommittee committee = null;
         if (!StringUtils.isEmpty(xmlDocumentContents)) {
-                committee = (Committee) getBusinessObjectFromXML(xmlDocumentContents, Committee.class.getName());
+                committee = (CommonCommittee) getBusinessObjectFromXML(xmlDocumentContents, CommonCommittee.class.getName());
         }
         return committee;
     }
@@ -391,10 +391,10 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
      * get the existing approved committee id
      */
     protected List<String> getCommitteeIds() {
-        List<Committee> committees = (List<Committee>) getBusinessObjectService().findAll(
-                Committee.class);
+        List<CommonCommittee> committees = (List<CommonCommittee>) getBusinessObjectService().findAll(
+                CommonCommittee.class);
         List<String> result = new ArrayList<String>();
-        for (Committee committee : committees) {
+        for (CommonCommittee committee : committees) {
             if (!result.contains(committee.getCommitteeId())) {
                 result.add(committee.getCommitteeId());
             }
@@ -412,9 +412,9 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
      * @param trimSize, the maximum size of the trimmed result set
      * @return the trimmed result set
      */
-    protected List<Committee> trimResult(List<Committee> result, Integer trimSize) {
-        List<Committee> trimedResult = new ArrayList<Committee>();
-        for (Committee committee : result) {
+    protected List<CommonCommittee> trimResult(List<CommonCommittee> result, Integer trimSize) {
+        List<CommonCommittee> trimedResult = new ArrayList<CommonCommittee>();
+        for (CommonCommittee committee : result) {
             if (trimedResult.size()< trimSize) {
                 trimedResult.add(committee); 
             }

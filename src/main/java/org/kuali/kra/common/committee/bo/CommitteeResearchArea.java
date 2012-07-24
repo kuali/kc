@@ -28,7 +28,7 @@ public class CommitteeResearchArea extends CommitteeAssociate {
 
     private String researchAreaCode;
 
-    private Committee committee;
+    private CommonCommittee committee;
 
     private ResearchArea researchArea;
 
@@ -59,11 +59,11 @@ public class CommitteeResearchArea extends CommitteeAssociate {
         this.researchArea = researchArea;
     }
 
-    public Committee getCommittee() {
+    public CommonCommittee getCommittee() {
         return committee;
     }
 
-    public void setCommittee(Committee committee) {
+    public void setCommittee(CommonCommittee committee) {
         this.committee = committee;
     }
 

@@ -29,7 +29,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
@@ -69,7 +69,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     private String EXEMPT_ACTION_TYPE_CODE = "206";
     private String FOLLOW_UP_ACTION_CODE = "109";
 
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {        Committee committee = (Committee)printableBusinessObject;
+    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {        CommonCommittee committee = (CommonCommittee)printableBusinessObject;
         String scheduleId = (String)reportParameters.get("scheduleId");
         CommitteeSchedule committeeSchedule = findCommitteeSchedule(committee,scheduleId);
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
@@ -83,7 +83,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
 
     private CommitteeSchedule findCommitteeSchedule(
-	Committee committee, String scheduleId) {
+	CommonCommittee committee, String scheduleId) {
         List<CommitteeSchedule> committeeSchedules =
 	committee.getCommitteeSchedules();
         for (CommitteeSchedule committeeSchedule : committeeSchedules) {

@@ -19,9 +19,9 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEvent;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -45,8 +45,8 @@ public class DeleteCommitteeScheduleRule  extends ResearchDocumentRuleBase imple
 
         boolean rulePassed = true;
         List<CommitteeSchedule> schedules = deleteCommitteeScheduleEvent.getCommitteeSchedules();
-        Committee activeCommittee = getCommitteeService().getCommitteeById(
-                ((CommitteeDocument) deleteCommitteeScheduleEvent.getDocument()).getCommittee().getCommitteeId());
+        CommonCommittee activeCommittee = getCommitteeService().getCommitteeById(
+                ((CommonCommitteeDocument) deleteCommitteeScheduleEvent.getDocument()).getCommittee().getCommitteeId());
         if (activeCommittee != null) {
             int i = 0;
             for (CommitteeSchedule schedule : schedules) {

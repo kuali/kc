@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -72,7 +72,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
         CommitteeForm committeeForm = (CommitteeForm) form;
-        CommitteeDocument doc = committeeForm.getCommitteeDocument();
+        CommonCommitteeDocument doc = committeeForm.getCommitteeDocument();
         
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, doc.getCommittee());
         if (isAuthorized(task)) {

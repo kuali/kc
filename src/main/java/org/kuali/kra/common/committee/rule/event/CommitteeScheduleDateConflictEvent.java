@@ -18,7 +18,7 @@ package org.kuali.kra.common.committee.rule.event;
 import java.util.List;
 
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.rules.CommitteeScheduleDateConflictRule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.rule.BusinessRuleInterface;
@@ -28,12 +28,12 @@ public class CommitteeScheduleDateConflictEvent extends CommitteeScheduleEventBa
     
     public static final String MSG = "adding CommitteeSchedule to document ";
   
-    public CommitteeScheduleDateConflictEvent(String errorPathPrefix, CommitteeDocument document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type) {
+    public CommitteeScheduleDateConflictEvent(String errorPathPrefix, CommonCommitteeDocument document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, scheduleData, committeeSchedules, type);
     }
     
     public CommitteeScheduleDateConflictEvent(String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type) {
-        this(errorPathPrefix, (CommitteeDocument)document, scheduleData, committeeSchedules, type);
+        this(errorPathPrefix, (CommonCommitteeDocument)document, scheduleData, committeeSchedules, type);
     }
     
     @SuppressWarnings("unchecked")

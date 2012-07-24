@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
@@ -26,12 +26,12 @@ import org.kuali.rice.krad.document.Document;
 public class MeetingAddMinuteEvent  extends MeetingEventBase<MeetingAddMinuteRule> {
     private static final String MSG = "Add meeting minute ";
     
-    public MeetingAddMinuteEvent(String errorPathPrefix, CommitteeDocument document, MeetingHelper meetingHelper, ErrorType type) {
+    public MeetingAddMinuteEvent(String errorPathPrefix, CommonCommitteeDocument document, MeetingHelper meetingHelper, ErrorType type) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, meetingHelper, type);
     }
     
     public MeetingAddMinuteEvent(String errorPathPrefix, Document document, MeetingHelper meetingHelper, ErrorType type) {
-        this(errorPathPrefix, (CommitteeDocument)document, meetingHelper, type);
+        this(errorPathPrefix, (CommonCommitteeDocument)document, meetingHelper, type);
     }
     
     @SuppressWarnings("unchecked")

@@ -21,7 +21,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
@@ -48,7 +48,7 @@ public interface CommonCommitteeScheduleService {
      * @param committee
      * @throws ParseException
      */
-    public void addSchedule(ScheduleData scheduleData, Committee committee) throws ParseException;
+    public void addSchedule(ScheduleData scheduleData, CommonCommittee committee) throws ParseException;
     
     /**
      * 

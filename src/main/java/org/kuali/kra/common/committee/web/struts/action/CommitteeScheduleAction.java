@@ -27,7 +27,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleDateConflictEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleDayEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleFilterEvent;
@@ -225,7 +225,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward maintainSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommitteeForm committeeForm = (CommitteeForm) form;     
-        CommitteeSchedule commSchedule = ((CommitteeDocument)committeeForm.getDocument()).getCommittee().getCommitteeSchedules().get(getLineToDelete(request));
+        CommitteeSchedule commSchedule = ((CommonCommitteeDocument)committeeForm.getDocument()).getCommittee().getCommitteeSchedules().get(getLineToDelete(request));
         response.sendRedirect("meetingManagement.do?methodToCall=start&scheduleId="+commSchedule.getId()
                 +"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
         return null;

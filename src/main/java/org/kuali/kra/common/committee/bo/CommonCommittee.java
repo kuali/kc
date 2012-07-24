@@ -26,7 +26,7 @@ import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.coi.CoiReviewType;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -38,8 +38,8 @@ import org.kuali.kra.util.DateUtils;
  * Represents a single committee within an institution.
  */
 @SuppressWarnings("serial")
-public class Committee extends KraPersistableBusinessObjectBase implements Comparable<Committee>,
-                                                                           SequenceOwner<Committee>,
+public class CommonCommittee extends KraPersistableBusinessObjectBase implements Comparable<CommonCommittee>,
+                                                                           SequenceOwner<CommonCommittee>,
                                                                            Permissionable {
     private Long id;
     private String committeeId;
@@ -60,7 +60,7 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
     private ProtocolReviewType reviewType;
     private CoiReviewType coiReviewType;
     
-    private CommitteeDocument committeeDocument;
+    private CommonCommitteeDocument committeeDocument;
     
     private List<CommitteeMembership> committeeMemberships;
     private List<CommitteeSchedule> committeeSchedules;
@@ -76,7 +76,7 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
     /**
      * Constructs a Committee.
      */
-    public Committee() {
+    public CommonCommittee() {
         setSequenceNumber(1);
         setCommitteeResearchAreas(new ArrayList<CommitteeResearchArea>());
         setCommitteeMemberships(new ArrayList<CommitteeMembership>());
@@ -219,11 +219,11 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
         this.coiReviewType = coiReviewType;
     }
 
-    public CommitteeDocument getCommitteeDocument() {
+    public CommonCommitteeDocument getCommitteeDocument() {
         return committeeDocument;
     }
 
-    public void setCommitteeDocument(CommitteeDocument committeeDocument) {
+    public void setCommitteeDocument(CommonCommitteeDocument committeeDocument) {
         this.committeeDocument = committeeDocument;
     }
 
@@ -317,11 +317,11 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
         sequenceNumber++;
     }
 
-    public Committee getSequenceOwner() {
+    public CommonCommittee getSequenceOwner() {
         return this;
     }
 
-    public void setSequenceOwner(Committee newOwner) {
+    public void setSequenceOwner(CommonCommittee newOwner) {
         // do nothing - this is root sequence association
     }
 
@@ -337,7 +337,7 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
      *         than the argument Committee; and a value greater than 0 if this Committee has a committeeId
      *         & sequenceNumber pair that is greater than the argument Committee.
      */
-    public int compareTo(Committee committee) {
+    public int compareTo(CommonCommittee committee) {
         if (StringUtils.equals(this.getCommitteeId(), committee.getCommitteeId())) {
             return this.getSequenceNumber().compareTo(committee.getSequenceNumber());
         } else {

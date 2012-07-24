@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.document.authorizer;
 
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -38,7 +38,7 @@ public class ModifyCommitteeAuthorizer extends CommitteeAuthorizer {
      */
     public boolean isAuthorized(String userId, CommitteeTask task) {
         boolean hasPermission = true;
-        Committee committee = task.getCommittee();
+        CommonCommittee committee = task.getCommittee();
         if (committee.getId() == null) {
             
             // We have to consider the case when we are saving the committee for the first time.

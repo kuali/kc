@@ -25,7 +25,7 @@ import java.util.Map;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
@@ -67,14 +67,14 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
      * @return {@link XmlObject} representing the XML
      */
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
-        Committee committee = (Committee)printableBusinessObject;
+        CommonCommittee committee = (CommonCommittee)printableBusinessObject;
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
        CommitteeDocument committeeDocumentType = CommitteeDocument.Factory.newInstance();
         committeeDocumentType.setCommittee(getCommitteeCompleteDetails(committee));
         xmlObjectList.put("Committee", committeeDocumentType);
         return xmlObjectList;
     }
-    public CommitteeType getCommitteeCompleteDetails(Committee committee)  {
+    public CommitteeType getCommitteeCompleteDetails(CommonCommittee committee)  {
         CommitteeType committeeType = CommitteeType.Factory.newInstance();
         setCommitteeMasterData(committee,committeeType.addNewCommitteeMasterData()) ;
         setCommitteeMembers(committee,committeeType);
@@ -82,7 +82,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
         setCommitteeResearchArea(committee,committeeType) ;
         return committeeType ;
     }
-    private void setCommitteeResearchArea(org.kuali.kra.common.committee.bo.Committee committee, CommitteeType committeeType) {
+    private void setCommitteeResearchArea(org.kuali.kra.common.committee.bo.CommonCommittee committee, CommitteeType committeeType) {
         List<CommitteeResearchArea> committeeResearchAreas = committee.getCommitteeResearchAreas();
         if(committeeResearchAreas.isEmpty()) return;
         for (CommitteeResearchArea committeeResearchArea : committeeResearchAreas) {
@@ -92,7 +92,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
         }
     }
 
-    private void setScheduleForcommittee(org.kuali.kra.common.committee.bo.Committee committee, CommitteeType committeeType) {
+    private void setScheduleForcommittee(org.kuali.kra.common.committee.bo.CommonCommittee committee, CommitteeType committeeType) {
         Date currentDate = new Date();
         Boolean isRooster=committee.getPrintRooster();
         List<CommitteeSchedule> vecSchedule = committee.getCommitteeSchedules();
@@ -115,7 +115,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
            }}}
     }
 
-    public void setCommitteeMembers(org.kuali.kra.common.committee.bo.Committee committee, CommitteeType committeeType) {
+    public void setCommitteeMembers(org.kuali.kra.common.committee.bo.CommonCommittee committee, CommitteeType committeeType) {
         List<CommitteeMembership> committeeMemberships = committee.getCommitteeMemberships();
         if(committeeMemberships.isEmpty()) return;
         for (CommitteeMembership membershipBean : committeeMemberships) {
@@ -124,7 +124,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
         }
         
     }
-    public void setCommitteeMembers(org.kuali.kra.common.committee.bo.Committee committee, Submissions committeeType) {
+    public void setCommitteeMembers(org.kuali.kra.common.committee.bo.CommonCommittee committee, Submissions committeeType) {
         List<CommitteeMembership> committeeMemberships = committee.getCommitteeMemberships();
         if(committeeMemberships.isEmpty()) return;
         for (CommitteeMembership membershipBean : committeeMemberships) {
@@ -198,7 +198,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
          }    
     }
 
-    public void setCommitteeMasterData(Committee committee,CommitteeMasterDataType committeeMasterDataType){
+    public void setCommitteeMasterData(CommonCommittee committee,CommitteeMasterDataType committeeMasterDataType){
 //      committee.refreshNonUpdateableReferences();
       committeeMasterDataType.setCommitteeId(committee.getCommitteeId()) ;
       committeeMasterDataType.setCommitteeName(committee.getCommitteeName()) ;

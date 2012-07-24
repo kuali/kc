@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
@@ -160,7 +160,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
     }
     
     public boolean setCommittee(ProtocolSubmission submission, String committeeId) {
-        Committee committee = committeeService.getCommitteeById(committeeId);
+        CommonCommittee committee = committeeService.getCommitteeById(committeeId);
         if (committee == null) {
             submission.setCommitteeId(null);
             submission.setCommitteeIdFk(null);

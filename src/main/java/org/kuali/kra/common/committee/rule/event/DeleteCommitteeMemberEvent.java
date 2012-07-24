@@ -18,7 +18,7 @@ package org.kuali.kra.common.committee.rule.event;
 import java.util.List;
 
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.rules.DeleteCommitteeMemberRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
@@ -40,7 +40,7 @@ public class DeleteCommitteeMemberEvent extends CommitteeMemberEventBase<DeleteC
      * @param committeeMemberships
      * @param type
      */
-    public DeleteCommitteeMemberEvent(String errorPathPrefix, CommitteeDocument document,
+    public DeleteCommitteeMemberEvent(String errorPathPrefix, CommonCommitteeDocument document,
             List<CommitteeMembership> committeeMemberships, ErrorType type) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, committeeMemberships, type);
     }
@@ -56,7 +56,7 @@ public class DeleteCommitteeMemberEvent extends CommitteeMemberEventBase<DeleteC
      */
     public DeleteCommitteeMemberEvent(String errorPathPrefix, Document document, List<CommitteeMembership> committeeMemberships,
             ErrorType type) {
-        this(errorPathPrefix, (CommitteeDocument) document, committeeMemberships, type);
+        this(errorPathPrefix, (CommonCommitteeDocument) document, committeeMemberships, type);
     }
 
     @SuppressWarnings("unchecked")

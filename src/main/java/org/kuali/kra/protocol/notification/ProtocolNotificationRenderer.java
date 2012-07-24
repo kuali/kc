@@ -22,14 +22,10 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewType;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierType;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -173,8 +169,7 @@ public class ProtocolNotificationRenderer extends NotificationRendererBase {
         String result = null;
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("committeeId", committeeId);
-        List<Committee> committees = 
-            (List<Committee>) getBusinessObjectService().findMatching(Committee.class, fieldValues);
+        List<CommonCommittee> committees = (List<CommonCommittee>) getBusinessObjectService().findMatching(CommonCommittee.class, fieldValues);
         if (CollectionUtils.isNotEmpty(committees)) {
             result = committees.get(0).getCommitteeName();
         }        

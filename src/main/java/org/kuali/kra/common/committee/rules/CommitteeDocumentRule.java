@@ -24,13 +24,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.businessLogic.CommitteeBusinessLogic;
 import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
-import org.kuali.kra.common.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinder;
 import org.kuali.kra.common.committee.rule.AddCommitteeMembershipRoleRule;
 import org.kuali.kra.common.committee.rule.AddCommitteeMembershipRule;
@@ -123,15 +123,15 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         valid &= GlobalVariables.getMessageMap().hasNoErrors();
         GlobalVariables.getMessageMap().removeFromErrorPath("document");
         
-        valid &= validateCommitteeId((CommitteeDocument) document);
-        valid &= validateUniqueCommitteeId((CommitteeDocument) document);
-        valid &= validateUniqueCommitteeName((CommitteeDocument) document);
-        valid &= validateHomeUnit((CommitteeDocument) document);
+        valid &= validateCommitteeId((CommonCommitteeDocument) document);
+        valid &= validateUniqueCommitteeId((CommonCommitteeDocument) document);
+        valid &= validateUniqueCommitteeName((CommonCommitteeDocument) document);
+        valid &= validateHomeUnit((CommonCommitteeDocument) document);
         
-        valid &= validateCommitteeTypeSpecificData((CommitteeDocument) document);
+        valid &= validateCommitteeTypeSpecificData((CommonCommitteeDocument) document);
                    
-        valid &= validateCommitteeMemberships((CommitteeDocument) document);
-        valid &= processScheduleRules((CommitteeDocument) document);
+        valid &= validateCommitteeMemberships((CommonCommitteeDocument) document);
+        valid &= processScheduleRules((CommonCommitteeDocument) document);
         
         
         return valid;
@@ -147,7 +147,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
      * @param document
      * @return
      */
-    private boolean validateCommitteeTypeSpecificData(CommitteeDocument document) {
+    private boolean validateCommitteeTypeSpecificData(CommonCommitteeDocument document) {
         boolean valid = true;
         CommitteeCollaboratorBusinessLogicFactoryGroup cmtGrp = getCommitteeCollaboratorBusinessLogicFactoryGroup();
         CommitteeBusinessLogic committeeBusinessLogic = cmtGrp.getCommitteeBusinessLogicFor(document.getCommittee());
@@ -170,8 +170,8 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
      * @param document Committee Document
      * @return true if valid; otherwise false
      */
-    private boolean validateCommitteeId(CommitteeDocument document) {
-        Committee committee = document.getCommittee();
+    private boolean validateCommitteeId(CommonCommitteeDocument document) {
+        CommonCommittee committee = document.getCommittee();
         if (StringUtils.equalsIgnoreCase(committee.getCommitteeId(), Constants.DEFAULT_CORRESPONDENCE_TEMPLATE)) {
             reportError(COMMITTEE_ID_FIELD, KeyConstants.ERROR_COMMITTEE_INVALID_ID);
             return false;
@@ -186,9 +186,9 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
      * @param document Committee Document
      * @return true if valid; otherwise false
      */
-    private boolean validateUniqueCommitteeId(CommitteeDocument document) {
+    private boolean validateUniqueCommitteeId(CommonCommitteeDocument document) {
 
-        Committee committee = document.getCommittee();
+        CommonCommittee committee = document.getCommittee();
         boolean valid = true;
         if (committee.getSequenceNumber() == 1 && (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved())) {
             if (getCommitteeIds(document.getDocumentNumber()).contains(committee.getCommitteeId())) {
@@ -196,9 +196,9 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
             } else {
                 // TODO : when committeeId & docstatuscode are populated properly, then the following is not needed.
                 try {
-                    for (CommitteeDocument workflowCommitteeDocument : getCommitteesDocumentsFromWorkflow(document.getDocumentNumber())) {
+                    for (CommonCommitteeDocument workflowCommitteeDocument : getCommitteesDocumentsFromWorkflow(document.getDocumentNumber())) {
 
-                        Committee workflowCommittee = workflowCommitteeDocument.getCommittee();
+                        CommonCommittee workflowCommittee = workflowCommitteeDocument.getCommittee();
                         LOG.info("get doc content for doc " + workflowCommitteeDocument.getDocumentNumber());
                         // There is no conflict if we are only modifying the same committee.
 
@@ -226,17 +226,17 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         return valid;
     }
     
-    private List<CommitteeDocument> getCommitteesDocumentsFromWorkflow(String docNumber) throws WorkflowException {
-        List<CommitteeDocument> documents = (List<CommitteeDocument>) KraServiceLocator.getService(BusinessObjectService.class)
-                .findAll(CommitteeDocument.class);
-        List<CommitteeDocument> result = new ArrayList<CommitteeDocument>();
-        for (CommitteeDocument commDoc : documents) {
+    private List<CommonCommitteeDocument> getCommitteesDocumentsFromWorkflow(String docNumber) throws WorkflowException {
+        List<CommonCommitteeDocument> documents = (List<CommonCommitteeDocument>) KraServiceLocator.getService(BusinessObjectService.class)
+                .findAll(CommonCommitteeDocument.class);
+        List<CommonCommitteeDocument> result = new ArrayList<CommonCommitteeDocument>();
+        for (CommonCommitteeDocument commDoc : documents) {
             // documents that have not been approved
             if ((commDoc.getCommitteeList() == null || commDoc.getCommitteeList().size() == 0)
                     && StringUtils.isBlank(commDoc.getCommitteeId()) && !StringUtils.equals(commDoc.getDocumentNumber(), docNumber)) {
             // Need this step to retrieve workflow document
 
-            CommitteeDocument workflowCommitteeDoc = (CommitteeDocument) KraServiceLocator.getService(DocumentService.class)
+            CommonCommitteeDocument workflowCommitteeDoc = (CommonCommitteeDocument) KraServiceLocator.getService(DocumentService.class)
                     .getByDocumentHeaderId(commDoc.getDocumentNumber());
             // Get XML of workflow document
             String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
@@ -269,9 +269,9 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         }
         */
         List<String> result = new ArrayList<String>();
-        List<CommitteeDocument> committeeDocss = (List<CommitteeDocument>) KraServiceLocator.getService(BusinessObjectService.class).findAll(
-                CommitteeDocument.class);
-        for (CommitteeDocument committeeDoc : committeeDocss) {
+        List<CommonCommitteeDocument> committeeDocss = (List<CommonCommitteeDocument>) KraServiceLocator.getService(BusinessObjectService.class).findAll(
+                CommonCommitteeDocument.class);
+        for (CommonCommitteeDocument committeeDoc : committeeDocss) {
             if (StringUtils.isNotBlank(committeeDoc.getCommitteeId()) && !result.contains(committeeDoc.getCommitteeId())
                     && StringUtils.isNotBlank(committeeDoc.getDocStatusCode()) && !committeeDoc.getDocStatusCode().equals(KewApiConstants.ROUTE_HEADER_CANCEL_CD)
                     && !StringUtils.equals(committeeDoc.getDocumentNumber(), docNumber)) {
@@ -284,10 +284,10 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     /*
      * Create a Committee object and populate it from the xml.
      */
-    private Committee populateCommitteeFromXmlDocumentContents(String xmlDocumentContents) {
-        Committee committee = null;
+    private CommonCommittee populateCommitteeFromXmlDocumentContents(String xmlDocumentContents) {
+        CommonCommittee committee = null;
         if (!StringUtils.isEmpty(xmlDocumentContents)) {
-                committee = (Committee) getBusinessObjectFromXML(xmlDocumentContents, Committee.class.getName());
+                committee = (CommonCommittee) getBusinessObjectFromXML(xmlDocumentContents, CommonCommittee.class.getName());
         }
         return committee;
     }
@@ -309,8 +309,8 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
      * @param document Committee Document
      * @return true if valid; otherwise false
      */
-    private boolean validateUniqueCommitteeName(CommitteeDocument document) {
-        Committee committee = document.getCommittee();
+    private boolean validateUniqueCommitteeName(CommonCommitteeDocument document) {
+        CommonCommittee committee = document.getCommittee();
         CommitteeIdValuesFinder committeeIdValuesFinder = new CommitteeIdValuesFinder();
         List<KeyValue> committeeIdNamePairList = committeeIdValuesFinder.getKeyValues();
         for (KeyValue committeeIdNamePair : committeeIdNamePairList) {
@@ -332,7 +332,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
      * @param document the Committee document
      * @return true if valid; otherwise false
      */
-    private boolean validateHomeUnit(CommitteeDocument document) {
+    private boolean validateHomeUnit(CommonCommitteeDocument document) {
         
         boolean valid = true;
         
@@ -349,7 +349,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
         return valid;
     }
     
-    private boolean validateCommitteeMemberships(CommitteeDocument committeeDocument) {
+    private boolean validateCommitteeMemberships(CommonCommitteeDocument committeeDocument) {
         boolean isValid = true;
         List<CommitteeMembership> committeeMemberships = committeeDocument.getCommittee().getCommitteeMemberships(); 
         
@@ -683,7 +683,7 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     /*
      * A few schedules related rules.
      */
-    private boolean processScheduleRules(CommitteeDocument committeeDocument) {
+    private boolean processScheduleRules(CommonCommitteeDocument committeeDocument) {
         boolean retval = true;
         
         
