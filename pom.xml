@@ -1394,6 +1394,95 @@
 	        <rice.ken.servlet></rice.ken.servlet>
       	</properties>
 	  </profile>
+	  
+	  <profile>
+      <id>monitoring</id>
+      <properties>
+        <monitoring.filter>
+          <![CDATA[
+<filter>
+    <filter-name>monitoring</filter-name>
+    <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
+    <init-param>
+        <param-name>log</param-name>
+        <param-value>true</param-value>
+    </init-param>
+    <init-param>
+             <param-name>system-actions-enabled</param-name>
+             <param-value>true</param-value>
+    </init-param>
+    <init-param>
+              <param-name>url-exclude-pattern</param-name>
+              <param-value>/static/.*|/kr/static/.*|/kr/images/.*|/images-portal/.*</param-value>
+    </init-param>
+</filter>
+          ]]>
+        </monitoring.filter>
+        <monitoring.mapping>
+          <![CDATA[
+<filter-mapping>
+    <filter-name>monitoring</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+          ]]>
+        </monitoring.mapping>
+        <monitoring.listener>
+          <![CDATA[
+<listener>
+    <listener-class>net.bull.javamelody.SessionListener</listener-class>
+</listener>
+          ]]>
+        </monitoring.listener>
+		<monitoring.spring.import>
+			<![CDATA[
+<import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
+          		]]>
+		</monitoring.spring.import>
+          <monitoring.spring.service>
+			<![CDATA[
+<import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
+<bean id="facadeMonitoringAdvisor" class="net.bull.javamelody.MonitoringSpringAdvisor">
+<property name="pointcut">
+<bean class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+<property name="pattern" value=".*(krad|krms|location|edl|kim|kcb|ken|kew|kns|ksb|kra).*ServiceImp.*" />
+</bean>
+</property>
+</bean>
+          		]]>
+		</monitoring.spring.service>
+      </properties>
+      <build>
+      </build>
+      <dependencies>
+        <!-- javamelody-core -->
+        <dependency>
+          <groupId>net.bull.javamelody</groupId>
+          <artifactId>javamelody-core</artifactId>
+          <version>1.31.0</version>
+        </dependency>
+        <!-- itext, option to add PDF export -->
+        <dependency>
+          <groupId>com.lowagie</groupId>
+          <artifactId>itext</artifactId>
+          <version>2.1.7</version>
+          <exclusions>
+            <exclusion>
+              <artifactId>bcmail-jdk14</artifactId>
+              <groupId>bouncycastle</groupId>
+            </exclusion>
+            <exclusion>
+              <artifactId>bcprov-jdk14</artifactId>
+              <groupId>bouncycastle</groupId>
+            </exclusion>
+            <exclusion>
+              <artifactId>bctsp-jdk14</artifactId>
+              <groupId>bouncycastle</groupId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+      </dependencies>
+    </profile>
+	  
         
 	</profiles>
 
