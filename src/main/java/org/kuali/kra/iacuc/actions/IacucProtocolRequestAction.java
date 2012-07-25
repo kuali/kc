@@ -42,6 +42,15 @@ public enum IacucProtocolRequestAction {
                                     "iacucProtocolDeactivateRequestBean", 
                                     "Request to Deactivate"), 
 
+    /**
+     * Request to lift a hold on a Protocol.
+     */
+    REQUEST_TO_LIFT_HOLD            (IacucProtocolActionType.REQUEST_LIFT_HOLD,
+                                    TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD,
+                                    Constants.IACUC_REQUEST_LIFT_HOLD_ACTION_PROPERTY_KEY, 
+                                    "iacucProtocolLiftHoldRequestBean", 
+                                    "Request to Lift Hold"), 
+
 //    /**
 //     * Request for suspension of a Protocol.
 //     */

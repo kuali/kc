@@ -19,16 +19,16 @@ import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
- * Is the user allowed to request deactivate on IACUC protocols?
+ * Is the user allowed to request lift hold on IACUC protocols?
  */
-public class RequestDeactivateIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
+public class RequestLiftHoldIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
 
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, IacucProtocolTask task) {        
-        return canExecuteAction(task.getProtocol(), IacucProtocolActionType.REQUEST_DEACTIVATE) &&
+        return canExecuteAction(task.getProtocol(), IacucProtocolActionType.REQUEST_LIFT_HOLD) &&
                hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }
     
