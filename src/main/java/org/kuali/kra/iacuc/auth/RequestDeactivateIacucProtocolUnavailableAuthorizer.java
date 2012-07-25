@@ -21,7 +21,7 @@ import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
 /**
- * Is the user allowed to disapprove protocols and the action is currently not available?
+ * Is the user allowed to request deactivate on IACUC protocols and the action is currently not available?
  */
 public class RequestDeactivateIacucProtocolUnavailableAuthorizer extends IacucProtocolAuthorizer {
 
@@ -30,8 +30,6 @@ public class RequestDeactivateIacucProtocolUnavailableAuthorizer extends IacucPr
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, IacucProtocolTask task) {        
-System.out.println("\nUUUUU canExecute request deactivate = " + canExecuteAction(task.getProtocol(), IacucProtocolActionType.REQUEST_DEACTIVATE) + 
-", hasPermission = " + hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO));
         return !canExecuteAction(task.getProtocol(), IacucProtocolActionType.REQUEST_DEACTIVATE) &&
                hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }

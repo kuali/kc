@@ -167,6 +167,7 @@ public class IacucActionHelper extends ActionHelper {
     protected IacucProtocolGenericActionBean iacucProtocolLiftHoldBean;
     
     protected IacucProtocolRequestBean iacucProtocolDeactivateRequestBean;
+    protected IacucProtocolRequestBean iacucProtocolLiftHoldRequestBean;
 
     /**
      * Constructs an ActionHelper.
@@ -187,6 +188,8 @@ public class IacucActionHelper extends ActionHelper {
         iacucProtocolLiftHoldBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucProtocolLiftHoldBean");
         iacucProtocolDeactivateRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.REQUEST_DEACTIVATE,
                 IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE, "iacucProtocolDeactivateRequestBean");
+        iacucProtocolLiftHoldRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.REQUEST_LIFT_HOLD,
+                IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD, "iacucProtocolLiftHoldRequestBean");
         initIacucSpecificActionBeanTaskMap();
    }
     
@@ -204,6 +207,7 @@ public class IacucActionHelper extends ActionHelper {
         actionBeanTaskMap.put(TaskName.IACUC_ACKNOWLEDGEMENT, iacucAcknowledgeBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_DEACTIVATE, iacucProtocolDeactivateBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE, iacucProtocolDeactivateRequestBean);
+        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD, iacucProtocolLiftHoldRequestBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_HOLD, iacucProtocolHoldBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_LIFT_HOLD, iacucProtocolLiftHoldBean);
 }
@@ -1127,7 +1131,6 @@ public class IacucActionHelper extends ActionHelper {
         this.canAddDeactivateReviewerComments = canAddDeactivateReviewerComments;
     }
 
-
     public IacucProtocolRequestBean getIacucProtocolDeactivateRequestBean() {
         return iacucProtocolDeactivateRequestBean;
     }
@@ -1137,11 +1140,17 @@ public class IacucActionHelper extends ActionHelper {
         this.iacucProtocolDeactivateRequestBean = iacucProtocolDeactivateRequestBean;
     }
 
+    public IacucProtocolRequestBean getIacucProtocolLiftHoldRequestBean() {
+        return iacucProtocolLiftHoldRequestBean;
+    }
+
+    public void setIacucProtocolLiftHoldRequestBean(IacucProtocolRequestBean iacucProtocolLiftHoldRequestBean) {
+        this.iacucProtocolLiftHoldRequestBean = iacucProtocolLiftHoldRequestBean;
+    }
 
     public void setCanIacucRequestDeactivate(boolean canIacucRequestDeactivate) {
         this.canIacucRequestDeactivate = canIacucRequestDeactivate;
     }
-
 
     public void setCanIacucRequestDeactivateUnavailable(boolean canIacucRequestDeactivateUnavailable) {
         this.canIacucRequestDeactivateUnavailable = canIacucRequestDeactivateUnavailable;

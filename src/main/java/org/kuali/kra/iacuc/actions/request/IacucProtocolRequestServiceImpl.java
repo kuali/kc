@@ -37,6 +37,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionBuilder;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolRequestActionNotificationRenderer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -171,7 +172,7 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
         String protocolActionTypeCode = protocolActionType.getProtocolActionTypeCode();
         String description = protocolActionType.getDescription();
         
-        IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer(protocol);
+        IacucProtocolRequestActionNotificationRenderer renderer = new IacucProtocolRequestActionNotificationRenderer(protocol, requestBean.getReason());
         IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, protocolActionTypeCode, description, renderer);
         kcNotificationService.sendNotification(context);
     }

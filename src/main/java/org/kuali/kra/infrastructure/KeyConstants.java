@@ -1095,7 +1095,8 @@ public final class KeyConstants {
     public static final String ERROR_IACUC_VALIDATION_INVALID_PERSON_TRAINING = "error.iacuc.validation.invalid.person.training";
     public static final String ERROR_IACUC_VALIDATION_MISMATCH_PERSON_TRAINING = "error.iacuc.validation.mismatch.person.training";
     
-    
+    // no reason given string
+    public static final String NO_REASON_GIVEN="message.none.given";
     
     // Disclosure and Financial Entity errors
     public static final String ERROR_DISCLOSURE_SEARCH_INVALID_DATE = "error.search.invalid.date";
