@@ -331,8 +331,8 @@ public class IacucActionHelper extends ActionHelper {
         canLiftHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_LIFT_HOLD_UNAVAILABLE);
         canRequestToLiftHold = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD);
         canRequestToLiftHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD_UNAVAILABLE);
-        canReturnToPI = hasPermission(TaskName.RETURN_TO_PI_IACUC_PROTOCOL);
-        canReturnToPIUnavailable = hasPermission(TaskName.RETURN_TO_PI_IACUC_PROTOCOL_UNAVAILABLE);
+        canReturnToPI = hasPermission(TaskName.RETURN_TO_PI_PROTOCOL);
+        canReturnToPIUnavailable = hasPermission(TaskName.RETURN_TO_PI_PROTOCOL_UNAVAILABLE);
         canReviewNotRequired = hasPermission(TaskName.REVIEW_NOT_REQUIRED_IACUC_PROTOCOL);
         canReviewNotRequiredUnavailable = hasPermission(TaskName.REVIEW_NOT_REQUIRED_IACUC_PROTOCOL_UNAVAILABLE);
         canTable = hasPermission(TaskName.IACUC_PROTOCOL_TABLE);
@@ -1011,6 +1011,11 @@ public class IacucActionHelper extends ActionHelper {
     @Override
     protected String getSRRProtocolActionTypeHook() {
         return IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED;
+    }
+    
+    @Override
+    protected String getReturnToPIActionTypeHook() {
+        return IacucProtocolActionType.RETURNED_TO_PI;
     }
 
     @Override
