@@ -37,6 +37,7 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
     public static final String EXPIRE_PROTOCOL = "iacucProtocolExpire";
     public static final String EXPIRE_UNAVAILABLE_PROTOCOL = "iacucProtocolExpireUnavailable";
     public static final String SUSPEND_PROTOCOL = "iacucProtocolSuspend";
+    public static final String SUSPEND_UNAVAILABLE_PROTOCOL = "iacucProtocolUnavailableSuspend";
     public static final String TERMINATE_PROTOCOL = "iacucProtocolTerminate";
     public static final String TERMINATE_UNAVAILBLE_PROTOCOL = "iacucProtocolTerminateUnavailable";
 
@@ -46,6 +47,7 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
         TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_PROTOCOL, IacucProtocolActionType.EXPIRED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_UNAVAILABLE_PROTOCOL, IacucProtocolActionType.EXPIRED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_PROTOCOL, IacucProtocolActionType.SUSPENDED);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_UNAVAILABLE_PROTOCOL, IacucProtocolActionType.SUSPENDED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(TERMINATE_PROTOCOL, IacucProtocolActionType.TERMINATED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(TERMINATE_UNAVAILBLE_PROTOCOL, IacucProtocolActionType.TERMINATED);   
     }
