@@ -637,6 +637,11 @@ public class IacucActionHelper extends ActionHelper {
     protected String getExpireKeyHook() {
         return IacucProtocolActionType.EXPIRED;
     }
+    
+    @Override
+    protected String getTerminateKeyHook() {
+        return IacucProtocolActionType.TERMINATED;
+    }
 
     @Override
     protected ProtocolSubmitAction getNewProtocolSubmitActionInstanceHook(ActionHelper actionHelper) {
@@ -856,8 +861,25 @@ public class IacucActionHelper extends ActionHelper {
     
     @Override
     protected ProtocolTask getExpireTaskInstanceHook(Protocol protocol) {
-        //return new IacucProtocolTask(TaskName.EXPIRE_PROTOCOL, (IacucProtocol) protocol);
         IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.EXPIRE_PROTOCOL, (IacucProtocol)protocol);
+        return task;
+    }
+    
+    @Override
+    protected ProtocolTask getExpireUnavailableTaskInstanceHook(Protocol protocol) {
+        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.EXPIRE_UNAVAILABLE_PROTOCOL, (IacucProtocol)protocol);
+        return task;
+    }
+    
+    @Override
+    protected ProtocolTask getTerminateTaskInstanceHook(Protocol protocol) {
+        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.TERMINATE_PROTOCOL, (IacucProtocol)protocol);
+        return task;
+    }
+    
+    @Override
+    protected ProtocolTask getTerminateUnavailableTaskInstanceHook(Protocol protocol) {
+        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.TERMINATE_UNAVAILBLE_PROTOCOL, (IacucProtocol)protocol);
         return task;
     }
 

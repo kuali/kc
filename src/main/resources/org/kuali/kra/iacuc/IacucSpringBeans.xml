@@ -382,6 +382,16 @@
                 
                 <bean class="org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                 	<property name="taskName" value="iacucProtocolExpire"/>
+                </bean>  
+                <bean class="org.kuali.kra.iacuc.auth.IacucGenericProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="iacucProtocolExpireUnavailable"/>
+                </bean>  
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="iacucProtocolTerminate"/>
+                </bean>  
+                <bean class="org.kuali.kra.iacuc.auth.IacucGenericProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="iacucProtocolTerminateUnavailable"/>
                 </bean>                 
            </list>
         </property>

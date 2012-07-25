@@ -426,8 +426,7 @@ public abstract class ActionHelper implements Serializable {
 //        protocolCloseBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, 
 //                Constants.PROTOCOL_CLOSE_ACTION_PROPERTY_KEY);
         protocolExpireBean = buildProtocolGenericActionBean(getExpireKeyHook(), Constants.PROTOCOL_EXPIRE_ACTION_PROPERTY_KEY);
-//        protocolTerminateBean = buildProtocolGenericActionBean(ProtocolActionType.TERMINATED, 
-//                Constants.PROTOCOL_TERMINATE_ACTION_PROPERTY_KEY);
+        protocolTerminateBean = buildProtocolGenericActionBean(getTerminateKeyHook(), Constants.PROTOCOL_TERMINATE_ACTION_PROPERTY_KEY);
 //        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(ProtocolActionType.DATA_ANALYSIS_ONLY, 
 //                Constants.PROTOCOL_PERMIT_DATA_ANALYSIS_ACTION_PROPERTY_KEY);
 //        protocolIrbAcknowledgementBean = buildProtocolGenericActionBean(ProtocolActionType.IRB_ACKNOWLEDGEMENT, 
@@ -587,7 +586,7 @@ public abstract class ActionHelper implements Serializable {
 //        actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL, protocolSuspendBean);
 //        actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL_BY_DSMB, protocolSuspendByDsmbBean);
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolSuspendRequestBean);
-//        actionBeanTaskMap.put(TaskName.TERMINATE_PROTOCOL, protocolTerminateBean);
+        actionBeanTaskMap.put(TaskName.TERMINATE_PROTOCOL, protocolTerminateBean);
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_TERMINATE, protocolTerminateRequestBean);
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_UNDO_LAST_ACTION, undoLastActionBean);
         
@@ -604,6 +603,8 @@ public abstract class ActionHelper implements Serializable {
         protected abstract String getAbandonPropertyKeyHook();
         
         protected abstract String getExpireKeyHook();
+        
+        protected abstract String getTerminateKeyHook();
                
         protected abstract ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey);
         
@@ -887,8 +888,8 @@ public abstract class ActionHelper implements Serializable {
 //        canCloseUnavailable = hasCloseUnavailablePermission();
         canExpire = hasExpirePermission();
         canExpireUnavailable = hasExpireUnavailablePermission();
-//        canTerminate = hasTerminatePermission();
-//        canTerminateUnavailable = hasTerminateUnavailablePermission();
+        canTerminate = hasTerminatePermission();
+        canTerminateUnavailable = hasTerminateUnavailablePermission();
 //        canPermitDataAnalysis = hasPermitDataAnalysisPermission();
 //        canPermitDataAnalysisUnavailable = hasPermitDataAnalysisUnavailablePermission();
 
@@ -941,7 +942,8 @@ public abstract class ActionHelper implements Serializable {
 //        canAddDataAnalysisReviewerComments = hasDataAnalysisRequestLastAction();
 //        canAddReopenEnrollmentReviewerComments = hasReopenEnrollmentRequestLastAction();
 //        canAddSuspendReviewerComments = hasSuspendRequestLastAction();
-//        canAddTerminateReviewerComments = hasTerminateRequestLastAction();
+        //canAddTerminateReviewerComments = hasTerminateRequestLastAction();
+        canAddTerminateReviewerComments = hasTerminatePermission();
 //        hideReviewerName = checkToHideReviewName();
 ////        undoLastActionBean = createUndoLastActionBean(getProtocol());
 //       
@@ -976,12 +978,14 @@ public abstract class ActionHelper implements Serializable {
         ProtocolTask task = getExpireTaskInstanceHook(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
+    protected abstract ProtocolTask getExpireTaskInstanceHook(Protocol protocol);
     
     protected boolean hasExpireUnavailablePermission() {
-        return !hasExpirePermission();
+        //return !hasExpirePermission();
+        ProtocolTask task = getExpireUnavailableTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
-    
-    protected abstract ProtocolTask getExpireTaskInstanceHook(Protocol protocol);
+    protected abstract ProtocolTask getExpireUnavailableTaskInstanceHook(Protocol protocol);
     
     private boolean hasAdministrativelyWithdrawPermission() {
         ProtocolTask task = getNewAdminWithdrawProtocolTaskInstanceHook(getProtocol());
@@ -1046,7 +1050,7 @@ public abstract class ActionHelper implements Serializable {
 //        protocolSuspendByDsmbBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolCloseBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolExpireBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        protocolTerminateBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolTerminateBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolPermitDataAnalysisBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         
         committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
@@ -1440,14 +1444,18 @@ public abstract class ActionHelper implements Serializable {
 //        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.EXPIRE_PROTOCOL);
 //    }
 //    
-//    protected boolean hasTerminatePermission() {
-//        return hasGenericPermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL);
-//    }
-//    
-//    protected boolean hasTerminateUnavailablePermission() {
-//        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL);
-//    }
-//    
+    protected boolean hasTerminatePermission() {
+        ProtocolTask task = getTerminateTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    protected abstract ProtocolTask getTerminateTaskInstanceHook(Protocol protocol);
+    
+    protected boolean hasTerminateUnavailablePermission() {
+        ProtocolTask task = getTerminateUnavailableTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    protected abstract ProtocolTask getTerminateUnavailableTaskInstanceHook(Protocol protocol);
+    
 //    protected boolean hasPermitDataAnalysisPermission() {
 //        return hasGenericPermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS);
 //    }
@@ -1610,7 +1618,7 @@ public abstract class ActionHelper implements Serializable {
 //    protected boolean hasSuspendRequestLastAction() {
 //        return ProtocolActionType.REQUEST_FOR_SUSPENSION.equals(getLastPerformedAction().getProtocolActionTypeCode());
 //    }
-//    
+    
 //    protected boolean hasTerminateRequestLastAction() {
 //        return ProtocolActionType.REQUEST_FOR_TERMINATION.equals(getLastPerformedAction().getProtocolActionTypeCode());
 //    }
@@ -2313,10 +2321,10 @@ public abstract class ActionHelper implements Serializable {
 //        return canAddSuspendReviewerComments;
 //    }
 //
-//    public boolean getCanAddTerminateReviewerComments() {
-//        return canAddTerminateReviewerComments;
-//    }
-//
+    public boolean getCanAddTerminateReviewerComments() {
+        return canAddTerminateReviewerComments;
+    }
+
 //    public void setPrintTag(String printTag) {
 //        this.printTag = printTag;
 //    }
