@@ -18,8 +18,8 @@ package org.kuali.kra.iacuc.auth;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
 
 public abstract class ModifyIacucAmendmentAuthorizer extends ModifyIacucProtocolAuthorizer {
     

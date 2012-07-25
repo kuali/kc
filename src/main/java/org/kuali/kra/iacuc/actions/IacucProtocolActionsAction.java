@@ -57,6 +57,8 @@ import org.kuali.kra.iacuc.actions.assignagenda.IacucProtocolAssignToAgendaBean;
 import org.kuali.kra.iacuc.actions.assignagenda.IacucProtocolAssignToAgendaEvent;
 import org.kuali.kra.iacuc.actions.assignagenda.IacucProtocolAssignToAgendaService;
 import org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService;
+import org.kuali.kra.iacuc.actions.correction.IacucAdminCorrectionBean;
+import org.kuali.kra.iacuc.actions.correction.IacucProtocolAdminCorrectionEvent;
 import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecision;
 import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionAbstainerEvent;
 import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionEvent;
@@ -103,8 +105,8 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
 import org.kuali.kra.iacuc.notification.IacucProtocolRequestActionNotificationRenderer;
-import org.kuali.kra.iacuc.notification.IacucRequestActionNotificationBean;
 import org.kuali.kra.iacuc.notification.IacucProtocolWithReasonNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucRequestActionNotificationBean;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireAuditRule;
@@ -112,8 +114,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
-import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionEvent;
 import org.kuali.kra.irb.actions.history.ProtocolHistoryFilterDatesEvent;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -127,10 +127,8 @@ import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
-import org.kuali.kra.protocol.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -2632,53 +2630,57 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-//    /**
-//     * Open ProtocolDocument in Read/Write mode for Admin Correction
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward openProtocolForAdminCorrection(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        
-//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolDocument.getProtocol());
-//        if (!hasDocumentStateChanged(protocolForm)) {
-//            if (isAuthorized(task)) {
-//                if (applyRules(new ProtocolAdminCorrectionEvent(protocolDocument, protocolForm.getActionHelper()
-//                            .getProtocolAdminCorrectionBean()))) {
-//                    protocolDocument.getProtocol().setCorrectionMode(true); 
-//                    protocolForm.getProtocolHelper().prepareView();
-//    
-//                    AdminCorrectionBean adminCorrectionBean = protocolForm.getActionHelper().getProtocolAdminCorrectionBean();
-//                    protocolDocument.updateProtocolStatus(ProtocolActionType.ADMINISTRATIVE_CORRECTION, adminCorrectionBean.getComments());
-//                    recordProtocolActionSuccess("Make Administrative Correction");
-//    
-//                    ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolDocument.getProtocol(), ProtocolActionType.ADMINISTRATIVE_CORRECTION, "Administrative Correction");
-//                    protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//
-//                    if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                        return mapping.findForward(CORRESPONDENCE);
-//                    } else {
-//                        return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
-//                    }
-//                }
-//            }
-//        } else {
-//            GlobalVariables.getMessageMap().clearErrorMessages();
-//            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
-//        } 
-//        
-//        return forward;  
-//    }
-//
+    /**
+     * Open ProtocolDocument in Read/Write mode for Admin Correction
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward openProtocolForAdminCorrection(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument protocolDocument = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.IACUC_PROTOCOL_ADMIN_CORRECTION, protocol);
+        if (!hasDocumentStateChanged(protocolForm)) {
+            if (isAuthorized(task)) {
+                if (applyRules(new IacucProtocolAdminCorrectionEvent(protocolDocument, Constants.PROTOCOL_ADMIN_CORRECTION_PROPERTY_KEY,
+                        protocolForm.getActionHelper().getProtocolAdminCorrectionBean()))) {
+                    protocolDocument.getProtocol().setCorrectionMode(true); 
+                    protocolForm.getProtocolHelper().prepareView();
+    
+                    IacucAdminCorrectionBean adminCorrectionBean = (IacucAdminCorrectionBean)protocolForm.getActionHelper().getProtocolAdminCorrectionBean();
+                    protocolDocument.updateProtocolStatus(IacucProtocolActionType.ADMINISTRATIVE_CORRECTION, adminCorrectionBean.getComments());
+                    recordProtocolActionSuccess("Make Administrative Correction");
+    
+                    IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ADMINISTRATIVE_CORRECTION, "Administrative Correction");
+                    protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+
+                    if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                        return mapping.findForward(CORRESPONDENCE);
+                    } else {
+                        return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
+                    }
+                }
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+        } 
+        
+        return forward;  
+    }
+    
+    
+    
 //    public ActionForward undoLastAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 //            HttpServletResponse response) throws Exception {
 //
