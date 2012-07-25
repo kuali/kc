@@ -808,7 +808,7 @@ public abstract class ActionHelper implements Serializable {
 // TODO *********commented the code below during IACUC refactoring*********         
 //        assignCmtSchedBean.prepareView();
 //        protocolAssignReviewersBean.prepareView();
-//        submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
+//        submissionConstraint = getParameterValue(Constants.PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION);
         
         canCreateAmendment = hasCreateAmendmentPermission();
         canCreateAmendmentUnavailable = hasCreateAmendmentUnavailablePermission();
@@ -2995,7 +2995,6 @@ public abstract class ActionHelper implements Serializable {
 //    public ProtocolGenericActionBean getProtocolDeferBean() {
 //        return protocolDeferBean;
 //    }
-//
 //    
 //    public ProtocolReviewNotRequiredBean getProtocolReviewNotRequiredBean() {
 //        return this.protocolReviewNotRequiredBean;

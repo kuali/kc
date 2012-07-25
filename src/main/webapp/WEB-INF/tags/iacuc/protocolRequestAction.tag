@@ -116,9 +116,9 @@
             <kra-iacuc-action:genericAction tabTitle="Deactivate"
                                           bean="${KualiForm.actionHelper.iacucProtocolDeactivateBean}"
                                           property="actionHelper.iacucProtocolDeactivateBean"
-                                          taskName="iacucProtocolRequestDeactivate"
+                                          taskName="iacucProtocolDeactivate"
                                           methodToCall="iacucDeactivate"
-                                          canPerformAction="${KualiForm.actionHelper.canIacucRequestDeactivate}" />
+                                          canPerformAction="${KualiForm.actionHelper.canIacucDeactivate}" />
             <kra-iacuc-action:genericAction tabTitle="Hold"
                                           bean="${KualiForm.actionHelper.iacucProtocolHoldBean}"
                                           property="actionHelper.iacucProtocolHoldBean"
@@ -161,6 +161,12 @@
                                           beanName="iacucProtocolDeactivateRequestBean"
                                           actionTypeCode="107"
                                           tabTitle="Request to Deactivate"/>
+            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.iacucProtocolLiftHoldRequestBean}"
+                                          permission="${KualiForm.actionHelper.canRequestToLiftHold}"
+                                          taskName="iacucProtocolRequestLiftHold"
+                                          beanName="iacucProtocolLiftHoldRequestBean"
+                                          actionTypeCode="108"
+                                          tabTitle="Request to Lift Hold"/>
 <%--                                          
             <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolSuspendRequestBean}"
                                           permission="${KualiForm.actionHelper.canRequestSuspension}"
