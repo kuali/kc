@@ -407,7 +407,14 @@
                 </bean>  
                 <bean class="org.kuali.kra.iacuc.auth.IacucGenericProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                 	<property name="taskName" value="iacucProtocolTerminateUnavailable"/>
-                </bean>                 
+                </bean>  
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="iacucProtocolSuspend"/>
+                </bean>  
+                <bean class="org.kuali.kra.iacuc.auth.IacucGenericProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="iacucProtocolUnavailableSuspend"/>
+                </bean>                
            </list>
         </property>
     </bean>

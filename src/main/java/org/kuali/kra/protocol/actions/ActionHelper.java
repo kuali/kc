@@ -419,8 +419,7 @@ public abstract class ActionHelper implements Serializable {
 //                Constants.PROTOCOL_REOPEN_ENROLLMENT_ACTION_PROPERTY_KEY);
 //        protocolCloseEnrollmentBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_FOR_ENROLLMENT, 
 //                Constants.PROTOCOL_CLOSE_ENROLLMENT_ACTION_PROPERTY_KEY);
-//        protocolSuspendBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED, 
-//                Constants.PROTOCOL_SUSPEND_ACTION_PROPERTY_KEY);
+        protocolSuspendBean = buildProtocolGenericActionBean(getSuspendKeyHook(), Constants.PROTOCOL_SUSPEND_ACTION_PROPERTY_KEY);
 //        protocolSuspendByDsmbBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED_BY_DSMB, 
 //                Constants.PROTOCOL_SUSPEND_BY_DSMB_ACTION_PROPERTY_KEY);
 //        protocolCloseBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, 
@@ -583,7 +582,7 @@ public abstract class ActionHelper implements Serializable {
         actionBeanTaskMap.put(TaskName.SUBMIT_PROTOCOL, protocolSubmitAction);
    
 // TODO *********commented the code below during IACUC refactoring*********         
-//        actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL, protocolSuspendBean);
+        actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL, protocolSuspendBean);
 //        actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL_BY_DSMB, protocolSuspendByDsmbBean);
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolSuspendRequestBean);
         actionBeanTaskMap.put(TaskName.TERMINATE_PROTOCOL, protocolTerminateBean);
@@ -605,6 +604,8 @@ public abstract class ActionHelper implements Serializable {
         protected abstract String getExpireKeyHook();
         
         protected abstract String getTerminateKeyHook();
+        
+        protected abstract String getSuspendKeyHook();
                
         protected abstract ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey);
         
@@ -880,8 +881,8 @@ public abstract class ActionHelper implements Serializable {
 //        canReopenEnrollmentUnavailable = hasReopenEnrollmentUnavailablePermission();
 //        canCloseEnrollment = hasCloseEnrollmentPermission();
 //        canCloseEnrollmentUnavailable = hasCloseEnrollmentUnavailablePermission();
-//        canSuspend = hasSuspendPermission();
-//        canSuspendUnavailable = hasSuspendUnavailablePermission();
+        canSuspend = hasSuspendPermission();
+        canSuspendUnavailable = hasSuspendUnavailablePermission();
 //        canSuspendByDsmb = hasSuspendByDsmbPermission();
 //        canSuspendByDsmbUnavailable = hasSuspendByDsmbUnavailablePermission();
 //        canClose = hasClosePermission();
@@ -941,7 +942,8 @@ public abstract class ActionHelper implements Serializable {
 //        canAddCloseEnrollmentReviewerComments = hasCloseEnrollmentRequestLastAction();
 //        canAddDataAnalysisReviewerComments = hasDataAnalysisRequestLastAction();
 //        canAddReopenEnrollmentReviewerComments = hasReopenEnrollmentRequestLastAction();
-//        canAddSuspendReviewerComments = hasSuspendRequestLastAction();
+        //canAddSuspendReviewerComments = hasSuspendRequestLastAction();
+        canAddSuspendReviewerComments = hasSuspendPermission();
         //canAddTerminateReviewerComments = hasTerminateRequestLastAction();
         canAddTerminateReviewerComments = hasTerminatePermission();
 //        hideReviewerName = checkToHideReviewName();
@@ -1046,7 +1048,7 @@ public abstract class ActionHelper implements Serializable {
 // TODO *********commented the code below during IACUC refactoring*********         
 //        protocolReopenEnrollmentBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolCloseEnrollmentBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        protocolSuspendBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolSuspendBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolSuspendByDsmbBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolCloseBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolExpireBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
@@ -1411,15 +1413,19 @@ public abstract class ActionHelper implements Serializable {
 //    protected boolean hasCloseEnrollmentUnavailablePermission() {
 //        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.CLOSE_ENROLLMENT_PROTOCOL);
 //    }
-//    
-//    protected boolean hasSuspendPermission() {
-//        return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL);
-//    }
-//    
-//    protected boolean hasSuspendUnavailablePermission() {
-//        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL);
-//    }
-//    
+    
+    protected boolean hasSuspendPermission() {
+        ProtocolTask task = getSuspendTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    protected abstract ProtocolTask getSuspendTaskInstanceHook(Protocol protocol);
+    
+    protected boolean hasSuspendUnavailablePermission() {
+        ProtocolTask task = getSuspendUnavailableTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    protected abstract ProtocolTask getSuspendUnavailableTaskInstanceHook(Protocol protocol);
+    
 //    protected boolean hasSuspendByDsmbPermission() {
 //        return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB);
 //    }
@@ -2316,11 +2322,11 @@ public abstract class ActionHelper implements Serializable {
 //    public boolean getCanAddReopenEnrollmentReviewerComments() {
 //        return canAddReopenEnrollmentReviewerComments;
 //    }
-//
-//    public boolean getCanAddSuspendReviewerComments() {
-//        return canAddSuspendReviewerComments;
-//    }
-//
+
+    public boolean getCanAddSuspendReviewerComments() {
+        return canAddSuspendReviewerComments;
+    }
+
     public boolean getCanAddTerminateReviewerComments() {
         return canAddTerminateReviewerComments;
     }
