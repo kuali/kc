@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+/*
+ * Copyright 2005-2010 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="IacucProtocolReferenceTypeMaintenanceDocument" parent="IacucProtocolReferenceTypeMaintenanceDocument-parentBean"/>
+	<bean id="IacucProtocolReferenceTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceType"/>
+		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+		<property name="maintainableSections">
+			<list>
+				<ref bean="IacucProtocolReferenceTypeMaintenanceDocument-EditIacucProtocolReferenceType"/>
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>protocolReferenceTypeCode</value>
+			</list>
+		</property>		<property name="allowsRecordDeletion" value="true" />		<property name="documentTypeName" value="IacucProtocolReferenceTypeMaintenanceDocument"/>
+		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+	
+	<bean id="IacucProtocolReferenceTypeMaintenanceDocument-EditIacucProtocolReferenceType" parent="IacucProtocolReferenceTypeMaintenanceDocument-EditIacucProtocolReferenceType-parentBean"/>
+	<bean id="IacucProtocolReferenceTypeMaintenanceDocument-EditIacucProtocolReferenceType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit IACUC Protocol Reference Type Code"/>
+		<property name="title" value="Edit IACUC Protocol Reference Type Code"/>
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="protocolReferenceTypeCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+			</list>
+		</property>
+	</bean>
+</beans>
