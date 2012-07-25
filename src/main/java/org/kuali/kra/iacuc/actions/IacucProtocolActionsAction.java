@@ -4604,6 +4604,15 @@ System.out.println("\nTTTTT new task, name = " + TaskName.GENERIC_IACUC_PROTOCOL
                  IacucProtocolTableBean actionBean = ((IacucActionHelper) protocolForm.getActionHelper()).getIacucProtocolTableBean();
                  getIacucProtocolTableService().tableProtocol(protocol, actionBean);
                  recordProtocolActionSuccess("Table Protocol");                 
+                 IacucProtocolNotificationRequestBean notificationRequestBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.TABLED, "Tabled");
+                 protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, notificationRequestBean, false));
+
+                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                     return mapping.findForward(CORRESPONDENCE);
+                 } else {
+                     return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationRequestBean);
+                 }
+
              }
          } else {
              GlobalVariables.getMessageMap().clearErrorMessages();
