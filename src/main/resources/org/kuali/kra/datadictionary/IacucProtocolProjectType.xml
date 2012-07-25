@@ -84,7 +84,7 @@
     <!-- Business Object Inquiry Definition -->
     <bean id="IacucProtocolProjectType-inquiryDefinition" parent="IacucProtocolProjectType-inquiryDefinition-parentBean" />
     <bean id="IacucProtocolProjectType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Project Type Code" />
+        <property name="title" value="IACUC Protocol Project Type" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
@@ -107,7 +107,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="IacucProtocolProjectType-lookupDefinition" parent="IacucProtocolProjectType-lookupDefinition-parentBean" />
     <bean id="IacucProtocolProjectType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="IACUC Project Type Lookup" />
+        <property name="title" value="IACUC Protocol Project Type Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
