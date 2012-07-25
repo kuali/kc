@@ -25,6 +25,12 @@
           <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
       <portal:portalLink displayTitle="false" title="Committee Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.committee.bo.Committee&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
           <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
+             |           (Common committee testing  
+      <portal:portalLink displayTitle="false" title="Create Committee" url="${ConfigProperties.application.url}/commonCommitteeCommittee.do?methodToCall=docHandler&command=initiate&docTypeName=CommonCommitteeDocument">
+          <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>          
+      <portal:portalLink displayTitle="false" title="Committee Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.common.committee.bo.CommonCommittee&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
+          <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
+              )
     </td>
     </td>
   </tr>
