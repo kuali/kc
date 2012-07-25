@@ -35,22 +35,20 @@
                     <td class="subhead" colspan="4">Details</td>
                 </tr>
                 <tr>
-                    <th width="15%"> 
-                        <c:if test="${KualiForm.actionHelper.showCommittee}">
+                    <c:if test="${KualiForm.actionHelper.showCommittee}">
+                        <th width="15%"> 
 	                        <div align="right">
 	                            <nobr>
 	                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
 	                            </nobr>
 	                        </div>
-                        </c:if>
-                    </th>
-                    <td>
-                        <c:if test="${KualiForm.actionHelper.showCommittee}">
-	                        <nobr>
+			            </th>
+    	                <td>
+                            <nobr>
 	                        <kul:htmlControlAttribute property="actionHelper.${beanName}.committeeId" attributeEntry="${attributes.committeeId}" />
 	                        </nobr>
-                        </c:if>
-                    </td>
+                        </td>
+                    </c:if>
 
                     <th width="15%"> 
                         <div align="right">
