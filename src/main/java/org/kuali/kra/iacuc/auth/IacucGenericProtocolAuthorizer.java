@@ -33,7 +33,7 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
     /**
      * deactivate protocol generic action.
      */
-    public static final String DEACTIVATE_PROTOCOL = "iacucProtocolDeactivate";
+    //public static final String DEACTIVATE_PROTOCOL = "iacucProtocolDeactivate";
     public static final String EXPIRE_PROTOCOL = "iacucProtocolExpire";
     public static final String EXPIRE_UNAVAILABLE_PROTOCOL = "iacucProtocolExpireUnavailable";
     public static final String SUSPEND_PROTOCOL = "iacucProtocolSuspend";
@@ -41,15 +41,26 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
     public static final String TERMINATE_PROTOCOL = "iacucProtocolTerminate";
     public static final String TERMINATE_UNAVAILBLE_PROTOCOL = "iacucProtocolTerminateUnavailable";
 
-    private static final Map<String, String> TASK_NAME_TO_ACTION_TYPE_MAP = new HashMap<String,String>();
+    protected static final Map<String, String> TASK_NAME_TO_ACTION_TYPE_MAP = new HashMap<String,String>();
     static {
-        TASK_NAME_TO_ACTION_TYPE_MAP.put(DEACTIVATE_PROTOCOL, IacucProtocolActionType.DEACTIVATED);
+        //TASK_NAME_TO_ACTION_TYPE_MAP.put(DEACTIVATE_PROTOCOL, IacucProtocolActionType.DEACTIVATED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_PROTOCOL, IacucProtocolActionType.EXPIRED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_UNAVAILABLE_PROTOCOL, IacucProtocolActionType.EXPIRED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_PROTOCOL, IacucProtocolActionType.SUSPENDED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_UNAVAILABLE_PROTOCOL, IacucProtocolActionType.SUSPENDED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(TERMINATE_PROTOCOL, IacucProtocolActionType.TERMINATED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(TERMINATE_UNAVAILBLE_PROTOCOL, IacucProtocolActionType.TERMINATED);   
+    }
+    
+    protected static final Map<String, String> TASK_NAME_TO_ROLE_NAME_MAP = new HashMap<String,String>();
+    static {
+        //TASK_NAME_TO_ACTION_TYPE_MAP.put(DEACTIVATE_PROTOCOL, IacucProtocolActionType.DEACTIVATED);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_UNAVAILABLE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_UNAVAILABLE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(TERMINATE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        TASK_NAME_TO_ACTION_TYPE_MAP.put(TERMINATE_UNAVAILBLE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);   
     }
     
     private static final String ERROR_MESSAGE = "Please set genericTaskName with one of the static strings in this class.";
@@ -64,7 +75,7 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
             this.genericTaskName = task.getTaskName();
         }
         return canExecuteAction(task.getProtocol(), convertGenericTaskNameToProtocolActionType()) 
-            && hasPermission(userId, task.getProtocol(), PermissionConstants.MODIFY_IACUC_PROTO_SUBMISSION);
+            && hasPermission(userId, task.getProtocol(), convertGenericTaskNameToPermissionNameType());
     }
     
     /**
@@ -79,6 +90,14 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
         } else {
             throw new IllegalArgumentException(ERROR_MESSAGE + "  this.genericTaskName: " + this.genericTaskName);
         }      
+    }
+     
+    protected String convertGenericTaskNameToPermissionNameType() {
+         if (TASK_NAME_TO_ROLE_NAME_MAP.containsKey(this.genericTaskName)) {
+             return TASK_NAME_TO_ROLE_NAME_MAP.get(this.genericTaskName);
+         } else {
+             throw new IllegalArgumentException(ERROR_MESSAGE + "  this.genericTaskName: " + this.genericTaskName);
+         }      
     }
     
     /**
