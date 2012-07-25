@@ -110,7 +110,15 @@ then
 	setProtocolStatusCode(protocolAction, "104");
 end
 
-
+rule "fn_return_to_pi: Submission Status = 209 (Returned To PI); Protocol Status = 102 (Return To PI)" 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "210")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "209");
+	setProtocolStatusCode(protocolAction, "102");
+end
 
 
 //TODO: What is IACUC equivalent of Closed?

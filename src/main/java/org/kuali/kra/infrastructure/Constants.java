@@ -687,6 +687,7 @@ public interface Constants {
     public static final String PROTOCOL_REOPEN_ENROLLMENT_ACTION_PROPERTY_KEY = "actionHelper.protocolReopenEnrollmentBean";
     public static final String PROTOCOL_SMR_ACTION_PROPERTY_KEY = "actionHelper.protocolSMRBean";
     public static final String PROTOCOL_SRR_ACTION_PROPERTY_KEY = "actionHelper.protocolSRRBean";
+    public static final String PROTOCOL_RETURN_TO_PI_PROPERTY_KEY = "actionHelper.protocolReturnToPIBean";
     public static final String PROTOCOL_SUSPEND_ACTION_PROPERTY_KEY = "actionHelper.protocolSuspendBean";
     public static final String PROTOCOL_SUSPEND_BY_DSMB_ACTION_PROPERTY_KEY = "actionHelper.protocolSuspendByDsmbBean";
     public static final String PROTOCOL_TERMINATE_ACTION_PROPERTY_KEY = "actionHelper.protocolTerminateBean";

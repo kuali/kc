@@ -115,7 +115,7 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
     private boolean displayResponseToPrevIACUCNotification(String currentStatus) {
         String validStatuses[] = { IacucProtocolStatus.MINOR_REVISIONS_REQUIRED,
                 IacucProtocolStatus.MAJOR_REVISIONS_REQUIRED,
-                IacucProtocolStatus.ACTIVE_ON_HOLD, IacucProtocolStatus.SUBMITTED_TO_IACUC };
+                IacucProtocolStatus.ACTIVE_ON_HOLD, IacucProtocolStatus.SUBMITTED_TO_IACUC, IacucProtocolStatus.RETURN_TO_PI };
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     

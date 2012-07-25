@@ -59,6 +59,12 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
     }
     
     /**{@inheritDoc}**/
+    public ProtocolDocument returnToPI(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        performGenericAction(protocol, actionBean, IacucProtocolActionType.RETURNED_TO_PI, IacucProtocolStatus.RETURN_TO_PI);
+        return getReturnedVersionedDocument(protocol);
+    }    
+    
+    /**{@inheritDoc}**/
     public void suspend(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, IacucProtocolActionType.SUSPENDED, IacucProtocolStatus.SUSPENDED);
     }
