@@ -22,6 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
@@ -44,6 +46,8 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
  */
 public class IacucProtocolQuestionnaireHelper extends QuestionnaireHelper {
 
+    private static final long serialVersionUID = -7998778375503716988L;
+
     /**
      * 
      * Constructs an IacucProtocolQuestionnaireHelper.java. To hook up with protocol form.
@@ -57,11 +61,10 @@ public class IacucProtocolQuestionnaireHelper extends QuestionnaireHelper {
      * authorization check.
      */
     protected void initializePermissions(Protocol protocol) {
-//TODO        ProtocolTask task = new ProtocolTask(TaskName.ANSWER_PROTOCOL_QUESTIONNAIRE, protocol);
-//TODO        setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
-setAnswerQuestionnaire(true);
+        ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_QUESTIONNAIRE, (IacucProtocol)protocol);
+        setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
     }
-
+    
     public String getModuleCode() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
     }

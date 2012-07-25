@@ -112,6 +112,10 @@
                     <property name="taskName" value="modifyIacucProtocolPersonnel" />
                 </bean> 
 
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolQuestionnaireAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyIacucProtocolQuestionnaire" />
+                </bean> 
+
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolSpecialReviewAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="modifyIacucSpecialReview" />
                 </bean>
