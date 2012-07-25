@@ -315,15 +315,21 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         for (Answer answers : answerHeaders.get(0).getAnswers()) {
             if (answers.getQuestion().getQuestionId() != null
                     && answers.getQuestion().getQuestionId().equals(PROPOSAL_YNQ_QUESTION_129)) {
-                stateReview.put(S2SConstants.YNQ_ANSWER, answers.getAnswer());
+                if (stateReview.get(S2SConstants.YNQ_ANSWER) == null) {
+                    stateReview.put(S2SConstants.YNQ_ANSWER, answers.getAnswer());
+                }
             }
             if (answers.getQuestion().getQuestionId() != null
                     && answers.getQuestion().getQuestionId().equals(PROPOSAL_YNQ_QUESTION_130)) {
-                stateReview.put(S2SConstants.YNQ_REVIEW_DATE, answers.getAnswer());
+                if (stateReview.get(S2SConstants.YNQ_REVIEW_DATE) == null) {
+                    stateReview.put(S2SConstants.YNQ_REVIEW_DATE, answers.getAnswer());
+                }
             }
             if (answers.getQuestion().getQuestionId() != null
                     && answers.getQuestion().getQuestionId().equals(PROPOSAL_YNQ_QUESTION_131)) {
-                stateReview.put(S2SConstants.YNQ_STATE_REVIEW_DATA, answers.getAnswer());
+                if (stateReview.get(S2SConstants.YNQ_STATE_REVIEW_DATA) == null) {
+                    stateReview.put(S2SConstants.YNQ_STATE_REVIEW_DATA, answers.getAnswer());
+                }
             }
         }
         // If question is not answered or question is inactive
