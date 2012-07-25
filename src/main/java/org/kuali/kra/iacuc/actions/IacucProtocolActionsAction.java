@@ -127,6 +127,7 @@ import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
+import org.kuali.kra.protocol.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
@@ -2199,6 +2200,32 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
     
+    public ActionForward expire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+        IacucProtocol protocol = (IacucProtocol) document.getProtocol();
+        IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolExpireBean();
+        
+        if (hasGenericPermission(IacucGenericProtocolAuthorizer.EXPIRE_PROTOCOL, protocol)) {
+            if (applyRules(new IacucProtocolGenericActionEvent(document, actionBean))) {
+                getProtocolGenericActionService().expire(protocol, actionBean);
+                saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+                
+                recordProtocolActionSuccess("Expire");
+                IacucProtocolNotificationRequestBean notificationBean = 
+                        new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.EXPIRED, "Expired");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+                }
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    
 //    /**
 //     * Expires this Protocol.
 //     * @param mapping
@@ -3115,10 +3142,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucProtocolTask task = new IacucProtocolTask(taskName, protocol);
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
-
+    
+    
     private boolean hasGenericPermission(String genericActionName, IacucProtocol protocol) {
         IacucProtocolTask task = new IacucProtocolTask(TaskName.GENERIC_IACUC_PROTOCOL_ACTION, protocol, genericActionName);
-System.out.println("\nTTTTT new task, name = " + TaskName.GENERIC_IACUC_PROTOCOL_ACTION + ", genericActionName = " + genericActionName);        
+        System.out.println("\nTTTTT new task, name = " + TaskName.GENERIC_IACUC_PROTOCOL_ACTION + ", genericActionName = " + genericActionName);        
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
     

@@ -378,7 +378,11 @@
                 
                 <bean class="org.kuali.kra.iacuc.auth.IacucLiftHoldUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                 	<property name="taskName" value="iacucProtocolLiftHoldUnavailable"/>
-                </bean>                
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="iacucProtocolExpire"/>
+                </bean>                 
            </list>
         </property>
     </bean>
