@@ -56,6 +56,7 @@ import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolAdministrativelyIncompleteBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
+import org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
@@ -94,6 +95,7 @@ import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncompleteBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
+import org.kuali.kra.protocol.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
@@ -630,6 +632,11 @@ public class IacucActionHelper extends ActionHelper {
     protected String getAbandonPropertyKeyHook() {
         return Constants.PROTOCOL_ABANDON_ACTION_PROPERTY_KEY;
     }
+    
+    @Override
+    protected String getExpireKeyHook() {
+        return IacucProtocolActionType.EXPIRED;
+    }
 
     @Override
     protected ProtocolSubmitAction getNewProtocolSubmitActionInstanceHook(ActionHelper actionHelper) {
@@ -845,6 +852,13 @@ public class IacucActionHelper extends ActionHelper {
     @Override
     protected ProtocolTask getNewAdminApproveUnavailableProtocolTaskInstanceHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.ADMIN_APPROVE_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
+    }
+    
+    @Override
+    protected ProtocolTask getExpireTaskInstanceHook(Protocol protocol) {
+        //return new IacucProtocolTask(TaskName.EXPIRE_PROTOCOL, (IacucProtocol) protocol);
+        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.EXPIRE_PROTOCOL, (IacucProtocol)protocol);
+        return task;
     }
 
     @Override

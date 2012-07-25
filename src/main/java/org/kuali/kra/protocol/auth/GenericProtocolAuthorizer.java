@@ -88,7 +88,7 @@ public class GenericProtocolAuthorizer extends ProtocolAuthorizer {
      * This method converts a Generic Task Name to a Protocol Action Type.
      * @return a ProtocolActionType String
      */
-     String convertGenericTaskNameToProtocolActionType() {
+     protected String convertGenericTaskNameToProtocolActionType() {
         if (TASK_NAME_TO_ACTION_TYPE_MAP.containsKey(this.genericTaskName)) {
             return TASK_NAME_TO_ACTION_TYPE_MAP.get(this.genericTaskName);
         } else {
