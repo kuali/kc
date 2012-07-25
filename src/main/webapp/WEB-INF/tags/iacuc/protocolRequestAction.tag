@@ -228,6 +228,13 @@
                                           canAddReviewComments="${KualiForm.actionHelper.canAddCloseReviewerComments}" />
             
             --%>
+            <kra-iacuc-action:genericAction tabTitle="Suspend"
+                                          bean="${KualiForm.actionHelper.protocolSuspendBean}"
+                                          property="actionHelper.protocolSuspendBean"
+                                          taskName="protocolSuspend"
+                                          methodToCall="suspend"
+                                          canPerformAction="${KualiForm.actionHelper.canSuspend}"
+                                          canAddReviewComments="${KualiForm.actionHelper.canAddSuspendReviewerComments}" />
             <kra-iacuc-action:genericAction tabTitle="Expire"
                                           bean="${KualiForm.actionHelper.protocolExpireBean}"
                                           property="actionHelper.protocolExpireBean"

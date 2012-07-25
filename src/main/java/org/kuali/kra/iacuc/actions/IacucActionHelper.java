@@ -642,6 +642,11 @@ public class IacucActionHelper extends ActionHelper {
     protected String getTerminateKeyHook() {
         return IacucProtocolActionType.TERMINATED;
     }
+    
+    @Override 
+    protected String getSuspendKeyHook() {
+        return IacucProtocolActionType.SUSPENDED;
+    }
 
     @Override
     protected ProtocolSubmitAction getNewProtocolSubmitActionInstanceHook(ActionHelper actionHelper) {
@@ -880,6 +885,18 @@ public class IacucActionHelper extends ActionHelper {
     @Override
     protected ProtocolTask getTerminateUnavailableTaskInstanceHook(Protocol protocol) {
         IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.TERMINATE_UNAVAILBLE_PROTOCOL, (IacucProtocol)protocol);
+        return task;
+    }
+    
+    @Override
+    protected ProtocolTask getSuspendTaskInstanceHook(Protocol protocol) {
+        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.SUSPEND_PROTOCOL, (IacucProtocol)protocol);
+        return task;
+    }
+    
+    @Override
+    protected ProtocolTask getSuspendUnavailableTaskInstanceHook(Protocol protocol) {
+        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.SUSPEND_UNAVAILABLE_PROTOCOL, (IacucProtocol)protocol);
         return task;
     }
 

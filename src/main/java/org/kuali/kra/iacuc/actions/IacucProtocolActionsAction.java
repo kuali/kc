@@ -2223,15 +2223,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-  /**
-  * Terminates this Protocol.
-  * @param mapping
-  * @param form
-  * @param request
-  * @param response
-  * @return
-  * @throws Exception
-  */
  public ActionForward terminate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
      IacucProtocolForm protocolForm = (IacucProtocolForm) form;
      IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
@@ -2246,6 +2237,31 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
              recordProtocolActionSuccess("Terminate");
              IacucProtocolNotificationRequestBean notificationBean = 
                      new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.TERMINATED, "Terminated");
+             protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+             if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                 return mapping.findForward(CORRESPONDENCE);
+             } else {
+                 return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+             }
+         }
+     }
+     return mapping.findForward(Constants.MAPPING_BASIC);
+  }
+ 
+ public ActionForward suspend(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+     IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+     IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+     IacucProtocol protocol = (IacucProtocol) document.getProtocol();
+     IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolSuspendBean();
+     
+     if (hasGenericPermission(IacucGenericProtocolAuthorizer.SUSPEND_PROTOCOL, protocol)) {
+         if (applyRules(new IacucProtocolGenericActionEvent(document, actionBean))) {
+             getProtocolGenericActionService().suspend(protocol, actionBean);
+             saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+             
+             recordProtocolActionSuccess("Suspend");
+             IacucProtocolNotificationRequestBean notificationBean = 
+                     new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.TERMINATED, "Suspended");
              protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
              if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                  return mapping.findForward(CORRESPONDENCE);
@@ -2539,42 +2555,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return forward;
     }
     
-//  /**
-//  * Suspends this Protocol.
-//  * @param mapping
-//  * @param form
-//  * @param request
-//  * @param response
-//  * @return
-//  * @throws Exception
-//  */
-// public ActionForward suspend(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//     ProtocolForm protocolForm = (ProtocolForm) form;
-//     ProtocolDocument document = protocolForm.getProtocolDocument();
-//     Protocol protocol = document.getProtocol();
-//     ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendBean();
-//     
-//     if (hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL, protocol)) {
-//         if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//             getProtocolGenericActionService().suspend(protocol, actionBean);
-//             saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//             
-//             recordProtocolActionSuccess("Suspend");
-////             protocolForm.getProtocolHelper().prepareView();
-//             ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.SUSPENDED, "Suspended");
-//             protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//
-//             if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                 return mapping.findForward(CORRESPONDENCE);
-//             } else {
-//                 return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
-//             }
-//         }
-//     }
-//     
-//     return mapping.findForward(Constants.MAPPING_BASIC);
-// }
-// 
+
 //    /**
 //     * Suspends this Protocol by DSMB.
 //     * @param mapping
