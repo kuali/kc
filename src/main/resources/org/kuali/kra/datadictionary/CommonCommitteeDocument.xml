@@ -22,28 +22,28 @@
                 <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeCommitteeHelp" p:parameterDetailType="Document"/>
             </property>
             <property name="headerTabDisplayName" value="Committee"/>
-            <property name="headerTabNavigateTo" value="commonCommittee"/>
+            <property name="headerTabNavigateTo" value="committee"/>
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeMembershipHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Members"/>
-                <property name="headerTabNavigateTo" value="commonCommitteeMembership"/>
+                <property name="headerTabNavigateTo" value="committeeMembership"/>
             </bean>             
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeScheduleHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Schedule"/>
-                <property name="headerTabNavigateTo" value="commonCommitteeSchedule"/>
+                <property name="headerTabNavigateTo" value="committeeSchedule"/>
             </bean>             
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
                     <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeActionsHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Actions"/>
-                <property name="headerTabNavigateTo" value="commonCommitteeActions"/>
+                <property name="headerTabNavigateTo" value="committeeActions"/>
             </bean>             
         </list>
         </property>
