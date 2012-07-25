@@ -2225,41 +2225,40 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    
-//    /**
-//     * Expires this Protocol.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward expire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument document = protocolForm.getProtocolDocument();
-//        Protocol protocol = document.getProtocol();
-//        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolExpireBean();
-//        
-//        if (hasGenericPermission(GenericProtocolAuthorizer.EXPIRE_PROTOCOL, protocol)) {
-//            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//                getProtocolGenericActionService().expire(protocol, actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                
-//                recordProtocolActionSuccess("Expire");
-//                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.EXPIRED, "Expired");
-//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                    return mapping.findForward(CORRESPONDENCE);
-//                } else {
-//                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
-//                }
-//            }
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
+  /**
+  * Terminates this Protocol.
+  * @param mapping
+  * @param form
+  * @param request
+  * @param response
+  * @return
+  * @throws Exception
+  */
+ public ActionForward terminate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+     IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+     IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+     IacucProtocol protocol = (IacucProtocol) document.getProtocol();
+     IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolTerminateBean();
+     
+     if (hasGenericPermission(IacucGenericProtocolAuthorizer.TERMINATE_PROTOCOL, protocol)) {
+         if (applyRules(new IacucProtocolGenericActionEvent(document, actionBean))) {
+             getProtocolGenericActionService().terminate(protocol, actionBean);
+             saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+             
+             recordProtocolActionSuccess("Terminate");
+             IacucProtocolNotificationRequestBean notificationBean = 
+                     new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.TERMINATED, "Terminated");
+             protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+             if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                 return mapping.findForward(CORRESPONDENCE);
+             } else {
+                 return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+             }
+         }
+     }
+     return mapping.findForward(Constants.MAPPING_BASIC);
+  }
+       
     /**
      * Sends IACUC Acknowledgement for this Protocol.
      * @param mapping
@@ -2613,41 +2612,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
 //    
-//    /**
-//     * Terminates this Protocol.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward terminate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument document = protocolForm.getProtocolDocument();
-//        Protocol protocol = document.getProtocol();
-//        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolTerminateBean();
-//
-//        if (hasGenericPermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL, protocolForm.getProtocolDocument().getProtocol())) {
-//            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//                getProtocolGenericActionService().terminate(protocol, actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                
-//                recordProtocolActionSuccess("Terminate");
-//                protocolForm.getProtocolHelper().prepareView();
-//                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.TERMINATED, "Terminated");
-//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//
-//                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                    return mapping.findForward(CORRESPONDENCE);
-//                } else {
-//                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
-//                }
-//            }
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
+
     
     public ActionForward manageComments(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {

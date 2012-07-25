@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 
@@ -26,7 +27,10 @@ public class IacucGenericProtocolUnavailableAuthorizer extends IacucGenericProto
     /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
+        return !super.isAuthorized(userId, task) && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_IACUC_PROTOCOL_SUBMISSIONS);
+        /*
         return !canExecuteAction(task.getProtocol(), super.convertGenericTaskNameToProtocolActionType()) 
             && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_IACUC_PROTOCOL_SUBMISSIONS);
+            */
     }    
 }
