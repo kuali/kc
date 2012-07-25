@@ -147,7 +147,6 @@ public abstract class ProtocolActionServiceImpl implements ProtocolActionService
      * @see org.kuali.kra.protocol.actions.submit.ProtocolActionService#isActionAllowed(java.lang.String, org.kuali.kra.protocol.Protocol)
      */
     public boolean isActionAllowed(String actionTypeCode, Protocol protocol) {
-        System.out.println("isActionAllowed =========> " + actionTypeCode);
         return canPerformAction(actionTypeCode, protocol) || protocol.isFollowupAction(actionTypeCode);
     }
 
@@ -271,7 +270,6 @@ public abstract class ProtocolActionServiceImpl implements ProtocolActionService
      * condition specified in rule.
      */
     public boolean canPerformAction(String actionTypeCode, Protocol protocol) {
-        System.out.println("canPerformAction =========> " + actionTypeCode );
         getLOGHook().info(actionTypeCode);
         String submissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
         String submissionTypeCode = protocol.getProtocolSubmission().getSubmissionTypeCode();
@@ -285,14 +283,6 @@ public abstract class ProtocolActionServiceImpl implements ProtocolActionService
         protocolAction.setDao(protocolDao);
         protocolAction.setProtocol(protocol);
         rulesList.get(getPerformActionRuleIndexHook()).executeRules(protocolAction);
-
-        System.out.println("submissionStatusCode =========> " + submissionStatusCode );
-        System.out.println("submissionTypeCode =========> " + submissionTypeCode );
-        System.out.println("protocolReviewTypeCode =========> " + protocolReviewTypeCode );
-        System.out.println("protocolStatusCode =========> " + protocolStatusCode );
-        System.out.println("submissionStatusCode =========> " + submissionStatusCode );
-        System.out.println("isAllowed =========> " + protocolAction.isAllowed());
-
         return protocolAction.isAllowed();
     }
 
