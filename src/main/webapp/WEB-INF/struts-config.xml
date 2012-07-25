@@ -28,12 +28,14 @@
 		<form-bean name="ProtocolForm" type="org.kuali.kra.irb.ProtocolForm" />
 		<form-bean name="ResearchAreasForm" type="org.kuali.kra.web.struts.form.ResearchAreasForm" />
 		<form-bean name="CommitteeForm" type="org.kuali.kra.committee.web.struts.form.CommitteeForm" />
+		<form-bean name="CommonCommitteeForm" type="org.kuali.kra.common.committee.web.struts.form.CommitteeForm" />
 		<form-bean name="InstitutionalProposalForm" type="org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm" />
 	    <form-bean name="QuestionMaintenanceForm" type="org.kuali.kra.questionnaire.question.QuestionMaintenanceForm" />
         <form-bean name="KualiMaintenanceForm" type="org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm" />
         <form-bean name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupForm" />
         <form-bean name="KrmsRuleLookupForm" type="org.kuali.kra.questionnaire.KrmsRuleLookupForm" />
         <form-bean name="MeetingForm" type="org.kuali.kra.meeting.MeetingForm" />
+        <form-bean name="CommonMeetingForm" type="org.kuali.kra.common.committee.meeting.MeetingForm" />
         <form-bean name="QuestionnaireMaintenanceForm" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceForm" />
         <form-bean name="ProposalLogMergeForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeForm" />
         <form-bean name="ProposalLogPrintForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogPrintForm" />
@@ -515,6 +517,18 @@
           <forward name="maintainSchedule" path="/WEB-INF/jsp/meeting/meetingManagement.jsp" />
       </action>
       
+      
+      <!--  Common Committee Mapping -->
+      <action path="/commonCommittee*" name="CommonCommitteeForm" input="/WEB-INF/jsp/committee/CommonCommittee{1}.jsp" type="org.kuali.kra.common.committee.web.struts.action.Committee{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/committee/CommonCommittee{1}.jsp" />
+          <forward name="committee" path="/WEB-INF/jsp/committee/CommonCommitteeCommittee.jsp" />
+          <forward name="committeeMembership" path="/WEB-INF/jsp/committee/CommonCommitteeMembership.jsp" />
+          <forward name="committeeSchedule" path="/WEB-INF/jsp/committee/CommonCommitteeSchedule.jsp" />
+          <forward name="committeeActions" path="/WEB-INF/jsp/committee/CommonCommitteeActions.jsp" />
+          <forward name="maintainSchedule" path="/WEB-INF/jsp/meeting/CommonMeetingManagement.jsp" />
+      </action>
+      
+      
      <action path="/maintenance" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction">
           <forward name="basic" path="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" />
      </action>    
@@ -538,13 +552,21 @@
      </action>    
      
      
-     
      <action path="/meeting*" name="MeetingForm" type="org.kuali.kra.meeting.Meeting{1}Action" input="/WEB-INF/jsp/meeting/meeting{1}.jsp" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/meeting/meeting{1}.jsp" />
             <forward name="management" path="/WEB-INF/jsp/meeting/meetingManagement.jsp" />
             <forward name="actions" path="/WEB-INF/jsp/meeting/meetingActions.jsp" />
             <forward name="correspondence" path="/WEB-INF/jsp/meeting/meetingCorrespondenceAction.jsp" />
      </action>
+
+	
+     <action path="/commonMeeting*" name="CommonMeetingForm" type="org.kuali.kra.common.committee.meeting.Meeting{1}Action" input="/WEB-INF/jsp/meeting/CommonMeeting{1}.jsp" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/meeting/CommonMeeting{1}.jsp" />
+            <forward name="management" path="/WEB-INF/jsp/meeting/CommonMeetingManagement.jsp" />
+            <forward name="actions" path="/WEB-INF/jsp/meeting/CommonMeetingActions.jsp" />
+            <forward name="correspondence" path="/WEB-INF/jsp/meeting/CommonMeetingCorrespondenceAction.jsp" />
+     </action>
+
      
      <action path="/medusaAjax" name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaAjaxAction" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/medusa/medusaAjax.jsp"/>
