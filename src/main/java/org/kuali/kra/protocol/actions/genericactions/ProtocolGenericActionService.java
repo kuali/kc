@@ -109,6 +109,16 @@ public interface ProtocolGenericActionService {
      * @throws Exception if there was a general problem performing the action
      */
     ProtocolDocument returnForSRR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    
+    /**
+     * Returns the protocol to the PI.
+     * @param protocol Protocol object
+     * @param actionBean ProtocolGenericActionBean object
+     * @return the newly versioned Protocol document
+     * @throws Exception if there was a general problem performing the action
+     */
+    ProtocolDocument returnToPI(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    
 
     /**
      * Suspend the protocol by the PI or by the IRB Administrator.

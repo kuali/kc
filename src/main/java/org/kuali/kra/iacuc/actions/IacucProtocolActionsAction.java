@@ -2508,7 +2508,49 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         
         return forward;
-    }    
+    }   
+    
+    /**
+     * Returns the protocol to the PI for substantial revisions.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward returnToPI(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+        IacucProtocol protocol = (IacucProtocol) document.getProtocol();
+        IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolReturnToPIBean();
+        
+        if (hasPermission(TaskName.RETURN_TO_PI_PROTOCOL, protocol)) {
+            if (applyRules(new IacucProtocolGenericActionEvent(document, actionBean))) {
+                ProtocolDocument newDocument = getProtocolGenericActionService().returnToPI(protocol, actionBean);
+                saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+                
+                protocolForm.setDocId(newDocument.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                
+                recordProtocolActionSuccess("Return To PI");
+                
+                IacucProtocolNotificationRequestBean newNotificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.RETURNED_TO_PI, "Return To PI");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, newNotificationBean, false));
+
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, newNotificationBean);                                   
+                }
+            }
+        }
+        
+        return forward;
+    }     
     
     
     /**
