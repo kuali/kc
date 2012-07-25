@@ -285,6 +285,7 @@ public interface TaskName {
     public static final String MODIFY_IACUC_PROTOCOL_AREAS_OF_RESEARCH = "modifyIacucProtocolAreasOfResearch";
     public static final String MODIFY_IACUC_PROTOCOL_ATTACHMENTS = "modifyIacucProtocolAttachments";
     public static final String MODIFY_IACUC_PROTOCOL_PERSONNEL = "modifyIacucProtocolPersonnel";
+    public static final String MODIFY_IACUC_PROTOCOL_QUESTIONNAIRE = "modifyIacucProtocolQuestionnaire";
     public static final String MODIFY_IACUC_PROTOCOL_THREE_RS = "modifyIacucProtocolThreeRs";    
     public static final String MODIFY_IACUC_PROTOCOL_SPECIES = "modifyIacucProtocolSpecies";    
     public static final String MODIFY_IACUC_PROTOCOL_EXCEPTION = "modifyIacucProtocolException";    
