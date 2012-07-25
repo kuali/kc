@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="attributes" value="${DataDictionary.IacucProtocolAdminCorrectionActionBean.attributes}" />
+<c:set var="attributes" value="${DataDictionary.IacucAdminCorrectionBean.attributes}" />
 <c:set var="amendmentAttributes" value="${DataDictionary.IacucProtocolAmendmentBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
                                     
