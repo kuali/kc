@@ -84,7 +84,7 @@
     <!-- Business Object Inquiry Definition -->
     <bean id="IacucProtocolType-inquiryDefinition" parent="IacucProtocolType-inquiryDefinition-parentBean" />
     <bean id="IacucProtocolType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Protocol Type Code" />
+        <property name="title" value="IACUC Protocol Type" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
