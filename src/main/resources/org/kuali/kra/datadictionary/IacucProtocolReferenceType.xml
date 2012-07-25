@@ -84,7 +84,7 @@
     <!-- Business Object Inquiry Definition -->
     <bean id="IacucProtocolReferenceType-inquiryDefinition" parent="IacucProtocolReferenceType-inquiryDefinition-parentBean" />
     <bean id="IacucProtocolReferenceType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Protocol Type Code" />
+        <property name="title" value="IACUC Protocol Reference Type" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
@@ -107,7 +107,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="IacucProtocolReferenceType-lookupDefinition" parent="IacucProtocolReferenceType-lookupDefinition-parentBean" />
     <bean id="IacucProtocolReferenceType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Ac Protocol Type Lookup" />
+        <property name="title" value="IACUC Protocol Reference Type Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
