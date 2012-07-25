@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizer;
 import org.kuali.kra.authorization.TaskAuthorizerGroup;
-import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,8 +53,17 @@ public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
                 if (task.getGenericTaskName() == null || "".equals(task.getGenericTaskName().trim())) {
                     taskAuthorizer = taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName()); 
                 } else {
-                    taskAuthorizer = (GenericProtocolAuthorizer) taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName());
-                    ((GenericProtocolAuthorizer) taskAuthorizer).setGenericTaskName(task.getGenericTaskName());
+                    if (taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName()) instanceof org.kuali.kra.irb.auth.GenericProtocolAuthorizer) {
+                        taskAuthorizer = (org.kuali.kra.irb.auth.GenericProtocolAuthorizer) taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName());
+                        ((org.kuali.kra.irb.auth.GenericProtocolAuthorizer) taskAuthorizer).setGenericTaskName(task.getGenericTaskName());
+                    } else if (taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName()) instanceof org.kuali.kra.protocol.auth.GenericProtocolAuthorizer) {
+                        taskAuthorizer = (org.kuali.kra.protocol.auth.GenericProtocolAuthorizer) taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName());
+                        ((org.kuali.kra.protocol.auth.GenericProtocolAuthorizer) taskAuthorizer).setGenericTaskName(task.getGenericTaskName());
+                    } else {
+                        taskAuthorizer = null;
+                        RuntimeException rte = new RuntimeException("An unexpected GenericProtocolAuthorizer was found, " + taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName()).getClass());
+                        rte.printStackTrace();
+                    }
                 }
                 
                 if (taskAuthorizer != null) {

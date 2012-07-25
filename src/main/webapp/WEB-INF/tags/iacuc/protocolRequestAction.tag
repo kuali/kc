@@ -226,12 +226,7 @@
                                           methodToCall="closeProtocol"
                                           canPerformAction="${KualiForm.actionHelper.canClose}"
                                           canAddReviewComments="${KualiForm.actionHelper.canAddCloseReviewerComments}" />
-            <kra-iacuc-action:genericAction tabTitle="Expire"
-                                          bean="${KualiForm.actionHelper.protocolExpireBean}"
-                                          property="actionHelper.protocolExpireBean"
-                                          taskName="protocolExpire"
-                                          methodToCall="expire"
-                                          canPerformAction="${KualiForm.actionHelper.canExpire}" />
+            
             <kra-iacuc-action:genericAction tabTitle="Terminate"
                                           bean="${KualiForm.actionHelper.protocolTerminateBean}"
                                           property="actionHelper.protocolTerminateBean"
@@ -239,6 +234,12 @@
                                           methodToCall="terminate"
                                           canPerformAction="${KualiForm.actionHelper.canTerminate}"
                                           canAddReviewComments="${KualiForm.actionHelper.canAddTerminateReviewerComments}" />--%>
+            <kra-iacuc-action:genericAction tabTitle="Expire"
+                                          bean="${KualiForm.actionHelper.protocolExpireBean}"
+                                          property="actionHelper.protocolExpireBean"
+                                          taskName="protocolExpire"
+                                          methodToCall="expire"
+                                          canPerformAction="${KualiForm.actionHelper.canExpire}" />
             <kra-iacuc-action:genericAction tabTitle="Abandon"
                                           bean="${KualiForm.actionHelper.protocolAbandonBean}"
                                           property="actionHelper.protocolAbandonBean"

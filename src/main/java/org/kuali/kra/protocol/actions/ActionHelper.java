@@ -425,8 +425,7 @@ public abstract class ActionHelper implements Serializable {
 //                Constants.PROTOCOL_SUSPEND_BY_DSMB_ACTION_PROPERTY_KEY);
 //        protocolCloseBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, 
 //                Constants.PROTOCOL_CLOSE_ACTION_PROPERTY_KEY);
-//        protocolExpireBean = buildProtocolGenericActionBean(ProtocolActionType.EXPIRED, 
-//                Constants.PROTOCOL_EXPIRE_ACTION_PROPERTY_KEY);
+        protocolExpireBean = buildProtocolGenericActionBean(getExpireKeyHook(), Constants.PROTOCOL_EXPIRE_ACTION_PROPERTY_KEY);
 //        protocolTerminateBean = buildProtocolGenericActionBean(ProtocolActionType.TERMINATED, 
 //                Constants.PROTOCOL_TERMINATE_ACTION_PROPERTY_KEY);
 //        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(ProtocolActionType.DATA_ANALYSIS_ONLY, 
@@ -559,7 +558,7 @@ public abstract class ActionHelper implements Serializable {
         
 // TODO *********commented the code below during IACUC refactoring*********         
 //        actionBeanTaskMap.put(TaskName.EXPEDITE_APPROVAL, protocolExpeditedApprovalBean);
-//        actionBeanTaskMap.put(TaskName.EXPIRE_PROTOCOL, protocolExpireBean);
+        actionBeanTaskMap.put(TaskName.EXPIRE_PROTOCOL, protocolExpireBean);
 //        actionBeanTaskMap.put(TaskName.GRANT_EXEMPTION, protocolGrantExemptionBean);
         
         actionBeanTaskMap.put(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolManageReviewCommentsBean);
@@ -603,6 +602,8 @@ public abstract class ActionHelper implements Serializable {
         protected abstract String getAbandonActionTypeHook();
         
         protected abstract String getAbandonPropertyKeyHook();
+        
+        protected abstract String getExpireKeyHook();
                
         protected abstract ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey);
         
@@ -884,8 +885,8 @@ public abstract class ActionHelper implements Serializable {
 //        canSuspendByDsmbUnavailable = hasSuspendByDsmbUnavailablePermission();
 //        canClose = hasClosePermission();
 //        canCloseUnavailable = hasCloseUnavailablePermission();
-//        canExpire = hasExpirePermission();
-//        canExpireUnavailable = hasExpireUnavailablePermission();
+        canExpire = hasExpirePermission();
+        canExpireUnavailable = hasExpireUnavailablePermission();
 //        canTerminate = hasTerminatePermission();
 //        canTerminateUnavailable = hasTerminateUnavailablePermission();
 //        canPermitDataAnalysis = hasPermitDataAnalysisPermission();
@@ -960,7 +961,7 @@ public abstract class ActionHelper implements Serializable {
         ProtocolTask task = getNewAdminApproveProtocolTaskInstanceHook(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
-
+    
     protected abstract ProtocolTask getNewAdminApproveProtocolTaskInstanceHook(Protocol protocol);
     
     private boolean hasAdministrativelyApproveUnavailablePermission() {
@@ -971,7 +972,16 @@ public abstract class ActionHelper implements Serializable {
     protected abstract ProtocolTask getNewAdminApproveUnavailableProtocolTaskInstanceHook(Protocol protocol);
     
     
+    protected boolean hasExpirePermission() {
+        ProtocolTask task = getExpireTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
     
+    protected boolean hasExpireUnavailablePermission() {
+        return !hasExpirePermission();
+    }
+    
+    protected abstract ProtocolTask getExpireTaskInstanceHook(Protocol protocol);
     
     private boolean hasAdministrativelyWithdrawPermission() {
         ProtocolTask task = getNewAdminWithdrawProtocolTaskInstanceHook(getProtocol());
@@ -1035,7 +1045,7 @@ public abstract class ActionHelper implements Serializable {
 //        protocolSuspendBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolSuspendByDsmbBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolCloseBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        protocolExpireBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        protocolExpireBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolTerminateBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 //        protocolPermitDataAnalysisBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         

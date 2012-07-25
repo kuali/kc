@@ -18,9 +18,11 @@ package org.kuali.kra.iacuc.auth;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.auth.GenericProtocolAuthorizer;
+import org.kuali.kra.protocol.auth.ProtocolTask;
 
 /**
  * 
@@ -50,9 +52,13 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
 
     
     /** {@inheritDoc} */
-    public boolean isAuthorized(String userId, IacucProtocolTask task) {
+    @Override
+    public boolean isAuthorized(String userId, ProtocolTask task) {
+        if (StringUtils.isEmpty(this.genericTaskName)) {
+            this.genericTaskName = task.getTaskName();
+        }
         return canExecuteAction(task.getProtocol(), convertGenericTaskNameToProtocolActionType()) 
-            && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_IACUC_PROTOCOL_SUBMISSIONS);
+            && hasPermission(userId, task.getProtocol(), PermissionConstants.MODIFY_IACUC_PROTO_SUBMISSION);
     }
     
     /**
@@ -60,11 +66,12 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
      * This method converts a Generic Task Name to a Protocol Action Type.
      * @return a ProtocolActionType String
      */
-     String convertGenericTaskNameToProtocolActionType() {
+     @Override
+     protected String convertGenericTaskNameToProtocolActionType() {
         if (TASK_NAME_TO_ACTION_TYPE_MAP.containsKey(this.genericTaskName)) {
             return TASK_NAME_TO_ACTION_TYPE_MAP.get(this.genericTaskName);
         } else {
-            throw new IllegalArgumentException(ERROR_MESSAGE);
+            throw new IllegalArgumentException(ERROR_MESSAGE + "  this.genericTaskName: " + this.genericTaskName);
         }      
     }
     
