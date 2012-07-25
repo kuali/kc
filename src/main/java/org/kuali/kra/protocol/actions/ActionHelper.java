@@ -280,6 +280,7 @@ public abstract class ActionHelper implements Serializable {
     protected ProtocolGenericActionBean protocolTerminateBean;
     protected ProtocolGenericActionBean protocolPermitDataAnalysisBean;
     protected ProtocolGenericActionBean protocolIrbAcknowledgementBean;
+    protected ProtocolGenericActionBean protocolReturnToPIBean;
     protected AdminCorrectionBean protocolAdminCorrectionBean;
     protected UndoLastActionBean undoLastActionBean;
     protected CommitteeDecision<?> committeeDecision;
@@ -413,6 +414,7 @@ public abstract class ActionHelper implements Serializable {
         protocolDisapproveBean = buildProtocolGenericActionBean(getDisapprovedProtocolActionTypeHook(), Constants.PROTOCOL_DISAPPROVE_ACTION_PROPERTY_KEY);
         protocolSMRBean = buildProtocolGenericActionBean(getSMRProtocolActionTypeHook(), Constants.PROTOCOL_SMR_ACTION_PROPERTY_KEY);  
         protocolSRRBean = buildProtocolGenericActionBean(getSRRProtocolActionTypeHook(), Constants.PROTOCOL_SRR_ACTION_PROPERTY_KEY);
+        protocolReturnToPIBean = buildProtocolGenericActionBean(getReturnToPIActionTypeHook(), Constants.PROTOCOL_RETURN_TO_PI_PROPERTY_KEY);
         
 // TODO *********commented the code below during IACUC refactoring*********         
 //        protocolReopenEnrollmentBean = buildProtocolGenericActionBean(ProtocolActionType.REOPEN_ENROLLMENT, 
@@ -486,6 +488,8 @@ public abstract class ActionHelper implements Serializable {
     protected abstract String getSRRProtocolActionTypeHook();
 
     protected abstract String getSMRProtocolActionTypeHook();
+    
+    protected abstract String getReturnToPIActionTypeHook();
 
     protected abstract String getDisapprovedProtocolActionTypeHook();
 
@@ -578,6 +582,7 @@ public abstract class ActionHelper implements Serializable {
         
         actionBeanTaskMap.put(TaskName.RETURN_FOR_SMR, protocolSMRBean);
         actionBeanTaskMap.put(TaskName.RETURN_FOR_SRR, protocolSRRBean);
+        actionBeanTaskMap.put(TaskName.RETURN_TO_PI_PROTOCOL, protocolReturnToPIBean);
          
         actionBeanTaskMap.put(TaskName.SUBMIT_PROTOCOL, protocolSubmitAction);
    
@@ -3319,4 +3324,19 @@ public abstract class ActionHelper implements Serializable {
      * @param correctAmendment
      */
     protected abstract void enableModuleOption(ProtocolAmendmentBean amendmentBean, ProtocolAmendRenewal correctAmendment);
+
+
+    public ProtocolGenericActionBean getProtocolReturnToPIBean() {
+        return protocolReturnToPIBean;
+    }
+
+
+    public boolean isCanReturnToPI() {
+        return canReturnToPI;
+    }
+
+
+    public boolean isCanReturnToPIUnavailable() {
+        return canReturnToPIUnavailable;
+    }
 }

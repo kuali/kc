@@ -113,6 +113,12 @@
                                           methodToCall="returnForSRR"
                                           canPerformAction="${KualiForm.actionHelper.canReturnForSRR}"
                                           defaultOpen="${KualiForm.actionHelper.isReturnForSRROpenForFollowup}" />
+            <kra-iacuc-action:genericAction tabTitle="Return To PI"
+                                          bean="${KualiForm.actionHelper.protocolReturnToPIBean}"
+                                          property="actionHelper.protocolReturnToPIBean"
+                                          taskName="protocolReturnToPI"
+                                          methodToCall="returnToPI"
+                                          canPerformAction="${KualiForm.actionHelper.canReturnToPI}"/>                                          
             <kra-iacuc-action:genericAction tabTitle="Deactivate"
                                           bean="${KualiForm.actionHelper.iacucProtocolDeactivateBean}"
                                           property="actionHelper.iacucProtocolDeactivateBean"
@@ -381,6 +387,12 @@
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Return for Major Revisions"
 					                                         canPerformAction="${KualiForm.actionHelper.canReturnForSRRUnavailable}"
         	                                                 reason="The last protocol action must have been Record Committee Decision with the motion to request major revisions. " />
+		            <kra-iacuc-action:genericUnavailableAction tabTitle="Return To PI"
+					                                         canPerformAction="${KualiForm.actionHelper.canReturnToPIUnavailable}"
+        	                                                 reason="Protocol status must be Submitted To IACUC.
+        	                                                 		 <p>
+        	                                                 		 Protocol submission status must be Submitted to Committee." />
+        	                                                 
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Deactivate"
 					                                         canPerformAction="${KualiForm.actionHelper.canIacucRequestDeactivateUnavailable}"
         	                                                 reason="Protocol status must be Active or Active - Hold.
