@@ -17,28 +17,27 @@ package org.kuali.kra.common.committee.bo.businessLogic.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.common.committee.bo.CommitteeType;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeBusinessLogic;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactory;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeBusinessLogic;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactory;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactoryGroup;
 
-public class CommitteeBusinessLogicFactoryImpl implements CommitteeCollaboratorBusinessLogicFactory<CommonCommittee, CommitteeBusinessLogic>  {
+public class CommitteeBusinessLogicFactoryImpl implements CommonCommitteeCollaboratorBusinessLogicFactory<CommonCommittee, CommonCommitteeBusinessLogic>  {
 
-    private CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup;
+    private CommonCommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup;
 
 
-    public void setCommitteeCollaboratorBusinessLogicFactoryGroup(CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup) {
+    public void setCommitteeCollaboratorBusinessLogicFactoryGroup(CommonCommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup) {
         this.committeeCollaboratorFactoryGroup = committeeCollaboratorFactoryGroup;
     }
 
-    public CommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorBusinessLogicFactoryGroup() {
+    public CommonCommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorBusinessLogicFactoryGroup() {
         return committeeCollaboratorFactoryGroup;
     }
 
 
-    public CommitteeBusinessLogic getBusinessLogicFor(CommonCommittee committee) {
-        CommitteeBusinessLogic retVal = null;
+    public CommonCommitteeBusinessLogic getBusinessLogicFor(CommonCommittee committee) {
+        CommonCommitteeBusinessLogic retVal = null;
 
         // return appropriate subclass of committee business logic based on committee type
         if (StringUtils.equals(committee.getCommitteeTypeCode(), CommitteeType.IRB_TYPE_CODE)) {

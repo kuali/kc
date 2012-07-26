@@ -17,24 +17,24 @@ package org.kuali.kra.common.committee.bo.businessLogic.impl;
 
 import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeBusinessLogic;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactory;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeResearchAreaBusinessLogic;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeBusinessLogic;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactory;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactoryGroup;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeResearchAreaBusinessLogic;
 
-public class CommitteeCollaboratorBusinessLogicFactoryGroupImpl implements CommitteeCollaboratorBusinessLogicFactoryGroup {
+public class CommitteeCollaboratorBusinessLogicFactoryGroupImpl implements CommonCommitteeCollaboratorBusinessLogicFactoryGroup {
     
-    private CommitteeCollaboratorBusinessLogicFactory<CommonCommittee, CommitteeBusinessLogic> committeeBusinessLogicFactory;
-    private CommitteeCollaboratorBusinessLogicFactory<CommitteeResearchArea, CommitteeResearchAreaBusinessLogic> committeeResearchAreaBusinessLogicFactory;
+    private CommonCommitteeCollaboratorBusinessLogicFactory<CommonCommittee, CommonCommitteeBusinessLogic> committeeBusinessLogicFactory;
+    private CommonCommitteeCollaboratorBusinessLogicFactory<CommitteeResearchArea, CommonCommitteeResearchAreaBusinessLogic> committeeResearchAreaBusinessLogicFactory;
     
     
-    public void setCommitteeBusinessLogicFactory(CommitteeCollaboratorBusinessLogicFactory<CommonCommittee, CommitteeBusinessLogic> committeeBusinessLogicFactory) {
+    public void setCommitteeBusinessLogicFactory(CommonCommitteeCollaboratorBusinessLogicFactory<CommonCommittee, CommonCommitteeBusinessLogic> committeeBusinessLogicFactory) {
         this.committeeBusinessLogicFactory = committeeBusinessLogicFactory;
         // set back pointer to this group into the factory
         this.committeeBusinessLogicFactory.setCommitteeCollaboratorBusinessLogicFactoryGroup(this);
     }
     
-    public void setCommitteeResearchAreaBusinessLogicFactory(CommitteeCollaboratorBusinessLogicFactory<CommitteeResearchArea, CommitteeResearchAreaBusinessLogic> committeeResearchAreaBusinessLogicFactory) {
+    public void setCommitteeResearchAreaBusinessLogicFactory(CommonCommitteeCollaboratorBusinessLogicFactory<CommitteeResearchArea, CommonCommitteeResearchAreaBusinessLogic> committeeResearchAreaBusinessLogicFactory) {
         this.committeeResearchAreaBusinessLogicFactory = committeeResearchAreaBusinessLogicFactory;
         // set back pointer to this group into the factory
         this.committeeResearchAreaBusinessLogicFactory.setCommitteeCollaboratorBusinessLogicFactoryGroup(this);
@@ -42,11 +42,11 @@ public class CommitteeCollaboratorBusinessLogicFactoryGroupImpl implements Commi
     
     
     
-    public CommitteeResearchAreaBusinessLogic getCommitteeReserachAreaBusinessLogic(CommitteeResearchArea businessObject) {
+    public CommonCommitteeResearchAreaBusinessLogic getCommitteeReserachAreaBusinessLogic(CommitteeResearchArea businessObject) {
         return this.committeeResearchAreaBusinessLogicFactory.getBusinessLogicFor(businessObject);
     }
     
-    public CommitteeBusinessLogic getCommitteeBusinessLogicFor(CommonCommittee businessObject) {
+    public CommonCommitteeBusinessLogic getCommitteeBusinessLogicFor(CommonCommittee businessObject) {
         return this.committeeBusinessLogicFactory.getBusinessLogicFor(businessObject);
     }
     

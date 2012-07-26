@@ -16,24 +16,24 @@
 package org.kuali.kra.common.committee.bo.businessLogic.impl;
 
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeBusinessLogic;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeBusinessLogic;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactoryGroup;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ErrorReporter;
 
-public abstract class CommitteeBusinessLogicImpl implements CommitteeBusinessLogic {
+public abstract class CommitteeBusinessLogicImpl implements CommonCommitteeBusinessLogic {
     
-    private CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup;
+    private CommonCommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup;
     private CommonCommittee committeeBusinessObject;
     private static final String REVIEW_TYPE_ERROR_PROPERTY_NAME = "document.committeeList[0].reviewTypeCode";
 
-    public CommitteeBusinessLogicImpl(CommonCommittee businessObject, CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
+    public CommitteeBusinessLogicImpl(CommonCommittee businessObject, CommonCommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
         this.committeeBusinessObject = businessObject;
         this.committeeCollaboratorFactoryGroup = committeeCollaborators;
     }
 
     
-    public CommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorBusinessLogicFactoryGroup() {
+    public CommonCommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorBusinessLogicFactoryGroup() {
         return committeeCollaboratorFactoryGroup;
     }
 

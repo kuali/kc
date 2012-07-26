@@ -15,12 +15,8 @@
  */
 package org.kuali.kra.common.committee.bo.businessLogic;
 
-import org.kuali.rice.krad.bo.BusinessObject;
-
-public interface CommitteeCollaboratorBusinessLogicFactory <BO extends BusinessObject, BL extends CommitteeCollaboratorBusinessLogic> {
-
-    public void setCommitteeCollaboratorBusinessLogicFactoryGroup(CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorBusinessLogicFactoryGroup);
-
-    public BL getBusinessLogicFor(BO businessObject);
+public interface CommonCommitteeCollaboratorBusinessLogic {
     
+    public CommonCommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorBusinessLogicFactoryGroup();
+
 }

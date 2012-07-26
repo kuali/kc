@@ -1,5 +1,11 @@
 <%@ include file="/WEB-INF/jsp/committee/committeeMember.jsp"%>
 
+<%@ attribute name="finderClassName" required="false" %>
+<c:if test="${finderClassName == null}">
+	<c:set var="finderClassName" value="org.kuali.kra.committee.keyvalue.MembershipRoleValuesFinder" />
+</c:if>
+
+
 <c:set var="membershipRoleAttributes" value="${DataDictionary.CommitteeMembershipRole.attributes}" />
 
 <table border="0" cellpadding="0" cellspacing="0" summary="">
@@ -37,7 +43,7 @@
                                        <!--<kul:htmlControlAttribute property="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].membershipRoleCode" 
                                                                   attributeEntry="${membershipRoleAttributes.membershipRoleCode}" />-->
                                        <html:select property="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].membershipRoleCode" style="width:180px" tabindex="0" disabled="${readOnly}">
-										<c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.keyvalue.MembershipRoleValuesFinder', paramMap1)}" var="option">											
+										<c:forEach items="${krafn:getOptionList(finderClassName, paramMap1)}" var="option">											
 											<option value="${option.key}">${option.value}</option>
 										</c:forEach>
 										</html:select>
