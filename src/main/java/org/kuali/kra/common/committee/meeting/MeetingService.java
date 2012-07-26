@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.meeting;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
@@ -32,13 +32,13 @@ public interface MeetingService {
      * @param committeeSchedule
      * @param deletedBos
      */
-    public void saveMeetingDetails(CommitteeSchedule committeeSchedule, List<? extends PersistableBusinessObject> deletedBos);
+    public void saveMeetingDetails(CommonCommitteeSchedule committeeSchedule, List<? extends PersistableBusinessObject> deletedBos);
     
     /**
      * This method will refresh the protocol submission data associated with the given schedule.
      * @param committeeSchedule
      */
-    public void refreshProtocolSubmissionsFor(CommitteeSchedule committeeSchedule);
+    public void refreshProtocolSubmissionsFor(CommonCommitteeSchedule committeeSchedule);
 
     
     /**
@@ -56,7 +56,7 @@ public interface MeetingService {
      * @param committeeSchedule
      * @param newOtherAction
      */
-    public void addOtherAction(CommScheduleActItem newOtherAction, CommitteeSchedule committeeSchedule);    
+    public void addOtherAction(CommScheduleActItem newOtherAction, CommonCommitteeSchedule committeeSchedule);    
    
     /**
      * 
@@ -66,7 +66,7 @@ public interface MeetingService {
      * @param itemNumber
      * @param deletedOtherActions
      */
-    public void deleteOtherAction(CommitteeSchedule committeeSchedule, int itemNumber, List<CommScheduleActItem> deletedOtherActions);
+    public void deleteOtherAction(CommonCommitteeSchedule committeeSchedule, int itemNumber, List<CommScheduleActItem> deletedOtherActions);
 
     /**
      * 
@@ -92,7 +92,7 @@ public interface MeetingService {
      * @param deletedCommitteeScheduleMinutes
      * @param itemNumber
      */
-    public void deleteCommitteeScheduleMinute(CommitteeSchedule committeeSchedule, List<CommitteeScheduleMinute> deletedCommitteeScheduleMinutes, int itemNumber);
+    public void deleteCommitteeScheduleMinute(CommonCommitteeSchedule committeeSchedule, List<CommitteeScheduleMinute> deletedCommitteeScheduleMinutes, int itemNumber);
     
     /**
      * 
@@ -101,7 +101,7 @@ public interface MeetingService {
      * @param commSchedule
      * @param lineNumber
      */
-    public void populateFormHelper(MeetingHelper meetingHelper, CommitteeSchedule commSchedule, int lineNumber);
+    public void populateFormHelper(MeetingHelper meetingHelper, CommonCommitteeSchedule commSchedule, int lineNumber);
     
     /**
      * 

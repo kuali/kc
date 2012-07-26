@@ -26,7 +26,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.print.CommitteeXmlStream;
 import org.kuali.kra.common.committee.print.PrintXmlUtilService;
 import org.kuali.kra.common.committee.print.ScheduleXmlStream;
@@ -260,7 +260,7 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
      */
     protected void setMinutes(org.kuali.kra.protocol.actions.submit.ProtocolSubmission submissionInfoBean,
             Submissions submission) {
-        CommitteeSchedule committeeSchedule = submissionInfoBean.getCommitteeSchedule();
+        CommonCommitteeSchedule committeeSchedule = submissionInfoBean.getCommitteeSchedule();
         if (committeeSchedule != null) {
             getPrintXmlUtilService().setProtocolReviewMinutes(committeeSchedule, submissionInfoBean, submission);
         }

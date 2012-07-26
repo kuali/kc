@@ -24,7 +24,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.validator.Resources;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
 import org.kuali.kra.infrastructure.Constants;
@@ -298,7 +298,7 @@ public class MeetingManagementAction extends MeetingAction {
         
         final CommonCommitteeDocument pdDoc = (CommonCommitteeDocument) docService.getByDocumentHeaderId(docNumber);
         String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getDocumentId());
-        forwardUrl = forwardUrl.replaceFirst("committeeCommittee.do", "committeeSchedule.do");
+        forwardUrl = forwardUrl.replaceFirst("commonCommitteeCommittee.do", "commonCommitteeSchedule.do");
         forwardUrl += "&methodToCallAttribute=methodToCall.reload";
         return new ActionForward(forwardUrl, true);
     }
@@ -339,7 +339,7 @@ public class MeetingManagementAction extends MeetingAction {
         CommonCommitteeDocument document = getCommitteeDocument(meetingHelper.getCommitteeSchedule().getCommittee().
                                         getCommitteeDocument().getDocumentHeader().getDocumentNumber());
         if (applyRules(new MeetingAddAttachmentsEvent(Constants.EMPTY_STRING, document, meetingHelper, ErrorType.HARDERROR))) {
-        CommitteeSchedule committeSchedule= meetingHelper.getCommitteeSchedule();
+        CommonCommitteeSchedule committeSchedule= meetingHelper.getCommitteeSchedule();
         CommitteeScheduleAttachments  committeScheduleAttachment= meetingHelper.getNewCommitteeScheduleAttachments();
         DateTimeService dateTimeService = ( KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME));
         dateTimeService.getCurrentTimestamp();
@@ -356,7 +356,7 @@ public class MeetingManagementAction extends MeetingAction {
         
     }
     
-    public void addScheduleAttachmentsToCommitteSchedule(CommitteeSchedule committeSchedule,CommitteeScheduleAttachments  committeScheduleAttachment)
+    public void addScheduleAttachmentsToCommitteSchedule(CommonCommitteeSchedule committeSchedule,CommitteeScheduleAttachments  committeScheduleAttachment)
     {
         committeScheduleAttachment.setCommitteeschedule(committeSchedule) ;
         committeScheduleAttachment.populateAttachment();
@@ -376,7 +376,7 @@ public class MeetingManagementAction extends MeetingAction {
             HttpServletResponse response) throws Exception {
         MeetingForm meetingForm = (MeetingForm) form;
         MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
-        CommitteeSchedule committeSchedule= meetingHelper.getCommitteeSchedule();
+        CommonCommitteeSchedule committeSchedule= meetingHelper.getCommitteeSchedule();
         String line = request.getParameter(LINE_NUMBER);
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
         CommitteeScheduleAttachments  committeScheduleAttachment= meetingHelper.getCommitteeSchedule().getCommitteeScheduleAttachments().get(lineNumber);
@@ -399,7 +399,7 @@ public class MeetingManagementAction extends MeetingAction {
     public ActionForward deleteCommitteScheduleAttachmentsAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MeetingForm meetingForm = (MeetingForm) form;
         MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
-        CommitteeSchedule committeSchedule= meetingHelper.getCommitteeSchedule();
+        CommonCommitteeSchedule committeSchedule= meetingHelper.getCommitteeSchedule();
         int selectedLineNumber = getSelectedLine(request);
         CommitteeScheduleAttachments  committeScheduleAttachment = meetingHelper.getCommitteeSchedule().getCommitteeScheduleAttachments().get(selectedLineNumber);
         if(committeScheduleAttachment.getFileName()!=null){
@@ -423,7 +423,7 @@ public class MeetingManagementAction extends MeetingAction {
             HttpServletResponse response) throws Exception {
         MeetingForm meetingForm = (MeetingForm) form;
         MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
-        CommitteeSchedule committeSchedule= meetingHelper.getCommitteeSchedule();
+        CommonCommitteeSchedule committeSchedule= meetingHelper.getCommitteeSchedule();
         CommitteeScheduleAttachments  committeScheduleAttachment = meetingHelper.getCommitteeSchedule().getCommitteeScheduleAttachments().get(getSelectedLine(request));
         committeScheduleAttachment.populateAttachment();
         if(committeScheduleAttachment.getAttachmentsTypeCode()!=null){

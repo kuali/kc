@@ -21,7 +21,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
@@ -271,7 +271,7 @@ public abstract class ProtocolReviewAttachment extends ProtocolReviewable {
         this.protocolPersonCanView = protocolPersonCanView;
     }
 
-    public CommitteeSchedule getCommitteeSchedule() {
+    public CommonCommitteeSchedule getCommitteeSchedule() {
         if (getProtocolSubmission()!= null) {
             if (getProtocolSubmission().getScheduleIdFk() != null && getProtocolSubmission().getCommitteeSchedule() == null) {
                 getProtocolSubmission().refreshReferenceObject("committeeSchedule");

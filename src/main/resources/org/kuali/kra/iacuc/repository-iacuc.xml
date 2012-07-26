@@ -674,7 +674,7 @@
         <reference-descriptor name="protocolSubmissionQualifierType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="submissionTypeQualifierCode"/>
         </reference-descriptor>
-        <reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommonCommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="scheduleIdFk"/>
         </reference-descriptor>
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 

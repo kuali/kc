@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
@@ -40,7 +40,7 @@ public class CommitteeNotificationContext extends NotificationContextBase {
     private static final long serialVersionUID = 6642334312368480034L;
 
     private CommonCommittee committee;
-    private CommitteeSchedule committeeSchedule;
+    private CommonCommitteeSchedule committeeSchedule;
     private String actionTypeCode;
     private String contextName;
     private CommitteeNotificationRoleQualifierService committeeNotificationRoleQualifierService;
@@ -51,7 +51,7 @@ public class CommitteeNotificationContext extends NotificationContextBase {
      * @param actionTypeCode
      * @param contextName
      */
-    public CommitteeNotificationContext(CommitteeSchedule committeeSchedule, String actionTypeCode, String contextName, NotificationRenderer renderer) {
+    public CommitteeNotificationContext(CommonCommitteeSchedule committeeSchedule, String actionTypeCode, String contextName, NotificationRenderer renderer) {
         super(renderer);
 
         this.committee = committeeSchedule.getCommittee();

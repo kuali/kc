@@ -42,7 +42,7 @@ import org.kuali.kra.util.DateUtils;
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
  */
-public class CommitteeSchedule extends CommitteeAssociate implements Comparable<CommitteeSchedule>, Permissionable{ 
+public class CommonCommitteeSchedule extends CommitteeAssociate implements Comparable<CommonCommitteeSchedule>, Permissionable{ 
     
     private static final long serialVersionUID = -360139608123017188L;
     public static final Long DEFAULT_SCHEDULE_ID = 9999999999L;
@@ -91,7 +91,7 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
     private transient List<ScheduleAgenda> scheduleAgendas;        
 
     
-    public CommitteeSchedule() { 
+    public CommonCommitteeSchedule() { 
         setCommitteeScheduleAttendances(new ArrayList<CommitteeScheduleAttendance>()); 
         setCommScheduleActItems(new ArrayList<CommScheduleActItem>()); 
         setProtocolSubmissions(new ArrayList<ProtocolSubmission>()); 
@@ -375,7 +375,7 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
         if (obj.getClass() != this.getClass()) {
             return false;
         }
-        CommitteeSchedule committeeSchedule = (CommitteeSchedule) obj;
+        CommonCommitteeSchedule committeeSchedule = (CommonCommitteeSchedule) obj;
         if (this.getId() != null && this.getId().equals(committeeSchedule.getId())) {
             return true;
         } else {
@@ -398,7 +398,7 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
      * @param other The CommitteeSchedule to be compared.
      * @return the result of comparing this <code>scheduledDate</code> to the other <code>scheduledDate</code>
      */
-    public int compareTo(CommitteeSchedule other) {
+    public int compareTo(CommonCommitteeSchedule other) {
         int compareResult;
         
         if (getScheduledDate() == null) {

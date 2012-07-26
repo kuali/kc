@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.rice.core.api.util.KeyValue;
 
 /**
@@ -73,7 +73,7 @@ public interface CommonCommitteeService {
      * @param scheduleId the id of the schedule to find
      * @return the schedule or null if not found
      */
-    public CommitteeSchedule getCommitteeSchedule(CommonCommittee committee, String scheduleId);
+    public CommonCommitteeSchedule getCommitteeSchedule(CommonCommittee committee, String scheduleId);
     
     /**
      * 
@@ -81,5 +81,5 @@ public interface CommonCommitteeService {
      * @param committeeId
      * @return
      */
-    List<CommitteeSchedule>  mergeCommitteeSchedule(String committeeId);
+    List<CommonCommitteeSchedule>  mergeCommitteeSchedule(String committeeId);
 }

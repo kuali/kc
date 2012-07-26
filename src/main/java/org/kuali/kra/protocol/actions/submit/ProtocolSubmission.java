@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
@@ -98,7 +98,7 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
     private List<ProtocolVoteRecused> recusers = new ArrayList<ProtocolVoteRecused>();
 
     @SkipVersioning
-    private transient CommitteeSchedule committeeSchedule;
+    private transient CommonCommitteeSchedule committeeSchedule;
 
     @SkipVersioning
     private transient List<CommitteeScheduleMinute> committeeScheduleMinutes;
@@ -416,7 +416,7 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
         return committeeDecisionMotionType;
     }
 
-    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
+    public void setCommitteeSchedule(CommonCommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
 
@@ -425,7 +425,7 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
      * This method returns the committee schedule.
      * @return
      */
-    public CommitteeSchedule getCommitteeSchedule() {
+    public CommonCommitteeSchedule getCommitteeSchedule() {
         if (scheduleIdFk != null && committeeSchedule == null) {
             refreshReferenceObject("committeeSchedule");
         }

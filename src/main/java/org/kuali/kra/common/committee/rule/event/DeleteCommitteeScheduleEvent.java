@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.rule.event;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.rules.DeleteCommitteeScheduleRule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
@@ -41,7 +41,7 @@ public class DeleteCommitteeScheduleEvent extends CommitteeScheduleEventBase<Del
      * @param committeeSchedules
      * @param type
      */
-    public DeleteCommitteeScheduleEvent(String errorPathPrefix, CommonCommitteeDocument document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type) {
+    public DeleteCommitteeScheduleEvent(String errorPathPrefix, CommonCommitteeDocument document, ScheduleData scheduleData, List<CommonCommitteeSchedule> committeeSchedules, ErrorType type) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, scheduleData, committeeSchedules, type);
     }
     
@@ -55,7 +55,7 @@ public class DeleteCommitteeScheduleEvent extends CommitteeScheduleEventBase<Del
      * @param type
      */
     public DeleteCommitteeScheduleEvent(String errorPathPrefix, Document document, ScheduleData scheduleData,
-            List<CommitteeSchedule> committeeSchedules, ErrorType type) {
+            List<CommonCommitteeSchedule> committeeSchedules, ErrorType type) {
         this(errorPathPrefix, (CommonCommitteeDocument) document, scheduleData, committeeSchedules, type);
     }
     

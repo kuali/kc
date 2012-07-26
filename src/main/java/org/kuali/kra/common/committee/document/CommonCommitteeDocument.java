@@ -22,7 +22,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -164,7 +164,7 @@ public class CommonCommitteeDocument extends ResearchDocumentBase implements Cop
         super.doRouteStatusChange(statusChangeEvent);
         this.setDocStatusCode(statusChangeEvent.getNewRouteStatus());
         if (isFinal(statusChangeEvent) && this.getCommittee().getSequenceNumber() > 1) {
-            List<CommitteeSchedule> schedules = this.getCommittee().getCommitteeSchedules();
+            List<CommonCommitteeSchedule> schedules = this.getCommittee().getCommitteeSchedules();
             this.getCommittee().setCommitteeSchedules(getCommitteeService().mergeCommitteeSchedule(this.getCommittee().getCommitteeId()));
             getBusinessObjectService().delete(schedules);
             getBusinessObjectService().save(this);

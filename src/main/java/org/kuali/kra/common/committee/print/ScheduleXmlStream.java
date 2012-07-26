@@ -31,10 +31,10 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
-import org.kuali.kra.common.committee.service.CommitteeMembershipService;
+import org.kuali.kra.common.committee.service.CommonCommitteeMembershipService;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
@@ -62,7 +62,7 @@ import edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo;
 import edu.mit.coeus.xml.iacuc.ScheduleType;
 
 public class ScheduleXmlStream extends PrintBaseXmlStream {
-    private CommitteeMembershipService committeeMembershipService;
+    private CommonCommitteeMembershipService committeeMembershipService;
     private KcPersonService kcPersonService;
     private PrintXmlUtilService printXmlUtilService;
     private String EXPEDIT_ACTION_TYPE_CODE = "205";
@@ -71,7 +71,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {        CommonCommittee committee = (CommonCommittee)printableBusinessObject;
         String scheduleId = (String)reportParameters.get("scheduleId");
-        CommitteeSchedule committeeSchedule = findCommitteeSchedule(committee,scheduleId);
+        CommonCommitteeSchedule committeeSchedule = findCommitteeSchedule(committee,scheduleId);
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         ScheduleDocument scheduleDocument =
 		ScheduleDocument.Factory.newInstance();
@@ -82,11 +82,11 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     }
 
 
-    private CommitteeSchedule findCommitteeSchedule(
+    private CommonCommitteeSchedule findCommitteeSchedule(
 	CommonCommittee committee, String scheduleId) {
-        List<CommitteeSchedule> committeeSchedules =
+        List<CommonCommitteeSchedule> committeeSchedules =
 	committee.getCommitteeSchedules();
-        for (CommitteeSchedule committeeSchedule : committeeSchedules) {
+        for (CommonCommitteeSchedule committeeSchedule : committeeSchedules) {
             if(committeeSchedule.getScheduleId().equals(scheduleId)){
                 return committeeSchedule;
             }
@@ -95,7 +95,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     }
 
     public ScheduleType getSchedule(
-     CommitteeSchedule committeeSchedule) {
+     CommonCommitteeSchedule committeeSchedule) {
         ScheduleType schedule = ScheduleType.Factory.newInstance();
         setScheduleMasterData(committeeSchedule, schedule.addNewScheduleMasterData());
         ScheduleSummaryType prevSchedule = schedule.addNewPreviousSchedule();
@@ -314,7 +314,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         }
     }
 
-    private void setOtherActionItems(CommitteeSchedule committeeSchedule, ScheduleType schedule) {
+    private void setOtherActionItems(CommonCommitteeSchedule committeeSchedule, ScheduleType schedule) {
         List<CommScheduleActItem> otherActions = committeeSchedule.getCommScheduleActItems();
         for (CommScheduleActItem otherActionInfoBean : otherActions) {
             otherActionInfoBean.refreshNonUpdateableReferences();
@@ -437,7 +437,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 //        return actions.isEmpty() ? null : actions.get(0);
     }
 
-    private void setAttendance(CommitteeSchedule committeeSchedule, ScheduleType schedule) {
+    private void setAttendance(CommonCommitteeSchedule committeeSchedule, ScheduleType schedule) {
         List<CommitteeScheduleAttendance> attendenceList = committeeSchedule.getCommitteeScheduleAttendances();
         for (CommitteeScheduleAttendance attendanceInfoBean : attendenceList) {
             Attendents attendents = schedule.addNewAttendents();
@@ -463,7 +463,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
 
 
-    public ScheduleMasterDataType setScheduleMasterData(CommitteeSchedule scheduleDetailsBean, ScheduleMasterDataType scheduleMasterDataType) {
+    public ScheduleMasterDataType setScheduleMasterData(CommonCommitteeSchedule scheduleDetailsBean, ScheduleMasterDataType scheduleMasterDataType) {
         scheduleDetailsBean.refreshNonUpdateableReferences();
         String committeeId = scheduleDetailsBean.getCommittee().getCommitteeId();
         scheduleMasterDataType.setScheduleId(scheduleDetailsBean.getScheduleId());
@@ -519,15 +519,15 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         return scheduleMasterDataType;
     }
 
-    public void setNextSchedule(CommitteeSchedule scheduleDetailsBean,ScheduleMasterDataType scheduleMasterData) {
-        CommitteeSchedule nextSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
+    public void setNextSchedule(CommonCommitteeSchedule scheduleDetailsBean,ScheduleMasterDataType scheduleMasterData) {
+        CommonCommitteeSchedule nextSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
         if (nextSchedule != null){
             setScheduleMasterData(nextSchedule, scheduleMasterData);
         }
     }
 
-    public void setPreviousSchedule(CommitteeSchedule scheduleDetailsBean,ScheduleMasterDataType scheduleMasterDataType) {
-        CommitteeSchedule prevSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
+    public void setPreviousSchedule(CommonCommitteeSchedule scheduleDetailsBean,ScheduleMasterDataType scheduleMasterDataType) {
+        CommonCommitteeSchedule prevSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
         if (prevSchedule != null){
             setScheduleMasterData(prevSchedule, scheduleMasterDataType);
         }
@@ -541,15 +541,15 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
      * @param nextFlag
      * @return
      */
-    private CommitteeSchedule getNextOrPreviousSchedule(CommitteeSchedule scheduleDetailsBean, boolean nextFlag) {
+    private CommonCommitteeSchedule getNextOrPreviousSchedule(CommonCommitteeSchedule scheduleDetailsBean, boolean nextFlag) {
         Map<String, String> scheduleParam = new HashMap<String, String>();
         scheduleParam.put("committeeIdFk", scheduleDetailsBean.getCommittee().getId().toString());
-        List<CommitteeSchedule> schedules = (List) getBusinessObjectService().findMatchingOrderBy(CommitteeSchedule.class,
+        List<CommonCommitteeSchedule> schedules = (List) getBusinessObjectService().findMatchingOrderBy(CommonCommitteeSchedule.class,
                 scheduleParam, "scheduledDate", false);
         if (!schedules.isEmpty()) {
             int size = schedules.size();
             for (int i = 0; i < size; i++) {
-                CommitteeSchedule schedule = schedules.get(i);
+                CommonCommitteeSchedule schedule = schedules.get(i);
                 if (schedule.getScheduleId().equals(scheduleDetailsBean.getScheduleId())) {
                     if (nextFlag && i < (size -1)) {
                         return schedules.get(i + 1);
@@ -572,7 +572,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
      * 
      * @param committeeMembershipService The committeeMembershipService to set.
      */
-    public void setCommitteeMembershipService(CommitteeMembershipService committeeMembershipService) {
+    public void setCommitteeMembershipService(CommonCommitteeMembershipService committeeMembershipService) {
         this.committeeMembershipService = committeeMembershipService;
     }
 
@@ -582,7 +582,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
      * 
      * @return Returns the committeeMembershipService.
      */
-    public CommitteeMembershipService getCommitteeMembershipService() {
+    public CommonCommitteeMembershipService getCommitteeMembershipService() {
         return committeeMembershipService;
     }
 

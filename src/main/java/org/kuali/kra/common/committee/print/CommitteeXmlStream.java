@@ -30,7 +30,7 @@ import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
@@ -95,9 +95,9 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
     private void setScheduleForcommittee(org.kuali.kra.common.committee.bo.CommonCommittee committee, CommitteeType committeeType) {
         Date currentDate = new Date();
         Boolean isRooster=committee.getPrintRooster();
-        List<CommitteeSchedule> vecSchedule = committee.getCommitteeSchedules();
+        List<CommonCommitteeSchedule> vecSchedule = committee.getCommitteeSchedules();
         if (vecSchedule.isEmpty()) return;
-        for (CommitteeSchedule scheduleDetailsBean : vecSchedule) {
+        for (CommonCommitteeSchedule scheduleDetailsBean : vecSchedule) {
            Date scheduleDate =  scheduleDetailsBean.getScheduledDate();
            int dateCount = scheduleDate.compareTo(currentDate);
            if(isRooster){
