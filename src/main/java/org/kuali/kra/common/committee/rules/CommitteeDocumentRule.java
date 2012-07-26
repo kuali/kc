@@ -28,8 +28,8 @@ import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeBusinessLogic;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeBusinessLogic;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactoryGroup;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinder;
 import org.kuali.kra.common.committee.rule.AddCommitteeMembershipRoleRule;
@@ -149,8 +149,8 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
      */
     private boolean validateCommitteeTypeSpecificData(CommonCommitteeDocument document) {
         boolean valid = true;
-        CommitteeCollaboratorBusinessLogicFactoryGroup cmtGrp = getCommitteeCollaboratorBusinessLogicFactoryGroup();
-        CommitteeBusinessLogic committeeBusinessLogic = cmtGrp.getCommitteeBusinessLogicFor(document.getCommittee());
+        CommonCommitteeCollaboratorBusinessLogicFactoryGroup cmtGrp = getCommitteeCollaboratorBusinessLogicFactoryGroup();
+        CommonCommitteeBusinessLogic committeeBusinessLogic = cmtGrp.getCommitteeBusinessLogicFor(document.getCommittee());
         // delegate actual validation logic to the business logic wrapper
         valid &= committeeBusinessLogic.validateCommitteeResearchAreas();
         // delegate actual validation logic to the business logic wrapper
@@ -159,8 +159,8 @@ public class CommitteeDocumentRule extends ResearchDocumentRuleBase implements B
     }
     
     
-    public CommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorBusinessLogicFactoryGroup() {
-        return KraServiceLocator.getService(CommitteeCollaboratorBusinessLogicFactoryGroup.class);
+    public CommonCommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorBusinessLogicFactoryGroup() {
+        return KraServiceLocator.getService(CommonCommitteeCollaboratorBusinessLogicFactoryGroup.class);
     }
     
     

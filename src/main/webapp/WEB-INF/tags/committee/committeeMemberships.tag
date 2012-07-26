@@ -2,6 +2,12 @@
 
 <%@ attribute name="readOnly" description="All fields are displayed as read-only elements." required="true" %>
 
+<%@ attribute name="membershipRoleValuesFinderClassName" required="false" %>
+<c:if test="${membershipRoleValuesFinderClassName == null}">
+	<c:set var="membershipRoleValuesFinderClassName" value="org.kuali.kra.committee.keyvalue.MembershipRoleValuesFinder" />
+</c:if>
+
+
 <c:set var="committeeMembershipAttributes" value="${DataDictionary.CommitteeMembership.attributes}" />
 
 <c:if test="${not empty KualiForm.document.committee.committeeMemberships}">
@@ -95,7 +101,7 @@
               </h3>
               <kra-committee:committeeMembershipDetailsSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
               <kra-committee:committeeMembershipContactInformationSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
-              <kra-committee:committeeMembershipRolesSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
+              <kra-committee:committeeMembershipRolesSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}"  finderClassName="${membershipRoleValuesFinderClassName}" />
               <kra-committee:committeeMembershipExpertiseSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" readOnly="${readOnly}" />
             </div>
         </kul:tab>
