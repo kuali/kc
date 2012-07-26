@@ -20,11 +20,11 @@
 	-->
 
 	<!-- globally used properties -->
-	<property name="db.version" value="DATABASE VERSION"/>
-	<property name="bun.username" value="BUNDLE DB USERID"/>
-	<property name="bun.password" value="BUNDLE DB PASSWORD"/>
-	<property name="tst.username" value="UNIT DB USERID"/>
-	<property name="tst.password" value="UNIT DB PASSWORD"/>
+	<property name="db.version" value="500"/>
+	<property name="bun.username" value="1KCBND"/>
+	<property name="bun.password" value="bnd174kc"/>
+	<property name="tst.username" value="1KCUNT"/>
+	<property name="tst.password" value="unt174kc"/>
 	<property name="emb.client.username" value="EMBEDDED CLIENT DB USERID"/>
 	<property name="emb.client.password" value="EMBEDDED CLIENT DB PASSWORD"/>
 	<property name="emb.server.username" value="EMBEDDED SERVER DB USERID"/>
