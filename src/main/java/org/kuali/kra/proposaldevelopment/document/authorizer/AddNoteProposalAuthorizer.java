@@ -49,7 +49,8 @@ public class AddNoteProposalAuthorizer extends ProposalAuthorizer {
              * After the initial save, the proposal can have new notes added by users with the modify proposal role.
              */
             
-            hasPermission = hasProposalPermission(userId, doc, PermissionConstants.MODIFY_PROPOSAL);
+            hasPermission = hasProposalPermission(userId, doc, PermissionConstants.VIEW_PROPOSAL)
+                || kraWorkflowService.hasWorkflowPermission(userId, doc);
         }
         return hasPermission;
     }
