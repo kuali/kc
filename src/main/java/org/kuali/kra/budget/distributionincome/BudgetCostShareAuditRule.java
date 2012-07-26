@@ -103,7 +103,11 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
             }
             validateProjectPeriod(fiscalYear, "document.budget.budgetCostShare[" + i + "].projectPeriod", numberOfProjectPeriods);
             if (getCostShareService().validateProjectPeriodAsProjectPeriod()) {
-                validatePeriodNumber(costShare, "document.budget.budgetCostShare[" + i + "].projectPeriod", numberOfProjectPeriods, getAuditErrors());
+                List<AuditError> errors = new ArrayList<AuditError>();
+                validatePeriodNumber(costShare, "document.budget.budgetCostShare[" + i + "].projectPeriod", numberOfProjectPeriods, errors);
+                if (!errors.isEmpty()) {
+                    getAuditErrors().addAll(errors);
+                }
             }
             i++;
         }
