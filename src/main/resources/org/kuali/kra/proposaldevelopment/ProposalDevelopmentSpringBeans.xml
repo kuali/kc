@@ -560,6 +560,9 @@
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.CreateProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="createIrbProtocolFromProposal" />
                 </bean>   
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.CreateIacucProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="createIacucProtocolFromProposal" />
+                </bean>   
 
 			</list>
 		</property>

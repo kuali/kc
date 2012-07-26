@@ -13,19 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.protocol.funding;
+package org.kuali.kra.protocol.protocol.funding;
 
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.protocol.ProtocolHelper;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.protocol.ProtocolDocument;
 
-public interface ProposalDevelopmentProtocolDocumentService {
-    public static final String PROTOCOL_CREATED = "Protocol created";
+public interface ProposalDevelopmentProtocolDocumentService <GenericProtocolDocument extends ProtocolDocument> {
 
     public ProtocolDocument createProtocolDocument(ProposalDevelopmentForm proposalDevelopmentForm) throws Exception;
     public boolean isAuthorizedCreateProtocol(SpecialReviewHelper specialReviewHelper);

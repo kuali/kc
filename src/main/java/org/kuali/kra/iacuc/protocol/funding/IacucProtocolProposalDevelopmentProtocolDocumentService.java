@@ -13,14 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.protocol;
+package org.kuali.kra.iacuc.protocol.funding;
 
-import org.kuali.kra.protocol.protocol.ProtocolType;
+import org.kuali.kra.protocol.protocol.funding.ProposalDevelopmentProtocolDocumentService;
 
-public class IacucProtocolType extends ProtocolType{
+public interface IacucProtocolProposalDevelopmentProtocolDocumentService extends ProposalDevelopmentProtocolDocumentService {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 2622328718522740839L;
 }
