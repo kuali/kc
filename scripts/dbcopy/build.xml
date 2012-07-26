@@ -21,9 +21,9 @@
 
 	<!-- globally used properties -->
 	<property name="db.version" value="500"/>
-	<property name="bun.username" value="1KCBND"/>
+	<property name="bun.username" value="KCBND"/>
 	<property name="bun.password" value="bnd174kc"/>
-	<property name="tst.username" value="1KCUNT"/>
+	<property name="tst.username" value="KCUNT"/>
 	<property name="tst.password" value="unt174kc"/>
 	<property name="emb.client.username" value="EMBEDDED CLIENT DB USERID"/>
 	<property name="emb.client.password" value="EMBEDDED CLIENT DB PASSWORD"/>
