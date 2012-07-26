@@ -33,7 +33,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.bo.ScheduleStatus;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachments;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
@@ -113,9 +113,9 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
     }
     
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#isCommitteeScheduleDeletable(org.kuali.kra.common.committee.bo.CommitteeSchedule)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#isCommitteeScheduleDeletable(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule)
      */
-    public Boolean isCommitteeScheduleDeletable(CommitteeSchedule committeeSchedule){
+    public Boolean isCommitteeScheduleDeletable(CommonCommitteeSchedule committeeSchedule){
         
         boolean retVal = false;
         
@@ -129,7 +129,7 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
      * @param committeeSchedule
      * @return
      */
-    protected Boolean isProtocolAssignedToScheduleDate(CommitteeSchedule committeeSchedule){
+    protected Boolean isProtocolAssignedToScheduleDate(CommonCommitteeSchedule committeeSchedule){
         boolean retVal = true;
         List<Protocol> list = committeeSchedule.getProtocols();
         if(null == list || list.size() == 0)
@@ -262,7 +262,7 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
                 continue;
             }
           
-            CommitteeSchedule committeeSchedule = new CommitteeSchedule();
+            CommonCommitteeSchedule committeeSchedule = new CommonCommitteeSchedule();
             committeeSchedule.setScheduledDate(sqldate);
             committeeSchedule.setPlace(location);
             committeeSchedule.setTime(new Timestamp(date.getTime()));
@@ -287,9 +287,9 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
      * @param date
      * @return
      */
-    protected Boolean isDateAvailable(List<CommitteeSchedule> committeeSchedules, java.sql.Date date) {
+    protected Boolean isDateAvailable(List<CommonCommitteeSchedule> committeeSchedules, java.sql.Date date) {
         boolean retVal = true;
-        for (CommitteeSchedule committeeSchedule : committeeSchedules) {
+        for (CommonCommitteeSchedule committeeSchedule : committeeSchedules) {
             Date scheduledDate = committeeSchedule.getScheduledDate();
             if ((scheduledDate != null) && DateUtils.isSameDay(scheduledDate, date)) {
                 retVal = false;

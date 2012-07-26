@@ -16,7 +16,7 @@
 package org.kuali.kra.common.committee.notification;
 
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 
 public interface CommitteeNotificationRoleQualifierService extends KcNotificationRoleQualifierService {
@@ -24,7 +24,7 @@ public interface CommitteeNotificationRoleQualifierService extends KcNotificatio
     public void setCommittee(CommonCommittee committee);
     public CommonCommittee getCommittee();
     
-    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule);
-    public CommitteeSchedule getCommitteeSchedule();
+    public void setCommitteeSchedule(CommonCommitteeSchedule committeeSchedule);
+    public CommonCommitteeSchedule getCommitteeSchedule();
         
 }

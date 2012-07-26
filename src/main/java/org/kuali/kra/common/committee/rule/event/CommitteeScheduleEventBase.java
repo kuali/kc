@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.rule.event;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
@@ -33,11 +33,11 @@ public abstract class CommitteeScheduleEventBase<Z extends BusinessRuleInterface
     
     private ScheduleData scheduleData;
     
-    private List<CommitteeSchedule> committeeSchedules;
+    private List<CommonCommitteeSchedule> committeeSchedules;
     
     private ErrorType type;
     
-    public CommitteeScheduleEventBase(String description, String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type) {        
+    public CommitteeScheduleEventBase(String description, String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommonCommitteeSchedule> committeeSchedules, ErrorType type) {        
         super(description, errorPathPrefix, document);
         this.scheduleData = scheduleData;
         this.committeeSchedules = committeeSchedules;
@@ -56,7 +56,7 @@ public abstract class CommitteeScheduleEventBase<Z extends BusinessRuleInterface
      * This method should return instance of CommitteeSchedules.
      * @return
      */
-    public List<CommitteeSchedule> getCommitteeSchedules(){
+    public List<CommonCommitteeSchedule> getCommitteeSchedules(){
         return this.committeeSchedules;
     }
     

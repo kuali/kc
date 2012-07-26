@@ -32,7 +32,7 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDisclosureEventType;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentType;
@@ -54,7 +54,7 @@ public class CommitteeScheduleAttachments extends KraPersistableBusinessObjectBa
     private String contentType;
     private AttachmentFile file;
     private Integer lineNumber;
-    private CommitteeSchedule committeeSchedule;
+    private CommonCommitteeSchedule committeeSchedule;
     private String newUpdateUser;
     private Timestamp newUpdateTimestamp;
     
@@ -62,14 +62,14 @@ public class CommitteeScheduleAttachments extends KraPersistableBusinessObjectBa
      * Gets the committeeSchedule attribute. 
      * @return Returns the committeeSchedule.
      */
-    public CommitteeSchedule getCommitteeSchedule() {
+    public CommonCommitteeSchedule getCommitteeSchedule() {
         return committeeSchedule;
     }
     /**
      * Sets the committeeSchedule attribute. 
      * @return Returns the committeeSchedule.
      */
-    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
+    public void setCommitteeSchedule(CommonCommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
     
@@ -130,7 +130,7 @@ public class CommitteeScheduleAttachments extends KraPersistableBusinessObjectBa
      }
      
     private AttachmentsEntryType attachmentsEntryType;
-     CommitteeSchedule committeeschedule;
+     CommonCommitteeSchedule committeeschedule;
    
      /**
       * Gets the attachmentsTypeCode attribute. 
@@ -315,7 +315,7 @@ public class CommitteeScheduleAttachments extends KraPersistableBusinessObjectBa
      * Gets the committeeschedule attribute. 
      * @return Returns the committeeschedule.
      */
-    public CommitteeSchedule getCommitteeschedule() {
+    public CommonCommitteeSchedule getCommitteeschedule() {
         return committeeschedule;
     }
     
@@ -323,7 +323,7 @@ public class CommitteeScheduleAttachments extends KraPersistableBusinessObjectBa
      * Sets the committeeschedule attribute. 
      * @return Returns the committeeschedule.
      */
-    public void setCommitteeschedule(CommitteeSchedule committeeschedule) {
+    public void setCommitteeschedule(CommonCommitteeSchedule committeeschedule) {
         this.committeeschedule = committeeschedule;
     }
 

@@ -28,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -77,7 +77,7 @@ public class MeetingAction extends KualiAction {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("id", request.getParameter("scheduleId"));
         List<CommitteeScheduleMinute> permittedMinutes = new ArrayList<CommitteeScheduleMinute>();
-        CommitteeSchedule commSchedule = (CommitteeSchedule) getBusinessObjectService().findByPrimaryKey(CommitteeSchedule.class,
+        CommonCommitteeSchedule commSchedule = (CommonCommitteeSchedule) getBusinessObjectService().findByPrimaryKey(CommonCommitteeSchedule.class,
                 fieldValues);
         List<CommitteeScheduleMinute> minutes = commSchedule.getCommitteeScheduleMinutes();
         
@@ -113,13 +113,13 @@ public class MeetingAction extends KualiAction {
      * This is a utility method to figure out the order of the selected schedule in schedule collections. This is primarily for
      * creating meeting tab title.
      */
-    private int getScheduleLineNumber(HttpServletRequest request, CommitteeSchedule commSchedule) {
+    private int getScheduleLineNumber(HttpServletRequest request, CommonCommitteeSchedule commSchedule) {
         int lineNumber = 0;
         if (StringUtils.isNotBlank(request.getParameter(LINE_NUMBER))) {
             lineNumber = Integer.parseInt(request.getParameter(LINE_NUMBER));
         }
         else {
-            for (CommitteeSchedule schedule : commSchedule.getCommittee().getCommitteeSchedules()) {
+            for (CommonCommitteeSchedule schedule : commSchedule.getCommittee().getCommitteeSchedules()) {
                 lineNumber++;
                 if (schedule.getId().equals(commSchedule.getId())) {
                     break;
@@ -162,7 +162,7 @@ public class MeetingAction extends KualiAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        CommitteeSchedule committeeSchedule = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule();
+        CommonCommitteeSchedule committeeSchedule = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule();
         if (isValidToSave(((MeetingForm) form).getMeetingHelper())) {
             ((MeetingForm) form).getMeetingHelper().populateAttendancePreSave();
             // need to refresh the protocol submissions because they can be asynchronously updated in a separate browser tab
@@ -233,7 +233,7 @@ public class MeetingAction extends KualiAction {
             HttpServletResponse response) throws Exception {
         ProtocolSubmission protocolSubmission = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule()
                 .getProtocolSubmissions().get(Integer.parseInt(request.getParameter("line")));
-        response.sendRedirect("protocolProtocolActions.do?methodToCall=start&submissionId=" + protocolSubmission.getSubmissionId());
+        response.sendRedirect("iacucProtocolProtocolActions.do?methodToCall=start&submissionId=" + protocolSubmission.getSubmissionId());
         return null;
     }
 
@@ -265,7 +265,7 @@ public class MeetingAction extends KualiAction {
         else if (meetingForm.getMeetingHelper().canModifySchedule()) {
             Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             if ((CLOSE_QUESTION_ID.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                CommitteeSchedule committeeSchedule = meetingForm.getMeetingHelper().getCommitteeSchedule();
+                CommonCommitteeSchedule committeeSchedule = meetingForm.getMeetingHelper().getCommitteeSchedule();
                 if (isValidToSave(((MeetingForm) form).getMeetingHelper())) {
                     ((MeetingForm) form).getMeetingHelper().populateAttendancePreSave();
                     getMeetingService().saveMeetingDetails(committeeSchedule,

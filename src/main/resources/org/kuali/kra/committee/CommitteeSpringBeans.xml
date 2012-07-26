@@ -325,7 +325,11 @@
     	<property name="parameterService" ref="parameterService" />
     </bean>
     
-    
+    <bean id="commonCommitteeMembershipService"
+		class="org.kuali.kra.common.committee.service.impl.CommitteeMembershipServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="committeeService" ref="commonCommitteeService" />
+	</bean>
     
     
     <bean id="commonCommitteeCollaboratorBusinessLogicFactoryGroup" 

@@ -21,7 +21,7 @@ import edu.mit.coeus.xml.iacuc.CorrespondenceDocument;
 import edu.mit.coeus.xml.iacuc.CorrespondenceType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
@@ -43,7 +43,7 @@ public class CorrespondenceXmlStream extends PrintBaseXmlStream {
         String scheduleId = null;
         Integer submissionNumber = null;
         if (protocolSubmission != null) {
-            CommitteeSchedule committeeSchedule = protocolSubmission.getCommitteeSchedule();
+            CommonCommitteeSchedule committeeSchedule = protocolSubmission.getCommitteeSchedule();
             scheduleId = committeeSchedule != null ? committeeSchedule.getScheduleId() : null;
             submissionNumber = protocolSubmission.getSubmissionNumber();
         }

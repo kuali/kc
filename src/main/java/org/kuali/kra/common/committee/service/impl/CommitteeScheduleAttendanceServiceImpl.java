@@ -22,7 +22,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleAttendanceService;
@@ -46,7 +46,7 @@ public class CommitteeScheduleAttendanceServiceImpl implements CommonCommitteeSc
     public Set<String> getVotingMembersPresent(String committeeId, String scheduleId) {
         Set<String> attendedMembers = new HashSet<String>();
         CommonCommittee committee = committeeService.getCommitteeById(committeeId);
-        CommitteeSchedule schedule = committeeService.getCommitteeSchedule(committee, scheduleId);
+        CommonCommitteeSchedule schedule = committeeService.getCommitteeSchedule(committee, scheduleId);
         List<CommitteeScheduleAttendance> attendances = schedule.getCommitteeScheduleAttendances();
         for (CommitteeScheduleAttendance attendance : attendances) {
              attendedMembers.add(attendance.getPersonId());
@@ -67,7 +67,7 @@ public class CommitteeScheduleAttendanceServiceImpl implements CommonCommitteeSc
     public Set<String> getActualVotingMembersPresent(String committeeId, String scheduleId) {
         Set<String> attendedMembers = new HashSet<String>();
         CommonCommittee committee = committeeService.getCommitteeById(committeeId);
-        CommitteeSchedule schedule = committeeService.getCommitteeSchedule(committee, scheduleId);
+        CommonCommitteeSchedule schedule = committeeService.getCommitteeSchedule(committee, scheduleId);
         List<CommitteeScheduleAttendance> attendances = schedule.getCommitteeScheduleAttendances();
         for (CommitteeScheduleAttendance attendance : attendances) {
              if(!attendance.getGuestFlag()) {

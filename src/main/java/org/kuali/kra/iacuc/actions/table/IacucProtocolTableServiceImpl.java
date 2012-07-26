@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
@@ -70,11 +70,11 @@ public class IacucProtocolTableServiceImpl implements IacucProtocolTableService 
     
     
     @Override
-    public CommitteeSchedule getNextScheduleForCommittee(CommonCommittee committee, CommitteeSchedule schedule) {
-        CommitteeSchedule retVal = null;
+    public CommonCommitteeSchedule getNextScheduleForCommittee(CommonCommittee committee, CommonCommitteeSchedule schedule) {
+        CommonCommitteeSchedule retVal = null;
         
         if((null != committee) && (null != schedule)) {
-            List<CommitteeSchedule> schedules = committee.getCommitteeSchedules();
+            List<CommonCommitteeSchedule> schedules = committee.getCommitteeSchedules();
             if(null != schedules) {
                 // sort will use the schedule's comparison method which orders by date
                 Collections.sort(schedules);
@@ -93,8 +93,8 @@ public class IacucProtocolTableServiceImpl implements IacucProtocolTableService 
     
     // bump the submission to the next schedule (if any) for the same committee, and move the associated minutes (if any)
     private void bumpSubmissionToNextSchedule(IacucProtocolSubmission submission){
-        CommitteeSchedule originalSchedule = submission.getCommitteeSchedule();
-        CommitteeSchedule nextSchedule = getNextScheduleForCommittee(submission.getCommittee(), originalSchedule);
+        CommonCommitteeSchedule originalSchedule = submission.getCommitteeSchedule();
+        CommonCommitteeSchedule nextSchedule = getNextScheduleForCommittee(submission.getCommittee(), originalSchedule);
         if(null != nextSchedule) {
             // update submission's links to point to next schedule
             submission.setScheduleId(nextSchedule.getScheduleId());

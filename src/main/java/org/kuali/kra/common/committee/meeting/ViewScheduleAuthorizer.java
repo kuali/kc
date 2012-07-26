@@ -16,7 +16,7 @@
 package org.kuali.kra.common.committee.meeting;
 
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.document.authorizer.CommitteeAuthorizer;
@@ -47,7 +47,7 @@ public class ViewScheduleAuthorizer extends CommitteeAuthorizer {
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false
      */
-    protected final boolean hasPermission(String userId, CommitteeSchedule committeeSchedule, String permissionName) {
+    protected final boolean hasPermission(String userId, CommonCommitteeSchedule committeeSchedule, String permissionName) {
         return kraAuthorizationService.hasPermission(userId, committeeSchedule, permissionName);
     }
     

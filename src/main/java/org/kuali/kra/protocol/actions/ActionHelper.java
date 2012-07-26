@@ -29,7 +29,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
@@ -676,7 +676,7 @@ public abstract class ActionHelper implements Serializable {
         Date approvalDate = protocol.getApprovalDate();
         
         if (approvalDate == null || protocol.isNew() || protocol.isRenewal()) {
-            CommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
+            CommonCommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
             if (committeeSchedule != null) {
                 approvalDate = committeeSchedule.getScheduledDate();
             } else {
