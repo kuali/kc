@@ -18,13 +18,13 @@ package org.kuali.kra.common.committee.bo.businessLogic;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
 
-public interface CommitteeCollaboratorBusinessLogicFactoryGroup {
+public interface CommonCommitteeCollaboratorBusinessLogicFactoryGroup {
     
-    public void setCommitteeBusinessLogicFactory(CommitteeCollaboratorBusinessLogicFactory<CommonCommittee, CommitteeBusinessLogic> committeeBusinessLogicFactory);
-    public void setCommitteeResearchAreaBusinessLogicFactory(CommitteeCollaboratorBusinessLogicFactory<CommitteeResearchArea, CommitteeResearchAreaBusinessLogic> committeeReserachAreaBusinessLogicFactory);
+    public void setCommitteeBusinessLogicFactory(CommonCommitteeCollaboratorBusinessLogicFactory<CommonCommittee, CommonCommitteeBusinessLogic> committeeBusinessLogicFactory);
+    public void setCommitteeResearchAreaBusinessLogicFactory(CommonCommitteeCollaboratorBusinessLogicFactory<CommitteeResearchArea, CommonCommitteeResearchAreaBusinessLogic> committeeReserachAreaBusinessLogicFactory);
     
     
-    public CommitteeResearchAreaBusinessLogic getCommitteeReserachAreaBusinessLogic(CommitteeResearchArea businessObject);
-    public CommitteeBusinessLogic getCommitteeBusinessLogicFor(CommonCommittee businessObject);
+    public CommonCommitteeResearchAreaBusinessLogic getCommitteeReserachAreaBusinessLogic(CommitteeResearchArea businessObject);
+    public CommonCommitteeBusinessLogic getCommitteeBusinessLogicFor(CommonCommittee businessObject);
 
 }

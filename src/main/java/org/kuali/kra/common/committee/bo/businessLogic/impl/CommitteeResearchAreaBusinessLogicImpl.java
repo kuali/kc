@@ -16,21 +16,21 @@
 package org.kuali.kra.common.committee.bo.businessLogic.impl;
 
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeResearchAreaBusinessLogic;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactoryGroup;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeResearchAreaBusinessLogic;
 
-public class CommitteeResearchAreaBusinessLogicImpl implements CommitteeResearchAreaBusinessLogic {
+public class CommitteeResearchAreaBusinessLogicImpl implements CommonCommitteeResearchAreaBusinessLogic {
     
-    private CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup;
+    private CommonCommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup;
     private CommitteeResearchArea committeeResearchArea;
 
-    public CommitteeResearchAreaBusinessLogicImpl(CommitteeResearchArea businessObject, CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
+    public CommitteeResearchAreaBusinessLogicImpl(CommitteeResearchArea businessObject, CommonCommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
         this.committeeResearchArea = businessObject;
         this.committeeCollaboratorFactoryGroup = committeeCollaborators;
     }
     
     
-    public CommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorBusinessLogicFactoryGroup() {
+    public CommonCommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorBusinessLogicFactoryGroup() {
         return committeeCollaboratorFactoryGroup;
     }
 

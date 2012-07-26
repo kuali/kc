@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.common.committee.bo.businessLogic;
 
-public interface CommitteeResearchAreaBusinessLogic extends CommitteeCollaboratorBusinessLogic {
+public interface CommonCommitteeBusinessLogic extends CommonCommitteeCollaboratorBusinessLogic {
     
-    public boolean isEnclosedResearchAreaActive();
+    public boolean validateCommitteeResearchAreas();
+     
+    public boolean validateReviewType();
     
 }

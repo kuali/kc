@@ -16,25 +16,25 @@
 package org.kuali.kra.common.committee.bo.businessLogic.impl;
 
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactory;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeResearchAreaBusinessLogic;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactory;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactoryGroup;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeResearchAreaBusinessLogic;
 
-public class CommitteeResearchAreaBusinessLogicFactoryImpl implements CommitteeCollaboratorBusinessLogicFactory<CommitteeResearchArea, CommitteeResearchAreaBusinessLogic> {
+public class CommitteeResearchAreaBusinessLogicFactoryImpl implements CommonCommitteeCollaboratorBusinessLogicFactory<CommitteeResearchArea, CommonCommitteeResearchAreaBusinessLogic> {
     
-    private CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup;
+    private CommonCommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup;
     
     
-    public void setCommitteeCollaboratorBusinessLogicFactoryGroup(CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup) {
+    public void setCommitteeCollaboratorBusinessLogicFactoryGroup(CommonCommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorFactoryGroup) {
         this.committeeCollaboratorFactoryGroup = committeeCollaboratorFactoryGroup;
     }
 
-    public CommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorFactoryGroup() {
+    public CommonCommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorFactoryGroup() {
         return committeeCollaboratorFactoryGroup;
     }
 
     
-    public CommitteeResearchAreaBusinessLogic getBusinessLogicFor(CommitteeResearchArea businessObject) {
+    public CommonCommitteeResearchAreaBusinessLogic getBusinessLogicFor(CommitteeResearchArea businessObject) {
         return new CommitteeResearchAreaBusinessLogicImpl(businessObject, getCommitteeCollaboratorFactoryGroup());
     }
 

@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.common.committee.bo.businessLogic;
 
-public interface CommitteeBusinessLogic extends CommitteeCollaboratorBusinessLogic {
-    
-    public boolean validateCommitteeResearchAreas();
-     
-    public boolean validateReviewType();
+import org.kuali.rice.krad.bo.BusinessObject;
+
+public interface CommonCommitteeCollaboratorBusinessLogicFactory <BO extends BusinessObject, BL extends CommonCommitteeCollaboratorBusinessLogic> {
+
+    public void setCommitteeCollaboratorBusinessLogicFactoryGroup(CommonCommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorBusinessLogicFactoryGroup);
+
+    public BL getBusinessLogicFor(BO businessObject);
     
 }
