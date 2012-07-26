@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.notification;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 
@@ -25,7 +25,7 @@ import org.kuali.kra.kim.bo.KcKimAttributes;
 public class CommitteeNotificationRoleQualifierServiceImpl implements CommitteeNotificationRoleQualifierService {
 
     private CommonCommittee committee;
-    private CommitteeSchedule committeeSchedule;
+    private CommonCommitteeSchedule committeeSchedule;
     
     /**
      * 
@@ -52,11 +52,11 @@ public class CommitteeNotificationRoleQualifierServiceImpl implements CommitteeN
         this.committee = committee;
     }
 
-    public CommitteeSchedule getCommitteeSchedule() {
+    public CommonCommitteeSchedule getCommitteeSchedule() {
         return committeeSchedule;
     }
 
-    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
+    public void setCommitteeSchedule(CommonCommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
 

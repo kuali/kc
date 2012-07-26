@@ -24,7 +24,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.common.committee.bo.CommitteeSchedule" table="COMM_SCHEDULE">
+	<class-descriptor class="org.kuali.kra.common.committee.bo.CommonCommitteeSchedule" table="COMM_SCHEDULE">
 	    <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true"/>
 		<field-descriptor name="scheduleId" column="SCHEDULE_ID" jdbc-type="VARCHAR" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true"/>
 		<field-descriptor name="committeeIdFk" column="COMMITTEE_ID_FK" jdbc-type="BIGINT" />
@@ -165,7 +165,7 @@
    		    <inverse-foreignkey field-ref="committeeIdFk" />
    		</collection-descriptor>
    		
-   		<collection-descriptor name="committeeSchedules" element-class-ref="org.kuali.kra.common.committee.bo.CommitteeSchedule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+   		<collection-descriptor name="committeeSchedules" element-class-ref="org.kuali.kra.common.committee.bo.CommonCommitteeSchedule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="committeeIdFk" />
 		</collection-descriptor>  
 		
@@ -297,7 +297,7 @@
             <foreignkey field-ref="commScheduleActItemsIdFk"/>
         </reference-descriptor>
 		
-		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommonCommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="scheduleIdFk"/>
         </reference-descriptor>
         
@@ -348,7 +348,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommonCommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
 		<reference-descriptor name="scheduleActItemType" class-ref="org.kuali.kra.common.committee.meeting.ScheduleActItemType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -368,7 +368,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommonCommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
 	</class-descriptor>	
@@ -384,7 +384,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommonCommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
 	</class-descriptor>	
@@ -405,7 +405,7 @@
 		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolIdFk"/>
 		</reference-descriptor>
-		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommonCommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
 		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -432,7 +432,7 @@
 		<reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolIdFk"/>
 		</reference-descriptor>
-		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommonCommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
 		<reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.irb.actions.submit.ProtocolSubmission" auto-retrieve="false" auto-update="none" auto-delete="none"> 
@@ -459,7 +459,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommonCommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -529,7 +529,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="newUpdateTimestamp" column="NEW_UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" /> 
 		<field-descriptor name="newUpdateUser" column="NEW_UPDATE_USER" jdbc-type="VARCHAR" />
-		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommonCommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
 		<reference-descriptor name="attachmentsEntryType" class-ref="org.kuali.kra.common.committee.meeting.AttachmentsEntryType" auto-retrieve="true" auto-update="none" auto-delete="none"> 

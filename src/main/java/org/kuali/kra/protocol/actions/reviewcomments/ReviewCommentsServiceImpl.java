@@ -34,7 +34,7 @@ import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -219,7 +219,7 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
             newReviewComment.setScheduleIdFk(protocolSubmission.getScheduleIdFk());
         }
         else {
-            newReviewComment.setScheduleIdFk(CommitteeSchedule.DEFAULT_SCHEDULE_ID);
+            newReviewComment.setScheduleIdFk(CommonCommitteeSchedule.DEFAULT_SCHEDULE_ID);
         }
         newReviewComment.setEntryNumber(reviewComments.size());
         newReviewComment.setProtocolIdFk(protocol.getProtocolId());

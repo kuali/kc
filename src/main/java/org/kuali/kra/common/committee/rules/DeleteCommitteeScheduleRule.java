@@ -20,7 +20,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEvent;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
@@ -44,12 +44,12 @@ public class DeleteCommitteeScheduleRule  extends ResearchDocumentRuleBase imple
     public boolean processRules(DeleteCommitteeScheduleEvent deleteCommitteeScheduleEvent) {
 
         boolean rulePassed = true;
-        List<CommitteeSchedule> schedules = deleteCommitteeScheduleEvent.getCommitteeSchedules();
+        List<CommonCommitteeSchedule> schedules = deleteCommitteeScheduleEvent.getCommitteeSchedules();
         CommonCommittee activeCommittee = getCommitteeService().getCommitteeById(
                 ((CommonCommitteeDocument) deleteCommitteeScheduleEvent.getDocument()).getCommittee().getCommitteeId());
         if (activeCommittee != null) {
             int i = 0;
-            for (CommitteeSchedule schedule : schedules) {
+            for (CommonCommitteeSchedule schedule : schedules) {
                 if (schedule.isSelected() && canNotDelete(activeCommittee.getCommitteeSchedules(), schedule.getScheduleId())) {
                     reportError(ID + i + "].selected", KeyConstants.ERROR_COMMITTEESCHEDULE_DELETE);
                     rulePassed = false;
@@ -63,8 +63,8 @@ public class DeleteCommitteeScheduleRule  extends ResearchDocumentRuleBase imple
     /*
      * check if the matching schedule contain meeting data which also include whether protocol submitted to this schedule.
      */
-    private boolean canNotDelete(List<CommitteeSchedule> schedules, String scheduleId) {
-        for (CommitteeSchedule committeeSchedule : schedules) {
+    private boolean canNotDelete(List<CommonCommitteeSchedule> schedules, String scheduleId) {
+        for (CommonCommitteeSchedule committeeSchedule : schedules) {
             if (StringUtils.equals(committeeSchedule.getScheduleId(), scheduleId)) {
                 return isNotEmptyData(committeeSchedule);
             }
@@ -79,7 +79,7 @@ public class DeleteCommitteeScheduleRule  extends ResearchDocumentRuleBase imple
     /*
      * check if there is any meeting data in this schedule.
      */
-    private boolean isNotEmptyData(CommitteeSchedule schedule) {
+    private boolean isNotEmptyData(CommonCommitteeSchedule schedule) {
         return CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleAttendances())
                 || CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleMinutes())
                 || CollectionUtils.isNotEmpty(schedule.getCommScheduleActItems())

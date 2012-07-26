@@ -27,9 +27,9 @@ import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
-import org.kuali.kra.common.committee.service.CommitteeMembershipService;
+import org.kuali.kra.common.committee.service.CommonCommitteeMembershipService;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -37,7 +37,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 /**
  * This class...
  */
-public class CommitteeMembershipServiceImpl implements CommitteeMembershipService {
+public class CommitteeMembershipServiceImpl implements CommonCommitteeMembershipService {
 
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeScheduleServiceImpl.class);
@@ -50,7 +50,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     private CommonCommitteeService committeeService;
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeMembershipService#addCommitteeMembership(org.kuali.kra.common.committee.bo.CommonCommittee, org.kuali.kra.common.committee.bo.CommitteeMembership)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#addCommitteeMembership(org.kuali.kra.common.committee.bo.CommonCommittee, org.kuali.kra.common.committee.bo.CommitteeMembership)
      */
     public void addCommitteeMembership(CommonCommittee committee, CommitteeMembership committeeMembership) {
         
@@ -67,7 +67,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeMembershipService#deleteCommitteeMembership(org.kuali.kra.common.committee.bo.CommonCommittee)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#deleteCommitteeMembership(org.kuali.kra.common.committee.bo.CommonCommittee)
      */
     public void deleteCommitteeMembership(CommonCommittee committee) {
         List<CommitteeMembership> deletedCommitteememberships = new ArrayList<CommitteeMembership>();
@@ -80,7 +80,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeMembershipService#addCommitteeMembershipRole(org.kuali.kra.common.committee.bo.CommitteeMembership, org.kuali.kra.common.committee.bo.CommitteeMembershipRole)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#addCommitteeMembershipRole(org.kuali.kra.common.committee.bo.CommitteeMembership, org.kuali.kra.common.committee.bo.CommitteeMembershipRole)
      */
     public void addCommitteeMembershipRole(CommonCommittee committee, int selectedMembershipIndex, CommitteeMembershipRole committeeMembershipRole) {
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
@@ -93,7 +93,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     }
    
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeMembershipService#deleteCommitteeMembershipRole(org.kuali.kra.common.committee.bo.CommonCommittee, int, int)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#deleteCommitteeMembershipRole(org.kuali.kra.common.committee.bo.CommonCommittee, int, int)
      */
     public void deleteCommitteeMembershipRole(CommonCommittee committee, int selectedMembershipIndex, int lineNumber) {
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
@@ -102,7 +102,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     }
     
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeMembershipService#addCommitteeMembershipExpertise(org.kuali.kra.common.committee.bo.CommitteeMembership, java.util.Collection)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#addCommitteeMembershipExpertise(org.kuali.kra.common.committee.bo.CommitteeMembership, java.util.Collection)
      */
     public void addCommitteeMembershipExpertise(CommitteeMembership committeeMembership, Collection<ResearchArea> researchAreas) {
         for (ResearchArea researchArea: researchAreas) {
@@ -134,7 +134,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     }
    
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeMembershipService#deleteCommitteeMembershipExpertise(org.kuali.kra.common.committee.bo.CommonCommittee, int, int)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#deleteCommitteeMembershipExpertise(org.kuali.kra.common.committee.bo.CommonCommittee, int, int)
      */
     public void deleteCommitteeMembershipExpertise(CommonCommittee committee, int selectedMembershipIndex, int lineNumber) {
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
@@ -144,7 +144,7 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.service.CommitteeMembershipService#isMemberAssignedToReviewer(org.kuali.kra.common.committee.bo.CommitteeMembership, java.lang.String)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#isMemberAssignedToReviewer(org.kuali.kra.common.committee.bo.CommitteeMembership, java.lang.String)
      */
     public boolean isMemberAssignedToReviewer(CommitteeMembership member, String committeeId) {
         boolean isReviewer = false;
@@ -168,13 +168,13 @@ public class CommitteeMembershipServiceImpl implements CommitteeMembershipServic
     
     /**
      * 
-     * @see org.kuali.kra.common.committee.service.CommitteeMembershipService#isMemberAttendedMeeting(org.kuali.kra.common.committee.bo.CommitteeMembership, java.lang.String)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#isMemberAttendedMeeting(org.kuali.kra.common.committee.bo.CommitteeMembership, java.lang.String)
      */
     public boolean isMemberAttendedMeeting(CommitteeMembership member, String committeeId) {
         boolean isAttendance = false;
         CommonCommittee committee = committeeService.getCommitteeById(committeeId);
         if (committee != null) {
-            for (CommitteeSchedule committeeSchedule : committee.getCommitteeSchedules()) {
+            for (CommonCommitteeSchedule committeeSchedule : committee.getCommitteeSchedules()) {
                 for (CommitteeScheduleAttendance attendance : committeeSchedule.getCommitteeScheduleAttendances()) {
                     if (StringUtils.equals(attendance.getPersonId(), member.getPersonId()) 
                             || (member.getRolodexId() != null && StringUtils.equals(attendance.getPersonId(), member.getRolodexId().toString()))) {

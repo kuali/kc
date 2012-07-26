@@ -24,7 +24,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.Protocol;
@@ -77,7 +77,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
 
     private CommScheduleActItem commScheduleActItem;
 
-    private CommitteeSchedule committeeSchedule;
+    private CommonCommitteeSchedule committeeSchedule;
 
     private ProtocolReviewer protocolReviewer;
 
@@ -489,11 +489,11 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
         this.updateUserFullName = updateUserFullName;
     }
 
-    public CommitteeSchedule getCommitteeSchedule() {
+    public CommonCommitteeSchedule getCommitteeSchedule() {
         return committeeSchedule;
     }
 
-    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
+    public void setCommitteeSchedule(CommonCommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
 

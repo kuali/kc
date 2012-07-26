@@ -18,7 +18,7 @@ package org.kuali.kra.common.committee.rules;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleTimeEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
@@ -56,12 +56,12 @@ public class CommitteeScheduleTimeRule extends ResearchDocumentRuleBase implemen
         return rulePassed;
     }
 
-    private boolean processCommitteeSchedules(List<CommitteeSchedule> committeeSchedules) {
+    private boolean processCommitteeSchedules(List<CommonCommitteeSchedule> committeeSchedules) {
 
         boolean rulePassed = true;
         int count = 0;
 
-        for (CommitteeSchedule cs : committeeSchedules) {
+        for (CommonCommitteeSchedule cs : committeeSchedules) {
 
             String time = cs.getViewTime().getTime();
 
