@@ -51,6 +51,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
 
     private static final String AWARD_NUMBER = "awardNumber";
     private static final String ORGANIZATION_NAME = "organizationName";
+    private static final String REQUISITIONER_USER_NAME="requisitionerUserName";    
     static final String PERSON_ID = "personId";
     static final String ROLODEX_ID = "rolodexId";
     static final String UNIT_NUMBER = "unitNumber";
@@ -58,21 +59,23 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
     static final String PI_NAME = "principalInvestigatorName";
     static final String OSP_ADMIN_NAME = "ospAdministratorName";
     private VersionHistoryService versionHistoryService; 
-
+    
     @Override
     public List<? extends BusinessObject>
     getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocationDocFormKey(fieldValues);
         String awardNumber = fieldValues.get(AWARD_NUMBER);
+        String requisitionerUserName = fieldValues.get(REQUISITIONER_USER_NAME);
         String subrecipientName = fieldValues.get(ORGANIZATION_NAME);
         fieldValues.remove(AWARD_NUMBER);
         fieldValues.remove(ORGANIZATION_NAME);
+        fieldValues.remove(REQUISITIONER_USER_NAME);
         List<SubAward> unboundedResults =
         (List<SubAward>) super.getSearchResultsUnbounded(fieldValues);
         List<SubAward> returnResults = new ArrayList<SubAward>();
         try {
             returnResults = filterForActiveSubAwards(
-            unboundedResults, awardNumber, subrecipientName);
+            unboundedResults, awardNumber, subrecipientName, requisitionerUserName);
         } catch (WorkflowException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -178,7 +181,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
 
       protected List<SubAward> filterForActiveSubAwards(
               Collection<SubAward> collectionByQuery, String awardNumber,
-              String subrecipientName) throws WorkflowException {
+              String subrecipientName, String requisitionerUserName) throws WorkflowException {
           Set<String> subAwardCodes = new TreeSet<String>();
           List<Integer> subAwardCodeList = new ArrayList<Integer>();
           List<String> subAwardCodeSortedList = new ArrayList<String>();
@@ -252,14 +255,28 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
                       }
                   }
               }
-          } else {
-              for (SubAward subAward : filteredSubAwards) {
-                  filteredSubAwardList.add(subAward);
-              }
+        } else {
+            for (SubAward subAward : filteredSubAwards) {
+                filteredSubAwardList.add(subAward);
+            }
+        }
+        List<SubAward> filteredSubAwardListSubAwards = new ArrayList<SubAward>();
+        if (requisitionerUserName != null && !requisitionerUserName.equalsIgnoreCase("")) {
+            for (SubAward subAward : filteredSubAwardList) {
+                if (subAward.getRequisitionerUserName().equalsIgnoreCase(requisitionerUserName)) {
+                    filteredSubAwardListSubAwards.add(subAward);
+                }
+            }
+        }
+        else {
+            for (SubAward subAward : filteredSubAwardList) {
+                filteredSubAwardListSubAwards.add(subAward);
+            }
 
-          }
-          return filteredSubAwardList;
-      }
+
+        }
+        return filteredSubAwardListSubAwards;
+    }
 
       @Override
       protected String getHtmlAction() {
