@@ -21,8 +21,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeResearchAreaBusinessLogic;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactoryGroup;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeResearchAreaBusinessLogic;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ErrorReporter;
 
@@ -31,7 +31,7 @@ public class IrbCommitteeBusinessLogicImpl extends CommitteeBusinessLogicImpl {
     private static final String SEPERATOR = ".";
     private static final String INACTIVE_RESEARCH_AREAS_PREFIX = "document.committeeList[0].committeeResearchAreas.inactive";
 
-    public IrbCommitteeBusinessLogicImpl(CommonCommittee businessObject, CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
+    public IrbCommitteeBusinessLogicImpl(CommonCommittee businessObject, CommonCommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
         super(businessObject, committeeCollaborators);
     }
     
@@ -52,7 +52,7 @@ public class IrbCommitteeBusinessLogicImpl extends CommitteeBusinessLogicImpl {
             int raIndex = 0;
             for (CommitteeResearchArea cra : cras) {
                 // get collaborator for the CommitteeResearchArea BO
-                CommitteeResearchAreaBusinessLogic craLogic = getCommitteeCollaboratorBusinessLogicFactoryGroup().getCommitteeReserachAreaBusinessLogic(cra);
+                CommonCommitteeResearchAreaBusinessLogic craLogic = getCommitteeCollaboratorBusinessLogicFactoryGroup().getCommitteeReserachAreaBusinessLogic(cra);
                 if(!(craLogic.isEnclosedResearchAreaActive())) {
                     inactiveFound = true;
                     inactiveResearchAreaIndices.append(raIndex).append(SEPERATOR);

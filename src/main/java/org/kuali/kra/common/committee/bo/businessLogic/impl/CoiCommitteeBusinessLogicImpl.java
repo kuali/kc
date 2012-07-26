@@ -17,11 +17,11 @@ package org.kuali.kra.common.committee.bo.businessLogic.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactoryGroup;
 
 public class CoiCommitteeBusinessLogicImpl extends CommitteeBusinessLogicImpl {
 
-    public CoiCommitteeBusinessLogicImpl(CommonCommittee businessObject, CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
+    public CoiCommitteeBusinessLogicImpl(CommonCommittee businessObject, CommonCommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaborators) {
         super(businessObject, committeeCollaborators);
     }
 

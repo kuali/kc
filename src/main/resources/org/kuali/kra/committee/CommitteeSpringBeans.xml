@@ -290,6 +290,21 @@
 		class="org.kuali.kra.common.committee.lookup.CommitteeLookupableHelperServiceImpl"
 		scope="prototype" parent="parentLookupableHelperService">
 	</bean>
+	
+	
+	<bean id="commonCommitteeScheduleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="commonCommitteeScheduleLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="commonCommitteeScheduleLookupableHelperService"
+		class="org.kuali.kra.common.committee.lookup.CommitteeScheduleLookupableHelperServiceImpl"
+		scope="prototype" parent="parentLookupableHelperService">
+		<property name="taskAuthorizationService" ref="taskAuthorizationService" />
+	</bean>
+
 
 	<bean id="commonCommitteeScheduleService"
 		class="org.kuali.kra.common.committee.service.impl.CommitteeScheduleServiceImpl">
@@ -310,6 +325,29 @@
     	<property name="parameterService" ref="parameterService" />
     </bean>
     
+    
+    
+    
+    <bean id="commonCommitteeCollaboratorBusinessLogicFactoryGroup" 
+		class="org.kuali.kra.common.committee.bo.businessLogic.impl.CommitteeCollaboratorBusinessLogicFactoryGroupImpl"
+		scope="prototype">
+		<property name="committeeBusinessLogicFactory">
+			<ref bean="commonCommitteeBusinessLogicFactory" />
+		</property>
+		<property name="committeeResearchAreaBusinessLogicFactory">
+			<ref bean="commonCommitteeResearchAreaBusinessLogicFactory" />
+		</property>
+	</bean>
+	
+	<bean id="commonCommitteeBusinessLogicFactory" 
+		class="org.kuali.kra.common.committee.bo.businessLogic.impl.CommitteeBusinessLogicFactoryImpl"
+		scope="prototype" />
+		
+	<bean id="commonCommitteeResearchAreaBusinessLogicFactory" 
+		class="org.kuali.kra.common.committee.bo.businessLogic.impl.CommitteeResearchAreaBusinessLogicFactoryImpl"
+		scope="prototype" />
+		
+		
  
 <!-- republishing the committee authorizers -->    
    

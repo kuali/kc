@@ -26,8 +26,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeBusinessLogic;
-import org.kuali.kra.common.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeBusinessLogic;
+import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactoryGroup;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.rules.CommitteeDocumentRule;
@@ -115,9 +115,9 @@ public class CommitteeCommitteeAction extends CommitteeAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    public CommitteeBusinessLogic getCommitteeBusinessLogic(CommonCommittee committee) {
-        CommitteeCollaboratorBusinessLogicFactoryGroup cmtGrp = KraServiceLocator.getService(CommitteeCollaboratorBusinessLogicFactoryGroup.class);
-        CommitteeBusinessLogic committeeBusinessLogic = cmtGrp.getCommitteeBusinessLogicFor(committee);
+    public CommonCommitteeBusinessLogic getCommitteeBusinessLogic(CommonCommittee committee) {
+        CommonCommitteeCollaboratorBusinessLogicFactoryGroup cmtGrp = KraServiceLocator.getService(CommonCommitteeCollaboratorBusinessLogicFactoryGroup.class);
+        CommonCommitteeBusinessLogic committeeBusinessLogic = cmtGrp.getCommitteeBusinessLogicFor(committee);
         return committeeBusinessLogic;
     }
 
