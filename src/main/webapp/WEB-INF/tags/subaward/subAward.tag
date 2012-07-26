@@ -116,7 +116,7 @@
                 </td>
             </tr>
         	<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.requisitionerId}" /></div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.requisitionerUserName}" /></div></th>
               
                       
              <td>
