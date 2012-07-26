@@ -28,6 +28,7 @@ public final class ProposalTask extends Task {
     
     private ProposalDevelopmentDocument document;
     public static final String CREATE_IRB_PROTOCOL_FROM_PROPOSAL = "createIrbProtocolFromProposal";
+    public static final String CREATE_IACUC_PROTOCOL_FROM_PROPOSAL = "createIacucProtocolFromProposal";
     
     /**
      * Constructs a ProposalTask.

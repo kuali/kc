@@ -18,11 +18,14 @@ package org.kuali.kra.iacuc.protocol.funding;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.protocol.funding.impl.ProtocolProposalDevelopmentDocumentServiceImpl;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * 
@@ -32,7 +35,7 @@ import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 public class IacucProtocolProposalDevelopmentDocumentServiceImpl extends ProtocolProposalDevelopmentDocumentServiceImpl implements IacucProtocolProposalDevelopmentDocumentService {
 
     public final static String IACUC_PROJECT_END_DATE_NUMBER_OF_YEARS = "iacucProtocolProjectEndDateNumberOfYears";
-
+    ParameterService parameterService;
     @Override 
     protected String getSpecialReviewTypeHook()
     {
@@ -42,6 +45,12 @@ public class IacucProtocolProposalDevelopmentDocumentServiceImpl extends Protoco
     @Override
     protected String getProjectEndDateNumberOfYearsHook()
     {
-        return IACUC_PROJECT_END_DATE_NUMBER_OF_YEARS;
+        if ( parameterService ==null)
+        {
+            parameterService = KraServiceLocator.getService(ParameterService.class);
+        }
+        String parameter= parameterService.getParameterValueAsString(IacucProtocolDocument.class, IACUC_PROJECT_END_DATE_NUMBER_OF_YEARS);
+        return parameter;
     }
+
 }
