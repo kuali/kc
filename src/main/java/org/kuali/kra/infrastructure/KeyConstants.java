@@ -1073,6 +1073,7 @@ public final class KeyConstants {
     // IACUC protocol species
     public static final String QUESTION_PROTOCOL_SPECIES_DELETE_CONFIRMATION = "question.iacuc.protocol.species.delete.confirmation";
     public static final String QUESTION_PROTOCOL_EXCEPTION_DELETE_CONFIRMATION = "question.iacuc.protocol.exception.delete.confirmation";
+    public static final String IACUC_PROTOCOL_SPECIES_DEPENDENCY_NOT_EXISTS = "error.iacuc.protocol.species.dependency.not.exists";
     
     // IACUC protocol species
     public static final String IACUC_PROTOCOL_ALT_SEARCH_QUESTION_NOT_ANSWERED = "error.iacuc.alt.search.question.not.answered";
