@@ -76,9 +76,11 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
         boolean canCreateIrbProtocol=false;
         boolean canCreateIacucProtocol=false;
         // check for Protocol creation permission for IRB Protocol
-        ProposalTask task = new ProposalTask(ProposalTask.CREATE_IRB_PROTOCOL_FROM_PROPOSAL, form.getProposalDevelopmentDocument());
-        canCreateIrbProtocol = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        ProposalTask irbTask = new ProposalTask(ProposalTask.CREATE_IRB_PROTOCOL_FROM_PROPOSAL, form.getProposalDevelopmentDocument());
+        canCreateIrbProtocol = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), irbTask);
         // check for Protocol creation permission for IACUC Protocol
+        ProposalTask iacucTask = new ProposalTask(ProposalTask.CREATE_IACUC_PROTOCOL_FROM_PROPOSAL, form.getProposalDevelopmentDocument());
+        canCreateIacucProtocol = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), iacucTask);
         return (canCreateIrbProtocol || canCreateIacucProtocol);
     }
     

@@ -20,9 +20,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.kuali.kra.bo.SpecialReviewApprovalType;
-import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl;
-import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -42,7 +40,6 @@ import org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonEditableService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -101,8 +98,7 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImpl implements 
         developmentProposal.setOwnedByUnitNumber(protocol.getLeadUnitNumber());
         developmentProposal.setRequestedStartDateInitial(new Date(System.currentTimeMillis()));
 
-        ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
-        String projectEndDateParameter = parameterService.getParameterValueAsString(IacucProtocolDocument.class, getProjectEndDateNumberOfYearsHook());
+        String projectEndDateParameter = getProjectEndDateNumberOfYearsHook();
         int numberOfYears = Integer.parseInt(projectEndDateParameter);
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, numberOfYears);
