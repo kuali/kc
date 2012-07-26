@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
@@ -257,7 +257,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     protected void updateDefaultSchedule(IacucProtocolSubmission submission) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolIdFk", submission.getProtocolId().toString());
-        fieldValues.put("scheduleIdFk", CommitteeSchedule.DEFAULT_SCHEDULE_ID.toString());
+        fieldValues.put("scheduleIdFk", CommonCommitteeSchedule.DEFAULT_SCHEDULE_ID.toString());
         List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>) businessObjectService.findMatching(CommitteeScheduleMinute.class, fieldValues);
         if (!minutes.isEmpty()) {
             for (CommitteeScheduleMinute minute : minutes) {

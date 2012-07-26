@@ -48,8 +48,12 @@
     <td>
       <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
       <portal:portalLink displayTitle="false" title="Schedule Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.committee.bo.CommitteeSchedule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
-          <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle">
-      </portal:portalLink>
+          <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>          
+            |           (Common committee schedule testing
+      <portal:portalLink displayTitle="false" title="Schedule Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.common.committee.bo.CommonCommitteeSchedule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
+          <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
+      		)
+    </td>  		     		
     </td>
   </tr>
   </table>

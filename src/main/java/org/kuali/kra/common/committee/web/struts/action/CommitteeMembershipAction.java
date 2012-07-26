@@ -41,7 +41,7 @@ import org.kuali.kra.common.committee.rule.event.AddCommitteeMembershipRoleEvent
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeMemberEventBase.ErrorType;
 import org.kuali.kra.common.committee.rules.CommitteeDocumentRule;
-import org.kuali.kra.common.committee.service.CommitteeMembershipService;
+import org.kuali.kra.common.committee.service.CommonCommitteeMembershipService;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeHelper;
 import org.kuali.kra.infrastructure.Constants;
@@ -257,8 +257,8 @@ public class CommitteeMembershipAction extends CommitteeAction {
      * This method is to get committee membership service
      * @return CommitteeMembershipService
      */
-    private CommitteeMembershipService getCommitteeMembershipService() {
-        return KraServiceLocator.getService(CommitteeMembershipService.class);
+    private CommonCommitteeMembershipService getCommitteeMembershipService() {
+        return KraServiceLocator.getService(CommonCommitteeMembershipService.class);
     }
 
     /**

@@ -63,7 +63,7 @@ public class CommonCommittee extends KraPersistableBusinessObjectBase implements
     private CommonCommitteeDocument committeeDocument;
     
     private List<CommitteeMembership> committeeMemberships;
-    private List<CommitteeSchedule> committeeSchedules;
+    private List<CommonCommitteeSchedule> committeeSchedules;
     
     private List<CommitteeResearchArea> committeeResearchAreas;
     
@@ -80,7 +80,7 @@ public class CommonCommittee extends KraPersistableBusinessObjectBase implements
         setSequenceNumber(1);
         setCommitteeResearchAreas(new ArrayList<CommitteeResearchArea>());
         setCommitteeMemberships(new ArrayList<CommitteeMembership>());
-        setCommitteeSchedules(new ArrayList<CommitteeSchedule>());
+        setCommitteeSchedules(new ArrayList<CommonCommitteeSchedule>());
     }
     
     public Long getId() {
@@ -235,11 +235,11 @@ public class CommonCommittee extends KraPersistableBusinessObjectBase implements
         this.committeeMemberships = committeeMemberships;
     }
 
-    public void setCommitteeSchedules(List<CommitteeSchedule> committeeSchedules) {
+    public void setCommitteeSchedules(List<CommonCommitteeSchedule> committeeSchedules) {
         this.committeeSchedules = committeeSchedules;
     }
 
-    public List<CommitteeSchedule> getCommitteeSchedules() {
+    public List<CommonCommitteeSchedule> getCommitteeSchedules() {
         return committeeSchedules;
     }
     

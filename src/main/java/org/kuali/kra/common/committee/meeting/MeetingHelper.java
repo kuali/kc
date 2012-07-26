@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -43,8 +43,8 @@ public class MeetingHelper implements Serializable {
     private static final String NAMESPACE = "KC-UNT";
     private MeetingForm form;
     private Date agendaGenerationDate;
-    private CommitteeSchedule committeeSchedule;
-    private List<CommitteeSchedule> committeeScheduleList;
+    private CommonCommitteeSchedule committeeSchedule;
+    private List<CommonCommitteeSchedule> committeeScheduleList;
     private List<ProtocolSubmittedBean> protocolSubmittedBeans;
     private CommScheduleActItem newOtherAction;
     private List<CommScheduleActItem> deletedOtherActions;
@@ -85,7 +85,7 @@ public class MeetingHelper implements Serializable {
 
     public MeetingHelper(MeetingForm form) {
         this.form = form;
-        committeeSchedule = new CommitteeSchedule();
+        committeeSchedule = new CommonCommitteeSchedule();
         protocolSubmittedBeans = new ArrayList<ProtocolSubmittedBean>();
         memberPresentBeans = new ArrayList<MemberPresentBean>();
         memberAbsentBeans = new ArrayList<MemberAbsentBean>();
@@ -129,11 +129,11 @@ public class MeetingHelper implements Serializable {
         this.tabLabel = tabLabel;
     }
 
-    public CommitteeSchedule getCommitteeSchedule() {
+    public CommonCommitteeSchedule getCommitteeSchedule() {
         return committeeSchedule;
     }
 
-    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
+    public void setCommitteeSchedule(CommonCommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
 

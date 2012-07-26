@@ -18,7 +18,7 @@ package org.kuali.kra.common.committee.rules;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleDeadlineEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
@@ -35,9 +35,9 @@ public class CommitteeScheduleDeadlineDateRule extends ResearchDocumentRuleBase 
         
         boolean rulePassed = true;
         
-        List<CommitteeSchedule> committeeSchedules = deadlineCommitteeScheduleEvent.getCommitteeSchedules();
+        List<CommonCommitteeSchedule> committeeSchedules = deadlineCommitteeScheduleEvent.getCommitteeSchedules();
         int count = 0;
-        for(CommitteeSchedule committeeSchedule : committeeSchedules) {
+        for(CommonCommitteeSchedule committeeSchedule : committeeSchedules) {
             
             Date deadline = committeeSchedule.getProtocolSubDeadline();
             Date schedule = committeeSchedule.getScheduledDate();

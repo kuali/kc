@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 
@@ -40,7 +40,7 @@ public interface CommonCommitteeScheduleService {
      * @param committeeSchedule
      * @return
      */
-    public Boolean isCommitteeScheduleDeletable(CommitteeSchedule committeeSchedule);
+    public Boolean isCommitteeScheduleDeletable(CommonCommitteeSchedule committeeSchedule);
     
     /**
      * This method implementer must add new non conflicting, non-repeating schedule dates to existing Committee.CommitteeSchedule list.

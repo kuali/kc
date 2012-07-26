@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.onlinereview;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
@@ -38,7 +38,7 @@ public abstract class ProtocolReviewable extends KraPersistableBusinessObjectBas
     public abstract Protocol getProtocol();
     public abstract void setDisplayReviewerName(boolean displayReviewerName);
     
-    public abstract CommitteeSchedule getCommitteeSchedule();
+    public abstract CommonCommitteeSchedule getCommitteeSchedule();
     /**
      * 
      * This method is to show whether comment or attachment is private or not

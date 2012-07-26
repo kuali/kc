@@ -29,7 +29,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.print.CommitteeXmlStream;
 import org.kuali.kra.common.committee.print.PrintXmlUtilService;
 import org.kuali.kra.common.committee.print.ScheduleXmlStream;
@@ -290,7 +290,7 @@ public abstract class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         }
 
         if (submissionInfoBean.getScheduleId() != null) {
-            CommitteeSchedule committeeSchedule = submissionInfoBean.getCommitteeSchedule();
+            CommonCommitteeSchedule committeeSchedule = submissionInfoBean.getCommitteeSchedule();
             getScheduleXmlStream().setScheduleMasterData(committeeSchedule, submission.addNewScheduleMasterData());
             ScheduleSummaryType nextSchedule = submission.addNewNextSchedule();
             getScheduleXmlStream().setNextSchedule(committeeSchedule, nextSchedule.addNewScheduleMasterData());
@@ -315,7 +315,7 @@ public abstract class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
      */
     protected void setMinutes(org.kuali.kra.protocol.actions.submit.ProtocolSubmission submissionInfoBean,
             Submissions submission) {
-        CommitteeSchedule committeeSchedule = submissionInfoBean.getCommitteeSchedule();
+        CommonCommitteeSchedule committeeSchedule = submissionInfoBean.getCommitteeSchedule();
         if (committeeSchedule != null) {
             getPrintXmlUtilService().setProtocolReviewMinutes(committeeSchedule, submissionInfoBean, submission);
         }

@@ -16,7 +16,7 @@
 package org.kuali.kra.common.committee.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDoc;
 import org.kuali.kra.common.committee.meeting.ScheduleAgenda;
 import org.kuali.kra.common.committee.notification.AgendaCreatedNotificationRenderer;
@@ -51,7 +51,7 @@ public class CommitteeNotificationServiceImpl implements CommitteeNotificationSe
     public void generateNotification(String notificationType, ScheduleAgenda agenda) {
         
         if (StringUtils.equals(notificationType, Constants.COMMITTEE_AGENDA_NOTIFICATION)) {
-            CommitteeSchedule committeeSchedule = agenda.getCommitteeSchedule();
+            CommonCommitteeSchedule committeeSchedule = agenda.getCommitteeSchedule();
             AgendaCreatedNotificationRenderer renderer = new AgendaCreatedNotificationRenderer(agenda, "action taken");
             CommitteeNotificationContext context = new CommitteeNotificationContext(committeeSchedule, 
                                                     notificationType, "Agenda Generated Notification", renderer);
@@ -69,7 +69,7 @@ public class CommitteeNotificationServiceImpl implements CommitteeNotificationSe
     public void generateNotification(String notificationType, CommScheduleMinuteDoc minuteDoc) {
         
         if (StringUtils.equals(notificationType, Constants.COMMITTEE_MINUTES_NOTIFICATION)) {
-            CommitteeSchedule committeeSchedule = minuteDoc.getCommitteeSchedule();
+            CommonCommitteeSchedule committeeSchedule = minuteDoc.getCommitteeSchedule();
             MinutesCreatedNotificationRenderer renderer = new MinutesCreatedNotificationRenderer(minuteDoc, "action taken");
             CommitteeNotificationContext context = new CommitteeNotificationContext(committeeSchedule, 
                                                     notificationType, "Agenda Generated Notification", renderer);

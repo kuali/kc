@@ -27,7 +27,7 @@ import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
@@ -123,7 +123,7 @@ public class CommitteeHelper implements Serializable {
     private void prepareCommitteeScheduleDeleteView() {
         boolean flag = false;
         CommonCommitteeScheduleService service = getCommitteeScheduleService();
-        for (CommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {            
+        for (CommonCommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {            
             flag = service.isCommitteeScheduleDeletable(committeeSchedule);
             committeeSchedule.setDelete(flag);
         }    
@@ -316,7 +316,7 @@ public class CommitteeHelper implements Serializable {
         startDate = DateUtils.addDays(startDate, -1);
         endDate = DateUtils.addDays(endDate, 1);
         java.util.Date scheduleDate = null;
-        for (CommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {            
+        for (CommonCommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {            
             scheduleDate = committeeSchedule.getScheduledDate();
             if ((scheduleDate != null) && scheduleDate.after(startDate) && scheduleDate.before(endDate)) {
                 committeeSchedule.setFilter(true);            
@@ -330,7 +330,7 @@ public class CommitteeHelper implements Serializable {
      * This method prepares view to reset filtered dates and sorts them by the scheduled date.
      */
     public void resetFilterDatesView() {
-        for (CommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {
+        for (CommonCommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {
             committeeSchedule.setFilter(true);            
         }
         getScheduleData().setFilterStartDate(null);
@@ -349,7 +349,7 @@ public class CommitteeHelper implements Serializable {
     
     public List<Boolean> canViewSpecificSchedule() {
         List<Boolean> canViewSchedule = new ArrayList<Boolean>();
-        for (CommitteeSchedule committeeSchedule : getCommittee().getCommitteeSchedules()) {
+        for (CommonCommitteeSchedule committeeSchedule : getCommittee().getCommitteeSchedules()) {
             CommitteeTask task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
             canViewSchedule.add(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
         }
@@ -359,7 +359,7 @@ public class CommitteeHelper implements Serializable {
     @SuppressWarnings("unused") 
     public List<Boolean> canNotViewSpecificSchedule() {
         List<Boolean> canNotViewSchedule = new ArrayList<Boolean>();
-        for (CommitteeSchedule committeeSchedule : getCommittee().getCommitteeSchedules()) {
+        for (CommonCommitteeSchedule committeeSchedule : getCommittee().getCommitteeSchedules()) {
             canNotViewSchedule.add(false);
         }
         return canNotViewSchedule; 
@@ -412,8 +412,8 @@ public class CommitteeHelper implements Serializable {
         }
     }
 
-    private List<CommitteeSchedule> getSortedCommitteeScheduleList() {
-        List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+    private List<CommonCommitteeSchedule> getSortedCommitteeScheduleList() {
+        List<CommonCommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
         Collections.sort(committeeSchedules);
         return committeeSchedules;
     }

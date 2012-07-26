@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
@@ -126,7 +126,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
             submission.setCommitteeSchedule(null);
         }
         else {
-            CommitteeSchedule schedule = committeeService.getCommitteeSchedule(submission.getCommittee(), scheduleId);
+            CommonCommitteeSchedule schedule = committeeService.getCommitteeSchedule(submission.getCommittee(), scheduleId);
             if (schedule == null) {
                 submission.setScheduleId(null);
                 submission.setScheduleIdFk(null);
@@ -150,7 +150,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         if (!minutes.isEmpty()) {
             for (CommitteeScheduleMinute minute : minutes) {
                 if (submission.getScheduleIdFk() == null) {
-                    minute.setScheduleIdFk(CommitteeSchedule.DEFAULT_SCHEDULE_ID);
+                    minute.setScheduleIdFk(CommonCommitteeSchedule.DEFAULT_SCHEDULE_ID);
                 } else {
                     minute.setScheduleIdFk(submission.getScheduleIdFk());
                 }

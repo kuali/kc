@@ -64,9 +64,9 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
         CommitteeMasterDataType committeeMasterData = CommitteeMasterDataType.Factory.newInstance();
         committeeXmlStream.setCommitteeMasterData(committee,committeeMasterData) ;
         renewalReminder.setCommitteeMasterData(committeeMasterData) ;
-        List<org.kuali.kra.common.committee.bo.CommitteeSchedule> committeSchedules = committee.getCommitteeSchedules();
+        List<org.kuali.kra.common.committee.bo.CommonCommitteeSchedule> committeSchedules = committee.getCommitteeSchedules();
         int rowNumber = 0;
-        for (org.kuali.kra.common.committee.bo.CommitteeSchedule committeeSchedule : committeSchedules) {
+        for (org.kuali.kra.common.committee.bo.CommonCommitteeSchedule committeeSchedule : committeSchedules) {
             if(rowNumber<5 ) break;
             if(committeeSchedule.getScheduledDate().after(getDateTimeService().getCurrentDate()) ||
                     committeeSchedule.getScheduledDate().equals(getDateTimeService().getCurrentDate())){

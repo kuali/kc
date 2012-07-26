@@ -18,7 +18,7 @@ package org.kuali.kra.common.committee.rules;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEvent;
-import org.kuali.kra.common.committee.service.CommitteeMembershipService;
+import org.kuali.kra.common.committee.service.CommonCommitteeMembershipService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.BusinessRuleInterface;
@@ -33,7 +33,7 @@ public class DeleteCommitteeMemberRule extends ResearchDocumentRuleBase implemen
     private static final String ID = "document.committeeList[0].committeeMemberships[";
     private static final String AS_REVIEWER = "as the person is a reviewer of the protocol";
     private static final String AS_ATTENDANCE = "as the person has attended a schedule meeting";
-    private CommitteeMembershipService committeeMembershipService;
+    private CommonCommitteeMembershipService committeeMembershipService;
     /**
      * If member is assigned as a reviewer or as attendance of a meeting, then member can not be deleted.
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
@@ -58,9 +58,9 @@ public class DeleteCommitteeMemberRule extends ResearchDocumentRuleBase implemen
         return rulePassed;
     }
 
-    private CommitteeMembershipService getCommitteeMembershipService() {
+    private CommonCommitteeMembershipService getCommitteeMembershipService() {
         if (committeeMembershipService == null) {
-            committeeMembershipService = KraServiceLocator.getService(CommitteeMembershipService.class);
+            committeeMembershipService = KraServiceLocator.getService(CommonCommitteeMembershipService.class);
         }
         return committeeMembershipService;
     }

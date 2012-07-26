@@ -29,7 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
@@ -96,7 +96,7 @@ public class MeetingServiceImpl implements MeetingService {
      * This method is to get all protocol correspondences of the protocols that are related
      * to this committee schedule. ie, protocols that have been submitted to this committee schedule.
      */
-    protected List<ProtocolCorrespondence> getCorrespondences(CommitteeSchedule committeeSchedule) {
+    protected List<ProtocolCorrespondence> getCorrespondences(CommonCommitteeSchedule committeeSchedule) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         List<Long> protocolIds = new ArrayList<Long>();
         List<ProtocolCorrespondence> correspondences = new ArrayList<ProtocolCorrespondence>();
@@ -114,9 +114,9 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#SaveMeetingDetails(org.kuali.kra.common.committee.bo.CommitteeSchedule, java.util.List)
+     * @see org.kuali.kra.common.committee.meeting.MeetingService#SaveMeetingDetails(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, java.util.List)
      */
-    public void saveMeetingDetails(CommitteeSchedule committeeSchedule, List<? extends PersistableBusinessObject> deletedBos) {
+    public void saveMeetingDetails(CommonCommitteeSchedule committeeSchedule, List<? extends PersistableBusinessObject> deletedBos) {
         committeeSchedule.setStartTime(addHrMinToDate(committeeSchedule.getStartTime(), committeeSchedule.getViewStartTime()));
         committeeSchedule.setEndTime(addHrMinToDate(committeeSchedule.getEndTime(), committeeSchedule.getViewEndTime()));
         committeeSchedule.setTime(addHrMinToDate(committeeSchedule.getTime(), committeeSchedule.getViewTime()));
@@ -180,9 +180,9 @@ public class MeetingServiceImpl implements MeetingService {
     /**
      * 
      * @see org.kuali.kra.common.committee.meeting.MeetingService#addOtherAction(org.kuali.kra.common.committee.meeting.CommScheduleActItem,
-     *      org.kuali.kra.common.committee.bo.CommitteeSchedule)
+     *      org.kuali.kra.common.committee.bo.CommonCommitteeSchedule)
      */
-    public void addOtherAction(CommScheduleActItem newOtherAction, CommitteeSchedule committeeSchedule) {
+    public void addOtherAction(CommScheduleActItem newOtherAction, CommonCommitteeSchedule committeeSchedule) {
         newOtherAction.refreshReferenceObject("scheduleActItemType");
         newOtherAction.setCommScheduleActItemsId(getNextCommScheduleActItemId());
         newOtherAction.setScheduleIdFk(committeeSchedule.getId());
@@ -198,7 +198,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * find the max action number and increase by one.
      */
-    protected Integer getNextActionItemNumber(CommitteeSchedule committeeSchedule) {
+    protected Integer getNextActionItemNumber(CommonCommitteeSchedule committeeSchedule) {
         Integer nextActionItemNumber = committeeSchedule.getCommScheduleActItems().size();
         for (CommScheduleActItem commScheduleActItem : committeeSchedule.getCommScheduleActItems()) {
             if (commScheduleActItem.getActionItemNumber() > nextActionItemNumber) {
@@ -211,10 +211,10 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#deleteOtherAction(org.kuali.kra.common.committee.bo.CommitteeSchedule, int,
+     * @see org.kuali.kra.common.committee.meeting.MeetingService#deleteOtherAction(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, int,
      *      java.util.List)
      */
-    public void deleteOtherAction(CommitteeSchedule committeeSchedule, int itemNumber, List<CommScheduleActItem> deletedOtherActions) {
+    public void deleteOtherAction(CommonCommitteeSchedule committeeSchedule, int itemNumber, List<CommScheduleActItem> deletedOtherActions) {
         CommScheduleActItem commScheduleActItem = committeeSchedule.getCommScheduleActItems().get(itemNumber);
         if (commScheduleActItem.getCommScheduleActItemsId() != null) {
             deletedOtherActions.add(commScheduleActItem);
@@ -255,7 +255,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * This is a utility method to reset alternate flag before 'present voting'
      */
-    protected boolean isAlternateForMember(CommitteeSchedule committeeSchedule,
+    protected boolean isAlternateForMember(CommonCommitteeSchedule committeeSchedule,
             CommitteeScheduleAttendance committeeScheduleAttendance, Date scheduledDate) {
         boolean isAlternate = false;
         for (CommitteeMembership committeeMembership : committeeSchedule.getCommittee().getCommitteeMemberships()) {
@@ -497,7 +497,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * Utility method to figure out next entry number for this schedule.
      */
-    protected Integer getNextMinuteEntryNumber(CommitteeSchedule committeeSchedule) {
+    protected Integer getNextMinuteEntryNumber(CommonCommitteeSchedule committeeSchedule) {
         Integer nextMinuteEntryNumber = committeeSchedule.getCommitteeScheduleMinutes().size();
         for (CommitteeScheduleMinute committeeScheduleMinute : committeeSchedule.getCommitteeScheduleMinutes()) {
             if (committeeScheduleMinute.getEntryNumber() > nextMinuteEntryNumber) {
@@ -525,7 +525,7 @@ public class MeetingServiceImpl implements MeetingService {
      * This is to generate comment for minute entry Type of 'Attendance' and 'generate attendance is checked
      */
     protected String generateAttendanceComment(List<MemberPresentBean> memberPresentBeans, List<OtherPresentBean> otherPresentBeans,
-            CommitteeSchedule committeeSchedule) {
+            CommonCommitteeSchedule committeeSchedule) {
         String comment = "";
         String eol = System.getProperty("line.separator");
         for (MemberPresentBean memberPresentBean : memberPresentBeans) {
@@ -550,7 +550,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * Utility to get person name for 'alternate for'. This name is used when 'generate attendance' is checked.
      */
-    protected String getAlternateForName(CommitteeSchedule committeeSchedule, String alternateFor) {
+    protected String getAlternateForName(CommonCommitteeSchedule committeeSchedule, String alternateFor) {
 
         String personName = "";
         for (CommitteeMembership committeeMembership : committeeSchedule.getCommittee().getCommitteeMemberships()) {
@@ -613,10 +613,10 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#deleteCommitteeScheduleMinute(org.kuali.kra.common.committee.bo.CommitteeSchedule,
+     * @see org.kuali.kra.common.committee.meeting.MeetingService#deleteCommitteeScheduleMinute(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule,
      *      java.util.List, int)
      */
-    public void deleteCommitteeScheduleMinute(CommitteeSchedule committeeSchedule,
+    public void deleteCommitteeScheduleMinute(CommonCommitteeSchedule committeeSchedule,
             List<CommitteeScheduleMinute> deletedCommitteeScheduleMinutes, int itemNumber) {
         CommitteeScheduleMinute committeeScheduleMinute = committeeSchedule.getCommitteeScheduleMinutes().get(itemNumber);
         if (committeeScheduleMinute.getCommScheduleMinutesId() != null) {
@@ -629,9 +629,9 @@ public class MeetingServiceImpl implements MeetingService {
     /**
      * 
      * @see org.kuali.kra.common.committee.meeting.MeetingService#populateFormHelper(org.kuali.kra.common.committee.meeting.MeetingHelper,
-     *      org.kuali.kra.common.committee.bo.CommitteeSchedule, int)
+     *      org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, int)
      */
-    public void populateFormHelper(MeetingHelper meetingHelper, CommitteeSchedule commSchedule, int lineNumber) {
+    public void populateFormHelper(MeetingHelper meetingHelper, CommonCommitteeSchedule commSchedule, int lineNumber) {
         for (ProtocolSubmission protocolSubmission : commSchedule.getProtocolSubmissions()) {
             ProtocolSubmittedBean protocolSubmittedBean = new ProtocolSubmittedBean();
             ProtocolPerson pi = protocolSubmission.getProtocol().getPrincipalInvestigator();
@@ -660,7 +660,7 @@ public class MeetingServiceImpl implements MeetingService {
      * set up title of the first header tab in meeting page. lineNumber is this selected schedule's item number in committee
      * schedule list
      */
-    protected String getMeetingTabTitle(CommitteeSchedule committeeSchedule, int lineNumber) {
+    protected String getMeetingTabTitle(CommonCommitteeSchedule committeeSchedule, int lineNumber) {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
         return committeeSchedule.getCommittee().getCommitteeName() + " #" + lineNumber + " Meeting "
@@ -672,7 +672,7 @@ public class MeetingServiceImpl implements MeetingService {
      * populate 3 attendance form beans
      */
     protected void populateAttendanceToForm(MeetingHelper meetingHelper, List<CommitteeMembership> committeeMemberships,
-            CommitteeSchedule commSchedule) {
+            CommonCommitteeSchedule commSchedule) {
         populatePresentBean(meetingHelper, committeeMemberships, commSchedule);
         populateMemberAbsentBean(meetingHelper, committeeMemberships, commSchedule);
 
@@ -682,7 +682,7 @@ public class MeetingServiceImpl implements MeetingService {
      * populate memberpresentbean & otherpresentbean
      */
     protected void populatePresentBean(MeetingHelper meetingHelper, List<CommitteeMembership> committeeMemberships,
-            CommitteeSchedule commSchedule) {
+            CommonCommitteeSchedule commSchedule) {
         meetingHelper.setOtherPresentBeans(new ArrayList<OtherPresentBean>());
         meetingHelper.setMemberPresentBeans(new ArrayList<MemberPresentBean>());
         for (CommitteeScheduleAttendance committeeScheduleAttendance : commSchedule.getCommitteeScheduleAttendances()) {
@@ -710,7 +710,7 @@ public class MeetingServiceImpl implements MeetingService {
      * populate memberabsentbean
      */
     protected void populateMemberAbsentBean(MeetingHelper meetingHelper, List<CommitteeMembership> committeeMemberships,
-            CommitteeSchedule commSchedule) {
+            CommonCommitteeSchedule commSchedule) {
         meetingHelper.setMemberAbsentBeans(new ArrayList<MemberAbsentBean>());
         for (CommitteeMembership committeeMembership : committeeMemberships) {
             if (!isInMemberPresent(meetingHelper.getMemberPresentBeans(), committeeMembership)
@@ -737,7 +737,7 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * Init attendance if this meeting schedule is maintained for the first time.
      */
-    protected void initAttendance(List<MemberAbsentBean> memberAbsentBeans, CommitteeSchedule commSchedule) {
+    protected void initAttendance(List<MemberAbsentBean> memberAbsentBeans, CommonCommitteeSchedule commSchedule) {
         List<CommitteeMembership> committeeMemberships = commSchedule.getCommittee().getCommitteeMemberships();
         for (CommitteeMembership committeeMembership : committeeMemberships) {
             if (isActiveMembership(committeeMembership, commSchedule.getScheduledDate())) {
@@ -806,10 +806,10 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     /**
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#refreshProtocolSubmissionsFor(org.kuali.kra.common.committee.bo.CommitteeSchedule)
+     * @see org.kuali.kra.common.committee.meeting.MeetingService#refreshProtocolSubmissionsFor(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule)
      */
     @Override
-    public void refreshProtocolSubmissionsFor(CommitteeSchedule committeeSchedule) {
+    public void refreshProtocolSubmissionsFor(CommonCommitteeSchedule committeeSchedule) {
         committeeSchedule.refreshReferenceObject(PROTOCOL_SUBMISSIONS_REF_ID);
     }
 
