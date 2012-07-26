@@ -78,9 +78,6 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         // need to set backlocation & docformkey here. Otherwise, they are empty
         super.setBackLocationDocFormKey(fieldValues);  
-        if (this.getParameters().containsKey(USER_ID)) {
-            fieldValues.put("projectPersons.personId", ((String[]) this.getParameters().get(USER_ID))[0]);
-        }
         Map<String, String> formProps = new HashMap<String, String>();
         if (!StringUtils.isEmpty(fieldValues.get("lookupOspAdministratorName"))) {
             formProps.put("fullName", fieldValues.get("lookupOspAdministratorName"));
