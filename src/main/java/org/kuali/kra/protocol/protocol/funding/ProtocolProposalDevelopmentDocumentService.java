@@ -16,11 +16,12 @@
 package org.kuali.kra.protocol.protocol.funding;
 
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.protocol.ProtocolHelper;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
-public interface ProtocolProposalDevelopmentDocumentService {
+public interface ProtocolProposalDevelopmentDocumentService<GenericProtocolDocument extends ProtocolDocument> {
     public ProposalDevelopmentDocument createProposalDevelopmentDocument(ProtocolForm protocolForm) throws Exception;
     public boolean isAuthorizedCreateProposal(ProtocolHelper protocolHelper);
     public void populateDocumentOverview(Protocol protocol, ProposalDevelopmentDocument proposalDocument);

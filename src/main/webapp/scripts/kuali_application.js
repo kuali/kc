@@ -3274,6 +3274,7 @@ function ajaxLoad(methodToCall, codeField, fieldToUpdate) {
 /**
  * Display the Protocol link and make the fields read-only if the special review type is Human Subjects
  */
+
 function showHideSpecialReviewProtocolLink(specialReviewTypeCode, idPrefix) {
 	var readOnly = specialReviewTypeCode.value == '1';
 	if (readOnly) {
@@ -3281,7 +3282,7 @@ function showHideSpecialReviewProtocolLink(specialReviewTypeCode, idPrefix) {
 	} else {
 		changeObjectVisibility(idPrefix + ".protocolNumber.link.div", "none"); 
 	}
-	if (specialReviewTypeCode.value == '1' ) {
+	if (specialReviewTypeCode.value == '1' || specialReviewTypeCode.value == '2' ) {
 		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "inline");
 	} else {
 		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "none"); 
