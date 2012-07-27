@@ -351,3 +351,11 @@ when
 then    
     setAction(protocolAction, true);
 end
+
+rule "Request Suspension"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "311", protocolStatusCode in ("201", "305", "306"))
+then    
+    setAction(protocolAction, true);
+end
