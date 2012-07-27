@@ -43,6 +43,7 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
 
     protected static final Map<String, String> TASK_NAME_TO_ACTION_TYPE_MAP = new HashMap<String,String>();
     static {
+        
         //TASK_NAME_TO_ACTION_TYPE_MAP.put(DEACTIVATE_PROTOCOL, IacucProtocolActionType.DEACTIVATED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_PROTOCOL, IacucProtocolActionType.EXPIRED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_UNAVAILABLE_PROTOCOL, IacucProtocolActionType.EXPIRED);
@@ -54,13 +55,13 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
     
     protected static final Map<String, String> TASK_NAME_TO_ROLE_NAME_MAP = new HashMap<String,String>();
     static {
-        //TASK_NAME_TO_ACTION_TYPE_MAP.put(DEACTIVATE_PROTOCOL, IacucProtocolActionType.DEACTIVATED);
-        TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
-        TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_UNAVAILABLE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
-        TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
-        TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_UNAVAILABLE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
-        TASK_NAME_TO_ACTION_TYPE_MAP.put(TERMINATE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
-        TASK_NAME_TO_ACTION_TYPE_MAP.put(TERMINATE_UNAVAILBLE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);   
+        //TASK_NAME_TO_ROLE_NAME_MAP.put(DEACTIVATE_PROTOCOL, IacucProtocolActionType.DEACTIVATED);
+        TASK_NAME_TO_ROLE_NAME_MAP.put(EXPIRE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        TASK_NAME_TO_ROLE_NAME_MAP.put(EXPIRE_UNAVAILABLE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        TASK_NAME_TO_ROLE_NAME_MAP.put(SUSPEND_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        TASK_NAME_TO_ROLE_NAME_MAP.put(SUSPEND_UNAVAILABLE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        TASK_NAME_TO_ROLE_NAME_MAP.put(TERMINATE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        TASK_NAME_TO_ROLE_NAME_MAP.put(TERMINATE_UNAVAILBLE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);   
     }
     
     private static final String ERROR_MESSAGE = "Please set genericTaskName with one of the static strings in this class.";
