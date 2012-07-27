@@ -44,7 +44,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class MeetingServiceImpl implements MeetingService {
+public class MeetingServiceImpl implements CommonMeetingService {
 
     BusinessObjectService businessObjectService;
     
@@ -114,7 +114,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#SaveMeetingDetails(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, java.util.List)
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#SaveMeetingDetails(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, java.util.List)
      */
     public void saveMeetingDetails(CommonCommitteeSchedule committeeSchedule, List<? extends PersistableBusinessObject> deletedBos) {
         committeeSchedule.setStartTime(addHrMinToDate(committeeSchedule.getStartTime(), committeeSchedule.getViewStartTime()));
@@ -132,7 +132,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#getStandardReviewComment(java.lang.String)
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#getStandardReviewComment(java.lang.String)
      */
     public String getStandardReviewComment(String protocolContingencyCode) {
         String description = null;
@@ -179,7 +179,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#addOtherAction(org.kuali.kra.common.committee.meeting.CommScheduleActItem,
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#addOtherAction(org.kuali.kra.common.committee.meeting.CommScheduleActItem,
      *      org.kuali.kra.common.committee.bo.CommonCommitteeSchedule)
      */
     public void addOtherAction(CommScheduleActItem newOtherAction, CommonCommitteeSchedule committeeSchedule) {
@@ -211,7 +211,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#deleteOtherAction(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, int,
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#deleteOtherAction(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, int,
      *      java.util.List)
      */
     public void deleteOtherAction(CommonCommitteeSchedule committeeSchedule, int itemNumber, List<CommScheduleActItem> deletedOtherActions) {
@@ -226,7 +226,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#markAbsent(java.util.List, java.util.List, int)
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#markAbsent(java.util.List, java.util.List, int)
      */
     public void markAbsent(List<MemberPresentBean> memberPresentBeans, List<MemberAbsentBean> memberAbsentBeans, int itemNumber) {
         MemberPresentBean memberPresentBean = memberPresentBeans.get(itemNumber);
@@ -239,7 +239,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#presentVoting(org.kuali.kra.common.committee.meeting.MeetingHelper, int)
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#presentVoting(org.kuali.kra.common.committee.meeting.MeetingHelper, int)
      */
     public void presentVoting(MeetingHelper meetingHelper, int itemNumber) {
         MemberAbsentBean memberAbsentBean = meetingHelper.getMemberAbsentBeans().get(itemNumber);
@@ -369,7 +369,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#presentOther(org.kuali.kra.common.committee.meeting.MeetingHelper, int)
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#presentOther(org.kuali.kra.common.committee.meeting.MeetingHelper, int)
      */
     public void presentOther(MeetingHelper meetingHelper, int itemNumber) {
         MemberAbsentBean memberAbsentBean = meetingHelper.getMemberAbsentBeans().get(itemNumber);
@@ -382,7 +382,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#addOtherPresent(org.kuali.kra.common.committee.meeting.MeetingHelper)
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#addOtherPresent(org.kuali.kra.common.committee.meeting.MeetingHelper)
      */
     public void addOtherPresent(MeetingHelper meetingHelper) {
         OtherPresentBean otherPresentBean = new OtherPresentBean();
@@ -438,7 +438,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#deleteOtherPresent(org.kuali.kra.common.committee.meeting.MeetingHelper, int)
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#deleteOtherPresent(org.kuali.kra.common.committee.meeting.MeetingHelper, int)
      */
     public void deleteOtherPresent(MeetingHelper meetingHelper, int itemNumber) {
         OtherPresentBean otherPresentBean = meetingHelper.getOtherPresentBeans().get(itemNumber);
@@ -453,7 +453,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#addCommitteeScheduleMinute(org.kuali.kra.common.committee.meeting.MeetingHelper)
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#addCommitteeScheduleMinute(org.kuali.kra.common.committee.meeting.MeetingHelper)
      */
     public void addCommitteeScheduleMinute(MeetingHelper meetingHelper) {
         meetingHelper.getNewCommitteeScheduleMinute().refreshReferenceObject("minuteEntryType");
@@ -613,7 +613,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#deleteCommitteeScheduleMinute(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule,
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#deleteCommitteeScheduleMinute(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule,
      *      java.util.List, int)
      */
     public void deleteCommitteeScheduleMinute(CommonCommitteeSchedule committeeSchedule,
@@ -628,7 +628,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#populateFormHelper(org.kuali.kra.common.committee.meeting.MeetingHelper,
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#populateFormHelper(org.kuali.kra.common.committee.meeting.MeetingHelper,
      *      org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, int)
      */
     public void populateFormHelper(MeetingHelper meetingHelper, CommonCommitteeSchedule commSchedule, int lineNumber) {
@@ -806,7 +806,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     /**
-     * @see org.kuali.kra.common.committee.meeting.MeetingService#refreshProtocolSubmissionsFor(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule)
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#refreshProtocolSubmissionsFor(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule)
      */
     @Override
     public void refreshProtocolSubmissionsFor(CommonCommitteeSchedule committeeSchedule) {

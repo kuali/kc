@@ -22,7 +22,7 @@ import org.kuali.kra.common.committee.meeting.ScheduleAgenda;
 import org.kuali.kra.common.committee.notification.AgendaCreatedNotificationRenderer;
 import org.kuali.kra.common.committee.notification.CommitteeNotificationContext;
 import org.kuali.kra.common.committee.notification.MinutesCreatedNotificationRenderer;
-import org.kuali.kra.common.committee.service.CommitteeNotificationService;
+import org.kuali.kra.common.committee.service.CommonCommitteeNotificationService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 
@@ -30,7 +30,7 @@ import org.kuali.kra.infrastructure.Constants;
  * 
  * This class generates the notifications for committees.
  */
-public class CommitteeNotificationServiceImpl implements CommitteeNotificationService {
+public class CommitteeNotificationServiceImpl implements CommonCommitteeNotificationService {
 
     private String committeeNotificationType;
 

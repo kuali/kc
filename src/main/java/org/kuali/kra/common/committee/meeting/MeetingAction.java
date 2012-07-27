@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
@@ -85,14 +86,9 @@ public class MeetingAction extends KualiAction {
         Collections.sort(minutes, CommitteeScheduleMinute.entryTypeComparator);
         
         for (CommitteeScheduleMinute minute : minutes) {
-            
-            // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-            /*
             if (getReviewerCommentsService().getReviewerCommentsView(minute)) {
                 permittedMinutes.add(minute);
-            }
-            */
-            
+            }  
         }
         commSchedule.setCommitteeScheduleMinutes(permittedMinutes);
         ((MeetingForm) form).setReadOnly("true".equals(request.getParameter("readOnly")));
@@ -335,13 +331,10 @@ public class MeetingAction extends KualiAction {
         if (StringUtils.isNotBlank(command) && "viewProtocolSubmission".equals(command)) {
             forward = viewProtocolSubmission(mapping, form, request, response);
         }
-        // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-        /*
+        
         ((MeetingForm) form).getMeetingHelper().setHideReviewerName(
                 getReviewerCommentsService().setHideReviewerName(
                         ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleMinutes()));
-                        
-                        */
         
         // use the entry type comparator to sort the minutes 
         Collections.sort(((MeetingForm) form).getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleMinutes(), CommitteeScheduleMinute.entryTypeComparator);
@@ -374,13 +367,13 @@ public class MeetingAction extends KualiAction {
         return KraServiceLocator.getService(KualiRuleService.class).applyRules(event);
     }
 
-    protected MeetingService getMeetingService() {
-        return KraServiceLocator.getService(MeetingService.class);
+    protected CommonMeetingService getMeetingService() {
+        return KraServiceLocator.getService(CommonMeetingService.class);
     }
 
 
     private ReviewCommentsService getReviewerCommentsService() {
-        return KraServiceLocator.getService(ReviewCommentsService.class);
+        return KraServiceLocator.getService(IacucReviewCommentsService.class);
     }
 
 }

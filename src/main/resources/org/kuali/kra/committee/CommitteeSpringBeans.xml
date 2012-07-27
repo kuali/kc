@@ -332,6 +332,7 @@
 	</bean>
     
     
+    
     <bean id="commonCommitteeCollaboratorBusinessLogicFactoryGroup" 
 		class="org.kuali.kra.common.committee.bo.businessLogic.impl.CommitteeCollaboratorBusinessLogicFactoryGroupImpl"
 		scope="prototype">
@@ -350,8 +351,22 @@
 	<bean id="commonCommitteeResearchAreaBusinessLogicFactory" 
 		class="org.kuali.kra.common.committee.bo.businessLogic.impl.CommitteeResearchAreaBusinessLogicFactoryImpl"
 		scope="prototype" />
+			
+			
+			
+	<bean id="commonCommitteeNotificationService" class="org.kuali.kra.common.committee.service.impl.CommitteeNotificationServiceImpl">
+		<property name="kcNotificationService" ref="kcNotificationService" />
+    </bean>
+
+	<bean id="commonMeetingService" class="org.kuali.kra.common.committee.meeting.MeetingServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
 		
 		
+
+
  
 <!-- republishing the committee authorizers -->    
    
