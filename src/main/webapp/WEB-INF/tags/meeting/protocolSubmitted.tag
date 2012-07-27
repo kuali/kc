@@ -1,8 +1,31 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <%-- <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/> --%>
-<c:set var="protocolSubmissionAttributes" value="${DataDictionary.ProtocolSubmission.attributes}" />
-<c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
+
+
+<%-- optional attributes with default initializers --%>
+<%@ attribute name="protocolSubmissionBOClassName" required="false" %>
+<c:if test="${protocolSubmissionBOClassName == null}">
+	<c:set var="protocolSubmissionBOClassName" value="org.kuali.kra.irb.actions.submit.ProtocolSubmission" />
+</c:if>
+
+<%@ attribute name="protocolSubmissionAttributes" required="false" %>
+<c:if test="${protocolSubmissionAttributes == null}">
+	<c:set var="protocolSubmissionAttributes" value="${DataDictionary.ProtocolSubmission.attributes}" />
+</c:if>
+
+<%@ attribute name="protocolAttributes" required="false" %>
+<c:if test="${protocolAttributes == null}">
+	<c:set var="protocolAttributes" value="${DataDictionary.Protocol.attributes}" />
+</c:if>
+
+<%@ attribute name="meetingManagementActionName" required="false" %>
+<c:if test="${meetingManagementActionName == null}">
+	<c:set var="meetingManagementActionName" value="meetingManagement" />
+</c:if>
+
+
+
 
 <kul:tab defaultOpen="false" tabTitle="Protocol Submitted "
     tabErrorKey="document.committee*">
@@ -10,7 +33,7 @@
 <div class="tab-container" align="center">
     <h3>
         <span class="subhead-left"> Protocol Submitted </span>
-        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.irb.actions.submit.ProtocolSubmission" altText="help"/> </span>
+        <span class="subhead-right"> <kul:help businessObjectClassName="${protocolSubmissionBOClassName}" altText="help"/> </span>
     </h3>
     
         <table id="protocolSubmitted-wrap-table" cellpadding=0 cellspacing=0 class="datatable" summary="Protocol Submitted">
@@ -105,7 +128,7 @@
 
                                           	<td> 
                                           		<%-- view protocol popup alternatives --%>
-                                          		<a href="${pageContext.request.contextPath}/meetingManagement.do?command=viewProtocolSubmission&line=${status.index}" target="_blank" >
+                                          		<a href="${pageContext.request.contextPath}/${meetingManagementActionName}.do?command=viewProtocolSubmission&line=${status.index}" target="_blank" >
                                           			<img alt="View Protocol" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" styleClass="tinybutton" />
                                           		</a>
 		                                    </td>

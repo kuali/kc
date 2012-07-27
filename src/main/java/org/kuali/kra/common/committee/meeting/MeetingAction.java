@@ -229,7 +229,7 @@ public class MeetingAction extends KualiAction {
             HttpServletResponse response) throws Exception {
         ProtocolSubmission protocolSubmission = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule()
                 .getProtocolSubmissions().get(Integer.parseInt(request.getParameter("line")));
-        response.sendRedirect("iacucProtocolProtocolActions.do?methodToCall=start&submissionId=" + protocolSubmission.getSubmissionId());
+        response.sendRedirect("iacucProtocolActions.do?methodToCall=start&submissionId=" + protocolSubmission.getSubmissionId());
         return null;
     }
 
