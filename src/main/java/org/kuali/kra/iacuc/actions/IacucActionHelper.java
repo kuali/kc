@@ -139,6 +139,8 @@ public class IacucActionHelper extends ActionHelper {
     private boolean canLiftHoldUnavailable = false;
     private boolean canRequestToLiftHold = false;
     private boolean canRequestToLiftHoldUnavailable = false;
+    private boolean canRequestSuspend = false;
+    private boolean canRequestSuspendUnavailable = false;
     private boolean canTable = false;
     private boolean canTableUnavailable = false;
     private boolean canIacucAcknowledge = false;
@@ -170,6 +172,7 @@ public class IacucActionHelper extends ActionHelper {
     
     protected IacucProtocolRequestBean iacucProtocolDeactivateRequestBean;
     protected IacucProtocolRequestBean iacucProtocolLiftHoldRequestBean;
+    protected IacucProtocolRequestBean iacucProtocolSuspendRequestBean;
 
     /**
      * Constructs an ActionHelper.
@@ -192,6 +195,8 @@ public class IacucActionHelper extends ActionHelper {
                 IacucProtocolSubmissionType.REQUEST_TO_DEACTIVATE, "iacucProtocolDeactivateRequestBean");
         iacucProtocolLiftHoldRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.REQUEST_LIFT_HOLD,
                 IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD, "iacucProtocolLiftHoldRequestBean");
+        iacucProtocolSuspendRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.IACUC_REQUEST_SUSPEND,
+                IacucProtocolSubmissionType.REQUEST_SUSPEND, "iacucProtocolSuspendRequestBean");
         initIacucSpecificActionBeanTaskMap();
    }
     
@@ -210,6 +215,7 @@ public class IacucActionHelper extends ActionHelper {
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_DEACTIVATE, iacucProtocolDeactivateBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_DEACTIVATE, iacucProtocolDeactivateRequestBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD, iacucProtocolLiftHoldRequestBean);
+        actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION, iacucProtocolSuspendRequestBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_HOLD, iacucProtocolHoldBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_LIFT_HOLD, iacucProtocolLiftHoldBean);
 }
@@ -318,6 +324,8 @@ public class IacucActionHelper extends ActionHelper {
         canLiftHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_LIFT_HOLD_UNAVAILABLE);
         canRequestToLiftHold = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD);
         canRequestToLiftHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_LIFT_HOLD_UNAVAILABLE);
+        canRequestSuspend = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION);
+        canRequestSuspendUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION_UNAVAILABLE);
         canIacucAcknowledge = hasPermission(TaskName.IACUC_ACKNOWLEDGEMENT);
         canIacucAcknowledgeUnavailable = hasPermission(TaskName.IACUC_ACKNOWLEDGEMENT_UNAVAILABLE);
         canIacucDeactivate = hasPermission(TaskName.IACUC_PROTOCOL_DEACTIVATE);
@@ -490,6 +498,14 @@ public class IacucActionHelper extends ActionHelper {
 
     public boolean isCanRequestToLiftHoldUnavailable() {
         return canRequestToLiftHoldUnavailable;
+    }
+    
+    public boolean isCanRequestSuspend() {
+        return canRequestSuspend;
+    }
+
+    public boolean isCanRequestSuspendUnavailable() {
+        return canRequestSuspendUnavailable;
     }
 
     public boolean isCanTable() {
@@ -1265,6 +1281,16 @@ public class IacucActionHelper extends ActionHelper {
     @Override
     protected AdminCorrectionBean getNewAdminCorrectionBeanInstanceHook(ActionHelper actionHelper) {
         return new IacucAdminCorrectionBean((IacucActionHelper) actionHelper);
+    }
+
+
+    public IacucProtocolRequestBean getIacucProtocolSuspendRequestBean() {
+        return iacucProtocolSuspendRequestBean;
+    }
+
+
+    public void setIacucProtocolSuspendRequestBean(IacucProtocolRequestBean iacucProtocolSuspendRequestBean) {
+        this.iacucProtocolSuspendRequestBean = iacucProtocolSuspendRequestBean;
     }
     
 }
