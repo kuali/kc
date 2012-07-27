@@ -29,13 +29,13 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  */
 public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase {
 
-    private static final String ERROR_PROPERTY_NEW_PERSON = "newProtocolPerson"; 
-    private static final String ERROR_PROPERTY_EXISTING_PERSON = "document.protocolList[0].protocolPersons";
-    private static final String ERROR_PROPERTY_PERSON_ROLE = ".protocolPersonRoleId"; 
-    private static final String ERROR_PROPERTY_PERSON_UNIT = ".protocolPersonUnit"; 
-    private static final String ERROR_PROPERTY_PERSON_INDEX = "[personIndex]";
-    private static final String PERSON_INDEX = "personIndex";
-    private static final String REFERENCE_PERSON_ROLE = "protocolPersonRole";
+    protected static final String ERROR_PROPERTY_NEW_PERSON = "newProtocolPerson"; 
+    protected static final String ERROR_PROPERTY_EXISTING_PERSON = "document.protocolList[0].protocolPersons";
+    protected static final String ERROR_PROPERTY_PERSON_ROLE = ".protocolPersonRoleId"; 
+    protected static final String ERROR_PROPERTY_PERSON_UNIT = ".protocolPersonUnit"; 
+    protected static final String ERROR_PROPERTY_PERSON_INDEX = "[personIndex]";
+    protected static final String PERSON_INDEX = "personIndex";
+    protected static final String REFERENCE_PERSON_ROLE = "protocolPersonRole";
     
     private ProtocolPersonnelService protocolPersonnelService;
 
@@ -117,7 +117,7 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
      * @param errorKey
      * @return String - formatted error property
      */
-    private String formatErrorPropertyName(boolean newPerson, int personIndex, String errorKey) {
+    protected String formatErrorPropertyName(boolean newPerson, int personIndex, String errorKey) {
         String errorProperty = null;
         if (newPerson) {
             errorProperty = ERROR_PROPERTY_NEW_PERSON.concat(errorKey);

@@ -103,11 +103,11 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule<IacucCommitt
         List<IacucProtocolStudyGroupBean> protocolStudyGroups = document.getIacucProtocol().getIacucProtocolStudyGroups();
         Set<Integer> distinctProtocolSpecies = getDistinctSpeciesList(speciesList);
         if(!isProtocolExceptionValid(protocolExceptions, distinctProtocolSpecies)) {
-            reportError(NEW_PROTOCOL_SPECIES_PATH, KeyConstants.IACUC_PROTOCOL_SPECIES_DEPENDENCY_NOT_EXISTS, new String[] {PROTOCOL_EXCEPTION});
+            reportError(NEW_PROTOCOL_SPECIES_PATH, KeyConstants.IACUC_PROTOCOL_SPECIES_DEPENDENCY_EXISTS, new String[] {PROTOCOL_EXCEPTION});
             valid = false;
         }
         if(!isProtocolProcedureValid(protocolStudyGroups, distinctProtocolSpecies)) {
-            reportError(NEW_PROTOCOL_SPECIES_PATH, KeyConstants.IACUC_PROTOCOL_SPECIES_DEPENDENCY_NOT_EXISTS, new String[] {PROTOCOL_PROCEDURE});
+            reportError(NEW_PROTOCOL_SPECIES_PATH, KeyConstants.IACUC_PROTOCOL_SPECIES_DEPENDENCY_EXISTS, new String[] {PROTOCOL_PROCEDURE});
             valid = false;
         }
         return valid;
