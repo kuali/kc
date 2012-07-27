@@ -1,7 +1,25 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <%-- <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/> --%>
-<c:set var="committeeScheduleMinuteAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
+
+<%-- optional attributes with default initializers --%>
+<%@ attribute name="committeeScheduleMinuteBOClassName" required="false" %>
+<c:if test="${committeeScheduleMinuteBOClassName == null}">
+	<c:set var="committeeScheduleMinuteBOClassName" value="org.kuali.kra.meeting.CommitteeScheduleMinute" />
+</c:if>
+
+<%@ attribute name="protocolValuesFinderClassName" required="false" %>
+<c:if test="${protocolValuesFinderClassName == null}">
+	<c:set var="protocolValuesFinderClassName" value="org.kuali.kra.meeting.ProtocolValuesFinder" />
+</c:if>
+
+<%@ attribute name="committeeScheduleMinuteAttributes" required="false" %>
+<c:if test="${committeeScheduleMinuteAttributes == null}">
+	<c:set var="committeeScheduleMinuteAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
+</c:if>
+
+
+
 <c:set var="attributeReferenceDummyAttributes" value="${DataDictionary.AttributeReferenceDummy.attributes}" />
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 <c:set target="${paramMap}" property="scheduleId" value="${KualiForm.meetingHelper.committeeSchedule.id}" />
@@ -52,7 +70,7 @@
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left"> Minutes </span>
-            <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.meeting.CommitteeScheduleMinute" altText="help"/> </span>
+            <span class="subhead-right"> <kul:help businessObjectClassName="${committeeScheduleMinuteBOClassName}" altText="help"/> </span>
         </h3>
         <table id="minutes-table" cellpadding=0 cellspacing=0 class="datatable" summary="view /edit Meeting Minutes">
         
@@ -107,7 +125,7 @@
 				                </c:if>
 			                </c:forEach>
 	               		    <html:select property="meetingHelper.newCommitteeScheduleMinute.protocolIdFk" tabindex="0"  > 		                        
-		                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.meeting.ProtocolValuesFinder', paramMap)}" var="option">
+		                        <c:forEach items="${krafn:getOptionList(protocolValuesFinderClassName, paramMap)}" var="option">
 		                            <c:choose>                    	
 		                    	        <c:when test="${KualiForm.meetingHelper.newCommitteeScheduleMinute.protocolIdFk == option.key}">
 		                                    <option value="${option.key}" selected>${option.value}</option>

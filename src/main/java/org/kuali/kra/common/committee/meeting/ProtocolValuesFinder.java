@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -32,6 +33,11 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * This class is to find protocols submitted to this committee schedule.
  */
 public class ProtocolValuesFinder extends KeyValuesBase {
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 5144171874415568112L;
+    
     private String scheduleId;
 
     /**
@@ -47,10 +53,10 @@ public class ProtocolValuesFinder extends KeyValuesBase {
         return keyValues;
     }
 
-    private List<ProtocolSubmission> getProtocols() {
+    private List<IacucProtocolSubmission> getProtocols() {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("scheduleIdFk", scheduleId);
-        return (List<ProtocolSubmission>) getBusinessObjectService().findMatching(ProtocolSubmission.class, fieldValues);
+        return (List<IacucProtocolSubmission>) getBusinessObjectService().findMatching(IacucProtocolSubmission.class, fieldValues);
     }
 
     protected BusinessObjectService getBusinessObjectService() {

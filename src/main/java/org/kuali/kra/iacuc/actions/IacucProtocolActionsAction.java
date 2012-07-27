@@ -1508,31 +1508,31 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        protocolForm.getActionHelper().initSubmissionDetails();
 //        return mapping.findForward(Constants.MAPPING_BASIC);
 //    }
-//
-//    /**
-//     * 
-//     * This method is to render protocol action page when 'view' is clicked in meeting page, Protocol submitted panel.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-//            throws Exception {
-//        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put(SUBMISSION_ID, request.getParameter(SUBMISSION_ID));
-//        ProtocolSubmission protocolSubmission = (ProtocolSubmission) getBusinessObjectService().findByPrimaryKey(ProtocolSubmission.class, fieldValues);
-//        protocolSubmission.getProtocol().setProtocolSubmission(protocolSubmission);
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        protocolForm.setDocId(protocolSubmission.getProtocol().getProtocolDocument().getDocumentNumber());
-//        loadDocument(protocolForm);
-//        protocolForm.initialize();
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
+
+    /**
+     * 
+     * This method is to render protocol action page when 'view' is clicked in meeting page, Protocol submitted panel.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(SUBMISSION_ID, request.getParameter(SUBMISSION_ID));
+        IacucProtocolSubmission protocolSubmission = (IacucProtocolSubmission) getBusinessObjectService().findByPrimaryKey(IacucProtocolSubmission.class, fieldValues);
+        protocolSubmission.getProtocol().setProtocolSubmission(protocolSubmission);
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        protocolForm.setDocId(protocolSubmission.getProtocol().getProtocolDocument().getDocumentNumber());
+        loadDocument(protocolForm);
+        protocolForm.initialize();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     
     
     /**
