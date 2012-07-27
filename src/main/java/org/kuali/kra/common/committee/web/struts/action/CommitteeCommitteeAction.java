@@ -30,13 +30,11 @@ import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeBusinessLo
 import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactoryGroup;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.common.committee.rules.CommitteeDocumentRule;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.ProtocolDocumentRule;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;

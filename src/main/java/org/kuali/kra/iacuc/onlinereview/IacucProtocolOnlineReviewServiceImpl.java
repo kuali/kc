@@ -31,8 +31,10 @@ import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
@@ -224,19 +226,16 @@ public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnline
     public boolean isProtocolInStateToBeReviewed(Protocol protocol) {
         boolean isReviewable = false;
         ProtocolSubmission submission = protocol.getProtocolSubmission();
+        
         if (submission != null) {
             try {
                 isReviewable = StringUtils.isNotEmpty(submission.getScheduleId());
-                isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(),
-                        IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) || StringUtils.equals(
-                        submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.IN_AGENDA));
-                // TODO : uncomment following when IACUC doc wkflw is ready
-//                ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol
-//                        .getProtocolDocument().getDocumentNumber());
-//                isReviewable &= kraWorkflowService.isDocumentOnNode(protocolDocument, Constants.IACUC_PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
+                isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
+                        || StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.IN_AGENDA));
+                ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
+                isReviewable &= kraWorkflowService.isDocumentOnNode(protocolDocument, Constants.IACUC_PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
             }
-//            catch (WorkflowException e) {
-                catch (Exception e) {
+            catch (WorkflowException e) {
                 String errorString = String.format(
                         "WorkflowException checking route node for creating new ProtocolOnlineReviewDocument " + "for protocol %s",
                         submission.getProtocolNumber());
