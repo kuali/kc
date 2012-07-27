@@ -23,7 +23,7 @@ import org.kuali.kra.common.committee.meeting.ScheduleAgenda;
  * 
  * This class generates committee-based notifications.
  */
-public interface CommitteeNotificationService {
+public interface CommonCommitteeNotificationService {
     
     /**
      * 

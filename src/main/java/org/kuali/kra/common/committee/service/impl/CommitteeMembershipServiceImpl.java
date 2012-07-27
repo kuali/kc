@@ -31,6 +31,7 @@ import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.common.committee.service.CommonCommitteeMembershipService;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -148,9 +149,6 @@ public class CommitteeMembershipServiceImpl implements CommonCommitteeMembership
      */
     public boolean isMemberAssignedToReviewer(CommitteeMembership member, String committeeId) {
         boolean isReviewer = false;
-        
-        // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-        /*
         for (ProtocolSubmission submission : getProtocolSubmissionsForCommittee(committeeId)) {
             for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
                 if ((member.getPersonId()!=null && StringUtils.equals(reviewer.getPersonId(), member.getPersonId()))
@@ -160,9 +158,6 @@ public class CommitteeMembershipServiceImpl implements CommonCommitteeMembership
             }
 
         }
-        */
-        
-
         return isReviewer;
     }
     
