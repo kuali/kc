@@ -41,6 +41,8 @@ public class IacucProtocolSubmissionType extends ProtocolSubmissionType {
     public static final String CONTINUATION_WITH_AMENDMENT = "109";
     
     public static final String NOTIFY_IACUC = "110";
+    
+    public static final String REQUEST_SUSPEND = "111";
 
     public boolean isAmendment() {
         return AMENDMENT.equals(getSubmissionTypeCode()) || RENEWAL_WITH_AMENDMENT.equals(getSubmissionTypeCode());
