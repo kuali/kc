@@ -39,7 +39,7 @@
     	<c:set var="descri" value="${person.protocolPersonRole.description}" />
 	<c:set var="personIndex" value="${status.index}" />
 	<kul:tab tabTitle="${fn:substring(person.personName, 0, 22)}"
-			 tabErrorKey="document.protocolList[0].protocolPersons[${personIndex}].*"
+			 tabErrorKey="document.protocolList[0].protocolPersons[${personIndex}]*"
 			 auditCluster="personnelAuditErrors" 
 			 tabAuditKey="document.protocolList[0].protocolPersons[${personIndex}].*" 
 			 useRiceAuditMode="true"
