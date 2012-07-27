@@ -30,21 +30,21 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentPersonnel;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRole;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
-import org.kuali.kra.protocol.personnel.AddProtocolPersonnelEvent;
 import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRole;
 import org.kuali.kra.protocol.personnel.ProtocolUnit;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -117,7 +117,12 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
     public ActionForward deleteProtocolPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        getProtocolPersonnelService().deleteProtocolPerson(protocolDocument.getProtocol());
+
+        boolean rulePassed =  applyRules(new DeleteIacucProtocolPersonnelEvent(Constants.EMPTY_STRING, (IacucProtocolDocument)protocolDocument)); 
+
+        if(rulePassed) {
+            getProtocolPersonnelService().deleteProtocolPerson(protocolDocument.getProtocol());
+        }
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
 
