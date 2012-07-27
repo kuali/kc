@@ -173,14 +173,14 @@
                                           beanName="iacucProtocolLiftHoldRequestBean"
                                           actionTypeCode="108"
                                           tabTitle="Request to Lift Hold"/>
-<%--                                          
+            <%--just disableing this for now so I can commit the code that is good.  the permission should be canRequestSuspend --%>                             
             <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolSuspendRequestBean}"
                                           permission="${KualiForm.actionHelper.canRequestSuspension}"
-                                          beanName="protocolSuspendRequestBean"
-                                          taskName="protocolRequestSuspension"
-                                          actionTypeCode="106"
+                                          beanName="iacucProtocolSuspendRequestBean"
+                                          taskName="iacucProtocolRequestSuspension"
+                                          actionTypeCode="113"
                                           tabTitle="Request for Suspension"/>
-            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolTerminateRequestBean}"
+<%--             <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolTerminateRequestBean}"
                                           permission="${KualiForm.actionHelper.canRequestTerminate}"
                                           beanName="protocolTerminateRequestBean"
                                           taskName="protocolRequestTerminate"
