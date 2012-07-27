@@ -57,7 +57,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
-public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewService {
+public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewService {
 
     private static final Log LOG = LogFactory.getLog(ProtocolOnlineReviewServiceImpl.class);
     
@@ -376,34 +376,36 @@ public class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineReviewServ
         return isReviewer;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#isProtocolInStateToBeReviewed(org.kuali.kra.protocol.Protocol)
-     */
-    public boolean isProtocolInStateToBeReviewed(Protocol protocol) {
-        boolean isReviewable = false;
-        ProtocolSubmission submission = protocol.getProtocolSubmission();
-
-        // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-        /*
-        if (submission != null) {
-            try {
-            isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()); 
-                isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
-                        || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA));
-                ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
-                isReviewable &= getKraWorkflowService().isDocumentOnNode(protocolDocument, Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
-            } catch (WorkflowException e) {
-                String errorString = String.format("WorkflowException checking route node for creating new ProtocolOnlineReviewDocument " +
-                		"for protocol %s", submission.getProtocolNumber());
-                LOG.error(errorString, e);
-                throw new RuntimeException(errorString, e);
-            }
-        }
-        */
-        
-        return isReviewable;
-    }
+    
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    /**
+//     * {@inheritDoc}
+//     * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#isProtocolInStateToBeReviewed(org.kuali.kra.protocol.Protocol)
+//     */
+//    public boolean isProtocolInStateToBeReviewed(Protocol protocol) {
+//        boolean isReviewable = false;
+//        ProtocolSubmission submission = protocol.getProtocolSubmission();
+//
+//        if (submission != null) {
+//            try {
+//                isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()); 
+//                isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
+//                        || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA));
+//                ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
+//                isReviewable &= getKraWorkflowService().isDocumentOnNode(protocolDocument, Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
+//            } catch (WorkflowException e) {
+//                String errorString = String.format("WorkflowException checking route node for creating new ProtocolOnlineReviewDocument " +
+//                		"for protocol %s", submission.getProtocolNumber());
+//                LOG.error(errorString, e);
+//                throw new RuntimeException(errorString, e);
+//            }
+//        }
+//        
+//        
+//        return isReviewable;
+//    }
+    
 
     public void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocument reviewDocument, String reason, String principalId) {
         kraDocumentRejectionService.reject(reviewDocument, reason, principalId, (String)null, reviewerApproveNodeName);     

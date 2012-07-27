@@ -33,7 +33,7 @@ import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
-import org.kuali.kra.common.committee.service.CommitteeNotificationService;
+import org.kuali.kra.common.committee.service.CommonCommitteeNotificationService;
 import org.kuali.kra.common.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -383,8 +383,8 @@ public class MeetingActionsAction extends MeetingAction {
         return actionForward;
     }
 
-    private CommitteeNotificationService getCommitteeNotificationService() {
-        return KraServiceLocator.getService(CommitteeNotificationService.class);
+    private CommonCommitteeNotificationService getCommitteeNotificationService() {
+        return KraServiceLocator.getService(CommonCommitteeNotificationService.class);
     }
 
     private DocumentService getDocumentService() {

@@ -24,7 +24,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
  * 
  * This class is to provide service for meeting management
  */
-public interface MeetingService {
+public interface CommonMeetingService {
     
     /**
      * 
