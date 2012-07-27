@@ -653,8 +653,13 @@ public class MeetingServiceImpl implements CommonMeetingService {
         meetingHelper.setTabLabel(getMeetingTabTitle(meetingHelper.getCommitteeSchedule(), lineNumber));
         meetingHelper.setScheduleAgendas(getAgenda(commSchedule.getId()));
         meetingHelper.setMinuteDocs(getMinuteDoc(commSchedule.getId()));
-        meetingHelper.setCorrespondences(getCorrespondences(commSchedule));
+        
+// TODO *********commented the code below during IACUC refactoring*********      
+// uncomment this when correspondences for IACUC committees are set up        
+//        meetingHelper.setCorrespondences(getCorrespondences(commSchedule));
     }
+    
+    
 
     /*
      * set up title of the first header tab in meeting page. lineNumber is this selected schedule's item number in committee
