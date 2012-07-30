@@ -25,6 +25,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.CustomAttribute;
@@ -238,14 +239,7 @@ SubAwardFundingSourceRule {
     }  
 
     public boolean processAddSubAwardContactBusinessRules(SubAwardContact subAwardContact,SubAward subAward) {
-        boolean rulePassed = true;
-        rulePassed &= processSaveSubAwardContactBusinessRules(subAwardContact,subAward);
-        
-        return rulePassed;
-    }
-    protected boolean  processSaveSubAwardContactBusinessRules(SubAwardContact subAwardContact,SubAward subAward){ 
-        
-        boolean rulePassed = true;   
+        boolean rulePassed = true;          
         
         if(subAwardContact==null 
                 || subAwardContact.getRolodexId()==null){
@@ -260,16 +254,15 @@ SubAwardFundingSourceRule {
                     , KeyConstants.ERROR_REQUIRED_SUBAWARD_CONTACT_TYPE_CODE);
         }  
         for(SubAwardContact contact : subAward.getSubAwardContactsList()){
-            if(contact.getRolodexId()!=null && subAwardContact.getRolodexId()!=null ){
-                if(contact.getRolodexId().equals(subAwardContact.getRolodexId())){
-                    rulePassed = false;              
-                    String contactName = contact.getRolodex().getFullName();
+            if(ObjectUtils.equals(contact.getRolodexId(), subAwardContact.getRolodexId()) 
+                    && ObjectUtils.equals(contact.getContactTypeCode(), subAwardContact.getContactTypeCode())) {
+                rulePassed = false;              
+                String contactName = contact.getRolodex().getFullName();
 
-                    if(contactName == null){
-                        contactName = contact.getRolodex().getOrganization();
-                    }               
-                    reportError(ROLODEX_ID, KeyConstants.ERROR_REQUIRED_SUBAWARD_CONTACT_PERSON_EXIST, new String[] {contactName});  
-                }
+                if(contactName == null){
+                    contactName = contact.getRolodex().getOrganization();
+                }               
+                reportError(ROLODEX_ID, KeyConstants.ERROR_REQUIRED_SUBAWARD_CONTACT_PERSON_EXIST, new String[] {contactName});  
             }
         }
         return rulePassed;
