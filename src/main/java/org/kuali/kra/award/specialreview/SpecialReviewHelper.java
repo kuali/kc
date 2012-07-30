@@ -72,7 +72,11 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<AwardSpecialRev
     }
  
     @Override
-     public boolean isCanCreateProtocol() {
+     public boolean isCanCreateIrbProtocol() {
+        return false;
+    }
+    @Override
+    public boolean isCanCreateIacucProtocol() {
         return false;
     }
     
