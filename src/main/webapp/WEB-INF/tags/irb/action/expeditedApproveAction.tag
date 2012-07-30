@@ -68,7 +68,7 @@ function enableDisableCheckbox() {
                             </nobr>
                         </div>
                     </th>
-                    <td colspan="0">
+                    <td colspan="5">
                         <nobr>
                             <kul:htmlControlAttribute property="${property}.approvalDate" 
                                                       attributeEntry="${attributes.approvalDate}" 
@@ -87,7 +87,7 @@ function enableDisableCheckbox() {
                             </nobr>
                         </div>
                     </th>
-                    <td colspan="0">
+                    <td colspan="5">
                         <nobr>
                             <kul:htmlControlAttribute property="${property}.expirationDate" 
                                                       attributeEntry="${attributes.expirationDate}" 
@@ -104,7 +104,7 @@ function enableDisableCheckbox() {
                             </nobr>
                         </div>
                     </th>
-                    <td colspan="0">
+                    <td colspan="5">
                         <nobr>
                             <kul:htmlControlAttribute property="${property}.comments" 
                                                       attributeEntry="${attributes.comments}" />
@@ -157,7 +157,7 @@ function enableDisableCheckbox() {
                             </nobr>
                         </div>
                     </th>
-                    <td colspan="0">
+                    <td colspan="5">
                         <nobr>
                             <kul:htmlControlAttribute property="${property}.actionDate" 
                                                       attributeEntry="${attributes.actionDate}"  />
@@ -166,7 +166,7 @@ function enableDisableCheckbox() {
                 </tr>
                 
                 <tr>
-                    <td colspan="0">
+                    <td colspan="6">
                         <kra-irb-action:riskLevel bean="${bean.protocolRiskLevelBean}"
                                                   property="${property}.protocolRiskLevelBean"
                                                   action="${action}" 
@@ -175,7 +175,7 @@ function enableDisableCheckbox() {
                 </tr>
                 
                 <tr>
-                    <td colspan="0">
+                    <td colspan="6">
                         <kra-irb-action:reviewComments bean="${bean.reviewCommentsBean}"
                                                        property="${property}.reviewCommentsBean"
                                                        action="${action}"
@@ -184,7 +184,7 @@ function enableDisableCheckbox() {
                 </tr>
                 
                 <tr>
-                    <td align="center" colspan="0">
+                    <td align="center" colspan="6">
                         <div align="center">
                             <html:image property="methodToCall.${methodToCall}.anchor${tabKey}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' 
