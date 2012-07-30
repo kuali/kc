@@ -34,7 +34,7 @@ public abstract class IacucProtocolTableAuthorizerBase extends IacucProtocolAuth
     protected boolean checkIfSubmissionCanBeBumped(IacucProtocol protocol) {
         boolean retVal = false;
         IacucProtocolSubmission submission = (IacucProtocolSubmission) protocol.getProtocolSubmission();
-        if( (null != submission) && (null != getIacucProtocolTableService().getNextScheduleForCommittee(submission.getCommittee(), submission.getCommitteeSchedule())) ) {
+        if( (null != submission) && (null != getIacucProtocolTableService().getNextScheduleForCommittee(submission.getCommitteeSchedule())) ) {
             retVal = true;
         }
         return retVal;
