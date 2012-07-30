@@ -31,12 +31,26 @@
 <c:set var="enableIrbProtocolLinking" value="${KualiForm.specialReviewHelper.isIrbProtocolLinkingEnabled}" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.SPECIAL_REVIEW_COMMENT_LENGTH%>" />
 <c:if test="${enableIrbProtocolLinking}">
-	<c:set var="canCreateProtocol" value="${KualiForm.specialReviewHelper.canCreateProtocol}" />
+	<c:set var="canCreateIrbProtocol" value="${KualiForm.specialReviewHelper.canCreateIrbProtocol}" />
+	<c:set var="canCreateIacucProtocol" value="${KualiForm.specialReviewHelper.canCreateIacucProtocol}" />
 </c:if>
 <c:if test="!${enableIrbProtocolLinking}">
-	<c:set var="canCreateProtocol" value="false" />
+	<c:set var="canCreateIrbProtocol" value="false" />
+	<c:set var="canCreateIacucProtocol" value="false" />
 </c:if>
-
+<c:if test="${canCreateIrbProtocol || canCreateIacucProtocol}">
+     <c:choose>
+         <c:when test="${KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '1'}">
+             <c:set var="buttonStyle" value="display:inline"/>
+         </c:when>
+         <c:when test="${KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '2'}">
+             <c:set var="buttonStyle" value="display:inline"/>
+		 </c:when>
+         <c:otherwise>
+             <c:set var="buttonStyle" value="display:none"/>
+         </c:otherwise>
+     </c:choose>
+</c:if>
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="specialReviewHelper.newSpecialReview*,${collectionProperty}*">
     <div class="tab-container" align="center">
     	<h3>
@@ -78,7 +92,7 @@
 	                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.specialReviewTypeCode" 
 		                                         attributeEntry="${attributes.specialReviewTypeCode}"
 		                                         styleClass="fixed-size-200-select"
-		                                         onchange="showHideSpecialReviewProtocolLink(this, 'specialReviewHelper.newSpecialReview');return false"/>
+		                                         onchange="showHideSpecialReviewProtocolLink(this, 'specialReviewHelper.newSpecialReview', '${canCreateIrbProtocol}', '${canCreateIacucProtocol}');return false"/>
 					</div></td>
 	                <td class="infoline"><div align="center">
 	                   <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalTypeCode" 
@@ -128,8 +142,9 @@
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
 						            styleClass="tinybutton"/>
 
-					            <c:if test="${canCreateProtocol}">
-		                            <span id="specialReviewHelper.newSpecialReview.startprotocol.image.div" style="${initialStyle}">
+					            <c:if test="${canCreateIrbProtocol || canCreateIacucProtocol}">
+
+		                            <span id="specialReviewHelper.newSpecialReview.startprotocol.image.div" style="${buttonStyle}">
 					                            <html:image property="methodToCall.createProtocol.anchor${tabKey}"
 					                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-startprotocol.gif' 
 				    	                        title="Create Protocol"
