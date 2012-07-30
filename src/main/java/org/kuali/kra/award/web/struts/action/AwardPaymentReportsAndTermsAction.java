@@ -815,8 +815,10 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         int awardReportTermItemsIndex = getAwardReportTermItemsIndex(request);
         List<ReportTracking> reportTrackings = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(getAwardReportTermItemsIndex(request)).getReportTrackings();
+        if (reportTrackings != null) {
         getReportTrackingService().updateMultipleReportTrackingRecords(reportTrackings, awardForm.getReportTrackingBeans().get(awardReportTermItemsIndex));
         getReportTrackingService().setReportTrackingListSelected(reportTrackings, false);
+        }
         awardForm.setReportTrackingBeans(awardForm.buildReportTrackingBeans());
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
