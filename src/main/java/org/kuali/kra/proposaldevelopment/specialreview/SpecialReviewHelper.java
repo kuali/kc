@@ -72,18 +72,23 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     }
 
     @Override
-    public boolean isCanCreateProtocol() {
+    public boolean isCanCreateIrbProtocol() {
         boolean canCreateIrbProtocol=false;
-        boolean canCreateIacucProtocol=false;
         // check for Protocol creation permission for IRB Protocol
         ProposalTask irbTask = new ProposalTask(ProposalTask.CREATE_IRB_PROTOCOL_FROM_PROPOSAL, form.getProposalDevelopmentDocument());
         canCreateIrbProtocol = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), irbTask);
+        return canCreateIrbProtocol;
+    }
+
+    @Override
+    public boolean isCanCreateIacucProtocol() {
+        boolean canCreateIacucProtocol=false;
         // check for Protocol creation permission for IACUC Protocol
         ProposalTask iacucTask = new ProposalTask(ProposalTask.CREATE_IACUC_PROTOCOL_FROM_PROPOSAL, form.getProposalDevelopmentDocument());
         canCreateIacucProtocol = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), iacucTask);
-        return (canCreateIrbProtocol || canCreateIacucProtocol);
+        return canCreateIacucProtocol;
     }
-    
+
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }

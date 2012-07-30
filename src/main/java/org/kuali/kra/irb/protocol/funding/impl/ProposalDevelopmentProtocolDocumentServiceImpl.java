@@ -186,7 +186,7 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl implements ProposalD
 
     @Override
     public boolean isAuthorizedCreateProtocol(SpecialReviewHelper specialReviewHelper) {
-        boolean canCreateProposal = specialReviewHelper.isCanCreateProtocol();
+        boolean canCreateProposal = specialReviewHelper.isCanCreateIrbProtocol();
         return canCreateProposal;
     }
 

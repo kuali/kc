@@ -3275,17 +3275,22 @@ function ajaxLoad(methodToCall, codeField, fieldToUpdate) {
  * Display the Protocol link and make the fields read-only if the special review type is Human Subjects
  */
 
-function showHideSpecialReviewProtocolLink(specialReviewTypeCode, idPrefix) {
+function showHideSpecialReviewProtocolLink(specialReviewTypeCode, idPrefix, canCreateIrbProtocol, canCreateIacucProtocol) {
 	var readOnly = specialReviewTypeCode.value == '1';
 	if (readOnly) {
 		changeObjectVisibility(idPrefix + ".protocolNumber.link.div", "inline");
 	} else {
 		changeObjectVisibility(idPrefix + ".protocolNumber.link.div", "none"); 
 	}
-	if (specialReviewTypeCode.value == '1' || specialReviewTypeCode.value == '2' ) {
+	if (specialReviewTypeCode.value == '1' &&  canCreateIrbProtocol == 'true' ) {
 		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "inline");
-	} else {
-		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "none"); 
+	}
+	else if (specialReviewTypeCode.value == '2' && canCreateIacucProtocol == 'true' ) {
+		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "inline");
+	}
+	else
+	{
+		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "none"); 	
 	}
 	
 	enableDisableReadOnlyDynamicHtmlControl(readOnly, new Array(idPrefix + ".approvalTypeCode", idPrefix + ".applicationDate", idPrefix + ".approvalDate", idPrefix + ".expirationDate", idPrefix + ".exemptionTypeCodes"));

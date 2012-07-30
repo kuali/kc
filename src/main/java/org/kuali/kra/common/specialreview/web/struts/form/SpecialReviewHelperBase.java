@@ -318,5 +318,8 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
         this.specialReviewService = specialReviewService;
     }
 
-    protected abstract boolean isCanCreateProtocol();
+    // method to check if IRB protocol can be created from Special review page for non-Protocol modules such as proposal, award and so on
+    protected abstract boolean isCanCreateIrbProtocol();
+    // method to check if IACUC protocol can be created from Special review page for non-Protocol modules such as proposal, award and so on
+    protected abstract boolean isCanCreateIacucProtocol();
 }

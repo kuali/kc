@@ -20,6 +20,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.SpecialReviewType;
+import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
@@ -168,7 +170,16 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImpl<GenericProt
     }
     @Override
     public boolean isAuthorizedCreateProtocol(SpecialReviewHelper specialReviewHelper) {
-        boolean canCreateProposal = specialReviewHelper.isCanCreateProtocol();
+        SpecialReview<?> specialReview = specialReviewHelper.getNewSpecialReview();
+        boolean canCreateProposal=false;
+        if ( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) )
+        {
+            canCreateProposal = specialReviewHelper.isCanCreateIrbProtocol();
+        }
+        else if ( SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode()) )
+        {
+            canCreateProposal = specialReviewHelper.isCanCreateIacucProtocol();
+        }
         return canCreateProposal;
     }
 
