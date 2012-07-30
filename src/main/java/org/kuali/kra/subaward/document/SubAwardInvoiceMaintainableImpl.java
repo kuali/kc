@@ -22,8 +22,8 @@ import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -36,7 +36,7 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
     
     public SubAwardInvoiceMaintainableImpl() {
         dateTimeService = KraServiceLocator.getService(DateTimeService.class);
-        dictionaryValidationService = KraServiceLocator.getService(DictionaryValidationService.class);
+        dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
     }
     
     @Override
@@ -55,9 +55,9 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
         SubAwardAmountReleased invoice = (SubAwardAmountReleased) this.getBusinessObject();
         invoice.setDocumentNumber(this.getDocumentNumber());
         GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject");
-        DictionaryValidationResult validationResult = getDictionaryValidationService().validate(invoice, true);
+        getDictionaryValidationService().validateBusinessObject(invoice, true);
         GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
-        if (validationResult.getNumberOfErrors() == 0) {
+        if (GlobalVariables.getMessageMap().getErrorCount() == 0) {
             invoice.populateAttachment();
             getBusinessObjectService().save(invoice);
         }
@@ -84,7 +84,9 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
 
     protected DictionaryValidationService getDictionaryValidationService() {
         if (dictionaryValidationService == null) {
-            dictionaryValidationService = KraServiceLocator.getService(DictionaryValidationService.class);
+            //need kns validation service because the KC documents are still using KNS validations,
+            //and to use the KRAD validation requires changing the DD file associated with this BO.
+            dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
         }
         return dictionaryValidationService;
     }
