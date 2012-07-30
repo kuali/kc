@@ -194,7 +194,8 @@ jQuery(function(){
                                 <kra-meeting:meetingAttendance />
             
             <!-- Tabbed Panel Head: Minutes -->
-                                <kra-meeting:meetingMinutes />
+                                <kra-meeting:meetingMinutes 
+                                   protocolValuesFinderClassName="org.kuali.kra.common.committee.meeting.ProtocolValuesFinder" />
             
             <!-- Tabbed Panel Head: Attachments -->
                                 <kra-meeting:meetingAttachments />  
