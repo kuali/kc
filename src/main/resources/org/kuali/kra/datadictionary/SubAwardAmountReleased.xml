@@ -77,10 +77,10 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Amount Released" />
     <property name="shortLabel" value="Amount Released" />
-    <property name="maxLength" value="12" />
+    <property name="maxLength" value="16" />
     <property name="validationPattern" >
     <bean parent="FixedPointValidationPattern"
-            p:precision="10"
+            p:precision="12"
             p:scale="2" 
             p:allowNegative="true"/>
     </property>
