@@ -72,6 +72,7 @@ public class AwardUnitContact extends AwardContact {
     public AwardUnitContact(KcPerson person, ContactRole role, UnitContactType unitContactType) {
         super(person, role);
         this.unitContactType = unitContactType;
+        this.unitAdministratorUnitNumber = person.getUnit() != null ? person.getUnit().getUnitNumber() : null;
     }
 
     /**
@@ -80,6 +81,17 @@ public class AwardUnitContact extends AwardContact {
      */
     AwardUnitContact(UnitContactType unitContactType) {
         this.unitContactType = unitContactType;
+    }
+    
+    /**
+     * Sets the personId attribute value.
+     * @param personId The personId to set.
+     */
+    public void setPersonId(String personId) {    
+        super.setPersonId(personId);
+        if (getPerson() != null && getPerson().getUnit() != null) {
+            this.setUnitAdministratorUnitNumber(getPerson().getUnit().getUnitNumber());
+        }
     }
     
     public String getUnitAdministratorUnitNumberByPersonId() {
