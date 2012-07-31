@@ -530,7 +530,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     
     /**
-     * Administratively withdraw a previously submitted protocol.
+     * Administratively mark incomplete a previously submitted protocol.
      * 
      * @param mapping
      * @param form
