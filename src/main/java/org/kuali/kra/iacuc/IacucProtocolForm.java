@@ -70,7 +70,8 @@ public class IacucProtocolForm extends ProtocolForm {
     private IacucProtocolExceptionHelper iacucProtocolExceptionHelper;
     private IacucProtocolProceduresHelper iacucProtocolProceduresHelper;
     
-
+    private boolean reinitializeModifySubmissionFields = true;
+    
     public IacucProtocolForm() throws Exception {
         super();
         initializeIacucProtocolHelpers();
@@ -350,6 +351,14 @@ public class IacucProtocolForm extends ProtocolForm {
 
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
         return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+    }
+
+    public boolean isReinitializeModifySubmissionFields() {
+        return reinitializeModifySubmissionFields;
+    }
+
+    public void setReinitializeModifySubmissionFields(boolean reinitializeModifySubmissionFields) {
+        this.reinitializeModifySubmissionFields = reinitializeModifySubmissionFields;
     }
    
 }
