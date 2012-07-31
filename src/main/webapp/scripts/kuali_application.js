@@ -3174,22 +3174,22 @@ function ajaxLoadQn(protocolNumber, submissionNumber,  docFormKey, documentWebSc
 //			    $j("#questionpanelcontrol0").click();
 
 				});
-		    $j(".questionpanel").toggle(
-            function()
-            {
-            	var headerIdx = $j(this).attr("id").substring(20);
-                var panelcontentid = "questionpanelcontent"+headerIdx;
-                $j("#"+panelcontentid).slideDown(500);
-                $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
-                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","Y")
-            },function(){
-            	var headerIdx = $j(this).attr("id").substring(20);
-                var panelcontentid = "questionpanelcontent"+headerIdx;
-                $j("#"+panelcontentid).slideUp(500);
-                $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
-                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","N")
-            }
-        );
+			$j(".questionpanel").toggle(
+		            function()
+		            {
+		            	var headerIdx = $j(this).attr("id").substring(20);
+		                var panelcontentid = "questionpanelcontent"+headerIdx;
+		                document.getElementById(panelcontentid).style.display = "none";
+		                $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+		                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","Y")
+		            },function(){
+		            	var headerIdx = $j(this).attr("id").substring(20);
+		                var panelcontentid = "questionpanelcontent"+headerIdx;                  
+		                document.getElementById(panelcontentid).style.display = "block";
+		                $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+		                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","N")
+		            }
+		        );
 		    var firstQn = true;
 			$j(qnhtml).find('div[id^=questionpanelcontent]').each(function() {
 				//alert('hide')
