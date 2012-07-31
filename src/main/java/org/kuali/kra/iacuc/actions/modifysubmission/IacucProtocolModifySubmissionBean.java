@@ -22,6 +22,7 @@ import java.sql.Date;
 
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
@@ -65,8 +66,9 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
         this.submissionQualifierTypeCode = actionHelper.getProtocol().getProtocolSubmission().getSubmissionTypeQualifierCode();
         this.protocolReviewTypeCode = actionHelper.getProtocol().getProtocolSubmission().getProtocolReviewTypeCode();
         this.billable = actionHelper.getProtocol().getProtocolSubmission().isBillable();
+        this.committeeId = actionHelper.getProtocol().getProtocolSubmission().getCommitteeId();
+        this.scheduleId = actionHelper.getProtocol().getProtocolSubmission().getScheduleId();
         // TODO set due date here probably from submission?
-      
     }
 
     public void setNumberOfReviewers(int numberOfReviewers) {
@@ -93,17 +95,20 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
 
         if (submission != null) {
             // whenever submission is not null, we will show the cmt and schedule chosen for the last submission
-            committeeId = submission.getCommitteeId();
-            scheduleId = submission.getScheduleId();
+            IacucProtocolForm iacucProtocolForm = (IacucProtocolForm)getActionHelper().getProtocolForm();
+            if (iacucProtocolForm.isReinitializeModifySubmissionFields()) {
+                iacucProtocolForm.setReinitializeModifySubmissionFields(false);
+                committeeId = submission.getCommitteeId();
+                scheduleId = submission.getScheduleId();
+                reviewers.clear();
+            }
 
-            // now build the reviewers
-            reviewers.clear();
             /*
              * need to build only if committee was chosen in the last submission
              */
-            if (!StringUtils.isBlank(committeeId)) {
+            if (!StringUtils.isBlank(committeeId) && reviewers.isEmpty()) {
                 /*
-                 * just getAvailable members here by sending blank schedule id is schedule not chosen.
+                 * just getAvailable members here by sending blank schedule id if schedule not chosen.
                  */
                 List<CommitteeMembership> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
                 for (CommitteeMembership member : members) {

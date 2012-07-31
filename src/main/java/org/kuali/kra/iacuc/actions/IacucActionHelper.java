@@ -28,6 +28,7 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.IacucProtocolVersionService;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewService;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewal;
@@ -307,6 +308,7 @@ public class IacucActionHelper extends ActionHelper {
     public void prepareView() throws Exception {
         protocolSubmitAction.prepareView();
         super.prepareView();
+        IacucProtocolForm iacucProtocolForm = (IacucProtocolForm)form;
         iacucProtocolModifySubmissionBean.prepareView();
 
         submissionConstraint = getParameterValue(Constants.PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION);
