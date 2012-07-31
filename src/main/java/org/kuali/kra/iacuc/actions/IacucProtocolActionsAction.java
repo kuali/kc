@@ -2045,10 +2045,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         if (StringUtils.isNotBlank(taskName) && isAuthorized(new IacucProtocolTask(taskName, protocol))) {
             IacucProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
-            if (requestBean.getNewActionAttachment().getFile() != null) {
+            if (requestBean.getNewActionAttachment().getFile() != null && requestBean.getNewActionAttachment().getFile().getFileData().length > 0) {
                 requestBean.getNewActionAttachment().setFileName(requestBean.getNewActionAttachment().getFile().getFileName());
                 requestBean.getActionAttachments().add(requestBean.getNewActionAttachment());
                 requestBean.setNewActionAttachment(new ProtocolActionAttachment());
+            } else {
+                GlobalVariables.getMessageMap().putError("actionHelper.iacucProtocolSuspendRequestBean.newActionAttachment.file", 
+                        KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED);
             }
         }
         
@@ -4053,17 +4056,18 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                          StringUtils.equals(IacucProtocolActionType.IACUC_WITHDRAWN, notificationRequestBean.getActionType())) {
                   renderer = new IacucProtocolWithReasonNotificationRenderer(protocol, protocolForm.getActionHelper().getProtocolDeleteBean());
               } else if (StringUtils.equals(IacucProtocolActionType.REQUEST_DEACTIVATE, notificationRequestBean.getActionType()) ||
-                         StringUtils.equals(IacucProtocolActionType.REQUEST_LIFT_HOLD, notificationRequestBean.getActionType()) ||
-                         StringUtils.equals(IacucProtocolActionType.IACUC_REQUEST_SUSPEND, notificationRequestBean.getActionType())) {
+                         StringUtils.equals(IacucProtocolActionType.REQUEST_LIFT_HOLD, notificationRequestBean.getActionType())) {
                   IacucRequestActionNotificationBean requestNotificationRequestBean = (IacucRequestActionNotificationBean)notificationRequestBean; 
                   renderer = new IacucProtocolRequestActionNotificationRenderer(protocol, requestNotificationRequestBean.getReason());
               
+              } else if (StringUtils.equals(IacucProtocolActionType.IACUC_REQUEST_SUSPEND, notificationRequestBean.getActionType())) {
+                  IacucProtocolRequestBean iacucProtocolSuspendRequestBean = ((IacucActionHelper)protocolForm.getActionHelper()).getIacucProtocolSuspendRequestBean();
+                  renderer = new NotifyIacucNotificationRenderer(protocol, iacucProtocolSuspendRequestBean.getReason());
               } else {
                   renderer = new IacucProtocolNotificationRenderer(protocol);
               }
                   
               IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
-              
               if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
                   context.setForwardName(forward.getName());
                   protocolForm.getNotificationHelper().initializeDefaultValues(context);
