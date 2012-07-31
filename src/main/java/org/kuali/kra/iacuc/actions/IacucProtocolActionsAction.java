@@ -2035,6 +2035,64 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward addRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+            throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = document.getIacucProtocol();
+        String taskName = getTaskName(request);
+        
+        if (StringUtils.isNotBlank(taskName) && isAuthorized(new IacucProtocolTask(taskName, protocol))) {
+            //IacucProtocolRequestAction requestAction = IacucProtocolRequestAction.valueOfTaskName(taskName);
+            IacucProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
+            if (requestBean.getNewActionAttachment().getFile() != null) {
+                requestBean.getNewActionAttachment().setFileName(requestBean.getNewActionAttachment().getFile().getFileName());
+                requestBean.getActionAttachments().add(requestBean.getNewActionAttachment());
+                requestBean.setNewActionAttachment(new ProtocolActionAttachment());
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward viewRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+            throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = document.getIacucProtocol();
+        String taskName = getTaskName(request);
+        if (StringUtils.isNotBlank(taskName) && isAuthorized(new IacucProtocolTask(taskName, protocol))) {
+            //IacucProtocolRequestAction requestAction = IacucProtocolRequestAction.valueOfTaskName(taskName);
+            IacucProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
+            int lineNumber = getSelectedLine(request);
+            ProtocolActionAttachment actionAttachment = requestBean.getActionAttachments().get(lineNumber);
+            if (actionAttachment.getFile() != null) {
+                System.err.println("actionAttachment.getFile().getContentType(): " + actionAttachment.getFile().getContentType());
+                //this.streamToResponse(actionAttachment.getFile().getFileData(), getValidHeaderString(actionAttachment.getFileName()),  
+                  //      getValidHeaderString(actionAttachment.getFile().getContentType()), response);
+                
+                this.streamToResponse(actionAttachment.getFile().getFileData(), actionAttachment.getFileName(), actionAttachment.getFile().getContentType(), response);
+                return RESPONSE_ALREADY_HANDLED;
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward deleteRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+            throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = document.getIacucProtocol();
+        String taskName = getTaskName(request);
+        if (StringUtils.isNotBlank(taskName) && isAuthorized(new IacucProtocolTask(taskName, protocol))) {
+            IacucProtocolRequestAction requestAction = IacucProtocolRequestAction.valueOfTaskName(taskName);
+            IacucProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
+            int lineNumber = getSelectedLine(request);
+            requestBean.getActionAttachments().remove(lineNumber);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     private ActionForward sendRequestNotification(ActionMapping mapping, ActionForm form, IacucProtocol protocol, IacucProtocolRequestBean requestBean) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolActionType protocolActionType = getBusinessObjectService().findBySinglePrimaryKey(IacucProtocolActionType.class, requestBean.getProtocolActionTypeCode());
@@ -3995,9 +4053,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                          StringUtils.equals(IacucProtocolActionType.IACUC_WITHDRAWN, notificationRequestBean.getActionType())) {
                   renderer = new IacucProtocolWithReasonNotificationRenderer(protocol, protocolForm.getActionHelper().getProtocolDeleteBean());
               } else if (StringUtils.equals(IacucProtocolActionType.REQUEST_DEACTIVATE, notificationRequestBean.getActionType()) ||
-                         StringUtils.equals(IacucProtocolActionType.REQUEST_LIFT_HOLD, notificationRequestBean.getActionType())) {
+                         StringUtils.equals(IacucProtocolActionType.REQUEST_LIFT_HOLD, notificationRequestBean.getActionType()) ||
+                         StringUtils.equals(IacucProtocolActionType.IACUC_REQUEST_SUSPEND, notificationRequestBean.getActionType())) {
                   IacucRequestActionNotificationBean requestNotificationRequestBean = (IacucRequestActionNotificationBean)notificationRequestBean; 
                   renderer = new IacucProtocolRequestActionNotificationRenderer(protocol, requestNotificationRequestBean.getReason());
+              
               } else {
                   renderer = new IacucProtocolNotificationRenderer(protocol);
               }
