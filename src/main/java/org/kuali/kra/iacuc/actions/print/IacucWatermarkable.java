@@ -15,14 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.print;
 
-import org.kuali.kra.protocol.actions.print.ProtocolHistoryPrint;
-import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermark;
+import org.kuali.kra.util.watermark.Watermarkable;
 
-public class IacucProtocolHistoryPrint extends ProtocolHistoryPrint {
-
-    @Override
-    protected ProtocolPrintWatermark getNewProtocolPrintWatermarkInstanceHook() {
-        return new IacucProtocolPrintWatermark();
-    }
+public interface IacucWatermarkable extends Watermarkable {
 
 }

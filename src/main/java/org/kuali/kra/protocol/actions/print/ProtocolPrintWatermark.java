@@ -26,6 +26,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Watermark;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.notification.ProtocolNotificationRenderer;
 import org.kuali.kra.util.watermark.Font;
 import org.kuali.kra.util.watermark.WatermarkBean;
 import org.kuali.kra.util.watermark.WatermarkConstants;
@@ -38,7 +39,7 @@ import com.lowagie.text.Image;
  * 
  * This class for setting watermark to the protocol related reports.
  */
-public class ProtocolPrintWatermark implements Watermarkable {
+public abstract class ProtocolPrintWatermark implements Watermarkable {
 
     private KraPersistableBusinessObjectBase persistableBusinessObject;
     private static final Log LOG = LogFactory.getLog(ProtocolPrintWatermark.class);
@@ -133,6 +134,8 @@ public class ProtocolPrintWatermark implements Watermarkable {
 //                IRBNotificationRenderer renderer = new IRBNotificationRenderer((Protocol) getPersistableBusinessObject());
 //                watermarkBean.setText(renderer.render(watermark.getWatermarkText()));
                 
+              ProtocolNotificationRenderer renderer = getNewProtocolNotificationRendererInstanceHook((Protocol) getPersistableBusinessObject());
+              watermarkBean.setText(renderer.render(watermark.getWatermarkText()));
                 
                 if (watermarkBean.getType().equals(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
                     watermarkBean.setText(watermark.getFileName());
@@ -152,6 +155,7 @@ public class ProtocolPrintWatermark implements Watermarkable {
         return null;
     }
 
+    protected abstract ProtocolNotificationRenderer getNewProtocolNotificationRendererInstanceHook(Protocol protocol);
 
     /**
      * 

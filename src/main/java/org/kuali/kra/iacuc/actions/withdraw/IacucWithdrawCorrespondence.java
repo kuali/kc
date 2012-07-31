@@ -16,7 +16,9 @@
 package org.kuali.kra.iacuc.actions.withdraw;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintWatermark;
 import org.kuali.kra.protocol.actions.correspondence.AbstractProtocolActionsCorrespondence;
+import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermark;
 
 /**
  * 
@@ -28,6 +30,10 @@ public class IacucWithdrawCorrespondence extends AbstractProtocolActionsCorrespo
     @Override
     public String getProtocolActionType() {
         return IacucProtocolActionType.IACUC_WITHDRAWN;
+    }
+    @Override
+    protected ProtocolPrintWatermark getNewProtocolPrintWatermarkInstanceHook() {
+        return new IacucProtocolPrintWatermark();
     }
 
 }

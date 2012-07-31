@@ -33,7 +33,7 @@ import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 
-public class IacucProtocolAttachmentServiceImpl extends ProtocolAttachmentServiceImpl {
+public class IacucProtocolAttachmentServiceImpl extends ProtocolAttachmentServiceImpl implements IacucProtocolAttachmentService {
 
     public IacucProtocolAttachmentServiceImpl(BusinessObjectService boService, ProtocolDao protocolDao) {
         super(boService, protocolDao);

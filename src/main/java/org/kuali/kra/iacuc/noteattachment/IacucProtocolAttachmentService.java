@@ -13,16 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions.print;
+package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.actions.print.ProtocolHistoryPrint;
-import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermark;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
 
-public class IacucProtocolHistoryPrint extends ProtocolHistoryPrint {
-
-    @Override
-    protected ProtocolPrintWatermark getNewProtocolPrintWatermarkInstanceHook() {
-        return new IacucProtocolPrintWatermark();
-    }
+public interface IacucProtocolAttachmentService extends ProtocolAttachmentService {
 
 }

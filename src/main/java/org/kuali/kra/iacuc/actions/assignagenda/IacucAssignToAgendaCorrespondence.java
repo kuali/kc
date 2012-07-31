@@ -16,7 +16,9 @@
 package org.kuali.kra.iacuc.actions.assignagenda;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintWatermark;
 import org.kuali.kra.protocol.actions.correspondence.AbstractProtocolActionsCorrespondence;
+import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermark;
 
 /**
  * 
@@ -29,5 +31,10 @@ public class IacucAssignToAgendaCorrespondence extends AbstractProtocolActionsCo
     @Override
     public String getProtocolActionType() {
         return IacucProtocolActionType.ASSIGNED_TO_AGENDA;
+    }
+
+    @Override
+    protected ProtocolPrintWatermark getNewProtocolPrintWatermarkInstanceHook() {
+        return new IacucProtocolPrintWatermark();
     }
 }
