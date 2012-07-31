@@ -4447,6 +4447,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                     IacucProtocolNotificationContext assignContext = new IacucProtocolNotificationContext(protocol, null, 
                             IacucProtocolActionType.MODIFY_PROTOCOL_SUBMISSION, "Modified", assignRenderer);
                     getNotificationService().sendNotification(assignContext);
+                    protocolForm.setReinitializeModifySubmissionFields(true);
                 }
             }
         } else {
