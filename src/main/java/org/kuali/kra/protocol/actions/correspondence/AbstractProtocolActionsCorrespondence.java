@@ -31,6 +31,7 @@ import org.kuali.kra.protocol.actions.correspondence.ProtocolActionTypeToCorresp
 import org.kuali.kra.protocol.actions.print.CorrespondenceXmlStream;
 import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermark;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.protocol.notification.ProtocolNotificationRenderer;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.util.watermark.Watermarkable;
@@ -122,8 +123,11 @@ public abstract class AbstractProtocolActionsCorrespondence extends AbstractPrin
      */
     @Override
     public Watermarkable getWatermarkable() {
-        ProtocolPrintWatermark prtocolPrintWatermark = new ProtocolPrintWatermark();
+        ProtocolPrintWatermark prtocolPrintWatermark = getNewProtocolPrintWatermarkInstanceHook(); //new ProtocolPrintWatermark();
         prtocolPrintWatermark.setPersistableBusinessObject(getPrintableBusinessObject());
         return prtocolPrintWatermark;
     }
+
+    protected abstract ProtocolPrintWatermark getNewProtocolPrintWatermarkInstanceHook();
+    
 }

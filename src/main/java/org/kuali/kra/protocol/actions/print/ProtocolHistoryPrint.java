@@ -22,7 +22,7 @@ package org.kuali.kra.protocol.actions.print;
  * any purpose like report generation, PDF streaming etc.
  * 
  */
-public class ProtocolHistoryPrint extends ProtocolReportPrint {
+public abstract class ProtocolHistoryPrint extends ProtocolReportPrint {
 
     private static final long serialVersionUID = 834187306362966953L;
 
