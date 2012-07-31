@@ -174,7 +174,7 @@
                                           actionTypeCode="108"
                                           tabTitle="Request to Lift Hold"/>
                                       
-            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolSuspendRequestBean}"
+            <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.iacucProtocolSuspendRequestBean}"
                                           permission="${KualiForm.actionHelper.canRequestSuspend}"
                                           beanName="iacucProtocolSuspendRequestBean"
                                           taskName="iacucProtocolRequestSuspension"

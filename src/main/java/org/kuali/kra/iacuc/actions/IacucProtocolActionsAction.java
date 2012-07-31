@@ -2037,13 +2037,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     public ActionForward addRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
             throws Exception {
+        System.err.println("addRequestAttachment");
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
         IacucProtocol protocol = document.getIacucProtocol();
         String taskName = getTaskName(request);
         
         if (StringUtils.isNotBlank(taskName) && isAuthorized(new IacucProtocolTask(taskName, protocol))) {
-            //IacucProtocolRequestAction requestAction = IacucProtocolRequestAction.valueOfTaskName(taskName);
             IacucProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
             if (requestBean.getNewActionAttachment().getFile() != null) {
                 requestBean.getNewActionAttachment().setFileName(requestBean.getNewActionAttachment().getFile().getFileName());
