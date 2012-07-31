@@ -23,7 +23,7 @@ package org.kuali.kra.protocol.actions.print;
  * this XML and XSls for any purpose like report generation, PDF streaming etc.
  * 
  */
-public class ProtocolFullProtocolPrint extends ProtocolReportPrint {
+public abstract class ProtocolFullProtocolPrint extends ProtocolReportPrint {
 
     private static final long serialVersionUID = -2812548564327706244L;
 

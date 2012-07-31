@@ -100,6 +100,8 @@ import org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
+import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol;
+import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentService;
 import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
@@ -115,6 +117,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.history.ProtocolHistoryFilterDatesEvent;
+import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.Protocol;
@@ -129,11 +133,13 @@ import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -1029,26 +1035,27 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 KeyConstants.QUESTION_DELETE_PROTOCOL_CONFIRMATION, protocolNumber);
     }
 
-//
-//    /**
-//     * 
-//     * This method is to view protocol attachment at protocol actions/print
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewProtocolAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-//            HttpServletResponse response) throws Exception {
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        int selected = getSelectedLine(request);
-//        ProtocolAttachmentProtocol attachment = protocolForm.getProtocolDocument().getProtocol().getActiveAttachmentProtocolsNoDelete().get(selected);
-//        return printAttachmentProtocol(mapping, response, attachment,protocolForm);
-//    }
-//    
+
+    /**
+     * 
+     * This method is to view protocol attachment at protocol actions/print
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewProtocolAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        int selected = getSelectedLine(request);
+        IacucProtocolAttachmentProtocol attachment = (IacucProtocolAttachmentProtocol)protocol.getActiveAttachmentProtocolsNoDelete().get(selected);
+        return printAttachmentProtocol(mapping, response, attachment,protocolForm);
+    }
+    
 //    /**
 //     * 
 //     * This method is for 'view' personnel attachment. lost when merging from 3.0 to trunk
@@ -1256,33 +1263,34 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return printableArtifactList;
 //    }
 //    
-//    /*
-//     * This is to view attachment if attachment is selected in print panel.
-//     */
-//    private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentProtocol attachment,ProtocolForm form) throws Exception {
-//        if (attachment == null) {
-//            return mapping.findForward(Constants.MAPPING_BASIC);
-//        }
-//        final AttachmentFile file = attachment.getFile();
-//           byte[] attachmentFile =null;
-//           String attachmentFileType=file.getType().replace("\"", "");
-//           attachmentFileType=attachmentFileType.replace("\\", "");           
-//           if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
-//               attachmentFile=getProtocolAttachmentFile(form,attachment);
-//               if(attachmentFile!=null) {          
-//                   this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
-//               } else {
-//                   this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
-//               }
-//               return RESPONSE_ALREADY_HANDLED;
-//           }
-//        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
-////        byte[] watermarkedFile = KraServiceLocator.getService(WatermarkService.class).applyWatermark( file.getData(),getProtocolWatermarkBeanObject("199"));
-////        this.streamToResponse(watermarkedFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
-//
-//        return RESPONSE_ALREADY_HANDLED;
-//    }
-//
+    
+    /*
+     * This is to view attachment if attachment is selected in print panel.
+     */
+    private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, IacucProtocolAttachmentProtocol attachment,ProtocolForm form) throws Exception {
+        if (attachment == null) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        final AttachmentFile file = attachment.getFile();
+           byte[] attachmentFile =null;
+           String attachmentFileType=file.getType().replace("\"", "");
+           attachmentFileType=attachmentFileType.replace("\\", "");           
+           if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
+               attachmentFile=getProtocolAttachmentFile(form,attachment);
+               if(attachmentFile!=null) {          
+                   this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
+               } else {
+                   this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
+               }
+               return RESPONSE_ALREADY_HANDLED;
+           }
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
+//        byte[] watermarkedFile = KraServiceLocator.getService(WatermarkService.class).applyWatermark( file.getData(),getProtocolWatermarkBeanObject("199"));
+//        this.streamToResponse(watermarkedFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
+
+        return RESPONSE_ALREADY_HANDLED;
+    }
+
 //    /*
 //     * This is to view Personnel attachment if attachment is selected in print & summary panel.
 //     */
@@ -1295,40 +1303,41 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
 //        return RESPONSE_ALREADY_HANDLED;
 //    }
-//    /**
-//     * 
-//     * This method for set the attachment with the watermark which selected  by the client .
-//     * @param protocolForm form
-//     * @param protocolAttachmentBase attachment
-//     * @return attachment file
-//     */
-//    private byte[] getProtocolAttachmentFile(ProtocolForm form,ProtocolAttachmentProtocol attachment) {
-//        
-//        byte[] attachmentFile =null;
-//        final AttachmentFile file = attachment.getFile();
-//        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
-//        Protocol protocolCurrent = form.getProtocolDocument().getProtocol();
-//        int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
-//        try {
-//            if(printableArtifacts.isWatermarkEnabled()){
-//                int currentAttachmentSequence=attachment.getSequenceNumber();
-//                String docStatusCode=attachment.getDocumentStatusCode();
-//                String statusCode=attachment.getStatusCode();
-//                // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
-//                if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
-//                    if (ProtocolAttachmentProtocol.COMPLETE_STATUS_CODE.equals(statusCode)) {
-//                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-//                    }
-//                }else{
-//                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-//                    LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
-//                }
-//            }
-//        }catch (Exception e) {
-//            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
-//        }        
-//        return attachmentFile;
-//    }
+    
+    /**
+     * 
+     * This method for set the attachment with the watermark which selected  by the client .
+     * @param protocolForm form
+     * @param protocolAttachmentBase attachment
+     * @return attachment file
+     */
+    private byte[] getProtocolAttachmentFile(ProtocolForm form,ProtocolAttachmentProtocol attachment) {
+        
+        byte[] attachmentFile =null;
+        final AttachmentFile file = attachment.getFile();
+        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
+        Protocol protocolCurrent = form.getProtocolDocument().getProtocol();
+        int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
+        try {
+            if(printableArtifacts.isWatermarkEnabled()){
+                int currentAttachmentSequence=attachment.getSequenceNumber();
+                String docStatusCode=attachment.getDocumentStatusCode();
+                String statusCode=attachment.getStatusCode();
+                // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
+                if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
+                    if (ProtocolAttachmentProtocol.COMPLETE_STATUS_CODE.equals(statusCode)) {
+                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
+                    }
+                }else{
+                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
+                    LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
+                }
+            }
+        }catch (Exception e) {
+            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
+        }        
+        return attachmentFile;
+    }
     
     
     
@@ -2833,9 +2842,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return printable;
 //    }
 //
-//    private ProtocolPrintingService getProtocolPrintingService() {
-//        return KraServiceLocator.getService(ProtocolPrintingService.class);
-//    }
+    
+    private IacucProtocolPrintingService getProtocolPrintingService() {
+        return KraServiceLocator.getService(IacucProtocolPrintingService.class);
+    }
+    
 //
 //    /**
 //     * Adds a risk level to the bean indicated by the task name in the request.
@@ -3136,14 +3147,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     private boolean hasGenericPermission(String genericActionName, IacucProtocol protocol) {
         IacucProtocolTask task = new IacucProtocolTask(TaskName.GENERIC_IACUC_PROTOCOL_ACTION, protocol, genericActionName);
-        System.out.println("\nTTTTT new task, name = " + TaskName.GENERIC_IACUC_PROTOCOL_ACTION + ", genericActionName = " + genericActionName);        
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private ProtocolAttachmentService getProtocolAttachmentService() {
-//        return KraServiceLocator.getService(ProtocolAttachmentService.class);
-//    }
+    private IacucProtocolAttachmentService getProtocolAttachmentService() {
+        return KraServiceLocator.getService(IacucProtocolAttachmentService.class);
+    }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
@@ -3718,12 +3727,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return KraServiceLocator.getService(IacucFollowupActionService.class);
     }
     
-//    /**
-//     * This method is to get Watermark Service. 
-//     */
-//    private WatermarkService getWatermarkService() {
-//        return  KraServiceLocator.getService(WatermarkService.class);  
-//    }
+    /**
+     * This method is to get Watermark Service. 
+     */
+    private WatermarkService getWatermarkService() {
+        return  KraServiceLocator.getService(WatermarkService.class);  
+    }
 
     /**
      * 

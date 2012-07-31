@@ -74,7 +74,7 @@ public abstract class ProtocolReportPrint extends AbstractPrint {
      */
     @Override
     public Watermarkable getWatermarkable() {
-        ProtocolPrintWatermark prtocolPrintWatermark = new ProtocolPrintWatermark();
+        ProtocolPrintWatermark prtocolPrintWatermark = getNewProtocolPrintWatermarkInstanceHook(); //new ProtocolPrintWatermark();
         prtocolPrintWatermark.setPersistableBusinessObject(getPrintableBusinessObject());
         return prtocolPrintWatermark;
     }
@@ -86,5 +86,7 @@ public abstract class ProtocolReportPrint extends AbstractPrint {
     public void setPrintHelper(ProtocolPrintHelper printHelper) {
         this.printHelper = printHelper;
     }
+
+    protected abstract ProtocolPrintWatermark getNewProtocolPrintWatermarkInstanceHook();
 
 }
