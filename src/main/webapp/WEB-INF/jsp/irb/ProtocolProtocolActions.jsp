@@ -116,7 +116,7 @@
                     // pass the headers argument and assign an object         
                        headers: {               // assign the first column (we start counting zero)             
                            5: {                 // disable it by setting the property sorter to false                 
-                              sorter: false  },             
+                              sorter: false  }             
                           }
                       });   
     		    
@@ -124,7 +124,7 @@
                     // pass the headers argument and assing a object         
                        headers: {             // assign the first column (we start counting zero)             
                            5: {                 // disable it by setting the property sorter to false                 
-                              sorter: false  },             
+                              sorter: false  }             
                           }
                       });   
                 
@@ -134,7 +134,7 @@
                            0: {                 // disable it by setting the property sorter to false                 
                               sorter: false  },   
                            6: {
-                        	  sorter: false  },
+                        	  sorter: false  }
                           }
                       });    	
                       
