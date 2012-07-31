@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc.actions.modifysubmission;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,7 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -264,6 +266,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         ProtocolOnlineReviewDocument document =  protocolOnlineReviewService.createProtocolOnlineReviewDocument(protocolSubmission, reviewer, 
               description, explanation, organizationDocumentNumber, dateRequested, dateDue, sessionPrincipalId);
         protocolSubmission.getProtocolOnlineReviews().add(document.getProtocolOnlineReview());
+        documentService.routeDocument(document, routeAnnotation, new ArrayList<AdHocRouteRecipient>());
         
         //send notification now that the online review has been created.
         IacucProtocol protocol = (IacucProtocol) protocolSubmission.getProtocol();
