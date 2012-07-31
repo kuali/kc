@@ -46,6 +46,7 @@ import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
 import org.kuali.kra.iacuc.actions.notifycommittee.IacucProtocolNotifyCommitteeBean;
 import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucBean;
+import org.kuali.kra.iacuc.actions.print.IacucProtocolQuestionnairePrintingService;
 import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
@@ -90,6 +91,7 @@ import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.followup.FollowupActionService;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
+import org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingService;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
@@ -1295,5 +1297,11 @@ public class IacucActionHelper extends ActionHelper {
         this.iacucProtocolSuspendRequestBean = iacucProtocolSuspendRequestBean;
     }
     
+
+    @Override
+    protected ProtocolQuestionnairePrintingService getProtocolQuestionnairePrintingServiceHook() {
+        return KraServiceLocator.getService(IacucProtocolQuestionnairePrintingService.class);
+    }
+
 }
 
