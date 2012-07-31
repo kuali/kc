@@ -394,7 +394,7 @@
 												<fo:table-column/>
 												<fo:table-body>
 													<fo:table-row width="425pt">
-														<fo:table-cell border-after-color="white" font-size="8px" display-align="before" number-columns-spanned="3" width="30pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+														<fo:table-cell border-after-color="white" font-size="8px" display-align="before" number-columns-spanned="3" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 															<fo:block>
 																<fo:inline font-size="8px" font-style="normal">4.&#160; Name and Address of Reporting Entity:</fo:inline>
 																<fo:block>
@@ -402,7 +402,7 @@
 																</fo:block>
 															</fo:block>
 														</fo:table-cell>
-														<fo:table-cell border-after-color="white" border-end-color="black" font-size="8px" display-align="before" width="30pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
+														<fo:table-cell border-after-color="white" border-end-color="black" font-size="8px" display-align="before" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
 															<fo:block>
 																<fo:inline font-size="8px" font-style="normal">5.&#160; If Reporting Entity in No.4 is Subawardee, Enter Name and Address of Prime:</fo:inline>
 															</fo:block>
