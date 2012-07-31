@@ -54,12 +54,12 @@ public enum IacucProtocolRequestAction {
 //    /**
 //     * Request for suspension of a Protocol.
 //     */
-//    REQUEST_FOR_SUSPENSION         (IacucProtocolActionType.REQUEST_FOR_SUSPENSION, 
-//                                    TaskName.PROTOCOL_REQUEST_SUSPENSION,
-//                                    Constants.PROTOCOL_SUSPEND_REQUEST_PROPERTY_KEY, 
-//                                    "protocolSuspendRequestBean", 
-//                                    "Request for Suspension"), 
-//                                  
+    REQUEST_FOR_SUSPENSION         (IacucProtocolActionType.IACUC_REQUEST_SUSPEND, 
+                                    TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION,
+                                    Constants.PROTOCOL_SUSPEND_REQUEST_PROPERTY_KEY, 
+                                    "iacucProtocolSuspendRequestBean", 
+                                    "Request for Suspension"), 
+                                  
 //    /**
 //     * Request for termination of a Protocol.
 //     */
