@@ -42,11 +42,9 @@ import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.ProtocolVersionService;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersBean;
@@ -962,7 +960,7 @@ public abstract class ActionHelper implements Serializable {
 //        setAmendmentDetails();
 //        initFilterDatesView();
         initAmendmentBeans(false);
-//        initPrintQuestionnaire();
+        initPrintQuestionnaire();
     }
     
     
@@ -3182,13 +3180,10 @@ public abstract class ActionHelper implements Serializable {
      * This method is to set up the questionnaire print list.  Then sorted it.
      */
     private void setupQnPrintOption(List<AnswerHeader> answerHeaders) {
-        getProtocolQuestionnairePrintingService().setupQnPrintOption(answerHeaders, getProtocol(), getQuestionnairesToPrints());
+        getProtocolQuestionnairePrintingServiceHook().setupQnPrintOption(answerHeaders, getProtocol(), getQuestionnairesToPrints());
     }
     
-    
-    private ProtocolQuestionnairePrintingService getProtocolQuestionnairePrintingService() {
-        return KraServiceLocator.getService(ProtocolQuestionnairePrintingService.class);
-    }
+    protected abstract ProtocolQuestionnairePrintingService getProtocolQuestionnairePrintingServiceHook();
     
     public boolean isSummaryQuestionnaireExist() {
         return summaryQuestionnaireExist;

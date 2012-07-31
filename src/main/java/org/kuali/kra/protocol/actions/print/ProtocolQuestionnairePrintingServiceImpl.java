@@ -32,7 +32,7 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class ProtocolQuestionnairePrintingServiceImpl implements ProtocolQuestionnairePrintingService {
+public abstract class ProtocolQuestionnairePrintingServiceImpl implements ProtocolQuestionnairePrintingService {
 
     private Protocol protocol;
     private BusinessObjectService businessObjectService;
@@ -115,7 +115,7 @@ public class ProtocolQuestionnairePrintingServiceImpl implements ProtocolQuestio
            // Collections.reverse((List<QuestionnaireUsage>) usages);
         }
         for (QuestionnaireUsage usage : usages) {
-            if (CoeusModule.IRB_MODULE_CODE.equals(usage.getModuleItemCode()) && answerHeader.getModuleSubItemCode().equals(usage.getModuleSubItemCode())) {
+            if (getCoeusModuleCode().equals(usage.getModuleItemCode()) && answerHeader.getModuleSubItemCode().equals(usage.getModuleSubItemCode())) {
                 if ("0".equals(answerHeader.getModuleSubItemCode())) {
                     label = usage.getQuestionnaireLabel();
                 } else if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())) {
@@ -246,5 +246,7 @@ public class ProtocolQuestionnairePrintingServiceImpl implements ProtocolQuestio
     public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
         this.questionnaireAnswerService = questionnaireAnswerService;
     }
+    
+    protected abstract String getCoeusModuleCode();
 
 }
