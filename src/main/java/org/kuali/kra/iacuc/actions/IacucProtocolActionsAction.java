@@ -100,6 +100,7 @@ import org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
+import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentPersonnel;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentService;
 import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
@@ -112,6 +113,7 @@ import org.kuali.kra.iacuc.notification.IacucRequestActionNotificationBean;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireAuditRule;
+import org.kuali.kra.iacuc.questionnaire.print.IacucQuestionnairePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -133,6 +135,7 @@ import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -1056,27 +1059,27 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return printAttachmentProtocol(mapping, response, attachment,protocolForm);
     }
     
-//    /**
-//     * 
-//     * This method is for 'view' personnel attachment. lost when merging from 3.0 to trunk
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewProtocolPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-//            HttpServletResponse response) throws Exception {
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        int selected = getSelectedLine(request);
-//        ProtocolAttachmentPersonnel personAttach = protocolForm.getProtocolDocument().getProtocol().getAttachmentPersonnels().get(selected);
-//        return printPersonnelAttachmentProtocol(mapping, response, personAttach,protocolForm);
-//
-//    }
-//
-//    
+    /**
+     * 
+     * This method is for 'view' personnel attachment. lost when merging from 3.0 to trunk
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewProtocolPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        int selected = getSelectedLine(request);
+        IacucProtocolAttachmentPersonnel personAttach = (IacucProtocolAttachmentPersonnel)protocolForm.getProtocolDocument().getProtocol().getAttachmentPersonnels().get(selected);
+        return printPersonnelAttachmentProtocol(mapping, response, personAttach,protocolForm);
+
+    }
+
+    
 //    /**
 //     * 
 //     * This method is to print protocol reports
@@ -1165,26 +1168,29 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        return forward;
 //    }
 //
-//    
-//    public ActionForward printProtocolQuestionnaires(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        String fileName = "Protocol_questionnaire_Report.pdf";
-////        Integer selectedQid = getSelectedLine(request);
-//        String reportName = protocol.getProtocolNumber() + "-" + "ProtocolQuestionnaires";
-//        AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getQuestionnairePrintingService().getQuestionnairePrintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
-//        if (dataStream.getContent() != null) {
-//            dataStream.setFileName(fileName.toString());
-//            PrintingUtils.streamToResponse(dataStream, response);
-//            forward = null;
-//        }
-//
-//
-//        return forward;
-//    }
-//
+    
+    public ActionForward printProtocolQuestionnaires(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        String fileName = "Protocol_questionnaire_Report.pdf";
+//        Integer selectedQid = getSelectedLine(request);
+        String reportName = protocol.getProtocolNumber() + "-" + "ProtocolQuestionnaires";
+        AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getIacucQuestionnairePrintingService().getQuestionnairePrintable(protocol, protocolForm.getActionHelper().getQuestionnairesToPrints()));
+        if (dataStream.getContent() != null) {
+            dataStream.setFileName(fileName.toString());
+            PrintingUtils.streamToResponse(dataStream, response);
+            forward = null;
+        }
+        return forward;
+    }
+    
+    protected IacucQuestionnairePrintingService getIacucQuestionnairePrintingService() {
+        return KraServiceLocator.getService(IacucQuestionnairePrintingService.class);
+    }
+    
+
 //    /*
 //     * get printables for protocol & questionnaires.
 //     * Protocol only has one printable and each questionnaire has its own printable.
@@ -1291,18 +1297,18 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return RESPONSE_ALREADY_HANDLED;
     }
 
-//    /*
-//     * This is to view Personnel attachment if attachment is selected in print & summary panel.
-//     */
-//    private ActionForward printPersonnelAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment,ProtocolForm form) throws Exception {
-//
-//        if (attachment == null) {
-//            return mapping.findForward(Constants.MAPPING_BASIC);
-//        }
-//        final AttachmentFile file = attachment.getFile();
-//        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
-//        return RESPONSE_ALREADY_HANDLED;
-//    }
+    /*
+     * This is to view Personnel attachment if attachment is selected in print & summary panel.
+     */
+    private ActionForward printPersonnelAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment,IacucProtocolForm form) throws Exception {
+
+        if (attachment == null) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        final AttachmentFile file = attachment.getFile();
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
+        return RESPONSE_ALREADY_HANDLED;
+    }
     
     /**
      * 

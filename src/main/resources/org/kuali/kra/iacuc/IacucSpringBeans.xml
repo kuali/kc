@@ -902,8 +902,8 @@
         <property name="protocolSummaryViewPrint" ref="iacucProtocolSummaryViewPrint" />
     </bean>
 
-    <bean id="protocolQuestionnairePrintingService"
-        class="org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingServiceImpl" scope="prototype">
+    <bean id="iacucProtocolQuestionnairePrintingService"
+        class="org.kuali.kra.iacuc.actions.print.IacucProtocolQuestionnairePrintingServiceImpl" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
     </bean>
@@ -1015,6 +1015,17 @@
 		</property>
     </bean>   
 
+
+	<bean id="iacucQuestionnairePrintingService" class="org.kuali.kra.iacuc.questionnaire.print.IacucQuestionnairePrintingServiceImpl">
+		<property name="printingService">
+			<ref bean="printingService" />
+		</property>
+        <property name="questionnairePrint" ref="questionnairePrint" />
+        <property name="businessObjectService">
+                <ref bean="businessObjectService" />
+ 		</property>
+                
+	</bean>
 
 
 </beans>
