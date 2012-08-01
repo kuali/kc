@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
@@ -39,10 +40,12 @@ public class ProtocolValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        TreeMap<String, KeyValue> valuesMap = new TreeMap<String, KeyValue>();
         for (ProtocolSubmission protocolSubmission : getProtocols()) {
-            keyValues.add(new ConcreteKeyValue(protocolSubmission.getProtocolId().toString(), protocolSubmission.getProtocolNumber()));
+            KeyValue keyValue = new ConcreteKeyValue(protocolSubmission.getProtocolId().toString(), protocolSubmission.getProtocolNumber());
+            valuesMap.put(protocolSubmission.getProtocolNumber(), keyValue);
         }
+        List<KeyValue> keyValues = new ArrayList<KeyValue>(valuesMap.values());
         keyValues.add(0, new ConcreteKeyValue("", "select"));
         return keyValues;
     }
