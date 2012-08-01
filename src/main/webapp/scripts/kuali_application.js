@@ -3179,13 +3179,17 @@ function ajaxLoadQn(protocolNumber, submissionNumber,  docFormKey, documentWebSc
 		            {
 		            	var headerIdx = $j(this).attr("id").substring(20);
 		                var panelcontentid = "questionpanelcontent"+headerIdx;
-		                document.getElementById(panelcontentid).style.display = "none";
+		                var dynClass = panelcontentid.replace(/:/g,"");		                
+		                document.getElementById(panelcontentid).className = dynClass;
+		                $j("."+dynClass).slideUp();		               
 		                $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
 		                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","Y")
 		            },function(){
 		            	var headerIdx = $j(this).attr("id").substring(20);
-		                var panelcontentid = "questionpanelcontent"+headerIdx;                  
-		                document.getElementById(panelcontentid).style.display = "block";
+		                var panelcontentid = "questionpanelcontent"+headerIdx; 
+		                var dynClass = panelcontentid.replace(/:/g,"");		                
+		                document.getElementById(panelcontentid).className = dynClass;
+		                $j("."+dynClass).slideDown();		                
 		                $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
 		                $j("#questionnaireHelper\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","N")
 		            }
