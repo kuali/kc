@@ -2389,7 +2389,10 @@ public class ActionHelper implements Serializable {
         setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         if (CollectionUtils.isNotEmpty(getReviewComments())) {
             // check if our comments bean has empty list of review comments, this can happen if the submission has no schedule assigned
-            if(protocolManageReviewCommentsBean.getReviewCommentsBean().getReviewComments().size() == 0) {
+            // also check that the list of deleted comments is empty, because deletion of comments can also lead to an empty list of review comments.
+            if( (protocolManageReviewCommentsBean.getReviewCommentsBean().getReviewComments().size() == 0)
+                && 
+                (protocolManageReviewCommentsBean.getReviewCommentsBean().getDeletedReviewComments().size() == 0) ) {
                 List<CommitteeScheduleMinute> reviewComments = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), 
                         currentSubmissionNumber);
                 Collections.sort(reviewComments, new Comparator<CommitteeScheduleMinute>() {
