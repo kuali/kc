@@ -80,7 +80,7 @@
                                 <tbody>			
 			<%-- Existing data --%>
 			                        <c:set var="idx" value="1"/>
-        	                        <c:forEach var="protocolSubmission" items="${KualiForm.meetingHelper.committeeSchedule.protocolSubmissions}" varStatus="status">
+        	                        <c:forEach var="protocolSubmission" items="${KualiForm.meetingHelper.committeeSchedule.latestProtocolSubmissions}" varStatus="status">
         	                          <c:if test = "${protocolSubmission.protocol.active}" >
 	                                    <tr>
 					                       <th class="infoline" align="center">

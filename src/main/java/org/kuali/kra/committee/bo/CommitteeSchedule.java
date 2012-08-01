@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -423,6 +424,27 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
 
     public List<ProtocolSubmission> getProtocolSubmissions() {
         return protocolSubmissions;
+    }
+
+    public List<ProtocolSubmission> getLatestProtocolSubmissions() {
+        HashMap<String, ProtocolSubmission> latestSubmissions = new HashMap<String, ProtocolSubmission>();
+        for (ProtocolSubmission submission : getProtocolSubmissions()) {
+            if (submission.getProtocol().isActive()) {
+                ProtocolSubmission existingSubmission = latestSubmissions.get(submission.getProtocolNumber());
+                if (existingSubmission == null) {
+                    latestSubmissions.put(submission.getProtocolNumber(), submission);
+                } else {
+                    int newInt = submission.getSequenceNumber().intValue();
+                    int existInt = existingSubmission.getSequenceNumber().intValue();
+                    int newSubNum = submission.getSubmissionNumber().intValue();
+                    int existSubNum = existingSubmission.getSubmissionNumber().intValue();
+                    if ((newInt > existInt) || ((newInt == existInt) && (newSubNum > existSubNum))){
+                        latestSubmissions.put(submission.getProtocolNumber(), submission);
+                    }
+                }
+            }
+        }
+        return new ArrayList<ProtocolSubmission>(latestSubmissions.values());
     }
 
     public void setProtocolSubmissions(List<ProtocolSubmission> protocolSubmissions) {
