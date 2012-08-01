@@ -1073,9 +1073,10 @@ public abstract class ActionHelper implements Serializable {
         }
     }
     
-    protected List<CommitteeScheduleMinute> getCopiedReviewComments() {
+    protected List<CommitteeScheduleMinute> getCopiedReviewComments() {       
         List<CommitteeScheduleMinute> clonedMinutes = new ArrayList<CommitteeScheduleMinute>();
         Long scheduleIdFk = getProtocol().getProtocolSubmission().getScheduleIdFk();
+        // TODO OPTIMIZATION perhaps the minutes list can be an instance variable and call to the committeeScheduleService need only be made once
         List<CommitteeScheduleMinute> minutes = getCommitteeScheduleService().getMinutesBySchedule(scheduleIdFk);
         if (CollectionUtils.isNotEmpty(minutes)) {
             for (CommitteeScheduleMinute minute : minutes) {
@@ -2740,7 +2741,11 @@ public abstract class ActionHelper implements Serializable {
         setReviewComments(getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         if (CollectionUtils.isNotEmpty(getReviewComments())) {
             // check if our comments bean has empty list of review comments, this can happen if the submission has no schedule assigned
-            if(protocolManageReviewCommentsBean.getReviewCommentsBean().getReviewComments().size() == 0) {
+            // also check that the list of deleted comments is empty, because deletion of comments can also lead to an empty list of review comments.
+            if( (protocolManageReviewCommentsBean.getReviewCommentsBean().getReviewComments().size() == 0) 
+                    && 
+                (protocolManageReviewCommentsBean.getReviewCommentsBean().getDeletedReviewComments().size() == 0) ) {
+                // TODO OPTIMIZATION perhaps the call below is not needed, can simply use getReviewComments since the review comments have been set above 
                 List<CommitteeScheduleMinute> reviewComments = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber);
                 Collections.sort(reviewComments, new Comparator<CommitteeScheduleMinute>() {
 
