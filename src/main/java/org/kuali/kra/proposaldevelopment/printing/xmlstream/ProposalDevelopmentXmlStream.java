@@ -136,7 +136,9 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
         proposal.setPROPUNITCREDITSPLITArray(getPROPUNITCREDITSPLITArray());
         proposal.setPROPUSERROLESArray(getPROPUSERROLESArray());
         proposal.setPROPYNQArray(getPROPYNQArray());
-        proposal.setBUDGET(getBUDGET());
+        if(getBudget(developmentProposal.getProposalDocument()) != null){
+            proposal.setBUDGET(getBUDGET());
+        }
         proposal.setPROPUNITSArray(getPROPUNITSArray());
         proposal.setCURDATE(getCURDATE());
         proposal.setLOGOPATH(getLOGOPATH());
@@ -402,8 +404,10 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
         proposalmaster.setPRINCIPALINVESTIGATORNAME(developmentProposal.getPrincipalInvestigatorName());
         proposalmaster.setTITLE(developmentProposal.getTitle());
         proposalmaster.setPERIOD(getPERIOD());
-        proposalmaster.setSPONSORCOST(getCurrencyFormat(budget.getTotalCost().bigDecimalValue()));
-        proposalmaster.setCOSTSHARING(getCurrencyFormat(budget.getCostSharingAmount().bigDecimalValue()));
+        if (budget != null){
+            proposalmaster.setSPONSORCOST(getCurrencyFormat(budget.getTotalCost().bigDecimalValue()));
+            proposalmaster.setCOSTSHARING(getCurrencyFormat(budget.getCostSharingAmount().bigDecimalValue()));
+        }
         // proposalmaster.setOTHERCOMMENTS(otherComments);
         
         return proposalmaster;
