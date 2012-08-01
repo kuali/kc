@@ -23,6 +23,7 @@ import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
 import org.kuali.kra.iacuc.protocol.IacucProtocolNumberService;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
@@ -78,6 +79,10 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucP
                 deepCopy(srcDoc.getIacucProtocol().getIacucPrinciples()));
         destDoc.getIacucProtocol().setIacucAlternateSearches((List<IacucAlternateSearch>) 
                 deepCopy(srcDoc.getIacucProtocol().getIacucAlternateSearches()));
+        destDoc.getIacucProtocol().setIacucProtocolStudyGroups((List<IacucProtocolStudyGroupBean>) 
+                deepCopy(srcDoc.getIacucProtocol().getIacucProtocolStudyGroups()));
+        destDoc.getIacucProtocol().setIacucProtocolStudyGroupBeans((List<IacucProtocolStudyGroupBean>) 
+                deepCopy(srcDoc.getIacucProtocol().getIacucProtocolStudyGroupBeans()));
     }
     
     @Override
