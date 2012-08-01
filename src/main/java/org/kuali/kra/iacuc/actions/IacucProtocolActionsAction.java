@@ -383,20 +383,19 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     public ActionForward assignCommittee(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
         ProtocolTask task = new IacucProtocolTask(TaskName.IACUC_ASSIGN_TO_COMMITTEE, protocol);
         
-        if (!hasDocumentStateChanged((IacucProtocolForm) protocolForm)) {
+        if (!hasDocumentStateChanged(protocolForm)) {
             if (isAuthorized(task)) {
                 IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
                 IacucProtocolAssignCmtBean actionBean = actionHelper.getProtocolAssignCmtBean();
                 if (applyRules(new IacucProtocolAssignCmtEvent(protocolForm.getProtocolDocument(), actionBean))) {
                     if( protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission() != null) {
-                        
-                            getAssignToCmtService().assignToCommittee(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-                            recordProtocolActionSuccess("Assign to Committee");
-         
+                        getAssignToCmtService().assignToCommittee(protocolForm.getProtocolDocument().getProtocol(), actionBean);
+                        recordProtocolActionSuccess("Assign to Committee");
+                        protocolForm.setReinitializeModifySubmissionFields(true);
                     }
                 }
             }
