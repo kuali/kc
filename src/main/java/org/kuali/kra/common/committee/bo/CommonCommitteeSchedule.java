@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.drools.core.util.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
 import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDoc;
@@ -422,29 +423,38 @@ public class CommonCommitteeSchedule extends CommitteeAssociate implements Compa
         setId(null);
     }
 
-//    public List<ProtocolSubmission> getProtocolSubmissions() {
-//        return protocolSubmissions;
-//    }
+    public List<ProtocolSubmission> getProtocolSubmissions() {
+        return protocolSubmissions;
+    }
 
     public List<ProtocolSubmission> getLatestProtocolSubmissions() {
         TreeMap<String, ProtocolSubmission> latestSubmissions = new TreeMap<String, ProtocolSubmission>();
+        List<ProtocolSubmission> returnList = new ArrayList<ProtocolSubmission>();
         for (ProtocolSubmission submission : protocolSubmissions) {
-            if (submission.getProtocol().isActive()) {
-                ProtocolSubmission existingSubmission = latestSubmissions.get(submission.getProtocolNumber());
-                if (existingSubmission == null) {
-                    latestSubmissions.put(submission.getProtocolNumber(), submission);
-                } else {
-                    int newInt = submission.getSequenceNumber().intValue();
-                    int existInt = existingSubmission.getSequenceNumber().intValue();
-                    int newSubNum = submission.getSubmissionNumber().intValue();
-                    int existSubNum = existingSubmission.getSubmissionNumber().intValue();
-                    if ((newInt > existInt) || ((newInt == existInt) && (newSubNum > existSubNum))){
-                        latestSubmissions.put(submission.getProtocolNumber(), submission);
+            // gonna do something a little hacktacular here... in some cases, protocol and/or protocol number might not be set.
+            // in that case, go ahead and pass submissions on to caller
+            if (submission.getProtocol() == null || StringUtils.isEmpty(submission.getProtocol().getProtocolNumber())) {
+                returnList.add(submission);
+            } else {
+                String key = submission.getProtocol().getProtocolNumber();
+                if (submission.getProtocol().isActive()) {
+                    ProtocolSubmission existingSubmission = latestSubmissions.get(key);
+                    if (existingSubmission == null) {
+                        latestSubmissions.put(key, submission);
+                    } else {
+                        int newInt = submission.getSequenceNumber().intValue();
+                        int existInt = existingSubmission.getSequenceNumber().intValue();
+                        int newSubNum = submission.getSubmissionNumber().intValue();
+                        int existSubNum = existingSubmission.getSubmissionNumber().intValue();
+                        if ((newInt > existInt) || ((newInt == existInt) && (newSubNum > existSubNum))){
+                            latestSubmissions.put(key, submission);
+                        }
                     }
                 }
             }
         }
-        return new ArrayList<ProtocolSubmission>(latestSubmissions.values());
+        returnList.addAll(latestSubmissions.values());
+        return returnList;
     }
 
     public void setProtocolSubmissions(List<ProtocolSubmission> protocolSubmissions) {

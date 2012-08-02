@@ -249,7 +249,7 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleIntegrationTest.class,
     org.kuali.kra.irb.noteattachment.ProtocolAttachmentTypeByGroupValuesFinderTest.class,
     org.kuali.kra.service.impl.AwardReportsServiceImplTest.class,
-//temporary  org.kuali.kra.meeting.MeetingServiceTest.class,
+    org.kuali.kra.meeting.MeetingServiceTest.class,
     org.kuali.kra.rules.UnitMaintenanceDocumentRuleTest.class,
     org.kuali.kra.committee.service.CommitteeServiceTest.class,
     org.kuali.kra.award.commitments.AwardFandARateAuditRuleTest.class,
