@@ -53,7 +53,6 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
     
     public ActionForward addProtocolStudyGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         int groupBeanIndex = getSelectedLine(request);
-        printStudyGroups(getIacucProtocol(form).getIacucProtocolStudyGroupBeans(), "---------- printing before add-------------");        
         IacucProtocolStudyGroupBean selectedIacucProtocolStudyGroupBean = getIacucProtocol(form).getIacucProtocolStudyGroupBeans().get(groupBeanIndex);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         if (applyRules(new AddProtocolStudyGroupEvent(protocolForm.getIacucProtocolDocument(), selectedIacucProtocolStudyGroupBean, groupBeanIndex))) {
@@ -75,8 +74,9 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception { 
         super.reload(mapping, form, request, response);
         IacucProtocol iacucProtocol = getIacucProtocol(form);
-        //iacucProtocol.setIacucProtocolStudyGroupBeans(getIacucProtocolProcedureService().getRevisedStudyGroupBeans(iacucProtocol));
-        iacucProtocol.setIacucProtocolStudyGroupBeans(getIacucProtocolProcedureService().getRevisedStudyGroupBeans(iacucProtocol));
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        iacucProtocol.setIacucProtocolStudyGroupBeans(getIacucProtocolProcedureService().getRevisedStudyGroupBeans(iacucProtocol, 
+                protocolForm.getIacucProtocolProceduresHelper().getAllProcedures()));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -210,50 +210,4 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         return protocolForm.getIacucProtocolDocument().getIacucProtocol();
     }
-
-
-    private void printStudyGroups(List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans, String message) {
-        for(IacucProtocolStudyGroupBean studyGroupBean : iacucProtocolStudyGroupBeans) {
-            printStudyGroup(studyGroupBean, message);
-        }
-    }
-    
-    private void printStudyGroup(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean, String message) {
-        System.out.println("printing group bean ==========> " + message);
-        printForStudyGroupBean(iacucProtocolStudyGroupBean);
-        for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-            printForStudyGroupDetailBean(studyGroupDetailBean);
-            for(IacucProtocolStudyGroup studyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
-                printForStudyGroup(studyGroup);
-            }
-        }
-        System.out.println("-------------------------------PRINT Complete-------------------------------------------\r\n");
-    }
-    
-    private void printForStudyGroupBean(IacucProtocolStudyGroupBean studyGroupBean) {
-        System.out.println("study grp hdr id ==========> " + studyGroupBean.getIacucProtocolStudyGroupHeaderId());
-        System.out.println("protocol id ==========> " + studyGroupBean.getProtocolId());
-        System.out.println("protocol num ==========> " + studyGroupBean.getProtocolNumber());
-        System.out.println("seq num ==========> " + studyGroupBean.getSequenceNumber());
-        System.out.println("proc cat code ==========> " + studyGroupBean.getProcedureCategoryCode());
-        System.out.println("proc code ==========> " + studyGroupBean.getProcedureCode());
-        System.out.println("species and grps ==========> " + studyGroupBean.getProtocolSpeciesAndGroups());
-        System.out.println("persons responsible ==========> " + studyGroupBean.getProtocolPersonsResponsible());
-    }
-
-    private void printForStudyGroupDetailBean(IacucProtocolStudyGroupDetailBean studyGroupDetailBean) {
-        System.out.println("study grp dtl id ==========> " + studyGroupDetailBean.getIacucProtocolStudyGroupDetailId());
-        System.out.println("study grp hdr id ==========> " + studyGroupDetailBean.getIacucProtocolStudyGroupHeaderId());
-        System.out.println("max pain category ==========> " + studyGroupDetailBean.getMaxPainCategory());
-        System.out.println("max pain category code ==========> " + studyGroupDetailBean.getMaxPainCategoryCode());
-        System.out.println("species code ==========> " + studyGroupDetailBean.getSpeciesCode());
-        System.out.println("total species ==========> " + studyGroupDetailBean.getTotalSpeciesCount());
-    }
-    
-    private void printForStudyGroup(IacucProtocolStudyGroup studyGroup) {
-        System.out.println("pk study grp id ==========> " + studyGroup.getIacucProtocolStudyGroupId());
-        System.out.println("study grp id ==========> " + studyGroup.getStudyGroupId());
-        System.out.println("prot species id ==========> " + studyGroup.getIacucProtocolSpeciesId());
-    }
-
 }
