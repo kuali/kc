@@ -41,13 +41,6 @@ public interface IacucProtocolProcedureService {
     public List<IacucProcedureCategory> getAllProcedureCategories();
     
     /**
-     * This method is to get procedure category and related list of procedures
-     * @return
-     */
-    //public HashMap<Integer, List<IacucProcedure>> getProcedureCategoryAndRelatedProcedures();
-    
-    
-    /**
      * This method is to fetch all protocol species
      * @return
      */
@@ -74,9 +67,10 @@ public interface IacucProtocolProcedureService {
     /**
      * This method is to format procedure study group data, group by categories for display
      * @param iacucProtocol
+     * @param allProcedures
      * @return
      */
-    public List<IacucProtocolStudyGroupBean> getRevisedStudyGroupBeans(IacucProtocol iacucProtocol);
+    public List<IacucProtocolStudyGroupBean> getRevisedStudyGroupBeans(IacucProtocol iacucProtocol, List<IacucProcedure> allProcedures);
 
     /**
      * This method is to remove a selected study group section

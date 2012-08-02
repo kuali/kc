@@ -185,13 +185,13 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
     /**
      * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#getRevisedStudyGroupBeans(java.util.List)
      */
-    public List<IacucProtocolStudyGroupBean> getRevisedStudyGroupBeans(IacucProtocol iacucProtocol) {
+    public List<IacucProtocolStudyGroupBean> getRevisedStudyGroupBeans(IacucProtocol iacucProtocol, List<IacucProcedure> allProcedures) {
         List<IacucProtocolStudyGroupBean> studyGroupBeans = iacucProtocol.getIacucProtocolStudyGroupBeans();
         List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroups = iacucProtocol.getIacucProtocolStudyGroups();
         if(studyGroupBeans.isEmpty()) {
             studyGroupBeans = getNewListOfStudyGroupBeans();
             if(!iacucProtocolStudyGroups.isEmpty()) {
-                groupProtocolStudyAndBeans(iacucProtocol, studyGroupBeans);
+                groupProtocolStudyAndBeans(iacucProtocol, studyGroupBeans, allProcedures);
             }
         }
        return studyGroupBeans;
@@ -291,7 +291,8 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      * @param protocol
      * @param iacucProtocolStudyGroupBeans
      */
-    private void groupProtocolStudyAndBeans(IacucProtocol protocol, List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans) {
+    private void groupProtocolStudyAndBeans(IacucProtocol protocol, List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans, 
+            List<IacucProcedure> allProcedures) {
         List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroups = protocol.getIacucProtocolStudyGroups();
         for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : iacucProtocolStudyGroupBeans) {
             for(IacucProtocolStudyGroupBean iacucProtocolStudyGroup : iacucProtocolStudyGroups) {
@@ -302,11 +303,26 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
                     iacucProtocolStudyGroupBean.setProtocolNumber(iacucProtocolStudyGroup.getProtocolNumber());
                     iacucProtocolStudyGroupBean.setSequenceNumber(iacucProtocolStudyGroup.getSequenceNumber());
                     iacucProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans().addAll(iacucProtocolStudyGroup.getIacucProtocolStudyGroupDetailBeans());
+                    selectUsedProcedureCategory(allProcedures, iacucProtocolStudyGroup.getProcedureCode());
                     break;
                 }
             }
         }
         syncStudyGroupAndBeans(iacucProtocolStudyGroupBeans);
+    }
+    
+    /**
+     * This method is to check if a procedure is persisted.
+     * @param allProcedures
+     * @param selectedProcedureCode
+     */
+    private void selectUsedProcedureCategory(List<IacucProcedure> allProcedures, Integer selectedProcedureCode) {
+        for(IacucProcedure iacucProcedure : allProcedures) {
+            if(iacucProcedure.getProcedureCode().equals(selectedProcedureCode)) {
+                iacucProcedure.setProcedureSelected(true);
+                break;
+            }
+        }
     }
     
     /**
