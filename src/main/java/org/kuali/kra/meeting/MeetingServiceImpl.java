@@ -101,7 +101,7 @@ public class MeetingServiceImpl implements MeetingService {
         List<Long> protocolIds = new ArrayList<Long>();
         List<ProtocolCorrespondence> correspondences = new ArrayList<ProtocolCorrespondence>();
         // TODO : check if want to use criteria/dao to get the list or use this loop
-        for (ProtocolSubmission submission : committeeSchedule.getProtocolSubmissions()) {
+        for (ProtocolSubmission submission : committeeSchedule.getLatestProtocolSubmissions()) {
             if (!protocolIds.contains(submission.getProtocolId())) {
                 protocolIds.add(submission.getProtocolId());
                 fieldValues.put("protocolId", submission.getProtocolId());
@@ -632,7 +632,7 @@ public class MeetingServiceImpl implements MeetingService {
      *      org.kuali.kra.committee.bo.CommitteeSchedule, int)
      */
     public void populateFormHelper(MeetingHelper meetingHelper, CommitteeSchedule commSchedule, int lineNumber) {
-        for (ProtocolSubmission protocolSubmission : commSchedule.getProtocolSubmissions()) {
+        for (ProtocolSubmission protocolSubmission : commSchedule.getLatestProtocolSubmissions()) {
             ProtocolSubmittedBean protocolSubmittedBean = new ProtocolSubmittedBean();
             ProtocolPerson pi = protocolSubmission.getProtocol().getPrincipalInvestigator();
             protocolSubmittedBean.setPersonId(pi.getPersonId());
