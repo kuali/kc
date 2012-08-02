@@ -85,7 +85,7 @@ public class DeleteCommitteeScheduleRule  extends ResearchDocumentRuleBase imple
                 || CollectionUtils.isNotEmpty(schedule.getCommScheduleActItems())
                 || CollectionUtils.isNotEmpty(schedule.getMinuteDocs())
                 || CollectionUtils.isNotEmpty(schedule.getScheduleAgendas())
-                || CollectionUtils.isNotEmpty(schedule.getProtocolSubmissions());
+                || CollectionUtils.isNotEmpty(schedule.getLatestProtocolSubmissions());
 
     }
 

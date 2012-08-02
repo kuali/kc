@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import noNamespace.PersonDocument;
 import noNamespace.DisclosureProjectsDocument.DisclosureProjects;
@@ -117,17 +118,17 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         getIrbPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
         setAttendance(committeeSchedule, schedule);
         committeeSchedule.refreshReferenceObject("protocolSubmissions");
-        List<org.kuali.kra.irb.actions.submit.ProtocolSubmission> submissions
-        = committeeSchedule.getProtocolSubmissions();
+        List<org.kuali.kra.irb.actions.submit.ProtocolSubmission> submissions 
+        = committeeSchedule.getLatestProtocolSubmissions();
         for (org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission : submissions) {
         	
 //            protocolSubmission.refreshNonUpdateableReferences();
-            ProtocolSubmission protocolSubmissionType =
-            	schedule.addNewProtocolSubmission();
+            ProtocolSubmission protocolSubmissionType = 
+                schedule.addNewProtocolSubmission();
             
             SubmissionDetails protocolSubmissionDetail = protocolSubmissionType.addNewSubmissionDetails();
-            ProtocolSummary protocolSummary =
-					protocolSubmissionType.addNewProtocolSummary();
+            ProtocolSummary protocolSummary = 
+                protocolSubmissionType.addNewProtocolSummary();
 			ProtocolMasterData protocolMaster = protocolSummary.addNewProtocolMasterData();
 			String followUpAction = null;
 			String actionTypeCode = null;
