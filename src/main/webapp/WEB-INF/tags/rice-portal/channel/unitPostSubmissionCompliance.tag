@@ -19,18 +19,21 @@
 <div class="body">
   <table border="0" cellpadding="2" cellspacing="0">
    <tr>
-    <td nowrap class="">Committee</td>
+    <td nowrap class="">IRB Committee</td>
     <td>
       <portal:portalLink displayTitle="false" title="Create Committee" url="${ConfigProperties.application.url}/committeeCommittee.do?methodToCall=docHandler&command=initiate&docTypeName=CommitteeDocument">
           <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
       <portal:portalLink displayTitle="false" title="Committee Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.committee.bo.Committee&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
           <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
-             |           (Common committee testing  
+    </td>
+   </tr>
+   <tr> 
+    <td nowrap class="">IACUC Committee</td>
+    <td>  
       <portal:portalLink displayTitle="false" title="Create Committee" url="${ConfigProperties.application.url}/commonCommitteeCommittee.do?methodToCall=docHandler&command=initiate&docTypeName=CommonCommitteeDocument">
           <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>          
       <portal:portalLink displayTitle="false" title="Committee Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.common.committee.bo.CommonCommittee&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
           <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
-              )
     </td>
   </tr>
   <tr>
@@ -43,15 +46,19 @@
     </td>
   </tr>
   <tr>
-    <td nowrap class="disabled-text">Schedules</td>
+    <td nowrap class="disabled-text">IRB Schedules</td>
     <td>
       <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
       <portal:portalLink displayTitle="false" title="Schedule Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.committee.bo.CommitteeSchedule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
           <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>          
-            |           (Common committee schedules testing
+    </td>
+  </tr>
+  <tr>
+    <td nowrap class="disabled-text">IACUC Schedules</td>
+    <td>
+      <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
       <portal:portalLink displayTitle="false" title="Schedule Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.common.committee.bo.CommonCommitteeSchedule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
           <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
-      		)
     </td>  		     		
   </tr>
   </table>
