@@ -258,7 +258,7 @@ public abstract class ActionHelper implements Serializable {
     protected ProtocolAssignToAgendaBean assignToAgendaBean;
     protected ProtocolAssignReviewersBean protocolAssignReviewersBean;
 //    protected ProtocolGrantExemptionBean protocolGrantExemptionBean;
-    protected ProtocolApproveBean protocolFullApprovalBean;
+    private ProtocolApproveBean protocolFullApprovalBean;
     protected ProtocolApproveBean protocolExpeditedApprovalBean;
     protected ProtocolApproveBean protocolResponseApprovalBean;
     
