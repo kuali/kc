@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
@@ -427,8 +428,8 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
     }
 
     public List<ProtocolSubmission> getLatestProtocolSubmissions() {
-        HashMap<String, ProtocolSubmission> latestSubmissions = new HashMap<String, ProtocolSubmission>();
-        for (ProtocolSubmission submission : getProtocolSubmissions()) {
+        TreeMap<String, ProtocolSubmission> latestSubmissions = new TreeMap<String, ProtocolSubmission>();
+        for (ProtocolSubmission submission : protocolSubmissions) {
             if (submission.getProtocol().isActive()) {
                 ProtocolSubmission existingSubmission = latestSubmissions.get(submission.getProtocolNumber());
                 if (existingSubmission == null) {
