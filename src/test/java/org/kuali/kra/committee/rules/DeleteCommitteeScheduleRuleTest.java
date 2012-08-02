@@ -101,7 +101,7 @@ public class DeleteCommitteeScheduleRuleTest extends CommitteeRuleTestBase {
                         || CollectionUtils.isNotEmpty(schedule.getCommScheduleActItems())
                         || CollectionUtils.isNotEmpty(schedule.getMinuteDocs())
                         || CollectionUtils.isNotEmpty(schedule.getScheduleAgendas())
-                        || CollectionUtils.isNotEmpty(schedule.getLatestProtocolSubmissions());
+                        || CollectionUtils.isNotEmpty(schedule.getProtocolSubmissions());
 
             }
 
@@ -140,7 +140,7 @@ public class DeleteCommitteeScheduleRuleTest extends CommitteeRuleTestBase {
 
     }
     
-//    @Test
+    @Test
     public void testDeleteCommitteeSchedule() throws Exception {
 
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
