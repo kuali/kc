@@ -398,7 +398,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (committee != null) {
             CommitteeSchedule schedule = getCommitteeService().getCommitteeSchedule(committee, scheduleId);
             if (schedule != null) {
-                int currentSubmissionCount = (schedule.getProtocolSubmissions() == null) ? 0 : activeSubmissonCount(schedule.getProtocolSubmissions());
+                int currentSubmissionCount = (schedule.getLatestProtocolSubmissions() == null) ? 0 : activeSubmissonCount(schedule.getLatestProtocolSubmissions());
                 int maxSubmissionCount = schedule.getMaxProtocols();
                 isMax = currentSubmissionCount >= maxSubmissionCount;
             }
