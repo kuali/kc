@@ -140,7 +140,7 @@ public class DeleteCommitteeScheduleRuleTest extends CommitteeRuleTestBase {
 
     }
     
-    @Test
+//    @Test
     public void testDeleteCommitteeSchedule() throws Exception {
 
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
