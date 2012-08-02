@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
@@ -421,8 +422,29 @@ public class CommonCommitteeSchedule extends CommitteeAssociate implements Compa
         setId(null);
     }
 
-    public List<ProtocolSubmission> getProtocolSubmissions() {
-        return protocolSubmissions;
+//    public List<ProtocolSubmission> getProtocolSubmissions() {
+//        return protocolSubmissions;
+//    }
+
+    public List<ProtocolSubmission> getLatestProtocolSubmissions() {
+        TreeMap<String, ProtocolSubmission> latestSubmissions = new TreeMap<String, ProtocolSubmission>();
+        for (ProtocolSubmission submission : protocolSubmissions) {
+            if (submission.getProtocol().isActive()) {
+                ProtocolSubmission existingSubmission = latestSubmissions.get(submission.getProtocolNumber());
+                if (existingSubmission == null) {
+                    latestSubmissions.put(submission.getProtocolNumber(), submission);
+                } else {
+                    int newInt = submission.getSequenceNumber().intValue();
+                    int existInt = existingSubmission.getSequenceNumber().intValue();
+                    int newSubNum = submission.getSubmissionNumber().intValue();
+                    int existSubNum = existingSubmission.getSubmissionNumber().intValue();
+                    if ((newInt > existInt) || ((newInt == existInt) && (newSubNum > existSubNum))){
+                        latestSubmissions.put(submission.getProtocolNumber(), submission);
+                    }
+                }
+            }
+        }
+        return new ArrayList<ProtocolSubmission>(latestSubmissions.values());
     }
 
     public void setProtocolSubmissions(List<ProtocolSubmission> protocolSubmissions) {

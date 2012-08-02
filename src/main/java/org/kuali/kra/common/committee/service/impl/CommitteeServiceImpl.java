@@ -338,7 +338,7 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
         || CollectionUtils.isNotEmpty(schedule.getCommScheduleActItems())
         || CollectionUtils.isNotEmpty(schedule.getMinuteDocs())
         || CollectionUtils.isNotEmpty(schedule.getScheduleAgendas())
-        || CollectionUtils.isNotEmpty(schedule.getProtocolSubmissions()) ;
+        || CollectionUtils.isNotEmpty(schedule.getLatestProtocolSubmissions()) ;
         
     }
     
@@ -356,7 +356,7 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
         copiedSchedule.setCommitteeScheduleAttendances(schedule.getCommitteeScheduleAttendances());
         copiedSchedule.setCommitteeScheduleMinutes(schedule.getCommitteeScheduleMinutes());
         copiedSchedule.setCommScheduleActItems(schedule.getCommScheduleActItems());
-        copiedSchedule.setProtocolSubmissions(schedule.getProtocolSubmissions());
+        copiedSchedule.setProtocolSubmissions(schedule.getLatestProtocolSubmissions());
         for (CommitteeScheduleAttendance attendance : copiedSchedule.getCommitteeScheduleAttendances()) {
             attendance.setCommScheduleAttendanceId(null);
         }
