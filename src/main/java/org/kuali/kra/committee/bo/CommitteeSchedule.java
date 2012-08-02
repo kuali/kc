@@ -430,17 +430,21 @@ public class CommitteeSchedule extends CommitteeAssociate implements Comparable<
     public List<ProtocolSubmission> getLatestProtocolSubmissions() {
         TreeMap<String, ProtocolSubmission> latestSubmissions = new TreeMap<String, ProtocolSubmission>();
         for (ProtocolSubmission submission : protocolSubmissions) {
+            String key = submission.getProtocol().getProtocolNumber();
             if (submission.getProtocol().isActive()) {
-                ProtocolSubmission existingSubmission = latestSubmissions.get(submission.getProtocolNumber());
+                if (key == null) {
+                    key = "";
+                }
+                ProtocolSubmission existingSubmission = latestSubmissions.get(key);
                 if (existingSubmission == null) {
-                    latestSubmissions.put(submission.getProtocolNumber(), submission);
+                    latestSubmissions.put(key, submission);
                 } else {
                     int newInt = submission.getSequenceNumber().intValue();
                     int existInt = existingSubmission.getSequenceNumber().intValue();
                     int newSubNum = submission.getSubmissionNumber().intValue();
                     int existSubNum = existingSubmission.getSubmissionNumber().intValue();
                     if ((newInt > existInt) || ((newInt == existInt) && (newSubNum > existSubNum))){
-                        latestSubmissions.put(submission.getProtocolNumber(), submission);
+                        latestSubmissions.put(key, submission);
                     }
                 }
             }
