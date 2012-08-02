@@ -107,7 +107,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         setAttendance(committeeSchedule, schedule);
         committeeSchedule.refreshReferenceObject("protocolSubmissions");
         List<org.kuali.kra.protocol.actions.submit.ProtocolSubmission> submissions
-        = committeeSchedule.getProtocolSubmissions();
+        = committeeSchedule.getLatestProtocolSubmissions();
         for (org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission : submissions) {
         	
 //            protocolSubmission.refreshNonUpdateableReferences();
