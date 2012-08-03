@@ -22,6 +22,7 @@ import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
@@ -85,19 +86,28 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
     }
     
     public String getAssignedCommitteeId(Protocol protocol) {
+        String retVal = null;
         ProtocolSubmission submission = findSubmission(protocol);
-        if (submission != null && StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-            return submission.getCommitteeId();
+        if (submission != null && 
+            (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) ||
+             (StringUtils.equals(protocol.getProtocolStatusCode(), IacucProtocolStatus.TABLED) &&
+              StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.TABLED)))) {
+            
+            retVal = submission.getCommitteeId();
         }
-        return null;
+        return retVal;
     }
     
     public String getAssignedScheduleId(Protocol protocol) {
+        String retVal = null;
         ProtocolSubmission submission = findSubmission(protocol);
-        if (submission != null && StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-            return submission.getScheduleId();
+        if (submission != null && StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)  ||
+            (StringUtils.equals(protocol.getProtocolStatusCode(), IacucProtocolStatus.TABLED) &&
+             StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.TABLED))) {
+            
+            retVal = submission.getScheduleId();
         }
-        return null;
+        return retVal;
     }
     
     public void setCommitteeService(CommonCommitteeService committeeService) {
@@ -108,13 +118,16 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
         return committeeService;
     }
     
+    
     protected ProtocolSubmission findSubmission(Protocol protocol) {
         // need to loop thru to find the last submission.
         // it may have submit/Wd/notify irb/submit, and this will cause problem if don't loop thru.
         ProtocolSubmission protocolSubmission = null;
         for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.PENDING) ||
-                    StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+            if (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.PENDING) || 
+                StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) || 
+                (StringUtils.equals(protocol.getProtocolStatusCode(), IacucProtocolStatus.TABLED) &&
+                  StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.TABLED))) {
                 protocolSubmission = submission;
             }
         }
