@@ -36,7 +36,8 @@
           		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.organizationId}" scope="col" />
           		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.protocolOrganizationTypeCode}" scope="col" />
           		<kul:htmlAttributeHeaderCell attributeEntry="${protocolLocationAttributes.rolodexId}" scope="col" />
-          		<kul:htmlAttributeHeaderCell attributeEntry="${organizationAttributes.humanSubAssurance}" scope="col" />
+          		<%-- <kul:htmlAttributeHeaderCell attributeEntry="${organizationAttributes.humanSubAssurance}" scope="col" /> --%>
+          		<th> Animal Welfare Assurance </th>
           		<c:if test="${!readOnly}">
           		    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
           		</c:if>
