@@ -219,7 +219,7 @@ end
 
 rule "Manage Review Comments"
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "310", protocolStatusCode in ("101", "103", "104", "107", "201", "203", "300"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "310", protocolStatusCode in ("101", "103", "203"))
 then    
     setAction(protocolAction, true);
 end
