@@ -39,6 +39,11 @@ public class IacucProtocolEditableBean extends IacucProtocolActionBean implement
     private boolean protocolPermissionsEnabled = false;
     private boolean questionnaireEnabled = false;
     
+    private boolean threersEnabled = false;
+    private boolean speciesAndGroupsEnabled = false;
+    private boolean proceduresEnabled = false;
+    private boolean protocolExceptionsEnabled = false;
+
     /**
      * Constructs a ProtocolEditableBean.
      * @param actionHelper Reference back to the action helper for this bean
@@ -141,6 +146,38 @@ public class IacucProtocolEditableBean extends IacucProtocolActionBean implement
 
     public void setQuestionnaireEnabled(boolean questionnaireEnabled) {
         this.questionnaireEnabled = questionnaireEnabled;
+    }
+
+    public boolean isThreersEnabled() {
+        return threersEnabled;
+    }
+
+    public void setThreersEnabled(boolean threersEnabled) {
+        this.threersEnabled = threersEnabled;
+    }
+
+    public boolean isSpeciesAndGroupsEnabled() {
+        return speciesAndGroupsEnabled;
+    }
+
+    public void setSpeciesAndGroupsEnabled(boolean speciesAndGroupsEnabled) {
+        this.speciesAndGroupsEnabled = speciesAndGroupsEnabled;
+    }
+
+    public boolean isProceduresEnabled() {
+        return proceduresEnabled;
+    }
+
+    public void setProceduresEnabled(boolean proceduresEnabled) {
+        this.proceduresEnabled = proceduresEnabled;
+    }
+
+    public boolean isProtocolExceptionsEnabled() {
+        return protocolExceptionsEnabled;
+    }
+
+    public void setProtocolExceptionsEnabled(boolean protocolExceptionsEnabled) {
+        this.protocolExceptionsEnabled = protocolExceptionsEnabled;
     }
 
 }

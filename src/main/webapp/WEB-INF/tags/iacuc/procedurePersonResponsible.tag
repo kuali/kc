@@ -26,6 +26,9 @@
 <%@ attribute name="procedurePersonProperty" required="true" 
               description="The procedure person property" %>
 
+<c:set var="modifyPermission" value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}" />
+<c:set var="readOnly" value="${!modifyPermission}" />
+
 <c:set var="personResponsibleAttributes" value="${DataDictionary.IacucProcedurePersonResponsible.attributes}" />
 
 <kul:innerTab tabTitle="Persons Responsible" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${procedureDetailBeanIndex}].newIacucProcedurePersonResponsible*" useCurrentTabIndexAsKey="true">

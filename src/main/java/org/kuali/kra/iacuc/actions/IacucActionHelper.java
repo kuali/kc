@@ -98,7 +98,6 @@ import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncompleteBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
-import org.kuali.kra.protocol.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
@@ -838,6 +837,11 @@ public class IacucActionHelper extends ActionHelper {
                 amendmentBean.setQuestionnaire((correctAmendment.hasModule(IacucProtocolModule.QUESTIONNAIRE)) ? true : false);
                 amendmentBean.setSpecialReview((correctAmendment.hasModule(IacucProtocolModule.SPECIAL_REVIEW)) ? true : false);
                 amendmentBean.setSubjects((correctAmendment.hasModule(IacucProtocolModule.SUBJECTS)) ? true : false);
+                amendmentBean.setThreers((correctAmendment.hasModule(IacucProtocolModule.THREE_RS)) ? true : false);
+                amendmentBean.setSpeciesAndGroups((correctAmendment.hasModule(IacucProtocolModule.SPECIES_GROUPS)) ? true : false);
+                amendmentBean.setProcedures((correctAmendment.hasModule(IacucProtocolModule.PROCEDURES)) ? true : false);
+                amendmentBean.setProtocolExceptions((correctAmendment.hasModule(IacucProtocolModule.EXCEPTIONS)) ? true : false);
+
             } else {
                 setSubmissionHasNoAmendmentDetails(true);
             }
@@ -1100,6 +1104,19 @@ public class IacucActionHelper extends ActionHelper {
             else if (StringUtils.equals(IacucProtocolModule.QUESTIONNAIRE, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setQuestionnaire(true);
             }
+            else if (StringUtils.equals(IacucProtocolModule.THREE_RS, module.getProtocolModuleTypeCode())) {
+                ((IacucProtocolAmendmentBean)amendmentBean).setThreers(true);
+            }
+            else if (StringUtils.equals(IacucProtocolModule.SPECIES_GROUPS, module.getProtocolModuleTypeCode())) {
+                ((IacucProtocolAmendmentBean)amendmentBean).setSpeciesAndGroups(true);
+            }
+            else if (StringUtils.equals(IacucProtocolModule.PROCEDURES, module.getProtocolModuleTypeCode())) {
+                ((IacucProtocolAmendmentBean)amendmentBean).setProcedures(true);
+            }
+            else if (StringUtils.equals(IacucProtocolModule.EXCEPTIONS, module.getProtocolModuleTypeCode())) {
+                ((IacucProtocolAmendmentBean)amendmentBean).setProtocolExceptions(true);
+            }
+            
         }
     }
 
@@ -1146,6 +1163,19 @@ public class IacucActionHelper extends ActionHelper {
         else if (StringUtils.equals(IacucProtocolModule.QUESTIONNAIRE,moduleTypeCode)) {
             amendmentBean.setQuestionnaireEnabled(true);
         }
+        else if (StringUtils.equals(IacucProtocolModule.THREE_RS,moduleTypeCode)) {
+            ((IacucProtocolEditableBean)amendmentBean).setThreersEnabled(true);
+        }
+        else if (StringUtils.equals(IacucProtocolModule.SPECIES_GROUPS,moduleTypeCode)) {
+            ((IacucProtocolEditableBean)amendmentBean).setSpeciesAndGroupsEnabled(true);
+        }
+        else if (StringUtils.equals(IacucProtocolModule.PROCEDURES,moduleTypeCode)) {
+            ((IacucProtocolEditableBean)amendmentBean).setProceduresEnabled(true);
+        }
+        else if (StringUtils.equals(IacucProtocolModule.EXCEPTIONS,moduleTypeCode)) {
+            ((IacucProtocolEditableBean)amendmentBean).setProtocolExceptionsEnabled(true);
+        }
+    
     }
     
     @Override
@@ -1162,6 +1192,11 @@ public class IacucActionHelper extends ActionHelper {
         amendmentBean.setQuestionnaire((correctAmendment.hasModule(IacucProtocolModule.QUESTIONNAIRE)) ? true : false);
         amendmentBean.setSpecialReview((correctAmendment.hasModule(IacucProtocolModule.SPECIAL_REVIEW)) ? true : false);
         amendmentBean.setSubjects((correctAmendment.hasModule(IacucProtocolModule.SUBJECTS)) ? true : false);
+        ((IacucProtocolAmendmentBean)amendmentBean).setThreers((correctAmendment.hasModule(IacucProtocolModule.THREE_RS)) ? true : false);
+        ((IacucProtocolAmendmentBean)amendmentBean).setSpecialReview((correctAmendment.hasModule(IacucProtocolModule.SPECIES_GROUPS)) ? true : false);
+        ((IacucProtocolAmendmentBean)amendmentBean).setProcedures((correctAmendment.hasModule(IacucProtocolModule.PROCEDURES)) ? true : false);
+        ((IacucProtocolAmendmentBean)amendmentBean).setProtocolExceptions((correctAmendment.hasModule(IacucProtocolModule.EXCEPTIONS)) ? true : false);
+    
     }
     
     @Override
