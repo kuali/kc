@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.iacuc.customdata;
 
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,15 +27,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.drools.core.util.StringUtils;
+//import org.drools.core.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.customdata.CustomDataHelper;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -116,4 +123,48 @@ public class IacucProtocolCustomDataAction extends IacucProtocolAction {
             }
         }
     }
+    
+    /**
+     * Clears the lookup value for the customAttributeId given in the parameter methodToCall.clearLookupValue.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearLookupValue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucProtocolCustomDataHelper customDataHelper = (IacucProtocolCustomDataHelper) protocolForm.getCustomDataHelper();
+        IacucProtocol iacucProtocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
+        List <IacucProtocolCustomData> iacucProtocolList= iacucProtocol.getIacucProtocolCustomDataList();
+        Map<String, CustomAttributeDocument> customAttributeDocuments = protocolForm.getProtocolDocument().getCustomAttributeDocuments();
+        
+        String attributeParameter = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String customAttributeId = StringUtils.substringBetween(attributeParameter, ".id", ".");
+        if ( StringUtils.isNotBlank(customAttributeId))
+        {
+            customDataHelper.clearCustomAttributeValue(customAttributeId);
+            iacucProtocol.refreshReferenceObject("iacucProtocolCustomDataList");
+            if (customAttributeDocuments.containsKey(customAttributeId)) {
+                customAttributeDocuments.get(customAttributeId).getCustomAttribute().setValue(null);  
+                IacucProtocolCustomData iacucProtocolCustomData1 = null;
+                for(IacucProtocolCustomData iacucProtocolCustomData : iacucProtocolList)
+                {
+                    if(iacucProtocolCustomData.getCustomAttributeId().toString().equals(customAttributeId))
+                    {
+                        iacucProtocolCustomData1 = iacucProtocolCustomData;
+                        break;
+                    }
+                }
+                if ( iacucProtocolCustomData1 != null)
+                {
+                    iacucProtocolList.remove(iacucProtocolCustomData1);
+                }
+
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
 }
