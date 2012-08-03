@@ -359,7 +359,6 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         }
         if (newDocPaToUser != null && getProtocolPaToUse != null) {
             for (ProtocolCorrespondence pc : getProtocolPaToUse.getProtocolCorrespondences()) {
-                System.err.println("  adding a new correspondence!  pc.getId(): " + pc.getId());
                 ProtocolCorrespondence newPc = new ProtocolCorrespondence();
                 newPc.setActionId(pc.getActionId());
                 newPc.setActionIdFk(newDocPaToUser.getProtocolActionId());
