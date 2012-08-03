@@ -40,6 +40,8 @@ public class ProtocolValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
+        // note: the following will overwrite existing elements in the tree; that's the whole point.  We
+        // want discrete values in the list.
         TreeMap<String, KeyValue> valuesMap = new TreeMap<String, KeyValue>();
         for (ProtocolSubmission protocolSubmission : getProtocols()) {
             KeyValue keyValue = new ConcreteKeyValue(protocolSubmission.getProtocolId().toString(), protocolSubmission.getProtocolNumber());
