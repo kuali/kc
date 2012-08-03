@@ -125,7 +125,31 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
             // IacucProtocolModule.QUESTIONNAIRE);
             amendmentEntry.removeModule(IacucProtocolModule.QUESTIONNAIRE);
         }
-
+        if (((IacucProtocolAmendmentBean)amendmentBean).getThreers()) {
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.THREE_RS));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.THREE_RS);
+            amendmentEntry.removeModule(IacucProtocolModule.THREE_RS);
+        }
+        if (((IacucProtocolAmendmentBean)amendmentBean).getSpeciesAndGroups()) {
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.SPECIES_GROUPS));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.SPECIES_GROUPS);
+            amendmentEntry.removeModule(IacucProtocolModule.SPECIES_GROUPS);
+        }
+        if (((IacucProtocolAmendmentBean)amendmentBean).getProcedures()) {
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.PROCEDURES));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.PROCEDURES);
+            amendmentEntry.removeModule(IacucProtocolModule.PROCEDURES);
+        }
+        if (((IacucProtocolAmendmentBean)amendmentBean).getProtocolExceptions()) {
+            amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.EXCEPTIONS));
+        } else {
+            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.EXCEPTIONS);
+            amendmentEntry.removeModule(IacucProtocolModule.EXCEPTIONS);
+        }
+        
     }
 
     @Override
@@ -167,6 +191,10 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
         moduleTypeCodes.add(IacucProtocolModule.SUBJECTS);
         moduleTypeCodes.add(IacucProtocolModule.PROTOCOL_PERMISSIONS);
         moduleTypeCodes.add(IacucProtocolModule.QUESTIONNAIRE);
+        moduleTypeCodes.add(IacucProtocolModule.THREE_RS);
+        moduleTypeCodes.add(IacucProtocolModule.SPECIES_GROUPS);
+        moduleTypeCodes.add(IacucProtocolModule.PROCEDURES);
+        moduleTypeCodes.add(IacucProtocolModule.EXCEPTIONS);
         return moduleTypeCodes;
     }
 

@@ -27,6 +27,8 @@
               description="The procedure location property" %>
 
 <c:set var="procedureLocationAttributes" value="${DataDictionary.IacucProtocolStudyGroupLocation.attributes}" />
+<c:set var="modifyPermission" value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}" />
+<c:set var="readOnly" value="${!modifyPermission}" />
 
 <kul:innerTab tabTitle="Location(s)" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="iacucProtocolStudyGroupBeans[${procedureBeanIndex}].iacucProtocolStudyGroupDetailBeans[${procedureDetailBeanIndex}].newIacucProtocolStudyGroupLocation*" useCurrentTabIndexAsKey="true">
 	<div class="innerTab-container" align="left">
@@ -104,6 +106,7 @@
 	        </kra:permission>          
             
         	<c:forEach var="protocolLocation" items="${collectionReference}" varStatus="status">
+               	<c:set var="locationName" value="${protocolLocation.iacucLocationName.locationName}" />
                 <tr>
 					<th class="infoline">
 					   <c:out value="${status.index+1}" />
@@ -113,7 +116,7 @@
 		               	<div align="center">
 		                	<kul:htmlControlAttribute property="${collectionProperty}[${status.index}].locationTypeCode" 
 		                	                          attributeEntry="${procedureLocationAttributes.locationTypeCode}" 
-		                	                          onchange="populateSelect('getIacucProcedureLocationNames', '${collectionProperty}[${status.index}].locationTypeCode', '${collectionProperty}[${status.index}].locationId');"/>
+		                	                          onchange="populateSelect('getIacucProcedureLocationNames', '${collectionProperty}[${status.index}].locationTypeCode', '${collectionProperty}[${status.index}].locationId');" readOnly="${readOnly}"/>
 							<script type="text/javascript">
 							   var $j = jQuery.noConflict();
 							   $j(document).ready(function() {
@@ -127,9 +130,16 @@
 		            </td>
 		            <td align="left" valign="middle" class="infoline">
 		               	<div align="center">
-		                    <html:select property="${collectionProperty}[${status.index}].locationId" styleId="${collectionProperty}[${status.index}].locationId">                                              	                
-								<option value="">select</option> 
-							</html:select>                         
+						<c:choose>
+							<c:when test="${readOnly}" >
+						   		<c:out value="${locationName}" />
+							</c:when>
+							<c:otherwise>
+			                    <html:select property="${collectionProperty}[${status.index}].locationId" styleId="${collectionProperty}[${status.index}].locationId">                                              	                
+									<option value="">select</option> 
+								</html:select>                         
+							</c:otherwise>
+						</c:choose>	
 		            	</div>
 					</td>
 		            <td align="left" valign="middle" class="infoline">

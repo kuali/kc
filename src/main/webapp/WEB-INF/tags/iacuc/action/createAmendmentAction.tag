@@ -126,9 +126,39 @@
 	            					    Questionnaire
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.threers" 
+	            					                              attributeEntry="${attributes.threers}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.threersEnabled}" />
+	            					    Three R's
+	            					</td>
+	            				</tr>
+
+	            				<tr>
+	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.speciesAndGroups" 
+	            					                              attributeEntry="${attributes.speciesAndGroups}"
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.speciesAndGroupsEnabled}" />
+	            					    Species/Groups
+	            					</td>
+	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.procedures" 
+	            					                              attributeEntry="${attributes.procedures}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.proceduresEnabled}" />
+	            					    Procedures
+	            					</td>
+	            				</tr>
+	            				<tr>
+	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolExceptions" 
+	            					                              attributeEntry="${attributes.protocolExceptions}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.protocolExceptionsEnabled}" />
+	            					    Protocol Exception
+	            					</td>
+	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
 	            					    &nbsp;
 	            					</td>
 	            				</tr>
+
 	            			</tbody>
                 		</table>
             		</td>
