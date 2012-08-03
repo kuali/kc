@@ -28,7 +28,7 @@ end
 rule "Assign to Agenda"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "200", protocolStatusCode == "101", submissionStatusCode == "102", scheduleId != null)
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "200", protocolStatusCode == "101", submissionStatusCode == "102", scheduleId != null, protocolReviewTypeCode in ("2", "3", "4", "5"))
 then    
     setAction(protocolAction, true);
 end
@@ -37,7 +37,7 @@ end
 rule "Assign to Agenda - Tabled"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "200", protocolStatusCode == "103", submissionStatusCode == "206", scheduleId != null)
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "200", protocolStatusCode == "103", submissionStatusCode == "206", scheduleId != null, protocolReviewTypeCode in ("2", "3", "4", "5"))
 then    
     setAction(protocolAction, true);
 end
@@ -162,7 +162,7 @@ rule "Record Committee Decision"
 salience 100
 # TODO : need to create this action type : use code "318"
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "318", protocolStatusCode == "101", submissionStatusCode == "103")
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "318", protocolStatusCode == "101", submissionStatusCode == "103", protocolReviewTypeCode in ("2", "3", "4", "5"))
 then    
     setAction(protocolAction, true);
 end
@@ -170,7 +170,7 @@ end
 rule "Approve Protocol"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "204", protocolStatusCode == "101", submissionStatusCode == "103",  protocolReviewTypeCode in ("1", "2", "3", "5"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "204", protocolStatusCode == "101", submissionStatusCode == "103", protocolReviewTypeCode in ("1", "2", "3", "5"))
 then    
     setAction(protocolAction, true);
 end
