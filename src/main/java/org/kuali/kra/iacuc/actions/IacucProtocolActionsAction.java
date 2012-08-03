@@ -2334,9 +2334,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
              getProtocolGenericActionService().suspend(protocol, actionBean);
              saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
              
-             recordProtocolActionSuccess("Suspend");
+             recordProtocolActionSuccess("Suspended");
              IacucProtocolNotificationRequestBean notificationBean = 
-                     new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.TERMINATED, "Suspended");
+                     new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.SUSPENDED, "Suspended");
              protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
              if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                  return mapping.findForward(CORRESPONDENCE);
