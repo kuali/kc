@@ -97,7 +97,7 @@ public abstract class ProtocolAssignToAgendaServiceImpl implements ProtocolAssig
 
         ProtocolSubmission submission = findSubmission(protocol);
         // add a new protocol action
-        ProtocolAction protocolAction = getNewProtocolActionInstanceHook(protocol, submission, getProtocolActionTypeAssignToAgendaCodeHook());
+        ProtocolAction protocolAction = getNewProtocolAssignToAgendaActionInstanceHook(protocol, submission);
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);
@@ -105,26 +105,10 @@ public abstract class ProtocolAssignToAgendaServiceImpl implements ProtocolAssig
         documentService.saveDocument(protocol.getProtocolDocument());    
     }
 
-    protected abstract ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, ProtocolSubmission submission, String protocolActionTypeCode);
+    protected abstract ProtocolAction getNewProtocolAssignToAgendaActionInstanceHook(Protocol protocol, ProtocolSubmission submission);
 
-    protected abstract String getProtocolActionTypeAssignToAgendaCodeHook();
     
     
-
-// TODO *********commented the code below during IACUC refactoring********* 
-//    /** {@inheritDoc} */
-//    public void assignToAgenda(Protocol protocol, ProtocolExpeditedApproveBean actionBean) throws Exception {
-//
-//        ProtocolSubmission submission = findSubmission(protocol);
-//        // add a new protocol action
-//        ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.ASSIGN_TO_AGENDA);
-//        protocolAction.setComments(actionBean.getComments());
-//        protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
-//        protocol.getProtocolActions().add(protocolAction);
-//        protocolActionService.updateProtocolStatus(protocolAction, protocol);
-//        documentService.saveDocument(protocol.getProtocolDocument());    
-//    }
-
     
     
     /** {@inheritDoc} */
@@ -164,6 +148,7 @@ public abstract class ProtocolAssignToAgendaServiceImpl implements ProtocolAssig
         return returnAction;
     }
 
+    protected abstract String getProtocolActionTypeAssignToAgendaCodeHook();
     
     
 // TODO *********commented the code below during IACUC refactoring*********     
