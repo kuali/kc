@@ -235,8 +235,14 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     }
     
     private boolean validateSourceObligatedFunds (PendingTransaction pendingTransaction, Award award) {
-        AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() -1);
-        boolean valid = true;
+        //AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() -1);
+        /**
+         * See KRACOEUS-5626 for why we are doing this.
+         */
+        Award activeAward = getAwardVersionService().getWorkingAwardVersion(award.getAwardNumber());
+        activeAward.refresh();
+        AwardAmountInfo awardAmountInfo = activeAward.getAwardAmountInfos().get(activeAward.getAwardAmountInfos().size() -1);
+        boolean valid = true;        
         if (awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()).isNegative()) {
             reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_OBLIGATED_AMOUNT_INVALID);
             valid = false;
