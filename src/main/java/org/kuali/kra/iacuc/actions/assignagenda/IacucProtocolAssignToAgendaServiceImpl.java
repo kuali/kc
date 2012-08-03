@@ -78,10 +78,9 @@ public class IacucProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgen
     
 
     @Override
-    protected ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, ProtocolSubmission submission, String protocolActionTypeCode) {
-        return new IacucProtocolAction( (IacucProtocol)protocol, (IacucProtocolSubmission) submission, protocolActionTypeCode);
+    protected ProtocolAction getNewProtocolAssignToAgendaActionInstanceHook(Protocol protocol, ProtocolSubmission submission) {
+        return new IacucProtocolAction( (IacucProtocol)protocol, (IacucProtocolSubmission) submission, IacucProtocolActionType.ASSIGNED_TO_AGENDA);
     }
-    
     
 
     @Override
