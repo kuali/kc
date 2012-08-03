@@ -37,6 +37,7 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
@@ -333,6 +334,61 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 
         finalizeAttachmentProtocol(this.getProtocol());
         getBusinessObjectService().save(this);
+
+        
+        /**
+         * This is a hack, but is there another way to do it?  Not that I can find.
+         * We need to find the last instance of a Protocol Action of type ProtocolActionType.APPROVED and copy that action's correspondence, and put it in the
+         * coresponding action on .  Per KCIRB-1830
+         */ 
+        ProtocolAction getProtocolPaToUse = null;
+        for (ProtocolAction pa : getProtocol().getProtocolActions()) {
+            if (StringUtils.equals(ProtocolActionType.APPROVED, pa.getProtocolActionTypeCode())) {
+                if (getProtocolPaToUse == null || getProtocolPaToUse.getUpdateTimestamp().before(pa.getUpdateTimestamp())) {
+                    getProtocolPaToUse = pa;
+                }
+            }
+        }
+        ProtocolAction newDocPaToUser = null;
+        for (ProtocolAction pa2 : newProtocolDocument.getProtocol().getProtocolActions()) {
+            if (StringUtils.equals(ProtocolActionType.APPROVED, pa2.getProtocolActionTypeCode())) {
+                if (newDocPaToUser == null || newDocPaToUser.getUpdateTimestamp().before(pa2.getUpdateTimestamp())) {
+                    newDocPaToUser = pa2;
+                }
+            }
+        }
+        if (newDocPaToUser != null && getProtocolPaToUse != null) {
+            for (ProtocolCorrespondence pc : getProtocolPaToUse.getProtocolCorrespondences()) {
+                System.err.println("  adding a new correspondence!  pc.getId(): " + pc.getId());
+                ProtocolCorrespondence newPc = new ProtocolCorrespondence();
+                newPc.setActionId(pc.getActionId());
+                newPc.setActionIdFk(newDocPaToUser.getProtocolActionId());
+                newPc.setCorrespondence(pc.getCorrespondence());
+                newPc.setCreateTimestamp(pc.getCreateTimestamp());
+                newPc.setCreateUser(pc.getCreateUser());
+                newPc.setExtension(pc.getExtension());
+                newPc.setFinalFlag(pc.getFinalFlag());
+                newPc.setFinalFlagTimestamp(pc.getFinalFlagTimestamp());
+                newPc.setForwardName(pc.getForwardName());
+                newPc.setHoldingPage(pc.isHoldingPage());
+                newPc.setNewCollectionRecord(pc.isNewCollectionRecord());
+                newPc.setNotificationRequestBean(pc.getNotificationRequestBean());
+                newPc.setProtocol(newDocPaToUser.getProtocol());
+                newPc.setProtocolAction(newDocPaToUser);
+                newPc.setProtocolCorrespondenceType(pc.getProtocolCorrespondenceType());
+                newPc.setProtocolId(newDocPaToUser.getProtocolId());
+                newPc.setProtocolNumber(newDocPaToUser.getProtocolNumber());
+                newPc.setProtoCorrespTypeCode(pc.getProtoCorrespTypeCode());
+                newPc.setRegenerateFlag(pc.isRegenerateFlag());
+                newPc.setSequenceNumber(pc.getSequenceNumber());
+                if (newDocPaToUser.getProtocolCorrespondences() == null) {
+                    newDocPaToUser.setProtocolCorrespondences(new ArrayList<ProtocolCorrespondence>());
+                }
+                newDocPaToUser.getProtocolCorrespondences().add(newPc);
+                getBusinessObjectService().save(newPc);
+            }
+            getBusinessObjectService().save(newDocPaToUser);
+        }        
     }
     
     private boolean isEligibleForMerging(String status, Protocol otherProtocol) {
