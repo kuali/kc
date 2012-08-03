@@ -39,6 +39,10 @@
 				<ref bean="IacucProtocolAmendmentBean-others" />
                 <ref bean="IacucProtocolAmendmentBean-protocolPermissions" />
                 <ref bean="IacucProtocolAmendmentBean-questionnaire" />
+                <ref bean="IacucProtocolAmendmentBean-threers" />
+                <ref bean="IacucProtocolAmendmentBean-speciesAndGroups" />
+                <ref bean="IacucProtocolAmendmentBean-procedures" />
+                <ref bean="IacucProtocolAmendmentBean-protocolExceptions" />
 			</list>
 		</property>
 	</bean>
@@ -169,5 +173,41 @@
         <property name="summary" value="Protocol Permissions" />
         <property name="description" value="Protocol Permissions" />
     </bean>
-    
+
+    <bean id="IacucProtocolAmendmentBean-threers" parent="IacucProtocolAmendmentBean-threers-parentBean" />
+    <bean id="IacucProtocolAmendmentBean-threers-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="threers" />
+        <property name="label" value="Three R's" />
+        <property name="shortLabel" value="Three R's" />
+        <property name="summary" value="Three R's" />
+        <property name="description" value="Three R's" />
+    </bean>
+
+    <bean id="IacucProtocolAmendmentBean-speciesAndGroups" parent="IacucProtocolAmendmentBean-speciesAndGroups-parentBean" />
+    <bean id="IacucProtocolAmendmentBean-speciesAndGroups-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="speciesAndGroups" />
+        <property name="label" value="Species/Groups" />
+        <property name="shortLabel" value="Species/Groups" />
+        <property name="summary" value="Species/Groups" />
+        <property name="description" value="Species/Groups" />
+    </bean>
+
+    <bean id="IacucProtocolAmendmentBean-procedures" parent="IacucProtocolAmendmentBean-procedures-parentBean" />
+    <bean id="IacucProtocolAmendmentBean-procedures-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="procedures" />
+        <property name="label" value="Procedures" />
+        <property name="shortLabel" value="Procedures" />
+        <property name="summary" value="Procedures" />
+        <property name="description" value="Procedures" />
+    </bean>
+
+    <bean id="IacucProtocolAmendmentBean-protocolExceptions" parent="IacucProtocolAmendmentBean-protocolExceptions-parentBean" />
+    <bean id="IacucProtocolAmendmentBean-protocolExceptions-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="protocolExceptions" />
+        <property name="label" value="Protocol Exceptions" />
+        <property name="shortLabel" value="Protocol Exceptions" />
+        <property name="summary" value="Protocol Exceptions" />
+        <property name="description" value="Protocol Exceptions" />
+    </bean>
+   
 </beans>

@@ -26,9 +26,9 @@
 <%@ attribute name="action" required="true" 
               description="The name of the action class" %>
 
-<c:set var="readOnly" value="${kualiForm.editingMode['viewOnly']}" scope="request" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.IACUC_PROTOCOL_EXCEPTION_DESC_LENGTH%>" />
 <c:set var="modifyPermission" value="${KualiForm.iacucProtocolExceptionHelper.modifyProtocolException}" />
+<c:set var="readOnly" value="${!modifyPermission}" />
 
 
 <kul:tab tabTitle="Protocol Exceptions" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="newIacucProtocolException*,iacucProtocolExceptionHelper.newIacucProtocolException*,${collectionProperty}*">

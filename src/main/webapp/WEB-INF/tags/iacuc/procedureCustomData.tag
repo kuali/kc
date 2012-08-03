@@ -26,6 +26,9 @@
 <%@ attribute name="procedureCategoryName" required="true" 
               description="The procedure name" %>
 
+<c:set var="modifyPermission" value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}" />
+<c:set var="readOnly" value="${!modifyPermission}" />
+
 <kul:innerTab tabTitle="Custom Data : ${procedureCategoryName}" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
 	<div class="innerTab-container" align="left">
     	<h3>
