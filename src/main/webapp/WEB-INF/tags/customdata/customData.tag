@@ -94,7 +94,7 @@
 						   </c:otherwise>
                           </c:choose>
 						  <c:if test="${not empty customAttributeValue}">
-                            <html:image property="methodToCall.clearLookupValue" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Lookup Value" alt="Clear Lookup Value" value="${customAttributeDocument.customAttributeId}" styleClass="tinybutton"/>
+                            <html:image property="methodToCall.clearLookupValue.id${customAttributeDocument.customAttributeId}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Lookup Value" alt="Clear Lookup Value" value="${customAttributeDocument.customAttributeId}" styleClass="tinybutton"/>
                           </c:if>
 						</c:if>
 						
