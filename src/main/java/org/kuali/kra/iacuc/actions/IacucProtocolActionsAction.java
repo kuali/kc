@@ -951,7 +951,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //            // Form fields copy needed to support modifyAmendmentSections
 //            protocolForm.getActionHelper().setProtocolAmendmentBean(protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
 //
-//            ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.RENEWAL_CREATED_NOTIFICATION, "Renewal With Amendment Created");
+//            ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.RENEWAL_WITH_AMENDMENT_CREATED, "Renewal With Amendment Created");
 //            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
 //            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
 //                return mapping.findForward(CORRESPONDENCE);
@@ -3137,14 +3137,14 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             ProtocolAction lastAction = protocol.getLastProtocolAction();
 
             protocolForm.getProtocolHelper().prepareView();
-            // cannot do this until corresspondences is done.
-          //  protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, new IacucProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),IacucProtocolActionType.IACUC_ABANDON, "Abandon"), false));
+
+            IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocolForm.getIacucProtocolDocument().getIacucProtocol(),IacucProtocolActionType.IACUC_ABANDON, "Abandon");
+            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, notificationBean, false));
 
             if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                 return mapping.findForward(CORRESPONDENCE);
             } else {
-                // cannot do this until notification is done.
-                //return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.ABANDON_PROTOCOL, "Abandon"));
+                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
             }
 
         }
