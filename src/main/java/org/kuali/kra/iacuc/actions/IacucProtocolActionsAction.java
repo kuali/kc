@@ -3166,7 +3166,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
  
     
-// TODO *********commented the code below during IACUC refactoring*********     
+
     
     private IacucReviewCommentsBean getReviewCommentsBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         IacucReviewCommentsBean reviewCommentsBean = null;
@@ -4707,7 +4707,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                  if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                      return mapping.findForward(CORRESPONDENCE);
                  } else {
-                     return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationRequestBean);
+                     return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, notificationRequestBean);
                  }
 
              }

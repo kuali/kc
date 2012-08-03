@@ -33,6 +33,16 @@ then
     setAction(protocolAction, true);
 end
 
+
+rule "Assign to Agenda - Tabled"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "200", protocolStatusCode == "103", submissionStatusCode == "206", scheduleId != null)
+then    
+    setAction(protocolAction, true);
+end
+
+
 rule "Remove from Agenda"
 salience 100
 when
