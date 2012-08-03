@@ -59,8 +59,8 @@ public class IacucCommitteeDecisionMotionValuesFinder extends CommitteeDecisionM
             }
         }
         
-        // filter out the motions whose follow-up actions are not allowed
-        returnList = removedisAllowedMotions(newList);
+        // filter out the motions that we don't wish to list in the drop down (for example those with follow-up actions that are not allowed)
+        returnList = removeDisallowedMotions(newList);
         
         return returnList;
     }
@@ -70,27 +70,36 @@ public class IacucCommitteeDecisionMotionValuesFinder extends CommitteeDecisionM
     // the protocol action service to determine if the follow-up actions for each motion can be performed---and only then should the motion be allowed 
     // to appear in the selection drop down.
     // Currently, however, we will make do with a hardcoded check for review type of FYI, and defer the more robust check for later. 
-    private List<KeyValue> removedisAllowedMotions(List<KeyValue> srcList) {
+    private List<KeyValue> removeDisallowedMotions(List<KeyValue> srcList) {
         
         List<KeyValue> returnList = new ArrayList<KeyValue>();
         IacucProtocol protocol = getProtocol();
         boolean isFYI = false;
+        boolean isDMR = false;
+        
         if(null != protocol) {
             IacucProtocolSubmission submission = (IacucProtocolSubmission) protocol.getProtocolSubmission();
             if( (null != submission) && (IacucProtocolReviewType.FYI.equals(submission.getProtocolReviewTypeCode())) ) { 
                 isFYI = true;
             }
+            else if( (null != submission) && (IacucProtocolReviewType.DESIGNATED_MEMBER_REVIEW.equals(submission.getProtocolReviewTypeCode())) ) { 
+                isDMR = true;
+            }
         }
         
         for(KeyValue srcKV: srcList) {
-            if(isFYI) {
-                // we filter out major revisions, minor revisions and approve 
-                if( !(
-                      CommitteeDecisionMotionType.APPROVE.equals(srcKV.getKey()) ||
-                      CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(srcKV.getKey()) ||
-                      CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(srcKV.getKey()) 
-                      ) ) {
-                    returnList.add(srcKV);                    
+            if(isFYI) { 
+                // we filter out major revisions, minor revisions and approve motions for FYI
+                if(!( CommitteeDecisionMotionType.APPROVE.equals(srcKV.getKey()) ||
+                       CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(srcKV.getKey()) ||
+                       CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(srcKV.getKey()) )) {
+                    returnList.add(srcKV);
+                }
+            }
+            else if(isDMR) {
+                // we filter out disapprove motion
+                if(!CommitteeDecisionMotionType.DISAPPROVE.equals(srcKV.getKey())) {
+                    returnList.add(srcKV);
                 }
             }
             else {

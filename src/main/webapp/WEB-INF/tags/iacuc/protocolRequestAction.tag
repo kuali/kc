@@ -355,7 +355,9 @@
     	                                                     canPerformAction="${KualiForm.actionHelper.canAssignToAgendaUnavailable}" 
         	                                                 reason="Protocol must be assigned to a committee and committee schedule.
             	                                                     <p>
-                	                                                 Protocol submission status must be Submitted To Committee.
+                	                                                 Protocol submission status must be Submitted To Committee or Tabled.
+                	                                                 <p>
+                	                                                 Protocol review type must not be Administrative Review.
                     	                                             <p>
                         	                                         Protocol must be enroute in workflow." />
 	        	    <kra-iacuc-action:genericUnavailableAction tabTitle="Table"
@@ -376,6 +378,8 @@
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Record Committee Decision"
 				    	                                     canPerformAction="${KualiForm.actionHelper.canRecordCommitteeDecisionUnavailable}"
 				        	                                 reason="Protocol submission status must be In Agenda.
+				            	                                     <p>
+				            	                                     Protocol review type must not be Administrative Review.
 				            	                                     <p>
 				                	                                 The last protocol action was not Record Committee Decision." />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Disapprove"
