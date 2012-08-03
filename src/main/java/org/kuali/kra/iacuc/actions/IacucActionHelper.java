@@ -189,7 +189,6 @@ public class IacucActionHelper extends ActionHelper {
         iacucProtocolTableBean = new IacucProtocolTableBean(this);
         iacucProtocolModifySubmissionBean = new IacucProtocolModifySubmissionBean(this);
         iacucProtocolNotifyIacucBean = new IacucProtocolNotifyIacucBean(this);
-//        protocolFullApprovalBean = buildProtocolApproveBean(getFullApprovalProtocolActionTypeHook(), Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY);
         iacucProtocolDeactivateBean = this.buildProtocolGenericActionBean(IacucProtocolActionType.DEACTIVATED, Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY);
         iacucAcknowledgeBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucAcknowledgeBean");
         iacucProtocolHoldBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucProtocolHoldBean");
