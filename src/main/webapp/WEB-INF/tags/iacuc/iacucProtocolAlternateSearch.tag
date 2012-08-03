@@ -20,6 +20,7 @@
 
 <c:set var="protocol" value="${KualiForm.document.protocolList[0]}" />
 <c:set var="principlesAttributes" value="${DataDictionary.IacucPrinciples.attributes}" />
+<c:set var="readOnly" value="${!modifyPermissions}" />
 
 <!-- needed to attach to a styleClass attribute for a specific select box UI element -->
 <style type="text/css">
@@ -49,13 +50,21 @@
                 		<kul:htmlAttributeLabel attributeEntry="${principlesAttributes.searchRequired}" forceRequired="true" />
                 	</div>
                 </th>
+               	<c:set var="searchRequired" value="${document.protocolList[0].iacucPrinciples[0].searchRequired}" />
                 <td align="left" valign="center">
-			    	<html:select property="document.protocolList[0].iacucPrinciples[0].searchRequired"
-                                 onchange="alternateSearchRequired(this);">
-			        	<html:option value="">Select</html:option>
-			        	<html:option value="Y">Yes</html:option>
-			        	<html:option value="N">No</html:option>
-			        </html:select>
+					<c:choose>
+						<c:when test="${readOnly}" >
+					   		<c:out value="${searchRequired}" />
+						</c:when>
+						<c:otherwise>
+					    	<html:select property="document.protocolList[0].iacucPrinciples[0].searchRequired"
+		                                 onchange="alternateSearchRequired(this);">
+					        	<html:option value="">Select</html:option>
+					        	<html:option value="Y">Yes</html:option>
+					        	<html:option value="N">No</html:option>
+					        </html:select>
+					    </c:otherwise>
+					 </c:choose>       
                 </td>        
             </tr>        
         </table>
@@ -78,6 +87,8 @@
 	            <th>Action</th>
             </tr>
             <!-- Add Alternate Search form -->
+            
+        	<kra:permission value="${modifyPermissions}">   
             <tr>
                 <th><div align="right">Add:</div></th>
                 <th>
@@ -146,6 +157,11 @@
 	                </div>
                 </th>            
             </tr>   
+
+
+        	</kra:permission>
+            
+            
             
             <!--  existing alternate search database -->
             <c:forEach var="altSearches" items="${protocol.iacucAlternateSearches}" varStatus="status">
