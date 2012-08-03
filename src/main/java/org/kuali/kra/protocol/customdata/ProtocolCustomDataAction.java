@@ -209,7 +209,7 @@ public abstract class ProtocolCustomDataAction extends ProtocolAction {
      * the ResearchDocumentBase class.
      * @param form
      */
-    public static void copyCustomDataToDocument(ActionForm form) {
+    public void copyCustomDataToDocument(ActionForm form) {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ResearchDocumentBase document = (ResearchDocumentBase) protocolForm.getDocument();
 
