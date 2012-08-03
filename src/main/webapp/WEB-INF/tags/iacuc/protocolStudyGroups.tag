@@ -28,6 +28,9 @@
 <c:set var="protocolStudyGroupAttributes" value="${DataDictionary.IacucProtocolStudyGroup.attributes}" />
 <c:set var="studyGroupDetailBeanAttributes" value="${DataDictionary.IacucProtocolStudyGroupDetailBean.attributes}" />
 
+<c:set var="modifyPermission" value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}" />
+<c:set var="readOnly" value="${!modifyPermission}" />
+
 <table id="protocolProcedures" cellpadding="0" cellspacing="0" summary="">
 	<tr>
   		<th><div align="left">&nbsp;</div></th> 

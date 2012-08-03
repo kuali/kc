@@ -38,6 +38,11 @@ public class IacucProtocolAmendmentBean extends IacucProtocolEditableBean implem
     private boolean protocolPermissions = false;
     private boolean questionnaire = false;
     
+    private boolean threers = false;
+    private boolean speciesAndGroups = false;
+    private boolean procedures = false;
+    private boolean protocolExceptions = false;
+    
     /**
      * Constructs a ProtocolAmendmentBean.
      * @param actionHelper Reference back to the action helper for this bean
@@ -154,6 +159,10 @@ public class IacucProtocolAmendmentBean extends IacucProtocolEditableBean implem
                getSpecialReview() ||
                getSubjects() ||
                getProtocolPermissions() ||
+               getThreers() ||
+               getSpeciesAndGroups() ||
+               getProcedures() ||
+               getProtocolExceptions() ||
                getQuestionnaire();
     }
 
@@ -163,5 +172,37 @@ public class IacucProtocolAmendmentBean extends IacucProtocolEditableBean implem
 
     public void setQuestionnaire(boolean questionnaire) {
         this.questionnaire = questionnaire;
+    }
+
+    public boolean getThreers() {
+        return threers;
+    }
+
+    public void setThreers(boolean threers) {
+        this.threers = threers;
+    }
+
+    public boolean getSpeciesAndGroups() {
+        return speciesAndGroups;
+    }
+
+    public void setSpeciesAndGroups(boolean speciesAndGroups) {
+        this.speciesAndGroups = speciesAndGroups;
+    }
+
+    public boolean getProcedures() {
+        return procedures;
+    }
+
+    public void setProcedures(boolean procedures) {
+        this.procedures = procedures;
+    }
+
+    public boolean getProtocolExceptions() {
+        return protocolExceptions;
+    }
+
+    public void setProtocolExceptions(boolean protocolExceptions) {
+        this.protocolExceptions = protocolExceptions;
     }
 }

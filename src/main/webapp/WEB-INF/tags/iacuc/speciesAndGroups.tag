@@ -26,8 +26,9 @@
 <%@ attribute name="action" required="true" 
               description="The name of the action class" %>
 
-<c:set var="readOnly" value="${kualiForm.editingMode['viewOnly']}" scope="request" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.IACUC_PROCEDURE_SUMMARY_LENGTH%>" />
+<c:set var="modifyPermission" value="${KualiForm.iacucProtocolSpeciesHelper.modifyProtocolSpecies}" />
+<c:set var="readOnly" value="${!modifyPermission}" />
 
 
 <kul:tab tabTitle="Species/Groups" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="newIacucProtocolSpecies*,iacucProtocolSpeciesHelper.newIacucProtocolSpecies*,${collectionProperty}*">
