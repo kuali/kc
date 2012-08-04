@@ -55,6 +55,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
+import org.kuali.kra.iacuc.actions.undo.IacucProtocolUndoLastActionBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolAdministrativelyIncompleteBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
@@ -95,6 +96,7 @@ import org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingService
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
+import org.kuali.kra.protocol.actions.undo.UndoLastActionBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncompleteBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
@@ -1329,6 +1331,12 @@ public class IacucActionHelper extends ActionHelper {
 
     public void setIacucProtocolSuspendRequestBean(IacucProtocolRequestBean iacucProtocolSuspendRequestBean) {
         this.iacucProtocolSuspendRequestBean = iacucProtocolSuspendRequestBean;
+    }
+
+
+    @Override
+    protected UndoLastActionBean getNewUndoLastActionBeanInstanceHook() {
+        return new IacucProtocolUndoLastActionBean(this, "actionHelper.undoLastActionBean");
     }
     
 

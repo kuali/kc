@@ -47,6 +47,7 @@ function void setNewProtocolSubmission(IacucProtocolActionUpdateMapping protocol
 	protocolAction.getProtocolAction().setSubmissionTypeCode(submissionTypeCode);
 	//TODO should it be set to one to many or one to one mount
 	protocolAction.getProtocol().setProtocolSubmission(protocolSubmission);
+	protocolAction.setCreatedSubmission(true);
 }
 
 function void setProtocolStatusCode(IacucProtocolActionUpdateMapping protocolAction, String newProtocolStatusCode) {

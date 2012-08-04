@@ -13,16 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.actions.undo;
+package org.kuali.kra.iacuc.actions.undo;
 
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.ProtocolActionBean;
+import org.kuali.kra.protocol.actions.undo.UndoLastActionService;
 
-public interface UndoLastActionBean extends ProtocolActionBean {
-    
-    String getComments();
-    
-    boolean canUndoLastAction();
-    
-    ProtocolAction getLastAction();
+public interface IacucProtocolUndoLastActionService extends UndoLastActionService {
+
 }

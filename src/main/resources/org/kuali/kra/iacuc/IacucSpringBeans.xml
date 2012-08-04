@@ -1013,9 +1013,19 @@
 			    <value>/org/kuali/kra/protocol/admincorrection_notification.xml</value>
             </list>
 		</property>
-    </bean>   
-
-
+    </bean>  
+    
+    <bean id="iacucProtocolUndoLastActionService" class="org.kuali.kra.iacuc.actions.undo.IacucProtocolUndoLastActionServiceImpl">
+        <property name="protocolActionService" ref="iacucProtocolActionService" />
+        <property name="documentService" ref="documentService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolVersionService" ref="iacucProtocolVersionService" />        
+   		<property name ="reviewCommentsService" ref ="iacucReviewCommentsService"/>
+        <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
+		<property name="routeHeaderService" ref="routeHeaderService"/>
+		<property name="identityManagementService" ref="identityService"/>
+		<property name="protocolCopyService" ref="iacucProtocolCopyService" />
+    </bean>
 	<bean id="iacucQuestionnairePrintingService" class="org.kuali.kra.iacuc.questionnaire.print.IacucQuestionnairePrintingServiceImpl">
 		<property name="printingService">
 			<ref bean="printingService" />

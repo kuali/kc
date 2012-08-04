@@ -485,6 +485,7 @@
         <field-descriptor name="submissionTypeCode" column="SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="prevProtocolStatusCode" column="PREV_PROTOCOL_STATUS_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="followupActionCode" column="FOLLOWUP_ACTION_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="createdSubmission" column="CREATED_SUBMISSION" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         
         <reference-descriptor name="protocolActionType" class-ref="org.kuali.kra.iacuc.actions.IacucProtocolActionType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolActionTypeCode"/>

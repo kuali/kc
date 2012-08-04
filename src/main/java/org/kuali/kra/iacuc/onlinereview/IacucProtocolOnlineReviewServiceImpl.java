@@ -41,6 +41,7 @@ import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewServiceImpl;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -59,23 +60,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
-public class IacucProtocolOnlineReviewServiceImpl implements IacucProtocolOnlineReviewService {
+public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewServiceImpl implements IacucProtocolOnlineReviewService {
     private static final Log LOG = LogFactory.getLog(IacucProtocolOnlineReviewServiceImpl.class);
-    private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
-    private KraAuthorizationService kraAuthorizationService;
-    private IdentityService identityManagementService;
-    private CommonCommitteeService committeeService;
     private KraWorkflowService kraWorkflowService;
-    private WorkflowDocumentService workflowDocumentService;
-    private ReviewCommentsService reviewCommentsService;
-    private ProtocolFinderDao protocolFinderDao;
-    private KraDocumentRejectionService kraDocumentRejectionService;
-    private String reviewerApproveNodeName;
     private String iacucAdminApproveNodeName;
 
-    @SuppressWarnings("unchecked")
-    private PersonService personService;
 
     @Override
     public List<CommitteeMembership> getAvailableCommitteeMembersForCurrentSubmission(Protocol protocol) {
