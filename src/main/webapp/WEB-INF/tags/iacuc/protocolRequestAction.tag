@@ -262,9 +262,8 @@
                                           canPerformAction="${KualiForm.actionHelper.canAbandon}" 
                                           canAddReviewComments="false"/>
                                         
-           <%-- <kra-iacuc-action:reviewNotRequiredAction />
+           <%-- <kra-iacuc-action:reviewNotRequiredAction />--%>
             <kra-iacuc-action:undoLastAction />
-            --%>
             
             <kra-iacuc-action:manageReviewComments />
 <%--            

@@ -105,6 +105,7 @@ public abstract class ProtocolOnlineReviewDocument extends ResearchDocumentBase 
      * and Protocol to the outside world - aka a single Protocol field associated with ProtocolDocument
      * @param protocol
      */
+     public abstract void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview);
 //    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
 //        protocolOnlineReviewList.set(0, protocolOnlineReview);
 //    }

@@ -22,8 +22,18 @@ import org.kuali.kra.protocol.actions.submit.ProtocolActionUpdateMapping;
  */
 public class IacucProtocolActionUpdateMapping extends ProtocolActionUpdateMapping {
     
+    private boolean createdSubmission;
+    
     public IacucProtocolActionUpdateMapping(String actionTypeCode, String submissionTypeCode, String protocolStatusCode, String specialCondition) {
         super(actionTypeCode, submissionTypeCode, protocolStatusCode, specialCondition);
+    }
+
+    public boolean isCreatedSubmission() {
+        return createdSubmission;
+    }
+
+    public void setCreatedSubmission(boolean createdSubmission) {
+        this.createdSubmission = createdSubmission;
     }
     
     

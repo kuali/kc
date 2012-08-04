@@ -163,9 +163,8 @@ public abstract class ProtocolApproveServiceImpl implements ProtocolApproveServi
 
     protected void finalizeReviewsAndSave(Protocol protocol, String protocolActionTypeCode, String reviewAnnotation) throws Exception {
         protocol.refreshReferenceObject("protocolStatus");
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), reviewAnnotation);
+
+        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), reviewAnnotation);
         
         documentService.saveDocument(protocol.getProtocolDocument());
 
