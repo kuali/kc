@@ -228,8 +228,7 @@ public abstract class ActionHelper implements Serializable {
 //    protected boolean canAddReopenEnrollmentReviewerComments;
 
     protected boolean canAddSuspendReviewerComments;
-    protected boolean canAddTerminateReviewerComments;
-    
+    protected boolean canAddTerminateReviewerComments;    
     
     // new addition that needs to be backfitted to IRB as well
     private boolean canPerformAdminDetermination;
@@ -436,7 +435,7 @@ public abstract class ActionHelper implements Serializable {
  
 // TODO *********commented the code below during IACUC refactoring*********         
         protocolAdminCorrectionBean = createAdminCorrectionBean();
-//        undoLastActionBean = createUndoLastActionBean(getProtocol());
+        undoLastActionBean = getNewUndoLastActionBeanInstanceHook();
         
         committeeDecision = getNewCommitteeDecisionInstanceHook(this);
         committeeDecision.init();
@@ -516,6 +515,8 @@ public abstract class ActionHelper implements Serializable {
     protected abstract ProtocolDeleteBean getNewProtocolDeleteBeanInstanceHook(ActionHelper actionHelper);
 
     protected abstract AdminCorrectionBean getNewAdminCorrectionBeanInstanceHook(ActionHelper actionHelper);
+    
+    protected abstract UndoLastActionBean getNewUndoLastActionBeanInstanceHook();
    
 
     /**
@@ -590,7 +591,7 @@ public abstract class ActionHelper implements Serializable {
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolSuspendRequestBean);
         actionBeanTaskMap.put(TaskName.TERMINATE_PROTOCOL, protocolTerminateBean);
 //        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_TERMINATE, protocolTerminateRequestBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_UNDO_LAST_ACTION, undoLastActionBean);
+        actionBeanTaskMap.put(TaskName.PROTOCOL_UNDO_LAST_ACTION, undoLastActionBean);
         
         actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW, protocolWithdrawBean);
         
@@ -788,22 +789,7 @@ public abstract class ActionHelper implements Serializable {
         }
         
         return adminCorrectionBean;
-    }
-
-    
-//    private UndoLastActionBean createUndoLastActionBean(Protocol protocol) throws Exception {
-//        undoLastActionBean = new UndoLastActionBean(this);
-//        undoLastActionBean.setProtocol(protocol);
-//        Collections.sort(protocol.getProtocolActions(), new Comparator<ProtocolAction>() {
-//            public int compare(ProtocolAction action1, ProtocolAction action2) {
-//                return action2.getActualActionDate().compareTo(action1.getActualActionDate());
-//            }
-//        });
-//        undoLastActionBean.setActionsPerformed(protocol.getProtocolActions());
-//        return undoLastActionBean;
-//    }
-//    
-    
+    }    
 
     public void prepareView() throws Exception {
         protocolSubmitAction.prepareView();
@@ -913,8 +899,8 @@ public abstract class ActionHelper implements Serializable {
         
 // TODO *********commented the code below during IACUC refactoring*********         
 //        canEnterRiskLevel = hasEnterRiskLevelPermission();
-//        canUndoLastAction = hasUndoLastActionPermission();
-//        canUndoLastActionUnavailable = hasUndoLastActionUnavailablePermission();
+        canUndoLastAction = hasUndoLastActionPermission();
+        canUndoLastActionUnavailable = hasUndoLastActionUnavailablePermission();
 //        canIrbAcknowledgement = hasIrbAcknowledgementPermission();
 //        canIrbAcknowledgementUnavailable = hasIrbAcknowledgementUnavailablePermission();
 //        canDefer = hasDeferPermission();
@@ -950,7 +936,6 @@ public abstract class ActionHelper implements Serializable {
         //canAddTerminateReviewerComments = hasTerminateRequestLastAction();
         canAddTerminateReviewerComments = hasTerminatePermission();
 //        hideReviewerName = checkToHideReviewName();
-////        undoLastActionBean = createUndoLastActionBean(getProtocol());
 //       
 //        initSummaryDetails();
         
@@ -1487,13 +1472,13 @@ public abstract class ActionHelper implements Serializable {
     protected abstract ProtocolTask getAdminCorrectionProtocolTaskInstanceHook(Protocol protocol);
     protected abstract ProtocolTask getAdminCorrectionUnavailableProtocolTaskInstanceHook(Protocol protocol);
     
-//    protected boolean hasUndoLastActionPermission() {
-//        return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && undoLastActionBean.canUndoLastAction();
-//    }
-//    
-//    protected boolean hasUndoLastActionUnavailablePermission() {
-//        return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && !undoLastActionBean.canUndoLastAction();
-//    }
+    protected boolean hasUndoLastActionPermission() {
+        return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && undoLastActionBean.canUndoLastAction();
+    }
+    
+    protected boolean hasUndoLastActionUnavailablePermission() {
+        return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && !undoLastActionBean.canUndoLastAction();
+    }
     
     protected boolean hasRecordCommitteeDecisionPermission() {
         return hasPermission(TaskName.RECORD_COMMITTEE_DECISION);
@@ -1803,9 +1788,6 @@ public abstract class ActionHelper implements Serializable {
     }
     
     public UndoLastActionBean getUndoLastActionBean() {
-        if(null != undoLastActionBean) {
-            undoLastActionBean.refreshActionsPerformed();
-        }
         return undoLastActionBean;
     }
 

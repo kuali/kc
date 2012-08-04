@@ -28,6 +28,7 @@ public class IacucProtocolAction extends ProtocolAction {
     
     private static final long serialVersionUID = -4895673225969021493L;
 
+    private boolean createdSubmission;
     
     public IacucProtocolAction() {
     }
@@ -42,6 +43,14 @@ public class IacucProtocolAction extends ProtocolAction {
 
     protected String getCoeusModule() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
+    }
+
+    public boolean isCreatedSubmission() {
+        return createdSubmission;
+    }
+
+    public void setCreatedSubmission(boolean createdSubmission) {
+        this.createdSubmission = createdSubmission;
     }
     
     
