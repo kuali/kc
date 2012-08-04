@@ -85,7 +85,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
             proccessNewReviewType(submission, newReviewType);
         }
         assignReviewers(submission, beans, bean);
-        addNewAction((IacucProtocol)protocolDocument.getProtocol(), bean);
+        addNewAction((IacucProtocol)protocolDocument.getProtocol(), bean, submission.getSubmissionStatusCode());
         
         // if a committee has not been assigned, then submission status is 'pending' else its 'submitted to committee", 
         // TODO this should perhaps be encoded as a drools rule
@@ -99,7 +99,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         documentService.saveDocument(protocolDocument);
     }
     
-    private void addNewAction(IacucProtocol protocol, IacucProtocolModifySubmissionBean actionBean) {
+    private void addNewAction(IacucProtocol protocol, IacucProtocolModifySubmissionBean actionBean, String prevSubmissionStatusCode) {
         ProtocolAction lastAction = protocol.getLastProtocolAction();
         ProtocolAction newAction = new IacucProtocolAction();
         // deep copy will replaced the last action with the new one after save
@@ -113,6 +113,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         newAction.setProtocolNumber(protocol.getProtocolNumber());
         newAction.setProtocolId(protocol.getProtocolId());
         newAction.setSequenceNumber(protocol.getSequenceNumber());
+        newAction.setPrevSubmissionStatusCode(prevSubmissionStatusCode);
         protocol.getProtocolActions().add(newAction);
 
     }

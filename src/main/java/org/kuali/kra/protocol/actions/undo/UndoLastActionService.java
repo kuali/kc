@@ -15,14 +15,10 @@
  */
 package org.kuali.kra.protocol.actions.undo;
 
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.ProtocolActionBean;
+import org.kuali.kra.protocol.ProtocolDocument;
 
-public interface UndoLastActionBean extends ProtocolActionBean {
+public interface UndoLastActionService {
     
-    String getComments();
+    ProtocolDocument undoLastAction(ProtocolDocument protocolDocument, UndoLastActionBean undoLastActionBean) throws Exception;
     
-    boolean canUndoLastAction();
-    
-    ProtocolAction getLastAction();
 }

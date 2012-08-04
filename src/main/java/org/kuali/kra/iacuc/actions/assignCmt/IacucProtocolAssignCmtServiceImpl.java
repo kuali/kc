@@ -38,13 +38,14 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
 
     public void assignToCommittee(Protocol protocol, IacucProtocolAssignCmtBean actionBean) throws Exception {
         ProtocolSubmission submission = findSubmission(protocol);
+        String prevSubmissionStatusCode = null;
         if (submission != null) {
-            
+            prevSubmissionStatusCode = submission.getSubmissionStatusCode();
             submission.setSubmissionStatusCode(IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
             setCommittee(submission, actionBean.getCommitteeId());
         }
         
-        addNewAction(protocol, actionBean);
+        addNewAction(protocol, actionBean, prevSubmissionStatusCode);
         
         getBusinessObjectService().save(protocol);
     }
@@ -65,7 +66,7 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
         }
     }
     
-    protected void addNewAction(Protocol protocol, IacucProtocolAssignCmtBean actionBean) {
+    protected void addNewAction(Protocol protocol, IacucProtocolAssignCmtBean actionBean, String prevSubmissionStatusCode) {
         
         ProtocolAction lastAction = protocol.getLastProtocolAction();
         ProtocolAction newAction = new IacucProtocolAction();
@@ -81,6 +82,7 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
         newAction.setProtocolNumber(protocol.getProtocolNumber());
         newAction.setProtocolId(protocol.getProtocolId());
         newAction.setSequenceNumber(protocol.getSequenceNumber());
+        newAction.setPrevSubmissionStatusCode(prevSubmissionStatusCode);
         protocol.getProtocolActions().add(newAction);
 
     }

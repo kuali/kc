@@ -22,7 +22,9 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.actions.IacucProtocolSubmissionDoc;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
@@ -30,6 +32,7 @@ import org.kuali.kra.protocol.actions.submit.ActionRightMapping;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionMapping;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionServiceImpl;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionUpdateMapping;
+import org.kuali.kra.protocol.actions.submit.ProtocolUndoActionMapping;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 
 
@@ -55,8 +58,6 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl im
     protected static final int PERMISSIONS_COMMITTEEMEMBERS_RULE = 4;
     
     protected static final int PERMISSIONS_SPECIAL_RULE = 5;
-        
-    protected static final int UNDO_UPDATE_RULE = 6;
     
     private static final String PERFORMACTION_FILE = "org/kuali/kra/iacuc/drools/rules/canPerformIacucProtocolActionRules.drl";
     private static final String UPDATE_FILE = "org/kuali/kra/iacuc/drools/rules/updateIacucProtocolRules.drl";
@@ -156,23 +157,23 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl im
      * @see org.kuali.kra.irb.actions.submit.IacucProtocolActionService#resetProtocolStatus(org.kuali.kra.irb.actions.IacucProtocolAction, org.kuali.kra.irb.IacucProtocol)
      */
     public void resetProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
-//TODO: to be implemented for IACUC
-//        ProtocolUndoActionMapping protocolAction = new ProtocolUndoActionMapping(protocolActionBo.getProtocolActionTypeCode(), 
-//                    protocolActionBo.getSubmissionTypeCode(), protocol.getProtocolStatusCode());
-//        
-//        protocolAction.setProtocol(protocol);
-//        protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
-//        protocolAction.setProtocolAction(protocolActionBo);
-//        rulesList.get(UNDO_UPDATE_RULE).executeRules(protocolAction);
-//        if (protocolAction.isProtocolSubmissionToBeDeleted()) {
-//            Map<String, String> fieldValues = new HashMap<String, String>();
-//            fieldValues.put("submissionIdFk", protocolActionBo.getProtocolSubmission().getSubmissionId().toString());
-//            fieldValues.put("protocolNumber", protocol.getProtocolNumber());
-//            businessObjectService.deleteMatching(ProtocolSubmissionDoc.class, fieldValues);
-//            removeQuestionnaireAnswer(protocolActionBo, protocol);
-//            protocol.getProtocolSubmissions().remove(protocolActionBo.getProtocolSubmission()); 
-//            protocol.setProtocolSubmission(null); 
-//        }
+        IacucProtocolAction protocolAction = (IacucProtocolAction) protocolActionBo;
+        if (protocolAction.getPrevProtocolStatusCode() != null) {
+            protocol.setProtocolStatusCode(protocolAction.getPrevProtocolStatusCode());
+            protocol.refreshReferenceObject("protocolStatus");
+        }
+        if (protocolAction.getPrevSubmissionStatusCode() != null) {
+            protocol.getProtocolSubmission().setSubmissionStatusCode(protocolAction.getPrevSubmissionStatusCode());
+        }
+        if (protocolAction.isCreatedSubmission()) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("submissionIdFk", protocolAction.getProtocolSubmission().getSubmissionId().toString());
+            fieldValues.put("protocolNumber", protocol.getProtocolNumber());
+            businessObjectService.deleteMatching(IacucProtocolSubmissionDoc.class, fieldValues);
+            removeQuestionnaireAnswer(protocolAction, protocol);
+            protocol.getProtocolSubmissions().remove(protocolAction.getProtocolSubmission()); 
+            protocol.setProtocolSubmission(null); 
+        }
     }
     
     /*

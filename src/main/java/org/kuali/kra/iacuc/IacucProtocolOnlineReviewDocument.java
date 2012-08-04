@@ -101,10 +101,9 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
      * and Protocol to the outside world - aka a single Protocol field associated with ProtocolDocument
      * @param protocol
      */
-    public void setProtocolOnlineReview(IacucProtocolOnlineReview protocolOnlineReview) {
-        protocolOnlineReviewList.set(0, protocolOnlineReview);
+    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
+        protocolOnlineReviewList.set(0, (IacucProtocolOnlineReview) protocolOnlineReview);
     }
-
 
     /**
      * 

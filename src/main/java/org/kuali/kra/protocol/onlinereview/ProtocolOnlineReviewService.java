@@ -187,7 +187,7 @@ public interface ProtocolOnlineReviewService {
      * @param submission
      * 
      */
-//    void finalizeOnlineReviews(ProtocolSubmission submission, String annotation);
+    void finalizeOnlineReviews(ProtocolSubmission submission, String annotation);
     
     /**
      * Generate the standard document description for OLR documents.

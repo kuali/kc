@@ -95,6 +95,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
 import org.kuali.kra.iacuc.actions.submit.IacucValidProtocolActionAction;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableBean;
 import org.kuali.kra.iacuc.actions.table.IacucProtocolTableService;
+import org.kuali.kra.iacuc.actions.undo.IacucProtocolUndoLastActionService;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawService;
 import org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
@@ -133,6 +134,7 @@ import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
+import org.kuali.kra.protocol.actions.undo.UndoLastActionBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
@@ -4725,5 +4727,45 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return KraServiceLocator.getService(IacucProtocolTableService.class);
     }
 
+    public ActionForward undoLastAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        
+        if (!hasDocumentStateChanged(protocolForm)) {
+            IacucProtocolDocument protocolDocument = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+            UndoLastActionBean undoLastActionBean = protocolForm.getActionHelper().getUndoLastActionBean();
+            String lastActionType = undoLastActionBean.getLastAction().getProtocolActionTypeCode();
+            
+            IacucProtocolUndoLastActionService undoLastActionService = KraServiceLocator.getService(IacucProtocolUndoLastActionService.class);
+            ProtocolDocument updatedDocument = undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
+                       
+    
+            recordProtocolActionSuccess("Undo Last Action");
+    
+            if (!updatedDocument.getDocumentNumber().equals(protocolForm.getDocId())) {
+                protocolForm.setDocId(updatedDocument.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                return mapping.findForward(PROTOCOL_TAB);
+            }
+            if (IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED.equals(lastActionType)
+                    || IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED.equals(lastActionType)) {
+                // undo SMR/SRR may need to create & route onln revw document,
+                // this will need some time.   also, some change in db may not be viewable 
+                // before document is routed.  so, add this holding page for undo SMR/SRR.
+                //            protocolForm.setActionHelper(new ActionHelper(protocolForm));
+                //
+                //            protocolForm.getActionHelper().prepareView();
+                return routeProtocolToHoldingPage(mapping, protocolForm);
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
 
 }

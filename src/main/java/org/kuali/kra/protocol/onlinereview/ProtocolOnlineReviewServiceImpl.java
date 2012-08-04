@@ -61,22 +61,22 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
 
     private static final Log LOG = LogFactory.getLog(ProtocolOnlineReviewServiceImpl.class);
     
-    private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
-    private KraAuthorizationService kraAuthorizationService;
-    private ProtocolAssignReviewersService protocolAssignReviewersService;
-    private IdentityService identityManagementService;
-    private CommonCommitteeService committeeService;
-    private KraDocumentRejectionService kraDocumentRejectionService;
-    private ProtocolFinderDao protocolFinderDao;
-    private ReviewCommentsService reviewCommentsService;
-    private WorkflowDocumentService workflowDocumentService;
+    protected BusinessObjectService businessObjectService;
+    protected DocumentService documentService;
+    protected KraAuthorizationService kraAuthorizationService;
+    protected ProtocolAssignReviewersService protocolAssignReviewersService;
+    protected IdentityService identityManagementService;
+    protected CommonCommitteeService committeeService;
+    protected KraDocumentRejectionService kraDocumentRejectionService;
+    protected ProtocolFinderDao protocolFinderDao;
+    protected ReviewCommentsService reviewCommentsService;
+    protected WorkflowDocumentService workflowDocumentService;
     
-    private String reviewerApproveNodeName;
-    private String irbAdminApproveNodeName;
+    protected String reviewerApproveNodeName;
+    protected String irbAdminApproveNodeName;
     
     @SuppressWarnings("unchecked")
-    private PersonService personService;
+    protected PersonService personService;
     
     /**
      * {@inheritDoc}
@@ -575,14 +575,10 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
      */
     public void finalizeOnlineReviews(ProtocolSubmission submission, String annotation) {
         //get the online reviews, loop through them and finalize them if necessary.
-        
-      //-- commented as part of GENERATED CODE need to verify
-        /*
         for(ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
-//            review.addActionPerformed("Finalize:"+review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode()+":"+review.getProtocolOnlineReviewStatusCode());
+            review.addActionPerformed("Finalize:"+review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode()+":"+review.getProtocolOnlineReviewStatusCode());
             finalizeOnlineReviewDocument(review.getProtocolOnlineReviewDocument(), submission, annotation);
         }
-        */
     }
     
     /**
