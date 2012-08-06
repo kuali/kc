@@ -50,7 +50,10 @@
                 		<kul:htmlAttributeLabel attributeEntry="${principlesAttributes.searchRequired}" forceRequired="true" />
                 	</div>
                 </th>
-               	<c:set var="searchRequired" value="${document.protocolList[0].iacucPrinciples[0].searchRequired}" />
+               	<c:set var="searchRequired" value="No" />
+			    <c:if test="${'Y' eq KualiForm.document.protocolList[0].iacucPrinciples[0].searchRequired}">
+	               	<c:set var="searchRequired" value="Yes" />
+			    </c:if>
                 <td align="left" valign="center">
 					<c:choose>
 						<c:when test="${readOnly}" >
