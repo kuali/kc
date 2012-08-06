@@ -76,7 +76,7 @@ public class CommitteeDecisionRuleTest extends CommitteeDecisionRuleBase {
     public void testValidDisapprove() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.DISAPPROVE, YES_COUNT, 5, null, null, protocolDocument.getProtocol(), false);
+        CommitteeDecision decision = getMockCommitteeDecisionBean(CommitteeDecisionMotionType.DISAPPROVE, YES_COUNT, 5, null, null, protocolDocument.getProtocol(), true);
         rule.setAttendanceService(getMockCommitteeScheduleAttendanceService(YES_COUNT, 5));
         assertTrue(rule.proccessCommitteeDecisionRule(protocolDocument, decision));
     }
