@@ -261,7 +261,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 //        }
         ActionForward actionForward = super.execute(mapping, form, request, response);
         protocolForm.getActionHelper().prepareView();
-        
+        protocolForm.getActionHelper().initFilterDatesView();
         // submit action may change "submission details", so re-initialize it
         // TODO do we really need this? the above call to prepareView() will invoke it anyway, so the below call seems redundant and wasteful.
         ((IacucActionHelper)protocolForm.getActionHelper()).initSubmissionDetails();
