@@ -389,6 +389,7 @@ public interface Constants {
     
     public static final String MAPPING_PROPOSAL_APPROVER_VIEW_PAGE = "approverView";
     public static final String HEADER_TAB = "headerTab";
+    public static final String PARAMETER_PROPOSAL_SUMMARY_TITLE = "proposaldevelopment.proposal.summary.title";
     
     public static final String ON_OFF_CAMPUS_FLAG = "onOffCampusFlag";
 

@@ -2228,5 +2228,10 @@ public KrmsRulesContext getKrmsRulesContext() {
     return (KrmsRulesContext) getProposalDocument();
 }
 
+public String getProposalSummaryTitle() {
+    String proposalSummaryTitle = this.getParameterService().getParameterValueAsString(
+           ProposalDevelopmentDocument.class, Constants.PARAMETER_PROPOSAL_SUMMARY_TITLE);
+    return proposalSummaryTitle;
+}
 
 }
