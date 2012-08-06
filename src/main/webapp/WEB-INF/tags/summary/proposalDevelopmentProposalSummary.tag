@@ -29,8 +29,10 @@
 	value="${DataDictionary.BudgetProjectIncome.attributes}" />
 <c:set var="budgetVersion"
 	value="${KualiForm.budgetToSummarize.budgetVersionNumber}" />
+<c:set var="proposalSummaryTitle"
+	value="${KualiForm.document.developmentProposalList[0].proposalSummaryTitle}" />
 
-<kul:tab tabTitle="Proposal Summary" transparentBackground="true"
+<kul:tab tabTitle="${proposalSummaryTitle}" transparentBackground="true"
 	defaultOpen="true"
 	tabErrorKey="document.developmentProposalList[0].currentAwardNumber*,document.developmentProposalList[0].continuedFrom,document.developmentProposalList[0].sponsorCode*,document.developmentProposalList[0].proposalTypeCode*,document.developmentProposalList[0].requestedStartDateInitial*,document.developmentProposalList[0].ownedByUnit*,document.developmentProposalList[0].requestedEndDateInitial*,document.developmentProposalList[0].activityTypeCode*,document.developmentProposalList[0].title"
 	auditCluster="requiredFieldsAuditErrors" tabAuditKey=""
