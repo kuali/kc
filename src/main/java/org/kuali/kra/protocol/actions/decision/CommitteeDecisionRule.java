@@ -86,7 +86,8 @@ public class CommitteeDecisionRule<CD extends CommitteeDecision<?>> extends Rese
             List<CommitteeScheduleMinute> reviewComments = reviewerCommentsBean.getReviewComments();
             Protocol protocol = committeeDecision.getProtocol();
             if ((CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(motionTypeCode) 
-                    || CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(motionTypeCode)) 
+                    || CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(motionTypeCode)
+                    || CommitteeDecisionMotionType.DISAPPROVE.equals(motionTypeCode)) 
                     && CollectionUtils.isEmpty(filterReviewComments(reviewComments, protocol))) {
                 reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + MOTION_FIELD, getNoCommentsForRevisionsErrorMessageHook());
                 retVal = false;
@@ -98,7 +99,7 @@ public class CommitteeDecisionRule<CD extends CommitteeDecision<?>> extends Rese
     
     // this hook can be overridden to change the error message; this is a rare case of a non-abstract (default) hook introduced during IACUC refactoring
     protected String getNoCommentsForRevisionsErrorMessageHook() {
-        return KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_REVIEWER_COMMENTS;
+        return KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_DISAPPROVE_REVIEWER_COMMENTS;
     }
 
     private List<CommitteeScheduleMinute> filterReviewComments(List<CommitteeScheduleMinute> reviewComments, Protocol protocol) {
