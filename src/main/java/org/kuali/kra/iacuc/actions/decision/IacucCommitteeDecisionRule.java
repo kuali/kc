@@ -22,7 +22,7 @@ public class IacucCommitteeDecisionRule extends CommitteeDecisionRule<IacucCommi
 
     @Override
     protected String getNoCommentsForRevisionsErrorMessageHook() {
-        return KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MINOR_MAJOR_REVIEWER_COMMENTS;
+        return KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MINOR_MAJOR_DISAPPROVE_REVIEWER_COMMENTS;
     }
     
 
