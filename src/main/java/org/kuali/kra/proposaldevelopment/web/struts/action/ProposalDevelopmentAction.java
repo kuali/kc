@@ -67,6 +67,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalDevelopmentApproverViewDO;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
@@ -416,7 +417,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
         if (doc.getBudgetDocumentVersions() != null && !doc.getBudgetDocumentVersions().isEmpty()) {
             for (BudgetDocumentVersion bdv : doc.getBudgetDocumentVersions()) {
-                Budget budget = this.getBusinessObjectService().findBySinglePrimaryKey(Budget.class, bdv.getBudgetVersionOverview().getBudgetId());
+                ProposalDevelopmentBudgetExt budget = this.getBusinessObjectService().findBySinglePrimaryKey(ProposalDevelopmentBudgetExt.class, bdv.getBudgetVersionOverview().getBudgetId());
                 if (!budget.getFinalVersionFlag()) {
                     budget.setStartDate(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getRequestedStartDateInitial());
                     budget.setEndDate(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getRequestedEndDateInitial());
