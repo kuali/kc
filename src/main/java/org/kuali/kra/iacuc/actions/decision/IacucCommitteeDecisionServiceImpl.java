@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions.decision;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
@@ -54,6 +57,17 @@ public class IacucCommitteeDecisionServiceImpl extends CommitteeDecisionServiceI
         }
         return protocolSubmission;
     }
+
+    @Override
+    protected Map<String, Object> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
+      Map<String, Object> fieldValues = new HashMap<String, Object>();
+      fieldValues.put("protocolIdFk", protocolId.toString());
+      //fieldValues.put("SCHEDULE_ID_FK", scheduleIdFk.toString());
+      fieldValues.put("personId", personId);
+      fieldValues.put("rolodexId", rolodexId);
+      fieldValues.put("submissionIdFk", submissionIdFk.toString());
+      return fieldValues;
+  }
 
 
 }

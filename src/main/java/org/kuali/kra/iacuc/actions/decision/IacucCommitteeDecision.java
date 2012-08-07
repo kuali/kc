@@ -108,8 +108,8 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
 
     private Map<String, Long> getLookUpFields(Long protocolId, Long submissionIdFk) {
         Map<String, Long> lookUpFields = new HashMap<String, Long>();
-        lookUpFields.put("PROTOCOL_ID_FK", protocolId);
-        lookUpFields.put("SUBMISSION_ID_FK", submissionIdFk);
+        lookUpFields.put("protocolIdFk", protocolId);
+        lookUpFields.put("submissionIdFk", submissionIdFk);
         return lookUpFields;
     }
     

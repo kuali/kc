@@ -31,6 +31,7 @@ import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.common.committee.service.CommonCommitteeMembershipService;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -188,7 +189,7 @@ public class CommitteeMembershipServiceImpl implements CommonCommitteeMembership
     protected List<ProtocolSubmission> getProtocolSubmissionsForCommittee(String committeeId) {
         Map fieldMap = new HashMap();
         fieldMap.put("committeeId",committeeId);
-        return (List<ProtocolSubmission>) businessObjectService.findMatching(ProtocolSubmission.class, fieldMap);
+        return (List<ProtocolSubmission>) businessObjectService.findMatching(IacucProtocolSubmission.class, fieldMap);
     }
     
     
