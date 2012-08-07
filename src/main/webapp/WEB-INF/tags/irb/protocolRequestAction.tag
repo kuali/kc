@@ -201,6 +201,12 @@
                                           methodToCall="abandon"
                                           canPerformAction="${KualiForm.actionHelper.canAbandon}" 
                                           canAddReviewComments="false"/>
+            <kra-irb-action:genericAction tabTitle="Return To PI"
+                                          bean="${KualiForm.actionHelper.protocolReturnToPIBean}"
+                                          property="actionHelper.protocolReturnToPIBean"
+                                          taskName="returnToPIProtocol"
+                                          methodToCall="returnToPI"
+                                          canPerformAction="${KualiForm.actionHelper.canReturnToPI}" />                                          
             <kra-irb-action:reviewNotRequiredAction />
             <kra-irb-action:undoLastAction />
             <kra-irb-action:manageReviewComments />
@@ -495,6 +501,11 @@
 				                                                 Protocol must be the initial Protocol.
 				                                                 <p>
 				                                                 Only PI can perform this action." />
+	            <kra-irb-action:genericUnavailableAction tabTitle="Return To PI"
+	                                                     canPerformAction="${KualiForm.actionHelper.canReturnToPIUnavailable}"
+				                                         reason="Protocol status must be Submitted To IRB.
+        	                                                     <p>
+        	                                                 	 Protocol submission status must be Submitted to Committee." />				                                                 
 	                                                     
 		    </c:if>		   	
 		   	</div>

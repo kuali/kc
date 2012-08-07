@@ -463,3 +463,12 @@ then
 	setProtocolStatusCode(protocolAction, "313");
 end
 
+rule "fn_return_to_pi: Submission Status = 209 (Returned To PI); Protocol Status = 102 (Return To PI)" 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "213")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "213");
+	setProtocolStatusCode(protocolAction, "107");
+end

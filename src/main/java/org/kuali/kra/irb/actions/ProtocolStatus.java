@@ -32,6 +32,8 @@ public class ProtocolStatus extends KraPersistableBusinessObjectBase {
     public static final String AMENDMENT_IN_PROGRESS = "105";
 
     public static final String RENEWAL_IN_PROGRESS = "106";
+    
+    public static final String RETURN_TO_PI = "107";
 
     public static final String ACTIVE_OPEN_TO_ENROLLMENT = "200";
 

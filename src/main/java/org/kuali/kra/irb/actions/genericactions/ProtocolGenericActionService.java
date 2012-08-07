@@ -131,4 +131,14 @@ public interface ProtocolGenericActionService {
      */
     void terminate(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
+    /**
+     * 
+     * Return the protocol to the PI.
+     * @param protocol
+     * @param actionBean
+     * @return
+     * @throws Exception
+     */
+    ProtocolDocument returnToPI(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    
 }
