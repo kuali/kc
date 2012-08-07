@@ -81,6 +81,8 @@ public class ProtocolActionType extends KraPersistableBusinessObjectBase {
     public static final String DATA_ANALYSIS_ONLY = "211";
 
     public static final String REOPEN_ENROLLMENT = "212";
+    
+    public static final String RETURNED_TO_PI = "213";
 
     public static final String CLOSED_ADMINISTRATIVELY_CLOSED = "300";
 

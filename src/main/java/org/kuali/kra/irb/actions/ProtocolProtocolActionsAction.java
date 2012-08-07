@@ -2285,6 +2285,48 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
     
     /**
+     * Returns the protocol to the PI.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward returnToPI(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument document = protocolForm.getProtocolDocument();
+        Protocol protocol = document.getProtocol();
+        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolReturnToPIBean();
+        
+        if (hasPermission(TaskName.RETURN_TO_PI_PROTOCOL, protocol)) {
+            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
+                ProtocolDocument newDocument = getProtocolGenericActionService().returnToPI(protocol, actionBean);
+                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
+                
+                protocolForm.setDocId(newDocument.getDocumentNumber());
+                loadDocument(protocolForm);
+                protocolForm.getProtocolHelper().prepareView();
+                
+                recordProtocolActionSuccess("Return To PI");
+                
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.RETURNED_TO_PI, "Return To PI"), false));
+
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.RETURNED_TO_PI, "Returned To PI"));                                   
+                }
+            }
+        }
+        
+        return forward;
+    }
+    
+    
+    /**
      * Suspends this Protocol.
      * @param mapping
      * @param form

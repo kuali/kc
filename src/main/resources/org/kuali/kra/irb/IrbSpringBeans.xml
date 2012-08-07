@@ -511,6 +511,12 @@
                 <bean class="org.kuali.kra.irb.auth.CreateProposalDevelopmentProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="createProposalForIrbProtocol" />
                 </bean>   
+                <bean class="org.kuali.kra.irb.auth.ProtocolReturnToPIAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="returnToPIProtocol" />
+                </bean>
+                <bean class="org.kuali.kra.irb.auth.ProtocolReturnToPIUnavailableAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="returnToPIProtocolUnavailable" />
+                </bean>
             </list>
         </property>
     </bean>
