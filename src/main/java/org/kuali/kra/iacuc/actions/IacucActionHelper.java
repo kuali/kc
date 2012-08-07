@@ -362,6 +362,7 @@ public class IacucActionHelper extends ActionHelper {
      * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
      */
     public void prepareCommentsView() {
+        super.prepareCommentsView();
         iacucProtocolDeactivateBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
     }
 
