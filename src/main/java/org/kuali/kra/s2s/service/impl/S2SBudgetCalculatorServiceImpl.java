@@ -871,8 +871,13 @@ public class S2SBudgetCalculatorServiceImpl implements
                                         else if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_CALENDAR_MONTHS))) {
-                                            calendarMonths = calendarMonths.add(personDetails.getPercentEffort()
-                                                    .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+                                            if (budgetPeriod.getBudget().getSubmitCostSharingFlag()) {
+                                                calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
+                                                        .multiply(new BudgetDecimal(0.01)));
+                                            } else {
+                                                calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
+                                                        .multiply(new BudgetDecimal(0.01)));
+                                            }
                                         }
                                         else if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
@@ -1926,12 +1931,23 @@ public class S2SBudgetCalculatorServiceImpl implements
                         if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
                             if (lineItem.getBudgetCategory()
                                     .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
-                                calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                        .multiply(new BudgetDecimal(0.01)));
+                                if (budgetPeriod.getBudget().getSubmitCostSharingFlag()) {
+                                    calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
+                                            .multiply(new BudgetDecimal(0.01)));
+                                } else {
+                                    calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
+                                            .multiply(new BudgetDecimal(0.01)));
+                                }
                             } 
                         }else {
-                            calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                    .multiply(new BudgetDecimal(0.01)));
+                            if (budgetPeriod.getBudget().getSubmitCostSharingFlag()) {
+                                calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
+                                        .multiply(new BudgetDecimal(0.01)));
+                            }
+                            else {
+                                calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
+                                        .multiply(new BudgetDecimal(0.01)));
+                            }
                         }
                     }
                     if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
