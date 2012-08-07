@@ -179,15 +179,19 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
         businessObjectService.save(voter);
     }
     
-    protected Map<String, Object> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("PROTOCOL_ID_FK", protocolId.toString());
-        //fieldValues.put("SCHEDULE_ID_FK", scheduleIdFk.toString());
-        fieldValues.put("PERSON_ID", personId);
-        fieldValues.put("ROLODEX_ID", rolodexId);
-        fieldValues.put("SUBMISSION_ID_FK", submissionIdFk.toString());
-        return fieldValues;
-    }
+
+    protected abstract Map<String, Object> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk);
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    protected Map<String, Object> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
+//        Map<String, Object> fieldValues = new HashMap<String, Object>();
+//        fieldValues.put("PROTOCOL_ID_FK", protocolId.toString());
+//        //fieldValues.put("SCHEDULE_ID_FK", scheduleIdFk.toString());
+//        fieldValues.put("PERSON_ID", personId);
+//        fieldValues.put("ROLODEX_ID", rolodexId);
+//        fieldValues.put("SUBMISSION_ID_FK", submissionIdFk.toString());
+//        return fieldValues;
+//    }
 
     
     protected abstract ProtocolSubmission getSubmission(Protocol protocol);

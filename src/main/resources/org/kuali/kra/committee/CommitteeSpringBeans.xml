@@ -37,7 +37,6 @@
 		<property name="databaseRepositoryFilePaths">
 			<list>
 				<value>org/kuali/kra/committee/repository-committee.xml</value>
-				<value>org/kuali/kra/common/committee/repository-commonCommittee.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -274,135 +273,7 @@
 	<bean id="committeeResearchAreaBusinessLogicFactory" 
 		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeResearchAreaBusinessLogicFactoryImpl"
 		scope="prototype" />
-		
-		
-		
-<!-- republishing the services that were copied over for iacuc -->
 
-	<bean id="commonCommitteeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-		scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="commonCommitteeLookupableHelperService" />
-		</property>
-	</bean>
-
-	<bean id="commonCommitteeLookupableHelperService"
-		class="org.kuali.kra.common.committee.lookup.CommitteeLookupableHelperServiceImpl"
-		scope="prototype" parent="parentLookupableHelperService">
-	</bean>
-	
-	
-	<bean id="commonCommitteeScheduleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-		scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="commonCommitteeScheduleLookupableHelperService" />
-		</property>
-	</bean>
-	
-	<bean id="commonCommitteeScheduleLookupableHelperService"
-		class="org.kuali.kra.common.committee.lookup.CommitteeScheduleLookupableHelperServiceImpl"
-		scope="prototype" parent="parentLookupableHelperService">
-		<property name="taskAuthorizationService" ref="taskAuthorizationService" />
-	</bean>
-
-
-	<bean id="commonCommitteeScheduleService"
-		class="org.kuali.kra.common.committee.service.impl.CommitteeScheduleServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="scheduleService" ref="scheduleService" />
-		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
-	</bean>
-	
-	
-	<bean id="commonCommitteeService"
-		class="org.kuali.kra.common.committee.service.impl.CommitteeServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
-	</bean>
-	
-	<bean id="commonCommitteeScheduleAttendanceService" class="org.kuali.kra.common.committee.service.impl.CommitteeScheduleAttendanceServiceImpl">
-        <property name="committeeService" ref="commonCommitteeService" />
-    	<property name="parameterService" ref="parameterService" />
-    </bean>
-    
-    <bean id="commonCommitteeMembershipService"
-		class="org.kuali.kra.common.committee.service.impl.CommitteeMembershipServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="committeeService" ref="commonCommitteeService" />
-	</bean>
-    
-    
-    
-    <bean id="commonCommitteeCollaboratorBusinessLogicFactoryGroup" 
-		class="org.kuali.kra.common.committee.bo.businessLogic.impl.CommitteeCollaboratorBusinessLogicFactoryGroupImpl"
-		scope="prototype">
-		<property name="committeeBusinessLogicFactory">
-			<ref bean="commonCommitteeBusinessLogicFactory" />
-		</property>
-		<property name="committeeResearchAreaBusinessLogicFactory">
-			<ref bean="commonCommitteeResearchAreaBusinessLogicFactory" />
-		</property>
-	</bean>
-	
-	<bean id="commonCommitteeBusinessLogicFactory" 
-		class="org.kuali.kra.common.committee.bo.businessLogic.impl.CommitteeBusinessLogicFactoryImpl"
-		scope="prototype" />
-		
-	<bean id="commonCommitteeResearchAreaBusinessLogicFactory" 
-		class="org.kuali.kra.common.committee.bo.businessLogic.impl.CommitteeResearchAreaBusinessLogicFactoryImpl"
-		scope="prototype" />
-			
-			
-			
-	<bean id="commonCommitteeNotificationService" class="org.kuali.kra.common.committee.service.impl.CommitteeNotificationServiceImpl">
-		<property name="kcNotificationService" ref="kcNotificationService" />
-    </bean>
-
-	<bean id="commonMeetingService" class="org.kuali.kra.common.committee.meeting.MeetingServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
-		<property name="dateTimeService" ref="dateTimeService" />
-	</bean>
-		
-		
-
-
- 
-<!-- republishing the committee authorizers -->    
-   
-    <bean id="commonCommitteeTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
-		<property name="groupName" value="commonCommittee" />
-		<property name="taskAuthorizers">
-			<list>
-				<bean
-					class="org.kuali.kra.common.committee.document.authorizer.ModifyCommitteeAuthorizer"
-					parent="parentCommitteeAuthorizer">
-					<property name="taskName" value="modifyCommittee" />
-				</bean>
-
-				<bean
-					class="org.kuali.kra.common.committee.document.authorizer.ViewCommitteeAuthorizer"
-					parent="parentCommitteeAuthorizer">
-					<property name="taskName" value="viewCommittee" />
-				</bean>
-				<bean class="org.kuali.kra.common.committee.meeting.ModifyScheduleAuthorizer"
-					parent="parentCommitteeAuthorizer">
-					<property name="taskName" value="modifySchedule" />
-				</bean>
-				<bean class="org.kuali.kra.common.committee.meeting.ViewScheduleAuthorizer"
-					parent="parentCommitteeAuthorizer">
-					<property name="taskName" value="viewSchedule" />
-				</bean>
-
-				<bean
-					class="org.kuali.kra.common.committee.document.authorizer.CommitteeActionAuthorizer"
-					parent="parentCommitteeAuthorizer">
-					<property name="taskName" value="performCommitteeActions" />
-					<property name="committeeService" ref="commonCommitteeService" />
-				</bean>
-			</list>
-		</property>
-	</bean>
     
     
 </beans>
