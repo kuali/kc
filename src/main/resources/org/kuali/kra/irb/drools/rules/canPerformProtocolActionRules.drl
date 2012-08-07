@@ -12,7 +12,7 @@ function void setAction(ProtocolActionMapping protocolAction, boolean flag) {
 rule "Submit for Review"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "103", "104", "105", "106", "304"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "103", "104", "105", "106", "107", "304"))
 then	
 	setAction(protocolAction, true);
 end
@@ -203,7 +203,7 @@ end
 rule "Modify Amendment Sections"
 salience 100
 when
-    protocolAction : ProtocolActionMapping(actionTypeCode == "125", protocolStatusCode in ("102", "104", "105", "106", "304"))
+    protocolAction : ProtocolActionMapping(actionTypeCode == "125", protocolStatusCode in ("102", "104", "105", "106", "107", "304"))
 then
     setAction(protocolAction, true);
 end
@@ -433,4 +433,12 @@ when
 	protocolAction : ProtocolActionMapping(actionTypeCode == "119", protocolStatusCode == "104", submissionStatusCode == "201", initialProtocol == true)
 then	
 	setAction(protocolAction, true);
+end
+
+rule "Return to PI"
+salience 100
+when
+    protocolAction : ProtocolActionMapping(actionTypeCode == "213", protocolStatusCode == "101", submissionStatusCode == "100")
+then    
+    setAction(protocolAction, true);
 end

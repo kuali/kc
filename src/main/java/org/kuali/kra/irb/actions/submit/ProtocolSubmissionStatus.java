@@ -50,6 +50,8 @@ public class ProtocolSubmissionStatus extends KraPersistableBusinessObjectBase {
     public static final String CLOSED_FOR_ENROLLMENT = "211";
 
     public static final String IRB_ACKNOWLEDGEMENT = "212";
+    
+    public static final String RETURNED_TO_PI = "213";
 
     private String protocolSubmissionStatusCode;
 
