@@ -123,13 +123,21 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
         if (personMassChange.getReplaceePersonId() == null && personMassChange.getReplaceeRolodexId() == null) {
             isValid = false;
             reportError(REPLACEE_FULL_NAME_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_REPLACEE_EMPTY);
+            return isValid;
         }
         
         if (personMassChange.getReplacerPersonId() == null && personMassChange.getReplacerRolodexId() == null) {
             isValid = false;
             reportError(REPLACER_FULL_NAME_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_REPLACER_EMPTY);
+            return isValid;
         }
         
+        if (personMassChange.getReplacerPersonId().equals(personMassChange.getReplaceePersonId()) 
+                || personMassChange.getReplacerRolodexId().equals(personMassChange.getReplaceeRolodexId())) {
+            isValid = false;
+            reportError(REPLACER_FULL_NAME_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_SAME_PERSONS);
+            return isValid;
+        }
         return isValid;
     }
     
