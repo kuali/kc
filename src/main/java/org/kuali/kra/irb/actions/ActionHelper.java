@@ -215,6 +215,8 @@ public class ActionHelper implements Serializable {
     private boolean canManageNotes = false;
     private boolean canManageNotesUnavailable = false;
     private boolean canAbandon = false;
+    private boolean canReturnToPI = false;
+    private boolean canReturnToPIUnavailable = false;
 
     private boolean isApproveOpenForFollowup;
     private boolean isDisapproveOpenForFollowup;
@@ -273,6 +275,7 @@ public class ActionHelper implements Serializable {
     private ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
     private ProtocolGenericActionBean protocolManageReviewCommentsBean;
     private ProtocolGenericActionBean protocolAbandonBean;
+    private ProtocolGenericActionBean protocolReturnToPIBean;
 
     private String currentTaskName = "";
     private boolean prevDisabled;
@@ -396,6 +399,8 @@ public class ActionHelper implements Serializable {
                 Constants.PROTOCOL_IRB_ACKNOWLEDGEMENT_ACTION_PROPERTY_KEY);
         protocolAbandonBean = buildProtocolGenericActionBean(ProtocolActionType.ABANDON_PROTOCOL, 
                 Constants.PROTOCOL_ABANDON_ACTION_PROPERTY_KEY);
+        protocolReturnToPIBean = buildProtocolGenericActionBean(ProtocolActionType.RETURNED_TO_PI,
+                Constants.PROTOCOL_RETURN_TO_PI_PROPERTY_KEY);
         protocolAdminCorrectionBean = createAdminCorrectionBean();
         undoLastActionBean = createUndoLastActionBean(getProtocol());
         committeeDecision = new CommitteeDecision(this);
@@ -484,6 +489,7 @@ public class ActionHelper implements Serializable {
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_TERMINATE, protocolTerminateRequestBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_UNDO_LAST_ACTION, undoLastActionBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW, protocolWithdrawBean);
+        actionBeanTaskMap.put(TaskName.RETURN_TO_PI_PROTOCOL, protocolReturnToPIBean);
     }
     
     /**
@@ -864,6 +870,8 @@ public class ActionHelper implements Serializable {
         canManageNotes = hasManageNotesPermission();
         canManageNotesUnavailable = hasManageNotesUnavailablePermission();
         canAbandon = hasAbandonProtocolPermission();
+        canReturnToPI = hasPermission(TaskName.RETURN_TO_PI_PROTOCOL);
+        canReturnToPIUnavailable = hasPermission(TaskName.RETURN_TO_PI_PROTOCOL_UNAVAILABLE);
         
         followupActionActions = getFollowupActionService().getFollowupsForProtocol(form.getProtocolDocument().getProtocol());
         
@@ -3119,6 +3127,18 @@ public class ActionHelper implements Serializable {
         }
         
         return this.kraAuthorizationService;
+    }
+
+    public ProtocolGenericActionBean getProtocolReturnToPIBean() {
+        return protocolReturnToPIBean;
+    }
+
+    public boolean isCanReturnToPI() {
+        return canReturnToPI;
+    }
+
+    public boolean isCanReturnToPIUnavailable() {
+        return canReturnToPIUnavailable;
     }
     
 

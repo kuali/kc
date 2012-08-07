@@ -69,6 +69,7 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceImpl implements Pr
         actionTypesToCorrespondenceType.put(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, Arrays.asList("Substantive Revisions Required Letter"));
         actionTypesToCorrespondenceType.put(ProtocolActionType.DEFERRED, Arrays.asList("Notice Of Deferral"));
         actionTypesToCorrespondenceType.put(ProtocolActionType.ABANDON_PROTOCOL, Arrays.asList("Abandon Notice"));
+        actionTypesToCorrespondenceType.put(ProtocolActionType.RETURNED_TO_PI, Arrays.asList("Returned to PI Notice"));
         /**
          * The following correspondence types don't map to a Protocol Action at this time:
          * Agenda Report, Committee Roster Report, 

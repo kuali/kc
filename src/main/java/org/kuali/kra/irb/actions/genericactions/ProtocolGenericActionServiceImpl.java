@@ -130,6 +130,12 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     }
     
     /**{@inheritDoc}**/
+    public ProtocolDocument returnToPI(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
+        performGenericAction(protocol, actionBean, ProtocolActionType.RETURNED_TO_PI, ProtocolStatus.RETURN_TO_PI);
+        return getReturnedVersionedDocument(protocol);
+    }     
+    
+    /**{@inheritDoc}**/
     public void suspend(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         if (ProtocolActionType.REQUEST_FOR_SUSPENSION.equals(protocol.getLastProtocolAction().getProtocolActionType().getProtocolActionTypeCode())) {
             //if previous action is request to suspend then the new status is suspend by investigator
