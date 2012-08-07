@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2010 The Kuali Foundation. Licensed under the Educational 
+	Community License, Version 1.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl1.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<bean id="commonCommitteeModuleConfiguration" parent="commonCommitteeModuleConfiguration-parentBean" />
+
+	<bean id="commonCommitteeModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+		<property name="namespaceCode" value="KC-COMMITTEE" />
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>org/kuali/kra/common/committee/repository-commonCommittee.xml</value>
+			</list>
+		</property>
+	</bean>		
+		
+		
+<!-- republishing the services that were copied over for iacuc -->
+
+	<bean id="commonCommitteeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="commonCommitteeLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="commonCommitteeLookupableHelperService"
+		class="org.kuali.kra.common.committee.lookup.CommitteeLookupableHelperServiceImpl"
+		scope="prototype" parent="parentLookupableHelperService">
+	</bean>
+	
+	
+	<bean id="commonCommitteeScheduleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="commonCommitteeScheduleLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="commonCommitteeScheduleLookupableHelperService"
+		class="org.kuali.kra.common.committee.lookup.CommitteeScheduleLookupableHelperServiceImpl"
+		scope="prototype" parent="parentLookupableHelperService">
+		<property name="taskAuthorizationService" ref="taskAuthorizationService" />
+	</bean>
+
+
+	<bean id="commonCommitteeScheduleService"
+		class="org.kuali.kra.common.committee.service.impl.CommitteeScheduleServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="scheduleService" ref="scheduleService" />
+		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
+	</bean>
+	
+	
+	<bean id="commonCommitteeService"
+		class="org.kuali.kra.common.committee.service.impl.CommitteeServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
+	</bean>
+	
+	<bean id="commonCommitteeScheduleAttendanceService" class="org.kuali.kra.common.committee.service.impl.CommitteeScheduleAttendanceServiceImpl">
+        <property name="committeeService" ref="commonCommitteeService" />
+    	<property name="parameterService" ref="parameterService" />
+    </bean>
+    
+    <bean id="commonCommitteeMembershipService"
+		class="org.kuali.kra.common.committee.service.impl.CommitteeMembershipServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="committeeService" ref="commonCommitteeService" />
+	</bean>
+    
+    
+    
+    <bean id="commonCommitteeCollaboratorBusinessLogicFactoryGroup" 
+		class="org.kuali.kra.common.committee.bo.businessLogic.impl.CommitteeCollaboratorBusinessLogicFactoryGroupImpl"
+		scope="prototype">
+		<property name="committeeBusinessLogicFactory">
+			<ref bean="commonCommitteeBusinessLogicFactory" />
+		</property>
+		<property name="committeeResearchAreaBusinessLogicFactory">
+			<ref bean="commonCommitteeResearchAreaBusinessLogicFactory" />
+		</property>
+	</bean>
+	
+	<bean id="commonCommitteeBusinessLogicFactory" 
+		class="org.kuali.kra.common.committee.bo.businessLogic.impl.CommitteeBusinessLogicFactoryImpl"
+		scope="prototype" />
+		
+	<bean id="commonCommitteeResearchAreaBusinessLogicFactory" 
+		class="org.kuali.kra.common.committee.bo.businessLogic.impl.CommitteeResearchAreaBusinessLogicFactoryImpl"
+		scope="prototype" />
+			
+			
+			
+	<bean id="commonCommitteeNotificationService" class="org.kuali.kra.common.committee.service.impl.CommitteeNotificationServiceImpl">
+		<property name="kcNotificationService" ref="kcNotificationService" />
+    </bean>
+
+	<bean id="commonMeetingService" class="org.kuali.kra.common.committee.meeting.MeetingServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="sequenceAccessorService" ref="sequenceAccessorService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+		
+		
+
+
+ 
+<!-- republishing the committee authorizers -->    
+   
+    <bean id="commonCommitteeTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+		<property name="groupName" value="commonCommittee" />
+		<property name="taskAuthorizers">
+			<list>
+				<bean
+					class="org.kuali.kra.common.committee.document.authorizer.ModifyCommitteeAuthorizer"
+					parent="parentCommitteeAuthorizer">
+					<property name="taskName" value="modifyCommittee" />
+				</bean>
+
+				<bean
+					class="org.kuali.kra.common.committee.document.authorizer.ViewCommitteeAuthorizer"
+					parent="parentCommitteeAuthorizer">
+					<property name="taskName" value="viewCommittee" />
+				</bean>
+				<bean class="org.kuali.kra.common.committee.meeting.ModifyScheduleAuthorizer"
+					parent="parentCommitteeAuthorizer">
+					<property name="taskName" value="modifySchedule" />
+				</bean>
+				<bean class="org.kuali.kra.common.committee.meeting.ViewScheduleAuthorizer"
+					parent="parentCommitteeAuthorizer">
+					<property name="taskName" value="viewSchedule" />
+				</bean>
+
+				<bean
+					class="org.kuali.kra.common.committee.document.authorizer.CommitteeActionAuthorizer"
+					parent="parentCommitteeAuthorizer">
+					<property name="taskName" value="performCommitteeActions" />
+					<property name="committeeService" ref="commonCommitteeService" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+    
+    
+</beans>
+
+

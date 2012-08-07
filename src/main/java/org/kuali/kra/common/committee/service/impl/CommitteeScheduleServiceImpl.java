@@ -72,18 +72,19 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
     
     private static final String SCHEDULED = "Scheduled";
     
-    private static final String PROTOCOL_ID_FIELD = "PROTOCOL_ID_FK";
-    private static final String SCHEDULE_ID_FIELD = "SCHEDULE_ID_FK";
-    private static final String COMM_SCHEDULE_MINUTES_FIELD = "COMM_SCHEDULE_MINUTES_ID";
-    private static final String ENTRY_NUMBER_FIELD = "ENTRY_NUMBER";
-    private static final String SUBMISSION_ID_FIELD = "SUBMISSION_ID_FK";
+    // Changed db col names to  java ref var names during IACUC refactoring, should not cause any issues during backfitting
+    private static final String PROTOCOL_ID_FIELD = "protocolIdFk";
+    private static final String SCHEDULE_ID_FIELD = "scheduleIdFk";
+    private static final String COMM_SCHEDULE_MINUTES_FIELD = "commScheduleMinutesId";
+    private static final String ENTRY_NUMBER_FIELD = "entryNumber";
+    private static final String SUBMISSION_ID_FIELD = "submissionIdFk";
     private static final String COMM_SCHEDULE_MINUTES_ID_PROPERTY = "commScheduleMinutesId";
     private BusinessObjectService businessObjectService;
 
     private ScheduleService scheduleService;   
 
 
-    private ReviewCommentsService reviewCommentsService;
+    private ReviewCommentsService<?> reviewCommentsService;
 
     
     /**
