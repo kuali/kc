@@ -35,6 +35,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -165,6 +166,10 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canInitiate(String documentTypeName, Person user) {
+        if (GlobalVariables.getUserSession().getObjectMap().get(ProtocolAmendRenewService.AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT) != null) {
+            GlobalVariables.getUserSession().removeObject(ProtocolAmendRenewService.AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT);
+            return true;
+        }
         return canCreateIacucProtocol(user);
     }
 
