@@ -41,13 +41,16 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -71,6 +74,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.questionnaire.QuestionnaireQuestion;
+import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -79,6 +84,7 @@ import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Class for generating the XML object for grants.gov RRSF424V1_0. Form is
@@ -439,28 +445,35 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 				}
 			}
 		}
-		ProposalYnq proposalYnq = getAnswer(
-				PROPOSAL_YNQ_OTHER_AGENCY_SUBMISSION, pdDoc);
-		Enum answer = YesNoDataType.N_NO;
-		if (proposalYnq != null && proposalYnq.getAnswer() != null) {
-			answer = (proposalYnq.getAnswer().equals(
-					S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
-					: YesNoDataType.N_NO);
-		}
-		applicationType.setIsOtherAgencySubmission(answer);
-		if (answer.equals(YesNoDataType.Y_YES)) {
-			String answerExplanation = proposalYnq.getExplanation();
-			if (answerExplanation != null) {
-				if (answerExplanation.length() > ANSWER_EXPLANATION_MAX_LENGTH) {
-					applicationType
-							.setOtherAgencySubmissionExplanation(answerExplanation
-									.substring(0, ANSWER_EXPLANATION_MAX_LENGTH));
-				} else {
-					applicationType
-							.setOtherAgencySubmissionExplanation(answerExplanation);
-				}
-			}
-		}
+		YesNoDataType.Enum answer = null;
+        String answerdetails = getAnswer(ANSWER_128);
+        if (answerdetails != null && !answerdetails.equals(NOT_ANSWERED)) {
+            answer =  answerdetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
+            applicationType.setIsOtherAgencySubmission(answer);
+        } else {
+            applicationType.setIsOtherAgencySubmission(null);
+        }
+
+        if (answer != null && answer.equals(YesNoDataType.Y_YES)) {
+            String answerExplanation = getAnswer(ANSWER_111);
+            if (answerExplanation != null) {
+                Collection<ArgValueLookup> argDescription = KraServiceLocator.getService(BusinessObjectService.class).findAll(ArgValueLookup.class);
+                if (argDescription != null) {
+                    for (ArgValueLookup argValue : argDescription) {
+                        System.out.println(argValue.getValue());
+                        if (argValue.getValue().equals(answerExplanation)) {
+                            String description = argValue.getDescription();
+                            String submissionExplanation = description.substring(5);
+                            if (submissionExplanation.length() > ANSWER_EXPLANATION_MAX_LENGTH) {
+                                applicationType.setOtherAgencySubmissionExplanation(submissionExplanation.substring(0, ANSWER_EXPLANATION_MAX_LENGTH));
+                            } else {
+                                applicationType.setOtherAgencySubmissionExplanation(submissionExplanation);  
+                            }
+                        }
+                    }
+                }
+            }
+        }
 		return applicationType;
 	}
 
@@ -754,6 +767,38 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		}
 		return ynq;
 	}
+	
+	/**
+     * 
+     * This method is used to get the answer for a particular Questionnaire question
+     * question based on the question id.
+     * 
+     * @param questionId
+     *            the question id to be passed.
+     * @return returns the answer for a particular
+     *         question based on the question id passed.
+     */
+	private String getAnswer(String questionId) {
+        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, 
+                        pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE, CoeusSubModule.ZERO_SUBMODULE, true);
+        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+        String answer = null;
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for (AnswerHeader answerHeader : answerHeaders) {
+                List<QuestionnaireQuestion> questionnaireQuestions = answerHeader.getQuestionnaire().getQuestionnaireQuestions();
+                List<Answer> answerDetails = answerHeader.getAnswers();
+                for (Answer answers : answerDetails) {
+                    if (answers.getAnswer() != null && questionId.equals(answers.getQuestion().getQuestionId())) {
+                        answer = answers.getAnswer();
+                        return answer;
+                    }
+                }
+            }
+        }
+        return answer;        
+    }
 
 	/**
 	 * This method creates {@link XmlObject} of type {@link RRSF424Document} by
