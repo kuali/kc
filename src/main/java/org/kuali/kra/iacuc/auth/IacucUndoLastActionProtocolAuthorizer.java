@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.auth;
+package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
- * Is the user allowed to administratively correct a protocol and the action is currently unavailable?
+ * Is the user allowed to administratively correct a protocol?
  */
-public class UndoLastActionProtocolUnavailableAuthorizer extends ProtocolAuthorizer {
+public class IacucUndoLastActionProtocolAuthorizer extends IacucProtocolAuthorizer {
 
     /**
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
-        return hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
+    public boolean isAuthorized(String userId, IacucProtocolTask task) {
+        return hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }
 }

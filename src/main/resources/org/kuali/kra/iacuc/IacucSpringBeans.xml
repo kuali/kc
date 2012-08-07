@@ -429,8 +429,11 @@
                 </bean>
                 <bean class="org.kuali.kra.iacuc.auth.RequesstSuspensionIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                 	<property name="taskName" value="iacucProtocolRequestSuspensionUnavailable"/>
-                </bean>                                                  
-                                
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucUndoLastActionProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="protocolUndoLastAction"/>
+                </bean>
            </list>
         </property>
     </bean>
