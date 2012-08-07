@@ -37,6 +37,7 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The Protocol Amendment/Renewal Service Implementation.
@@ -108,7 +109,11 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
      * @see org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService#createAmendment(org.kuali.kra.protocol.ProtocolDocument, org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean)
      */
     public String createAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
+        //since the user probably doesn't have permission to create the document, we are going to add session variable so the document
+        //authorizer knows to approve the user for initiating the document
+        GlobalVariables.getUserSession().addObject(AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT, Boolean.TRUE);
         ProtocolDocument amendProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolAmendmentNumber(protocolDocument), true);
+        GlobalVariables.getUserSession().removeObject(AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT);
         amendProtocolDocument.getProtocol().setInitialSubmissionDate(protocolDocument.getProtocol().getInitialSubmissionDate());
         amendProtocolDocument.getProtocol().setApprovalDate(protocolDocument.getProtocol().getApprovalDate());
         amendProtocolDocument.getProtocol().setExpirationDate(protocolDocument.getProtocol().getExpirationDate());
