@@ -27,7 +27,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
  */
 public interface ProtocolAmendRenewService {
 
-    public static final String AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT = "onAmendAndREnewAllowNewProtocolDocument";
+    public static final String AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT = "onAmendAndRenewAllowNewProtocolDocument";
     
     /**
      * Create an amendment.  An amendment is simply a copy of a protocol with
