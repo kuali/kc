@@ -116,21 +116,30 @@ public class CommitteeDecisionRule extends ResearchDocumentRuleBase implements E
         int membersPresent = getAttendanceService().getActualVotingMembersCount(committeeId, scheduleId);
         
         if (membersPresent < committeeDecision.getTotalVoteCount()) {
-            reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY, 
-                    KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_INVALID_VOTE_COUNT);
+            reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_INVALID_VOTE_COUNT);
             retVal = false;
         }
-        if (CommitteeDecisionMotionType.APPROVE.equals(committeeDecision.getMotionTypeCode()) && committeeDecision.getYesCount() == null) {
-            reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + YES_COUNT_FIELD, 
-                    KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_YES_VOTES);
+       
+        if(committeeDecision.getYesCount() == null) {
+            reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + YES_COUNT_FIELD, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_YES_VOTES);
             retVal = false;
         }
-        if (CommitteeDecisionMotionType.DISAPPROVE.equals(committeeDecision.getMotionTypeCode()) && committeeDecision.getNoCount() == null) {
-            reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + NO_COUNT_FIELD, 
-                    KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_NO_VOTES);
+        else if(committeeDecision.getYesCountValue() <= 0) {
+            reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + YES_COUNT_FIELD, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_YES_VOTES_NOT_POSITIVE);
             retVal = false;
         }
+        else if(!(committeeDecision.getYesCountValue() > committeeDecision.getNoCountValue())) {
+            reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_VOTE_YES_NOT_GREATER);
+            retVal = false;
+        }
+
+        if(committeeDecision.getNoCountValue() < 0) {
+            reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + NO_COUNT_FIELD, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_VOTES_NOT_NONNEGATIVE);
+            retVal = false;
+        }
+        
         return retVal;
+        
     }
     
 }
