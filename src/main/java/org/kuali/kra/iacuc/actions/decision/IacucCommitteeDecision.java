@@ -269,5 +269,13 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
         return null;
     }
 
-
+    @Override
+    public int getYesCountValue() {
+        return (this.getYesCount() != null) ? this.getYesCount() : 0;
+    }
+    
+    @Override
+    public int getNoCountValue() {
+        return (this.getNoCount() != null) ? this.getNoCount() : 0;
+    }
 }
