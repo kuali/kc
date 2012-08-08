@@ -154,6 +154,7 @@ public class IacucActionHelper extends ActionHelper {
     private boolean canIacucRequestDeactivate = false;
     private boolean canIacucRequestDeactivateUnavailable = false;
     private boolean canAddDeactivateReviewerComments = false;
+    private boolean canRemoveFromAgenda = false;
 
     private boolean canAssignCmt = false;
     private boolean canAssignCmtUnavailable = false;
@@ -173,10 +174,12 @@ public class IacucActionHelper extends ActionHelper {
     protected IacucProtocolGenericActionBean iacucAcknowledgeBean;
     protected IacucProtocolGenericActionBean iacucProtocolHoldBean;
     protected IacucProtocolGenericActionBean iacucProtocolLiftHoldBean;
+    protected IacucProtocolGenericActionBean iacucProtocolRemoveFromAgendaBean;
     
     protected IacucProtocolRequestBean iacucProtocolDeactivateRequestBean;
     protected IacucProtocolRequestBean iacucProtocolLiftHoldRequestBean;
     protected IacucProtocolRequestBean iacucProtocolSuspendRequestBean;
+    
 
     /**
      * Constructs an ActionHelper.
@@ -200,6 +203,7 @@ public class IacucActionHelper extends ActionHelper {
                 IacucProtocolSubmissionType.REQUEST_TO_LIFT_HOLD, "iacucProtocolLiftHoldRequestBean");
         iacucProtocolSuspendRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.IACUC_REQUEST_SUSPEND,
                 IacucProtocolSubmissionType.REQUEST_SUSPEND, "iacucProtocolSuspendRequestBean");
+        iacucProtocolRemoveFromAgendaBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucProtocolRemoveFromAgendaBean");
         initIacucSpecificActionBeanTaskMap();
    }
     
@@ -221,6 +225,7 @@ public class IacucActionHelper extends ActionHelper {
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION, iacucProtocolSuspendRequestBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_HOLD, iacucProtocolHoldBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_LIFT_HOLD, iacucProtocolLiftHoldBean);
+        actionBeanTaskMap.put(TaskName.REMOVE_FROM_AGENDA, iacucProtocolRemoveFromAgendaBean);
 }
 
         
@@ -352,6 +357,8 @@ public class IacucActionHelper extends ActionHelper {
         canAssignCmt = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE);
         canAssignCmtUnavailable = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE_UNAVAILABLE);
         canAddDeactivateReviewerComments = hasDeactivateRequestLastAction();
+        
+        canRemoveFromAgenda = hasPermission(TaskName.REMOVE_FROM_AGENDA);
 
         initSummaryDetails();
 
@@ -1344,6 +1351,26 @@ public class IacucActionHelper extends ActionHelper {
     @Override
     protected ProtocolQuestionnairePrintingService getProtocolQuestionnairePrintingServiceHook() {
         return KraServiceLocator.getService(IacucProtocolQuestionnairePrintingService.class);
+    }
+
+
+    public boolean getCanRemoveFromAgenda() {
+        return canRemoveFromAgenda;
+    }
+
+
+    public void setCanRemoveFromAgenda(boolean canRemoveFromAgenda) {
+        this.canRemoveFromAgenda = canRemoveFromAgenda;
+    }
+
+
+    public IacucProtocolGenericActionBean getIacucProtocolRemoveFromAgendaBean() {
+        return iacucProtocolRemoveFromAgendaBean;
+    }
+
+
+    public void setIacucProtocolRemoveFromAgendaBean(IacucProtocolGenericActionBean iacucProtocolRemoveFromAgendaBean) {
+        this.iacucProtocolRemoveFromAgendaBean = iacucProtocolRemoveFromAgendaBean;
     }
 
 }

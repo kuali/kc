@@ -1588,7 +1588,33 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                     } else {
                         getNotificationService().sendNotification(context);
                     }
+                    
                 }
+                actionBean.prepareView();
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+        }
+        
+        return forward;
+    }
+    
+    public ActionForward removeFromAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
+        IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
+        
+        if (!hasDocumentStateChanged(protocolForm)) {
+            ProtocolTask task = new IacucProtocolTask(TaskName.REMOVE_FROM_AGENDA, protocol);
+            if (isAuthorized(task)) {
+                IacucProtocolGenericActionBean actionBean = actionHelper.getIacucProtocolRemoveFromAgendaBean();
+                getProtocolAssignToAgendaService().removeFromAgenda(protocol, actionBean);
+                saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
+                recordProtocolActionSuccess("Removed Agenda");
+                //actionHelper.setIacucProtocolRemoveFromAgendaBean(new IacucProtocolGenericActionBean(actionHelper, "actionHelper.iacucProtocolRemoveFromAgendaBean"));
             }
         } else {
             GlobalVariables.getMessageMap().clearErrorMessages();
