@@ -33,6 +33,8 @@ import org.kuali.kra.protocol.personnel.ProtocolUnitRule;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionRule;
 import org.kuali.kra.protocol.actions.decision.CommitteePerson;
+import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionAbstainerRule;
+import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionRecuserRule;
 import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
@@ -75,10 +77,10 @@ public abstract class ProtocolDocumentRule<CD extends CommitteeDecision<? extend
 //                                                                                ExecuteProtocolAssignReviewersRule, 
 //                                                                                ExecuteProtocolAdminCorrectionRule,
                                                                                 
-                                                                                ExecuteCommitteeDecisionRule<CD>
+                                                                                ExecuteCommitteeDecisionRule<CD>,                                                                                
+                                                                                ExecuteCommitteeDecisionAbstainerRule<CD>, 
+                                                                                ExecuteCommitteeDecisionRecuserRule<CD>
                                                                                 
-//                                                                                ExecuteCommitteeDecisionAbstainerRule, 
-//                                                                                ExecuteCommitteeDecisionRecuserRule, 
 //                                                                                ExecuteProtocolModifySubmissionRule, 
 //                                                                                ExecuteProtocolReviewNotRequiredRule, 
 //                                                                                PermissionsRule 
@@ -396,23 +398,27 @@ public abstract class ProtocolDocumentRule<CD extends CommitteeDecision<? extend
 //        return new ProtocolModifySubmissionRule().processModifySubmissionRule(document, actionBean);
 //    }
 //    
-//    /**
-//     * 
-//     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionAbstainerRule#proccessCommitteeDecisionAbstainerRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.decision.CommitteeDecision)
-//     */
-//    public boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocument document, CommitteeDecision actionBean) {
-//        return new CommitteeDecisionAbstainerRule().proccessCommitteeDecisionAbstainerRule(document, actionBean);
-//    }
-//    
-//    /**
-//     * 
-//     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRecuserRule#proccessCommitteeDecisionRecuserRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.decision.CommitteeDecision)
-//     */
-//    public boolean proccessCommitteeDecisionRecuserRule(ProtocolDocument document, CommitteeDecision actionBean) {
-//        return new CommitteeDecisionRecuserRule().proccessCommitteeDecisionRecuserRule(document, actionBean);
-//    }
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionAbstainerRule#proccessCommitteeDecisionAbstainerRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.decision.CommitteeDecision)
+     */
+    public boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocument document, CD actionBean) {
+        return newCommitteeDecisionAbstainerRuleInstanceHook().proccessCommitteeDecisionAbstainerRule(document, actionBean);
+    }
+    
+    protected abstract ExecuteCommitteeDecisionAbstainerRule<CD> newCommitteeDecisionAbstainerRuleInstanceHook();
 
     
+    /**
+     * 
+     * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRecuserRule#proccessCommitteeDecisionRecuserRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.decision.CommitteeDecision)
+     */
+    public boolean proccessCommitteeDecisionRecuserRule(ProtocolDocument document, CD actionBean) {
+        return newCommitteeDecisionRecuserRuleInstanceHook().proccessCommitteeDecisionRecuserRule(document, actionBean);
+    }
+
+    protected abstract ExecuteCommitteeDecisionRecuserRule<CD> newCommitteeDecisionRecuserRuleInstanceHook();
+
     
     private UnitService getUnitService() {
         return KraServiceLocator.getService(UnitService.class);

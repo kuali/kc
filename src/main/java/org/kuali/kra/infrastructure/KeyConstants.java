@@ -653,6 +653,9 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_NO_YES_VOTES = "error.protocol.recordcommittee.no.yescount";
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_INVALID_VOTE_COUNT = "error.protocol.recordcommittee.votecount.invalid";
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_VOTE_MOTION_MISMATCH = "error.protocol.recordcommittee.vote.count.motion.mismatch";
+    public static final String ERROR_PROTOCOL_RECORD_COMMITEE_VOTE_YES_NOT_GREATER = "error.protocol.recordcommittee.vote.count.yesCount.notGreater";
+    public static final String ERROR_PROTOCOL_RECORD_COMMITEE_YES_VOTES_NOT_POSITIVE = "error.protocol.recordcommittee.vote.count.yesCount.notPositive";
+    public static final String ERROR_PROTOCOL_RECORD_COMMITEE_NO_VOTES_NOT_NONNEGATIVE = "error.protocol.recordcommittee.vote.count.noCount.notNonNegative";    
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_DISAPPROVE_REVIEWER_COMMENTS = "error.protocol.recordcommittee.no.smrsrrdisapprove.reviewer.comments";
     public static final String ERROR_PROTOCOL_RECORD_COMMITEE_NO_MINOR_MAJOR_DISAPPROVE_REVIEWER_COMMENTS = "error.protocol.recordcommittee.no.minormajordisapprove.reviewer.comments";
     public static final String ERROR_PROTOCOL_ASSIGN_TO_AGENDA_NO_ACTION_DATE = "error.protocol.actiondate.required";

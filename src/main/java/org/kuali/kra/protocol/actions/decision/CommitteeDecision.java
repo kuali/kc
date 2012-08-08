@@ -81,6 +81,10 @@ public interface CommitteeDecision<CP extends CommitteePerson> extends ProtocolA
     public void setNewRecused(CP newRecused);
     
     public int getTotalVoteCount();
+    
+    public int getYesCountValue();
+    
+    public int getNoCountValue();
 
     public void setReviewCommentsBean(ReviewCommentsBean reviewCommentsBean);
 
