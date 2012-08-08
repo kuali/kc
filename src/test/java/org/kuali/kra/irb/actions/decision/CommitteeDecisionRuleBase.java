@@ -103,6 +103,13 @@ public abstract class CommitteeDecisionRuleBase extends KcUnitTestBase {
             
             allowing(bean).getReviewCommentsBean();
             will(returnValue(getMockReviewCommentsBean(protocol, hasReviewComment)));
+            
+            allowing(bean).getYesCountValue();
+            will(returnValue((yesCount != null ? yesCount : 0)));
+            
+            allowing(bean).getNoCountValue();
+            will(returnValue((noCount != null ? noCount : 0)));
+            
         }});
         
         return bean;
