@@ -871,7 +871,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                         else if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_CALENDAR_MONTHS))) {
-                                            if (budgetPeriod.getBudget().getSubmitCostSharingFlag()) {
+                                            if (lineItem.getSubmitCostSharingFlag()) {
                                                 calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
                                                         .multiply(new BudgetDecimal(0.01)));
                                             } else {
@@ -1931,7 +1931,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                         if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
                             if (lineItem.getBudgetCategory()
                                     .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
-                                if (budgetPeriod.getBudget().getSubmitCostSharingFlag()) {
+                                if (lineItem.getSubmitCostSharingFlag()) {
                                     calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
                                             .multiply(new BudgetDecimal(0.01)));
                                 } else {
@@ -1940,7 +1940,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                 }
                             } 
                         }else {
-                            if (budgetPeriod.getBudget().getSubmitCostSharingFlag()) {
+                            if (lineItem.getSubmitCostSharingFlag()) {
                                 calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
                                         .multiply(new BudgetDecimal(0.01)));
                             }
