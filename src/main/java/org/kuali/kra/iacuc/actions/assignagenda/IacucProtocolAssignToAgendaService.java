@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.iacuc.actions.assignagenda;
 
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaService;
 
 
@@ -22,6 +26,7 @@ import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaService
  * Handles the processing of assigning a protocol to an agenda.
  */
 public interface IacucProtocolAssignToAgendaService extends ProtocolAssignToAgendaService {
-
-   
+    public void removeFromAgenda(IacucProtocol protocol, IacucProtocolGenericActionBean actionBean) throws Exception;
+    
+    public ProtocolAction getNewProtocolRemoveFromAgendaActionInstanceHook(IacucProtocol protocol, IacucProtocolSubmission submission);
 }

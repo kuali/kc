@@ -114,6 +114,7 @@ public interface TaskName {
     public static final String PROTOCOL_AMEND_RENEW_DELETE = "protocolAmendRenewDelete";
     public static final String PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE = "protocolAmendRenewDeleteUnavailable";
     public static final String ASSIGN_TO_AGENDA = "protocolAssignToAgenda";
+    public static final String REMOVE_FROM_AGENDA = "protocolRemoveFromAgenda";
     public static final String ASSIGN_TO_AGENDA_UNAVAILABLE = "protocolAssignToAgendaUnavailable";
     public static final String ASSIGN_TO_COMMITTEE_SCHEDULE = "protocolAssignToCmtSched";
     public static final String ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE = "protocolAssignToCmtSchedUnavailable";
