@@ -272,5 +272,13 @@ public class CommitteeDecision extends ProtocolActionBean implements ProtocolOnl
         // TODO Auto-generated method stub
         return null;
     }
+    
+    public int getYesCountValue() {
+        return (this.getYesCount() != null) ? this.getYesCount() : 0;
+    }
+    
+    public int getNoCountValue() {
+        return (this.getNoCount() != null) ? this.getNoCount() : 0;
+    }
 
 }
