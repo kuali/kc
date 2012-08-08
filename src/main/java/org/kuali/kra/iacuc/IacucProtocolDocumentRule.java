@@ -24,6 +24,8 @@ import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtBean;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRule;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtRuleImpl;
 import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecision;
+import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionAbstainerRule;
+import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionRecuserRule;
 import org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionRule;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionRule;
@@ -53,6 +55,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolDocumentRule;
+import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionAbstainerRule;
+import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionRecuserRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImpl;
 import org.kuali.kra.protocol.personnel.ProtocolAttachmentPersonnelRule;
@@ -243,5 +247,15 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule<IacucCommitt
     @Override
     protected IacucCommitteeDecisionRule newCommitteeDecisionRuleInstanceHook() {
         return new IacucCommitteeDecisionRule();
+    }
+
+    @Override
+    protected ExecuteCommitteeDecisionAbstainerRule<IacucCommitteeDecision> newCommitteeDecisionAbstainerRuleInstanceHook() {
+        return new IacucCommitteeDecisionAbstainerRule();
+    }
+
+    @Override
+    protected ExecuteCommitteeDecisionRecuserRule<IacucCommitteeDecision> newCommitteeDecisionRecuserRuleInstanceHook() {
+        return new IacucCommitteeDecisionRecuserRule();
     }
 }
