@@ -214,6 +214,10 @@
                     <property name="taskName" value="protocolAssignToAgenda" />
                 </bean>
                 
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolRemoveFromAgendaAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="protocolRemoveFromAgenda" />
+                </bean>
+                
                 <bean class="org.kuali.kra.iacuc.auth.IacucProtocolAssignToAgendaUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignToAgendaUnavailable" />
                 </bean>

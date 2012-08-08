@@ -103,6 +103,7 @@ public class IacucProtocolAssignToAgendaBean extends IacucProtocolGenericActionB
                 this.protocolAssigned = getProtocolAssignToAgendaService().isAssignedToAgenda(getProtocol());
                 this.scheduleDate = getProtocolAssignToAgendaService().getAssignedScheduleDate(getProtocol());
             }
+            this.setComments("");
         }
         
         /*

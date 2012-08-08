@@ -15,15 +15,19 @@
  */
 package org.kuali.kra.iacuc.actions.assignagenda;
 
+import java.sql.Timestamp;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtService;
+import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaServiceImpl;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.Protocol;
@@ -62,8 +66,33 @@ public class IacucProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgen
         return null;
     }
     
+    public void removeFromAgenda(IacucProtocol protocol, IacucProtocolGenericActionBean actionBean) throws Exception {
+
+        IacucProtocolSubmission submission = (IacucProtocolSubmission) findLastSubmission(protocol);
+        submission.setSubmissionStatusCode("102");
+        // add a new protocol action
+        ProtocolAction protocolAction = getNewProtocolRemoveFromAgendaActionInstanceHook(protocol, submission);
+        protocolAction.setComments(actionBean.getComments());
+        protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
+        protocol.getProtocolActions().add(protocolAction);
+        getProtocolActionService().updateProtocolStatus(protocolAction, protocol);
+        getDocumentService().saveDocument(protocol.getProtocolDocument());    
+    }
     
+    protected ProtocolSubmission findLastSubmission(Protocol protocol) {
+        ProtocolSubmission returnSubmission = null;
+        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+            if (returnSubmission == null || returnSubmission.getSequenceNumber() < submission.getSequenceNumber()) {
+                returnSubmission = submission;
+            }
+        }
+        return returnSubmission;
+    }
     
+    public ProtocolAction getNewProtocolRemoveFromAgendaActionInstanceHook(IacucProtocol protocol, IacucProtocolSubmission submission) {
+        return new IacucProtocolAction( protocol, submission, IacucProtocolActionType.REMOVE_FROM_AGENDA);
+    }
+        
 
     @Override
     protected String getProtocolSubmissionStatusSubmittedToCommitteeCodeHook() {
@@ -81,7 +110,6 @@ public class IacucProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgen
     protected ProtocolAction getNewProtocolAssignToAgendaActionInstanceHook(Protocol protocol, ProtocolSubmission submission) {
         return new IacucProtocolAction( (IacucProtocol)protocol, (IacucProtocolSubmission) submission, IacucProtocolActionType.ASSIGNED_TO_AGENDA);
     }
-    
 
     @Override
     protected String getProtocolActionTypeAssignToAgendaCodeHook() {
