@@ -109,11 +109,15 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
      * @see org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService#createAmendment(org.kuali.kra.protocol.ProtocolDocument, org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean)
      */
     public String createAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
-        //since the user probably doesn't have permission to create the document, we are going to add session variable so the document
-        //authorizer knows to approve the user for initiating the document
-        GlobalVariables.getUserSession().addObject(AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT, Boolean.TRUE);
-        ProtocolDocument amendProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolAmendmentNumber(protocolDocument), true);
-        GlobalVariables.getUserSession().removeObject(AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT);
+        ProtocolDocument amendProtocolDocument = null;
+        try {
+            //since the user probably doesn't have permission to create the document, we are going to add session variable so the document
+            //authorizer knows to approve the user for initiating the document
+            GlobalVariables.getUserSession().addObject(AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT, Boolean.TRUE);
+            amendProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolAmendmentNumber(protocolDocument), true);
+        } finally {
+            GlobalVariables.getUserSession().removeObject(AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT);
+        }
         amendProtocolDocument.getProtocol().setInitialSubmissionDate(protocolDocument.getProtocol().getInitialSubmissionDate());
         amendProtocolDocument.getProtocol().setApprovalDate(protocolDocument.getProtocol().getApprovalDate());
         amendProtocolDocument.getProtocol().setExpirationDate(protocolDocument.getProtocol().getExpirationDate());
@@ -147,7 +151,15 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
      * @see org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService#createRenewal(org.kuali.kra.protocol.ProtocolDocument, java.lang.String)
      */
     public String createRenewal(ProtocolDocument protocolDocument, String renewalSummary) throws Exception {
-        ProtocolDocument renewProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolRenewalNumber(protocolDocument), true);
+        ProtocolDocument renewProtocolDocument = null;
+        try {
+            //since the user probably doesn't have permission to create the document, we are going to add session variable so the document
+            //authorizer knows to approve the user for initiating the document
+            GlobalVariables.getUserSession().addObject(AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT, Boolean.TRUE);
+            renewProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolRenewalNumber(protocolDocument), true);
+        } finally {
+            GlobalVariables.getUserSession().removeObject(AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT);
+        }
         renewProtocolDocument.getProtocol().setInitialSubmissionDate(protocolDocument.getProtocol().getInitialSubmissionDate());
         renewProtocolDocument.getProtocol().setApprovalDate(protocolDocument.getProtocol().getApprovalDate());
         renewProtocolDocument.getProtocol().setExpirationDate(protocolDocument.getProtocol().getExpirationDate());
@@ -173,7 +185,15 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
      * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#createRenewalWithAmendment(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean)
      */
     public String createRenewalWithAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
-        ProtocolDocument renewProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolRenewalNumber(protocolDocument), true);
+        ProtocolDocument renewProtocolDocument = null;
+        try {
+            //since the user probably doesn't have permission to create the document, we are going to add session variable so the document
+            //authorizer knows to approve the user for initiating the document
+            GlobalVariables.getUserSession().addObject(AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT, Boolean.TRUE);
+            renewProtocolDocument = protocolCopyService.copyProtocol(protocolDocument, generateProtocolRenewalNumber(protocolDocument), true);
+        } finally {
+            GlobalVariables.getUserSession().removeObject(AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT);
+        }
         renewProtocolDocument.getProtocol().setInitialSubmissionDate(protocolDocument.getProtocol().getInitialSubmissionDate());
         renewProtocolDocument.getProtocol().setApprovalDate(protocolDocument.getProtocol().getApprovalDate());
         renewProtocolDocument.getProtocol().setExpirationDate(protocolDocument.getProtocol().getExpirationDate());
