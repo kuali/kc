@@ -53,9 +53,17 @@ public abstract class ProtocolAssignToAgendaServiceImpl implements ProtocolAssig
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
+    
+    public DocumentService getDocumentService() {
+        return this.documentService;
+    }
 
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
+    }
+    
+    public ProtocolActionService getProtocolActionService() {
+        return this.protocolActionService;
     }
  
     

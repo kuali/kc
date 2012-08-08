@@ -47,6 +47,14 @@
 			<kra-iacuc-action:tableAction />
 			<kra-iacuc-action:notifyIacucAction />
 			
+			<kra-iacuc-action:genericAction tabTitle="Remove From Agenda"
+                                          bean="${KualiForm.actionHelper.iacucProtocolRemoveFromAgendaBean}"
+                                          property="actionHelper.iacucProtocolRemoveFromAgendaBean"
+                                          taskName="protocolRemoveFromAgenda"
+                                          methodToCall="removeFromAgenda"
+                                          canPerformAction="${KualiForm.actionHelper.canRemoveFromAgenda}"
+                                          defaultOpen="${false}"/>
+			
           	<kra-iacuc-action:approveAction 
           								  tabTitle="Approve Action"
                                           bean="${KualiForm.actionHelper.protocolFullApprovalBean}"
