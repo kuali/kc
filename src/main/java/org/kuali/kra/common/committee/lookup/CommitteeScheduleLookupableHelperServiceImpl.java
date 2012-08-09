@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
@@ -50,6 +51,7 @@ import org.kuali.rice.krad.util.UrlFactory;
 public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static final String READ_ONLY = "readOnly";
     private static final String COMMITTEE_COMMITTEE_NAME = "committee.committeeName";
+    private static final String COMMITTEE_COMMITTEE_TYPE_CODE = "committee.committeeTypeCode";
     private static final String COMMITTEE_ID = "committeeId";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     private static final String SCHEDULE_PERSON_ID_LOOKUP = "committee.committeeMemberships.personId";
@@ -102,6 +104,10 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
     @SuppressWarnings("unchecked")
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        
+        // we set the lookup to only list schedule for committees of type IACUC TODO will need a hook here for backfitting
+        fieldValues.put(COMMITTEE_COMMITTEE_TYPE_CODE, CommitteeType.IACUC_TYPE_CODE);
+        
         List<CommonCommitteeSchedule> rawCommitteeSchedules = (List<CommonCommitteeSchedule>) super.getSearchResultsUnbounded(fieldValues);
         List<CommonCommitteeSchedule> finalCommitteeSchedules = new ArrayList<CommonCommitteeSchedule>();
         // go through each of the raw schedules and decide if it should be included in the final listing

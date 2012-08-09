@@ -32,6 +32,7 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
@@ -59,6 +60,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 @SuppressWarnings("serial")
 public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
+    private static final String COMMITTEE_TYPE_CODE_FIELD_NAME = "committeeTypeCode";
     private static final String PERSON_NAME = "personName";
     private static final String RESEARCH_AREA_CODE = "researchAreaCode";
     private static final Log LOG = LogFactory.getLog(CommitteeLookupableHelperServiceImpl.class);
@@ -66,6 +68,8 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
     
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        // we set the lookup to only list committees of type IACUC TODO will need a hook here for backfitting
+        fieldValues.put(COMMITTEE_TYPE_CODE_FIELD_NAME, CommitteeType.IRB_TYPE_CODE);
 
         List<Committee> activeCommittees =  (List<Committee>)getUniqueList(super.getSearchResultsUnbounded(fieldValues), fieldValues);
         Long matchingResultsCount = new Long(activeCommittees.size());
