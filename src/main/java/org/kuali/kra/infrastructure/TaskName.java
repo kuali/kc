@@ -49,6 +49,7 @@ public interface TaskName {
     public static final String PROPOSAL_ADD_NOTE_ATTACHMENT = "proposalAddNoteAttachment";
     public static final String ANSWER_PROPOSAL_QUESTIONNAIRE = "answerProposalQuestionnaire";
     public static final String DELETE_PROPOSAL = "deleteProposal";
+    public static final String REPLACE_PERSONNEL_ATTACHMENT = "replacePersonnelAttachmentAuthorizer";
     
     /*
      * Narrative Tasks.

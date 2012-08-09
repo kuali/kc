@@ -536,6 +536,10 @@
                     <property name="taskName" value="deleteProposal" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.PersonnelAttachmentReplaceAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="replacePersonnelAttachmentAuthorizer" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
                 
 				<!-- Narrative -->
 				
