@@ -33,6 +33,8 @@ public class IacucProtocolSpeciesServiceImpl implements IacucProtocolSpeciesServ
     private static final String REFERENCE_SPECIES_PAIN_CATEGORY = "iacucPainCategory";
 
     public void addProtocolSpecies(IacucProtocol protocol, IacucProtocolSpecies protocolSpecies) {
+        
+        /*
         protocolSpecies.setIacucProtocolSpeciesId(getNextProtocolSpeciesSequence());
         protocolSpecies.setSpeciesId(getNextProtocolSpeciesId(protocol));
         //TODO - How to handle protocol number and sequence number
@@ -40,8 +42,20 @@ public class IacucProtocolSpeciesServiceImpl implements IacucProtocolSpeciesServ
         protocolSpecies.setSequenceNumber(protocol.getSequenceNumber());
         
         refreshSpeciesReferenceObjects(protocolSpecies);
+        */
         
-        protocol.getIacucProtocolSpeciesList().add(protocolSpecies);
+        protocol.getIacucProtocolSpeciesList().add(getNewProtocolSpecies(protocol, protocolSpecies));
+    }
+    
+    public IacucProtocolSpecies getNewProtocolSpecies(IacucProtocol protocol, IacucProtocolSpecies protocolSpecies) {
+        protocolSpecies.setIacucProtocolSpeciesId(getNextProtocolSpeciesSequence());
+        protocolSpecies.setSpeciesId(getNextProtocolSpeciesId(protocol));
+        //TODO - How to handle protocol number and sequence number
+        protocolSpecies.setProtocolNumber(protocol.getProtocolNumber());
+        protocolSpecies.setSequenceNumber(protocol.getSequenceNumber());
+        
+        refreshSpeciesReferenceObjects(protocolSpecies);
+        return protocolSpecies;
     }
     
     /**

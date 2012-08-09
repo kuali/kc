@@ -150,6 +150,10 @@ public abstract class ProtocolCopyServiceImpl<GenericProtocolDocument extends Pr
             
         newDoc.getProtocol().setProtocolNumber(protocolNumber);
         newDoc.getProtocol().setSequenceNumber(0);
+
+        newDoc.getDocumentHeader().setDocumentTemplateNumber(srcDoc.getDocumentNumber());
+        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNumberNameHook());
+        newDoc.getProtocol().setProtocolId(nextProtocolId);
         
         copyOverviewProperties(srcDoc, newDoc);
         copyRequiredProperties(srcDoc, newDoc);
@@ -167,9 +171,9 @@ public abstract class ProtocolCopyServiceImpl<GenericProtocolDocument extends Pr
         protocolAction.setComments(PROTOCOL_CREATED);
         newDoc.getProtocol().getProtocolActions().add(protocolAction);
         
-        newDoc.getDocumentHeader().setDocumentTemplateNumber(srcDoc.getDocumentNumber());
-        Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNumberNameHook());
-        newDoc.getProtocol().setProtocolId(nextProtocolId);
+        //newDoc.getDocumentHeader().setDocumentTemplateNumber(srcDoc.getDocumentNumber());
+        //Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNumberNameHook());
+        //newDoc.getProtocol().setProtocolId(nextProtocolId);
         if (!isAmendmentRenewal) {
             newDoc.getProtocol().setAttachmentProtocols(new ArrayList<ProtocolAttachmentProtocol>());
             newDoc.getProtocol().setNotepads(new ArrayList<ProtocolNotepad>());

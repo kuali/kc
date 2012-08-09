@@ -137,8 +137,7 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
 
     @Override
     public void resetPersistenceState() {
-        // TODO Auto-generated method stub
-        
+        setIacucProtocolSpeciesId(null);
     }
 
     public String getProcedureSummary() {
@@ -223,4 +222,36 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
     public boolean isSameGroupAs(IacucProtocolSpecies other) {
         return StringUtils.equals(this.getSpeciesGroup(), other.getSpeciesGroup());
     }
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((iacucProtocolSpeciesId == null) ? 0 : iacucProtocolSpeciesId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        IacucProtocolSpecies other = (IacucProtocolSpecies) obj;
+        if (iacucProtocolSpeciesId == null) {
+            if (other.iacucProtocolSpeciesId != null) {
+                return false;
+            }
+        } else if (!iacucProtocolSpeciesId.equals(other.iacucProtocolSpeciesId)) {
+            return false;
+        }
+        return true;
+    }
+
 }
