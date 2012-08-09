@@ -26,6 +26,7 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -193,6 +194,21 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
             if (narrative.getModifyNarrativeRights(userId)) {
                 editModes.add(prefix + "modifyRights");
             }
+        }
+        
+        TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        
+        int i = 0;
+        for (ProposalPersonBiography ppb : doc.getDevelopmentProposal().getPropPersonBios()) {
+            ppb.setPositionNumber(i);
+            //boolean canReplace taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.REPLACE_NARRATIVE, doc, ppb));
+            boolean canReplace = false;
+            String prefix = "biographyAttachments." + ppb.getPositionNumber() + ".";
+            if (canReplace) {
+                editModes.add(prefix + "replace");
+            }
+            
+            i++;
         }
     }
 

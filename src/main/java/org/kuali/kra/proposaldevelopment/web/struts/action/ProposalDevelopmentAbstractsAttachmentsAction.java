@@ -457,6 +457,20 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         return forward;
     }
     
+    public ActionForward replacePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ActionForward forward = mapping.findForward(MAPPING_BASIC);
+        
+        ProposalPersonBiography ppb = pd.getDevelopmentProposal().getPropPersonBio(getSelectedLine(request));
+        ppb.populateAttachment();
+       //I don't think anything needs to be done
+        
+        this.getBusinessObjectService().save(ppb);
+        
+        return forward;
+    }
+    
     /**
      * 
      * This method used to replace the attachment

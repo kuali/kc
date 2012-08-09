@@ -122,7 +122,26 @@
 	                	${propPersonBio.description} 
 					</td>
 	                <td>
-	                    <kra:fileicon attachment="${propPersonBio}"/> ${propPersonBio.fileName}
+	                
+	                	<div id="replacePersonnelDiv${status.index}" style="display:block;">
+	                		<%--
+		                    <kra:fileicon attachment="${narrative}"/>
+			                <kul:htmlControlAttribute property="document.developmentProposalList[0].narrative[${status.index}].fileName" 
+			                	 readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
+			                	  --%>
+			               	<kra:fileicon attachment="${propPersonBio}"/> ${propPersonBio.fileName}
+		                </div>
+		                <div id="filePersonnelDiv${status.index}" valign="middle" style="display:none;">
+		                	<%--
+		                	<html:file property="document.developmentProposalList[0].narrative[${status.index}].narrativeFile" />
+							<html:image property="methodToCall.replaceProposalAttachment.line${status.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+							 --%>
+							<html:file property="document.developmentProposalList[0].propPersonBios[${status.index}].personnelAttachmentFile" />
+							<html:image property="methodToCall.replacePersonnelAttachment.line${status.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+						</div>
+	                
 	                </td>
 	                <td>
 					<div align=center>
@@ -134,6 +153,16 @@
 							<html:image property="methodToCall.deletePersonnelAttachment.line${status.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 						</kra:section>
+						<c:set var="replaceKey" value="biographyAttachments.${propPersonBio.positionNumber}.replace" />
+						<c:set var="replaceAttachment" value="${KualiForm.editingMode[replaceKey]}" />
+						
+						<c:if test="${(replaceAttachment) }">							
+							<html:image styleId="replacePersonnelAttachment.line${status.index}" 
+											onclick="javascript: showHide('filePersonnelDiv${status.index}','replacePersonnelDiv${status.index}') ; return false"  
+											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif' styleClass="tinybutton"
+											property="methodToCall.replacePersonnelAttachment.line${status.index}.anchor${currentTabIndex};return false" />
+
+					    </c:if>	
 					</div>
 	                </td>
 	            </tr>
