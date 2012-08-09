@@ -199,10 +199,11 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         
         int i = 0;
+        boolean canReplace = taskAuthorizationService.isAuthorized(userId, new ProposalTask(TaskName.REPLACE_PERSONNEL_ATTACHMENT, doc));
         for (ProposalPersonBiography ppb : doc.getDevelopmentProposal().getPropPersonBios()) {
             ppb.setPositionNumber(i);
             //boolean canReplace taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.REPLACE_NARRATIVE, doc, ppb));
-            boolean canReplace = false;
+            //boolean canReplace = false;
             String prefix = "biographyAttachments." + ppb.getPositionNumber() + ".";
             if (canReplace) {
                 editModes.add(prefix + "replace");
