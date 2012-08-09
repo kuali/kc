@@ -15,8 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
@@ -24,7 +28,10 @@ import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
 import org.kuali.kra.service.KcAttachmentService;
+import org.kuali.kra.service.TaskAuthorizationService;
 
 /**
  * 
@@ -61,6 +68,8 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase im
     private String uploadUserDisplay;
 
     private String uploadUserFullName;
+    
+    private transient int positionNumber;
 
     public ProposalPersonBiography() {
         super();
@@ -205,5 +214,49 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase im
 
     public String getIconPath() {
         return KraServiceLocator.getService(KcAttachmentService.class).getFileTypeIcon(this);
+    }
+
+    public int getPositionNumber() {
+        return positionNumber;
+    }
+
+    public void setPositionNumber(int positionNumber) {
+        this.positionNumber = positionNumber;
+    }
+    
+    public void populateAttachment() {
+        FormFile personnelFile = getPersonnelAttachmentFile();
+        if (personnelFile == null) return;
+        byte[] personnellFileData;
+        try {
+            personnellFileData = personnelFile.getFileData();
+            if (personnellFileData.length > 0) {
+                ProposalPersonBiographyAttachment personnelAttachment;
+                if (getPersonnelAttachmentList().isEmpty()) {
+                    personnelAttachment = new ProposalPersonBiographyAttachment();
+                    getPersonnelAttachmentList().add(personnelAttachment);
+                } else {
+                    personnelAttachment = getPersonnelAttachmentList().get(0);
+                    if (personnelAttachment == null) {
+                        personnelAttachment = new ProposalPersonBiographyAttachment();
+                        getPersonnelAttachmentList().set(0, personnelAttachment);
+                    }
+                }
+                String fileName = personnelFile.getFileName();
+                personnelAttachment.setFileName(fileName);
+                personnelAttachment.setContentType(personnelFile.getContentType());
+                personnelAttachment.setBiographyData(personnelFile.getFileData());
+                personnelAttachment.setProposalNumber(getProposalNumber());
+                //personnelAttachment.setPositionNumber(getPositionNumber());
+                setFileName(personnelAttachment.getFileName());
+                setContentType(personnelAttachment.getContentType());
+            } else {
+                getPersonnelAttachmentList().clear();
+            }
+        } catch (FileNotFoundException e) {
+            getPersonnelAttachmentList().clear();
+        } catch (IOException e) {
+            getPersonnelAttachmentList().clear();
+        }
     }
 }
