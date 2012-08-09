@@ -17,7 +17,7 @@
 
 <%@ attribute name="protocolPrinciples" required="true" type="java.util.Map" %>
 
-<c:set var="modifyPermission" value="${KualiForm.iacucAlternateSearchHelper.modifyPermissions}" />
+<c:set var="modifyPermissions" value="${KualiForm.iacucAlternateSearchHelper.modifyPermissions}" />
 <c:set var="readOnly" value="${!modifyPermissions}" />
 
 <kul:tabTop tabTitle="The Three R's" defaultOpen="true" tabErrorKey="">

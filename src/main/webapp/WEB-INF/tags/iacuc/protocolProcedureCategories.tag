@@ -57,66 +57,68 @@
 </script>
 
 <kul:tab tabTitle="Procedures" defaultOpen="true" tabErrorKey="" >
-    <div class="tab-container" align="center">
-		<kul:innerTab tabTitle="Included Categories" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
-	    	<table id="included-categories-table" cellpadding=0 cellspacing=0 summary="">
-               	<tr>
-					<c:set var="displayTop" value="false" />
-        			<c:forEach var="procedureCategories" items="${KualiForm.iacucProtocolProceduresHelper.allProcedures}" varStatus="status">
-						<c:set var="categoryName" value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index].iacucProcedureCategory.procedureCategory}" />
-						<c:set var="previousCategoryName" value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index-1].iacucProcedureCategory.procedureCategory}" />
-        				<c:if test="${status.first}">
-		            		<td style="vertical-align:top;">
-							<c:set var="displayTop" value="true" />
-		            	</c:if>
-						<c:if test="${categoryName != previousCategoryName}">
-							<c:if test="${!displayTop}">
-								</br>
-							</c:if>
-					    	<b><c:out value="${categoryName}" /></b>
-					    	</br>
-						</c:if>
-						<c:set var="procedureCategory" value="category${status.index}Procedure" />
-
-				    	<c:set var="prop" value="iacucProtocolProceduresHelper.allProcedures[${status.index}].procedureSelected"/>
-				        ${kfunc:registerEditableProperty(KualiForm, prop)} 
-				        <input type="hidden" name="checkboxToReset" value="${prop}"/>
-
-		            	<html:checkbox styleClass="checkBox" property="iacucProtocolProceduresHelper.allProcedures[${status.index}].procedureSelected" title="${procedureCategory}"/>
-					    <c:out value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index].procedureDescription}" />
-					    </br>
-						<c:choose>
-							<c:when test="${status.last}">
-    	            			</td>
-							</c:when>
-							<c:when test="${status.count % 5 == 0}">
-	    	            		</td>
-								<c:set var="displayTop" value="true" />
+    <kra:permission value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}">
+	    <div class="tab-container" align="center">
+			<kul:innerTab tabTitle="Included Categories" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
+		    	<table id="included-categories-table" cellpadding=0 cellspacing=0 summary="">
+	               	<tr>
+						<c:set var="displayTop" value="false" />
+	        			<c:forEach var="procedureCategories" items="${KualiForm.iacucProtocolProceduresHelper.allProcedures}" varStatus="status">
+							<c:set var="categoryName" value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index].iacucProcedureCategory.procedureCategory}" />
+							<c:set var="previousCategoryName" value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index-1].iacucProcedureCategory.procedureCategory}" />
+	        				<c:if test="${status.first}">
 			            		<td style="vertical-align:top;">
-								<c:set var="nextCategoryName" value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index+1].iacucProcedureCategory.procedureCategory}" />
-								<c:if test="${categoryName == previousCategoryName && categoryName == nextCategoryName}">
-					    			<b><c:out value="${categoryName} (Continued)" /></b>
-					    			</br>
+								<c:set var="displayTop" value="true" />
+			            	</c:if>
+							<c:if test="${categoryName != previousCategoryName}">
+								<c:if test="${!displayTop}">
+									</br>
 								</c:if>
-							</c:when>
-							<c:otherwise>
-								<c:set var="displayTop" value="false" />
-							</c:otherwise>
-						</c:choose>
-    	            </c:forEach>
-               	</tr>
-
-	         	<tr>
-	         		<td colspan="4" class="infoline">
-						<div align="center">
-							<html:image property="methodToCall.updateIacucProtocolStudyGroupCategory.anchor${tabKey}"
-							src="${ConfigProperties.kra.externalizable.images.url}tinybutton-update.gif" styleClass="tinybutton"/>
-						</div>
-					</td>
-	         	</tr>
-	    	</table>
-		</kul:innerTab>
-    </div>
+						    	<b><c:out value="${categoryName}" /></b>
+						    	</br>
+							</c:if>
+							<c:set var="procedureCategory" value="category${status.index}Procedure" />
+	
+					    	<c:set var="prop" value="iacucProtocolProceduresHelper.allProcedures[${status.index}].procedureSelected"/>
+					        ${kfunc:registerEditableProperty(KualiForm, prop)} 
+					        <input type="hidden" name="checkboxToReset" value="${prop}"/>
+	
+			            	<html:checkbox styleClass="checkBox" property="iacucProtocolProceduresHelper.allProcedures[${status.index}].procedureSelected" title="${procedureCategory}"/>
+						    <c:out value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index].procedureDescription}" />
+						    </br>
+							<c:choose>
+								<c:when test="${status.last}">
+	    	            			</td>
+								</c:when>
+								<c:when test="${status.count % 5 == 0}">
+		    	            		</td>
+									<c:set var="displayTop" value="true" />
+				            		<td style="vertical-align:top;">
+									<c:set var="nextCategoryName" value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index+1].iacucProcedureCategory.procedureCategory}" />
+									<c:if test="${categoryName == previousCategoryName && categoryName == nextCategoryName}">
+						    			<b><c:out value="${categoryName} (Continued)" /></b>
+						    			</br>
+									</c:if>
+								</c:when>
+								<c:otherwise>
+									<c:set var="displayTop" value="false" />
+								</c:otherwise>
+							</c:choose>
+	    	            </c:forEach>
+	               	</tr>
+	
+		         	<tr>
+		         		<td colspan="4" class="infoline">
+							<div align="center">
+								<html:image property="methodToCall.updateIacucProtocolStudyGroupCategory.anchor${tabKey}"
+								src="${ConfigProperties.kra.externalizable.images.url}tinybutton-update.gif" styleClass="tinybutton"/>
+							</div>
+						</td>
+		         	</tr>
+		    	</table>
+			</kul:innerTab>
+	    </div>
+    </kra:permission>            
 
     <c:forEach var="protocolStudyGroups" items="${collectionReference}" varStatus="status">
 		<c:set var="procedureSelected" value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index].procedureSelected}" />

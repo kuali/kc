@@ -117,4 +117,14 @@ public interface IacucProtocolProcedureService {
     public void addProcedureLocation(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation, IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, 
             IacucProtocol protocol);
 
+    /**
+     * This method is to create a new set of study groups based on existing list
+     * This method is invoked during copy protocol so that we a new instance of the study group is created
+     * and all its corresponding collections are set with appropriate reference.
+     * @param iacucProtocol
+     * @param sourceStudyGroupBeans
+     * @param protocolSpeciesIdMapping
+     */
+    public void createNewStudyGroups(IacucProtocol iacucProtocol, List<IacucProtocolStudyGroupBean> sourceStudyGroupBeans, 
+            HashMap<Integer, Integer> protocolSpeciesIdMapping);
 }

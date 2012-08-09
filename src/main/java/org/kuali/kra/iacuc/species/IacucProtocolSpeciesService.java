@@ -26,4 +26,12 @@ public interface IacucProtocolSpeciesService {
      */
     public abstract void addProtocolSpecies(IacucProtocol protocol, IacucProtocolSpecies protocolSpecies);
 
+    /**
+     * This method is to get formatted new protocol species
+     * @param protocol
+     * @param protocolSpecies
+     * @return
+     */
+    public IacucProtocolSpecies getNewProtocolSpecies(IacucProtocol protocol, IacucProtocolSpecies protocolSpecies);
+    
 }

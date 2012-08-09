@@ -219,4 +219,27 @@ public class IacucProtocolStudyGroupDetailBean extends KraPersistableBusinessObj
     }
 
     
+    /**  {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        IacucProtocolStudyGroupDetailBean other = (IacucProtocolStudyGroupDetailBean) obj;
+        if (this.iacucProtocolStudyGroupDetailId == null) {
+            if (other.iacucProtocolStudyGroupDetailId != null) {
+                return false;
+            }
+        } else if (!this.iacucProtocolStudyGroupDetailId.equals(other.iacucProtocolStudyGroupDetailId)) {
+            return false;
+        }
+        return true;
+    }
+
 }

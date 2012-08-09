@@ -714,6 +714,10 @@
         <property name="sequenceAccessorService">
             <ref bean="sequenceAccessorService" />
         </property>
+        <property name="iacucProtocolSpeciesService" ref="iacucProtocolSpeciesService" />
+        <property name="iacucProtocolExceptionService" ref="iacucProtocolExceptionService" />
+        <property name="iacucProtocolProcedureService" ref="iacucProtocolProcedureService" />
+        
     </bean>
 
     <bean id="iacucReviewCommentsService" class="org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsServiceImpl">
