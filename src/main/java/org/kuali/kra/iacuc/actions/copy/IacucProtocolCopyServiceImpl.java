@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.copy;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -23,10 +24,13 @@ import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
+import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
 import org.kuali.kra.iacuc.protocol.IacucProtocolNumberService;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
+import org.kuali.kra.iacuc.species.IacucProtocolSpeciesService;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
+import org.kuali.kra.iacuc.species.exception.IacucProtocolExceptionService;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -38,6 +42,10 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
 public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucProtocolDocument> implements IacucProtocolCopyService{
 
+    private IacucProtocolSpeciesService iacucProtocolSpeciesService;
+    private IacucProtocolExceptionService iacucProtocolExceptionService;
+    private IacucProtocolProcedureService iacucProtocolProcedureService;
+    
     @Override
     protected Class<? extends ProtocolAction> getProtocolActionBOClassHook() {
         return IacucProtocolAction.class;
@@ -69,20 +77,73 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucP
     @Override
     protected void copyProtocolLists(IacucProtocolDocument srcDoc, IacucProtocolDocument destDoc) {
         super.copyProtocolLists(srcDoc, destDoc);
-        destDoc.getIacucProtocol().setIacucProtocolSpeciesList((List<IacucProtocolSpecies>) 
-                deepCopy(srcDoc.getIacucProtocol().getIacucProtocolSpeciesList()));
-        destDoc.getIacucProtocol().setIacucProtocolExceptions((List<IacucProtocolException>) 
-                deepCopy(srcDoc.getIacucProtocol().getIacucProtocolExceptions()));
+        addThreeRs(srcDoc, destDoc);
+        HashMap<Integer, Integer> speciesIdMapping = addProtocolSpecies(srcDoc.getIacucProtocol().getIacucProtocolSpeciesList(), destDoc);
+        addProtocolExceptions(srcDoc.getIacucProtocol().getIacucProtocolExceptions(), destDoc);
+        addProtocolProcedures(srcDoc.getIacucProtocol().getIacucProtocolStudyGroups(), destDoc, speciesIdMapping);
         destDoc.getIacucProtocol().setIacucProtocolCustomDataList((List<IacucProtocolCustomData>) 
                 deepCopy(srcDoc.getIacucProtocol().getIacucProtocolCustomDataList()));
-        destDoc.getIacucProtocol().setIacucPrinciples((List<IacucPrinciples>) 
-                deepCopy(srcDoc.getIacucProtocol().getIacucPrinciples()));
-        destDoc.getIacucProtocol().setIacucAlternateSearches((List<IacucAlternateSearch>) 
-                deepCopy(srcDoc.getIacucProtocol().getIacucAlternateSearches()));
-        destDoc.getIacucProtocol().setIacucProtocolStudyGroups((List<IacucProtocolStudyGroupBean>) 
-                deepCopy(srcDoc.getIacucProtocol().getIacucProtocolStudyGroups()));
-        destDoc.getIacucProtocol().setIacucProtocolStudyGroupBeans((List<IacucProtocolStudyGroupBean>) 
-                deepCopy(srcDoc.getIacucProtocol().getIacucProtocolStudyGroupBeans()));
+        
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected void addThreeRs(IacucProtocolDocument srcDoc, IacucProtocolDocument destDoc) {
+        List<IacucPrinciples> newIacucPrinciples = (List<IacucPrinciples>)deepCopy(srcDoc.getIacucProtocol().getIacucPrinciples());
+        for(IacucPrinciples iacucPrinciple : newIacucPrinciples) {
+            iacucPrinciple.setIacucPrinciplesId(null);
+        }
+        destDoc.getIacucProtocol().setIacucPrinciples(newIacucPrinciples); 
+        List<IacucAlternateSearch> newIacucAlternateSearches = (List<IacucAlternateSearch>)deepCopy(srcDoc.getIacucProtocol().getIacucAlternateSearches());
+        for(IacucAlternateSearch iacucAlternateSearch : newIacucAlternateSearches) {
+            iacucAlternateSearch.setIacucAltSearchId(null);
+        }
+        destDoc.getIacucProtocol().setIacucAlternateSearches(newIacucAlternateSearches); 
+    }
+    
+    /**
+     * This method is to copy protocol species
+     * Return a map of old species and current species id. 
+     * This mapping is required when new set of procedures are created where it is
+     * linked to protocol species id.
+     * @param sourceProtocolSpecies
+     * @param destDoc
+     */
+    protected HashMap<Integer, Integer> addProtocolSpecies(List<IacucProtocolSpecies> sourceProtocolSpecies, IacucProtocolDocument destDoc) {
+        IacucProtocol protocol = destDoc.getIacucProtocol();
+        HashMap<Integer, Integer> speciesIdMapping = new HashMap<Integer,Integer>();
+        for(IacucProtocolSpecies protocolSpecies : sourceProtocolSpecies) {
+            IacucProtocolSpecies newProtocolSpecies = (IacucProtocolSpecies)deepCopy(protocolSpecies);
+            newProtocolSpecies = getIacucProtocolSpeciesService().getNewProtocolSpecies(protocol, newProtocolSpecies);
+            destDoc.getIacucProtocol().getIacucProtocolSpeciesList().add(newProtocolSpecies);
+            speciesIdMapping.put(protocolSpecies.getIacucProtocolSpeciesId(), newProtocolSpecies.getIacucProtocolSpeciesId());
+        }
+        return speciesIdMapping;
+    }
+    
+    /**
+     * This method is to copy protocol exceptions
+     * @param sourceProtocolExceptions
+     * @param destDoc
+     */
+    protected void addProtocolExceptions(List<IacucProtocolException> sourceProtocolExceptions, IacucProtocolDocument destDoc) {
+        IacucProtocol protocol = destDoc.getIacucProtocol();
+        for(IacucProtocolException protocolException : sourceProtocolExceptions) {
+            IacucProtocolException newProtocolException = (IacucProtocolException)deepCopy(protocolException);
+            newProtocolException = getIacucProtocolExceptionService().getNewProtocolException(protocol, newProtocolException);
+            destDoc.getIacucProtocol().getIacucProtocolExceptions().add(newProtocolException);
+        }
+    }
+    
+    /**
+     * This method is to copy protocol procedures
+     * @param sourceProtocolProcedures
+     * @param destDoc
+     * @param speciesIdMapping
+     */
+    protected void addProtocolProcedures(List<IacucProtocolStudyGroupBean> sourceProtocolProcedures, IacucProtocolDocument destDoc, 
+            HashMap<Integer, Integer> speciesIdMapping) {
+        IacucProtocol protocol = destDoc.getIacucProtocol();
+        getIacucProtocolProcedureService().createNewStudyGroups(protocol, sourceProtocolProcedures, speciesIdMapping);
     }
     
     @Override
@@ -109,6 +170,30 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucP
     @Override
     protected String getProtocolRoleTypeHook() {
         return RoleConstants.IACUC_ROLE_TYPE;
+    }
+
+    public IacucProtocolSpeciesService getIacucProtocolSpeciesService() {
+        return iacucProtocolSpeciesService;
+    }
+
+    public void setIacucProtocolSpeciesService(IacucProtocolSpeciesService iacucProtocolSpeciesService) {
+        this.iacucProtocolSpeciesService = iacucProtocolSpeciesService;
+    }
+
+    public IacucProtocolExceptionService getIacucProtocolExceptionService() {
+        return iacucProtocolExceptionService;
+    }
+
+    public void setIacucProtocolExceptionService(IacucProtocolExceptionService iacucProtocolExceptionService) {
+        this.iacucProtocolExceptionService = iacucProtocolExceptionService;
+    }
+
+    public IacucProtocolProcedureService getIacucProtocolProcedureService() {
+        return iacucProtocolProcedureService;
+    }
+
+    public void setIacucProtocolProcedureService(IacucProtocolProcedureService iacucProtocolProcedureService) {
+        this.iacucProtocolProcedureService = iacucProtocolProcedureService;
     }
 
 }

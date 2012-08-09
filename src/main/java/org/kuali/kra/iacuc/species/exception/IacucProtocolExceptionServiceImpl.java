@@ -32,14 +32,29 @@ public class IacucProtocolExceptionServiceImpl implements IacucProtocolException
     private static final String REFERENCE_PROTOCOL_SPECIES = "iacucProtocolSpecies";
 
     public void addProtocolException(IacucProtocol protocol, IacucProtocolException protocolException) {
+        
+        /*
         protocolException.setIacucProtocolExceptionId(getNextProtocolExceptionSequence());
         protocolException.setExceptionId(getNextProtocolExceptionId(protocol));
         protocolException.setProtocolNumber(protocol.getProtocolNumber());
         protocolException.setSequenceNumber(protocol.getSequenceNumber());
         
         refreshSpeciesReferenceObjects(protocolException);
+        */
         
-        protocol.getIacucProtocolExceptions().add(protocolException);
+        
+        
+        protocol.getIacucProtocolExceptions().add(getNewProtocolException(protocol, protocolException));
+    }
+    
+    public IacucProtocolException getNewProtocolException(IacucProtocol protocol, IacucProtocolException protocolException) {
+        protocolException.setIacucProtocolExceptionId(getNextProtocolExceptionSequence());
+        protocolException.setExceptionId(getNextProtocolExceptionId(protocol));
+        protocolException.setProtocolNumber(protocol.getProtocolNumber());
+        protocolException.setSequenceNumber(protocol.getSequenceNumber());
+        
+        refreshSpeciesReferenceObjects(protocolException);
+        return protocolException;
     }
     
     /**

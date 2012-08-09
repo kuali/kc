@@ -25,5 +25,13 @@ public interface IacucProtocolExceptionService {
      * @param ProtocolException object is added to ProtocolException list.
      */
     public abstract void addProtocolException(IacucProtocol protocol, IacucProtocolException protocolException);
+    
+    /**
+     * This method is to get a new formatted protocol exception
+     * @param protocol
+     * @param protocolException
+     * @return
+     */
+    public IacucProtocolException getNewProtocolException(IacucProtocol protocol, IacucProtocolException protocolException);
 
 }
