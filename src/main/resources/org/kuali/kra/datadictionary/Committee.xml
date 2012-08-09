@@ -418,8 +418,8 @@
 					p:attributeName="committeeName" />
 				<bean parent="FieldDefinition"
 					p:attributeName="homeUnitNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="committeeTypeCode" />
+<!-- 				<bean parent="FieldDefinition" -->
+<!-- 					p:attributeName="committeeTypeCode" /> -->
 				<bean parent="FieldDefinition"
 					p:attributeName="committeeDescription" />
 				<bean parent="FieldDefinition"

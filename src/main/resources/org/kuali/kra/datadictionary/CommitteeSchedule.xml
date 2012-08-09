@@ -463,8 +463,8 @@
 					p:attributeName="committee.committeeId" />
 				<bean parent="FieldDefinition"
 					p:attributeName="committee.committeeName" />
-				<bean parent="FieldDefinition"
-					p:attributeName="committee.committeeTypeCode" />
+<!-- 				<bean parent="FieldDefinition" -->
+<!-- 					p:attributeName="committee.committeeTypeCode" /> -->
 				<bean parent="FieldDefinition"
                     p:attributeName="committee.committeeMemberships.personId" p:hidden="true" />
 			</list>
