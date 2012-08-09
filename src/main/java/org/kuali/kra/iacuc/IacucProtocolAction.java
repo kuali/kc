@@ -27,6 +27,7 @@ import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
+import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -87,6 +88,10 @@ public class IacucProtocolAction extends ProtocolAction {
     }
 
     public ActionForward procedures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        IacucProtocol iacucProtocol = getIacucProtocol(form);
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        iacucProtocol.setIacucProtocolStudyGroupBeans(getIacucProtocolProcedureService().getRevisedStudyGroupBeans(iacucProtocol, 
+                protocolForm.getIacucProtocolProceduresHelper().getAllProcedures()));
         return mapping.findForward("iacucProtocolProcedures");
     }
     
@@ -180,4 +185,12 @@ public class IacucProtocolAction extends ProtocolAction {
         return IACUC_PROTOCOL_ACTIONS_HOOK;
     }
 
+    protected IacucProtocol getIacucProtocol(ActionForm form) {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        return protocolForm.getIacucProtocolDocument().getIacucProtocol();
+    }
+
+    protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
+        return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+    }
 }

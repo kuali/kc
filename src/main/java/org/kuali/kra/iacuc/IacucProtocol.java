@@ -492,13 +492,15 @@ public class IacucProtocol extends Protocol {
 
     protected void addThreeRsSummary(IacucProtocolSummary protocolSummary) {
         IacucThreeRsSummary threeRsSummary = new IacucThreeRsSummary();
-        IacucPrinciples principles = getIacucPrinciples().get(0);
-        threeRsSummary.setReduction(principles.getReduction());
-        threeRsSummary.setRefinement(principles.getRefinement());
-        threeRsSummary.setReplacement(principles.getReplacement());
-        for (IacucAlternateSearch alternateSearch:iacucAlternateSearches) {
-            threeRsSummary.getAlternateSearchSummaries().add(new IacucAlternateSearchSummary(alternateSearch));
-            threeRsSummary.setSearchRequired("Y".equals(principles.getSearchRequired()));
+        if(getIacucPrinciples().size() > 0) {
+            IacucPrinciples principles = getIacucPrinciples().get(0);
+            threeRsSummary.setReduction(principles.getReduction());
+            threeRsSummary.setRefinement(principles.getRefinement());
+            threeRsSummary.setReplacement(principles.getReplacement());
+            for (IacucAlternateSearch alternateSearch:iacucAlternateSearches) {
+                threeRsSummary.getAlternateSearchSummaries().add(new IacucAlternateSearchSummary(alternateSearch));
+                threeRsSummary.setSearchRequired("Y".equals(principles.getSearchRequired()));
+            }
         }
         protocolSummary.setThreeRsInfo(threeRsSummary);
     }
