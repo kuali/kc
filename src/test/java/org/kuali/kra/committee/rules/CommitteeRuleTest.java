@@ -65,17 +65,17 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
         assertFalse(rulesPassed);
 
         /*
-         * There should be nine required fields.
+         * There should be eight required fields.
          */
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        assertEquals(9, errorMap.getErrorCount());
+        assertEquals(8, errorMap.getErrorCount());
         
         /*
          * Verify that the error keys for each of the required fields 
          * is in the MessageMap.
          */
         assertTrue(errorMap.getErrorMessages().containsKey("document.documentHeader.documentDescription"));
-        assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].committeeTypeCode"));
+        //assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].committeeTypeCode"));
         assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].maxProtocols"));
         assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].homeUnitNumber"));
         assertTrue(errorMap.getErrorMessages().containsKey("document.committeeList[0].minimumMembersRequired"));
