@@ -65,26 +65,25 @@
 			</c:if>
 			<th class="infoline">
 				<div align="center">
-					<c:choose>                  
+					<div>
+						<kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonUnitAttributes.unitNumber}" skipHelpUrl="true"/>
+                              <kul:htmlControlAttribute property="projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].unitNumber"
+    	  	 								attributeEntry="${institutionalProposalPersonUnitAttributes.unitNumber}"
+    	  	 								readOnly="false" />
+						<kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].unitNumber" 
+											anchor="${tabKey}" lookupParameters="projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].unitNumber:unitNumber"/>
+  	 				</div>
+  	 				<c:choose>                  
 						<c:when test="${empty targetInstitutionalProposalPersonUnit.unit}">
-							<div>
-								<kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonUnitAttributes.unitNumber}" skipHelpUrl="true"/>
-		    	  	 	        &nbsp;
-                                <kul:htmlControlAttribute property="projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].unitNumber"
-		    	  	 								attributeEntry="${institutionalProposalPersonUnitAttributes.unitNumber}"
-		    	  	 								readOnly="false" />
-								<kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].unitNumber" 
-  											anchor="${tabKey}" lookupParameters="projectPersonnelBean.newInstitutionalProposalPersonUnit[${institutionalProposalPersonIndex}].unitNumber:unitNumber"/>
-		  	 				</div>
 						</c:when>
 						<c:otherwise>
 							<div align="center">
 	              				<label>
-	              				<c:out value="${targetInstitutionalProposalPersonUnit.unit.unitName}" />
+	              					<c:out value="${targetInstitutionalProposalPersonUnit.unit.unitName}" />
 	              				</label>										            			
 							</div>
 						</c:otherwise>
-					</c:choose>					
+					</c:choose>			
 				</div>
 			</th>
 			<th class="infoline">
