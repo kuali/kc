@@ -16,6 +16,9 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -27,7 +30,7 @@ public class InstitutionalProposalPersonUnitAddRuleImpl implements Institutional
      * @see org.kuali.kra.institutionalProposal.contacts.InstitutionalProposalPersonUnitAddRule
      */
     public boolean processAddInstitutionalProposalPersonUnitBusinessRules(InstitutionalProposalPersonUnitRuleAddEvent event) {
-        return checkForDuplicateUnits(event.getProjectPerson(), event.getNewPersonUnit());
+        return checkForValidUnit(event.getNewPersonUnit()) && checkForDuplicateUnits(event.getProjectPerson(), event.getNewPersonUnit());
     }
         
     boolean checkForDuplicateUnits(InstitutionalProposalPerson projectPerson, InstitutionalProposalPersonUnit newInstitutionalProposalPersonUnit) {
@@ -41,12 +44,24 @@ public class InstitutionalProposalPersonUnitAddRuleImpl implements Institutional
         
         if(!valid) {
             Unit dupeUnit = newInstitutionalProposalPersonUnit.getUnit();
-            GlobalVariables.getMessageMap().putError(PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY, 
+            GlobalVariables.getMessageMap().putError(NEW_UNIT_NUMBER_FIELD, 
                                                         ERROR_PROPOSAL_PROJECT_PERSON_DUPLICATE_UNITS, 
                                                         dupeUnit.getUnitName(), dupeUnit.getUnitNumber(),
                                                         projectPerson.getFullName());
         }
         
+        return valid;
+    }
+    
+    protected boolean checkForValidUnit(InstitutionalProposalPersonUnit newInstitutionalProposalPersonUnit){
+        String newUnitNumber = newInstitutionalProposalPersonUnit.getUnitNumber();
+        boolean valid =  KraServiceLocator.getService(UnitService.class).getUnit(newUnitNumber) != null;
+        if (!valid) {
+            GlobalVariables.getMessageMap().putError(NEW_UNIT_NUMBER_FIELD, 
+                    KeyConstants.ERROR_INVALID_UNIT, newUnitNumber);
+            //this null is to just clean stuff up
+            newInstitutionalProposalPersonUnit.setUnit(null);
+        }
         return valid;
     }
 
