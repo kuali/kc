@@ -32,6 +32,10 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
+    
+    public static final String CAN_EDIT_REVIEW_TYPE = "canEditReviewType";
+    public static final String CAN_EDIT_DETERMINATION = "canEditDetermination";
+    public static final String CAN_SAVE = "canSave";
 
     private transient KraWorkflowService kraWorkflowService;
     
@@ -43,14 +47,24 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
         
         if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS)) {  
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-        } else if (canExecuteProtocolOnlineReviewTask( userId, protocolOnlineReviewDocument, TaskName.MODIFY_IACUC_PROTOCOL_ONLINEREVIEW)
-                   && getKraWorkflowService().isUserApprovalRequested(protocolOnlineReviewDocument, GlobalVariables.getUserSession().getPrincipalId())) {
+            editModes.add(CAN_SAVE);
+            editModes.add(CAN_EDIT_REVIEW_TYPE);
+            editModes.add(CAN_EDIT_DETERMINATION);
+        } else if (canExecuteProtocolOnlineReviewTask( userId, protocolOnlineReviewDocument, TaskName.MODIFY_IACUC_PROTOCOL_ONLINEREVIEW)) {
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
+            editModes.add(CAN_SAVE);
+            if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.MODIFY_IACUC_PROTOCOL_ONLINEREVIEW_TYPE)) {
+                editModes.add(CAN_EDIT_REVIEW_TYPE);
+            }
+            if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.MODIFY_IACUC_PROTOCOL_ONLINEREVIEW_DETERMINATION)) {
+                editModes.add(CAN_EDIT_DETERMINATION);
+            }            
         } else if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.VIEW_IACUC_PROTOCOL_ONLINEREVIEW)) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
         } else {
             editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
         }
+        
             
         return editModes;
     }
@@ -101,8 +115,8 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
      */
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (IacucProtocolOnlineReviewDocument) document, TaskName.MODIFY_PROTOCOL_ONLINEREVIEW) 
-               || canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (IacucProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS); 
+        return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (IacucProtocolOnlineReviewDocument) document, TaskName.MODIFY_IACUC_PROTOCOL_ONLINEREVIEW) 
+               || canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (IacucProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS); 
 //        return true;
     }
     
