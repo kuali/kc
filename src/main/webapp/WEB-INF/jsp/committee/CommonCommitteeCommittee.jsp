@@ -16,7 +16,7 @@
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="committeeAttributes" value="${DataDictionary.CommitteeDocument.attributes}" />
+<c:set var="committeeAttributes" value="${DataDictionary.CommonCommitteeDocument.attributes}" />
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -27,16 +27,11 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="committee">
-<script type="text/javascript">
-   var $j = jQuery.noConflict();
-   $j(document).ready(function() {
-	   populateSelect('getProtocolReviewTypes', 'document.committeeList[0].committeeTypeCode', 'reviewTypeCode');
-   });
-   
-</script>
+
 <div align="right"><kul:help documentTypeName="CommonCommitteeDocument" pageName="Committee" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
-<kra-committee:committee />
+
+<kra-committee:committee cmtAttributes="${DataDictionary.CommonCommittee.attributes}" />
 <kra-committee:committeeResearchAreas />
 
 <kul:panelFooter />

@@ -1,6 +1,18 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="committeeAttributes" value="${DataDictionary.Committee.attributes}" />
+
+<%@ attribute name="cmtAttributes" required="false" type="java.util.Map"%>
+<c:choose>
+	<c:when test="${cmtAttributes == null}">
+		<c:set var="committeeAttributes" value="${DataDictionary.Committee.attributes}" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="committeeAttributes" value="${cmtAttributes}" />
+	</c:otherwise>
+</c:choose>
+
+
+
 <c:set var="action" value="committeeCommittee" />
 <c:set var="className" value="org.kuali.kra.committee.document.CommitteeDocument" />
 <c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee}" scope="request" />
@@ -55,11 +67,7 @@
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${committeeAttributes.committeeTypeCode}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.committeeList[0].committeeTypeCode" 
-                	                          attributeEntry="${committeeAttributes.committeeTypeCode}" 
-                	                          readOnlyAlternateDisplay="KualiForm.document.committeeList[0].committeeType.description}"
-                	                          onchange="populateSelect('getProtocolReviewTypes', 'document.committeeList[0].committeeTypeCode', 'reviewTypeCode');"/>
-                	
+                	<c:out value="${KualiForm.document.committeeList[0].committeeType.description}" />
                 </td>
             </tr>
             
@@ -87,9 +95,7 @@
                 	    ${KualiForm.document.committeeList[0].reviewType.description}
                     </c:if>
                     <c:if test="${!readOnly}">
-                    	<html:select property="document.committeeList[0].reviewTypeCode" styleId="reviewTypeCode">                                              	                
-							<option value="Select">select</option> 
-						</html:select> 
+                	    <kul:htmlControlAttribute property="document.committeeList[0].reviewTypeCode" attributeEntry="${committeeAttributes.reviewTypeCode}" />
                     </c:if>
                     <kul:checkErrors keyMatch="document.committeeList[0].reviewTypeCode" />
                   
