@@ -81,6 +81,8 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
         setCommitteeResearchAreas(new ArrayList<CommitteeResearchArea>());
         setCommitteeMemberships(new ArrayList<CommitteeMembership>());
         setCommitteeSchedules(new ArrayList<CommitteeSchedule>());
+        // TODO replace with a hook during backfitting
+        setCommitteeTypeCode(CommitteeType.IRB_TYPE_CODE);
     }
     
     public Long getId() {
@@ -196,7 +198,10 @@ public class Committee extends KraPersistableBusinessObjectBase implements Compa
     }
 
     public CommitteeType getCommitteeType() {
-        return committeeType;
+        if(null == this.committeeType) {
+            refreshReferenceObject("committeeType");
+        }
+        return this.committeeType;
     }
 
     public void setCommitteeType(CommitteeType committeeType) {
