@@ -34,12 +34,6 @@ public interface CommonMeetingService {
      */
     public void saveMeetingDetails(CommonCommitteeSchedule committeeSchedule, List<? extends PersistableBusinessObject> deletedBos);
     
-    /**
-     * This method will refresh the protocol submission data associated with the given schedule.
-     * @param committeeSchedule
-     */
-    public void refreshProtocolSubmissionsFor(CommonCommitteeSchedule committeeSchedule);
-
     
     /**
      * 
