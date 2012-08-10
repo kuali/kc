@@ -53,6 +53,7 @@ public class MeetingServiceImpl implements CommonMeetingService {
     DateTimeService dateTimeService;
     
     private static final String PROTOCOL_SUBMISSIONS_REF_ID = "protocolSubmissions";
+    private static final String COMMITTEE_SCHEDULE_MINUTES_REF_ID = "committeeScheduleMinutes";
 
     /*
      * 
@@ -124,8 +125,10 @@ public class MeetingServiceImpl implements CommonMeetingService {
         if (!deletedBos.isEmpty()) {
             businessObjectService.delete(deletedBos);
         }
-        businessObjectService.save(committeeSchedule);
-        // a hook to display "successfully saved" message
+        
+        refreshAndSaveSchedule(committeeSchedule);
+        
+        // display "successfully saved" message
         KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
 
     }
@@ -810,12 +813,24 @@ public class MeetingServiceImpl implements CommonMeetingService {
         return isPresent;
     }
 
-    /**
-     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#refreshProtocolSubmissionsFor(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule)
-     */
-    @Override
-    public void refreshProtocolSubmissionsFor(CommonCommitteeSchedule committeeSchedule) {
+    // this method will refresh the set of protocol submissions and review comments before saving because 
+    // they could have been changed asynchronously in a different concurrent user session.
+    private void refreshAndSaveSchedule(CommonCommitteeSchedule committeeSchedule) {
+        // Since a refresh will wipe out all the newly added (unsaved) minutes from the schedule, we will
+        // collect all newly added minutes in a separate collection and add them back after the refresh        
+        List<CommitteeScheduleMinute> preRefreshMinutes = committeeSchedule.getCommitteeScheduleMinutes();
+        List<CommitteeScheduleMinute> newlyAddedMinutes = new ArrayList<CommitteeScheduleMinute>();  
+        for(CommitteeScheduleMinute minute:preRefreshMinutes) {
+            if(null == minute.getCommScheduleMinutesId()) {
+                newlyAddedMinutes.add(minute);
+            }
+        }
+        committeeSchedule.refreshReferenceObject(COMMITTEE_SCHEDULE_MINUTES_REF_ID);
+        List<CommitteeScheduleMinute> postRefreshMinutes = committeeSchedule.getCommitteeScheduleMinutes();
+        postRefreshMinutes.addAll(newlyAddedMinutes);
         committeeSchedule.refreshReferenceObject(PROTOCOL_SUBMISSIONS_REF_ID);
+        
+        businessObjectService.save(committeeSchedule);
     }
 
 
