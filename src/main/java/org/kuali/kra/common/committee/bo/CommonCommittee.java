@@ -81,6 +81,8 @@ public class CommonCommittee extends KraPersistableBusinessObjectBase implements
         setCommitteeResearchAreas(new ArrayList<CommitteeResearchArea>());
         setCommitteeMemberships(new ArrayList<CommitteeMembership>());
         setCommitteeSchedules(new ArrayList<CommonCommitteeSchedule>());
+        // TODO replace with a hook during backfitting
+        setCommitteeTypeCode(CommitteeType.IACUC_TYPE_CODE);
     }
     
     public Long getId() {
@@ -196,7 +198,10 @@ public class CommonCommittee extends KraPersistableBusinessObjectBase implements
     }
 
     public CommitteeType getCommitteeType() {
-        return committeeType;
+        if(null == this.committeeType) {
+            refreshReferenceObject("committeeType");
+        }
+        return this.committeeType;
     }
 
     public void setCommitteeType(CommitteeType committeeType) {

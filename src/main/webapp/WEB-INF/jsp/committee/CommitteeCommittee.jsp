@@ -27,11 +27,6 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="committee">
-<script type="text/javascript">
-   var $j = jQuery.noConflict();
-   $j(document).ready(function() {
-	   populateSelect('getProtocolReviewTypes', 'document.committeeList[0].committeeTypeCode', 'reviewTypeCode');
-   });
    
 </script>
 <div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="Committee" /></div>
