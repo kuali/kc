@@ -26,7 +26,7 @@
 	description="The object reference to the collection that holds all the current Special Reviews"%>
 <%@ attribute name="collectionProperty" required="true"
 	description="The property name of the collection that holds all the current Special Reviews"%>
-<%@ attribute name="action" required="true"
+<%@ attribute name="action" required="true" 
 	description="The name of the action class"%>
 <c:set var="canModify"
 	value="${KualiForm.specialReviewHelper.canModifySpecialReview}" />
@@ -34,21 +34,9 @@
 	value="${KualiForm.specialReviewHelper.isIrbProtocolLinkingEnabled}" />
 <c:set var="commentDisplayLength"
 	value="<%=org.kuali.kra.infrastructure.Constants.SPECIAL_REVIEW_COMMENT_LENGTH%>" />
-<c:set var="count" value="0" />
-<c:forEach var="specialReview" items="${collectionReference}"
-	varStatus="status">
-	<c:set var="reviewType"
-		value="${KualiForm.proposalDevelopmentParameters['propSummarySpecialReview'].parameterValue }" />
-	<c:set var="code"
-		value="${KualiForm.document.developmentProposalList[0].propSpecialReviews[status.index].specialReviewTypeCode }" />
-	<c:forEach var="num" items="${fn:split(reviewType,',')}">
-		<c:if test="${num eq code}">
-			<c:set var="count" value="${count+1}" />
-		</c:if>
-	</c:forEach>
-</c:forEach>
+<c:set var="count" value="${fn:length(collectionReference)}" />
 <kul:tab
-	tabTitle="Special Review (${fn:length(KualiForm.document.developmentProposalList[0].propSpecialReviews)})"
+	tabTitle="Special Review (${count})"
 	defaultOpen="false">
 	<div class="tab-container" align="center">
 		<h3>
@@ -73,21 +61,19 @@
 				<th><div align="center">Comments</div>
 				</th>
 			</tr>
-
-			<c:forEach var="specialReview" items="${collectionReference}"
-				varStatus="status">
+                	
+			<c:forEach var="specialReview" items="${collectionReference}" varStatus="status">
 				<tr>
-
-					<td align="left" valign="middle"><div align="center">
+				
+					<td align="left" valign="middle">
+						<div align="center">
 							<kul:htmlControlAttribute
 								property="${collectionProperty}[${status.index}].specialReviewTypeCode"
 								attributeEntry="${attributes.specialReviewTypeCode}"
 								readOnly="true" styleClass="fixed-size-200-select"
-								readOnlyAlternateDisplay="${specialReview.specialReviewType.description}"
-								onchange="showHideSpecialReviewProtocolLink(this, '${collectionProperty}[${status.index}]');return false" />
+								readOnlyAlternateDisplay="${specialReview.specialReviewType.description}" />
 						</div>
 					</td>
-
 					<td><div align="center">
 							<kul:htmlControlAttribute
 								property="${collectionProperty}[${status.index}].approvalTypeCode"
