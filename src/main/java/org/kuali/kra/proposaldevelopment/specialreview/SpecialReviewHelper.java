@@ -22,10 +22,14 @@ import org.apache.commons.lang.BooleanUtils;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.apache.commons.lang.StringUtils;
 
@@ -97,4 +101,19 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
         return GlobalVariables.getUserSession().getPrincipalId();
    }
 
+    public void populatePropSpecialReviewApproverView(String summarySpecialReview)
+    {
+       List<ProposalSpecialReview> propSpecialReviewFilteredList = new ArrayList<ProposalSpecialReview>();
+       String [] splitString =StringUtils.split(summarySpecialReview, ",");
+        for(ProposalSpecialReview proposalSpecialReview : form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews())
+        {
+            for(int i=0; i<splitString.length; i++ ) {
+                if ( proposalSpecialReview.getSpecialReviewTypeCode().equals(splitString[i] ) )
+                {
+                    propSpecialReviewFilteredList.add(proposalSpecialReview);
+                }
+            }
+        }
+        form.getProposalDevelopmentDocument().getDevelopmentProposal().setPropSpecialReviews(propSpecialReviewFilteredList);
+    }
 }
