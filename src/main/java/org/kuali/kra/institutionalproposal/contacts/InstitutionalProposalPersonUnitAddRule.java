@@ -26,6 +26,7 @@ public interface InstitutionalProposalPersonUnitAddRule extends BusinessRule {
     public static final String ERROR_PROPOSAL_PROJECT_PERSON_PI_EXISTS = "error.awardProjectPerson.pi.exists";
     public static final String ERROR_PROPOSAL_PROJECT_PERSON_EXISTS = "error.awardProjectPerson.person.exists";
     public static final String ERROR_PROPOSAL_PROJECT_PERSON_DUPLICATE_UNITS = "error.awardProjectPerson.duplicate.units";
+    public static final String NEW_UNIT_NUMBER_FIELD = "projectPersonnelBean.newInstitutionalProposalPersonUnit[0].unitNumber";
     
     /**
      * This method should be called before adding a new Project Person
