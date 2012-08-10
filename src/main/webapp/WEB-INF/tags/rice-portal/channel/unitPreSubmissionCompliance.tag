@@ -111,8 +111,13 @@
    <tr>
     <td nowrap class="disabled-text">Animals</td>
     <td>
-      <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
-      <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
+      <portal:portalLink displayTitle="false" title="IACUC" url="${ConfigProperties.application.url}/iacucProtocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=IacucProtocolDocument">
+      	<img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
+      </portal:portalLink>
+      <portal:portalLink displayTitle="false" title="IACUC" 
+		   url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.iacuc.IacucProtocol&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" >
+      	<img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle">
+      </portal:portalLink>
     </td>
   </tr>
   <tr>
