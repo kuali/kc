@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.personmasschange.rule;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.AwardPersonMassChange;
 import org.kuali.kra.personmasschange.bo.InstitutionalProposalPersonMassChange;
@@ -132,12 +133,16 @@ public class PerformPersonMassChangeRule extends ResearchDocumentRuleBase implem
             return isValid;
         }
         
-        if (personMassChange.getReplacerPersonId().equals(personMassChange.getReplaceePersonId()) 
-                || personMassChange.getReplacerRolodexId().equals(personMassChange.getReplaceeRolodexId())) {
+        if ((personMassChange.getReplacerPersonId() != null 
+                && StringUtils.equalsIgnoreCase(personMassChange.getReplacerPersonId(), personMassChange.getReplaceePersonId()))
+           || (personMassChange.getReplacerRolodexId() != null 
+                && StringUtils.equalsIgnoreCase(String.valueOf(personMassChange.getReplacerRolodexId()), 
+                        String.valueOf(personMassChange.getReplaceeRolodexId())))) {
             isValid = false;
             reportError(REPLACER_FULL_NAME_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_SAME_PERSONS);
-            return isValid;
+            
         }
+        
         return isValid;
     }
     
