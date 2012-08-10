@@ -758,6 +758,12 @@
                 <bean class="org.kuali.kra.iacuc.onlinereview.authorization.MaintainIacucProtocolOnlineReviewsAuthorizer" parent = "parentIacucProtocolOnlineReviewAuthorizer">
                     <property name="taskName" value = "maintainIacucProtocolOnlineReviews"/>
                 </bean>
+                <bean class="org.kuali.kra.iacuc.onlinereview.authorization.ModifyIacucProtocolOnlineReviewTypeAuthorizer" parent = "parentIacucProtocolOnlineReviewAuthorizer">
+                    <property name="taskName" value = "editIacucProtocolOnlineReviewType"/>
+                </bean>
+                <bean class="org.kuali.kra.iacuc.onlinereview.authorization.ModifyIacucProtocolOnlineReviewDeterminationAuthorizer" parent = "parentIacucProtocolOnlineReviewAuthorizer">
+                    <property name="taskName" value = "editIacucProtocolOnlineReviewDetermination"/>
+                </bean>                                
             </list>
         </property>
     </bean>
