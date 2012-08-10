@@ -27,7 +27,6 @@
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
 <c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
-<c:set var="documentOverviewReadOnly" value = "${KualiForm.editingMode['viewOnly']}"/>
 
 <c:set var = "documentHelperMap" value = "${KualiForm.onlineReviewsActionHelper.documentHelperMap[documentNumber]}"/>
 <c:set var = "document" value = "${documentHelperMap['document']}"/>
@@ -35,7 +34,10 @@
 <c:set var = "reviewerPerson" value = "${document.protocolOnlineReview.protocolReviewer}"/>
 <c:set var = "kualiForm" value = "${documentHelperMap['kualiForm']}"/>
 
-<c:set var="readOnly" value="${kualiForm.editingMode['viewOnly']}" scope="request" />
+<c:set var="readOnly" value="${!kualiForm.editingMode['canSave']}" scope="request" />
+<c:set var="canEditReviewType" value="${kualiForm.editingMode['canEditReviewType']}" scope="request" />
+<%-- determination determines access to comments and attachments as well --%>
+<c:set var="canEditDetermination" value="${kualiForm.editingMode['canEditDetermination']}" scope="request" />
 
 
 <%--Keep in mind, KualiForm references the Protocol we are rendering in, kualiForm is a ProtocolOnlineReviewForm for the current protocol online review. --%>
@@ -106,7 +108,7 @@
 		          		horizontal="true" width = "25%" rowspan="1"
 		          	/>
 		      		<td align="left" valign="middle" width = "25%">
-		      			<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].documentHeader.documentDescription" attributeEntry="${docHeaderAttributes.documentDescription}" readOnly="${documentOverviewReadOnly}"/>
+		      			<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].documentHeader.documentDescription" attributeEntry="${docHeaderAttributes.documentDescription}" readOnly="${readOnly}"/>
 		      		</td>
 		      		<kul:htmlAttributeHeaderCell
                   		labelFor="document.documentHeader.explanation"
@@ -118,7 +120,7 @@
                   		<kul:htmlControlAttribute
                       		property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].documentHeader.explanation"
                       		attributeEntry="${docHeaderAttributes.explanation}"
-                      		readOnly="${documentOverviewReadOnly}"
+                      		readOnly="${readOnly}"
                       		readOnlyAlternateDisplay="${fn:replace(fn:escapeXml(onlineReviewsActionHelper.protocolOnlineReviewDocuments[renderIndex].documentHeader.explanation), Constants.NEWLINE, '<br/>')}"
                       	/>
               		</td>
@@ -130,7 +132,7 @@
 		        		horizontal="true" width = "25%"
 		      		/>			  
               		<td align="left" valign="middle" width = "25%">
-              			<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].documentHeader.organizationDocumentNumber" attributeEntry="${docHeaderAttributes.organizationDocumentNumber}" readOnly="${documentOverviewReadOnly}"/>
+              			<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].documentHeader.organizationDocumentNumber" attributeEntry="${docHeaderAttributes.organizationDocumentNumber}" readOnly="${readOnly}"/>
               		</td>
             	</tr>
 			</table>   
@@ -183,7 +185,7 @@
                 	</div>
                 </th>
                 <td width = "25%" class="grid" >
-                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.protocolOnlineReviewDeterminationRecommendationCode" attributeEntry="${onlineReviewAttributes.protocolOnlineReviewDeterminationRecommendationCode}" datePicker="false" readOnly="${readOnly}" />
+                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.protocolOnlineReviewDeterminationRecommendationCode" attributeEntry="${onlineReviewAttributes.protocolOnlineReviewDeterminationRecommendationCode}" datePicker="false" readOnly="${readOnly || !canEditDetermination}" />
                 </td>
                 <th width = "25%" class="grid">
            			<div align="right">
@@ -210,7 +212,7 @@
                 	</div>
                 </th>
                 <td width = "25%" class="grid" >
-                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.determinationReviewTypeCode" attributeEntry="${onlineReviewAttributes.determinationReviewTypeCode}" datePicker="false" readOnly="${readOnly}" />
+                	<kul:htmlControlAttribute property="onlineReviewsActionHelper.protocolOnlineReviewDocuments[${renderIndex}].protocolOnlineReview.determinationReviewTypeCode" attributeEntry="${onlineReviewAttributes.determinationReviewTypeCode}" datePicker="false" readOnly="${readOnly || !canEditReviewType}" />
                 </td>
                 <th width = "25%" class="grid">
                 	<div align="right">
@@ -230,7 +232,7 @@
 			</kul:innerTab>
 		
 		<!--  end determine review type -->
-			<c:set var="commentsReadOnly" value="${!KualiForm.editingMode['canEditReviewComments']}" scope="request" />
+			<c:set var="commentsReadOnly" value="${readOnly || !canEditDetermination}" scope="request" />
 			<kra-iacuc-olr:onlineReviewComments bean="${KualiForm.onlineReviewsActionHelper.reviewCommentsBeans[renderIndex]}"
        										  documentNumber = "${documentNumber}" 
        										  allowReadOnly="${readOnly}" 
@@ -238,7 +240,7 @@
        										  property="onlineReviewsActionHelper.reviewCommentsBeans[${renderIndex}]"
        										  reviewIndex = "${renderIndex}" readOnly="${commentsReadOnly}"></kra-iacuc-olr:onlineReviewComments>
 			
-			<c:set var="attachmentsReadOnly" value="${!KualiForm.editingMode['canEditReviewAttachments']}" scope="request" />
+			<c:set var="attachmentsReadOnly" value="${readOnly || !canEditDetermination}" scope="request" />
 			<kra-iacuc-olr:onlineReviewAttachments bean="${KualiForm.onlineReviewsActionHelper.reviewAttachmentsBeans[renderIndex]}"
        										  documentNumber = "${documentNumber}" 
        										  allowReadOnly="${readOnly}" 
@@ -259,7 +261,7 @@
 	        				<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_ROUTE]}">
 	        					<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="globalbuttons" property="methodToCall.routeOnlineReview.${documentNumber}.anchor${tabKey}" title="submit" alt="submit"/>
 	        				</c:if>
-	        				<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_SAVE] and not viewOnly}">
+	        				<c:if test="${!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_SAVE] and not readOnly}">
 	            				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.saveOnlineReview.${documentNumber}.anchor${tabKey}" title="save" alt="save"/>
 	            			</c:if>
 	            			<c:if test="${(!empty kualiForm.documentActions[Constants.KUALI_ACTION_CAN_APPROVE]) and not suppressRoutingControls}">

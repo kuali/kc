@@ -365,6 +365,9 @@ public interface TaskName {
     public static final String CREATE_IACUC_PROTOCOL_ONLINEREVIEW = "createIacucProtocolOnlineReview";
     public static final String MODIFY_IACUC_PROTOCOL_ONLINEREVIEW = "modifyIacucProtocolOnlineReview";
     public static final String VIEW_IACUC_PROTOCOL_ONLINEREVIEW = "viewIacucProtocolOnlineReview";
+    public static final String MODIFY_IACUC_PROTOCOL_ONLINEREVIEW_TYPE = "editIacucProtocolOnlineReviewType";
+    public static final String MODIFY_IACUC_PROTOCOL_ONLINEREVIEW_DETERMINATION = "editIacucProtocolOnlineReviewDetermination";
+    
     
     /**
      * Generic IACUC Action task
