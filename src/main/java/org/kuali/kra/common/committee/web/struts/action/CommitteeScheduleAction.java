@@ -38,7 +38,7 @@ import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.common.committee.rules.CommitteeScheduleDataDictionaryValidationRule;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
-import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -64,7 +64,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
             throws Exception {
 
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        ((CommitteeForm)form).getCommitteeHelper().prepareView();
+        ((CommonCommitteeForm)form).getCommitteeHelper().prepareView();
         
         return actionForward;
     }    
@@ -75,7 +75,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {    
                 
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         ScheduleData scheduleData = committeeForm.getCommitteeHelper().getScheduleData();
       
         ActionForward actionForward = super.save(mapping, form, request, response);
@@ -96,7 +96,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward addEvent(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
  
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         ScheduleData scheduleData = committeeForm.getCommitteeHelper().getScheduleData();
         boolean flag = false;
         
@@ -133,7 +133,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward deleteCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String methodToCall = committeeForm.getMethodToCall();
         if (question == null) {
@@ -170,7 +170,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
      */
     public ActionForward filterCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        CommitteeForm committeeForm = (CommitteeForm) form;  
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;  
         
         
         ScheduleData scheduleData = committeeForm.getCommitteeHelper().getScheduleData();
@@ -193,7 +193,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
      */
     public ActionForward resetCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        CommitteeForm committeeForm = (CommitteeForm) form;        
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;        
         committeeForm.getCommitteeHelper().resetFilterDatesView();
         return mapping.findForward(Constants.MAPPING_BASIC );
     } 
@@ -209,7 +209,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
      */
     public ActionForward loadRecurrence(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         committeeForm.getCommitteeHelper().getScheduleData().populateStyleClass();
         return mapping.findForward(Constants.MAPPING_BASIC );
     }  
@@ -224,7 +224,7 @@ public class CommitteeScheduleAction extends CommitteeAction {
         
     public ActionForward maintainSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        CommitteeForm committeeForm = (CommitteeForm) form;     
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;     
         CommonCommitteeSchedule commSchedule = ((CommonCommitteeDocument)committeeForm.getDocument()).getCommittee().getCommitteeSchedules().get(getLineToDelete(request));
         response.sendRedirect("commonMeetingManagement.do?methodToCall=start&scheduleId="+commSchedule.getId()
                 +"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));

@@ -48,7 +48,7 @@ public class CommitteeHelper implements Serializable {
 
     private static final String BATCH_CORRESPONDENCE_PANEL_TITLE = "Batch Correspondence";
     
-    private CommitteeForm committeeForm;
+    private CommonCommitteeForm committeeForm;
     private boolean modifyCommittee = false;
     private CommitteeMembership newCommitteeMembership;
     private List<CommitteeMembershipRole> newCommitteeMembershipRoles;
@@ -74,7 +74,7 @@ public class CommitteeHelper implements Serializable {
     // so it know which CommitteeMembership should get them.
     private int memberIndex;
 
-    public CommitteeHelper(CommitteeForm committeeForm) {
+    public CommitteeHelper(CommonCommitteeForm committeeForm) {
         this.committeeForm = committeeForm;
         this.newCommitteeMembership = new CommitteeMembership();
         this.newCommitteeMembershipRoles = new ArrayList<CommitteeMembershipRole>();
@@ -293,7 +293,7 @@ public class CommitteeHelper implements Serializable {
      * 
      * @param committeeForm the CommitteeForm
      */
-    public void resetBatchCorrespondenceHistory(CommitteeForm committeeForm) {
+    public void resetBatchCorrespondenceHistory(CommonCommitteeForm committeeForm) {
         setBatchCorrespondenceHistory(null);
         committeeForm.setTabStates(new HashMap<String, String>());
         committeeForm.getTabStates().put(WebUtils.generateTabKey(BATCH_CORRESPONDENCE_PANEL_TITLE), "OPEN");

@@ -52,12 +52,12 @@ import org.springframework.util.CollectionUtils;
  * they are associated with.
  */
 @SuppressWarnings("serial")
-public class CommitteeForm extends KraTransactionalDocumentFormBase {
+public class CommonCommitteeForm extends KraTransactionalDocumentFormBase {
 
     private CommitteeHelper committeeHelper;
     
     @SuppressWarnings("unused")
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeForm.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommonCommitteeForm.class);
     
     // KNS Lookup hooks
     private String lookupResultsSequenceNumber;
@@ -66,7 +66,7 @@ public class CommitteeForm extends KraTransactionalDocumentFormBase {
     /**
      * Constructs a CommitteeForm.
      */
-    public CommitteeForm() {
+    public CommonCommitteeForm() {
         super();
         //this.setScheduleData(new ScheduleData());
         initialize();
