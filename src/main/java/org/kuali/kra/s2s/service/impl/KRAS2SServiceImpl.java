@@ -491,10 +491,6 @@ public class KRAS2SServiceImpl implements S2SService {
 		    calOpeningDate.setTime(openingDate);
 	        grantSubmissionHeader.setOpeningDate(calOpeningDate);
 		}
-        XmlCursor cursor = grantApplicationDocument.newCursor();
-        if (cursor.toFirstChild()){
-          cursor.setAttributeText(new QName("http://www.w3.org/2001/XMLSchema-instance","schemaLocation"), s2sOpportunity.getSchemaUrl());
-        }
         String applicationXml = getXmlFromDocument(grantApplication);
         String hashVal = GrantApplicationHash.computeGrantFormsHash(applicationXml);
 		
@@ -504,6 +500,16 @@ public class KRAS2SServiceImpl implements S2SService {
 		grantSubmissionHeader.setHashValue(hashValue);
 		grantApplication.setGrantSubmissionHeader(grantSubmissionHeader);
 		grantApplicationDocument.setGrantApplication(grantApplication);
+		String schemaUrl = s2sOpportunity.getSchemaUrl();
+		
+        XmlCursor cursor = grantApplicationDocument.newCursor();
+        
+        cursor.toStartDoc();
+        if (cursor.toFirstChild()){
+            String defaultNameSpace = cursor.getName().getNamespaceURI();
+            String schemaLocation = defaultNameSpace+ " "+schemaUrl;
+          cursor.setAttributeText(new QName("http://www.w3.org/2001/XMLSchema-instance","schemaLocation"), schemaLocation);
+        }
 		
 		return getXmlFromDocument(grantApplicationDocument);
 	}
