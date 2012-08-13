@@ -859,14 +859,25 @@ public class S2SBudgetCalculatorServiceImpl implements
                                         if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS))) {
-                                            academicMonths = academicMonths.add(personDetails.getPercentEffort()
-                                                    .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+                                            if (lineItem.getSubmitCostSharingFlag()) {
+                                                academicMonths = academicMonths.add(personDetails.getPercentEffort()
+                                                        .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+                                            } else {
+                                                academicMonths = academicMonths.add(personDetails.getPercentCharged()
+                                                        .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+                                            }                                            
                                         }
                                         else if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS))) {
-                                            summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                                    .multiply(new BudgetDecimal(0.01)));
+                                            if (lineItem.getSubmitCostSharingFlag()) {
+                                                summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
+                                                        .multiply(new BudgetDecimal(0.01)));
+                                            } else {
+                                                summerMonths = summerMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
+                                                        .multiply(new BudgetDecimal(0.01)));
+                                            }
+                                            
                                         }
                                         else if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
@@ -1917,15 +1928,25 @@ public class S2SBudgetCalculatorServiceImpl implements
                     numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(), personDetails.getEndDate());
                     if (personDetails.getPeriodTypeCode().equals(
                             getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                    Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS))) {
-                        academicMonths = academicMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                .multiply(new BudgetDecimal(0.01)));
+                                    Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS))) {                        
+                        if (lineItem.getSubmitCostSharingFlag()) {
+                            academicMonths = academicMonths.add(personDetails.getPercentEffort()
+                                    .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+                        } else {
+                            academicMonths = academicMonths.add(personDetails.getPercentCharged()
+                                    .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
+                        }
                     }
                     else if (personDetails.getPeriodTypeCode().equals(
                             getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                     Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS))) {
-                        summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
-                                .multiply(new BudgetDecimal(0.01)));
+                        if (lineItem.getSubmitCostSharingFlag()) {
+                            summerMonths = summerMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
+                                    .multiply(new BudgetDecimal(0.01)));
+                        } else {
+                            summerMonths = summerMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
+                                    .multiply(new BudgetDecimal(0.01)));
+                        }
                     }
                     else {
                         if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
