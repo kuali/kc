@@ -53,7 +53,9 @@ public class OrganizationMaintenableImpl extends KraMaintainableImpl {
     @Override
     public void setGenerateDefaultValues(String docTypeName) {
         super.setGenerateDefaultValues(docTypeName);
-        initOrganizationYnq();
+        if (getBusinessObject().getOrganizationYnqs() == null || getBusinessObject().getOrganizationYnqs().isEmpty()) {
+            initOrganizationYnq();
+        }
         if (isAutoGenerateCode()) {
             Organization organization = getBusinessObject();
             organization.setOrganizationId(getSequenceAccessorService().getNextAvailableSequenceNumber(ORGANIZATION_ID_SEQUENCE_NAME, Organization.class).toString());
