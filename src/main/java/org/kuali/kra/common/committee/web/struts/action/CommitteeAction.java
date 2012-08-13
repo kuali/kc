@@ -28,7 +28,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -71,7 +71,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         CommonCommitteeDocument doc = committeeForm.getCommitteeDocument();
         
         CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, doc.getCommittee());
@@ -91,7 +91,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
      * @param committeeForm the Committee Form
      * @return true if the committee can be saved; otherwise false
      */
-    protected boolean isValidSave(CommitteeForm committeeForm) {
+    protected boolean isValidSave(CommonCommitteeForm committeeForm) {
         return true;
     }
 
@@ -103,7 +103,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         doProcessingAfterPost(committeeForm, request);   
         /*
         ActionForward actionForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
@@ -153,7 +153,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
             throws Exception {
         super.refresh(mapping, form, request, response);
 
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
 
         // KNS UI hook for lookup resultset, check to see if we are coming back from a lookup
         if (Constants.MULTIPLE_VALUE.equals(committeeForm.getRefreshCaller())) {
@@ -186,7 +186,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
      * @param selectedBOs the selected BOs
      */
     @SuppressWarnings("unchecked")
-    protected void processMultipleLookupResults(CommitteeForm committeeForm, Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
+    protected void processMultipleLookupResults(CommonCommitteeForm committeeForm, Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         // do nothing
     }
     
@@ -197,7 +197,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = null;
         
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         String command = committeeForm.getCommand();
         
         if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
@@ -239,7 +239,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
      * @return
      */
     public ActionForward committee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((CommitteeForm) form).getCommitteeHelper().prepareView();
+        ((CommonCommitteeForm) form).getCommitteeHelper().prepareView();
         return mapping.findForward("committee");
     }
 
@@ -252,8 +252,8 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
      * @return
      */
     public ActionForward committeeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((CommitteeForm) form).getCommitteeHelper().prepareView();
-        ((CommitteeForm) form).getCommitteeHelper().flagInactiveMembers();
+        ((CommonCommitteeForm) form).getCommitteeHelper().prepareView();
+        ((CommonCommitteeForm) form).getCommitteeHelper().flagInactiveMembers();
         return mapping.findForward("committeeMembership");
     }
 
@@ -268,11 +268,11 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     public ActionForward committeeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         // if 'submit' in async and with 'merging' delete. so, there is latency issue.  it is needed to refresh the schedules,
         // if user goes to schedule/maintenance directly immediately after 'submit'.
-        WorkflowDocument workflowDocument = ((CommitteeForm) form).getCommitteeDocument().getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = ((CommonCommitteeForm) form).getCommitteeDocument().getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isEnroute() || workflowDocument.isFinal()) {
-            ((CommitteeForm) form).getCommitteeDocument().getCommittee().refreshReferenceObject("committeeSchedules");
+            ((CommonCommitteeForm) form).getCommitteeDocument().getCommittee().refreshReferenceObject("committeeSchedules");
         }
-        ((CommitteeForm) form).getCommitteeHelper().prepareView();
+        ((CommonCommitteeForm) form).getCommitteeHelper().prepareView();
         return mapping.findForward("committeeSchedule");
     }
 
@@ -285,7 +285,7 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
      * @return
      */
     public ActionForward committeeActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((CommitteeForm)form).getCommitteeHelper().prepareView();
+        ((CommonCommitteeForm)form).getCommitteeHelper().prepareView();
         return mapping.findForward("committeeActions");
     }
 
@@ -313,8 +313,8 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         
         ActionForward forward = super.route(mapping, form, request, response);
         
-        String routeHeaderId = ((CommitteeForm) form).getCommitteeDocument().getDocumentNumber();
-        String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", "CommitteeDocument");
+        String routeHeaderId = ((CommonCommitteeForm) form).getCommitteeDocument().getDocumentNumber();
+        String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", "CommonCommitteeDocument");
         
         //ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
@@ -325,8 +325,8 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward forward = super.blanketApprove(mapping, form, request, response);
-        String routeHeaderId = ((CommitteeForm) form).getCommitteeDocument().getDocumentNumber();
-        String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", "CommitteeDocument");
+        String routeHeaderId = ((CommonCommitteeForm) form).getCommitteeDocument().getDocumentNumber();
+        String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", "CommonCommitteeDocument");
         
         //ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
