@@ -120,7 +120,7 @@
                 </bean> 
 
                 <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolSpecialReviewAuthorizer" parent="parentIacucProtocolAuthorizer">
-                    <property name="taskName" value="modifyIacucSpecialReview" />
+                    <property name="taskName" value="modifyIacucProtocolSpecialReview" />
 			        <property name="protocolAmendRenewService" ref="iacucProtocolAmendRenewService" />
                 </bean>
                 
@@ -437,6 +437,14 @@
                 
                 <bean class="org.kuali.kra.iacuc.auth.IacucUndoLastActionProtocolAuthorizer" parent="parentIacucProtocolAuthorizer">
                 	<property name="taskName" value="protocolUndoLastAction"/>
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucQuestionnaireAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="modifyIacucProtocolQuestionnaire"/>
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucModifyPermissionsAuthorizer" parent="parentIacucProtocolAuthorizer">
+                	<property name="taskName" value="modifyIacucProtocolRoles"/>
                 </bean>
            </list>
         </property>
