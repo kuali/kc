@@ -222,7 +222,11 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                 budgetSummary.setCumulativeTotalFundsRequestedTravel(budgetSummaryData.getCumTravel().bigDecimalValue());
                 budgetSummary.setCumulativeDomesticTravelCosts(budgetSummaryData.getCumDomesticTravel().bigDecimalValue());
                 budgetSummary.setCumulativeForeignTravelCosts(budgetSummaryData.getCumForeignTravel().bigDecimalValue());
-                budgetSummary.setCumulativeTotalFundsRequestedTraineeCosts(otherDirectCosts.getParticipantTotal().bigDecimalValue());
+                budgetSummary.setCumulativeTotalFundsRequestedTraineeCosts(budgetSummaryData.getpartOtherCost()
+                            .add(budgetSummaryData.getpartStipendCost()
+                                    .add(budgetSummaryData.getpartTravelCost()
+                                            .add(budgetSummaryData.getPartTuition()
+                                                    .add(budgetSummaryData.getPartSubsistence())))).bigDecimalValue());
                 budgetSummary.setCumulativeTraineeStipends(otherDirectCosts.getPartStipends().bigDecimalValue());
                 budgetSummary.setCumulativeTraineeSubsistence(otherDirectCosts.getPartSubsistence().bigDecimalValue());
                 budgetSummary.setCumulativeTraineeTravel(otherDirectCosts.getPartTravel().bigDecimalValue());
