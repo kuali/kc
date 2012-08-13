@@ -48,6 +48,8 @@ public class InstitutionalProposalPersonUnitAddRuleImpl implements Institutional
                                                         ERROR_PROPOSAL_PROJECT_PERSON_DUPLICATE_UNITS, 
                                                         dupeUnit.getUnitName(), dupeUnit.getUnitNumber(),
                                                         projectPerson.getFullName());
+            //this null is to just clean stuff up
+            newInstitutionalProposalPersonUnit.setUnit(null);
         }
         
         return valid;
