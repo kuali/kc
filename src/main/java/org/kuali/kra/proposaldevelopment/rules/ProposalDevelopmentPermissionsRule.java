@@ -101,7 +101,8 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
     public boolean processDeleteProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, int index) {
         boolean isValid = true;
         KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
-        String username = proposalUserRolesList.get(index).getUsername();
+        ProposalUserRoles proposalUserRole = proposalUserRolesList.get(index);
+        String username = proposalUserRole.getUsername();
 
         if (hasModifyNarrativePermission(username, proposalUserRolesList)) {
             isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getNarratives(), Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, "Proposal Attachment");
@@ -114,6 +115,10 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
             isValid = false;
             this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, 
                              KeyConstants.ERROR_LAST_AGGREGATOR);
+        } else if (isAggregatorInitiator(document, proposalUserRole)) {
+            isValid = false;
+            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, 
+                    KeyConstants.ERROR_PROP_DEV_PERM_INITIATOR);            
         }
         
         // Can only add viewers after doc is workflowed
@@ -350,6 +355,18 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
         }
         return true;
     }
+    
+    private boolean isAggregatorInitiator(ProposalDevelopmentDocument document, ProposalUserRoles proposalUserRole) {
+        KcPerson initiator = getKcPersonService().getKcPersonByPersonId(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        if (StringUtils.equals(initiator.getUserName(), proposalUserRole.getUsername())) {
+            for (String roleName : proposalUserRole.getRoleNames()) {
+                if (StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }    
     
     /**
      * This method tests if the role for the ProposalUser is Viewer
