@@ -203,7 +203,11 @@
             <foreignkey field-ref="membershipTypeCode"/>
         </reference-descriptor>
         
-        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.irb.personnel.ProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+<!--         <reference-descriptor name="rolodex" class-ref="org.kuali.kra.irb.personnel.ProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none">  -->
+<!--             <foreignkey field-ref="rolodexId"/> -->
+<!--         </reference-descriptor> -->
+
+		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
 
@@ -268,9 +272,11 @@
 		<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="entryNumber" column="ENTRY_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="minuteEntryTypeCode" column="MINUTE_ENTRY_TYPE_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
+<!-- 		<field-descriptor name="protocolIdFk" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" /> -->
+		<field-descriptor name="protocolIdFk" column="IACUC_PROTOCOL_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="commScheduleActItemsIdFk" column="COMM_SCHEDULE_ACT_ITEMS_ID_FK" jdbc-type="BIGINT" />
-		<field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
+<!-- 		<field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" /> -->
+		<field-descriptor name="submissionIdFk" column="IACUC_SUBMISSION_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="privateCommentFlag" column="PRIVATE_COMMENT_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="protocolContingencyCode" column="PROTOCOL_CONTINGENCY_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="minuteEntry" column="MINUTE_ENTRY" jdbc-type="VARCHAR" />
@@ -281,8 +287,10 @@
 		<field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="protocolReviewerIdFk" column="REVIEWER_ID_FK" jdbc-type="BIGINT" />
-		<field-descriptor name="protocolOnlineReviewIdFk" column="PROTOCOL_ONLN_RVW_FK" jdbc-type="BIGINT" />
+<!-- 		<field-descriptor name="protocolReviewerIdFk" column="REVIEWER_ID_FK" jdbc-type="BIGINT" /> -->
+		<field-descriptor name="protocolReviewerIdFk" column="IACUC_REVIEWER_ID_FK" jdbc-type="BIGINT" />
+<!-- 		<field-descriptor name="protocolOnlineReviewIdFk" column="PROTOCOL_ONLN_RVW_FK" jdbc-type="BIGINT" /> -->
+		<field-descriptor name="protocolOnlineReviewIdFk" column="IACUC_PROTOCOL_ONLN_RVW_FK" jdbc-type="BIGINT" />
 		
 		<reference-descriptor name="protocolContingency" class-ref="org.kuali.kra.common.committee.meeting.ProtocolContingency" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="protocolContingencyCode"/>

@@ -825,11 +825,14 @@
         </collection-descriptor>        
         
         <!-- 
-         
         <reference-descriptor name="rolodex" class-ref="org.kuali.kra.iacuc.personnel.ProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
          -->
+         <reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="rolodexId"/>
+        </reference-descriptor>
+        
     </class-descriptor>
     
     
