@@ -3554,7 +3554,7 @@ function showBudgetPersonSalaryDetails(flag, personIndex, budgetId, personSequen
 function showBudgetPersonSalaryDetails_Callback( data ) {
 	var value_array = data.split(",");
 	var counter=0;
-	
+	if (value_array != ""){
 	while (counter < value_array.length)
 	{
 		var cell = document.getElementById("BudgetPersonSalaryInPeriodsCol+"+personSelectedIndex+counter);		
@@ -3566,6 +3566,7 @@ function showBudgetPersonSalaryDetails_Callback( data ) {
 		
 		counter+=1;
 
+	}
 	}
 		
 	

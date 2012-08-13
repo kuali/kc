@@ -56,6 +56,7 @@ import java.util.List;
 import java.util.Map;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -1643,7 +1644,7 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
                     } else {
                         keyPersonDataType.setProjectRole(keyPerson.getRole());
                     }
-                    keyPersonDataType.setCompensation(getCompensation(keyPerson));
+                    keyPersonDataType.setCompensation(getCompensation(keyPerson, periodInfo.getBudgetPeriod()));
                     keyPersonList.add(keyPersonDataType);
                     keyPersonCount++;
                     LOG.info("keyPersonCount:" + keyPersonCount);
@@ -1702,9 +1703,11 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
      * @param keyPerson (KeyPersonInfo) key person entry.
      * @return KeyPersonCompensationDataType corresponding to the KeyPersonInfo object.
      */
-    private KeyPersonCompensationDataType getCompensation(KeyPersonInfo keyPerson) {
+    private KeyPersonCompensationDataType getCompensation(KeyPersonInfo keyPerson, int budgetPeriod) {
 
         KeyPersonCompensationDataType keyPersonCompensation = KeyPersonCompensationDataType.Factory.newInstance();
+        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BudgetDecimal baseSalaryByPeriod;
         if (keyPerson != null) {
             if (keyPerson.getAcademicMonths() != null) {
                 keyPersonCompensation.setAcademicMonths(keyPerson.getAcademicMonths().bigDecimalValue());
@@ -1733,8 +1736,22 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
                         .bigDecimalValue());
             }
             keyPersonCompensation.setTotal(totalDataType);
-            if (keyPerson.getBaseSalary() != null) {
-                keyPersonCompensation.setBaseSalary(keyPerson.getBaseSalary().bigDecimalValue());
+            if (pdDoc.getBudgetDocumentVersions() != null) {
+                baseSalaryByPeriod = budgetService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersion(0)
+                        .getBudgetVersionOverview().getBudgetId(), budgetPeriod, keyPerson);
+                if (baseSalaryByPeriod != null) {
+                    keyPersonCompensation.setBaseSalary(baseSalaryByPeriod.bigDecimalValue());
+                }
+                else {
+                    if (keyPerson.getBaseSalary() != null) {
+                        keyPersonCompensation.setBaseSalary(keyPerson.getBaseSalary().bigDecimalValue());
+                    }
+                }
+            }
+            else {
+                if (keyPerson.getBaseSalary() != null) {
+                    keyPersonCompensation.setBaseSalary(keyPerson.getBaseSalary().bigDecimalValue());
+                }
             }
         }
         return keyPersonCompensation;
