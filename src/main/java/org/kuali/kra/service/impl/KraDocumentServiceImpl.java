@@ -19,6 +19,8 @@ import java.util.ArrayList;
 
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -61,6 +63,16 @@ public class KraDocumentServiceImpl extends DocumentServiceImpl {
                     getDocumentDao().save(document);
                 }
             }
+            // TODO remove this else if block after committee backfitting
+            else if (document instanceof CommonCommitteeDocument) {
+                CommonCommittee committee = ((CommonCommitteeDocument) document).getCommittee();
+                ((CommonCommitteeDocument) document).setCommitteeList(new ArrayList());
+                getDocumentDao().save(document);
+                ((CommonCommitteeDocument) document).getCommitteeList().add(committee);
+                if (event instanceof RouteDocumentEvent) {
+                    getDocumentDao().save(document);
+                }
+            }            
             else {
                 getDocumentDao().save(document);
             }

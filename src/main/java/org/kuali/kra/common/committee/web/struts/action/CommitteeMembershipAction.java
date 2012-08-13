@@ -42,7 +42,7 @@ import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeMemberEventBase.ErrorType;
 import org.kuali.kra.common.committee.rules.CommitteeDocumentRule;
 import org.kuali.kra.common.committee.service.CommonCommitteeMembershipService;
-import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -67,12 +67,12 @@ public class CommitteeMembershipAction extends CommitteeAction {
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
-        ((CommitteeForm)form).getCommitteeHelper().prepareView();
+        ((CommonCommitteeForm)form).getCommitteeHelper().prepareView();
         
         // reset member index for multi value lookups unless the multi value lookup is performed
         if (!StringUtils.equals((String) request.getAttribute("methodToCallAttribute"), "methodToCall.refresh.x") 
                 && (!StringUtils.startsWith((String) request.getAttribute("methodToCallAttribute"), "methodToCall.performLookup."))) {
-            ((CommitteeForm)form).getCommitteeHelper().setMemberIndex(-1);
+            ((CommonCommitteeForm)form).getCommitteeHelper().setMemberIndex(-1);
         }
         
         return actionForward;
@@ -90,7 +90,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
      */
     public ActionForward addCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         CommitteeMembership newCommitteeMembership = committeeForm.getCommitteeHelper().getNewCommitteeMembership();
         // check any business rules
         boolean rulePassed = applyRules(new AddCommitteeMembershipEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembership));
@@ -114,7 +114,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
      */
     public ActionForward deleteCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         CommonCommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
         if (applyRules(new DeleteCommitteeMemberEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), committeeForm
                 .getCommitteeDocument().getCommittee().getCommitteeMemberships(), ErrorType.HARDERROR))) {
@@ -136,7 +136,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
      */
     public ActionForward clearCommitteeMembership(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         CommitteeHelper committeeHelper = committeeForm.getCommitteeHelper();
         committeeHelper.setNewCommitteeMembership(new CommitteeMembership());
         return mapping.findForward(MAPPING_BASIC);
@@ -155,7 +155,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
      */
     public ActionForward addCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         CommonCommittee committee = committeeForm.getCommitteeDocument().getCommittee();
         int selectedMembershipIndex = getSelectedMembershipIndex(request);
         CommitteeMembershipRole newCommitteeMembershipRole 
@@ -186,7 +186,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
      */
     public ActionForward deleteCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         CommonCommittee committee = committeeForm.getCommitteeDocument().getCommittee();
         
         getCommitteeMembershipService().deleteCommitteeMembershipRole(committee, getSelectedMembershipIndex(request), getSelectedLine(request));
@@ -204,7 +204,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
         String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String memberIndex = StringUtils.substringBetween(parameterName, "memberIndex", ".");
         if (StringUtils.isNotBlank(memberIndex)) {
-            ((CommitteeForm)form).getCommitteeHelper().setMemberIndex(Integer.parseInt(memberIndex));
+            ((CommonCommitteeForm)form).getCommitteeHelper().setMemberIndex(Integer.parseInt(memberIndex));
         }
         return super.performLookup(mapping, form, request, response);
     }
@@ -220,7 +220,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
      * @return
      * @throws Exception
      */
-    protected void processMultipleLookupResults(CommitteeForm committeeForm,
+    protected void processMultipleLookupResults(CommonCommitteeForm committeeForm,
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         int membershipIndex = committeeForm.getCommitteeHelper().getMemberIndex();
         CommitteeMembership committeeMembership = committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().get(membershipIndex);
@@ -244,7 +244,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
      */
     public ActionForward deleteCommitteeMembershipExpertise(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         CommonCommittee committee = committeeForm.getCommitteeDocument().getCommittee();
         int membershipIndex = getSelectedMembershipIndex(request);
         getCommitteeMembershipService().deleteCommitteeMembershipExpertise(committee, membershipIndex, getSelectedLine(request));
@@ -279,36 +279,36 @@ public class CommitteeMembershipAction extends CommitteeAction {
     
     public ActionForward showAllMembers(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        ((CommitteeForm) form).getCommitteeHelper().setShowActiveMembersOnly(false);
-        ((CommitteeForm) form).setTabStates(new HashMap<String, String>());
+        ((CommonCommitteeForm) form).getCommitteeHelper().setShowActiveMembersOnly(false);
+        ((CommonCommitteeForm) form).setTabStates(new HashMap<String, String>());
         return mapping.findForward(MAPPING_BASIC);
     }
 
     public ActionForward showActiveMembersOnly(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        ((CommitteeForm) form).getCommitteeHelper().setShowActiveMembersOnly(true);
-        ((CommitteeForm) form).setTabStates(new HashMap<String, String>());
+        ((CommonCommitteeForm) form).getCommitteeHelper().setShowActiveMembersOnly(true);
+        ((CommonCommitteeForm) form).setTabStates(new HashMap<String, String>());
         return mapping.findForward(MAPPING_BASIC);
     }
 
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.save(mapping, form, request, response);
-        ((CommitteeForm) form).getCommitteeHelper().flagInactiveMembers();
+        ((CommonCommitteeForm) form).getCommitteeHelper().flagInactiveMembers();
         return actionForward;
     }
 
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.route(mapping, form, request, response);
-        ((CommitteeForm) form).getCommitteeHelper().flagInactiveMembers();
+        ((CommonCommitteeForm) form).getCommitteeHelper().flagInactiveMembers();
         return actionForward;
     }
 
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.reload(mapping, form, request, response);
-        ((CommitteeForm) form).getCommitteeHelper().flagInactiveMembers();
+        ((CommonCommitteeForm) form).getCommitteeHelper().flagInactiveMembers();
         return actionForward;
     }
 }

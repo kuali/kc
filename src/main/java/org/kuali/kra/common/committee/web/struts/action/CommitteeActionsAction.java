@@ -40,7 +40,7 @@ import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDo
 import org.kuali.kra.common.committee.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
 import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceService;
 import org.kuali.kra.common.committee.service.CommitteePrintingService;
-import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -84,7 +84,7 @@ public class CommitteeActionsAction extends CommitteeAction {
     public ActionForward generateBatchCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         CommonCommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
         String committeeId = committeeDocument.getCommittee().getCommitteeId();
         String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getGenerateBatchCorrespondenceTypeCode();
@@ -117,7 +117,7 @@ public class CommitteeActionsAction extends CommitteeAction {
     public ActionForward filterBatchCorrespondenceHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
 
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getHistoryBatchCorrespondenceTypeCode();
         Date startDate = committeeForm.getCommitteeHelper().getHistoryStartDate();
         Date endDate = committeeForm.getCommitteeHelper().getHistoryEndDate();
@@ -145,7 +145,7 @@ public class CommitteeActionsAction extends CommitteeAction {
     public ActionForward viewBatchCorrespondenceGenerated(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = committeeForm.getCommitteeHelper()
                 .getGenerateBatchCorrespondence();
         
@@ -165,7 +165,7 @@ public class CommitteeActionsAction extends CommitteeAction {
     public ActionForward viewBatchCorrespondenceHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = committeeForm.getCommitteeHelper()
                 .getBatchCorrespondenceHistory();
         
@@ -182,7 +182,7 @@ public class CommitteeActionsAction extends CommitteeAction {
      * @return
      * @throws Exception 
      */
-    private ActionForward viewBatchCorrespondence(ActionMapping mapping, CommitteeForm committeeForm, 
+    private ActionForward viewBatchCorrespondence(ActionMapping mapping, CommonCommitteeForm committeeForm, 
             List<CommitteeBatchCorrespondence> committeeBatchCorrespondences, boolean viewBatch, HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
@@ -221,7 +221,7 @@ public class CommitteeActionsAction extends CommitteeAction {
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.reload(mapping, form, request, response);
-        ((CommitteeForm)form).getCommitteeHelper().prepareView();
+        ((CommonCommitteeForm)form).getCommitteeHelper().prepareView();
         return actionForward;
     }
 
@@ -308,7 +308,7 @@ public class CommitteeActionsAction extends CommitteeAction {
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         CommonCommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
         Boolean printRooster = committeeForm.getCommitteeHelper().getPrintRooster();
         Boolean printFutureScheduledMeeting = committeeForm.getCommitteeHelper().getPrintFutureScheduledMeeting();
