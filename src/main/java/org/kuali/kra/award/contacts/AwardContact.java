@@ -248,8 +248,11 @@ public abstract class AwardContact extends AwardAssociate {
      * @return Returns the rolodex.
      */
     public NonOrganizationalRolodex getRolodex() {
-        return rolodex;
-    }
+        if (rolodex == null && rolodexId != null) {
+             refreshRolodex();
+         }
+         return rolodex;
+     }
 
     /**
      * Gets the rolodexId attribute. 
