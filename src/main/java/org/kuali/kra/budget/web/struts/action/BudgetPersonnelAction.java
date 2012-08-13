@@ -939,25 +939,40 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         HashMap budgetPersonInPeriodsSalaryMap = new HashMap();
         budgetPersonInPeriodsSalaryMap.put("personSequenceNumber", budget.getBudgetPerson(getSelectedLine(request)).getPersonSequenceNumber());
         budgetPersonInPeriodsSalaryMap.put("budgetId", budget.getBudgetId());
-        budgetPersonInPeriodsSalaryMap.put("personId", budget.getBudgetPerson(getSelectedLine(request)).getPersonId());
-        Collection<BudgetPersonSalaryDetails> salaryDetails = boService.findMatching(BudgetPersonSalaryDetails.class, budgetPersonInPeriodsSalaryMap);
-        List<BudgetPersonSalaryDetails>personSalaryDetails = (List<BudgetPersonSalaryDetails>) salaryDetails;             
+        if (budget.getBudgetPerson(getSelectedLine(request)).getPersonId() != null) {
+            budgetPersonInPeriodsSalaryMap.put("personId", budget.getBudgetPerson(getSelectedLine(request)).getPersonId());
+        } else if (budget.getBudgetPerson(getSelectedLine(request)).getRolodexId() != null) {
+            budgetPersonInPeriodsSalaryMap.put("personId", budget.getBudgetPerson(getSelectedLine(request)).getRolodexId());
+        } else {
+            budgetPersonInPeriodsSalaryMap.put("personId", budget.getBudgetPerson(getSelectedLine(request)).getTbnId());
+        }
         
-            for(BudgetPersonSalaryDetails budgetPerSalaryDetails : budgetPersonSalaryDetails){
-                budgetPerSalaryDetails.setBudgetId(budget.getBudgetId());
-                budgetPerSalaryDetails.setPersonSequenceNumber(budget.getBudgetPerson(getSelectedLine(request)).getPersonSequenceNumber());
+        
+        Collection<BudgetPersonSalaryDetails> salaryDetails = boService.findMatching(BudgetPersonSalaryDetails.class, budgetPersonInPeriodsSalaryMap);
+        List<BudgetPersonSalaryDetails> personSalaryDetails = (List<BudgetPersonSalaryDetails>) salaryDetails;             
+        
+        for (BudgetPersonSalaryDetails budgetPerSalaryDetails : budgetPersonSalaryDetails) {
+            budgetPerSalaryDetails.setBudgetId(budget.getBudgetId());
+            budgetPerSalaryDetails.setPersonSequenceNumber(budget.getBudgetPerson(getSelectedLine(request))
+                    .getPersonSequenceNumber());
+            if (budget.getBudgetPerson(getSelectedLine(request)).getPersonId() != null) {
                 budgetPerSalaryDetails.setPersonId(budget.getBudgetPerson(getSelectedLine(request)).getPersonId());
-                
-                if(personSalaryDetails != null && personSalaryDetails.size() > 0) {
-                    budgetPerSalaryDetails.setBudgetPeriod(personSalaryDetails.get(listIndex).getBudgetPeriod());
-                    budgetPerSalaryDetails.setBudgetPersonSalaryDetailId(personSalaryDetails.get(listIndex).getBudgetPersonSalaryDetailId());
-                    
-                } else {
-                    budgetPerSalaryDetails.setBudgetPeriod(listIndex + 1);
-                }
-                
-                listIndex = listIndex + 1;           
-                }
+            } else if (budget.getBudgetPerson(getSelectedLine(request)).getRolodexId() != null) {
+                budgetPerSalaryDetails.setPersonId(budget.getBudgetPerson(getSelectedLine(request)).getRolodexId().toString());
+            } else {
+                budgetPerSalaryDetails.setPersonId(budget.getBudgetPerson(getSelectedLine(request)).getTbnId());
+            }
+            if (personSalaryDetails != null && personSalaryDetails.size() > 0) {
+                budgetPerSalaryDetails.setBudgetPeriod(personSalaryDetails.get(listIndex).getBudgetPeriod());
+                budgetPerSalaryDetails.setBudgetPersonSalaryDetailId(personSalaryDetails.get(listIndex)
+                        .getBudgetPersonSalaryDetailId());
+
+            } else {
+                budgetPerSalaryDetails.setBudgetPeriod(listIndex + 1);
+            }
+
+            listIndex = listIndex + 1;
+        }
        
         
         
