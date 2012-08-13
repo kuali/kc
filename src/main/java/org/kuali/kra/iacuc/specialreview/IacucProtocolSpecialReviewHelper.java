@@ -60,5 +60,4 @@ public class IacucProtocolSpecialReviewHelper extends ProtocolSpecialReviewHelpe
     protected boolean isCanCreateIacucProtocol() {
         return false;
     }
-
 }
