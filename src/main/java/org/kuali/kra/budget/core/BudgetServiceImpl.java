@@ -830,17 +830,21 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         this.fiscalYearMonthService = fiscalYearMonthService;
     }
     
-    public BudgetDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo keyPerson ) {
+    public BudgetDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo person ) {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         final Integer listIndex = 0;
         BudgetDecimal baseSalaryByPeriod = null;
         HashMap budgetPersonInPeriodsSalaryMap = new HashMap();
         budgetPersonInPeriodsSalaryMap.put("budgetId", budgetId);
-        budgetPersonInPeriodsSalaryMap.put("personId", keyPerson.getPersonId());
+        if (person.getPersonId() != null) {
+            budgetPersonInPeriodsSalaryMap.put("personId", person.getPersonId());
+        } else {
+            budgetPersonInPeriodsSalaryMap.put("personId", person.getRolodexId());
+        }
         budgetPersonInPeriodsSalaryMap.put("budgetPeriod", budgetPeriod);
         Collection<BudgetPersonSalaryDetails> personSalaryDetails = boService.findMatchingOrderBy(BudgetPersonSalaryDetails.class, budgetPersonInPeriodsSalaryMap,"personSequenceNumber",true);
-        List<BudgetPersonSalaryDetails>budgetPersonSalaryDetails = (List<BudgetPersonSalaryDetails>) personSalaryDetails;
-        if(budgetPersonSalaryDetails!=null && budgetPersonSalaryDetails.size() > 0) {
+        List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = (List<BudgetPersonSalaryDetails>) personSalaryDetails;
+        if (budgetPersonSalaryDetails != null && budgetPersonSalaryDetails.size() > 0) {
             baseSalaryByPeriod = budgetPersonSalaryDetails.get(listIndex).getBaseSalary();
         }
         return baseSalaryByPeriod;
@@ -853,12 +857,14 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         budgetPersonInPeriodsSalaryMap.put("personSequenceNumber", personSequenceNumber);
         budgetPersonInPeriodsSalaryMap.put("budgetId", budgetId);
         budgetPersonInPeriodsSalaryMap.put("personId", personId);
-        Collection<BudgetPersonSalaryDetails>budgetPersonSalaryDetails = boService.findMatching(BudgetPersonSalaryDetails.class, budgetPersonInPeriodsSalaryMap);
-        for(BudgetPersonSalaryDetails salaryDetails : budgetPersonSalaryDetails){
-            baseSalary = baseSalary + salaryDetails.getBaseSalary() + ","; 
-        }
+        Collection<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = boService.findMatching(BudgetPersonSalaryDetails.class, budgetPersonInPeriodsSalaryMap);
+        if (budgetPersonSalaryDetails != null && !budgetPersonSalaryDetails.isEmpty()) {
+            for (BudgetPersonSalaryDetails salaryDetails : budgetPersonSalaryDetails) {
+                baseSalary = baseSalary + salaryDetails.getBaseSalary() + ","; 
+            }
         
-        baseSalary = baseSalary.substring(0, baseSalary.lastIndexOf(","));
+            baseSalary = baseSalary.substring(0, baseSalary.lastIndexOf(","));
+        }
         return baseSalary;
     }
 
