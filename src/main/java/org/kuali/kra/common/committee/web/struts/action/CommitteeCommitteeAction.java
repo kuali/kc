@@ -31,7 +31,7 @@ import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaborat
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
-import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -56,7 +56,7 @@ public class CommitteeCommitteeAction extends CommitteeAction {
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         // Following is for committee lookup - edit committee 
-        CommitteeForm committeeForm = ((CommitteeForm)form);
+        CommonCommitteeForm committeeForm = ((CommonCommitteeForm)form);
         String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate") && StringUtils.isNotBlank(request.getParameter(COMMITTEE_ID))) {
             CommonCommittee committee = getCommitteeService().getCommitteeById(request.getParameter(COMMITTEE_ID));
@@ -77,7 +77,7 @@ public class CommitteeCommitteeAction extends CommitteeAction {
      * @see org.kuali.kra.common.committee.web.struts.action.CommitteeAction#processMultipleLookupResults(org.kuali.kra.common.committee.document.CommonCommitteeDocument, java.lang.Class, java.util.Collection)
      */
     @Override
-    protected void processMultipleLookupResults(CommitteeForm committeeForm,
+    protected void processMultipleLookupResults(CommonCommitteeForm committeeForm,
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
             CommonCommittee committee = committeeForm.getCommitteeDocument().getCommittee();
@@ -99,7 +99,7 @@ public class CommitteeCommitteeAction extends CommitteeAction {
     public ActionForward deleteResearchArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
         
-        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         CommonCommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
         CommonCommittee committee = committeeDocument.getCommittee();
         

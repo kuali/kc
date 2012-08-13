@@ -23,7 +23,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.common.committee.bo.MembershipRole;
-import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -38,7 +38,7 @@ public class MembershipRoleValuesFinder extends KeyValuesBase {
         List<KeyValue> keyLabels = new ArrayList<KeyValue>();
         keyLabels.add(new ConcreteKeyValue("", "select"));
 
-        CommitteeForm committeeForm = (CommitteeForm) KNSGlobalVariables.getKualiForm();
+        CommonCommitteeForm committeeForm = (CommonCommitteeForm) KNSGlobalVariables.getKualiForm();
         String committeeTypeCode = committeeForm.getCommitteeDocument().getCommittee().getCommitteeTypeCode();
         List<? extends MembershipRole> roles = new ArrayList<MembershipRole>();
         Map<String, String> criteria = new HashMap<String, String>();

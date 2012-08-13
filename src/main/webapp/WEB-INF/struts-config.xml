@@ -28,7 +28,7 @@
 		<form-bean name="ProtocolForm" type="org.kuali.kra.irb.ProtocolForm" />
 		<form-bean name="ResearchAreasForm" type="org.kuali.kra.web.struts.form.ResearchAreasForm" />
 		<form-bean name="CommitteeForm" type="org.kuali.kra.committee.web.struts.form.CommitteeForm" />
-		<form-bean name="CommonCommitteeForm" type="org.kuali.kra.common.committee.web.struts.form.CommitteeForm" />
+		<form-bean name="CommonCommitteeForm" type="org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm" />
 		<form-bean name="InstitutionalProposalForm" type="org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm" />
 	    <form-bean name="QuestionMaintenanceForm" type="org.kuali.kra.questionnaire.question.QuestionMaintenanceForm" />
         <form-bean name="KualiMaintenanceForm" type="org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm" />
