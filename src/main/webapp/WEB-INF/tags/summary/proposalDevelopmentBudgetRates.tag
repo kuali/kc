@@ -27,20 +27,25 @@
 <c:set var="action" value="budgetRates" />
 <bean:define id="irateClassType" name="KualiForm"
 	property="${budgetRate}.rateClass.rateClassType" />
+<bean:define id="irateClassCode" name="KualiForm"
+	property="${budgetRate}.rateClass.rateClassCode" />
 <bean:define id="displayRow" name="KualiForm"
 	property="${budgetRate}.displayLocation" />
 <bean:define id="proposalBudgetFlag" name="KualiForm"
 	property="document.proposalBudgetFlag" />
 <bean:define id="fandaRateType" name="KualiForm"
 	property="${budgetRate}.rateType.description" />
+<bean:define id="finalBudgetProposalRateClassCode" name="KualiForm"
+	property="document.finalBudgetForThisProposal.rateClass.rateClassCode" />
 
-<c:if test="${irateClassType == 'O' && displayRow == 'Yes'}">
+<c:if test="${irateClassType == 'O' && displayRow == 'Yes' && finalBudgetProposalRateClassCode == irateClassCode }">
 
 	<tr>
 		<td width="10%" class="${tdClass}">
 			<div align=center>
 				<span class="copy"> <bean:write name="KualiForm"
-						property="${budgetRate}.rateType.description" /> </span>
+						property="${budgetRate}.rateType.description" />
+				</span>
 			</div></td>
 		<td width="10%" class="${tdClass}">
 			<div align=center>
