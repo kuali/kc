@@ -49,6 +49,7 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
     private List<IacucProtocolException> iacucProtocolExceptions; 
     
     private transient String groupAndSpecies;
+    private transient Integer oldProtocolSpeciesId;
     
     public IacucProtocolSpecies() { 
         setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
@@ -252,6 +253,14 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
             return false;
         }
         return true;
+    }
+
+    public Integer getOldProtocolSpeciesId() {
+        return oldProtocolSpeciesId;
+    }
+
+    public void setOldProtocolSpeciesId(Integer oldProtocolSpeciesId) {
+        this.oldProtocolSpeciesId = oldProtocolSpeciesId;
     }
 
 }

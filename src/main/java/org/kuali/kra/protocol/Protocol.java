@@ -1274,21 +1274,23 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
     
     public void merge(Protocol amendment, boolean mergeActions) {
-// TODO *********commented the code below during IACUC refactoring*********         
-//        List<ProtocolAmendRenewModule> modules = amendment.getProtocolAmendRenewal().getModules();
-//        for (ProtocolAmendRenewModule module : modules) {
-//            merge(amendment, module.getProtocolModuleTypeCode());
-//        }
-//        if (amendment.isRenewalWithoutAmendment() && isRenewalWithNewAttachment(amendment)) {
-//            merge(amendment, ProtocolModule.ADD_MODIFY_ATTACHMENTS);
-//        }
-//        mergeProtocolSubmission(amendment);
-//        
-//        if (mergeActions) {
-//            mergeProtocolAction(amendment);
-//        }
-//        
+        List<ProtocolAmendRenewModule> modules = amendment.getProtocolAmendRenewal().getModules();
+        for (ProtocolAmendRenewModule module : modules) {
+            merge(amendment, module.getProtocolModuleTypeCode());
+        }
+        if (amendment.isRenewalWithoutAmendment() && isRenewalWithNewAttachment(amendment)) {
+            merge(amendment, getProtocolModuleAddModifyAttachmentCodeHook());
+        }
+        mergeProtocolSubmission(amendment);
+        
+        if (mergeActions) {
+            mergeProtocolAction(amendment);
+        }
+        
     }
+    
+    protected abstract String getProtocolModuleAddModifyAttachmentCodeHook();
+    
 
     private boolean isRenewalWithNewAttachment(Protocol renewal) {
         boolean hasNewAttachment = false;
@@ -1301,59 +1303,10 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         return hasNewAttachment;
     }
     
-    /**
-     * 
-     * This method merges the data of a specific module of the amended protocol into this protocol.
-     * @param amendment
-     * @param protocolModuleTypeCode
-     */
-    public void merge(Protocol amendment, String protocolModuleTypeCode) {
-// TODO *********commented the code below during IACUC refactoring*********         
-//        if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.GENERAL_INFO)) {
-//            mergeGeneralInfo(amendment);
-//        }
-//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.AREAS_OF_RESEARCH)) {
-//            mergeResearchAreas(amendment);
-//        }
-//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.FUNDING_SOURCE)) {
-//            mergeFundingSources(amendment);
-//        }
-//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_ORGANIZATIONS)) {
-//            mergeOrganizations(amendment);
-//        }
-//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERSONNEL)) {
-//            mergePersonnel(amendment);
-//        }
-//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
-//            if (amendment.isAmendment() || amendment.isRenewal()
-//                    || (!amendment.getAttachmentProtocols().isEmpty() && this.getAttachmentProtocols().isEmpty())) {
-//                mergeAttachments(amendment);
-//            }
-//            else {
-//                restoreAttachments(this);
-//            }
-//        }
-//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_REFERENCES)) {
-//            mergeReferences(amendment);
-//        }
-//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.SPECIAL_REVIEW)) {
-//            mergeSpecialReview(amendment);
-//        }
-//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.SUBJECTS)) {
-//            mergeSubjects(amendment);
-//        }
-//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.OTHERS)) {
-//            mergeOthers(amendment);
-//        }
-//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERMISSIONS)) {
-//            mergeProtocolPermissions(amendment);
-//        }
-//        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.QUESTIONNAIRE)) {
-//            mergeProtocolQuestionnaire(amendment);
-//        }
-    }
+    public abstract void merge(Protocol amendment, String protocolModuleTypeCode);
+    
 
-    private void mergeProtocolQuestionnaire(Protocol amendment) {
+    protected void mergeProtocolQuestionnaire(Protocol amendment) {
         // TODO : what if user did not edit questionnaire at all, then questionnaire will be wiped out ?
         removeOldQuestionnaire();
         amendQuestionnaire(amendment);
@@ -1362,7 +1315,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     /*
      * remove existing questionnaire from current 
      */
-    private void removeOldQuestionnaire() {
+    protected void removeOldQuestionnaire() {
 
         List <AnswerHeader> answerHeaders = getAnswerHeaderForProtocol(this);
         if (!answerHeaders.isEmpty() && answerHeaders.get(0).getAnswerHeaderId() != null){
@@ -1373,7 +1326,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     /*
      * add questionnaire answer from amendment to protocol
      */
-    private void amendQuestionnaire(Protocol amendment) {
+    protected void amendQuestionnaire(Protocol amendment) {
 
         List <AnswerHeader> answerHeaders = getAnswerHeaderForProtocol(amendment);
         if (!answerHeaders.isEmpty()){
@@ -1405,7 +1358,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
 
     @SuppressWarnings("unchecked")
-    private void mergeProtocolSubmission(Protocol amendment) {
+    protected void mergeProtocolSubmission(Protocol amendment) {
         List<ProtocolSubmission> submissions = (List<ProtocolSubmission>) deepCopy(amendment.getProtocolSubmissions());  
         for (ProtocolSubmission submission : submissions) {
             submission.setProtocolNumber(this.getProtocolNumber());
@@ -1424,7 +1377,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
      * merge amendment/renewal protocol action to original protocol when A/R is approved
      */
     @SuppressWarnings("unchecked")
-    private void mergeProtocolAction(Protocol amendment) {
+    protected void mergeProtocolAction(Protocol amendment) {
         List<ProtocolAction> protocolActions = (List<ProtocolAction>) deepCopy(amendment.getProtocolActions());  
         Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
             public int compare(ProtocolAction action1, ProtocolAction action2) {
@@ -1456,7 +1409,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
     
     
-    public void mergeGeneralInfo(Protocol amendment) {
+    protected void mergeGeneralInfo(Protocol amendment) {
         this.protocolTypeCode = amendment.getProtocolTypeCode();
         this.title = amendment.getTitle();
         this.initialSubmissionDate = amendment.getInitialSubmissionDate();
@@ -1471,17 +1424,17 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
     
     @SuppressWarnings("unchecked")
-    private void mergeResearchAreas(Protocol amendment) {
+    protected void mergeResearchAreas(Protocol amendment) {
         setProtocolResearchAreas((List<ProtocolResearchArea>) deepCopy(amendment.getProtocolResearchAreas()));
     }
     
     @SuppressWarnings("unchecked")
-    private void mergeFundingSources(Protocol amendment) {
+    protected void mergeFundingSources(Protocol amendment) {
         setProtocolFundingSources((List<ProtocolFundingSource>) deepCopy(amendment.getProtocolFundingSources()));
     }
     
     @SuppressWarnings("unchecked")
-    private void mergeReferences(Protocol amendment) {
+    protected void mergeReferences(Protocol amendment) {
         setProtocolReferences((List<ProtocolReference>) deepCopy(amendment.getProtocolReferences()));
         
         this.fdaApplicationNumber = amendment.getFdaApplicationNumber();
@@ -1491,17 +1444,17 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
     
     @SuppressWarnings("unchecked")
-    private void mergeOrganizations(Protocol amendment) {
+    protected void mergeOrganizations(Protocol amendment) {
         setProtocolLocations((List<ProtocolLocation>) deepCopy(amendment.getProtocolLocations()));
     }
     
     @SuppressWarnings("unchecked")
-    private void mergeSubjects(Protocol amendment) {
+    protected void mergeSubjects(Protocol amendment) {
         setProtocolParticipants((List<ProtocolParticipant>) deepCopy(amendment.getProtocolParticipants()));
     }
     
     @SuppressWarnings("unchecked")
-    private void mergeAttachments(Protocol amendment) {
+    protected void mergeAttachments(Protocol amendment) {
         // TODO : may need to set protocolnumber
         // personnel attachment may have protocol person id issue
         // how about sequence number ?
@@ -1563,7 +1516,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
      *  - if the 'file' is also used in other 'finalized' attachment, then should remove this file reference from attachment
      *    otherwise, the delete will also delete any attachment that reference to this file
      */
-    private void restoreAttachments(Protocol protocol) {
+    protected void restoreAttachments(Protocol protocol) {
         List<ProtocolAttachmentProtocol> attachmentProtocols = new ArrayList<ProtocolAttachmentProtocol>();
         List<ProtocolAttachmentProtocol> deleteAttachments = new ArrayList<ProtocolAttachmentProtocol>();
         List<AttachmentFile> deleteFiles = new ArrayList<AttachmentFile>();
@@ -1602,7 +1555,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         
     }
     
-    private void mergeNotepads(Protocol amendment) {
+    protected void mergeNotepads(Protocol amendment) {
         List <ProtocolNotepad> notepads = new ArrayList<ProtocolNotepad>();
         if (amendment.getNotepads() != null) {
             for (ProtocolNotepad notepad : (List<ProtocolNotepad>) deepCopy(amendment.getNotepads())) {
@@ -1641,13 +1594,13 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     
     
     @SuppressWarnings("unchecked")
-    private void mergeSpecialReview(Protocol amendment) {
+    protected void mergeSpecialReview(Protocol amendment) {
         setSpecialReviews((List<ProtocolSpecialReview>) deepCopy(amendment.getSpecialReviews()));
         cleanupSpecialReviews(amendment);
     }
     
     @SuppressWarnings("unchecked")
-    private void mergePersonnel(Protocol amendment) {
+    protected void mergePersonnel(Protocol amendment) {
         setProtocolPersons((List<ProtocolPerson>) deepCopy(amendment.getProtocolPersons()));
         for (ProtocolPerson person : protocolPersons) {
             Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID").intValue();
@@ -1661,7 +1614,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
     }
 
-    private void mergeOthers(Protocol amendment) {
+    protected void mergeOthers(Protocol amendment) {
         if (protocolDocument.getCustomAttributeDocuments() == null ||
             protocolDocument.getCustomAttributeDocuments().isEmpty()) {
             protocolDocument.initialize();
@@ -1676,7 +1629,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         }
     }
     
-    private void mergeProtocolPermissions(Protocol amendment) {
+    protected void mergeProtocolPermissions(Protocol amendment) {
         // ToDo: merge permissions
     }
     
