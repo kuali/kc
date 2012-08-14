@@ -22,6 +22,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
+import org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
@@ -131,6 +133,7 @@ public class IacucProtocol extends Protocol {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getIacucProtocolSpeciesList());
         managedLists.add(getIacucProtocolCustomDataList());
+        managedLists.add(getIacucPrinciples());
         managedLists.add(getIacucAlternateSearches());
         managedLists.add(getIacucProtocolExceptions());
 
@@ -547,6 +550,100 @@ public class IacucProtocol extends Protocol {
 
     public void setIacucProtocolStudyGroupBeans(List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans) {
         this.iacucProtocolStudyGroupBeans = iacucProtocolStudyGroupBeans;
+    }
+
+    @Override
+    protected String getProtocolModuleAddModifyAttachmentCodeHook() {
+        return IacucProtocolModule.ADD_MODIFY_ATTACHMENTS;
+    }
+
+
+    @Override
+    public void merge(Protocol amendment, String protocolModuleTypeCode) {
+        if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.GENERAL_INFO)) {
+            mergeGeneralInfo(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.AREAS_OF_RESEARCH)) {
+            mergeResearchAreas(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.FUNDING_SOURCE)) {
+            mergeFundingSources(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_ORGANIZATIONS)) {
+            mergeOrganizations(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_PERSONNEL)) {
+            mergePersonnel(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
+            if (amendment.isAmendment() || amendment.isRenewal()
+                    || (!amendment.getAttachmentProtocols().isEmpty() && this.getAttachmentProtocols().isEmpty())) {
+                mergeAttachments(amendment);
+            }
+            else {
+                restoreAttachments(this);
+            }
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_REFERENCES)) {
+            mergeReferences(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.SPECIAL_REVIEW)) {
+            mergeSpecialReview(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.SUBJECTS)) {
+            mergeSubjects(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.OTHERS)) {
+            mergeOthers(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_PERMISSIONS)) {
+            mergeProtocolPermissions(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.QUESTIONNAIRE)) {
+            mergeProtocolQuestionnaire(amendment);
+        }
+
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.THREE_RS)) {
+            mergeProtocolThreers(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.SPECIES_GROUPS)) {
+            mergeProtocolSpeciesAndGroups(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROCEDURES)) {
+            mergeProtocolProcedures(amendment);
+        }
+        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.EXCEPTIONS)) {
+            mergeProtocolExceptions(amendment);
+        }
+    }
+    
+    @Override
+    protected void mergeGeneralInfo(Protocol amendment) {
+        super.mergeGeneralInfo(amendment);
+        this.layStatement1 = ((IacucProtocol)amendment).layStatement1;
+        this.layStatement2 = ((IacucProtocol)amendment).layStatement2;
+        this.overviewTimeline = ((IacucProtocol)amendment).overviewTimeline;
+        this.protocolProjectTypeCode = ((IacucProtocol)amendment).protocolProjectTypeCode;
+    }
+        
+    protected void mergeProtocolThreers(Protocol amendment) {
+        getProtocolCopyService().copyProtocolThreers((IacucProtocol)amendment, this);
+    }
+
+    protected void mergeProtocolSpeciesAndGroups(Protocol amendment) {
+        getProtocolCopyService().copyProtocolSpeciesAndGroups((IacucProtocol)amendment, this);
+    }
+    
+    protected void mergeProtocolProcedures(Protocol amendment) {
+        getProtocolCopyService().copyProtocolProcedures((IacucProtocol)amendment, this);
+    }
+
+    protected void mergeProtocolExceptions(Protocol amendment) {
+        getProtocolCopyService().copyProtocolExceptions((IacucProtocol)amendment, this);
+    }
+    
+    protected IacucProtocolCopyService getProtocolCopyService() {
+        return (IacucProtocolCopyService)KraServiceLocator.getService("iacucProtocolCopyService");
     }
 
 }
