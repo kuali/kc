@@ -45,6 +45,7 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.abandon.IacucProtocolAbandonService;
 import org.kuali.kra.iacuc.actions.amendrenew.CreateIacucAmendmentEvent;
+import org.kuali.kra.iacuc.actions.amendrenew.CreateIacucRenewalEvent;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewService;
 import org.kuali.kra.iacuc.actions.amendrenew.ModifyIacucAmendmentSectionsEvent;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveBean;
@@ -868,102 +869,106 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
     
-//    /**
-//     * Create a Renewal without an Amendment.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward createRenewal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, protocolForm.getProtocolDocument().getProtocol());
-//        if (isAuthorized(task)) {
-//            if (!applyRules(new CreateRenewalEvent(protocolForm.getProtocolDocument(),
-//                    Constants.PROTOCOL_CREATE_RENEWAL_SUMMARY_KEY, protocolForm.getActionHelper().getRenewalSummary()))) {
-//                    return mapping.findForward(Constants.MAPPING_BASIC);
-//                }
-//            String newDocId = getProtocolAmendRenewService().createRenewal(protocolForm.getProtocolDocument(),((ProtocolForm) form).getActionHelper().getRenewalSummary());
-//            // Switch over to the new protocol document and
-//            // go to the Protocol tab web page.
-//
-//            protocolForm.setDocId(newDocId);
-//            loadDocument(protocolForm);
-//
-//            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
-//            protocolForm.getProtocolHelper().prepareView();
-//            
-//            recordProtocolActionSuccess("Create Renewal without Amendment");
-//            
-//            // Form fields copy needed to support modifyAmendmentSections
-//            protocolForm.getActionHelper().getProtocolAmendmentBean().setSummary(protocolForm.getActionHelper().getRenewalSummary());
-//
-//            ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.RENEWAL_CREATED_NOTIFICATION, "Renewal Created");
-//            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                return mapping.findForward(CORRESPONDENCE);
-//            } else {
-//                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
-//            }
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * Create a Renewal with an Amendment.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    @SuppressWarnings("unchecked")
-//    public ActionForward createRenewalWithAmendment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, protocolForm.getProtocolDocument().getProtocol());
-//        if (isAuthorized(task)) {
-//            if (!applyRules(new CreateAmendmentEvent(protocolForm.getProtocolDocument(),
-//                Constants.PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY, protocolForm.getActionHelper()
-//                        .getProtocolRenewAmendmentBean()))) {
-//                return mapping.findForward(Constants.MAPPING_BASIC);
-//            }
-//
-//            String newDocId = getProtocolAmendRenewService().createRenewalWithAmendment(protocolForm.getProtocolDocument(),
-//                    protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
-//            // Switch over to the new protocol document and
-//            // go to the Protocol tab web page.
-//
-//            protocolForm.setDocId(newDocId);
-//            loadDocument(protocolForm);
-//
-//            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
-//            protocolForm.getProtocolHelper().prepareView();
-//            
-//            recordProtocolActionSuccess("Create Renewal with Amendment");
-//            
-//            // Form fields copy needed to support modifyAmendmentSections
-//            protocolForm.getActionHelper().setProtocolAmendmentBean(protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
-//
-//            ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.RENEWAL_WITH_AMENDMENT_CREATED, "Renewal With Amendment Created");
-//            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                return mapping.findForward(CORRESPONDENCE);
-//            } else {
-//                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
-//            }
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
+    /**
+     * Create a Renewal without an Amendment.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward createRenewal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument protocolDocument = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL, protocol);
+        if (isAuthorized(task)) {
+            if (!applyRules(new CreateIacucRenewalEvent(protocolDocument,
+                    Constants.PROTOCOL_CREATE_RENEWAL_SUMMARY_KEY, protocolForm.getActionHelper().getRenewalSummary()))) {
+                    return mapping.findForward(Constants.MAPPING_BASIC);
+                }
+            String newDocId = getProtocolAmendRenewService().createRenewal(protocolForm.getProtocolDocument(),((ProtocolForm) form).getActionHelper().getRenewalSummary());
+            // Switch over to the new protocol document and
+            // go to the Protocol tab web page.
+
+            protocolForm.setDocId(newDocId);
+            loadDocument(protocolForm);
+
+            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
+            protocolForm.getProtocolHelper().prepareView();
+            
+            recordProtocolActionSuccess("Create Renewal without Amendment");
+            
+            // Form fields copy needed to support modifyAmendmentSections
+            protocolForm.getActionHelper().getProtocolAmendmentBean().setSummary(protocolForm.getActionHelper().getRenewalSummary());
+
+            IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.RENEWAL_CREATED_NOTIFICATION, "Renewal Created");
+            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                return mapping.findForward(CORRESPONDENCE);
+            } else {
+                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * Create a Renewal with an Amendment.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public ActionForward createRenewalWithAmendment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument protocolDocument = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL, protocol);
+        if (isAuthorized(task)) {
+            if (!applyRules(new CreateIacucAmendmentEvent(protocolDocument,
+                Constants.PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY, protocolForm.getActionHelper()
+                        .getProtocolRenewAmendmentBean()))) {
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
+
+            String newDocId = getProtocolAmendRenewService().createRenewalWithAmendment(protocolForm.getProtocolDocument(),
+                    protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
+            // Switch over to the new protocol document and
+            // go to the Protocol tab web page.
+
+            protocolForm.setDocId(newDocId);
+            loadDocument(protocolForm);
+
+            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
+            protocolForm.getProtocolHelper().prepareView();
+            
+            recordProtocolActionSuccess("Create Renewal with Amendment");
+            
+            // Form fields copy needed to support modifyAmendmentSections
+            protocolForm.getActionHelper().setProtocolAmendmentBean(protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
+
+            IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.RENEWAL_WITH_AMENDMENT_CREATED, "Renewal With Amendment Created");
+            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                return mapping.findForward(CORRESPONDENCE);
+            } else {
+                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     /**
      * Delete a Protocol/Amendment/Renewal. Remember that amendments and renewals are simply protocol documents that were copied
      * from a protocol.
