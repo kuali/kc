@@ -416,7 +416,7 @@ public class IacucProtocol extends Protocol {
      * get submit for review questionnaire answerheaders
      */
     protected List <AnswerHeader> getAnswerHeaderForProtocol(Protocol protocol) {
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean(protocol);
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
         moduleQuestionnaireBean.setModuleSubItemCode("0");
         List <AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
         answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);

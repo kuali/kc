@@ -15,36 +15,24 @@
  */
 package org.kuali.kra.iacuc.questionnaire;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolFinderDao;
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
-import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
 /**
  * 
  * This is Helper class for protocol questionnaire.
  */
-public class IacucProtocolQuestionnaireHelper extends QuestionnaireHelper {
+public class IacucQuestionnaireHelper extends QuestionnaireHelper {
 
     private static final long serialVersionUID = -7998778375503716988L;
 
@@ -53,24 +41,33 @@ public class IacucProtocolQuestionnaireHelper extends QuestionnaireHelper {
      * Constructs an IacucProtocolQuestionnaireHelper.java. To hook up with protocol form.
      * @param form
      */
-    public IacucProtocolQuestionnaireHelper(ProtocolForm form) {
+    public IacucQuestionnaireHelper(ProtocolForm form) {
         super(form);
     }
 
     /*
      * authorization check.
      */
-    protected void initializePermissions(Protocol protocol) {
-        ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_QUESTIONNAIRE, (IacucProtocol)protocol);
-        setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
+    protected ProtocolTask getModifyQnnrTaskHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_QUESTIONNAIRE, (IacucProtocol)protocol);
     }
     
     public String getModuleCode() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
     }
 
-    protected ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(Protocol protocol) {
-        return new IacucProtocolModuleQuestionnaireBean(protocol);
+    protected ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBeanHook(Protocol protocol) {
+        return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
+    }
+
+    @Override
+    protected String getProtocolModuleCodeForQuestionnaireHook() {
+        return IacucProtocolModule.QUESTIONNAIRE;
+    }
+
+    @Override
+    protected Class<? extends ProtocolFinderDao> getProtocolFinderDaoClassHook() {
+        return IacucProtocolFinderDao.class;
     }
 
 }
