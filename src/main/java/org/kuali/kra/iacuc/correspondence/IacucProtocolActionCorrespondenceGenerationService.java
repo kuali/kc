@@ -13,10 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions.correspondence;
+package org.kuali.kra.iacuc.correspondence;
 
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateService;
+import java.util.List;
 
-public interface IacucProtocolActionTypeToCorrespondenceTemplateService extends ProtocolActionTypeToCorrespondenceTemplateService {
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
+/**
+ * 
+ * This interface defines the functions needed generate a correspondence and attach it to a protocol.
+ */
+public interface IacucProtocolActionCorrespondenceGenerationService extends ProtocolActionCorrespondenceGenerationService {
+    
 }
