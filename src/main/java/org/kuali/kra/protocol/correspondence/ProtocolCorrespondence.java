@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolAction;
+import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
 
 /**
