@@ -1061,6 +1061,13 @@
  		</property>
                 
 	</bean>
+	
+	<bean id="iacucProtocolActionCorrespondenceGenerationService" class="org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="printingService" ref="printingService" />
+		<property name="protocolActionTypeToCorrespondenceTemplateService" ref="iacucProtocolActionTypeToCorrespondenceTemplateService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
 
 
 </beans>

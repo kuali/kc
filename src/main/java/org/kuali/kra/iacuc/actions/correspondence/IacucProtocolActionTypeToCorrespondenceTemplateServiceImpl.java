@@ -23,92 +23,55 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateServiceImpl;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class IacucProtocolActionTypeToCorrespondenceTemplateServiceImpl implements IacucProtocolActionTypeToCorrespondenceTemplateService {
+public class IacucProtocolActionTypeToCorrespondenceTemplateServiceImpl 
+    extends ProtocolActionTypeToCorrespondenceTemplateServiceImpl implements IacucProtocolActionTypeToCorrespondenceTemplateService {
     
-    private static Map<String, List<String>> actionTypesToCorrespondenceType;
-    // Should be better to use corr type code instead of description or best to have a valid action type/corres type table set up
-    // TODO : IACUC
-    static {
-        actionTypesToCorrespondenceType = new HashMap<String, List<String>>();
-        actionTypesToCorrespondenceType.put(IacucProtocolActionType.SUBMITTED_TO_IACUC, Arrays.asList("Protocol Submission Report #1", "Protocol Submission Report #2"));
-        actionTypesToCorrespondenceType.put(IacucProtocolActionType.IACUC_ABANDON, Arrays.asList("Protocol Submission Report #1", "Protocol Submission Report #2"));
-        actionTypesToCorrespondenceType.put(IacucProtocolActionType.IACUC_WITHDRAWN, Arrays.asList("Protocol Submission Report #1", "Protocol Submission Report #2"));
-//      actionTypesToCorrespondenceType.put(ProtocolActionType.SUBMIT_TO_IRB, Arrays.asList("Protocol Submission Report #1", "Protocol Submission Report #2"));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.WITHDRAWN, Arrays.asList("Withdrawal Notice"));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.REQUEST_TO_CLOSE, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.REQUEST_FOR_TERMINATION, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.NOTIFY_IRB, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.AMENDMENT_CREATED, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.MODIFY_AMENDMENT_SECTION, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.RENEWAL_CREATED, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.ASSIGN_TO_AGENDA, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.APPROVED, Arrays.asList("Approval Letter"));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.DISAPPROVED, Arrays.asList("Rejection Letter"));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.PROTOCOL_CREATED, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.CLOSED_FOR_ENROLLMENT, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.RESPONSE_APPROVAL, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.IRB_ACKNOWLEDGEMENT, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.IRB_REVIEW_NOT_REQUIRED, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.DATA_ANALYSIS_ONLY, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.REOPEN_ENROLLMENT, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, Arrays.asList("Closure Notice"));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.TERMINATED, Arrays.asList("Termination Notice"));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.SUSPENDED, Arrays.asList("Suspension notice"));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.EXPIRED, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.SUSPENDED_BY_DSMB, Arrays.asList("Suspension notice"));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.EXPEDITE_APPROVAL, Arrays.asList("Expedited Approval Letter"));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.GRANT_EXEMPTION, Arrays.asList("Grant Exemption Notice")); 
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.ADMINISTRATIVE_CORRECTION, Arrays.asList(""));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, Arrays.asList("Specific Minor Revisions Letter"));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, Arrays.asList("Substantive Revisions Required Letter"));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.DEFERRED, Arrays.asList("Notice Of Deferral"));
-//        actionTypesToCorrespondenceType.put(ProtocolActionType.ABANDON_PROTOCOL, Arrays.asList("Abandon Notice"));
-        /**
-         * The following correspondence types don't map to a Protocol Action at this time:
-         * Agenda Report, Committee Roster Report, 
-         * Protocol Optional Report #1,  Protocol Optional Report #2, Reminder to IRB Notification #1, Reminder to IRB Notification #2,
-         * Reminder to IRB Notification #3, Renewal Reminder Letter #1, Renewal Reminder Letter #2, Renewal Reminder Letter #3,
-         * Schedule Minutes, Schedule Optional Report #1, Schedule Optional Report #2
-         */
-    }
-    
-    private BusinessObjectService businessObjectService;
+    private Map<String, List<String>> actionTypesToCorrespondenceType;
 
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateService#getTemplatesByProtocolAction(java.lang.String)
-     */
-    public List<ProtocolCorrespondenceTemplate> getTemplatesByProtocolAction(String protocolActionType) {
-        if (actionTypesToCorrespondenceType.containsKey(protocolActionType)) {
-            List<ProtocolCorrespondenceTemplate> templates = new ArrayList<ProtocolCorrespondenceTemplate>();
-            
-            Collection<ProtocolCorrespondenceType> protocolCorrespondenceTypes = this.getBusinessObjectService().findAll(ProtocolCorrespondenceType.class);
-            List<String> correspondenceTypeDescriptions = actionTypesToCorrespondenceType.get(protocolActionType);
-            
-            for (ProtocolCorrespondenceType correspondenceType : protocolCorrespondenceTypes) {
-                if (correspondenceTypeDescriptions.contains(correspondenceType.getDescription())) {
-                    templates.addAll(correspondenceType.getProtocolCorrespondenceTemplates());
-                }
-            }
-            
-            return templates;
-            
+    public IacucProtocolActionTypeToCorrespondenceTemplateServiceImpl() {
+        actionTypesToCorrespondenceType = new HashMap<String, List<String>>();
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.REQUEST_DEACTIVATE, Arrays.asList("25"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.NOTIFIED_COMMITTEE, Arrays.asList("21"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.ADMINISTRATIVE_CORRECTION, Arrays.asList("18"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.NOTIFY_IACUC, Arrays.asList("22"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, Arrays.asList("29"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.IACUC_WITHDRAWN, Arrays.asList("29"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.TABLED, Arrays.asList("27"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.LIFT_HOLD, Arrays.asList("17"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.DESIGNATED_REVIEW_APPROVAL, Arrays.asList("1", "7", "6", "9"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.RESPONSE_APPROVAL, Arrays.asList("1", "7", "6", "9"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.IACUC_APPROVED, Arrays.asList("1", "7", "6", "9"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, Arrays.asList("15"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.IACUC_DISAPPROVED, Arrays.asList("12"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.EXPIRED, Arrays.asList("14"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.ADMINISTRATIVELY_DEACTIVATED, Arrays.asList("11"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.DEACTIVATED, Arrays.asList("11"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.HOLD, Arrays.asList("16"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.TERMINATED, Arrays.asList("28"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.SUSPENDED, Arrays.asList("26"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED, Arrays.asList("8"));
+        actionTypesToCorrespondenceType.put(IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED, Arrays.asList("8"));        
+    }
+
+    @Override
+    protected Map<String, List<String>> getActionTypesToCorrespondenceTypeMap() {
+        return actionTypesToCorrespondenceType;
+    }
+
+    @Override
+    protected List<ProtocolCorrespondenceTemplate> getCorrespondenceTemplatesForTypeId(String correspondenceTypeId) {
+        IacucProtocolCorrespondenceType type = 
+            getBusinessObjectService().findBySinglePrimaryKey(IacucProtocolCorrespondenceType.class, correspondenceTypeId);
+        if (type != null) {
+            return type.getProtocolCorrespondenceTemplates();
         } else {
-            throw new IllegalArgumentException("An illegal protocol action type was provided");
+            return new ArrayList<ProtocolCorrespondenceTemplate>();
         }
-    }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService){
-        this.businessObjectService = businessObjectService;
-    }
-    
-    public BusinessObjectService getBusinessObjectService(){
-        return this.businessObjectService;
     }
 }
