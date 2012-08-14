@@ -115,6 +115,9 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
                     newProtocolStudyGroup.setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
                     setAttributesForNewProtocolStudyGroup(newProtocolStudyGroup, newStudyGroupDetailBean, iacucProtocol);
                     Integer newProtocolSpeciesId = protocolSpeciesIdMapping.get(newProtocolStudyGroup.getIacucProtocolSpeciesId());
+                    if(newProtocolSpeciesId == null) {
+                        newProtocolSpeciesId = newProtocolStudyGroup.getIacucProtocolSpeciesId();
+                    }
                     newProtocolStudyGroup.setIacucProtocolSpeciesId(newProtocolSpeciesId);
                     studyGroups.add(newProtocolStudyGroup);
                     

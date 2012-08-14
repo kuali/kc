@@ -21,17 +21,22 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationService;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
 import org.kuali.kra.iacuc.rules.IacucProtocolFactBuilderService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolFinderDao;
+import org.kuali.kra.protocol.ProtocolVersionService;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
@@ -41,6 +46,8 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
 
 
@@ -99,49 +106,48 @@ public class IacucProtocolDocument extends ProtocolDocument {
         boolean isComplete = true;
 
         /*
-         * This happens when you submit your protocol to IRB, the current route node is Initiated
+         * This happens when you submit your protocol to IACUC, the current route node is Initiated
          */
         if (this.getProtocol().getProtocolStatusCode().equals(IacucProtocolStatus.SUBMITTED_TO_IACUC)) {
             if (getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_INITIATED_ROUTE_NODE_NAME)) { 
                 isComplete = false;
             }     
-            // while submitting an amendment for IRB review, the amendment moves from node Initiated to node IRBReview, 
+            // while submitting an amendment for IACUC review, the amendment moves from node Initiated to node IACUCReview, 
             //so need to check if protocolSubmissionStatus is "InAgenda" to avoid the processing page from not going away at all when 
             // an amendment is submitted for review
             // Added for KCIRB-1515 & KCIRB-1528
             getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus"); 
             
             
-//            String status = getProtocol().getProtocolSubmission().getSubmissionStatusCode();
-//            if (isAmendment() || isRenewal()) {
-//                if (status.equals(IacucProtocolSubmissionStatus.APPROVED) 
-//                        && getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {
-//                    isComplete = false;
-//                }
-//            }
+            String status = getProtocol().getProtocolSubmission().getSubmissionStatusCode();
+            if (isAmendment() || isRenewal()) {
+                if (status.equals(IacucProtocolSubmissionStatus.APPROVED) 
+                        && getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_IACUCREVIEW_ROUTE_NODE_NAME)) {
+                    isComplete = false;
+                }
+            }
 
         } else {
-//TODO: Must implement the following for IACUC
-//            /*
-//             * If amendment has been merged, need to redirect to the newly created active protocol
-//             * Wait for the new active protocol to be created before redirecting to it.
-//             */
-//            if (getProtocol().getProtocolStatusCode().equals(ProtocolStatus.AMENDMENT_MERGED) || 
-//                    getProtocol().getProtocolStatusCode().equals(ProtocolStatus.RENEWAL_MERGED)) {
-//                String protocolId = getNewProtocolDocId();               
-//                if (ObjectUtils.isNull(protocolId)) {
-//                    isComplete = false;
-//                } else {
-//                    /*
-//                     * The new protocol document is only available after the amendment has been merged. So, once the amendment is merged,
-//                     * find the active protocol available and change the return link to point to that.
-//                     */
-//                    String oldLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
-//                    String oldDocNbr = getProtocol().getProtocolDocument().getDocumentNumber();
-//                    String returnLocation = oldLocation.replaceFirst(oldDocNbr, protocolId);
-//                    GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_RETURN_LOCATION, (Object) returnLocation);
-//                }
-//            }         
+            /*
+             * If amendment has been merged, need to redirect to the newly created active protocol
+             * Wait for the new active protocol to be created before redirecting to it.
+             */
+            if (getProtocol().getProtocolStatusCode().equals(IacucProtocolStatus.AMENDMENT_MERGED) || 
+                    getProtocol().getProtocolStatusCode().equals(IacucProtocolStatus.RENEWAL_MERGED)) {
+                String protocolId = getNewProtocolDocId();               
+                if (ObjectUtils.isNull(protocolId)) {
+                    isComplete = false;
+                } else {
+                    /*
+                     * The new protocol document is only available after the amendment has been merged. So, once the amendment is merged,
+                     * find the active protocol available and change the return link to point to that.
+                     */
+                    String oldLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
+                    String oldDocNbr = getProtocol().getProtocolDocument().getDocumentNumber();
+                    String returnLocation = oldLocation.replaceFirst(oldDocNbr, protocolId);
+                    GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_RETURN_LOCATION, (Object) returnLocation);
+                }
+            }         
             // approve/expedited approve/response approve
             if (!getDocumentHeader().getWorkflowDocument().isFinal()) {
                 isComplete = false;
@@ -191,6 +197,74 @@ public class IacucProtocolDocument extends ProtocolDocument {
     @Override
     protected Class<? extends Protocol> getProtocolBOClassHook() {
         return IacucProtocol.class;
+    }
+
+    @Override
+    protected String getProtocolAmendmentMergedStatusHook() {
+        return IacucProtocolStatus.AMENDMENT_MERGED;
+    }
+
+    @Override
+    protected String getProtocolRenewalMergedStatusHook() {
+        return IacucProtocolStatus.RENEWAL_MERGED;
+    }
+
+    @Override
+    protected ProtocolFinderDao getProtocolFinderDaoHook() {
+        return KraServiceLocator.getService(IacucProtocolFinderDao.class);
+    }
+
+    @Override
+    protected ProtocolVersionService getProtocolVersionServiceHook() {
+        return KraServiceLocator.getService(IacucProtocolVersionService.class);
+    }
+
+    @Override
+    protected String getProtocolActionTypeAmendmentCreatedHook() {
+        return IacucProtocolActionType.AMENDMENT_CREATED;
+    }
+
+    @Override
+    protected String getProtocolActionTypeRenewalCreatedHook() {
+        return IacucProtocolActionType.RENEWAL_CREATED;
+    }
+
+    @Override
+    protected String getProtocolActionTypeApprovedHook() {
+        return IacucProtocolActionType.IACUC_APPROVED;
+    }
+
+    @Override
+    protected String getProtocolStatusExemptHook() {
+        return IacucProtocolStatus.ADMINISTRATIVELY_INCOMPLETE;
+    }
+
+    @Override
+    protected String getProtocolStatusActiveOpenToEnrollmentHook() {
+        return IacucProtocolStatus.ACTIVE;
+    }
+
+    @Override
+    protected String getListOfStatusEligibleForMergingHook() {
+      StringBuffer listOfStatusEligibleForMerging = new StringBuffer(); 
+      listOfStatusEligibleForMerging.append(IacucProtocolStatus.SUBMITTED_TO_IACUC);
+      listOfStatusEligibleForMerging.append(" ");
+      listOfStatusEligibleForMerging.append(IacucProtocolStatus.MINOR_REVISIONS_REQUIRED);
+      listOfStatusEligibleForMerging.append(" ");
+      listOfStatusEligibleForMerging.append(IacucProtocolStatus.TABLED);
+      listOfStatusEligibleForMerging.append(" ");
+      listOfStatusEligibleForMerging.append(IacucProtocolStatus.MAJOR_REVISIONS_REQUIRED);
+      listOfStatusEligibleForMerging.append(" ");
+      listOfStatusEligibleForMerging.append(IacucProtocolStatus.AMENDMENT_IN_PROGRESS);
+      listOfStatusEligibleForMerging.append(" ");
+      listOfStatusEligibleForMerging.append(IacucProtocolStatus.RENEWAL_IN_PROGRESS);
+      listOfStatusEligibleForMerging.append(" ");
+      listOfStatusEligibleForMerging.append(IacucProtocolStatus.SUSPENDED);
+      listOfStatusEligibleForMerging.append(" ");
+      listOfStatusEligibleForMerging.append(IacucProtocolStatus.DELETED);
+      listOfStatusEligibleForMerging.append(" ");
+      listOfStatusEligibleForMerging.append(IacucProtocolStatus.WITHDRAWN);
+        return listOfStatusEligibleForMerging.toString();
     }
 
 }

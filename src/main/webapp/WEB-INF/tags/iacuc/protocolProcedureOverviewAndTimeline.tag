@@ -36,7 +36,10 @@
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.overviewTimeline}" noColon="true" /></div></th>
           	</tr>     
 
+			<%-- 
         	<kra:permission value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}">            
+	        </kra:permission>
+	        --%>          
                 <tr>
 	                <c:set var="textAreaFieldName" value="document.protocolList[0].overviewTimeline" />
 		            <td align="left" valign="middle" class="infoline">
@@ -47,7 +50,6 @@
 		            	</div>
 					</td>
 	            </tr>
-	        </kra:permission>          
         </table>
     </div> 
 </kul:tab>

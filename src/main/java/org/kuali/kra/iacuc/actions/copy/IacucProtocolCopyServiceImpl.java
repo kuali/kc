@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.copy;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,6 +47,10 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucP
     private IacucProtocolExceptionService iacucProtocolExceptionService;
     private IacucProtocolProcedureService iacucProtocolProcedureService;
     
+    public void copyIacucProtocolModules(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
+        copyIacucProtocolLists(srcProtocol, destProtocol);
+    }
+    
     @Override
     protected Class<? extends ProtocolAction> getProtocolActionBOClassHook() {
         return IacucProtocolAction.class;
@@ -73,31 +78,56 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucP
         destDoc.getIacucProtocol().setScientificJustifIndicator(srcDoc.getIacucProtocol().getScientificJustifIndicator());
     }
     
-    @SuppressWarnings("unchecked")
     @Override
     protected void copyProtocolLists(IacucProtocolDocument srcDoc, IacucProtocolDocument destDoc) {
         super.copyProtocolLists(srcDoc, destDoc);
-        addThreeRs(srcDoc, destDoc);
-        HashMap<Integer, Integer> speciesIdMapping = addProtocolSpecies(srcDoc.getIacucProtocol().getIacucProtocolSpeciesList(), destDoc);
-        addProtocolExceptions(srcDoc.getIacucProtocol().getIacucProtocolExceptions(), destDoc);
-        addProtocolProcedures(srcDoc.getIacucProtocol().getIacucProtocolStudyGroups(), destDoc, speciesIdMapping);
-        destDoc.getIacucProtocol().setIacucProtocolCustomDataList((List<IacucProtocolCustomData>) 
-                deepCopy(srcDoc.getIacucProtocol().getIacucProtocolCustomDataList()));
-        
+        IacucProtocol srcProtocol = srcDoc.getIacucProtocol();
+        IacucProtocol destProtocol = destDoc.getIacucProtocol();
+        copyIacucProtocolLists(srcProtocol, destProtocol);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void copyIacucProtocolLists(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
+        addThreeRs(srcProtocol, destProtocol);
+        addProtocolSpecies(srcProtocol, destProtocol);
+        addProtocolExceptions(srcProtocol, destProtocol);
+        addProtocolProcedures(srcProtocol, destProtocol);
+        destProtocol.setIacucProtocolCustomDataList((List<IacucProtocolCustomData>) 
+                deepCopy(srcProtocol.getIacucProtocolCustomDataList()));
     }
     
     @SuppressWarnings("unchecked")
-    protected void addThreeRs(IacucProtocolDocument srcDoc, IacucProtocolDocument destDoc) {
-        List<IacucPrinciples> newIacucPrinciples = (List<IacucPrinciples>)deepCopy(srcDoc.getIacucProtocol().getIacucPrinciples());
-        for(IacucPrinciples iacucPrinciple : newIacucPrinciples) {
-            iacucPrinciple.setIacucPrinciplesId(null);
-        }
-        destDoc.getIacucProtocol().setIacucPrinciples(newIacucPrinciples); 
-        List<IacucAlternateSearch> newIacucAlternateSearches = (List<IacucAlternateSearch>)deepCopy(srcDoc.getIacucProtocol().getIacucAlternateSearches());
+    protected void addThreeRs(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
+        IacucPrinciples newIacucPrinciple = (IacucPrinciples)deepCopy(srcProtocol.getIacucPrinciples().get(0));
+        newIacucPrinciple.setIacucPrinciplesId(null);
+        destProtocol.getIacucPrinciples().clear();
+        destProtocol.getIacucPrinciples().add(newIacucPrinciple);
+
+        List<IacucAlternateSearch> newIacucAlternateSearches = (List<IacucAlternateSearch>)deepCopy(srcProtocol.getIacucAlternateSearches());
         for(IacucAlternateSearch iacucAlternateSearch : newIacucAlternateSearches) {
             iacucAlternateSearch.setIacucAltSearchId(null);
         }
-        destDoc.getIacucProtocol().setIacucAlternateSearches(newIacucAlternateSearches); 
+        destProtocol.setIacucAlternateSearches(newIacucAlternateSearches); 
+    }
+    
+
+    /**
+     * @see org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService#copyIacucProtocolModules(org.kuali.kra.iacuc.IacucProtocol, org.kuali.kra.iacuc.IacucProtocol)
+     */
+    public void copyProtocolThreers(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
+        addThreeRs(srcProtocol, destProtocol);
+    }
+
+    public void copyProtocolSpeciesAndGroups(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
+        addProtocolSpecies(srcProtocol, destProtocol);
+    }
+
+    public void copyProtocolProcedures(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
+        addProtocolProcedures(srcProtocol, destProtocol);
+    }
+
+    public void copyProtocolExceptions(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
+        addProtocolExceptions(srcProtocol, destProtocol);
     }
     
     /**
@@ -108,14 +138,23 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucP
      * @param sourceProtocolSpecies
      * @param destDoc
      */
-    protected HashMap<Integer, Integer> addProtocolSpecies(List<IacucProtocolSpecies> sourceProtocolSpecies, IacucProtocolDocument destDoc) {
-        IacucProtocol protocol = destDoc.getIacucProtocol();
-        HashMap<Integer, Integer> speciesIdMapping = new HashMap<Integer,Integer>();
+    protected void addProtocolSpecies(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
+        List<IacucProtocolSpecies> sourceProtocolSpecies = srcProtocol.getIacucProtocolSpeciesList();
+        destProtocol.setIacucProtocolSpeciesList(new ArrayList<IacucProtocolSpecies>());
         for(IacucProtocolSpecies protocolSpecies : sourceProtocolSpecies) {
             IacucProtocolSpecies newProtocolSpecies = (IacucProtocolSpecies)deepCopy(protocolSpecies);
-            newProtocolSpecies = getIacucProtocolSpeciesService().getNewProtocolSpecies(protocol, newProtocolSpecies);
-            destDoc.getIacucProtocol().getIacucProtocolSpeciesList().add(newProtocolSpecies);
-            speciesIdMapping.put(protocolSpecies.getIacucProtocolSpeciesId(), newProtocolSpecies.getIacucProtocolSpeciesId());
+            newProtocolSpecies = getIacucProtocolSpeciesService().getNewProtocolSpecies(destProtocol, newProtocolSpecies);
+            newProtocolSpecies.setOldProtocolSpeciesId(protocolSpecies.getIacucProtocolSpeciesId());
+            destProtocol.getIacucProtocolSpeciesList().add(newProtocolSpecies);
+        }
+    }
+    
+    protected HashMap<Integer, Integer> getNewProtocolSpeciesMap(IacucProtocol protocol) {
+        List<IacucProtocolSpecies> protocolSpeciesList = protocol.getIacucProtocolSpeciesList();
+        HashMap<Integer, Integer> speciesIdMapping = new HashMap<Integer,Integer>();
+        for(IacucProtocolSpecies protocolSpecies : protocolSpeciesList) {
+            Integer oldProtocolSpeciesId = protocolSpecies.getOldProtocolSpeciesId() == null ? protocolSpecies.getIacucProtocolSpeciesId() : protocolSpecies.getOldProtocolSpeciesId();  
+            speciesIdMapping.put(oldProtocolSpeciesId, protocolSpecies.getIacucProtocolSpeciesId());
         }
         return speciesIdMapping;
     }
@@ -125,12 +164,13 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucP
      * @param sourceProtocolExceptions
      * @param destDoc
      */
-    protected void addProtocolExceptions(List<IacucProtocolException> sourceProtocolExceptions, IacucProtocolDocument destDoc) {
-        IacucProtocol protocol = destDoc.getIacucProtocol();
+    protected void addProtocolExceptions(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
+        destProtocol.setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
+        List<IacucProtocolException> sourceProtocolExceptions = srcProtocol.getIacucProtocolExceptions();
         for(IacucProtocolException protocolException : sourceProtocolExceptions) {
             IacucProtocolException newProtocolException = (IacucProtocolException)deepCopy(protocolException);
-            newProtocolException = getIacucProtocolExceptionService().getNewProtocolException(protocol, newProtocolException);
-            destDoc.getIacucProtocol().getIacucProtocolExceptions().add(newProtocolException);
+            newProtocolException = getIacucProtocolExceptionService().getNewProtocolException(destProtocol, newProtocolException);
+            destProtocol.getIacucProtocolExceptions().add(newProtocolException);
         }
     }
     
@@ -140,10 +180,12 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucP
      * @param destDoc
      * @param speciesIdMapping
      */
-    protected void addProtocolProcedures(List<IacucProtocolStudyGroupBean> sourceProtocolProcedures, IacucProtocolDocument destDoc, 
-            HashMap<Integer, Integer> speciesIdMapping) {
-        IacucProtocol protocol = destDoc.getIacucProtocol();
-        getIacucProtocolProcedureService().createNewStudyGroups(protocol, sourceProtocolProcedures, speciesIdMapping);
+    protected void addProtocolProcedures(IacucProtocol srcProtocol, IacucProtocol destProtocol) { 
+        destProtocol.setIacucProtocolStudyGroupBeans(new ArrayList<IacucProtocolStudyGroupBean>());
+        destProtocol.setIacucProtocolStudyGroups(new ArrayList<IacucProtocolStudyGroupBean>());
+        HashMap<Integer, Integer> newSpeciesIdMapping = getNewProtocolSpeciesMap(destProtocol);
+        List<IacucProtocolStudyGroupBean> sourceProtocolProcedures = srcProtocol.getIacucProtocolStudyGroups();
+        getIacucProtocolProcedureService().createNewStudyGroups(destProtocol, sourceProtocolProcedures, newSpeciesIdMapping);
     }
     
     @Override
