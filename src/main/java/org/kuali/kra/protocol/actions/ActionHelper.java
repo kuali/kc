@@ -806,8 +806,8 @@ public abstract class ActionHelper implements Serializable {
         canCreateAmendmentUnavailable = hasCreateAmendmentUnavailablePermission();
         canModifyAmendmentSections = hasModifyAmendmentSectionsPermission();
         canModifyAmendmentSectionsUnavailable = hasModifyAmendmentSectionsUnavailablePermission();
-//        canCreateRenewal = hasCreateRenewalPermission();
-//        canCreateRenewalUnavailable = hasCreateRenewalUnavailablePermission();
+        canCreateRenewal = hasCreateRenewalPermission();
+        canCreateRenewalUnavailable = hasCreateRenewalUnavailablePermission();
 //        canNotifyIrb = hasNotifyIrbPermission();
 //        canNotifyIrbUnavailable = hasNotifyIrbUnavailablePermission();
 //        canNotifyCommittee = hasNotifyCommitteePermission();
@@ -1149,17 +1149,20 @@ public abstract class ActionHelper implements Serializable {
     protected abstract ProtocolTask getModifyAmendmentSectionsProtocolTaskInstanceHook(Protocol protocol);
     protected abstract ProtocolTask getModifyAmendmentSectionsUnavailableProtocolUnavailableTaskInstanceHook(Protocol protocol);
     
-//    
-//    protected boolean hasCreateRenewalPermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasCreateRenewalUnavailablePermission() {
-//        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
+    
+    protected boolean hasCreateRenewalPermission() {
+        ProtocolTask task = getNewRenewalProtocolTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected boolean hasCreateRenewalUnavailablePermission() {
+        ProtocolTask task = getNewRenewalProtocolUnavailableTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+
+    protected abstract ProtocolTask getNewRenewalProtocolTaskInstanceHook(Protocol protocol);
+    protected abstract ProtocolTask getNewRenewalProtocolUnavailableTaskInstanceHook(Protocol protocol);
+    
 //    protected boolean hasNotifyIrbPermission() {
 //        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_IRB, getProtocol());
 //        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -2959,10 +2962,9 @@ public abstract class ActionHelper implements Serializable {
     public boolean getHasRenewals() throws Exception {
         if (getProtocol().isRenewal()) {
             hasRenewals = true;
-//TODO: Must be put back in for IACUC            
-//        } else {
-//            List<Protocol> protocols = (List<Protocol>) getProtocolAmendRenewServiceHook().getRenewals(getProtocol().getProtocolNumber());
-//            hasRenewals = protocols.isEmpty() ? false : true;
+        } else {
+            List<Protocol> protocols = (List<Protocol>) getProtocolAmendRenewServiceHook().getRenewals(getProtocol().getProtocolNumber());
+            hasRenewals = protocols.isEmpty() ? false : true;
         }
         return hasRenewals;
     }
@@ -3044,16 +3046,15 @@ public abstract class ActionHelper implements Serializable {
     }
 
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public String getRenewalSummary() {
-//        return renewalSummary;
-//    }
-//
-//
-//    public void setRenewalSummary(String renewalSummary) {
-//        this.renewalSummary = renewalSummary;
-//    }
-//
+    public String getRenewalSummary() {
+        return renewalSummary;
+    }
+
+
+    public void setRenewalSummary(String renewalSummary) {
+        this.renewalSummary = renewalSummary;
+    }
+
 
     /**
      * Sets the protocolSummaryPrintOptions attribute value.

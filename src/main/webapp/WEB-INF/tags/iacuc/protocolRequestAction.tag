@@ -149,6 +149,8 @@
             <kra-iacuc-action:createAmendmentAction />
             <kra-iacuc-action:modifyAmendmentSectionsAction />
             <kra-iacuc-action:makeAdminCorrectionAction />
+            <kra-iacuc-action:createRenewalWithAmendmentAction />
+            <kra-iacuc-action:createRenewalAction />
                                           
 <%--                                           
             <kra-iacuc-action:notifyCommitteeAction />--%>
@@ -159,9 +161,6 @@
                                           methodToCall="iacucAcknowledgement"
                                           canPerformAction="${KualiForm.actionHelper.canIacucAcknowledge}" />
 <%--
-            <kra-iacuc-action:modifyAmendmentSectionsAction />
-            <kra-iacuc-action:createRenewalWithAmendmentAction />
-            <kra-iacuc-action:createRenewalAction />
             <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolCloseRequestBean}"
                                           permission="${KualiForm.actionHelper.canRequestClose}"
                                           beanName="protocolCloseRequestBean"

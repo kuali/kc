@@ -12,7 +12,7 @@ function void setAction(IacucProtocolActionMapping protocolAction, boolean flag)
 rule "Submit for Review"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "104", "105", "107", "205", "302", "203", "303"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "104", "105", "107", "205", "206", "302", "203", "303"))
 then    
     setAction(protocolAction, true);
 end
@@ -365,7 +365,7 @@ end
 rule "Modify Amendment Sections"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "125", protocolStatusCode in ("102", "104", "105", "106", "205", "304"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "125", protocolStatusCode in ("102", "104", "105", "106", "205", "206", "304"))
 then    
     setAction(protocolAction, true);
 end

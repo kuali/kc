@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -125,12 +126,12 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
     }
     
     private boolean displayContinuation(String currentStatus, Protocol protocol) {
-        String validStatuses[] = { IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.SUBMITTED_TO_IACUC };
+        String validStatuses[] = { IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.RENEWAL_IN_PROGRESS, IacucProtocolStatus.SUBMITTED_TO_IACUC };
         return validateCurrentStatus(currentStatus, validStatuses)  && hasRenewalProtocolNumber(protocol.getProtocolNumber());
     }
     
     private boolean displayContinuationWithAmendment(String currentStatus, Protocol protocol) {
-        String validStatuses[] = { IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.SUBMITTED_TO_IACUC };
+        String validStatuses[] = { IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.RENEWAL_IN_PROGRESS, IacucProtocolStatus.SUBMITTED_TO_IACUC };
         return validateCurrentStatus(currentStatus, validStatuses)  && hasRenewalProtocolNumber(protocol.getProtocolNumber());
     }
     
