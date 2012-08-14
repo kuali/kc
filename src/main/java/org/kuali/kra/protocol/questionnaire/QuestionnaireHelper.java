@@ -19,16 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
@@ -42,7 +39,10 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
  */
 public abstract class QuestionnaireHelper extends QuestionnaireHelperBase {
 
-    private static final long serialVersionUID = -8923292365833681926L;
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 3436562040789756688L;
 
     /**
      * Each Helper must contain a reference to its document form so that it can access the actual document.
@@ -70,18 +70,29 @@ public abstract class QuestionnaireHelper extends QuestionnaireHelperBase {
         initializePermissions(getProtocol());
     }
 
+    
     /*
      * authorization check.
      */
-    protected abstract void initializePermissions(Protocol protocol);
+    private void initializePermissions(Protocol protocol) {
+        ProtocolTask task = getModifyQnnrTaskHook(protocol);
+        setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
+    }
 
+    protected abstract ProtocolTask getModifyQnnrTaskHook(Protocol protocol);
+    
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    public String getModuleCode() {
+//        return CoeusModule.IRB_MODULE_CODE;
+//    }
+    
     public abstract String getModuleCode();
 
-    protected abstract ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(Protocol protocol);
 
     public ModuleQuestionnaireBean getModuleQnBean() {
         //return new ModuleQuestionnaireBean(getModuleCode(), getProtocol());
-        ProtocolModuleQuestionnaireBean moduleQuestionnaireBean = getProtocolModuleQuestionnaireBean(getProtocol());
+        ProtocolModuleQuestionnaireBean moduleQuestionnaireBean = getProtocolModuleQuestionnaireBeanHook(getProtocol());
         if (StringUtils.isNotBlank(getSubmissionActionTypeCode())) {
             // TODO : need to figure out a way to set subitemkey which is submissionnumber.
             // however, submissionnumber will not be available until it is submitted
@@ -91,7 +102,10 @@ public abstract class QuestionnaireHelper extends QuestionnaireHelperBase {
         return moduleQuestionnaireBean;
 
     }
+    
+    protected abstract ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBeanHook(Protocol protocol);
 
+    
     public void populateAnswers() {
         if (isAmendQuestionnaire()) {
             super.populateAnswers();
@@ -187,15 +201,18 @@ public abstract class QuestionnaireHelper extends QuestionnaireHelperBase {
     }
     
     private ProtocolFinderDao getProtocolFinder() {
-        return KraServiceLocator.getService(ProtocolFinderDao.class);
+        return KraServiceLocator.getService(getProtocolFinderDaoClassHook());
     }
-
+    
+    protected abstract Class<? extends ProtocolFinderDao> getProtocolFinderDaoClassHook();
+    
+    
     private boolean isAmendQuestionnaire() {
         Protocol protocol = getProtocol();
         boolean isAmendQuestionnaire = false;
         if (protocol.isAmendment() || protocol.isRenewal()) {
             for (ProtocolAmendRenewModule module : protocol.getProtocolAmendRenewal().getModules()) {
-                if (ProtocolModule.QUESTIONNAIRE.equals(module.getProtocolModuleTypeCode())) {
+                if (getProtocolModuleCodeForQuestionnaireHook().equals(module.getProtocolModuleTypeCode())) {
                     isAmendQuestionnaire = true;
                     break;
                 }
@@ -203,6 +220,8 @@ public abstract class QuestionnaireHelper extends QuestionnaireHelperBase {
         }
         return isAmendQuestionnaire;
     }
+
+    protected abstract String getProtocolModuleCodeForQuestionnaireHook();
 
     private Protocol getProtocol() {
         ProtocolDocument document = form.getProtocolDocument();
@@ -249,5 +268,4 @@ public abstract class QuestionnaireHelper extends QuestionnaireHelperBase {
     public void setSubmissionNumber(String submissionNumber) {
         this.submissionNumber = submissionNumber;
     }
-
 }

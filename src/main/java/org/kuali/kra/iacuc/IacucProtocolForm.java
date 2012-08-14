@@ -36,7 +36,7 @@ import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProceduresHelper;
 import org.kuali.kra.iacuc.protocol.IacucProtocolHelper;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceBean;
-import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireHelper;
+import org.kuali.kra.iacuc.questionnaire.IacucQuestionnaireHelper;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewHelper;
 import org.kuali.kra.iacuc.species.IacucProtocolSpeciesHelper;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolExceptionHelper;
@@ -165,7 +165,7 @@ public class IacucProtocolForm extends ProtocolForm {
     }
     
     protected QuestionnaireHelper createNewQuestionnaireHelper(ProtocolForm form) {
-        return new IacucProtocolQuestionnaireHelper(form);
+        return new IacucQuestionnaireHelper(form);
     }
 
     protected IacucActionHelper createNewActionHelper(ProtocolForm protocolForm) throws Exception {
@@ -314,7 +314,7 @@ public class IacucProtocolForm extends ProtocolForm {
   
     @Override
     protected QuestionnaireHelper createNewQuestionnaireHelperInstanceHook(ProtocolForm protocolForm) {
-        return new IacucProtocolQuestionnaireHelper((IacucProtocolForm) protocolForm);
+        return new IacucQuestionnaireHelper((IacucProtocolForm) protocolForm);
     }
     
     @Override
