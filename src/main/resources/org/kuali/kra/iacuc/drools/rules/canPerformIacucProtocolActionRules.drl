@@ -70,7 +70,7 @@ end
 rule "Hold"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "305", protocolStatusCode == "200")
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "305", protocolStatusCode in ("200", "202"))
 then    
     setAction(protocolAction, true);
 end
@@ -135,7 +135,7 @@ end
 rule "Request to Deactivate"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "107", protocolStatusCode in ("200", "201"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "107", protocolStatusCode in ("200", "201", "202"))
 then    
     setAction(protocolAction, true);
 end
@@ -220,7 +220,7 @@ end
 rule "Expire Protocol"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "302", protocolStatusCode in ("200", "201", "304", "305", "306", "307", "303", "300"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "302", protocolStatusCode in ("200", "201", "202", "304", "305", "306", "307", "303", "300"))
 then    
     setAction(protocolAction, true);
 end
@@ -235,7 +235,7 @@ end
 rule "Suspend Protocol "
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "307", protocolStatusCode in ("200", "201", "305", "306"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "307", protocolStatusCode in ("200", "201", "202", "305", "306"))
 then    
     setAction(protocolAction, true);
 end
@@ -259,7 +259,7 @@ end
 rule "Create new Renewal without amendment"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "104", protocolStatusCode in ("200", "201", "304", "305", "306", "308"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "104", protocolStatusCode in ("200", "201", "202", "304", "305", "306", "308"))
 then    
     setAction(protocolAction, true);
 end
@@ -267,7 +267,7 @@ end
 rule "Create new Renewal with amendment"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "106", protocolStatusCode in ("200", "201", "304", "305", "306", "308"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "106", protocolStatusCode in ("200", "201", "202", "304", "305", "306", "308"))
 then    
     setAction(protocolAction, true);
 end
@@ -275,7 +275,7 @@ end
 rule "Create new amendment"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "102", protocolStatusCode in ("200", "201", "304", "305", "306", "308"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "102", protocolStatusCode in ("200", "201", "202", "304", "305", "306", "308"))
 then    
     setAction(protocolAction, true);
 end
@@ -316,7 +316,7 @@ end
 rule "Request for Termination 1"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "306", protocolStatusCode in ("200","201","305","306","304"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "306", protocolStatusCode in ("200","201", "202","305","306","304"))
 then    
     setAction(protocolAction, true);
 end
@@ -325,7 +325,7 @@ rule "Notify IACUC"
 salience 100
 when
     protocolAction : IacucProtocolActionMapping(actionTypeCode == "114",
-      protocolStatusCode in ("105", "200", "201", "300", "302", "303", "304", "305", "306", "307", "308"))
+      protocolStatusCode in ("105", "200", "201", "202", "300", "302", "303", "304", "305", "306", "307", "308"))
 then    
     setAction(protocolAction, true);
 end
@@ -333,7 +333,7 @@ end
 rule "Make Administrative Correction"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "113", protocolStatusCode not in ("101", "200", "201", "202", "300", "303", "304", "305", "307", "308", "309"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "113", protocolStatusCode not in ("101", "200", "201", "300", "303", "304", "305", "307", "308", "309"))
 then    
     setAction(protocolAction, true);
 end
@@ -373,7 +373,7 @@ end
 rule "Request Suspension"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "311", protocolStatusCode in ("201", "305", "306"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "311", protocolStatusCode in ("201", "305", "306", "202"))
 then    
     setAction(protocolAction, true);
 end
