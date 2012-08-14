@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.genericactions;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -86,7 +87,17 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
     
     /**{@inheritDoc}**/
     public void iacucLiftHold(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
-        performGenericAction(protocol, actionBean, IacucProtocolActionType.LIFT_HOLD, IacucProtocolStatus.ACTIVE);
+        //find the last lift notification protocol action.
+        ProtocolAction selectedPa = null;
+        for (ProtocolAction pa : protocol.getProtocolActions()) {
+            System.err.println("pa.getProtocolActionTypeCode(): " + pa.getProtocolActionTypeCode());
+            if (StringUtils.equalsIgnoreCase(pa.getProtocolActionTypeCode(), IacucProtocolActionType.HOLD) 
+                    && (selectedPa == null || pa.getSequenceNumber() > selectedPa.getSequenceNumber())) {
+                selectedPa = pa;
+            }
+            
+        }
+        performGenericAction(protocol, actionBean, IacucProtocolActionType.LIFT_HOLD, selectedPa.getPrevProtocolStatusCode());
     }    
 
     /**{@inheritDoc}**/
