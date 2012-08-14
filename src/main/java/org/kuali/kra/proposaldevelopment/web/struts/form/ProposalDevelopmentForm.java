@@ -300,6 +300,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         
         setNewInstituteAttachment(createNarrative());
         setNewPropPersonBio(new ProposalPersonBiography());
+        setApproverViewTabTitle();
     }
 
     /**
@@ -1598,7 +1599,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 //                }
 //            }
             if((showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy"))) {
-                if (!tab.getHeaderTabDisplayName().toUpperCase().equals("APPROVER VIEW") || canPerformWorkflowAction()) {
+                if (!tab.getHeaderTabNavigateTo().toUpperCase().equals("APPROVERVIEW") || canPerformWorkflowAction()) {
                         newTabs.add(tab);
                     }
                 }
@@ -1971,5 +1972,25 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     
 
+    private void setApproverViewTabTitle()
+    {
+        HeaderNavigation[] headerNavigationTabs = super.getHeaderNavigationTabs();
+ 
+        for(HeaderNavigation headerNavigation: headerNavigationTabs)
+        {
+            if ( headerNavigation.getHeaderTabNavigateTo().equalsIgnoreCase(Constants.MAPPING_PROPOSAL_APPROVER_VIEW_PAGE) )
+            {
+                String approverViewTabTitle = this.getParameterService().getParameterValueAsString(
+                        ProposalDevelopmentDocument.class, Constants.PARAMETER_PROPOSAL_APPROVER_VIEW_TITLE);
+                 if (StringUtils.isEmpty(approverViewTabTitle))
+                 {
+                     approverViewTabTitle = "Proposal Summary";
+                 }
+
+                headerNavigation.setHeaderTabDisplayName(approverViewTabTitle);
+            }
+        }
+
+    }
    
 }
