@@ -164,7 +164,7 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
 
     @Override
     protected ModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(Protocol protocol) {
-        return new IacucProtocolModuleQuestionnaireBean(protocol);
+        return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
     }
 
     @Override

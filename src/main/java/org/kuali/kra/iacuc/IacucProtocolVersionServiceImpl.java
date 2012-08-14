@@ -41,7 +41,7 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImpl 
     }
 
     protected ProtocolModuleQuestionnaireBean getNewInstanceProtocolModuleQuestionnaireBeanHook(Protocol protocol) {
-        return new IacucProtocolModuleQuestionnaireBean(protocol);
+        return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
     }
 
     @Override

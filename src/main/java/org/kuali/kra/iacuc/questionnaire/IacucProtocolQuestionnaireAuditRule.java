@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.questionnaire;
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
@@ -28,7 +29,7 @@ public class IacucProtocolQuestionnaireAuditRule extends ProtocolQuestionnaireAu
     }
 
     protected ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(Protocol protocol) {
-        return new IacucProtocolModuleQuestionnaireBean(protocol);
+        return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
     }
 
     protected ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
