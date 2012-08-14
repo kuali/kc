@@ -64,12 +64,10 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
         return getParameterService().getParameterValueAsBoolean(NAMESPACE_CODE, PARAMETER_CODE, PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
     }
 
-/*
-    @Override
     protected boolean isIacucProtocolLinkingEnabledForModule() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, PARAMETER_CODE, IACUC_PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
     }
-*/
+
     @Override
     protected List<ProposalSpecialReview> getSpecialReviews() {
         return form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews();
@@ -103,17 +101,21 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
 
     public void populatePropSpecialReviewApproverView(String summarySpecialReview)
     {
-       List<ProposalSpecialReview> propSpecialReviewFilteredList = new ArrayList<ProposalSpecialReview>();
-       String [] splitString =StringUtils.split(summarySpecialReview, ",");
-        for(ProposalSpecialReview proposalSpecialReview : form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews())
-        {
-            for(int i=0; i<splitString.length; i++ ) {
-                if ( proposalSpecialReview.getSpecialReviewTypeCode().equals(splitString[i] ) )
-                {
-                    propSpecialReviewFilteredList.add(proposalSpecialReview);
+
+        if (!StringUtils.isEmpty(summarySpecialReview) )
+       {
+           String [] splitString =StringUtils.split(summarySpecialReview, ",");
+           List<ProposalSpecialReview> propSpecialReviewFilteredList = new ArrayList<ProposalSpecialReview>();
+            for(ProposalSpecialReview proposalSpecialReview : form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews())
+            {
+                for(int i=0; i<splitString.length; i++ ) {
+                    if ( proposalSpecialReview.getSpecialReviewTypeCode().equals(splitString[i] ) )
+                    {
+                        propSpecialReviewFilteredList.add(proposalSpecialReview);
+                    }
                 }
             }
-        }
-        form.getProposalDevelopmentDocument().getDevelopmentProposal().setPropSpecialReviews(propSpecialReviewFilteredList);
-    }
+            form.getProposalDevelopmentDocument().getDevelopmentProposal().setPropSpecialReviews(propSpecialReviewFilteredList);
+       }
+   }
 }
