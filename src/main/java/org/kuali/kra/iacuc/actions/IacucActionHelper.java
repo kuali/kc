@@ -1373,5 +1373,17 @@ public class IacucActionHelper extends ActionHelper {
         this.iacucProtocolRemoveFromAgendaBean = iacucProtocolRemoveFromAgendaBean;
     }
 
+
+    @Override
+    protected ProtocolTask getNewRenewalProtocolTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL, (IacucProtocol) protocol);
+    }
+
+
+    @Override
+    protected ProtocolTask getNewRenewalProtocolUnavailableTaskInstanceHook(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL_UNAVAILABLE, (IacucProtocol) protocol);
+    }
+
 }
 
