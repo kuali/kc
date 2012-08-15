@@ -12,6 +12,27 @@
             <docHandler>${kuali.docHandler.url.prefix}/iacucProtocolProtocol.do?methodToCall=docHandler</docHandler>
             <helpDefinitionURL>default.htm?turl=Documents/iacucProtocol.htm</helpDefinitionURL>
             <active>true</active>
+			<policies>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+					<!--
+						this should be false in a production scenario
+					-->
+				</policy>
+				<policy>
+                    <name>LOOK_FUTURE</name>
+                    <value>true</value>
+                </policy>
+                <policy>
+                    <name>INITIATOR_MUST_ROUTE</name>
+                    <value>false</value>
+                </policy>
+                <policy>
+                    <name>INITIATOR_MUST_CANCEL</name>
+                    <value>false</value>
+                </policy>                
+			</policies>            
             <routingVersion>2</routingVersion>
             <routePaths>
                 <routePath>
