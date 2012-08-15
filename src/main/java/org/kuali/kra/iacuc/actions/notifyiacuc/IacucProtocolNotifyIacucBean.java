@@ -36,6 +36,7 @@ public class IacucProtocolNotifyIacucBean extends  IacucProtocolSubmissionBeanBa
      */
     public IacucProtocolNotifyIacucBean(IacucActionHelper actionHelper) {
         super(actionHelper);
+        setCommitteeId(actionHelper.getProtocol().getProtocolSubmission().getCommitteeId());
     }
 
     public String getSubmissionQualifierTypeCode() {
