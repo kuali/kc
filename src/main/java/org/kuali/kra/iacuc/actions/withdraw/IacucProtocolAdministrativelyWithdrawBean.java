@@ -16,6 +16,8 @@
 package org.kuali.kra.iacuc.actions.withdraw;
 
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawBean;
 
 public class IacucProtocolAdministrativelyWithdrawBean extends IacucProtocolWithdrawBean implements ProtocolAdministrativelyWithdrawBean {
@@ -34,8 +36,8 @@ public class IacucProtocolAdministrativelyWithdrawBean extends IacucProtocolWith
      * This method returns the correct correspondence for this object
      * 
      */
-    public IacucAdministrativelyWithdrawCorrespondence getCorrespondence() {
-        IacucAdministrativelyWithdrawCorrespondence correspondence = new IacucAdministrativelyWithdrawCorrespondence();
+    public IacucProtocolActionsCorrespondence getCorrespondence() {
+        IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN);
         return correspondence;
     }
 

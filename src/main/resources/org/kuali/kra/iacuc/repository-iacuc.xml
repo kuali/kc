@@ -496,10 +496,10 @@
         <reference-descriptor name="protocolSubmission" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="submissionIdFk"/>
         </reference-descriptor>
-     <!--   <collection-descriptor name="protocolCorrespondences" element-class-ref="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence" 
+        <collection-descriptor name="protocolCorrespondences" element-class-ref="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence" 
         	auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="actionIdFk" />
-        </collection-descriptor>-->
+        </collection-descriptor>
     </class-descriptor>
      
      <class-descriptor class="org.kuali.kra.iacuc.actions.IacucProtocolStatus" table="IACUC_PROTOCOL_STATUS">

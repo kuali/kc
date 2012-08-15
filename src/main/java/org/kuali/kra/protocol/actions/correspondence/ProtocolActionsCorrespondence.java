@@ -36,7 +36,7 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.util.watermark.Watermarkable;
 
-public abstract class AbstractProtocolActionsCorrespondence extends AbstractPrint {
+public abstract class ProtocolActionsCorrespondence extends AbstractPrint {
     
     private Protocol protocol;
     
@@ -51,9 +51,7 @@ public abstract class AbstractProtocolActionsCorrespondence extends AbstractPrin
     public KraPersistableBusinessObjectBase getPrintableBusinessObject() {
         return getProtocol();
     }
-    private ProtocolActionTypeToCorrespondenceTemplateService getProtocolActionTypeToCorrespondenceTemplateService() {
-        return KraServiceLocator.getService(ProtocolActionTypeToCorrespondenceTemplateService.class);
-    }
+    protected abstract ProtocolActionTypeToCorrespondenceTemplateService getProtocolActionTypeToCorrespondenceTemplateService();
     
     /**
      * 
@@ -102,9 +100,7 @@ public abstract class AbstractProtocolActionsCorrespondence extends AbstractPrin
         return super.renderXML();
     }
 
-    public CorrespondenceXmlStream getCorrespondenceXmlStream() {
-         return KraServiceLocator.getService(CorrespondenceXmlStream.class);
-    }
+    public abstract CorrespondenceXmlStream getCorrespondenceXmlStream();
 
     /**
      * This method is to enable watermark in correspondence. Overriding AbstractPrint method isWatermarkEnabled()

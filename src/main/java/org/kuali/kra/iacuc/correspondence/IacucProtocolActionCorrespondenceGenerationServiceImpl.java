@@ -27,7 +27,7 @@ public class IacucProtocolActionCorrespondenceGenerationServiceImpl
     extends ProtocolActionCorrespondenceGenerationServiceImpl implements IacucProtocolActionCorrespondenceGenerationService {
 
     @Override
-    protected ProtocolCorrespondence getProtocolCorrespondenceHook() {
+    protected ProtocolCorrespondence getNewProtocolCorrespondenceHook() {
         return new IacucProtocolCorrespondence();
     }
 

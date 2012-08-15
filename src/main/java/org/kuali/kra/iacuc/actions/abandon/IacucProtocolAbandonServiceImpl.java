@@ -18,13 +18,15 @@ package org.kuali.kra.iacuc.actions.abandon;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.abandon.ProtocolAbandonServiceImpl;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
 
 public class IacucProtocolAbandonServiceImpl extends ProtocolAbandonServiceImpl implements IacucProtocolAbandonService {
 
-    public String getActionType() {
+    protected String getActionType() {
         return IacucProtocolActionType.IACUC_ABANDON;
     }
   
@@ -32,6 +34,11 @@ public class IacucProtocolAbandonServiceImpl extends ProtocolAbandonServiceImpl 
     public ProtocolAction getNewActionHook(Protocol protocol) {
         return new IacucProtocolAction((IacucProtocol)protocol, null, getActionType());
 
+    }
+
+    @Override
+    protected ProtocolActionsCorrespondence getNewProtocolCorrespondenceHook(String actionType) {
+        return new IacucProtocolActionsCorrespondence(actionType);
     }
 
 }

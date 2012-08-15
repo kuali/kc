@@ -16,6 +16,8 @@
 package org.kuali.kra.iacuc.actions.withdraw;
 
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncompleteBean;
 
 public class IacucProtocolAdministrativelyIncompleteBean extends IacucProtocolWithdrawBean implements ProtocolAdministrativelyIncompleteBean {
@@ -34,8 +36,8 @@ public class IacucProtocolAdministrativelyIncompleteBean extends IacucProtocolWi
      * This method returns the correct correspondence for this object
      * 
      */
-    public IacucAdministrativelyIncompleteCorrespondence getCorrespondence() {
-        IacucAdministrativelyIncompleteCorrespondence correspondence = new IacucAdministrativelyIncompleteCorrespondence();
+    public IacucProtocolActionsCorrespondence getCorrespondence() {
+        IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE);
         return correspondence;
     }
     

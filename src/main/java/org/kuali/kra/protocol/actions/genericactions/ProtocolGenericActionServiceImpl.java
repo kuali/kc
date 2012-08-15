@@ -23,6 +23,8 @@ import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolVersionService;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaService;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
@@ -38,9 +40,8 @@ public abstract class ProtocolGenericActionServiceImpl implements ProtocolGeneri
     
     private ProtocolActionService protocolActionService;
     private DocumentService documentService;
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
+      
+    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     
     
     private ProtocolOnlineReviewService protocolOnlineReviewService;
@@ -168,10 +169,8 @@ public abstract class ProtocolGenericActionServiceImpl implements ProtocolGeneri
         protocol.setProtocolStatusCode(newProtocolStatus);
         protocol.refreshReferenceObject("protocolStatus");
         documentService.saveDocument(protocol.getProtocolDocument());
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        createCorrespondenceAndAttach(protocol, protocolActionType);
-        
+                 
+        createCorrespondenceAndAttach(protocol, protocolActionType);
     }
 
     
@@ -208,18 +207,15 @@ public abstract class ProtocolGenericActionServiceImpl implements ProtocolGeneri
     }
     
     protected abstract ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, ProtocolSubmission submission, String protocolActionType);
+    
+    protected abstract ProtocolActionsCorrespondence getNewProtocolActionsCorrespondenceHook(String protocolActionType);
 
-    
-    
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private void createCorrespondenceAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
-//        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
-//        correspondence.setPrintableBusinessObject(protocol);
-//        correspondence.setProtocol(protocol);
-//        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
-//    }
+    protected void createCorrespondenceAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
+        ProtocolActionsCorrespondence correspondence = getNewProtocolActionsCorrespondenceHook(protocolActionType);
+        correspondence.setPrintableBusinessObject(protocol);
+        correspondence.setProtocol(protocol);
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
+    }
        
     
     
@@ -288,11 +284,10 @@ public abstract class ProtocolGenericActionServiceImpl implements ProtocolGeneri
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
-//        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
-//    }
+  
+    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
+        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
+    }
 
     public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
         this.protocolOnlineReviewService = protocolOnlineReviewService;
@@ -312,6 +307,62 @@ public abstract class ProtocolGenericActionServiceImpl implements ProtocolGeneri
     
     public void setKcNotificationService(KcNotificationService kcNotificationService) {
         this.kcNotificationService = kcNotificationService;
+    }
+
+
+
+
+    protected ProtocolActionService getProtocolActionService() {
+        return protocolActionService;
+    }
+
+
+
+
+    protected DocumentService getDocumentService() {
+        return documentService;
+    }
+
+
+
+
+    protected ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
+        return protocolActionCorrespondenceGenerationService;
+    }
+
+
+
+
+    protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+        return protocolOnlineReviewService;
+    }
+
+
+
+
+    protected ProtocolVersionService getProtocolVersionService() {
+        return protocolVersionService;
+    }
+
+
+
+
+    protected ProtocolAssignToAgendaService getProtocolAssignToAgendaService() {
+        return protocolAssignToAgendaService;
+    }
+
+
+
+
+    protected BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+
+
+
+    protected KcNotificationService getKcNotificationService() {
+        return kcNotificationService;
     }
 
 }

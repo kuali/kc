@@ -18,10 +18,12 @@ package org.kuali.kra.iacuc.actions.approve;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveServiceImpl;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
 
 public class IacucProtocolApproveServiceImpl extends ProtocolApproveServiceImpl implements IacucProtocolApproveService {
 
@@ -63,6 +65,12 @@ public class IacucProtocolApproveServiceImpl extends ProtocolApproveServiceImpl 
     @Override
     protected ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, Object object, String protocolActionTypeCode) {
         return new IacucProtocolAction((IacucProtocol)protocol, null, protocolActionTypeCode);
+    }
+
+
+    @Override
+    protected ProtocolActionsCorrespondence getNewProtocolActionsCorrespondence(String protocolActionTypeCode) {
+        return new IacucProtocolActionsCorrespondence(protocolActionTypeCode);
     }
 
     
